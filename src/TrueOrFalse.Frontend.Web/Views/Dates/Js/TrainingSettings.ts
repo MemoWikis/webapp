@@ -7,9 +7,31 @@
             self.Populate(dateId);
         });
 
-        $("#txtQuestionsPerDateIdealAmount").change(() => {
-            console.log("txtQuestionsPerDateIdealAmount");
+        var delay = (() => {
+            var timer = 0;
+            return (callback, ms) => {
+                clearTimeout(timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+
+        $("#txtQuestionsPerDateIdealAmount," +
+          "#txtAnswerProbabilityTreshhold," +
+          "#txtQuestionsPerDateMinimum," +
+          "#txtSpacingBetweenSessionsInMinutes").keyup(() => {
+
+              $("#divTrainingPlanDetailsSpinner").show();
+              $("#divTrainingPlanDetails").hide();
+
+              delay(() => {
+                  console.log("reload plan");
+                  $("#divTrainingPlanDetailsSpinner").hide();
+                  $("#divTrainingPlanDetails").show();
+              }, 800);
+            
         });
+
+        self.ShowSettings();
     }
 
     Populate(dateId: string) {

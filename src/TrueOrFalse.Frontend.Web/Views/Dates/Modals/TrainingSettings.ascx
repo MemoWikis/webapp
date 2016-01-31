@@ -62,13 +62,13 @@
                             <div class="pull-right">Fragen pro Termin Ideal:</div>
                         </div>
                         <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
+                            <input type="text" id="txtQuestionsPerDateIdealAmount" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
                         </div>
                         <div class="col-md-4">
                             <div class="pull-right">Vergessensschwelle:</div>
                         </div>
                         <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                            <input type="text" id="txtAnswerProbabilityTreshhold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
                         </div>
                     </div>
                     <div class="row" style="margin-top: 4px;">
@@ -76,13 +76,13 @@
                             <div class="pull-right">Mind. pro Termin:</div>
                         </div>
                         <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
+                            <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
                         </div>
                         <div class="col-md-4">
                             <div class="pull-right">mind. Zeit zw. Terminen:</div>
                         </div>
                         <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                            <input type="text" id="txtSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
                         </div>
                     </div>
                 </div>
@@ -96,22 +96,34 @@
                         <br/><span>Zu lernen: 31 Fragen</span>
                     </div>
                 </div>
+                
                 <div class="row" style="margin-top: 12px;">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>
                 </div>
-                <div class="row" style="margin-top: 4px">
-                    <div class="col-md-8" style="">
-                        Bis Benachrichtigung
-                    </div>
-                    <div class="col-md-2">Vorher</div>
-                    <div class="col-md-2">Nachher</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="height: 1px; background-color: rgb(219, 219, 219);"></div>
+                
+                <div id="divTrainingPlanDetailsSpinner" class="row" style="display: none">
+                    <div class="col-md-12" style="height: 200px">
+                        <div style="display: block; text-align: center; margin-top: 80px;">
+                            <i class="fa fa-refresh fa-spin" style="font-size: 30px;"></i>
+                        </div>
                     </div>
                 </div>
-                <div id="dateRows"></div>
+                
+                <div id="divTrainingPlanDetails">
+                    <div class="row" style="margin-top: 4px">
+                        <div class="col-md-8" style="">
+                            Bis Benachrichtigung
+                        </div>
+                        <div class="col-md-2">Vorher</div>
+                        <div class="col-md-2">Nachher</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="height: 1px; background-color: rgb(219, 219, 219);"></div>
+                        </div>
+                    </div>
+                    <div id="dateRows"></div>
+                </div>
             </div>
             <div class="modal-footer" style="padding-top: 7px; padding-bottom: 7px;">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schliessen</a>
