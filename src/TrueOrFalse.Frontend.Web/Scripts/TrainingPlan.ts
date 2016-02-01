@@ -1,11 +1,7 @@
-﻿
-class TrainingPlan {
-
+﻿class TrainingPlan {
     Dates: TrainingDate[];
-
     RemainingTime: string;
     RemainingDates: number;
-
     QuestionCount: number;
 }
 
@@ -16,12 +12,11 @@ class TrainingDate {
     TimeRemaining: string;
 }
 
-class TrainingDateLoader {
-    static Run(trainingPlanId: number): TrainingPlan {
-
-
-        return new TrainingPlan();
-    }
+class TrainingPlanSettings {
+    QuestionsPerDate_Minimum: number;
+    QuestionsPerDate_IdealAmount: number;
+    SpacingBetweenSessionsInMinutes: number;
+    AnswerProbabilityTreshhold: number;
 }
 
 class KnowledgeSummary
@@ -30,4 +25,10 @@ class KnowledgeSummary
     NeedsLearning;
     NeedsConsolidation;
     Solid;
+}
+
+class TrainingDateLoader {
+    static Run(trainingPlanId: number): TrainingPlan {
+        return new TrainingPlan();
+    }
 }

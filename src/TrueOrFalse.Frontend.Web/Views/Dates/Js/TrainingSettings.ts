@@ -1,10 +1,13 @@
 ﻿class TrainingSettings {
+
+    private _dateId : number;
+
     constructor() {
         var self = this;
 
         $('a[href*=#modalTraining]').click(function () {
-            var dateId = $(this).attr("data-dateId");
-            self.Populate(dateId);
+            self._dateId = +$(this).attr("data-dateId");
+            self.Populate(self._dateId);
         });
 
         var delay = (() => {
@@ -24,7 +27,16 @@
               $("#divTrainingPlanDetails").hide();
 
               delay(() => {
-                  console.log("reload plan");
+                  self.GetSettingsFromUi();
+                  console.log(JSON.stringify(self.GetSettingsFromUi()));
+                  console.log(self.GetSettingsFromUi());
+
+                  $.post("/Dates/RenderTrainingDates/",
+                      { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
+                      (result) => {
+                          console.log(result);
+                      });
+
                   $("#divTrainingPlanDetailsSpinner").hide();
                   $("#divTrainingPlanDetails").show();
               }, 800);
@@ -34,20 +46,22 @@
         self.ShowSettings();
     }
 
-    Populate(dateId: string) {
+    GetSettingsFromUi(): TrainingPlanSettings {
+        var result = new TrainingPlanSettings();
+        result.AnswerProbabilityTreshhold = $("#txtAnswerProbabilityTreshhold").val();
+        result.QuestionsPerDate_IdealAmount = $("#txtQuestionsPerDateIdealAmount").val();
+        result.QuestionsPerDate_Minimum = $("#txtQuestionsPerDateMinimum").val();
+        result.SpacingBetweenSessionsInMinutes = $("#txtSpacingBetweenSessionsInMinutes").val();
+        return result;
+    }
+
+    Populate(dateId: number) {
 
         var self = this;
 
         $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
             htmlResult => {
-                $("#dateRows").children().remove();
-                $("#dateRows").append(
-                    $(htmlResult)
-                    .animate({ opacity: 1.00 }, 700)
-                ).after(() => {
-                    this.DrawCharts();
-                    $('#modalTraining').modal();
-                });
+                self.RenderDetails(htmlResult);
             }
         );
 
@@ -58,6 +72,17 @@
         $("[data-action=showSettings]").click(() => {
             self.ShowSettings();
         });
+    }
+
+    RenderDetails(html) {
+        $("#dateRows").children().remove();
+        $("#dateRows").append(
+            $(html)
+                .animate({ opacity: 1.00 }, 700)
+        ).after(() => {
+            this.DrawCharts();
+            $('#modalTraining').modal();
+        });        
     }
 
     HideSettings() {

@@ -63,8 +63,12 @@ public class DatesController : BaseController
 
     public string RenderTrainingDates(int dateId)
     {
-        var date = Resolve<DateRepo>().GetById(dateId);
+        var date = R<DateRepo>().GetById(dateId);
+        return RenderTrainingDates(date);
+    }
 
+    private string RenderTrainingDates(Date date)
+    {
         var trainingDatesModel = new TrainingSettingsDatesModel(date);
 
         return ViewRenderer.RenderPartialView(
@@ -72,6 +76,18 @@ public class DatesController : BaseController
             trainingDatesModel,
             ControllerContext
         );
+    }
+
+    public JsonResult UpdateTrainingPlan(int dateId, TrainingPlanSettings planSettings)
+    {
+        var date = R<DateRepo>().GetById(dateId);
+
+        //UpdateTrainingPlan(dateId, planSettings);
+
+        return Json(new
+        {
+            Html = RenderTrainingDates(date),
+        });
     }
 
 }
