@@ -5,6 +5,12 @@
         return Run(Sl.Resolve<TrainingPlanRepo>().GetById(trainingPlanId));
     }
 
+    public static TrainingPlan Run(TrainingPlan trainingPlan, TrainingPlanSettings settings)
+    {
+        trainingPlan.Settings = settings;
+        return Run(trainingPlan);
+    }
+
     public static TrainingPlan Run(TrainingPlan trainingPlan)
     {
         var trainingPlanRepo = Sl.R<TrainingPlanRepo>();
@@ -18,7 +24,7 @@
                 AllQuestions = newDate.AllQuestions,
                 DateTime = newDate.DateTime,
             });
-
+        
         trainingPlanRepo.Update(trainingPlan);
         trainingPlanRepo.Flush();
         return trainingPlan;

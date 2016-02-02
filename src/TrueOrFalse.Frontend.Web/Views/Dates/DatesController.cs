@@ -82,7 +82,7 @@ public class DatesController : BaseController
     {
         var date = R<DateRepo>().GetById(dateId);
 
-        //UpdateTrainingPlan(dateId, planSettings);
+        TrainingPlanUpdater.Run(date.TrainingPlan, planSettings);
 
         return Json(new
         {

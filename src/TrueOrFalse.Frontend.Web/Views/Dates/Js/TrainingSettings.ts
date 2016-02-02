@@ -5,9 +5,8 @@
     constructor() {
         var self = this;
 
-        $('a[href*=#modalTraining]').click(function () {
-            self._dateId = +$(this).attr("data-dateId");
-            self.Populate(self._dateId);
+        $('a[href*=#modalTraining]').click(() => {
+            this.Populate(this._dateId);
         });
 
         var delay = (() => {
@@ -31,10 +30,10 @@
                   console.log(JSON.stringify(self.GetSettingsFromUi()));
                   console.log(self.GetSettingsFromUi());
 
-                  $.post("/Dates/RenderTrainingDates/",
+                  $.post("/Dates/UpdateTrainingPlan/",
                       { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
                       (result) => {
-                          console.log(result);
+                          self.RenderDetails(result.Html);
                       });
 
                   $("#divTrainingPlanDetailsSpinner").hide();
@@ -58,6 +57,7 @@
     Populate(dateId: number) {
 
         var self = this;
+        self._dateId = dateId;
 
         $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
             htmlResult => {
