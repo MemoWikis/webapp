@@ -26,18 +26,18 @@
               $("#divTrainingPlanDetails").hide();
 
               delay(() => {
-                  self.GetSettingsFromUi();
-                  console.log(JSON.stringify(self.GetSettingsFromUi()));
-                  console.log(self.GetSettingsFromUi());
 
                   $.post("/Dates/UpdateTrainingPlan/",
                       { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
                       (result) => {
                           self.RenderDetails(result.Html);
-                      });
 
-                  $("#divTrainingPlanDetailsSpinner").hide();
-                  $("#divTrainingPlanDetails").show();
+                          $("#modalTraining #RemainingDates").html(result.RemainingDates);
+                          $("#modalTraining #RemainingTime").html(result.RemainingTime);
+
+                          $("#divTrainingPlanDetailsSpinner").hide();
+                          $("#divTrainingPlanDetails").show();
+                      });
               }, 800);
             
         });

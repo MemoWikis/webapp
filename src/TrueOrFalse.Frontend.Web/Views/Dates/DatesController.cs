@@ -87,6 +87,8 @@ public class DatesController : BaseController
         return Json(new
         {
             Html = RenderTrainingDates(date),
+            RemainingDates = date.TrainingPlan.DatesInFuture.Count,
+            RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full
         });
     }
 
