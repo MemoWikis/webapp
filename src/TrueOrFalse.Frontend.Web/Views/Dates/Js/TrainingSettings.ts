@@ -5,8 +5,9 @@
     constructor() {
         var self = this;
 
-        $('a[href*=#modalTraining]').click(() => {
-            this.Populate(this._dateId);
+        $('a[href*=#modalTraining]').click(function () {
+            self._dateId = parseInt($(this).attr("data-dateId"));
+            self.Populate(self._dateId);
         });
 
         var delay = (() => {
