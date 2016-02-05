@@ -71,6 +71,20 @@ public class DatesController : BaseController
         );
     }
 
+    public JsonResult GetUpcomingDatesJson()
+    {
+        return Json(new
+        {
+            AllUpcomingDates = R<DateRepo>()
+                .GetBy(UserId, onlyUpcoming: true)
+                .Select(x => new
+                {
+                    DateId = x.Id,
+                    Title = x.GetTitle()
+                })
+        });
+    }
+
     public JsonResult TrainingPlanGet(int dateId)
     {
         var date = R<DateRepo>().GetById(dateId);
@@ -89,7 +103,7 @@ public class DatesController : BaseController
     private JsonResult TrainingPlanInfo2Json(Date date)
     {
         return Json(new
-        {
+        {   
             Html = RenderTrainingDates(date),
             RemainingDates = date.TrainingPlan.DatesInFuture.Count,
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,

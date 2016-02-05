@@ -1,12 +1,25 @@
 ﻿class TrainingSettings {
 
-    private _dateId : number;
+    private _dateId: number;
+    private _isDateDropDownInitialized: boolean;
+    private _ddlDates: JQuery; 
 
     constructor() {
         var self = this;
 
+        self._ddlDates = $("#modalTraining #SelectTrainingDates");
+        self._ddlDates.change(function () {
+            self.Populate(this.value);
+        });
+
         $('a[href*=#modalTraining]').click(function () {
             self._dateId = parseInt($(this).attr("data-dateId"));
+
+            if (!self._isDateDropDownInitialized) {
+                self._isDateDropDownInitialized = true;
+                self.PopulateDropDown();
+            }
+
             self.Populate(self._dateId);
         });
 
@@ -42,11 +55,23 @@
         self.ShowSettings();
     }
 
+    PopulateDropDown() {
+        var self = this;
+        $.post("/Dates/GetUpcomingDatesJson/", (result) => {
+            jQuery.each(result.AllUpcomingDates, (index, item) => {
+                var option = $("<option value='" + item.DateId + "'>" + item.Title + "</option>");
+                self._ddlDates.append(option);
+            });
+
+            self._ddlDates.val(self._dateId.toString());
+        });        
+    }
+
     RenderTrainingPlan(data) {
         this.RenderDetails(data.Html);
         $("#modalTraining #RemainingDates").html(data.RemainingDates);
         $("#modalTraining #RemainingTime").html(data.RemainingTime);
-        $("#modalTraining #QuestionCount").html(data.QuestionCount);
+        $("#modalTraining #QuestionCount").html(data.QuestionCount); 
     }
 
     GetSettingsFromUi(): TrainingPlanSettings {

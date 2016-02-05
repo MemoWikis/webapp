@@ -9,9 +9,7 @@
                     <div class="col-md-12">
                         <h3 style="font-size: 22px; margin-top: 0px; display: inline-block;">
                             Übungsplan
-                            <select style="font-size: 15px; padding-left: 3px;">
-                                <option>Klassenarbeit am 24.12.2015</option>
-                                <option>Mündliche Prüfung am Fr.</option>
+                            <select style="font-size: 15px; padding-left: 3px;" id="SelectTrainingDates">
                             </select>
                         </h3>
                         <div class="pull-right" style="font-size: 15px; margin-top: 5px;">
