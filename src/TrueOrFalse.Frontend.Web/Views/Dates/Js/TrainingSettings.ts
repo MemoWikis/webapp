@@ -72,6 +72,11 @@
         $("#modalTraining #RemainingDates").html(data.RemainingDates);
         $("#modalTraining #RemainingTime").html(data.RemainingTime);
         $("#modalTraining #QuestionCount").html(data.QuestionCount); 
+
+        $("#modalTraining #txtQuestionsPerDateIdealAmount").val(data.QuestionsPerDateIdealAmount); 
+        $("#modalTraining #txtAnswerProbabilityTreshhold").val(data.AnswerProbabilityTreshhold);
+        $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
+        $("#modalTraining #txtSpacingBetweenSessionsInMinutes").val(data.SpacingBetweenSessionsInMinutes);
     }
 
     GetSettingsFromUi(): TrainingPlanSettings {

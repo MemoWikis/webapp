@@ -102,12 +102,18 @@ public class DatesController : BaseController
 
     private JsonResult TrainingPlanInfo2Json(Date date)
     {
+        var planSettings = date.TrainingPlan.Settings;
+
         return Json(new
         {   
             Html = RenderTrainingDates(date),
             RemainingDates = date.TrainingPlan.DatesInFuture.Count,
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
-            QuestionCount = date.CountQuestions()
+            QuestionCount = date.CountQuestions(),
+            QuestionsPerDateIdealAmount = planSettings.QuestionsPerDate_IdealAmount,
+            AnswerProbabilityTreshhold = planSettings.AnswerProbabilityTreshhold,
+            QuestionsPerDateMinimum = planSettings.QuestionsPerDate_Minimum,
+            SpacingBetweenSessionsInMinutes = planSettings.SpacingBetweenSessionsInMinutes,
         });
     }
 }
