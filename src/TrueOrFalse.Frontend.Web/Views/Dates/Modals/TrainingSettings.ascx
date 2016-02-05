@@ -93,7 +93,7 @@
                     <div class="col-md-12" style="font-size: 16px;">
                         <span style="padding-right: 12px">Verbleibend: ca. <span id="RemainingDates">7</span> Übungssitzungen </span>
                         <span style="padding-right: 12px"><i class="fa fa-clock-o"></i> ca. <span id="RemainingTime">1:20h</span> Übungszeit</span>
-                        <br/><span>Zu lernen: 31 Fragen</span>
+                        <br/><span>Zu lernen: <span id="QuestionCount">31</span> Fragen</span>
                     </div>
                 </div>
                 

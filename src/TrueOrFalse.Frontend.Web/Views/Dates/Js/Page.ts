@@ -3,5 +3,5 @@ $(function () {
     new PreviousDates();
 
     var trainingSettings = new TrainingSettings();
-    trainingSettings.Populate(24);
+    //trainingSettings.Populate(24);
 });

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -20,7 +19,7 @@ public class DatesController : BaseController
             Data = new{
                 DateInfo = date.GetTitle(),
             }
-        };        
+        };
     }
 
     [HttpPost]
@@ -61,12 +60,6 @@ public class DatesController : BaseController
         return Redirect(Links.LearningSession(learningSession));
     }
 
-    public string RenderTrainingDates(int dateId)
-    {
-        var date = R<DateRepo>().GetById(dateId);
-        return RenderTrainingDates(date);
-    }
-
     private string RenderTrainingDates(Date date)
     {
         var trainingDatesModel = new TrainingSettingsDatesModel(date);
@@ -78,18 +71,29 @@ public class DatesController : BaseController
         );
     }
 
-    public JsonResult UpdateTrainingPlan(int dateId, TrainingPlanSettings planSettings)
+    public JsonResult TrainingPlanGet(int dateId)
+    {
+        var date = R<DateRepo>().GetById(dateId);
+        return TrainingPlanInfo2Json(date);
+    }
+
+    public JsonResult TrainingPlanUpdate(int dateId, TrainingPlanSettings planSettings)
     {
         var date = R<DateRepo>().GetById(dateId);
 
         TrainingPlanUpdater.Run(date.TrainingPlan, planSettings);
 
+        return TrainingPlanInfo2Json(date);
+    }
+
+    private JsonResult TrainingPlanInfo2Json(Date date)
+    {
         return Json(new
         {
             Html = RenderTrainingDates(date),
             RemainingDates = date.TrainingPlan.DatesInFuture.Count,
-            RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full
+            RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
+            QuestionCount = date.CountQuestions()
         });
     }
-
 }

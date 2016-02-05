@@ -28,14 +28,10 @@
 
               delay(() => {
 
-                  $.post("/Dates/UpdateTrainingPlan/",
+                  $.post("/Dates/TrainingPlanUpdate/",
                       { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
                       (result) => {
-                          self.RenderDetails(result.Html);
-
-                          $("#modalTraining #RemainingDates").html(result.RemainingDates);
-                          $("#modalTraining #RemainingTime").html(result.RemainingTime);
-
+                          self.RenderTrainingPlan(result);
                           $("#divTrainingPlanDetailsSpinner").hide();
                           $("#divTrainingPlanDetails").show();
                       });
@@ -44,6 +40,13 @@
         });
 
         self.ShowSettings();
+    }
+
+    RenderTrainingPlan(data) {
+        this.RenderDetails(data.Html);
+        $("#modalTraining #RemainingDates").html(data.RemainingDates);
+        $("#modalTraining #RemainingTime").html(data.RemainingTime);
+        $("#modalTraining #QuestionCount").html(data.QuestionCount);
     }
 
     GetSettingsFromUi(): TrainingPlanSettings {
@@ -60,9 +63,9 @@
         var self = this;
         self._dateId = dateId;
 
-        $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
-            htmlResult => {
-                self.RenderDetails(htmlResult);
+        $.post("/Dates/TrainingPlanGet", {dateId : dateId}, 
+            result => {
+                self.RenderTrainingPlan(result);
             }
         );
 
