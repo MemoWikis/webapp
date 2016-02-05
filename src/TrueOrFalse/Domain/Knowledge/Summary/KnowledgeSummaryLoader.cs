@@ -69,11 +69,11 @@ public class KnowledgeSummaryLoader
                 : question.ProbAfter;
 
             if (value < 70)
-                result.NeedsLearning = +1;
+                result.NeedsLearning += 1;
             else if (value < 90)
-                result.NeedsConsolidation = +1;
+                result.NeedsConsolidation += 1;
             else 
-                result.Solid = +1;
+                result.Solid += 1;
         }
 
         return result;
