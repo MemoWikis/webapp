@@ -26,7 +26,7 @@
                     <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
                         aus diesem Fragesatz <br> sind in deinem aktiven Wissen. <br><br> Im 'aktiven Wissen' ist eine Frage, wenn die<br> Antwortwahrscheinlichkeit über 90% liegt." 
                         data-html="true" data-placement="bottom">
-                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 
+                        <i class="fa fa-tachometer" style="margin-left: 20px; color: #69D069;"></i> 
                         <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
                     </span>
 
