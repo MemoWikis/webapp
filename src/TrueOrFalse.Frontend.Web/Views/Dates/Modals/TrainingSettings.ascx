@@ -52,37 +52,42 @@
                     <div class="row" style="margin-top: 4px;">
                         <div class="col-md-4"></div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            <a href="#">erweiterte Einstellungen verbergen <i class="fa fa-caret-down"></i></a>
+                            <a href="#" data-action="showAdvancedSettings">erweiterte Einstellungen zeigen <i class="fa fa-caret-up"></i></a>
+                            <a href="#" data-action="hideAdvancedSettings" style="display: none">erweiterte Einstellungen verbergen <i class="fa fa-caret-down"></i></a>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 12px;">
-                        <div class="col-md-4">
-                            <div class="pull-right">Fragen pro Termin Ideal:</div>
+
+                    <div id="divAdvancedSettings" style="display: none">
+                        <div class="row" style="margin-top: 12px;">
+                            <div class="col-md-4">
+                                <div class="pull-right">Fragen pro Termin Ideal:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtQuestionsPerDateIdealAmount" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right">Vergessensschwelle:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtAnswerProbabilityTreshhold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                            </div>
                         </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" id="txtQuestionsPerDateIdealAmount" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="pull-right">Vergessensschwelle:</div>
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" id="txtAnswerProbabilityTreshhold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
-                        </div>
+                        <div class="row" style="margin-top: 4px;">
+                            <div class="col-md-4">
+                                <div class="pull-right">Mind. pro Termin:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right">mind. Zeit zw. Terminen:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                            </div>
+                        </div>                        
                     </div>
-                    <div class="row" style="margin-top: 4px;">
-                        <div class="col-md-4">
-                            <div class="pull-right">Mind. pro Termin:</div>
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="pull-right">mind. Zeit zw. Terminen:</div>
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" id="txtSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
-                        </div>
-                    </div>
+
                 </div>
                 <div class="row" style="margin-top: 12px;">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Übersicht</h4></div>

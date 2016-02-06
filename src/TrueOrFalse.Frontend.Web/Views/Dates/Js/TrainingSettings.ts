@@ -53,6 +53,25 @@
         });
 
         self.ShowSettings();
+
+        $("[data-action=showAdvancedSettings]").click(() => {
+            $("#divAdvancedSettings").show(300);
+            $("[data-action=showAdvancedSettings]").hide();
+            $("[data-action=hideAdvancedSettings]").show();
+        });
+        $("[data-action=hideAdvancedSettings]").click(() => {
+            $("#divAdvancedSettings").hide(300);
+            $("[data-action=showAdvancedSettings]").show();
+            $("[data-action=hideAdvancedSettings]").hide();
+        });
+
+        $("[data-action=closeSettings]").click(() => {
+            self.HideSettings();
+        });
+
+        $("[data-action=showSettings]").click(() => {
+            self.ShowSettings();
+        });
     }
 
     PopulateDropDown() {
@@ -98,14 +117,6 @@
                 self.RenderTrainingPlan(result);
             }
         );
-
-        $("[data-action=closeSettings]").click(() => {
-            self.HideSettings();
-        });
-
-        $("[data-action=showSettings]").click(() => {
-            self.ShowSettings();
-        });
     }
 
     RenderDetails(html) {
