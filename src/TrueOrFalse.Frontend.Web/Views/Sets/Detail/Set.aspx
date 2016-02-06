@@ -64,12 +64,12 @@
                             <%=questionRow.Question.Text %>
                         </a>    
                     </div>
-                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px;">
+                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px; line-height: 15px;">
                         <div class="row">
-                            <div class="col-sm-12 col-xs-6">
+                            <div class="col-sm-12 col-xs-6" style="height: 20px">
                                 <% Html.RenderPartial("AnswerHistory", questionRow.HistoryAndProbability.AnswerHistory); %>         
                             </div>
-                            <div class="col-sm-12 col-xs-6">
+                            <div class="col-sm-12 col-xs-6" style="height: 20px">
                                 <% Html.RenderPartial("CorrectnessProbability", questionRow.HistoryAndProbability.CorrectnessProbability); %>                                
                             </div>
                         </div>
