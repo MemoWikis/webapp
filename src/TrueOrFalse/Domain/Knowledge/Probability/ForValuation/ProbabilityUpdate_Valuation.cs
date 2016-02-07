@@ -68,7 +68,7 @@ namespace TrueOrFalse
 
             _questionValuationRepo.CreateOrUpdate(questionValuation);
 
-            Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
+            //Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using System;
+using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 
@@ -6,7 +7,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public static class JobScheduler
     {
-        readonly static IScheduler _scheduler;
+        static readonly IScheduler _scheduler;
 
         static JobScheduler()
         {
@@ -30,9 +31,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.ScheduleJob(
                 JobBuilder.Create<GameLoop>().Build(),
                 TriggerBuilder
-                .Create()
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(1).RepeatForever())
-                .Build()
+                    .Create()
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(1).RepeatForever())
+                    .Build()
+            );
+
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<RecalcKnowledgeStati>().Build(),
+                TriggerBuilder
+                    .Create()
+                    .WithDailyTimeIntervalSchedule(x => x.StartingDailyAt(new TimeOfDay(2, 00)))
+                    .Build()
             );
         }
 
