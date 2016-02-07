@@ -140,7 +140,7 @@ public class AnswerQuestionController : BaseController
     {
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
-            var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
+            var question = AnswerQuestionControllerSearch.Run(searchSpec);
 
             if (searchSpec.HistoryItem != null){
                 if (searchSpec.HistoryItem.Question != null){
