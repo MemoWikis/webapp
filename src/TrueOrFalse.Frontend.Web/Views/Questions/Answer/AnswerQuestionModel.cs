@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Uris;
 
 public class AnswerQuestionModel : BaseModel
 {
@@ -217,7 +214,8 @@ public class AnswerQuestionModel : BaseModel
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
             AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
-            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser),
+            QuestionValuation = questionValuationForUser
         };
 
         IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
