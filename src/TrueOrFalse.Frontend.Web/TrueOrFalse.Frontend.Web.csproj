@@ -313,6 +313,7 @@
     <Compile Include="Views\Help\HelpController.cs" />
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
+    <Compile Include="Views\VariousPublic\RedirectController.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />

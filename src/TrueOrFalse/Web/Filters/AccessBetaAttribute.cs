@@ -10,6 +10,7 @@ public class AccessBetaAttribute : ActionFilterAttribute
             controllerName != "AppController" && 
             controllerName != "BetaController" && 
             controllerName != "VariousPublicController" &&
+            controllerName != "ForwardController" &&
             actionName != "RemoteLogin";
 
         var userSession = new SessionUser();
