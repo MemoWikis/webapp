@@ -776,9 +776,9 @@
     <Compile Include="Web\Controls\UserMessage\MessageHtml.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
     <Compile Include="Web\Controls\UserMessage\UIMessage.cs" />
-    <Compile Include="Web\Filters\AccessBeta.cs" />
-    <Compile Include="Web\Filters\AccessOnlyLoggedIn.cs" />
-    <Compile Include="Web\Filters\AccessOnlyAsAdmin.cs" />
+    <Compile Include="Web\Filters\AccessBetaAttribute.cs" />
+    <Compile Include="Web\Filters\AccessOnlyAsLoggedInAttribute.cs" />
+    <Compile Include="Web\Filters\AccessOnlyAsAdminAttribute.cs" />
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />
