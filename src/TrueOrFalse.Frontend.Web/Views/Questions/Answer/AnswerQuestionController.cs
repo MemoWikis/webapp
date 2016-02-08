@@ -262,7 +262,8 @@ public class AnswerQuestionController : BaseController
             {
                 LoadJs = true,
                 AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
-                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser),
+                QuestionValuation = questionValuationForUser
             }
         );
     }
