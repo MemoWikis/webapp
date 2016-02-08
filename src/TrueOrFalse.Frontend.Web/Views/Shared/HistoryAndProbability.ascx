@@ -3,8 +3,8 @@
 <% if(Model.QuestionValuation.IsInWishKnowledge()) { 
        var status = Model.QuestionValuation.KnowledgeStatus;
 %>
-    <div class="StatsRow" style="font-size: 13px; margin-bottom: 4px;">
-        <div style="background-color: <%= status.GetColor() %>; padding: 2px; padding-left: 4px; -ms-border-radius: 2px; border-radius: 3px;">
+    <div class="StatsRow" style="margin-bottom: 4px;">
+        <div style="background-color: <%= status.GetColor() %>; font-size: 13px;  padding: 2px; padding-left: 4px; -ms-border-radius: 5px; border-radius: 5px;">
             <%= status.GetText() %>
         </div>
     </div>
