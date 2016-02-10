@@ -3,6 +3,7 @@ class QuestionsSearch extends SearchInTabs {
 
     constructor(fnOnLoad : Function) {
         super(fnOnLoad);
+
         var filterSelector = "#txtCategoryFilter";
         var autoCompleteCategories = new AutocompleteCategories(filterSelector);
         autoCompleteCategories.OnAdd = (categoryId) => {
@@ -18,6 +19,12 @@ class QuestionsSearch extends SearchInTabs {
         $(filterSelector).on("initCategoryIds", (e, categoryId) => {
             this._categories.push(categoryId);
         });
+
+        if ($("#StatusFilterBar").length > 0) {
+            $("#ckbFilterSolid, #ckbFilterConsolidation, #ckbFilterNeedsLearning, #ckbFilterNotLearned").change(() => {
+                this.SubmitSearch();
+            });
+        }
     }
 }
 

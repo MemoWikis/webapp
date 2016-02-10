@@ -37,6 +37,15 @@ public class QuestionFilter : ConditionContainer
 
     public IList<int> Categories = new List<int>();
 
+    public bool Knowledge_Solid = true;
+    public bool Knowledge_ShouldConsolidate = true;
+    public bool Knowledge_ShouldLearn = true;
+    public bool Knowledge_None = true;
+
+    public bool Knowledge_All => 
+        Knowledge_Solid && Knowledge_ShouldConsolidate && 
+        Knowledge_ShouldLearn && Knowledge_None;
+
     public static string GetCategoryFilterValue(string searchTerm)
     {
         return GetFilter("Kat", searchTerm);
@@ -59,7 +68,7 @@ public class QuestionFilter : ConditionContainer
         return filter;
     }
 
-    public void Clear()
+    public new void Clear()
     {
         SearchTerm = "";
         CreatorId = -1;

@@ -159,7 +159,7 @@
                         
                     </div>
                     <div class="row">
-                        <div class="col-xs-5">
+                        <div class="col-sm-8">
                             <ul class="nav pull-left">
                                 <li class="dropdown" id="menu2">
                                     <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
@@ -186,9 +186,26 @@
                             </a>
                             <a href="#" class="btn btn-default btn-xs" style=" margin-left: 7px;" id="btnExport" data-placement="bottom" data-original-title="Herunterladen">
                                 <i class="fa fa-cloud-download"></i>
-                            </a>                        
+                            </a>
+                            
+                            <% if(Model.ActiveTabWish) { %>
+                                <div style="display: inline-block" id="StatusFilterBar">
+                                    <span style="<%= KnowledgeStatus.Solid.GetColorBgCss()%>">
+                                        <label><input type="checkbox" id="ckbFilterSolid"/> 10 Sicher</label>
+                                    </span>
+                                    <span style="<%= KnowledgeStatus.NeedsConsolidation.GetColorBgCss()%>">
+                                        <label><input type="checkbox" id="ckbFilterConsolidation" /> 1 festigen</label>
+                                    </span>
+                                    <span style="<%= KnowledgeStatus.NeedsLearning.GetColorBgCss()%>">
+                                        <label><input type="checkbox" id="ckbFilterNeedsLearning" /> 12 lernen</label>
+                                    </span>
+                                    <span style="<%= KnowledgeStatus.NotLearned.GetColorBgCss()%>">
+                                        <label style="padding-right: 10px;" id="ckbFilterNotLearned"><input type="checkbox" /> 74 Nicht gelernt </label>
+                                    </span>
+                                </div>
+                            <% } %>
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-sm-4">
                             <ul class="nav pull-right">
                                 <li class="dropdown" id="menu1">
                                     <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">

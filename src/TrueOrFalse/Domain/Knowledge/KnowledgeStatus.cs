@@ -10,6 +10,11 @@ public enum KnowledgeStatus
 
 public static class KnowledgeStatusExt
 {
+    public static string GetColorBgCss(this KnowledgeStatus status)
+    {
+        return @"background-color:" + GetColor(status);
+    }
+
     public static string GetColor(this KnowledgeStatus status)
     {
         switch (status)
