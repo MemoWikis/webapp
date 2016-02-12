@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Properties;
 using TrueOrFalse.Search;
 
 public class QuestionRepo : RepositoryDbBase<Question>
@@ -13,7 +15,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion = searchIndexQuestion;
     }
 
-    public void Update(Question question)
+    public new void Update(Question question)
     {
         _searchIndexQuestion.Update(question);
         base.Update(question);
@@ -104,6 +106,48 @@ public class QuestionRepo : RepositoryDbBase<Question>
         }
 
         return result;
+    }
+
+    public IList<int> GetByKnowledge(
+        int userId, 
+        bool isKnowledgeSolidFilter, 
+        bool isKnowledgeShouldConsolidateFilter,
+        bool isKnowledgeShouldLearnFilter,
+        bool isKnowledgeNoneFilter)
+    {
+        var query = _session
+            .QueryOver<QuestionValuation>()
+            .Where(q => 
+                q.User.Id == userId &&
+                q.RelevancePersonal != -1);
+
+        AbstractCriterion knowledgeExpression = null;
+        Func<KnowledgeStatus, AbstractCriterion> fnGetCombinedExpression = knowledgeStatus => {
+            var knowledgeExpressionToAdd = Restrictions.Eq("KnowledgeStatus", knowledgeStatus);
+            return knowledgeExpression != null 
+                ? Restrictions.Or(knowledgeExpression, knowledgeExpressionToAdd) 
+                : knowledgeExpressionToAdd;
+        };
+
+        if (isKnowledgeSolidFilter)
+            knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.Solid);
+
+        if (isKnowledgeShouldConsolidateFilter)
+            knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.NeedsConsolidation);
+
+        if (isKnowledgeShouldLearnFilter)
+            knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.NeedsLearning);
+
+        if (isKnowledgeNoneFilter)
+            knowledgeExpression = fnGetCombinedExpression(KnowledgeStatus.NotLearned);
+
+        if (knowledgeExpression != null)
+            query.And(knowledgeExpression);
+
+        return query
+            .JoinQueryOver(q => q.Question)
+            .Select(q => q.Question.Id)
+            .List<int>();
     }
 
     public IEnumerable<Question> GetMostRecent(int amount)

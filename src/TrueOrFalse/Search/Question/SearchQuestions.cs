@@ -31,6 +31,7 @@ namespace TrueOrFalse.Search
                 searchSpec.Filter.ValuatorId,
                 searchSpec.Filter.IgnorePrivates,
                 searchSpec.Filter.Categories,
+                searchSpec.Filter.GetKnowledgeQuestionIds(),
                 orderBy: orderBy
             );
 
@@ -49,7 +50,8 @@ namespace TrueOrFalse.Search
             int creatorId = -1, 
             int valuatorId = -1,
             bool ignorePrivates = true,
-            IList<Int32> categories = null, 
+            IList<int> categories = null,
+            IList<int> questionIds = null, 
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
             var sqb = new SearchQueryBuilder();
@@ -84,8 +86,11 @@ namespace TrueOrFalse.Search
             sqb.Add("CreatorId", creatorId != -1 ? creatorId.ToString() : null, isAndCondition: true, exact: true)
                .Add("ValuatorIds", valuatorId != -1 ? valuatorId.ToString() : null, isAndCondition: true, exact: true);
 
-            if (categories != null)
-                categories.ForEach(x => sqb.Add("CategoryIds", x.ToString(), isAndCondition: true, exact: true));
+            categories?
+                .ForEach(x => sqb.Add("CategoryIds", x.ToString(), isAndCondition: true, exact: true));
+
+            questionIds?
+                .ForEach(x => sqb.Add("Id", x.ToString(), exact: true, isAndCondition:false));
 
             if (ignorePrivates)
                 sqb.Add("IsPrivate", "false", exact:true, isAndCondition:true);

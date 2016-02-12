@@ -22,6 +22,13 @@ class QuestionsSearch extends SearchInTabs {
 
         if ($("#StatusFilterBar").length > 0) {
             $("#ckbFilterSolid, #ckbFilterConsolidation, #ckbFilterNeedsLearning, #ckbFilterNotLearned").change(() => {
+
+                this._knowledgeFilter = new KnowledgeFilter();
+                this._knowledgeFilter.Knowledge_Solid = $("#ckbFilterSolid").is(':checked');
+                this._knowledgeFilter.Knowledge_ShouldConsolidate = $("#ckbFilterConsolidation").is(':checked');
+                this._knowledgeFilter.Knowledge_ShouldLearn = $("#ckbFilterNeedsLearning").is(':checked');
+                this._knowledgeFilter.Knowledge_None = $("#ckbFilterNotLearned").is(':checked');
+
                 this.SubmitSearch();
             });
         }

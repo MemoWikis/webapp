@@ -42,9 +42,27 @@ public class QuestionFilter : ConditionContainer
     public bool Knowledge_ShouldLearn = true;
     public bool Knowledge_None = true;
 
-    public bool Knowledge_All => 
-        Knowledge_Solid && Knowledge_ShouldConsolidate && 
-        Knowledge_ShouldLearn && Knowledge_None;
+    public bool Knowledge_FilterIsSet => 
+        !(Knowledge_Solid && Knowledge_ShouldConsolidate &&
+        Knowledge_ShouldLearn && Knowledge_None);
+
+    public bool Knowledge_FilterAllFalse =>
+        !Knowledge_Solid && !Knowledge_ShouldConsolidate &&
+        !Knowledge_ShouldLearn && !Knowledge_None;
+
+    public IList<int> GetKnowledgeQuestionIds()
+    {
+        if(!Knowledge_FilterIsSet)
+            return null;
+
+        return Sl.R<QuestionRepo>()
+            .GetByKnowledge(
+                Sl.CurrentUserId,
+                isKnowledgeSolidFilter: Knowledge_Solid,
+                isKnowledgeShouldConsolidateFilter: Knowledge_ShouldConsolidate,
+                isKnowledgeShouldLearnFilter: Knowledge_ShouldLearn,
+                isKnowledgeNoneFilter: Knowledge_None);
+    } 
 
     public static string GetCategoryFilterValue(string searchTerm)
     {

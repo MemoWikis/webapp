@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using Seedworks.Lib;
 using TrueOrFalse.Search;
 
@@ -101,8 +102,16 @@ namespace TrueOrFalse
             return QuestionsWish(1, new QuestionsModel(), null);
         }
 
-        public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories)
+        public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories, string knowledgeFilter)
         {
+            dynamic dKnowledgeFilter = JsonConvert.DeserializeObject(knowledgeFilter);
+
+            var filter = _sessionUiData.SearchSpecQuestionWish.Filter;
+            filter.Knowledge_Solid = dKnowledgeFilter.Knowledge_Solid;
+            filter.Knowledge_ShouldConsolidate = dKnowledgeFilter.Knowledge_ShouldConsolidate;
+            filter.Knowledge_ShouldLearn = dKnowledgeFilter.Knowledge_ShouldLearn;
+            filter.Knowledge_None = dKnowledgeFilter.Knowledge_None;
+
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, new QuestionsModel(), searchTerm, categories ?? new List<int>());
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTabType.Wish, ControllerContext);
         }
