@@ -36,7 +36,7 @@ class TrainingPlan_persistence : BaseTest
         var allTrainingPlans = Sl.R<TrainingPlanRepo>().GetAll();
 
         Assert.That(allTrainingPlans.Count, Is.EqualTo(1));
-        Assert.That(allTrainingPlans[0].Questions.Count, Is.EqualTo(8));
+        Assert.That(allTrainingPlans[0].Questions.Count, Is.EqualTo(10));
         Assert.That(allTrainingPlans[0].Dates.Count, Is.EqualTo(2));
 
         var dates = allTrainingPlans[0].Dates.OrderBy(x => x.DateTime).ToList();

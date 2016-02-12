@@ -9,9 +9,7 @@
                     <div class="col-md-12">
                         <h3 style="font-size: 22px; margin-top: 0px; display: inline-block;">
                             Übungsplan
-                            <select style="font-size: 15px; padding-left: 3px;">
-                                <option>Klassenarbeit am 24.12.2015</option>
-                                <option>Mündliche Prüfung am Fr.</option>
+                            <select style="font-size: 15px; padding-left: 3px;" id="SelectTrainingDates">
                             </select>
                         </h3>
                         <div class="pull-right" style="font-size: 15px; margin-top: 5px;">
@@ -54,64 +52,81 @@
                     <div class="row" style="margin-top: 4px;">
                         <div class="col-md-4"></div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            <a href="#">erweiterte Einstellungen verbergen <i class="fa fa-caret-down"></i></a>
+                            <a href="#" data-action="showAdvancedSettings">erweiterte Einstellungen zeigen <i class="fa fa-caret-up"></i></a>
+                            <a href="#" data-action="hideAdvancedSettings" style="display: none">erweiterte Einstellungen verbergen <i class="fa fa-caret-down"></i></a>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 12px;">
-                        <div class="col-md-4">
-                            <div class="pull-right">Fragen pro Termin Ideal:</div>
+
+                    <div id="divAdvancedSettings" style="display: none">
+                        <div class="row" style="margin-top: 12px;">
+                            <div class="col-md-4">
+                                <div class="pull-right">Fragen pro Termin Ideal:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtQuestionsPerDateIdealAmount" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right">Vergessensschwelle:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtAnswerProbabilityTreshhold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                            </div>
                         </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="pull-right">Vergessensschwelle:</div>
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
-                        </div>
+                        <div class="row" style="margin-top: 4px;">
+                            <div class="col-md-4">
+                                <div class="pull-right">Mind. pro Termin:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right">mind. Zeit zw. Terminen:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                            </div>
+                        </div>                        
                     </div>
-                    <div class="row" style="margin-top: 4px;">
-                        <div class="col-md-4">
-                            <div class="pull-right">Mind. pro Termin:</div>
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="pull-right">mind. Zeit zw. Terminen:</div>
-                        </div>
-                        <div class="col-md-2" style="padding-left: 0px">
-                            <input type="text" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
-                        </div>
-                    </div>
+
                 </div>
                 <div class="row" style="margin-top: 12px;">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Übersicht</h4></div>
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="font-size: 16px;">
-                        <span style="padding-right: 12px">Verbleibend: ca. 7 Übungssitzungen </span>
-                        <span style="padding-right: 12px"><i class="fa fa-clock-o"></i> ca. 1:20h Übungszeit</span>
-                        <br/><span>Zu lernen: 31 Fragen</span>
+                        <span style="padding-right: 12px">Verbleibend: ca. <span id="RemainingDates">7</span> Übungssitzungen </span>
+                        <span style="padding-right: 12px"><i class="fa fa-clock-o"></i> ca. <span id="RemainingTime">1:20h</span> Übungszeit</span>
+                        <br/><span>Zu lernen: <span id="QuestionCount">31</span> Fragen</span>
                     </div>
                 </div>
+                
                 <div class="row" style="margin-top: 12px;">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>
                 </div>
-                <div class="row" style="margin-top: 4px">
-                    <div class="col-md-8" style="">
-                        Bis Benachrichtigung
-                    </div>
-                    <div class="col-md-2">Vorher</div>
-                    <div class="col-md-2">Nachher</div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div style="height: 1px; background-color: rgb(219, 219, 219);"></div>
+                
+                <div id="divTrainingPlanDetailsSpinner" class="row" style="display: none">
+                    <div class="col-md-12" style="height: 200px">
+                        <div style="display: block; text-align: center; margin-top: 80px;">
+                            <i class="fa fa-refresh fa-spin" style="font-size: 30px;"></i>
+                        </div>
                     </div>
                 </div>
-                <div id="dateRows"></div>
+                
+                <div id="divTrainingPlanDetails">
+                    <div class="row" style="margin-top: 4px">
+                        <div class="col-md-8" style="">
+                            Bis Benachrichtigung
+                        </div>
+                        <div class="col-md-2">Vorher</div>
+                        <div class="col-md-2">Nachher</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="height: 1px; background-color: rgb(219, 219, 219);"></div>
+                        </div>
+                    </div>
+                    <div id="dateRows"></div>
+                </div>
             </div>
             <div class="modal-footer" style="padding-top: 7px; padding-bottom: 7px;">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schliessen</a>

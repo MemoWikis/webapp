@@ -16,7 +16,8 @@ public class SetQuestionRow
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
             AnswerHistory = new AnswerHistoryModel(question, totalForUser),
-            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuation)
+            CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuation),
+            QuestionValuation = questionValuation
         };
     }
 }

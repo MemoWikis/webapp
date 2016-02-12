@@ -1,22 +1,28 @@
 ﻿using System;
+using Newtonsoft.Json;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class KnowledgeSummary
 {
+    [JsonProperty("NotLearned")]
     public int NotLearned = 0;
-    public int NotLearnedPercentage { get { return Percentage(NotLearned); } }
+    public int NotLearnedPercentage => Percentage(NotLearned);
 
+    [JsonProperty("NeedsLearning")]
     public int NeedsLearning = 0;
-    public int NeedsLearningPercentage { get { return Percentage(NeedsLearning); } }
+    public int NeedsLearningPercentage => Percentage(NeedsLearning);
 
+    [JsonProperty("NeedsConsolidation")]
     public int NeedsConsolidation = 0;
-    public int NeedsConsolidationPercentage { get { return Percentage(NeedsConsolidation); } }
+    public int NeedsConsolidationPercentage => Percentage(NeedsConsolidation);
 
+    [JsonProperty("Solid")]
     public int Solid = 0;
-    public int SolidPercentage { get { return Percentage(Solid); } }
+    public int SolidPercentage => Percentage(Solid);
 
 
     /// <summary>Sum of questions in wish knowledge</summary>
-    public int Total{ get { return NotLearned + NeedsLearning + NeedsConsolidation + Solid; }}
+    public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid;
 
     private int Percentage(int amount)
     {
@@ -24,5 +30,10 @@ public class KnowledgeSummary
             return 0;
 
         return (int)Math.Round(amount / (decimal)Total * 100);
+    }
+
+    public string ToJson()
+    {
+        return JsonConvert.SerializeObject(this);
     }
 }

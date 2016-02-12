@@ -1,11 +1,14 @@
-﻿using NHibernate;
-using NHibernate.Util;
-
-public class TrainingPlanUpdater
+﻿public class TrainingPlanUpdater
 {
     public static TrainingPlan Run(int trainingPlanId)
     {
         return Run(Sl.Resolve<TrainingPlanRepo>().GetById(trainingPlanId));
+    }
+
+    public static TrainingPlan Run(TrainingPlan trainingPlan, TrainingPlanSettings settings)
+    {
+        trainingPlan.Settings = settings;
+        return Run(trainingPlan);
     }
 
     public static TrainingPlan Run(TrainingPlan trainingPlan)
@@ -21,7 +24,7 @@ public class TrainingPlanUpdater
                 AllQuestions = newDate.AllQuestions,
                 DateTime = newDate.DateTime,
             });
-
+        
         trainingPlanRepo.Update(trainingPlan);
         trainingPlanRepo.Flush();
         return trainingPlan;

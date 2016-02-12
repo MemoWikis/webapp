@@ -18,6 +18,13 @@ public class DateRepo : RepositoryDbBase<Date>
         Update(date);
     }
 
+    public void UpdateWithTrainingsPlan(Date date)
+    {
+        TrainingPlanUpdater.Run(date.TrainingPlan);
+        Update(date);
+        Flush();
+    }
+
     public override void Create(Date date)
     {
         base.Create(date);

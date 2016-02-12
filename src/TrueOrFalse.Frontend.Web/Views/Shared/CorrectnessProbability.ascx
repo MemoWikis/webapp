@@ -8,7 +8,7 @@
             Alle Nutzer: <%: Model.CPPersonal + Model.CPDerivation %>%<br />
             Deine Abweichung: <%: Model.CPDerivationSign %> <%: Model.CPDerivation %>%
         </div>">
-    <i class="fa fa-tachometer" style="color:green;"></i> 
+    <i class="fa fa-tachometer" style="color:#69D069;"></i> 
         <%: Model.CPPersonal %>% 
         <span style="color:silver"><%: Model.CPDerivationSign %><%: Model.CPDerivation %></span>
 </span>

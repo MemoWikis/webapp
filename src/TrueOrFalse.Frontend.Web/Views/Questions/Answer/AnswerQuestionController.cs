@@ -140,7 +140,7 @@ public class AnswerQuestionController : BaseController
     {
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
-            var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
+            var question = AnswerQuestionControllerSearch.Run(searchSpec);
 
             if (searchSpec.HistoryItem != null){
                 if (searchSpec.HistoryItem.Question != null){
@@ -262,7 +262,8 @@ public class AnswerQuestionController : BaseController
             {
                 LoadJs = true,
                 AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
-                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser),
+                QuestionValuation = questionValuationForUser
             }
         );
     }

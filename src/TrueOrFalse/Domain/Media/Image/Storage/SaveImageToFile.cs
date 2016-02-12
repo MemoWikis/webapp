@@ -19,7 +19,7 @@ public class SaveImageToFile
 
         using (var image = Image.FromStream(inputStream)){
 
-            if (image.VerticalResolution != 96.0F || image.VerticalResolution != 96.0F)
+            if (image.VerticalResolution != 96.0F || image.HorizontalResolution != 96.0F)
                 ((Bitmap)image).SetResolution(96.0F, 96.0F);
 
             SaveOriginalSize(imageSettings, image);

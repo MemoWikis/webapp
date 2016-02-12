@@ -5,16 +5,18 @@ using Seedworks.Lib.Persistence;
 
 public class TrainingDate : DomainEntity
 {
+    public virtual TrainingPlan TrainingPlan { get; set; }
     public virtual DateTime DateTime { get; set; }
+    public virtual IList<TrainingQuestion> AllQuestions { get; set; } = new List<TrainingQuestion>();
+    public virtual IList<TrainingQuestion> AllQuestionsInTraining => AllQuestions.Where(x => x.IsInTraining).ToList();
 
-    public virtual IList<TrainingQuestion> AllQuestions { get; set; }
-    public virtual IList<TrainingQuestion> AllQuestionsInTraining
+    public virtual KnowledgeSummary GetSummaryBefore()
     {
-        get { return AllQuestions.Where(x => x.IsInTraining).ToList(); }
+        return KnowledgeSummaryLoader.Run(AllQuestions, beforeTraining:true);
     }
 
-    public TrainingDate()
+    public virtual KnowledgeSummary GetSummaryAfter()
     {
-        AllQuestions = new List<TrainingQuestion>();
+        return KnowledgeSummaryLoader.Run(AllQuestions, afterTraining: true);
     }
 }

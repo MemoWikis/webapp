@@ -1,82 +1,190 @@
 ﻿class TrainingSettings {
+
+    private _dateId: number;
+    private _isDateDropDownInitialized: boolean;
+    private _ddlDates: JQuery; 
+
     constructor() {
         var self = this;
 
+        self._ddlDates = $("#modalTraining #SelectTrainingDates");
+        self._ddlDates.change(function () {
+            self.Populate(this.value);
+        });
+
         $('a[href*=#modalTraining]').click(function () {
-            var dateId = $(this).attr("data-dateId");
-            self.Populate(dateId);
+            self._dateId = parseInt($(this).attr("data-dateId"));
+
+            if (!self._isDateDropDownInitialized) {
+                self._isDateDropDownInitialized = true;
+                self.PopulateDropDown();
+            }
+
+            self.Populate(self._dateId);
+        });
+
+        var delay = (() => {
+            var timer = 0;
+            return (callback, ms) => {
+                clearTimeout(timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+
+        $("#txtQuestionsPerDateIdealAmount," +
+          "#txtAnswerProbabilityTreshhold," +
+          "#txtQuestionsPerDateMinimum," +
+          "#txtSpacingBetweenSessionsInMinutes").keyup(() => {
+
+              $("#divTrainingPlanDetailsSpinner").show();
+              $("#divTrainingPlanDetails").hide();
+
+              delay(() => {
+
+                  $.post("/Dates/TrainingPlanUpdate/",
+                      { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
+                      (result) => {
+                          self.RenderTrainingPlan(result);
+                          $("#divTrainingPlanDetailsSpinner").hide();
+                          $("#divTrainingPlanDetails").show();
+                      });
+              }, 800);
+            
+        });
+
+        self.ShowSettings();
+
+        $("[data-action=showAdvancedSettings]").click(() => {
+            $("#divAdvancedSettings").show(300);
+            $("[data-action=showAdvancedSettings]").hide();
+            $("[data-action=hideAdvancedSettings]").show();
+        });
+        $("[data-action=hideAdvancedSettings]").click(() => {
+            $("#divAdvancedSettings").hide(300);
+            $("[data-action=showAdvancedSettings]").show();
+            $("[data-action=hideAdvancedSettings]").hide();
+        });
+
+        $("[data-action=closeSettings]").click(() => {
+            self.HideSettings();
+        });
+
+        $("[data-action=showSettings]").click(() => {
+            self.ShowSettings();
         });
     }
 
-    Populate(dateId : string) {
-        $.get("/Dates/RenderTrainingDates/?dateId=" + dateId,
-            htmlResult => {
-                $("#dateRows").children().remove();
-                $("#dateRows").append(
-                    $(htmlResult)
-                    .animate({ opacity: 1.00 }, 700)
-                ).after(() => {
-                    drawCharts();
-                });
-                
+    PopulateDropDown() {
+        var self = this;
+        $.post("/Dates/GetUpcomingDatesJson/", (result) => {
+            jQuery.each(result.AllUpcomingDates, (index, item) => {
+                var option = $("<option value='" + item.DateId + "'>" + item.Title + "</option>");
+                self._ddlDates.append(option);
+            });
+
+            self._ddlDates.val(self._dateId.toString());
+        });        
+    }
+
+    RenderTrainingPlan(data) {
+        this.RenderDetails(data.Html);
+        $("#modalTraining #RemainingDates").html(data.RemainingDates);
+        $("#modalTraining #RemainingTime").html(data.RemainingTime);
+        $("#modalTraining #QuestionCount").html(data.QuestionCount); 
+
+        $("#modalTraining #txtQuestionsPerDateIdealAmount").val(data.QuestionsPerDateIdealAmount); 
+        $("#modalTraining #txtAnswerProbabilityTreshhold").val(data.AnswerProbabilityTreshhold);
+        $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
+        $("#modalTraining #txtSpacingBetweenSessionsInMinutes").val(data.SpacingBetweenSessionsInMinutes);
+    }
+
+    GetSettingsFromUi(): TrainingPlanSettings {
+        var result = new TrainingPlanSettings();
+        result.AnswerProbabilityTreshhold = $("#txtAnswerProbabilityTreshhold").val();
+        result.QuestionsPerDate_IdealAmount = $("#txtQuestionsPerDateIdealAmount").val();
+        result.QuestionsPerDate_Minimum = $("#txtQuestionsPerDateMinimum").val();
+        result.SpacingBetweenSessionsInMinutes = $("#txtSpacingBetweenSessionsInMinutes").val();
+        return result;
+    }
+
+    Populate(dateId: number) {
+
+        var self = this;
+        self._dateId = dateId;
+
+        $.post("/Dates/TrainingPlanGet", {dateId : dateId}, 
+            result => {
+                self.RenderTrainingPlan(result);
             }
         );
-        
-        function drawCharts() {
-            drawKnowledgeChartDate2("chartKnowledgeDate1Before", 9, 2, 1, 2);
-            drawKnowledgeChartDate2("chartKnowledgeDate1After", 4, 3, 2, 3);
-            drawKnowledgeChartDate2("chartKnowledgeDate2Before", 9, 2, 1, 2);
-            drawKnowledgeChartDate2("chartKnowledgeDate2After", 4, 3, 2, 3);
-            drawKnowledgeChartDate2("chartKnowledgeDate3Before", 9, 2, 1, 2);
-            drawKnowledgeChartDate2("chartKnowledgeDate3After", 4, 3, 2, 3);
-        }
+    }
 
-        function drawKnowledgeChartDate2(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
+    RenderDetails(html) {
+        $("#dateRows").children().remove();
+        $("#dateRows").append(
+            $(html)
+                .animate({ opacity: 1.00 }, 700)
+        ).after(() => {
+            this.DrawCharts();
+            $('#modalTraining').modal();
+        });        
+    }
 
-            var chartElement = $("#" + chartElementId);
+    HideSettings() {
+        $("#settings").hide(300);
+        $("#showSettings").show();
+        $("#closeSettings").hide();
+    }
 
-            var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'Anteil in %'],
-                ['Sicheres Wissen', amountSolid],
-                ['Solltest du festigen', amountToConsolidate],
-                ['Solltest du lernen', amountToLearn],
-                ['Noch nicht gelernt', amountNotLearned],
-            ]);
+    ShowSettings() {
+        $("#settings").show(300);
+        $("#showSettings").hide();
+        $("#closeSettings").show();
+    }
 
-            var options2 = {
-                pieHole: 0.5,
-                legend: { position: 'none' },
-                pieSliceText: 'none',
-                height: 36,
-                width: 42,
-                chartArea: { width: 42, height: 36, left: 0 },
-                slices: {
-                    0: { color: 'lightgreen' },
-                    1: { color: '#fdd648' },
-                    2: { color: 'lightsalmon' },
-                    3: { color: 'silver' }
-                },
-                pieStartAngle: 0
-            };
+    DrawCharts() {
 
-            var chart = new google.visualization.PieChart(chartElement.get()[0]);
-            chart.draw(data, options2);
-        }
+        var self = this;
 
-        $(() => {
-            $("[data-action=closeSettings]").click(() => {
-                $("#settings").hide(300);
-                $("#showSettings").show();
-                $("#closeSettings").hide();
+        $("#modalTraining div[data-trainingDateId]").each(function () {
+
+            $(this).find("[data-knowledgeSummary]").each(function() {
+                self.DrawKnowledgeChartDate2($(this));
             });
+
         });
+    }
 
-        $(() => {
-            $("[data-action=showSettings]").click(() => {
-                $("#settings").show(300);
-                $("#showSettings").hide();
-                $("#closeSettings").show();
-            });
-        });                
+    DrawKnowledgeChartDate2(div: JQuery) {
+
+        var json = div.attr("data-knowledgeSummary");
+        var summary = <KnowledgeSummary>JSON.parse(json);
+
+        var data = google.visualization.arrayToDataTable([
+            ['Wissenslevel', 'Anteil in %'],
+            ['Sicheres Wissen', summary.Solid],
+            ['Solltest du festigen', summary.NeedsConsolidation],
+            ['Solltest du lernen', summary.NeedsLearning],
+            ['Noch nicht gelernt', summary.NotLearned],
+        ]);
+
+        var options2 = {
+            pieHole: 0.5,
+            legend: { position: 'none' },
+            pieSliceText: 'none',
+            height: 36,
+            width: 42,
+            chartArea: { width: 42, height: 36, left: 0 },
+            slices: {
+                0: { color: 'lightgreen' },
+                1: { color: '#fdd648' },
+                2: { color: 'lightsalmon' },
+                3: { color: 'silver' }
+            },
+            pieStartAngle: 0
+        };
+
+        var chart = new google.visualization.PieChart(div.get()[0]);
+        chart.draw(data, options2);
     }
 }

@@ -26,7 +26,7 @@
                     <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
                         aus diesem Fragesatz <br> sind in deinem aktiven Wissen. <br><br> Im 'aktiven Wissen' ist eine Frage, wenn die<br> Antwortwahrscheinlichkeit über 90% liegt." 
                         data-html="true" data-placement="bottom">
-                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 
+                        <i class="fa fa-tachometer" style="margin-left: 20px; color: #69D069;"></i> 
                         <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
                     </span>
 
@@ -64,14 +64,9 @@
                             <%=questionRow.Question.Text %>
                         </a>    
                     </div>
-                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px;">
+                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px; line-height: 15px;">
                         <div class="row">
-                            <div class="col-sm-12 col-xs-6">
-                                <% Html.RenderPartial("AnswerHistory", questionRow.HistoryAndProbability.AnswerHistory); %>         
-                            </div>
-                            <div class="col-sm-12 col-xs-6">
-                                <% Html.RenderPartial("CorrectnessProbability", questionRow.HistoryAndProbability.CorrectnessProbability); %>                                
-                            </div>
+                            <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
                         </div>
                     </div>
                 </div>

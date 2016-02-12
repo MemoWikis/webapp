@@ -2,8 +2,9 @@
 
     _elemContainer: JQuery;
     _categories: Array<number> = [];
+    _knowledgeFilter: KnowledgeFilter;
 
-    _fnOnLoadPage : Function = () => {};
+    _fnOnLoadPage: Function = () => { };
 
     constructor(fnOnLoadPage?: Function) {
         this._elemContainer = $("#JS-SearchResult");
@@ -41,7 +42,8 @@
             url: $('#txtSearch').attr("formUrl") + "Api",
             data: {
                 searchTerm: $('#txtSearch').val(),
-                categories: this._categories
+                categories: this._categories, 
+                knowledgeFilter: this._knowledgeFilter
             },
             traditional: true,
             type: 'json',
@@ -71,4 +73,11 @@
             }
         });
     }
+}
+
+class KnowledgeFilter {
+    Knowledge_Solid: boolean;
+    Knowledge_ShouldConsolidate: boolean;
+    Knowledge_ShouldLearn: boolean;
+    Knowledge_None: boolean;
 }

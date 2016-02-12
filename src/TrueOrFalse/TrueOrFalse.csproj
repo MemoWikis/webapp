@@ -711,6 +711,7 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tools\ScheduledJobs\AutofacJobFactory.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeStati.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
@@ -774,9 +775,9 @@
     <Compile Include="Web\Controls\UserMessage\MessageHtml.cs" />
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
     <Compile Include="Web\Controls\UserMessage\UIMessage.cs" />
-    <Compile Include="Web\Filters\AccessBeta.cs" />
-    <Compile Include="Web\Filters\AccessOnlyLoggedIn.cs" />
-    <Compile Include="Web\Filters\AccessOnlyAsAdmin.cs" />
+    <Compile Include="Web\Filters\AccessBetaAttribute.cs" />
+    <Compile Include="Web\Filters\AccessOnlyAsLoggedInAttribute.cs" />
+    <Compile Include="Web\Filters\AccessOnlyAsAdminAttribute.cs" />
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
     <Compile Include="Web\HtmlLabelExtensions.cs" />
     <Compile Include="Web\HtmlPrefixScopeExtensions.cs" />

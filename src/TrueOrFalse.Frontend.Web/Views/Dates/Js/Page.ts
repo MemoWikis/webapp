@@ -1,7 +1,7 @@
 $(function () {
     new DateRowDelete();
     new PreviousDates();
-    new TrainingSettings();
 
-    //$('#modalTraining').modal();
+    var trainingSettings = new TrainingSettings();
+    //trainingSettings.Populate(24);
 });
