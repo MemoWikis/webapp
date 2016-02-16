@@ -1,4 +1,12 @@
-﻿.number-box-questions2 {
+﻿#chartKnowledge text {
+  font-size: 13px;
+  cursor: pointer;
+}
+#chartKnowledge text :hover {
+  font-weight: bold;
+  color: green;
+}
+.number-box-questions2 {
   background-color: #afd534;
   color: white;
 }

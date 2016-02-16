@@ -101,6 +101,27 @@ public class QuestionFilter : ConditionContainer
     {
         return Categories.Count == 1 && SearchTerm == "";
     }
+
+    public void SetKnowledgeFilter(string filter)
+    {
+        UnsetAllKnowledgeFilters();
+
+        switch (filter)
+        {
+            case "solid": Knowledge_Solid = true; return;
+            case "consolidate": Knowledge_ShouldConsolidate = true; return;
+            case "learn": Knowledge_ShouldLearn = true; return;
+            case "notLearned": Knowledge_None = true; return;
+        }
+    }
+
+    public void UnsetAllKnowledgeFilters()
+    {
+        this.Knowledge_Solid = false;
+        this.Knowledge_ShouldConsolidate = false;
+        this.Knowledge_ShouldLearn = false;
+        this.Knowledge_None = false;
+    }
 }
 
 [Serializable]

@@ -79,12 +79,13 @@ namespace TrueOrFalse
         }
 
         [SetMenu(MenuEntry.Questions)]
-        public ActionResult QuestionsWish(int? page, QuestionsModel model, string orderBy)
+        public ActionResult QuestionsWish(int? page, string filter, QuestionsModel model, string orderBy)
         {
-            if (!_sessionUser.IsLoggedIn){
-                return View("Questions",
-                    new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTabType.Wish));
-            }
+            if (!_sessionUser.IsLoggedIn)
+                return View("Questions", new QuestionsModel(new List<Question>(), new QuestionSearchSpec(), SearchTabType.Wish));
+
+            if (filter != null)
+                _sessionUiData.SearchSpecQuestionWish.Filter.SetKnowledgeFilter(filter);
 
             return View("Questions", _util.GetQuestionsModel(page, model, orderBy, _sessionUiData.SearchSpecQuestionWish, SearchTabType.Wish));
         }
@@ -92,14 +93,14 @@ namespace TrueOrFalse
         public ActionResult QuestionsWishSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, model, searchTerm);
-            return QuestionsWish(page, model, orderBy);
+            return QuestionsWish(page, null, model, orderBy);
         }
 
         public ActionResult QuestionsWishSearchCategoryFilter(string categoryName, int categoryId)
         {
             _sessionUiData.SearchSpecQuestionWish.Filter.Clear();
             _sessionUiData.SearchSpecQuestionWish.Filter.Categories.Add(categoryId);
-            return QuestionsWish(1, new QuestionsModel(), null);
+            return QuestionsWish(1, null, new QuestionsModel(), null);
         }
 
         public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories, string knowledgeFilter)
