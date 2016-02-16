@@ -156,32 +156,8 @@ img {
     margin: 0;
     width: 100%;
     max-height: 50px;
-    background-color: @dark-blue;
-    //Gradient darker
-    @media disabled {
-        background: rgb(46,72,123); /* Old browsers */
-        background: -moz-linear-gradient(top, rgba(46,72,123,1) 0%, rgba(45,85,153,1) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(46,72,123,1)), color-stop(100%,rgba(45,85,153,1))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* IE10+ */
-        background: linear-gradient(to bottom, rgba(46,72,123,1) 0%,rgba(45,85,153,1) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e487b', endColorstr='#2d5599',GradientType=0 ); /* IE6-9 */
-    }
-    //@media disabled {
-    //Gradient brighter (current)
-    background: rgb(46,72,123); /* Old browsers */
-    background: -moz-linear-gradient(top, rgba(46,72,123,1) 0%, rgba(44,95,178,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(46,72,123,1)), color-stop(100%,rgba(44,95,178,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(46,72,123,1) 0%,rgba(44,95,178,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e487b', endColorstr='#2c5fb2',GradientType=0 ); /* IE6-9 */
-    //}
 
-
-    //.gradientBar232 (#085388; #130C5A);//has to be included: @import (reference) 'z_mixins_2.3.2.less';
+    #gradient > .vertical(#003264, #1964c8);
 
     .HeaderMainRow {
         height: @masterHeaderMainRowHeight-xs;
