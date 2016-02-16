@@ -8,19 +8,16 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     private readonly IsEmailAddressAvailable _isEmailAddressAvailable;
     private readonly UserRepo _userRepo;
     private readonly SendRegistrationEmail _sendRegistrationEmail;
-    private readonly SendWelcomeMsg _sendWelcomeMsg;
     private readonly ISession _session;
 
     public RegisterUser(IsEmailAddressAvailable isEmailAddressAvailable, 
                         UserRepo  userRepo,
                         SendRegistrationEmail sendRegistrationEmail,
-                        SendWelcomeMsg sendWelcomeMsg,
                         ISession session)
     {
         _isEmailAddressAvailable = isEmailAddressAvailable;
         _userRepo = userRepo;
         _sendRegistrationEmail = sendRegistrationEmail;
-        _sendWelcomeMsg = sendWelcomeMsg;
         _session = session;
     }
 
@@ -44,6 +41,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         }
 
         _sendRegistrationEmail.Run(user);
-        _sendWelcomeMsg.Run(user);
+        WelcomeMsgSend.Run(user);
     }
 }

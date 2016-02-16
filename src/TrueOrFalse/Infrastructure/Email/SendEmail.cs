@@ -1,5 +1,4 @@
 ﻿using System.Net.Mail;
-using TrueOrFalse;
 
 public class SendEmail : IRegisterAsInstancePerLifetime
 {

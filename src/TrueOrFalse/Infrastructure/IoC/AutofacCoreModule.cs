@@ -101,11 +101,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<LicenseRepository>().InstancePerLifetimeScope();
             builder.RegisterType<GetUnreadMessageCount>().InstancePerLifetimeScope();
             builder.RegisterType<SetMessageRead>().InstancePerLifetimeScope();
-            builder.RegisterType<SendCommentMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<SendCustomMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<SendWelcomeMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<SendIsNowPrivateMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<MessageRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageRepo>().InstancePerLifetimeScope();
             builder.RegisterType<SetMessageUnread>().InstancePerLifetimeScope();
             builder.RegisterType<GetTotalSetCount>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateQuestionCountForCategory>().InstancePerLifetimeScope();

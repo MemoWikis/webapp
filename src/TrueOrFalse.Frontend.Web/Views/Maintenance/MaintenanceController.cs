@@ -173,7 +173,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult SendMessage(MaintenanceMessagesModel model)
     {
-        Resolve<SendCustomMsg>().Run(
+        CustomMsgSend.Run(
             model.TestMsgReceiverId, 
             model.TestMsgSubject,
             model.TestMsgBody);
