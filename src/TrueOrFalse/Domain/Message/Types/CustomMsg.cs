@@ -1,6 +1,6 @@
-﻿public class CustomMsgSend : IRegisterAsInstancePerLifetime
+﻿public class CustomMsg
 {
-    public static void Run(int receiverId, string subject, string body)
+    public static void Send(int receiverId, string subject, string body)
     {
         MessageUtils.LoadUser(receiverId);
 

@@ -5,9 +5,9 @@ using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class CommentMsgSend
+public class CommentMsg
 {
-    public static void Run(Comment comment)
+    public static void Send(Comment comment)
     {
         var question = Sl.R<QuestionRepo>().GetById(comment.TypeId);
 

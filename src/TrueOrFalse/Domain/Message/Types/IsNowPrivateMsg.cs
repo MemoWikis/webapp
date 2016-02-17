@@ -1,6 +1,6 @@
-﻿public class IsNowPrivateMsgSend
+﻿public class IsNowPrivateMsg
 {
-    public static void Run(int receiverId)
+    public static void Send(int receiverId)
     {
         var user = MessageUtils.LoadUser(receiverId);            
     }

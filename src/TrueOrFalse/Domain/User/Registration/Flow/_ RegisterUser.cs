@@ -34,6 +34,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         }
 
         SendRegistrationEmail.Run(user);
-        WelcomeMsgSend.Run(user);
+        WelcomeMsg.Send(user);
     }
 }

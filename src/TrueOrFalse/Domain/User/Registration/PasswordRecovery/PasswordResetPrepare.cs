@@ -1,17 +1,11 @@
 ﻿using System;
 using NHibernate;
 
-public class PasswordResetPrepare : IRegisterAsInstancePerLifetime
+public class PasswordResetPrepare
 {
-    private readonly ISession _session;
-
-    public PasswordResetPrepare(ISession session){
-        _session = session;
-    }
-
-    public PasswordResetPrepareResult Run(string token)
+    public static PasswordResetPrepareResult Run(string token)
     {
-        var passwortToken = _session.QueryOver<PasswordRecoveryToken>()
+        var passwortToken = Sl.R<ISession>().QueryOver<PasswordRecoveryToken>()
                 .Where(x => x.Token == token)
                 .SingleOrDefault<PasswordRecoveryToken>();
 

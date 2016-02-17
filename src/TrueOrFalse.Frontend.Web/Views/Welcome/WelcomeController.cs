@@ -126,7 +126,7 @@ public class WelcomeController : BaseController
     [HttpGet]
     public ActionResult PasswordReset(string id)
     {
-        var result = Sl.Resolve<PasswordResetPrepare>().Run(id);
+        var result = PasswordResetPrepare.Run(id);
         var model = new PasswordResetModel { TokenFound = result.Success, Token = id };
 
         if (result.TokenOlderThan72h)
@@ -151,7 +151,7 @@ public class WelcomeController : BaseController
             return View(model);
         }
 
-        var result = Sl.Resolve<PasswordResetPrepare>().Run(model.Token);
+        var result = PasswordResetPrepare.Run(model.Token);
 
         var userRepo = Sl.Resolve<UserRepo>();
         var user = userRepo.GetByEmail(result.Email);

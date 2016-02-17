@@ -98,7 +98,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<LearningSessionStep>().InstancePerLifetimeScope();
             builder.RegisterType<LearningSessionRepo>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateImageTypes>().InstancePerLifetimeScope();
-            builder.RegisterType<LicenseRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<LicenseRepo>().InstancePerLifetimeScope();
             builder.RegisterType<GetUnreadMessageCount>().InstancePerLifetimeScope();
             builder.RegisterType<SetMessageRead>().InstancePerLifetimeScope();
             builder.RegisterType<MessageRepo>().InstancePerLifetimeScope();
@@ -152,7 +152,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<MembershipRepo>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordRecovery>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordReset>().InstancePerLifetimeScope();
-            builder.RegisterType<PasswordResetPrepare>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordRecoveryTokenRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserSummary>().InstancePerLifetimeScope();
             builder.RegisterType<TotalFollowers>().InstancePerLifetimeScope();
@@ -165,9 +164,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<RegisterUser>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepo>().InstancePerLifetimeScope();
             builder.RegisterType<SendEmail>().InstancePerLifetimeScope();
-            builder.RegisterType<RemovePersistentLoginFromCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<LoginFromCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<ExecuteSqlFile>().InstancePerLifetimeScope();
+            builder.RegisterType<PersistentLoginRepo>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUiData>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUser>().InstancePerLifetimeScope();
             builder.RegisterType<GetImageMaintenanceInfos>().InstancePerLifetimeScope();

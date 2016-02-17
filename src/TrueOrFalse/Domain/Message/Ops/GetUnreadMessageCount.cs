@@ -1,6 +1,5 @@
 ﻿using System;
 using NHibernate;
-using TrueOrFalse;
 
 public class GetUnreadMessageCount : IRegisterAsInstancePerLifetime
 {

@@ -1,14 +1,14 @@
 ﻿using System;
 
-public class WelcomeMsgSend
+public class WelcomeMsg
 {
-    public static void Run(int receiverId)
+    public static void Send(int receiverId)
     {
         var user = MessageUtils.LoadUser(receiverId);
-        Run(user);
+        Send(user);
     }
 
-    public static void Run(User user)
+    public static void Send(User user)
     {
         string body = String.Format(@"
 <p>Hallo {0}, </p>

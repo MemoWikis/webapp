@@ -12,7 +12,7 @@ public class CommentRepository : RepositoryDb<Comment>
     public override void Create(Comment comment)
     {
         base.Create(comment);
-        CommentMsgSend.Run(comment);
+        CommentMsg.Send(comment);
     }
 
     public IList<Comment> GetForDisplay(int questionId)

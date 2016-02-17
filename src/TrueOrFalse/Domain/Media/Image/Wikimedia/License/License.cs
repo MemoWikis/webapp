@@ -101,7 +101,7 @@ public class License
         return Regex.Split(idList, ", ")
             .ToList()
             .Where(x => Int32.TryParse(x, out y))
-            .Select(id => LicenseRepository.GetById(id.ToInt32()))
+            .Select(id => LicenseRepo.GetById(id.ToInt32()))
             .ToList();
     }
 

@@ -16,7 +16,7 @@ namespace TrueOrFalse.Tests.Persistence
             var context = ContextUser.New().Add("Jule").Persist();
             var userId = context.All.First().Id;
 
-            CustomMsgSend.Run(userId, "subject", "body");
+            CustomMsg.Send(userId, "subject", "body");
         }
     }
 }
