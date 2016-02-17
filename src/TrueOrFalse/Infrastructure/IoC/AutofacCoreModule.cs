@@ -161,18 +161,12 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<AnswerQuestion>().InstancePerLifetimeScope();
             builder.RegisterType<QuestionRepo>().InstancePerLifetimeScope();
             builder.RegisterType<CredentialsAreValid>().InstancePerLifetimeScope();
-            builder.RegisterType<CreateEmailConfirmationLink>().InstancePerLifetimeScope();
             builder.RegisterType<ValidateEmailConfirmationKey>().InstancePerLifetimeScope();
             builder.RegisterType<RegisterUser>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepo>().InstancePerLifetimeScope();
-            builder.RegisterType<IsValdidPassword>().InstancePerLifetimeScope();
             builder.RegisterType<SendEmail>().InstancePerLifetimeScope();
-            builder.RegisterType<GetPersistentLoginCookieValues>().InstancePerLifetimeScope();
             builder.RegisterType<RemovePersistentLoginFromCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<WritePersistentLoginToCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<CreatePersistentLogin>().InstancePerLifetimeScope();
             builder.RegisterType<LoginFromCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<PersistentLoginRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ExecuteSqlFile>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUiData>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUser>().InstancePerLifetimeScope();

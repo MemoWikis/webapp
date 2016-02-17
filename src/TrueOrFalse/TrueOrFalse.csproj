@@ -681,7 +681,7 @@
     <Compile Include="Infrastructure\Login\Model\Ops\LoginFromCookie.cs" />
     <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
-    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepository.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepo.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />

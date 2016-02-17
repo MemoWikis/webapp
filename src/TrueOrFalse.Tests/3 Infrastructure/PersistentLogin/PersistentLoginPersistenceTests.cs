@@ -18,27 +18,27 @@ namespace TrueOrFalse.Tests
             var persitentLogin = new PersistentLogin {UserId = 10, LoginGuid = guid};
             
             //Created
-            Resolve<PersistentLoginRepository>().Create(persitentLogin);
+            Resolve<PersistentLoginRepo>().Create(persitentLogin);
 
             //Retrieve
-            Assert.That(Resolve<PersistentLoginRepository>().Get(persitentLogin.UserId, guid), Is.Not.Null);
+            Assert.That(Resolve<PersistentLoginRepo>().Get(persitentLogin.UserId, guid), Is.Not.Null);
 
             //Delete
-            Resolve<PersistentLoginRepository>().Delete(persitentLogin.UserId, guid);
-            Assert.That(Resolve<PersistentLoginRepository>().Get(persitentLogin.UserId, guid), Is.Null);
+            Resolve<PersistentLoginRepo>().Delete(persitentLogin.UserId, guid);
+            Assert.That(Resolve<PersistentLoginRepo>().Get(persitentLogin.UserId, guid), Is.Null);
         }
 
         [Test]
         public void Should_delete_all_for_user()
         {
-            Resolve<PersistentLoginRepository>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
-            Resolve<PersistentLoginRepository>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
-            Resolve<PersistentLoginRepository>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
-            Resolve<PersistentLoginRepository>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
-            Resolve<PersistentLoginRepository>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
+            Resolve<PersistentLoginRepo>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
+            Resolve<PersistentLoginRepo>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
+            Resolve<PersistentLoginRepo>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
+            Resolve<PersistentLoginRepo>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
+            Resolve<PersistentLoginRepo>().Create(new PersistentLogin { UserId = 10, LoginGuid = Guid.NewGuid().ToString() });
 
             Assert.That(Resolve<ISession>().QueryOver<PersistentLogin>().Where(x => x.UserId == 10).List().Count, Is.EqualTo(5) );
-            Resolve<PersistentLoginRepository>().DeleteAllForUser(10);
+            Resolve<PersistentLoginRepo>().DeleteAllForUser(10);
             Assert.That(Resolve<ISession>().QueryOver<PersistentLogin>().Where(x => x.UserId == 10).List().Count, Is.EqualTo(0));
         }
 

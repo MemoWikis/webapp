@@ -1,8 +1,8 @@
 ﻿using System;
 
-public class CreateEmailConfirmationLink : IRegisterAsInstancePerLifetime
+public class CreateEmailConfirmationLink
 {
-    public string Run(User user){
+    public static string Run(User user){
         return String.Format("https://memucho.de/EmailBestaetigen/x7b" + user.Id);
     }
 }

@@ -15,7 +15,7 @@ public class SendRegistrationEmail
         emailBody.AppendLine("du hast dich gerade bei MEMuchO registriert, wir freuen uns, dass du dabei bist!");
         emailBody.AppendLine("");
         emailBody.AppendLine("Um dein Benutzerkonto zu bestätigen, folge bitte diesem Link:");
-        emailBody.AppendLine(Sl.R<CreateEmailConfirmationLink>().Run(user));
+        emailBody.AppendLine(CreateEmailConfirmationLink.Run(user));
 
         mail.Subject = "Willkommen bei MEMuchO";
         mail.Body = emailBody.ToString();

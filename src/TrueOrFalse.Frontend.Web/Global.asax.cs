@@ -49,7 +49,6 @@ namespace TrueOrFalse.Frontend.Web
             Logg.r().Information("Application Stop");
         }
 
-
         private void Application_BeginRequest()
         {
             Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
@@ -81,7 +80,7 @@ namespace TrueOrFalse.Frontend.Web
         protected void Session_Start()
         {
             if(!Sl.Resolve<SessionUser>().IsLoggedIn)
-                Sl.Resolve<LoginFromCookie>().Run();
+                LoginFromCookie.Run();
         }
 
         protected void Application_Error(Object sender, EventArgs e)

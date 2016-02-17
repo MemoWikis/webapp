@@ -1,26 +1,16 @@
 ﻿using System;
 using System.Web;
 
-public class RemovePersistentLoginFromCookie : IRegisterAsInstancePerLifetime
+public class RemovePersistentLoginFromCookie
 {
-    private readonly GetPersistentLoginCookieValues _getPersistentLoginCookieValues;
-    private readonly PersistentLoginRepository _persistentLoginRepository;
-
-    public RemovePersistentLoginFromCookie(GetPersistentLoginCookieValues getPersistentLoginCookieValues,
-                                            PersistentLoginRepository persistentLoginRepository)
+    public static void Run()
     {
-        _getPersistentLoginCookieValues = getPersistentLoginCookieValues;
-        _persistentLoginRepository = persistentLoginRepository;
-    }
-
-    public void Run()
-    {
-        var persistentCookieValue = _getPersistentLoginCookieValues.Run();
+        var persistentCookieValue = GetPersistentLoginCookieValues.Run();
 
         if (!persistentCookieValue.Exists())
             return;
 
-        _persistentLoginRepository.Delete(persistentCookieValue.UserId, persistentCookieValue.LoginGuid);
+        Sl.R<PersistentLoginRepo>().Delete(persistentCookieValue.UserId, persistentCookieValue.LoginGuid);
         var cookie = HttpContext.Current.Response.Cookies.Get(Settings.MemuchoCookie);
         cookie.Values.Set("persistentLogin", "");
         cookie.Expires = DateTime.Now.AddDays(45);

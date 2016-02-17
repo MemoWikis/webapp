@@ -5,15 +5,11 @@ using NHibernate.Criterion;
 
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
-    private readonly IsEmailAddressAvailable _isEmailAddressAvailable;
     private readonly UserRepo _userRepo;
     private readonly ISession _session;
 
-    public RegisterUser(IsEmailAddressAvailable isEmailAddressAvailable, 
-                        UserRepo  userRepo,
-                        ISession session)
+    public RegisterUser(UserRepo  userRepo, ISession session)
     {
-        _isEmailAddressAvailable = isEmailAddressAvailable;
         _userRepo = userRepo;
         _session = session;
     }
