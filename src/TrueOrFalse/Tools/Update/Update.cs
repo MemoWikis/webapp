@@ -50,6 +50,7 @@
                 .Add(UpdateToVs117.Run)
                 .Add(UpdateToVs118.Run)
                 .Add(UpdateToVs119.Run)
+                .Add(UpdateToVs120.Run)
                 .Run();
         }
     }
