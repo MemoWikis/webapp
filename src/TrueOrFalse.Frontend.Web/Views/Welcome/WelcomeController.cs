@@ -43,7 +43,7 @@ public class WelcomeController : BaseController
     public ActionResult Register(RegisterModel model)
     {
 
-        if (!ServiceLocator.R<IsEmailAddressAvailable>().Yes(model.Email))
+        if (!IsEmailAddressAvailable.Yes(model.Email))
             ModelState.AddModelError("Email", "Die Emailadresse ist bereits vergeben.");
 
         if (!ModelState.IsValid)

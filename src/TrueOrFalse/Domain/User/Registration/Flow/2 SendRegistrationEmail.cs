@@ -1,20 +1,9 @@
 ﻿using System.Net.Mail;
 using System.Text;
 
-public class SendRegistrationEmail : IRegisterAsInstancePerLifetime
+public class SendRegistrationEmail
 {
-    private readonly CreateEmailConfirmationLink _createEmailConfirmationLink;
-
-    public SendRegistrationEmail(CreateEmailConfirmationLink createEmailConfirmationLink,
-                                    SendEmail sendEmail)
-    {
-        _createEmailConfirmationLink = createEmailConfirmationLink;
-        _sendEmail = sendEmail;
-    }
-
-    private readonly SendEmail _sendEmail;
-
-    public void Run(User user)
+    public static void Run(User user)
     {
         var mail = new MailMessage();
         mail.To.Add(user.EmailAddress);
@@ -26,11 +15,11 @@ public class SendRegistrationEmail : IRegisterAsInstancePerLifetime
         emailBody.AppendLine("du hast dich gerade bei MEMuchO registriert, wir freuen uns, dass du dabei bist!");
         emailBody.AppendLine("");
         emailBody.AppendLine("Um dein Benutzerkonto zu bestätigen, folge bitte diesem Link:");
-        emailBody.AppendLine(_createEmailConfirmationLink.Run(user));
+        emailBody.AppendLine(Sl.R<CreateEmailConfirmationLink>().Run(user));
 
         mail.Subject = "Willkommen bei MEMuchO";
         mail.Body = emailBody.ToString();
             
-        _sendEmail.Run(mail);
+        Sl.R<SendEmail>().Run(mail);
     }
 }

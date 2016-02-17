@@ -3,22 +3,19 @@ using System.Net.Mail;
 
 public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
-    private readonly IsEmailAddressAvailable _emailAddressIsAvailable;
     private readonly SendEmail _sendMailMessage;
     private readonly PasswordRecoveryTokenRepository _tokenRepository;
 
-    public PasswordRecovery(IsEmailAddressAvailable emailAddressIsAvailable, 
-                            SendEmail sendMailMessage,
+    public PasswordRecovery(SendEmail sendMailMessage,
                             PasswordRecoveryTokenRepository tokenRepository)
     {
-        _emailAddressIsAvailable = emailAddressIsAvailable;
         _sendMailMessage = sendMailMessage;
         _tokenRepository = tokenRepository;
     }
 
     public PasswordRecoveryResult Run(string email)
     {
-        if (_emailAddressIsAvailable.Yes(email))
+        if (IsEmailAddressAvailable.Yes(email))
             return new PasswordRecoveryResult { TheEmailDoesNotExist = true, Success = false };
 
         var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);

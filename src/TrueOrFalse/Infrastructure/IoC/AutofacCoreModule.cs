@@ -164,8 +164,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<CreateEmailConfirmationLink>().InstancePerLifetimeScope();
             builder.RegisterType<ValidateEmailConfirmationKey>().InstancePerLifetimeScope();
             builder.RegisterType<RegisterUser>().InstancePerLifetimeScope();
-            builder.RegisterType<IsEmailAddressAvailable>().InstancePerLifetimeScope();
-            builder.RegisterType<SendRegistrationEmail>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepo>().InstancePerLifetimeScope();
             builder.RegisterType<IsValdidPassword>().InstancePerLifetimeScope();
             builder.RegisterType<SendEmail>().InstancePerLifetimeScope();
