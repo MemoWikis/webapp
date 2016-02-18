@@ -284,6 +284,7 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Configuration\TrainingPlanSettings.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AnswerProbability.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanUpdater.cs" />
+    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\NotificationStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
+    <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />
     <Compile Include="Domain\Message\Types\TrainingReminderMsg.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
@@ -717,6 +719,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs120.cs" />
@@ -799,6 +802,9 @@
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
     <Compile Include="Web\ViewRenderer.cs" />
+    <None Include="Domain\Message\Types\TrainingReminderMsg.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Domain\User\Membership\Invoice\InvoiceTemplate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

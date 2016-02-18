@@ -3,13 +3,10 @@ using System.Net.Mail;
 
 public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
-    private readonly SendEmail _sendMailMessage;
     private readonly PasswordRecoveryTokenRepository _tokenRepository;
 
-    public PasswordRecovery(SendEmail sendMailMessage,
-                            PasswordRecoveryTokenRepository tokenRepository)
+    public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository)
     {
-        _sendMailMessage = sendMailMessage;
         _tokenRepository = tokenRepository;
     }
 
@@ -22,7 +19,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
         _tokenRepository.Create(new PasswordRecoveryToken{ Email = email, Token = token });
-        _sendMailMessage.Run(GetMailMessage(email, passwortResetUrl));
+        SendEmail.Run(GetMailMessage(email, passwortResetUrl));
 
         return new PasswordRecoveryResult { Success = true };
     }

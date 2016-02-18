@@ -163,7 +163,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<ValidateEmailConfirmationKey>().InstancePerLifetimeScope();
             builder.RegisterType<RegisterUser>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepo>().InstancePerLifetimeScope();
-            builder.RegisterType<SendEmail>().InstancePerLifetimeScope();
             builder.RegisterType<PersistentLoginRepo>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUiData>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUser>().InstancePerLifetimeScope();
@@ -176,9 +175,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<SampleData>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateStepExecuter>().InstancePerLifetimeScope();
             builder.RegisterType<Update>().InstancePerLifetimeScope();
-            builder.RegisterType<CleanUpWorkInProgressQuestions>().InstancePerLifetimeScope();
-            builder.RegisterType<GameLoop>().InstancePerLifetimeScope();
-            builder.RegisterType<RecalcKnowledgeStati>().InstancePerLifetimeScope();
             builder.RegisterType<ReIndexAllCategories>().InstancePerLifetimeScope();
             builder.RegisterType<SearchIndexCategory>().InstancePerLifetimeScope();
             builder.RegisterType<SearchCategories>().InstancePerLifetimeScope();

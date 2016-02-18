@@ -15,6 +15,8 @@ public class TrainingDateMap : ClassMap<TrainingDate>
             .Cascade.AllDeleteOrphan()
             .Not.KeyNullable();
 
+        Map(x => x.NotificationStatus);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }

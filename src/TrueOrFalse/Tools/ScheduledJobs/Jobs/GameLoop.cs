@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using Autofac;
-using NHibernate;
 using Quartz;
 using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class GameLoop : IJob, IRegisterAsInstancePerLifetime
+    public class GameLoop : IJob
     {
         private GameHubConnection _gameHubConnection;
 

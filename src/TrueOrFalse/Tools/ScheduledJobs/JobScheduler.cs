@@ -22,6 +22,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
+            Schedule_TrainingReminderCheck();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
@@ -47,6 +48,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .WithDailyTimeIntervalSchedule(x => x.StartingDailyAt(new TimeOfDay(2, 00))).Build());
         }
 
+        private static void Schedule_TrainingReminderCheck()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<TrainingReminderCheck>().Build(),
+                TriggerBuilder.Create()
+                    .WithSimpleSchedule(x => 
+                        x.WithIntervalInMinutes(TrainingReminderCheck.IntervalInMinutes
+                    ).RepeatForever()).Build());
+        }
+
+        /// <summary>Start immediately</summary>
         public static void StartCleanupWorkInProgressJob()
         {
             _scheduler.ScheduleJob(
