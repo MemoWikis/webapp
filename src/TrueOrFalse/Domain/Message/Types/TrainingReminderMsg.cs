@@ -11,12 +11,10 @@ public class TrainingReminderMsg
             new TrainingReminderMsgModel {Value1 = "Value1", Value2 = "Value2"}
         );
 
-        SendEmail.Run(new MailMessage(
+        HtmlMessage.Send(new MailMessage(
             Settings.EmailFrom,
             trainingDate.TrainingPlan.Date.User.EmailAddress,
             "Subject",
-            parsedTemplate){
-            IsBodyHtml = true
-        });
+            parsedTemplate));
     }
 }

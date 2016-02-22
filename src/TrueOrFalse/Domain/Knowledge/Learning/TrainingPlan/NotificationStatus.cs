@@ -1,5 +1,5 @@
 ﻿public enum NotificationStatus
 {
-    None,
-    ReminderSend,
+    None = 0,
+    ReminderSend = 1,
 }

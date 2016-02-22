@@ -724,6 +724,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs121.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs120.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs119.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs118.cs" />
@@ -804,9 +805,9 @@
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
     <Compile Include="Web\ViewRenderer.cs" />
-    <None Include="Domain\Message\HtmlMessage\HtmlMessage.cshtml">
+    <Content Include="Domain\Message\HtmlMessage\HtmlMessage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Domain\Message\Types\TrainingReminderMsg.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
