@@ -5,11 +5,13 @@ public class TrainingReminderMsg
 {
     public static void SendHtmlMail(TrainingDate trainingDate)
     {
+        var dateTitle = trainingDate.TrainingPlan.Date.GetTitle();
+
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_TrainingReminder()), 
             new TrainingReminderMsgModel
             {
-                DateName = trainingDate.TrainingPlan.Date.GetTitle(),
+                DateName = dateTitle,
                 QuestionCount = trainingDate.AllQuestionsInTraining.Count.ToString(),
                 TrainingLength = new TimeSpanLabel(trainingDate.TrainingPlan.TimeRemaining).Full
             }
@@ -18,7 +20,7 @@ public class TrainingReminderMsg
         HtmlMessage.Send(new MailMessage2(
             Settings.EmailFrom,
             trainingDate.UserEmail(),
-            "Subject",
+            dateTitle,
             parsedTemplate)
         {UserName = trainingDate.User().Name});
     }

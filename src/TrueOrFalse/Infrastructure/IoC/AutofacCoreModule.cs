@@ -18,6 +18,11 @@ namespace TrueOrFalse.Infrastructure
         {
             RegisterTypes(builder);
 
+            builder.RegisterType<CleanUpWorkInProgressQuestions>().InstancePerLifetimeScope();
+            builder.RegisterType<GameLoop>().InstancePerLifetimeScope();
+            builder.RegisterType<RecalcKnowledgeStati>().InstancePerLifetimeScope();
+            builder.RegisterType<TrainingReminderCheck>().InstancePerLifetimeScope();
+
             try
             {
                 builder.RegisterInstance(SessionFactory.CreateSessionFactory());

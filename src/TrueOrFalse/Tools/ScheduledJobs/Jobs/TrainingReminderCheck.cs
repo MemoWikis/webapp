@@ -10,10 +10,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
             {
-                var trainingDates = scope.R<TrainingDateRepo>().AllPastNotNotified();
+                var trainingDates = scope.R<TrainingDateRepo>().AllDue_InLessThen7Minutes_NotNotified();
 
                 foreach (var trainingDate in trainingDates)
+                {
                     TrainingReminderMsg.SendHtmlMail(trainingDate);
+                    Logg.r().Information("Send training notification to: " + trainingDate.UserEmail());
+                }
+                    
             }
         }
     }

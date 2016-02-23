@@ -8,12 +8,12 @@ public class TrainingDateRepo : RepositoryDbBase<TrainingDate>
     {
     }
 
-    public IList<TrainingDate> AllPastNotNotified()
-    {
+    public IList<TrainingDate> AllDue_InLessThen7Minutes_NotNotified()
+    {   
         return Session
             .QueryOver<TrainingDate>()
             .Where(d =>
-                d.DateTime < DateTime.Now &&
+                d.DateTime < DateTime.Now.AddMinutes(7) &&
                 d.NotificationStatus == NotificationStatus.None
             ).List();
     } 
