@@ -12,10 +12,8 @@ public class TrainingDate : DomainEntity
 
     public virtual NotificationStatus NotificationStatus { get; set; } = NotificationStatus.None;
 
-    public virtual string UserEmail()
-    {
-        return TrainingPlan.Date.User.EmailAddress;
-    }
+    public virtual User User() { return TrainingPlan.Date.User; }
+    public virtual string UserEmail(){ return User().EmailAddress; }
 
     public virtual KnowledgeSummary GetSummaryBefore()
     {

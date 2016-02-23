@@ -1,13 +1,32 @@
-﻿@model TrainingReminderMsgModel
-<!DOCTYPE html>
+﻿<p class="lead">
+    Lernerinnerung für @Model.DateName
+</p>
+<p>
+    Jetzt ist der ideale Zeitpunkt um zu lernen.
+</p>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    @Model.Value1
-    @Model.Value2
-</body>
-</html>
+<table class="row">
+    <tr>
+        <td class="wrapper last">
+            <table class="eleven columns">
+                <tr>
+                    <td class="eleven sub-columns last">
+                        Anzahl Fragen: @Model.QuestionCount <br />
+                        Übungszeit: @Model.TrainingLength <br />
+                    </td>
+                    <td class="expander"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<table class="medium-button" style="width: 230px; margin-top: 15px;">
+    <tbody>
+        <tr>
+            <td>
+                <a href="#">Jetzt üben!</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

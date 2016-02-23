@@ -8,13 +8,19 @@ public class TrainingReminderMsg
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_TrainingReminder()), 
-            new TrainingReminderMsgModel {Value1 = "Value1", Value2 = "Value2"}
+            new TrainingReminderMsgModel
+            {
+                DateName = trainingDate.TrainingPlan.Date.GetTitle(),
+                QuestionCount = trainingDate.AllQuestionsInTraining.Count.ToString(),
+                TrainingLength = new TimeSpanLabel(trainingDate.TrainingPlan.TimeRemaining).Full
+            }
         );
 
-        HtmlMessage.Send(new MailMessage(
+        HtmlMessage.Send(new MailMessage2(
             Settings.EmailFrom,
-            trainingDate.TrainingPlan.Date.User.EmailAddress,
+            trainingDate.UserEmail(),
             "Subject",
-            parsedTemplate));
+            parsedTemplate)
+        {UserName = trainingDate.User().Name});
     }
 }

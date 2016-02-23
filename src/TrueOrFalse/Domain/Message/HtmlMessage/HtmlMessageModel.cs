@@ -1,5 +1,5 @@
 ﻿public class HtmlMessageModel
 {
-    public string Username;
+    public string UserName;
     public string Content;
 }

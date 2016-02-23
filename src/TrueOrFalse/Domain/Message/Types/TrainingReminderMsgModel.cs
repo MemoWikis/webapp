@@ -1,5 +1,6 @@
 ﻿public class TrainingReminderMsgModel
 {
-    public string Value1;
-    public string Value2;
+    public string DateName;
+    public string QuestionCount;
+    public string TrainingLength;
 }
