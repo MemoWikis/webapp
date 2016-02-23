@@ -1,10 +1,9 @@
 ﻿using System.IO;
-using System.Net.Mail;
 using RazorEngine;
 
 public class TrainingReminderMsg
 {
-    public static void Send(TrainingDate trainingDate)
+    public static void SendHtmlMail(TrainingDate trainingDate)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_TrainingReminder()), 

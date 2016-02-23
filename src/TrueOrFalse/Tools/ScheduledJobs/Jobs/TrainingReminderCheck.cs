@@ -13,7 +13,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 var trainingDates = scope.R<TrainingDateRepo>().AllPastNotNotified();
 
                 foreach (var trainingDate in trainingDates)
-                    TrainingReminderMsg.Send(trainingDate);
+                    TrainingReminderMsg.SendHtmlMail(trainingDate);
             }
         }
     }

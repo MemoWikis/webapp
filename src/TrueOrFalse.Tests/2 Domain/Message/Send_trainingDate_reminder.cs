@@ -12,6 +12,6 @@ public class Send_trainingDate_reminder : BaseTest
         var date = new Date {User = user, Details = "Test Termin", Sets = sets };
         var trainingPlan = new TrainingPlan {Date = date};
         var trainingDate = new TrainingDate {TrainingPlan = trainingPlan};
-        TrainingReminderMsg.Send(trainingDate);
+        TrainingReminderMsg.SendHtmlMail(trainingDate);
     }
 }
