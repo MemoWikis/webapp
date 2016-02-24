@@ -404,6 +404,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Logo\LogoPictogram.png" />
+    <Content Include="Images\Logo\LogoSmall.png" />
+    <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />
     <Content Include="Images\no-profile-picture-250.png" />
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />

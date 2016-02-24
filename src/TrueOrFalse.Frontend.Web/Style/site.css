@@ -178,13 +178,15 @@ img {
   }
 }
 #MasterHeader .col-Logo {
-  /*@media (max-width: (@screen-xs-min - 1px)) {
-            width: 70%; padding-right: 0;
-        }
-
-        width: auto;
-        height: 100%;
-        float: left;*/
+  height: 100%;
+  width: auto;
+  float: left;
+}
+@media (max-width: 479px) {
+  #MasterHeader .col-Logo {
+    width: 70%;
+    padding-right: 0;
+  }
 }
 #MasterHeader .col-LoginAndHelp {
   width: auto;
@@ -197,6 +199,70 @@ img {
     padding-left: 0;
     float: right;
   }
+}
+#LogoLink {
+  display: block;
+  height: 100%;
+  width: 255px;
+  overflow-y: visible;
+}
+@media (max-width: 991px) {
+  #LogoLink {
+    width: 245px;
+  }
+}
+@media (max-width: 767px) {
+  #LogoLink {
+    width: 215px;
+  }
+}
+@media (max-width: 479px) {
+  #LogoLink {
+    width: 75px;
+  }
+}
+#Pictogram {
+  float: left;
+  height: 62px;
+  margin-right: 10px;
+  overflow-y: visible;
+  margin-left: -7px;
+}
+@media (max-width: 991px) {
+  #Pictogram {
+    display: none;
+  }
+}
+#Pictogram img {
+  height: 100%;
+  overflow-y: visible;
+  position: relative;
+  z-index: 1000;
+  top: -2px;
+}
+#Wordmark {
+  height: 100%;
+}
+@media (max-width: 479px) {
+  #Wordmark {
+    display: none;
+  }
+}
+#Wordmark img {
+  width: auto;
+  height: 100%;
+}
+#LogoSmall {
+  height: 100%;
+}
+@media (min-width: 480px) {
+  #LogoSmall {
+    display: none;
+  }
+}
+#LogoSmall img {
+  width: auto;
+  height: 100%;
 }
 #loginAndHelp {
   color: #E7ECF6;
@@ -272,6 +338,11 @@ img {
 #loginAndHelp #SupportUs:active,
 #loginAndHelp #SupportUs:focus {
   color: #AFD534;
+}
+@media (max-width: 991px) {
+  #loginAndHelp #SupportUs .TextSpan {
+    display: none;
+  }
 }
 @media (min-width: 480px) {
   #loginAndHelp a.helpLink {
