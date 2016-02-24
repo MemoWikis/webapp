@@ -7,18 +7,12 @@ public class WelcomeController : BaseController
 {
     private readonly RegisterUser _registerUser;
     private readonly CredentialsAreValid _credentialsAreValid;
-    private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
-    private readonly RemovePersistentLoginFromCookie _removePersistentLoginFromCookie;
 
     public WelcomeController(RegisterUser registerUser,
-                             CredentialsAreValid credentialsAreValid,
-                             WritePersistentLoginToCookie writePersistentLoginToCookie,
-                             RemovePersistentLoginFromCookie removePersistentLoginFromCookie)
+                             CredentialsAreValid credentialsAreValid)
     {
         _registerUser = registerUser;
         _credentialsAreValid = credentialsAreValid;
-        _writePersistentLoginToCookie = writePersistentLoginToCookie;
-        _removePersistentLoginFromCookie = removePersistentLoginFromCookie;
     }
     
     public ActionResult Welcome(){
@@ -32,7 +26,7 @@ public class WelcomeController : BaseController
 
     public ActionResult Logout()
     {
-        _removePersistentLoginFromCookie.Run();
+        RemovePersistentLoginFromCookie.Run();
         _sessionUser.Logout();
         return View(new BaseModel());
     }
@@ -43,7 +37,7 @@ public class WelcomeController : BaseController
     public ActionResult Register(RegisterModel model)
     {
 
-        if (!ServiceLocator.R<IsEmailAddressAvailable>().Yes(model.Email))
+        if (!IsEmailAddressAvailable.Yes(model.Email))
             ModelState.AddModelError("Email", "Die Emailadresse ist bereits vergeben.");
 
         if (!ModelState.IsValid)
@@ -74,7 +68,7 @@ public class WelcomeController : BaseController
         {
             if (loginModel.PersistentLogin)
             {
-                _writePersistentLoginToCookie.Run(_credentialsAreValid.User.Id);
+                WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id);
             }
 
             _sessionUser.Login(_credentialsAreValid.User);
@@ -132,7 +126,7 @@ public class WelcomeController : BaseController
     [HttpGet]
     public ActionResult PasswordReset(string id)
     {
-        var result = Sl.Resolve<PasswordResetPrepare>().Run(id);
+        var result = PasswordResetPrepare.Run(id);
         var model = new PasswordResetModel { TokenFound = result.Success, Token = id };
 
         if (result.TokenOlderThan72h)
@@ -157,7 +151,7 @@ public class WelcomeController : BaseController
             return View(model);
         }
 
-        var result = Sl.Resolve<PasswordResetPrepare>().Run(model.Token);
+        var result = PasswordResetPrepare.Run(model.Token);
 
         var userRepo = Sl.Resolve<UserRepo>();
         var user = userRepo.GetByEmail(result.Email);

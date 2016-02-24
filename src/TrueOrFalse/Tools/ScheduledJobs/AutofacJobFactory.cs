@@ -17,7 +17,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
-            return (IJob)_container.Resolve(bundle.JobDetail.JobType);
+            try
+            {
+                return (IJob)_container.Resolve(bundle.JobDetail.JobType);
+            }
+            catch (Exception e)
+            {
+                Logg.r().Error(e, "Error starting Job");
+                throw;
+            }
         }
 
         public void ReturnJob(IJob job)

@@ -11,7 +11,7 @@ public class MainLicenseInfo
 
     public License GetMainLicense()
     {
-        return LicenseRepository.GetById(MainLicenseId);
+        return LicenseRepo.GetById(MainLicenseId);
     }
 
     public string ToJson()

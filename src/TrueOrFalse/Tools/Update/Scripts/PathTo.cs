@@ -18,6 +18,16 @@ public class PathTo
         return GetPath("/Domain/User/Membership/Invoice/InvoiceTemplate.cshtml");
     }
 
+    public static string EmailTemplate()
+    {
+        return GetPath("/Domain/Message/HtmlMessage/HtmlMessage.html");
+    }
+
+    public static string EmailTemplate_TrainingReminder()
+    {
+        return GetPath("/Domain/Message/Types/TrainingReminderMsg.cshtml");
+    }
+
     private static string GetPath(string fileName)
     {
         if (HttpContext.Current != null)

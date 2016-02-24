@@ -6,7 +6,7 @@ using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class RecalcKnowledgeStati : IJob, IRegisterAsInstancePerLifetime
+    public class RecalcKnowledgeStati : IJob
     {
         public void Execute(IJobExecutionContext context)
         {

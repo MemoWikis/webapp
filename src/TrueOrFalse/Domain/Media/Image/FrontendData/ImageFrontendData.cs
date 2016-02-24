@@ -61,7 +61,7 @@ public class ImageFrontendData
                     ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
                 {
                     HasAuthorizedMainLicense = true;
-                    MainLicense = LicenseRepository.GetById(MainLicenseInfo.MainLicenseId);
+                    MainLicense = LicenseRepo.GetById(MainLicenseInfo.MainLicenseId);
                     if (MainLicense != null)
                     {
                         LicenseName = !String.IsNullOrEmpty(MainLicense.LicenseShortName)

@@ -48,11 +48,11 @@
             }
 
             var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'Anteil in %'],
-                ['Sicheres Wissen', <%= Model.KnowledgeSummary.Solid %>],
-                ['Solltest du festigen', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-                ['Solltest du lernen', <%= Model.KnowledgeSummary.NeedsLearning %>],
-                ['Noch nicht gelernt', <%= Model.KnowledgeSummary.NotLearned %>],
+                ['Wissenslevel', 'link', 'Anteil in %'],
+                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
             ]);
 
             var options = {
@@ -69,8 +69,18 @@
                 pieStartAngle: 0
             };
 
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 2]);
+
             var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
-            chart.draw(data, options);
+            chart.draw(view, options);
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                location.href = urlPart;
+            }
         }
 
         function drawKnowledgeChartDate(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {

@@ -283,6 +283,7 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Configuration\TrainingPlanSettings.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\AnswerProbability.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Creation\TrainingPlanUpdater.cs" />
+    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\NotificationStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingDateRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />
@@ -291,7 +292,12 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
+    <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
+    <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
+    <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
+    <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />
+    <Compile Include="Domain\Message\Types\TrainingReminderMsg.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
     <Compile Include="Infrastructure\Time\DateTimeX.cs" />
@@ -378,7 +384,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseApplicability.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseNotifications.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseParser.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseRepository.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseRepo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\Ops\SetImageLicenseStatus.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\ParseMarkupFromDb.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\Markup2Html.cs" />
@@ -395,16 +401,16 @@
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseLoader.cs" />
-    <Compile Include="Domain\Message\BaseSendMessage.cs" />
+    <Compile Include="Domain\Message\Ops\MessageUtils.cs" />
     <Compile Include="Domain\Message\Message.cs" />
     <Compile Include="Domain\Message\Ops\GetUnreadMessageCount.cs" />
     <Compile Include="Domain\Message\Ops\SetMessageRead.cs" />
-    <Compile Include="Domain\Message\SendCommentMsg.cs" />
-    <Compile Include="Domain\Message\SendCustomMsg.cs" />
-    <Compile Include="Domain\Message\SendWelcomeMsg.cs" />
-    <Compile Include="Domain\Message\SendIsNowPrivateMsg.cs" />
+    <Compile Include="Domain\Message\Types\CommentMsg.cs" />
+    <Compile Include="Domain\Message\Types\CustomMsg.cs" />
+    <Compile Include="Domain\Message\Types\WelcomeMsg.cs" />
+    <Compile Include="Domain\Message\Types\IsNowPrivateMsg.cs" />
     <Compile Include="Domain\Message\Persistence\MessageMap.cs" />
-    <Compile Include="Domain\Message\Persistence\MessageRepository.cs" />
+    <Compile Include="Domain\Message\Persistence\MessageRepo.cs" />
     <Compile Include="Domain\Message\Ops\SetMessageUnread.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetTotalSetCount.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateQuestionCountForCategory.cs" />
@@ -679,7 +685,7 @@
     <Compile Include="Infrastructure\Login\Model\Ops\LoginFromCookie.cs" />
     <Compile Include="Infrastructure\Login\Model\PersistentLogin.cs" />
     <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginMap.cs" />
-    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepository.cs" />
+    <Compile Include="Infrastructure\Login\Model\Persistence\PersistentLoginRepo.cs" />
     <Compile Include="Infrastructure\Persistence\Constants.cs" />
     <Compile Include="Infrastructure\Persistence\ExecuteSqlFile.cs" />
     <Compile Include="Infrastructure\Persistence\Schema\DropTable.cs" />
@@ -715,8 +721,11 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs121.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs120.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs119.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs118.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs117.cs" />
@@ -796,6 +805,12 @@
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
     <Compile Include="Web\ViewRenderer.cs" />
+    <Content Include="Domain\Message\HtmlMessage\HtmlMessage.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Domain\Message\Types\TrainingReminderMsg.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Domain\User\Membership\Invoice\InvoiceTemplate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

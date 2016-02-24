@@ -18,6 +18,11 @@ namespace TrueOrFalse.Infrastructure
         {
             RegisterTypes(builder);
 
+            builder.RegisterType<CleanUpWorkInProgressQuestions>().InstancePerLifetimeScope();
+            builder.RegisterType<GameLoop>().InstancePerLifetimeScope();
+            builder.RegisterType<RecalcKnowledgeStati>().InstancePerLifetimeScope();
+            builder.RegisterType<TrainingReminderCheck>().InstancePerLifetimeScope();
+
             try
             {
                 builder.RegisterInstance(SessionFactory.CreateSessionFactory());
@@ -98,14 +103,10 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<LearningSessionStep>().InstancePerLifetimeScope();
             builder.RegisterType<LearningSessionRepo>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateImageTypes>().InstancePerLifetimeScope();
-            builder.RegisterType<LicenseRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<LicenseRepo>().InstancePerLifetimeScope();
             builder.RegisterType<GetUnreadMessageCount>().InstancePerLifetimeScope();
             builder.RegisterType<SetMessageRead>().InstancePerLifetimeScope();
-            builder.RegisterType<SendCommentMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<SendCustomMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<SendWelcomeMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<SendIsNowPrivateMsg>().InstancePerLifetimeScope();
-            builder.RegisterType<MessageRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageRepo>().InstancePerLifetimeScope();
             builder.RegisterType<SetMessageUnread>().InstancePerLifetimeScope();
             builder.RegisterType<GetTotalSetCount>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateQuestionCountForCategory>().InstancePerLifetimeScope();
@@ -156,7 +157,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<MembershipRepo>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordRecovery>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordReset>().InstancePerLifetimeScope();
-            builder.RegisterType<PasswordResetPrepare>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordRecoveryTokenRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UserSummary>().InstancePerLifetimeScope();
             builder.RegisterType<TotalFollowers>().InstancePerLifetimeScope();
@@ -165,21 +165,10 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<AnswerQuestion>().InstancePerLifetimeScope();
             builder.RegisterType<QuestionRepo>().InstancePerLifetimeScope();
             builder.RegisterType<CredentialsAreValid>().InstancePerLifetimeScope();
-            builder.RegisterType<CreateEmailConfirmationLink>().InstancePerLifetimeScope();
             builder.RegisterType<ValidateEmailConfirmationKey>().InstancePerLifetimeScope();
             builder.RegisterType<RegisterUser>().InstancePerLifetimeScope();
-            builder.RegisterType<IsEmailAddressAvailable>().InstancePerLifetimeScope();
-            builder.RegisterType<SendRegistrationEmail>().InstancePerLifetimeScope();
             builder.RegisterType<UserRepo>().InstancePerLifetimeScope();
-            builder.RegisterType<IsValdidPassword>().InstancePerLifetimeScope();
-            builder.RegisterType<SendEmail>().InstancePerLifetimeScope();
-            builder.RegisterType<GetPersistentLoginCookieValues>().InstancePerLifetimeScope();
-            builder.RegisterType<RemovePersistentLoginFromCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<WritePersistentLoginToCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<CreatePersistentLogin>().InstancePerLifetimeScope();
-            builder.RegisterType<LoginFromCookie>().InstancePerLifetimeScope();
-            builder.RegisterType<PersistentLoginRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<ExecuteSqlFile>().InstancePerLifetimeScope();
+            builder.RegisterType<PersistentLoginRepo>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUiData>().InstancePerLifetimeScope();
             builder.RegisterType<SessionUser>().InstancePerLifetimeScope();
             builder.RegisterType<GetImageMaintenanceInfos>().InstancePerLifetimeScope();
@@ -191,9 +180,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<SampleData>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateStepExecuter>().InstancePerLifetimeScope();
             builder.RegisterType<Update>().InstancePerLifetimeScope();
-            builder.RegisterType<CleanUpWorkInProgressQuestions>().InstancePerLifetimeScope();
-            builder.RegisterType<GameLoop>().InstancePerLifetimeScope();
-            builder.RegisterType<RecalcKnowledgeStati>().InstancePerLifetimeScope();
             builder.RegisterType<ReIndexAllCategories>().InstancePerLifetimeScope();
             builder.RegisterType<SearchIndexCategory>().InstancePerLifetimeScope();
             builder.RegisterType<SearchCategories>().InstancePerLifetimeScope();

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web;
 
-public class GetPersistentLoginCookieValues : IRegisterAsInstancePerLifetime
+public class GetPersistentLoginCookieValues
 {
-    public GetPersistentLoginCookieValuesResult Run()
+    public static GetPersistentLoginCookieValuesResult Run()
     {
         var cookie = HttpContext.Current.Request.Cookies.Get(Settings.MemuchoCookie);
 

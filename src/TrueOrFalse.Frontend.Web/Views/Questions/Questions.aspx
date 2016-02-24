@@ -188,19 +188,21 @@
                                 <i class="fa fa-cloud-download"></i>
                             </a>
                             
-                            <% if(Model.ActiveTabWish) { %>
+                            <% if(Model.ActiveTabWish) { 
+                                   var summary = Model.KnowledgeSummary;
+                            %>
                                 <div style="display: inline-block" id="StatusFilterBar">
                                     <span style="<%= KnowledgeStatus.Solid.GetColorBgCss()%>">
-                                        <label><input type="checkbox" id="ckbFilterSolid"/> 10 Sicher</label>
+                                        <label><input type="checkbox" id="ckbFilterSolid" <%= Model.SearchFilter.Knowledge_Solid ? "checked" : "" %> /> <%= summary.Solid %> Sicher</label>
                                     </span>
                                     <span style="<%= KnowledgeStatus.NeedsConsolidation.GetColorBgCss()%>">
-                                        <label><input type="checkbox" id="ckbFilterConsolidation" /> 1 festigen</label>
+                                        <label><input type="checkbox" id="ckbFilterConsolidation" <%= Model.SearchFilter.Knowledge_ShouldConsolidate ? "checked" : "" %> /> <%= summary.NeedsConsolidation %> festigen</label>
                                     </span>
                                     <span style="<%= KnowledgeStatus.NeedsLearning.GetColorBgCss()%>">
-                                        <label><input type="checkbox" id="ckbFilterNeedsLearning" /> 12 lernen</label>
+                                        <label><input type="checkbox" id="ckbFilterNeedsLearning" <%= Model.SearchFilter.Knowledge_ShouldLearn ? "checked" : "" %> /> <%= summary.NeedsLearning %> lernen</label>
                                     </span>
                                     <span style="<%= KnowledgeStatus.NotLearned.GetColorBgCss()%>">
-                                        <label style="padding-right: 10px;" id="ckbFilterNotLearned"><input type="checkbox" /> 74 Nicht gelernt </label>
+                                        <label style="padding-right: 10px;"><input type="checkbox" id="ckbFilterNotLearned" <%= Model.SearchFilter.Knowledge_None ? "checked" : "" %> /> <%= summary.NotLearned %> Nicht gelernt </label>
                                     </span>
                                 </div>
                             <% } %>

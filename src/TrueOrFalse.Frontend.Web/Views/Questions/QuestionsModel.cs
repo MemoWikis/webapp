@@ -11,6 +11,7 @@ public class QuestionsModel : BaseModel
     public string SearchTerm { get; set; }
     public string SearchUrl { get; set; }
     public string SearchTab;
+    public QuestionFilter SearchFilter;
     public IList<Category> FilteredCategories = new List<Category>();
 
     public int TotalWishKnowledge;
@@ -33,6 +34,8 @@ public class QuestionsModel : BaseModel
     public bool NotAllowed;
 
     public QuestionsSearchResultModel SearchResultModel;
+
+    public KnowledgeSummary KnowledgeSummary;
 
     public QuestionsModel(){
         QuestionRows = Enumerable.Empty<QuestionRowModel>();
@@ -81,7 +84,7 @@ public class QuestionsModel : BaseModel
 
         if (searchTab == SearchTabType.All){
             Pager.Action = Action = Links.Questions;
-            SearchUrl = "/Fragen/Suche";
+            SearchUrl = "/Fragen/Suche"; 
         }else if (searchTab == SearchTabType.Wish){
             Pager.Action = Action = Links.QuestionsWishAction;
             SearchUrl = "/Fragen/Wunschwissen/Suche";
@@ -100,5 +103,9 @@ public class QuestionsModel : BaseModel
                                     .ToList();
 
         SearchResultModel = new QuestionsSearchResultModel(this);
+        SearchFilter = questionSearchSpec.Filter;
+
+        if (ActiveTabWish)
+            KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
     }
 }

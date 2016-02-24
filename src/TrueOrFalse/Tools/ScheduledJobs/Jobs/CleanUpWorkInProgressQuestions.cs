@@ -6,7 +6,7 @@ using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class CleanUpWorkInProgressQuestions : IJob, IRegisterAsInstancePerLifetime
+    public class CleanUpWorkInProgressQuestions : IJob
     {
         public void Execute(IJobExecutionContext context)
         {

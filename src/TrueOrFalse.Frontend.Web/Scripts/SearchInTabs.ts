@@ -43,7 +43,7 @@
             data: {
                 searchTerm: $('#txtSearch').val(),
                 categories: this._categories, 
-                knowledgeFilter: this._knowledgeFilter
+                knowledgeFilter: JSON.stringify(this._knowledgeFilter) 
             },
             traditional: true,
             type: 'json',

@@ -231,6 +231,7 @@
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
     <Compile Include="2 Domain\Knowledge\Learning\LearningSession_persistence.cs" />
     <Compile Include="2 Domain\Message\Message_persistence.cs" />
+    <Compile Include="2 Domain\Message\Send_trainingDate_reminder.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerDate_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerText_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_get_following_answer.cs" />

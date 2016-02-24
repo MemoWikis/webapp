@@ -1,12 +1,6 @@
-﻿public class IsEmailAddressAvailable : IRegisterAsInstancePerLifetime
+﻿public class IsEmailAddressAvailable
 {
-    private readonly UserRepo _userRepo;
-
-    public IsEmailAddressAvailable(UserRepo userRepo){
-        _userRepo = userRepo;
-    }
-
-    public bool Yes(string emailAddress){
-        return _userRepo.GetByEmail(emailAddress) == null;
+    public static bool Yes(string emailAddress){
+        return Sl.R<UserRepo>().GetByEmail(emailAddress) == null;
     }
 }
