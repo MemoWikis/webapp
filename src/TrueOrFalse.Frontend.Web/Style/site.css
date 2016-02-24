@@ -292,7 +292,7 @@ img {
   height: 30px;
   width: 30px;
   margin-left: 1px;
-  border: 1px solid #2e487b;
+  border: 1px solid #003264;
   border-radius: 4px;
 }
 #loginAndHelp a:hover .userImage,
@@ -1016,7 +1016,7 @@ a.button span.ui-icon {
 .label {
   border: 2px solid;
   border-radius: 4px;
-  color: #2e487b;
+  color: #003264;
   display: inline-block;
   margin-bottom: 5px;
 }
@@ -1321,7 +1321,7 @@ ul.show-tooltip-ul {
 /* $ToDo: Clean up
 ----------------------------------------------------------*/
 .dark-blue {
-  color: #2e487b;
+  color: #003264;
 }
 /*Fonts*/
 h1,
