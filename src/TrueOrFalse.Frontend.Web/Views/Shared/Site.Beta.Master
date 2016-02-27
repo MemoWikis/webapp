@@ -43,26 +43,7 @@
         }
         
     </style>
-<%--    <header id="MasterHeader" style="max-height: 100px;" class="<%= GetRandomLogoCssClass.Run() %>">--%>
-    <header id="MasterHeader" style="max-height: 100px;" class="Logo8">
-        <div id="HeaderBackground"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row HeaderMainRow">
-                        <div class="col-xs-12 col-title">
-                            <a class="block title" href="/">
-                                <h1><span id="m">m</span>em<span id="uch"><span>u</span><span>c</span><span>h</span></span>o<span id="logo"></span></h1>
-                                <img id="memo" src="/Images/Memo.png" />
-                                
-                                <h1 style="padding-left: 115px; font-size: 13px; color:#e7ecf6">Lernplattform in privater Betaphase</h1>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>    
+        <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
     
         <section id="MasterSection">
         <div id="MasterSectionBackgroundLayer" class="MasterSectionBackgroundLayer">
