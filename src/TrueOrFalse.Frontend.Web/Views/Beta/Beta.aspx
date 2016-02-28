@@ -102,6 +102,16 @@
 
         </div>
     </div>
+    
+    <div class="row">
+        <div class="Survey well col-md-8 col-md-offset-2">
+            <p class="" style="font-weight: bold">Mach mit bei unserer kleinen Umfrage!</p>
+            <p>
+                Es dauert nur 5 Minuten und du hilfst uns dabei, memucho besser zu machen:<br/>
+                <a href="http://www.memucho.de/umfrage/LRyB9p" target="_blank">http://www.memucho.de/umfrage/LRyB9p</a>
+            </p>
+        </div>
+    </div>
 
     <div class="row">
         <div class="well col-md-8 col-md-offset-2" style="background-color: whitesmoke; ">

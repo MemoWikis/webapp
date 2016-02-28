@@ -4,6 +4,9 @@
 #MenuButton {
   display: none;
 }
+.Survey {
+  background-color: #c0de5e !important;
+}
 hr.star-light,
 hr.star-primary {
   margin: 25px auto 30px;
