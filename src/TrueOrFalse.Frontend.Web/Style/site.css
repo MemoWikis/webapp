@@ -59,6 +59,8 @@ a {
 a:hover {
   color: #2C5FB2;
 }
+@media (max-width: 767px) {
+}
 a.TextLink:hover {
   text-decoration: underline;
 }
@@ -152,43 +154,10 @@ img {
   margin: 0;
   width: 100%;
   max-height: 50px;
-  background-color: #2e487b;
-  background: #2e487b;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e487b), color-stop(100%, #2c5fb2));
-  /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #2e487b 0%, #2c5fb2 100%);
-  /* IE10+ */
-  background: linear-gradient(to bottom, #2e487b 0%, #2c5fb2 100%);
-  /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2c5fb2', GradientType=0);
-  /* IE6-9 */
-}
-@media disabled {
-  #MasterHeader {
-    background: #2e487b;
-    /* Old browsers */
-    background: -moz-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-    /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2e487b), color-stop(100%, #2d5599));
-    /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-    /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-    /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #2e487b 0%, #2d5599 100%);
-    /* IE10+ */
-    background: linear-gradient(to bottom, #2e487b 0%, #2d5599 100%);
-    /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2e487b', endColorstr='#2d5599', GradientType=0);
-    /* IE6-9 */
-  }
+  background-image: -webkit-linear-gradient(top, #003264 0%, #1964c8 100%);
+  background-image: linear-gradient(to bottom, #003264 0%, #1964c8 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff003264', endColorstr='#ff1964c8', GradientType=0);
 }
 #MasterHeader .HeaderMainRow {
   height: 34px;
@@ -208,73 +177,15 @@ img {
     margin-bottom: 6px;
   }
 }
-#MasterHeader .col-title {
-  width: auto;
+#MasterHeader .col-Logo {
   height: 100%;
+  width: auto;
   float: left;
 }
 @media (max-width: 479px) {
-  #MasterHeader .col-title {
+  #MasterHeader .col-Logo {
     width: 70%;
     padding-right: 0;
-  }
-}
-#MasterHeader a.title {
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  position: relative;
-  top: 1px;
-}
-@media (min-width: 768px) {
-  #MasterHeader a.title {
-    top: 0;
-  }
-}
-#MasterHeader a.title:hover {
-  text-decoration: none;
-}
-#MasterHeader h1 {
-  margin: 0;
-  border: none;
-  display: inline-block;
-  height: 100%;
-  background: none;
-  position: relative;
-  padding-left: 0;
-  -webkit-text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-  text-shadow: rgba(0, 0, 0, 0.5) 1px 1px 1px;
-  line-height: 34px;
-  color: #AFD534;
-}
-#MasterHeader h1:hover {
-  -webkit-text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
-  text-shadow: rgba(0, 0, 0, 0.5) 3px 1px 1px;
-}
-#MasterHeader span#logo {
-  display: inline-block;
-  background-image: url('/images/toflogo.png');
-  background-position: center;
-  background-color: #E7ECF6;
-  width: 64px;
-  height: 64px;
-  -moz-background-size: 86%;
-  -o-background-size: 86%;
-  -webkit-background-size: 86%;
-  background-size: 86%;
-  background-repeat: no-repeat;
-  border-radius: 32px;
-  position: absolute;
-  top: 3px;
-  left: 200px;
-  border: solid 2px #2e487b;
-  z-index: 101;
-  box-shadow: rgba(100, 129, 175, 0.5) 1px 1px 2px;
-  display: none;
-}
-@media (min-width: 992px) {
-  #MasterHeader span#logo {
-    display: block;
   }
 }
 #MasterHeader .col-LoginAndHelp {
@@ -289,19 +200,69 @@ img {
     float: right;
   }
 }
-#MasterHeader span#logo {
-  background-image: url('/images/memo_liegend_bearbeitet4.png');
-  background-size: 83% !important;
-  -moz-transition: background-size 0.2s ease-in;
-  -o-transition: background-size 0.2s ease-in;
-  -webkit-transition: background-size 0.2s ease-in;
-  transition: background-size 0.2s ease-in;
+#LogoLink {
+  display: block;
+  height: 100%;
+  width: 255px;
+  overflow-y: visible;
 }
-#MasterHeader span#logo:hover {
-  background-size: 100% !important;
+@media (max-width: 991px) {
+  #LogoLink {
+    width: 245px;
+  }
 }
-#memo {
-  display: none;
+@media (max-width: 767px) {
+  #LogoLink {
+    width: 215px;
+  }
+}
+@media (max-width: 479px) {
+  #LogoLink {
+    width: 75px;
+  }
+}
+#Pictogram {
+  float: left;
+  height: 62px;
+  margin-right: 10px;
+  overflow-y: visible;
+  margin-left: -7px;
+}
+@media (max-width: 991px) {
+  #Pictogram {
+    display: none;
+  }
+}
+#Pictogram img {
+  height: 100%;
+  overflow-y: visible;
+  position: relative;
+  z-index: 1000;
+  top: -2px;
+}
+#Wordmark {
+  height: 100%;
+}
+@media (max-width: 479px) {
+  #Wordmark {
+    display: none;
+  }
+}
+#Wordmark img {
+  width: auto;
+  height: 100%;
+}
+#LogoSmall {
+  height: 100%;
+}
+@media (min-width: 480px) {
+  #LogoSmall {
+    display: none;
+  }
+}
+#LogoSmall img {
+  width: auto;
+  height: 100%;
 }
 #loginAndHelp {
   color: #E7ECF6;
@@ -378,6 +339,11 @@ img {
 #loginAndHelp #SupportUs:focus {
   color: #AFD534;
 }
+@media (max-width: 991px) {
+  #loginAndHelp #SupportUs .TextSpan {
+    display: none;
+  }
+}
 @media (min-width: 480px) {
   #loginAndHelp a.helpLink {
     margin-right: 5px;
@@ -397,7 +363,7 @@ img {
   height: 30px;
   width: 30px;
   margin-left: 1px;
-  border: 1px solid #2e487b;
+  border: 1px solid #003264;
   border-radius: 4px;
 }
 #loginAndHelp a:hover .userImage,
@@ -1121,7 +1087,7 @@ a.button span.ui-icon {
 .label {
   border: 2px solid;
   border-radius: 4px;
-  color: #2e487b;
+  color: #003264;
   display: inline-block;
   margin-bottom: 5px;
 }
@@ -1426,7 +1392,7 @@ ul.show-tooltip-ul {
 /* $ToDo: Clean up
 ----------------------------------------------------------*/
 .dark-blue {
-  color: #2e487b;
+  color: #003264;
 }
 /*Fonts*/
 h1,

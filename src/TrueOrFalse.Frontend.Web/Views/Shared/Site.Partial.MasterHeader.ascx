@@ -1,16 +1,23 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl"  %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<header id="MasterHeader" class="<%= GetRandomLogoCssClass.Run() %>">
+<header id="MasterHeader">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="row HeaderMainRow">
-                    <div class="col-xs-6 col-title">
+                    <div class="col-xs-6 col-Logo">
                         <a id="MenuButton"><i class="fa fa-bars"></i><span class="caret"></span></a>
-                        <a class="block title" href="/">
-                            <h1><span id="m">m</span>em<span id="uch"><span>u</span><span>c</span><span>h</span></span>o<span id="logo"></span></h1>
-                            <img id="memo" src="/Images/Memo.png" />
+                        <a id="LogoLink" href="/">
+                            <div id="Pictogram">
+                                <img src="/Images/Logo/LogoPictogram.png">
+                            </div>
+                            <div id="Wordmark">
+                                <img src="/Images/Logo/LogoWordmarkWithTagline.png">
+                            </div>
+                            <div id="LogoSmall">
+                                <img src="/Images/Logo/LogoSmall.png">
+                            </div>
                         </a>
                     </div>
                     <div class="col-xs-6 col-LoginAndHelp">

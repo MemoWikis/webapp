@@ -1,4 +1,13 @@
-﻿hr.star-light,
+﻿.col-LoginAndHelp {
+  display: none;
+}
+#MenuButton {
+  display: none;
+}
+.Survey {
+  background-color: #c0de5e !important;
+}
+hr.star-light,
 hr.star-primary {
   margin: 25px auto 30px;
   padding: 0;
@@ -34,4 +43,3 @@ hr.star-primary:after {
 .shake {
   display: inline-block;
 }
-/*# sourceMappingURL=Beta.css.map */
