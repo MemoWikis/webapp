@@ -11,30 +11,21 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private GameHubConnection _gameHubConnection;
 
         public void Execute(IJobExecutionContext context)
-        { 
-            var watch = Stopwatch.StartNew();
-            try
+        {
+            JobExecute.Run(scope => 
             {
-                using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+                var watch = Stopwatch.StartNew();
+
+                var gameRepo = scope.Resolve<GameRepo>();
+                using (_gameHubConnection = scope.Resolve<GameHubConnection>())
                 {
-                    Settings.UseWebConfig = true;
+                    ProcessOverdueGames(gameRepo, scope);
+                    ProcessRunningGames(gameRepo);
 
-                    var gameRepo = scope.Resolve<GameRepo>();
-                    using (_gameHubConnection = scope.Resolve<GameHubConnection>())
-                    {
-                        ProcessOverdueGames(gameRepo, scope);
-                        ProcessRunningGames(gameRepo);
-
-                        gameRepo.Flush();
-                        Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
-                    }
+                    gameRepo.Flush();
+                    Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
                 }
-            }
-            catch (Exception e)
-            {
-                Logg.r().Error(e, "Job error");
-                (new RollbarClient()).SendException(e);
-            }
+            });
         }
 
         private void ProcessOverdueGames(GameRepo gameRepo, ILifetimeScope scope)

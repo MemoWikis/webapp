@@ -717,6 +717,7 @@
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tools\ScheduledJobs\AutofacJobFactory.cs" />
+    <Compile Include="Tools\ScheduledJobs\JobExecute.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeStati.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />

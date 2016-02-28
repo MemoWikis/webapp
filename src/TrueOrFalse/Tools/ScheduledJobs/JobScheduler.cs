@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using System;
+using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 
@@ -57,11 +58,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     ).RepeatForever()).Build());
         }
 
-        /// <summary>Start immediately</summary>
-        public static void StartCleanupWorkInProgressJob()
+        public static void StartImmediatly_TrainingReminderCheck() { StartImmediatly<TrainingReminderCheck>(); }
+        public static void StartImmediatly_CleanUpWorkInProgressQuestions() { StartImmediatly<CleanUpWorkInProgressQuestions>(); }
+
+        public static void StartImmediatly<TypeToStart>() where TypeToStart : IJob
         {
             _scheduler.ScheduleJob(
-                JobBuilder.Create<CleanUpWorkInProgressQuestions>().Build(),
+                JobBuilder.Create<TypeToStart>().Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
     }

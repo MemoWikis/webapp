@@ -8,7 +8,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         public void Execute(IJobExecutionContext context)
         {
-            using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+            JobExecute.Run(scope => 
             {
                 var trainingDates = scope.R<TrainingDateRepo>().AllDue_InLessThen7Minutes_NotNotified();
 
@@ -17,8 +17,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     TrainingReminderMsg.SendHtmlMail(trainingDate);
                     Logg.r().Information("Send training notification to: " + trainingDate.UserEmail());
                 }
-                    
-            }
+            });
         }
     }
 }
