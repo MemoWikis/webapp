@@ -41,12 +41,12 @@ namespace TrueOrFalse.Frontend.Web
             
             JobScheduler.Start();
 
-            Logg.r().Information("Application Start");
+            Logg.r().Information("=== Application Start ===============================");
         }
 
         protected void Application_Stop()
         {
-            Logg.r().Information("Application Stop");
+            Logg.r().Information("=== Application Stop ===============================");
         }
 
         private void Application_BeginRequest()
