@@ -11,8 +11,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                Logg.r().Information("Job start: {Job}", "CleanUpWorkInProgressQuestions ");
-
                 var questions = scope.Resolve<ISession>().QueryOver<Question>()
                     .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
                     .List<Question>();
@@ -22,7 +20,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var question in questions)
                     questionRepo.Delete(question);
 
-                Logg.r().Information("Job end: {Job} {amountOfDeletedQuestions}", "CleanUpWorkInProgressQuestions", questions.Count);
+                Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
             });
         }
     }

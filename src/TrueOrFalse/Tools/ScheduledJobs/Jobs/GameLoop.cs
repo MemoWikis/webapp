@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Autofac;
 using Quartz;
-using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -25,7 +24,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     gameRepo.Flush();
                     Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
                 }
-            });
+            }, writeLog:false);
         }
 
         private void ProcessOverdueGames(GameRepo gameRepo, ILifetimeScope scope)
