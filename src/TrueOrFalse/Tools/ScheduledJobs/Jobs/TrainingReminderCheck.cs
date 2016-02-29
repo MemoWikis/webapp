@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using NHibernate;
+using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -16,6 +17,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     TrainingReminderMsg.SendHtmlMail(trainingDate);
                     Logg.r().Information("Send training notification to: " + trainingDate.UserEmail());
+
+                    trainingDate.NotificationStatus = NotificationStatus.ReminderSend;
+                    scope.R<ISession>().Update(trainingDate);
                 }
             }, "TrainingReminderCheck");
         }
