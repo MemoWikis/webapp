@@ -6,7 +6,8 @@ public class TrainingDateMap : ClassMap<TrainingDate>
     {
         Id(x => x.Id);
 
-        HasOne(x => x.TrainingPlan).Cascade.None();
+        References(x => x.TrainingPlan)
+            .Cascade.None().ReadOnly();
 
         Map(x => x.DateTime);
 
