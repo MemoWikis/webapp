@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Reflection;
 using Autofac;
 using RollbarSharp;
 
 public class JobExecute
 {
+    [ThreadStatic]
+    public static bool CodeIsRunningInsideAJob;
+
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {
         try
         {
+            CodeIsRunningInsideAJob = true;
+
             Settings.UseWebConfig = true;
             using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
             {

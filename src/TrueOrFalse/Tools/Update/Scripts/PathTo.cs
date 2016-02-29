@@ -33,7 +33,10 @@ public class PathTo
         if (HttpContext.Current != null)
             return HttpContext.Current.Server.MapPath("bin/" + fileName);
 
-        return AppDomain.CurrentDomain.BaseDirectory + fileName;        
+        if(JobExecute.CodeIsRunningInsideAJob)
+            return AppDomain.CurrentDomain.BaseDirectory + "bin/" + fileName;
+
+        return AppDomain.CurrentDomain.BaseDirectory + fileName;
     }
 }
 
