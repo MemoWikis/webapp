@@ -6,12 +6,10 @@ using RollbarSharp;
 
 public class JobExecute
 {
-    public static void Run(Action<ILifetimeScope> action, bool writeLog = true)
+    public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {
         try
         {
-            var jobName = action.GetMethodInfo().DeclaringType?.Name;
-
             Settings.UseWebConfig = true;
             using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
             {

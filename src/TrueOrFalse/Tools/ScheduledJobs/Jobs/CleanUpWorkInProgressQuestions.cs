@@ -21,7 +21,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     questionRepo.Delete(question);
 
                 Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
-            });
+            }, "CleanUpWorkInProgressQuestions");
         }
     }
 }

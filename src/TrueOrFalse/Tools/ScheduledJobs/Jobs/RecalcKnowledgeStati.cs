@@ -11,7 +11,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 foreach (var user in scope.Resolve<UserRepo>().GetAll())
                     scope.Resolve<ProbabilityUpdate_Valuation>().Run(user.Id);
-            });
+            }, "RecalcKnowledgeStati");
         }
     }
 }

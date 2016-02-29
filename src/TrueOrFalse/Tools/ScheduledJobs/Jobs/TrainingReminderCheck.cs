@@ -17,7 +17,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     TrainingReminderMsg.SendHtmlMail(trainingDate);
                     Logg.r().Information("Send training notification to: " + trainingDate.UserEmail());
                 }
-            });
+            }, "TrainingReminderCheck");
         }
     }
 }

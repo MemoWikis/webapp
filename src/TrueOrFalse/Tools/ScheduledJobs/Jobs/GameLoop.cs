@@ -24,7 +24,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     gameRepo.Flush();
                     Logg.r().Information("GameLoop iteration: {TimeElapsed} {Now}", watch.Elapsed, DateTime.Now);
                 }
-            }, writeLog:false);
+            }, "GameLoop", writeLog:false);
         }
 
         private void ProcessOverdueGames(GameRepo gameRepo, ILifetimeScope scope)
