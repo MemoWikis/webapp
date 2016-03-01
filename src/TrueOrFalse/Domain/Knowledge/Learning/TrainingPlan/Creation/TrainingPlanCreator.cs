@@ -23,7 +23,7 @@ public class TrainingPlanCreator
                     {
                         User = date.User,
                         Question = q,
-                        CalculatedProbability = 90 /*Do: get real number..*/,
+                        CalculatedProbability = 90 /*ASANA_95675374655141: Do: get real number..*/,
                         CalculatedAt = DateTimeX.Now(),
                         History = answerRepo.GetByQuestion(q.Id, date.User.Id)
                     })
@@ -49,14 +49,14 @@ public class TrainingPlanCreator
             if (settings.IsInSnoozePeriod(nextDateProposal))
                 continue;
 
-            AddDate(settings, nextDateProposal, answerProbabilities, learningDates);
-            nextDateProposal = nextDateProposal.AddMinutes(settings.SpacingBetweenSessionsInMinutes);
+            if(TryAddDate(settings, nextDateProposal, answerProbabilities, learningDates))
+                nextDateProposal = nextDateProposal.AddMinutes(settings.SpacingBetweenSessionsInMinutes);
         }
 
         return learningDates;
     }
 
-    private static void AddDate(
+    private static bool TryAddDate(
         TrainingPlanSettings settings,
         DateTime dateTime,
         List<AnswerProbability> answerProbabilities,
@@ -68,36 +68,37 @@ public class TrainingPlanCreator
 
         var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < 90);
 
-        if (applicableCount >= settings.QuestionsPerDate_Minimum)
+        if (applicableCount < settings.QuestionsPerDate_Minimum)
+            return false;
+
+        var trainingDate = new TrainingDate{DateTime = dateTime};
+        learningDates.Add(trainingDate);
+
+        trainingDate.AllQuestions =
+            answerProbabilites
+                .Select(x => new TrainingQuestion
+                {
+                    Question = x.Question,
+                    ProbBefore = x.CalculatedProbability,
+                    ProbAfter = x.CalculatedProbability
+                })
+                .ToList();
+
+        for (int i = 0; i < applicableCount; i++)
         {
-            var trainingDate = new TrainingDate{DateTime = dateTime};
-            learningDates.Add(trainingDate);
+            var trainingQuestion = trainingDate.AllQuestions[i];
+            trainingQuestion.IsInTraining = true;
+            /*directly after training the probability is almost 100%!*/
+            trainingQuestion.ProbAfter = 99;
 
-            trainingDate.AllQuestions =
-                answerProbabilites
-                    .Select(x => new TrainingQuestion
-                    {
-                        Question = x.Question,
-                        ProbBefore = x.CalculatedProbability,
-                        ProbAfter = x.CalculatedProbability
-                    })
-                    .ToList();
+            answerProbabilities
+                .By(trainingQuestion.Question.Id)
+                .SetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime);
 
-            for (int i = 0; i < applicableCount; i++)
-            {
-                var trainingQuestion = trainingDate.AllQuestions[i];
-                trainingQuestion.IsInTraining = true;
-                /*directly after training the probability is almost 100%!*/
-                trainingQuestion.ProbAfter = 99;
-
-                answerProbabilities
-                    .By(trainingQuestion.Question.Id)
-                    .SetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime);
-
-                if (settings.QuestionsPerDate_IdealAmount < i)
-                    break;
-            }
+            if (settings.QuestionsPerDate_IdealAmount < i)
+                break;
         }
+        return true;
     }
 
     private static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
