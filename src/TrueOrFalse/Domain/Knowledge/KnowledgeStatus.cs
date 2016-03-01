@@ -35,7 +35,7 @@ public static class KnowledgeStatusExt
             case KnowledgeStatus.NotLearned: return "Nicht gelernt";
             case KnowledgeStatus.NeedsLearning: return "Zu lernen";
             case KnowledgeStatus.NeedsConsolidation: return "Zu festigen";
-            case KnowledgeStatus.Solid: return "Sicher gewust";
+            case KnowledgeStatus.Solid: return "Sicher gewusst";
         }
 
         throw new Exception("unknown status");
