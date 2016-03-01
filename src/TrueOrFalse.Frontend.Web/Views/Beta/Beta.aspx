@@ -27,7 +27,8 @@
                     <div class="col-sm-5 col-md-4 form-group">
                         <input type="password" class="form-control col-sm-6"
                             id="txtBetaCode" placeholder="Beta-Code" 
-                            style="font-size: 18px; width: 100% !important">
+                            style="font-size: 18px; width: 100% !important; display: block; margin-bottom: 5px;">
+                        <a href="#txtEmailRequester" style="font-size: 12px; display: block; text-align: left; margin-left: 5px;">Zugang anfragen</a>
                     </div>
                     <div class="col-sm-2">
                         <a class="btn btn-success shake" href="#" style="font-size: 18px;" id="btnEnter">
@@ -107,8 +108,10 @@
         <div class="Survey well col-md-8 col-md-offset-2">
             <p class="" style="font-weight: bold">Mach mit bei unserer kleinen Umfrage!</p>
             <p>
-                Es dauert nur 5 Minuten und du hilfst uns dabei, memucho besser zu machen:<br/>
-                <a href="http://www.memucho.de/umfrage/LRyB9p" target="_blank">http://www.memucho.de/umfrage/LRyB9p</a>
+                Es dauert nur 5 Minuten und du hilfst uns dabei, memucho besser zu machen.<br/>
+                <a class="btn btn-md btn-info" href="http://www.memucho.de/umfrage/LRyB9p" target="_blank" style="margin-top: 15px; margin-bottom: -5px;">
+                    <i class="fa fa-arrow-right" style="margin-right: 5px;"></i>Umfrage starten
+                </a>
             </p>
         </div>
     </div>
