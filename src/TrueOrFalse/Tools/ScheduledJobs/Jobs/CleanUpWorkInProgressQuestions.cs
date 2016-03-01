@@ -2,7 +2,6 @@
 using Autofac;
 using NHibernate;
 using Quartz;
-using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -10,33 +9,19 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         public void Execute(IJobExecutionContext context)
         {
-            try
+            JobExecute.Run(scope =>
             {
-                Settings.UseWebConfig = true;
+                var questions = scope.Resolve<ISession>().QueryOver<Question>()
+                    .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
+                    .List<Question>();
 
-                Logg.r().Information("Job start: {Job}", "CleanUpWorkInProgressQuestions ");
+                var questionRepo = scope.Resolve<QuestionRepo>();
 
-                using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
-                {
-                    var questions = scope.Resolve<ISession>().QueryOver<Question>()
-                        .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
-                        .List<Question>();
+                foreach (var question in questions)
+                    questionRepo.Delete(question);
 
-                    var questionRepo = scope.Resolve<QuestionRepo>();
-
-                    foreach (var question in questions)
-                        questionRepo.Delete(question);
-
-                    Logg.r().Information("Job end: {Job} {amountOfDeletedQuestions}", "CleanUpWorkInProgressQuestions", questions.Count);
-                }
-
-                
-            }
-            catch(Exception e)
-            {
-                Logg.r().Error(e, "Job error");
-                (new RollbarClient()).SendException(e);
-            }
+                Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
+            }, "CleanUpWorkInProgressQuestions");
         }
     }
 }

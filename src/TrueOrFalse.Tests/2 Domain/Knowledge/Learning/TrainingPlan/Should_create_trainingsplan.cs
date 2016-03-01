@@ -32,6 +32,9 @@ public class Should_create_trainingsplan : BaseTest
 
         Assert.That(amountOfDatesInsLast7Days, Is.LessThan(trainingPlan.DatesInFuture.Count));
 
-        trainingPlan.DumpToConsole();
+        RecycleContainer();
+
+        var allDates = R<TrainingDateRepo>().GetAll();
+        Assert.That(allDates[0].TrainingPlan, Is.EqualTo(trainingPlan));
     }
 }

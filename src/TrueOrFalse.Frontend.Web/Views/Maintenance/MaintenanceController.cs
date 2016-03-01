@@ -197,7 +197,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult CleanUpWorkInProgressQuestions()
     {
-        JobScheduler.StartCleanupWorkInProgressJob();
+        JobScheduler.StartImmediatly_CleanUpWorkInProgressQuestions();
         return View("Tools", new MaintenanceToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
     }
 
