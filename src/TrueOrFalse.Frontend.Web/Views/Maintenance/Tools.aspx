@@ -33,6 +33,11 @@
         Clean up work in progress questions
     </a><br/>
     
+    <a href="<%= Url.Action("TrainingReminderCheck", "Maintenance") %>" data-url="toSecurePost">
+        <i class="fa fa-gavel"></i>
+        Training Reminder Check
+    </a><br/>
+    
     <h4 style="margin-top: 20px;">Update concentration level</h4>
     <div class="form-horizontal">
         
