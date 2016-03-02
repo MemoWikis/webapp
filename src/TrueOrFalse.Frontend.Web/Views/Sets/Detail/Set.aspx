@@ -31,6 +31,15 @@
                     </span>
 
                 </span>
+                
+                <span style="font-size: 16px;">
+                    Kategorien:
+                    <div style="display: inline-block; position: relative; top:-2px;">
+                        <% foreach (var category in Model.Set.Categories){ %>
+                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                        <% } %>
+                    </div>
+                </span>
             </h2>
         </div>
         <div class="col-xs-3 xxs-stack">
