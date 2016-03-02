@@ -58,10 +58,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     ).RepeatForever()).Build());
         }
 
-        public static void StartImmediatly_TrainingReminderCheck() { StartImmediatly<TrainingReminderCheck>(); }
-        public static void StartImmediatly_CleanUpWorkInProgressQuestions() { StartImmediatly<CleanUpWorkInProgressQuestions>(); }
+        public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
+        public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }
 
-        public static void StartImmediatly<TypeToStart>() where TypeToStart : IJob
+        public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<TypeToStart>().Build(),
