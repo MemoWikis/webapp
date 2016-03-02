@@ -17,7 +17,7 @@ public class SetQuestionRow
         {
             AnswerHistory = new AnswerHistoryModel(question, totalForUser),
             CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuation),
-            QuestionValuation = questionValuation
+            QuestionValuation = questionValuation ?? new QuestionValuation()
         };
     }
 }
