@@ -14,7 +14,7 @@ public class TrainingDateRepo : RepositoryDbBase<TrainingDate>
             .QueryOver<TrainingDate>()
             .Where(d =>
                 d.DateTime < DateTime.Now.AddMinutes(7) &&
-                d.DateTime > DateTime.Now.AddMinutes(maxAgeMinutes) &&
+                d.DateTime > DateTime.Now.AddMinutes(-maxAgeMinutes) &&
                 d.NotificationStatus == NotificationStatus.None
             ).List();
     } 

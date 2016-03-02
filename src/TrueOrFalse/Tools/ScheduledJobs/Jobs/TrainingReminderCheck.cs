@@ -18,8 +18,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     TrainingReminderMsg.SendHtmlMail(trainingDate);
                     Logg.r().Information("Send training notification to: " + trainingDate.UserEmail());
 
-                    trainingDate.NotificationStatus = NotificationStatus.ReminderSend;
-                    scope.R<ISession>().Update(trainingDate);
+                    trainingDate.NotificationStatus = NotificationStatus.ReminderSent;
+                    var session = scope.R<ISession>();
+                    session.Update(trainingDate);
+                    session.Flush();
                 }
             }, "TrainingReminderCheck");
         }

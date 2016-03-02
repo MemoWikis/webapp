@@ -204,6 +204,15 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult TrainingReminderCheck()
+    {
+        JobScheduler.StartImmediately_TrainingReminderCheck();
+        return View("Tools", new MaintenanceToolsModel { Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.") });
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult ImageMarkup(int imgId)
     {
         var imageMaintenanceInfo =
