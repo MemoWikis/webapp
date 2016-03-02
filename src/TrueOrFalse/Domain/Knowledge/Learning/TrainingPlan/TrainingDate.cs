@@ -15,6 +15,8 @@ public class TrainingDate : DomainEntity
     public virtual User User() { return TrainingPlan.Date.User; }
     public virtual string UserEmail(){ return User().EmailAddress; }
 
+    public virtual TimeSpan TimeEstimated() { return new TimeSpan(0, 0, seconds: (AllQuestionsInTraining.Count * TrainingPlan.SecondsPerQuestionEst)); }
+
     public virtual KnowledgeSummary GetSummaryBefore()
     {
         return KnowledgeSummaryLoader.Run(AllQuestions, beforeTraining:true);

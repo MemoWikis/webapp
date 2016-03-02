@@ -12,8 +12,9 @@ public class TrainingReminderMsg
             new TrainingReminderMsgModel
             {
                 DateName = dateTitle,
+                Date = trainingDate.DateTime.ToString("dd.MM.yyyy HH:mm"),
                 QuestionCount = trainingDate.AllQuestionsInTraining.Count.ToString(),
-                TrainingLength = new TimeSpanLabel(trainingDate.TrainingPlan.TimeRemaining).Full
+                TrainingLength = new TimeSpanLabel(trainingDate.TimeEstimated()).Full
             }
         );
 
