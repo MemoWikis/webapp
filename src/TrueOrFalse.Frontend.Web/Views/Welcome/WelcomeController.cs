@@ -103,7 +103,7 @@ public class WelcomeController : BaseController
         else
             Response.StatusCode = 401; 
 
-        return new JsonResult{Data = new {UserId = userId}};
+        return new JsonResult{Data = new {UserId = userId}, JsonRequestBehavior = JsonRequestBehavior.AllowGet};
     }
 
     public ActionResult PasswordRecovery()
