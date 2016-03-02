@@ -442,6 +442,7 @@
     <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
+    <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
     </Content>

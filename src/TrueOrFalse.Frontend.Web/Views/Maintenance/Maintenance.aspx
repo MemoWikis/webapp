@@ -4,23 +4,10 @@
     ValidateRequest="false"
     EnableSessionState="ReadOnly" %>
 
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    <script language="javascript">
-        $(function() {
-            $("a[data-url=toSecurePost]").click(function (e) {
-                e.preventDefault();
-
-                $("#form").attr("action", $(this).attr("href"));
-                $("#form").submit();
-            });
-
-        });
-    </script>
-
-    <form id="form" action="destination.html" method="post">
-      <%= Html.AntiForgeryToken() %>
-    </form>    
+   <% Html.RenderPartial("AntiForgeryToken"); %>
 
     <div style="margin:0 0 0 -10px; position: relative;" class="container-fluid">
         <nav class="navbar navbar-default" style="" role="navigation">

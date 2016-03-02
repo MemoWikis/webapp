@@ -7,6 +7,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+   <% Html.RenderPartial("AntiForgeryToken"); %>
+    
     <nav class="navbar navbar-default" style="" role="navigation">
         <div class="container">
             <a class="navbar-brand" href="#">Maintenance</a>
@@ -21,12 +23,12 @@
     <% Html.Message(Model.Message); %>
         
     <h4>Tools</h4>
-    <a href="<%= Url.Action("Throw500", "Maintenance") %>">
+    <a href="<%= Url.Action("Throw500", "Maintenance") %>" data-url="toSecurePost">
         <i class="fa fa-gavel"></i>
         Exception werfen
     </a><br/>
     
-    <a href="<%= Url.Action("CleanUpWorkInProgressQuestions", "Maintenance") %>">
+    <a href="<%= Url.Action("CleanUpWorkInProgressQuestions", "Maintenance") %>" data-url="toSecurePost">
         <i class="fa fa-gavel"></i>
         Clean up work in progress questions
     </a><br/>
