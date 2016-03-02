@@ -1,8 +1,6 @@
 ﻿using System.Web.Mvc;
 
 [AccessBeta]
-//HACK to prevent session state locking -> the last writer wins!
-//[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class BaseController : Controller
 {
     protected SessionUser _sessionUser{ get { return Resolve<SessionUser>(); } }
