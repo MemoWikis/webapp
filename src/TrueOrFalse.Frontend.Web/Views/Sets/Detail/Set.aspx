@@ -112,15 +112,6 @@
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </div>
             
-            <div style="margin-top: 10px;">
-                <b style="color: darkgray">Alle</b><br/>
-                gemerkt: 837x  (Rang: 7)<br/>          
-                gesehen: 20x (Rang: 71)<br/>
-                    
-                <b style="color: darkgray; margin-top:7px; display: block">Ich</b>
-                gesehen: 2x<br/>
-                merken: 
-            </div>
         </div>
     </div>
 
