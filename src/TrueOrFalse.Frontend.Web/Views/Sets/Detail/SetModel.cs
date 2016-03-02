@@ -10,7 +10,7 @@ public class SetModel : BaseModel
 
     public Set Set;
 
-    public IList<SetQuestionRow> QuestionsInSet;
+    public IList<SetQuestionRowModel> QuestionsInSet;
 
     public User Creator;
     public string CreatorName;
@@ -60,7 +60,7 @@ public class SetModel : BaseModel
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
         QuestionsInSet = set.QuestionsInSet.Select(
-            x => new SetQuestionRow(
+            x => new SetQuestionRowModel(
                 x.Question, 
                 totalsPerUser.ByQuestionId(x.Question.Id),
                 questionValutionsForCurrentUser.ByQuestionId(x.Question.Id)))

@@ -9,4 +9,5 @@ $(function() {
     });
 
     new Pin(PinRowType.SetDetail);
+    new Pin(PinRowType.Question);
 });
