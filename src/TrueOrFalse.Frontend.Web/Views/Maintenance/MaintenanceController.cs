@@ -7,6 +7,7 @@ using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class MaintenanceController : BaseController
 {
     [AccessOnlyAsAdmin]
