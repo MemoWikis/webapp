@@ -30,7 +30,7 @@
 
         <p style="padding-bottom: 5px;">Angaben gemäß § 5 TMG:<br/></p>
         Christof Mauersberger<br />
-        Leopoldstraße Str. 8b<br />
+        Leopoldstraße 8b<br />
         10317 Berlin<br />
 
         <h3>Kontakt:</h3>
@@ -43,7 +43,7 @@
         <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
         <p>Christof Mauersberger<br />
         <br />
-        Leopoldstraße Str. 8b<br />
+        Leopoldstraße 8b<br />
         10317 Berlin</p>
         <p> </p>
         <p>Quelle: <i>erstellt mit dem <a href="http://www.e-recht24.de/impressum-generator.html" target="_blank">Impressum-Generator Einzelunternehmer</a> von eRecht24 u. in Teilen angepasst.</i></p>
