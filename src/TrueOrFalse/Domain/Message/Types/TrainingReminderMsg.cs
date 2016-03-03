@@ -21,7 +21,7 @@ public class TrainingReminderMsg
         HtmlMessage.Send(new MailMessage2(
             Settings.EmailFrom,
             trainingDate.UserEmail(),
-            dateTitle,
+            "Lernerinnerung für Termin \"" + dateTitle + "\"",
             parsedTemplate)
         {UserName = trainingDate.User().Name});
     }
