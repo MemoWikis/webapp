@@ -52,8 +52,8 @@
                     <div class="row" style="margin-top: 4px;">
                         <div class="col-md-4"></div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            <a href="#" data-action="showAdvancedSettings">erweiterte Einstellungen zeigen <i class="fa fa-caret-up"></i></a>
-                            <a href="#" data-action="hideAdvancedSettings" style="display: none">erweiterte Einstellungen verbergen <i class="fa fa-caret-down"></i></a>
+                            <a href="#" data-action="showAdvancedSettings">erweiterte Einstellungen zeigen <i class="fa fa-caret-down"></i></a>
+                            <a href="#" data-action="hideAdvancedSettings" style="display: none">erweiterte Einstellungen verbergen <i class="fa fa-caret-up"></i></a>
                         </div>
                     </div>
 

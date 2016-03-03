@@ -9,8 +9,8 @@ public class TrainingPlan : DomainEntity
     public virtual Date Date { get; set; }
 
     public virtual IList<TrainingDate> Dates { get; set; } = new List<TrainingDate>();
-    public virtual IList<TrainingDate> DatesInFuture => Dates.Where(d => d.DateTime > DateTimeX.Now()).ToList();
-    public virtual IList<TrainingDate> DatesInPast => Dates.Where(d => d.DateTime <= DateTimeX.Now()).ToList();
+    public virtual IList<TrainingDate> DatesInFuture => Dates.Where(d => d.DateTime > DateTimeX.Now()).OrderBy(d => d.DateTime).ToList();
+    public virtual IList<TrainingDate> DatesInPast => Dates.Where(d => d.DateTime <= DateTimeX.Now()).OrderBy(d => d.DateTime).ToList();
 
     public const int SecondsPerQuestionEst = 30;
 
@@ -27,6 +27,11 @@ public class TrainingPlan : DomainEntity
         => Date == null 
             ? new List<Question>()
             : Date.AllQuestions();
+
+    public virtual TrainingDate GetNextTrainingDate()
+    {
+        return HasDatesInFuture ? DatesInFuture.First() : null;
+    }
 
     public virtual void DumpToConsole()
     {
