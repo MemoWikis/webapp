@@ -69,19 +69,6 @@ public class SetsApiController : BaseController
             Items = items
         }, JsonRequestBehavior.AllowGet);
     }
-
-    public JsonResult GetInfo(int setId)
-    {
-        var set = R<SetRepo>().GetById(setId);
-        
-        return new JsonResult{
-            Data = new
-            {
-                Name = set.Name,
-                NumberOfQuestions = set.QuestionsInSet.Count,
-            }
-        };
-    }
 }
 
 public class SetJsonResult
