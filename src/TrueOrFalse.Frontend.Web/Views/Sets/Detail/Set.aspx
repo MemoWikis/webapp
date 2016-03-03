@@ -31,6 +31,15 @@
                     </span>
 
                 </span>
+                
+                <span style="font-size: 16px;">
+                    Kategorien:
+                    <div style="display: inline-block; position: relative; top:-2px;">
+                        <% foreach (var category in Model.Set.Categories){ %>
+                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                        <% } %>
+                    </div>
+                </span>
             </h2>
         </div>
         <div class="col-xs-3 xxs-stack">
@@ -59,15 +68,20 @@
                         <%= GetQuestionImageFrontendData.Run(questionRow.Question)
                                 .RenderHtmlImageBasis(128, true, ImageType.Question) %>                        
                     </div>
-                    <div class="col-md-9 col-sm-7 col-xs-10 col-1">         
+                    <div class="col-md-9 col-sm-7 col-xs-10 col-1">
+                        <div class="Pin" data-question-id="<%= questionRow.Question.Id %>" style="float: right; display: inline-block">
+                            <a href="#" class="noTextdecoration" style="font-size: 16px; height: 10px; position: relative; top: 3px; padding-right: 7px; padding-left: 7px;">
+                                <i class="fa fa-heart show-tooltip iAdded <%= questionRow.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                                <i class="fa fa-heart-o show-tooltip iAddedNot <%= questionRow.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                                <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                            </a>
+                        </div>                        
                         <a href="<%= Links.AnswerQuestion(Url, questionRow.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
                             <%=questionRow.Question.Text %>
-                        </a>    
+                        </a>
                     </div>
-                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px; line-height: 15px;">
-                        <div class="row">
-                            <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
-                        </div>
+                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 5px; padding-top: 5px; line-height: 15px;">
+                        <% Html.RenderPartial("HistoryAndProbability", questionRow.HistoryAndProbability); %>
                     </div>
                 </div>
 
@@ -103,15 +117,6 @@
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </div>
             
-            <div style="margin-top: 10px;">
-                <b style="color: darkgray">Alle</b><br/>
-                gemerkt: 837x  (Rang: 7)<br/>          
-                gesehen: 20x (Rang: 71)<br/>
-                    
-                <b style="color: darkgray; margin-top:7px; display: block">Ich</b>
-                gesehen: 2x<br/>
-                merken: 
-            </div>
         </div>
     </div>
 

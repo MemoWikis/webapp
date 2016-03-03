@@ -14,7 +14,13 @@ class Pin {
         var self = this;
         this._pinRowType = pinRowType;
 
-        $(".Pin").find(".iAdded, .iAddedNot").click(function (e) {
+        var allPins;
+        if (self.IsQuestionRow())
+            allPins = $(".Pin[data-question-id]").find(".iAdded, .iAddedNot"); 
+        else if (self.IsSetDetail())
+            allPins = $(".Pin[data-set-id]").find(".iAdded, .iAddedNot"); 
+
+        allPins.click(function (e) {
 
             var elemPin = $($(this).parents(".Pin"));
 
