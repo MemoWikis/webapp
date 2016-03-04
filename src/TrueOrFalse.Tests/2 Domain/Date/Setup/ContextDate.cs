@@ -28,6 +28,7 @@ public class ContextDate
         date.Sets = sets;
         date.User = creator ?? User;
         date.DateTime = dateTime;
+        date.TrainingPlan = new TrainingPlan();
 
         All.Add(date);
         return this;
