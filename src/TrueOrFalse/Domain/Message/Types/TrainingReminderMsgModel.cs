@@ -4,4 +4,5 @@
     public string Date;
     public string QuestionCount;
     public string TrainingLength;
+    public string LinkToLearningSession;
 }

@@ -14,7 +14,8 @@ public class TrainingReminderMsg
                 DateName = dateTitle,
                 Date = trainingDate.DateTime.ToString("dd.MM.yyyy HH:mm"),
                 QuestionCount = trainingDate.AllQuestionsInTraining.Count.ToString(),
-                TrainingLength = new TimeSpanLabel(trainingDate.TimeEstimated()).Full
+                TrainingLength = new TimeSpanLabel(trainingDate.TimeEstimated()).Full,
+                LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + trainingDate.TrainingPlan.Date.Id
             }
         );
 
