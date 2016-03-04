@@ -69,7 +69,7 @@
                                 <div class="pull-right">Vergessensschwelle:</div>
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" id="txtAnswerProbabilityTreshhold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                                <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
                             </div>
                         </div>
                         <div class="row" style="margin-top: 4px;">

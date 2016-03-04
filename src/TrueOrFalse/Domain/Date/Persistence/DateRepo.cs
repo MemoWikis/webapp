@@ -9,7 +9,7 @@ public class DateRepo : RepositoryDbBase<Date>
     {
     }
 
-    public void CreateWithTrainingsPlan(Date date)
+    public void CreateWithTrainingPlan(Date date)
     {
         Create(date);
         var trainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings());
@@ -18,7 +18,7 @@ public class DateRepo : RepositoryDbBase<Date>
         Update(date);
     }
 
-    public void UpdateWithTrainingsPlan(Date date)
+    public void UpdateWithTrainingPlan(Date date)
     {
         TrainingPlanUpdater.Run(date.TrainingPlan);
         Update(date);

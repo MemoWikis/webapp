@@ -16,7 +16,7 @@ class TrainingPlanSettings {
     QuestionsPerDate_Minimum: number;
     QuestionsPerDate_IdealAmount: number;
     SpacingBetweenSessionsInMinutes: number;
-    AnswerProbabilityTreshhold: number;
+    AnswerProbabilityThreshold: number;
 }
 
 class KnowledgeSummary

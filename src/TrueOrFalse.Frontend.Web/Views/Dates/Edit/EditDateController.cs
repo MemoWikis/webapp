@@ -27,7 +27,7 @@ public class EditDateController : BaseController
         {
             var date = model.ToDate();
 
-            R<DateRepo>().CreateWithTrainingsPlan(date);
+            R<DateRepo>().CreateWithTrainingPlan(date);
 
             _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
 
@@ -71,7 +71,7 @@ public class EditDateController : BaseController
             var dateRepo = R<DateRepo>();
             var date = dateRepo.GetById(model.DateId);
 
-            dateRepo.UpdateWithTrainingsPlan(model.FillDateFromInput(date));
+            dateRepo.UpdateWithTrainingPlan(model.FillDateFromInput(date));
 
             CareAboutAnswerProbability(date);
 

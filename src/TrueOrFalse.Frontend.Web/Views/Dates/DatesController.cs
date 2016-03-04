@@ -111,7 +111,7 @@ public class DatesController : BaseController
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
             QuestionCount = date.CountQuestions(),
             QuestionsPerDateIdealAmount = planSettings.QuestionsPerDate_IdealAmount,
-            AnswerProbabilityTreshhold = planSettings.AnswerProbabilityTreshhold,
+            AnswerProbabilityThreshold = planSettings.AnswerProbabilityThreshold,
             QuestionsPerDateMinimum = planSettings.QuestionsPerDate_Minimum,
             SpacingBetweenSessionsInMinutes = planSettings.SpacingBetweenSessionsInMinutes,
         });

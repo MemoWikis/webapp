@@ -32,7 +32,7 @@
         })();
 
         $("#txtQuestionsPerDateIdealAmount," +
-          "#txtAnswerProbabilityTreshhold," +
+          "#txtAnswerProbabilityThreshold," +
           "#txtQuestionsPerDateMinimum," +
           "#txtSpacingBetweenSessionsInMinutes").keyup(() => {
 
@@ -93,14 +93,14 @@
         $("#modalTraining #QuestionCount").html(data.QuestionCount); 
 
         $("#modalTraining #txtQuestionsPerDateIdealAmount").val(data.QuestionsPerDateIdealAmount); 
-        $("#modalTraining #txtAnswerProbabilityTreshhold").val(data.AnswerProbabilityTreshhold);
+        $("#modalTraining #txtAnswerProbabilityThreshold").val(data.AnswerProbabilityThreshold);
         $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
         $("#modalTraining #txtSpacingBetweenSessionsInMinutes").val(data.SpacingBetweenSessionsInMinutes);
     }
 
     GetSettingsFromUi(): TrainingPlanSettings {
         var result = new TrainingPlanSettings();
-        result.AnswerProbabilityTreshhold = $("#txtAnswerProbabilityTreshhold").val();
+        result.AnswerProbabilityThreshold = $("#txtAnswerProbabilityThreshold").val();
         result.QuestionsPerDate_IdealAmount = $("#txtQuestionsPerDateIdealAmount").val();
         result.QuestionsPerDate_Minimum = $("#txtQuestionsPerDateMinimum").val();
         result.SpacingBetweenSessionsInMinutes = $("#txtSpacingBetweenSessionsInMinutes").val();

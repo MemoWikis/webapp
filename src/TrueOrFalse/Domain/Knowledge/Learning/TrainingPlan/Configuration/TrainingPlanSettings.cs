@@ -10,10 +10,10 @@ public class TrainingPlanSettings
     public virtual int SpacingBetweenSessionsInMinutes { get; set; } = 60 * 3;
 
     /// <summary>
-    /// When answer probability drops below this treshold, 
+    /// When answer probability drops below this threshold, 
     /// it should be trained soon. 
     /// </summary>
-    public virtual int AnswerProbabilityTreshhold { get; set; } = 90;
+    public virtual int AnswerProbabilityThreshold { get; set; } = 90;
 
     public virtual IList<Period> SnoozePeriods { get; set; } = new List<Period>{
         new Period(new Time(21, 00), new Time(9, 0))

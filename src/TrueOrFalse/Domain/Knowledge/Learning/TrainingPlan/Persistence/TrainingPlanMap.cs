@@ -14,7 +14,7 @@ public class TrainingPlanMap : ClassMap<TrainingPlan>
 
         Component(x => x.Settings, x =>
         {
-            x.Map(y => y.AnswerProbabilityTreshhold);
+            x.Map(y => y.AnswerProbabilityThreshold);
             x.Map(y => y.QuestionsPerDate_IdealAmount);
             x.Map(y => y.QuestionsPerDate_Minimum);
             x.Map(y => y.SpacingBetweenSessionsInMinutes);
