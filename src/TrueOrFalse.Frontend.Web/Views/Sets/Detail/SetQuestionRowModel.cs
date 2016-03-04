@@ -18,13 +18,16 @@ public class SetQuestionRowModel
     {
         Question = question;
         Set = set;
+
+        questionValuation = questionValuation ?? new QuestionValuation();
+
         IsInWishknowledge = questionValuation.IsInWishKnowledge();
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {
             AnswerHistory = new AnswerHistoryModel(question, totalForUser),
             CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuation),
-            QuestionValuation = questionValuation ?? new QuestionValuation()
+            QuestionValuation = questionValuation
         };
     }
 }
