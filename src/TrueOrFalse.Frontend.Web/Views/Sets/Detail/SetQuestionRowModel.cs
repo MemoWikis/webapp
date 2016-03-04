@@ -10,10 +10,14 @@ public class SetQuestionRowModel
 
     public HistoryAndProbabilityModel HistoryAndProbability;
 
-    public SetQuestionRowModel(Question question, TotalPerUser totalForUser, QuestionValuation questionValuation)
+    public SetQuestionRowModel(
+        Question question,
+        Set set,
+        TotalPerUser totalForUser, 
+        QuestionValuation questionValuation)
     {
         Question = question;
-        Set = Set;
+        Set = set;
         IsInWishknowledge = questionValuation.IsInWishKnowledge();
 
         HistoryAndProbability = new HistoryAndProbabilityModel

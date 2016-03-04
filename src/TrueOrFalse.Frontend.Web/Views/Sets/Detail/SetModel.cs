@@ -62,6 +62,7 @@ public class SetModel : BaseModel
         QuestionsInSet = set.QuestionsInSet.Select(
             x => new SetQuestionRowModel(
                 x.Question, 
+                x.Set,
                 totalsPerUser.ByQuestionId(x.Question.Id),
                 questionValutionsForCurrentUser.ByQuestionId(x.Question.Id)))
             .ToList();
