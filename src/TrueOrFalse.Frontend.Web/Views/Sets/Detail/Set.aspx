@@ -10,6 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
     <div class="row">
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;">
@@ -62,9 +63,11 @@
         </div>
    
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
-            <%  foreach(var questionRow in Model.QuestionsInSet){ %>
-                <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
-            <% } %>
+            <div id="rowContainer">
+                <%  foreach(var questionRow in Model.QuestionsInSet){ %>
+                    <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
+                <% } %>
+            </div>
 
             <div class="row "style="margin-top: 20px; height: 40px;">
                 <div class="col-md-12">
