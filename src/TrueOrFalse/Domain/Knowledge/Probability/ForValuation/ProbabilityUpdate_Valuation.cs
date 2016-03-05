@@ -8,20 +8,10 @@ namespace TrueOrFalse
     public class ProbabilityUpdate_Valuation : IRegisterAsInstancePerLifetime
     {
         private readonly QuestionValuationRepo _questionValuationRepo;
-        private readonly ProbabilityCalc_Simple1 _probabilityCalc;
-        private readonly QuestionRepo _questionRepo;
-        private readonly UserRepo _userRepo;
 
-        public ProbabilityUpdate_Valuation(
-            QuestionValuationRepo questionValuationRepo,
-            ProbabilityCalc_Simple1 probabilityCalc, 
-            QuestionRepo questionRepo,
-            UserRepo userRepo)
+        public ProbabilityUpdate_Valuation(QuestionValuationRepo questionValuationRepo)
         {
             _questionValuationRepo = questionValuationRepo;
-            _probabilityCalc = probabilityCalc;
-            _questionRepo = questionRepo;
-            _userRepo = userRepo;
         }
 
         public void Run(int userId)
@@ -47,8 +37,8 @@ namespace TrueOrFalse
                 _questionValuationRepo.GetBy(questionId, userId) ??
                     new QuestionValuation
                     {
-                        Question = _questionRepo.GetById(questionId), 
-                        User = _userRepo.GetById(userId)
+                        Question = Sl.R<QuestionRepo>().GetById(questionId), 
+                        User = Sl.R<UserRepo>().GetById(userId)
                     };
 
             Run(questionValuation);
@@ -61,7 +51,7 @@ namespace TrueOrFalse
             var question = questionValuation.Question;
             var user = questionValuation.User;
 
-            var probabilityResult = _probabilityCalc.Run(question, user);
+            var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user);
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
             questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
             questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
