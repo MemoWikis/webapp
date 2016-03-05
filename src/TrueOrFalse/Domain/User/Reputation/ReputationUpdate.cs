@@ -35,9 +35,9 @@
             else
                 users[i].ReputationPos++;
 
-            _userRepo.Update(users[i]);
+            _userRepo.Update(users[i], runSolrUpdateAsync:true);
         }
 
-        _userRepo.Update(userToUpdate);
+        _userRepo.Update(userToUpdate, runSolrUpdateAsync:true);
     }
 }

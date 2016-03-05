@@ -299,6 +299,7 @@
     <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />
     <Compile Include="Domain\Message\Types\TrainingReminderMsg.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
+    <Compile Include="Infrastructure\AsyncExe.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
     <Compile Include="Infrastructure\Time\DateTimeX.cs" />
     <Compile Include="Infrastructure\Time\Period.cs" />
@@ -589,7 +590,6 @@
     <Compile Include="Infrastructure\Bus\Bus.cs" />
     <Compile Include="Infrastructure\Bus\BusMgmt.cs" />
     <Compile Include="Infrastructure\Bus\MessageTypes\RecalcProbabilitiesMsg.cs" />
-    <Compile Include="Infrastructure\ExecAsync.cs" />
     <Compile Include="Infrastructure\Language\Language.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 
