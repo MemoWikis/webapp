@@ -48,7 +48,7 @@ public static class QuestionInKnowledge
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
 
-        Sl.R<ReputationUpdate>().ForQuestion(questionId);
+        AsyncExe.Run(()=> { Sl.R<ReputationUpdate>().ForQuestion(questionId); });
 
         if(relevance != -1)
             Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, user.Id);

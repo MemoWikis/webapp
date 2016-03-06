@@ -6,20 +6,29 @@ using TrueOrFalse.Infrastructure;
 
 public class AsyncExe
 {
-    public static void Run(Action action)
+    public static void Run(Action action, bool withAutofac = false)
     {
         try
         {
-            var container = AutofacWebInitializer.Run();
-            ServiceLocator.Init(container);
+            Action actionExec;
 
-            Action actionExec = () =>
+            if (withAutofac)
             {
-                using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+                actionExec = () =>
                 {
-                    action();
-                }
-            };
+                    var container = AutofacWebInitializer.Run();
+                    ServiceLocator.Init(container);
+
+                    using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+                    {
+                        action();
+                    }
+                };
+            }
+            else
+            {
+                actionExec = action;
+            }
 
             if (ContextUtil.IsWebContext)
                 HostingEnvironment.QueueBackgroundWorkItem(ct => { actionExec(); });
