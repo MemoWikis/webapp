@@ -14,6 +14,7 @@ $(function() {
             $("#rowContainer").fadeOut(250, () => {
                 $("#rowContainer").html(result.Html);
                 $("#rowContainer").fadeIn(250);
+                new Pin(PinRowType.Question);
             });
         });
     });
