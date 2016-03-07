@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
 public class AnswerQuestionController : BaseController
@@ -94,6 +95,10 @@ public class AnswerQuestionController : BaseController
                 activeSearchSpec.Filter.Categories.Clear();
                 activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
                 activeSearchSpec.OrderBy.PersonalRelevance.Desc();
+                activeSearchSpec.PageSize = 1;
+                
+                //set total count
+                Sl.R<SearchQuestions>().Run(activeSearchSpec);
             }
         }
 

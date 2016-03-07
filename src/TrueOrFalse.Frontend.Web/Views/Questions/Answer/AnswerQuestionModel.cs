@@ -88,7 +88,7 @@ public class AnswerQuestionModel : BaseModel
 
     public IList<CommentModel> Comments;
 
-    public bool IsLearningSession { get { return LearningSession != null; } }
+    public bool IsLearningSession => LearningSession != null;
     public LearningSession LearningSession;
     public LearningSessionStep LearningSessionStep;
     public int LearningSessionCurrentStepNo;
@@ -111,7 +111,7 @@ public class AnswerQuestionModel : BaseModel
         LearningSessionStep = LearningSession.Steps[currentLearningStepIdx];
         IsLastLearningStep = LearningSessionCurrentStepNo == LearningSession.Steps.Count();
 
-        if (currentLearningStepIdx + 1 < learningSession.Steps.Count()) { 
+        if (currentLearningStepIdx + 1 < learningSession.Steps.Count) { 
             NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
                 new {
                     learningSessionId = learningSession.Id,
