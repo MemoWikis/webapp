@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
 
 <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
+<input type="hidden" id="isLastQuestion" value="<%= Model.IsLastQuestion %>" />
 <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
 <input type="hidden" id="ajaxUrl_GetSolution" value="<%= Model.AjaxUrl_GetSolution(Url) %>" />
 <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
@@ -96,7 +97,7 @@
         <div id="buttons-next-question" class="pull-right" style="display: none;">
             <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet." style="display: none;">Hab ich gewusst!</a>
             <% if(Model.NextUrl != null){ %>
-                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">N&auml;chste Frage</a>
+                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">Nächste Frage</a>
             <% } %>
         </div>
         
