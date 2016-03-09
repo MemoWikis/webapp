@@ -5,7 +5,8 @@ public class Settings
 {
     private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
-    [ThreadStatic] public static bool UseWebConfig;
+    [ThreadStatic]
+    public static bool UseWebConfig;
 
     public static string SolrUrl;
     public static string SolrPath;

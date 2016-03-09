@@ -725,6 +725,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs124.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs123.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs122.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs121.cs" />

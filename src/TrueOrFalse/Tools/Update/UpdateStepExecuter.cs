@@ -39,10 +39,10 @@ namespace TrueOrFalse.Updates
 
         public void Run()
         {                
-            var dbSettings = _dbSettingsRepository.Get();
+            var appVersion = _dbSettingsRepository.GetAppVersion();
 
             foreach (var dictionaryItem in _actions)
-                if (dbSettings.AppVersion < dictionaryItem.Key)
+                if (appVersion < dictionaryItem.Key)
                 {
                     Logg.r().Information("update to {0} - START", dictionaryItem.Key);
                     dictionaryItem.Value();

@@ -54,6 +54,7 @@
                 .Add(UpdateToVs121.Run)
                 .Add(UpdateToVs122.Run)
                 .Add(UpdateToVs123.Run)
+                .Add(UpdateToVs124.Run)
                 .Run();
         }
     }
