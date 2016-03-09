@@ -20,7 +20,7 @@ class Pin {
         var allPins;
         if (self.IsQuestionRow())
             allPins = $(".Pin[data-question-id]").find(".iAdded, .iAddedNot"); 
-        else if (self.IsSetDetail())
+        else if (self.IsSetDetail() || self.IsSetRow())
             allPins = $(".Pin[data-set-id]").find(".iAdded, .iAddedNot"); 
 
         allPins.click(function (e) {
