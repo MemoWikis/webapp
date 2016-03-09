@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -24,9 +25,13 @@
     <div>
         <% using (Html.BeginForm("CMS", "Maintenance")){%>
         
+            <%= Html.AntiForgeryToken() %>
             <div class="form-group">
                 <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Spiele</span> (Kategorien-Ids kommasepariert)</label>
-                <%= Html.TextBoxFor(m => m.SuggestedGames, new {@class="form-control"} ) %>    
+                <%= Html.TextBoxFor(m => m.SuggestedGames, new {@class="form-control"} ) %>
+                <% foreach(var set in Model.SuggestedGameSets) { %>
+                    <a href="<%= Links.SetDetail(Url, set) %>"><span class="label label-set"><%: set.Id %>-<%: set.Name %></span></a>
+                <% } %>
             </div>
         
             <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />

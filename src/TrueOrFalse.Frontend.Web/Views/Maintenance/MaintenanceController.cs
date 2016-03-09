@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
@@ -91,7 +93,19 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult CMS()
     {
-        return View(new CMSModel());
+        var settings = Sl.R<DbSettingsRepo>().Get();
+        return View(new CMSModel {SuggestedGames = settings.SuggestedGames}.Init());
+    }
+
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
+    public ActionResult CMS(CMSModel cmsModel)
+    {
+        cmsModel.ConsolidateGames();
+        cmsModel.Message = new SuccessMessage("CMS Werte gespeichert");
+
+        ModelState.Clear();
+
+        return View(cmsModel);
     }
 
     [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]

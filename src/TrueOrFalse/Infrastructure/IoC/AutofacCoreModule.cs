@@ -192,7 +192,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<ReIndexAllUsers>().InstancePerLifetimeScope();
             builder.RegisterType<SearchIndexUser>().InstancePerLifetimeScope();
             builder.RegisterType<SearchUsers>().InstancePerLifetimeScope();
-            builder.RegisterType<DbSettingsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<DbSettingsRepo>().InstancePerLifetimeScope();
             builder.RegisterType<DoesTableExist>().InstancePerLifetimeScope();
             builder.RegisterType<ParseMarkupFromDb>().InstancePerLifetimeScope();
             builder.RegisterType<LoadImageMarkups>().InstancePerLifetimeScope();

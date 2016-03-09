@@ -24,7 +24,8 @@
     
     <div class="form-horizontal">
         <% using (Html.BeginForm("SendMessage", "Maintenance")){%>
-        
+
+            <%= Html.AntiForgeryToken() %>
             <div class="form-group">
                 <%= Html.LabelFor(m => m.TestMsgReceiverId, new {@class="col-sm-2 control-label"} ) %>
                 <div class="col-xs-2">

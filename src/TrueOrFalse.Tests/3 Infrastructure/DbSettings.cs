@@ -16,7 +16,7 @@ namespace TrueOrFalse.Tests
         {
             CreateInitialRecord();
 
-            var dbSettingsRepository = Resolve<DbSettingsRepository>();
+            var dbSettingsRepository = Resolve<DbSettingsRepo>();
             Assert.That(dbSettingsRepository.Get().AppVersion, Is.EqualTo(0));
             
             dbSettingsRepository.UpdateAppVersion(25);
@@ -25,7 +25,7 @@ namespace TrueOrFalse.Tests
 
         private static void CreateInitialRecord()
         {
-            var dbSettingsRepository = Resolve<DbSettingsRepository>();
+            var dbSettingsRepository = Resolve<DbSettingsRepo>();
             var dbSettings = new DbSettings();
             dbSettings.AppVersion = 0;
             dbSettingsRepository.Create(dbSettings);

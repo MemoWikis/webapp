@@ -8,11 +8,11 @@ namespace TrueOrFalse.Updates
 {
     public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
-        private readonly DbSettingsRepository _dbSettingsRepository;
+        private readonly DbSettingsRepo _dbSettingsRepo;
         private readonly Dictionary<int, Action> _actions = new Dictionary<int, Action>();
 
-        public UpdateStepExecuter(DbSettingsRepository dbSettingsRepository){
-            _dbSettingsRepository = dbSettingsRepository;
+        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo){
+            _dbSettingsRepo = dbSettingsRepo;
         }
 
         public UpdateStepExecuter Add(Action action)
@@ -39,7 +39,7 @@ namespace TrueOrFalse.Updates
 
         public void Run()
         {                
-            var appVersion = _dbSettingsRepository.GetAppVersion();
+            var appVersion = _dbSettingsRepo.GetAppVersion();
 
             foreach (var dictionaryItem in _actions)
                 if (appVersion < dictionaryItem.Key)
@@ -47,7 +47,7 @@ namespace TrueOrFalse.Updates
                     Logg.r().Information("update to {0} - START", dictionaryItem.Key);
                     dictionaryItem.Value();
                     Logg.r().Information("update to {0} - END", dictionaryItem.Key);
-                    _dbSettingsRepository.UpdateAppVersion(dictionaryItem.Key);
+                    _dbSettingsRepo.UpdateAppVersion(dictionaryItem.Key);
                 }   
         }
     }

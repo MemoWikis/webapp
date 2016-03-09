@@ -3,9 +3,9 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Infrastructure
 {
-    public class DbSettingsRepository : RepositoryDb<DbSettings>
+    public class DbSettingsRepo : RepositoryDb<DbSettings>
     {
-        public DbSettingsRepository(ISession session)
+        public DbSettingsRepo(ISession session)
             : base(session)
         {
         }
