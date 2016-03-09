@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceImagesModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ImagesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -18,6 +18,7 @@
                     <li class="active"><a href="/Maintenance/Images">Bilder</a></li>
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                     <li><a href="/Maintenance/Tools">Tools</a></li>
+                    <li><a href="/Maintenance/CMS">CMS</a></li>
                 </ul>
             </div>
         </nav>

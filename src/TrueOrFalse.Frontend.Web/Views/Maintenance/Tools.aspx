@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceToolsModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ToolsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -11,12 +11,13 @@
     
     <nav class="navbar navbar-default" style="" role="navigation">
         <div class="container">
-            <a class="navbar-brand" href="#">Maintenance</a>
+            <a class="navbar-brand" href="#">Admin</a>
             <ul class="nav navbar-nav">
                 <li><a href="/Maintenance">Allgemein</a></li>
                 <li><a href="/Maintenance/Images">Bilder</a></li>
                 <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li class="active"><a href="/Maintenance/Tools">Tools</a></li>
+                <li><a href="/Maintenance/CMS">CMS</a></li>
             </ul>
         </div>
     </nav>

@@ -292,7 +292,8 @@
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
-    <Compile Include="Views\Maintenance\MaintenanceToolsModel.cs" />
+    <Compile Include="Views\Maintenance\CMSModel.cs" />
+    <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
     <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
@@ -443,6 +444,7 @@
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
+    <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
       <DependentUpon>AnswerQuestion.css</DependentUpon>
     </Content>
@@ -1214,9 +1216,9 @@
     <Compile Include="Views\Categories\CategoriesController.cs" />
     <Compile Include="Views\Categories\CategoriesModel.cs" />
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
-    <Compile Include="Views\Maintenance\MaintenanceMessagesModel.cs" />
+    <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\Maintenance\MaintenanceImagesModel.cs" />
+    <Compile Include="Views\Maintenance\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Answer\AnswerQuestionPage.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">

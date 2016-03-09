@@ -18,6 +18,7 @@
                     <li><a href="/Maintenance/Images">Bilder</a></li>
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                     <li><a href="/Maintenance/Tools">Tools</a></li>
+                    <li><a href="/Maintenance/CMS">CMS</a></li>
                 </ul>
             </div>
         </nav>
