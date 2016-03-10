@@ -12,7 +12,7 @@ public class GetLearningSessionSteps
 
     public static IList<LearningSessionStep> Run(Date date)
     {
-        if (date.HasDatesInFuture)
+        if (date.TrainingPlan != null && date.HasDatesInFuture)
         {
             return CompletePreselectedSteps(date.TrainingPlan.GetNextTrainingDate().AllQuestionsInTraining.Select(q => new LearningSessionStep { Question = q.Question }).ToList());
         }
