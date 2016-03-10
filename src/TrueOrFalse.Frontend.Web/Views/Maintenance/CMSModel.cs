@@ -28,10 +28,10 @@ public class CMSModel : BaseModel
             return;
         }
 
-        var settingIds = SuggestedGames.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        var setIds = SuggestedGames.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
         var validatedSetIds = new List<int>();
 
-        foreach (var setId in settingIds)
+        foreach (var setId in setIds)
         {
             int setIdInt;
             if (int.TryParse(setId, out setIdInt))

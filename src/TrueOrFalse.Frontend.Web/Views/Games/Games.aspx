@@ -2,6 +2,7 @@
     MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
     Inherits="ViewPage<GamesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/bundles/js/Games") %>
@@ -73,25 +74,16 @@
             <div class="panel panel-default" style="border: none;">
                 <div class="panel-heading">Spiel-Empfehlungen</div>
                 <div class="panel-body">
-                    
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-3">
-                            <img src="/Images/Questions/400_50s.jpg?t=20150731120135" class="ItemImage LicensedImage" data-image-id="272"><div class="SelectAreaCheckbox"><div class="CheckboxIconContainer"><i class="Checked-Icon fa fa-check-square-o"></i><i class="Unchecked-Icon fa fa-square-o"></i><div class="CheckboxText">Auswählen</div></div></div><div class="SelectAreaImageInfo"><div data-image-id="272" class="HoverMessage">Bild- und Lizenzinfos</div></div>
+                    <% foreach(var set in Model.SuggestedGames) { %>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-3">
+                                <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
+                            </div>
+                            <div class="col-xs-9" style="">
+                                <a href="<%= Links.GameCreateFromSet(set.Id) %>"><%= set.Name %></a>
+                            </div>
                         </div>
-                        <div class="col-xs-9" style="">
-                            <a href="/Fragen/Wie_heisst_diese_Nudelsorte/400/1">Wie heißt diese Nudelsorte?</a>
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-3">
-                            <img src="/Images/Questions/399_50s.jpg?t=20150731115809" class="ItemImage LicensedImage" data-image-id="271"><div class="SelectAreaCheckbox"><div class="CheckboxIconContainer"><i class="Checked-Icon fa fa-check-square-o"></i><i class="Unchecked-Icon fa fa-square-o"></i><div class="CheckboxText">Auswählen</div></div></div><div class="SelectAreaImageInfo"><div data-image-id="271" class="HoverMessage">Bild- und Lizenzinfos</div></div>
-                        </div>
-                        <div class="col-xs-9" style="">
-                            <a href="/Fragen/Wie_heisst_diese_Nudelsorte/399/1">Wie heißt diese Nudelsorte?</a>
-                        </div>
-                    </div>
-
+                    <% } %>
                 </div>
             </div>
             <div class="row">

@@ -146,6 +146,11 @@ public class ImageFrontendData
         return new ImageFrontendData(question.Id, ImageType.Question);
     }
 
+    public static ImageFrontendData Create(Set set)
+    {
+        return new ImageFrontendData(set.Id, ImageType.QuestionSet);
+    }
+
     public ImageUrl GetImageUrl(int width, bool asSquare = false, bool getDummy = false, ImageType imageTypeForDummy = ImageType.Question)
     {
         IImageSettings imageSettings;
