@@ -14,7 +14,7 @@ public class GetLearningSessionSteps
     {
         if (date.TrainingPlan != null && date.HasDatesInFuture)
         {
-            return CompletePreselectedSteps(date.TrainingPlan.GetNextTrainingDate().AllQuestionsInTraining.Select(q => new LearningSessionStep { Question = q.Question }).ToList());
+            return ComplementPreselectedSteps(date.TrainingPlan.GetNextTrainingDate().AllQuestionsInTraining.Select(q => new LearningSessionStep { Question = q.Question }).ToList());
         }
 
         var allQuestions = date.Sets.SelectMany(s => s.Questions()).ToList();
@@ -26,10 +26,10 @@ public class GetLearningSessionSteps
         var auxParams = GetStepSelectionParams(questions);
         var steps = GetSteps(auxParams, numberOfSteps);
 
-        return CompletePreselectedSteps(steps);
+        return ComplementPreselectedSteps(steps);
     }
 
-    public static IList<LearningSessionStep> CompletePreselectedSteps(IList<LearningSessionStep> steps)
+    private static IList<LearningSessionStep> ComplementPreselectedSteps(IList<LearningSessionStep> steps)
     {
         var idx = 0;
 
