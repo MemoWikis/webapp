@@ -13,4 +13,9 @@ public class KnowledgeController : BaseController
     {
         return View("Knowledge", new KnowledgeModel(emailKey:emailKey));
     }
+
+    public ActionResult KnowledgeScreenshot()
+    {
+        return View(new KnowledgeModel());
+    }
 }
