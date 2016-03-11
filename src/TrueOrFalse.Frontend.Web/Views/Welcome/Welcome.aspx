@@ -246,37 +246,37 @@
             <div class="col-md-12"><h3 class="media-heading">Entdecke neues Wissen!</h3></div>
         </div>
 
-        <div class="row" style="padding-top: 15px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Top-Kategorien nach Fragen:</h4>
+        <div class="panel panel-default" style="margin-top: 10px; margin-bottom: 5px;">
+            <div class="panel-heading">Top-Kategorien nach Fragen:</div>
+            <div class="panel-body">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
             </div>
         </div>
         
-        <div class="row" style="padding-top: 15px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Neueste Fragesätze:</h4>
+        <div class="panel panel-default">
+            <div class="panel-heading">Neueste Fragesätze:</div>
+            <div class="panel-body">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
         </div>
         
-        <div class="row" style="padding-top: 15px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Umfangreichste Fragesätze:</h4>
+        <div class="panel panel-default">
+            <div class="panel-heading">Umfangreichste Fragesätze:</div>
+            <div class="panel-body">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>
         </div>
         
-        <div class="row" style="padding-top: 15px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Neueste Fragen:</h4>
+        <div class="panel panel-default">
+            <div class="panel-heading">Neueste Fragen:</div>
+            <div class="panel-body" style="padding-top: 12px;">
                 <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
             </div>
         </div>
         
-        <div class="row" style="padding-top: 15px;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Neueste Kategorien:</h4>
+        <div class="panel panel-default">
+            <div class="panel-heading">Neueste Kategorien:</div>
+            <div class="panel-body" style="padding-top: 12px;">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
             </div>
         </div>
@@ -286,12 +286,12 @@
             <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
         </div>
         
-        <div class="row" style="padding-top: 15px; opacity: 0.4;">
-            <div class="col-md-12">
-                <h4 class="media-heading">Nutzer-Ranking nach Reputation</h4>
-                <p style="padding-left: 15px;"><img src="//placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Pauli (130 Punkte)</p>
-                <p style="padding-left: 15px;"><img src="//placecage.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Robert (120 Punkte)</p>
-                <p style="padding-left: 15px;"><img src="//placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
+        <div class="panel panel-default" style="padding-top: 15px; opacity: 0.4;">
+            <div class="panel-heading">Nutzer-Ranking nach Reputation</div>
+            <div class="panel-body" style="padding-top: 12px;">
+                <p style="padding-left: 5px;"><img src="//placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Pauli (130 Punkte)</p>
+                <p style="padding-left: 5px;"><img src="//placecage.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Robert (120 Punkte)</p>
+                <p style="padding-left: 5px;"><img src="//placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
             </div>
         </div>
 
