@@ -281,8 +281,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <hr/>
+        <div class="row" style="padding-top: 10px;">
             <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
         </div>
         
