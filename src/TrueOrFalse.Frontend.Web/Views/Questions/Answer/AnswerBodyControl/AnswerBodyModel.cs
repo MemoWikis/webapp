@@ -41,9 +41,15 @@ public class AnswerBodyModel : BaseModel
         IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
 
         if (player != null)
+        {
             AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
+            AjaxUrl_GetSolution = url => Links.GetSolution(url, question, round);
+        }
         else
+        {
             AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question);
+            AjaxUrl_GetSolution = url => Links.GetSolution(url, question);
+        }
 
         Init(question);
     }
@@ -73,6 +79,8 @@ public class AnswerBodyModel : BaseModel
             AjaxUrl_SendAnswer = url => Links.SendAnswer(url, answerQuestionModel.Question);
         }
 
+        AjaxUrl_GetSolution = url => Links.GetSolution(url, answerQuestionModel.Question);
+
         Init(answerQuestionModel.Question);
     }
 
@@ -80,7 +88,6 @@ public class AnswerBodyModel : BaseModel
     {
         QuestionId = question.Id;
 
-        AjaxUrl_GetSolution = url => Links.GetSolution(url, question);
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
 
