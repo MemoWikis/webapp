@@ -218,7 +218,7 @@ public class AnswerQuestionController : BaseController
                 correctAnswerReferences = question.References.Select( r => new
                 {
                     referenceId = r.Id,
-                    categoryId = r.Category == null ? -1 : r.Category.Id,
+                    categoryId = r.Category?.Id ?? -1,
                     referenceType = r.ReferenceType.GetName(),
                     additionalInfo = r.AdditionalInfo ?? "",
                     referenceText = r.ReferenceText ?? ""

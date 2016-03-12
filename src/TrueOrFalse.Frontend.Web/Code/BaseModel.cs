@@ -1,16 +1,14 @@
-﻿using System;
-
-public class BaseModel : BaseResolve
+﻿public class BaseModel : BaseResolve
 {
     public MenuLeftModel MenuLeftModel = new MenuLeftModel();
 
-    protected SessionUser _sessionUser { get { return Resolve<SessionUser>(); } }
-    protected SessionUiData _sessionUiData { get { return Resolve<SessionUiData>(); } }
+    protected SessionUser _sessionUser => Resolve<SessionUser>();
+    protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
 
-    public bool IsLoggedIn{ get { return _sessionUser.IsLoggedIn; } }
-    public bool IsInstallationAdmin { get { return _sessionUser.IsInstallationAdmin; } }
+    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
+    public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
 
-    public int UserId{ get { return _sessionUser.UserId; } }
+    public int UserId => _sessionUser.UserId;
 
     public Game UpcomingGame;
     
@@ -32,7 +30,5 @@ public class BaseModel : BaseResolve
             else
                 UpcomingGame = new Game();
         }
-
-
     }
 }

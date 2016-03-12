@@ -8,8 +8,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly LearningSessionStepRepo _learningSessionStepRepo;
 
     public AnswerQuestion(QuestionRepo questionRepo, 
-                            AnswerLog answerLog, 
-                            LearningSessionStepRepo learningSessionStepRepo)
+                          AnswerLog answerLog, 
+                          LearningSessionStepRepo learningSessionStepRepo)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
