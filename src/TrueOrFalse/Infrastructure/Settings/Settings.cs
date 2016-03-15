@@ -18,6 +18,7 @@ public class Settings
     public static string EmailTo = "team@memucho.de";
     
     public static string MemuchoCookie = "memucho";
+    public static int MemuchoUserId = 26;
 
     public static bool DevelopOffline()
     {

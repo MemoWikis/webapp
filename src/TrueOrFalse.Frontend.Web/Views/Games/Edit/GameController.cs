@@ -68,6 +68,10 @@ public class GameController : BaseController
         game.WillStartAt = DateTime.Now.AddMinutes(Convert.ToInt32(gameModel.StartsInMinutes));
         game.Comment = gameModel.Comment;
         game.AddPlayer(_sessionUser.User, isCreator:true);
+
+        if (!_sessionUser.User.IsMemuchoUser)
+            game.AddPlayer(this.MemuchoUser());
+
         game.Status = GameStatus.Ready;
         game.RoundCount = gameModel.Rounds;
 

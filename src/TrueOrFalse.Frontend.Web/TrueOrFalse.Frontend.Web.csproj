@@ -1221,7 +1221,6 @@
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
     <Compile Include="Views\Maintenance\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
-    <Compile Include="Views\Questions\Answer\AnswerQuestionPage.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
       <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
     </Compile>

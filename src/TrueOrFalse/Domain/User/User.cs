@@ -30,6 +30,8 @@ public class User : DomainEntity
     /// <summary>Users I follow</summary>
     public virtual IList<FollowerInfo> Following { get; set; }
 
+    public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+
     public virtual void AddFollower(User follower)
     {
         Followers.Add(new FollowerInfo {Follower = follower, User = this, DateCreated = DateTime.Now, DateModified = DateTime.Now});
