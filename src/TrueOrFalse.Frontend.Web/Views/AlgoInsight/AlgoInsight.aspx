@@ -21,14 +21,12 @@
         <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>
     </h2>
     
-    <div class="alert alert-info col-md-12" style="margin-top: 14px; margin-bottom: 26px;">
-        <p>
-            Hier erhältst du Einblick in die Algorithmen, die die <b>Antwortwahrscheinlichkeit</b> 
-            und den <b>optimalen Wiedervorlage-Zeitpunkt</b> berechnen.
-            MEMuchO ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
-            Wir freuen uns über Verbesserungsvorschläge.
-        </p>        
-    </div>
+    <p style="margin-top: 20px; margin-bottom: 20px;">
+        Hier erhältst du Einblick in die Algorithmen, die die <b>Richtige-Antwort-Wahrscheinlichkeit</b> 
+        und den <b>optimalen Wiedervorlage-Zeitpunkt</b> berechnen.
+        MEMuchO ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
+        Wir freuen uns über Verbesserungsvorschläge.
+    </p>        
             
     <div class="row">
         

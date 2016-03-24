@@ -129,7 +129,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="padding-top: 7px; padding-bottom: 7px;">
-                <a href="#" class="btn btn-default" data-dismiss="modal">Schliessen</a>
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
             </div>
         </div>
     </div>

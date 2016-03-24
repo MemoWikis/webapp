@@ -61,7 +61,7 @@
                 pieSliceText: 'none',
                 chartArea: { 'width': '100%', height: '100%', top: 10},
                 slices: {
-                    0: { color: 'lightgreen' },
+                    0: { color: '#afd534' },
                     1: { color: '#fdd648' },
                     2: { color: 'lightsalmon' },
                     3: { color: 'silver'}
@@ -102,7 +102,7 @@
                 height: 80,
                 chartArea: { width: '90%', height: '90%', top: 0 },
                 slices: {
-                    0: { color: 'lightgreen' },
+                    0: { color: '#afd534' },
                     1: { color: '#fdd648' },
                     2: { color: 'lightsalmon' },
                     3: { color: 'silver' }
@@ -138,7 +138,7 @@
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
-                colors: ['lightgreen', 'lightsalmon'],
+                colors: ['#afd534', 'lightsalmon'],
                 isStacked: true,
             };
 
@@ -318,7 +318,7 @@
         </div>
 
         <div class="row" style="margin-top: 20px;">
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Termine</h3>
                     <% if (Model.Dates.Count ==0) { %>
@@ -338,7 +338,7 @@
                             index++;
                             %>
                             <div class="row" style="margin-bottom: 3px;">
-                                <div class="col-xs-9">
+                                <div class="col-xs-12">
                                     <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
                                     <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                     <% foreach(var set in date.Sets){ %>
@@ -406,7 +406,7 @@
                 </div>
             </div>
             
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
 
@@ -426,7 +426,7 @@
                 </div>
             </div>
                            
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Im Netzwerk</h3>
                     <% if (Model.NetworkActivities.Count == 0) { %>
@@ -439,7 +439,7 @@
                                     <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                 </div>
                                 <div class="col-xs-9" style="">
-                                    <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                    <div style="color: silver; font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
                                     <div style="clear: left;">
                                         <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
                                         <%= UserActivityTools.GetActionObject(activity) %>

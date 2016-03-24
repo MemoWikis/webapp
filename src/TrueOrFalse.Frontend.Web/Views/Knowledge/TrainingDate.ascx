@@ -21,9 +21,9 @@
 </div>
 <div class="row" style="font-size: 12px; margin-bottom: 13px;">
     <div class="col-md-6">
-        <%= Model.DateTime.ToString("dd.mm.yyyy HH:MM") %>Uhr
+        <%= Model.DateTime.ToString("dd.MM.yyyy HH:mm") %> Uhr
     </div>
     <div class="col-md-6">
-        ca. <%= Model.Minutes %>min Aufwand
+        ca. <%= Model.Minutes %> min Aufwand
     </div>
 </div>

@@ -22,6 +22,6 @@ public class TrainingDateModel
     {
         return Date != null ?
             Date.GetTitle() :
-            "Kontinuierliches lernen";
+            "Langzeitlernen";
     }
 }

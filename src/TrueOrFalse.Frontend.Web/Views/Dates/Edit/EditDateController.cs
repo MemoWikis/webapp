@@ -21,7 +21,7 @@ public class EditDateController : BaseController
             model.Message = new ErrorMessage("Es wurde kein Termin gespeichert. Der Termin darf nicht in der Vergangenheit liegen. Bitte prüfe das Datum.");
 
         if (!model.HasSets())
-            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
+            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatz hinzu.");
 
         if (!model.HasErrorMsg())
         {
@@ -62,7 +62,7 @@ public class EditDateController : BaseController
             model.Message = new ErrorMessage("Es wurde kein Termin gespeichert. Der Termin darf nicht in der Vergangenheit liegen Bitte prüfe das Datum.");
 
         if(!model.HasSets())
-            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
+            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatz hinzu.");
         else
             model.FillSetsFromInput();
 
