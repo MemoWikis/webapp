@@ -14,6 +14,7 @@ public class KnowledgeController : BaseController
         return View("Knowledge", new KnowledgeModel(emailKey:emailKey));
     }
 
+    [SetMenu(MenuEntry.Knowledge)]
     public ActionResult KnowledgeScreenshot()
     {
         return View(new KnowledgeModel());
