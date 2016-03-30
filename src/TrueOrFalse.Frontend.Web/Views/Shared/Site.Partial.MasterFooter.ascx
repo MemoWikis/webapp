@@ -25,7 +25,7 @@
     
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
-            <span style="display: inline;">Auf:</span>
+<%--            <span style="display: inline;">Auf:</span>
             <ul id="footerOn" style="margin-left: -15px;">
                 <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>        
                 <li>
@@ -41,7 +41,7 @@
                         )
                     </a>
                 </li>
-            </ul>
+            </ul>--%>
         </div>
         <div class="col-sm-6 col-xs-12 text-align-right-md">
             <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%>
