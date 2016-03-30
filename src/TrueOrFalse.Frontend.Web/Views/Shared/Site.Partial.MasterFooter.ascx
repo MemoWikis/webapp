@@ -7,8 +7,9 @@
     
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
-            <a href="#"><i class="fa fa-bar-chart"></i>
-                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>
+            <%--<a href="#"><i class="fa fa-bar-chart"></i>--%>
+                <%--<%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>--%>
+                <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%>
             </a>
         </div>
 
@@ -44,7 +45,7 @@
             </ul>--%>
         </div>
         <div class="col-sm-6 col-xs-12 text-align-right-md">
-            <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%>
+            
         </div>
     </div>
     <div class="pull-right">
