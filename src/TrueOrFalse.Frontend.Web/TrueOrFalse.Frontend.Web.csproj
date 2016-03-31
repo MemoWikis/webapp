@@ -442,7 +442,6 @@
     </Content>
     <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
-    <Content Include="Views\Knowledge\KnowledgeScreenshot.aspx" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
