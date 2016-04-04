@@ -57,6 +57,10 @@ public class DatesController : BaseController
 
         R<LearningSessionRepo>().Create(learningSession);
 
+        var trainingDate = date.TrainingPlan.GetNextTrainingDate();
+        trainingDate.LearningSession = learningSession;
+        R<TrainingDateRepo>().Update(trainingDate);
+
         return Redirect(Links.LearningSession(learningSession));
     }
 
