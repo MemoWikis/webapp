@@ -14,6 +14,8 @@ public class LearningSessionMap : ClassMap<LearningSession>
         References(x => x.SetToLearn);
         References(x => x.DateToLearn);
 
+        Map(x => x.IsCompleted);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }
