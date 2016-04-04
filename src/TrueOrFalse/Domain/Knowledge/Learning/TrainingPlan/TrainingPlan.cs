@@ -12,14 +12,14 @@ public class TrainingPlan : DomainEntity
     public virtual IList<TrainingDate> DatesInFuture => Dates.Where(d => d.DateTime > DateTimeX.Now()).OrderBy(d => d.DateTime).ToList();
     public virtual IList<TrainingDate> DatesInPast => Dates.Where(d => d.DateTime <= DateTimeX.Now()).OrderBy(d => d.DateTime).ToList();
 
+    public virtual TimeSpan TimeToNextDate => HasDatesInFuture ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
+
     public const int SecondsPerQuestionEst = 30;
 
     public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (DatesInFuture.Count * Questions.Count) * SecondsPerQuestionEst);
     public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (DatesInPast.Count * Questions.Count) * SecondsPerQuestionEst);
 
     public virtual bool HasDatesInFuture => DatesInFuture.Any();
-    public virtual TimeSpan TimeToNextDate => DatesInFuture.First().DateTime - DateTime.Now;
-
     public virtual TrainingPlanSettings Settings { get; set; }
 
     /// <summary>Questions to train</summary>
