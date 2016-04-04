@@ -14,7 +14,12 @@ public class GetLearningSessionSteps
     {
         if (date.TrainingPlan != null && date.HasDatesInFuture)
         {
-            return ComplementPreselectedSteps(date.TrainingPlan.GetNextTrainingDate().AllQuestionsInTraining.Select(q => new LearningSessionStep { Question = q.Question }).ToList());
+            return ComplementPreselectedSteps(
+                date.TrainingPlan
+                    .GetNextTrainingDate()
+                    .AllQuestionsInTraining
+                    .Select(q => new LearningSessionStep { Question = q.Question })
+                    .ToList());
         }
 
         var allQuestions = date.Sets.SelectMany(s => s.Questions()).ToList();
