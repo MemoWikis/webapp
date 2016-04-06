@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -47,6 +48,8 @@ public class DatesController : BaseController
     public ActionResult StartLearningSession(int dateId)
     {
         var date = Resolve<DateRepo>().GetById(dateId);
+        if (date.User != _sessionUser.User)
+            throw new Exception("not logged in or not possessing user");
 
         var learningSession = new LearningSession
         {
