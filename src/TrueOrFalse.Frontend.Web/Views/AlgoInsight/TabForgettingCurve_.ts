@@ -112,7 +112,7 @@ class ForgettingCurves {
 
     GetSampleData() {
         return google.visualization.arrayToDataTable([
-            ['Age', 'Alle (No-Brainer)', 'X-Days-Exactly-3 (Alle)', 'Max-Strak-Of-4 (Mittelschwer)'],
+            ['Age', 'Schüler Sek. II (No-Brainer)', '4. Wiederholung (Alle)', 'Nachmittag (12-18 Uhr) (Mittelschwer)'],
             [1, 99, 89, 82],
             [1.2, 98, 85, 70],
             [1.3, 98, 86, 72],

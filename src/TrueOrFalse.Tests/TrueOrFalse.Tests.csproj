@@ -207,7 +207,6 @@
     <Compile Include="1 View\MarkdownTests.cs" />
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
-    <Compile Include="2 Domain.Userlytics\GetRandomLogoCssClassTest.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
     <Compile Include="2 Domain\Date\Date_time.cs" />
@@ -223,12 +222,16 @@
     <Compile Include="2 Domain\Image\ImageMetadata_from_wikimedia.cs" />
     <Compile Include="2 Domain\Image\Image_persistence.cs" />
     <Compile Include="2 Domain\Knowledge\Learning\Should_create_learningSession_steps.cs" />
+    <Compile Include="2 Domain\Knowledge\Learning\TrainingPlan\ContextTrainingPlan.cs" />
+    <Compile Include="2 Domain\Knowledge\Learning\TrainingPlan\Should_create_trainingsplan.cs" />
+    <Compile Include="2 Domain\Knowledge\Learning\TrainingPlan\Should_persist_training.cs" />
     <Compile Include="2 Domain\Knowledge\Should_add_probabilities_for_sets_and_dates.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_probability.cs" />
     <Compile Include="2 Domain\Knowledge\Should_calculate_wish_knowledge_count.cs" />
     <Compile Include="2 Domain\Knowledge\Should_recalculate_all_wish_knowledge_items.cs" />
     <Compile Include="2 Domain\Knowledge\Learning\LearningSession_persistence.cs" />
     <Compile Include="2 Domain\Message\Message_persistence.cs" />
+    <Compile Include="2 Domain\Message\Send_trainingDate_reminder.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerDate_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerText_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_get_following_answer.cs" />
@@ -278,6 +281,7 @@
     <Compile Include="2 Domain\User\Registration\Spec.IsUserNameAvailable.cs" />
     <Compile Include="2 Domain\User\Membership_persistence.cs" />
     <Compile Include="2 Domain\User\User_persistence.cs" />
+    <Compile Include="3 Infrastructure\Autofac_should_export_all_registered_services.cs" />
     <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
@@ -294,7 +298,6 @@
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.UserWhoWantsToRegister.cs" />
-    <Compile Include="_ code\AutofacTestModule.cs" />
     <Compile Include="_ code\BaseTest.cs" />
     <Compile Include="2 Domain\Question\Question_persistence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -343,7 +346,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="2 Domain.Userlytics\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

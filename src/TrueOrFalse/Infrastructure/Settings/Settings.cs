@@ -5,7 +5,8 @@ public class Settings
 {
     private static readonly AppSettingsReader _settingReader = new AppSettingsReader();
 
-    [ThreadStatic] public static bool UseWebConfig;
+    [ThreadStatic]
+    public static bool UseWebConfig;
 
     public static string SolrUrl;
     public static string SolrPath;
@@ -17,6 +18,7 @@ public class Settings
     public static string EmailTo = "team@memucho.de";
     
     public static string MemuchoCookie = "memucho";
+    public static int MemuchoUserId = 26;
 
     public static bool DevelopOffline()
     {

@@ -10,6 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
     <div class="row">
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;">
@@ -26,10 +27,19 @@
                     <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
                         aus diesem Fragesatz <br> sind in deinem aktiven Wissen. <br><br> Im 'aktiven Wissen' ist eine Frage, wenn die<br> Antwortwahrscheinlichkeit über 90% liegt." 
                         data-html="true" data-placement="bottom">
-                        <i class="fa fa-tachometer" style="margin-left: 20px; color: green;"></i> 
+                        <i class="fa fa-tachometer" style="margin-left: 20px; color: #69D069;"></i> 
                         <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
                     </span>
 
+                </span>
+                
+                <span style="font-size: 16px;">
+                    Kategorien:
+                    <div style="display: inline-block; position: relative; top:-2px;">
+                        <% foreach (var category in Model.Set.Categories){ %>
+                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                        <% } %>
+                    </div>
                 </span>
             </h2>
         </div>
@@ -40,7 +50,7 @@
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
                 
-                <a style="font-size: 12px;" data-btn="startLearningSession" href="<%= Links.StartSetLearningSession(Model.Id) %>"><i class="fa fa-line-chart"></i> 
+                <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>"><i class="fa fa-line-chart"></i> 
                     Jetzt üben
                 </a>
                 
@@ -53,30 +63,11 @@
         </div>
    
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
-            <%  foreach(var questionRow in Model.QuestionsInSet){ %>
-                <div class="rowBase row question-row" style="padding-top: 7px; padding-bottom: 7px;">
-                    <div class="col-md-1 col-sm-2 col-xs-2 col-0" style="padding-left: 2px; padding-right: 0px;">
-                        <%= GetQuestionImageFrontendData.Run(questionRow.Question)
-                                .RenderHtmlImageBasis(128, true, ImageType.Question) %>                        
-                    </div>
-                    <div class="col-md-9 col-sm-7 col-xs-10 col-1">         
-                        <a href="<%= Links.AnswerQuestion(Url, questionRow.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
-                            <%=questionRow.Question.Text %>
-                        </a>    
-                    </div>
-                    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 0px;">
-                        <div class="row">
-                            <div class="col-sm-12 col-xs-6">
-                                <% Html.RenderPartial("AnswerHistory", questionRow.HistoryAndProbability.AnswerHistory); %>         
-                            </div>
-                            <div class="col-sm-12 col-xs-6">
-                                <% Html.RenderPartial("CorrectnessProbability", questionRow.HistoryAndProbability.CorrectnessProbability); %>                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <% } %>
+            <div id="rowContainer">
+                <%  foreach(var questionRow in Model.QuestionsInSet){ %>
+                    <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
+                <% } %>
+            </div>
 
             <div class="row "style="margin-top: 20px; height: 40px;">
                 <div class="col-md-12">
@@ -108,15 +99,6 @@
                 vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
             </div>
             
-            <div style="margin-top: 10px;">
-                <b style="color: darkgray">Alle</b><br/>
-                gemerkt: 837x  (Rang: 7)<br/>          
-                gesehen: 20x (Rang: 71)<br/>
-                    
-                <b style="color: darkgray; margin-top:7px; display: block">Ich</b>
-                gesehen: 2x<br/>
-                merken: 
-            </div>
         </div>
     </div>
 

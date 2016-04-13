@@ -1,18 +1,10 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 
-public class WritePersistentLoginToCookie : IRegisterAsInstancePerLifetime
+public class WritePersistentLoginToCookie
 {
-    private readonly CreatePersistentLogin _createPersistentLogin;
-
-    public WritePersistentLoginToCookie(CreatePersistentLogin createPersistentLogin)
+    public static void Run(int userId)
     {
-        _createPersistentLogin = createPersistentLogin;
-    }
-
-    public void Run(int userId)
-    {
-        var loginGuid = _createPersistentLogin.Run(userId);
+        var loginGuid = CreatePersistentLogin.Run(userId);
 
         var cookie = MemuchoCookie.GetNew();
         cookie.Values.Add("persistentLogin", userId + "-x-" + loginGuid);

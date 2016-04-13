@@ -1,21 +1,10 @@
 ﻿using TrueOrFalse.Search;
 
-public class AnswerQuestionControllerSearch : IRegisterAsInstancePerLifetime
+public class AnswerQuestionControllerSearch
 {
-    private readonly QuestionRepo _questionRepo;
-    private readonly SearchQuestions _searchQuestions;
-
-    public AnswerQuestionControllerSearch(
-        QuestionRepo questionRepo,
-        SearchQuestions searchQuestions)
+    public static Question Run(QuestionSearchSpec searchSpec)
     {
-        _questionRepo = questionRepo;
-        _searchQuestions = searchQuestions;
-    }
-
-    public Question Run(QuestionSearchSpec searchSpec)
-    {
-        var questionIds = _searchQuestions.Run(searchSpec).QuestionIds.ToArray();
-        return _questionRepo.GetById(questionIds[0]);
+        var questionIds = Sl.R<SearchQuestions>().Run(searchSpec).QuestionIds.ToArray();
+        return Sl.R<QuestionRepo>().GetById(questionIds[0]);
     }
 }

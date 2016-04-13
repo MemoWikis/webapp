@@ -9,7 +9,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
     [Test]
     public void Authorized_licenses_should_contain_all_necessary_information()
     {
-        var allAuthorizedLicenses = LicenseRepository.GetAllAuthorizedLicenses();
+        var allAuthorizedLicenses = LicenseRepo.GetAllAuthorizedLicenses();
 
         //Check for licenses without valid id
         Assert.That(allAuthorizedLicenses.All(license => license.Id > 0),
@@ -52,14 +52,14 @@ internal class ImageLicenses_from_wikimedia : BaseTest
     public void Registered_licenses_should_not_contain_duplicates()
     {
         var duplicateIdLicenses =
-            LicenseRepository.GetAllRegisteredLicenses()
+            LicenseRepo.GetAllRegisteredLicenses()
                 .GroupBy(l => l.Id)
                 .Where(grp => grp.Count() > 1)
                 .SelectMany(grp => grp)
                 .ToList();
 
         var duplicateSearchStringLicenses =
-            LicenseRepository.GetAllRegisteredLicenses()
+            LicenseRepo.GetAllRegisteredLicenses()
                 .GroupBy(l => l.WikiSearchString)
                 .Where(grp => grp.Count() > 1)
                 .SelectMany(grp => grp)
@@ -71,11 +71,11 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                                                             duplicateSearchStringLicense.WikiSearchString, duplicateSearchStringLicense.Id));
 
         Assert.That(
-            !LicenseRepository.GetAllRegisteredLicenses().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
+            !LicenseRepo.GetAllRegisteredLicenses().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
             "Duplicate ID(s):" + Environment.NewLine + String.Join(Environment.NewLine, duplicateIdLicenses.Select(license => license.Id).ToList()));
 
         Assert.That(
-            !LicenseRepository.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
+            !LicenseRepo.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
             messageDuplicateSearchStrings);
     }
         
@@ -189,7 +189,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                         [[Category:Featured pictures of China]]
                         {{QualityImage}}";
 
-        Assert.That(LicenseRepository.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
+        Assert.That(LicenseRepo.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
         Assert.That(LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAuthorizedParsedLicenses failed");
     }
 

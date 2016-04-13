@@ -11,14 +11,12 @@ public class SetsController : BaseController
     private readonly SetsControllerSearch _setsControllerSearch;
     private readonly SetsControllerUtil _util;
 
-    public SetsController(
-        SetRepo setRepo, 
-        SetsControllerSearch setsControllerSearch)
+    public SetsController(SetRepo setRepo)
     {
         _setRepo = setRepo;
-        _setsControllerSearch = setsControllerSearch;
+        _setsControllerSearch = new SetsControllerSearch();
 
-        _util = new SetsControllerUtil(setsControllerSearch);
+        _util = new SetsControllerUtil(_setsControllerSearch);
     }
 
     public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page, string orderBy)

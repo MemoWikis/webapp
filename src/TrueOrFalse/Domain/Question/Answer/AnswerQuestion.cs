@@ -8,8 +8,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly LearningSessionStepRepo _learningSessionStepRepo;
 
     public AnswerQuestion(QuestionRepo questionRepo, 
-                            AnswerLog answerLog, 
-                            LearningSessionStepRepo learningSessionStepRepo)
+                          AnswerLog answerLog, 
+                          LearningSessionStepRepo learningSessionStepRepo)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
@@ -72,21 +72,14 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
         
         if (countLastAnswerAsCorrect)
-            return Run(questionId, "", userId,
-            (question, answerQuestionResult) =>
-                {
-                    _answerLog.CountLastAnswerAsCorrect(question, userId);
-                },
-            countLastAnswerAsCorrect: true);
+            return Run(questionId, "", userId, (question, answerQuestionResult) =>
+                _answerLog.CountLastAnswerAsCorrect(question, userId), countLastAnswerAsCorrect: true
+            );
 
         if (countUnansweredAsCorrect)
-            return Run(
-                questionId, "", userId,
-                (question, answerQuestionResult) =>
-                    {
-                        _answerLog.CountUnansweredAsCorrect(question, userId);
-                    },
-                countUnansweredAsCorrect: true);
+            return Run(questionId, "", userId, (question, answerQuestionResult) =>
+                _answerLog.CountUnansweredAsCorrect(question, userId), countUnansweredAsCorrect: true
+            );
 
         throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect true");
     }
@@ -102,22 +95,21 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         var question = _questionRepo.GetById(questionId);
         var solution = new GetQuestionSolution().Run(question);
 
-        var result = new AnswerQuestionResult();
-        result.IsCorrect = solution.IsCorrect(answer.Trim());
-        result.CorrectAnswer = solution.CorrectAnswer();
-        result.AnswerGiven = answer;
+        var result = new AnswerQuestionResult
+        {
+            IsCorrect = solution.IsCorrect(answer.Trim()),
+            CorrectAnswer = solution.CorrectAnswer(),
+            AnswerGiven = answer
+        };
 
         action(question, result);
 
         ProbabilityUpdate_Question.Run(question);
         if (countLastAnswerAsCorrect)
-        {
             Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
-        } 
         else
-        {
             Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
-        }
+
         Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, userId);
 
         return result;

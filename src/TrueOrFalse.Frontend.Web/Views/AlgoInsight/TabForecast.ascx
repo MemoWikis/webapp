@@ -34,7 +34,7 @@
     function drawColumnChart() {
         var data = google.visualization.arrayToDataTable([
             ['Anzahl Wiederholungen',' <%= Model.FeatureModelsRepetition
-                    .First()
+                    .First(x => x.Summaries.Count() != 0)
                     .Summaries
                     .Select(x => x.Algo.Name)
                     .Aggregate((a, b) => a + "','" + b ) %>'],

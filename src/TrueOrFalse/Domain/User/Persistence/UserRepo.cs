@@ -34,7 +34,12 @@ public class UserRepo : RepositoryDbBase<User>
 
     public override void Update(User user)
     {
-        _searchIndexUser.Update(user);
+        this.Update(user, false);
+    }
+
+    public void Update(User user, bool runSolrUpdateAsync = false)
+    {
+        _searchIndexUser.Update(user, runSolrUpdateAsync);
         base.Update(user);
     }
 

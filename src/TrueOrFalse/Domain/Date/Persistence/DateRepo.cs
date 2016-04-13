@@ -1,14 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Linq;
 
 public class DateRepo : RepositoryDbBase<Date>
 {
     public DateRepo(ISession session) : base(session)
     {
+    }
+
+    public void CreateWithTrainingPlan(Date date)
+    {
+        Create(date);
+        var trainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings());
+        date.TrainingPlan = trainingPlan;
+        Sl.R<TrainingPlanRepo>().Create(trainingPlan);
+        Update(date);
+    }
+
+    public void UpdateWithTrainingPlan(Date date)
+    {
+        TrainingPlanUpdater.Run(date.TrainingPlan);
+        Update(date);
+        Flush();
     }
 
     public override void Create(Date date)
@@ -18,10 +32,12 @@ public class DateRepo : RepositoryDbBase<Date>
         UserActivityAdd.CreatedDate(date);
     }
 
-    public IList<Date> GetBy(int[] userIds, bool onlyUpcoming = false, bool onlyPrevious = false)
+    public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false)
     {
-        var queryOver = _session.QueryOver<Date>()
-            .WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
+        var queryOver = _session.QueryOver<Date>();
+
+        if(userIds != null)
+            queryOver = queryOver.WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
 
         if (onlyUpcoming)
             queryOver.Where(d => d.DateTime >= DateTime.Now);

@@ -9,12 +9,21 @@ class Pin {
     _changeInProgress: boolean;
     _pinRowType: PinRowType;
 
-    constructor(pinRowType : PinRowType) {
+    OnPinChanged: () => void;
+
+    constructor(pinRowType : PinRowType, onPinChanged : () => void = null) {
 
         var self = this;
         this._pinRowType = pinRowType;
+        this.OnPinChanged = onPinChanged;
 
-        $(".Pin").find(".iAdded, .iAddedNot").click(function (e) {
+        var allPins;
+        if (self.IsQuestionRow())
+            allPins = $(".Pin[data-question-id]").find(".iAdded, .iAddedNot"); 
+        else if (self.IsSetDetail() || self.IsSetRow())
+            allPins = $(".Pin[data-set-id]").find(".iAdded, .iAddedNot"); 
+
+        allPins.click(function (e) {
 
             var elemPin = $($(this).parents(".Pin"));
 
@@ -30,9 +39,9 @@ class Pin {
 
             self._changeInProgress = true;
 
-            if ($(this).hasClass("iAddedNot")) {
+            if ($(this).hasClass("iAddedNot")) /* pin */ {
 
-                self.Pin(id);
+                self.Pin(id, onPinChanged);
                 elemPin.find(".iAddedNot, .iAddSpinner").toggle();
 
                 window.setTimeout(() => {
@@ -47,9 +56,9 @@ class Pin {
                     self.SetSidebarValue(self.GetSidebarValue(elemPin) + 1, elemPin);
                 }, 400);
 
-            } else {
+            } else /* unpin */ {
 
-                self.UnPin(id);
+                self.UnPin(id, onPinChanged);
                 elemPin.find(".iAdded, .iAddSpinner").toggle();
 
                 window.setTimeout(() => {
@@ -67,7 +76,7 @@ class Pin {
         });
 
         $("#JS-RemoveQuestions").click(() => {
-            SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'));
+            SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged);
         });
     }
 
@@ -85,19 +94,19 @@ class Pin {
             return parseInt(/[0-9]*/.exec(parent.parents(".rowBase").find(".totalPins").html())[0]);
     }
 
-    Pin(id: number) {
+    Pin(id: number, onPinChanged: () => void = null) {
         if (this.IsQuestionRow()) {
             QuestionsApi.Pin(id);
-        } else if(this.IsSetRow() || this.IsSetDetail()) {
-            SetsApi.Pin(id);
+        } else if (this.IsSetRow() || this.IsSetDetail()) {
+            SetsApi.Pin(id, onPinChanged);
         }
     }
 
-    UnPin(id: number) {
+    UnPin(id: number, onPinChanged: () => void = null) {
         if (this.IsQuestionRow()) {
             QuestionsApi.Unpin(id);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
-            
+
             SetsApi.Unpin(id);
 
             $("#JS-RemoveQuestions").attr("data-set-id", id);

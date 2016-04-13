@@ -115,43 +115,51 @@
             <% if(!Model.NotAllowed){ %>
                 <div class="search-section">
                     <div class="SearchQuestionsForm form-horizontal">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
-                                </span>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                    <%--<% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
+                                        <div class="col-xs-12" style="padding-top: 10px; font-size: large">
+                                            Oder suchst du: 
+                                            <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
+                                                <%= Model.Suggestion %>
+                                            </a> ?
+                                        </div>
+                                    <% } %>--%>
+                                </div>                                
                             </div>
-                            <%--<% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
-                                <div class="col-xs-12" style="padding-top: 10px; font-size: large">
-                                    Oder suchst du: 
-                                    <a href="<%= Model.SearchUrl + "/" + Model.Suggestion %>">
-                                        <%= Model.Suggestion %>
-                                    </a> ?
-                                </div>
-                            <% } %>--%>
-                        </div>
-                        <div class="form-group">
-                            <div class="JS-RelatedCategories">
-                                <script type="text/javascript">
-                                    $(function () {
-                                        <%foreach (var category in Model.FilteredCategories) { %>
-                                        $("#txtCategoryFilter")
-                                            .val('<%=category.Name %>')
-                                            .data('category-id', '<%=category.Id %>')
-                                            .trigger('initCategoryFromTxt')
-                                            .trigger('initCategoryIds', '<%=category.Id %>');
-                                        <% } %>
-                                    });
-                                </script>
-                                <div class="JS-CatInputContainer ControlInline">
-                                    <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einer Kategorie"  />
-                                </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="JS-RelatedCategories">
+                                        <script type="text/javascript">
+                                            $(function () {
+                                                <%foreach (var category in Model.FilteredCategories) { %>
+                                                $("#txtCategoryFilter")
+                                                    .val('<%=category.Name %>')
+                                                    .data('category-id', '<%=category.Id %>')
+                                                    .trigger('initCategoryFromTxt')
+                                                    .trigger('initCategoryIds', '<%=category.Id %>');
+                                                <% } %>
+                                            });
+                                        </script>
+                                        <div class="JS-CatInputContainer ControlInline pull-right">
+                                            <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einer Kategorie"  />
+                                        </div>
+                                    </div>
+                                </div>        
                             </div>
                         </div>
+                        
+                        
                     </div>
                     <div class="row">
-                        <div class="col-xs-5">
+                        <div class="col-sm-8">
                             <ul class="nav pull-left">
                                 <li class="dropdown" id="menu2">
                                     <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu2">
@@ -178,9 +186,28 @@
                             </a>
                             <a href="#" class="btn btn-default btn-xs" style=" margin-left: 7px;" id="btnExport" data-placement="bottom" data-original-title="Herunterladen">
                                 <i class="fa fa-cloud-download"></i>
-                            </a>                        
+                            </a>
+                            
+                            <% if(Model.ActiveTabWish) { 
+                                   var summary = Model.KnowledgeSummary;
+                            %>
+                                <div style="display: inline-block" id="StatusFilterBar">
+                                    <span style="<%= KnowledgeStatus.Solid.GetColorBgCss()%>">
+                                        <label><input type="checkbox" id="ckbFilterSolid" <%= Model.SearchFilter.Knowledge_Solid ? "checked" : "" %> /> <%= summary.Solid %> Sicher</label>
+                                    </span>
+                                    <span style="<%= KnowledgeStatus.NeedsConsolidation.GetColorBgCss()%>">
+                                        <label><input type="checkbox" id="ckbFilterConsolidation" <%= Model.SearchFilter.Knowledge_ShouldConsolidate ? "checked" : "" %> /> <%= summary.NeedsConsolidation %> festigen</label>
+                                    </span>
+                                    <span style="<%= KnowledgeStatus.NeedsLearning.GetColorBgCss()%>">
+                                        <label><input type="checkbox" id="ckbFilterNeedsLearning" <%= Model.SearchFilter.Knowledge_ShouldLearn ? "checked" : "" %> /> <%= summary.NeedsLearning %> lernen</label>
+                                    </span>
+                                    <span style="<%= KnowledgeStatus.NotLearned.GetColorBgCss()%>">
+                                        <label style="padding-right: 10px;"><input type="checkbox" id="ckbFilterNotLearned" <%= Model.SearchFilter.Knowledge_None ? "checked" : "" %> /> <%= summary.NotLearned %> Nicht gelernt </label>
+                                    </span>
+                                </div>
+                            <% } %>
                         </div>
-                        <div class="col-xs-7">
+                        <div class="col-sm-4">
                             <ul class="nav pull-right">
                                 <li class="dropdown" id="menu1">
                                     <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">

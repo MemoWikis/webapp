@@ -19,7 +19,7 @@ public class DatesController : BaseController
             Data = new{
                 DateInfo = date.GetTitle(),
             }
-        };        
+        };
     }
 
     [HttpPost]
@@ -33,6 +33,7 @@ public class DatesController : BaseController
     {
         var previousDates = R<DateRepo>()
             .GetBy(UserId, onlyPrevious: true)
+            .OrderByDescending(x => x.DateTime)
             .Select(d => new DateRowModel(d))
             .ToList();
 
@@ -56,6 +57,67 @@ public class DatesController : BaseController
 
         R<LearningSessionRepo>().Create(learningSession);
 
+        var trainingDate = date.TrainingPlan.GetNextTrainingDate();
+        trainingDate.LearningSession = learningSession;
+        R<TrainingDateRepo>().Update(trainingDate);
+
         return Redirect(Links.LearningSession(learningSession));
+    }
+
+    private string RenderTrainingDates(Date date)
+    {
+        var trainingDatesModel = new TrainingSettingsDatesModel(date);
+
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Dates/Modals/TrainingSettingsDates.ascx",
+            trainingDatesModel,
+            ControllerContext
+        );
+    }
+
+    public JsonResult GetUpcomingDatesJson()
+    {
+        return Json(new
+        {
+            AllUpcomingDates = R<DateRepo>()
+                .GetBy(UserId, onlyUpcoming: true)
+                .Select(x => new
+                {
+                    DateId = x.Id,
+                    Title = x.GetTitle()
+                })
+        });
+    }
+
+    public JsonResult TrainingPlanGet(int dateId)
+    {
+        var date = R<DateRepo>().GetById(dateId);
+        return TrainingPlanInfo2Json(date);
+    }
+
+    public JsonResult TrainingPlanUpdate(int dateId, TrainingPlanSettings planSettings)
+    {
+        var date = R<DateRepo>().GetById(dateId);
+
+        TrainingPlanUpdater.Run(date.TrainingPlan, planSettings);
+
+        return TrainingPlanInfo2Json(date);
+    }
+
+    private JsonResult TrainingPlanInfo2Json(Date date)
+    {
+        var planSettings = date.TrainingPlan.Settings;
+
+        return Json(new
+        {   
+            Html = RenderTrainingDates(date),
+            RemainingDates = date.TrainingPlan.DatesInFuture.Count,
+            RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
+            QuestionCount = date.CountQuestions(),
+            QuestionsPerDateIdealAmount = planSettings.QuestionsPerDate_IdealAmount,
+            AnswerProbabilityThreshold = planSettings.AnswerProbabilityThreshold,
+            QuestionsPerDateMinimum = planSettings.QuestionsPerDate_Minimum,
+            SpacingBetweenSessionsInMinutes = planSettings.SpacingBetweenSessionsInMinutes,
+        });
     }
 }

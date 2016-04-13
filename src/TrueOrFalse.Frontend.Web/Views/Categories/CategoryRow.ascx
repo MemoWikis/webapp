@@ -13,13 +13,13 @@
         <div class="MainContentUpper">
             <div class="TitleText" style="font-size: 20px">
                 <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
-                <span style="font-size: small;">(<%= Model.QuestionCount %> Fragen)</span>
+                <span style="font-size: small;">(<%= Model.QuestionCount + " Frage".Plural(Model.AnswersTotal, "n") %> )</span>
                 <button class="btn btn-default btn-xs" type="button">Folgen</button>
             </div>
             
             <% if(Model.AnswersTotal > 0) { %>
                 <div style="margin-top: 6px;">
-                    <%= Model.AnswersTotal + " Frage".Plural(Model.AnswersTotal, "n") %> beantwortet, 
+                    <%= Model.AnswersTotal  %>x beantwortet, 
                     davon <%= Model.CorrectnesProbability %>% richtig.
                 </div>
             <% } %>

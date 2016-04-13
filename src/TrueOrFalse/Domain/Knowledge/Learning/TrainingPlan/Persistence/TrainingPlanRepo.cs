@@ -1,0 +1,56 @@
+﻿using System;
+using System.Linq;
+using NHibernate;
+using NHibernate.Util;
+
+public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
+{
+    public TrainingPlanRepo(ISession session) : base(session)
+    {
+    }
+
+    public void DeleteDates(TrainingPlan trainingPlan, DateTime after)
+    {
+        trainingPlan.Dates.
+            Where(d => d.DateTime > after).ToList().
+            ForEach(d => trainingPlan.Dates.Remove(d));
+
+        Update(trainingPlan);
+        Flush();
+    }
+
+    public override void Update(TrainingPlan trainingPlan)
+    {
+        trainingPlan.Dates.ForEach(x =>
+        {
+            if (x.DateCreated == DateTime.MinValue){
+                x.DateCreated = DateTime.Now;
+                x.DateModified = DateTime.Now;
+            }
+
+            x.AllQuestions.ForEach(q => {
+                if (q.DateCreated == DateTime.MinValue){
+                    q.DateCreated = DateTime.Now;
+                    q.DateModified = DateTime.Now;
+                }     
+            });
+        });
+
+        base.Update(trainingPlan);
+    }
+
+    public override void Create(TrainingPlan trainingPlan)
+    {
+        trainingPlan.Dates.ForEach(x => {
+            x.DateCreated = DateTime.Now;
+            x.DateModified = DateTime.Now;
+
+            x.AllQuestions.ForEach(q => {
+                q.DateCreated = DateTime.Now;
+                q.DateModified = DateTime.Now;
+            });
+        });
+
+        base.Create(trainingPlan);
+    }
+}

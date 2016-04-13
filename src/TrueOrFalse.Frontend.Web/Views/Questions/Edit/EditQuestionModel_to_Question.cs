@@ -3,15 +3,15 @@ using System.Collections.Specialized;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
 
-public class EditQuestionModel_to_Question : IRegisterAsInstancePerLifetime
+public class EditQuestionModel_to_Question 
 {
-    public Question Create(EditQuestionModel model, NameValueCollection postData)
+    public static Question Create(EditQuestionModel model, NameValueCollection postData)
     {
         var question = new Question { License = "CC BY 3.0" };
         return Update(model, question, postData);
     }
 
-    public Question Update(EditQuestionModel model, Question question, NameValueCollection postData)
+    public static Question Update(EditQuestionModel model, Question question, NameValueCollection postData)
     {
         question.Text = model.Question;
         question.TextExtended = model.QuestionExtended;

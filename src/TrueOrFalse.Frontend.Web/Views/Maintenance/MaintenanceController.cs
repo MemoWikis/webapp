@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Maintenance;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using TrueOrFalse.Web;
 
+[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class MaintenanceController : BaseController
 {
     [AccessOnlyAsAdmin]
@@ -17,7 +20,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult Images(int? page)
     {
-        var model = new MaintenanceImagesModel();
+        var model = new ImagesModel();
         if (!page.HasValue)
         {
             model.CkbOpen = true;
@@ -38,7 +41,7 @@ public class MaintenanceController : BaseController
 
     [AccessOnlyAsAdmin]
     [HttpPost]
-    public ActionResult Images(int? page, MaintenanceImagesModel imageModel)
+    public ActionResult Images(int? page, ImagesModel imageModel)
     {
         imageModel.Init(null);
         return View(imageModel);
@@ -47,19 +50,19 @@ public class MaintenanceController : BaseController
     public ActionResult LoadMarkupAndParse(int? page)
     {
         Resolve<LoadImageMarkups>().UpdateAllWithoutAuthorizedMainLicense();
-        return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
+        return View("Images", new ImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
     public ActionResult LoadMarkupAndParseAll(int? page)
     {
         Resolve<LoadImageMarkups>().UpdateAll();
-        return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
+        return View("Images", new ImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
     public ActionResult SetAllImageLicenseStati()
     {
         SetImageLicenseStatus.RunForAll();
-        return View("Images", new MaintenanceImagesModel(null) { Message = new SuccessMessage("License stati have been set") });
+        return View("Images", new ImagesModel(null) { Message = new SuccessMessage("License stati have been set") });
     }
 
     public JsonResult ImageReload(int imageMetaDataId)
@@ -78,19 +81,37 @@ public class MaintenanceController : BaseController
     public ActionResult ParseMarkupFromDb(int? page)
     {
         Resolve<ParseMarkupFromDb>().Run();
-        return View("Images", new MaintenanceImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
+        return View("Images", new ImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
     [AccessOnlyAsAdmin]
     public ActionResult Messages()
     {
-        return View(new MaintenanceMessagesModel());
+        return View(new MessagesModel());
     }
 
     [AccessOnlyAsAdmin]
+    public ActionResult CMS()
+    {
+        var settings = Sl.R<DbSettingsRepo>().Get();
+        return View(new CMSModel {SuggestedGames = settings.SuggestedGames}.Init());
+    }
+
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
+    public ActionResult CMS(CMSModel cmsModel)
+    {
+        cmsModel.ConsolidateGames();
+        cmsModel.Message = new SuccessMessage("CMS Werte gespeichert");
+
+        ModelState.Clear();
+
+        return View(cmsModel);
+    }
+
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult RecalculateAllKnowledgeItems()
     {
-        R<AddProbabilitiesEntries_ForSetsAndDates>().RunForAllUsers();
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().RunForAllUsers();
 
         ProbabilityUpdate_ValuationAll.Run();
         ProbabilityUpdate_Question.Run();
@@ -102,78 +123,79 @@ public class MaintenanceController : BaseController
         });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult CalcAggregatedValuesQuestions()
     {
         Resolve<UpdateQuestionAnswerCounts>().Run();
         return View("Maintenance", new MaintenanceModel{Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.")});
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult CalcAggregatedValuesSets()
     {
         Resolve<UpdateSetDataForQuestion>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregierte Werte wurden aktualisiert.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult DeleteValuationsForRemovedSets()
     {
         Resolve<DeleteValuationsForNonExisitingSets>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Valuations for deleted sets are removed.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult UpdateFieldQuestionCountForCategories()
     {
         Resolve<UpdateQuestionCountForCategory>().All();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Kategorien wurde aktualisiert.") });
     }
 
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult UpdateUserReputationAndRankings()
     {
         Resolve<UpdateReputationsAndRank>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.") });
     }
 
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult UpdateUserWishCount()
     {
         Resolve<UpdateWishcount>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult ReIndexAllQuestions()
     {
         Resolve<ReIndexAllQuestions>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragen wurden neu indiziert.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult ReIndexAllSets()
     {
         Resolve<ReIndexAllSets>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragesätze wurden neu indiziert.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult ReIndexAllCategories()
     {
         Resolve<ReIndexAllCategories>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Kategorien wurden neu indiziert.") });
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult ReIndexAllUsers(){
         Resolve<ReIndexAllUsers>().Run();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 
-    [HttpPost]
-    [AccessOnlyAsAdmin]
-    public ActionResult SendMessage(MaintenanceMessagesModel model)
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
+    public ActionResult SendMessage(MessagesModel model)
     {
-        Resolve<SendCustomMsg>().Run(
+        CustomMsg.Send(
             model.TestMsgReceiverId, 
             model.TestMsgSubject,
             model.TestMsgBody);
@@ -185,20 +207,29 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     public ActionResult Tools()
     {
-        return View(new MaintenanceToolsModel());
+        return View(new ToolsModel());
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult Throw500()
     {
         throw new Exception("Some random exception");
     }
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult CleanUpWorkInProgressQuestions()
     {
-        JobScheduler.StartCleanupWorkInProgressJob();
-        return View("Tools", new MaintenanceToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
+        JobScheduler.StartImmediately_CleanUpWorkInProgressQuestions();
+        return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Cleanup work in progress' wird ausgeführt.") });
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult TrainingReminderCheck()
+    {
+        JobScheduler.StartImmediately_TrainingReminderCheck();
+        return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Training Reminder Check' wird ausgeführt.") });
     }
 
     [AccessOnlyAsAdmin]

@@ -18,3 +18,7 @@
     font-size: 16px;
   }
 }
+.sparklineTotals,
+.sparklineTotalsUser {
+  font-size: 11px;
+}

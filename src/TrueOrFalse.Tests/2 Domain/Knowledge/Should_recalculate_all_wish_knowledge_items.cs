@@ -26,7 +26,7 @@ namespace TrueOrFalse.Tests
 
             Resolve<ISession>().Flush();
 
-            var summary = Resolve<KnowledgeSummaryLoader>().Run(context.Creator.Id);
+            var summary = KnowledgeSummaryLoader.Run(context.Creator.Id);
             Assert.That(summary.Total, Is.EqualTo(2));
             Assert.That(summary.NotLearned, Is.EqualTo(2));
         }

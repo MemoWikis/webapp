@@ -28,8 +28,8 @@ namespace TrueOrFalse.Tests
 
         private readonly Action the_email_address_should_not_be_usable_anymore 
             = () => {
-                       Assert.That(Resolve<IsEmailAddressAvailable>().Yes(_context.EmailAddress), Is.False);
-                       Assert.That(Resolve<IsEmailAddressAvailable>().Yes("some@otherAddress.com"), Is.True);
+                       Assert.That(IsEmailAddressAvailable.Yes(_context.EmailAddress), Is.False);
+                       Assert.That(IsEmailAddressAvailable.Yes("some@otherAddress.com"), Is.True);
                      };
     }
 }

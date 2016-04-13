@@ -61,7 +61,7 @@ public class ImageFrontendData
                     ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
                 {
                     HasAuthorizedMainLicense = true;
-                    MainLicense = LicenseRepository.GetById(MainLicenseInfo.MainLicenseId);
+                    MainLicense = LicenseRepo.GetById(MainLicenseInfo.MainLicenseId);
                     if (MainLicense != null)
                     {
                         LicenseName = !String.IsNullOrEmpty(MainLicense.LicenseShortName)
@@ -144,6 +144,11 @@ public class ImageFrontendData
     public static ImageFrontendData Create(Question question)
     {
         return new ImageFrontendData(question.Id, ImageType.Question);
+    }
+
+    public static ImageFrontendData Create(Set set)
+    {
+        return new ImageFrontendData(set.Id, ImageType.QuestionSet);
     }
 
     public ImageUrl GetImageUrl(int width, bool asSquare = false, bool getDummy = false, ImageType imageTypeForDummy = ImageType.Question)

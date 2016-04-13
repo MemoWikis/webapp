@@ -1,44 +1,26 @@
-﻿public class LoginFromCookie : IRegisterAsInstancePerLifetime
+﻿public class LoginFromCookie
 {
-    private readonly GetPersistentLoginCookieValues _getPersistentLoginCookieValues;
-    private readonly WritePersistentLoginToCookie _writePersistentLoginToCookie;
-    private readonly PersistentLoginRepository _persistentLoginRepository;
-    private readonly SessionUser _sessionUser;
-    private readonly UserRepo _userRepo;
-
-    public LoginFromCookie(GetPersistentLoginCookieValues getPersistentLoginCookieValues,
-                            WritePersistentLoginToCookie writePersistentLoginToCookie,
-                            PersistentLoginRepository persistentLoginRepository, 
-                            SessionUser sessionUser, 
-                            UserRepo userRepo)
+    public static bool Run()
     {
-        _getPersistentLoginCookieValues = getPersistentLoginCookieValues;
-        _writePersistentLoginToCookie = writePersistentLoginToCookie;
-        _persistentLoginRepository = persistentLoginRepository;
-        _sessionUser = sessionUser;
-        _userRepo = userRepo;
-    }
-
-    public bool Run()
-    {
-        var cookieValues = _getPersistentLoginCookieValues.Run();
+        var cookieValues = GetPersistentLoginCookieValues.Run();
 
         if (!cookieValues.Exists())
             return false;
 
-        var persistentLogin = _persistentLoginRepository.Get(cookieValues.UserId, cookieValues.LoginGuid);
+        var persistentLoginRepo = Sl.R<PersistentLoginRepo>();
+        var persistentLogin = persistentLoginRepo.Get(cookieValues.UserId, cookieValues.LoginGuid);
 
         if (persistentLogin == null)
             return false;
 
-        var user = _userRepo.GetById(cookieValues.UserId);
+        var user = Sl.R<UserRepo>().GetById(cookieValues.UserId);
         if (user == null)
             return false;
 
-        _persistentLoginRepository.Delete(persistentLogin);
-        _writePersistentLoginToCookie.Run(cookieValues.UserId);
+        persistentLoginRepo.Delete(persistentLogin);
+        WritePersistentLoginToCookie.Run(cookieValues.UserId);
 
-        _sessionUser.Login(user);            
+        Sl.R<SessionUser>().Login(user);            
 
         return true;
     }

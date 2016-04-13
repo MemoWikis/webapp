@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using NHibernate;
+using TrueOrFalse;
 
 public static class QuestionInKnowledge
 {
@@ -25,7 +24,7 @@ public static class QuestionInKnowledge
         sb.Append(GenerateRelevanceAllQuery(questionValuation.Question.Id));
 
         sb.Append(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
-        sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));    
+        sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
         
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
@@ -49,7 +48,10 @@ public static class QuestionInKnowledge
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
 
-        Sl.R<ReputationUpdate>().ForQuestion(questionId);
+        AsyncExe.Run(()=> { Sl.R<ReputationUpdate>().ForQuestion(questionId); });
+
+        if(relevance != -1)
+            Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, user.Id);
     }
 
     public static void UpdateRelevanceAll(int questionId, int userId, int relevance)

@@ -3,29 +3,23 @@ using System.Net.Mail;
 
 public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
-    private readonly IsEmailAddressAvailable _emailAddressIsAvailable;
-    private readonly SendEmail _sendMailMessage;
     private readonly PasswordRecoveryTokenRepository _tokenRepository;
 
-    public PasswordRecovery(IsEmailAddressAvailable emailAddressIsAvailable, 
-                            SendEmail sendMailMessage,
-                            PasswordRecoveryTokenRepository tokenRepository)
+    public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository)
     {
-        _emailAddressIsAvailable = emailAddressIsAvailable;
-        _sendMailMessage = sendMailMessage;
         _tokenRepository = tokenRepository;
     }
 
     public PasswordRecoveryResult Run(string email)
     {
-        if (_emailAddressIsAvailable.Yes(email))
+        if (IsEmailAddressAvailable.Yes(email))
             return new PasswordRecoveryResult { TheEmailDoesNotExist = true, Success = false };
 
         var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-        var passwortResetUrl = "http://memucho.de/Welcome/PasswordReset/" + token;
+        var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
 
         _tokenRepository.Create(new PasswordRecoveryToken{ Email = email, Token = token });
-        _sendMailMessage.Run(GetMailMessage(email, passwortResetUrl));
+        SendEmail.Run(GetMailMessage(email, passwortResetUrl));
 
         return new PasswordRecoveryResult { Success = true };
     }

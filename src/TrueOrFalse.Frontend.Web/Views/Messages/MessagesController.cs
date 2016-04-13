@@ -28,7 +28,7 @@ public class MessagesController : BaseController
                 }
             }));
 
-        var messages = Resolve<MessageRepository>()
+        var messages = Resolve<MessageRepo>()
             .GetForUser(_sessionUser.User.Id);
 
         return View(new MessageModel(messages));

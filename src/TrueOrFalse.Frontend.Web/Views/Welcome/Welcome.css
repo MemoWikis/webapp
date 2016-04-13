@@ -16,3 +16,14 @@ div.question-short-row:first-child {
 a.question-short {
   font-size: 15px;
 }
+.panel-default {
+  border: none;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  padding-bottom: 0px;
+  box-shadow: none;
+}
+.panel-default .panel-body {
+  padding-top: 2px;
+  padding-bottom: 0px;
+}

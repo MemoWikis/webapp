@@ -17,6 +17,10 @@
         );
     }
 
+    static OnlyAllowedForLoggedInUsers() {
+           
+    }
+
     static Init() {
 
         var countDowns = $('#divMsgPartOfGame [data-countdown-game]');

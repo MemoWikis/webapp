@@ -76,11 +76,19 @@
       "enabled": false
     }
   },
-  {
-    "outputFile": "Views/Knowledge/Knowledge.css",
-    "inputFile": "Views/Knowledge/Knowledge.less",
+    {
+        "outputFile": "Views/Knowledge/Knowledge.css",
+        "inputFile": "Views/Knowledge/Knowledge.less",
+        "minify": {
+            "enabled": false
+        }
+    },
+    {
+    "outputFile": "Views/Beta/Beta.css",
+    "inputFile": "Views/Beta/Beta.less",
     "minify": {
       "enabled": false
     }
-  }
+  },
+
 ]

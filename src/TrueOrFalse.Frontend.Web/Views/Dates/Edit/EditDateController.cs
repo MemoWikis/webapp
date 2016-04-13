@@ -21,12 +21,13 @@ public class EditDateController : BaseController
             model.Message = new ErrorMessage("Es wurde kein Termin gespeichert. Der Termin darf nicht in der Vergangenheit liegen. Bitte prüfe das Datum.");
 
         if (!model.HasSets())
-            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
+            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatz hinzu.");
 
         if (!model.HasErrorMsg())
         {
             var date = model.ToDate();
-            R<DateRepo>().Create(date);
+
+            R<DateRepo>().CreateWithTrainingPlan(date);
 
             _sessionUiData.VisitedDatePages.Add(new DateHistoryItem(date, HistoryItemType.Edit));
 
@@ -61,7 +62,7 @@ public class EditDateController : BaseController
             model.Message = new ErrorMessage("Es wurde kein Termin gespeichert. Der Termin darf nicht in der Vergangenheit liegen Bitte prüfe das Datum.");
 
         if(!model.HasSets())
-            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatze hinzu.");
+            model.Message = new ErrorMessage("Der Termin konnte nicht gespeichert werden. Bitte füge mindestens einen Fragesatz hinzu.");
         else
             model.FillSetsFromInput();
 
@@ -70,8 +71,7 @@ public class EditDateController : BaseController
             var dateRepo = R<DateRepo>();
             var date = dateRepo.GetById(model.DateId);
 
-            dateRepo.Update(model.FillDateFromInput(date));
-            dateRepo.Flush();
+            dateRepo.UpdateWithTrainingPlan(model.FillDateFromInput(date));
 
             CareAboutAnswerProbability(date);
 
@@ -84,7 +84,7 @@ public class EditDateController : BaseController
 
     private void CareAboutAnswerProbability(Date date)
     {
-        R<AddProbabilitiesEntries_ForSetsAndDates>().Run(date.Sets, _sessionUser.User);
+        R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(date.Sets, _sessionUser.User);
         R<ProbabilityUpdate_Valuation>().Run(date.Sets, _sessionUser.UserId);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CategoryNameAllowed : IRegisterAsInstancePerLifetime
+public class CategoryNameAllowed
 {
     public IList<Category> ExistingCategories { get; private set; }
 

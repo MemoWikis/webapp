@@ -65,16 +65,16 @@ public class KnowledgeModel : BaseModel
         var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
 
         Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
-        HasLearnedInLast30Days = (Last30Days.Sum(d => d.TotalAnswers) > 0);
+        HasLearnedInLast30Days = Last30Days.Sum(d => d.TotalAnswers) > 0;
 
-        KnowledgeSummary = R<KnowledgeSummaryLoader>().Run(UserId);
+        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
 
         //Dates = GetSampleDates.Run();
         Dates = R<DateRepo>().GetBy(UserId, true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 
 
-        AnswerRecent = R<GetLastAnswers>().Run(UserId, 5);
+        AnswerRecent = R<AnswerRepo>().GetByUser(UserId, amount: 5);
         StreakDays = R<GetStreaksDays>().Run(User);
 
         //GET NETWORK ACTIVITY

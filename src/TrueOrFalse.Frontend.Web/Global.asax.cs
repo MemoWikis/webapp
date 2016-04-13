@@ -41,14 +41,13 @@ namespace TrueOrFalse.Frontend.Web
             
             JobScheduler.Start();
 
-            Logg.r().Information("Application Start");
+            Logg.r().Information("=== Application Start ===============================");
         }
 
         protected void Application_Stop()
         {
-            Logg.r().Information("Application Stop");
+            Logg.r().Information("=== Application Stop ===============================");
         }
-
 
         private void Application_BeginRequest()
         {
@@ -81,7 +80,7 @@ namespace TrueOrFalse.Frontend.Web
         protected void Session_Start()
         {
             if(!Sl.Resolve<SessionUser>().IsLoggedIn)
-                Sl.Resolve<LoginFromCookie>().Run();
+                LoginFromCookie.Run();
         }
 
         protected void Application_Error(Object sender, EventArgs e)

@@ -29,22 +29,22 @@
         <h2 class="PageHeader">Impressum</h2>
 
         <p style="padding-bottom: 5px;">Angaben gemäß § 5 TMG:<br/></p>
-        Robert Mischke<br />
-        Warschauer Str. 62<br />
-        10243 Berlin<br />
+        Christof Mauersberger<br />
+        Leopoldstraße 8b<br />
+        10317 Berlin<br />
 
         <h3>Kontakt:</h3>
         <table><tr>
         <td><p>Telefon: </p></td>
-        <td><p>030 97005939</p></td></tr>
+        <td><p>01577 6825707</p></td></tr>
         <tr><td><p>E-Mail:</p></td>
-        <td><p ><span class="mailme">robert at robert-m dot de</span></p></td>
+        <td><p ><span class="mailme">team at memucho dot de</span></p></td>
         </tr></table>
         <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
-        <p>Robert Mischke<br />
+        <p>Christof Mauersberger<br />
         <br />
-        Warschauer Str. 62<br />
-        10243 Berlin</p>
+        Leopoldstraße 8b<br />
+        10317 Berlin</p>
         <p> </p>
         <p>Quelle: <i>erstellt mit dem <a href="http://www.e-recht24.de/impressum-generator.html" target="_blank">Impressum-Generator Einzelunternehmer</a> von eRecht24 u. in Teilen angepasst.</i></p>
         <h3>Haftungsausschluss:</h3>

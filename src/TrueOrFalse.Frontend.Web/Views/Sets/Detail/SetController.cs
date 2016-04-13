@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Text;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using RabbitMQ.Client.Framing.Impl;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class SetController : BaseController
@@ -22,6 +19,23 @@ public class SetController : BaseController
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
 
         return View(_viewLocation, new SetModel(set));
+    }
+
+    public JsonResult GetRows(int id)
+    {
+        var set = Resolve<SetRepo>().GetById(id);
+        var setModel = new SetModel(set);
+
+        var sbHtmlRows = new StringBuilder();
+        foreach (var rowModel in setModel.QuestionsInSet)
+            sbHtmlRows.Append(
+                ViewRenderer.RenderPartialView(
+                    "~/Views/Sets/Detail/SetQuestionRowResult.ascx", 
+                    rowModel,
+                    ControllerContext)
+            );
+            
+        return Json( new { Html = sbHtmlRows.ToString() });
     }
 
     public ActionResult StartLearningSession(int setId)

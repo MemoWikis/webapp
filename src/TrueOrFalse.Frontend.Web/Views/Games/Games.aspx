@@ -2,6 +2,7 @@
     MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
     Inherits="ViewPage<GamesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/bundles/js/Games") %>
@@ -69,6 +70,27 @@
             </div>
             
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="panel panel-default" style="border: none;">
+                <div class="panel-heading">Spiel-Empfehlungen</div>
+                <div class="panel-body">
+                    <% foreach(var set in Model.SuggestedGames) { %>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-3">
+                                <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
+                            </div>
+                            <div class="col-xs-9" style="">
+                                <a href="<%= Links.GameCreateFromSet(set.Id) %>"><%= set.Name %></a>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    
+                </div>
+            </div>
+        </div>
     </div>
 </asp:Content>

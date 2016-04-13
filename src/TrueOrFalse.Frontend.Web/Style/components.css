@@ -180,30 +180,6 @@ ul.ui-autocomplete .Reference .Url {
 }
 /* ItemLists/Rows (Categories, Questions, Sets etc.)
 ----------------------------------------------------------*/
-.question-row,
-.category-row,
-.set-row,
-.user-row,
-.date-row,
-.game-row {
-  margin-left: -10px;
-  margin-right: -10px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-@media (min-width: 768px) {
-  .question-row,
-  .category-row,
-  .set-row,
-  .user-row,
-  .date-row,
-  .game-row {
-    margin-left: -5px;
-    margin-right: -5px;
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
 .question-row:hover,
 .category-row:hover,
 .set-row:hover,

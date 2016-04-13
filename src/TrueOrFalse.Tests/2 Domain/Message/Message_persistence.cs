@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests.Persistence
@@ -16,7 +12,7 @@ namespace TrueOrFalse.Tests.Persistence
             var context = ContextUser.New().Add("Jule").Persist();
             var userId = context.All.First().Id;
 
-            Resolve<SendCustomMsg>().Run(userId, "subject", "body");
+            CustomMsg.Send(userId, "subject", "body");
         }
     }
 }

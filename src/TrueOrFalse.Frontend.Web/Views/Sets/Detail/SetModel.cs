@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using TrueOrFalse;
 
 public class SetModel : BaseModel
 {
@@ -11,7 +10,7 @@ public class SetModel : BaseModel
 
     public Set Set;
 
-    public IList<SetQuestionRow> QuestionsInSet;
+    public IList<SetQuestionRowModel> QuestionsInSet;
 
     public User Creator;
     public string CreatorName;
@@ -61,8 +60,9 @@ public class SetModel : BaseModel
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
         QuestionsInSet = set.QuestionsInSet.Select(
-            x => new SetQuestionRow(
+            x => new SetQuestionRowModel(
                 x.Question, 
+                x.Set,
                 totalsPerUser.ByQuestionId(x.Question.Id),
                 questionValutionsForCurrentUser.ByQuestionId(x.Question.Id)))
             .ToList();

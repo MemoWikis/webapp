@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MaintenanceMessagesModel>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<MessagesModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -10,15 +10,22 @@
                 <li><a href="/Maintenance/Images">Bilder</a></li>
                 <li class="active"><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li><a href="/Maintenance/Tools">Tools</a></li>
+                <li><a href="/Maintenance/CMS">CMS</a></li>
             </ul>
         </div>
     </nav>
     <% Html.Message(Model.Message); %>
         
-    <h4 style="margin-top: 20px;">Nachricht senden</h4>
+    <div class="row">
+        <div class="col-md-10 col-sm-offset-2">
+            <h4 style="margin-top: 20px;" class="">Nachricht senden</h4>
+        </div>
+    </div>
+    
     <div class="form-horizontal">
         <% using (Html.BeginForm("SendMessage", "Maintenance")){%>
-        
+
+            <%= Html.AntiForgeryToken() %>
             <div class="form-group">
                 <%= Html.LabelFor(m => m.TestMsgReceiverId, new {@class="col-sm-2 control-label"} ) %>
                 <div class="col-xs-2">

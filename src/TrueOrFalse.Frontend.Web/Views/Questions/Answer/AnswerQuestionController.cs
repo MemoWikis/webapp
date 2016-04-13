@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.Search;
 using TrueOrFalse.Web;
 
 public class AnswerQuestionController : BaseController
@@ -94,6 +95,10 @@ public class AnswerQuestionController : BaseController
                 activeSearchSpec.Filter.Categories.Clear();
                 activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
                 activeSearchSpec.OrderBy.PersonalRelevance.Desc();
+                activeSearchSpec.PageSize = 1;
+                
+                //set total count
+                Sl.R<SearchQuestions>().Run(activeSearchSpec);
             }
         }
 
@@ -140,7 +145,7 @@ public class AnswerQuestionController : BaseController
     {
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
-            var question = Resolve<AnswerQuestionControllerSearch>().Run(searchSpec);
+            var question = AnswerQuestionControllerSearch.Run(searchSpec);
 
             if (searchSpec.HistoryItem != null){
                 if (searchSpec.HistoryItem.Question != null){
@@ -200,10 +205,17 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id, string answer)
+    public JsonResult GetSolution(int id, string answer, int? roundId)
     {
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
+
+        if (IsLoggedIn)
+            if(roundId == null)
+                R<AnswerLog>().LogAnswerView(question, this.UserId);
+            else
+                R<AnswerLog>().LogAnswerView(question, this.UserId, roundId);
+
         return new JsonResult
         {
             Data = new
@@ -213,7 +225,7 @@ public class AnswerQuestionController : BaseController
                 correctAnswerReferences = question.References.Select( r => new
                 {
                     referenceId = r.Id,
-                    categoryId = r.Category == null ? -1 : r.Category.Id,
+                    categoryId = r.Category?.Id ?? -1,
                     referenceType = r.ReferenceType.GetName(),
                     additionalInfo = r.AdditionalInfo ?? "",
                     referenceText = r.ReferenceText ?? ""
@@ -262,7 +274,8 @@ public class AnswerQuestionController : BaseController
             {
                 LoadJs = true,
                 AnswerHistory = new AnswerHistoryModel(question, valuationForUser),
-                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser)
+                CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser),
+                QuestionValuation = questionValuationForUser
             }
         );
     }

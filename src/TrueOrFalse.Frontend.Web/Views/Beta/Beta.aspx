@@ -1,4 +1,4 @@
-﻿<%@ Page Title="MEMuchO in Beta" Language="C#" MasterPageFile="~/Views/Shared/Site.Beta.Master" AutoEventWireup="true" 
+﻿<%@ Page Title="memucho in Beta" Language="C#" MasterPageFile="~/Views/Shared/Site.Beta.Master" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
@@ -27,7 +27,8 @@
                     <div class="col-sm-5 col-md-4 form-group">
                         <input type="password" class="form-control col-sm-6"
                             id="txtBetaCode" placeholder="Beta-Code" 
-                            style="font-size: 18px; width: 100% !important">
+                            style="font-size: 18px; width: 100% !important; display: block; margin-bottom: 5px;">
+                        <a href="#txtEmailRequester" style="font-size: 12px; display: block; text-align: left; margin-left: 5px;">Zugang anfragen</a>
                     </div>
                     <div class="col-sm-2">
                         <a class="btn btn-success shake" href="#" style="font-size: 18px;" id="btnEnter">
@@ -42,10 +43,10 @@
     
     <div class="row">
         <div class="well col-md-8 col-md-offset-2" style="margin-top: 35px; background-color: whitesmoke; ">
-            <h3>Was wird MEMuchO?</h3>
+            <h3>Was wird Memucho?</h3>
             <p>
-                MEMuchO wird eine vernetzte Lern- und Wissensplattform. <br/>
-                Mit MEMuchO kannst du...
+                Memucho wird eine vernetzte Lern- und Wissensplattform. <br/>
+                Mit Memucho kannst du...
             </p>
             
             <div class="row">
@@ -53,7 +54,7 @@
                   <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Schneller lernen</b>
                     <p>
-                        MEMuchO analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. 
+                        Memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. 
                         So brauchst du weniger Zeit zum Lernen.
                     </p>
                 </div>
@@ -70,7 +71,7 @@
                   <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Zu einem bestimmten Termin lernen</b>
                     <p>
-                        Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in MEMuchO weißt du immer, 
+                        Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in Memucho weißt du immer, 
                         was du schon sicher kannst und wo du noch weiter üben musst.
                     </p>
                 </div>
@@ -78,7 +79,7 @@
                   <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Überblick behalten</b>
                     <p>
-                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit MEMuchO behältst du den Überblick.
+                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit Memucho behältst du den Überblick.
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -86,7 +87,7 @@
                   <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Wissen teilen</b>
                     <p>
-                        MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. 
+                        Memucho ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. 
                         Denn Wissen wird mehr, wenn man es teilt!
                     </p>
                 </div>
@@ -102,13 +103,25 @@
 
         </div>
     </div>
+    
+    <div class="row">
+        <div class="Survey well col-md-8 col-md-offset-2">
+            <p class="" style="font-weight: bold">Mach mit bei unserer kleinen Umfrage!</p>
+            <p>
+                Es dauert nur 5 Minuten und du hilfst uns dabei, Memucho besser zu machen.<br/>
+                <a class="btn btn-md btn-info" href="http://www.memucho.de/umfrage/LRyB9p" target="_blank" style="margin-top: 15px; margin-bottom: -5px;">
+                    <i class="fa fa-arrow-right" style="margin-right: 5px;"></i>Umfrage starten
+                </a>
+            </p>
+        </div>
+    </div>
 
     <div class="row">
         <div class="well col-md-8 col-md-offset-2" style="background-color: whitesmoke; ">
             <p style="font-weight: bold">Open Educational Resources</p>
             <p>
-                MEMuchO ist Teil der Bewegung zur Förderung freier Bildungsinhalte. <br/>
-                Alle Inhalte bei MEMuchO werden frei zugänglich sein!
+                Memucho ist Teil der Bewegung zur Förderung freier Bildungsinhalte. <br/>
+                Alle Inhalte bei Memucho werden frei zugänglich sein!
             </p>
         </div>
     </div>
@@ -116,7 +129,7 @@
     <div class="row" style="margin-bottom: 100px;">
         <div class="col-md-6 col-md-offset-3">
             <h1>
-                Betatester
+                Betatester werden
             </h1>
             
             <p>

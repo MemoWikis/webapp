@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SolrNet;
 
 namespace TrueOrFalse.Search
@@ -15,10 +11,17 @@ namespace TrueOrFalse.Search
             _solrOperations = solrOperations;
         }
 
-        public void Update(User user)
+        public void Update(User user, bool runSolrUpdateAsync = false)
         {
-            _solrOperations.Add(ToUserSolrMap.Run(user));
-            _solrOperations.Commit();
+            Action action = () => {
+                _solrOperations.Add(ToUserSolrMap.Run(user));
+                _solrOperations.Commit();
+            };
+
+            if (runSolrUpdateAsync)
+                AsyncExe.Run(action);
+            else
+                action();
         }
 
         public void Delete(User user)

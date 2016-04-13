@@ -18,7 +18,7 @@ public class LicenseParser
 {
     public static List<License> GetAllParsedLicenses(string wikiMarkup)
     {
-        return LicenseRepository.GetAllRegisteredLicenses()
+        return LicenseRepo.GetAllRegisteredLicenses()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString)
                                                         && x.ToLower() == license.WikiSearchString.ToLower()))
             .ToList();
@@ -26,7 +26,7 @@ public class LicenseParser
 
     public static List<License> GetAuthorizedParsedLicenses(string wikiMarkup)
     {
-         return LicenseRepository.GetAllAuthorizedLicenses()
+         return LicenseRepo.GetAllAuthorizedLicenses()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString) 
                                                         && x.ToLower() == license.WikiSearchString.ToLower()))
             .ToList();
@@ -34,7 +34,7 @@ public class LicenseParser
 
     public static List<License> GetAuthorizedParsedLicenses(List<License> allLicenses)
     {
-        return SortLicenses(LicenseRepository.GetAllAuthorizedLicenses()
+        return SortLicenses(LicenseRepo.GetAllAuthorizedLicenses()
                                 .Where(license => allLicenses.Any(x => x.Id == license.Id))
                                 .ToList());
     }
@@ -119,9 +119,9 @@ public class LicenseParser
 
     public static LicenseState CheckImageLicenseState(License license, ImageMetaData imageMetaData)
     {
-        if (LicenseRepository.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
+        if (LicenseRepo.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
         {
-            if (LicenseRepository.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
+            if (LicenseRepo.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
                 return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? LicenseState.IsApplicableForImage : LicenseState.AuthorizedButInfoMissing;
             }

@@ -30,7 +30,7 @@
                         </a>
                     <% } %>
                     <% if(Model.LearningSession.IsDateSession) { %>
-                        aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetInfo() %></a>
+                        aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
                     <% } %>
                 </div>
             </div>

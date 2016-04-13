@@ -13,11 +13,16 @@ public class Date : DomainEntity
     /// </summary>
     public virtual DateTime DateTime { get; set; }
 
+    public virtual TrainingPlan TrainingPlan { get; set; }
     public virtual User User { get; set; }
-
     public virtual IList<Set> Sets { get; set; }
 
     public virtual DateVisibility Visibility { get; set; }
+
+    public virtual TimeSpan TimeRemaining => TrainingPlan.TimeRemaining;
+    public virtual TimeSpan TimeSpent => TrainingPlan.TimeSpent;
+    public virtual bool HasDatesInFuture => TrainingPlan.HasDatesInFuture;
+    public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
 
     public Date()
     {
@@ -50,7 +55,7 @@ public class Date : DomainEntity
         if (Details.Length > 0)
             return Details;
 
-        return "(" + CountQuestions() + " Fragen bis zum " + DateTime.ToString("dd.MM.yyy") + ")";
+        return "Am " + DateTime.ToString("dd.MM.yyy") + " um " + DateTime.ToString("HH:mm");
     }
 
     public virtual TimeSpan Remaining()

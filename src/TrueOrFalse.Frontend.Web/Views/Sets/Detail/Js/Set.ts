@@ -4,16 +4,19 @@ $(function() {
         var values = $(this).attr("data-percentage").split('-');
         me.sparkline([values[0], values[1]], {
             type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
+            sliceColors: ['#90EE90', '#FFA07A']
         });
     });
 
-    $("[data-btn=startLearningSession]").click((e) => {
-        if (NotLoggedIn.Yes()) {
-            e.preventDefault();
-            NotLoggedIn.ShowErrorMsg();
-        }
+    new Pin(PinRowType.SetDetail, () => {
+        var setId = $("#hhdSetId").val();
+        $.post("/Set/GetRows", {id: setId}, (result) => {
+            $("#rowContainer").fadeOut(250, () => {
+                $("#rowContainer").html(result.Html);
+                $("#rowContainer").fadeIn(250);
+                new Pin(PinRowType.Question);
+            });
+        });
     });
-
-    new Pin(PinRowType.SetDetail);
+    new Pin(PinRowType.Question);
 });

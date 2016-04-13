@@ -2,14 +2,14 @@
     $(".sparklineTotals").each(function () {
         $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
             type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
+            sliceColors: ['#90EE90', '#FFA07A']
         });
     });
 
     $(".sparklineTotalsUser").each(function () {
         $(this).sparkline([parseInt($(this).attr("data-answersTrue")), parseInt($(this).attr("data-answersFalse"))], {
             type: 'pie',
-            sliceColors: ['#3e7700', '#B13A48']
+            sliceColors: ['#90EE90', '#FFA07A']
         });
     });    
 }
@@ -37,6 +37,15 @@ function InitIconTooltips(awesomeClass : string, tooltipText : string) {
         if (!hasTitleAttribute){
             $(this).addClass('show-tooltip');
             $(this).attr('title', tooltipText).attr('data-placement', 'top');
+        }
+    });
+}
+
+function Allowed_only_for_active_users() {
+    $("[data-allowed=logged-in]").click(e => {
+        if (NotLoggedIn.Yes()) {
+            e.preventDefault();
+            NotLoggedIn.ShowErrorMsg();
         }
     });
 }
@@ -85,5 +94,6 @@ $(function () {
     InitIconTooltips('fa-trash-o', 'Löschen');
     InitIconTooltips('fa-pencil', 'Bearbeiten');
     Images.Init();
+    Allowed_only_for_active_users();
 });
 

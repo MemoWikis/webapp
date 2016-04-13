@@ -13,7 +13,7 @@
             <h2>Wir unterstützen die Gemeinwohlökonomie</h2>
         </div>
         <p>
-            Unsere Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
+            Unsere geplante Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
         </p>
         <p>
             Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> 
@@ -24,12 +24,6 @@
 
     </div>
 </div>
-
-
-
-
-
-<%--in dem <a href="http://robert-m.de">ich</a> --%>
 
 </asp:Content>
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TrueOrFalse.Tests
 {
-    public class ContextQuestion : IRegisterAsInstancePerLifetime
+    public class ContextQuestion
     {
         private readonly ContextUser _contextUser = ContextUser.New();
         private readonly ContextCategory _contextCategory = ContextCategory.New();
@@ -23,7 +23,7 @@ namespace TrueOrFalse.Tests
 
         public static ContextQuestion New(bool persistImmediately = false)
         {
-            var result = BaseTest.Resolve<ContextQuestion>();
+            var result = new ContextQuestion();
 
             if (persistImmediately)
                 result.PersistImmediately();
@@ -38,11 +38,11 @@ namespace TrueOrFalse.Tests
 
         public ContextQuestion SetLearner(User learner){ _learner = learner; return this; }
 
-        public ContextQuestion(QuestionRepo questionRepo)
+        private ContextQuestion()
         {
             _contextUser.Add("Creator").Persist();
             _contextUser.Add("Learner").Persist();
-            _questionRepo = questionRepo;
+            _questionRepo = Sl.R<QuestionRepo>();
         }
 
         public ContextQuestion PersistImmediately()

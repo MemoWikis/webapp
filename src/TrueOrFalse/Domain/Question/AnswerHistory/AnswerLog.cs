@@ -60,4 +60,21 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
 
         _answerRepo.Create(answer);
     }
+
+    public void LogAnswerView(Question question, int userId, int? roundId = null)
+    {
+        var answer = new Answer
+        {
+            Question = question,
+            UserId = userId,
+            AnswerText = "",
+            AnswerredCorrectly = AnswerCorrectness.IsView,
+            DateCreated = DateTime.Now
+        };
+
+        if (roundId != null)
+            answer.Round = Sl.R<RoundRepo>().GetById((int) roundId);
+
+        _answerRepo.Create(answer);
+    }
 }

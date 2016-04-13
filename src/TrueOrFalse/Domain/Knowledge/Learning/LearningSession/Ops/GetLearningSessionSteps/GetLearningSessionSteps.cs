@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NHibernate.Util;
 
 public class GetLearningSessionSteps
 {
@@ -13,6 +12,16 @@ public class GetLearningSessionSteps
 
     public static IList<LearningSessionStep> Run(Date date)
     {
+        if (date.TrainingPlan != null && date.HasDatesInFuture)
+        {
+            return ComplementPreselectedSteps(
+                date.TrainingPlan
+                    .GetNextTrainingDate()
+                    .AllQuestionsInTraining
+                    .Select(q => new LearningSessionStep { Question = q.Question })
+                    .ToList());
+        }
+
         var allQuestions = date.Sets.SelectMany(s => s.Questions()).ToList();
         return Run(allQuestions);
     }
@@ -22,6 +31,11 @@ public class GetLearningSessionSteps
         var auxParams = GetStepSelectionParams(questions);
         var steps = GetSteps(auxParams, numberOfSteps);
 
+        return ComplementPreselectedSteps(steps);
+    }
+
+    private static IList<LearningSessionStep> ComplementPreselectedSteps(IList<LearningSessionStep> steps)
+    {
         var idx = 0;
 
         foreach (var step in steps)
@@ -50,13 +64,15 @@ public class GetLearningSessionSteps
         auxParams.AllAnswerHistories = Sl.Resolve<AnswerRepo>().GetByQuestion(allQuestionsIds, user.Id);
 
         auxParams.UnansweredQuestions = allQuestions
-            .Where(q => auxParams.AllTotals.ByQuestionId(q.Id).Total() == 0);
+            .Where(q => auxParams.AllTotals.ByQuestionId(q.Id)
+            .Total() == 0);
 
         auxParams.AnsweredQuestions = allQuestions
             .Except(auxParams.UnansweredQuestions);
 
         auxParams.QuestionsAnsweredToday = auxParams.AnsweredQuestions
-            .Where(q => auxParams.AllAnswerHistories.ByQuestionId(q.Id).Any(ah => ah.DateCreated.Date == DateTime.Today));
+            .Where(q => auxParams.AllAnswerHistories.ByQuestionId(q.Id)
+            .Any(ah => ah.DateCreated.Date == DateTime.Today));
 
         return auxParams;
     }

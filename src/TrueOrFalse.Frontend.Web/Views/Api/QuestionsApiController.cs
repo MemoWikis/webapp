@@ -1,29 +1,17 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace Api
+public class QuestionsApiController : BaseController
 {
-    public class QuestionsApiController : BaseController
-
+    [HttpPost]
+    public void Pin(string questionId)
     {
-        private readonly QuestionRepo _questionRepo;
+        QuestionInKnowledge.Pin(Convert.ToInt32(questionId), _sessionUser.User);
+    }
 
-        public QuestionsApiController(
-            QuestionRepo questionRepo)
-        {
-            _questionRepo = questionRepo;
-        }
-
-        [HttpPost]
-        public void Pin(string questionId)
-        {
-            QuestionInKnowledge.Pin(Convert.ToInt32(questionId), _sessionUser.User);
-        }
-
-        [HttpPost]
-        public void Unpin(string questionId)
-        {
-            QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), _sessionUser.User);
-        }
+    [HttpPost]
+    public void Unpin(string questionId)
+    {
+        QuestionInKnowledge.Unpin(Convert.ToInt32(questionId), _sessionUser.User);
     }
 }

@@ -41,7 +41,7 @@
 
     public static string Plural(this string input, int numberItems, string suffix)
     {
-        if (numberItems > 1)
+        if (numberItems == 0 || numberItems > 1)
             return input + suffix;
 
         return input;

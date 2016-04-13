@@ -28,8 +28,8 @@
             });
 
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#3e7700', '#B13A48'] });
+            $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
+            $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
         });
     </script>
     <script>
@@ -48,11 +48,11 @@
             }
 
             var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'Anteil in %'],
-                ['Sicheres Wissen', <%= Model.KnowledgeSummary.Solid %>],
-                ['Solltest du festigen', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-                ['Solltest du lernen', <%= Model.KnowledgeSummary.NeedsLearning %>],
-                ['Noch nicht gelernt', <%= Model.KnowledgeSummary.NotLearned %>],
+                ['Wissenslevel', 'link', 'Anteil in %'],
+                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
             ]);
 
             var options = {
@@ -61,7 +61,7 @@
                 pieSliceText: 'none',
                 chartArea: { 'width': '100%', height: '100%', top: 10},
                 slices: {
-                    0: { color: 'lightgreen' },
+                    0: { color: '#afd534' },
                     1: { color: '#fdd648' },
                     2: { color: 'lightsalmon' },
                     3: { color: 'silver'}
@@ -69,8 +69,18 @@
                 pieStartAngle: 0
             };
 
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 2]);
+
             var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
-            chart.draw(data, options);
+            chart.draw(view, options);
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                location.href = urlPart;
+            }
         }
 
         function drawKnowledgeChartDate(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
@@ -92,7 +102,7 @@
                 height: 80,
                 chartArea: { width: '90%', height: '90%', top: 0 },
                 slices: {
-                    0: { color: 'lightgreen' },
+                    0: { color: '#afd534' },
                     1: { color: '#fdd648' },
                     2: { color: 'lightsalmon' },
                     3: { color: 'silver' }
@@ -128,7 +138,7 @@
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
-                colors: ['lightgreen', 'lightsalmon'],
+                colors: ['#afd534', 'lightsalmon'],
                 isStacked: true,
             };
 
@@ -308,7 +318,7 @@
         </div>
 
         <div class="row" style="margin-top: 20px;">
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Termine</h3>
                     <% if (Model.Dates.Count ==0) { %>
@@ -328,7 +338,7 @@
                             index++;
                             %>
                             <div class="row" style="margin-bottom: 3px;">
-                                <div class="col-xs-9">
+                                <div class="col-xs-12">
                                     <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
                                     <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                     <% foreach(var set in date.Sets){ %>
@@ -340,19 +350,20 @@
                                 <div class="col-xs-3" style="opacity: .4;">
                                     <div id="chartKnowledgeDate<%=index %>"></div>
                                 </div>
-                                <div class="col-xs-6" style="text-align: center; clear: left;">
+                            </div>  
+                            <div class="row">
+                                <div class="col-xs-12">
                                     <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-gamepad" style="font-size: 18px;"></i>
                                         Spiel starten
                                     </a>
-                                </div>
-                                <div class="col-xs-6" style="text-align: center;">
-                                    <a class="btn btn-sm btn-primary" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 10px; display: inline-block;">
+                                    &nbsp;
+                                    <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-line-chart"></i> 
                                         Jetzt üben
                                     </a>
-                                </div>
-                            </div>  
+                                </div>                                
+                            </div>
                             <hr style="margin: 8px 0;"/>  
                         <% } %>
                         <% if (Model.Dates.Count > 3) { %>
@@ -395,15 +406,15 @@
                 </div>
             </div>
             
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
 
                     <div class="row" style="margin-bottom: 7px;">
                         <div class="col-md-12">
                             in den nächsten <b>7 Tagen</b>
                             <ul>
-                                <li>ca. <%= Model.TrainingDates.Count %> Lernsitzungen</li>
+                                <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
                                 <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.Minutes), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
                             </ul>
                         </div>
@@ -415,7 +426,7 @@
                 </div>
             </div>
                            
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
+            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Im Netzwerk</h3>
                     <% if (Model.NetworkActivities.Count == 0) { %>
@@ -428,7 +439,7 @@
                                     <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                 </div>
                                 <div class="col-xs-9" style="">
-                                    <div style="color: silver; font-size: 10px; margin: -4px 0;"><%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                    <div style="color: silver; font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
                                     <div style="clear: left;">
                                         <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
                                         <%= UserActivityTools.GetActionObject(activity) %>

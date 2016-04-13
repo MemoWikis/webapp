@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
 
 <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
+<input type="hidden" id="isLastQuestion" value="<%= Model.IsLastQuestion %>" />
 <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
 <input type="hidden" id="ajaxUrl_GetSolution" value="<%= Model.AjaxUrl_GetSolution(Url) %>" />
 <input type="hidden" id="ajaxUrl_CountLastAnswerAsCorrect" value="<%= Model.AjaxUrl_CountLastAnswerAsCorrect(Url) %>" />
@@ -15,7 +16,7 @@
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
         </span>
                     
-        <a id="HeartToAdd" href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+        <a id="HeartToAdd" href="#" data-allowed="logged-in" class="noTextdecoration" style="font-size: 22px; height: 10px;">
             <i class="fa fa-heart show-tooltip <%= Model.IsInWishknowledge ? "" : "hide2" %>" id="iAdded" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
             <i class="fa fa-heart-o show-tooltip <%= Model.IsInWishknowledge ? "hide2" : "" %>" id="iAddedNot" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
             <i class="fa fa-spinner fa-spin hide2" id="iAddSpinner" style="color:#b13a48;"></i>
@@ -31,7 +32,7 @@
     
     <div class="alert alert-info" id="divWrongAnswerPlay" style="display: none; background-color: white; color:#2E487B;">
         <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
-        <div>Dein Eingabe:</div>
+        <div>Deine Eingabe:</div>
         <div style="margin-top:7px;" id="divWrongEnteredAnswer">
         </div>
     </div>
@@ -96,7 +97,7 @@
         <div id="buttons-next-question" class="pull-right" style="display: none;">
             <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet." style="display: none;">Hab ich gewusst!</a>
             <% if(Model.NextUrl != null){ %>
-                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">N&auml;chste Frage</a>
+                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">Nächste Frage</a>
             <% } %>
         </div>
         

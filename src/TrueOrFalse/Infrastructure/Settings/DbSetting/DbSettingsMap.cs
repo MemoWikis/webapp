@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -13,6 +9,7 @@ namespace TrueOrFalse.Infrastructure
             Table("Setting");
             Id(x => x.Id);
             Map(x => x.AppVersion);
+            Map(x => x.SuggestedGames);
             Map(x => x.DateCreated);
             Map(x => x.DateModified);
         }

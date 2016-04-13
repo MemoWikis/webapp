@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NHibernate.Mapping;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using TrueOrFalse.View.Web.Views.Api;
 
 namespace TrueOrFalse.Tests
 {

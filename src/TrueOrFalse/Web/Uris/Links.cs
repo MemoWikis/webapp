@@ -133,6 +133,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id }, null);
         }
 
+        public static string GetSolution(UrlHelper url, Question question, Round round)
+        {
+            return url.Action("GetSolution", AnswerQuestionController, new { id = question.Id, roundId = round.Id }, null);
+        }
+
         public static string CountLastAnswerAsCorrect(UrlHelper url, Question question)
         {
             return url.Action("CountLastAnswerAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
@@ -297,8 +302,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string WelcomeController = "Welcome";
 
         public const string VariousController = "VariousPublic";
-        public const string Impressum = "Imprint";
-        public const string TermsAndConditions = "TermsAndConditions";
+        public const string Impressum = "Impressum";
+        public const string TermsAndConditions = "AGB";
         public const string WelfareCompany = "WelfareCompany";
 
         public const string KnowledgeController = "Knowledge";

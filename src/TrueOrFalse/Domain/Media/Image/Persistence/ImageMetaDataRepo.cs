@@ -67,8 +67,8 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
     public static void SetMainLicenseInfo(ImageMetaData imageMetaData, int MainLicenseId)
     {
         if (imageMetaData == null) return;
-        if (LicenseRepository.GetAllAuthorizedLicenses().All(x => x.Id != MainLicenseId)) return;
-        if (!LicenseParser.CheckLicenseRequirementsWithDb(LicenseRepository.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
+        if (LicenseRepo.GetAllAuthorizedLicenses().All(x => x.Id != MainLicenseId)) return;
+        if (!LicenseParser.CheckLicenseRequirementsWithDb(LicenseRepo.GetById(MainLicenseId), imageMetaData).AllRequirementsMet) return;
         var manualEntries = imageMetaData.ManualEntriesFromJson();
         var mainLicenseInfo = new MainLicenseInfo
         {

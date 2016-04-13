@@ -131,6 +131,10 @@ class AnswerQuestion
         return +$("#questionId").val();
     }
 
+    IsLastQuestion(): boolean {
+        return $("#isLastQuestion").val() === "True";
+    }
+
     private ValidateAnswer() {
         var answerText = this._getAnswerText();
         var self = this;

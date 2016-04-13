@@ -4,5 +4,7 @@
     public const string Comment = "Comment";
     public const string CommentAnswer = "CommentAnswer";
 
+    public const string TrainingReminder = "TrainingReminder";
+
     public const string Custom = "Custom";
 }

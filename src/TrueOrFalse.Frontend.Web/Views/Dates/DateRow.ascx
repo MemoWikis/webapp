@@ -1,7 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<DateRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<% var date = Model.Date; %>
+<% 
+    var date = Model.Date;
+    var trainingPlan = Model.TrainingPlan;
+%>
 
 <div class="rowBase date-row" style="position: relative; padding: 5px; "
     data-date-id="<%= date.Id %>"
@@ -47,7 +50,7 @@
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-md-9" style="font-size: 16px">
-                    <%= Model.Date.Details %>
+                    <%= Model.Date.GetTitle() %>
                 </div>
                 
                 <div class="col-md-3 hidden-xs hidden-sm" style="text-align: right; vertical-align: bottom">
@@ -92,7 +95,6 @@
                         </a>
                         
                         <a style="display: inline-block;"
-                            class=""
                             data-btn="startLearningSession" 
                             href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
                             Jetzt üben
@@ -126,31 +128,46 @@
         </div>
         
         <div class="col-sm-3">
-            <div class="row">
-                <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-                <div class="col-md-10">
-                    Übungsplan
+            <% if(!Model.IsPast) { %>
+                <div class="row">
+                    <div class="col-md-1"><i class="fa fa-calendar"></i></div>
+                    <div class="col-md-10">Übungsplan: <span style="font-size: 9px">(verbleibend)</span></div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">ca. 7 Übungssitzungen</div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">ca. 40min Übungszeit</div>
-            </div>
-            <div class="row">
-                <div class="col-md-1"><i class="fa fa-bell"></i></div>
-                <div class="col-md-10">
-                    nächste Übungssitzung <br/>
-                    in 20min (15 Fragen)
+                <div class="row">
+                    <div class="col-md-12">ca. <%= Model.TrainingDateCount %> Übungssitzungen</div>
                 </div>
-            </div>
-            <div class="row" style="height: 100%;">
-                <div class="col-md-1"><i class="fa fa-pencil"></i></div>
-                <div class="col-md-10">
-                    <a href="#modalTraining" data-toggle="modal" style="margin-top: 29px;" data-dateId="<%= date.Id %>">bearbeiten</a>
+                <div class="row">
+                    <div class="col-md-12">ca. <%= Model.TrainingLength %> Übungszeit</div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-1"><i class="fa fa-bell"></i></div>
+                    <div class="col-md-10">
+                        <% if(trainingPlan.HasDatesInFuture) { %>
+                            nächste Übungssitzung <br/>
+                            in <%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %> 
+                            (<%= trainingPlan.Questions.Count %> Fragen)
+                        <% } %>
+                    </div>
+                </div>
+                <div class="row" style="height: 100%;">
+                    <div class="col-md-1"><i class="fa fa-pencil"></i></div>
+                    <div class="col-md-10">
+                        <a href="#modalTraining" style="margin-top: 29px;" data-dateId="<%= date.Id %>">bearbeiten</a>
+                    </div>
+                </div>
+            <% }else{ /* Model.IsPast */ %>
+                <div class="row">
+                    <div class="col-md-1"><i class="fa fa-calendar"></i></div>
+                    <div class="col-md-10">Übungshistorie:</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><%= trainingPlan.DatesInPast.Count %> Übungssitzungen</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">ca. <%= new TimeSpanLabel(trainingPlan.TimeSpent).Value %> </div>
+                </div>
+            <% } %>
+
         </div>
     </div>
 </div>

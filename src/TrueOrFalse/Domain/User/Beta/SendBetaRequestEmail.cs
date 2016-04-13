@@ -4,7 +4,7 @@ public class SendBetaRequestEmail
 {
     public static void Run(string requesterEmail)
     {
-        Sl.R<SendEmail>().Run(new MailMessage(
+        SendEmail.Run(new MailMessage(
             Settings.EmailFrom, 
             Settings.EmailTo,
             "Beta access request", 

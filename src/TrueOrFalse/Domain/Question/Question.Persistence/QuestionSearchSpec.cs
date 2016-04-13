@@ -37,6 +37,33 @@ public class QuestionFilter : ConditionContainer
 
     public IList<int> Categories = new List<int>();
 
+    public bool Knowledge_Solid = true;
+    public bool Knowledge_ShouldConsolidate = true;
+    public bool Knowledge_ShouldLearn = true;
+    public bool Knowledge_None = true;
+
+    public bool Knowledge_FilterIsSet => 
+        !(Knowledge_Solid && Knowledge_ShouldConsolidate &&
+        Knowledge_ShouldLearn && Knowledge_None);
+
+    public bool Knowledge_FilterAllFalse =>
+        !Knowledge_Solid && !Knowledge_ShouldConsolidate &&
+        !Knowledge_ShouldLearn && !Knowledge_None;
+
+    public IList<int> GetKnowledgeQuestionIds()
+    {
+        if(!Knowledge_FilterIsSet)
+            return null;
+
+        return Sl.R<QuestionRepo>()
+            .GetByKnowledge(
+                Sl.CurrentUserId,
+                isKnowledgeSolidFilter: Knowledge_Solid,
+                isKnowledgeShouldConsolidateFilter: Knowledge_ShouldConsolidate,
+                isKnowledgeShouldLearnFilter: Knowledge_ShouldLearn,
+                isKnowledgeNoneFilter: Knowledge_None);
+    } 
+
     public static string GetCategoryFilterValue(string searchTerm)
     {
         return GetFilter("Kat", searchTerm);
@@ -59,7 +86,7 @@ public class QuestionFilter : ConditionContainer
         return filter;
     }
 
-    public void Clear()
+    public new void Clear()
     {
         SearchTerm = "";
         CreatorId = -1;
@@ -73,6 +100,27 @@ public class QuestionFilter : ConditionContainer
     public bool IsOneCategoryFilter()
     {
         return Categories.Count == 1 && SearchTerm == "";
+    }
+
+    public void SetKnowledgeFilter(string filter)
+    {
+        UnsetAllKnowledgeFilters();
+
+        switch (filter)
+        {
+            case "solid": Knowledge_Solid = true; return;
+            case "consolidate": Knowledge_ShouldConsolidate = true; return;
+            case "learn": Knowledge_ShouldLearn = true; return;
+            case "notLearned": Knowledge_None = true; return;
+        }
+    }
+
+    public void UnsetAllKnowledgeFilters()
+    {
+        this.Knowledge_Solid = false;
+        this.Knowledge_ShouldConsolidate = false;
+        this.Knowledge_ShouldLearn = false;
+        this.Knowledge_None = false;
     }
 }
 

@@ -1,9 +1,8 @@
 ﻿using System.Net.Mail;
-using TrueOrFalse;
 
-public class SendEmail : IRegisterAsInstancePerLifetime
+public class SendEmail
 {
-    public void Run(MailMessage mail)
+    public static void Run(MailMessage mail)
     {
         var smtpClient = new SmtpClient();
         smtpClient.Send(mail);

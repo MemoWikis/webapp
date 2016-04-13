@@ -1,19 +1,12 @@
 ﻿using System;
 
-public class CreatePersistentLogin : IRegisterAsInstancePerLifetime
+public class CreatePersistentLogin
 {
-    private readonly PersistentLoginRepository _persistentLoginRepository;
-
-    public CreatePersistentLogin(PersistentLoginRepository persistentLoginRepository)
-    {
-        _persistentLoginRepository = persistentLoginRepository;
-    }
-
-    public string Run(int userId)
+    public static string Run(int userId)
     {
         var newGuid = Guid.NewGuid().ToString();
         var persistentLogin = new PersistentLogin { UserId = userId, LoginGuid = newGuid };
-        _persistentLoginRepository.Create(persistentLogin);
+        Sl.R<PersistentLoginRepo>().Create(persistentLogin);
         return newGuid;
     }
 }
