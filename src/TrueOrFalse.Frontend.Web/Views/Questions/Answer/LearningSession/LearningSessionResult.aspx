@@ -75,7 +75,7 @@
     <div style="margin-top: 20px; margin-bottom: 20px;">
         <% if (Model.LearningSession.IsDateSession)
            { %>
-            <% Html.RenderPartial("~/Views/Dates/DateRow.ascx", new DateRowModel(Model.LearningSession.DateToLearn));
+            <% Html.RenderPartial("~/Views/Dates/DateRow.ascx", new DateRowModel(Model.LearningSession.DateToLearn, hideEditPlanButton: true));
            } %>
     </div>
     <div class="well Chart">
@@ -143,14 +143,14 @@
                 { %>
                     <div class="QuestionLearned AnsweredRight" style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                         <i class="fa fa-check show-tooltip" title="Richtig beantwortet"></i>
-                        <a href="<%= Links.AnswerQuestion(Url, step.Question) %>"><%= step.Question.GetShortTitle(150) %></a>
+                        <a href="<%= Links.AnswerQuestion(Url, step.Question) %>">&nbsp;<%= step.Question.GetShortTitle(150) %></a>
                     </div>
                 <% }
                 else
                 {  %>
                     <div class="QuestionLearned AnsweredWrong" style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                         <i class="fa fa-minus-circle show-tooltip" title="Falsch beantwortet"></i>
-                        <a href="<%= Links.AnswerQuestion(Url, step.Question) %>"><%= step.Question.GetShortTitle(150) %></a>
+                        <a href="<%= Links.AnswerQuestion(Url, step.Question) %>">&nbsp;<%= step.Question.GetShortTitle(150) %></a>
                     </div>
                 <% }
             }
@@ -158,7 +158,7 @@
             { %>
                     <div  class="QuestionLearned Unanswered" style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                         <i class="fa fa-circle-o show-tooltip" title="Nicht beantwortet"></i>
-                        <a href="<%= Links.AnswerQuestion(Url, step.Question) %>"><%= step.Question.GetShortTitle(150) %></a>
+                        <a href="<%= Links.AnswerQuestion(Url, step.Question) %>">&nbsp;<%= step.Question.GetShortTitle(150) %></a>
                     </div>
             <% }
         } %>

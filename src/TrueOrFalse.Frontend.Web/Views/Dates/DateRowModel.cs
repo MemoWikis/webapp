@@ -17,12 +17,14 @@
     public bool IsPast;
     public bool IsNetworkDate;
 
+    public bool HideEditPlanButton;
+
     public int TrainingDateCount;
     public string TrainingLength;
 
     public TrainingPlan TrainingPlan;
 
-    public DateRowModel(Date date, bool isNetworkDate = false)
+    public DateRowModel(Date date, bool isNetworkDate = false, bool hideEditPlanButton = false)
     {
         Date = date;
 
@@ -44,5 +46,6 @@
         IsPast = remaining.TotalSeconds < 0;
         RemainingLabel = new TimeSpanLabel(remaining, IsPast);
         IsNetworkDate = isNetworkDate;
+        HideEditPlanButton = hideEditPlanButton;
     }
 }
