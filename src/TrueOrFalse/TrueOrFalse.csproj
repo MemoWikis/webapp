@@ -722,6 +722,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />

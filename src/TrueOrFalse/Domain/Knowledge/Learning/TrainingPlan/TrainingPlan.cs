@@ -28,6 +28,17 @@ public class TrainingPlan : DomainEntity
             ? new List<Question>()
             : Date.AllQuestions();
 
+    public virtual void MarkDatesAsMissed()
+    {
+        DatesInPast.ForEach(d =>
+        {
+            if (d.LearningSession != null || d.MarkedAsMissed) return;
+            d.MarkedAsMissed = true;
+            Sl.Resolve<TrainingDateRepo>().Update(d);
+        }
+       );
+    }
+
     public virtual TrainingDate GetNextTrainingDate()
     {
         return HasDatesInFuture ? DatesInFuture.First() : null;

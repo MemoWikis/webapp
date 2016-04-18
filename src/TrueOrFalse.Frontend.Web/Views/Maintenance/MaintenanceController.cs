@@ -233,6 +233,15 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult TrainingPlanUpdateCheck()
+    {
+        JobScheduler.StartImmediately_TrainingPlanUpdateCheck();
+        return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.") });
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult ImageMarkup(int imgId)
     {
         var imageMaintenanceInfo =
