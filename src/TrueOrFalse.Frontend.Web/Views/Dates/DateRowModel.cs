@@ -39,7 +39,7 @@
         KnowledgeSolid = summary.Solid;
 
         TrainingPlan = date.TrainingPlan;
-        TrainingDateCount = date.TrainingPlan.DatesInFuture.Count;
+        TrainingDateCount = date.TrainingPlan.OpenDates.Count;
         TrainingLength = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full;
 
         var remaining = date.Remaining();
