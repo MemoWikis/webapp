@@ -9,6 +9,7 @@ public class TrainingDate : DomainEntity
     public virtual DateTime DateTime { get; set; }
     public virtual IList<TrainingQuestion> AllQuestions { get; set; } = new List<TrainingQuestion>();
     public virtual IList<TrainingQuestion> AllQuestionsInTraining => AllQuestions.Where(x => x.IsInTraining).ToList();
+    public virtual bool MarkedAsMissed { get; set; }
 
     public virtual LearningSession LearningSession { get; set; }
 
