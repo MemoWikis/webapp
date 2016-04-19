@@ -30,7 +30,7 @@ public class Should_create_trainingsplan : BaseTest
 
         trainingPlan = TrainingPlanUpdater.Run(trainingPlan.Id);
 
-        Assert.That(amountOfDatesInsLast7Days, Is.LessThan(trainingPlan.DatesInFuture.Count));
+        Assert.That(amountOfDatesInsLast7Days, Is.LessThan(trainingPlan.OpenDates.Count));
 
         RecycleContainer();
 

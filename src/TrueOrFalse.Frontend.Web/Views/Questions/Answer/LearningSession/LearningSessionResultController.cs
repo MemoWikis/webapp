@@ -19,6 +19,11 @@ public class LearningSessionResultController : BaseController
             learningSession.CompleteSession();
         }
 
+        if (learningSession.IsDateSession)
+        {
+            TrainingPlanUpdater.Run(learningSession.DateToLearn.TrainingPlan);
+        }
+
         return View(_viewLocation, new LearningSessionResultModel(learningSession));
     }
 

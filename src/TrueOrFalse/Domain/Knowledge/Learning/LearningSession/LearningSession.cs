@@ -62,11 +62,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         Steps.Where(s => s.AnswerState == StepAnswerState.Uncompleted)
             .Each(s => LearningSessionStep.Skip(s.Id));
 
-        if (IsDateSession)
-        {
-            TrainingPlanUpdater.Run(DateToLearn.TrainingPlan);    
-        }
-
         IsCompleted = true;
     }
 }

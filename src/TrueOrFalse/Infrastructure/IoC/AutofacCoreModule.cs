@@ -22,6 +22,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<GameLoop>().InstancePerLifetimeScope();
             builder.RegisterType<RecalcKnowledgeStati>().InstancePerLifetimeScope();
             builder.RegisterType<TrainingReminderCheck>().InstancePerLifetimeScope();
+            builder.RegisterType<TrainingPlanUpdateCheck>().InstancePerLifetimeScope();
 
             try
             {

@@ -14,17 +14,19 @@
     public static TrainingPlan Run(TrainingPlan trainingPlan)
     {
         var trainingPlanRepo = Sl.R<TrainingPlanRepo>();
-        trainingPlanRepo.DeleteDates(trainingPlan, DateTimeX.Now());
+        trainingPlanRepo.DeleteDatesAfter(trainingPlan, DateTimeX.Now());
 
-        var newTrainigPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
+        var newTrainingPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
 
-        foreach (var newDate in newTrainigPlan.Dates)
+        foreach (var newDate in newTrainingPlan.Dates)
             trainingPlan.Dates.Add(new TrainingDate
             {
                 AllQuestions = newDate.AllQuestions,
                 DateTime = newDate.DateTime,
             });
-        
+
+        trainingPlan.MarkDatesAsMissed();
+
         trainingPlanRepo.Update(trainingPlan);
         trainingPlanRepo.Flush();
         return trainingPlan;

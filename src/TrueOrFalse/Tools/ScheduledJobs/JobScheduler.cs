@@ -23,6 +23,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
             Schedule_TrainingReminderCheck();
+            Schedule_TrainingPlanUpdateCheck();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
@@ -48,16 +49,26 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .WithDailyTimeIntervalSchedule(x => x.StartingDailyAt(new TimeOfDay(2, 00))).Build());
         }
 
+        private static void Schedule_TrainingPlanUpdateCheck()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<TrainingPlanUpdateCheck>().Build(),
+                TriggerBuilder.Create()
+                    .WithSimpleSchedule(x =>
+                        x.WithIntervalInMinutes(TrainingPlanUpdateCheck.IntervalInMinutes)
+                        .RepeatForever()).Build());
+        }
+
         private static void Schedule_TrainingReminderCheck()
         {
             _scheduler.ScheduleJob(JobBuilder.Create<TrainingReminderCheck>().Build(),
                 TriggerBuilder.Create()
                     .WithSimpleSchedule(x => 
-                        x.WithIntervalInMinutes(TrainingReminderCheck.IntervalInMinutes
-                    ).RepeatForever()).Build());
+                        x.WithIntervalInMinutes(TrainingReminderCheck.IntervalInMinutes)
+                        .RepeatForever()).Build());
         }
 
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
+        public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
         public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }
 
         public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
