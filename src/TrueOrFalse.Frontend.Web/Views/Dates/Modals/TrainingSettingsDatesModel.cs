@@ -6,7 +6,7 @@ public class TrainingSettingsDatesModel
 
     public TrainingSettingsDatesModel(Date date)
     {
-        var futureTrainingDates = date.TrainingPlan.OpenDates;
+        var futureTrainingDates = date.TrainingPlan.DatesInFuture;
 
         foreach (var trainingDate in futureTrainingDates)
         {

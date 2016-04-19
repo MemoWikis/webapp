@@ -21,7 +21,7 @@ public class Date : DomainEntity
 
     public virtual TimeSpan TimeRemaining => TrainingPlan.TimeRemaining;
     public virtual TimeSpan TimeSpent => TrainingPlan.TimeSpent;
-    public virtual bool HasOpenDates => TrainingPlan.HasOpenDates;
+    public virtual bool HasDatesInFuture => TrainingPlan.HasDatesInFuture;
     public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
 
     public Date()
