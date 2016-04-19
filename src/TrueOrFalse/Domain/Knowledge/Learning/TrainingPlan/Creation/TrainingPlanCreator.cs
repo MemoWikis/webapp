@@ -6,9 +6,9 @@ public class TrainingPlanCreator
 {
     public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
     {
-        var learnPlan = new TrainingPlan();
-        learnPlan.Date = date;
-        learnPlan.Settings = settings;
+        var trainingPlan = new TrainingPlan();
+        trainingPlan.Date = date;
+        trainingPlan.Settings = settings;
 
         if (date.AllQuestions().Count < settings.QuestionsPerDate_Minimum)
             settings.QuestionsPerDate_Minimum = date.AllQuestions().Count;
@@ -29,9 +29,9 @@ public class TrainingPlanCreator
                     })
                 .ToList();
 
-        learnPlan.Dates = GetDates(date, settings, answerProbabilities);
+        trainingPlan.Dates = GetDates(date, settings, answerProbabilities);
 
-        return learnPlan;
+        return trainingPlan;
     }
 
     private static IList<TrainingDate> GetDates(

@@ -142,7 +142,7 @@
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-bell"></i></div>
                     <div class="col-md-10">
-                        <% if(trainingPlan.HasDatesInFuture) { %>
+                        <% if(trainingPlan.HasOpenDates) { %>
                             nächste Übungssitzung <br/>
                             in <%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %> 
                             (<%= trainingPlan.Questions.Count %> Fragen)
