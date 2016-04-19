@@ -20,6 +20,15 @@
             <% Html.RenderPartial("Header", Model.HeaderModel); %>
         
             <div class="boxtainer-content">
+
+            <% if(!Model.IsLoggedIn){ %>
+                <div class="bs-callout bs-callout-danger">
+                    <h4>Anmelden oder registrieren</h4>
+                    <p>Um die memucho-Nutzer und dein Netzwerk zu sehen, musst du dich <a href="/Anmelden">anmelden</a> 
+                       oder <a href="/Registrieren">registrieren</a>.</p>
+                </div>
+            <% }else{ %>
+
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
@@ -72,6 +81,7 @@
                     <% } %>
 
                 </div>
+            <% } %>
             </div>
         </div>
     <% } %>
