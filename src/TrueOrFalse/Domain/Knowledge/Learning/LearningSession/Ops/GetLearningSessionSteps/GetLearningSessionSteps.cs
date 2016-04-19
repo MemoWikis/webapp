@@ -12,7 +12,7 @@ public class GetLearningSessionSteps
 
     public static IList<LearningSessionStep> Run(Date date)
     {
-        if (date.TrainingPlan != null && date.HasDatesInFuture)
+        if (date.TrainingPlan != null && date.HasOpenDates)
         {
             return ComplementPreselectedSteps(
                 date.TrainingPlan
