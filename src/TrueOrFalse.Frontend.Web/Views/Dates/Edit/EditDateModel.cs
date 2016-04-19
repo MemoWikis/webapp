@@ -22,7 +22,7 @@ public class EditDateModel : BaseModel
     public EditDateModel()
     {
         Date = DateTime.Now.Date.AddDays(3);
-        Time = "19:00";
+        Time = "11:00";
         Sets = new List<Set>();
     }
 

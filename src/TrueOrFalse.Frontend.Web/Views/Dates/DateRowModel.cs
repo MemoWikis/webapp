@@ -1,4 +1,6 @@
-﻿public class DateRowModel : BaseModel
+﻿using System.Linq;
+
+public class DateRowModel : BaseModel
 {
     public Date Date;
 
@@ -21,6 +23,7 @@
 
     public int TrainingDateCount;
     public string TrainingLength;
+    public int NumberOfTrainingsDone;
 
     public TrainingPlan TrainingPlan;
 
@@ -41,6 +44,7 @@
         TrainingPlan = date.TrainingPlan;
         TrainingDateCount = date.TrainingPlan.OpenDates.Count;
         TrainingLength = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full;
+        NumberOfTrainingsDone = date.TrainingPlan.PastDates.Where(d => d.LearningSession != null).ToList().Count;
 
         var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;

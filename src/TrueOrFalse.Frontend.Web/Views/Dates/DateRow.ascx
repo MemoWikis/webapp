@@ -163,10 +163,10 @@
                     <div class="col-md-10">Übungshistorie:</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12"><%= trainingPlan.DatesInPast.Count %> Übungssitzungen</div>
+                    <div class="col-md-12"><%= Model.NumberOfTrainingsDone %> Übungssitzung<%= StringUtils.Plural(Model.NumberOfTrainingsDone,"en","","en") %> absolviert</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <%= new TimeSpanLabel(trainingPlan.TimeSpent).Value %> </div>
+                    <div class="col-md-12">ca. <%= new TimeSpanLabel(trainingPlan.TimeSpent, showTimeUnit: true).Full %> </div>
                 </div>
             <% } %>
 
