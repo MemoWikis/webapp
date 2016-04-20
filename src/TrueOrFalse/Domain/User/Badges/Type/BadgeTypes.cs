@@ -34,7 +34,7 @@ public class BadgeTypes
             {
                 Key = "FirstHourUser",
                 Name = "Beta-Berater",
-                Description = "Per Hand verliehen an alle, die während der Beta-Phase MEMuchO genutzt und uns beraten haben",
+                Description = "Per Hand verliehen an alle, die während der Beta-Phase memucho genutzt und uns beraten haben",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.Manually },

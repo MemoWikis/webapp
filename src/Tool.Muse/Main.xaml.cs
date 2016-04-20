@@ -118,7 +118,7 @@ namespace Tool.Muse
         private void BtnSendConcentrationValue_OnClick(object sender, RoutedEventArgs e)
         {
             if (_memuchoConnection == null){
-                Log.NoConnectionToMEMuchO(); return;
+                Log.NoConnectionToMemucho(); return;
             }
 
             _memuchoConnection.SendConcentrationLevel(txtConcentrationValue.Text);
@@ -127,7 +127,7 @@ namespace Tool.Muse
         private void BtnSendMellowValue_OnClick(object sender, RoutedEventArgs e)
         {
             if (_memuchoConnection == null){
-                Log.NoConnectionToMEMuchO(); return;
+                Log.NoConnectionToMemucho(); return;
             }
 
             _memuchoConnection.SendMellowLevel(txtMellowValue.Text);
@@ -136,7 +136,7 @@ namespace Tool.Muse
         private void BtnShowDisconnected_OnClick(object sender, RoutedEventArgs e)
         {
             if (_memuchoConnection == null){
-                Log.NoConnectionToMEMuchO(); return; 
+                Log.NoConnectionToMemucho(); return; 
             }
 
             _memuchoConnection.SendDisconnected();

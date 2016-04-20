@@ -24,7 +24,7 @@
     <p style="margin-top: 20px; margin-bottom: 20px;">
         Hier erhältst du Einblick in die Algorithmen, die die <b>Richtige-Antwort-Wahrscheinlichkeit</b> 
         und den <b>optimalen Wiedervorlage-Zeitpunkt</b> berechnen.
-        MEMuchO ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
+        memucho ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
         Wir freuen uns über Verbesserungsvorschläge.
     </p>        
             
