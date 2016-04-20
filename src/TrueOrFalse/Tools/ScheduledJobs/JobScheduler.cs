@@ -46,7 +46,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeStati>().Build(),
                 TriggerBuilder.Create()
-                    .WithDailyTimeIntervalSchedule(x => x.StartingDailyAt(new TimeOfDay(2, 00))).Build());
+                    .WithDailyTimeIntervalSchedule(x => 
+                        x.StartingDailyAt(new TimeOfDay(2, 00))
+                         .OnEveryDay()
+                         .EndingDailyAfterCount(1)).Build());
         }
 
         private static void Schedule_TrainingPlanUpdateCheck()
