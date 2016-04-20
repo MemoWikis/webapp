@@ -17,7 +17,7 @@
                 <% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben"); %>
                 
                 <div class="alert alert-info">
-                    <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst MEMuchO nutzen :-)
+                    <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst memucho nutzen :-)
                 </div>
                 
                 <div class="form-group" style="margin-top: -5px; margin-bottom: 15px; padding-left: 12px;">

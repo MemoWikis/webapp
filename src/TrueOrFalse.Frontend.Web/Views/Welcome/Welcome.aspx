@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
-    <title>MEMuchO</title>
+    <title>memucho</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 </asp:Content>
 
@@ -14,12 +14,12 @@
     <div class="col-md-8">
             
         <div class="well" style="padding: 13px; padding-bottom: 0px;">
-            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">MEMuchO ist eine intelligente Wissensplattform</h1>
+            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">memucho ist eine intelligente Wissensplattform</h1>
             <div class="row">
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        MEMuchO hilft dir beim Lernen und macht Spaß!<br/>
+                        memucho hilft dir beim Lernen und macht Spaß!<br/>
                     </p>
                     <p>
                         <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
@@ -90,13 +90,13 @@
             <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(211, new[] { 394, 395, 390 }, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
         </div>--%>
         <div class="well">
-            <h3><a name="teaserWhatIsMemucho"></a>Was ist MEMuchO?</h3>
+            <h3><a name="teaserWhatIsMemucho"></a>Was ist memucho?</h3>
             <p>
-                MEMuchO ist eine vernetzte Lern- und Wissensplattform. Damit kannst du:
+                memucho ist eine vernetzte Lern- und Wissensplattform. Damit kannst du:
             </p>
             <div class="row">
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2" title="MEMuchO analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen."></i><br/>
+                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2" title="memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen."></i><br/>
                     <b>Schneller lernen</b>
                 </div>
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
@@ -105,17 +105,17 @@
                 </div>
                 <div class="clearfix visible-xs"></div>
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2" title="Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? Lege einen Termin an und bestimme, was du bis dahin wissen musst. Mit MEMuchO weißt du immer, was du schon sicher kannst und wo du noch weiter üben musst."></i><br/>
+                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2" title="Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? Lege einen Termin an und bestimme, was du bis dahin wissen musst. Mit memucho weißt du immer, was du schon sicher kannst und wo du noch weiter üben musst."></i><br/>
                     <b>Zu einem bestimmten Termin lernen</b>
                 </div>
                 <div class="clearfix visible-md"></div>
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2" title="Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit MEMuchO behältst du den Überblick."></i><br/>
+                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2" title="Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit memucho behältst du den Überblick."></i><br/>
                     <b>Überblick behalten</b>
                 </div>
                 <div class="clearfix visible-xs"></div>
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2" title="MEMuchO ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. Denn Wissen wird mehr, wenn man es teilt!"></i><br/>
+                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2" title="memucho ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. Denn Wissen wird mehr, wenn man es teilt!"></i><br/>
                     <b>Wissen teilen</b>
                 </div>
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
@@ -125,7 +125,7 @@
                 <div class="clearfix visible-xs"></div>
                 <div class="col-xs-12">
                     <p>
-                        MEMuchO fördert freie Bildungsinhalte und ist gemeinwohlorientiert.
+                        memucho fördert freie Bildungsinhalte und ist gemeinwohlorientiert.
                         Erfahre mehr über unsere <a href="#teaserPrinciples">Prinzipien</a> 
                         und <a href="#teaserWhoWeAre">wer wir sind</a>.
                     </p>
@@ -145,8 +145,8 @@
                     <b>Freie Bildungsinhalte ("Open Educational Resources")</b>
                     <p>
                         Wir sind Teil der Bewegung zur Förderung frei zugänglicher Bildungsmaterialien.
-                        In MEMuchO unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, 
-                        genau wie fast alle Einträge auf Wikipedia. Öffentliche MEMuchO-Inhalte 
+                        In memucho unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, 
+                        genau wie fast alle Einträge auf Wikipedia. Öffentliche memucho-Inhalte 
                         können also von jedem kostenfrei und ohne Einschränkungen verwendet werden 
                         (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">Hier 
                         erfährst du genaueres zur Lizenz CC BY 4.0.</a>). Private Inhalte sind aber privat.
@@ -174,14 +174,14 @@
                 <li><i class="fa fa-li fa-lock"></i>
                     <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
-                        Wir nutzen deine Daten, damit du besser lernen kannst und um MEMuchO besser zu machen. 
+                        Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
                         Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Erfahre mehr</a> über unseren Datenschutz.)
                     </p>
                 </li>
                 <li><i class="fa fa-li fa-github"></i>
                     <b>Open-Source und Transparenz</b>
                     <p>
-                        Die Software, mit der MEMuchO läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
+                        Die Software, mit der memucho läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
                         sind frei verfügbar und können von allen frei verwendet werden. Du findest sie 
                         auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i>Github</a>. 
                         In Zukunft möchten wir neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
@@ -219,7 +219,7 @@
                     <p>
                         Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
                         Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
-                        Als Gründungsteam konzipieren, gestalten und programmieren wir MEMuchO gemeinsam.
+                        Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
                     </p>
                     <p>
                         Wenn du Fragen oder Anregungen hast, trete einfach mit uns in <a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Kontakt</a>.
@@ -282,7 +282,7 @@
         </div>
 
         <div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h3 class="media-heading">MEMuchO-Netzwerk</h3></div>
+            <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
         </div>
         
         <div class="panel panel-default" style="padding-top: 15px; opacity: 0.4;">

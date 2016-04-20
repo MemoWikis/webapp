@@ -13,16 +13,16 @@
         <div class="panel-heading" role="tab" id="FaqHeadingWhyNameMemucho">
           <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextWhyNameMemucho" aria-expanded="true" aria-controls="FaqTextWhyNameMemucho">
-              Woher kommt der Name MEMuchO?
+              Woher kommt der Name memucho?
             </a>
           </h4>
         </div>
         <div id="FaqTextWhyNameMemucho" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingWhyNameMemucho">
           <div class="panel-body">
-              MEMuchO ist ein Kunstwort setzt sich zusammen aus MEMO und MUCHO. "MEMO" kommt von "memorieren", 
+              memucho ist ein Kunstwort setzt sich zusammen aus MEMO und MUCHO. "MEMO" kommt von "memorieren", 
               stammt von dem Lateinischen Wort "memorare" ab und bedeutet "merken".<br/>
               "Mucho" ist das spanisches Wort für "viel" und wird wie "mutscho" ausgesprochen. <br/>
-              MEMuchO heißt also: "Viel merken" - denn darum geht es hier!
+              memucho heißt also: "Viel merken" - denn darum geht es hier!
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <div class="panel-body">
               <p>
                   Für uns sind Datensicherheit und Datenschutz entscheidende Themen. Gerade weil wir viele Daten sammeln, sehen wir eine besondere 
-                  Verantwortung darin, Daten zu schützen und transparent zu sein. Das kann jeder prüfen, denn der Programm-Quelltext für MEMuchO ist
+                  Verantwortung darin, Daten zu schützen und transparent zu sein. Das kann jeder prüfen, denn der Programm-Quelltext für memucho ist
                   als Open Source-Software öffentlich und auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i>Github</a> einsehbar.
               </p>
               <p>
@@ -49,7 +49,7 @@
                   (Technisch: Passworte werden gehashed und mit einem SALT abgelegt gespeichert.)
               </p>
               <p>
-                  Allerdings sind bei MEMuchO das Wikipedia-Prinzip und der Netzwerk-Gedanke sehr wichtig. Deshalb stehen die öffentlichen 
+                  Allerdings sind bei memucho das Wikipedia-Prinzip und der Netzwerk-Gedanke sehr wichtig. Deshalb stehen die öffentlichen 
                   Fragen unter einer Creative Commons-Lizenz (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>).
                   Jeder andere Nutzer kann die Fragen also (unter bestimmten Bedingungen) für seine Zwecke nutzen. So ist das auch bei Wikipedia, 
                   deswegen können wir zum Beispiel viele Bilder von Wikipedia verwenden und sie auch weiterhin nutzen, wenn sie bei Wikipedia selbst 
@@ -76,13 +76,13 @@
               </p>
               <p>
                   Wir sammeln diese Daten nur, weil wir dich so am besten beim Lernen unterstützen können. Wenn du zu einem bestimmten Termin lernst oder ein bestimmtes
-                  Wissen niemals vergessen möchtest, dann möchte dir MEMuchO die Fragen zum optimalen Zeitpunkt zum Lernen vorlegen. Damit du genug, aber auch nicht zu 
+                  Wissen niemals vergessen möchtest, dann möchte dir memucho die Fragen zum optimalen Zeitpunkt zum Lernen vorlegen. Damit du genug, aber auch nicht zu 
                   viel lernst. Dafür brauchen wir aber diese Daten, denn je mehr wir über das Lernverhalten von möglichst vielen Nutzern wissen, desto genauer können
                   unsere Algorithmen arbeiten. (Technisch: Wir setzen so genannte Machine Learning-Algorithmen ein, die selbstständig Lernmuster erkennen und Prognosen
                   abgeben können.)
               </p>
               <p>
-                  Wir sammeln diese Daten nur, um MEMuchO zu einem möglichst nützlichem Werkzeug zu machen und nicht, um Nutzerdaten zu verkaufen. Der 
+                  Wir sammeln diese Daten nur, um memucho zu einem möglichst nützlichem Werkzeug zu machen und nicht, um Nutzerdaten zu verkaufen. Der 
                   <a href="#FaqTextDataPrivacy">Datenschutz</a> ist bei uns sehr streng. Wir fragen dich deshalb nicht nach persönlichen Daten, die wir nicht für die 
                   Seite benötigen. Die wenigen persönlichen Daten, die wir von dir haben, sind sehr gut gesichert und wir werden sie auch niemals verkaufen.
               </p>
@@ -94,14 +94,14 @@
         <div class="panel-heading" role="tab" id="FaqHeadingHowMemuchoWorks">
           <h4 class="panel-title">
             <a data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextHowMemuchoWorks" aria-expanded="true" aria-controls="FaqTextHowMemuchoWorks">
-              Wie funktioniert MEMuchO?
+              Wie funktioniert memucho?
             </a>
           </h4>
         </div>
         <div id="FaqTextHowMemuchoWorks" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingHowMemuchoWorks">
           <div class="panel-body">
               <p>
-                  MEMuchO ist eine vernetzte Lern- und Wissensplattform. Hier wird Wissen in Frage-Antwort-Form gespeichert, organisiert und 
+                  memucho ist eine vernetzte Lern- und Wissensplattform. Hier wird Wissen in Frage-Antwort-Form gespeichert, organisiert und 
                   zwischen Nutzern geteilt. Angepasste Lernfunktionen erlauben es dir, schneller und zu bestimmten Terminen 
                   (z.B. Klassenarbeiten, Prüfungen) zu lernen.
               </p>
@@ -149,12 +149,12 @@
         <div id="FaqTextWhatIsBeta" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingWhatIsBeta">
           <div class="panel-body">
               <p>
-                  MEMuchO befindet sich in der Beta-Phase. Das bedeutet, dass die Seite noch nicht ganz fertig ist. Einige Funktionen fehlen noch 
+                  memucho befindet sich in der Beta-Phase. Das bedeutet, dass die Seite noch nicht ganz fertig ist. Einige Funktionen fehlen noch 
                   (zum Beispiel das Lernen zu einem bestimmten Termin), andere Dinge müssen wir noch verbessern und benutzerfreundlicher machen 
                   (zum Beispiel den Lernalgorithmus). Außerdem haben wir noch sooo viele Ideen, die auf Verwirklichung warten. Wir arbeiten daran! 
               </p>
               <p>
-                  Aber schon jetzt kannst du MEMuchO nutzen - und uns als Beta-Nutzer wichtige Hinweise geben, wo etwas nicht funktioniert und 
+                  Aber schon jetzt kannst du memucho nutzen - und uns als Beta-Nutzer wichtige Hinweise geben, wo etwas nicht funktioniert und 
                   welche Funktionen dir besonders dringend fehlen. Am besten wirst du schon jetzt Fördermitglied!
               </p>
           </div>
@@ -177,7 +177,7 @@
               </p>
               <p>
                   Oder du schreibst uns eine Postkarte oder kommst persönlich bei uns vorbei (am besten mit Anmeldung)!<br/>
-                  Team MEMuchO<br/>
+                  Team memucho<br/>
                   c/o "Raecke Schreiber GbR"<br/>
                   Erkelenzdamm 59/61<br/>
                   D-10999 Berlin<br/>

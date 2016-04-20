@@ -29,9 +29,9 @@
             <h2 class="PageHeader">Fördermitglied werden</h2>
     
             <h3>Du möchtest Fördermitglied werden?</h3>
-            <p>Du findest, dass MEMuchO eine tolle Sache ist und möchtest uns unterstützen? 
+            <p>Du findest, dass memucho eine tolle Sache ist und möchtest uns unterstützen? 
                 Dann werde Fördermitglied der ersten Stunde!</p>
-            <p>Wir sind noch nicht ganz fertig, MEMuchO befindet sich in der Beta-Phase. 
+            <p>Wir sind noch nicht ganz fertig, memucho befindet sich in der Beta-Phase. 
                 Einige Funktionen fehlen noch, andere Dinge müssen wir noch verbessern und 
                 benutzerfreundlicher machen. 
                 Außerdem haben wir noch sooo viele Ideen, die auf Verwirklichung warten. Wir arbeiten daran! 
@@ -49,7 +49,7 @@
             <ul>
                 <li> Die wertvolle Trophäe "Fördermitglied der 1. Stunde" in Gold in deinem Profil auf Lebenszeit.</li>
                 <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
-                <li>Alle MEMuchO-Funktionen ohne Beschränkungen, insbesondere...
+                <li>Alle memucho-Funktionen ohne Beschränkungen, insbesondere...
                     <ul style="list-style: none;">
                         <li>...unbegrenzt private Fragen (sonst 20 Fragen)</li>
                         <li>...unbegrenzt Wunschwissen (sonst 50 Fragen)</li>
@@ -87,7 +87,7 @@
                                 Du bist zum Beispiel Schüler, Student, Geringverdiener oder Lebenskünstler 
                                 mit geringem Budget und kannst auch deine Eltern nicht um Unterstützung bitten. 
                                 Den Wert eines halben Kaffees im Monat oder eines Taschenbuchs im Jahr 
-                                kannst du aber für MEMuchO aufbringen.
+                                kannst du aber für memucho aufbringen.
                             </div>
                             <div class="ControlGroupInline JS-ValidationGroup" style="clear: left;">
                                 <label class="control-label LabelInline">Dein Beitrag: </label>

@@ -21,9 +21,9 @@ namespace Tool.Muse
             _mainWindow.AddLog(category, message);
         }
 
-        public static void NoConnectionToMEMuchO()
+        public static void NoConnectionToMemucho()
         {
-            Log.Info("No connection to MEMucho");
+            Log.Info("No connection to memucho");
         }
     }
 }

@@ -30,14 +30,14 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         mailMessage.To.Add(new MailAddress(emailAdresse));
         mailMessage.From = new MailAddress(Settings.EmailFrom);
         mailMessage.Subject =
-            "Dein neues Passwort für MEMuchO";
+            "Dein neues Passwort für memucho";
         mailMessage.Body = @"
 Um ein neues Passwort zu setzen, folge diesem Link: {0}
 
 Der Link ist 72 Stunden lang gültig.
 
 Viele Grüße
-Dein MEMuchO Team
+Dein memucho-Team
 ".Replace("{0}", passwortResetUrl);
 
         return mailMessage;
