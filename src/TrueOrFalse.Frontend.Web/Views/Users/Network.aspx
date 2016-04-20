@@ -24,7 +24,7 @@
             <% if(!Model.IsLoggedIn){ %>
                 <div class="bs-callout bs-callout-danger">
                     <h4>Anmelden oder registrieren</h4>
-                    <p>Um die memucho-Nutzer und dein Netzwerk zu sehen, musst du dich <a href="/Anmelden">anmelden</a> 
+                    <p>Um dein Netzwerk zu sehen, musst du dich <a href="/Anmelden">anmelden</a> 
                        oder <a href="/Registrieren">registrieren</a>.</p>
                 </div>
             <% }else{ %>
