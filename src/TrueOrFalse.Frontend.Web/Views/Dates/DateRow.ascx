@@ -81,7 +81,11 @@
             
             <div class="row">
                 <div class="col-md-12">
+                    <% if (Model.Date.Visibility == DateVisibility.InNetwork) { %>
                     <i class="fa fa-files-o"></i> 0x kopiert (keine Reputationspunkte)
+                    <% }else { %>
+                    <i class="fa fa-lock"></i> Privater Termin
+                    <% } %>
                 </div>
             </div>
     

@@ -167,7 +167,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SendAnswer(int id, string answer)
     {
-        var result = _answerQuestion.Run(id, answer, UserId);  //here answer is written to "answer"-table
+        var result = _answerQuestion.Run(id, answer, UserId);
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
@@ -205,14 +205,14 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id, string answer, int? roundId, bool logView=true)
+    public JsonResult GetSolution(int id, string answer, int? roundId)
     {
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
-        
-        if ((IsLoggedIn)) //&& (logView)
-            if (roundId == null)
-                R<AnswerLog>().LogAnswerView(question, this.UserId);  // here view is written to "answer"-table, even if answered correctly
+
+        if (IsLoggedIn)
+            if(roundId == null)
+                R<AnswerLog>().LogAnswerView(question, this.UserId);
             else
                 R<AnswerLog>().LogAnswerView(question, this.UserId, roundId);
 

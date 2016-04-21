@@ -84,12 +84,22 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public IList<Answer> GetByUser(int userId, int amount)
     {
-        return Sl.R<ISession>()
-            .QueryOver<Answer>()
-            .Where(a => a.UserId == userId)
-            .OrderBy(a => a.DateCreated).Desc
-            .Take(amount)
-            .List<Answer>();
+        //Older version, does not sort out duplicate entrys:
+        //return Sl.R<ISession>()
+        //    .QueryOver<Answer>()
+        //    .Where(a => a.UserId == userId)
+        //    .OrderBy(a => a.DateCreated).Desc
+        //    .Take(amount)
+        //    .List<Answer>();
+
+        string query = @"
+            SELECT MAX(id) as id FROM answer
+            WHERE UserId = " + userId + @"
+            GROUP BY QuestionId
+            ORDER BY MAX(DateCreated) DESC 
+            LIMIT "+amount;
+        var ids = Session.CreateSQLQuery(query).List<int>();
+        return GetByIds(ids.ToArray()).OrderByDescending(a => a.DateCreated).ToList();
     }
 
     public override void Create(Answer answer)

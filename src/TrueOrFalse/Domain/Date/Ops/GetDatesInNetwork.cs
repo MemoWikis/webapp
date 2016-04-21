@@ -13,7 +13,8 @@ public class GetDatesInNetwork : IRegisterAsInstancePerLifetime
         return Sl.R<DateRepo>()
             .GetBy(
                 user.NetworkIds().ToArray(), 
-                onlyUpcoming : true
+                onlyUpcoming : true,
+                onlyVisibleToNetwork: true
             );
     }
 }
