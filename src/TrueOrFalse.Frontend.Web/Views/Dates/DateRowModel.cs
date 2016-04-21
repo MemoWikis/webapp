@@ -41,10 +41,10 @@ public class DateRowModel : BaseModel
         KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
         KnowledgeSolid = summary.Solid;
 
-        TrainingPlan = date.TrainingPlan;
-        TrainingDateCount = date.TrainingPlan.OpenDates.Count;
-        TrainingLength = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full;
-        NumberOfTrainingsDone = date.TrainingPlan.PastDates.Where(d => d.LearningSession != null).ToList().Count;
+        TrainingPlan = date.TrainingPlan ?? new TrainingPlan();
+        TrainingDateCount = TrainingPlan.OpenDates.Count;
+        TrainingLength = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
+        NumberOfTrainingsDone = TrainingPlan.PastDates.Where(d => d.LearningSession != null).ToList().Count;
 
         var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;
