@@ -29,7 +29,7 @@ class DateRowDelete {
             url: "/Dates/DeleteDetails/" + dateId,
             cache: false,
             success: function (result) {
-                $("#spanDateInfo").html(result.DateInfo.toString());
+                $("#spanDeleteDateInfo").html(result.DateInfo.toString());
             },
             error: function () {
                 window.alert("Ein Fehler ist aufgetreten");
