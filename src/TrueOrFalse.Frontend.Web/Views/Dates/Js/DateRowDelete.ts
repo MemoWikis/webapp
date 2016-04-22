@@ -17,7 +17,7 @@ class DateRowDelete {
             $('#modalDelete').modal('hide');
         });
 
-        $('#confirmDateDelete').click(function () {
+        $('#btnConfirmDateDelete').click(function () {
             self.DeleteDate(dateIdToDelete);
             $('#modalDelete').modal('hide');
         });        
