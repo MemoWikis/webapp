@@ -30,6 +30,28 @@ public class DatesController : BaseController
         return new EmptyResult();
     }
 
+    [HttpPost]
+    public JsonResult CopyDetails(int id)
+    {
+        var date = R<DateRepo>().GetById(id);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                DateInfo = date.GetTitle(),
+                DateOwner = date.User.Name,
+            }
+        };
+    }
+
+    [HttpPost]
+    public EmptyResult Copy(int id)
+    {
+        //R<CopyDate>().Run(id);
+        return new EmptyResult();
+    }
+
     public string RenderPreviousDates()
     {
         var previousDates = R<DateRepo>()

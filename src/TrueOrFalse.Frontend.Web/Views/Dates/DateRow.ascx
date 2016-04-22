@@ -107,9 +107,9 @@
                 <% }else{ %>
                     <div class="col-sm-12" style="text-align: right;">
                         <div style="margin-top: 29px;">
-                            <a class="btn btn-sm btn-info" href="#">
+                            <a data-toggle="modal" data-dateId="<%= date.Id %>" class="btn btn-sm btn-info" href="#modalCopy" data-url="toSecurePost">
                                 <i class="fa fa-files-o"></i>
-                                 Termin kopieren
+                                 Termin übernehmen
                             </a>
                         </div>
                     </div>                

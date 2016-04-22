@@ -151,5 +151,6 @@
     
     <% Html.RenderPartial("Modals/DeleteDate"); %>
     <% Html.RenderPartial("Modals/TrainingSettings"); %>
+    <% Html.RenderPartial("Modals/CopyDate"); %>
             
 </asp:Content>
