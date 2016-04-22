@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    Den Termin <b>'<span id="spanDateInfo"></span>'</b> wird gelöscht.
+                    Der Termin <b>'<span id="spanDateInfo"></span>'</b> wird gelöscht.
                 </div>
             </div>
             <div class="modal-footer">
