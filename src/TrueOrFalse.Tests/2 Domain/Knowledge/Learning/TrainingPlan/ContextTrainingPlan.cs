@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NHibernate;
 
 public class ContextTrainingPlan
 {
@@ -15,10 +16,10 @@ public class ContextTrainingPlan
     public ContextTrainingPlan Add(int numberOfQuestions, DateTime dateOfDate)
     {
         var contextSet = ContextSet.New().AddSet("Setname", numberOfQuestions: numberOfQuestions).Persist();
-        var contextDate = ContextDate.New().Add(contextSet.All, dateTime: dateOfDate).Persist();
+        var date = ContextDate.New().Add(contextSet.All, dateTime: dateOfDate).Persist().All[0];
 
         var trainingsPlan = TrainingPlanCreator.Run(
-            contextDate.All[0], new TrainingPlanSettings
+            date, new TrainingPlanSettings
             {
                 QuestionsPerDate_IdealAmount = 5,
                 QuestionsPerDate_Minimum = 3
@@ -33,9 +34,16 @@ public class ContextTrainingPlan
     {
         var repo = Sl.R<TrainingPlanRepo>();
 
-        foreach(var trainingsPlan in All)
-            repo.Create(trainingsPlan); 
- 
+        foreach(var trainingPlan in All)
+            repo.Create(trainingPlan);
+
+        repo.Flush();
+
+        foreach (var trainingPlan in All)
+            trainingPlan.Date.TrainingPlan = trainingPlan;
+
+        repo.Flush();
+
         return this;
     }
 }

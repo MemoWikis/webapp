@@ -49,19 +49,16 @@ public class Should_create_trainingsplan : BaseTest
 
         DateTimeX.Forward(days: 10);
 
-        var dateTimeNow = DateTimeX.Now();
-
-        var date = trainingPlan.Date;
+        RecycleContainer();
 
         var trainingPlans = Sl.R<TrainingPlanRepo>().AllWithNewMissedDates();
 
         foreach (var trainingPlanToUpdate in trainingPlans)
-        {
             TrainingPlanUpdater.Run(trainingPlanToUpdate);
-        }
 
-        var x = trainingPlan.Dates.Where(d => d.DateTime < dateTimeNow).ToList();
+        RecycleContainer();
 
-        Assert.That(trainingPlan.Dates.Count(d => d.DateTime < dateTimeNow && !d.MarkedAsMissed), Is.EqualTo(0));
+        var trainingPlanFromDb = Sl.R<TrainingPlanRepo>().GetById(trainingPlan.Id);
+        Assert.That(trainingPlanFromDb.PastDates.Count(d => !d.MarkedAsMissed), Is.EqualTo(0));
     }
 }
