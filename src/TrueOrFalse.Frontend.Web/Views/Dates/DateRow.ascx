@@ -81,7 +81,11 @@
             
             <div class="row">
                 <div class="col-md-12">
+                    <% if (Model.Date.Visibility == DateVisibility.InNetwork) { %>
                     <i class="fa fa-files-o"></i> 0x kopiert (keine Reputationspunkte)
+                    <% }else { %>
+                    <i class="fa fa-lock"></i> Privater Termin
+                    <% } %>
                 </div>
             </div>
     
@@ -103,9 +107,9 @@
                 <% }else{ %>
                     <div class="col-sm-12" style="text-align: right;">
                         <div style="margin-top: 29px;">
-                            <a class="btn btn-sm btn-info" href="#">
+                            <a data-toggle="modal" data-dateId="<%= date.Id %>" class="btn btn-sm btn-info" href="#modalCopy" data-url="toSecurePost">
                                 <i class="fa fa-files-o"></i>
-                                 Termin kopieren
+                                 Termin übernehmen
                             </a>
                         </div>
                     </div>                
@@ -142,7 +146,7 @@
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-bell"></i></div>
                     <div class="col-md-10">
-                        <% if(trainingPlan.HasDatesInFuture) { %>
+                        <% if(trainingPlan.HasOpenDates) { %>
                             nächste Übungssitzung <br/>
                             in <%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %> 
                             (<%= trainingPlan.Questions.Count %> Fragen)
@@ -150,10 +154,12 @@
                     </div>
                 </div>
                 <div class="row" style="height: 100%;">
+                    <% if(!Model.HideEditPlanButton) { %>
                     <div class="col-md-1"><i class="fa fa-pencil"></i></div>
                     <div class="col-md-10">
                         <a href="#modalTraining" style="margin-top: 29px;" data-dateId="<%= date.Id %>">bearbeiten</a>
                     </div>
+                    <% } %>
                 </div>
             <% }else{ /* Model.IsPast */ %>
                 <div class="row">
@@ -161,10 +167,10 @@
                     <div class="col-md-10">Übungshistorie:</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12"><%= trainingPlan.DatesInPast.Count %> Übungssitzungen</div>
+                    <div class="col-md-12"><%= Model.NumberOfTrainingsDone %> Übungssitzung<%= StringUtils.Plural(Model.NumberOfTrainingsDone,"en","","en") %> absolviert</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <%= new TimeSpanLabel(trainingPlan.TimeSpent).Value %> </div>
+                    <div class="col-md-12">ca. <%= new TimeSpanLabel(trainingPlan.TimeSpent, showTimeUnit: true).Full %> </div>
                 </div>
             <% } %>
 

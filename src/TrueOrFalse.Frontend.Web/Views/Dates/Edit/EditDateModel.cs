@@ -22,7 +22,7 @@ public class EditDateModel : BaseModel
     public EditDateModel()
     {
         Date = DateTime.Now.Date.AddDays(3);
-        Time = "19:00";
+        Time = "11:00";
         Sets = new List<Set>();
     }
 
@@ -46,8 +46,7 @@ public class EditDateModel : BaseModel
     public string Selected(string visibilty)
     {
         if (visibilty == Visibility)
-            return "checked";
-            //return "selected=\"selected\"";
+            return "selected";
 
         return "";
     }

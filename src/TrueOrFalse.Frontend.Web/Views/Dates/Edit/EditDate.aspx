@@ -81,7 +81,7 @@
                                 Name des Termins:
                             </label>
                             <div class="columnControlsFull">
-                                <%= Html.TextBoxFor(m => m.Details, new {@class="form-control", placeholder = "(z.B. Klassenarbeit Geografie)"}) %>
+                                <%= Html.TextBoxFor(m => m.Details, new {@class="form-control", placeholder = "(z.B. Test Geografie)"}) %>
                                 <%--<%= Html.TextAreaFor(m => m.Details, 
                                     new
                                     {

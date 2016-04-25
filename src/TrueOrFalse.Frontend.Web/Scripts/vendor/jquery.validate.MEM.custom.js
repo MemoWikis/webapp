@@ -1,6 +1,6 @@
 ﻿/* Translated default messages for the jQuery validation plugin.
  * Locale: DE (German, Deutsch)
- * Customized for MEMuchO
+ * Customized for memucho
  */
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 
 public class TrainingPlan : DomainEntity
@@ -9,17 +10,21 @@ public class TrainingPlan : DomainEntity
     public virtual Date Date { get; set; }
 
     public virtual IList<TrainingDate> Dates { get; set; } = new List<TrainingDate>();
-    public virtual IList<TrainingDate> DatesInFuture => Dates.Where(d => d.DateTime > DateTimeX.Now()).OrderBy(d => d.DateTime).ToList();
-    public virtual IList<TrainingDate> DatesInPast => Dates.Where(d => d.DateTime <= DateTimeX.Now()).OrderBy(d => d.DateTime).ToList();
+    public virtual IList<TrainingDate> OpenDates => Dates
+                                                        .Where(d => d.DateTime > DateTimeX.Now()
+                                                            && !d.MarkedAsMissed
+                                                            && d.LearningSession == null)
+                                                        .OrderBy(d => d.DateTime).ToList();
+    public virtual IList<TrainingDate> PastDates => Dates.Except(OpenDates).OrderBy(d => d.DateTime).ToList();
+
+    public virtual TimeSpan TimeToNextDate => HasOpenDates ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
 
     public const int SecondsPerQuestionEst = 30;
 
-    public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (DatesInFuture.Count * Questions.Count) * SecondsPerQuestionEst);
-    public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (DatesInPast.Count * Questions.Count) * SecondsPerQuestionEst);
+    public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (OpenDates.Count * Questions.Count) * SecondsPerQuestionEst);
+    public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (PastDates.Count * Questions.Count) * SecondsPerQuestionEst);
 
-    public virtual bool HasDatesInFuture => DatesInFuture.Any();
-    public virtual TimeSpan TimeToNextDate => DatesInFuture.First().DateTime - DateTime.Now;
-
+    public virtual bool HasOpenDates => OpenDates.Any();
     public virtual TrainingPlanSettings Settings { get; set; }
 
     /// <summary>Questions to train</summary>
@@ -28,9 +33,24 @@ public class TrainingPlan : DomainEntity
             ? new List<Question>()
             : Date.AllQuestions();
 
+    public virtual void MarkDatesAsMissed()
+    {
+        var trainingDateRepo = Sl.Resolve<TrainingDateRepo>();
+
+        PastDates.ForEach(d => 
+        {
+            if (d.LearningSession != null || d.MarkedAsMissed) return;
+            d.MarkedAsMissed = true;
+            trainingDateRepo.Update(d);
+        });
+
+        trainingDateRepo.Flush();
+    }
+
     public virtual TrainingDate GetNextTrainingDate()
     {
-        return HasDatesInFuture ? DatesInFuture.First() : null;
+        PastDates.Where(d => d.LearningSession != null && !d.LearningSession.IsCompleted).ForEach(d => d.LearningSession.CompleteSession());
+        return HasOpenDates ? OpenDates.First() : null;
     }
 
     public virtual void DumpToConsole()

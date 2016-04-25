@@ -10,11 +10,25 @@ public class GetLearningSessionSteps
         return Run(allQuestions);
     }
 
+    //public static IList<LearningSessionStep> Run(TrainingDate trainingDate)
+    //{
+    //    return ComplementPreselectedSteps(
+    //        trainingDate
+    //            .AllQuestionsInTraining
+    //            .Select(q => new LearningSessionStep { Question = q.Question })
+    //            .ToList());
+    //}
+
     public static IList<LearningSessionStep> Run(Date date)
     {
-        if (date.TrainingPlan != null && date.HasDatesInFuture)
+        if (date.TrainingPlan != null && date.HasOpenDates)
         {
-            return ComplementPreselectedSteps(date.TrainingPlan.GetNextTrainingDate().AllQuestionsInTraining.Select(q => new LearningSessionStep { Question = q.Question }).ToList());
+            return ComplementPreselectedSteps(
+                date.TrainingPlan
+                    .GetNextTrainingDate()
+                    .AllQuestionsInTraining
+                    .Select(q => new LearningSessionStep { Question = q.Question })
+                    .ToList());
         }
 
         var allQuestions = date.Sets.SelectMany(s => s.Questions()).ToList();

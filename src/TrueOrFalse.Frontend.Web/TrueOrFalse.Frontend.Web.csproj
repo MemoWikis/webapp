@@ -434,15 +434,16 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Dates\Js\DateRowCopy.js" />
     <Content Include="Views\Dates\Js\TrainingSettings.js">
       <DependentUpon>TrainingSettings.ts</DependentUpon>
     </Content>
     <Content Include="Views\Dates\Js\TrainingSettings.js.map">
       <DependentUpon>TrainingSettings.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Dates\Modals\CopyDate.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
-    <Content Include="Views\Knowledge\KnowledgeScreenshot.aspx" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
@@ -494,6 +495,7 @@
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\DateRowCopy.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowDelete.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\PreviousDates.ts" />
@@ -1892,6 +1894,7 @@
     <Content Include="Views\Sets\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Dates\Js\DateRowCopy.js.map" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

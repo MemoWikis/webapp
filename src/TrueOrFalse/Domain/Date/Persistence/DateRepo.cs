@@ -32,12 +32,15 @@ public class DateRepo : RepositoryDbBase<Date>
         UserActivityAdd.CreatedDate(date);
     }
 
-    public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false)
+    public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false, bool onlyVisibleToNetwork = false)
     {
         var queryOver = _session.QueryOver<Date>();
 
         if(userIds != null)
             queryOver = queryOver.WhereRestrictionOn(u => u.User.Id).IsIn(userIds);
+
+        if (onlyVisibleToNetwork)
+            queryOver.Where(d => d.Visibility == DateVisibility.InNetwork);
 
         if (onlyUpcoming)
             queryOver.Where(d => d.DateTime >= DateTime.Now);
@@ -50,9 +53,9 @@ public class DateRepo : RepositoryDbBase<Date>
         return queryOver.List();
     }
 
-    public IList<Date> GetBy(int userId, bool onlyUpcoming = false, bool onlyPrevious = false)
+    public IList<Date> GetBy(int userId, bool onlyUpcoming = false, bool onlyPrevious = false, bool onlyVisibleToNetwork = false)
     {
-        return GetBy(new [] {userId}, onlyUpcoming, onlyPrevious);
+        return GetBy(new [] {userId}, onlyUpcoming, onlyPrevious, onlyVisibleToNetwork);
     }
 
     public IList<Date> GetBySet(int setId)

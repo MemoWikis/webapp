@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<DatesModel>" %>
+﻿<%@ Page Title="Termine" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<DatesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -151,5 +151,6 @@
     
     <% Html.RenderPartial("Modals/DeleteDate"); %>
     <% Html.RenderPartial("Modals/TrainingSettings"); %>
+    <% Html.RenderPartial("Modals/CopyDate"); %>
             
 </asp:Content>

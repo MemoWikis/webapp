@@ -19,6 +19,7 @@
             <% Html.RenderPartial("Header", Model.HeaderModel); %>
         
             <div class="boxtainer-content">
+                
                 <div class="search-section">
                     <div class="row">
                         <div class="col-md-6">                    

@@ -15,7 +15,7 @@ public class GetSampleDates
         {
             new Date
             {
-                Details = "Klassenarbeit Politik", 
+                Details = "Test Politik", 
                 Sets = sets.Where(s => s.Id == 7).ToList(),
                 DateTime = new DateTime(now.Year, now.Month, now.Day, 10, 00, 0).AddDays(2)
             },

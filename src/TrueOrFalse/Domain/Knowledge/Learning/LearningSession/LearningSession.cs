@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Web.Uris;
 
@@ -11,6 +12,8 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual Set SetToLearn { get; set; }
     public virtual Date DateToLearn { get; set; }
+
+    public virtual bool IsCompleted { get; set; }
 
     public virtual string UrlName
     {
@@ -30,6 +33,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual bool IsDateSession{ get { return DateToLearn != null; }}
 
+
     public virtual int TotalPossibleQuestions
     {
         get
@@ -48,5 +52,18 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     {
         return Steps.ToList()
             .FindIndex(s => s.AnswerState == StepAnswerState.Uncompleted);
+    }
+
+
+    public virtual void CompleteSession()
+    {
+        if(IsCompleted) return;
+
+        Steps.Where(s => s.AnswerState == StepAnswerState.Uncompleted)
+            .Each(s => LearningSessionStep.Skip(s.Id));
+
+        IsCompleted = true;
+
+        Sl.R<LearningSessionRepo>().Update(this);
     }
 }

@@ -1,4 +1,6 @@
-﻿public class DateRowModel : BaseModel
+﻿using System.Linq;
+
+public class DateRowModel : BaseModel
 {
     public Date Date;
 
@@ -17,12 +19,15 @@
     public bool IsPast;
     public bool IsNetworkDate;
 
+    public bool HideEditPlanButton;
+
     public int TrainingDateCount;
     public string TrainingLength;
+    public int NumberOfTrainingsDone;
 
     public TrainingPlan TrainingPlan;
 
-    public DateRowModel(Date date, bool isNetworkDate = false)
+    public DateRowModel(Date date, bool isNetworkDate = false, bool hideEditPlanButton = false)
     {
         Date = date;
 
@@ -36,13 +41,15 @@
         KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
         KnowledgeSolid = summary.Solid;
 
-        TrainingPlan = date.TrainingPlan;
-        TrainingDateCount = date.TrainingPlan.DatesInFuture.Count;
-        TrainingLength = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full;
+        TrainingPlan = date.TrainingPlan ?? new TrainingPlan();
+        TrainingDateCount = TrainingPlan.OpenDates.Count;
+        TrainingLength = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
+        NumberOfTrainingsDone = TrainingPlan.PastDates.Where(d => d.LearningSession != null).ToList().Count;
 
         var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;
         RemainingLabel = new TimeSpanLabel(remaining, IsPast);
         IsNetworkDate = isNetworkDate;
+        HideEditPlanButton = hideEditPlanButton;
     }
 }

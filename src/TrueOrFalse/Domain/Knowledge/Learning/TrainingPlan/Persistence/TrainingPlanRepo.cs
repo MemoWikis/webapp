@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Util;
@@ -9,11 +10,13 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
     {
     }
 
-    public void DeleteDates(TrainingPlan trainingPlan, DateTime after)
+    public void DeleteDatesAfter(TrainingPlan trainingPlan, DateTime after)
     {
-        trainingPlan.Dates.
-            Where(d => d.DateTime > after).ToList().
-            ForEach(d => trainingPlan.Dates.Remove(d));
+        var datesToDelete = trainingPlan.Dates
+            .Where(d => d.DateTime > after)
+            .ToList();
+
+        datesToDelete.ForEach(d => trainingPlan.Dates.Remove(d));
 
         Update(trainingPlan);
         Flush();
@@ -52,5 +55,20 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
         });
 
         base.Create(trainingPlan);
+    }
+
+    public IList<TrainingPlan> AllWithNewMissedDates()
+    {
+        //return PastDates.Any(d => d.LearningSession == null && !d.MarkedAsMissed);
+
+        var newMissedDates = Session
+            .QueryOver<TrainingDate>()
+            .Where(d =>
+                d.DateTime < DateTimeX.Now() 
+                && d.LearningSession == null
+                && !d.MarkedAsMissed
+            ).List();
+
+        return newMissedDates.Select(d => d.TrainingPlan).Distinct().ToList();
     }
 }

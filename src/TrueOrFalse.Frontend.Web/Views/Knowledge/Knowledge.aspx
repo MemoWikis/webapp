@@ -210,7 +210,7 @@
                     </p>
                     <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
                             <p>
-                                MEMuchO kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                                memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
                             </p>
                             <p>
                                 Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  

@@ -245,6 +245,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", "EditDate", new { dateId = dateId });
         }
 
+        //public static object DateCopy(UrlHelper url, int dateId){
+        //    return url.Action("CopyDate", )
+        //}
+
         public static string Games(UrlHelper url){
             return url.Action("Games", "Games");
         }

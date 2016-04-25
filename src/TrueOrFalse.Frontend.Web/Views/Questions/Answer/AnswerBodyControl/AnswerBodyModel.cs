@@ -63,7 +63,7 @@ public class AnswerBodyModel : BaseModel
         
         NextUrl = answerQuestionModel.NextUrl;
 
-        IsLastQuestion = !answerQuestionModel.HasNextPage;
+        IsLastQuestion = !IsLearningSession && !answerQuestionModel.HasNextPage;
 
         if (answerQuestionModel.IsLearningSession)
         {

@@ -194,8 +194,6 @@
 
     private ShowNextQuestionLink() {
 
-        console.log(this._answerQuestion.IsLastQuestion());
-
         if (!this._answerQuestion.IsLastQuestion()) {
             $("#buttons-next-question").show();
         } else {

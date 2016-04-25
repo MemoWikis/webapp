@@ -15,19 +15,28 @@ public class JobExecute
             CodeIsRunningInsideAJob = true;
 
             Settings.UseWebConfig = true;
-            using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+            using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName))
             {
-                var stopwatch = Stopwatch.StartNew();
+                try
+                {
+                    ServiceLocator.AddScopeForCurrentThread(scope);
 
-                if(writeLog)
-                    Logg.r().Information("JOB START: {Job}", jobName);
+                    var stopwatch = Stopwatch.StartNew();
 
-                action(scope);
+                    if (writeLog)
+                        Logg.r().Information("JOB START: {Job}", jobName);
 
-                if (writeLog)
-                    Logg.r().Information("JOB END: {Job} {timeNeeded}", jobName, stopwatch.Elapsed);
+                    action(scope);
 
-                stopwatch.Stop();
+                    if (writeLog)
+                        Logg.r().Information("JOB END: {Job} {timeNeeded}", jobName, stopwatch.Elapsed);
+
+                    stopwatch.Stop();
+                }
+                finally
+                {
+                    ServiceLocator.RemoveScopeForCurrentThread();
+                }
             }
         }
         catch (Exception e)

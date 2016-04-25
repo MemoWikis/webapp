@@ -24,7 +24,7 @@ public class AppAccess : DomainEntity
         }
     }
 
-    /// <summary>A login token to MEMuchO. Supersedes username and password.</summary>
+    /// <summary>A login token to memucho. Supersedes username and password.</summary>
     public virtual string AccessToken { get; set; }
     public virtual User User { get; set; }
 
