@@ -10,6 +10,15 @@ public class GetLearningSessionSteps
         return Run(allQuestions);
     }
 
+    //public static IList<LearningSessionStep> Run(TrainingDate trainingDate)
+    //{
+    //    return ComplementPreselectedSteps(
+    //        trainingDate
+    //            .AllQuestionsInTraining
+    //            .Select(q => new LearningSessionStep { Question = q.Question })
+    //            .ToList());
+    //}
+
     public static IList<LearningSessionStep> Run(Date date)
     {
         if (date.TrainingPlan != null && date.HasOpenDates)

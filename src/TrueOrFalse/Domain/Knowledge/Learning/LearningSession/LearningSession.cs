@@ -63,5 +63,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
             .Each(s => LearningSessionStep.Skip(s.Id));
 
         IsCompleted = true;
+
+        Sl.R<LearningSessionRepo>().Update(this);
     }
 }

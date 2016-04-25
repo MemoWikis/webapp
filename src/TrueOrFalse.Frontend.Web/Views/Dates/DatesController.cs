@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -51,16 +52,28 @@ public class DatesController : BaseController
         if (date.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
+        var trainingDate = date.TrainingPlan?.GetNextTrainingDate();
+
+        //var steps = trainingDate != null
+        //                ? GetLearningSessionSteps.Run(trainingDate)
+        //                : GetLearningSessionSteps.Run(date.Sets.SelectMany(s => s.Questions()).ToList());
+
         var learningSession = new LearningSession
         {
             DateToLearn = date,
             Steps = GetLearningSessionSteps.Run(date),
+        //    Steps = steps,
             User = _sessionUser.User
         };
 
         R<LearningSessionRepo>().Create(learningSession);
 
-        var trainingDate = date.TrainingPlan.GetNextTrainingDate();
+        if (trainingDate.LearningSession != null)
+        {
+            var previousLearningSession = trainingDate.LearningSession;
+            previousLearningSession.CompleteSession();
+            R<LearningSessionRepo>().Update(previousLearningSession);
+        }
         trainingDate.LearningSession = learningSession;
         R<TrainingDateRepo>().Update(trainingDate);
 
