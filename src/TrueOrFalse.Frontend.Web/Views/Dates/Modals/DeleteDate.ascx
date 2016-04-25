@@ -9,12 +9,12 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    Den Termin <b>'<span id="spanDateInfo"></span>'</b> wird gelöscht.
+                    Der Termin <b>'<span id="spanDeleteDateInfo"></span>'</b> wird gelöscht.
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default" id="btnCloseDateDelete">Schliessen</a>
-                <a href="#" class="btn btn-primary btn-danger" id="confirmDateDelete">Löschen</a>
+                <a href="#" class="btn btn-default" id="btnCloseDateDelete">Abbrechen</a>
+                <a href="#" class="btn btn-primary btn-danger" id="btnConfirmDateDelete">Löschen</a>
             </div>
         </div>
     </div>

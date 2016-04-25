@@ -30,7 +30,7 @@
                 <%= Html.LabelFor(m => m.TestMsgReceiverId, new {@class="col-sm-2 control-label"} ) %>
                 <div class="col-xs-2">
                     <%= Html.TextBoxFor(m => m.TestMsgReceiverId, new {@class="form-control"} ) %>    
-                </div>Jules-Id: 25, Roberts-Id: 2
+                </div>Jules Id: 25, Roberts Id: 2, Christofs Id: 33
             </div>
             <div class="form-group">
                 <%= Html.LabelFor(m => m.TestMsgSubject, new {@class="col-sm-2 control-label"} ) %>

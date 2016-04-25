@@ -46,8 +46,7 @@ public class EditDateModel : BaseModel
     public string Selected(string visibilty)
     {
         if (visibilty == Visibility)
-            return "checked";
-            //return "selected=\"selected\"";
+            return "selected";
 
         return "";
     }
