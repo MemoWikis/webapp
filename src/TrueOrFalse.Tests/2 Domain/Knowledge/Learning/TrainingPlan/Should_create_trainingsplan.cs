@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class Should_create_trainingsplan : BaseTest
 {
@@ -8,7 +9,7 @@ public class Should_create_trainingsplan : BaseTest
     public void With_no_history()
     {
         var trainingsPlan = ContextTrainingPlan.New()
-            .Add(numberOfQuestions:20, dateOfDate:DateTime.Now.AddDays(7))
+            .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(7))
             .Last();
 
         Assert.That(trainingsPlan.Dates.Count, Is.InRange(5, 15));
@@ -26,7 +27,7 @@ public class Should_create_trainingsplan : BaseTest
 
         var amountOfDatesInsLast7Days = trainingPlan.Dates.Count(d => d.DateTime > DateTime.Now.AddDays(10));
 
-        DateTimeX.Forward(days:10);
+        DateTimeX.Forward(days: 10);
 
         trainingPlan = TrainingPlanUpdater.Run(trainingPlan.Id);
 
@@ -36,5 +37,31 @@ public class Should_create_trainingsplan : BaseTest
 
         var allDates = R<TrainingDateRepo>().GetAll();
         Assert.That(allDates[0].TrainingPlan, Is.EqualTo(trainingPlan));
+    }
+
+    [Test]
+    public void Should_do_update_check()
+    {
+        var trainingPlan = ContextTrainingPlan.New()
+            .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(20))
+            .Persist()
+            .Last();
+
+        DateTimeX.Forward(days: 10);
+
+        var dateTimeNow = DateTimeX.Now();
+
+        var date = trainingPlan.Date;
+
+        var trainingPlans = Sl.R<TrainingPlanRepo>().AllWithNewMissedDates();
+
+        foreach (var trainingPlanToUpdate in trainingPlans)
+        {
+            TrainingPlanUpdater.Run(trainingPlanToUpdate);
+        }
+
+        var x = trainingPlan.Dates.Where(d => d.DateTime < dateTimeNow).ToList();
+
+        Assert.That(trainingPlan.Dates.Count(d => d.DateTime < dateTimeNow && !d.MarkedAsMissed), Is.EqualTo(0));
     }
 }
