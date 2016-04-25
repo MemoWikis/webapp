@@ -17,6 +17,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 foreach (var trainingPlan in trainingPlans)
                 {
+                    Logg.r().Information("Updated training plan Id=" + trainingPlan.Id + " because of missed date.");
+
                     TrainingPlanUpdater.Run(trainingPlan);
 
                     var session = scope.R<ISession>();

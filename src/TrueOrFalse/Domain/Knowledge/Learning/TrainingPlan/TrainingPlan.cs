@@ -33,20 +33,18 @@ public class TrainingPlan : DomainEntity
             ? new List<Question>()
             : Date.AllQuestions();
 
-    public virtual bool HasNewMissedDates()
-    {
-        return PastDates.Any(d => d.LearningSession == null && !d.MarkedAsMissed);
-    }
-
     public virtual void MarkDatesAsMissed()
     {
-        PastDates.ForEach(d =>
+        var trainingDateRepo = Sl.Resolve<TrainingDateRepo>();
+
+        PastDates.ForEach(d => 
         {
             if (d.LearningSession != null || d.MarkedAsMissed) return;
             d.MarkedAsMissed = true;
-            Sl.Resolve<TrainingDateRepo>().Update(d);
-        }
-       );
+            trainingDateRepo.Update(d);
+        });
+
+        trainingDateRepo.Flush();
     }
 
     public virtual TrainingDate GetNextTrainingDate()

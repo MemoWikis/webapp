@@ -10,8 +10,8 @@ public class TrainingPlanCreator
         trainingPlan.Date = date;
         trainingPlan.Settings = settings;
 
-        if (date.AllQuestions().Count < settings.QuestionsPerDate_Minimum)
-            settings.QuestionsPerDate_Minimum = date.AllQuestions().Count;
+        if (date.AllQuestions().Count <= settings.QuestionsPerDate_Minimum)
+            settings.QuestionsPerDate_Minimum = Math.Max(1, date.AllQuestions().Count);
 
         var answerRepo = Sl.R<AnswerRepo>();
 

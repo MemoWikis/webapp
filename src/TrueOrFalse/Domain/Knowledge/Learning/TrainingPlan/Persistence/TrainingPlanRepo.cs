@@ -12,9 +12,11 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
 
     public void DeleteDatesAfter(TrainingPlan trainingPlan, DateTime after)
     {
-        trainingPlan.Dates.
-            Where(d => d.DateTime > after).ToList().
-            ForEach(d => trainingPlan.Dates.Remove(d));
+        var datesToDelete = trainingPlan.Dates
+            .Where(d => d.DateTime > after)
+            .ToList();
+
+        datesToDelete.ForEach(d => trainingPlan.Dates.Remove(d));
 
         Update(trainingPlan);
         Flush();
@@ -57,10 +59,12 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
 
     public IList<TrainingPlan> AllWithNewMissedDates()
     {
+        //return PastDates.Any(d => d.LearningSession == null && !d.MarkedAsMissed);
+
         var newMissedDates = Session
             .QueryOver<TrainingDate>()
             .Where(d =>
-                d.DateTime < DateTime.Now 
+                d.DateTime < DateTimeX.Now() 
                 && d.LearningSession == null
                 && !d.MarkedAsMissed
             ).List();
