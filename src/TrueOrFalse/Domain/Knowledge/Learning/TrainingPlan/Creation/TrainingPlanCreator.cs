@@ -23,7 +23,7 @@ public class TrainingPlanCreator
                     {
                         User = date.User,
                         Question = q,
-                        CalculatedProbability = 90 /*ASANA_95675374655141: Do: get real number..*/,
+                        CalculatedProbability = 90 /*ASANA: Übungsplan Startwert dynamisieren..*/,
                         CalculatedAt = DateTimeX.Now(),
                         History = answerRepo.GetByQuestion(q.Id, date.User.Id)
                     })

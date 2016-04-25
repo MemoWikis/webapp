@@ -29,13 +29,13 @@ public class ProbabilityCalc_Curve_HalfLife_24h
         int offsetInMinutes, 
         int startValue)
     {
-        var stability = Stability + GetStatbilityModificator(previousAnswers);
+        var stability = Stability + GetStabilityModificator(previousAnswers);
 
         return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, startValue: startValue);
     }
 
     ///naive implementation!
-    public int GetStatbilityModificator(IList<Answer> previousAnswers)
+    public int GetStabilityModificator(IList<Answer> previousAnswers)
     {
         return previousAnswers.Sum(a =>
         {
