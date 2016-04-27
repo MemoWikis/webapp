@@ -32,6 +32,23 @@ public class DateRepo : RepositoryDbBase<Date>
         UserActivityAdd.CreatedDate(date);
     }
 
+    public void Copy(Date sourceDate)
+    {
+        var sets = new List<Set>();
+        sets.AddRange(sourceDate.Sets);
+
+        Date copiedDate = new Date
+        {
+            User = _userSession.User,
+            Sets = sets,
+            Details = sourceDate.Details,
+            DateTime = sourceDate.DateTime,
+            Visibility = sourceDate.Visibility
+        };
+
+        CreateWithTrainingPlan(copiedDate);
+    }
+
     public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false, bool onlyVisibleToNetwork = false)
     {
         var queryOver = _session.QueryOver<Date>();

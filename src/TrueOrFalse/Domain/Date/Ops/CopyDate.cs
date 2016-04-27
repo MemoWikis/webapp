@@ -7,6 +7,6 @@
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(date.User.Id);
 
-        //dateRepo.Copy(date);
+        dateRepo.Copy(date);
     }
 }
