@@ -75,6 +75,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<UpdateSetCountForCategory>().InstancePerLifetimeScope();
             builder.RegisterType<CommentRepository>().InstancePerLifetimeScope();
             builder.RegisterType<DeleteDate>().InstancePerLifetimeScope();
+            builder.RegisterType<CopyDate>().InstancePerLifetimeScope();
             builder.RegisterType<GetDatesInNetwork>().InstancePerLifetimeScope();
             builder.RegisterType<DateRepo>().InstancePerLifetimeScope();
             builder.RegisterType<GameCreate>().InstancePerLifetimeScope();

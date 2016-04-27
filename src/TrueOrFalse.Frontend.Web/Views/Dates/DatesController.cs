@@ -49,7 +49,7 @@ public class DatesController : BaseController
     [HttpPost]
     public EmptyResult Copy(int id)
     {
-        //R<CopyDate>().Run(id);
+        R<CopyDate>().Run(id);
         return new EmptyResult();
     }
 

@@ -44,7 +44,7 @@ class DateRowCopy {
             url: "/Dates/Copy/" + dateId,
             cache: false,
             success: function () {
-                window.alert("Hat geklappt");
+                window.alert("Hat geklappt, bitte Seite neu laden.");
             },
             error: function (result) {
                 window.alert("Ein Fehler ist aufgetreten");
