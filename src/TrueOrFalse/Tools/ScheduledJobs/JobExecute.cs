@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Autofac;
 using RollbarSharp;
 
@@ -30,7 +31,6 @@ public class JobExecute
                 _runningJobs.Add(jobName);
             }
 
-            var jobHashCode = DateTime.Now.ToString().GetHashCode().ToString("x");
 
             CodeIsRunningInsideAJob = true;
 
@@ -44,14 +44,17 @@ public class JobExecute
 
                     var stopwatch = Stopwatch.StartNew();
 
+                    var threadId = Thread.CurrentThread.ManagedThreadId;
+                    var appDomainName = AppDomain.CurrentDomain.FriendlyName;
+
                     if (writeLog)
-                        Logg.r().Information("JOB START: {Job}", jobName + " " + jobHashCode);
+                        Logg.r().Information("JOB START: {Job} {AppDomain} {ThreadId}", jobName, appDomainName, threadId);
 
                     action(scope);
 
                     if (writeLog)
                         Logg.r()
-                            .Information("JOB END: {Job} {timeNeeded}", jobName + " " + jobHashCode, stopwatch.Elapsed);
+                            .Information("JOB END: {Job} {AppDomain} {ThreadId} {timeNeeded}", jobName, appDomainName, threadId, stopwatch.Elapsed);
 
                     stopwatch.Stop();
                 }

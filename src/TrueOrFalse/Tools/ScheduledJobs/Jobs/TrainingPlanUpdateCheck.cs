@@ -1,9 +1,10 @@
-﻿using System;
+﻿using System.Threading;
 using NHibernate;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
+    [DisallowConcurrentExecution]
     public class TrainingPlanUpdateCheck : IJob
     {
         public const int IntervalInMinutes = 1;
@@ -13,6 +14,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates();
+
+                Thread.Sleep(1500);
 
                 foreach (var trainingPlan in trainingPlans)
                 {

@@ -46,6 +46,7 @@ namespace TrueOrFalse.Frontend.Web
 
         protected void Application_Stop()
         {
+            JobScheduler.Shutdown();
             Logg.r().Information("=== Application Stop ===============================");
         }
 
