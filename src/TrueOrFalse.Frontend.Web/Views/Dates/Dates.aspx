@@ -112,6 +112,7 @@
                         </p>
                     </div>
                 <% } else { %>
+                    <div id="startingOwnDates"></div>
                     <% foreach(var date in Model.Dates){ %>
                         <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
                     <% } %>

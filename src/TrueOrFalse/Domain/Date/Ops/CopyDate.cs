@@ -1,12 +1,12 @@
 ﻿public class CopyDate : IRegisterAsInstancePerLifetime
 {
-    public void Run(int dateId)
+    public int Run(int sourceDateId)
     {
-        var dateRepo = Sl.R<DateRepo>();
-        var date = dateRepo.GetById(dateId);
+        var sourceDateRepo = Sl.R<DateRepo>();
+        var sourceDate = sourceDateRepo.GetById(sourceDateId);
 
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(date.User.Id);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(sourceDate.User.Id);
 
-        dateRepo.Copy(date);
+        return sourceDateRepo.Copy(sourceDate);
     }
 }

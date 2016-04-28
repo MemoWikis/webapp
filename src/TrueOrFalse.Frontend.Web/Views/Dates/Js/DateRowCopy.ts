@@ -1,4 +1,4 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
 
@@ -32,23 +32,48 @@ class DateRowCopy {
                 $("#spanCopyDateInfo").html(result.DateInfo.toString());
                 $("#spanCopyDateOwner").html(result.DateOwner.toString());
             },
-            error: function () {
-                window.alert("Ein Fehler ist aufgetreten");
+            error: function (e) {
+                console.log(e);
             }
         });
     }
 
-    CopyDate(dateId) {
+    CopyDate(sourceDateId) {
         $.ajax({
             type: 'POST',
-            url: "/Dates/Copy/" + dateId,
+            url: "/Dates/Copy/",
+            data: { sourceDateId: sourceDateId },
             cache: false,
-            success: function () {
-                window.alert("Hat geklappt, bitte Seite neu laden.");
+            success: function (result) {
+                window.alert("Termin wurde übernommen, bitte Seite neu laden. ID: " + result.DateId.toString());
+                //this.RenderCopiedDate(result.DateId.toString());
             },
-            error: function (result) {
-                window.alert("Ein Fehler ist aufgetreten");
+            error: function (e) {
+                console.log(e);
             }
         });
+    }
+
+    RenderCopiedDate(copiedDateId) {
+        //var dateNodes = document.getElementsByClassName("rowBase date-row");
+        //$("#startingOwnDates")
+        //    .empty()
+        //    .animate({ opacity: 0.00 }, 0)
+        //    .append(copiedDateId)
+        //    .append("ichwarhier")
+        //    .animate({ opacity: 1.00 }, 600);
+        //$(".show-tooltip").tooltip();
+
+        //$.get("/Dates/RenderCopiedDate/" + copiedDateId,
+        //    htmlResult => {
+        //        $("#startingOwnDates")
+        //            .empty()
+        //            .animate({ opacity: 0.00 }, 0)
+        //            .append(htmlResult)
+        //            .append("ichwarhier")
+        //            .animate({ opacity: 1.00 }, 600);
+
+        //        $(".show-tooltip").tooltip();
+        //    });
     }
 }

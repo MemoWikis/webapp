@@ -32,7 +32,7 @@ public class DateRepo : RepositoryDbBase<Date>
         UserActivityAdd.CreatedDate(date);
     }
 
-    public void Copy(Date sourceDate)
+    public int Copy(Date sourceDate)
     {
         var sets = new List<Set>();
         sets.AddRange(sourceDate.Sets);
@@ -47,6 +47,7 @@ public class DateRepo : RepositoryDbBase<Date>
         };
 
         CreateWithTrainingPlan(copiedDate);
+        return copiedDate.Id;
     }
 
     public IList<Date> GetBy(int[] userIds = null, bool onlyUpcoming = false, bool onlyPrevious = false, bool onlyVisibleToNetwork = false)
