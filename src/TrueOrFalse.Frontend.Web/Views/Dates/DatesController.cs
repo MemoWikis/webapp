@@ -41,16 +41,29 @@ public class DatesController : BaseController
             Data = new
             {
                 DateInfo = date.GetTitle(),
-                DateOwner = date.User.Name,
+                DateOwner = date.User.Name
             }
         };
     }
 
     [HttpPost]
-    public EmptyResult Copy(int id)
+    public JsonResult Copy(int sourceDateId)
     {
-        R<CopyDate>().Run(id);
-        return new EmptyResult();
+        var copiedDateId = R<CopyDate>().Run(sourceDateId);
+        return new JsonResult
+        {
+            Data = new
+            {
+                DateId = copiedDateId
+            }
+        };
+    }
+
+    public string RenderCopiedDate(int id)
+    {
+        var date = R<DateRepo>().GetById(id);
+        var dateRowModel = new DateRowModel(date);
+        return ViewRenderer.RenderPartialView("~/Views/Dates/DateRow.ascx", dateRowModel, ControllerContext);
     }
 
     public string RenderPreviousDates()
