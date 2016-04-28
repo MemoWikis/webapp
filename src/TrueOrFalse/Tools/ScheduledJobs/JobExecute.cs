@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Autofac;
 using RollbarSharp;
 
@@ -8,10 +10,25 @@ public class JobExecute
     [ThreadStatic]
     public static bool CodeIsRunningInsideAJob;
 
+    private static readonly IList<string> _runningJobs = new List<string>();
+
+    private static readonly object _lockObject1 = new object();
+    private static readonly object _lockObject2 = new object();
+
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {
         try
         {
+            lock (_lockObject1)
+            { 
+                if (_runningJobs.Any(x => x == jobName)) { 
+                    Logg.r().Information("Job is already running: {jobName}", jobName);
+                    return;
+                }
+
+                _runningJobs.Add(jobName);
+            }
+
             CodeIsRunningInsideAJob = true;
 
             Settings.UseWebConfig = true;
@@ -38,6 +55,12 @@ public class JobExecute
                     ServiceLocator.RemoveScopeForCurrentThread();
                 }
             }
+
+            lock (_lockObject2)
+            {
+                _runningJobs.Remove(jobName);
+            }
+
         }
         catch (Exception e)
         {
