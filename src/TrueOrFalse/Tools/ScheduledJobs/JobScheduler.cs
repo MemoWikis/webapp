@@ -57,7 +57,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.ScheduleJob(JobBuilder.Create<TrainingPlanUpdateCheck>().Build(),
                 TriggerBuilder.Create()
                     .WithSimpleSchedule(x =>
-                        x.WithIntervalInMinutes(TrainingPlanUpdateCheck.IntervalInMinutes)
+                        //x.WithIntervalInMinutes(TrainingPlanUpdateCheck.IntervalInMinutes)
+                        x.WithIntervalInSeconds(1)
                         .RepeatForever()).Build());
         }
 

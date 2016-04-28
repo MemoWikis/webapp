@@ -6,48 +6,26 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class TrainingPlanUpdateCheck : IJob
     {
-        public const int IntervalInMinutes = 30;
-        public static bool IsRunning = false;
-        public string JobHashCode;
+        public const int IntervalInMinutes = 1;
 
         public void Execute(IJobExecutionContext context)
         {
-            JobHashCode = DateTime.Now.ToString().GetHashCode().ToString("x");
-
             JobExecute.Run(scope =>
             {
-                if (IsRunning)
-                {
-                    Logg.r().Information("TrainingPlanUpdateCheck not executed because already running");
-                    return;
-                }
-
-                IsRunning = true;
-
                 var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates();
 
-                try
+                foreach (var trainingPlan in trainingPlans)
                 {
-                    foreach (var trainingPlan in trainingPlans)
-                    {
-                        var session = scope.R<ISession>();
+                    var session = scope.R<ISession>();
 
-                        Logg.r().Information("Updating training plan Id=" + trainingPlan.Id + " because of missed date.");
+                    Logg.r().Information("Updating training plan Id=" + trainingPlan.Id + " because of missed date.");
 
-                        TrainingPlanUpdater.Run(trainingPlan);
+                    TrainingPlanUpdater.Run(trainingPlan);
 
-                        session.Update(trainingPlan);
-                        session.Flush();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logg.r().Information(e, "");
+                    session.Flush();
                 }
 
-                IsRunning = false;
-
-            }, "TrainingPlanUpdateCheck " + JobHashCode);
+            }, "TrainingPlanUpdateCheck");
         }
     }
 }

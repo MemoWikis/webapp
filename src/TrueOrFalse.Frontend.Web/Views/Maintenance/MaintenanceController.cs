@@ -238,6 +238,7 @@ public class MaintenanceController : BaseController
     public ActionResult TrainingPlanUpdateCheck()
     {
         JobScheduler.StartImmediately_TrainingPlanUpdateCheck();
+        Logg.r().Information("TrainingPlanUpdateCheck manually started");
         return View("Tools", new ToolsModel { Message = new SuccessMessage("Job: 'Training Plan Update Check' wird ausgeführt.") });
     }
 
