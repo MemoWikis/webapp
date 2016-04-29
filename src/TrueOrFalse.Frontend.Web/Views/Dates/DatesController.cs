@@ -50,11 +50,27 @@ public class DatesController : BaseController
     public JsonResult Copy(int sourceDateId)
     {
         var copiedDateId = R<CopyDate>().Run(sourceDateId);
+        var copiedDateDateTime = R<DateRepo>().GetById(copiedDateId).DateTime;
+        int precedingDateId = 0;
+        //Abfrage: Select * from date where User_id = 33 AND DateTime >= NOW() ORDER BY DateTime ASC;
+        var precedingDate = R<DateRepo>()
+            .GetBy(UserId)
+            .OrderByDescending(d => d.DateTime)
+            .TakeWhile(d => d.Id != copiedDateId)
+            .LastOrDefault();
+        //precedingDateId = Date.IsNullOrEmpty(precedingDate) ? 0 : precedingDate.Id;
+        //followingDateId = R<DateRepo>()
+        //    .GetBy(UserId)
+        //    .OrderByDescending(d => d.DateTime)
+        //    .Where(d => d.Id != copiedDateId)
+        //    .Last(d => d.DateTime >= copiedDateDateTime)
+        //    .Id;
         return new JsonResult
         {
             Data = new
             {
-                DateId = copiedDateId
+                CopiedDateId = copiedDateId,
+                PrecedingDateId = precedingDateId
             }
         };
     }

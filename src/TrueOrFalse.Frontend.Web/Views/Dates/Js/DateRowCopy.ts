@@ -3,6 +3,7 @@
 
 
 class DateRowCopy {
+
     constructor() {
 
         var self = this;
@@ -39,14 +40,15 @@ class DateRowCopy {
     }
 
     CopyDate(sourceDateId) {
+        var self = this;
         $.ajax({
             type: 'POST',
             url: "/Dates/Copy/",
             data: { sourceDateId: sourceDateId },
             cache: false,
             success: function (result) {
-                window.alert("Termin wurde übernommen, bitte Seite neu laden. ID: " + result.DateId.toString());
-                //this.RenderCopiedDate(result.DateId.toString());
+                //window.alert("Termin wurde übernommen, bitte Seite neu laden. ID: " + result.CopiedDateId.toString() + ", dann ID " + result.PrecedingDateId.toString());
+                self.RenderCopiedDate(result.CopiedDateId.toString(), result.PrecedingDateId.toString());
             },
             error: function (e) {
                 console.log(e);
@@ -54,15 +56,17 @@ class DateRowCopy {
         });
     }
 
-    RenderCopiedDate(copiedDateId) {
+    RenderCopiedDate(copiedDateId, precedingDateId) {
+        //followingDateId is Id of date that follows the newly copied date; 0 if newly followed date is first date
         //var dateNodes = document.getElementsByClassName("rowBase date-row");
-        //$("#startingOwnDates")
-        //    .empty()
-        //    .animate({ opacity: 0.00 }, 0)
-        //    .append(copiedDateId)
-        //    .append("ichwarhier")
-        //    .animate({ opacity: 1.00 }, 600);
-        //$(".show-tooltip").tooltip();
+        $("#startingOwnDates")
+            .empty()
+            .animate({ opacity: 0.00 }, 0)
+            .append(copiedDateId)
+            .append("-kommt nach-")
+            .append(precedingDateId)
+            .animate({ opacity: 1.00 }, 600);
+        $(".show-tooltip").tooltip();
 
         //$.get("/Dates/RenderCopiedDate/" + copiedDateId,
         //    htmlResult => {
