@@ -48,7 +48,7 @@ class DateRowCopy {
             cache: false,
             success: function (result) {
                 //window.alert("Termin wurde übernommen, bitte Seite neu laden. ID: " + result.CopiedDateId.toString() + ", dann ID " + result.PrecedingDateId.toString());
-                self.RenderCopiedDate(result.CopiedDateId.toString(), result.PrecedingDateId.toString());
+                self.RenderCopiedDate(result.CopiedDateId, result.PrecedingDateId);
             },
             error: function (e) {
                 console.log(e);
@@ -56,17 +56,25 @@ class DateRowCopy {
         });
     }
 
-    RenderCopiedDate(copiedDateId, precedingDateId) {
-        //followingDateId is Id of date that follows the newly copied date; 0 if newly followed date is first date
-        //var dateNodes = document.getElementsByClassName("rowBase date-row");
-        $("#startingOwnDates")
-            .empty()
-            .animate({ opacity: 0.00 }, 0)
-            .append(copiedDateId)
-            .append("-kommt nach-")
-            .append(precedingDateId)
-            .animate({ opacity: 1.00 }, 600);
-        $(".show-tooltip").tooltip();
+    RenderCopiedDate(copiedDateId : number, precedingDateId : number) {
+        //precedingDateId is Id of date after which the newly copied date should be inserted; 0 if newly copied date is first date in list
+        //$("hallo1").prependTo("#allDateRows");
+        //$("hallo2").insertAfter('[data-date-id="22"]');
+        //$("<p>hallo3</p>").prependTo("#allDateRows");
+        //$("<p>hallo4</p>").insertAfter('[data-date-id="22"]');
+        if (precedingDateId == 0) {
+            $("<div>hier kommt date-id" + copiedDateId + "</div>").prependTo("#allDateRows");
+        } else {
+            $("<div>hier kommt date-id" + copiedDateId + "</div>").insertAfter('[data-date-id="' + precedingDateId + '"]');
+        }
+        //$("#startingOwnDates")
+        //    .empty()
+        //    .animate({ opacity: 0.00 }, 0)
+        //    .append(copiedDateId)
+        //    .append("-kommt nach-")
+        //    .append(precedingDateId)
+        //    .animate({ opacity: 1.00 }, 600);
+        //$(".show-tooltip").tooltip();
 
         //$.get("/Dates/RenderCopiedDate/" + copiedDateId,
         //    htmlResult => {

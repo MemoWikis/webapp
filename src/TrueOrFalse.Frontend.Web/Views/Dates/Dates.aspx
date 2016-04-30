@@ -86,7 +86,7 @@
     </div>
         
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" id="allDateRows">
 
             <% if(!Model.IsLoggedIn){ %>
 
@@ -112,7 +112,6 @@
                         </p>
                     </div>
                 <% } else { %>
-                    <div id="startingOwnDates"></div>
                     <% foreach(var date in Model.Dates){ %>
                         <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
                     <% } %>
