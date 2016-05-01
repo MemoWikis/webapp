@@ -57,35 +57,28 @@ class DateRowCopy {
     }
 
     RenderCopiedDate(copiedDateId : number, precedingDateId : number) {
-        //precedingDateId is Id of date after which the newly copied date should be inserted; 0 if newly copied date is first date in list
-        //$("hallo1").prependTo("#allDateRows");
-        //$("hallo2").insertAfter('[data-date-id="22"]');
-        //$("<p>hallo3</p>").prependTo("#allDateRows");
-        //$("<p>hallo4</p>").insertAfter('[data-date-id="22"]');
-        if (precedingDateId == 0) {
-            $("<div>hier kommt date-id" + copiedDateId + "</div>").prependTo("#allDateRows");
-        } else {
-            $("<div>hier kommt date-id" + copiedDateId + "</div>").insertAfter('[data-date-id="' + precedingDateId + '"]');
-        }
-        //$("#startingOwnDates")
-        //    .empty()
-        //    .animate({ opacity: 0.00 }, 0)
-        //    .append(copiedDateId)
-        //    .append("-kommt nach-")
-        //    .append(precedingDateId)
-        //    .animate({ opacity: 1.00 }, 600);
-        //$(".show-tooltip").tooltip();
+        $.get("/Dates/RenderCopiedDate/" + copiedDateId,
+            function (htmlResult) {
+                //if box "Du hast keine aktuellen Termine" still there, hide it!
+                $("#noOwnCurrentDatesInfo").hide();
 
-        //$.get("/Dates/RenderCopiedDate/" + copiedDateId,
-        //    htmlResult => {
-        //        $("#startingOwnDates")
-        //            .empty()
-        //            .animate({ opacity: 0.00 }, 0)
-        //            .append(htmlResult)
-        //            .append("ichwarhier")
-        //            .animate({ opacity: 1.00 }, 600);
+                //insert copied date
+                if (precedingDateId == 0) {
+                    $("#allDateRows").prepend(htmlResult); //works
+                } else {
+                    $('[data-date-id="' + precedingDateId + '"]').after(htmlResult);
+                }
 
-        //        $(".show-tooltip").tooltip();
-        //    });
+                //animate newly inserted date
+                var bgOrg = $('[data-date-id="' + copiedDateId + '"]').css("background-color");
+                $('[data-date-id="' + copiedDateId + '"]')
+                    .animate({ backgroundColor: "#afd534", opacity: 0.00 }, 0)
+                    .animate({ opacity: 1.00}, 900)
+                    .animate({ backgroundColor: bgOrg}, 900);
+
+                $(".show-tooltip").tooltip(); //TODO: not working yet
+                //TODO: drawKnowledgeCharts
+            });
+
     }
 }
