@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Autofac;
 using RollbarSharp;
 
@@ -20,8 +21,9 @@ public class JobExecute
         try
         {
             lock (_lockObject1)
-            { 
-                if (_runningJobs.Any(x => x == jobName)) { 
+            {
+                if (_runningJobs.Any(x => x == jobName))
+                {
                     Logg.r().Information("Job is already running: {jobName}", jobName);
                     return;
                 }
@@ -29,9 +31,11 @@ public class JobExecute
                 _runningJobs.Add(jobName);
             }
 
+
             CodeIsRunningInsideAJob = true;
 
             Settings.UseWebConfig = true;
+
             using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName))
             {
                 try
@@ -40,13 +44,17 @@ public class JobExecute
 
                     var stopwatch = Stopwatch.StartNew();
 
+                    var threadId = Thread.CurrentThread.ManagedThreadId;
+                    var appDomainName = AppDomain.CurrentDomain.FriendlyName;
+
                     if (writeLog)
-                        Logg.r().Information("JOB START: {Job}", jobName);
+                        Logg.r().Information("JOB START: {Job} {AppDomain} {ThreadId}", jobName, appDomainName, threadId);
 
                     action(scope);
 
                     if (writeLog)
-                        Logg.r().Information("JOB END: {Job} {timeNeeded}", jobName, stopwatch.Elapsed);
+                        Logg.r()
+                            .Information("JOB END: {Job} {AppDomain} {ThreadId} {timeNeeded}", jobName, appDomainName, threadId, stopwatch.Elapsed);
 
                     stopwatch.Stop();
                 }
@@ -55,17 +63,19 @@ public class JobExecute
                     ServiceLocator.RemoveScopeForCurrentThread();
                 }
             }
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error(e, "Job error on " + jobName);
+            new RollbarClient().SendException(e);
+        }
 
+        finally
+        {
             lock (_lockObject2)
             {
                 _runningJobs.Remove(jobName);
             }
-
-        }
-        catch (Exception e)
-        {
-            Logg.r().Error(e, "Job error");
-            new RollbarClient().SendException(e);
         }
     }
 }

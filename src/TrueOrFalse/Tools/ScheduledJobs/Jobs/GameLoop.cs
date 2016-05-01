@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using Autofac;
+using NHibernate.Util;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
@@ -79,6 +81,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     continue;
                 }
 
+                AutomatedMemuchoAnswer(game, currentRound);
+
                 if (currentRound.IsOverdue() || currentRound.AllPlayersDidAnswer())
                 {
                     game.NextRound();
@@ -88,6 +92,26 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     _gameHubConnection.SendNextRound(game.Id);
                 }
             }
+        }
+        
+        private void AutomatedMemuchoAnswer(Game game, Round currentRound)
+        {
+            if (!game.IsWithMemuchoPlayer())
+                return;
+
+            if(currentRound.Answers.Any(x => x.Player.IsMemucho))
+                return;
+
+            var memuchoPlayer = game.Players.First(p => p.IsMemucho);
+
+            var result = Sl.R<AnswerQuestion>().Run(
+                currentRound.Question.Id,
+                "", 
+                memuchoPlayer.User.Id, 
+                memuchoPlayer.Id, 
+                currentRound.Id);
+
+            Sl.R<GameHubConnection>().SendAnswered(game.Id, memuchoPlayer.Id, result);
         }
     }
 }
