@@ -1,62 +1,64 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using Autofac;
 using RollbarSharp;
 
 public class JobExecute
 {
-    [ThreadStatic]
-    public static bool CodeIsRunningInsideAJob;
-
-    private static readonly IList<string> _runningJobs = new List<string>();
-
-    private static readonly object _lockObject1 = new object();
-    private static readonly object _lockObject2 = new object();
+    [ThreadStatic] public static bool CodeIsRunningInsideAJob;
 
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {
+        var runningJobRepo = Sl.R<RunningJobRepo>();
+
         try
         {
-            lock (_lockObject1)
-            {
-                if (_runningJobs.Any(x => x == jobName))
-                {
-                    Logg.r().Information("Job is already running: {jobName}", jobName);
-                    return;
-                }
-
-                _runningJobs.Add(jobName);
-            }
-
-
-            CodeIsRunningInsideAJob = true;
-
-            Settings.UseWebConfig = true;
-
             using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName))
             {
                 try
                 {
                     ServiceLocator.AddScopeForCurrentThread(scope);
 
-                    var stopwatch = Stopwatch.StartNew();
+                    CodeIsRunningInsideAJob = true;
+                    Settings.UseWebConfig = true;
 
-                    var threadId = Thread.CurrentThread.ManagedThreadId;
-                    var appDomainName = AppDomain.CurrentDomain.FriendlyName;
+                    try
+                    {
+                        using (new MutexX(5000, "IsRunning"))
+                        {
+                            if (runningJobRepo.IsJobRunning(jobName))
+                            {
+                                Logg.r().Information("Job is already running: {jobName}", jobName);
+                                return;
+                            }
 
-                    if (writeLog)
-                        Logg.r().Information("JOB START: {Job} {AppDomain} {ThreadId}", jobName, appDomainName, threadId);
+                            runningJobRepo.Add(jobName);
+                        }
 
-                    action(scope);
+                        var stopwatch = Stopwatch.StartNew();
 
-                    if (writeLog)
-                        Logg.r()
-                            .Information("JOB END: {Job} {AppDomain} {ThreadId} {timeNeeded}", jobName, appDomainName, threadId, stopwatch.Elapsed);
+                        var threadId = Thread.CurrentThread.ManagedThreadId;
+                        var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 
-                    stopwatch.Stop();
+                        if (writeLog)
+                            Logg.r()
+                                .Information("JOB START: {Job} {AppDomain} {ThreadId}", jobName, appDomainName, threadId);
+
+                        action(scope);
+
+                        if (writeLog)
+                            Logg.r()
+                                .Information("JOB END: {Job} {AppDomain} {ThreadId} {timeNeeded}", jobName,
+                                    appDomainName,
+                                    threadId, stopwatch.Elapsed);
+
+                        stopwatch.Stop();
+                    }
+                    finally
+                    {
+                        runningJobRepo.Remove(jobName);
+                    }
                 }
                 finally
                 {
@@ -68,14 +70,6 @@ public class JobExecute
         {
             Logg.r().Error(e, "Job error on " + jobName);
             new RollbarClient().SendException(e);
-        }
-
-        finally
-        {
-            lock (_lockObject2)
-            {
-                _runningJobs.Remove(jobName);
-            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates();
 
-                Thread.Sleep(1500);
+                //Thread.Sleep(1500);
 
                 foreach (var trainingPlan in trainingPlans)
                 {
