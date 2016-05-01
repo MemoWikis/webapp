@@ -44,7 +44,7 @@ public class ServiceLocator
         var tag = _liftimeScopes[Thread.CurrentThread.ManagedThreadId].Tag;
         _liftimeScopes.Remove(Thread.CurrentThread.ManagedThreadId);
         var keys = string.Join(",", _liftimeScopes.Keys);
-        Logg.r().Information("RemoveScopeForCurrentThread {ManagedThreadId} {LifetimeScopeTag}, Active threads: " + keys, Thread.CurrentThread.ManagedThreadId, tag);
+        Logg.r().Information("RemoveScopeForCurrentThread {ManagedThreadId} {LifetimeScopeTag}, Current Thread: " + keys, Thread.CurrentThread.ManagedThreadId, tag);
     }
 
     public static T Resolve<T>()
