@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Collections.Concurrent;
+using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -26,7 +27,8 @@ public static class SlExt
 public class ServiceLocator
 {
     private static IContainer _container;
-    private static readonly Dictionary<int /*managed thread id*/, ILifetimeScope> _liftimeScopes = new Dictionary<int, ILifetimeScope>();
+    private static readonly ConcurrentDictionary<int /*managed thread id*/, ILifetimeScope> _liftimeScopes = 
+        new ConcurrentDictionary<int, ILifetimeScope>();
 
     public static void Init(IContainer container)
     {
@@ -35,31 +37,23 @@ public class ServiceLocator
 
     public static void AddScopeForCurrentThread(ILifetimeScope lifetimeScope)
     {
-        _liftimeScopes.Add(Thread.CurrentThread.ManagedThreadId, lifetimeScope);
-        Logg.r().Information("AddScopeForCurrentThread {ManagedThreadId} {LifetimeScopeTag}", Thread.CurrentThread.ManagedThreadId, lifetimeScope.Tag);
+        if(!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope));
+            Logg.r().Error("Could not add lifetime scope");    
+
     }
 
     public static void RemoveScopeForCurrentThread()
     {
-        var tag = _liftimeScopes[Thread.CurrentThread.ManagedThreadId].Tag;
-        _liftimeScopes.Remove(Thread.CurrentThread.ManagedThreadId);
-        var keys = string.Join(",", _liftimeScopes.Keys);
-        Logg.r().Information("RemoveScopeForCurrentThread {ManagedThreadId} {LifetimeScopeTag}, Current Thread: " + keys, Thread.CurrentThread.ManagedThreadId, tag);
+        ILifetimeScope outLifetimeScope;
+        if(_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out outLifetimeScope))
+            Logg.r().Error("Could not remove lifetime scope");
     }
 
     public static T Resolve<T>()
     {
         var currentThreadId = Thread.CurrentThread.ManagedThreadId;
         if (_liftimeScopes.ContainsKey(currentThreadId))
-        {
-            var scope = _liftimeScopes[currentThreadId];
-
-            Logg.r().Information("ResolveFromScope {ManagedThreadId} {LifetimeScopeTag}", Thread.CurrentThread.ManagedThreadId, scope.Tag);
-            
-            //2: what happens on exception?
-
-            return scope.Resolve<T>();
-        }
+            return _liftimeScopes[currentThreadId].Resolve<T>();
 
         if (HttpContext.Current == null)
             return _container.Resolve<T>();
