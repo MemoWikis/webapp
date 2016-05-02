@@ -1,5 +1,5 @@
 $(function () {
-    new DateRowDelete();
+    var dateRowDelete = new DateRowDelete();
     new DateRowCopy();
     new PreviousDates();
 
