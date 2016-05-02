@@ -37,7 +37,7 @@ public class ServiceLocator
 
     public static void AddScopeForCurrentThread(ILifetimeScope lifetimeScope)
     {
-        if(!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope));
+        if(!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope))
             Logg.r().Error("Could not add lifetime scope");    
 
     }
@@ -45,7 +45,7 @@ public class ServiceLocator
     public static void RemoveScopeForCurrentThread()
     {
         ILifetimeScope outLifetimeScope;
-        if(_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out outLifetimeScope))
+        if(!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out outLifetimeScope))
             Logg.r().Error("Could not remove lifetime scope");
     }
 
