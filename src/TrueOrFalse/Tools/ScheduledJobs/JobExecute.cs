@@ -48,13 +48,13 @@ public class JobExecute
                     var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 
                     if (writeLog)
-                        Logg.r().Information("JOB START: {Job} {AppDomain} {ThreadId}", jobName, appDomainName, threadId);
+                        Logg.r().Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}", jobName, appDomainName.GetHashCode().ToString("x"), threadId);
 
                     action(scope);
 
                     if (writeLog)
                         Logg.r()
-                            .Information("JOB END: {Job} {AppDomain} {ThreadId} {timeNeeded}", jobName, appDomainName, threadId, stopwatch.Elapsed);
+                            .Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread:  {ThreadId} {timeNeeded}", jobName, appDomainName.GetHashCode().ToString("x"), threadId, stopwatch.Elapsed);
 
                     stopwatch.Stop();
                 }
