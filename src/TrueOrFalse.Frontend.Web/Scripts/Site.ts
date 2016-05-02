@@ -50,6 +50,13 @@ function Allowed_only_for_active_users() {
     });
 }
 
+function InitTooltips() {
+    InitLabelTooltips();
+    InitIconTooltips('fa-trash-o', 'Löschen');
+    InitIconTooltips('fa-pencil', 'Bearbeiten');
+    $('.show-tooltip').tooltip();
+}
+
 $(function () {
     $("[popover-all-sets-for]").click(function (e) {
 
@@ -90,10 +97,7 @@ $(function () {
     );
 
     FillSparklineTotals();
-    InitLabelTooltips();
-    InitIconTooltips('fa-trash-o', 'Löschen');
-    InitIconTooltips('fa-pencil', 'Bearbeiten');
+    InitTooltips();
     Images.Init();
     Allowed_only_for_active_users();
 });
-
