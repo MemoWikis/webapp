@@ -43,8 +43,8 @@ public class JobExecute
 
                         if (writeLog)
                             Logg.r()
-                                .Information("JOB START: {Job} {AppDomain} {ThreadId}", jobName, appDomainName, threadId);
-
+                            	.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}", jobName, appDomainName.GetHashCode().ToString("x"), threadId);
+                               
                         action(scope);
 
                         if (writeLog)

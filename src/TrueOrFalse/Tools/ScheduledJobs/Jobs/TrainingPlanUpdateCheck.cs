@@ -7,15 +7,19 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     [DisallowConcurrentExecution]
     public class TrainingPlanUpdateCheck : IJob
     {
-        public const int IntervalInMinutes = 1;
+        public const int IntervalInMinutes = 2;
 
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
+
                 var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates();
 
-                //Thread.Sleep(1500);
+                if (trainingPlans.Count == 0)
+                {
+                    Thread.Sleep(60000);
+                }
 
                 foreach (var trainingPlan in trainingPlans)
                 {

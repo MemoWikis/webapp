@@ -62,9 +62,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.ScheduleJob(JobBuilder.Create<TrainingPlanUpdateCheck>().Build(),
                 TriggerBuilder.Create()
                     .WithSimpleSchedule(x =>
-                        //x.WithIntervalInMinutes(TrainingPlanUpdateCheck.IntervalInMinutes)
-                        x.WithIntervalInSeconds(1)
-                        .RepeatForever()).Build());
+                        x.WithIntervalInMinutes(TrainingPlanUpdateCheck.IntervalInMinutes)
+                        .RepeatForever())
+                    .Build());
         }
 
         private static void Schedule_TrainingReminderCheck()
