@@ -86,7 +86,7 @@
     </div>
         
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" id="allDateRows">
 
             <% if(!Model.IsLoggedIn){ %>
 
@@ -99,8 +99,7 @@
             <% }else{ %>
         
                 <% if (!Model.Dates.Any()){ %>
-                    <div class="bs-callout bs-callout-info"  
-                        style="margin-top: 0; margin-bottom: 10px;">
+                    <div id="noOwnCurrentDatesInfo" class="bs-callout bs-callout-info" style="margin-top: 0; margin-bottom: 10px;">
                         <h4>Du hast keine aktuellen Termine</h4>
                         <p style="padding-top: 5px;">
                             Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
@@ -112,7 +111,6 @@
                         </p>
                     </div>
                 <% } else { %>
-                    <div id="startingOwnDates"></div>
                     <% foreach(var date in Model.Dates){ %>
                         <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
                     <% } %>

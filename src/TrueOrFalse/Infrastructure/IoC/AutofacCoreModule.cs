@@ -198,6 +198,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<DoesTableExist>().InstancePerLifetimeScope();
             builder.RegisterType<ParseMarkupFromDb>().InstancePerLifetimeScope();
             builder.RegisterType<LoadImageMarkups>().InstancePerLifetimeScope();
+            builder.RegisterType<RunningJobRepo>().InstancePerLifetimeScope();
         }
     }
 }

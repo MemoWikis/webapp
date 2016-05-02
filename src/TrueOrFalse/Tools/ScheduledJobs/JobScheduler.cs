@@ -22,7 +22,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.Shutdown(waitForJobsToComplete:true);
         }
 
-
         public static void Start()
         {
             Schedule_CleanupWorkInProgressQuestions();
