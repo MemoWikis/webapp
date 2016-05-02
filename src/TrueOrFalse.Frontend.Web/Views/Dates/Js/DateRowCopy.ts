@@ -1,6 +1,8 @@
 ﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
+declare var drawKnowledgeCharts: any;
+declare var dateRowDelete: any;
 
 class DateRowCopy {
 
@@ -64,10 +66,13 @@ class DateRowCopy {
 
                 //insert copied date
                 if (precedingDateId == 0) {
-                    $("#allDateRows").prepend(htmlResult); //works
+                    $("#allDateRows").prepend(htmlResult);
                 } else {
                     $('[data-date-id="' + precedingDateId + '"]').after(htmlResult);
                 }
+                drawKnowledgeCharts();
+                InitTooltips();
+                dateRowDelete.UpdateLinks();
 
                 //animate newly inserted date
                 var bgOrg = $('[data-date-id="' + copiedDateId + '"]').css("background-color");
@@ -76,8 +81,6 @@ class DateRowCopy {
                     .animate({ opacity: 1.00}, 900)
                     .animate({ backgroundColor: bgOrg}, 900);
 
-                $(".show-tooltip").tooltip(); //TODO: not working yet
-                //TODO: drawKnowledgeCharts
             });
 
     }

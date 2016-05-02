@@ -81,10 +81,14 @@
             
             <div class="row">
                 <div class="col-md-12">
-                    <% if (Model.Date.Visibility == DateVisibility.InNetwork) { %>
-                    <i class="fa fa-files-o"></i> 0x kopiert (keine Reputationspunkte)
-                    <% }else { %>
-                    <i class="fa fa-lock"></i> Privater Termin
+                    <% if (!Model.IsNetworkDate){ %>
+                        <% if (Model.Date.Visibility == DateVisibility.InNetwork) { %>
+                        <i class="fa fa-unlock"></i> Im Netzwerk sichtbar <span style="color: #aaa;">(<i class="fa fa-files-o"></i> 0x kopiert)</span>
+                        <% }else { %>
+                        <i class="fa fa-lock"></i> Privater Termin
+                        <% } %>
+                    <% }else{ %>
+                        <i class="fa fa-unlock"></i> Erstellt von <%= Model.Date.User.Name %> <span style="color: #aaa;">(<i class="fa fa-files-o"></i> 0x kopiert)</span>
                     <% } %>
                 </div>
             </div>

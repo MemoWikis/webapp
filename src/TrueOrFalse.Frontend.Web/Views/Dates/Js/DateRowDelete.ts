@@ -23,6 +23,11 @@ class DateRowDelete {
         });        
     }
 
+    UpdateLinks() {
+        //Problem: After date is inserted, link to delete it doesn't work.
+        //how to do it ?
+    }
+
     PopulatModal(dateId) {
         $.ajax({
             type: 'POST',
