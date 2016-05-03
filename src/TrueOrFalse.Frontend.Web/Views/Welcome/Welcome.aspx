@@ -1,10 +1,14 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
 	Inherits="ViewPage<WelcomeModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>memucho</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
+    <%= Scripts.Render("~/bundles/bootstrapTourScript") %>
+    <%= Scripts.Render("~/bundles/Welcome") %>
+    <%= Styles.Render("~/bundles/bootstrapTourStyle") %>
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -20,9 +24,10 @@
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
                         memucho hilft dir beim Lernen und macht Spaß!<br/>
+                        <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
                     </p>
                     <p>
-                        <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                        <a href="#" class="btn" id="btnStartWelcomeTour"><i class="fa fa-map-signs"></i> Tour starten</a>
                     </p>
                 </div>
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">

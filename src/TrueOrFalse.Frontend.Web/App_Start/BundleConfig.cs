@@ -39,6 +39,18 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/vendor.file-uploader/uploader.js")
                 .Include("~/Scripts/vendor.file-uploader/jquery-plugin.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapTourScript")
+                .Include("~/Scripts/bootstrapTour/bootstrap-tour.min.js")
+                .Include("~/Scripts/bootstrapTour/tourWelcome.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/bootstrapTourStyle")
+                .Include("~/Style/bootstrapTour/bootstrap-tour.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Welcome")
+                .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
+//            .Include("~/Views/Welcome/Js/Page.js")
+
+
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
 
