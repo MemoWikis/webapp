@@ -12,7 +12,7 @@
             self.Populate(this.value);
         });
 
-        $('a[href*=#modalTraining]').click(function () {
+        $("#allDateRows").on("click", 'a[href*=#modalTraining]', function () {
             self._dateId = parseInt($(this).attr("data-dateId"));
 
             if (!self._isDateDropDownInitialized) {
