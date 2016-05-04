@@ -90,10 +90,7 @@
                 </li>
                 <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-<%= SearchTabType.Wish.ToString() %>">
                     <a href="<%= Links.QuestionsWish() %>">
-                        <% von = "";
-                           if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
-                               von = Model.TotalQuestionsInResult + " von "; %>
-                        <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen <span class="tabWishKnowledgeCount">(<span class="JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)</span>
+                        <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen (<span class="tabWishKnowledgeCount"><%= Model.TotalWishKnowledge %></span>)
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
                            title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                     </a>

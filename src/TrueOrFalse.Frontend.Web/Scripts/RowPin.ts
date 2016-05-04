@@ -81,10 +81,13 @@ class Pin {
     }
 
     SetSidebarValue(newValue: number, parent: JQuery) {
-        if (this.IsSetDetail())
+        if (this.IsSetDetail()) {
             Utils.SetElementValue2(parent.find("#totalPins"), newValue.toString() + "x");
-        else 
+            parent.find("#totalPins").attr("data-original-title", "Ist bei " + newValue.toString() + " Personen im Wunschwissen");
+        } else {
             Utils.SetElementValue2(parent.parents(".rowBase").find(".totalPins"), newValue.toString() + "x");
+            parent.parents(".rowBase").find(".totalPinsTooltip").attr("data-original-title", "Ist bei " + newValue.toString() + " Personen im Wunschwissen");
+        }
     }
 
     GetSidebarValue(parent: JQuery): number {

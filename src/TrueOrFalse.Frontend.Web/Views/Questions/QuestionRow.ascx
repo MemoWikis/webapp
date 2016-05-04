@@ -45,7 +45,7 @@
         <div class="StatsGroup NumberTimesStats">
             
             <div class="timesAdded StatsRow">
-                <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
+                <span class="show-tooltip totalPinsTooltip" data-original-title="Ist bei <%= Model.TotalRelevancePersonalEntries%> Personen im Wunschwissen">
                     <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
                     <span class="totalPins NumberTimes"><%= Model.TotalRelevancePersonalEntries %>x</span>                        
                 </span>
