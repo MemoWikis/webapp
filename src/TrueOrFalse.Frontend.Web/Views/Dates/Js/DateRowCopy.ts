@@ -72,7 +72,6 @@ class DateRowCopy {
                 }
                 drawKnowledgeCharts();
                 InitTooltips();
-                dateRowDelete.UpdateLinks();
 
                 //animate newly inserted date
                 var bgOrg = $('[data-date-id="' + copiedDateId + '"]').css("background-color");
@@ -80,7 +79,6 @@ class DateRowCopy {
                     .animate({ backgroundColor: "#afd534", opacity: 0.00 }, 0)
                     .animate({ opacity: 1.00}, 900)
                     .animate({ backgroundColor: bgOrg}, 900);
-
             });
 
     }
