@@ -66,7 +66,7 @@ public class TrainingPlanCreator
             ReCalcAllAnswerProbablities(dateTime, answerProbabilities).
             OrderBy(x => x.CalculatedProbability);
 
-        var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < 90);
+        var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
         if (applicableCount < settings.QuestionsPerDate_Minimum)
             return false;
