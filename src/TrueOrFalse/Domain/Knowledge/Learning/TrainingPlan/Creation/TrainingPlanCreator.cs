@@ -4,14 +4,18 @@ using System.Linq;
 
 public class TrainingPlanCreator
 {
+    public const int IntervalInMinutes = 15;
+
     public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
     {
         var trainingPlan = new TrainingPlan();
         trainingPlan.Date = date;
         trainingPlan.Settings = settings;
 
-        if (date.AllQuestions().Count <= settings.QuestionsPerDate_Minimum)
-            settings.QuestionsPerDate_Minimum = Math.Max(1, date.AllQuestions().Count);
+        //if (date.AllQuestions().Count <= settings.QuestionsPerDate_Minimum)
+        //    settings.QuestionsPerDate_Minimum = Math.Max(1, date.AllQuestions().Count);
+        if (date.AllQuestions().Count < settings.QuestionsPerDate_Minimum)
+            settings.QuestionsPerDate_Minimum = date.AllQuestions().Count;
 
         var answerRepo = Sl.R<AnswerRepo>();
 
@@ -29,7 +33,7 @@ public class TrainingPlanCreator
                     })
                 .ToList();
 
-        trainingPlan.Dates = GetDates(date, settings, answerProbabilities);
+        trainingPlan.Dates = GetDates(date, settings, answerProbabilities); 
 
         return trainingPlan;
     }
@@ -39,21 +43,31 @@ public class TrainingPlanCreator
         TrainingPlanSettings settings, 
         List<AnswerProbability> answerProbabilities)
     {
+        //var nextDateProposal = RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(15));
         var nextDateProposal = DateTimeX.Now();
+
         var learningDates = new List<TrainingDate>();
 
         while (nextDateProposal < date.DateTime)
         {
-            nextDateProposal = nextDateProposal.AddMinutes(15);
+            nextDateProposal = nextDateProposal.AddMinutes(IntervalInMinutes);
 
             if (settings.IsInSnoozePeriod(nextDateProposal))
                 continue;
 
             if(TryAddDate(settings, nextDateProposal, answerProbabilities, learningDates))
-                nextDateProposal = nextDateProposal.AddMinutes(settings.SpacingBetweenSessionsInMinutes);
+                nextDateProposal = nextDateProposal.AddMinutes(settings.SpacingBetweenSessionsInMinutes
+                    //- IntervalInMinutes
+                    );
         }
 
         return learningDates;
+    }
+
+    private static DateTime RoundUp(DateTime dateTime, TimeSpan roundToNextFull)
+    {
+        //http://stackoverflow.com/a/7029464
+        return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) * roundToNextFull.Ticks);
     }
 
     private static bool TryAddDate(
@@ -64,7 +78,9 @@ public class TrainingPlanCreator
     {
         var answerProbabilites = 
             ReCalcAllAnswerProbablities(dateTime, answerProbabilities).
-            OrderBy(x => x.CalculatedProbability);
+            OrderBy(x => x.CalculatedProbability)
+            //.ThenBy(x => x.History.Count)
+            ;
 
         var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < 90);
 
@@ -95,7 +111,7 @@ public class TrainingPlanCreator
                 .By(trainingQuestion.Question.Id)
                 .SetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime);
 
-            if (settings.QuestionsPerDate_IdealAmount < i)
+            if (settings.QuestionsPerDate_IdealAmount < i + 2)
                 break;
         }
         return true;
