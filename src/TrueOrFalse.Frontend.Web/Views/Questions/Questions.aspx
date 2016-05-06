@@ -44,10 +44,10 @@
                     </div>
                     <div id="WuWiQuestions" class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-<%= SearchTabType.Wish.ToString() %>">
                         <a  href="<%= Links.QuestionsWish() %>" type="button" class="btn btn-default">
-                            <% von = ""; 
-                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult) 
-                            von = Model.TotalQuestionsInResult + " von "; %> 
-                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWishKnowledge %></span>) 
+                            <% von = "";
+                            if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
+                            von = Model.TotalQuestionsInResult + " von "; %>
+                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)
                             <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                         </a>
                     </div>
@@ -90,7 +90,10 @@
                 </li>
                 <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-<%= SearchTabType.Wish.ToString() %>">
                     <a href="<%= Links.QuestionsWish() %>">
-                        <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen (<span class="tabWishKnowledgeCount"><%= Model.TotalWishKnowledge %></span>)
+                        <% von = "";
+                           if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
+                               von = Model.TotalQuestionsInResult + " von "; %>
+                        <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen <span class="tabWishKnowledgeCount">(<span class="JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)</span>
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
                            title="Fakten, die du dir merken möchtest." data-placement="right"></i>
                     </a>
