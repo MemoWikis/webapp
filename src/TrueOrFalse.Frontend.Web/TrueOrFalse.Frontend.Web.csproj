@@ -419,13 +419,14 @@
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
-    <Content Include="Scripts\bootstrapTour\bootstrap-tour.js" />
-    <Content Include="Scripts\bootstrapTour\bootstrap-tour.min.js" />
+    <Content Include="Scripts\guidedTour\tourWelcome.js">
+      <DependentUpon>tourWelcome.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor\bootstrap-tour.js" />
     <Content Include="Scripts\TrainingPlan.js">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
-    <Content Include="Style\bootstrapTour\bootstrap-tour.css" />
-    <Content Include="Style\bootstrapTour\bootstrap-tour.min.css" />
+    <Content Include="Style\guidedTour\bootstrap-tour.css" />
     <Content Include="Style\site.min.css">
       <DependentUpon>site.css</DependentUpon>
     </Content>
@@ -499,7 +500,7 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
-    <TypeScriptCompile Include="Scripts\bootstrapTour\tourWelcome.ts" />
+    <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\hubs\GameHub.ts" />
     <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
@@ -1121,6 +1122,9 @@
     </Content>
     <Content Include="Scripts\TrainingPlan.js.map">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\guidedTour\tourWelcome.js.map">
+      <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

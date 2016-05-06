@@ -82,7 +82,7 @@ public class TrainingPlanCreator
             //.ThenBy(x => x.History.Count)
             ;
 
-        var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < 90);
+        var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
         if (applicableCount < settings.QuestionsPerDate_Minimum)
             return false;

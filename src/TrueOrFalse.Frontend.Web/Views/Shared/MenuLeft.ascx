@@ -25,11 +25,11 @@
 <div class="mainMenuContainer">
     <nav id="mainMenu" style="display: none;">
         <div class="list-group">
-            <a class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
+            <a id="mainMenuBtnKnowledge" class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
                 <i class="fa fa-caret-right"></i> 
                 Wunschwissen  <span style="float:right"><i class="fa fa-heart" style="color:#b13a48;"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
-            <a class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
+            <a id="mainMenuBtnDates" class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
                 <i class="fa fa-caret-right"></i> Termine
             </a>            
             <%
@@ -43,9 +43,9 @@
                 </a>
             <% } %>
 
-            <a class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>" style="margin-top: 10px;">
+            <a id="mainMenuBtnQuestions" class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Fragen
-                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
+                <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
                     onclick="window.location = '<%= Links.CreateQuestion(Url) %>'; return false; "
                     title="Frage erstellen"></i>
             </a>
@@ -84,7 +84,7 @@
                 <% } %>
             <% } %>
             
-            <a class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>">
+            <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>">
                 <i class="fa fa-caret-right"></i> Fragesätze
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
@@ -110,7 +110,7 @@
                     <% } %>
             <% } %>
 
-            <a class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
+            <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
                 <i class="fa fa-caret-right"></i> Kategorien
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
@@ -136,7 +136,7 @@
                 <% } %>
             <% } %>
         
-            <a class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
+            <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="position: relative; top: -1px; left: 4px;" >
             </a>
             <%
@@ -149,12 +149,12 @@
                 </a>
             <% } %>
         
-            <a class="list-group-item messages <%= Model.Active(MenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>">
+            <a id="mainMenuBtnMessages" class="list-group-item messages <%= Model.Active(MenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>">
                 Nachrichten
                 <span id="badgeNewMessages" class="badge show-tooltip" title="Ungelesene Nachrichten" style="display:inline-block; position: relative; top: 1px;"><%= Model.UnreadMessageCount %></span>
             </a>
 
-            <a class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>" style="margin-top: 10px;">
+            <a id="mainMenuBtnGames" class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Spielen
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 

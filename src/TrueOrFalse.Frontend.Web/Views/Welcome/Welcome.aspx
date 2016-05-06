@@ -6,9 +6,9 @@
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>memucho</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
-    <%= Scripts.Render("~/bundles/bootstrapTourScript") %>
+    <%= Scripts.Render("~/bundles/guidedTourScript") %>
     <%= Scripts.Render("~/bundles/Welcome") %>
-    <%= Styles.Render("~/bundles/bootstrapTourStyle") %>
+    <%= Styles.Render("~/bundles/guidedTourStyle") %>
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">

@@ -3,30 +3,26 @@
 
 
 class DateRowDelete {
-    constructor() {
 
+    constructor() {
         var self = this;
         var dateIdToDelete;
-        
-        $('a[href*=#modalDelete]').click(function () {
+        $("#allDateRows").on("click", 'a[href*=#modalDelete]', function () {
+            $("#spanDeleteDateInfo").html("... (wird geladen) ...");
             dateIdToDelete = $(this).attr("data-dateId");
             self.PopulatModal(dateIdToDelete);
         });
 
-        $('#btnCloseDateDelete').click(function () {
+        $("#modalDelete").on("click",'#btnCloseDateDelete', function () {
             $('#modalDelete').modal('hide');
         });
 
-        $('#btnConfirmDateDelete').click(function () {
+        $("#modalDelete").on("click",'#btnConfirmDateDelete', function () {
             self.DeleteDate(dateIdToDelete);
             $('#modalDelete').modal('hide');
         });        
     }
 
-    UpdateLinks() {
-        //Problem: After date is inserted, link to delete it doesn't work.
-        //how to do it ?
-    }
 
     PopulatModal(dateId) {
         $.ajax({
