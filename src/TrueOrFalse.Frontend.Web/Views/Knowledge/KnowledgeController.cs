@@ -13,4 +13,14 @@ public class KnowledgeController : BaseController
     {
         return View("Knowledge", new KnowledgeModel(emailKey:emailKey));
     }
+
+    public int GetNumberOfWishknowledgeQuestions()
+    {
+        if (_sessionUser.User != null)
+        {
+            return Resolve<GetWishQuestionCountCached>().Run(_sessionUser.User.Id, true);
+        }
+        else
+            return -1;
+    }
 }
