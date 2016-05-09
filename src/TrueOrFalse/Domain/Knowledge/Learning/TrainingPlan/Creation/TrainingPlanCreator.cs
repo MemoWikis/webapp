@@ -72,22 +72,21 @@ public class TrainingPlanCreator
 
     private static bool TryAddDate(
         TrainingPlanSettings settings,
-        DateTime dateTime,
+        DateTime proposedDateTime,
         List<AnswerProbability> answerProbabilities,
         List<TrainingDate> learningDates)
     {
         var answerProbabilites = 
-            ReCalcAllAnswerProbablities(dateTime, answerProbabilities).
-            OrderBy(x => x.CalculatedProbability)
-            //.ThenBy(x => x.History.Count)
-            ;
+            ReCalcAllAnswerProbablities(proposedDateTime, answerProbabilities)
+            .OrderBy(x => x.CalculatedProbability)
+            .ThenBy(x => x.History.Count);
 
         var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
         if (applicableCount < settings.QuestionsPerDate_Minimum)
             return false;
 
-        var trainingDate = new TrainingDate{DateTime = dateTime};
+        var trainingDate = new TrainingDate{DateTime = proposedDateTime};
         learningDates.Add(trainingDate);
 
         trainingDate.AllQuestions =
