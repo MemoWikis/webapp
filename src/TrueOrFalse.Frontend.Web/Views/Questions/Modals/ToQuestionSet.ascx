@@ -40,13 +40,13 @@
 
             <div class="modal-body hide2" id="tqsNoSetsBody">
                 <div class="alert">
-                  <strong>Noch keine Fragesätze angelegt.</strong> 
-                    Um Fragen zu Fragesätzen hinzufügen zu können, erstelle jetzt deinen ersten Fragesatz: 
+                  <strong>Du hast noch keine Fragesätze angelegt.</strong> 
+                    Um Fragen zu Fragesätzen hinzufügen zu können, musst du zuerst einen eigenen Fragesatz erstellen. 
                 </div>        
             </div>
             <div class="modal-footer hide2" id="tqsNoSetsFooter">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
-                <a href="/QuestionSet/Create" class="btn btn-primary">Jetzt Fragesatz erstellen</a>
+                <a href="/Fragesaetze/Erstelle" class="btn btn-primary">Jetzt Fragesatz erstellen</a>
             </div>
         </div>
     </div>
