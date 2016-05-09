@@ -49,7 +49,6 @@ class DateRowCopy {
             data: { sourceDateId: sourceDateId },
             cache: false,
             success: function (result) {
-                //window.alert("Termin wurde übernommen, bitte Seite neu laden. ID: " + result.CopiedDateId.toString() + ", dann ID " + result.PrecedingDateId.toString());
                 self.RenderCopiedDate(result.CopiedDateId, result.PrecedingDateId);
             },
             error: function (e) {
