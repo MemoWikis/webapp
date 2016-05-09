@@ -81,9 +81,9 @@ public class TrainingPlanCreator
             .OrderBy(x => x.CalculatedProbability)
             .ThenBy(x => x.History.Count);
 
-        var applicableCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
+        var belowThresholdCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
-        if (applicableCount < settings.QuestionsPerDate_Minimum)
+        if (belowThresholdCount < settings.QuestionsPerDate_Minimum)
             return false;
 
         var trainingDate = new TrainingDate{DateTime = proposedDateTime};
@@ -99,7 +99,7 @@ public class TrainingPlanCreator
                 })
                 .ToList();
 
-        for (int i = 0; i < applicableCount; i++)
+        for (int i = 0; i < belowThresholdCount; i++)
         {
             var trainingQuestion = trainingDate.AllQuestions[i];
             trainingQuestion.IsInTraining = true;
