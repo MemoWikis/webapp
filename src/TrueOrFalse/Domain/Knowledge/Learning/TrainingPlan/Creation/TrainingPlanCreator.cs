@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using TrueOrFalse;
 
 public class TrainingPlanCreator
 {
@@ -85,6 +87,9 @@ public class TrainingPlanCreator
 
         var belowThresholdCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
+        if (answerProbabilities.Count(x => x.CalculatedProbability < 15) > 0)
+            Debugger.Break();
+
         if((proposedDateTime.Hour % 4) == 0 && proposedDateTime.Minute < 15)
             answerProbabilities.Log();
 
@@ -118,6 +123,17 @@ public class TrainingPlanCreator
             if (settings.QuestionsPerDate_IdealAmount < i + 2)
                 break;
         }
+
+        var probs = answerProbabilities.OrderBy(x => x.Question.Id).ToList();
+
+        var log = "XXX:" +
+                  answerProbabilities.OrderBy(x => x.Question.Id)
+                      .Select(x => x.Question.Id + ": " + x.CalculatedProbability)
+                      .ToList()
+                      .Aggregate((a, b) => a + " | " + b);
+
+        Logg.r().Information(log);
+
         return true;
     }
 
