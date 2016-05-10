@@ -15,4 +15,10 @@ public class UserActivityRepo : RepositoryDb<UserActivity>
             .Take(amount)
             .List<UserActivity>();
     }
+
+    public void DeleteForQuestion(int questionId)
+    {
+        Session.CreateSQLQuery("DELETE FROM useractivity WHERE Question_id = :questionId")
+                .SetParameter("questionId", questionId).ExecuteUpdate();
+    }
 }

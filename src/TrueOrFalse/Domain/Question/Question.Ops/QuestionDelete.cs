@@ -10,14 +10,33 @@ public class QuestionDelete
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
 
-        var categoriesToDelete = question.Categories.ToList();
-        questionRepo.Delete(question);
-        Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToDelete);
-        Sl.R<AnswerRepo>().DeleteFor(questionId);
-
+        var categoriesToUpdate = question.Categories.ToList();
+        //delete connected db-entries
+        Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
+        Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
+        Sl.R<LearningSessionStepRepo>().DeleteForQuestion(questionId);
+        Sl.R<QuestionInSetRepo>().DeleteForQuestion(questionId);
+        Sl.R<UserActivityRepo>().DeleteForQuestion(questionId);
+        Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
+        Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);
+        Sl.R<CommentRepository>().DeleteForQuestion(questionId);
+        Sl.R<ISession>()
+            .CreateSQLQuery("DELETE FROM trainingdate_question where Question_id = :questionId")
+            .SetParameter("questionId", questionId)
+            .ExecuteUpdate();
+        Sl.R<ISession>()
+            .CreateSQLQuery("DELETE FROM game_round where Question_id = :questionId")
+            .SetParameter("questionId", questionId)
+            .ExecuteUpdate();
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();
+        Sl.R<ISession>()
+            .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
+            .ExecuteUpdate();
+
+        questionRepo.Delete(question);
+        Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
     }
 
     public static CanBeDeletedResult CanBeDeleted(int currentUserId, int questionId)
@@ -32,6 +51,19 @@ public class QuestionDelete
                     "Die Frage kann nicht gelöscht werden, " +
                     "sie ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer."
             };
+        }
+
+        var howOftenInFutureDate = Sl.R<QuestionRepo>().howOftenInFutureDate(questionId);
+        if (howOftenInFutureDate > 0)
+        {
+            return new CanBeDeletedResult
+            {
+                Yes = false,
+                IfNot_Reason =
+                    "Die Frage kann nicht gelöscht werden, da in " +
+                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird."
+            };
+
         }
 
         return new CanBeDeletedResult{ Yes = true };

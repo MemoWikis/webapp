@@ -12,4 +12,11 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
 
         Sl.R<UpdateSetDataForQuestion>().Run(questionInSet.Question);
     }
+
+    public void DeleteForQuestion(int questionId)
+    {
+        Session.CreateSQLQuery("DELETE FROM questioninset WHERE Question_id = :questionId")
+                .SetParameter("questionId", questionId).ExecuteUpdate();
+    }
+
 }

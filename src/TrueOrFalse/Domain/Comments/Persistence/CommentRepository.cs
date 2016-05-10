@@ -28,4 +28,12 @@ public class CommentRepository : RepositoryDb<Comment>
             .Select(x => x.First())
             .ToList();
     }
+
+    public void DeleteForQuestion(int questionId)
+    {
+        Session.CreateSQLQuery("DELETE FROM comment WHERE TYPE = :commentType AND TypeId = :questionId")
+                .SetParameter("commentType", CommentType.AnswerQuestion)
+                .SetParameter("questionId", questionId)
+                .ExecuteUpdate();
+    }
 }

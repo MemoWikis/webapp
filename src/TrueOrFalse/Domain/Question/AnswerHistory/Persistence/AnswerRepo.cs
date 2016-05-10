@@ -10,8 +10,8 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public void DeleteFor(int questionId)
     {
-        Session.CreateSQLQuery("DELETE FROM Answer ah WHERE ah.Question.Id = :questionId")
-                .SetParameter("questionId", questionId);
+        Session.CreateSQLQuery("DELETE FROM answer WHERE answer.QuestionId = :questionId")
+                .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
     public IList<Answer> GetByQuestion(List<int> questionsId, int userId)

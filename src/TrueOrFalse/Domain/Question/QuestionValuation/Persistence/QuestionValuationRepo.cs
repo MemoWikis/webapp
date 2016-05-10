@@ -75,6 +75,12 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             .List<QuestionValuation>();
     }
 
+    public void DeleteForQuestion(int questionId)
+    {
+        Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE QuestionId = :questionId")
+                .SetParameter("questionId", questionId).ExecuteUpdate();
+    }
+
     public override void Create(IList<QuestionValuation> questionValuations)
     {
         base.Create(questionValuations);

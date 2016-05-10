@@ -166,10 +166,38 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         return Sl.R<QuestionValuationRepo>()
             .Query
-            .Where(v => 
+            .Where(v =>
                 v.User.Id != userId &&
-                v.Question.Id == questionId
+                v.Question.Id == questionId &&
+                v.RelevancePersonal > -1
             )
             .RowCount();
+    }
+
+    /// <summary>
+    /// Return how often a question is part of a future date
+    /// </summary>
+    public int howOftenInFutureDate(int questionId)
+    {
+        var query = "SELECT COUNT(*) FROM " +
+                    "(SELECT qis.Set_id, dts.Date_id, d.User_id, d.DateTime FROM questioninset as qis LEFT JOIN question as q ON qis.Question_id = q.Id " +
+                    "LEFT JOIN date_to_sets as dts ON dts.Set_id = qis.Set_id " +
+                    "LEFT JOIN date as d ON d.Id = dts.Date_id " +
+                    "WHERE qis.Question_id = {0} AND d.DateTime > NOW() GROUP BY dts.Date_id) " +
+                    "AS c; ";
+        return (int)Sl.R<ISession>()
+            .CreateSQLQuery(String.Format(query, questionId))
+            .UniqueResult<long>();
+
+        //Sl.R<ISession>()
+        //    .CreateSQLQuery(
+        //        "SELECT COUNT(*) FROM " +
+        //        "(SELECT qis.Set_id, dts.Date_id, d.User_id, d.DateTime FROM questioninset as qis LEFT JOIN question as q ON qis.Question_id = q.Id " +
+        //        "LEFT JOIN date_to_sets as dts ON dts.Set_id = qis.Set_id " +
+        //        "LEFT JOIN date as d ON d.Id = dts.Date_id " +
+        //        "WHERE qis.Question_id = :questionId AND d.DateTime > NOW() GROUP BY dts.Date_id) " +
+        //        "AS c; ")
+        //    .SetParameter("questionId", questionId)
+        //    .ExecuteUpdate();
     }
 }

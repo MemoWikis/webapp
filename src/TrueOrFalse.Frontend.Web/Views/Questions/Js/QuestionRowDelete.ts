@@ -44,7 +44,8 @@ class QuestionDelete {
                     }
                     
                 },
-                error: function () {
+                error: function (e) {
+                    console.log(e);
                     window.alert("Ein Fehler ist aufgetreten");
                 }
             });
@@ -56,7 +57,8 @@ class QuestionDelete {
                 url: "/Questions/Delete/" + questionId,
                 cache: false,
                 success: function () { window.location.reload(); },
-                error: function (result) {
+                error: function (e) {
+                    console.log(e);
                     window.alert("Ein Fehler ist aufgetreten");
                 }
             });
