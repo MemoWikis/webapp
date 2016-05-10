@@ -6,6 +6,8 @@ public class TrainingPlanCreator
 {
     public const int IntervalInMinutes = 15;
 
+    public static int[] QuestionsToTrackIds = {};
+
     public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
     {
         var trainingPlan = new TrainingPlan();
@@ -125,7 +127,12 @@ public class TrainingPlanCreator
 
         foreach (var answerProbability in answerProbabilities)
         {
-             var newProbability = forgettingCurve.Run(
+            if (QuestionsToTrackIds.Contains(answerProbability.Question.Id))
+            {
+                Logg.r().Information("TrainingPlanCreator: Question " + answerProbability.Question.Id + "DateTime: " + dateTime.ToString("s") + ", oldProb: " + answerProbability.CalculatedProbability);
+            }
+
+            var newProbability = forgettingCurve.Run(
                 answerProbability.History,
                 answerProbability.Question,
                 answerProbability.User,
@@ -135,6 +142,11 @@ public class TrainingPlanCreator
 
             answerProbability.CalculatedProbability = newProbability;
             answerProbability.CalculatedAt = dateTime;
+
+            if (QuestionsToTrackIds.Contains(answerProbability.Question.Id))
+            {
+                Logg.r().Information("TrainingPlanCreator: Question " + answerProbability.Question.Id + "DateTime: " + dateTime.ToString("s") + ", newProb: " + answerProbability.CalculatedProbability);
+            }
         }
 
         return answerProbabilities;
