@@ -25,6 +25,11 @@ public class AnswerProbability
         CalculatedProbability = value;
         CalculatedAt = dateTime;
     }
+
+    public string ToLogString()
+    {
+        return $"Q: {Question.Id} P: {CalculatedProbability} H: {History.Count} C:{CalculatedAt.ToString("d")}";
+    }
 }
 
 public static class AnswerProbabilityListExts
@@ -32,5 +37,10 @@ public static class AnswerProbabilityListExts
     public static AnswerProbability By(this IList<AnswerProbability> answerProbabilities, int questionId)
     {
         return answerProbabilities.First(x => x.Question.Id == questionId);
+    }
+
+    public static void Log(this IList<AnswerProbability> answerProbabilities)
+    {
+        Logg.r().Information(answerProbabilities.Select(x => x.ToLogString()).Aggregate((a,b) => a + " " + b + Environment.NewLine));
     }
 }
