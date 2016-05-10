@@ -21,7 +21,15 @@ public class TrainingPlanCreator
         if (date.AllQuestions().Count < settings.QuestionsPerDate_Minimum)
             settings.QuestionsPerDate_Minimum = date.AllQuestions().Count;
 
+        var probUpdateValRepo = Sl.R<ProbabilityUpdate_Valuation>();
+
+        foreach (var question in date.AllQuestions())
+        {
+            probUpdateValRepo.Run(question.Id, date.User.Id);
+        }
+
         var answerRepo = Sl.R<AnswerRepo>();
+        var questionValuationRepo = Sl.R<QuestionValuationRepo>();
 
         var answerProbabilities = 
             date
@@ -31,7 +39,7 @@ public class TrainingPlanCreator
                     {
                         User = date.User,
                         Question = q,
-                        CalculatedProbability = 90 /*ASANA: Übungsplan Startwert dynamisieren..*/,
+                        CalculatedProbability = questionValuationRepo.GetBy(q.Id, date.User.Id).CorrectnessProbability,
                         CalculatedAt = DateTimeX.Now(),
                         History = answerRepo.GetByQuestion(q.Id, date.User.Id)
                     })
