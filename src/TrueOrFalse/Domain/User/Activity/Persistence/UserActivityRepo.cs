@@ -19,6 +19,14 @@ public class UserActivityRepo : RepositoryDb<UserActivity>
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM useractivity WHERE Question_id = :questionId")
-                .SetParameter("questionId", questionId).ExecuteUpdate();
+                .SetParameter("questionId", questionId)
+                .ExecuteUpdate();
+    }
+
+    public void DeleteForDate(int dateId)
+    {
+        Session.CreateSQLQuery("DELETE FROM useractivity WHERE Date_id = :dateId")
+                .SetParameter("dateId", dateId)
+                .ExecuteUpdate();
     }
 }

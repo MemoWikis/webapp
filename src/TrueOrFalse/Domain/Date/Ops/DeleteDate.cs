@@ -7,6 +7,9 @@
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(date.User.Id);
 
+        //Delete connected DB-entries
+        Sl.R<UserActivityRepo>().DeleteForDate(dateId); //remove this if soft delete for dates is implemented
+
         dateRepo.Delete(date);
     }
 }

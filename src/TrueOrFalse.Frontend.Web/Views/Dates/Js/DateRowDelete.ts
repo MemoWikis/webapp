@@ -32,8 +32,9 @@ class DateRowDelete {
             success: function (result) {
                 $("#spanDeleteDateInfo").html(result.DateInfo.toString());
             },
-            error: function () {
-                window.alert("Ein Fehler ist aufgetreten");
+            error: function (e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten.");
             }
         });
     }
@@ -46,8 +47,9 @@ class DateRowDelete {
             success: function() {
                 DateRow.HideRow(dateId);
             },
-            error: function (result) {
-                window.alert("Ein Fehler ist aufgetreten");
+            error: function (e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten.");
             }
         });
     }
