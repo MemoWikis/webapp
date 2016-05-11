@@ -439,6 +439,9 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Dates\Js\DateRowCopy.js">
+      <DependentUpon>DateRowCopy.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Dates\Js\TrainingSettings.js">
       <DependentUpon>TrainingSettings.ts</DependentUpon>
     </Content>
@@ -1915,6 +1918,9 @@
     </Content>
     <Content Include="Views\Sets\Edit\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRowCopy.js.map">
+      <DependentUpon>DateRowCopy.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

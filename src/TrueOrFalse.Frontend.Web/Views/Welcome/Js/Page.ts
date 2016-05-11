@@ -1,3 +1,3 @@
 ﻿$(function () {
-    var tourInit = new TourInit();
+    // var tourInit = new TourInit();
 });

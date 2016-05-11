@@ -38,8 +38,16 @@ class Utils
         return elements;
     }
 
-    static SetMenuPins(newAmount){
-        Utils.SetElementValue("#menuWishKnowledgeCount", newAmount);
+    static SetMenuPins(newAmount:number = -1) {
+        if (newAmount != -1)
+            Utils.SetElementValue("#menuWishKnowledgeCount", newAmount.toString());
+        else {
+            $.get("/Knowledge/GetNumberOfWishknowledgeQuestions/",
+                function (htmlResult) {
+                    Utils.SetElementValue("#menuWishKnowledgeCount", htmlResult);
+                });
+             
+        }
     }
 
     static MenuPinsPluseOne() {

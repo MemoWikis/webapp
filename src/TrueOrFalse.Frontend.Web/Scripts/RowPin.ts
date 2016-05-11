@@ -48,8 +48,10 @@ class Pin {
                     elemPin.find(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
 
-                    if (self.IsQuestionRow()) 
+                    if (self.IsQuestionRow())
                         Utils.MenuPinsPluseOne();
+                    else 
+                        Utils.SetMenuPins();
 
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) + 1).toString());
 
@@ -67,6 +69,7 @@ class Pin {
 
                     if (self.IsQuestionRow()) 
                         Utils.MenuPinsMinusOne();
+                    //Update MenuPins after unpinning set is only necessary after user confirms in modal that questions are to be unpinned as well
 
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
                         
@@ -75,16 +78,23 @@ class Pin {
             }
         });
 
-        $("#JS-RemoveQuestions").click(() => {
-            SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged);
+        $("#UnpinSetModal").off("click").on("click", "#JS-RemoveQuestions", function() {
+            $.when(
+                SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged))
+                .then(function () {
+                    Utils.SetMenuPins();
+                });
         });
     }
 
     SetSidebarValue(newValue: number, parent: JQuery) {
-        if (this.IsSetDetail())
+        if (this.IsSetDetail()) {
             Utils.SetElementValue2(parent.find("#totalPins"), newValue.toString() + "x");
-        else 
+            parent.find("#totalPins").attr("data-original-title", "Ist bei " + newValue.toString() + " Personen im Wunschwissen");
+        } else {
             Utils.SetElementValue2(parent.parents(".rowBase").find(".totalPins"), newValue.toString() + "x");
+            parent.parents(".rowBase").find(".totalPinsTooltip").attr("data-original-title", "Ist bei " + newValue.toString() + " Personen im Wunschwissen");
+        }
     }
 
     GetSidebarValue(parent: JQuery): number {

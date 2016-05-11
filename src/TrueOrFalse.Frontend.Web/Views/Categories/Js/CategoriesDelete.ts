@@ -4,7 +4,7 @@
 var categoryIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        categoryIdToDelete = $(this).attr("data-setId");
+        categoryIdToDelete = $(this).attr("data-categoryId");
         populateDeleteCategory(categoryIdToDelete);
     });
 

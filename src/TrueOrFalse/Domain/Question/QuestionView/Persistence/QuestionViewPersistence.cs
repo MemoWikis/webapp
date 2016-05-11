@@ -14,4 +14,11 @@ public class QuestionViewRepository : RepositoryDb<QuestionView>
             .FutureValue<int>()
             .Value;
     }
+
+    public void DeleteForQuestion(int questionId)
+    {
+        Session.CreateSQLQuery("DELETE FROM questionview WHERE QuestionId = :questionId")
+                .SetParameter("questionId", questionId).ExecuteUpdate();
+    }
+
 }

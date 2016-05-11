@@ -40,7 +40,7 @@
     <div class="column-Additional">
         
         <div class="StatsGroup">
-            <span class="show-tooltip" data-original-title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen">
+            <span class="show-tooltip totalPinsTooltip" data-original-title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen">
                 <i class="fa fa-heart"  style="color:silver; display: inline;" ></i>
                 <span class="totalPins NumberTimes"><%= Model.TotalPins %>x</span>                        
             </span>

@@ -126,7 +126,7 @@ namespace TrueOrFalse
 
             return new JsonResult{
                 Data = new{
-                    questionTitle = question.Text.WordWrap(50),
+                    questionTitle = question.Text.TruncateAtWord(90),
                     totalAnswers = question.TotalAnswers(),
                     canNotBeDeleted = !canBeDeleted.Yes,
                     canNotBeDeletedReason = canBeDeleted.IfNot_Reason

@@ -1,8 +1,8 @@
-﻿ var categoryIdToDelete;
+﻿ var setIdToDelete;
 $(function () {
     $('a[href*=#modalDelete]').click(function () {
-        categoryIdToDelete = $(this).attr("data-setId");
-        populateDeleteSet(categoryIdToDelete);
+        setIdToDelete = $(this).attr("data-setId");
+        populateDeleteSet(setIdToDelete);
     });
 
     $('#btnCloseDelete').click(function () {
@@ -10,7 +10,7 @@ $(function () {
     });
 
     $('#confirmDelete').click(function () {
-        deleteSet(categoryIdToDelete);
+        deleteSet(setIdToDelete);
         $('#modalDelete').modal('hide');
     });
 });
@@ -23,7 +23,8 @@ function populateDeleteSet(setId) {
         success: result => {
             $("#spanSetTitle").html(result.setTitle);
         },
-        error() {
+        error(result) {
+            window.console.log(result);
             window.alert("Ein Fehler ist aufgetreten");
         }
     });

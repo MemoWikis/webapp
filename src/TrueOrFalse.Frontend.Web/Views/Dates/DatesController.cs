@@ -49,8 +49,7 @@ public class DatesController : BaseController
     [HttpPost]
     public JsonResult Copy(int sourceDateId)
     {
-        var copiedDateId = R<CopyDate>().Run(sourceDateId);
-        var copiedDateDateTime = R<DateRepo>().GetById(copiedDateId).DateTime;
+        var copiedDateId = R<CopyDate>().Run(sourceDateId, UserId);
         var dates = R<DateRepo>()
             .GetBy(UserId)
             .OrderBy(d => d.DateTime)
@@ -60,12 +59,6 @@ public class DatesController : BaseController
         int precedingDateId = 0;
         if (idx > 0)
             precedingDateId = dates[idx - 1].Id;
-        //followingDate = R<DateRepo>()
-        //    .GetBy(UserId)
-        //    .OrderBy(d => d.DateTime)
-        //    .Where(d => d.Id != copiedDateId)
-        //    .LastOrDefault(d => d.DateTime >= copiedDateDateTime);
-        //precedingDateId = Date.IsNullOrEmpty(precedingDate) ? 0 : precedingDate.Id;
         return new JsonResult
         {
             Data = new
