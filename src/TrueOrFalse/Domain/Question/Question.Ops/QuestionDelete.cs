@@ -54,7 +54,7 @@ public class QuestionDelete
             };
         }
 
-        var howOftenInFutureDate = Sl.R<QuestionRepo>().howOftenInFutureDate(questionId);
+        var howOftenInFutureDate = Sl.R<QuestionRepo>().HowOftenInFutureDate(questionId);
         if (howOftenInFutureDate > 0)
         {
             return new CanBeDeletedResult

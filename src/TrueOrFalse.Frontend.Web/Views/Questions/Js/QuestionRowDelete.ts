@@ -36,11 +36,13 @@ class QuestionDelete {
                         $("#questionDeleteCanNotDelete").show();
                         $("#confirmQuestionDelete").hide();
                         $("#questionDeleteCanNotDelete").html(result.canNotBeDeletedReason);
+                        $("#btnCloseQuestionDelete").html("Schlieﬂen");
                     } else {
                         $("#questionDeleteCanDelete").show();
                         $("#questionDeleteCanNotDelete").hide();
                         $("#confirmQuestionDelete").show();
                         $("#spanQuestionTitle").html(result.questionTitle.toString());
+                        $("#btnCloseQuestionDelete").html("Abbrechen");
                     }
                     
                 },
