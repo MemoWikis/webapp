@@ -29,4 +29,11 @@ public class UserActivityRepo : RepositoryDb<UserActivity>
                 .SetParameter("dateId", dateId)
                 .ExecuteUpdate();
     }
+
+    public void DeleteForSet(int setId)
+    {
+        Session.CreateSQLQuery("DELETE FROM useractivity WHERE Set_id = :setId")
+                .SetParameter("setId", setId)
+                .ExecuteUpdate();
+    }
 }

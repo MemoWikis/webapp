@@ -8,14 +8,16 @@
                 <h3>Fragesatz löschen</h3>
             </div>
             <div class="modal-body">
-                <div class="alert-danger">
-                    Achtung: Der Fragesatz <b>'<span id="spanSetTitle"></span>'</b> wird unwiederbringlich gelöscht. 
-                    Alle damit verknüpften Daten werden entfernt (Fragen werden nicht gelöscht)! 
+                <div class="alert alert-danger" id="setDeleteCanDelete">
+                    Der Fragesatz <b>'<span id="spanSetTitle"></span>'</b> wird unwiederbringlich gelöscht. 
+                    Alle damit verknüpften Daten werden entfernt, die enthaltenen Fragen werden aber nicht gelöscht. 
+                </div>
+                <div class="alert alert-danger" id="setDeleteCanNotDelete">
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-default" id="btnCloseDelete">Abbrechen</a>
-                <a href="#" class="btn btn-primary btn-danger" id="confirmDelete">Löschen</a>
+                <a href="#" class="btn btn-default" id="btnCloseSetDelete">Abbrechen</a>
+                <a href="#" class="btn btn-primary btn-danger" id="confirmSetDelete">Löschen</a>
             </div>
          </div>
     </div>

@@ -100,23 +100,24 @@ public class SetsController : BaseController
     {
         var set = _setRepo.GetById(setId);
 
-        return new JsonResult{
-            Data = new{
-                setTitle = set.Name.WordWrap(50),
+        var canBeDeleted = SetDeleter.CanBeDeleted(set.Creator.Id, setId);
+
+        return new JsonResult
+        {
+            Data = new
+            {
+                setTitle = set.Name.TruncateAtWord(90),
+                canNotBeDeleted = !canBeDeleted.Yes,
+                canNotBeDeletedReason = canBeDeleted.IfNot_Reason
             }
         };
     }
 
     [HttpPost]
-    public JsonResult Delete(int setId)
+    public EmptyResult Delete(int setId)
     {
-        var result = Sl.Resolve<SetDeleter>().Run(setId);
-        return new JsonResult{
-            Data = new{
-                Success = result.Success,
-                IsPartOfDate = result.IsPartOfDate
-            }
-        };
+        SetDeleter.Run(setId);
+        return new EmptyResult();
     }
 
     public class SetsControllerUtil : BaseUtil
