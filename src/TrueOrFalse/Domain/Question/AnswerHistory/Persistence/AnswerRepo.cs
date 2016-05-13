@@ -14,50 +14,41 @@ public class AnswerRepo : RepositoryDb<Answer>
                 .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
+    private new IQueryOver<Answer, Answer> Query(bool includingSolutionViews = false)
+    {
+        var query = Session.QueryOver<Answer>();
+
+        if (!includingSolutionViews)
+            query.Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView);
+
+        return query;
+    }
+
     public IList<Answer> GetByQuestion(List<int> questionsId, int userId, bool includingSolutionViews = false)
     {
-        if(includingSolutionViews)
-            return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Where(Restrictions.In("Question.Id", questionsId))
             .And(a => a.UserId == userId)
-            .List();
-
-        return Session.QueryOver<Answer>()
-            .Where(Restrictions.In("Question.Id", questionsId))
-            .And(a => a.UserId == userId)
-            .And(a => a.AnswerredCorrectly != AnswerCorrectness.IsView)
-            .List();
+            .List<Answer>();
     }
 
     public IList<Answer> GetByQuestion(int questionId, bool includingSolutionViews = false)
     {
-        if (includingSolutionViews)
-            return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Where(i => i.Question.Id == questionId)
-            .List<Answer>();
-
-        return Session.QueryOver<Answer>()
-            .Where(i => i.Question.Id == questionId)
-            .And(a => a.AnswerredCorrectly != AnswerCorrectness.IsView )
             .List<Answer>();
     }
 
     public IList<Answer> GetByQuestion(int questionId, int userId, bool includingSolutionViews = false)
     {
-        if (includingSolutionViews)
-            return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Where(i => i.Question.Id == questionId && i.UserId == userId)
-            .List<Answer>();
-
-        return Session.QueryOver<Answer>()
-            .Where(i => i.Question.Id == questionId && i.UserId == userId)
-            .And(a => a.AnswerredCorrectly != AnswerCorrectness.IsView )
-            .List<Answer>();
+            .List();
     }
 
     public IList<Answer> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature, bool includingSolutionViews = false)
     {
-        var query = Session.QueryOver<Answer>();
+        var query = Query(includingSolutionViews);
 
         if (answerFeature != null)
         {
@@ -76,9 +67,6 @@ public class AnswerRepo : RepositoryDb<Answer>
                 .JoinAlias(x => questionAlias.Features, () => questionFeatureAlias)
                 .Where(x => questionFeatureAlias.Id == questionFeature.Id);
         }
-
-        if (!includingSolutionViews)
-            query = query.Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView);
 
         return query.List<Answer>();
     }
@@ -103,14 +91,8 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public IList<Answer> GetByUser(int userId, bool includingSolutionViews = false)
     {
-        if(includingSolutionViews)
-            return Session.QueryOver<Answer>()
-                .Where(i => i.UserId == userId)
-                .List<Answer>();
-
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Where(i => i.UserId == userId)
-            .And(a => a.AnswerredCorrectly != AnswerCorrectness.IsView)
             .List<Answer>();
     }
 
@@ -143,9 +125,9 @@ public class AnswerRepo : RepositoryDb<Answer>
         _session.Save(answer);
     }
 
-    public IList<Answer> GetAllEager()
+    public IList<Answer> GetAllEager(bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Fetch(x => x.Round).Eager
             .Fetch(x => x.Player).Eager
             .Fetch(x => x.Question).Eager
@@ -154,12 +136,7 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public Answer GetLastCreated(bool includingSolutionViews = false)
     {
-        var query = Session.QueryOver<Answer>();
-
-        if (!includingSolutionViews)
-            query = query.Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView);
-
-        return query
+        return Query(includingSolutionViews)
             .OrderBy(x => x.DateCreated).Desc
             .Take(1)
             .SingleOrDefault();
