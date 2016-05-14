@@ -248,7 +248,10 @@ public class MaintenanceController : BaseController
     public ActionResult Start100TestJobs()
     {
         for (var i = 0; i < 100; i++)
-            JobScheduler.StartImmediately<TestJob>();
+            JobScheduler.StartImmediately<TestJob1>();
+
+        for (var i = 0; i < 100; i++)
+            JobScheduler.StartImmediately<TestJob2>();
 
         return View("Tools", new ToolsModel { Message = new SuccessMessage("Started 100 test jobs.") });
 
