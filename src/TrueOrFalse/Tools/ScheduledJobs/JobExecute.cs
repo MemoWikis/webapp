@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using Autofac;
+using NHibernate;
 using RollbarSharp;
 
 public class JobExecute
@@ -10,8 +11,6 @@ public class JobExecute
 
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {
-        var runningJobRepo = Sl.R<RunningJobRepo>();
-
         try
         {
             using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName))
@@ -23,19 +22,11 @@ public class JobExecute
                     CodeIsRunningInsideAJob = true;
                     Settings.UseWebConfig = true;
 
+                    if (IsJobRunning(jobName, scope))
+                        return;
+
                     try
                     {
-                        using (new MutexX(5000, "IsRunning"))
-                        {
-                            if (runningJobRepo.IsJobRunning(jobName))
-                            {
-                                Logg.r().Information("Job is already running: {jobName}", jobName);
-                                return;
-                            }
-
-                            runningJobRepo.Add(jobName);
-                        }
-
                         var stopwatch = Stopwatch.StartNew();
 
                         var threadId = Thread.CurrentThread.ManagedThreadId;
@@ -62,10 +53,10 @@ public class JobExecute
                     }
                     finally
                     {
-                        runningJobRepo.Remove(jobName);
+                        CLoseJob(jobName, scope);
                     }
-                }
-                finally
+                    }
+                    finally
                 {
                     ServiceLocator.RemoveScopeForCurrentThread();
                 }
@@ -75,6 +66,33 @@ public class JobExecute
         {
             Logg.r().Error(e, "Job error on " + jobName);
             new RollbarClient().SendException(e);
+        }
+    }
+
+    private static bool IsJobRunning(string jobName, ILifetimeScope scope)
+    {
+        using (new MutexX(5000, "IsRunning"))
+        {
+            using (var session = scope.R<ISessionFactory>().OpenSession())
+            {
+                var runningJobRepo = new RunningJobRepo(session);
+                if (runningJobRepo.IsJobRunning(jobName))
+                {
+                    Logg.r().Information("Job is already running: {jobName}", jobName);
+                    return true;
+                }
+
+                runningJobRepo.Add(jobName);
+            }
+            return false;
+        }
+    }
+
+    private static void CLoseJob(string jobName, ILifetimeScope scope)
+    {
+        using (var session = scope.R<ISessionFactory>().OpenSession())
+        {
+            new RunningJobRepo(session).Remove(jobName);
         }
     }
 }

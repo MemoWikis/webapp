@@ -9,7 +9,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1);
             }, "TestJob");
         }
     }
