@@ -243,6 +243,18 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult Start100TestJobs()
+    {
+        for (var i = 0; i < 100; i++)
+            JobScheduler.StartImmediately<TestJob>();
+
+        return View("Tools", new ToolsModel { Message = new SuccessMessage("Started 100 test jobs.") });
+
+    }
+
+    [AccessOnlyAsAdmin]
     public ActionResult ImageMarkup(int imgId)
     {
         var imageMaintenanceInfo =

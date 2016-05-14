@@ -1,4 +1,4 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
 
@@ -36,7 +36,7 @@ class QuestionDelete {
                         $("#questionDeleteCanNotDelete").show();
                         $("#confirmQuestionDelete").hide();
                         $("#questionDeleteCanNotDelete").html(result.canNotBeDeletedReason);
-                        $("#btnCloseQuestionDelete").html("Schlie�en");
+                        $("#btnCloseQuestionDelete").html("Schließen");
                     } else {
                         $("#questionDeleteCanDelete").show();
                         $("#questionDeleteCanNotDelete").hide();

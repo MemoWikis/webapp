@@ -42,6 +42,10 @@
         <i class="fa fa-gavel"></i>
         Training Plan Update Check
     </a><br/>
+    <a href="<%= Url.Action("Start100TestJobs", "Maintenance") %>" data-url="toSecurePost">
+        <i class="fa fa-gavel"></i>
+        Start 100 test jobs
+    </a><br/>
     
     <h4 style="margin-top: 20px;">Update concentration level</h4>
     <div class="form-horizontal">
