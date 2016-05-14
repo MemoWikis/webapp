@@ -24,11 +24,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         public static void Start()
         {
-            //Schedule_CleanupWorkInProgressQuestions();
-            //Schedule_GameLoop();
-            //Schedule_RecalcKnowledgeStati();
-            //Schedule_TrainingReminderCheck();
-            //Schedule_TrainingPlanUpdateCheck();
+            Schedule_CleanupWorkInProgressQuestions();
+            Schedule_GameLoop();
+            Schedule_RecalcKnowledgeStati();
+            Schedule_TrainingReminderCheck();
+            Schedule_TrainingPlanUpdateCheck();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
