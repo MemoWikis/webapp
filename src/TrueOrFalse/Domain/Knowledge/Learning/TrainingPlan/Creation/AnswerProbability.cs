@@ -15,7 +15,7 @@ public class AnswerProbability
 
     public IList<Answer> History;
 
-    public void SetProbability(int value, DateTime dateTime)
+    public void AddAnswerAndSetProbability(int value, DateTime dateTime, TrainingDate trainingDate)
     {
         History.Add(new Answer
         {

@@ -88,12 +88,12 @@ public class TrainingPlanCreator
         List<AnswerProbability> answerProbabilities,
         List<TrainingDate> learningDates)
     {
-        var answerProbabilites = 
+        var newAnswerProbabilities = 
             ReCalcAllAnswerProbablities(proposedDateTime, answerProbabilities)
             .OrderBy(x => x.CalculatedProbability)
             .ThenBy(x => x.History.Count);
 
-        var belowThresholdCount = answerProbabilites.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
+        var belowThresholdCount = newAnswerProbabilities.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
         if (answerProbabilities.Count(x => x.CalculatedProbability < 15) > 0)
             Debugger.Break();
@@ -108,7 +108,7 @@ public class TrainingPlanCreator
         learningDates.Add(trainingDate);
 
         trainingDate.AllQuestions =
-            answerProbabilites
+            newAnswerProbabilities
                 .Select(x => new TrainingQuestion
                 {
                     Question = x.Question,
@@ -126,7 +126,7 @@ public class TrainingPlanCreator
 
             answerProbabilities
                 .By(trainingQuestion.Question.Id)
-                .SetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime);
+                .AddAnswerAndSetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime, trainingDate);
 
             if (settings.QuestionsPerDate_IdealAmount < i + 2)
                 break;
