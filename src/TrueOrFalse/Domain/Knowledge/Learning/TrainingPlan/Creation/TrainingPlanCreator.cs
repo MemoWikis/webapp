@@ -100,11 +100,11 @@ public class TrainingPlanCreator
 
         var belowThresholdCount = newAnswerProbabilities.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
-        if (answerProbabilities.Count(x => x.CalculatedProbability < 15) > 0)
+        if (answerProbabilities.Count(x => x.History.Count > 0 && x.CalculatedProbability < 15) > 0)
             Debugger.Break();
 
-        if((proposedDateTime.Hour % 4) == 0 && proposedDateTime.Minute < 15)
-            answerProbabilities.Log();
+        //if((proposedDateTime.Hour % 4) == 0 && proposedDateTime.Minute < 15)
+        //    answerProbabilities.Log();
 
         if (belowThresholdCount < settings.QuestionsPerDate_Minimum)
             return false;
