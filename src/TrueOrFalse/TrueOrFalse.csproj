@@ -277,6 +277,7 @@
     <Compile Include="Domain\Game\Persistence\RoundMap.cs" />
     <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
     <Compile Include="Domain\Game\Player.cs" />
+    <Compile Include="Domain\Knowledge\GetKnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
