@@ -30,7 +30,7 @@ public class ProbabilityCalc_Curve_HalfLife_24h
         int startValue)
     {
         var stability = Stability + GetStabilityModificator(previousAnswers);
-        if (TrainingPlanCreator.Ids.Contains(question.Id))
+        if (TrainingPlanCreator.QuestionsToTrackIds.Contains(question.Id))
         {
             Logg.r().Information("TrainingPlanCreator: Question " + question.Id + ", stability: " + stability);
         }
