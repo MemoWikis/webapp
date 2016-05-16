@@ -33,7 +33,7 @@ public class QuestionDelete
             .ExecuteUpdate();
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
-            .ExecuteUpdate();
+            .ExecuteUpdate(); //probably not necessary
 
         questionRepo.Delete(question);
         Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
@@ -49,11 +49,12 @@ public class QuestionDelete
                 Yes = false,
                 IfNot_Reason = 
                     "Die Frage kann nicht gelöscht werden, " +
-                    "sie ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer."
+                    "sie ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer. " +
+                    "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
             };
         }
 
-        var howOftenInFutureDate = Sl.R<QuestionRepo>().howOftenInFutureDate(questionId);
+        var howOftenInFutureDate = Sl.R<QuestionRepo>().HowOftenInFutureDate(questionId);
         if (howOftenInFutureDate > 0)
         {
             return new CanBeDeletedResult
@@ -61,7 +62,8 @@ public class QuestionDelete
                 Yes = false,
                 IfNot_Reason =
                     "Die Frage kann nicht gelöscht werden, da in " +
-                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird."
+                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird." +
+                    "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
             };
 
         }

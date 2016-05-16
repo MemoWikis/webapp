@@ -177,7 +177,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     /// <summary>
     /// Return how often a question is part of a future date
     /// </summary>
-    public int howOftenInFutureDate(int questionId)
+    public int HowOftenInFutureDate(int questionId)
     {
         var query = "SELECT COUNT(*) FROM " +
                     "(SELECT qis.Set_id, dts.Date_id, d.User_id, d.DateTime FROM questioninset as qis LEFT JOIN question as q ON qis.Question_id = q.Id " +

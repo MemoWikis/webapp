@@ -1,4 +1,4 @@
-/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 
 
@@ -36,11 +36,13 @@ class QuestionDelete {
                         $("#questionDeleteCanNotDelete").show();
                         $("#confirmQuestionDelete").hide();
                         $("#questionDeleteCanNotDelete").html(result.canNotBeDeletedReason);
+                        $("#btnCloseQuestionDelete").html("Schließen");
                     } else {
                         $("#questionDeleteCanDelete").show();
                         $("#questionDeleteCanNotDelete").hide();
                         $("#confirmQuestionDelete").show();
                         $("#spanQuestionTitle").html(result.questionTitle.toString());
+                        $("#btnCloseQuestionDelete").html("Abbrechen");
                     }
                     
                 },

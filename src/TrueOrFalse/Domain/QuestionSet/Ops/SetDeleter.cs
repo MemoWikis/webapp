@@ -1,41 +1,61 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using TrueOrFalse.Search;
 
-public class SetDeleter : IRegisterAsInstancePerLifetime
+public class SetDeleter 
 {
-    private readonly SetRepo _setRepo;
-    private readonly SearchIndexSet _searchIndexSet;
 
-    public SetDeleter(SetRepo setRepo, SearchIndexSet searchIndexSet)
+    public static void Run(int setId)
     {
-        _setRepo = setRepo;
-        _searchIndexSet = searchIndexSet;
-    }
-
-    public SetDeleterResult Run(int setId)
-    {
-        var set = _setRepo.GetById(setId);
+        var setRepo = Sl.R<SetRepo>();
+        var set = setRepo.GetById(setId);
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(set.Creator.Id);
 
-        var datesUsingTheSet = Sl.R<DateRepo>().GetBySet(setId);
-        if (datesUsingTheSet.Any())
-            return new SetDeleterResult {Success = false, IsPartOfDate = true};
-
-        _setRepo.Delete(set);
+        Sl.R<UserActivityRepo>().DeleteForSet(setId);
+        Sl.R<LearningSessionRepo>().UpdateForDeletedSet(setId);
+        setRepo.Delete(set);
 
         Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
-
-        _searchIndexSet.Delete(set);
-
-        return new SetDeleterResult{Success = true};
     }
-}
 
-public class SetDeleterResult
-{
-    public bool Success;
+    public class CanBeDeletedResult
+    {
+        public bool Yes;
+        public string IfNot_Reason = "";
+    }
 
-    public bool IsPartOfDate;
+    public static CanBeDeletedResult CanBeDeleted(int currentUserId, int setId)
+    {
+        var howOftenInOtherPeopleWuwi = Sl.R<SetRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, setId);
+        if (howOftenInOtherPeopleWuwi > 0)
+        {
+            return new CanBeDeletedResult
+            {
+                Yes = false,
+                IfNot_Reason =
+                    "Der Fragesatz kann nicht gelöscht werden, " +
+                    "er ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer. " +
+                    "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
+            };
+        }
+        var howOftenInFutureDate = Sl.R<SetRepo>().HowOftenInDate(setId);
+        if (howOftenInFutureDate > 0)
+        {
+            return new CanBeDeletedResult
+            {
+                Yes = false,
+                IfNot_Reason =
+                    "Der Fragesatz kann nicht gelöscht werden, da in " +
+                    howOftenInFutureDate + " Termin" + StringUtils.Plural(howOftenInFutureDate, "en") +
+                    " (vielleicht auch bei dir) damit gelernt wurde oder wird. " +
+                    "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
+            };
+
+        }
+
+        return new CanBeDeletedResult {Yes = true};
+    }
+
 }

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Criterion;
 using NHibernate.Transform;
 using TrueOrFalse.Search;
 
@@ -85,12 +87,39 @@ public class SetRepo : RepositoryDbBase<Set>
                         .List<TopSetResult>().ToList();
     }
 
+    /// <summary>
+    /// Return how often a set is in other peoples WuWi
+    /// </summary>
+    public int HowOftenInOtherPeoplesWuwi(int userId, int setId)
+    {
+        return Sl.R<SetValuationRepo>()
+            .Query
+            .Where(v =>
+                v.UserId != userId &&
+                v.SetId == setId &&
+                v.RelevancePersonal > -1
+            )
+            .RowCount();
+    }
+
+    /// <summary>
+    /// Return how often a set is part of a future or previous date
+    /// </summary>
+    public int HowOftenInDate(int setId)
+    {
+        return _session.QueryOver<Date>()
+            .JoinQueryOver<Set>(d => d.Sets)
+            .Where(s => s.Id == setId)
+            .Select(Projections.RowCount())
+            .SingleOrDefault<int>();
+    }
 
     public override void Delete(Set set)
     {
-        if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(set.Creator.Id))
-            throw new InvalidAccessException();
+        //if (Sl.R<SessionUser>().IsLoggedInUserOrAdmin(set.Creator.Id))
+        //    throw new InvalidAccessException(); //exception is thrown, even if admin (=creator of set) is logged in
 
+        _searchIndexSet.Delete(set);
         base.Delete(set);
         Flush();
     }

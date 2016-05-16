@@ -1,52 +1,63 @@
-﻿ var setIdToDelete;
-$(function () {
-    $('a[href*=#modalDelete]').click(function () {
-        setIdToDelete = $(this).attr("data-setId");
-        populateDeleteSet(setIdToDelete);
-    });
+﻿class SetDelete {
+    constructor() {
+        var setIdToDelete;
 
-    $('#btnCloseDelete').click(function () {
-        $('#modalDelete').modal('hide');
-    });
+        $(function () {
+            $('a[href*=#modalDelete]').click(function () {
+                setIdToDelete = $(this).attr("data-setId");
+                populateDeleteSet(setIdToDelete);
+            });
 
-    $('#confirmDelete').click(function () {
-        deleteSet(setIdToDelete);
-        $('#modalDelete').modal('hide');
-    });
-});
+            $('#btnCloseSetDelete').click(function () {
+                $('#modalDelete').modal('hide');
+            });
 
-function populateDeleteSet(setId) {
-    $.ajax({
-        type: 'POST',
-        url: "/Sets/DeleteDetails/" + setId,
-        cache: false,
-        success: result => {
-            $("#spanSetTitle").html(result.setTitle);
-        },
-        error(result) {
-            window.console.log(result);
-            window.alert("Ein Fehler ist aufgetreten");
+            $('#confirmSetDelete').click(function () {
+                deleteSet(setIdToDelete);
+                $('#modalDelete').modal('hide');
+            });
+        });
+        
+        function populateDeleteSet(setId) {
+            $.ajax({
+                type: 'POST',
+                url: "/Sets/DeleteDetails/" + setId,
+                cache: false,
+
+                success: function (result) {
+                    if (result.canNotBeDeleted) {
+                        $("#setDeleteCanDelete").hide();
+                        $("#setDeleteCanNotDelete").show();
+                        $("#confirmSetDelete").hide();
+                        $("#setDeleteCanNotDelete").html(result.canNotBeDeletedReason);
+                        $("#btnCloseSetDelete").html("Schließen");
+                    } else {
+                        $("#setDeleteCanDelete").show();
+                        $("#setDeleteCanNotDelete").hide();
+                        $("#confirmSetDelete").show();
+                        $("#spanSetTitle").html(result.setTitle.toString());
+                        $("#btnCloseSetDelete").html("Abbrechen");
+                    }
+                },
+                error(result) {
+                    window.console.log(result);
+                    window.alert("Ein Fehler ist aufgetreten");
+                }
+            });
         }
-    });
+
+        function deleteSet(setId) {
+            $.ajax({
+                type: 'POST',
+                url: "/Sets/Delete/" + setId,
+                cache: false,
+                success: function () { window.location.reload(); },
+                error: function (e) {
+                    console.log(e);
+                    window.alert("Ein Fehler ist aufgetreten");
+                }
+            });
+        }
+    }
 }
 
-function deleteSet(setId) {
-    $.ajax({
-        type: 'POST',
-        url: "/Sets/Delete/" + setId,
-        cache: false,
-        success: (result) => {
-            if (result.IsPartOfDate) {
-                window.alert("Der Fragesatz kann nicht gelöscht werden, da er in einem Termin verwendet wird.");
-            }
-            else if (!result.Success) {
-                window.alert("Ein Fehler ist aufgetreten");
-            }
-            window.location.reload();
-        },
-        error(result) {
-            window.console.log(result);
-            window.alert("Ein Fehler ist aufgetreten");
-        }
-    });
-}
