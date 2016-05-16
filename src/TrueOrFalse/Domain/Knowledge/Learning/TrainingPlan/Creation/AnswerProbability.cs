@@ -13,15 +13,17 @@ public class AnswerProbability
     public int CalculatedProbability;
     public DateTime CalculatedAt;
 
-    public IList<Answer> History;
+    public IList<AnswerProbabilityHistory> History;
 
     public void AddAnswerAndSetProbability(int value, DateTime dateTime, TrainingDate trainingDate)
     {
-        History.Add(new Answer
-        {
-            AnswerredCorrectly = AnswerCorrectness.True,
-            DateCreated = DateTimeX.Now()
-        });
+        History.Add(
+            new AnswerProbabilityHistory(
+                new Answer{ AnswerredCorrectly = AnswerCorrectness.True, DateCreated = dateTime},
+                trainingDate
+            )
+        );
+
         CalculatedProbability = value;
         CalculatedAt = dateTime;
     }
@@ -29,6 +31,18 @@ public class AnswerProbability
     public string ToLogString()
     {
         return $"Q: {Question.Id} P: {CalculatedProbability} H: {History.Count} C:{CalculatedAt.ToString("d")}";
+    }
+}
+
+public class AnswerProbabilityHistory
+{
+    public Answer Answer { get; }
+    public TrainingDate TrainingDate { get; }
+
+    public AnswerProbabilityHistory(Answer answer, TrainingDate trainingDate)
+    {
+        Answer = answer;
+        TrainingDate = trainingDate;
     }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NHibernate.Criterion;
 using TrueOrFalse;
 
 public class TrainingPlanCreator
@@ -45,7 +46,9 @@ public class TrainingPlanCreator
                         Question = q,
                         CalculatedProbability = questionValuationRepo.GetBy(q.Id, date.User.Id).KnowledgeStatus.GetProbability(q.Id),
                         CalculatedAt = DateTimeX.Now(),
-                        History = answerRepo.GetByQuestion(q.Id, date.User.Id)
+                        History = answerRepo
+                            .GetByQuestion(q.Id, date.User.Id).Select(x => new AnswerProbabilityHistory(x, null))
+                            .ToList()
                     })
                 .ToList();
 
@@ -77,6 +80,8 @@ public class TrainingPlanCreator
                     //- IntervalInMinutes
                     );
         }
+
+        AddOverlearning(date, settings, answerProbabilities, learningDates);
 
         return learningDates;
     }
@@ -150,6 +155,57 @@ public class TrainingPlanCreator
         return true;
     }
 
+    /// <summary>
+    /// Only for testing
+    /// </summary>
+    public static void T_AddOverLearning(
+        Date date,
+        TrainingPlanSettings settings,
+        List<AnswerProbability> answerProbabilities,
+        List<TrainingDate> learningDates)
+    {
+        AddOverlearning(
+            date,
+            settings,
+            answerProbabilities,
+            learningDates);
+    }
+
+    private static void AddOverlearning(
+        Date date,
+        TrainingPlanSettings settings,
+        List<AnswerProbability> answerProbabilities,
+        List<TrainingDate> learningDates)
+    {
+        var overlearningDateProposal = date.DateTime.AddHours(-2.75);
+
+        while (overlearningDateProposal > DateTimeX.Now())
+        {
+            overlearningDateProposal = overlearningDateProposal.AddMinutes(-IntervalInMinutes);
+
+            if (settings.IsInSnoozePeriod(overlearningDateProposal))
+                continue;
+
+            break;
+        }
+
+        var collidingDates = learningDates
+            .Where(d => overlearningDateProposal.Subtract(d.DateTime).TotalMinutes < settings.SpacingBetweenSessionsInMinutes)
+            //.Select(d => d.DateTime)
+            .ToList();
+
+        //learningDates.RemoveAll(d => collidingDates.Contains(d.DateTime));
+        collidingDates.ForEach(d => learningDates.Remove(d));
+
+        foreach (var answerProb in answerProbabilities)
+        {
+            var newHistory = answerProb.History.ToList();
+            //var subset = newHistory.Where(a => collidingDates.Any(d => d.DateTime == a.DateCreated)).ToList();
+            //newHistory.RemoveAll(a => collidingDates.Any(d => d.DateTime == a.DateCreated));
+            answerProb.History = newHistory;
+        }
+    }
+
     private static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
     {
         var forgettingCurve = new ProbabilityCalc_Curve_HalfLife_24h(); 
@@ -162,7 +218,7 @@ public class TrainingPlanCreator
             }
 
             var newProbability = forgettingCurve.Run(
-                answerProbability.History,
+                answerProbability.History.Select(x => x.Answer).ToList(),
                 answerProbability.Question,
                 answerProbability.User,
                 (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes,

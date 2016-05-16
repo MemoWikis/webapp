@@ -61,4 +61,16 @@ public class Should_create_trainingsplan : BaseTest
         var trainingPlanFromDb = Sl.R<TrainingPlanRepo>().GetById(trainingPlan.Id);
         Assert.That(trainingPlanFromDb.PastDates.Count(d => !d.MarkedAsMissed), Is.EqualTo(0));
     }
+
+    [Test]
+    public void Should_add_overlearning()
+    {
+        var date = new Date { DateTime = DateTime.Now.AddDays(30) };
+
+        TrainingPlanCreator.T_AddOverLearning(
+            date, 
+            new TrainingPlanSettings {SpacingBetweenSessionsInMinutes = 100}, 
+            new List<AnswerProbability> { new AnswerProbability {History = new List<AnswerProbabilityHistory>()} }, 
+            new List<TrainingDate> { new TrainingDate {DateTime = date.DateTime.AddMinutes(-10)} });
+    }
 }
