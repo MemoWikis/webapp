@@ -39,7 +39,7 @@ public class TrainingPlanCreator
                     {
                         User = date.User,
                         Question = q,
-                        CalculatedProbability = questionValuationRepo.GetBy(q.Id, date.User.Id).CorrectnessProbability,
+                        CalculatedProbability = questionValuationRepo.GetBy(q.Id, date.User.Id).KnowledgeStatus.GetProbability(q.Id),
                         CalculatedAt = DateTimeX.Now(),
                         History = answerRepo.GetByQuestion(q.Id, date.User.Id)
                     })
