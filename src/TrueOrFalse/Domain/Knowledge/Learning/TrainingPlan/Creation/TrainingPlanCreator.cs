@@ -16,10 +16,14 @@ public class TrainingPlanCreator
         trainingPlan.Date = date;
         trainingPlan.Settings = settings;
 
-        //if (date.AllQuestions().Count <= settings.QuestionsPerDate_Minimum)
-        //    settings.QuestionsPerDate_Minimum = Math.Max(1, date.AllQuestions().Count);
+        if (date.AllQuestions().Count == 0)
+            return trainingPlan;
+
         if (date.AllQuestions().Count < settings.QuestionsPerDate_Minimum)
             settings.QuestionsPerDate_Minimum = date.AllQuestions().Count;
+
+        if (settings.QuestionsPerDate_IdealAmount < settings.QuestionsPerDate_Minimum)
+            settings.QuestionsPerDate_IdealAmount = settings.QuestionsPerDate_Minimum;
 
         var probUpdateValRepo = Sl.R<ProbabilityUpdate_Valuation>();
 
@@ -45,7 +49,8 @@ public class TrainingPlanCreator
                     })
                 .ToList();
 
-        trainingPlan.Dates = GetDates(date, settings, answerProbabilities); 
+        trainingPlan.Dates = GetDates(date, settings, answerProbabilities);
+
 
         return trainingPlan;
     }
