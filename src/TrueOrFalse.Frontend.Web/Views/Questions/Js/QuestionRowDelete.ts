@@ -1,8 +1,4 @@
-﻿/// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
-/// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
-
-
-class QuestionDelete {
+﻿class QuestionDelete {
     constructor() {
 
         var questionIdToDelete;

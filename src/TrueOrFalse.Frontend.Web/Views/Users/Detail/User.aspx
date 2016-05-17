@@ -40,6 +40,8 @@
                     <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstellte Fragen</div>
                     <div>- <%= Model.Reputation.ForQuestionsWishKnow + Model.Reputation.ForQuestionsWishCount %> für eigene Fragen im Wunschwissen anderer </div>
                     <div>- <%= Model.Reputation.ForSetWishCount + Model.Reputation.ForSetWishKnow %> für eigene Fragesätze im Wunschwissen anderer</div>
+                    <div>- <%= Model.Reputation.ForDatesCreatedVisible %> für erstellte Termine (sichtbar im Netzwerk)</div>
+                    <div>- <%= Model.Reputation.ForDatesCopied %> für eigene Termine, die von anderen übernommen wurden</div>
                 </div>
                 <div class="column" >
                     <h4 style="margin-top: 0px;">Erstellte Inhalte</h4>

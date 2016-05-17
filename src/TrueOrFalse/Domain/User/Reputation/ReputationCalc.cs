@@ -68,7 +68,19 @@ sv.RelevancePersonal", user.Id);
 
         result.ForSetWishCount = wishCountSets.Sum(s => s.Item1) * 10;
         result.ForSetWishKnow = wishCountSets.Sum(s => s.Item2);
-            
+
+
+        /* Calculate Reputation for Dates */
+        var datesCreatedVisibleCount =
+            _session.QueryOver<Date>()
+                .Where(d => d.User == user)
+                .And(d => d.Visibility == DateVisibility.InNetwork)
+                .RowCount();
+        var datesCopiedInstancesCount =
+            _session.QueryOver<Date>().Where(d => d.User == user).List<Date>().Sum(d => d.CopiedInstances.Count);
+        result.ForDatesCreatedVisible = datesCreatedVisibleCount * 1;
+        result.ForDatesCopied = datesCopiedInstancesCount * 5;
+
         return result;
     }
 }

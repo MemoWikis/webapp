@@ -118,7 +118,7 @@
             
                 <% if(Model.HasPreviousDates){ %>
                     <div style="margin-top: -2px; text-align: right;" id="divShowPreviousDates">
-                        <a href="#" id="btnShowPreviousDates" style="font-size: 11px; color: darkgray">Zeige Termine aus der Vergangenheit</a>
+                        <a href="#" id="btnShowPreviousDates" style="font-size: 11px; color: darkgray"><i class="fa fa-caret-down"></i> Zeige Termine aus der Vergangenheit</a>
                     </div>
             
                     <div id="previousDates"></div>

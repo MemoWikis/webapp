@@ -14,19 +14,24 @@ public class Date : DomainEntity
     public virtual DateTime DateTime { get; set; }
 
     public virtual TrainingPlan TrainingPlan { get; set; }
+    public virtual IList<LearningSession> LearningSessions { get; set; }
     public virtual User User { get; set; }
     public virtual IList<Set> Sets { get; set; }
 
     public virtual DateVisibility Visibility { get; set; }
 
     public virtual TimeSpan TimeRemaining => TrainingPlan.TimeRemaining;
-    public virtual TimeSpan TimeSpent => TrainingPlan.TimeSpent;
+    public const int SecondsPerQuestionEst = TrainingPlan.SecondsPerQuestionEst;
     public virtual bool HasOpenDates => TrainingPlan.HasOpenDates;
     public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
+
+    public virtual Date CopiedFrom { get; set; }
+    public virtual IList<Date> CopiedInstances { get; set; }
 
     public Date()
     {
         Sets = new List<Set>();
+        LearningSessions = new List<LearningSession>();
     }
 
     public virtual IList<Question> AllQuestions()
@@ -40,6 +45,16 @@ public class Date : DomainEntity
     public virtual int CountQuestions()
     {
         return AllQuestions().Count;
+    }
+
+    public virtual int LearningSessionQuestionsAnswered()
+    {
+        return LearningSessions.SelectMany(s => s.Steps).Count(q => q.AnswerState == StepAnswerState.Answered);
+    }
+
+    public virtual TimeSpan TimeSpentLearning()
+    {
+        return new TimeSpan(0, 0, LearningSessionQuestionsAnswered()*SecondsPerQuestionEst);
     }
 
     public virtual string GetTitle(bool shorten = false)
@@ -78,4 +93,5 @@ public class Date : DomainEntity
     {   
         return new TimeSpanLabel(Remaining());
     }
+
 }

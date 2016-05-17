@@ -43,7 +43,8 @@ public class DateRepo : RepositoryDbBase<Date>
             Sets = sets,
             Details = sourceDate.Details,
             DateTime = sourceDate.DateTime,
-            Visibility = sourceDate.Visibility
+            Visibility = sourceDate.Visibility,
+            CopiedFrom = sourceDate
         };
 
         CreateWithTrainingPlan(copiedDate);
