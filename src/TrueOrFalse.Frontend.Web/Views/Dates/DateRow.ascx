@@ -83,24 +83,22 @@
                 <div class="col-md-12">
                     <% if (!Model.IsNetworkDate){ %>
                         <% if (Model.Date.Visibility == DateVisibility.InNetwork) { %>
-                        <i class="fa fa-unlock"></i> Im Netzwerk sichtbar <span style="color: #aaa;">(<i class="fa fa-files-o"></i> 0x kopiert)</span>
+                            <i class="fa fa-unlock"></i> Im Netzwerk sichtbar (<i class="fa fa-files-o"></i> <%= Model.CopiedCount %>x übernommen)
                         <% }else { %>
-                        <i class="fa fa-lock"></i> Privater Termin
+                            <i class="fa fa-lock"></i> Privater Termin
+                        <% } %>
+                        <% if (Model.CopiedFromUserName != "") { %>
+                            <br/><span style="color: darkgrey;">Du hast diesen Termin von <%= Model.CopiedFromUserName %> übernommen.</span>
                         <% } %>
                     <% }else{ %>
-                        <i class="fa fa-unlock"></i> Erstellt von <%= Model.Date.User.Name %> <span style="color: #aaa;">(<i class="fa fa-files-o"></i> 0x kopiert)</span>
+                        <i class="fa fa-unlock"></i> Termin von <%= Model.Date.User.Name %> (<i class="fa fa-files-o"></i> <%= Model.CopiedCount %>x übernommen)
+                        <% if (Model.CopiedFromUserName != "") { %>
+                            <br/><span style="color: darkgrey;">Ursprünglich erstellt von <%= Model.CopiedFromUserName %></span>
+                        <% } %>
                     <% } %>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <% if ((!Model.IsPast) && (!Model.IsNetworkDate)){ %>
-                        Bisher gelernt (Schätzung): <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %>
-                    <% } %>
-                </div>
-            </div>
-    
             <div class="row">
                 <% if (!Model.IsNetworkDate){ %>
                     <div class="col-xs-12" style="text-align: left">
@@ -145,6 +143,17 @@
         
         <div class="col-sm-3">
             <% if(!Model.IsPast) { %>
+                <% if (!Model.IsNetworkDate){ %>
+                    <div class="row">
+                        <div class="col-md-1"><i class="fa fa-clock-o"></i></div>
+                        <% if (Model.LearningSessionQuestionsLearned == 0) { %>
+                            <div class="col-md-10" style="border-bottom-style: dotted; border-bottom-width: 1px; margin-bottom: 5px;">Bisher nicht gelernt</div>
+                        <% }else { %>
+                            <div class="col-md-10" style="border-bottom-style: dotted; border-bottom-width: 1px; margin-bottom: 5px;">Bisher gelernt: ca. <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %></div>
+                        <% } %>
+                    </div>
+                <% } %>
+
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-calendar"></i></div>
                     <div class="col-md-10">Übungsplan: <span style="font-size: 9px">(verbleibend)</span></div>

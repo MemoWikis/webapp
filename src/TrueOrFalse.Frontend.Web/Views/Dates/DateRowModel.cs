@@ -20,6 +20,9 @@ public class DateRowModel : BaseModel
     public bool IsPast;
     public bool IsNetworkDate;
 
+    public int CopiedCount;
+    public string CopiedFromUserName;
+
     public bool HideEditPlanButton;
 
     public int LearningSessionCount;
@@ -44,6 +47,11 @@ public class DateRowModel : BaseModel
         KnowledgeNeedsLearning = summary.NeedsLearning;
         KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
         KnowledgeSolid = summary.Solid;
+
+        CopiedCount = date.CopiedInstances.Count;
+        CopiedFromUserName = "";
+        if (date.CopiedFrom != null)
+            CopiedFromUserName = date.CopiedFrom.User.Name;
 
         LearningSessionCount = date.LearningSessions.Count;
         LearningSessionQuestionsLearned = date.LearningSessionQuestionsAnswered();

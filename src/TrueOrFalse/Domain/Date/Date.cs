@@ -25,6 +25,9 @@ public class Date : DomainEntity
     public virtual bool HasOpenDates => TrainingPlan.HasOpenDates;
     public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
 
+    public virtual Date CopiedFrom { get; set; }
+    public virtual IList<Date> CopiedInstances { get; set; }
+
     public Date()
     {
         Sets = new List<Set>();
