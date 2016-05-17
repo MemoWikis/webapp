@@ -7,7 +7,7 @@
         <% if(Model.IsCreatorOfGame){ %>
             Du bist der Ersteller <i class="fa fa-smile-o"></i>
         <% }else if(Model.IsInGame){ %>
-            Du nimmst an diesem Spiel Teil <i class="fa fa-smile-o"></i>
+            Du nimmst an diesem Spiel teil <i class="fa fa-smile-o"></i>
         <% } else { %>
             <a href="<%= Links.GamePlay(Url, Model.GameId) %>"
                 data-joinGameId="<%= Model.GameId %>" style=""
