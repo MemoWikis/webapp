@@ -277,6 +277,7 @@
     <Compile Include="Domain\Game\Persistence\RoundMap.cs" />
     <Compile Include="Domain\Game\Persistence\PlayerMap.cs" />
     <Compile Include="Domain\Game\Player.cs" />
+    <Compile Include="Domain\Knowledge\GetKnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\KnowledgeStatus.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatch.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\AnswerPatternMatcher.cs" />
@@ -723,6 +724,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\TestJob.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Infrastructure\MutexX.cs" />

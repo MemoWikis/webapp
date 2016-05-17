@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 
 public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 {

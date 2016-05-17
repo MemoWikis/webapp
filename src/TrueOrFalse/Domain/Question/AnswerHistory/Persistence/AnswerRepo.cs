@@ -14,31 +14,41 @@ public class AnswerRepo : RepositoryDb<Answer>
                 .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public IList<Answer> GetByQuestion(List<int> questionsId, int userId)
+    private new IQueryOver<Answer, Answer> Query(bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
-            .Where(Restrictions.In("Question.Id", questionsId))
-            .And(q => q.UserId == userId)
-            .List();
+        var query = Session.QueryOver<Answer>();
+
+        if (!includingSolutionViews)
+            query.Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView);
+
+        return query;
     }
 
-    public IList<Answer> GetByQuestion(int questionId)
+    public IList<Answer> GetByQuestion(List<int> questionsId, int userId, bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
+            .Where(Restrictions.In("Question.Id", questionsId))
+            .And(a => a.UserId == userId)
+            .List<Answer>();
+    }
+
+    public IList<Answer> GetByQuestion(int questionId, bool includingSolutionViews = false)
+    {
+        return Query(includingSolutionViews)
             .Where(i => i.Question.Id == questionId)
             .List<Answer>();
     }
 
-    public IList<Answer> GetByQuestion(int questionId, int userId)
+    public IList<Answer> GetByQuestion(int questionId, int userId, bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Where(i => i.Question.Id == questionId && i.UserId == userId)
-            .List<Answer>();
+            .List();
     }
 
-    public IList<Answer> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature)
+    public IList<Answer> GetByFeatures(AnswerFeature answerFeature, QuestionFeature questionFeature, bool includingSolutionViews = false)
     {
-        var query = Session.QueryOver<Answer>();
+        var query = Query(includingSolutionViews);
 
         if (answerFeature != null)
         {
@@ -61,7 +71,7 @@ public class AnswerRepo : RepositoryDb<Answer>
         return query.List<Answer>();
     }
 
-    public IList<Answer> GetByCategories(int categoryId)
+    public IList<Answer> GetByCategories(int categoryId, bool includingSolutionViews = false)
     {
         string query = @"
             SELECT ah.Id FROM answer ah
@@ -72,17 +82,21 @@ public class AnswerRepo : RepositoryDb<Answer>
             WHERE cq.Category_id = " + categoryId;
 
         var ids = Session.CreateSQLQuery(query).List<int>();
-        return GetByIds(ids.ToArray());
+
+        if(includingSolutionViews)
+            return GetByIds(ids.ToArray());
+
+        return GetByIds(ids.ToArray()).Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView).ToList();
     }
 
-    public IList<Answer> GetByUser(int userId)
+    public IList<Answer> GetByUser(int userId, bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Where(i => i.UserId == userId)
             .List<Answer>();
     }
 
-    public IList<Answer> GetByUser(int userId, int amount)
+    public IList<Answer> GetByUser(int userId, int amount, bool includingSolutionViews = false)
     {
         //Older version, does not sort out duplicate entrys:
         //return Sl.R<ISession>()
@@ -99,7 +113,11 @@ public class AnswerRepo : RepositoryDb<Answer>
             ORDER BY MAX(DateCreated) DESC 
             LIMIT "+amount;
         var ids = Session.CreateSQLQuery(query).List<int>();
-        return GetByIds(ids.ToArray()).OrderByDescending(a => a.DateCreated).ToList();
+
+        if(includingSolutionViews)
+            return GetByIds(ids.ToArray()).OrderByDescending(a => a.DateCreated).ToList();
+
+        return GetByIds(ids.ToArray()).Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView).OrderByDescending(a => a.DateCreated).ToList();
     }
 
     public override void Create(Answer answer)
@@ -107,18 +125,18 @@ public class AnswerRepo : RepositoryDb<Answer>
         _session.Save(answer);
     }
 
-    public IList<Answer> GetAllEager()
+    public IList<Answer> GetAllEager(bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .Fetch(x => x.Round).Eager
             .Fetch(x => x.Player).Eager
             .Fetch(x => x.Question).Eager
             .List();
     }
 
-    public Answer GetLastCreated()
+    public Answer GetLastCreated(bool includingSolutionViews = false)
     {
-        return Session.QueryOver<Answer>()
+        return Query(includingSolutionViews)
             .OrderBy(x => x.DateCreated).Desc
             .Take(1)
             .SingleOrDefault();

@@ -41,4 +41,20 @@ public static class KnowledgeStatusExt
         throw new Exception("unknown status");
     }
 
+    public static int GetProbability(this KnowledgeStatus status, int questionId)
+    {
+        switch (status)
+        {
+            case KnowledgeStatus.NotLearned:
+                return ProbabilityCalc_Question.Run(
+                    Sl.R<AnswerRepo>().GetByQuestion(questionId), useFirstAnswerPerUserOnly: true
+                );
+            case KnowledgeStatus.NeedsLearning: return 50;
+            case KnowledgeStatus.NeedsConsolidation: return 80;
+            case KnowledgeStatus.Solid: return 99;
+        }
+
+        throw new Exception("unknown status");
+    }
+
 }

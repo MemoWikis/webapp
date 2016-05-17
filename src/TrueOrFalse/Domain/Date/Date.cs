@@ -35,6 +35,7 @@ public class Date : DomainEntity
     {
         return Sets
             .SelectMany(s => s.QuestionsInSet.Select(qs => qs.Question))
+            .Distinct()
             .ToList();
     }
 
