@@ -27,6 +27,8 @@ public class TrainingPlan : DomainEntity
     public virtual bool HasOpenDates => OpenDates.Any();
     public virtual TrainingPlanSettings Settings { get; set; }
 
+    public virtual bool? LearningGoalIsReached { get; set; } = null;
+
     /// <summary>Questions to train</summary>
     public virtual IList<Question> Questions 
         => Date == null 
