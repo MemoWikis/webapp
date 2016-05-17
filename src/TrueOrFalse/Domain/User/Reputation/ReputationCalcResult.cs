@@ -9,6 +9,9 @@
     public int ForSetWishCount;
     public int ForSetWishKnow;
 
+    public int ForDatesCreatedVisible;
+    public int ForDatesCopied;
+
     public int TotalRepuation
     {
         get
@@ -18,7 +21,9 @@
                 ForQuestionsWishCount +
                 ForQuestionsWishKnow +
                 ForSetWishCount +
-                ForSetWishKnow;
+                ForSetWishKnow +
+                ForDatesCreatedVisible + 
+                ForDatesCopied;
         }
     }
 }
