@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 public class DateRowModel : BaseModel
 {
@@ -21,6 +22,9 @@ public class DateRowModel : BaseModel
 
     public bool HideEditPlanButton;
 
+    public int LearningSessionCount;
+    public int LearningSessionQuestionsLearned;
+    public TimeSpan TimeSpentLearning;
     public int TrainingDateCount;
     public string TrainingLength;
     public int NumberOfTrainingsDone;
@@ -41,10 +45,13 @@ public class DateRowModel : BaseModel
         KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
         KnowledgeSolid = summary.Solid;
 
+        LearningSessionCount = date.LearningSessions.Count;
+        LearningSessionQuestionsLearned = date.LearningSessionQuestionsAnswered();
+        TimeSpentLearning = date.TimeSpentLearning();
         TrainingPlan = date.TrainingPlan ?? new TrainingPlan();
         TrainingDateCount = TrainingPlan.OpenDates.Count;
         TrainingLength = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
-        NumberOfTrainingsDone = TrainingPlan.PastDates.Where(d => d.LearningSession != null).ToList().Count;
+        NumberOfTrainingsDone = TrainingPlan.PastDatesNotMissed.ToList().Count;
 
         var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;

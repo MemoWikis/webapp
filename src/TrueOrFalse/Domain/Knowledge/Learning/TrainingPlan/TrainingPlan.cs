@@ -15,14 +15,19 @@ public class TrainingPlan : DomainEntity
                                                             && !d.MarkedAsMissed
                                                             && d.LearningSession == null)
                                                         .OrderBy(d => d.DateTime).ToList();
+    public virtual IList<TrainingDate> PastDatesNotMissed => Dates
+                                                        .Where(d => d.DateTime < DateTimeX.Now()
+                                                            && !d.MarkedAsMissed
+                                                            && d.LearningSession != null)
+                                                        .OrderBy(d => d.DateTime).ToList();
     public virtual IList<TrainingDate> PastDates => Dates.Except(OpenDates).OrderBy(d => d.DateTime).ToList();
 
     public virtual TimeSpan TimeToNextDate => HasOpenDates ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
 
-    public const int SecondsPerQuestionEst = 30;
+    public const int SecondsPerQuestionEst = 20;
 
     public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (OpenDates.Count * Questions.Count) * SecondsPerQuestionEst);
-    public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (PastDates.Count * Questions.Count) * SecondsPerQuestionEst);
+    //public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (PastDatesNotMissed.Count * Questions.Count) * SecondsPerQuestionEst);
 
     public virtual bool HasOpenDates => OpenDates.Any();
     public virtual TrainingPlanSettings Settings { get; set; }
@@ -69,4 +74,5 @@ public class TrainingPlan : DomainEntity
 
         Console.Write(sb);
     }
+
 }

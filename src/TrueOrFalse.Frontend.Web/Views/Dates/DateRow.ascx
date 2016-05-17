@@ -92,6 +92,14 @@
                     <% } %>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <% if ((!Model.IsPast) && (!Model.IsNetworkDate)){ %>
+                        Bisher gelernt (Schätzung): <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %>
+                    <% } %>
+                </div>
+            </div>
     
             <div class="row">
                 <% if (!Model.IsNetworkDate){ %>
@@ -171,10 +179,13 @@
                     <div class="col-md-10">Übungshistorie:</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12"><%= Model.NumberOfTrainingsDone %> Übungssitzung<%= StringUtils.Plural(Model.NumberOfTrainingsDone,"en","","en") %> absolviert</div>
+                    <div class="col-md-12">
+                        <%= Model.LearningSessionCount %> Übungssitzung<%= StringUtils.Plural(Model.LearningSessionCount,"en","","en") %> mit <br/>
+                        <%= Model.LearningSessionQuestionsLearned %> Frage<%= StringUtils.Plural(Model.LearningSessionQuestionsLearned,"n","","n") %>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <%= new TimeSpanLabel(trainingPlan.TimeSpent, showTimeUnit: true).Full %> </div>
+                    <div class="col-md-12">ca. <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %> (Schätzung)</div>
                 </div>
             <% } %>
 
