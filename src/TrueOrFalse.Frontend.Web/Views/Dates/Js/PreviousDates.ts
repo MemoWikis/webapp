@@ -16,5 +16,12 @@
                     InitTooltips();
                 });
         });
+        $("#allDateRows").on("click", "#btnHidePreviousDates", function () {
+
+            $("#previousDates")
+                .animate({ opacitiy: 0.00 }, 900)
+                .empty();
+            $("#divShowPreviousDates").show();
+        });
     }
 } 
