@@ -16,11 +16,13 @@ class DateRowCopy {
             self.PopulatModal(dateIdToCopy);
         });
 
-        $('#btnCloseDateCopy').click(function () {
+        $('#btnCloseDateCopy').click(function (e) {
+            e.preventDefault();
             $('#modalCopy').modal('hide');
         });
 
-        $('#btnConfirmDateCopy').click(function () {
+        $('#btnConfirmDateCopy').click(function (e) {
+            e.preventDefault();
             self.CopyDate(dateIdToCopy);
             $('#modalCopy').modal('hide');
         });        
@@ -71,6 +73,9 @@ class DateRowCopy {
                 }
                 drawKnowledgeCharts();
                 InitTooltips();
+                if (!Utils.IsScrolledIntoView('[data-date-id="' + copiedDateId + '"]')) {
+                    $('html, body').animate({scrollTop: $('[data-date-id="' + copiedDateId + '"]').offset().top - 80}, 600);
+                }
 
                 //animate newly inserted date
                 var bgOrg = $('[data-date-id="' + copiedDateId + '"]').css("background-color");
