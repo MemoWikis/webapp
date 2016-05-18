@@ -189,6 +189,7 @@
     }
 
     DrawChartTrainingTime() {
+
         var data = google.visualization.arrayToDataTable([
                 ['Datum', 'Übung1', 'Übung2', { role: 'annotation' }],
                 ['19.04', 13, 24, ''],
