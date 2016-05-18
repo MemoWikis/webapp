@@ -126,6 +126,7 @@
                 .animate({ opacity: 1.00 }, 700)
         ).after(() => {
             this.DrawCharts();
+            this.DrawChartTrainingTime();
             $('#modalTraining').modal();
         });        
     }
@@ -143,7 +144,6 @@
     }
 
     DrawCharts() {
-
         var self = this;
 
         $("#modalTraining div[data-trainingDateId]").each(function () {
@@ -186,5 +186,42 @@
 
         var chart = new google.visualization.PieChart(div.get()[0]);
         chart.draw(data, options2);
+    }
+
+    DrawChartTrainingTime() {
+        var data = google.visualization.arrayToDataTable([
+                ['Datum', 'Übung1', 'Übung2', { role: 'annotation' }],
+                ['19.04', 13, 24, ''],
+                ['20.04', 2, 4, ''],
+                ['21.04', 0, 0, ''],
+                ['22.04', 0, 0, ''],
+                ['23.04', 0, 0, ''],
+                ['24.04', 0, 0, ''],
+                ['25.04', 0, 0, ''],
+                ['26.04', 0, 0, ''],
+                ['27.04', 16, 3, ''],
+                ['28.04', 0, 0, ''],
+                ['29.04', 0, 0, ''],             ]);
+
+        var view = new google.visualization.DataView(data);
+        view.setColumns([0, 1,
+            {
+                calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation"
+            },
+            2]);
+
+        var options = {
+            legend: { position: 'none'},
+            bar: { groupWidth: '89%' },
+            chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
+            colors: ['#afd534', 'blue'],
+            isStacked: true
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById("chartTrainingTime"));
+        chart.draw(view, options);
     }
 }
