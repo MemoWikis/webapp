@@ -88,12 +88,12 @@
                             <i class="fa fa-lock"></i> Privater Termin
                         <% } %>
                         <% if (Model.CopiedFromUserName != "") { %>
-                            <br/><span style="color: darkgrey;">Du hast diesen Termin von <%= Model.CopiedFromUserName %> übernommen.</span>
+                            <br/><span style="color: darkgrey;">Du hast diesen Termin von <a href="<%= Links.UserDetail(Model.CopiedFromUser) %>"><%= Model.CopiedFromUserName %></a> übernommen.</span>
                         <% } %>
                     <% }else{ %>
                         <i class="fa fa-unlock"></i> Termin von <%= Model.Date.User.Name %> (<i class="fa fa-files-o"></i> <%= Model.CopiedCount %>x übernommen)
                         <% if (Model.CopiedFromUserName != "") { %>
-                            <br/><span style="color: darkgrey;">Ursprünglich erstellt von <%= Model.CopiedFromUserName %></span>
+                            <br/><span style="color: darkgrey;">Übernommen von <a href="<%= Links.UserDetail(Model.CopiedFromUser) %>"><%= Model.CopiedFromUserName %></a></span>
                         <% } %>
                     <% } %>
                 </div>
