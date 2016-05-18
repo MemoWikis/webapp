@@ -15,8 +15,8 @@ namespace TrueOrFalse
                 ? question.CorrectnessProbability
                 : questionValuationForUser.CorrectnessProbability;
             CPAll = question.CorrectnessProbability;
-            CPDerivation = Math.Abs(CPPersonal - question.CorrectnessProbability);
-            CPDerivationSign = (CPPersonal <= question.CorrectnessProbability) ? "-" : "+";
+            CPDerivation = Math.Abs(CPPersonal - CPAll);
+            CPDerivationSign = (CPPersonal < CPAll) ? "-" : "+";
         }
 
     }

@@ -5,7 +5,7 @@
         <div style='text-align:left;'>
             <b><%: Model.CPPersonal %>%</b> Wahrscheinlichkeit, dass du die Frage korrekt beantwortest<br /><br />
                         
-            Alle Nutzer: <%: Model.CPPersonal + Model.CPDerivation %>%<br />
+            Alle Nutzer: <%: Model.CPAll %>%<br />
             Deine Abweichung: <%: Model.CPDerivationSign %> <%: Model.CPDerivation %>%
         </div>">
     <i class="fa fa-tachometer" style="color:#69D069;"></i> 
