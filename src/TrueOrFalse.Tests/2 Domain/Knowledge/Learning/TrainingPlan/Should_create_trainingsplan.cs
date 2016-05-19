@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using TrueOrFalse.Utilities.ScheduledJobs;
+using EnumerableExtensions = NHibernate.Util.EnumerableExtensions;
 
 public class Should_create_trainingsplan : BaseTest
 {
@@ -64,14 +65,42 @@ public class Should_create_trainingsplan : BaseTest
     }
 
     [Test]
-    public void Should_add_overlearning()
+    public void Should_add_final_boost()
     {
-        var date = new Date { DateTime = DateTime.Now.AddDays(30) };
+        var date = new Date
+        {
+            DateTime = DateTime.Now.AddDays(30),
+            Sets = ContextSet.New().AddSet("Set", numberOfQuestions: 30).All,
+            User = ContextUser.GetUser()
+        };
 
-        TrainingPlanCreator.T_AddOverLearning(
+        date.TrainingPlan = TrainingPlanCreator.Run(
+            date,
+            new TrainingPlanSettings
+            {
+                AddFinalBoost = false,
+                SpacingBetweenSessionsInMinutes = 100
+            });
+
+        var lastDate = date.TrainingPlan.Dates.Last();
+        var newTimeOfLastDate = date.DateTime.AddMinutes(-(date.TrainingPlanSettings.SpacingBetweenSessionsInMinutes - 10));
+        lastDate.DateTime = newTimeOfLastDate;
+
+        foreach (var answerProbability in date.TrainingPlanSettings.DebugAnswerProbabilities)
+        {
+            foreach (var historyItem in answerProbability.History)
+            {
+                if (historyItem.TrainingDate == lastDate)
+                    historyItem.Answer.DateCreated = newTimeOfLastDate;
+            }
+        }
+
+       // Assert.That(!date.TrainingPlan.Dates.Any(d => d.DateTime > ));
+
+        TrainingPlanCreator.T_AddFinalBoost(
             date, 
-            new TrainingPlanSettings {SpacingBetweenSessionsInMinutes = 100}, 
-            new List<AnswerProbability> { new AnswerProbability {History = new List<AnswerProbabilityHistory>()} }, 
-            new List<TrainingDate> { new TrainingDate {DateTime = date.DateTime.AddMinutes(-10)} });
+            date.TrainingPlanSettings,
+            date.TrainingPlan.Settings.DebugAnswerProbabilities,
+            date.TrainingPlan.Dates.ToList());
     }
 }

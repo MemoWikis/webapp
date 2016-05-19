@@ -23,6 +23,8 @@ public class TrainingPlanSettings
 
     public virtual bool AddFinalBoost { get; set; } = true;
 
+    public virtual List<AnswerProbability> DebugAnswerProbabilities { get; set; }
+
     public bool IsInSnoozePeriod(DateTime dateTime)
     {
         return SnoozePeriods.Any(p => p.IsInPeriod(dateTime));

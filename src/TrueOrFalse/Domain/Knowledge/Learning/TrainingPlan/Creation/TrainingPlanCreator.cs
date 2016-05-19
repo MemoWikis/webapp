@@ -57,6 +57,8 @@ public class TrainingPlanCreator
         var probabilitiesAtTimeOfDate = ReCalcAllAnswerProbablities(date.DateTime, answerProbabilities);
         trainingPlan.LearningGoalIsReached = probabilitiesAtTimeOfDate.All(p => p.CalculatedProbability >= settings.AnswerProbabilityThreshold);
 
+        trainingPlan.Settings.DebugAnswerProbabilities = answerProbabilities;
+
         return trainingPlan;
     }
 
