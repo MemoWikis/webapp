@@ -35,5 +35,11 @@ public static class DateTimeUtils
     {
         return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin, dateTimeEnd);
     }
+
+    public static DateTime RoundUp(DateTime dateTime, TimeSpan roundToNextFull)
+    {
+        //http://stackoverflow.com/a/7029464
+        return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) * roundToNextFull.Ticks);
+    }
 }
 

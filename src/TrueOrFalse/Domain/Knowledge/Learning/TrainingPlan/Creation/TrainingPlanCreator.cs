@@ -63,8 +63,7 @@ public class TrainingPlanCreator
         TrainingPlanSettings settings, 
         List<AnswerProbability> answerProbabilities)
     {
-        //var nextDateProposal = RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(15));
-        var nextDateProposal = DateTimeX.Now();
+        var nextDateProposal = DateTimeUtils.RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(15));
 
         var learningDates = new List<TrainingDate>();
 
@@ -84,12 +83,6 @@ public class TrainingPlanCreator
         AddOverlearning(date, settings, answerProbabilities, learningDates);
 
         return learningDates;
-    }
-
-    private static DateTime RoundUp(DateTime dateTime, TimeSpan roundToNextFull)
-    {
-        //http://stackoverflow.com/a/7029464
-        return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) * roundToNextFull.Ticks);
     }
 
     private static bool TryAddDate(
