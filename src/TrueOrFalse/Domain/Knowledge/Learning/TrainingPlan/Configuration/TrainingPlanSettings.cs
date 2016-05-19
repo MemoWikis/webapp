@@ -21,6 +21,8 @@ public class TrainingPlanSettings
 
     public virtual LearningPlanStrategy Strategy { get; set; } = LearningPlanStrategy.Sustained;
 
+    public virtual bool AddFinalBoost { get; set; } = true;
+
     public bool IsInSnoozePeriod(DateTime dateTime)
     {
         return SnoozePeriods.Any(p => p.IsInPeriod(dateTime));
