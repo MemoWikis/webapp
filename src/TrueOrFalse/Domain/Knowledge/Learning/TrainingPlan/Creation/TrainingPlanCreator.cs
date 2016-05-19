@@ -26,6 +26,18 @@ public class TrainingPlanCreator
         if (settings.QuestionsPerDate_IdealAmount < settings.QuestionsPerDate_Minimum)
             settings.QuestionsPerDate_IdealAmount = settings.QuestionsPerDate_Minimum;
 
+        settings.DebugAnswerProbabilities = GetInitialAnswerProbabilities(date);
+
+        trainingPlan.Dates = GetDates(date, settings);
+
+        var probabilitiesAtTimeOfDate = ReCalcAllAnswerProbablities(date.DateTime, settings.DebugAnswerProbabilities);
+        trainingPlan.LearningGoalIsReached = probabilitiesAtTimeOfDate.All(p => p.CalculatedProbability >= settings.AnswerProbabilityThreshold);
+
+        return trainingPlan;
+    }
+
+    private static List<AnswerProbability> GetInitialAnswerProbabilities(Date date)
+    {
         var probUpdateValRepo = Sl.R<ProbabilityUpdate_Valuation>();
 
         foreach (var question in date.AllQuestions())
@@ -36,8 +48,7 @@ public class TrainingPlanCreator
         var answerRepo = Sl.R<AnswerRepo>();
         var questionValuationRepo = Sl.R<QuestionValuationRepo>();
 
-        //var answerProbabilities = GetAnswerProbabilities(date);
-        var answerProbabilities = date
+        return date
                 .AllQuestions()
                 .Select(q =>
                     new AnswerProbability
@@ -51,22 +62,11 @@ public class TrainingPlanCreator
                             .ToList()
                     })
                 .ToList();
-
-        trainingPlan.Dates = GetDates(date, answerProbabilities);
-
-        var probabilitiesAtTimeOfDate = ReCalcAllAnswerProbablities(date.DateTime, answerProbabilities);
-        trainingPlan.LearningGoalIsReached = probabilitiesAtTimeOfDate.All(p => p.CalculatedProbability >= settings.AnswerProbabilityThreshold);
-
-        trainingPlan.Settings.DebugAnswerProbabilities = answerProbabilities;
-
-        return trainingPlan;
     }
 
-    private static IList<TrainingDate> GetDates(
-        Date date, 
-        List<AnswerProbability> answerProbabilities)
+    private static IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
     {
-        var nextDateProposal = DateTimeUtils.RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(15));
+        var nextDateProposal = DateTimeUtils.RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(IntervalInMinutes));
 
         var learningDates = new List<TrainingDate>();
 
@@ -74,18 +74,18 @@ public class TrainingPlanCreator
         {
             nextDateProposal = nextDateProposal.AddMinutes(IntervalInMinutes);
 
-            if (date.TrainingPlanSettings.IsInSnoozePeriod(nextDateProposal))
+            if (settings.IsInSnoozePeriod(nextDateProposal))
                 continue;
 
-            if(TryAddDate(date.TrainingPlanSettings, nextDateProposal, answerProbabilities, learningDates))
+            if(TryAddDate(settings, nextDateProposal, learningDates))
                 nextDateProposal = nextDateProposal.AddMinutes(date.TrainingPlanSettings.SpacingBetweenSessionsInMinutes
                     //- IntervalInMinutes
                     );
         }
 
-        if (date.TrainingPlanSettings.AddFinalBoost)
+        if (settings.AddFinalBoost)
         {
-            AddFinalBoost(date, answerProbabilities, learningDates);
+            AddFinalBoost(date, settings, learningDates);
         }
 
         return learningDates;
@@ -94,17 +94,14 @@ public class TrainingPlanCreator
     private static bool TryAddDate(
         TrainingPlanSettings settings,
         DateTime proposedDateTime,
-        List<AnswerProbability> answerProbabilities,
         List<TrainingDate> learningDates)
     {
         var newAnswerProbabilities = 
-            ReCalcAllAnswerProbablities(proposedDateTime, answerProbabilities)
-            .OrderBy(x => x.CalculatedProbability)
-            .ThenBy(x => x.History.Count);
+            ReCalcAllAnswerProbablities(proposedDateTime, settings.DebugAnswerProbabilities);
 
         var belowThresholdCount = newAnswerProbabilities.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
-        if (answerProbabilities.Count(x => x.History.Count > 0 && x.CalculatedProbability < 15) > 0)
+        if (settings.DebugAnswerProbabilities.Count(x => x.History.Count > 0 && x.CalculatedProbability < 15) > 0)
             Debugger.Break();
 
         //if((proposedDateTime.Hour % 4) == 0 && proposedDateTime.Minute < 15)
@@ -113,11 +110,15 @@ public class TrainingPlanCreator
         if (belowThresholdCount < settings.QuestionsPerDate_Minimum)
             return false;
 
+        settings.DebugAnswerProbabilities = newAnswerProbabilities.ToList();
+
         var trainingDate = new TrainingDate{DateTime = proposedDateTime};
         learningDates.Add(trainingDate);
 
         trainingDate.AllQuestions =
-            newAnswerProbabilities
+            settings.DebugAnswerProbabilities
+                .OrderBy(x => x.CalculatedProbability)
+                .ThenBy(x => x.History.Count)
                 .Select(x => new TrainingQuestion
                 {
                     Question = x.Question,
@@ -133,7 +134,7 @@ public class TrainingPlanCreator
             /*directly after training the probability is almost 100%!*/
             trainingQuestion.ProbAfter = 99;
 
-            answerProbabilities
+            settings.DebugAnswerProbabilities
                 .By(trainingQuestion.Question.Id)
                 .AddAnswerAndSetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime, trainingDate);
 
@@ -141,10 +142,10 @@ public class TrainingPlanCreator
                 break;
         }
 
-        var probs = answerProbabilities.OrderBy(x => x.Question.Id).ToList();
+        var probs = settings.DebugAnswerProbabilities.OrderBy(x => x.Question.Id).ToList();
 
         var log = "XXX:" +
-                  answerProbabilities.OrderBy(x => x.Question.Id)
+                  settings.DebugAnswerProbabilities.OrderBy(x => x.Question.Id)
                       .Select(x => x.Question.Id + ": " + x.CalculatedProbability)
                       .ToList()
                       .Aggregate((a, b) => a + " | " + b);
@@ -160,12 +161,11 @@ public class TrainingPlanCreator
     public static void T_AddFinalBoost(
         Date date,
         TrainingPlanSettings settings,
-        List<AnswerProbability> answerProbabilities,
         List<TrainingDate> learningDates)
     {
         AddFinalBoost(
             date,
-            answerProbabilities,
+            settings,
             learningDates);
     }
 
@@ -182,26 +182,41 @@ public class TrainingPlanCreator
 
     private static void AddFinalBoost(
         Date date,
-        List<AnswerProbability> answerProbabilities,
+        TrainingPlanSettings settings,
         List<TrainingDate> learningDates)
     {
-        var overlearningDateProposal = date.DateTime.AddHours(-2.75);
+        var timeToBeFinished = date.DateTime.AddHours(settings.NumberOfHoursLastTrainingShouldEndBeforeDate);
 
-        while (overlearningDateProposal > DateTimeX.Now())
+        var estimatedTimeNeeded = new TimeSpan(0, 0, seconds: date.AllQuestions().Sum(q => q.TimeToLearnInSeconds()));
+
+        var boostingDateProposal = 
+            DateTimeUtils.RoundUp(timeToBeFinished, TimeSpan.FromMinutes(IntervalInMinutes))
+                .Subtract(estimatedTimeNeeded);
+
+        if(boostingDateProposal <= DateTimeX.Now())
+            return;
+
+        while (boostingDateProposal > DateTimeX.Now())
         {
-            overlearningDateProposal = overlearningDateProposal.AddMinutes(-IntervalInMinutes);
-
-            if (date.TrainingPlanSettings.IsInSnoozePeriod(overlearningDateProposal))
+            if (settings.IsInSnoozePeriod(boostingDateProposal))
+            {
+                boostingDateProposal = boostingDateProposal.AddMinutes(-IntervalInMinutes);
                 continue;
+            }
 
             break;
         }
 
         var collidingDates = learningDates
-            .Where(d => overlearningDateProposal.Subtract(d.DateTime).TotalMinutes < date.TrainingPlanSettings.SpacingBetweenSessionsInMinutes)
+            .Where(d => boostingDateProposal.Subtract(d.DateTime).TotalMinutes < settings.SpacingBetweenSessionsInMinutes)
             .ToList();
 
-        RemoveDatesIncludingAnswers(learningDates, collidingDates, answerProbabilities);
+        RemoveDatesIncludingAnswers(learningDates, collidingDates, settings.DebugAnswerProbabilities);
+
+        var boostingDate = new TrainingDate();
+
+        var precedingLearningDate = learningDates.OrderBy(d => d.DateTime).LastOrDefault();
+
     }
 
     private static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
