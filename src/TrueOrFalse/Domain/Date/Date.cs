@@ -21,7 +21,6 @@ public class Date : DomainEntity
     public virtual DateVisibility Visibility { get; set; }
 
     public virtual TimeSpan TimeRemaining => TrainingPlan.TimeRemaining;
-    public const int SecondsPerQuestionEst = TrainingPlan.SecondsPerQuestionEst;
     public virtual bool HasOpenDates => TrainingPlan.HasOpenDates;
     public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
 
@@ -57,7 +56,7 @@ public class Date : DomainEntity
 
     public virtual TimeSpan TimeSpentLearning()
     {
-        return new TimeSpan(0, 0, LearningSessionQuestionsAnswered()*SecondsPerQuestionEst);
+        return new TimeSpan(0, 0, LearningSessions.SelectMany(l => l.Steps.Select(s => s.Question)).Sum(q => q.TimeToLearnInSeconds()));
     }
 
     public virtual string GetTitle(bool shorten = false)

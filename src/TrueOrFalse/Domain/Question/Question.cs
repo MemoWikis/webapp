@@ -93,6 +93,11 @@ public class Question : DomainEntity
         return false;
     }
 
+    public virtual int TimeToLearnInSeconds()
+    {
+        return TrainingPlan.SecondsPerQuestionEst;
+    }
+
     public Question()
     {
         Categories = new List<Category>();
