@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NHibernate.Criterion;
 using TrueOrFalse;
 
 public class TrainingPlanCreator
@@ -12,6 +11,20 @@ public class TrainingPlanCreator
     public static int[] QuestionsToTrackIds = {};
 
     public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
+    {
+        var stopWatch = Stopwatch.StartNew();
+
+        var trainingPlan = Run_(date, settings);
+
+        Logg.r().Information("Traingplan created (in memory): {duration} DateCount: {dateCount} QuestionCount: {questionCount}",
+            stopWatch.Elapsed,
+            trainingPlan.Dates.Count,
+            trainingPlan.Questions.Count);
+
+        return trainingPlan;
+    }
+
+    public static TrainingPlan Run_(Date date, TrainingPlanSettings settings)
     {
         var trainingPlan = new TrainingPlan();
         trainingPlan.Date = date;

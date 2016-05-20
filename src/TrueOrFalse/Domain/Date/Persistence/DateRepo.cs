@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -14,8 +15,13 @@ public class DateRepo : RepositoryDbBase<Date>
         Create(date);
         var trainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings());
         date.TrainingPlan = trainingPlan;
+
+        var stopWatch = Stopwatch.StartNew();
         Sl.R<TrainingPlanRepo>().Create(trainingPlan);
+        Logg.r().Information("Traingplan created (in db): {duration}", stopWatch.Elapsed);
+
         Update(date);
+        Logg.r().Information("Traingplan added to date (in db): {duration}", stopWatch.Elapsed);
     }
 
     public void UpdateWithTrainingPlan(Date date)
