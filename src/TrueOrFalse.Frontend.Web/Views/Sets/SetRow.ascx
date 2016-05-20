@@ -20,7 +20,9 @@
                 </div>
                 <div>
                     <% if(Model.QuestionCount != 0){ %>
-                        (<%= Model.QuestionCount %>)
+                        <span class="label label-question show-tooltip" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Fragesatz">
+                            <%= Model.QuestionCount %>
+                        </span>
                     <% }else{ %>
                         <span style="color: darkgray">(0)</span>
                     <% } %>            
