@@ -35,6 +35,8 @@ public class TrainingPlan : DomainEntity
 
     public virtual bool? LearningGoalIsReached { get; set; } = null;
 
+    public virtual string UserMessage { get; set; }
+
     /// <summary>Questions to train</summary>
     public virtual IList<Question> Questions 
         => Date == null 

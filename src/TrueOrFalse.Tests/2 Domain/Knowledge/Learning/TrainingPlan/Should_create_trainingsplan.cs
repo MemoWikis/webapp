@@ -67,40 +67,37 @@ public class Should_create_trainingsplan : BaseTest
     [Test]
     public void Should_add_final_boost()
     {
+        var date = SetUpDateWithTrainingPlan(
+            new TrainingPlanSettings
+            {
+                AddFinalBoost = true
+            });
+
+        var startingTimeOfLastTraining = date.TrainingPlan.Dates.Last().DateTime;
+        var estimatedTimeSpanNeededForLastTraining =
+            TimeSpan.FromSeconds(
+                date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Sum(q => q.Question.TimeToLearnInSeconds()));
+        var estimatedEndTimeOfLastTraining = startingTimeOfLastTraining.Add(estimatedTimeSpanNeededForLastTraining);
+
+        Assert.That(date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Count, Is.EqualTo(date.CountQuestions()));
+        Assert.That(date.DateTime.Subtract(estimatedEndTimeOfLastTraining), 
+            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldEndBeforeDate)
+                        .Subtract(TimeSpan.FromMinutes(TrainingPlanCreator.RoundedIntervalInMinutes))));
+    }
+
+    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings)
+    {
+        const int timeUntilDateInDays = 30;
+
         var date = new Date
         {
-            DateTime = DateTime.Now.AddDays(30),
-            Sets = ContextSet.New().AddSet("Set", numberOfQuestions: 30).All,
+            DateTime = DateTime.Now.AddDays(timeUntilDateInDays),
+            Sets = ContextSet.New().AddSet("Set", numberOfQuestions: 20).All,
             User = ContextUser.GetUser()
         };
 
-        date.TrainingPlan = TrainingPlanCreator.Run(
-            date,
-            new TrainingPlanSettings
-            {
-                AddFinalBoost = false,
-                SpacingBetweenSessionsInMinutes = 100
-            });
+        date.TrainingPlan = TrainingPlanCreator.Run(date, settings);
 
-        var lastDate = date.TrainingPlan.Dates.Last();
-        var newTimeOfLastDate = date.DateTime.AddMinutes(-(date.TrainingPlanSettings.SpacingBetweenSessionsInMinutes - 10));
-        lastDate.DateTime = newTimeOfLastDate;
-
-        foreach (var answerProbability in date.TrainingPlanSettings.DebugAnswerProbabilities)
-        {
-            foreach (var historyItem in answerProbability.History)
-            {
-                if (historyItem.TrainingDate == lastDate)
-                    historyItem.Answer.DateCreated = newTimeOfLastDate;
-            }
-        }
-
-       // Assert.That(!date.TrainingPlan.Dates.Any(d => d.DateTime > ));
-
-        TrainingPlanCreator.T_AddFinalBoost(
-            date, 
-            date.TrainingPlanSettings,
-            date.TrainingPlan.Settings.DebugAnswerProbabilities,
-            date.TrainingPlan.Dates.ToList());
+        return date;
     }
 }
