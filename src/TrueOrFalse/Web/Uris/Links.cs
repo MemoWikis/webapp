@@ -241,8 +241,12 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("Dates", "Dates");
         }
 
-        public static object DateEdit(UrlHelper url, int dateId){
-            return url.Action("Edit", "EditDate", new { dateId = dateId });
+        public static object DateEdit(int dateId){
+            return GetUrlHelper().Action("Edit", "EditDate", new { dateId = dateId });
+        }
+
+        public static object DateCreate(int setId){
+            return GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
         }
 
         //public static object DateCopy(UrlHelper url, int dateId){

@@ -96,6 +96,12 @@
     width: 572px;
   }
 }
+.column-Additional div.actions {
+  line-height: 16px;
+}
+.column-Additional div.actions i {
+  width: 19px;
+}
 .Pin {
   height: 25px;
   margin-top: -1px;
