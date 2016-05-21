@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class TrainingDate : DomainEntity
 {
     public virtual TrainingPlan TrainingPlan { get; set; }

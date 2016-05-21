@@ -10,6 +10,8 @@ public class DateMap : ClassMap<Date>
         Map(x => x.Details);
 
         References(x => x.TrainingPlan).Cascade.All();
+        Map(x => x.TrainingPlanJson);
+
         References(x => x.User);
 
         HasMany(x => x.LearningSessions).Table("learningsession").KeyColumn("DateToLearn_id"); //should define cascade-relation

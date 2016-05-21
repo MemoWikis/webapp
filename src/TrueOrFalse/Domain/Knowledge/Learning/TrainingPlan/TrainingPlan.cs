@@ -2,24 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class TrainingPlan : DomainEntity
 {
     public virtual Date Date { get; set; }
 
+    [JsonProperty]
     public virtual IList<TrainingDate> Dates { get; set; } = new List<TrainingDate>();
+
     public virtual IList<TrainingDate> OpenDates => Dates
-                                                        .Where(d => d.DateTime > DateTimeX.Now()
-                                                            && !d.MarkedAsMissed
-                                                            && d.LearningSession == null)
-                                                        .OrderBy(d => d.DateTime).ToList();
+        .Where(d => d.DateTime > DateTimeX.Now()
+            && !d.MarkedAsMissed
+            && d.LearningSession == null)
+        .OrderBy(d => d.DateTime).ToList();
+
     public virtual IList<TrainingDate> PastDatesNotMissed => Dates
-                                                        .Where(d => d.DateTime < DateTimeX.Now()
-                                                            && !d.MarkedAsMissed
-                                                            && d.LearningSession != null)
-                                                        .OrderBy(d => d.DateTime).ToList();
+        .Where(d => d.DateTime < DateTimeX.Now()
+            && !d.MarkedAsMissed
+            && d.LearningSession != null)
+        .OrderBy(d => d.DateTime).ToList();
+
     public virtual IList<TrainingDate> PastDates => Dates.Except(OpenDates).OrderBy(d => d.DateTime).ToList();
 
     public virtual TimeSpan TimeToNextDate => HasOpenDates ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
@@ -31,6 +37,8 @@ public class TrainingPlan : DomainEntity
     //public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (PastDatesNotMissed.Count * Questions.Count) * SecondsPerQuestionEst);
 
     public virtual bool HasOpenDates => OpenDates.Any();
+
+    [JsonProperty]
     public virtual TrainingPlanSettings Settings { get; set; }
 
     public virtual bool? LearningGoalIsReached { get; set; } = null;
@@ -73,11 +81,10 @@ public class TrainingPlan : DomainEntity
             sb.Append(date.DateTime.ToString("g"));
             sb.Append("  q:" + date.AllQuestionsInTraining.Count +  " ");
             sb.Append(date.AllQuestions.Select(q => q.ProbBefore + "/" + q.ProbAfter).Aggregate((a, b) => a + " " + b));
-            
+
             sb.AppendLine("");
         }
 
         Console.Write(sb);
     }
-
 }
