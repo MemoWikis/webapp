@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using TrueOrFalse.Utilities.ScheduledJobs;
-using EnumerableExtensions = NHibernate.Util.EnumerableExtensions;
 
 public class Should_create_trainingsplan : BaseTest
 {
