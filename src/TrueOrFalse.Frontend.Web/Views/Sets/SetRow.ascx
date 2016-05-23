@@ -20,7 +20,9 @@
                 </div>
                 <div>
                     <% if(Model.QuestionCount != 0){ %>
-                        (<%= Model.QuestionCount %>)
+                        <span class="label label-question show-tooltip" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Fragesatz">
+                            <%= Model.QuestionCount %>
+                        </span>
                     <% }else{ %>
                         <span style="color: darkgray">(0)</span>
                     <% } %>            
@@ -45,14 +47,19 @@
                 <span class="totalPins NumberTimes"><%= Model.TotalPins %>x</span>                        
             </span>
             
-            <div style="margin-top: 10px;">
-                <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>"><i class="fa fa-line-chart"></i> 
+            <div style="margin-top: 10px;" class="actions">
+                <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>">
+                    <i class="fa fa-line-chart"></i> 
                     Jetzt üben
                 </a>
-                <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." >
-                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
+                    <i class="fa fa-gamepad" style="font-size: 15px;"></i>
                     Spiel starten
-                </a>            
+                </a>
+                <a style="display: block;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                    <i class="fa fa-calendar" style="font-size: 13px;"></i>
+                    Termin lernen
+                </a>
             </div>
 
         </div>

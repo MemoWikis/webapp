@@ -9,9 +9,21 @@ public class EditDateController : BaseController
     private const string _viewLocation = "~/Views/Dates/Edit/EditDate.aspx";
 
     [HttpGet]
-    public ViewResult Create()
+    public ViewResult Create(int? setId)
     {
-        return View(_viewLocation, new EditDateModel());
+        var model = new EditDateModel();
+
+        if (setId != null)
+        {
+            var set = Sl.R<SetRepo>().GetById((int) setId);
+            if (set != null)
+            {
+                model.Details = set.Name;
+                model.Sets.Add(set);
+            }
+        }
+
+        return View(_viewLocation, model);
     }
 
     [HttpPost]

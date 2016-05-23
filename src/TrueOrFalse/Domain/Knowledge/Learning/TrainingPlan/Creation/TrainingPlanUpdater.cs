@@ -1,4 +1,6 @@
-﻿public class TrainingPlanUpdater
+﻿using System.Diagnostics;
+
+public class TrainingPlanUpdater
 {
     public static TrainingPlan Run(int trainingPlanId)
     {
@@ -18,6 +20,8 @@
 
         var newTrainingPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
 
+        var stopWatch = Stopwatch.StartNew();
+
         foreach (var newDate in newTrainingPlan.Dates)
             trainingPlan.Dates.Add(new TrainingDate
             {
@@ -29,6 +33,9 @@
 
         trainingPlanRepo.Update(trainingPlan);
         trainingPlanRepo.Flush();
+
+        Logg.r().Information("Traingplan updated (in db): {duration}", stopWatch.Elapsed);
+
         return trainingPlan;
     }
 }

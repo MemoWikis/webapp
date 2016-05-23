@@ -56,7 +56,7 @@
                 <div class="col-md-3 hidden-xs hidden-sm" style="text-align: right; vertical-align: bottom">
                     <%if(!Model.IsNetworkDate){ %> 
                         <div style="font-size: 13px; margin-top: 7px;">
-                            <a href="<%= Links.DateEdit(Url, date.Id) %>"><i class="fa fa-pencil"></i></a>
+                            <a href="<%= Links.DateEdit(date.Id) %>"><i class="fa fa-pencil"></i></a>
                             &nbsp;
                             <a data-toggle="modal" data-dateId="<%= date.Id %>" href="#modalDelete">
                                 <i class="fa fa-trash-o"></i>

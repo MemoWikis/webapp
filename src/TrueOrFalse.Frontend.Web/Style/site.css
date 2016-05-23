@@ -1099,6 +1099,12 @@ a.button span.ui-icon {
   background-color: #FDF8DC;
   border-color: #FFD700;
 }
+
+.label-question {
+  background-color: #F3FDD0;
+  border-color: #afd534;
+}
+
 /* SEARCH SECTION
 ----------------------------------------------------------*/
 div.search-container:before,
