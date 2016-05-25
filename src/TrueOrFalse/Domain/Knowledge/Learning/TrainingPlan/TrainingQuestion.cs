@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Seedworks.Lib.Persistence;
-
-public class TrainingQuestion : DomainEntity
+﻿public class TrainingQuestion
 {
-    public virtual Question Question { get; set; }
+    public Question Question { get; set; }
     
     /// <summary>Probability Before</summary>
-    public virtual int ProbBefore { get; set; }
+    public int ProbBefore { get; set; }
     /// <summary>Probability After</summary>
-    public virtual int ProbAfter { get; set; }
+    public int ProbAfter { get; set; }
 
-    public virtual bool IsInTraining { get; set; }
+    public bool IsInTraining { get; set; }
 }

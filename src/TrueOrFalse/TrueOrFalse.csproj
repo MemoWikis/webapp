@@ -290,7 +290,6 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanJsonRepo.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingPlanRepo.cs" />
-    <Compile Include="Domain\Knowledge\Learning\TrainingPlan\Persistence\TrainingQuestionMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />

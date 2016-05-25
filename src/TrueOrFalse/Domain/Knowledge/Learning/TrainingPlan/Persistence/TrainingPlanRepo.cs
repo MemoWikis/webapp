@@ -30,13 +30,6 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
                 x.DateCreated = DateTime.Now;
                 x.DateModified = DateTime.Now;
             }
-
-            x.AllQuestions.ForEach(q => {
-                if (q.DateCreated == DateTime.MinValue){
-                    q.DateCreated = DateTime.Now;
-                    q.DateModified = DateTime.Now;
-                }     
-            });
         });
 
         base.Update(trainingPlan);
@@ -47,11 +40,6 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
         trainingPlan.Dates.ForEach(x => {
             x.DateCreated = DateTime.Now;
             x.DateModified = DateTime.Now;
-
-            x.AllQuestions.ForEach(q => {
-                q.DateCreated = DateTime.Now;
-                q.DateModified = DateTime.Now;
-            });
         });
 
         base.Create(trainingPlan);
