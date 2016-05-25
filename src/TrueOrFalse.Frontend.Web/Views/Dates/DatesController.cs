@@ -170,7 +170,7 @@ public class DatesController : BaseController
         var planSettings = date.TrainingPlan.Settings;
 
         return Json(new
-        {   
+        {
             Html = RenderTrainingDates(date),
             RemainingDates = date.TrainingPlan.OpenDates.Count,
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
@@ -179,6 +179,15 @@ public class DatesController : BaseController
             AnswerProbabilityThreshold = planSettings.AnswerProbabilityThreshold,
             QuestionsPerDateMinimum = planSettings.QuestionsPerDate_Minimum,
             SpacingBetweenSessionsInMinutes = planSettings.SpacingBetweenSessionsInMinutes,
+            ChartTrainingTimeRows = GetChartTrainingTimeRows(date.TrainingPlan),
         });
+    }
+
+    private string GetChartTrainingTimeRows(TrainingPlan trainingPlan)
+    {
+        var tpStats = R<GetTrainingPlanStats>().Run(trainingPlan);
+        return R<GetTrainingPlanStats>().TrainingPlanStatsResult2Json(tpStats);
+
+        //return "[[\"01.05.\", 12, 9, \"\"],[\"02.05.\", 3, 4, \"\"],[\"03.05.\", 6, 8, \"\"]]";
     }
 }

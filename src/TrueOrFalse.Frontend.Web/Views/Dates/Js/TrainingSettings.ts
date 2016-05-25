@@ -86,6 +86,18 @@
         });        
     }
 
+    Populate(dateId: number) {
+
+        var self = this;
+        self._dateId = dateId;
+
+        $.post("/Dates/TrainingPlanGet", { dateId: dateId },
+            result => {
+                self.RenderTrainingPlan(result);
+            }
+        );
+    }
+
     RenderTrainingPlan(data) {
         this.RenderDetails(data.Html);
         $("#modalTraining #RemainingDates").html(data.RemainingDates);
@@ -96,6 +108,7 @@
         $("#modalTraining #txtAnswerProbabilityThreshold").val(data.AnswerProbabilityThreshold);
         $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
         $("#modalTraining #txtSpacingBetweenSessionsInMinutes").val(data.SpacingBetweenSessionsInMinutes);
+        this.DrawChartTrainingTime(data.ChartTrainingTimeRows);
     }
 
     GetSettingsFromUi(): TrainingPlanSettings {
@@ -107,18 +120,6 @@
         return result;
     }
 
-    Populate(dateId: number) {
-
-        var self = this;
-        self._dateId = dateId;
-
-        $.post("/Dates/TrainingPlanGet", {dateId : dateId}, 
-            result => {
-                self.RenderTrainingPlan(result);
-            }
-        );
-    }
-
     RenderDetails(html) {
         $("#dateRows").children().remove();
         $("#dateRows").append(
@@ -126,7 +127,6 @@
                 .animate({ opacity: 1.00 }, 700)
         ).after(() => {
             this.DrawCharts();
-            this.DrawChartTrainingTime();
             $('#modalTraining').modal();
         });        
     }
@@ -188,12 +188,12 @@
         chart.draw(data, options2);
     }
 
-    DrawChartTrainingTime() {
 
+    DrawChartTrainingTime(rowsToDraw) {
         var data = google.visualization.arrayToDataTable([
                 ['Datum', 'Übung1', 'Übung2', { role: 'annotation' }],
                 ['19.04', 13, 24, ''],
-                ['20.04', 2, 4, ''],
+                ['20.04', '2', '4', ''],
                 ['21.04', 0, 0, ''],
                 ['22.04', 0, 0, ''],
                 ['23.04', 0, 0, ''],
@@ -202,23 +202,52 @@
                 ['26.04', 0, 0, ''],
                 ['27.04', 16, 3, ''],
                 ['28.04', 0, 0, ''],
-                ['29.04', 0, 0, ''],             ]);
+        ]);
+
+
+        //data.addRow(['29.04', 10, 10, '']); //works
+        //var orgStringJson4 = '{"DateDates" : [' +
+        //    '{ "DateDate": "30.04", "sessions" : ["9","6"], "anno": "" }, {"DateDate":"31.04", "sessions" : ["7","4"], "anno":"0"}, {"DateDate":"01.05", "sessions" : ["12","9"], "anno":"blabla"}' +
+        //    ']}';
+        //var orgArray4 = JSON.parse(orgStringJson4);
+        //console.log(orgArray4);
+        //data.addRow([orgArray4.DateDates[0].DateDate, parseInt(9), parseInt(orgArray4.DateDates[0].sessions[1]), '']); //works
+        //var strToEval = "data.addRow([orgArray4.DateDates[1].DateDate, parseInt(7), parseInt(orgArray4.DateDates[1].sessions[1]), '']);";
+        //eval(strToEval); //works
+
+        //var newJson = '[["29.04", 10, 10, ""],["28.04", 3, 6, ""],["27.04", 5, 7, ""]]';
+        //var newArr = JSON.parse(newJson);
+        //data.addRows(newArr);
+        //console.log(newArr);
+        //for (var i = 0; i < newArr.length; i++) {
+        //    for (var j = 0; j < newArr[i].length; j++) {
+        //        console.log("da " + i + "-" + j + ": " + newArr[i][j]);
+        //    }
+        //}
+        //console.log("arrived: " + $("#modalTraining #chartTrainingTime").data('trainingplaneffort'));
+
+
+        //var gotJson = $("#modalTraining #chartTrainingTime").data('trainingplaneffort');
+        var gotArr = JSON.parse(rowsToDraw.toString());
+        data.addRows(gotArr);
+
 
         var view = new google.visualization.DataView(data);
-        view.setColumns([0, 1,
-            {
-                calc: "stringify",
-                sourceColumn: 1,
-                type: "string",
-                role: "annotation"
-            },
-            2]);
+        //view.setColumns([0, 1, 2,
+        //    {
+        //        calc: "stringify",
+        //        sourceColumn: 1,
+        //        type: "string",
+        //        role: "annotation"
+        //    },
+        //    2]); //this is responsible for putting numbers in columns, but also for duplicating columns
 
         var options = {
             legend: { position: 'none'},
             bar: { groupWidth: '89%' },
             chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
-            colors: ['#afd534', 'blue'],
+            colors: ['#afd534', '#afd534'],
+            displayAnnotations: true,
             isStacked: true
         };
 

@@ -41,7 +41,7 @@ public class TrainingPlan : DomainEntity
     [JsonProperty]
     public virtual TrainingPlanSettings Settings { get; set; }
 
-    public virtual bool? LearningGoalIsReached { get; set; } = null;
+    public virtual bool LearningGoalIsReached { get; set; } = false;
 
     public virtual string UserMessage { get; set; }
 

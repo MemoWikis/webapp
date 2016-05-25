@@ -13,7 +13,6 @@ public class GetKnowledgeStatus
         //   NeedsLearning = Last answer wrong OR among last five answers: wrong >= correct
         //   NeedsConsolidation = residual category
         //   Solid = Last three answers correct AND c<4b
-        //   Solid (old) = Last three answers correct AND ((no wrong answer existing AND c<4b) OR (b > c-a))
         //      where:  a = Distance between last incorrect answer and beginning of positive streak
         //              b = Length of last positive streak
         //              c = Distance from end of last posivite streak to now

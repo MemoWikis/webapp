@@ -254,6 +254,9 @@
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
     <Compile Include="Domain\Date\Date.cs" />
     <Compile Include="Domain\Date\DateVisibility.cs" />
+    <Compile Include="Domain\Date\Ops.Stats\GetTrainingPlanStats.cs" />
+    <Compile Include="Domain\Date\Ops.Stats\TrainingPlanStatsPerDayResult.cs" />
+    <Compile Include="Domain\Date\Ops.Stats\TrainingPlanStatsResult.cs" />
     <Compile Include="Domain\Date\Ops\CopyDate.cs" />
     <Compile Include="Domain\Date\Ops\DeleteDate.cs" />
     <Compile Include="Domain\Date\Ops\GetDatesInNetwork.cs" />
