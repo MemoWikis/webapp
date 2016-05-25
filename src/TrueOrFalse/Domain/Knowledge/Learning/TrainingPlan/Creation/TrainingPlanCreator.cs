@@ -44,7 +44,9 @@ public class TrainingPlanCreator
         trainingPlan.Dates = GetDates(date, settings);
 
         var probabilitiesAtTimeOfDate = ReCalcAllAnswerProbablities(date.DateTime, settings.DebugAnswerProbabilities);
-        trainingPlan.LearningGoalIsReached = probabilitiesAtTimeOfDate.All(p => p.CalculatedProbability >= settings.AnswerProbabilityThreshold);
+        trainingPlan.LearningGoalIsReached = probabilitiesAtTimeOfDate
+            .All(p => p.CalculatedProbability >= settings.AnswerProbabilityThreshold 
+                && GetKnowledgeStatus.Run(p.History.Select(h => h.Answer).ToList()) == KnowledgeStatus.Solid);
 
         return trainingPlan;
     }
@@ -286,6 +288,8 @@ public class TrainingPlanCreator
 
             answerProbability.CalculatedProbability = newProbability;
             answerProbability.CalculatedAt = dateTime;
+            //answerProbability.ForgettingCurveDataPoints;
+
 
             if (QuestionsToTrackIds.Contains(answerProbability.Question.Id))
             {

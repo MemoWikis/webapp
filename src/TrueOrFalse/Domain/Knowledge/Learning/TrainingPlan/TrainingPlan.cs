@@ -33,7 +33,7 @@ public class TrainingPlan : DomainEntity
     public virtual bool HasOpenDates => OpenDates.Any();
     public virtual TrainingPlanSettings Settings { get; set; }
 
-    public virtual bool? LearningGoalIsReached { get; set; } = null;
+    public virtual bool LearningGoalIsReached { get; set; } = false;
 
     public virtual string UserMessage { get; set; }
 

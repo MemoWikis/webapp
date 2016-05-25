@@ -40,6 +40,23 @@ public class Should_create_trainingsplan : BaseTest
     }
 
     [Test]
+    public void Should_notify_if_learning_goal_is_not_reached()
+    {
+        var date = SetUpDateWithTrainingPlan(new TrainingPlanSettings
+        {
+            QuestionsPerDate_IdealAmount = 1,
+            SpacingBetweenSessionsInMinutes = 1200,
+        }, 
+        timeUntilDateInDays: 1,
+        numberOfQuestions: 20);
+
+        var anyQuestionAnsweredLessThan3Times =
+            date.TrainingPlanSettings.DebugAnswerProbabilities.Any(x => x.History.Count < 3);
+
+        Assert.That(!(anyQuestionAnsweredLessThan3Times && date.TrainingPlan.LearningGoalIsReached));
+    }
+
+    [Test]
     public void Should_do_update_check()
     {
         //var trainingPlan = ContextTrainingPlan.New()
@@ -85,14 +102,12 @@ public class Should_create_trainingsplan : BaseTest
                         .Subtract(TimeSpan.FromMinutes(TrainingPlanCreator.RoundedIntervalInMinutes))));
     }
 
-    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings)
+    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20, bool persist = false)
     {
-        const int timeUntilDateInDays = 30;
-
         var date = new Date
         {
             DateTime = DateTime.Now.AddDays(timeUntilDateInDays),
-            Sets = ContextSet.New().AddSet("Set", numberOfQuestions: 20).All,
+            Sets = ContextSet.New().AddSet("Set", numberOfQuestions: numberOfQuestions).All,
             User = ContextUser.GetUser()
         };
 
