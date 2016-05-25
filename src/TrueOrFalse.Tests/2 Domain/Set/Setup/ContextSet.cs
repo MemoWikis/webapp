@@ -9,6 +9,7 @@ public class ContextSet
     private readonly ContextCategory _contextCategory = ContextCategory.New();
     private readonly SetRepo _setRepo;
     private readonly QuestionInSetRepo _questionInSetRepo;
+    private bool _shouldBePersisted = true;
 
     public List<Set> All = new List<Set>();
         
@@ -22,6 +23,11 @@ public class ContextSet
     public static ContextSet New()
     {
         return new ContextSet();
+    }
+
+    public void DontPersist()
+    {
+        _shouldBePersisted = false;
     }
 
     public ContextSet AddSet(
@@ -67,7 +73,10 @@ public class ContextSet
 
     public ContextSet AddQuestion(string question, string solution)
     {
-        _contextQuestion.AddQuestion(questionText: question, solutionText: solution).Persist();
+        _contextQuestion.AddQuestion(questionText: question, solutionText: solution);
+        if(_shouldBePersisted)    
+            _contextQuestion.Persist();
+
         var addedQuestion = _contextQuestion.All.Last();
 
         return AddQuestion(addedQuestion);
@@ -76,18 +85,22 @@ public class ContextSet
     public ContextSet AddQuestion(Question question)
     {
         var set = All.Last();
-        this.Persist();
+        if (_shouldBePersisted)
+            this.Persist();
 
         var newQuestionInSet = new QuestionInSet
         {
             Question = question,
             Set = set
         };
-        _questionInSetRepo.Create(newQuestionInSet);
-        _questionInSetRepo.Flush();
+
+        if (_shouldBePersisted)
+        {
+            _questionInSetRepo.Create(newQuestionInSet);
+            _questionInSetRepo.Flush();
+        }
 
         set.QuestionsInSet.Add(newQuestionInSet);
-            
 
         return this;
     }
