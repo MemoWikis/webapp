@@ -99,8 +99,8 @@
                         <i class="fa fa-calendar-o"></i> ca. <span id="RemainingDates">7</span> Übungssitzungen<br/>
                         <i class="fa fa-clock-o"></i> ca. <span id="RemainingTime">1:20h</span> Übungszeit
                     </div>
-                    <div class="col-md-6">
-                        <div id="chartTrainingTime"></div>
+                    <div class="col-md-6" id="chartTrainingTimeWrapper">
+                        <div id="chartTrainingTime" data-trainingplaneffort=""></div>
                     </div>
                 </div>
                 
