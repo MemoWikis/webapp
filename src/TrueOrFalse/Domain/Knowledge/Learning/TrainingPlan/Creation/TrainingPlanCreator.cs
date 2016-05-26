@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NHibernate.Criterion;
 using RazorEngine.Compilation.ImpromptuInterface.Build;
 using TrueOrFalse;
 
@@ -125,7 +126,7 @@ public class TrainingPlanCreator
                     continue;
                 }
 
-                AddFinalBoost(boostingDateProposal, settings, learningDates);
+                AddFinalBoost(date, boostingDateProposal, settings, learningDates);
                 break;
             }
         }
@@ -231,11 +232,13 @@ public class TrainingPlanCreator
     /// Only for testing
     /// </summary>
     public static void T_AddFinalBoost(
+        Date date,
         DateTime timeOfBoostingDate,
         TrainingPlanSettings settings,
         List<TrainingDate> learningDates)
     {
         AddFinalBoost(
+            date,
             timeOfBoostingDate,
             settings,
             learningDates);
@@ -253,6 +256,7 @@ public class TrainingPlanCreator
     }
 
     private static void AddFinalBoost(
+        Date date,
         DateTime timeOfBoostingDate,
         TrainingPlanSettings settings,
         List<TrainingDate> learningDates)
@@ -263,12 +267,24 @@ public class TrainingPlanCreator
 
         RemoveDatesIncludingAnswers(learningDates, collidingDates, settings.DebugAnswerProbabilities);
 
+        var questionsToExcludeIds = date.TrainingPlan.Dates
+            .Where(d => d.LearningSession != null && d.IsBoostingDate)
+            .SelectMany(d => d.LearningSession.Steps
+                        .Where(s => s.AnswerState == StepAnswerState.Answered)
+                        .Select(s => s.Question.Id)).ToList();
+
+        var orderedAnswerProbabilities =
+            settings.DebugAnswerProbabilities.OrderBy(p => p.Question.Id.IsIn(questionsToExcludeIds) ? 1 : 0).ToList();
+
+        var numberOfUnboostedQuestions = orderedAnswerProbabilities.Count(p => !p.Question.Id.IsIn(questionsToExcludeIds));
         learningDates.Add(
             SetUpTrainingDate(
                 timeOfBoostingDate,
                 settings,
-                settings.DebugAnswerProbabilities,
-                isBoostingDate: true));
+                orderedAnswerProbabilities,
+                isBoostingDate: true,
+                maxApplicableNumberOfQuestions: numberOfUnboostedQuestions,
+                idealNumberOfQuestions: settings.QuestionsPerDate_IdealAmount * 2));
 
         //var precedingLearningDate = learningDates.OrderBy(d => d.DateTime).LastOrDefault();
 
