@@ -27,6 +27,7 @@ public class TrainingPlanUpdater
             {
                 AllQuestions = newDate.AllQuestions,
                 DateTime = newDate.DateTime,
+                IsBoostingDate = newDate.IsBoostingDate
             });
 
         trainingPlan.MarkDatesAsMissed();

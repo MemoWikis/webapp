@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using RazorEngine.Compilation.ImpromptuInterface.Build;
 using TrueOrFalse;
 
 public class TrainingPlanCreator
@@ -182,6 +183,7 @@ public class TrainingPlanCreator
         DateTime dateTime,
         TrainingPlanSettings settings,
         List<AnswerProbability> orderedAnswerProbabilities,
+        bool isBoostingDate = false,
         int maxApplicableNumberOfQuestions = -1, 
         int idealNumberOfQuestions = -1)
     {
@@ -191,7 +193,11 @@ public class TrainingPlanCreator
         if (idealNumberOfQuestions == -1)
             idealNumberOfQuestions = orderedAnswerProbabilities.Count;
 
-        var trainingDate = new TrainingDate { DateTime = dateTime };
+        var trainingDate = new TrainingDate
+        {
+            DateTime = dateTime,
+            IsBoostingDate = isBoostingDate
+        };
 
         trainingDate.AllQuestions =
             orderedAnswerProbabilities
@@ -261,7 +267,8 @@ public class TrainingPlanCreator
             SetUpTrainingDate(
                 timeOfBoostingDate,
                 settings,
-                settings.DebugAnswerProbabilities));
+                settings.DebugAnswerProbabilities,
+                isBoostingDate: true));
 
         //var precedingLearningDate = learningDates.OrderBy(d => d.DateTime).LastOrDefault();
 
