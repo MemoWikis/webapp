@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
 
+[DebuggerDisplay("{DateTime} AllQuestionsInTraining.Count:{AllQuestionsInTraining.Count}")]
 public class TrainingDate : DomainEntity
 {
     public virtual TrainingPlan TrainingPlan { get; set; }
