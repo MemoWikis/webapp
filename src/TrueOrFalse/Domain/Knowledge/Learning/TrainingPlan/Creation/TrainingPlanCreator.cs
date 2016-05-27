@@ -83,11 +83,46 @@ public class TrainingPlanCreator
 
     private static IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
     {
-        var nextDateProposal = DateTimeUtils.RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(RoundedIntervalInMinutes));
-
         var learningDates = new List<TrainingDate>();
 
-        while (nextDateProposal < date.DateTime.AddHours(settings.NumberOfHoursLastTrainingShouldEndBeforeDate))//At this point duration of date cannot be estimated because subset of questions to learn is inknown
+        var timeToBeFinished = date.DateTime.Subtract(DateTimeX.Now()) < TimeSpan.FromHours(settings.NumberOfHoursLastTrainingShouldEndBeforeDate)
+                                ? date.DateTime.AddHours(-1)
+                                : date.DateTime.AddHours(-settings.NumberOfHoursLastTrainingShouldEndBeforeDate);
+
+        if (settings.AddFinalBoost)
+        {
+            var estimatedTimeNeeded = new TimeSpan(0, 0, seconds: date.AllQuestions().Sum(q => q.TimeToLearnInSeconds()));
+
+            var boostingDateProposal =
+                DateTimeUtils.RoundUp(
+                    timeToBeFinished.Subtract(estimatedTimeNeeded),
+                    TimeSpan.FromMinutes(RoundedIntervalInMinutes));
+
+            var alreadyBoostedQuestions = GetBoostedQuestions(date, learningDates);
+
+            while (boostingDateProposal > DateTimeX.Now()
+                && !date.AllQuestions().All(q => alreadyBoostedQuestions.Any(bq => bq == q)))
+            {
+                if (settings.IsInSnoozePeriod(boostingDateProposal))
+                {
+                    boostingDateProposal = boostingDateProposal.AddMinutes(-RoundedIntervalInMinutes);
+                    continue;
+                }
+                
+                AddFinalBoostDate(date, boostingDateProposal, settings, learningDates, alreadyBoostedQuestions);
+
+                alreadyBoostedQuestions = GetBoostedQuestions(date, learningDates);
+
+                boostingDateProposal = boostingDateProposal.AddMinutes(-settings.SpacingBetweenSessionsInMinutes);
+            }
+
+            timeToBeFinished = boostingDateProposal;
+        }
+
+        var nextDateProposal = DateTimeUtils.RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(RoundedIntervalInMinutes));
+
+
+        while (nextDateProposal < timeToBeFinished)//At this point duration of date cannot be estimated because subset of questions to learn is inknown
         {
             if (settings.IsInSnoozePeriod(nextDateProposal))
             {
@@ -102,33 +137,6 @@ public class TrainingPlanCreator
             }
 
             nextDateProposal = nextDateProposal.AddMinutes(RoundedIntervalInMinutes);
-        }
-
-        if (settings.AddFinalBoost)
-        {
-            var timeToBeFinished = date.DateTime.AddHours(-settings.NumberOfHoursLastTrainingShouldEndBeforeDate);
-
-            var estimatedTimeNeeded = new TimeSpan(0, 0, seconds: date.AllQuestions().Sum(q => q.TimeToLearnInSeconds()));
-
-            var boostingDateProposal =
-                DateTimeUtils.RoundUp(
-                    timeToBeFinished.Subtract(estimatedTimeNeeded),
-                    TimeSpan.FromMinutes(RoundedIntervalInMinutes));
-
-            if (boostingDateProposal <= DateTimeX.Now())
-                return learningDates;
-
-            while (boostingDateProposal > DateTimeX.Now())
-            {
-                if (settings.IsInSnoozePeriod(boostingDateProposal))
-                {
-                    boostingDateProposal = boostingDateProposal.AddMinutes(-RoundedIntervalInMinutes);
-                    continue;
-                }
-
-                AddFinalBoost(date, boostingDateProposal, settings, learningDates);
-                break;
-            }
         }
 
         return learningDates;
@@ -235,13 +243,16 @@ public class TrainingPlanCreator
         Date date,
         DateTime timeOfBoostingDate,
         TrainingPlanSettings settings,
-        List<TrainingDate> learningDates)
+        List<TrainingDate> learningDates,
+        List<Question> alreadyBoostedQuestions)
     {
-        AddFinalBoost(
+        AddFinalBoostDate(
             date,
             timeOfBoostingDate,
             settings,
-            learningDates);
+            learningDates,
+            alreadyBoostedQuestions
+            );
     }
 
     public static void RemoveDatesIncludingAnswers(List<TrainingDate> trainingDates, List<TrainingDate> collidingDates, List<AnswerProbability> answerProbabilities)
@@ -255,28 +266,19 @@ public class TrainingPlanCreator
         }
     }
 
-    private static void AddFinalBoost(
+    private static void AddFinalBoostDate(
         Date date,
         DateTime timeOfBoostingDate,
         TrainingPlanSettings settings,
-        List<TrainingDate> learningDates)
+        List<TrainingDate> learningDates,
+        List<Question> alreadyBoostedQuestions)
     {
-        var collidingDates = learningDates
-            .Where(d => timeOfBoostingDate.Subtract(d.DateTime).TotalMinutes < settings.SpacingBetweenSessionsInMinutes)
-            .ToList();
-
-        RemoveDatesIncludingAnswers(learningDates, collidingDates, settings.DebugAnswerProbabilities);
-
-        var questionsToExcludeIds = date.TrainingPlan.Dates
-            .Where(d => d.LearningSession != null && d.IsBoostingDate)
-            .SelectMany(d => d.LearningSession.Steps
-                        .Where(s => s.AnswerState == StepAnswerState.Answered)
-                        .Select(s => s.Question.Id)).ToList();
+        var questionsToExcludeIds = alreadyBoostedQuestions.Select(q => q.Id).ToList();
 
         var orderedAnswerProbabilities =
-            settings.DebugAnswerProbabilities.OrderBy(p => p.Question.Id.IsIn(questionsToExcludeIds) ? 1 : 0).ToList();
+            settings.DebugAnswerProbabilities.OrderBy(p => questionsToExcludeIds.Any(id => id == p.Question.Id) ? 1 : 0).ToList();
 
-        var numberOfUnboostedQuestions = orderedAnswerProbabilities.Count(p => !p.Question.Id.IsIn(questionsToExcludeIds));
+        var numberOfUnboostedQuestions = orderedAnswerProbabilities.Count(p => questionsToExcludeIds.All(id => id != p.Question.Id));
         learningDates.Add(
             SetUpTrainingDate(
                 timeOfBoostingDate,
@@ -321,5 +323,16 @@ public class TrainingPlanCreator
         }
 
         return answerProbabilities;
+    }
+
+    private static List<Question> GetBoostedQuestions(Date date, List<TrainingDate> learningDates)
+    {
+        return
+            date.TrainingPlan.BoostedQuestions()
+                .Union(learningDates
+                    .Where(d => d.IsBoostingDate)
+                    .SelectMany(d => d.AllQuestionsInTraining)
+                    .Select(q => q.Question))
+                .ToList();
     }
 }
