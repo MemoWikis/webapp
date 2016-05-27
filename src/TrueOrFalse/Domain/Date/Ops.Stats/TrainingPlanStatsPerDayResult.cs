@@ -4,9 +4,18 @@ using System.Linq;
 
 public class TrainingPlanStatsPerDayResult
 {
+    //public DateTime Date { get { return Date.Date; } set { Date = value.Date; } }
     public DateTime Date;
 
     public int TrainingSessionsCount { get { return QuestionsInEachSession.Count; } }
     public IList<int> QuestionsInEachSession = new List<int>();
     public int TotalQuestionsPerDay { get { return QuestionsInEachSession.Sum(); } }
+
+    public TrainingPlanStatsPerDayResult(DateTime dateTime)
+    {
+        Date = dateTime;
+    }
+    public TrainingPlanStatsPerDayResult()
+    {
+    }
 }
