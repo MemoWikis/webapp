@@ -170,7 +170,7 @@
                         <% if(trainingPlan.HasOpenDates) { %>
                             nächste Übungssitzung <br/>
                             in <%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %> 
-                            (<%= trainingPlan.Questions.Count %> Fragen)
+                            (<%= trainingPlan.QuestionCountInNextDate %> Fragen)
                         <% } %>
                     </div>
                 </div>
