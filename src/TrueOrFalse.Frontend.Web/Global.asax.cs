@@ -39,7 +39,8 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
             
-            JobScheduler.Start();
+            if(!Settings.DisableAllJobs())
+                JobScheduler.Start();
 
             Logg.r().Information("=== Application Start ===============================");
         }
