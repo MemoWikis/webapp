@@ -53,6 +53,7 @@ public class Should_create_trainingsplan : BaseTest
         var anyQuestionAnsweredLessThan3Times =
             date.TrainingPlanSettings.DebugAnswerProbabilities.Any(x => x.History.Count < 3);
 
+        //If any of the questions has been answered less than 3 times, LearningGoalIsReached should not be marked as true
         Assert.That(!(anyQuestionAnsweredLessThan3Times && date.TrainingPlan.LearningGoalIsReached));
     }
 
@@ -98,7 +99,7 @@ public class Should_create_trainingsplan : BaseTest
 
         Assert.That(date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Count, Is.EqualTo(date.CountQuestions()));
         Assert.That(date.DateTime.Subtract(estimatedEndTimeOfLastTraining), 
-            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldEndBeforeDate)
+            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldStartBeforeDate)
                         .Subtract(TimeSpan.FromMinutes(TrainingPlanCreator.RoundedIntervalInMinutes))));
     }
 

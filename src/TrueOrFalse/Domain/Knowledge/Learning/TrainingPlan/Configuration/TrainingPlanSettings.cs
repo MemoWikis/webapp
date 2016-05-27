@@ -23,7 +23,7 @@ public class TrainingPlanSettings
 
     public virtual bool AddFinalBoost { get; set; } = true;
 
-    public virtual int NumberOfHoursLastTrainingShouldEndBeforeDate { get; set; } = 3;
+    public virtual int NumberOfHoursLastTrainingShouldStartBeforeDate { get; set; } = 3;
 
     public virtual List<AnswerProbability> DebugAnswerProbabilities { get; set; }
 
