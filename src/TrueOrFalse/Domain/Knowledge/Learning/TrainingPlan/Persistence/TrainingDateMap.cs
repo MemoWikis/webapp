@@ -11,10 +11,7 @@ public class TrainingDateMap : ClassMap<TrainingDate>
 
         Map(x => x.DateTime);
 
-        HasMany(x => x.AllQuestions)
-            .Table("trainingdate_questions")
-            .Cascade.AllDeleteOrphan()
-            .Not.KeyNullable();
+        Map(x => x.AllQuestionsJson).Length(4000);
 
         References(x => x.LearningSession);
 
