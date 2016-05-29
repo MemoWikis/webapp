@@ -12,7 +12,16 @@ public class TrainingDate : DomainEntity
     public virtual string AllQuestionsJson
     {
         get { return JsonConvert.SerializeObject(AllQuestions); }
-        set { AllQuestions = JsonConvert.DeserializeObject<IList<TrainingQuestion>>(value); }
+        set
+        {
+            if (value == null)
+            {
+                AllQuestions = new List<TrainingQuestion>();
+                return;
+            }
+
+            AllQuestions = JsonConvert.DeserializeObject<IList<TrainingQuestion>>(value);
+        }
     }
 
     public virtual IList<TrainingQuestion> AllQuestions { get; set; } = new List<TrainingQuestion>();
