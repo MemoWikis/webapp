@@ -11,7 +11,7 @@ public class TrainingDateMap : ClassMap<TrainingDate>
 
         Map(x => x.DateTime);
 
-        Map(x => x.AllQuestionsJson).Length(4000);
+        Map(x => x.AllQuestionsJson).CustomSqlType("varchar(8000)");
 
         References(x => x.LearningSession);
 
