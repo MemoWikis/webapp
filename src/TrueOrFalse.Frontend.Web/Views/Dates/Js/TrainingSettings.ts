@@ -99,6 +99,7 @@
     }
 
     RenderTrainingPlan(data) {
+        $("#chartTrainingTime").empty();
         this.RenderDetails(data.Html);
         $("#modalTraining #RemainingDates").html(data.RemainingDates);
         $("#modalTraining #RemainingTime").html(data.RemainingTime);
@@ -213,14 +214,6 @@
         data.addRows(rowsAsArray);
         
         var view = new google.visualization.DataView(data);
-        //view.setColumns([0, 1, 2,
-        //    {
-        //        calc: "stringify",
-        //        sourceColumn: 1,
-        //        type: "string",
-        //        role: "annotation"
-        //    },
-        //    2]); //this is responsible for putting numbers in columns, but also for duplicating columns
 
         var options = {
             title: "Übungssitzungen bis zum Termin",

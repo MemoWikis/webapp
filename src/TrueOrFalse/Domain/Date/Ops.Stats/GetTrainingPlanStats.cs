@@ -59,6 +59,6 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
         result.Length--; //remove last trailing comma
         result.Append("]");
 
-        return result.ToString(); //should look like this: "[[\"01.05.\", 12, 9],[\"02.05.\", 3, 4],[\"03.05.\", 6, 8]]";
+        return result.ToString(); //should look like this: "[[\"1.5.\", 12, 9],[\"2.5.\", 3, 4],[\"3.5.\", 6, 8]]";
     }
 }
