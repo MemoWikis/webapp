@@ -93,18 +93,21 @@
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Übersicht</h4></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6" style="font-size: 16px;">
-                        <p><span id="QuestionCount"></span> Fragen sind zu lernen<p/>
-                        Verbleibender Lernaufwand:<br/>
-                        <i class="fa fa-calendar-o"></i> ca. <span id="RemainingDates">7</span> Übungssitzungen<br/>
-                        <i class="fa fa-clock-o"></i> ca. <span id="RemainingTime">1:20h</span> Übungszeit
+                    <div class="col-md-4">
+                        <p>
+                            Termin: <span id="DateOfDate"></span><br/>
+                            Anzahl Fragen: <span id="QuestionCount"></span>
+                        <p/>
+                        Verbleibender Lernaufwand (geschätzt):<br/>
+                        <i class="fa fa-calendar-o"></i> <span id="RemainingDates"></span> Übungssitzungen<br/>
+                        <i class="fa fa-clock-o"></i> <span id="RemainingTime"></span> Übungszeit
                     </div>
-                    <div class="col-md-6" id="chartTrainingTimeWrapper">
-                        <div id="chartTrainingTime" data-trainingplaneffort=""></div>
+                    <div class="col-md-8">
+                        <div id="chartTrainingTime"></div>
                     </div>
                 </div>
                 
-                <div class="row" style="margin-top: 12px;">
+                <div class="row">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>
                 </div>
                 

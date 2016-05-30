@@ -18,25 +18,33 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
         var tdByDay = trainingPlan.OpenDates.OrderBy(d => d.DateTime).GroupBy(t => t.DateTime.Date);
         var result = new TrainingPlanStatsResult();
 
-        //todo: fill up empty dates with zeros, from now till date.
+        var prevDay = DateTime.Now.Date;
 
         foreach (var tdDay in tdByDay)
         {
-            var resultPartial = new TrainingPlanStatsPerDayResult();
-            resultPartial.Date = tdDay.First().DateTime.Date;
-            //tpDay.ToList().ForEach(d => resultPartial.QuestionsInEachSession.Add(d.AllQuestions.Count()));
-            foreach (var tdDaySession in tdDay)
-                resultPartial.QuestionsInEachSession.Add(tdDaySession.AllQuestionsInTraining.Count());
+            prevDay = prevDay.AddDays(1);
+            while (prevDay < tdDay.First().DateTime.Date)
+            {
+                result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(prevDay));
+                prevDay = prevDay.AddDays(1);
+            }
+            var resultPartial = new TrainingPlanStatsPerDayResult(tdDay.First().DateTime.Date);
+            tdDay.ToList().ForEach(d => resultPartial.QuestionsInEachSession.Add(d.AllQuestionsInTraining.Count()));
 
             if (resultPartial.QuestionsInEachSession.Count() > result.MaxNumberOfTrainingSessionsPerDay)
                 result.MaxNumberOfTrainingSessionsPerDay = resultPartial.QuestionsInEachSession.Count();
             result.TrainingPlanStatsPerDay.Add(resultPartial);
         }
+        while (prevDay < trainingPlan.Date.DateTime.Date)
+        {
+            prevDay = prevDay.AddDays(1);
+            result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(prevDay));
+        }
 
         return result;
     }
 
-    public string TrainingPlanStatsResult2Json(TrainingPlanStatsResult tpStatsResult)
+    public string TrainingPlanStatsResult2GoogleDataTable(TrainingPlanStatsResult tpStatsResult)
     {
         StringBuilder result = new StringBuilder();
         result.Append("[");
@@ -44,13 +52,13 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
         {
             while (tdDay.TrainingSessionsCount < tpStatsResult.MaxNumberOfTrainingSessionsPerDay)
                 tdDay.QuestionsInEachSession.Add(0);
-            result.Append("[\"").Append(tdDay.Date).Append("\", ");
-            tdDay.QuestionsInEachSession.Select(n => result.Append(n).Append(", ")); //needs to be "foreach"?
-            result.Append(" \"\"]");
+            result.Append("[\"").Append(tdDay.Date.ToString("d. M.")).Append("\"");
+            tdDay.QuestionsInEachSession.ToList().ForEach(n => result.Append(", ").Append(n));
+            result.Append(" ],");
         }
+        result.Length--; //remove last trailing comma
         result.Append("]");
 
-        //return "[[\"01.05.\", 12, 9, \"\"],[\"02.05.\", 3, 4, \"\"],[\"03.05.\", 6, 8, \"\"]]";
-        return result.ToString();
+        return result.ToString(); //should look like this: "[[\"1.5.\", 12, 9],[\"2.5.\", 3, 4],[\"3.5.\", 6, 8]]";
     }
 }

@@ -172,6 +172,7 @@ public class DatesController : BaseController
         return Json(new
         {
             Html = RenderTrainingDates(date),
+            DateOfDate = date.DateTime.ToString("dd.MM.yyy HH:mm"),
             RemainingDates = date.TrainingPlan.OpenDates.Count,
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
             QuestionCount = date.CountQuestions(),
@@ -186,7 +187,7 @@ public class DatesController : BaseController
     private string GetChartTrainingTimeRows(TrainingPlan trainingPlan)
     {
         var tpStats = R<GetTrainingPlanStats>().Run(trainingPlan);
-        return R<GetTrainingPlanStats>().TrainingPlanStatsResult2Json(tpStats);
+        return R<GetTrainingPlanStats>().TrainingPlanStatsResult2GoogleDataTable(tpStats);
 
         //return "[[\"01.05.\", 12, 9, \"\"],[\"02.05.\", 3, 4, \"\"],[\"03.05.\", 6, 8, \"\"]]";
     }
