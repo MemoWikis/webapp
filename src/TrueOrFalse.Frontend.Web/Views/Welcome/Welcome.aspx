@@ -295,9 +295,9 @@
         <div class="panel panel-default" style="padding-top: 15px; opacity: 0.4;">
             <div class="panel-heading">Nutzer-Ranking nach Reputation</div>
             <div class="panel-body" style="padding-top: 12px;">
-                <p style="padding-left: 5px;"><img src="//placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Pauli (130 Punkte)</p>
-                <p style="padding-left: 5px;"><img src="//placecage.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Robert (120 Punkte)</p>
-                <p style="padding-left: 5px;"><img src="//placebear.com/25/25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
+                <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: text-bottom"/>&nbsp;Pauli (130 Punkte)</p>
+                <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: bottom"/>&nbsp;Robert (120 Punkte)</p>
+                <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
             </div>
         </div>
 
