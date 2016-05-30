@@ -66,20 +66,20 @@
             <div class="form-horizontal" role="form">
                 <div class="FormSection">
                     <div class="form-group">
-                        <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbar</label>
+                        <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbarkeit</label>
 
                         <div class="columnControlsFull">
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.All)%>
-                                        für alle <span class="smaller">(öffentliche Frage)</span>
+                                        Öffentliche Frage
                                         <i class="fa fa-question-circle show-tooltip" title="" data-placement="<%= CssJs.TooltipPlacementLabel %>" 
                                            data-html="true"
                                            data-original-title="
                                                 <ul class='show-tooltip-ul'>
                                                     <li>Die Frage ist für alle auffindbar.</li>
                                                     <li>Jeder kann die Frage in sein Wunschwissen aufnehmen.</li>
-                                                    <li>Die Frage steht unter einer LGPL-Lizenz und kann frei weiterverwendet werden.</li>
+                                                    <li>Die Frage steht unter einer Creative-Commons-Lizenz und kann frei weiterverwendet werden.</li>
                                                 </ul>">
                                         </i>
                                         <br/>
@@ -88,7 +88,7 @@
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <%= Html.RadioButtonFor(m => m.Visibility, QuestionVisibility.Owner)  %>
-                                        für mich <span class="smaller">(<i class="fa fa-lock"></i> private Frage)</span>
+                                        <i class="fa fa-lock"></i> Private Frage
                                         <i class="fa fa-question-circle show-tooltip tooltip-min-200" title="" data-placement="top" 
                                            data-html="true"
                                            data-original-title="
@@ -108,68 +108,68 @@
         <div class="col-md-9 col-md-pull-3">
             <div class="form-horizontal" role="form">
                 <div class="FormSection">
-                <div class="form-group">
-                    <%= Html.LabelFor(m => m.Question, new { @class = "RequiredField columnLabel control-label" })%>
-                    <div class="columnControlsFull">
-                        <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
+                    <div class="form-group">
+                        <%= Html.LabelFor(m => m.Question, new { @class = "RequiredField columnLabel control-label" })%>
+                        <div class="columnControlsFull">
+                        <%--<div class="columnControls3of4">--%>
+                            <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
+                        </div>
+<%--                    </div>
+                    <div class="form-group">--%>
+                        <div id="OpenImageUpload" class="columnControlsFull" style="padding-top: 4px;">
+                            <a href="#" class="TextLinkWithIcon"><i class="fa fa-file-image-o"></i> <span class="TextSpan">Bild hinzufügen</span></a>: 
+                            Bitte füge nur ein Bild hinzu, wenn es für die Beantwortung der Frage notwendig ist (keine rein illustrierenden Bilder).
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div id="OpenImageUpload" class="columnControlsFull" style="padding-top: 4px;">
-                        <a href="#" class="TextLinkWithIcon"><i class="fa fa-file-image-o"></i> <span class="TextSpan">Bild hinzufügen</span></a> 
+                    <div class="form-group markdown" id="openExtendedQuestion">
+                        <label class="columnLabel control-label" for="QuestionExtended" style="max-width: 420px;">
+                            <a id="openExtendedQuestion" href="#" class="TextLinkWithIcon">
+                                <i class="fa fa-caret-right"></i>
+                                <span class="show-tooltip" data-toggle="tooltip" title="Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Erweiterte Beschreibung&nbsp;</span>
+                            </a>
+                        </label>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div id="openExtendedQuestion" class="columnControlsFull" style="padding-top: 4px;">
-                        <a href="#" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i>
-                            <span class="show-tooltip" data-toggle="tooltip" title="Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Erweiterte Beschreibung&nbsp;<i class="fa fa-info-circle"></i></span>
-                        </a>
-                        <%--&nbsp;<i class="fa fa-question-circle show-tooltip" title = "Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>"></i> --%>
-                        <%--<a href="#" class="TextLinkWithIcon"><i class="fa fa-plus-circle"></i> <span class="TextSpan">Erweiterte Beschreibung</span></a>
-                        &nbsp;<i class="fa fa-question-circle show-tooltip" title = "Hier kannst du z.B. Erläuterungen, Formeln, Quelltext oder eine Bildunterschrift hinzufügen." data-placement = "<%= CssJs.TooltipPlacementLabel %>"></i> --%>
+                    <div class="form-group markdown" style="display: none" id="extendedQuestion">
+                        <label class="columnLabel control-label" for="QuestionExtended" style="max-width: 420px;">
+                            <i class="fa fa-caret-down"></i> Erweiterte Beschreibung
+                            <a id="hideExtendedQuestion" href="#"> <span class="TextSpan">(ausblenden)</span></a>
+                        </label>
+                        <div class="columnControlsFull">
+                            <div class="wmd-panel">
+                                <div id="wmd-button-bar-1"></div>
+                                <%= Html.TextAreaFor(m => m.QuestionExtended, new 
+                                    { @class= "wmd-input form-control", id="wmd-input-1", placeholder = "Erweiterte Beschreibung", rows = 4 })%>
+                            </div>                            
+                            <div id="wmd-preview-1" class="wmd-panel wmd-preview"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group markdown" style="display: none" id="extendedQuestion">
-                    <label class="columnLabel control-label" for="QuestionExtended" style="max-width: 420px;">
-                        Erweiterte Beschreibung
-                        <a id="hideExtendedQuestion" href="#" class="TextLinkWithIcon" style="font-size: 90%; float: right;"><i class="fa fa-minus-circle"></i> <span class="TextSpan">ausblenden</span></a>
-                    </label>
-                    <div class="columnControlsFull">
-                        <div class="wmd-panel">
-                            <div id="wmd-button-bar-1"></div>
-                            <%= Html.TextAreaFor(m => m.QuestionExtended, new 
-                                { @class= "wmd-input form-control", id="wmd-input-1", placeholder = "Erweiterte Beschreibung", rows = 4 })%>
-                        </div>                            
-                        <div id="wmd-preview-1" class="wmd-panel wmd-preview"></div>
-                    </div>
-                </div>
 
-                <%--
-                <div class="form-group">
-                    <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
-                            Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
-                    <label for="soundfile" class="control-label">Ton:</label>
-                    &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
-                </div>--%>
-                <div class="form-group">    
-                    <label class="columnLabel control-label">
-                        <span class="show-tooltip" data-toggle="tooltip" title="Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
-                    </label>
+                    <%--
+                    <div class="form-group">
+                        <% if (!String.IsNullOrEmpty(Model.SoundUrl)){
+                                Html.RenderPartial("AudioPlayer", Model.SoundUrl); } %>
+                        <label for="soundfile" class="control-label">Ton:</label>
+                        &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
+                    </div>--%>
+                    <div class="form-group">    
+                        <label class="columnLabel control-label">
+                            <span class="show-tooltip" data-toggle="tooltip" title="Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
+                        </label>
 
-                    <div class="JS-RelatedCategories columnControlsFull">
-                        <script type="text/javascript">
-                            $(function () {
-                                <%foreach (var category in Model.Categories) { %>
-                                $("#txtNewRelatedCategory")
-                                    .val('<%=category.Name %>')
-                                    .data('category-id', '<%=category.Id %>')
-                                    .trigger("initCategoryFromTxt");
-                                <% } %>
-                            });
-                        </script>
-                        <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                        <div class="JS-RelatedCategories columnControlsFull">
+                            <script type="text/javascript">
+                                $(function () {
+                                    <%foreach (var category in Model.Categories) { %>
+                                    $("#txtNewRelatedCategory")
+                                        .val('<%=category.Name %>')
+                                        .data('category-id', '<%=category.Id %>')
+                                        .trigger("initCategoryFromTxt");
+                                    <% } %>
+                                });
+                            </script>
+                            <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="FormSection">
                     <div class="form-group">
