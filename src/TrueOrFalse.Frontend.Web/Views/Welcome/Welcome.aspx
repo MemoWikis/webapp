@@ -17,16 +17,13 @@
        
     <div class="col-md-8">
             
-        <div class="alert alert-success alert-dismissable" style="padding: 13px; padding-bottom: 0px;">
-            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">memucho ist eine intelligente Wissensplattform</h1>
+        <div class="alert alert-success alert-dismissable" style="padding: 13px; padding-bottom: 0px; background-color: #c8e276;">
+            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">memucho: Besser Lernen mit mehr Spaß</h1>
             <div class="row">
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        memucho hilft dir beim Lernen und macht Spaß!<br/>
-                    </p>
-                    <p>
-                        <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                        memucho hilft dir beim Lernen. Du sparst Zeit und es macht mehr Spaß!<br/>
                     </p>
                     <!--p>
                         <a href="#" class="btn" id="btnStartWelcomeTour"><i class="fa fa-map-signs"></i> Tour starten</a>
@@ -35,19 +32,18 @@
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-book" style="color: #2C5FB2;"></i><br/>
-                        Unsere Prinzipien: Freie Bildungsinhalte, Gemeinwohlorientierung und Transparenz.<br/>
-                        <a href="#teaserPrinciples"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                        Unsere Prinzipien: Freie Bildungsinhalte, Gemeinwohlorientierung und Transparenz.
                     </p>
                 </div>
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
-                        <i class="fa fa-2x fa-user" style="color: #2C5FB2;"></i><br/>
-                        Und wer steckt dahinter?
-                    </p>
-                    <p>
-                        <a href="#teaserWhoWeAre"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                        <i class="fa fa-2x fa-users" style="color: #2C5FB2;"></i><br/>
+                        Robert, Jule und Christof entwickeln memucho zusammen. Wir haben uns viel vorgenommen.
                     </p>
                 </div>
+                <p style="text-align: center;">
+                    <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
+                </p>
             </div>
         </div>
 
@@ -101,7 +97,67 @@
             <p>
                 memucho ist eine vernetzte Lern- und Wissensplattform. Damit kannst du:
             </p>
+            
             <div class="row">
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Schneller lernen</b>
+                    <p>
+                        memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. 
+                        So brauchst du weniger Zeit zum Lernen.
+                    </p>
+                </div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-book fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Wissen erweitern</b>
+                    <p>
+                        Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? 
+                        Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Zu einem bestimmten Termin lernen</b>
+                    <p>
+                        Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in memucho weißt du immer, 
+                        was du schon sicher kannst und wo du weiter üben musst.
+                    </p>
+                </div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Überblick behalten</b>
+                    <p>
+                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit memucho behältst du den Überblick.
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Wissen teilen</b>
+                    <p>
+                        memucho ist ein offenes Netzwerk, wo du dein Wissen teilen und das Wissen anderer nutzen kannst. 
+                        Denn Wissen wird mehr, wenn man es teilt!
+                    </p>
+                </div>
+                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                  <i class="fa fa-users fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
+                    <b>Gemeinsam lernen</b>
+                    <p>
+                        Lerne gemeinsam mit Freunden und verabrede dich zum Quizduell, um dich auf die Klassenarbeit vorzubereiten.
+                    </p>
+                </div>
+                <div class="clearfix visible-xs"></div>
+                <div class="col-xs-12">
+                    <p>
+                        Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                        Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
+                        <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
+                    </p>                
+                </div>
+            </div>
+
+         <%--   <div class="row">
                 <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
                   <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2" title="memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen."></i><br/>
                     <b>Schneller lernen</b>
@@ -132,17 +188,12 @@
                 <div class="clearfix visible-xs"></div>
                 <div class="col-xs-12">
                     <p>
-                        memucho fördert freie Bildungsinhalte und ist gemeinwohlorientiert.
-                        Erfahre mehr über unsere <a href="#teaserPrinciples">Prinzipien</a> 
-                        und <a href="#teaserWhoWeAre">wer wir sind</a>.
-                    </p>
-                    <p>
                         Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
                         Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
                         <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
                     </p>                
                 </div>
-            </div>
+            </div>--%>
         </div>
 
         <div class="well">
@@ -190,17 +241,16 @@
                     <p>
                         Die Software, mit der memucho läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
                         sind frei verfügbar und können von allen frei verwendet werden. Du findest sie 
-                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i>Github</a>. 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
                         In Zukunft möchten wir neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
                     </p> 
                 </li>        
             </ul>
             <p>
-                Du willst es ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
-                Du findest das eine tolle Idee, möchtest mitmachen und uns unterstützen?
-                Werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
+                Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
                 <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
-            </p>
+            </p>                
         </div>
         <div class="well Founder">
             <h3><a name="teaserWhoWeAre">Team</a></h3>
@@ -229,7 +279,7 @@
                         Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
                     </p>
                     <p>
-                        Wenn du Fragen oder Anregungen hast, trete einfach mit uns in <a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Kontakt</a>.
+                        Wenn du Fragen oder Anregungen hast, schreibe uns eine Email an <a href="mailto:kontakt@memucho.de">kontakt@memucho.de</a> oder rufe Christof an: 01577-6825707.
                     </p>
                 </div>
             </div>
@@ -248,12 +298,7 @@
             </div>
         <% } %>
             
-            
-        <div class="row">
-            <div class="col-md-12"><h3 class="media-heading">Entdecke neues Wissen!</h3></div>
-        </div>
-
-        <div class="panel panel-default" style="margin-top: 10px; margin-bottom: 5px;">
+        <div class="panel panel-default">
             <div class="panel-heading">Top-Kategorien nach Fragen:</div>
             <div class="panel-body">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
