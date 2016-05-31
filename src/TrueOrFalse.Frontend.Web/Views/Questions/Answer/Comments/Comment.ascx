@@ -15,10 +15,10 @@
         <div class="col-xs-10" style="height: 100%; padding-bottom: 25px; ">
             <% if(Model.ShouldBeImproved){ %>
                 <div class='ReasonList'>
-                    <i class="fa fa-repeat show-tooltip" style="float:left" title="Die Frage sollte verbessert werden"></i>&nbsp;
-                    <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
+                    Ich bitte darum, dass diese Frage verbessert wird, weil:
+                    <ul class="fa-ul" style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
                         <% foreach (var shouldReason in Model.ShouldReasons){ %>
-                            <li><%= shouldReason %></li>       
+                            <li><i class="fa-li fa fa-repeat" style="float:left;"></i> <%= shouldReason %></li>       
                         <% } %>
                     </ul>
                 </div>
@@ -26,10 +26,10 @@
 
             <% if(Model.ShouldBeDeleted){ %>
                 <div class="ReasonList">
-                    <i class="fa fa-fire show-tooltip" style="float:left; color: tomato;" title="Die Frage sollte gelöscht werden"></i>&nbsp;
-                    <ul style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
+                    Ich bitte darum, dass diese Frage gelöscht wird, weil:
+                    <ul class="fa-ul" style="float: left; position: relative; top: -3px; padding-left: 10px; list-style-type: none;">
                         <% foreach (var shouldReason in Model.ShouldReasons){ %>
-                            <li><%= shouldReason %></li>       
+                            <li><i class="fa-li fa fa-fire" style="float:left; color: tomato;"></i> <%= shouldReason %></li>       
                         <% } %>
                     </ul>
                 </div>

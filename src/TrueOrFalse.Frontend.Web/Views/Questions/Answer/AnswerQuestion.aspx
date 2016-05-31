@@ -337,7 +337,7 @@
                                 <li>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="ckbDelete" value="deleteIsSpam"/>
+                                            <input type="checkbox" name="ckbDelete" value="deleteOther"/>
                                             <%= ShouldReasons.ByKey("deleteOther") %>
                                         </label>
                                     </div>
