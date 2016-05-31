@@ -242,7 +242,7 @@
                     <div class="modal-body">
                         <div >
                             <p>
-                                Ich bitte darum, dass diese Frage verbessert wird weil: 
+                                Ich bitte darum, dass diese Frage verbessert wird, weil: 
                             </p>
                             <ul style="list-style-type: none">
                                 <li>
@@ -307,7 +307,7 @@
                     <div class="modal-body">
                         <div >
                             <p>
-                                Ich bitte darum, dass diese Frage gelöscht wird weil: 
+                                Ich bitte darum, dass diese Frage gelöscht wird, weil: 
                             </p>
                             <ul style="list-style-type: none">
                                 <li>
