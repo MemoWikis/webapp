@@ -557,7 +557,7 @@
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ChangeTypeControls.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
-    <TypeScriptCompile Include="Views\Categories\Js\CategoriesDelete.ts" />
+    <TypeScriptCompile Include="Views\Categories\Js\CategoryDelete.ts" />
     <Content Include="Images\Licenses\cc-by-sa.png" />
     <Content Include="Images\Licenses\cc-by.png" />
     <Content Include="Images\Licenses\publicdomain.png" />
@@ -1192,7 +1192,7 @@
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
     <Content Include="Views\Categories\Js\CategoriesDelete.js">
-      <DependentUpon>CategoriesDelete.ts</DependentUpon>
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
@@ -1684,7 +1684,7 @@
       <DependentUpon>Categories.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Js\CategoriesDelete.js.map">
-      <DependentUpon>CategoriesDelete.ts</DependentUpon>
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
