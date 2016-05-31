@@ -138,7 +138,7 @@
             $(html)
                 .animate({ opacity: 1.00 }, 700)
         ).after(() => {
-            this.DrawCharts();
+            this.DrawKnowledgeCharts();
             $('#modalTraining').modal();
         });        
     }
@@ -155,7 +155,7 @@
         $("#closeSettings").show();
     }
 
-    DrawCharts() {
+    DrawKnowledgeCharts() {
         var self = this;
 
         $("#modalTraining div[data-trainingDateId]").each(function () {
@@ -204,10 +204,15 @@
     DrawChartTrainingTime(rowsToDraw) {
         var rowsAsArray = JSON.parse(rowsToDraw.toString());
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Datum');
+        data.addColumn('date', 'Datum');
         if (rowsAsArray.length > 0) {
             for (var i = 1; i <= rowsAsArray[0].length - 1; i++) {
                 data.addColumn('number', 'Übungssitzung ' + i);
+            }
+
+            //need to create date from first column in every row; alternative: handle it as string to be displayed as received here
+            for (var i = 0; i < rowsAsArray.length; i++) {
+                rowsAsArray[i][0] = new Date(rowsAsArray[i][0]);
             }
         }
 
@@ -218,7 +223,8 @@
         var options = {
             title: "Übungssitzungen bis zum Termin",
             hAxis: {
-                title: "" //format: string //changeto "day" or something like this
+                title: "", 
+                format: "d.M." //alternative: format as string
             },
             vAxis: {
                 title: "Anzahl Fragen"

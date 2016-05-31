@@ -52,7 +52,7 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
         {
             while (tdDay.TrainingSessionsCount < tpStatsResult.MaxNumberOfTrainingSessionsPerDay)
                 tdDay.QuestionsInEachSession.Add(0);
-            result.Append("[\"").Append(tdDay.Date.ToString("d. M.")).Append("\"");
+            result.Append("[\"").Append(tdDay.Date.ToString("yyyy-MM-dd")).Append("\""); //this is formatted to be converted to JS date when handled; alternative: set string as it should be displayed (e.g.: "d.M.");
             tdDay.QuestionsInEachSession.ToList().ForEach(n => result.Append(", ").Append(n));
             result.Append(" ],");
         }
