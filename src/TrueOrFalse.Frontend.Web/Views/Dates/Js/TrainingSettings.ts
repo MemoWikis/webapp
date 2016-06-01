@@ -23,40 +23,19 @@
             self.Populate(self._dateId);
         });
 
-        var delay = (() => {
-            var timer = 0;
-            return (callback, ms) => {
-                clearTimeout(timer);
-                timer = setTimeout(callback, ms);
-            };
-        })();
-
         $("#txtQuestionsPerDateIdealAmount," +
           "#txtAnswerProbabilityThreshold," +
           "#txtQuestionsPerDateMinimum," +
           "#txtMinSpacingBetweenSessionsInMinutes," +
-          "#chkbxEqualizeSpacingBetweenSessions," + 
           "#txtEqualizedSpacingMaxMultiplier," + 
           "#txtEqualizedSpacingDelayerDays").keyup(() => {
-
-              $("#divTrainingPlanDetailsSpinner").show();
-              $("#divTrainingPlanDetails").hide();
-
-              delay(() => {
-
-                  $.post("/Dates/TrainingPlanUpdate/",
-                      { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
-                      (result) => {
-                          self.RenderTrainingPlan(result);
-                          $("#divTrainingPlanDetailsSpinner").hide();
-                          $("#divTrainingPlanDetails").show();
-                      });
-              }, 800);
-            
+              this.UpdateTrainingPlanAfterSettingsChange(self._dateId);
         });
-        $("#chkbxEqualizeSpacingBetweenSessions").change(function () {
-                self.ToggleEqualizeSpacingOptions();
-            });
+
+        $("#chkbxEqualizeSpacingBetweenSessions").change(() => {
+            this.ToggleEqualizeSpacingOptions();
+            this.UpdateTrainingPlanAfterSettingsChange(self._dateId);
+        });
 
         self.ShowSettings();
 
@@ -93,7 +72,6 @@
     }
 
     Populate(dateId: number) {
-
         var self = this;
         self._dateId = dateId;
 
@@ -117,7 +95,6 @@
         $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
         $("#modalTraining #txtMinSpacingBetweenSessionsInMinutes").val(data.MinSpacingBetweenSessionsInMinutes);
         $("#modalTraining #chkbxEqualizeSpacingBetweenSessions").prop("checked", data.EqualizeSpacingBetweenSessions);
-        console.log("value2be of chkbox: " + data.chkbxEqualizeSpacingBetweenSessions);
         $("#modalTraining #txtEqualizedSpacingMaxMultiplier").val(data.EqualizedSpacingMaxMultiplier);
         $("#modalTraining #txtEqualizedSpacingDelayerDays").val(data.EqualizedSpacingDelayerDays);
         this.ToggleEqualizeSpacingOptions();
@@ -131,6 +108,30 @@
             }, 20); 
         }
         renderChartIfDivHasWidth();
+    }
+
+    UpdateTrainingPlanAfterSettingsChange(dateId: number) {
+        var self = this;
+        self._dateId = dateId;
+        var delay = (() => {
+            var timer = 0;
+            return (callback, ms) => {
+                clearTimeout(timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+
+        $("#divTrainingPlanDetailsSpinner").show();
+        $("#divTrainingPlanDetails").hide();
+        delay(() => {
+            $.post("/Dates/TrainingPlanUpdate/",
+                { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
+                (result) => {
+                    self.RenderTrainingPlan(result);
+                    $("#divTrainingPlanDetailsSpinner").hide();
+                    $("#divTrainingPlanDetails").show();
+                });
+        }, 800);
     }
 
     GetSettingsFromUi(): TrainingPlanSettings {
@@ -152,7 +153,7 @@
         } else {
             $(".EqualizeSpacingOptions").css("opacity", "0.5");
         }
-     }
+    }
 
     RenderDetails(html) {
         $("#dateRows").children().remove();
