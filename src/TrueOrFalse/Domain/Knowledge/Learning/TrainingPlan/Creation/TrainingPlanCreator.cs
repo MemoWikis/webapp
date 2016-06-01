@@ -90,13 +90,30 @@ public class TrainingPlanCreator
         var boostParameters = new AddFinalBoostParameters(date, learningDates, settings);
 
         if (settings.AddFinalBoost)
-        {
-            boostParameters.SetInitialBoostingDateProposal(upperTimeBound);
-            boostParameters.SetBoostingDateTimes();
+            FindBoostingDateTimesFromEndtimeBackwards(boostParameters, upperTimeBound);
 
-            upperTimeBound = boostParameters.CurrentBoostingDateProposal;
-        }
+        AddDatesFromNowOnForwards(
+            date,
+            settings,
+            learningDates,
+            upperTimeBound);
 
+        if (settings.AddFinalBoost)
+            boostParameters.AddBoostingDates();
+
+        return learningDates;
+    }
+
+    private static void FindBoostingDateTimesFromEndtimeBackwards(AddFinalBoostParameters boostParameters, DateTime upperTimeBound)
+    {
+        boostParameters.SetInitialBoostingDateProposal(upperTimeBound);
+        boostParameters.SetBoostingDateTimes();
+
+        upperTimeBound = boostParameters.CurrentBoostingDateProposal;
+    }
+
+    private static void AddDatesFromNowOnForwards(Date date, TrainingPlanSettings settings, List<TrainingDate> learningDates, DateTime upperTimeBound)
+    {
         var nextDateProposal = RoundTime(DateTimeX.Now().AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes));
 
         while (nextDateProposal < upperTimeBound)
@@ -119,13 +136,6 @@ public class TrainingPlanCreator
 
             nextDateProposal = nextDateProposal.AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes);
         }
-
-        if (settings.AddFinalBoost)
-        {
-            boostParameters.FillBoostingDates();
-        }
-
-        return learningDates;
     }
 
     private static bool TryAddDate(
@@ -272,9 +282,6 @@ public class TrainingPlanCreator
 
     public static DateTime RoundTime(DateTime dateTime, bool toLower = false)
     {
-        if(!nameof(TrainingPlanSettings.TryAddDateIntervalInMinutes).ToLower().Contains("minutes"))
-            throw new Exception($"If {nameof(TrainingPlanSettings.TryAddDateIntervalInMinutes)} is based on time interval other than minutes rounding method has to be adjusted");
-
         return DateTimeUtils.RoundToNearestMinutes(dateTime, TrainingPlanSettings.TryAddDateIntervalInMinutes, toLower: toLower);
     }
 }

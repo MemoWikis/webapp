@@ -103,7 +103,29 @@ public class Should_create_trainingsplan : BaseTest
                         .Subtract(TimeSpan.FromMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes))));
     }
 
-    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20, bool persist = false)
+    [Test]
+    public void New_Test()
+    {
+        var date = SetUpDateWithTrainingPlan(
+            new TrainingPlanSettings
+            {
+                AddFinalBoost = true
+            },
+            timeUntilDateInDays: 16,
+             numberOfQuestions: 43);
+
+        var groupedByQuestion = date.TrainingPlan.Dates.Select(d => new {Question = d.TrainingPlan, d.AllQuestions}).GroupBy(q => q.Question).ToList();
+    }
+
+    [Test]
+    public void RoundingTimeShouldBeBasedOnMinutes()
+    {
+        //If property is based on different time interval rounding method etc. has to be adjusted 
+        Assert.That(nameof(TrainingPlanSettings.TryAddDateIntervalInMinutes).ToLower().Contains("minutes"));
+    }
+
+
+    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20)
     {
         var date = new Date
         {
@@ -116,4 +138,6 @@ public class Should_create_trainingsplan : BaseTest
 
         return date;
     }
+
+    
 }

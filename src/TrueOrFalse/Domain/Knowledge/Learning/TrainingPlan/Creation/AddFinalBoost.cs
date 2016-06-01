@@ -93,7 +93,7 @@ public class AddFinalBoostParameters
         CurrentBoostingDateProposal = upperTimeBound;
     }
 
-    public void FillBoostingDates()
+    public void AddBoostingDates()
     {
         if (BoostingDateTimes.Count < NumberOfBoostingDatesNeeded)
             NumberOfBoostingDatesNeeded = BoostingDateTimes.Count;
