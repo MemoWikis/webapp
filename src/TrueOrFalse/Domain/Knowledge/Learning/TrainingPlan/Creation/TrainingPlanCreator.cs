@@ -95,7 +95,7 @@ public class TrainingPlanCreator
 
             if (TryAddDate(settings, nextDateProposal, learningDates))
             {
-                nextDateProposal = nextDateProposal.AddMinutes(settings.SpacingBetweenSessionsInMinutes);
+                nextDateProposal = nextDateProposal.AddMinutes(settings.GetMinSpacingInMinutes((date.DateTime.Date - nextDateProposal.Date).Days)); //@Jule: check if okay
                 continue;
             }
 
@@ -252,7 +252,7 @@ public class TrainingPlanCreator
         List<TrainingDate> learningDates)
     {
         var collidingDates = learningDates
-            .Where(d => timeOfBoostingDate.Subtract(d.DateTime).TotalMinutes < settings.SpacingBetweenSessionsInMinutes)
+            .Where(d => timeOfBoostingDate.Subtract(d.DateTime).TotalMinutes < settings.MinSpacingBetweenSessionsInMinutes) //@Jule: check if settings.GetMinSpacingInMinutes should be used instead
             .ToList();
 
         RemoveDatesIncludingAnswers(learningDates, collidingDates, settings.DebugAnswerProbabilities);

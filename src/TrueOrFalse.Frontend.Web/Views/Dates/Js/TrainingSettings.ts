@@ -34,7 +34,10 @@
         $("#txtQuestionsPerDateIdealAmount," +
           "#txtAnswerProbabilityThreshold," +
           "#txtQuestionsPerDateMinimum," +
-          "#txtSpacingBetweenSessionsInMinutes").keyup(() => {
+          "#txtMinSpacingBetweenSessionsInMinutes," +
+          "#chkbxEqualizeSpacingBetweenSessions," + 
+          "#txtEqualizedSpacingMaxMultiplier," + 
+          "#txtEqualizedSpacingDelayerDays").keyup(() => {
 
               $("#divTrainingPlanDetailsSpinner").show();
               $("#divTrainingPlanDetails").hide();
@@ -51,6 +54,9 @@
               }, 800);
             
         });
+        $("#chkbxEqualizeSpacingBetweenSessions").change(function () {
+                self.ToggleEqualizeSpacingOptions();
+            });
 
         self.ShowSettings();
 
@@ -109,7 +115,10 @@
         $("#modalTraining #txtQuestionsPerDateIdealAmount").val(data.QuestionsPerDateIdealAmount); 
         $("#modalTraining #txtAnswerProbabilityThreshold").val(data.AnswerProbabilityThreshold);
         $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
-        $("#modalTraining #txtSpacingBetweenSessionsInMinutes").val(data.SpacingBetweenSessionsInMinutes);
+        $("#modalTraining #txtMinSpacingBetweenSessionsInMinutes").val(data.MinSpacingBetweenSessionsInMinutes);
+        $("#modalTraining #chkbxEqualizeSpacingBetweenSessions").prop("checked", data.chkbxEqualizeSpacingBetweenSessions);
+        $("#modalTraining #txtEqualizedSpacingMaxMultiplier").val(data.txtEqualizedSpacingMaxMultiplier);
+        $("#modalTraining #txtEqualizedSpacingDelayerDays").val(data.txtEqualizedSpacingDelayerDays);
 
         
         var renderChartIfDivHasWidth = () => {
@@ -128,9 +137,21 @@
         result.AnswerProbabilityThreshold = $("#txtAnswerProbabilityThreshold").val();
         result.QuestionsPerDate_IdealAmount = $("#txtQuestionsPerDateIdealAmount").val();
         result.QuestionsPerDate_Minimum = $("#txtQuestionsPerDateMinimum").val();
-        result.SpacingBetweenSessionsInMinutes = $("#txtSpacingBetweenSessionsInMinutes").val();
+        result.MinSpacingBetweenSessionsInMinutes = $("#txtMinSpacingBetweenSessionsInMinutes").val();
+        result.EqualizeSpacingBetweenSessions = $("#chkbxEqualizeSpacingBetweenSessions").prop("checked");
+        result.EqualizedSpacingMaxMultiplier = $("#txtEqualizedSpacingMaxMultiplier").val();
+        result.EqualizedSpacingDelayerDays = $("#txtEqualizedSpacingDelayerDays").val();
         return result;
     }
+
+    ToggleEqualizeSpacingOptions() {
+        //text inputs are not disabled; when greyed out, values can still be changed and trainingplan is newly generated, even though changes made in greyed out textboxes won't affect trainingplan
+        if ($("#chkbxEqualizeSpacingBetweenSessions").prop("checked")) {
+            $(".EqualizeSpacingOptions").css("opacity", "1");
+        } else {
+            $(".EqualizeSpacingOptions").css("opacity", "0.5");
+        }
+     }
 
     RenderDetails(html) {
         $("#dateRows").children().remove();

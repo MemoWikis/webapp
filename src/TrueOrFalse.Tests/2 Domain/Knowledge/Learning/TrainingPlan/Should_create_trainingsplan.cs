@@ -45,7 +45,7 @@ public class Should_create_trainingsplan : BaseTest
         var date = SetUpDateWithTrainingPlan(new TrainingPlanSettings
         {
             QuestionsPerDate_IdealAmount = 1,
-            SpacingBetweenSessionsInMinutes = 1200,
+            MinSpacingBetweenSessionsInMinutes = 1200,
         }, 
         timeUntilDateInDays: 1,
         numberOfQuestions: 20);

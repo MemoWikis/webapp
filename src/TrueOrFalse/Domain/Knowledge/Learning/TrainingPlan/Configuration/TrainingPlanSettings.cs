@@ -7,13 +7,13 @@ public class TrainingPlanSettings
     public virtual int QuestionsPerDate_Minimum { get; set; } = 7;
     public virtual int QuestionsPerDate_IdealAmount { get; set; } = 10;
 
-    public virtual int SpacingBetweenSessionsInMinutes { get; set; } = 60 * 3; //will be obsolete, to delete in mapping as well
+    //public virtual int SpacingBetweenSessionsInMinutes { get; set; } = 60 * 3; //obsolete
 
-    // aprox.: after EqualizedSpacingBetweenSessionsDividerDays days, MinSpacingBetweenSessionsInMinutes is multiplied by EqualizedSpacingBetweenSessionsFactorMax
+    // after EqualizedSpacingDelayerDays days, MinSpacingBetweenSessionsInMinutes is multiplied by EqualizedSpacingMaxMultiplier/2
     public virtual int MinSpacingBetweenSessionsInMinutes { get; set; } = 60 * 3;
     public virtual bool EqualizeSpacingBetweenSessions { get; set; } = true;
     public virtual int EqualizedSpacingMaxMultiplier { get; set; } = 90; // higher values lead to higher spacing
-    public virtual int EqualizedSpacingDividerDays { get; set; } = 180; // higher values lead spacing effect to be effective when distance till date is greater
+    public virtual int EqualizedSpacingDelayerDays { get; set; } = 180; // higher values lead spacing effect to be effective when distance till date is greater
 
     /// <summary>
     /// When answer probability drops below this threshold, 
@@ -59,7 +59,7 @@ public class TrainingPlanSettings
             Convert.ToInt32(
                 Math.Max(1,
                     (EqualizedSpacingMaxMultiplier / (Math.PI / 2)) *
-                    Math.Atan((double)distanceTillDateInDays / EqualizedSpacingDividerDays)) *
+                    Math.Atan((double)distanceTillDateInDays / EqualizedSpacingDelayerDays)) *
                 MinSpacingBetweenSessionsInMinutes);
         
     }

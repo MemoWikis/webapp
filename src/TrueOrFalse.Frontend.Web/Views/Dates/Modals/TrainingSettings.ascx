@@ -66,10 +66,11 @@
                                 <input type="text" id="txtQuestionsPerDateIdealAmount" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
                             </div>
                             <div class="col-md-4">
-                                <div class="pull-right">Vergessensschwelle:</div>
+                                <div class="pull-right">Mind.Abstand Sitzungen:</div>
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                                <input type="text" id="txtMinSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Gibt den Abstand in Minuten an, der mindestens zwischen zwei Übungssitzungen liegen muss."></i>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 4px;">
@@ -80,11 +81,44 @@
                                 <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
                             </div>
                             <div class="col-md-4">
-                                <div class="pull-right">mind. Zeit zw. Terminen:</div>
+                                <div class="pull-right">Abstand anpassen:</div>
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" id="txtSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                                <input type="checkbox" id="chkbxEqualizeSpacingBetweenSessions" style="width: 30px;" value="true" checked="checked"/>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Je größer der Abstand zum Termin, desto größer wird der Mindestabstand zwischen einzelnen Übungssitzungen."></i>
                             </div>
+
+                        </div>
+                        <div class="row" style="margin-top: 4px;">
+                            <div class="col-md-4">
+                                <div class="pull-right">Vergessensschwelle:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                            </div>
+                            <div class="col-md-4 EqualizeSpacingOptions">
+                                <div class="pull-right ">Max. Multiplikator:</div>
+                            </div>
+                            <div class="col-md-2 EqualizeSpacingOptions" style="padding-left: 0px">
+                                <input type="text" id="txtEqualizedSpacingMaxMultiplier" style="width: 30px; height: 20px; font-size: 13px;" value="90" class="EqualizeSpacingOptions"/>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Maximaler Multiplikator für Mindestabstand zwischen zwei Übungssitzungen (wird in unendlichem Abstand zum Termin erreicht)."></i>
+                            </div>
+                        </div>                        
+                        <div class="row" style="margin-top: 4px;">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-4 EqualizeSpacingOptions">
+                                <div class="pull-right">Tages-Verzögerer:</div>
+                            </div>
+                            <div class="col-md-2 EqualizeSpacingOptions" style="padding-left: 0px">
+                                <input type="text" id="txtEqualizedSpacingDelayerDays" style="width: 30px; height: 20px; font-size: 13px;" value="180" class="EqualizeSpacingOptions"/>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Gibt die Verzögerung für die Anpassung des Mindestabstands an. Nach soviel Tagen wird der Mindestabstand mit dem halben oben angegebenen Faktor multipliziert."></i>
+                            </div>
+
                         </div>                        
                     </div>
 

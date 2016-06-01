@@ -179,7 +179,10 @@ public class DatesController : BaseController
             QuestionsPerDateIdealAmount = planSettings.QuestionsPerDate_IdealAmount,
             AnswerProbabilityThreshold = planSettings.AnswerProbabilityThreshold,
             QuestionsPerDateMinimum = planSettings.QuestionsPerDate_Minimum,
-            SpacingBetweenSessionsInMinutes = planSettings.SpacingBetweenSessionsInMinutes,
+            MinSpacingBetweenSessionsInMinutes = planSettings.MinSpacingBetweenSessionsInMinutes,
+            EqualizeSpacingBetweenSessions = planSettings.EqualizeSpacingBetweenSessions,
+            EqualizedSpacingMaxMultiplier = planSettings.EqualizedSpacingMaxMultiplier,
+            EqualizedSpacingDelayerDays = planSettings.EqualizedSpacingDelayerDays,
             ChartTrainingTimeRows = GetChartTrainingTimeRows(date.TrainingPlan),
         });
     }
