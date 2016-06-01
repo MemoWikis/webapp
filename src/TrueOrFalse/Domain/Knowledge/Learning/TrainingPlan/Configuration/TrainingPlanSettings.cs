@@ -11,8 +11,9 @@ public class TrainingPlanSettings
 
     // aprox.: after EqualizedSpacingBetweenSessionsDividerDays days, MinSpacingBetweenSessionsInMinutes is multiplied by EqualizedSpacingBetweenSessionsFactorMax
     public virtual int MinSpacingBetweenSessionsInMinutes { get; set; } = 60 * 3;
-    public virtual int EqualizedSpacingBetweenSessionsFactorMax { get; set; } = 60; // higher values lead to higher spacing
-    public virtual int EqualizedSpacingBetweenSessionsDividerDays { get; set; } = 180; // higher values lead spacing effect to be effective when distance till date is greater
+    public virtual bool EqualizeSpacingBetweenSessions { get; set; } = true;
+    public virtual int EqualizedSpacingMaxMultiplier { get; set; } = 90; // higher values lead to higher spacing
+    public virtual int EqualizedSpacingDividerDays { get; set; } = 180; // higher values lead spacing effect to be effective when distance till date is greater
 
     /// <summary>
     /// When answer probability drops below this threshold, 
@@ -37,27 +38,30 @@ public class TrainingPlanSettings
         return SnoozePeriods.Any(p => p.IsInPeriod(dateTime));
     }
 
-    public virtual int GetEqualizedMinSpacingInMinutes(int distanceTillDateInDays, int questionCount = 100)
+    /// <summary>
+    /// Returns the equalized (or straigthened out) minimal spacing between two learning sessions,
+    /// according to the settings. If EqualizeSpacingBetweenSessions==true, then spacing increases 
+    /// with distance to date, otherwise MinSpacingBetweenSessionsInMinutes is returned.
+    /// </summary>
+    public virtual int GetMinSpacingInMinutes(int distanceTillDateInDays)
     {
-        //todo: does not account for number of questions yet
+        if (!EqualizeSpacingBetweenSessions || (distanceTillDateInDays < 1))
+            return MinSpacingBetweenSessionsInMinutes;
 
-        //double distanceTillDateInDays = (Date.DateTime - proposedDateTime).Days; //needs to be double to not lose fraction in division below
-
-        /* spacing is done via an arctan-function: f * arctan(x/d).
+        /* spacing equalization is done via an arctan-function: [(2f/pi) * arctan(x/d)] * minSpacing.
         ** x is number of days untill date (=exam)
-        ** f distorts curve up, e.g.: higher f lead to higher spacing
-        ** d distorts curve to the right, e.g.: higher values lead spacing effect to be effective when distance till date is greater
+        ** f distorts curve up, e.g.: higher f lead to higher spacing. (math: In infinity, minSpacing is factored by f)
+        ** (division through pi/2 is done to normalize curve)
+        ** d distorts curve to the right, e.g.: higher values lead spacing effect to be effective when distance till date is greater. After d days, minSpacing is factored by f/2
         ** min-value should be 1, e.g., spacing should be at least as great as MinSpacing in Settings
         */
-        if (distanceTillDateInDays > 0)
-            return
-                Convert.ToInt32(
-                    Math.Max(1,
-                        EqualizedSpacingBetweenSessionsFactorMax *
-                        Math.Atan((double)distanceTillDateInDays / EqualizedSpacingBetweenSessionsDividerDays)) *
-                    MinSpacingBetweenSessionsInMinutes);
-        else
-            return MinSpacingBetweenSessionsInMinutes;
+        return
+            Convert.ToInt32(
+                Math.Max(1,
+                    (EqualizedSpacingMaxMultiplier / (Math.PI / 2)) *
+                    Math.Atan((double)distanceTillDateInDays / EqualizedSpacingDividerDays)) *
+                MinSpacingBetweenSessionsInMinutes);
+        
     }
 
 }
