@@ -81,7 +81,7 @@ public class AddFinalBoostParameters
 
             CurrentBoostingDateProposal = CurrentBoostingDateProposal
                 .AddMinutes(- Math.Max(
-                    _settings.SpacingBetweenSessionsInMinutes,
+                    _settings.GetMinSpacingInMinutes((_date.DateTime.Date - CurrentBoostingDateProposal.Date).Days),
                     TrainingPlanSettings.TryAddDateIntervalInMinutes));
         }
 

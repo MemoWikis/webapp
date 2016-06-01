@@ -129,7 +129,7 @@ public class TrainingPlanCreator
                 nextDateProposal = RoundTime(
                     nextDateProposal
                     .AddMinutes(
-                        Math.Max(settings.SpacingBetweenSessionsInMinutes,
+                        Math.Max(settings.GetMinSpacingInMinutes((date.DateTime.Date - nextDateProposal.Date).Days),
                             TrainingPlanSettings.TryAddDateIntervalInMinutes)));
                 continue;
             }
