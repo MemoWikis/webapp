@@ -53,6 +53,7 @@ public class Should_create_trainingsplan : BaseTest
         var anyQuestionAnsweredLessThan3Times =
             date.TrainingPlanSettings.DebugAnswerProbabilities.Any(x => x.History.Count < 3);
 
+        //If any of the questions has been answered less than 3 times, LearningGoalIsReached should not be marked as true
         Assert.That(!(anyQuestionAnsweredLessThan3Times && date.TrainingPlan.LearningGoalIsReached));
     }
 
@@ -98,11 +99,33 @@ public class Should_create_trainingsplan : BaseTest
 
         Assert.That(date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Count, Is.EqualTo(date.CountQuestions()));
         Assert.That(date.DateTime.Subtract(estimatedEndTimeOfLastTraining), 
-            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldEndBeforeDate)
-                        .Subtract(TimeSpan.FromMinutes(TrainingPlanCreator.RoundedIntervalInMinutes))));
+            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldStartBeforeDate)
+                        .Subtract(TimeSpan.FromMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes))));
     }
 
-    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20, bool persist = false)
+    [Test]
+    public void New_Test()
+    {
+        var date = SetUpDateWithTrainingPlan(
+            new TrainingPlanSettings
+            {
+                AddFinalBoost = true
+            },
+            timeUntilDateInDays: 16,
+             numberOfQuestions: 43);
+
+        var groupedByQuestion = date.TrainingPlan.Dates.Select(d => new {Question = d.TrainingPlan, d.AllQuestions}).GroupBy(q => q.Question).ToList();
+    }
+
+    [Test]
+    public void RoundingTimeShouldBeBasedOnMinutes()
+    {
+        //If property is based on different time interval rounding method etc. has to be adjusted 
+        Assert.That(nameof(TrainingPlanSettings.TryAddDateIntervalInMinutes).ToLower().Contains("minutes"));
+    }
+
+
+    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20)
     {
         var date = new Date
         {
@@ -115,4 +138,6 @@ public class Should_create_trainingsplan : BaseTest
 
         return date;
     }
+
+    
 }

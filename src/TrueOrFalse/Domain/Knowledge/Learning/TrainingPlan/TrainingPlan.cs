@@ -58,6 +58,16 @@ public class TrainingPlan : DomainEntity
         trainingDateRepo.Flush();
     }
 
+    public virtual List<Question> BoostedQuestions()
+    {
+        return Dates
+            .Where(d => d.LearningSession != null && d.IsBoostingDate)
+            .SelectMany(d => d.LearningSession.Steps
+                .Where(s => s.AnswerState == StepAnswerState.Answered)
+                .Select(s => s.Question))
+                .ToList();
+    } 
+
     public virtual TrainingDate GetNextTrainingDate()
     {
         PastDates.Where(d => d.LearningSession != null && !d.LearningSession.IsCompleted).ForEach(d => d.LearningSession.CompleteSession());

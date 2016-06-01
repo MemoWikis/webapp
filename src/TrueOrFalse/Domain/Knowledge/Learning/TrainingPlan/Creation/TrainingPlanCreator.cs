@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NHibernate.Criterion;
+using RazorEngine.Compilation.ImpromptuInterface.Build;
 using TrueOrFalse;
 
 public class TrainingPlanCreator
 {
-    public const int RoundedIntervalInMinutes = 15;
-
     public static int[] QuestionsToTrackIds = {};
 
     public static TrainingPlan Run(Date date, TrainingPlanSettings settings)
@@ -81,55 +81,61 @@ public class TrainingPlanCreator
 
     private static IList<TrainingDate> GetDates(Date date, TrainingPlanSettings settings)
     {
-        var nextDateProposal = DateTimeUtils.RoundUp(DateTimeX.Now(), TimeSpan.FromMinutes(RoundedIntervalInMinutes));
-
         var learningDates = new List<TrainingDate>();
 
-        while (nextDateProposal < date.DateTime.AddHours(settings.NumberOfHoursLastTrainingShouldEndBeforeDate))//At this point duration of date cannot be estimated because subset of questions to learn is inknown
+        var upperTimeBound = date.DateTime.Subtract(DateTimeX.Now()) < TimeSpan.FromHours(settings.NumberOfHoursLastTrainingShouldStartBeforeDate)
+                                ? date.DateTime.AddHours(-1)
+                                : date.DateTime.AddHours(-settings.NumberOfHoursLastTrainingShouldStartBeforeDate);
+
+        var boostParameters = new AddFinalBoostParameters(date, learningDates, settings);
+
+        if (settings.AddFinalBoost)
+            FindBoostingDateTimesFromEndtimeBackwards(boostParameters, upperTimeBound);
+
+        AddDatesFromNowOnForwards(
+            date,
+            settings,
+            learningDates,
+            upperTimeBound);
+
+        if (settings.AddFinalBoost)
+            boostParameters.AddBoostingDates();
+
+        return learningDates;
+    }
+
+    private static void FindBoostingDateTimesFromEndtimeBackwards(AddFinalBoostParameters boostParameters, DateTime upperTimeBound)
+    {
+        boostParameters.SetInitialBoostingDateProposal(upperTimeBound);
+        boostParameters.SetBoostingDateTimes();
+
+        upperTimeBound = boostParameters.CurrentBoostingDateProposal;
+    }
+
+    private static void AddDatesFromNowOnForwards(Date date, TrainingPlanSettings settings, List<TrainingDate> learningDates, DateTime upperTimeBound)
+    {
+        var nextDateProposal = RoundTime(DateTimeX.Now().AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes));
+
+        while (nextDateProposal < upperTimeBound)
         {
             if (settings.IsInSnoozePeriod(nextDateProposal))
             {
-                nextDateProposal = nextDateProposal.AddMinutes(RoundedIntervalInMinutes);
+                nextDateProposal = nextDateProposal.AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes);
                 continue;
             }
 
             if (TryAddDate(settings, nextDateProposal, learningDates))
             {
-                nextDateProposal = nextDateProposal.AddMinutes(settings.GetMinSpacingInMinutes((date.DateTime.Date - nextDateProposal.Date).Days)); //@Jule: check if okay
+                nextDateProposal = RoundTime(
+                    nextDateProposal
+                    .AddMinutes(
+                        Math.Max(settings.SpacingBetweenSessionsInMinutes,
+                            TrainingPlanSettings.TryAddDateIntervalInMinutes)));
                 continue;
             }
 
-            nextDateProposal = nextDateProposal.AddMinutes(RoundedIntervalInMinutes);
+            nextDateProposal = nextDateProposal.AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes);
         }
-
-        if (settings.AddFinalBoost)
-        {
-            var timeToBeFinished = date.DateTime.AddHours(-settings.NumberOfHoursLastTrainingShouldEndBeforeDate);
-
-            var estimatedTimeNeeded = new TimeSpan(0, 0, seconds: date.AllQuestions().Sum(q => q.TimeToLearnInSeconds()));
-
-            var boostingDateProposal =
-                DateTimeUtils.RoundUp(
-                    timeToBeFinished.Subtract(estimatedTimeNeeded),
-                    TimeSpan.FromMinutes(RoundedIntervalInMinutes));
-
-            if (boostingDateProposal <= DateTimeX.Now())
-                return learningDates;
-
-            while (boostingDateProposal > DateTimeX.Now())
-            {
-                if (settings.IsInSnoozePeriod(boostingDateProposal))
-                {
-                    boostingDateProposal = boostingDateProposal.AddMinutes(-RoundedIntervalInMinutes);
-                    continue;
-                }
-
-                AddFinalBoost(boostingDateProposal, settings, learningDates);
-                break;
-            }
-        }
-
-        return learningDates;
     }
 
     private static bool TryAddDate(
@@ -178,12 +184,14 @@ public class TrainingPlanCreator
         return true;
     }
 
-    private static TrainingDate SetUpTrainingDate(
+    public static TrainingDate SetUpTrainingDate(
         DateTime dateTime,
         TrainingPlanSettings settings,
         List<AnswerProbability> orderedAnswerProbabilities,
+        bool isBoostingDate = false,
         int maxApplicableNumberOfQuestions = -1, 
-        int idealNumberOfQuestions = -1)
+        int idealNumberOfQuestions = -1,
+        int exactNumberOfQuestionsToTake = -1)
     {
         if (maxApplicableNumberOfQuestions == -1)
             maxApplicableNumberOfQuestions = orderedAnswerProbabilities.Count;
@@ -191,7 +199,14 @@ public class TrainingPlanCreator
         if (idealNumberOfQuestions == -1)
             idealNumberOfQuestions = orderedAnswerProbabilities.Count;
 
-        var trainingDate = new TrainingDate { DateTime = dateTime };
+        if (exactNumberOfQuestionsToTake != -1)
+            maxApplicableNumberOfQuestions = idealNumberOfQuestions = exactNumberOfQuestionsToTake;
+
+        var trainingDate = new TrainingDate
+        {
+            DateTime = dateTime,
+            IsBoostingDate = isBoostingDate
+        };
 
         trainingDate.AllQuestions =
             orderedAnswerProbabilities
@@ -221,20 +236,6 @@ public class TrainingPlanCreator
         return trainingDate;
     }
 
-    /// <summary>
-    /// Only for testing
-    /// </summary>
-    public static void T_AddFinalBoost(
-        DateTime timeOfBoostingDate,
-        TrainingPlanSettings settings,
-        List<TrainingDate> learningDates)
-    {
-        AddFinalBoost(
-            timeOfBoostingDate,
-            settings,
-            learningDates);
-    }
-
     public static void RemoveDatesIncludingAnswers(List<TrainingDate> trainingDates, List<TrainingDate> collidingDates, List<AnswerProbability> answerProbabilities)
     {
         collidingDates.ForEach(d => trainingDates.Remove(d));
@@ -244,27 +245,6 @@ public class TrainingPlanCreator
             var historiesToRemove = answerProb.History.Where(a => collidingDates.Any(d => d == a.TrainingDate));
             answerProb.History = answerProb.History.Except(historiesToRemove).ToList();
         }
-    }
-
-    private static void AddFinalBoost(
-        DateTime timeOfBoostingDate,
-        TrainingPlanSettings settings,
-        List<TrainingDate> learningDates)
-    {
-        var collidingDates = learningDates
-            .Where(d => timeOfBoostingDate.Subtract(d.DateTime).TotalMinutes < settings.MinSpacingBetweenSessionsInMinutes) //@Jule: check if settings.GetMinSpacingInMinutes should be used instead
-            .ToList();
-
-        RemoveDatesIncludingAnswers(learningDates, collidingDates, settings.DebugAnswerProbabilities);
-
-        learningDates.Add(
-            SetUpTrainingDate(
-                timeOfBoostingDate,
-                settings,
-                settings.DebugAnswerProbabilities));
-
-        //var precedingLearningDate = learningDates.OrderBy(d => d.DateTime).LastOrDefault();
-
     }
 
     private static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
@@ -299,4 +279,10 @@ public class TrainingPlanCreator
 
         return answerProbabilities;
     }
+
+    public static DateTime RoundTime(DateTime dateTime, bool toLower = false)
+    {
+        return DateTimeUtils.RoundToNearestMinutes(dateTime, TrainingPlanSettings.TryAddDateIntervalInMinutes, toLower: toLower);
+    }
 }
+

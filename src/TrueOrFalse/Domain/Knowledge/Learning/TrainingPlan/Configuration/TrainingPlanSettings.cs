@@ -15,6 +15,8 @@ public class TrainingPlanSettings
     public virtual int EqualizedSpacingMaxMultiplier { get; set; } = 90; // higher values lead to higher spacing
     public virtual int EqualizedSpacingDelayerDays { get; set; } = 180; // higher values lead spacing effect to be effective when distance till date is greater
 
+    public static int TryAddDateIntervalInMinutes = 15;
+
     /// <summary>
     /// When answer probability drops below this threshold, 
     /// it should be trained soon. 
@@ -29,7 +31,7 @@ public class TrainingPlanSettings
 
     public virtual bool AddFinalBoost { get; set; } = true;
 
-    public virtual int NumberOfHoursLastTrainingShouldEndBeforeDate { get; set; } = 3;
+    public virtual int NumberOfHoursLastTrainingShouldStartBeforeDate { get; set; } = 3;
 
     public virtual List<AnswerProbability> DebugAnswerProbabilities { get; set; }
 

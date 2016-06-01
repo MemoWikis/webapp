@@ -20,6 +20,8 @@ public class TrainingDateMap : ClassMap<TrainingDate>
 
         Map(x => x.NotificationStatus);
 
+        Map(x => x.IsBoostingDate);
+
         Map(x => x.MarkedAsMissed);
 
         Map(x => x.DateCreated);

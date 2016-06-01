@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
 
+[DebuggerDisplay("{DateTime} AllQuestionsInTraining.Count:{AllQuestionsInTraining.Count}")]
 public class TrainingDate : DomainEntity
 {
     public virtual TrainingPlan TrainingPlan { get; set; }
@@ -14,6 +16,8 @@ public class TrainingDate : DomainEntity
     public virtual LearningSession LearningSession { get; set; }
 
     public virtual NotificationStatus NotificationStatus { get; set; } = NotificationStatus.None;
+
+    public virtual bool IsBoostingDate { get; set; }
 
     public virtual User User() { return TrainingPlan.Date.User; }
     public virtual string UserEmail(){ return User().EmailAddress; }
