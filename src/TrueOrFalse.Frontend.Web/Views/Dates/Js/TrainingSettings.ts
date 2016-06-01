@@ -116,10 +116,11 @@
         $("#modalTraining #txtAnswerProbabilityThreshold").val(data.AnswerProbabilityThreshold);
         $("#modalTraining #txtQuestionsPerDateMinimum").val(data.QuestionsPerDateMinimum);
         $("#modalTraining #txtMinSpacingBetweenSessionsInMinutes").val(data.MinSpacingBetweenSessionsInMinutes);
-        $("#modalTraining #chkbxEqualizeSpacingBetweenSessions").prop("checked", data.chkbxEqualizeSpacingBetweenSessions);
-        $("#modalTraining #txtEqualizedSpacingMaxMultiplier").val(data.txtEqualizedSpacingMaxMultiplier);
-        $("#modalTraining #txtEqualizedSpacingDelayerDays").val(data.txtEqualizedSpacingDelayerDays);
-
+        $("#modalTraining #chkbxEqualizeSpacingBetweenSessions").prop("checked", data.EqualizeSpacingBetweenSessions);
+        console.log("value2be of chkbox: " + data.chkbxEqualizeSpacingBetweenSessions);
+        $("#modalTraining #txtEqualizedSpacingMaxMultiplier").val(data.EqualizedSpacingMaxMultiplier);
+        $("#modalTraining #txtEqualizedSpacingDelayerDays").val(data.EqualizedSpacingDelayerDays);
+        this.ToggleEqualizeSpacingOptions();
         
         var renderChartIfDivHasWidth = () => {
             window.setTimeout(() => {
