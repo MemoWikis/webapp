@@ -784,6 +784,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs126.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs125.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs129.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs130.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
