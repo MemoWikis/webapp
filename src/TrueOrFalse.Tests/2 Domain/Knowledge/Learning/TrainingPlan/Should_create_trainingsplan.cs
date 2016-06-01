@@ -100,7 +100,7 @@ public class Should_create_trainingsplan : BaseTest
         Assert.That(date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Count, Is.EqualTo(date.CountQuestions()));
         Assert.That(date.DateTime.Subtract(estimatedEndTimeOfLastTraining), 
             Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldStartBeforeDate)
-                        .Subtract(TimeSpan.FromMinutes(TrainingPlanCreator.RoundedIntervalInMinutes))));
+                        .Subtract(TimeSpan.FromMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes))));
     }
 
     public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20, bool persist = false)

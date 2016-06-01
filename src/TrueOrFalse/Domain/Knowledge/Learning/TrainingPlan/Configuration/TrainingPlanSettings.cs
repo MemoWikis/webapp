@@ -9,6 +9,8 @@ public class TrainingPlanSettings
 
     public virtual int SpacingBetweenSessionsInMinutes { get; set; } = 60 * 3;
 
+    public static int TryAddDateIntervalInMinutes = 15;
+
     /// <summary>
     /// When answer probability drops below this threshold, 
     /// it should be trained soon. 
