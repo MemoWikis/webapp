@@ -150,8 +150,12 @@
         //text inputs are not disabled; when greyed out, values can still be changed and trainingplan is newly generated, even though changes made in greyed out textboxes won't affect trainingplan
         if ($("#chkbxEqualizeSpacingBetweenSessions").prop("checked")) {
             $(".EqualizeSpacingOptions").css("opacity", "1");
+            $("#txtEqualizedSpacingMaxMultiplier").prop("disabled", false);
+            $("#txtEqualizedSpacingDelayerDays").prop("disabled", false);
         } else {
             $(".EqualizeSpacingOptions").css("opacity", "0.5");
+            $("#txtEqualizedSpacingMaxMultiplier").prop("disabled", true);
+            $("#txtEqualizedSpacingDelayerDays").prop("disabled", true);
         }
     }
 
@@ -233,9 +237,13 @@
                 data.addColumn('number', 'Übungssitzung ' + i);
             }
 
-            //need to create date from first column in every row; alternative: handle it as string to be displayed as received here
             for (var i = 0; i < rowsAsArray.length; i++) {
+                //need to create date from first column in every row; alternative: handle it as string to be displayed as received here
                 rowsAsArray[i][0] = new Date(rowsAsArray[i][0]);
+                for (var j = 2; j < rowsAsArray[i].length; j++) { //change 0 to null to avoid barchart entry with "0". if no dates at a date (== 0 is the first entry), don't remove it, otherwise whole row is ignored
+                    if (rowsAsArray[i][j] == 0)
+                        rowsAsArray[i][j] = null;
+                }
             }
         }
 

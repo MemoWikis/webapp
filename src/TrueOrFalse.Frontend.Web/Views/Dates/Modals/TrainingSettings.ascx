@@ -96,10 +96,10 @@
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
                             </div>
-                            <div class="col-md-4 EqualizeSpacingOptions">
-                                <div class="pull-right ">Max. Multiplikator:</div>
+                            <div class="col-md-4">
+                                <div class="pull-right EqualizeSpacingOptions">Max. Multiplikator:</div>
                             </div>
-                            <div class="col-md-2 EqualizeSpacingOptions" style="padding-left: 0px">
+                            <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtEqualizedSpacingMaxMultiplier" style="width: 30px; height: 20px; font-size: 13px;" value="90" class="EqualizeSpacingOptions"/>
                                 <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Maximaler Multiplikator für Mindestabstand zwischen zwei Übungssitzungen (wird in unendlichem Abstand zum Termin erreicht). (Empfohlen: 90)"></i>
                             </div>
@@ -111,10 +111,10 @@
                             <div class="col-md-2" style="padding-left: 0px">
                                 &nbsp;
                             </div>
-                            <div class="col-md-4 EqualizeSpacingOptions">
-                                <div class="pull-right">Tages-Verzögerer:</div>
+                            <div class="col-md-4">
+                                <div class="pull-right EqualizeSpacingOptions">Tages-Verzögerer:</div>
                             </div>
-                            <div class="col-md-2 EqualizeSpacingOptions" style="padding-left: 0px">
+                            <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtEqualizedSpacingDelayerDays" style="width: 30px; height: 20px; font-size: 13px;" value="180" class="EqualizeSpacingOptions"/>
                                 <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Gibt die Verzögerung für die Anpassung des Mindestabstands an. Nach soviel Tagen wird der Mindestabstand mit dem halben oben angegebenen Faktor multipliziert. (Empfohlen: 180)"></i>
                             </div>
