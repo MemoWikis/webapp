@@ -17,7 +17,11 @@ public class TrainingQuestion
             QuestionId= _question.Id;
             return _question;
         }
-        set { _question = value; }
+        set
+        {
+            _question = value;
+            QuestionId = _question.Id;
+        }
     }
     
     [JsonProperty]
