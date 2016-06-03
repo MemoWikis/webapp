@@ -39,11 +39,12 @@ public class TrainingPlanCreator
         if (settings.QuestionsPerDate_IdealAmount < settings.QuestionsPerDate_Minimum)
             settings.QuestionsPerDate_IdealAmount = settings.QuestionsPerDate_Minimum;
 
-        settings.DebugAnswerProbabilities = GetInitialAnswerProbabilities(date);
+        settings.AnswerProbabilities = GetInitialAnswerProbabilities(date);
 
         trainingPlan.Dates = GetDates(date, settings);
 
-        var probabilitiesAtTimeOfDate = ReCalcAllAnswerProbablities(date.DateTime, settings.DebugAnswerProbabilities);
+        var probabilitiesAtTimeOfDate = ReCalcAllAnswerProbablities(date.DateTime, settings.AnswerProbabilities);
+
         trainingPlan.LearningGoalIsReached = probabilitiesAtTimeOfDate
             .All(p => p.CalculatedProbability >= settings.AnswerProbabilityThreshold 
                 && GetKnowledgeStatus.Run(p.History.Select(h => h.Answer).ToList()) == KnowledgeStatus.Solid);
@@ -90,7 +91,8 @@ public class TrainingPlanCreator
         var boostParameters = new AddFinalBoostParameters(date, learningDates, settings);
 
         if (settings.AddFinalBoost)
-            FindBoostingDateTimesFromEndtimeBackwards(boostParameters, upperTimeBound);
+            upperTimeBound = 
+                SetBoostingDateTimesFromEndtimeBackwards(boostParameters, upperTimeBound);
 
         AddDatesFromNowOnForwards(
             date,
@@ -104,12 +106,12 @@ public class TrainingPlanCreator
         return learningDates;
     }
 
-    private static void FindBoostingDateTimesFromEndtimeBackwards(AddFinalBoostParameters boostParameters, DateTime upperTimeBound)
+    private static DateTime SetBoostingDateTimesFromEndtimeBackwards(AddFinalBoostParameters boostParameters, DateTime upperTimeBound)
     {
         boostParameters.SetInitialBoostingDateProposal(upperTimeBound);
         boostParameters.SetBoostingDateTimes();
 
-        upperTimeBound = boostParameters.CurrentBoostingDateProposal;
+        return boostParameters.CurrentBoostingDateProposal;
     }
 
     private static void AddDatesFromNowOnForwards(Date date, TrainingPlanSettings settings, List<TrainingDate> learningDates, DateTime upperTimeBound)
@@ -144,26 +146,30 @@ public class TrainingPlanCreator
         List<TrainingDate> learningDates)
     {
         var newAnswerProbabilities = 
-            ReCalcAllAnswerProbablities(proposedDateTime, settings.DebugAnswerProbabilities);
+            ReCalcAllAnswerProbablities(proposedDateTime, settings.AnswerProbabilities);
 
         var belowThresholdCount = newAnswerProbabilities.Count(x => x.CalculatedProbability < settings.AnswerProbabilityThreshold);
 
-        if (settings.DebugAnswerProbabilities.Count(x => x.History.Count > 0 && x.CalculatedProbability < 15) > 0)
+        if (settings.AnswerProbabilities.Count(x => x.History.Count > 0 && x.CalculatedProbability < 15) > 0)
             Debugger.Break();
 
-        //if((proposedDateTime.Hour % 4) == 0 && proposedDateTime.Minute < 15)
-        //    answerProbabilities.Log();
+        if (settings.DebugLog
+            && proposedDateTime.Hour%4 == 0
+            && proposedDateTime.Minute < 15)
+        {
+            settings.AnswerProbabilities.Log();
+        }
 
         if (belowThresholdCount < settings.QuestionsPerDate_Minimum)
             return false;
 
-        settings.DebugAnswerProbabilities = newAnswerProbabilities.ToList();
+        settings.AnswerProbabilities = newAnswerProbabilities.ToList();
 
         learningDates.Add(
             SetUpTrainingDate(
                 proposedDateTime,
                 settings,
-                settings.DebugAnswerProbabilities
+                settings.AnswerProbabilities
                     .OrderBy(x => x.CalculatedProbability)
                     .ThenBy(x => x.History.Count)
                     .ToList(),
@@ -171,15 +177,15 @@ public class TrainingPlanCreator
                 idealNumberOfQuestions: settings.QuestionsPerDate_IdealAmount
             ));
 
-        var probs = settings.DebugAnswerProbabilities.OrderBy(x => x.Question.Id).ToList();
+        if (settings.DebugLog)
+        {
+            var log = settings.AnswerProbabilities.OrderBy(x => x.Question.Id)
+                         .Select(x => x.Question.Id + ": " + x.CalculatedProbability)
+                         .ToList()
+                         .Aggregate((a, b) => a + " | " + b);
 
-        var log = "XXX:" +
-                  settings.DebugAnswerProbabilities.OrderBy(x => x.Question.Id)
-                      .Select(x => x.Question.Id + ": " + x.CalculatedProbability)
-                      .ToList()
-                      .Aggregate((a, b) => a + " | " + b);
-
-        Logg.r().Information(log);
+            Logg.r().Information(log);
+        }
 
         return true;
     }
@@ -225,7 +231,7 @@ public class TrainingPlanCreator
             /*directly after training the probability is almost 100%!*/
             trainingQuestion.ProbAfter = 99;
 
-            settings.DebugAnswerProbabilities
+            settings.AnswerProbabilities
                 .By(trainingQuestion.Question.Id)
                 .AddAnswerAndSetProbability(trainingQuestion.ProbAfter, trainingDate.DateTime, trainingDate);
 

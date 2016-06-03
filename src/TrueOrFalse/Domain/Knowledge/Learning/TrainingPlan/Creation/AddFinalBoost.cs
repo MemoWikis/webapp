@@ -110,7 +110,7 @@ public class AddFinalBoostParameters
         {
             var r = new Random();
             var orderedAnswerProbabilities =
-                _settings.DebugAnswerProbabilities
+                _settings.AnswerProbabilities
                     .OrderBy(p => UnboostedQuestions
                         .Select(q => q.Id)
                         .Any(id => id == p.Question.Id)

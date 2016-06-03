@@ -33,7 +33,9 @@ public class TrainingPlanSettings
 
     public virtual int NumberOfHoursLastTrainingShouldStartBeforeDate { get; set; } = 3;
 
-    public virtual List<AnswerProbability> DebugAnswerProbabilities { get; set; }
+    public virtual List<AnswerProbability> AnswerProbabilities { get; set; }
+
+    public virtual bool DebugLog { get; set; } = false;
 
     public bool IsInSnoozePeriod(DateTime dateTime)
     {
