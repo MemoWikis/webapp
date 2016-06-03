@@ -2,6 +2,7 @@
 using System.Linq;
 using NHibernate.Util;
 using NUnit.Framework;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class Should_create_trainingsplan : BaseTest
 {
@@ -88,19 +89,15 @@ public class Should_create_trainingsplan : BaseTest
         var date = SetUpDateWithTrainingPlan(
             new TrainingPlanSettings
             {
+                QuestionsPerDate_IdealAmount = 10,
                 AddFinalBoost = true
-            });
+            },
+            numberOfQuestions: 30);
 
-        var startingTimeOfLastTraining = date.TrainingPlan.Dates.Last().DateTime;
-        var estimatedTimeSpanNeededForLastTraining =
-            TimeSpan.FromSeconds(
-                date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Sum(q => q.Question.TimeToLearnInSeconds()));
-        var estimatedEndTimeOfLastTraining = startingTimeOfLastTraining.Add(estimatedTimeSpanNeededForLastTraining);
+        var allBoostedQuestions =
+            date.TrainingPlan.Dates.Where(d => d.IsBoostingDate).SelectMany(d => d.AllQuestionsInTraining).Select(q => q.Question).OrderBy(q => q.Id).ToList();
 
-        Assert.That(date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Count, Is.EqualTo(date.CountQuestions()));
-        Assert.That(date.DateTime.Subtract(estimatedEndTimeOfLastTraining), 
-            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldStartBeforeDate)
-                        .Subtract(TimeSpan.FromMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes))));
+        Assert.That(date.AllQuestions().All(q1 => allBoostedQuestions.Any(q2 => q2 == q1)));
     }
 
     [Test]
@@ -135,6 +132,8 @@ public class Should_create_trainingsplan : BaseTest
         };
 
         date.TrainingPlan = TrainingPlanCreator.Run(date, settings);
+
+        Sl.R<DateRepo>().Create(date);
 
         return date;
     }

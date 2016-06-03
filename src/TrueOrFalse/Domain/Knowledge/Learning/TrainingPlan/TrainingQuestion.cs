@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
 
+[DebuggerDisplay("QuestionId={Question.Id} IsInTraining={IsInTraining}")]
 public class TrainingQuestion : DomainEntity
 {
     public virtual Question Question { get; set; }

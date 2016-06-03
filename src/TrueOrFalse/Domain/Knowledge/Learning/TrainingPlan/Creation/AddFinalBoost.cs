@@ -18,11 +18,10 @@ public class AddFinalBoostParameters
     {
         get
         {
-            if (_date.TrainingPlan == null)
-                return _date.AllQuestions().ToList();
-
             return _date.AllQuestions()
-                    .Except(_date.TrainingPlan.BoostedQuestions())
+                    .Except(_date.TrainingPlan != null 
+                            ? _date.TrainingPlan.BoostedQuestions()
+                            : new List<Question>())
                     .Except(_learningDates
                         .Where(d => d.IsBoostingDate)
                         .SelectMany(d => d.AllQuestionsInTraining)
