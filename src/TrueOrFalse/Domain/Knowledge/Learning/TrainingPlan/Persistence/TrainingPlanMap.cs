@@ -12,6 +12,8 @@ public class TrainingPlanMap : ClassMap<TrainingPlan>
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
 
+        Map(x => x.LearningGoalIsReached);
+
         Component(x => x.Settings, x =>
         {
             x.Map(y => y.AnswerProbabilityThreshold);

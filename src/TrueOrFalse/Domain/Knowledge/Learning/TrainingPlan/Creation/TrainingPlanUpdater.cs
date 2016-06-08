@@ -30,6 +30,8 @@ public class TrainingPlanUpdater
                 IsBoostingDate = newDate.IsBoostingDate
             });
 
+        trainingPlan.LearningGoalIsReached = newTrainingPlan.LearningGoalIsReached;
+
         trainingPlan.MarkDatesAsMissed();
 
         trainingPlanRepo.Update(trainingPlan);
