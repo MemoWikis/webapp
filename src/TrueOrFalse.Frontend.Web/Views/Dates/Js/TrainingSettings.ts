@@ -31,7 +31,6 @@
           "#txtEqualizedSpacingDelayerDays").keyup(() => {
               this.UpdateTrainingPlanAfterSettingsChange(self._dateId);
         });
-
         $("#chkbxEqualizeSpacingBetweenSessions").change(() => {
             this.ToggleEqualizeSpacingOptions();
             this.UpdateTrainingPlanAfterSettingsChange(self._dateId);
@@ -84,6 +83,7 @@
 
     RenderTrainingPlan(data) {
         $("#chartTrainingTime").empty();
+        $("#divWarningLearningGoal").hide();
         this.RenderDetails(data.Html);
         $("#modalTraining #RemainingDates").html(data.RemainingDates);
         $("#modalTraining #RemainingTime").html(data.RemainingTime);
@@ -98,6 +98,9 @@
         $("#modalTraining #txtEqualizedSpacingMaxMultiplier").val(data.EqualizedSpacingMaxMultiplier);
         $("#modalTraining #txtEqualizedSpacingDelayerDays").val(data.EqualizedSpacingDelayerDays);
         this.ToggleEqualizeSpacingOptions();
+        if (!data.LearningGoalIsReached)
+            $("#divWarningLearningGoal").show(300);
+
         
         var renderChartIfDivHasWidth = () => {
             window.setTimeout(() => {
@@ -123,6 +126,8 @@
 
         $("#divTrainingPlanDetailsSpinner").show();
         $("#divTrainingPlanDetails").hide();
+        $("#chartTrainingTime").empty();
+        $("#divWarningLearningGoal").hide();
         delay(() => {
             $.post("/Dates/TrainingPlanUpdate/",
                 { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },

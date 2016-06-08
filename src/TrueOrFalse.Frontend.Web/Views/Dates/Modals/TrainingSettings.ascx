@@ -140,6 +140,18 @@
                         <div id="chartTrainingTime"></div>
                     </div>
                 </div>
+                <div class="row" id="divWarningLearningGoal" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            <%--<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>--%>
+                            <p>
+                                <strong>Warnung: Lernziele werden nicht erreicht</strong><br/>
+                                Mit den aktuellen Einstellungen wirst du zum Termin vermutlich nicht alle Fragen sicher beherrschen. 
+                                Bitte passe die erweiterten Einstellungen an (mehr Fragen pro Termin, geringerer Mindestabstand zwischen Übungssitzungen). 
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="row">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>

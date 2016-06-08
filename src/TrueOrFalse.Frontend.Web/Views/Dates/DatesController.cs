@@ -184,6 +184,7 @@ public class DatesController : BaseController
             EqualizedSpacingMaxMultiplier = planSettings.EqualizedSpacingMaxMultiplier,
             EqualizedSpacingDelayerDays = planSettings.EqualizedSpacingDelayerDays,
             ChartTrainingTimeRows = GetChartTrainingTimeRows(date.TrainingPlan),
+            LearningGoalIsReached = date.TrainingPlan.LearningGoalIsReached
         });
     }
 
