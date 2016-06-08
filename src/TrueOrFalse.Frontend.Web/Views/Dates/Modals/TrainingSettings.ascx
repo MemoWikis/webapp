@@ -35,9 +35,10 @@
                             <div class="pull-right">Lernstrategie:</div>
                         </div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            <select>
-                                <option>Nachhaltig lernen</option>
-                                <option>Minimaler Aufwand</option>
+                            <select id="selectLearningStrategy">
+                                <option value="learningStrategyEnduring">Nachhaltig lernen</option>
+                                <option value="learningStrategyMinimalEffort">Minimaler Aufwand</option>
+                                <option value="learningStrategyMarginalBenefit">Grenznutzenoptimiert</option>
                             </select>
                         </div>
                     </div>
@@ -46,7 +47,7 @@
                             <div class="pull-right">Ruhezeiten:</div>
                         </div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            jeden Tag 22:00-8:00 u. an Sonntagen <i class="fa fa-plus-square-o"></i>
+                            jeden Tag 22:00-8:00 <a href="#" class="featureNotImplemented"><i class="fa fa-plus-square-o"></i></a>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 4px;">
@@ -138,6 +139,18 @@
                     </div>
                     <div class="col-md-8">
                         <div id="chartTrainingTime"></div>
+                    </div>
+                </div>
+                <div class="row" id="divWarningLearningGoal" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            <%--<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>--%>
+                            <p>
+                                <strong>Warnung: Lernziele werden nicht erreicht</strong><br/>
+                                Mit den aktuellen Einstellungen wirst du zum Termin vermutlich nicht alle Fragen sicher beherrschen. 
+                                Bitte passe die erweiterten Einstellungen an (mehr Fragen pro Termin, geringerer Mindestabstand zwischen Übungssitzungen). 
+                            </p>
+                        </div>
                     </div>
                 </div>
                 

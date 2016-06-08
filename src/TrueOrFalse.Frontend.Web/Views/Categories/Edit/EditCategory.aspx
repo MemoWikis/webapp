@@ -125,8 +125,10 @@
 <%--                                <label style="font-weight: normal">
                                     <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
                                     Aus- und Weiterbildung--%>
-                                    <span style="color: lightgrey">Aus- und Weiterbildung
-                                    <br/>(Studiengänge, Schulfächer, Klassenstufen etc.)</span>
+                                    <a href="#" class="featureNotImplemented">
+                                        <span style="color: lightgrey">Aus- und Weiterbildung
+                                        <br/>(Studiengänge, Schulfächer, Klassenstufen etc.)</span>
+                                    </a>
                                     <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
                                         <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
                                         <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>

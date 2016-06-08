@@ -57,6 +57,8 @@
             alert("hello");
             $('#userOptions').dropdown();
         });
-        
+
+        $(document).on('click', '.featureNotImplemented', function () { $('#FeatureNotImplementedModal').modal(); });
+
     });
 </script>
