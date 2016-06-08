@@ -108,6 +108,10 @@ public class AddFinalBoostParameters
 
         for (var i = 0; i < BoostingDateTimes.Count; i++)
         {
+            var dateTime = BoostingDateTimes[i];
+
+            TrainingPlanCreator.ReCalcAllAnswerProbablities(dateTime, _settings.AnswerProbabilities);
+
             var r = new Random();
             var orderedAnswerProbabilities =
                 _settings.AnswerProbabilities
@@ -119,7 +123,6 @@ public class AddFinalBoostParameters
                     .ThenBy(x => r.Next())
                     .ToList();
 
-            var dateTime = BoostingDateTimes[i];
 
             _learningDates.Add(
                 TrainingPlanCreator.SetUpTrainingDate(
