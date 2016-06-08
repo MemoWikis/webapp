@@ -84,10 +84,8 @@ public class TrainingPlanCreator
     {
         var learningDates = new List<TrainingDate>();
 
-        var upperTimeBound = date.DateTime.Subtract(DateTimeX.Now()) < TimeSpan.FromHours(settings.NumberOfHoursLastTrainingShouldStartBeforeDate)
-                                ? date.DateTime.AddHours(-1)
-                                : date.DateTime.AddHours(-settings.NumberOfHoursLastTrainingShouldStartBeforeDate);
-
+        var upperTimeBound = date.DateTime.Date;
+            
         var boostParameters = new AddFinalBoostParameters(date, learningDates, settings);
 
         if (settings.AddFinalBoost)
@@ -253,7 +251,7 @@ public class TrainingPlanCreator
         }
     }
 
-    private static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
+    public static List<AnswerProbability> ReCalcAllAnswerProbablities(DateTime dateTime, List<AnswerProbability> answerProbabilities)
     {
         var forgettingCurve = new ProbabilityCalc_Curve_HalfLife_24h(); 
 
