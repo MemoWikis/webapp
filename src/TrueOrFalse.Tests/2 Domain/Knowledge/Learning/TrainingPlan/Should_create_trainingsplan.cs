@@ -83,7 +83,7 @@ public class Should_create_trainingsplan : BaseTest
     }
 
     [Test]
-    public void Should_add_final_boost()
+    public void All_questions_should_be_boosted()
     {
         var date = SetUpDateWithTrainingPlan(
             new TrainingPlanSettings
