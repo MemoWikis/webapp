@@ -66,6 +66,15 @@ public class TrainingPlanSettings
         
     }
 
+    public static TrainingPlanSettings GetSettingsWithIndividualDefaults(Date date)
+    {
+        var questionsPerDate_IdealAmount = (int) Math.Round(date.CountQuestions()*0.25, MidpointRounding.AwayFromZero);
+        questionsPerDate_IdealAmount = Math.Max(10, questionsPerDate_IdealAmount);
+        questionsPerDate_IdealAmount = Math.Min(questionsPerDate_IdealAmount, 30);
+
+        return new TrainingPlanSettings { QuestionsPerDate_IdealAmount = questionsPerDate_IdealAmount };
+    }
+
 }
 
 public enum LearningPlanStrategy
