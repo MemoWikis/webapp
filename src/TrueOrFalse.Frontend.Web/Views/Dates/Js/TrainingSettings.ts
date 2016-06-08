@@ -23,6 +23,10 @@
             self.Populate(self._dateId);
         });
 
+        $('#selectLearningStrategy').on('change', '', function (e) {
+            self.SelectLearningStrategyChange();
+        });
+
         $("#txtQuestionsPerDateIdealAmount," +
           "#txtAnswerProbabilityThreshold," +
           "#txtQuestionsPerDateMinimum," +
@@ -275,5 +279,12 @@
         var chart = new google.visualization.ColumnChart(document.getElementById("chartTrainingTime"));
         chart.draw(view, options);
 
+    }
+
+    SelectLearningStrategyChange() {
+        if ($("#selectLearningStrategy").val() != "learningStrategyEnduring") {
+            $("#selectLearningStrategy").val("learningStrategyEnduring");
+            $('#FeatureNotImplementedModal').modal();
+        }
     }
 }

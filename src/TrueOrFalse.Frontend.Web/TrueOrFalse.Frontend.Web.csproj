@@ -420,6 +420,8 @@
     <Content Include="Images\Logo\LogoPictogram.png" />
     <Content Include="Images\Logo\LogoSmall.png" />
     <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />
+    <Content Include="Images\Logo\memucho_MEMO_angry_blau_w100.png" />
+    <Content Include="Images\Logo\memucho_MEMO_angry_blau_w70.png" />
     <Content Include="Images\no-profile-picture-250.png" />
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />
@@ -1937,6 +1939,7 @@
     <Content Include="Views\Dates\Js\DateRowCopy.js.map">
       <DependentUpon>DateRowCopy.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

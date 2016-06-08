@@ -35,9 +35,10 @@
                             <div class="pull-right">Lernstrategie:</div>
                         </div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            <select>
-                                <option>Nachhaltig lernen</option>
-                                <option>Minimaler Aufwand</option>
+                            <select id="selectLearningStrategy">
+                                <option value="learningStrategyEnduring">Nachhaltig lernen</option>
+                                <option value="learningStrategyMinimalEffort">Minimaler Aufwand</option>
+                                <option value="learningStrategyMarginalBenefit">Grenznutzenoptimiert</option>
                             </select>
                         </div>
                     </div>
@@ -46,7 +47,7 @@
                             <div class="pull-right">Ruhezeiten:</div>
                         </div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            jeden Tag 22:00-8:00 u. an Sonntagen <i class="fa fa-plus-square-o"></i>
+                            jeden Tag 22:00-8:00 <a href="#" class="featureNotImplemented"><i class="fa fa-plus-square-o"></i></a>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 4px;">
