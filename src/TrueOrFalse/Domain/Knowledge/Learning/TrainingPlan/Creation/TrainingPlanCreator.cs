@@ -101,6 +101,8 @@ public class TrainingPlanCreator
         if (settings.AddFinalBoost)
             boostParameters.AddBoostingDates();
 
+        AddExpirationDate(date, learningDates);
+
         return learningDates;
     }
 
@@ -136,6 +138,22 @@ public class TrainingPlanCreator
 
             nextDateProposal = nextDateProposal.AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes);
         }
+    }
+
+    private static void AddExpirationDate(Date date, List<TrainingDate> learningDates)
+    {
+
+        for (var i = 0; i < learningDates.Count - 1; i++)
+        {
+            var beginningOfNextDay = learningDates[i].DateTime.Date.AddDays(1);
+            var timeOfNextDate = learningDates[i + 1].DateTime;
+
+            learningDates[i].ExpiresAt = timeOfNextDate < beginningOfNextDay
+                                        ? timeOfNextDate
+                                        : beginningOfNextDay;
+        }
+
+        learningDates.Last().ExpiresAt = date.DateTime;
     }
 
     private static bool TryAddDate(

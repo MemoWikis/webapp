@@ -11,6 +11,8 @@ public class TrainingDateMap : ClassMap<TrainingDate>
 
         Map(x => x.DateTime);
 
+        Map(x => x.ExpiresAt);
+
         HasMany(x => x.AllQuestions)
             .Table("trainingdate_questions")
             .Cascade.AllDeleteOrphan()

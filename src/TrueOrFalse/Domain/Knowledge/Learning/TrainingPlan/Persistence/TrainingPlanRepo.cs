@@ -64,7 +64,7 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
         var newMissedDates = Session
             .QueryOver<TrainingDate>()
             .Where(d =>
-                d.DateTime < DateTimeX.Now() 
+                d.ExpiresAt <= DateTimeX.Now() 
                 && d.LearningSession == null
                 && !d.MarkedAsMissed
             ).List();

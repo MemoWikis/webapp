@@ -10,17 +10,21 @@ public class TrainingPlan : DomainEntity
     public virtual Date Date { get; set; }
 
     public virtual IList<TrainingDate> Dates { get; set; } = new List<TrainingDate>();
-    public virtual IList<TrainingDate> OpenDates => Dates
-                                                        .Where(d => d.DateTime > DateTimeX.Now()
-                                                            && !d.MarkedAsMissed
-                                                            && d.LearningSession == null)
-                                                        .OrderBy(d => d.DateTime).ToList();
-    public virtual IList<TrainingDate> PastDatesNotMissed => Dates
-                                                        .Where(d => d.DateTime < DateTimeX.Now()
-                                                            && !d.MarkedAsMissed
-                                                            && d.LearningSession != null)
-                                                        .OrderBy(d => d.DateTime).ToList();
+  
+    public virtual IList<TrainingDate> OpenDates =>
+        Dates
+            .Where(d => !d.IsExpired()
+                && !d.MarkedAsMissed
+                && (d.LearningSession == null || !d.LearningSession.IsCompleted))
+            .OrderBy(d => d.DateTime).ToList();
+
     public virtual IList<TrainingDate> PastDates => Dates.Except(OpenDates).OrderBy(d => d.DateTime).ToList();
+
+    public virtual IList<TrainingDate> PastDatesNotMissed =>
+        PastDates
+            .Where(d => !d.MarkedAsMissed
+                && d.LearningSession != null)
+            .OrderBy(d => d.DateTime).ToList();
 
     public virtual TimeSpan TimeToNextDate => HasOpenDates ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
     public virtual int QuestionCountInNextDate => HasOpenDates ? GetNextTrainingDate().AllQuestionsInTraining.Count() : 0;
