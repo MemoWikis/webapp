@@ -7,8 +7,8 @@
     <title>memucho</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 <%--    <%= Scripts.Render("~/bundles/guidedTourScript") %>
-    <%= Scripts.Render("~/bundles/Welcome") %>
     <%= Styles.Render("~/bundles/guidedTourStyle") %>--%>
+    <%= Scripts.Render("~/bundles/Welcome") %>
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">

@@ -10,6 +10,8 @@ public class WelcomeBoxSingleSetModel : BaseModel
     public int FirstQId;
     public string FirstQText;
 
+    public bool IsInWishknowledge;
+
     public ImageFrontendData ImageFrontendData;
 
     public WelcomeBoxSingleSetModel(int setId, string setText = null)
@@ -33,6 +35,9 @@ public class WelcomeBoxSingleSetModel : BaseModel
             FirstQId = 0;
             FirstQText = "";
         }
+
+        IsInWishknowledge = R<SetValuationRepo>().GetBy(setId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
+
     }
 
     public static WelcomeBoxSingleSetModel GetWelcomeBoxSetSingleModel(int setId, string setText = null)
