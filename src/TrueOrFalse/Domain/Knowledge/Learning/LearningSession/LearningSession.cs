@@ -60,7 +60,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         if(IsCompleted) return;
 
         Steps.Where(s => s.AnswerState == StepAnswerState.Uncompleted)
-            .Each(s => LearningSessionStep.Skip(s.Id));
+            .Each(s => s.AnswerState = StepAnswerState.NotViewedOrAborted);
 
         IsCompleted = true;
 
