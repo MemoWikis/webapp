@@ -54,7 +54,8 @@ public class TrainingPlan : DomainEntity
 
         PastDates.ForEach(d => 
         {
-            if (d.LearningSession != null || d.MarkedAsMissed) return;
+            if (!d.IsExpired() || d.LearningSession != null || d.MarkedAsMissed) return;
+
             d.MarkedAsMissed = true;
             trainingDateRepo.Update(d);
         });
@@ -70,12 +71,26 @@ public class TrainingPlan : DomainEntity
                 .Where(s => s.AnswerState == StepAnswerState.Answered)
                 .Select(s => s.Question))
                 .ToList();
-    } 
+    }
 
-    public virtual TrainingDate GetNextTrainingDate()
+    public virtual bool BoostingPhaseHasStarted()
     {
-        PastDates.Where(d => d.LearningSession != null && !d.LearningSession.IsCompleted).ForEach(d => d.LearningSession.CompleteSession());
-        return HasOpenDates ? OpenDates.First() : null;
+        if (!Settings.AddFinalBoost || !Dates.Any(d => d.IsBoostingDate))
+            return false;
+
+        return Dates.First(d => d.IsBoostingDate).DateTime <= DateTimeX.Now();
+    }
+
+    public virtual TrainingDate GetNextTrainingDate(bool withUpdate = false)
+    {
+
+        if (withUpdate && PastDates.Any(d => d.IsExpiredWithoutUpdate()))
+        {
+            var updatedTrainingPlan = TrainingPlanUpdater.Run(this, this.Settings);
+            return updatedTrainingPlan.OpenDates.FirstOrDefault();
+        }
+
+        return OpenDates.FirstOrDefault();
     }
 
     public virtual void DumpToConsole()
@@ -95,4 +110,11 @@ public class TrainingPlan : DomainEntity
         Console.Write(sb);
     }
 
+    public virtual void CompleteUnfinishedSessions()
+    {
+        PastDates.Where(d => d.LearningSession != null 
+                        && !d.LearningSession.IsCompleted 
+                        && d.IsExpired())
+                .ForEach(d => d.LearningSession.CompleteSession());
+    }
 }

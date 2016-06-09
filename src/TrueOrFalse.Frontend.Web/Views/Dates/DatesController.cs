@@ -97,30 +97,9 @@ public class DatesController : BaseController
         if (date.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
-        var trainingDate = date.TrainingPlan?.GetNextTrainingDate();
+        var trainingDate = date.TrainingPlan.GetNextTrainingDate(withUpdate: true);
 
-        //var steps = trainingDate != null
-        //                ? GetLearningSessionSteps.Run(trainingDate)
-        //                : GetLearningSessionSteps.Run(date.Sets.SelectMany(s => s.Questions()).ToList());
-
-        var learningSession = new LearningSession
-        {
-            DateToLearn = date,
-            Steps = GetLearningSessionSteps.Run(date),
-        //    Steps = steps,
-            User = _sessionUser.User
-        };
-
-        R<LearningSessionRepo>().Create(learningSession);
-
-        if (trainingDate.LearningSession != null)
-        {
-            var previousLearningSession = trainingDate.LearningSession;
-            previousLearningSession.CompleteSession();
-            R<LearningSessionRepo>().Update(previousLearningSession);
-        }
-        trainingDate.LearningSession = learningSession;
-        R<TrainingDateRepo>().Update(trainingDate);
+        var learningSession = TrainingDate.InitLearningSession(date, trainingDate);
 
         return Redirect(Links.LearningSession(learningSession));
     }
