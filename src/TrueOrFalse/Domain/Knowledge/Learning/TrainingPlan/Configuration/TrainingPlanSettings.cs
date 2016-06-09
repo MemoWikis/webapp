@@ -6,6 +6,9 @@ public class TrainingPlanSettings
 {
     public virtual int QuestionsPerDate_Minimum { get; set; } = 7;
     public virtual int QuestionsPerDate_IdealAmount { get; set; } = 10;
+    public const int QuestionsPerDate_IdealAmount_DefaultPercentageOfAllQuestions = 25;
+    public const int QuestionsPerDate_IdealAmount_DefaultMinimum = 10;
+    public const int QuestionsPerDate_IdealAmount_DefaultMaximum = 30;
 
     //public virtual int SpacingBetweenSessionsInMinutes { get; set; } = 60 * 3; //obsolete
 
@@ -68,9 +71,12 @@ public class TrainingPlanSettings
 
     public static TrainingPlanSettings GetSettingsWithIndividualDefaults(Date date)
     {
-        var questionsPerDate_IdealAmount = (int) Math.Round(date.CountQuestions()*0.25, MidpointRounding.AwayFromZero);
-        questionsPerDate_IdealAmount = Math.Max(10, questionsPerDate_IdealAmount);
-        questionsPerDate_IdealAmount = Math.Min(questionsPerDate_IdealAmount, 30);
+        var questionsPerDate_IdealAmount = 
+            (int) Math.Round(
+                date.CountQuestions() * QuestionsPerDate_IdealAmount_DefaultPercentageOfAllQuestions / (double)100,
+                MidpointRounding.AwayFromZero);
+        questionsPerDate_IdealAmount = Math.Max(QuestionsPerDate_IdealAmount_DefaultMinimum, questionsPerDate_IdealAmount);
+        questionsPerDate_IdealAmount = Math.Min(questionsPerDate_IdealAmount, QuestionsPerDate_IdealAmount_DefaultMaximum);
 
         return new TrainingPlanSettings { QuestionsPerDate_IdealAmount = questionsPerDate_IdealAmount };
     }
