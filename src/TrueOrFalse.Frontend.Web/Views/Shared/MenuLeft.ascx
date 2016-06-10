@@ -31,6 +31,9 @@
             </a>
             <a id="mainMenuBtnDates" class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
                 <i class="fa fa-caret-right"></i> Termine
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 date-color add-new" 
+                    onclick="window.location = '<%= Url.Action("Create", "EditDate") %>'; return false; "
+                    title="Neuen Termin erstellen"></i>
             </a>            
             <%
                 var visitedD = new SessionUiData().VisitedDatePages;
