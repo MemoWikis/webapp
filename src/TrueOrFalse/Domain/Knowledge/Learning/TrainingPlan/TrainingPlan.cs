@@ -86,8 +86,7 @@ public class TrainingPlan : DomainEntity
 
         if (withUpdate && PastDates.Any(d => d.IsExpiredWithoutUpdate()))
         {
-            var updatedTrainingPlan = TrainingPlanUpdater.Run(this, this.Settings);
-            return updatedTrainingPlan.OpenDates.FirstOrDefault();
+            TrainingPlanUpdater.Run(this, Settings);
         }
 
         return OpenDates.FirstOrDefault();

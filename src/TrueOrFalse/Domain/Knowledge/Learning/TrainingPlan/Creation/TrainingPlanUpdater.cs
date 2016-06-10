@@ -3,18 +3,13 @@ using System.Diagnostics;
 
 public class TrainingPlanUpdater
 {
-    public static TrainingPlan Run(int trainingPlanId)
-    {
-        return Run(Sl.Resolve<TrainingPlanRepo>().GetById(trainingPlanId));
-    }
-
-    public static TrainingPlan Run(TrainingPlan trainingPlan, TrainingPlanSettings settings)
+    public static void Run(TrainingPlan trainingPlan, TrainingPlanSettings settings)
     {
         trainingPlan.Settings = settings;
-        return Run(trainingPlan);
+        Run(trainingPlan);
     }
 
-    public static TrainingPlan Run(TrainingPlan trainingPlan)
+    public static void Run(TrainingPlan trainingPlan)
     {
         var trainingPlanRepo = Sl.R<TrainingPlanRepo>();
         trainingPlanRepo.DeleteUnstartedDatesAfter(trainingPlan, DateTimeX.Now());
@@ -41,7 +36,5 @@ public class TrainingPlanUpdater
         trainingPlanRepo.Flush();
 
         Logg.r().Information("Traingplan updated (in db): {duration}", stopWatch.Elapsed);
-
-        return trainingPlan;
     }
 }
