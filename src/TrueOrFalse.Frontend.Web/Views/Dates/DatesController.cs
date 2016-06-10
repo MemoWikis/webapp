@@ -97,30 +97,9 @@ public class DatesController : BaseController
         if (date.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
-        var trainingDate = date.TrainingPlan?.GetNextTrainingDate();
+        var trainingDate = date.TrainingPlan.GetNextTrainingDate(withUpdate: true);
 
-        //var steps = trainingDate != null
-        //                ? GetLearningSessionSteps.Run(trainingDate)
-        //                : GetLearningSessionSteps.Run(date.Sets.SelectMany(s => s.Questions()).ToList());
-
-        var learningSession = new LearningSession
-        {
-            DateToLearn = date,
-            Steps = GetLearningSessionSteps.Run(date),
-        //    Steps = steps,
-            User = _sessionUser.User
-        };
-
-        R<LearningSessionRepo>().Create(learningSession);
-
-        if (trainingDate.LearningSession != null)
-        {
-            var previousLearningSession = trainingDate.LearningSession;
-            previousLearningSession.CompleteSession();
-            R<LearningSessionRepo>().Update(previousLearningSession);
-        }
-        trainingDate.LearningSession = learningSession;
-        R<TrainingDateRepo>().Update(trainingDate);
+        var learningSession = TrainingDate.InitLearningSession(date, trainingDate);
 
         return Redirect(Links.LearningSession(learningSession));
     }
@@ -172,21 +151,26 @@ public class DatesController : BaseController
         return Json(new
         {
             Html = RenderTrainingDates(date),
+            DateOfDate = date.DateTime.ToString("dd.MM.yyy HH:mm"),
             RemainingDates = date.TrainingPlan.OpenDates.Count,
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
             QuestionCount = date.CountQuestions(),
             QuestionsPerDateIdealAmount = planSettings.QuestionsPerDate_IdealAmount,
             AnswerProbabilityThreshold = planSettings.AnswerProbabilityThreshold,
             QuestionsPerDateMinimum = planSettings.QuestionsPerDate_Minimum,
-            SpacingBetweenSessionsInMinutes = planSettings.SpacingBetweenSessionsInMinutes,
+            MinSpacingBetweenSessionsInMinutes = planSettings.MinSpacingBetweenSessionsInMinutes,
+            EqualizeSpacingBetweenSessions = planSettings.EqualizeSpacingBetweenSessions,
+            EqualizedSpacingMaxMultiplier = planSettings.EqualizedSpacingMaxMultiplier,
+            EqualizedSpacingDelayerDays = planSettings.EqualizedSpacingDelayerDays,
             ChartTrainingTimeRows = GetChartTrainingTimeRows(date.TrainingPlan),
+            LearningGoalIsReached = date.TrainingPlan.LearningGoalIsReached
         });
     }
 
     private string GetChartTrainingTimeRows(TrainingPlan trainingPlan)
     {
         var tpStats = R<GetTrainingPlanStats>().Run(trainingPlan);
-        return R<GetTrainingPlanStats>().TrainingPlanStatsResult2Json(tpStats);
+        return R<GetTrainingPlanStats>().TrainingPlanStatsResult2GoogleDataTable(tpStats);
 
         //return "[[\"01.05.\", 12, 9, \"\"],[\"02.05.\", 3, 4, \"\"],[\"03.05.\", 6, 8, \"\"]]";
     }

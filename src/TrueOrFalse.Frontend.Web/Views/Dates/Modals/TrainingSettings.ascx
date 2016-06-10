@@ -35,9 +35,10 @@
                             <div class="pull-right">Lernstrategie:</div>
                         </div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            <select>
-                                <option>Nachhaltig lernen</option>
-                                <option>Minimaler Aufwand</option>
+                            <select id="selectLearningStrategy">
+                                <option value="learningStrategyEnduring">Nachhaltig lernen</option>
+                                <option value="learningStrategyMinimalEffort">Minimaler Aufwand</option>
+                                <option value="learningStrategyMarginalBenefit">Grenznutzenoptimiert</option>
                             </select>
                         </div>
                     </div>
@@ -46,7 +47,7 @@
                             <div class="pull-right">Ruhezeiten:</div>
                         </div>
                         <div class="col-md-8" style="padding-left: 0px">
-                            jeden Tag 22:00-8:00 u. an Sonntagen <i class="fa fa-plus-square-o"></i>
+                            jeden Tag 22:00-8:00 <a href="#" class="featureNotImplemented"><i class="fa fa-plus-square-o"></i></a>
                         </div>
                     </div>
                     <div class="row" style="margin-top: 4px;">
@@ -66,10 +67,11 @@
                                 <input type="text" id="txtQuestionsPerDateIdealAmount" style="width: 30px; height: 20px; font-size: 13px;" value="10"/>
                             </div>
                             <div class="col-md-4">
-                                <div class="pull-right">Vergessensschwelle:</div>
+                                <div class="pull-right">Mind.Abstand Sitzungen:</div>
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                                <input type="text" id="txtMinSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Gibt den Abstand in Minuten an, der mindestens zwischen zwei Übungssitzungen liegen muss."></i>
                             </div>
                         </div>
                         <div class="row" style="margin-top: 4px;">
@@ -80,11 +82,44 @@
                                 <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
                             </div>
                             <div class="col-md-4">
-                                <div class="pull-right">mind. Zeit zw. Terminen:</div>
+                                <div class="pull-right">Abstand anpassen:</div>
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
-                                <input type="text" id="txtSpacingBetweenSessionsInMinutes" style="width: 30px; height: 20px; font-size: 13px;" value="180"/>min
+                                <input type="checkbox" id="chkbxEqualizeSpacingBetweenSessions" style="width: 30px;" value="true" checked="checked"/>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Je größer der Abstand zum Termin, desto größer wird der Mindestabstand zwischen einzelnen Übungssitzungen."></i>
                             </div>
+
+                        </div>
+                        <div class="row" style="margin-top: 4px;">
+                            <div class="col-md-4">
+                                <div class="pull-right">Vergessensschwelle:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right EqualizeSpacingOptions">Max. Multiplikator:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtEqualizedSpacingMaxMultiplier" style="width: 30px; height: 20px; font-size: 13px;" value="90" class="EqualizeSpacingOptions"/>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Maximaler Multiplikator für Mindestabstand zwischen zwei Übungssitzungen (wird in unendlichem Abstand zum Termin erreicht). (Empfohlen: 90)"></i>
+                            </div>
+                        </div>                        
+                        <div class="row" style="margin-top: 4px;">
+                            <div class="col-md-4">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-4">
+                                <div class="pull-right EqualizeSpacingOptions">Tages-Verzögerer:</div>
+                            </div>
+                            <div class="col-md-2" style="padding-left: 0px">
+                                <input type="text" id="txtEqualizedSpacingDelayerDays" style="width: 30px; height: 20px; font-size: 13px;" value="180" class="EqualizeSpacingOptions"/>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Gibt die Verzögerung für die Anpassung des Mindestabstands an. Nach soviel Tagen wird der Mindestabstand mit dem halben oben angegebenen Faktor multipliziert. (Empfohlen: 180)"></i>
+                            </div>
+
                         </div>                        
                     </div>
 
@@ -93,18 +128,33 @@
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Übersicht</h4></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6" style="font-size: 16px;">
-                        <p><span id="QuestionCount"></span> Fragen sind zu lernen<p/>
-                        Verbleibender Lernaufwand:<br/>
-                        <i class="fa fa-calendar-o"></i> ca. <span id="RemainingDates">7</span> Übungssitzungen<br/>
-                        <i class="fa fa-clock-o"></i> ca. <span id="RemainingTime">1:20h</span> Übungszeit
+                    <div class="col-md-4">
+                        <p>
+                            Termin: <span id="DateOfDate"></span><br/>
+                            Anzahl Fragen: <span id="QuestionCount"></span>
+                        <p/>
+                        Verbleibender Lernaufwand (geschätzt):<br/>
+                        <i class="fa fa-calendar-o"></i> <span id="RemainingDates"></span> Übungssitzungen<br/>
+                        <i class="fa fa-clock-o"></i> <span id="RemainingTime"></span> Übungszeit
                     </div>
-                    <div class="col-md-6" id="chartTrainingTimeWrapper">
-                        <div id="chartTrainingTime" data-trainingplaneffort=""></div>
+                    <div class="col-md-8">
+                        <div id="chartTrainingTime"></div>
+                    </div>
+                </div>
+                <div class="row" id="divWarningLearningGoal" style="display: none;">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            <%--<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>--%>
+                            <p>
+                                <strong>Warnung: Lernziele werden nicht erreicht</strong><br/>
+                                Mit den aktuellen Einstellungen wirst du zum Termin vermutlich nicht alle Fragen sicher beherrschen. 
+                                Bitte passe die erweiterten Einstellungen an (mehr Fragen pro Termin, geringerer Mindestabstand zwischen Übungssitzungen). 
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="row" style="margin-top: 12px;">
+                <div class="row">
                     <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>
                 </div>
                 

@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Diagnostics;
 
 [JsonObject(MemberSerialization.OptIn)]
+[DebuggerDisplay("QuestionId={Question.Id} IsInTraining={IsInTraining}")]
 public class TrainingQuestion
 {
     private Question _question;

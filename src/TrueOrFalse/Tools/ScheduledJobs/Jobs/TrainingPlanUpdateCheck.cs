@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using NHibernate;
 using Quartz;
 
@@ -7,25 +8,25 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     [DisallowConcurrentExecution]
     public class TrainingPlanUpdateCheck : IJob
     {
-        public const int IntervalInMinutes = 2;
+        public const int IntervalInMinutes = 30;
 
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
+                var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates()
+                                        .Union(scope.R<TrainingPlanRepo>().AllWithExpiredUncompletedDates());
 
-                var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates();
-
-                if (trainingPlans.Count == 0)
-                {
-                    Thread.Sleep(60000);
-                }
+                //if (trainingPlans.Count == 0)
+                //{
+                //    Thread.Sleep(60000);
+                //}
 
                 foreach (var trainingPlan in trainingPlans)
                 {
                     var session = scope.R<ISession>();
 
-                    Logg.r().Information("Updating training plan Id=" + trainingPlan.Id + " because of missed date.");
+                    Logg.r().Information("Updating training plan Id=" + trainingPlan.Id + " because of missed or uncompleted date.");
 
                     TrainingPlanUpdater.Run(trainingPlan);
 

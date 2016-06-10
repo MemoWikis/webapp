@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using NHibernate.Mapping;
 using NHibernate.Util;
 using NUnit.Framework;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class Should_create_trainingsplan : BaseTest
 {
@@ -45,64 +47,87 @@ public class Should_create_trainingsplan : BaseTest
         var date = SetUpDateWithTrainingPlan(new TrainingPlanSettings
         {
             QuestionsPerDate_IdealAmount = 1,
-            SpacingBetweenSessionsInMinutes = 1200,
+            MinSpacingBetweenSessionsInMinutes = 1200,
         }, 
         timeUntilDateInDays: 1,
         numberOfQuestions: 20);
 
         var anyQuestionAnsweredLessThan3Times =
-            date.TrainingPlanSettings.DebugAnswerProbabilities.Any(x => x.History.Count < 3);
+            date.TrainingPlanSettings.AnswerProbabilities.Any(x => x.History.Count < 3);
 
+        //If any of the questions has been answered less than 3 times, LearningGoalIsReached should not be marked as true
         Assert.That(!(anyQuestionAnsweredLessThan3Times && date.TrainingPlan.LearningGoalIsReached));
     }
 
     [Test]
     public void Should_do_update_check()
     {
-        //var trainingPlan = ContextTrainingPlan.New()
-        //    .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(20))
-        //    .Persist()
-        //    .Last();
+        var trainingPlan = ContextTrainingPlan.New()
+            .Add(numberOfQuestions: 20, dateOfDate: DateTime.Now.AddDays(20))
+            .Persist()
+            .Last();
 
-        //DateTimeX.Forward(days: 10);
+        DateTimeX.Forward(days: 10);
 
-        //RecycleContainer();
+        RecycleContainer();
 
-        //new TrainingPlanUpdateCheck().Execute(null);
+        var realTimeBeforeUpdate = DateTime.Now;
 
-        ////var trainingPlans = Sl.R<TrainingPlanRepo>().AllWithNewMissedDates();
+        new TrainingPlanUpdateCheck().Execute(null);
 
-        ////foreach (var trainingPlanToUpdate in trainingPlans)
-        ////    TrainingPlanUpdater.Run(trainingPlanToUpdate);
+        var trainingPlanFromDb = Sl.R<TrainingPlanRepo>().GetById(trainingPlan.Id);
 
-        ////RecycleContainer();
-
-        //var trainingPlanFromDb = Sl.R<TrainingPlanRepo>().GetById(trainingPlan.Id);
-        //Assert.That(trainingPlanFromDb.PastDates.Count(d => !d.MarkedAsMissed), Is.EqualTo(0));
+        Assert.That(trainingPlanFromDb.Dates.Count(d => d.MarkedAsMissed), Is.GreaterThan(0));
+        Assert.That(trainingPlanFromDb.PastDates.Count(d => !d.MarkedAsMissed), Is.EqualTo(0));
+        Assert.That(trainingPlanFromDb.DateModified >= realTimeBeforeUpdate);
     }
 
     [Test]
-    public void Should_add_final_boost()
+    public void All_questions_should_be_boosted()
     {
         var date = SetUpDateWithTrainingPlan(
             new TrainingPlanSettings
             {
+                QuestionsPerDate_IdealAmount = 10,
                 AddFinalBoost = true
-            });
+            },
+            numberOfQuestions: 30);
 
-        var startingTimeOfLastTraining = date.TrainingPlan.Dates.Last().DateTime;
-        var estimatedTimeSpanNeededForLastTraining =
-            TimeSpan.FromSeconds(
-                date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Sum(q => q.Question.TimeToLearnInSeconds()));
-        var estimatedEndTimeOfLastTraining = startingTimeOfLastTraining.Add(estimatedTimeSpanNeededForLastTraining);
+        var allBoostedQuestions =
+            date.TrainingPlan.Dates.Where(d => d.IsBoostingDate).SelectMany(d => d.AllQuestionsInTraining).Select(q => q.Question).OrderBy(q => q.Id).ToList();
 
-        Assert.That(date.TrainingPlan.Dates.Last().AllQuestionsInTraining.Count, Is.EqualTo(date.CountQuestions()));
-        Assert.That(date.DateTime.Subtract(estimatedEndTimeOfLastTraining), 
-            Is.AtLeast(TimeSpan.FromHours(date.TrainingPlanSettings.NumberOfHoursLastTrainingShouldEndBeforeDate)
-                        .Subtract(TimeSpan.FromMinutes(TrainingPlanCreator.RoundedIntervalInMinutes))));
+        Assert.That(date.AllQuestions().All(q1 => allBoostedQuestions.Any(q2 => q2 == q1)));
     }
 
-    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20, bool persist = false)
+    [Test]
+    public void Boosting_dates_should_start_after_normal_dates()
+    {
+        var date = SetUpDateWithTrainingPlan(
+            new TrainingPlanSettings
+            {
+                QuestionsPerDate_IdealAmount = 10,
+                AddFinalBoost = true
+            },
+            timeUntilDateInDays: 1,
+            numberOfQuestions: 30);
+
+        var boostingDatesOrdered = date.TrainingPlan.Dates.Where(d => d.IsBoostingDate).OrderBy(d => d.DateTime).ToList();
+        var normalDatesOrdered = date.TrainingPlan.Dates.Except(boostingDatesOrdered).OrderBy(d => d.DateTime).ToList();
+
+        if(normalDatesOrdered.Any() && boostingDatesOrdered.Any())
+
+            Assert.That(boostingDatesOrdered.First().DateTime > normalDatesOrdered.Last().DateTime);
+    }
+
+    [Test]
+    public void RoundingTimeShouldBeBasedOnMinutes()
+    {
+        //If property is based on different time interval rounding method etc. has to be adjusted 
+        Assert.That(nameof(TrainingPlanSettings.TryAddDateIntervalInMinutes).ToLower().Contains("minutes"));
+    }
+
+
+    public Date SetUpDateWithTrainingPlan(TrainingPlanSettings settings, int timeUntilDateInDays = 30, int numberOfQuestions = 20)
     {
         var date = new Date
         {
@@ -111,8 +136,12 @@ public class Should_create_trainingsplan : BaseTest
             User = ContextUser.GetUser()
         };
 
-        date.TrainingPlan = TrainingPlanCreator.Run(date, settings);
+        date.TrainingPlan = TrainingPlanCreator.Run(date, settings); 
+
+        Sl.R<DateRepo>().Create(date);
 
         return date;
     }
+
+    
 }

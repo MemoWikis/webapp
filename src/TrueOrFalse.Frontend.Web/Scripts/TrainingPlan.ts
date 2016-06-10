@@ -15,7 +15,10 @@ class TrainingDate {
 class TrainingPlanSettings {
     QuestionsPerDate_Minimum: number;
     QuestionsPerDate_IdealAmount: number;
-    SpacingBetweenSessionsInMinutes: number;
+    MinSpacingBetweenSessionsInMinutes: number;
+    EqualizeSpacingBetweenSessions: boolean;
+    EqualizedSpacingMaxMultiplier: number;
+    EqualizedSpacingDelayerDays: number;
     AnswerProbabilityThreshold: number;
 }
 

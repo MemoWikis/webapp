@@ -242,7 +242,7 @@
                     <div class="modal-body">
                         <div >
                             <p>
-                                Ich bitte darum, dass diese Frage verbessert wird weil: 
+                                Ich bitte darum, dass diese Frage verbessert wird, weil: 
                             </p>
                             <ul style="list-style-type: none">
                                 <li>
@@ -307,7 +307,7 @@
                     <div class="modal-body">
                         <div >
                             <p>
-                                Ich bitte darum, dass diese Frage gelöscht wird weil: 
+                                Ich bitte darum, dass diese Frage gelöscht wird, weil: 
                             </p>
                             <ul style="list-style-type: none">
                                 <li>
@@ -337,7 +337,7 @@
                                 <li>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="ckbDelete" value="deleteIsSpam"/>
+                                            <input type="checkbox" name="ckbDelete" value="deleteOther"/>
                                             <%= ShouldReasons.ByKey("deleteOther") %>
                                         </label>
                                     </div>

@@ -2,46 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class TrainingPlan : DomainEntity
 {
     public virtual Date Date { get; set; }
 
-    [JsonProperty]
     public virtual IList<TrainingDate> Dates { get; set; } = new List<TrainingDate>();
-
-    public virtual IList<TrainingDate> OpenDates => Dates
-        .Where(d => d.DateTime > DateTimeX.Now()
-            && !d.MarkedAsMissed
-            && d.LearningSession == null)
-        .OrderBy(d => d.DateTime).ToList();
-
-    public virtual IList<TrainingDate> PastDatesNotMissed => Dates
-        .Where(d => d.DateTime < DateTimeX.Now()
-            && !d.MarkedAsMissed
-            && d.LearningSession != null)
-        .OrderBy(d => d.DateTime).ToList();
+  
+    public virtual IList<TrainingDate> OpenDates =>
+        Dates
+            .Where(d => !d.IsExpired()
+                && !d.MarkedAsMissed
+                && (d.LearningSession == null || !d.LearningSession.IsCompleted))
+            .OrderBy(d => d.DateTime).ToList();
 
     public virtual IList<TrainingDate> PastDates => Dates.Except(OpenDates).OrderBy(d => d.DateTime).ToList();
 
+    public virtual IList<TrainingDate> PastDatesNotMissed =>
+        PastDates
+            .Where(d => !d.MarkedAsMissed
+                && d.LearningSession != null)
+            .OrderBy(d => d.DateTime).ToList();
+
     public virtual TimeSpan TimeToNextDate => HasOpenDates ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
+    public virtual int QuestionCountInNextDate => HasOpenDates ? GetNextTrainingDate().AllQuestionsInTraining.Count() : 0;
 
     public const int SecondsPerQuestionEst = 20;
 
-    public virtual TimeSpan TimeRemaining => 
-        new TimeSpan(0, 0, seconds: 
-            OpenDates
-                .SelectMany(d => d.AllQuestionsInTraining)
-                .Sum(q => q.Question.TimeToLearnInSeconds())
-            );
+    //public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (OpenDates.Count * Questions.Count) * SecondsPerQuestionEst);
+    public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: OpenDates.SelectMany(d => d.AllQuestionsInTraining).Sum(q => q.Question.TimeToLearnInSeconds()));
+    //public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (PastDatesNotMissed.Count * Questions.Count) * SecondsPerQuestionEst);
 
     public virtual bool HasOpenDates => OpenDates.Any();
-
-    [JsonProperty]
     public virtual TrainingPlanSettings Settings { get; set; }
 
     public virtual bool LearningGoalIsReached { get; set; } = false;
@@ -60,7 +54,8 @@ public class TrainingPlan : DomainEntity
 
         PastDates.ForEach(d => 
         {
-            if (d.LearningSession != null || d.MarkedAsMissed) return;
+            if (!d.IsExpired() || d.LearningSession != null || d.MarkedAsMissed) return;
+
             d.MarkedAsMissed = true;
             trainingDateRepo.Update(d);
         });
@@ -68,10 +63,34 @@ public class TrainingPlan : DomainEntity
         trainingDateRepo.Flush();
     }
 
-    public virtual TrainingDate GetNextTrainingDate()
+    public virtual List<Question> BoostedQuestions()
     {
-        PastDates.Where(d => d.LearningSession != null && !d.LearningSession.IsCompleted).ForEach(d => d.LearningSession.CompleteSession());
-        return HasOpenDates ? OpenDates.First() : null;
+        return Dates
+            .Where(d => d.LearningSession != null && d.IsBoostingDate)
+            .SelectMany(d => d.LearningSession.Steps
+                .Where(s => s.AnswerState == StepAnswerState.Answered)
+                .Select(s => s.Question))
+                .ToList();
+    }
+
+    public virtual bool BoostingPhaseHasStarted()
+    {
+        if (!Settings.AddFinalBoost || !Dates.Any(d => d.IsBoostingDate))
+            return false;
+
+        return Dates.First(d => d.IsBoostingDate).DateTime <= DateTimeX.Now();
+    }
+
+    public virtual TrainingDate GetNextTrainingDate(bool withUpdate = false)
+    {
+
+        if (withUpdate && PastDates.Any(d => d.IsExpiredWithoutUpdate()))
+        {
+            var updatedTrainingPlan = TrainingPlanUpdater.Run(this, this.Settings);
+            return updatedTrainingPlan.OpenDates.FirstOrDefault();
+        }
+
+        return OpenDates.FirstOrDefault();
     }
 
     public virtual void DumpToConsole()
@@ -84,10 +103,18 @@ public class TrainingPlan : DomainEntity
             sb.Append(date.DateTime.ToString("g"));
             sb.Append("  q:" + date.AllQuestionsInTraining.Count +  " ");
             sb.Append(date.AllQuestions.Select(q => q.ProbBefore + "/" + q.ProbAfter).Aggregate((a, b) => a + " " + b));
-
+            
             sb.AppendLine("");
         }
 
         Console.Write(sb);
+    }
+
+    public virtual void CompleteUnfinishedSessions()
+    {
+        PastDates.Where(d => d.LearningSession != null 
+                        && !d.LearningSession.IsCompleted 
+                        && d.IsExpired())
+                .ForEach(d => d.LearningSession.CompleteSession());
     }
 }

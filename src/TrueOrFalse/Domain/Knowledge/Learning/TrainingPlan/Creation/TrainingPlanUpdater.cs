@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 public class TrainingPlanUpdater
 {
@@ -16,7 +17,7 @@ public class TrainingPlanUpdater
     public static TrainingPlan Run(TrainingPlan trainingPlan)
     {
         var trainingPlanRepo = Sl.R<TrainingPlanRepo>();
-        trainingPlanRepo.DeleteDatesAfter(trainingPlan, DateTimeX.Now());
+        trainingPlanRepo.DeleteUnstartedDatesAfter(trainingPlan, DateTimeX.Now());
 
         var newTrainingPlan = TrainingPlanCreator.Run(trainingPlan.Date, trainingPlan.Settings);
 
@@ -27,9 +28,14 @@ public class TrainingPlanUpdater
             {
                 AllQuestions = newDate.AllQuestions,
                 DateTime = newDate.DateTime,
+                IsBoostingDate = newDate.IsBoostingDate,
+                ExpiresAt = newDate.ExpiresAt
             });
 
+        trainingPlan.LearningGoalIsReached = newTrainingPlan.LearningGoalIsReached;
+
         trainingPlan.MarkDatesAsMissed();
+        trainingPlan.CompleteUnfinishedSessions();
 
         trainingPlanRepo.Update(trainingPlan);
         trainingPlanRepo.Flush();

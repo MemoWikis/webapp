@@ -13,7 +13,7 @@ public class DateRepo : RepositoryDbBase<Date>
     public void CreateWithTrainingPlan(Date date)
     {
         Create(date);
-        var trainingPlan = TrainingPlanCreator.Run(date, new TrainingPlanSettings());
+        var trainingPlan = TrainingPlanCreator.Run(date, TrainingPlanSettings.GetSettingsWithIndividualDefaults(date));
         date.TrainingPlan = trainingPlan;
 
         var stopWatch = Stopwatch.StartNew();

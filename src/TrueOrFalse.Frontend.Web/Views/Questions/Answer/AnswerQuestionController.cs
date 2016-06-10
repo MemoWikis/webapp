@@ -80,6 +80,7 @@ public class AnswerQuestionController : BaseController
             .VisitedQuestions
             .Add(new QuestionHistoryItem(set, question));
 
+        _saveQuestionView.Run(question, _sessionUser.User);
         return View(_viewLocation, new AnswerQuestionModel(set, question));
     }
 

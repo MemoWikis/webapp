@@ -10,10 +10,10 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
     {
     }
 
-    public void DeleteDatesAfter(TrainingPlan trainingPlan, DateTime after)
+    public void DeleteUnstartedDatesAfter(TrainingPlan trainingPlan, DateTime after)
     {
         var datesToDelete = trainingPlan.Dates
-            .Where(d => d.DateTime > after)
+            .Where(d => d.LearningSession == null && d.DateTime > after)
             .ToList();
 
         datesToDelete.ForEach(d => trainingPlan.Dates.Remove(d));
@@ -52,11 +52,22 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
         var newMissedDates = Session
             .QueryOver<TrainingDate>()
             .Where(d =>
-                d.DateTime < DateTimeX.Now() 
+                d.ExpiresAt <= DateTimeX.Now() 
                 && d.LearningSession == null
                 && !d.MarkedAsMissed
             ).List();
 
         return newMissedDates.Select(d => d.TrainingPlan).Distinct().ToList();
+    }
+
+    public IList<TrainingPlan> AllWithExpiredUncompletedDates()
+    {
+        var uncompletedDates = Session
+            .QueryOver<TrainingDate>()
+            .Where(d => d.LearningSession != null
+                && !d.LearningSession.IsCompleted
+            ).List();
+
+        return uncompletedDates.Where(d => d.IsExpired()).Select(d => d.TrainingPlan).Distinct().ToList();
     }
 }

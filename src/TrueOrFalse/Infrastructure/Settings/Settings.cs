@@ -36,12 +36,12 @@ public class Settings
     public static string SignalrPassword() { return OverwrittenConfig.ValueString("signalrPassword"); }
 
     public static string InvoiceFolder() { return OverwrittenConfig.ValueString("invoiceFolderPath"); }
-
     public static string WkHtmlToPdfFolder() { return OverwrittenConfig.ValueString("wkHtmlToPdfFolder"); }
 
     public static bool DebugUserNHProfiler() { return OverwrittenConfig.ValueBool("debugUserNHProfiler"); }
-
     public static bool DebugMiniProfiler() { return OverwrittenConfig.ValueBool("debugMiniProfiler"); }
+
+    public static bool DisableAllJobs() { return OverwrittenConfig.ValueBool("disableAllJobs"); }
 
     public static string ConnectionString()
     {

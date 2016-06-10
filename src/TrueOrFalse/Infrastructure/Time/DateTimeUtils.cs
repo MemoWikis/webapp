@@ -39,7 +39,30 @@ public static class DateTimeUtils
     public static DateTime RoundUp(DateTime dateTime, TimeSpan roundToNextFull)
     {
         //http://stackoverflow.com/a/7029464
-        return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) * roundToNextFull.Ticks);
+
+        return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) * roundToNextFull.Ticks); ;
+    }
+
+    public static DateTime RoundDown(DateTime dateTime, TimeSpan roundToPreviousFull)
+    {
+        var roundedTime = RoundUp(dateTime, roundToPreviousFull);
+
+        if (roundedTime > dateTime)
+            roundedTime = roundedTime - roundToPreviousFull;
+
+        return roundedTime;
+    }
+
+    public static DateTime RoundToNearestMinutes(DateTime dateTime, int roundToNearestMinutes, bool toLower = false)
+    {
+        var roundedDownTime = RoundDown(dateTime, TimeSpan.FromMinutes(roundToNearestMinutes));
+
+        var differenceInMinutes = (dateTime - roundedDownTime).TotalMinutes;
+
+        return
+            toLower || (differenceInMinutes < (double)roundToNearestMinutes / 2)
+            ? roundedDownTime
+            : RoundUp(dateTime, TimeSpan.FromMinutes(roundToNearestMinutes));
     }
 }
 
