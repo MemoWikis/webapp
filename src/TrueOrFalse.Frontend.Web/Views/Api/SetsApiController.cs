@@ -30,6 +30,8 @@ public class SetsApiController : BaseController
     [HttpPost]
     public void Pin(string setId)
     {
+        if (_sessionUser.User == null)
+            return;
         SetInKnowledge.Pin(Convert.ToInt32(setId), _sessionUser.User);
 
         var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(setId)).QuestionsInSet.Select(x => x.Question);
@@ -41,12 +43,16 @@ public class SetsApiController : BaseController
     [HttpPost]
     public void Unpin(string setId)
     {
+        if (_sessionUser.User == null)
+            return;
         SetInKnowledge.Unpin(Convert.ToInt32(setId), _sessionUser.User);
     }
 
     [HttpPost]
     public void UnpinQuestionsInSet(string setId)
     {
+        if (_sessionUser.User == null)
+            return;
         SetInKnowledge.UnpinQuestionsInSet(Convert.ToInt32(setId), _sessionUser.User);
     }
 

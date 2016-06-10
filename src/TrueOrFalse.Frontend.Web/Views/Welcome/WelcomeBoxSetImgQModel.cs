@@ -12,9 +12,12 @@ public class WelcomeBoxSetImgQModel : BaseModel
     public IList<Question> Questions;
     public IList<Tuple<int, ImageFrontendData>> QuestionImageFrontendDatas;
 
+    public bool IsInWishknowledge;
+
     public WelcomeBoxSetImgQModel(int setId, int[] questionIds, string setText = null) 
     {
         Set = R<SetRepo>().GetById(setId) ?? new Set();
+        SetId = Set.Id;
         SetName = Set.Name;
         SetText = setText ?? Set.Text;
         QuestionCount = Set.QuestionsInSet.Count;
@@ -22,6 +25,7 @@ public class WelcomeBoxSetImgQModel : BaseModel
         QuestionImageFrontendDatas = Questions.Select(x => new Tuple<int, ImageFrontendData>(
             x.Id, GetQuestionImageFrontendData.Run(Questions.ById(x.Id)))
         ).ToList();
+        IsInWishknowledge = R<SetValuationRepo>().GetBy(setId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
     }
 
     public static WelcomeBoxSetImgQModel GetWelcomeBoxSetImgQModel(int setId, int[] questionIds,
