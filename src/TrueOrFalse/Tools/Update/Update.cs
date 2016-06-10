@@ -60,7 +60,7 @@
                 .Add(UpdateToVs127.Run)
                 .Add(UpdateToVs128.Run)
                 .Add(UpdateToVs129.Run)
-                .Add(UpdateToVs130.Run)
+                .Add(UpdateToVs134.Run)
                 .Run();
         }
     }
