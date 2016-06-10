@@ -10,10 +10,11 @@ public class DateMap : ClassMap<Date>
         Map(x => x.Details);
 
         References(x => x.TrainingPlan).Cascade.All();
+
         References(x => x.User);
 
         HasMany(x => x.LearningSessions).Table("learningsession").KeyColumn("DateToLearn_id"); //should define cascade-relation
-
+        
         HasManyToMany(x => x.Sets)
             .Table("date_to_sets")
             .Cascade.None();
