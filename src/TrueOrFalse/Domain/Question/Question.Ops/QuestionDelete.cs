@@ -21,10 +21,6 @@ public class QuestionDelete
         Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);
         Sl.R<CommentRepository>().DeleteForQuestion(questionId);
         Sl.R<ISession>()
-            .CreateSQLQuery("DELETE FROM trainingdate_question where Question_id = :questionId")
-            .SetParameter("questionId", questionId)
-            .ExecuteUpdate();
-        Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM game_round where Question_id = :questionId")
             .SetParameter("questionId", questionId)
             .ExecuteUpdate();
