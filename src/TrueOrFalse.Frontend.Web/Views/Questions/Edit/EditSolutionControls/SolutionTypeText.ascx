@@ -14,15 +14,17 @@
         <%-- MenuItemText --%>
         <div class="contextMenuOuter" id="divMenuItemText" style="left: 5px;">
             <div class="well contextMenu">
-                <div style="margin-bottom: 5px">Großschreibung:</div>
+                <div style="margin-bottom: 5px">Groß-/Kleinschreibung:</div>
                 <div class="btn-group">
                     <a class="btn active">Ignorieren</a>
-                    <a class="btn btn-default" disabled="disabled">Beachten</a>
+                    <a class="btn btn-default featureNotImplemented">Beachten</a>
                 </div>
                 <div style="margin-top:10px; height: 20px;">
-                    <label class="checkbox" style="width: auto" disabled="disabled">
-                        <input type="checkbox" disabled="disabled">Exakte Schreibweise
-                    </label>
+                    <a href="#" class="featureNotImplemented">
+                        <label class="checkbox" style="width: auto" disabled="disabled">
+                            <input type="checkbox" disabled="disabled">Exakte Schreibweise
+                        </label>
+                        </a>
                     <i class="fa fa-question-circle cursor-hand" id="help"></i>
                 </div>
                 <div style="clear: both"></div>
@@ -70,7 +72,7 @@
                     <b>Jahrhundertgenau:</b> 19 Jh <br />
                     <b>Jahrtausendgenau:</b> 3 Jt<br />
                     <div style='margin-top:3px;'>
-                        <i>(für Daten vor Chr. Geburt, ein Minuszeichen voranstellen, z.B.: -2012)</i>
+                        <i>(für Daten vor Chr. Geburt, ein Minuszeichen voranstellen, z.B.: -32)</i>
                     </div>
                 
                 " 

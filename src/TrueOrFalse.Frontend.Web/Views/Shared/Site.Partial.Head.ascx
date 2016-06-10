@@ -58,7 +58,10 @@
             $('#userOptions').dropdown();
         });
 
-        $(document).on('click', '.featureNotImplemented', function () { $('#FeatureNotImplementedModal').modal(); });
+        $(document).on('click', '.featureNotImplemented', function(e) {
+            $('#FeatureNotImplementedModal').modal();
+            e.preventDefault();
+        });
 
     });
 </script>
