@@ -4,8 +4,18 @@
     private _isDateDropDownInitialized: boolean;
     private _ddlDates: JQuery; 
 
+    private _delay = (() => {
+        var timer = 0;
+        return (callback, ms) => {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+
     constructor() {
         var self = this;
+
+
 
         self._ddlDates = $("#modalTraining #SelectTrainingDates");
         self._ddlDates.change(function () {
@@ -120,19 +130,13 @@
     UpdateTrainingPlanAfterSettingsChange(dateId: number) {
         var self = this;
         self._dateId = dateId;
-        var delay = (() => {
-            var timer = 0;
-            return (callback, ms) => {
-                clearTimeout(timer);
-                timer = setTimeout(callback, ms);
-            };
-        })();
 
         $("#divTrainingPlanDetailsSpinner").show();
         $("#divTrainingPlanDetails").hide();
         $("#chartTrainingTime").empty();
         $("#divWarningLearningGoal").hide();
-        delay(() => {
+
+        this._delay(() => {
             $.post("/Dates/TrainingPlanUpdate/",
                 { dateId: self._dateId, planSettings: self.GetSettingsFromUi() },
                 (result) => {
