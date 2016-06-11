@@ -44,7 +44,8 @@ class Utils
         else {
             $.get("/Knowledge/GetNumberOfWishknowledgeQuestions/",
                 function (htmlResult) {
-                    Utils.SetElementValue("#menuWishKnowledgeCount", htmlResult);
+                    if (htmlResult != -1)
+                        Utils.SetElementValue("#menuWishKnowledgeCount", htmlResult);
                 });
              
         }
