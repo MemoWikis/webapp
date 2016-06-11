@@ -89,6 +89,12 @@
         $("#chartTrainingTime").empty();
         $("#divWarningLearningGoal").hide();
         this.RenderDetails(data.Html);
+
+        $("[data-date-id='" + data.DateId + "'] .TPTrainingDateCount").html(data.RemainingDates);
+        $("[data-date-id='" + data.DateId + "'] .TPRemainingTrainingTime").html(data.RemainingTime);
+        $("[data-date-id='" + data.DateId + "'] .TPTimeToNextTrainingDate").html(data.TimeToNextTrainingDate);
+        $("[data-date-id='" + data.DateId + "'] .TPQuestionsInNextTrainingDate").html(data.QuestionsInNextTrainingDate);
+
         $("#modalTraining #RemainingDates").html(data.RemainingDates);
         $("#modalTraining #RemainingTime").html(data.RemainingTime);
         $("#modalTraining #QuestionCount").html(data.QuestionCount);

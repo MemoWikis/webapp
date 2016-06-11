@@ -159,18 +159,18 @@
                     <div class="col-md-10">Übungsplan: <span style="font-size: 9px">(verbleibend)</span></div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <%= Model.TrainingDateCount %> Übungssitzungen</div>
+                    <div class="col-md-12">ca. <span class="TPTrainingDateCount"><%= Model.TrainingDateCount %></span> Übungssitzungen</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <%= Model.TrainingLength %> Übungszeit</div>
+                    <div class="col-md-12">ca. <span class="TPRemainingTrainingTime"><%= Model.RemainingTrainingTime %></span> Übungszeit</div>
                 </div>
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-bell"></i></div>
                     <div class="col-md-10">
                         <% if(trainingPlan.HasOpenDates) { %>
                             nächste Übungssitzung <br/>
-                            in <%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %> 
-                            (<%= trainingPlan.QuestionCountInNextDate %> Fragen)
+                            in <span class="TPTimeToNextTrainingDate"><%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %></span> 
+                            (<span class="TPQuestionsInNextTrainingDate"><%= trainingPlan.QuestionCountInNextDate %></span> Fragen)
                         <% } %>
                     </div>
                 </div>

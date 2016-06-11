@@ -151,9 +151,12 @@ public class DatesController : BaseController
         return Json(new
         {
             Html = RenderTrainingDates(date),
+            DateId = date.Id,
             DateOfDate = date.DateTime.ToString("dd.MM.yyy HH:mm"),
             RemainingDates = date.TrainingPlan.OpenDates.Count,
             RemainingTime = new TimeSpanLabel(date.TrainingPlan.TimeRemaining).Full,
+            TimeToNextTrainingDate = new TimeSpanLabel(date.TrainingPlan.TimeToNextDate, showTimeUnit: true).Full,
+            QuestionsInNextTrainingDate = date.TrainingPlan.QuestionCountInNextDate,
             QuestionCount = date.CountQuestions(),
             QuestionsPerDateIdealAmount = planSettings.QuestionsPerDate_IdealAmount,
             AnswerProbabilityThreshold = planSettings.AnswerProbabilityThreshold,
