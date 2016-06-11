@@ -24,6 +24,6 @@
         <%= Model.DateTime.ToString("dd.MM.yyyy HH:mm") %> Uhr
     </div>
     <div class="col-md-6">
-        ca. <%= Model.Minutes %> min Aufwand
+        ca. <%= Model.LearningTimeInMin %> min Aufwand
     </div>
 </div>

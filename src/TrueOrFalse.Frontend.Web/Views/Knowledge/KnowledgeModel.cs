@@ -62,50 +62,54 @@ public class KnowledgeModel : BaseModel
         var msg = new RecalcProbabilitiesMsg {UserId = UserId};
         Bus.Get().Publish(msg);
 
-        var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
+        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
 
+        var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
         Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
         HasLearnedInLast30Days = Last30Days.Sum(d => d.TotalAnswers) > 0;
-
-        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
+        StreakDays = R<GetStreaksDays>().Run(User);
 
         //Dates = GetSampleDates.Run();
         Dates = R<DateRepo>().GetBy(UserId, true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 
-
         AnswerRecent = R<AnswerRepo>().GetByUser(UserId, amount: 5);
-        StreakDays = R<GetStreaksDays>().Run(User);
 
         //GET NETWORK ACTIVITY
         NetworkActivities = R<UserActivityRepo>().GetByUser(User, 8);
 
-        TrainingDates = new List<TrainingDateModel>
+        //GET TRAINING DATES
+        var tdTrainingDates = R<TrainingDateRepo>().GetUpcomingTrainingDates(7);
+        foreach (var tdTrainingDate in tdTrainingDates)
         {
-            new TrainingDateModel
-            {
-                DateTime = DateTime.Now.AddHours(4),
-                QuestionCount = 12,
-                Date = new Date { Details = "Klassenarbeit DE"}
-            },
-            new TrainingDateModel
-            {
-                DateTime = DateTime.Now.AddHours(24),
-                QuestionCount = 21,
-                Date = new Date { Details = "Klassenarbeit DE"}
-            },
-            new TrainingDateModel
-            {
-                DateTime = DateTime.Now.AddHours(57),
-                QuestionCount = 19,
-                Date = new Date { Details = "Mündliche Prüfung am Fr."}
-            },
-            new TrainingDateModel
-            {
-                DateTime = DateTime.Now.AddHours(71),
-                QuestionCount = 20,
-            }
-        };
+            TrainingDates.Add(new TrainingDateModel(tdTrainingDate));
+        }
+        //TrainingDates = new List<TrainingDateModel>
+        //{
+        //    new TrainingDateModel
+        //    {
+        //        DateTime = DateTime.Now.AddHours(4),
+        //        QuestionCount = 12,
+        //        Date = new Date { Details = "Klassenarbeit DE"}
+        //    },
+        //    new TrainingDateModel
+        //    {
+        //        DateTime = DateTime.Now.AddHours(24),
+        //        QuestionCount = 21,
+        //        Date = new Date { Details = "Klassenarbeit DE"}
+        //    },
+        //    new TrainingDateModel
+        //    {
+        //        DateTime = DateTime.Now.AddHours(57),
+        //        QuestionCount = 19,
+        //        Date = new Date { Details = "Mündliche Prüfung am Fr."}
+        //    },
+        //    new TrainingDateModel
+        //    {
+        //        DateTime = DateTime.Now.AddHours(71),
+        //        QuestionCount = 20,
+        //    }
+        //};
 
     }
 }
