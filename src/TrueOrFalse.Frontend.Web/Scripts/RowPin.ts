@@ -53,6 +53,9 @@ class Pin {
                     else 
                         Utils.SetMenuPins();
 
+                    if (self.IsSetDetail())
+                        Utils.PinQuestionsInSetDetail();
+
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) + 1).toString());
 
                     self.SetSidebarValue(self.GetSidebarValue(elemPin) + 1, elemPin);
@@ -82,6 +85,7 @@ class Pin {
             $.when(
                 SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged))
                 .then(function () {
+                    Utils.UnpinQuestionsInSetDetail();
                     Utils.SetMenuPins();
                 });
         });
