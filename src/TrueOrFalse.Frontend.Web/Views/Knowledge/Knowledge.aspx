@@ -339,7 +339,7 @@
                             index++;
                             %>
                             <div class="row" style="margin-bottom: 3px;">
-                                <div class="col-xs-12">
+                                <div class="col-xs-9">
                                     <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
                                     <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                     <% foreach(var set in date.Sets){ %>
