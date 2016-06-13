@@ -17,6 +17,11 @@
     <i class="fa fa-question-circle"></i>
     <span class="TextSpan Help">Hilfe & mehr</span>
 </a> 
+
+<a href="#" class="helpLink TextLinkWithIcon" id="startWelcomeTour">
+    <i class="fa fa-map-signs"></i> Kurze Tour
+</a>
+
 <%
     
     if (userSession.IsLoggedIn)
