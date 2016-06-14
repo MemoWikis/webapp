@@ -85,7 +85,7 @@ class DateRowCopy {
                     .animate({ backgroundColor: bgOrg}, 900);
 
                 var newAmount = parseInt($('[data-date-id="' + sourceDateId + '"] .numberOfTimesCopied').html()) + 1;
-                Utils.SetElementValue($('[data-date-id="' + sourceDateId + '"] .numberOfTimesCopied'), newAmount.toString());
+                Utils.SetElementValue('[data-date-id="' + sourceDateId + '"] .numberOfTimesCopied', newAmount.toString());
             });
 
     }
