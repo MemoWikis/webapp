@@ -113,9 +113,8 @@
                 </div>
             
                 <div id="DeleteQuestion">
-                    <a href="#" class="TextLinkWithIcon" id="linkDeleteQuestion">
-                        <i class="fa fa-trash"></i>
-                        <span class="TextSpan">Frage löschen</span>
+                    <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
+                        <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
                     </a>
                 </div>
             <% } %>
@@ -140,8 +139,8 @@
                        { %>
                         <span style="padding-right: 2px">
                             Die Frage bitte: &nbsp;
-                            <a href="#modalImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
-                            <a href="#modalDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                            <a href="#modalQuestionFlagImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
+                            <a href="#modalQuestionFlagDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
                         </span>
                     <% } %>
                 </div>
@@ -232,7 +231,7 @@
         </div>
     
         <%--MODAL IMPROVE--%>
-        <div id="modalImprove" class="modal fade">
+        <div id="modalQuestionFlagImprove" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -296,8 +295,8 @@
             </div>
         </div>
     
-        <%--MODAL DELETE--%>
-        <div id="modalDelete" class="modal fade">
+        <%--MODAL QUESTION FLAG DELETE--%>
+        <div id="modalQuestionFlagDelete" class="modal fade">
              <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -345,17 +344,20 @@
                             </ul>
                         </div>
                         <p>
-                            Weiter Erläuterung (optional).
+                            Weitere Erläuterung (optional):
                         </p>
                         <textarea style="width: 500px;" rows="3" id="txtDeleteBecause"></textarea>
             
                     </div>
                     <div class="modal-footer">
-                        <a href="#" class="btn btn-default" data-dismiss="modal" id="A1">Schliessen</a>
+                        <a href="#" class="btn btn-default" data-dismiss="modal" id="A1">Schließen</a>
                         <a href="#" class="btn btn-primary btn-danger" id="btnShouldDelete">Absenden</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+<% if (Model.IsOwner) Html.RenderPartial("ModalDeleteQuestion"); %>
+
 </asp:Content>

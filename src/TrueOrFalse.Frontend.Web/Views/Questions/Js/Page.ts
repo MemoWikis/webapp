@@ -21,7 +21,7 @@ class Page
         $('#selectNotCraetedByMe').click(function () { _page.RowSelector.SelectAllWhereIAmNotOwner(); });
 
         new Pin(PinRowType.Question);
-        new QuestionDelete();
+        new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
 
         FillSparklineTotals();
     }

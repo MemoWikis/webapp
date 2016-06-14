@@ -252,7 +252,7 @@
 </div>
         
 <% Html.RenderPartial("Modals/ToQuestionSet"); %>
-<% Html.RenderPartial("Modals/DeleteQuestion"); %>
+<% Html.RenderPartial("ModalDeleteQuestion"); %>
 <% /* MODAL-TAB-INFO-MyKnowledge****************************************************************/ %>
 <div id="modalTabInfoMyKnowledge" class="modal fade">
     <div class="modal-dialog">
