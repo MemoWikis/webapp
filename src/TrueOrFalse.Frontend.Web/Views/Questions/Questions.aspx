@@ -173,17 +173,17 @@
                                         <li><a id="selectMemorizedByMe">+ von mir gemerkte</a></li>
                                         <li><a id="selectCreatedByMe">+ von mir erstellte</a></li>
                                         <li><a id="selectedNotMemorizedByMe">+ <i>nicht</i> von mir gemerkte</a></li>
-                                        <li><a id="selectNotCraetedByMe">+ <i>nicht</i> von mir erstellt</a></li>
+                                        <li><a id="selectNotCreatedByMe">+ <i>nicht</i> von mir erstellt</a></li>
                                     </ul>
                                 </li>
                             </ul>
                         
-                            <a href="#" class="btn btn-default btn-xs" style="display: none; margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
-                                <i class="fa fa-list-ol"></i> 
+                            <a href="#" class="btn btn-default btn-xs" style="margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
+                                <i class="fa fa-list-ol"></i> Zum Fragesatz hinzufügen
                             </a>
-                            <a href="#" class="btn btn-default btn-xs featureNotImplemented" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
+                            <%--<a href="#" class="btn btn-default btn-xs featureNotImplemented" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                                 <i class="fa fa-trash-o"></i> 
-                            </a>
+                            </a>--%>
                             <a href="#" class="btn btn-default btn-xs featureNotImplemented" style=" margin-left: 7px;" id="btnExport" data-placement="bottom" data-original-title="Herunterladen">
                                 <i class="fa fa-cloud-download"></i>
                             </a>

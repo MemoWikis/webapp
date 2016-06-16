@@ -1,4 +1,4 @@
-/// <reference path="ToQuestionSet.ts" />
+﻿/// <reference path="ToQuestionSet.ts" />
 /// <reference path="QuestionRowSelection.ts" />
 
 declare var _page: Page;
@@ -18,7 +18,7 @@ class Page
         $('#selectMemorizedByMe').click(function () { _page.RowSelector.SelectAllMemorizedByMe(); });
         $('#selectedNotMemorizedByMe').click(function () { _page.RowSelector.SelectAllNotMemorizedByMe(); });
         $('#selectCreatedByMe').click(function () { _page.RowSelector.SelectAllWhereIAmOwner(); });
-        $('#selectNotCraetedByMe').click(function () { _page.RowSelector.SelectAllWhereIAmNotOwner(); });
+        $('#selectNotCreatedByMe').click(function () { _page.RowSelector.SelectAllWhereIAmNotOwner(); });
 
         new Pin(PinRowType.Question);
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);

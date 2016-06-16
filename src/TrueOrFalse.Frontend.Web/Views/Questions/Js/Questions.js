@@ -1,7 +1,7 @@
 ﻿$(function () {
 
-    $('#btnSelectionToSet').tooltip();
-    $('#btnSelectionDelete').tooltip();
+    //$('#btnSelectionToSet').tooltip();
+    //$('#btnSelectionDelete').tooltip();
     $('#btnExport').tooltip();
 
     $('.userPopover').popover({ content: getPopupOverContent });

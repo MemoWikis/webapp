@@ -8,6 +8,7 @@ public class EditSetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Edit/EditSet.aspx";
 
+    [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult Create()
     {
         var model = new EditSetModel();
