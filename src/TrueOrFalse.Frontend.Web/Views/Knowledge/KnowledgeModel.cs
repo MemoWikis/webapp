@@ -73,7 +73,7 @@ public class KnowledgeModel : BaseModel
         Dates = R<DateRepo>().GetBy(UserId, true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 
-        AnswerRecent = R<AnswerRepo>().GetByUser(UserId, amount: 5);
+        AnswerRecent = R<AnswerRepo>().GetUniqueByUser(UserId, amount: 15);
 
         //GET NETWORK ACTIVITY
         NetworkActivities = R<UserActivityRepo>().GetByUser(User, 8);

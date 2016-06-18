@@ -96,7 +96,12 @@ public class AnswerRepo : RepositoryDb<Answer>
             .List<Answer>();
     }
 
-    public IList<Answer> GetByUser(int userId, int amount, bool includingSolutionViews = false)
+    /// <summary>
+    /// returns last #amount of questions a user has interacted with (no matter if answered or only solution viewed), 
+    /// without showing a question twice.
+    /// If a question is interacted with more than once, only the most recent interaction is considered.
+    /// </summary>
+    public IList<Answer> GetUniqueByUser(int userId, int amount)
     {
         //Older version, does not sort out duplicate entrys:
         //return Sl.R<ISession>()
@@ -111,13 +116,23 @@ public class AnswerRepo : RepositoryDb<Answer>
             WHERE UserId = " + userId + @"
             GROUP BY QuestionId
             ORDER BY MAX(DateCreated) DESC 
-            LIMIT "+amount;
+            LIMIT " + amount;
         var ids = Session.CreateSQLQuery(query).List<int>();
 
-        if(includingSolutionViews)
-            return GetByIds(ids.ToArray()).OrderByDescending(a => a.DateCreated).ToList();
+        return GetByIds(ids.ToArray()).OrderByDescending(a => a.DateCreated).ToList();
 
-        return GetByIds(ids.ToArray()).Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView).OrderByDescending(a => a.DateCreated).ToList();
+        //in one query, but doesn't fit type <Answer>, even though fields match 1:1
+        //string query = @"
+        //    SELECT a2.* FROM answer a2
+        //    INNER JOIN (
+        //        SELECT MAX(id) as maxId FROM answer
+        //        WHERE UserId = " + userId + @"
+        //        GROUP BY QuestionId
+        //        ORDER BY MAX(DateCreated) DESC 
+        //        LIMIT " + amount + @"
+        //    ) a1
+        //    ON a1.maxId = a2.Id";
+        //return Session.CreateSQLQuery(query).List<Answer>();
     }
 
     public override void Create(Answer answer)

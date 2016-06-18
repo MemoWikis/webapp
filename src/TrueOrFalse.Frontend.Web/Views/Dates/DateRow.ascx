@@ -83,7 +83,7 @@
                 <div class="col-md-12">
                     <% if (!Model.IsNetworkDate){ %>
                         <% if (Model.Date.Visibility == DateVisibility.InNetwork) { %>
-                            <i class="fa fa-unlock"></i> Im Netzwerk sichtbar (<i class="fa fa-files-o"></i> <%= Model.CopiedCount %>x übernommen)
+                            <i class="fa fa-unlock"></i> Im Netzwerk sichtbar (<i class="fa fa-files-o"></i> <span class="numberOfTimesCopied"><%= Model.CopiedCount %></span>x übernommen)
                         <% }else { %>
                             <i class="fa fa-lock"></i> Privater Termin
                         <% } %>
@@ -91,10 +91,10 @@
                             <br/><span style="color: darkgrey;">Du hast diesen Termin von <a href="<%= Links.UserDetail(Model.CopiedFromUser) %>"><%= Model.CopiedFromUserName %></a> übernommen.</span>
                         <% } %>
                     <% }else{ %>
-                        <i class="fa fa-unlock"></i> Termin von <%= Model.Date.User.Name %> (<i class="fa fa-files-o"></i> <%= Model.CopiedCount %>x übernommen)
-                        <% if (Model.CopiedFromUserName != "") { %>
+                        <i class="fa fa-unlock"></i> Termin von <a href="<%= Links.UserDetail(Model.Date.User) %>"><%= Model.Date.User.Name %></a> (<i class="fa fa-files-o"></i> <span class="numberOfTimesCopied"><%= Model.CopiedCount %></span>x übernommen)
+                        <%--<% if (Model.CopiedFromUserName != "") { %>
                             <br/><span style="color: darkgrey;">Übernommen von <a href="<%= Links.UserDetail(Model.CopiedFromUser) %>"><%= Model.CopiedFromUserName %></a></span>
-                        <% } %>
+                        <% } %>--%>
                     <% } %>
                 </div>
             </div>

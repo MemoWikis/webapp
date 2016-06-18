@@ -6,8 +6,8 @@
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>memucho</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
-<%--    <%= Scripts.Render("~/bundles/guidedTourScript") %>
-    <%= Styles.Render("~/bundles/guidedTourStyle") %>--%>
+    <%= Scripts.Render("~/bundles/guidedTourScript") %>
+    <%= Styles.Render("~/bundles/guidedTourStyle") %>
     <%= Scripts.Render("~/bundles/Welcome") %>
 </asp:Content>
 
@@ -17,7 +17,7 @@
        
     <div class="col-md-8">
             
-        <div class="alert alert-success alert-dismissable" style="padding: 13px; padding-bottom: 0px; background-color: #c8e276;">
+        <div class="alert alert-success alert-dismissable" style="padding: 13px; padding-bottom: 10px; background-color: #c8e276;">
             <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">memucho: Besser Lernen mit mehr Spaß</h1>
             <div class="row">
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -25,9 +25,6 @@
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
                         memucho hilft dir beim Lernen. Du sparst Zeit und es macht mehr Spaß!<br/>
                     </p>
-                    <!--p>
-                        <a href="#" class="btn" id="btnStartWelcomeTour"><i class="fa fa-map-signs"></i> Tour starten</a>
-                    </p-->
                 </div>
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
@@ -41,9 +38,12 @@
                         Robert, Jule und Christof entwickeln memucho zusammen. Wir haben uns viel vorgenommen.
                     </p>
                 </div>
-                <p style="text-align: center;">
-                    <a href="#teaserWhatIsMemucho"><i class="fa fa-caret-down" style=""></i>&nbsp;Erfahre mehr</a>
-                </p>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="text-align: center;">
+                    <a href="#teaserWhatIsMemucho" class="TextLinkWithIcon"><i class="fa fa-info-circle" style=""></i>&nbsp;Erfahre mehr</a><br/>
+                    <a href="#" class="TextLinkWithIcon" id="btnStartWelcomeTour"><i class="fa fa-map-signs"></i> Lerne memucho kennen in 6 Schritten</a>
+                </div>
             </div>
         </div>
 
@@ -291,7 +291,7 @@
             var userSession = new SessionUser();
             if (!userSession.IsLoggedIn){
         %>
-            <div class="box" style="padding: 20px; ">
+            <div class="box" id="boxLoginOrRegister" style="padding: 20px; ">
                 <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Anmelden</a>
                 <br/><br/>
                 <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary btn-lg" style="width: 100%;" role="button">Registrieren</a>

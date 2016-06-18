@@ -67,14 +67,14 @@ class RowSelector{
     UpdateToolbar() {
         if (this.Count() > 0) {
             $("#selectionCount").html("(" + this.Count() + ")");
-            $("#btnSelectionToSet").show();
-            if (this.SelectionContainsWhereIAmOwner()) {
-                $("#btnSelectionDelete").show();
-            }
+            //$("#btnSelectionToSet").show();
+            //if (this.SelectionContainsWhereIAmOwner()) {
+            //    $("#btnSelectionDelete").show();
+            //}
         } else { 
             $("#selectionCount").html("");
-            $("#btnSelectionToSet").hide();
-            $("#btnSelectionDelete").hide();
+            //$("#btnSelectionToSet").hide();
+            //$("#btnSelectionDelete").hide();
         }
     }
 

@@ -51,7 +51,7 @@ class DateRowCopy {
             data: { sourceDateId: sourceDateId },
             cache: false,
             success: function (result) {
-                self.RenderCopiedDate(result.CopiedDateId, result.PrecedingDateId);
+                self.RenderCopiedDate(sourceDateId, result.CopiedDateId, result.PrecedingDateId);
             },
             error: function (e) {
                 console.log(e);
@@ -59,7 +59,7 @@ class DateRowCopy {
         });
     }
 
-    RenderCopiedDate(copiedDateId : number, precedingDateId : number) {
+    RenderCopiedDate(sourceDateId : number, copiedDateId : number, precedingDateId : number) {
         $.get("/Dates/RenderCopiedDate/" + copiedDateId,
             function (htmlResult) {
                 //if box "Du hast keine aktuellen Termine" still there, hide it!
@@ -83,6 +83,9 @@ class DateRowCopy {
                     .animate({ backgroundColor: "#afd534", opacity: 0.00 }, 0)
                     .animate({ opacity: 1.00}, 900)
                     .animate({ backgroundColor: bgOrg}, 900);
+
+                var newAmount = parseInt($('[data-date-id="' + sourceDateId + '"] .numberOfTimesCopied').html()) + 1;
+                Utils.SetElementValue('[data-date-id="' + sourceDateId + '"] .numberOfTimesCopied', newAmount.toString());
             });
 
     }

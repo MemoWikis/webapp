@@ -58,7 +58,7 @@ public class QuestionDelete
                 Yes = false,
                 IfNot_Reason =
                     "Die Frage kann nicht gelöscht werden, da in " +
-                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird." +
+                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird. " +
                     "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
             };
 
