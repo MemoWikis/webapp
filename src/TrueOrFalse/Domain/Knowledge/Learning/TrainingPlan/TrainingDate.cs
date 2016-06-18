@@ -13,6 +13,7 @@ public class TrainingDate : DomainEntity
     public virtual IList<TrainingQuestion> AllQuestions { get; set; } = new List<TrainingQuestion>();
     public virtual IList<TrainingQuestion> AllQuestionsInTraining => AllQuestions.Where(x => x.IsInTraining).ToList();
     public virtual bool MarkedAsMissed { get; set; }
+    public const int DateStaysOpenAfterNewBegunLearningStepInMinutes = 60;
 
     public virtual LearningSession LearningSession { get; set; }
 
@@ -40,16 +41,7 @@ public class TrainingDate : DomainEntity
         if (MarkedAsMissed)
             return true;
 
-        var upperTimeBound = ExpiresAt;
-
-        if (LearningSession != null
-            && !LearningSession.IsCompleted
-            && LearningSession.DateCreated.AddHours(1) > ExpiresAt)
-        {
-            upperTimeBound = LearningSession.DateCreated.AddHours(1);
-        }
-
-        return upperTimeBound <= DateTimeX.Now();
+        return ExpiresAt <= DateTimeX.Now();
     }
 
     public virtual bool IsExpiredWithoutUpdate()
@@ -79,9 +71,8 @@ public class TrainingDate : DomainEntity
         }
         else
         {
-            learningSession.Steps = GetLearningSessionSteps.Run(trainingDate);
+            learningSession.Steps = GetLearningSessionSteps.Run(trainingDate); 
             trainingDate.LearningSession = learningSession;
-            trainingDate.ExpiresAt = DateTime.Today.AddDays(1);
         }
 
         Sl.R<LearningSessionRepo>().Create(learningSession);

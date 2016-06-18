@@ -17,5 +17,13 @@ public class TrainingDateRepo : RepositoryDbBase<TrainingDate>
                 d.DateTime > DateTime.Now.AddMinutes(-maxAgeMinutes) &&
                 d.NotificationStatus == NotificationStatus.None
             ).List();
-    } 
+    }
+
+    public TrainingDate GetByLearningSessionId(int learningSessionId)
+    {
+        return Session
+            .QueryOver<TrainingDate>()
+            .Where(d => d.LearningSession != null && d.LearningSession.Id == learningSessionId)
+            .SingleOrDefault();
+    }
 }
