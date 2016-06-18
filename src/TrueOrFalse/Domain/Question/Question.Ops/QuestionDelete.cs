@@ -21,10 +21,6 @@ public class QuestionDelete
         Sl.R<QuestionValuationRepo>().DeleteForQuestion(questionId);
         Sl.R<CommentRepository>().DeleteForQuestion(questionId);
         Sl.R<ISession>()
-            .CreateSQLQuery("DELETE FROM trainingdate_question where Question_id = :questionId")
-            .SetParameter("questionId", questionId)
-            .ExecuteUpdate();
-        Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM game_round where Question_id = :questionId")
             .SetParameter("questionId", questionId)
             .ExecuteUpdate();
@@ -62,7 +58,7 @@ public class QuestionDelete
                 Yes = false,
                 IfNot_Reason =
                     "Die Frage kann nicht gelöscht werden, da in " +
-                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird." +
+                    howOftenInFutureDate + " zukünftigen Termin" + StringUtils.Plural(howOftenInFutureDate, "en") + " (vielleicht auch bei dir) damit gelernt wird. " +
                     "Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden."
             };
 

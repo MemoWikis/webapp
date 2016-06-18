@@ -31,9 +31,7 @@ public class TrainingPlan : DomainEntity
 
     public const int SecondsPerQuestionEst = 20;
 
-    //public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: (OpenDates.Count * Questions.Count) * SecondsPerQuestionEst);
     public virtual TimeSpan TimeRemaining => new TimeSpan(0, 0, seconds: OpenDates.SelectMany(d => d.AllQuestionsInTraining).Sum(q => q.Question.TimeToLearnInSeconds()));
-    //public virtual TimeSpan TimeSpent => new TimeSpan(0, 0, seconds: (PastDatesNotMissed.Count * Questions.Count) * SecondsPerQuestionEst);
 
     public virtual bool HasOpenDates => OpenDates.Any();
     public virtual TrainingPlanSettings Settings { get; set; }

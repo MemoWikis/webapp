@@ -14,7 +14,8 @@ public class WelcomeController : BaseController
         _registerUser = registerUser;
         _credentialsAreValid = credentialsAreValid;
     }
-    
+
+    [SetMenu(MenuEntry.None)]
     public ActionResult Welcome(){
         return View(new WelcomeModel());
     }

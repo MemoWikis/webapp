@@ -11,20 +11,23 @@ public class WelcomeBoxSetTxtQModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
+    public bool IsInWishknowledge;
+
     public WelcomeBoxSetTxtQModel(int setId, int[] questionIds, string setDescription = null) 
     {
         Set = R<SetRepo>().GetById(setId) ?? new Set();
+        SetId = Set.Id;
 
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(Set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
-
 
         SetName = Set.Name;
         SetDescription = setDescription ?? Set.Text;
         QuestionCount = Set.QuestionsInSet.Count;
         Questions = R<QuestionRepo>().GetByIds(questionIds) ?? new List<Question>(); //not checked if questionIds are part of set!
-        if (Questions.Count < 1) Questions.Add(new Question());
-
+        if (Questions.Count < 1)
+            Questions.Add(new Question());
+        IsInWishknowledge = R<SetValuationRepo>().GetBy(setId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
     }
 
     public static WelcomeBoxSetTxtQModel GetWelcomeBoxSetTxtQModel(int setId, int[] questionIds,

@@ -6,26 +6,38 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title" id="tqsTitle"></h3>
             </div>
-            <div class="modal-body hide2">
-                <p>Bitte wähle einen Fragesatz</p>
-        
-                <div>
-                    Sie haben noch keine Fragesätze erstellt.
-                </div>
-            </div>
+
             <div class="modal-body hide2" id="tqsBody">
-                <div id="tqsTextSelectSet" class="alert-info" style="padding: 5px;">
-                  <strong>Bitte wähle einen deiner Fragesätze.</strong> 
+                <div id="tqsTextSelectSet" class="">
+                  <strong>Bitte wähle einen deiner Fragesätze:</strong> 
                 </div>
                 <div style="margin-top: 11px;">
-                    <b>Filter:</b> &nbsp;<input type="text" style="width: 210px;" id="txtTqsSetFilter" />
+                    Filter:&nbsp;<input type="text" style="width: 210px;" id="txtTqsSetFilter" />
                     <span id="tqsSetCount"></span>
                 </div>
-                <div style="padding-top: 7px;" id="tsqRowContainer">
-                    <div id="tsqRowTemplate" class="tsqRow hide2"><b>{Name}</b> ({AnzahlFragen} Fragen)</div>
+                <div style="padding-top: 7px;" id="tqsRowContainer">
+                    <div id="tqsRowTemplate" class="tqsRow hide2"><b>{Name}</b> ({AnzahlFragen} Fragen)</div>
                 </div>
             </div>
+            <div class="modal-footer hide2" id="tqsFooter">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
+            </div>
             
+            <div class="modal-body hide2" id="tqsNoQuestionsSelectedBody">
+                <div class="row">
+                    <div class="col-md-4" style="text-align: center;">
+                        <img src="/Images/Screenshots/fragen-zu-fragesatz.png"/>
+                    </div>
+                    <div class="col-md-8">
+                        &nbsp;<br/>
+                        <p>Bitte wähle zuerst die Fragen aus, die du zu einem Fragesatz hinzufügen möchtest.</p>
+                        <p>Gehe dazu mit der Maus über die obere Hälfte des Bildes neben der Frage und aktiviere die Checkbox oder benutze die Auswahl-Schaltfläche.</p>
+                    </div>       
+                </div>                     
+            </div>
+            <div class="modal-footer hide2" id="tqsNoQuestionsSelectedFooter">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
+            </div>
 
             <div class="modal-body hide2" id="tqsSuccess">
                 <div class="alert-success" style="padding: 5px;">
@@ -39,7 +51,7 @@
             </div>    
 
             <div class="modal-body hide2" id="tqsNoSetsBody">
-                <div class="alert">
+                <div class="">
                   <strong>Du hast noch keine Fragesätze angelegt.</strong> 
                     Um Fragen zu Fragesätzen hinzufügen zu können, musst du zuerst einen eigenen Fragesatz erstellen. 
                 </div>        
@@ -48,6 +60,7 @@
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
                 <a href="/Fragesaetze/Erstelle" class="btn btn-primary">Jetzt Fragesatz erstellen</a>
             </div>
+
         </div>
     </div>
 </div>

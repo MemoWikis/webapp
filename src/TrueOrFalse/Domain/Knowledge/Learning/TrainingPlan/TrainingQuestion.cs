@@ -1,17 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
-using System.Linq;
-using Seedworks.Lib.Persistence;
 
+[JsonObject(MemberSerialization.OptIn)]
 [DebuggerDisplay("QuestionId={Question.Id} IsInTraining={IsInTraining}")]
-public class TrainingQuestion : DomainEntity
+public class TrainingQuestion
 {
-    public virtual Question Question { get; set; }
-    
-    /// <summary>Probability Before</summary>
-    public virtual int ProbBefore { get; set; }
-    /// <summary>Probability After</summary>
-    public virtual int ProbAfter { get; set; }
+    private Question _question;
 
-    public virtual bool IsInTraining { get; set; }
+    public Question Question
+    {
+        get
+        {
+            if (_question != null)
+                return _question;
+
+            _question = Sl.R<QuestionRepo>().GetById(QuestionId);
+            QuestionId= _question.Id;
+            return _question;
+        }
+        set
+        {
+            _question = value;
+            QuestionId = _question.Id;
+        }
+    }
+    
+    [JsonProperty]
+    public int QuestionId { get; set; }
+
+    /// <summary>Probability Before</summary>
+    [JsonProperty]
+    public int ProbBefore { get; set; }
+
+    /// <summary>Probability After</summary>
+    [JsonProperty]
+    public int ProbAfter { get; set; }
+
+    [JsonProperty]
+    public bool IsInTraining { get; set; }
 }

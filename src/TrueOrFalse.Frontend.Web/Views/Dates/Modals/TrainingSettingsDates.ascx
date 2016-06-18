@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-4">
             <%= trainingDate.QuestionCount %> <%= "Frage".Plural(trainingDate.QuestionCount, "n")%> <br />
-            ca. <%= trainingDate.Minutes %>min Aufwand
+            ca. <%= trainingDate.LearningTimeInMin %>min Aufwand
         </div>
         <div class="col-xs-2">
             <div data-knowledgeSummary='<%= trainingDate.SummaryBefore.ToJson() %>'></div>

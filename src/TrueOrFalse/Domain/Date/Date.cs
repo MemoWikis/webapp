@@ -14,6 +14,7 @@ public class Date : DomainEntity
     public virtual DateTime DateTime { get; set; }
 
     public virtual TrainingPlan TrainingPlan { get; set; }
+    public virtual string TrainingPlanJson { get; set; }
     public virtual IList<LearningSession> LearningSessions { get; set; }
     public virtual User User { get; set; }
     public virtual IList<Set> Sets { get; set; }

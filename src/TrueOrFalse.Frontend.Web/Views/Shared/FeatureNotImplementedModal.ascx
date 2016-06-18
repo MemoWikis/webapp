@@ -21,7 +21,7 @@
                         <p>
                             memucho ist noch in der Beta-Phase, daher ist noch nicht alles fertig. Das tut uns leid, aber wir erweitern memucho ständig und du kannst uns gerne dabei helfen. 
                             Werde <a class="TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>"><i class="fa fa-thumbs-up"></i> Unterstützer</a> 
-                            oder schicke uns dein Feedback per Email an team@memucho.de.
+                            und <a href="#" onclick="_urq.push(['Feedback_Open']);">schicke uns dein Feedback</a>.
                         </p>
                     </div>
                 </div>

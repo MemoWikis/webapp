@@ -13,11 +13,13 @@ class DateRowDelete {
             self.PopulatModal(dateIdToDelete);
         });
 
-        $("#modalDelete").on("click",'#btnCloseDateDelete', function () {
+        $("#modalDelete").on("click",'#btnCloseDateDelete', function (e) {
+            e.preventDefault();
             $('#modalDelete').modal('hide');
         });
 
-        $("#modalDelete").on("click",'#btnConfirmDateDelete', function () {
+        $("#modalDelete").on("click",'#btnConfirmDateDelete', function (e) {
+            e.preventDefault();
             self.DeleteDate(dateIdToDelete);
             $('#modalDelete').modal('hide');
         });        

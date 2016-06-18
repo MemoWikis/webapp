@@ -1,3 +1,4 @@
 ﻿$(function () {
-    // var tourInit = new TourInit();
+    var tourInit = new TourInit();
+    new Pin(PinRowType.Set);
 });

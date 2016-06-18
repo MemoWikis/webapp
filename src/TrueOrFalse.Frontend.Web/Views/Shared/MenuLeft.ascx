@@ -31,6 +31,9 @@
             </a>
             <a id="mainMenuBtnDates" class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
                 <i class="fa fa-caret-right"></i> Termine
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 date-color add-new" 
+                    onclick="window.location = '<%= Url.Action("Create", "EditDate") %>'; return false; "
+                    title="Neuen Termin erstellen"></i>
             </a>            
             <%
                 var visitedD = new SessionUiData().VisitedDatePages;
@@ -42,7 +45,8 @@
                     <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
                 </a>
             <% } %>
-
+            
+            <div id="mainMenuQuestionsSetsCategories">
             <a id="mainMenuBtnQuestions" class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Fragen
                 <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
@@ -135,7 +139,8 @@
                     </a>
                 <% } %>
             <% } %>
-        
+            </div>
+
             <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="position: relative; top: -1px; left: 4px;" >
             </a>

@@ -320,7 +320,8 @@
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0;">Termine</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
+                    <p style="font-size: 12px; color: silver;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
                     <% if (Model.Dates.Count ==0) { %>
                         <p>
                             Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
@@ -338,7 +339,7 @@
                             index++;
                             %>
                             <div class="row" style="margin-bottom: 3px;">
-                                <div class="col-xs-12">
+                                <div class="col-xs-9">
                                     <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
                                     <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                     <% foreach(var set in date.Sets){ %>
@@ -381,8 +382,6 @@
                         <% } %>
                             
                     </p>
-                    <hr style="margin: 8px 0px;"/>
-                    <p><a href="<%= Links.Dates() %>">(Zur Terminübersicht)</a></p>
                 </div>
                 
                 <div class="rowBase" style="padding: 10px;">
@@ -401,7 +400,7 @@
                     <% } %>
                 
                     <div class="row" style="opacity: 0.4;">
-                        <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                        <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
                     </div>
                 </div>
             </div>
@@ -415,20 +414,22 @@
                             in den nächsten <b>7 Tagen</b>
                             <ul>
                                 <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
-                                <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.Minutes), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
+                                <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
                             </ul>
                         </div>
                     </div>
                     
-                    <% foreach(var training  in Model.TrainingDates) { %>
-                        <% Html.RenderPartial("TrainingDate", training); %>
+                    <% foreach(var trainingDate in Model.TrainingDates) { %>
+                        <% Html.RenderPartial("TrainingDate", trainingDate); %>
                     <% } %>
                 </div>
             </div>
                            
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0;">Im Netzwerk</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
+                    <p style="font-size: 12px; color: silver;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+
                     <% if (Model.NetworkActivities.Count == 0) { %>
                             Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
                             Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
@@ -448,7 +449,7 @@
                             </div>
                         <% } %>
                         <div class="row" style="opacity: 0.4;">
-                            <div class="col-xs-12"><a href="#" class="">mehr...</a></div>
+                            <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
                         </div>
                     <% } %>
                 </div>

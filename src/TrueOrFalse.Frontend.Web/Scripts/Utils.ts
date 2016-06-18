@@ -44,7 +44,8 @@ class Utils
         else {
             $.get("/Knowledge/GetNumberOfWishknowledgeQuestions/",
                 function (htmlResult) {
-                    Utils.SetElementValue("#menuWishKnowledgeCount", htmlResult);
+                    if (htmlResult != -1)
+                        Utils.SetElementValue("#menuWishKnowledgeCount", htmlResult);
                 });
              
         }
@@ -60,6 +61,15 @@ class Utils
         Utils.SetElementValue("#menuWishKnowledgeCount", newAmount.toString());
     }
 
+    static PinQuestionsInSetDetail() {
+        $(".question-row").find(".iAdded").show();
+        $(".question-row").find(".iAddedNot").hide();
+    }
+
+    static UnpinQuestionsInSetDetail() {
+        $(".question-row").find(".iAdded").hide();
+        $(".question-row").find(".iAddedNot").show();
+    }
 
     static DisplayBreakpointOnResize() {
         $(window).resize(() => {

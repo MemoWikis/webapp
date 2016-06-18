@@ -52,7 +52,7 @@
                     
                 &nbsp;
                     
-                <span class="show-tooltip" data-original-title="Die Frage wurde <%= Model.Views %>x mal gesehen.">
+                <span class="show-tooltip" data-original-title="Frage wurde <%= Model.Views %>x gesehen">
                     <i class="fa fa-eye" style="color:darkslategray;"></i>                
                     <span class="NumberTimes"><%= Model.Views %>x</span>
                 </span>
@@ -69,7 +69,7 @@
             &nbsp;
             <% if (Model.IsCreator){%>
                 <div style="position: relative; top: -1px; display: inline-block">
-                    <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>&nbsp;
+                    <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion"><i class="fa fa-trash-o"></i></a>&nbsp;
                     <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i></a>
                 </div>
             <% } %>

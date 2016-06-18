@@ -1,4 +1,4 @@
-/// <reference path="Page.ts" />
+﻿/// <reference path="Page.ts" />
 /// <reference path="../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../Scripts/typescript.defs/underscore.d.ts" />
@@ -20,26 +20,42 @@ class ToQuestionSetModal {
     }
 
     Populate() {
-        $('#tqsTitle').html(_page.RowSelector.Rows.length + " Fragen zu Fragesatz hinzufuegen");
-
-        var setResult = GetSetsForUser.Run($("#txtTqsSetFilter").val());
-        this.Sets = setResult.Sets;
-        this._template = $("#tsqRowTemplate");
-
         $("#tqsSuccess").hide();
         $("#tqsSuccessFooter").hide();
+        var questionCount = _page.RowSelector.Rows.length;
 
-        if (setResult.TotalSets == 0) {
+        if (questionCount == 0) {
+            $('#tqsTitle').html("Keine Fragen ausgewählt");
             $("#tqsBody").hide();
-            $("#tqsNoSetsBody").show(200);
-            $("#tqsNoSetsFooter").show(200);
+            $("#tqsFooter").hide();
+            $("#tqsNoQuestionsSelectedBody").show(200);
+            $("#tqsNoQuestionsSelectedFooter").show();
         } else {
-            $("#tqsNoSetsBody").hide();
-            $("#tqsNoSetsFooter").hide();
-            $("#tqsBody").show(200);
-            $("#tqsTextSelectSet").show();
+            
+            $('#tqsTitle').html(questionCount + " Fragen zu Fragesatz hinzuf&uuml;gen");
 
-            this.PopulateSets();
+            var setResult = GetSetsForUser.Run($("#txtTqsSetFilter").val());
+            this.Sets = setResult.Sets;
+            this._template = $("#tqsRowTemplate");
+
+            if (setResult.TotalSets == 0) {
+                $("#tqsBody").hide();
+                $("#tqsFooter").hide();
+                $("#tqsNoQuestionsSelectedBody").hide();
+                $("#tqsNoQuestionsSelectedFooter").hide();
+                $("#tqsNoSetsBody").show(200);
+                $("#tqsNoSetsFooter").show(200);
+            } else {
+                $("#tqsNoQuestionsSelectedBody").hide();
+                $("#tqsNoQuestionsSelectedFooter").hide();
+                $("#tqsNoSetsBody").hide();
+                $("#tqsNoSetsFooter").hide();
+                $("#tqsBody").show(200);
+                $("#tqsFooter").show();
+                //$("#tqsTextSelectSet").show();
+
+                this.PopulateSets();
+            }
         }
 
         $("#txtTqsSetFilter").keyup(() => {
@@ -71,6 +87,7 @@ class ToQuestionSetModal {
         $("#tqsSuccess").show();
         $("#tqsSuccessFooter").show();
         $("#tqsBody").hide();
+        $("#tqsFooter").hide();
     }
 
     PopulateSets() {
@@ -83,7 +100,7 @@ class ToQuestionSetModal {
                 .replace("{Name}", this.Sets[i].Name)
                 .replace("{AnzahlFragen}", this.Sets[i].QuestionCount.toString()));
             newRow.click(function () { _page.ToQuestionSetModal.AddToSet($(this)); });
-            $("#tsqRowContainer").append(newRow);
+            $("#tqsRowContainer").append(newRow);
         }
     }
 }

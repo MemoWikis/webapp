@@ -12,11 +12,9 @@ public class TrainingDateMap : ClassMap<TrainingDate>
         Map(x => x.DateTime);
 
         Map(x => x.ExpiresAt);
+        
+        Map(x => x.AllQuestionsJson).CustomSqlType("varchar(8000)");
 
-        HasMany(x => x.AllQuestions)
-            .Table("trainingdate_questions")
-            .Cascade.AllDeleteOrphan()
-            .Not.KeyNullable();
 
         References(x => x.LearningSession);
 
