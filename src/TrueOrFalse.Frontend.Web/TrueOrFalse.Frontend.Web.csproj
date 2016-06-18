@@ -337,6 +337,9 @@
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
+    <Compile Include="Views\Widgets\WidgetController.cs" />
+    <Compile Include="Views\Widgets\WidgetSetModel.cs" />
+    <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
     <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
@@ -436,6 +439,7 @@
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Views\Widgets\AwesomeIframe.js" />
     <Content Include="Scripts\guidedTour\tourWelcome.js">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
@@ -468,6 +472,7 @@
     <Content Include="Views\Dates\Modals\CopyDate.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
+    <Content Include="Views\Drafts\Widget.html" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
@@ -516,6 +521,8 @@
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
+    <Content Include="Views\Widgets\WidgetSet.aspx" />
+    <Content Include="Views\Widgets\WidgetQuestion.aspx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -1945,6 +1952,7 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
+    <Content Include="Views\Shared\Site.PureContent.Master" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

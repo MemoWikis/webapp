@@ -134,6 +134,8 @@ namespace TrueOrFalse
 
             routes.MapRoute("Topic", "Thema/{topicName}", new { controller = "Topics", action = "Topic" });
 
+            routes.MapRoute("WidgetQuestion", "widget/frage/{questionId}", new { controller = "Widget", action = "Question" });
+
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
         }
     }
