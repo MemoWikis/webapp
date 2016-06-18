@@ -14,8 +14,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                var trainingPlans = scope.R<TrainingPlanRepo>().AllWithNewMissedDates()
-                                        .Union(scope.R<TrainingPlanRepo>().AllWithExpiredUncompletedDates());
+                var trainingPlanRepo = scope.R<TrainingPlanRepo>();
+
+                var trainingPlans = trainingPlanRepo
+                    .AllWithNewMissedDates()
+                    .Union(trainingPlanRepo.AllWithExpiredUncompletedDates());
 
                 //if (trainingPlans.Count == 0)
                 //{

@@ -19,6 +19,14 @@ public class TrainingDateRepo : RepositoryDbBase<TrainingDate>
             ).List();
     }
 
+    public TrainingDate GetByLearningSessionId(int learningSessionId)
+    {
+        return Session
+            .QueryOver<TrainingDate>()
+            .Where(d => d.LearningSession != null && d.LearningSession.Id == learningSessionId)
+            .SingleOrDefault();
+    }
+
     public IList<TrainingDate> GetUpcomingTrainingDates(int withinDays = 7)
     {
         var currentUser = _userSession.User;

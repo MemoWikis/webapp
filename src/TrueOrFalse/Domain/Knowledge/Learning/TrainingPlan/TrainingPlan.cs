@@ -76,19 +76,36 @@ public class TrainingPlan : DomainEntity
         if (!Settings.AddFinalBoost || !Dates.Any(d => d.IsBoostingDate))
             return false;
 
-        return Dates.First(d => d.IsBoostingDate).DateTime <= DateTimeX.Now();
+        return OpenDates.All(d => d.IsBoostingDate)
+               //&& Dates.First(d => d.IsBoostingDate).DateTime <= DateTimeX.Now();
+               && Dates.Reverse().Last(d => d.IsBoostingDate).DateTime < DateTimeX.Now();
     }
 
     public virtual TrainingDate GetNextTrainingDate(bool withUpdate = false)
     {
+        //wenn gestartet, muss bei vorgezogenen Dates ExpiresAt angepasst werden
+        //vorgezogenes angefangenes wird bei update nicht gelöscht, wie wird damit umgegangen?  
+        //angefangenes Date wird fortgeführt, solange es noch gültig ist, sonst wird es beendet und die offenen Steps entsprechend markiert
+        //wenn kein bereits begonnenes Date mehr gültig ist, wird nächstes offenes Date vorgezogen, es sei denn, das nächste ist ein BoostingDate
+        //wenn kein Date mehr übrig ist oder nur noch BoostingDates, wird eine neue Session (ohne TrainingDate?) mit Mindestanzahl von Fragen gestartet
+        //wenn erstes BoostingDate bereits gestartet ist, dürfen die anderen auch vorgezogen werden
+        //nach vorgezogenem Date müssen alle folgenden beim Update gelöscht werden (=> zwei Typen von Updates)
 
-        if (withUpdate && PastDates.Any(d => d.IsExpiredWithoutUpdate()))
+
+        //PastDates.Where(d => d.LearningSession != null && !d.LearningSession.IsCompleted).ForEach(d => d.LearningSession.CompleteSession());
+
+        if (withUpdate && NeedsUpdate())
         {
-            var updatedTrainingPlan = TrainingPlanUpdater.Run(this, this.Settings);
-            return updatedTrainingPlan.OpenDates.FirstOrDefault();
+            TrainingPlanUpdater.Run(this, Settings);
         }
 
         return OpenDates.FirstOrDefault();
+    }
+
+    public virtual bool NeedsUpdate()
+    {
+        return Dates.Where(d => d.IsExpired()).Any(d =>     (d.LearningSession == null && !d.MarkedAsMissed)
+                                                        ||  (d.LearningSession != null && !d.LearningSession.IsCompleted));
     }
 
     public virtual void DumpToConsole()

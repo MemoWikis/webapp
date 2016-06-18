@@ -64,9 +64,13 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
     {
         var uncompletedDates = Session
             .QueryOver<TrainingDate>()
-            .Where(d => d.LearningSession != null
-                && !d.LearningSession.IsCompleted
-            ).List();
+            .Where(d =>
+                d.ExpiresAt <= DateTimeX.Now()
+                && d.LearningSession != null
+            )
+            .JoinQueryOver(d => d.LearningSession)
+            .Where(l => !l.IsCompleted)
+            .List();
 
         return uncompletedDates.Where(d => d.IsExpired()).Select(d => d.TrainingPlan).Distinct().ToList();
     }
