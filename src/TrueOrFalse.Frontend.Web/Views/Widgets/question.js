@@ -48,7 +48,6 @@ else if (window.attachEvent) {
     window.attachEvent('onmessage', receiveMessage);
 }
 
-
 var scripts = document.getElementsByTagName('script');
 var scriptTag = scripts[scripts.length - 1];
 var questionId = scriptTag.getAttribute("questionId");
@@ -56,7 +55,7 @@ var questionId = scriptTag.getAttribute("questionId");
 var filePath = 'http://memucho/widget/frage/' + questionId;
 var iframeHtml = '<iframe ' +
     'id="' + iframeId + '" name="widget" ' +
-    'src="#" width="100%" height="1" ' +
+    'src="#" height="1" ' +
     'marginheight="0" marginwidth="0" ' +
     'frameborder="no" scrolling="no" ' +
     'onload="iframeLoaded()"></iframe>';
@@ -64,8 +63,8 @@ var iframeHtml = '<iframe ' +
 document.write(iframeHtml);
 
 var loadedIframe = parent.document.getElementById(iframeId);
-loadedIframe.height = 350;
-loadedIframe.width = 960;
+//loadedIframe.height = 350;
+//loadedIframe.width = 960;
 
 loadedIframe.src = filePath;
 //loadedIframe.style.border = "1px solid #999";
