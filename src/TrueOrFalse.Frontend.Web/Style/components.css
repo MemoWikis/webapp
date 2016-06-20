@@ -201,7 +201,7 @@ div.selected-row:hover {
   -o-transition: none;
   transition: none;
 }
-.tsqRow:hover {
+.tqsRow:hover {
   background-color: #f3f5f8;
   cursor: pointer;
 }
