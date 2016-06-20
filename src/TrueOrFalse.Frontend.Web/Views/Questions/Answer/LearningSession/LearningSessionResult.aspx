@@ -121,14 +121,14 @@
                 <% } %>
             </div>
         </div>
-        <% if(Model.NumberSkipped != 0) { %>
+        <% if(Model.NumberNotAnswered != 0) { %>
             <div id="SummaryUnanswered">
                 <div class="BarDescr">unbeantwortet:</div>
-                <div class="ChartBarWrapper" style="width: <%= (Model.NumberSkippedPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
+                <div class="ChartBarWrapper" style="width: <%= (Model.NumberNotAnsweredPercentage * 0.5).ToString(CultureInfo.InvariantCulture) %>%">
                     <div class="ChartBar"></div>
                 </div>
-                <div class="ChartNumbers"> <%=Model.NumberSkipped %> 
-                    (<%=Model.NumberSkippedPercentage %>%)
+                <div class="ChartNumbers"> <%=Model.NumberNotAnswered %> 
+                    (<%=Model.NumberNotAnsweredPercentage %>%)
                 </div>
             </div>
         <% } %>
@@ -154,7 +154,7 @@
                     </div>
                 <% }
             }
-            else if (step.AnswerState == StepAnswerState.Skipped)
+            else if (step.AnswerState == StepAnswerState.Skipped || step.AnswerState == StepAnswerState.NotViewedOrAborted)
             { %>
                     <div  class="QuestionLearned Unanswered" style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
                         <i class="fa fa-circle-o show-tooltip" title="Nicht beantwortet"></i>
