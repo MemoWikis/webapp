@@ -143,6 +143,12 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Games/Play/*.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/Widget")
+                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .Include("~/Views/Widgets/WidgetQuestion.js")
+                .Include("~/Views/Widgets/AwesomeIframe.js"));
+
             //Markdown
             bundles.Add(new ScriptBundle("~/bundles/markdown")
                 .Include("~/Scripts/Markdown.Converter.js",

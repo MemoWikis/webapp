@@ -521,6 +521,9 @@
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
+    <Content Include="Views\Widgets\WidgetQuestion.js">
+      <DependentUpon>WidgetQuestion.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Widgets\WidgetSet.aspx" />
     <Content Include="Views\Widgets\WidgetQuestion.aspx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
@@ -1360,6 +1363,7 @@
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
+    <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
