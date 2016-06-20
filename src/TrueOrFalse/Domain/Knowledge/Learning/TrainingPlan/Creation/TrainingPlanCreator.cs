@@ -142,6 +142,8 @@ public class TrainingPlanCreator
 
     private static void AddExpirationDate(Date date, List<TrainingDate> learningDates)
     {
+        if(!learningDates.Any())
+            return;
 
         for (var i = 0; i < learningDates.Count - 1; i++)
         {
