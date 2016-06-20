@@ -132,6 +132,8 @@ namespace TrueOrFalse
             routes.MapRoute("Redirect2", "redirect/to/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
             routes.MapRoute("Redirect3", "f/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
 
+            routes.MapRoute("Topic", "Thema/{topicName}", new { controller = "Topics", action = "Topic" });
+
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
         }
     }

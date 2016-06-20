@@ -312,6 +312,8 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
+    <Compile Include="Views\Topics\TopicModel.cs" />
+    <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -1941,6 +1943,8 @@
       <DependentUpon>DateRowCopy.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
+    <Content Include="Views\Topics\Topic.aspx" />
+    <Content Include="Views\Topics\Docs\Unicode.md" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
