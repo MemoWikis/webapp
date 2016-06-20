@@ -113,7 +113,7 @@
                                     <div class="col-md-11 col-sm-8 col-xs-11">
                                           <div class="checkbox">
                                             <label>
-                                                <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple Choice-Fragen
+                                                <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple-Choice-Fragen
                                             </label>
                                         </div>
                                     </div>
