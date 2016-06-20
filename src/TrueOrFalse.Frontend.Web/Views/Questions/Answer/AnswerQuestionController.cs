@@ -59,6 +59,22 @@ public class AnswerQuestionController : BaseController
             return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
         }
 
+        if (learningSession.IsDateSession)
+        {
+            var trainingDateRepo = Sl.R<TrainingDateRepo>();
+            var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
+
+            if (trainingDate.IsExpired())
+            {
+                return RedirectToAction("StartLearningSession", Links.DatesController,
+                new { trainingDate.TrainingPlan.Date.Id });
+            }
+
+            trainingDate.ExpiresAt =
+                DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
+            trainingDateRepo.Update(trainingDate);
+        }
+
         _saveQuestionView.Run(
             learningSession.Steps[currentLearningStepIdx].Question,
             _sessionUser.User.Id,
