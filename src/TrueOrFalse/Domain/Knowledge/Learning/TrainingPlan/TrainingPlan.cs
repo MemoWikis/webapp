@@ -20,12 +20,6 @@ public class TrainingPlan : DomainEntity
 
     public virtual IList<TrainingDate> PastDates => Dates.Except(OpenDates).OrderBy(d => d.DateTime).ToList();
 
-    public virtual IList<TrainingDate> PastDatesNotMissed =>
-        PastDates
-            .Where(d => !d.MarkedAsMissed
-                && d.LearningSession != null)
-            .OrderBy(d => d.DateTime).ToList();
-
     public virtual TimeSpan TimeToNextDate => HasOpenDates ? GetNextTrainingDate().DateTime - DateTime.Now : new TimeSpan(0, 0, 0);
     public virtual int QuestionCountInNextDate => HasOpenDates ? GetNextTrainingDate().AllQuestionsInTraining.Count() : 0;
 
