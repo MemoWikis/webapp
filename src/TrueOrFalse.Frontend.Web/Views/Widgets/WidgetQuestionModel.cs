@@ -4,6 +4,7 @@
 
     public WidgetQuestionModel(AnswerQuestionModel answerQuestionModel)
     {
+        ShowUserReportWidget = false;
         AnswerQuestionModel = answerQuestionModel;
     }
 }
