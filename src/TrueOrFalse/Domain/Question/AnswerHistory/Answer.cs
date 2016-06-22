@@ -28,6 +28,7 @@ public class Answer : IPersistable, WithDateCreated
 
     public virtual bool AnsweredCorrectly()
     {
-        return AnswerredCorrectly != AnswerCorrectness.False;
+        return AnswerredCorrectly == AnswerCorrectness.True 
+            || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
     }
 }
