@@ -66,40 +66,4 @@ public class TrainingDate : DomainEntity
     {
         return IsExpired() && !MarkedAsMissed;
     }
-
-    public static LearningSession InitLearningSession(Date date, TrainingDate trainingDate)
-    {
-        var learningSession = new LearningSession
-        {
-            DateToLearn = date,
-            User = date.User
-        };
-
-        if (trainingDate == null
-            || (trainingDate.IsBoostingDate
-                && !date.TrainingPlan.BoostingPhaseHasStarted()))
-        {
-            learningSession.Steps = GetLearningSessionSteps
-                .Run(date.Sets.SelectMany(s => s.Questions()).ToList(),
-                date.TrainingPlanSettings.QuestionsPerDate_Minimum);
-        }
-        else if (trainingDate.LearningSession != null)
-        {
-            learningSession = trainingDate.LearningSession;
-        }
-        else
-        {
-            learningSession.Steps = GetLearningSessionSteps.Run(trainingDate); 
-            trainingDate.LearningSession = learningSession;
-        }
-
-        Sl.R<LearningSessionRepo>().Create(learningSession);
-
-        if (trainingDate != null)
-        {
-            Sl.R<TrainingDateRepo>().Update(trainingDate);
-        }
-
-        return learningSession;
-    }
 }

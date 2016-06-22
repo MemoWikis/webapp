@@ -99,7 +99,7 @@ public class DatesController : BaseController
 
         var nextTrainingDate = date.TrainingPlan.GetNextTrainingDate(withUpdate: true);
 
-        var learningSession = TrainingDate.InitLearningSession(date, nextTrainingDate);
+        var learningSession = LearningSession.InitDateSession(date, nextTrainingDate);
 
         return Redirect(Links.LearningSession(learningSession));
     }
