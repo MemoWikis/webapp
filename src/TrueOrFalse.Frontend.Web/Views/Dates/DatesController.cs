@@ -97,9 +97,9 @@ public class DatesController : BaseController
         if (date.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
-        var trainingDate = date.TrainingPlan.GetNextTrainingDate(withUpdate: true);
+        var nextTrainingDate = date.TrainingPlan.GetNextTrainingDate(withUpdate: true);
 
-        var learningSession = TrainingDate.InitLearningSession(date, trainingDate);
+        var learningSession = TrainingDate.InitLearningSession(date, nextTrainingDate);
 
         return Redirect(Links.LearningSession(learningSession));
     }

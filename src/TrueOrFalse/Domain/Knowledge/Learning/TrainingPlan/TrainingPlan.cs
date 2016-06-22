@@ -67,27 +67,22 @@ public class TrainingPlan : DomainEntity
 
     public virtual bool BoostingPhaseHasStarted()
     {
-        if (!Settings.AddFinalBoost || !Dates.Any(d => d.IsBoostingDate))
+        if (!Settings.AddFinalBoost
+            || !Dates.Any(d => d.IsBoostingDate)
+            || !Dates.OrderBy(d => d.DateTime).Last().IsBoostingDate)
             return false;
 
-        return OpenDates.All(d => d.IsBoostingDate)
-               //&& Dates.First(d => d.IsBoostingDate).DateTime <= DateTimeX.Now();
-               && Dates.Reverse().Last(d => d.IsBoostingDate).DateTime < DateTimeX.Now();
+        return OpenDates.All(d => d.IsBoostingDate) && StartOfFinalBoostingDateRowIsMaxOneDayFromNow();
+    }
+
+    public virtual bool StartOfFinalBoostingDateRowIsMaxOneDayFromNow() 
+    {
+        var i = 0;
+        return Dates.OrderByDescending(d => i++).TakeWhile(d => d.IsBoostingDate).Last().DateTime < DateTimeX.Now().AddDays(1);
     }
 
     public virtual TrainingDate GetNextTrainingDate(bool withUpdate = false)
     {
-        //wenn gestartet, muss bei vorgezogenen Dates ExpiresAt angepasst werden
-        //vorgezogenes angefangenes wird bei update nicht gelöscht, wie wird damit umgegangen?  
-        //angefangenes Date wird fortgeführt, solange es noch gültig ist, sonst wird es beendet und die offenen Steps entsprechend markiert
-        //wenn kein bereits begonnenes Date mehr gültig ist, wird nächstes offenes Date vorgezogen, es sei denn, das nächste ist ein BoostingDate
-        //wenn kein Date mehr übrig ist oder nur noch BoostingDates, wird eine neue Session (ohne TrainingDate?) mit Mindestanzahl von Fragen gestartet
-        //wenn erstes BoostingDate bereits gestartet ist, dürfen die anderen auch vorgezogen werden
-        //nach vorgezogenem Date müssen alle folgenden beim Update gelöscht werden (=> zwei Typen von Updates)
-
-
-        //PastDates.Where(d => d.LearningSession != null && !d.LearningSession.IsCompleted).ForEach(d => d.LearningSession.CompleteSession());
-
         if (withUpdate && NeedsUpdate())
         {
             TrainingPlanUpdater.Run(this, Settings);

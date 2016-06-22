@@ -64,15 +64,18 @@ public class AnswerQuestionController : BaseController
             var trainingDateRepo = Sl.R<TrainingDateRepo>();
             var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
 
-            if (trainingDate.IsExpired())
+            if (trainingDate != null)
             {
-                return RedirectToAction("StartLearningSession", Links.DatesController,
-                new { trainingDate.TrainingPlan.Date.Id });
-            }
+                if (trainingDate.IsExpired())
+                {
+                    return RedirectToAction("StartLearningSession", Links.DatesController,
+                    new { trainingDate.TrainingPlan.Date.Id });
+                }
 
-            trainingDate.ExpiresAt =
-                DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
-            trainingDateRepo.Update(trainingDate);
+                trainingDate.ExpiresAt =
+                    DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
+                trainingDateRepo.Update(trainingDate);
+            }
         }
 
         _saveQuestionView.Run(
