@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using NHibernate.Criterion;
+using NHibernate.Util;
 using RazorEngine.Compilation.ImpromptuInterface.Build;
 using TrueOrFalse;
 
@@ -116,7 +118,13 @@ public class TrainingPlanCreator
 
     private static void AddDatesFromNowOnForwards(Date date, TrainingPlanSettings settings, List<TrainingDate> learningDates, DateTime upperTimeBound)
     {
-        var nextDateProposal = RoundTime(DateTimeX.Now().AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes));
+        var earliestPossibleTimeAfterLastTraining = GetEarliestPossibleTimeAfterLastTraining(date, settings);
+
+        var nextDateProposal = RoundTime((DateTime.Now > earliestPossibleTimeAfterLastTraining
+                ? DateTime.Now
+                : earliestPossibleTimeAfterLastTraining)
+                .AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes),
+                toLower: true);
 
         while (nextDateProposal < upperTimeBound)
         {
@@ -138,6 +146,24 @@ public class TrainingPlanCreator
 
             nextDateProposal = nextDateProposal.AddMinutes(TrainingPlanSettings.TryAddDateIntervalInMinutes);
         }
+    }
+
+    private static DateTime GetEarliestPossibleTimeAfterLastTraining(Date date, TrainingPlanSettings settings)
+    {
+        var answersOfLastTrainingDone = date.LearningSessions.Any() ?
+            date.LearningSessions.OrderBy(x => x.DateCreated)
+                .Last().Steps.Where(s => s.Answer != null)
+                .Select(s => s.Answer)
+                .OrderBy(a => a.DateCreated).ToList() : new List<Answer>();
+
+        if (!answersOfLastTrainingDone.Any())
+        {
+            return DateTime.MinValue; 
+        }
+
+        var endTimeOfLastTrainingDone = answersOfLastTrainingDone.Last().DateCreated;
+
+        return endTimeOfLastTrainingDone.AddMinutes(settings.MinSpacingBetweenSessionsInMinutes);
     }
 
     private static void AddExpirationDate(Date date, List<TrainingDate> learningDates)
