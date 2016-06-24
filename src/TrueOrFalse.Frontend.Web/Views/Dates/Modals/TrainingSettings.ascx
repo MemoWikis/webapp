@@ -76,7 +76,7 @@
                         </div>
                         <div class="row" style="margin-top: 4px;">
                             <div class="col-md-4">
-                                <div class="pull-right">Mind. pro Termin:</div>
+                                <div class="pull-right">Pro Termin mindestens:</div>
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtQuestionsPerDateMinimum" style="width: 30px; height: 20px; font-size: 13px;" value="7"/>
@@ -96,6 +96,7 @@
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtAnswerProbabilityThreshold" style="width: 30px; height: 20px; font-size: 13px;" value="92"/>%
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Eine Frage wird wiederholt, wenn die Wahrscheinlichkeit einer korrekten Antwort unter diesen Wert sinkt."></i>
                             </div>
                             <div class="col-md-4">
                                 <div class="pull-right EqualizeSpacingOptions">Max. Multiplikator:</div>
