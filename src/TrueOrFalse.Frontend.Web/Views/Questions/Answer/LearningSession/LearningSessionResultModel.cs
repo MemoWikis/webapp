@@ -9,10 +9,10 @@ public class LearningSessionResultModel : BaseModel
     public int TotalNumberSteps;
     public int NumberCorrectAnswers;
     public int NumberWrongAnswers;
-    public int NumberSkipped;
+    public int NumberNotAnswered;
     public int NumberCorrectPercentage;
     public int NumberWrongAnswersPercentage;
-    public int NumberSkippedPercentage;
+    public int NumberNotAnsweredPercentage;
 
 
     public LearningSessionResultModel(LearningSession learningSession)
@@ -25,11 +25,11 @@ public class LearningSessionResultModel : BaseModel
             var answeredSteps = LearningSession.Steps.Where(s => s.AnswerState == StepAnswerState.Answered).ToList();
             NumberCorrectAnswers = answeredSteps.Count(s => s.Answer.AnswerredCorrectly != AnswerCorrectness.False);
             NumberWrongAnswers = answeredSteps.Count(s => s.Answer.AnswerredCorrectly == AnswerCorrectness.False);
-            NumberSkipped = LearningSession.Steps.Count(s => s.AnswerState == StepAnswerState.Skipped);
+            NumberNotAnswered = LearningSession.Steps.Count(s => s.AnswerState == StepAnswerState.Skipped || s.AnswerState == StepAnswerState.NotViewedOrAborted);
 
             NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)TotalNumberSteps * 100);
             NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)TotalNumberSteps * 100);
-            NumberSkippedPercentage = (int)Math.Round(NumberSkipped / (float)TotalNumberSteps * 100);
+            NumberNotAnsweredPercentage = (int)Math.Round(NumberNotAnswered / (float)TotalNumberSteps * 100);
         }
     }
 }

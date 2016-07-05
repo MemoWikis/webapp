@@ -179,6 +179,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
+        /*Dates*/
+        public const string DatesController = "Dates";
+
+
         /*Set*/
         public const string SetsController = "Sets";
         public const string SetsAction = "Sets";

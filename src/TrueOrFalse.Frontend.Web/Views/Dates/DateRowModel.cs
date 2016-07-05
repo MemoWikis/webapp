@@ -31,7 +31,6 @@ public class DateRowModel : BaseModel
     public TimeSpan TimeSpentLearning;
     public int TrainingDateCount;
     public string RemainingTrainingTime;
-    public int NumberOfTrainingsDone;
 
     public TrainingPlan TrainingPlan;
 
@@ -63,7 +62,6 @@ public class DateRowModel : BaseModel
         TrainingPlan = date.TrainingPlan ?? new TrainingPlan();
         TrainingDateCount = TrainingPlan.OpenDates.Count;
         RemainingTrainingTime = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
-        NumberOfTrainingsDone = TrainingPlan.PastDatesNotMissed.ToList().Count;
 
         var remaining = date.Remaining();
         IsPast = remaining.TotalSeconds < 0;
