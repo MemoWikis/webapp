@@ -196,8 +196,8 @@
                 <div style="padding-left: 14px; padding: 8px;">                        
                     <span>Reputation: <b><%= Model.ReputationTotal %></b> <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Fragesätze etc. erstellst. In der Hilfe erfährst du mehr."></i>,</span>
                     <span>Rang: <b><%= Model.ReputationRank %></b>,</span>
-                    erstellte Fragen: <b>49</b>,
-                    erstellte Fragesätze: <b>3</b>
+                    erstellte Fragen: <b><%= Model.QuestionsCreatedCount %></b>,
+                    erstellte Fragesätze: <b><%= Model.SetsCreatedCount %></b>
                 </div>
             </a>
         </div>

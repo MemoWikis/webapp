@@ -20,7 +20,9 @@ public class KnowledgeModel : BaseModel
     public bool HasLearnedInLast30Days;
 
     public int QuestionsCount;
-    public int SetCount;
+    public int QuestionsCreatedCount;
+    public int SetsCount;
+    public int SetsCreatedCount;
 
     public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
     public GetStreaksDaysResult StreakDays = new GetStreaksDaysResult();
@@ -52,8 +54,11 @@ public class KnowledgeModel : BaseModel
             return;
 
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
-        SetCount = R<GetWishSetCount>().Run(UserId);
+        SetsCount = R<GetWishSetCount>().Run(UserId);
         User = R<UserRepo>().GetById(UserId);
+
+        QuestionsCreatedCount = Resolve<UserSummary>().AmountCreatedQuestions(UserId);
+        SetsCreatedCount = Resolve<UserSummary>().AmountCreatedSets(UserId);
 
         var reputation = Resolve<ReputationCalc>().Run(User);
         ReputationRank = User.ReputationPos;
