@@ -323,6 +323,11 @@
     <Compile Include="_ code\Email\CleanEmailsFromPickupDirectory.cs" />
     <Compile Include="_ code\Email\OneEmailWasSend.cs" />
     <Compile Include="_ code\Email\GetEmailsFromPickupDirectory.cs" />
+    <Compile Include="_ leitner simulation\LeitnerBox.cs" />
+    <Compile Include="_ leitner simulation\LeitnerDay.cs" />
+    <Compile Include="_ leitner simulation\LeitnerQuestion.cs" />
+    <Compile Include="_ leitner simulation\LeitnerSimulation.cs" />
+    <Compile Include="_ leitner simulation\LeitnerSimulationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj">
