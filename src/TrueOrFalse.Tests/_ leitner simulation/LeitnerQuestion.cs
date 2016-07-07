@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static System.Boolean;
 
 [Serializable]
 public class LeitnerQuestion
 {
+    public IList<LeitnerAnswer> History;
+
     public int Complexity;
     public LeitnerBox Box;
 
@@ -29,5 +32,10 @@ public class LeitnerQuestion
                 };
 
             });
+    }
+
+    public bool Answer()
+    {
+        return Convert.ToBoolean(new Random((int) DateTime.Now.Ticks).Next(0,2));
     }
 }

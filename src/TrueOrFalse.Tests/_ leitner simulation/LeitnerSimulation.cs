@@ -13,7 +13,7 @@ public class LeitnerSimulation
 
         leitnerBoxes.AddToBox(1, leitnerQuestions);
 
-        for (var i = 0; i < 10; i++)
+        for (var i = 0; i < numberOfDays; i++)
             AdvanceDay(leitnerBoxes);
     }
 
@@ -28,13 +28,18 @@ public class LeitnerSimulation
         });
 
         var boxesToRepeat = boxes.Where(x => currentDay % x.RepeatEvery== 0);
+        var firstBox = boxes.ByNumber(1);
 
-        foreach (var box in boxesToRepeat)
-        {
-            foreach (var question in box.Questions)
+        foreach (var box in boxesToRepeat.OrderByDescending(b => b.Number))
+            for (var i = 0; i < box.Questions.Count; i++)
             {
-                //Train
+                var question = box.Questions[i];
+
+                if (question.Answer())
+                    box.MoveToNextBox(question);
+                else
+                    box.MovetToBox(question, firstBox);
             }
-        }
+
     }
 }
