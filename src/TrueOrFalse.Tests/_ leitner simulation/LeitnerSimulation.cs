@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
@@ -5,6 +6,7 @@ using FluentNHibernate.Utils;
 public class LeitnerSimulation
 {
     public IList<LeitnerDay> Days = new List<LeitnerDay>();
+    public static readonly Random Random = new Random();
 
     public void Start(int numberOfDays = 10)
     {

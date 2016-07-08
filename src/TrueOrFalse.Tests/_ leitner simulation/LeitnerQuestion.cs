@@ -16,7 +16,7 @@ public class LeitnerQuestion
     public static IEnumerable<LeitnerQuestion> CreateQuestions(int amount = 100)
     {
         return Enumerable
-            .Range(start: 0, count: 100)
+            .Range(start: 0, count: amount)
             .Select(i =>
             {
                 var complexity = 50;
@@ -30,14 +30,14 @@ public class LeitnerQuestion
             });
     }
 
-    private static readonly Random _random = new Random();
-    
     public bool Answer(int dayNumber)
     {
-        Random random = new Random(Convert.ToInt32(DateTime.Now.Ticks.ToString().Substring(15)));
+
         var probability = GetProbability(dayNumber, History);
-        var wasCorrect = _random.Next(0, 100) < probability;
-        Logg.r().Information($"Day: {dayNumber} Rnd:{random.Next(100)} Prob:{probability}");
+        var rd = LeitnerSimulation.Random.Next(0, 100);
+        var wasCorrect =  rd < probability;
+        Console.WriteLine(rd);
+        Logg.r().Information($"Day: {dayNumber} Rnd:{rd} Prob:{probability}");
 
         History.Add(new LeitnerAnswer
         {
