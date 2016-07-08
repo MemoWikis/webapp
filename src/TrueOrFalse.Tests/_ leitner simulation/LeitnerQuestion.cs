@@ -6,10 +6,12 @@ using static System.Boolean;
 [Serializable]
 public class LeitnerQuestion
 {
-    public IList<LeitnerAnswer> History;
+    public IList<LeitnerAnswer> History = new List<LeitnerAnswer>();
 
     public int Complexity;
     public LeitnerBox Box;
+
+    public int Probability;
 
     public int NextRepetitionDayNumber = 0;
 
@@ -28,14 +30,30 @@ public class LeitnerQuestion
 
                 return new LeitnerQuestion
                 {
-                    Complexity = complexity
+                    Complexity = complexity,
+                    Probability = 100 - complexity
                 };
 
             });
     }
 
-    public bool Answer()
+    public bool Answer(int dayNumber)
     {
-        return Convert.ToBoolean(new Random((int) DateTime.Now.Ticks).Next(0,2));
+        var r = new Random();
+        
+        var wasCorrect = r.Next(100) < Probability;
+
+        History.Add(new LeitnerAnswer {Day = dayNumber, WasCorrect = wasCorrect});
+
+        return wasCorrect;
+    }
+
+    public void UpdateProbability(int currentDay)
+    {
+        var offset = TimeSpan.FromDays(currentDay - (History.Any() ? History.Last().Day : 1)).TotalMinutes;
+
+        var stability = 2048;
+
+        Probability = ProbabilityCalc_Curve.GetProbability(offset, stability, Probability);
     }
 }

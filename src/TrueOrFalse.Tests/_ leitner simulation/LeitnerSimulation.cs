@@ -35,7 +35,9 @@ public class LeitnerSimulation
             {
                 var question = box.Questions[i];
 
-                if (question.Answer())
+                question.UpdateProbability(currentDay);
+
+                if (question.Answer(currentDay))
                     box.MoveToNextBox(question);
                 else
                     box.MovetToBox(question, firstBox);
