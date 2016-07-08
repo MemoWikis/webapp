@@ -29,7 +29,7 @@ public class ProbabilityCalc_Curve_HalfLife_24h
         int offsetInMinutes, 
         int startValue)
     {
-        var stability = Stability + GetStabilityModificator(previousAnswers);
+        var stability = Stability + GetStabilityModificator(previousAnswers.ToList<IAnswered>());
         if (TrainingPlanCreator.QuestionsToTrackIds.Contains(question.Id))
         {
             Logg.r().Information("TrainingPlanCreator: Question " + question.Id + ", stability: " + stability);
@@ -39,11 +39,11 @@ public class ProbabilityCalc_Curve_HalfLife_24h
     }
 
     ///naive implementation!
-    public int GetStabilityModificator(IList<Answer> previousAnswers)
+    public static int GetStabilityModificator(IEnumerable<IAnswered> previousAnswers)
     {
         return previousAnswers.Sum(a =>
         {
-            var offsetInMinutes = (DateTimeX.Now() - a.DateCreated).TotalMinutes;
+            var offsetInMinutes = a.GetAnswerOffsetInMinutes();
             var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, Stability, startValue: 100);
 
             if (a.AnsweredCorrectly())

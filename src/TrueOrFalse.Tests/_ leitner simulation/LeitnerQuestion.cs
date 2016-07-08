@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Boolean;
+using NHibernate.Util;
 
 [Serializable]
 public class LeitnerQuestion
@@ -10,8 +10,6 @@ public class LeitnerQuestion
 
     public int Complexity;
     public LeitnerBox Box;
-
-    public int Probability;
 
     public int NextRepetitionDayNumber = 0;
 
@@ -28,32 +26,37 @@ public class LeitnerQuestion
                 if (i%4 == 2)
                     complexity = 75;
 
-                return new LeitnerQuestion
-                {
-                    Complexity = complexity,
-                    Probability = 100 - complexity
-                };
-
+                return new LeitnerQuestion{ Complexity = complexity };
             });
     }
 
+    private static readonly Random _random = new Random();
+    
     public bool Answer(int dayNumber)
     {
-        var r = new Random();
-        
-        var wasCorrect = r.Next(100) < Probability;
+        Random random = new Random(Convert.ToInt32(DateTime.Now.Ticks.ToString().Substring(15)));
+        var probability = GetProbability(dayNumber, History);
+        var wasCorrect = _random.Next(0, 100) < probability;
+        Logg.r().Information($"Day: {dayNumber} Rnd:{random.Next(100)} Prob:{probability}");
 
-        History.Add(new LeitnerAnswer {Day = dayNumber, WasCorrect = wasCorrect});
+        History.Add(new LeitnerAnswer
+        {
+            Day = dayNumber,
+            WasCorrect = wasCorrect,
+            ProbabilityBefore = probability
+        });
 
         return wasCorrect;
     }
 
-    public void UpdateProbability(int currentDay)
+    public int GetProbability(int currentDay, IList<LeitnerAnswer> history)
     {
-        var offset = TimeSpan.FromDays(currentDay - (History.Any() ? History.Last().Day : 1)).TotalMinutes;
+        var offsetInMinutes = TimeSpan.FromDays(currentDay - (History.Any() ? History.Last().Day : 1)).TotalMinutes;
 
-        var stability = 2048;
+        history.ForEach(a => a.SetResultFor_GetAnswerOffsetInMinutes(offsetInMinutes));
 
-        Probability = ProbabilityCalc_Curve.GetProbability(offset, stability, Probability);
+        var stability = ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
+
+        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, 100);
     }
 }

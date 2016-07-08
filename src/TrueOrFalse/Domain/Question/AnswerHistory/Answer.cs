@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
-public class Answer : IPersistable, WithDateCreated
+public class Answer : IPersistable, WithDateCreated, IAnswered
 {
     public virtual int Id { get; set; }
     public virtual int UserId { get; set; }
@@ -31,4 +31,15 @@ public class Answer : IPersistable, WithDateCreated
         return AnswerredCorrectly == AnswerCorrectness.True 
             || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
     }
+
+    public virtual double GetAnswerOffsetInMinutes()
+    {
+        return (DateTimeX.Now() - DateCreated).TotalMinutes;
+    }
+}
+
+public interface IAnswered
+{
+    bool AnsweredCorrectly();
+    double GetAnswerOffsetInMinutes();
 }
