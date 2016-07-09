@@ -35,20 +35,22 @@ public class LeitnerSimulation
         var firstBox = boxes.ByNumber(1);
         var boxesBefore = boxes.DeepClone();
 
+        var questionsToMoveToFirstBox = new List<LeitnerQuestion>();
+        var questionToMoveToNextBox = new List<LeitnerQuestion>();
+
         foreach (var box in boxesToRepeat.OrderByDescending(b => b.Number))
         {
-            box.ToRepeat = true;
-
-            for (var i = 0; i < box.Questions.Count; i++)
+            foreach (var question in box.Questions)
             {
-                var question = box.Questions[i];
-
                 if (question.Answer(currentDay))
-                    box.MoveToNextBox(question);
+                    questionToMoveToNextBox.Add(question);
                 else
-                    box.MoveToBox(question, firstBox);
+                    questionsToMoveToFirstBox.Add(question);
             }
         }
+
+        questionToMoveToNextBox.ForEach(q => q.Box.MoveToNextBox(q));
+        questionsToMoveToFirstBox.ForEach(q => q.Box.MoveToBox(q, firstBox));
 
         Days.Add(new LeitnerDay
         {

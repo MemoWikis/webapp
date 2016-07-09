@@ -11,7 +11,7 @@ public class LeitnerSimulationTest
     {
         var leitnerSimulation = new LeitnerSimulation();
         int numberOfDays = 20;
-        leitnerSimulation.Start(numberOfDays: numberOfDays);
+        leitnerSimulation.Start(numberOfDays: numberOfDays, numberOfQuestions: 100);
 
         Assert.That(leitnerSimulation.Days.Count, Is.EqualTo(numberOfDays));
 
@@ -20,7 +20,9 @@ public class LeitnerSimulationTest
             Console.WriteLine($"== Day == {day.Number}");
             foreach (var box in day.BoxesBefore)
             {
-                Console.WriteLine($"Box{(box.ToRepeat ? "*" : "")}{box.Number}: {box.Questions.Count} / {day.BoxesAfter.ByNumber(box.Number).Questions.Count}");
+                Console.WriteLine(
+                    $"Box{(box.ToRepeat ? "*" : "")}{box.Number}: " +
+                    $"{box.Questions.Count} / {day.BoxesAfter.ByNumber(box.Number).Questions.Count}");
             }
         }
     }
