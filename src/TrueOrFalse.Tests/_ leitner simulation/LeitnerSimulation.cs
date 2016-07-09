@@ -6,11 +6,13 @@ using NHibernate.Util;
 public class LeitnerSimulation
 {
     public IList<LeitnerDay> Days = new List<LeitnerDay>();
+    public static int InitialProbability { get; private set; }
 
-    public void Start(int numberOfDays = 10, int numberOfQuestions = 100)
+    public void Start(int numberOfDays = 10, int numberOfQuestions = 100, int initialProbability = 50)
     {
         var leitnerBoxes = LeitnerBox.CreateBoxes();
         var leitnerQuestions = LeitnerQuestion.CreateQuestions(numberOfQuestions);
+        InitialProbability = initialProbability;
 
         MoveToFirstBox(leitnerBoxes, leitnerQuestions);
 

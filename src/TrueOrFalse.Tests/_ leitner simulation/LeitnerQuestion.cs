@@ -65,7 +65,12 @@ public class LeitnerQuestion
                     .GetAnswerOffsetInMinutes();
 
         var stability = ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
-        var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, 100);
+
+        var initialProbabilityValue = 100;
+        if (!history.Any())
+            initialProbabilityValue = LeitnerSimulation.InitialProbability;
+
+        var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, initialProbabilityValue);
 
         Logg.r()
             .Information(
