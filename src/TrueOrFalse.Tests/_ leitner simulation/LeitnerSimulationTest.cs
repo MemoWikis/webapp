@@ -26,5 +26,6 @@ public class LeitnerSimulationTest
             }
             Console.WriteLine($"Sum of repititions: {day.GetSumOfRepetitions()}");
         }
+        Console.WriteLine($"Total of repititions: {leitnerSimulation.Days.GetSumOfRepetitions()}"); 
     }
 }
