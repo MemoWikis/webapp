@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
@@ -42,6 +43,8 @@ public class LeitnerSimulation
 
         foreach (var box in boxesToRepeat.OrderByDescending(b => b.Number))
         {
+            questionToMoveToNextBox.Clear();
+            questionsToMoveToFirstBox.Clear();
             foreach (var question in box.Questions)
             {
                 if (question.Answer(currentDay))
@@ -49,10 +52,9 @@ public class LeitnerSimulation
                 else
                     questionsToMoveToFirstBox.Add(question);
             }
+            questionToMoveToNextBox.ForEach(q => q.Box.MoveToNextBox(q));
+            questionsToMoveToFirstBox.ForEach(q => q.Box.MoveToBox(q, firstBox));
         }
-
-        questionToMoveToNextBox.ForEach(q => q.Box.MoveToNextBox(q));
-        questionsToMoveToFirstBox.ForEach(q => q.Box.MoveToBox(q, firstBox));
 
         Days.Add(new LeitnerDay
         {
