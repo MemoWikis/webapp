@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Common.Logging.Configuration;
 using NUnit.Framework;
 
 [TestFixture]
@@ -14,12 +15,12 @@ public class LeitnerSimulationTest
 
         Assert.That(leitnerSimulation.Days.Count, Is.EqualTo(numberOfDays));
 
-        foreach (var day in leitnerSimulation.Days.Skip(1))
+        foreach (var day in leitnerSimulation.Days)
         {
             Console.WriteLine($"== Day == {day.Number}");
-            foreach (var box in day.Boxes)
+            foreach (var box in day.BoxesBefore)
             {
-                Console.WriteLine($"Box: {box.Number} {box.Questions.Count}");
+                Console.WriteLine($"Box{(box.ToRepeat ? "*" : "")}{box.Number}: {box.Questions.Count} / {day.BoxesAfter.ByNumber(box.Number).Questions.Count}");
             }
         }
     }

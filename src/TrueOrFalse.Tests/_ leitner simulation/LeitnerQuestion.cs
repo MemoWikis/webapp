@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using NHibernate.Util;
+using ObjectDumper;
 
 [Serializable]
 public class LeitnerQuestion
@@ -13,10 +15,10 @@ public class LeitnerQuestion
 
     public int NextRepetitionDayNumber = 0;
 
-    public static IEnumerable<LeitnerQuestion> CreateQuestions(int amount = 100)
+    public static IList<LeitnerQuestion> CreateQuestions(int amount)
     {
         return Enumerable
-            .Range(start: 0, count: 100)
+            .Range(start: 0, count: amount)
             .Select(i =>
             {
                 var complexity = 50;
@@ -27,7 +29,8 @@ public class LeitnerQuestion
                     complexity = 75;
 
                 return new LeitnerQuestion{ Complexity = complexity };
-            });
+            })
+            .ToList();
     }
 
     private static readonly Random _random = new Random();
@@ -35,7 +38,11 @@ public class LeitnerQuestion
     public bool Answer(int dayNumber)
     {
         var probability = GetProbability(dayNumber, History);
-        var wasCorrect = _random.Next(0, 100) < probability;
+        var random = _random.Next(0, 100);
+        var wasCorrect =  random < probability;
+
+        Logg.r().Information($"day: {dayNumber} box:{Box.Number} random: {random} prob:{probability} wascorrect: {wasCorrect}");
+
         History.Add(new LeitnerAnswer
         {
             DayAnswered = dayNumber,
@@ -52,16 +59,19 @@ public class LeitnerQuestion
 
         var offsetInMinutes = 0;
         if (history.Any())
-            offsetInMinutes = (int) history.Last().GetAnswerOffsetInMinutes();
+            offsetInMinutes = (int) history
+                    .OrderByDescending(h => h.DayAnswered)
+                    .Last()
+                    .GetAnswerOffsetInMinutes();
 
         var stability = ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
         var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, 100);
 
-        Logg.r().Information(
-                $"day: {currentDay} "+
-                $"offsetInMinutes: {offsetInMinutes} " +
-                $"stability: {stability} " +
-                $"probability: {probability}");
+        Logg.r()
+            .Information(
+                "day {currentday} box {boxNumer} {offsetInMinutes} {stability} {history} {probabilityNow}",
+                currentDay, Box.Number, offsetInMinutes, stability,
+                JsonConvert.SerializeObject(history, Formatting.Indented), probability);
 
         return probability;
     }

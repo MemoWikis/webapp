@@ -42,20 +42,6 @@ public class ProbabilityCalc_Curve_HalfLife_24h
     }
 
     ///naive implementation!
-    //public static int GetStabilityModificator(IEnumerable<IAnswered> previousAnswers)
-    //{
-    //    return previousAnswers.Sum(a =>
-    //    {
-    //        var offsetInMinutes = a.GetAnswerOffsetInMinutes();
-    //        var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, Stability, startValue: 100);
-
-    //        if (a.AnsweredCorrectly())
-    //            return 100*probability;
-    //        else
-    //            return 5*probability;
-    //    });
-    //}
-
     public static int GetStabilityModificator(IEnumerable<IAnswered> previousAnswers)
     {
         return previousAnswers.Sum(a =>

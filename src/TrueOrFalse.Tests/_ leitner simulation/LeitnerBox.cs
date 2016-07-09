@@ -11,6 +11,7 @@ public class LeitnerBox
     public int RepeatEvery;
 
     public LeitnerBox NextBox;
+    public bool ToRepeat;
 
     public static IList<LeitnerBox> CreateBoxes()
     {
@@ -26,8 +27,8 @@ public class LeitnerBox
                 allBoxes[i].NextBox = allBoxes[i + 1];
 
         allBoxes[0].RepeatEvery = 1;
-        allBoxes[1].RepeatEvery = 3;
-        allBoxes[2].RepeatEvery = 10;
+        allBoxes[1].RepeatEvery = 2;
+        allBoxes[2].RepeatEvery = 9;
         allBoxes[3].RepeatEvery = 30;
         allBoxes[4].RepeatEvery = 90;
 
@@ -43,20 +44,19 @@ public class LeitnerBox
     {
         Remove(question);
         NextBox.Questions.Add(question);
+        question.Box = NextBox;
     }
 
     public void MoveToBox(LeitnerQuestion question, LeitnerBox box)
     {
         Remove(question);
         box.Questions.Add(question);
+        question.Box = box;
     }
 }
 
 public static class LeitnerBoxListExts
 {
-    public static void AddToBox(this IEnumerable<LeitnerBox> boxes, int boxNumber, IEnumerable<LeitnerQuestion> questions) 
-        => boxes.ByNumber(boxNumber).Questions.AddRange(questions);
-
     public static LeitnerBox ByNumber(this IEnumerable<LeitnerBox> boxes, int boxNumber) 
         => boxes.First(box => box.Number == boxNumber);
 }

@@ -311,8 +311,8 @@ public class TrainingPlanCreator
             var newProbability = forgettingCurve.Run(
                 answerProbability.History.Select(x => x.Answer).ToList(),
                 answerProbability.Question,
-                answerProbability.User,
-                (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes,
+                answerProbability.User, 
+                (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes, 
                 answerProbability.CalculatedProbability
             );
 

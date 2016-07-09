@@ -3,5 +3,6 @@ using System.Collections.Generic;
 public class LeitnerDay
 {
     public int Number;
-    public IEnumerable<LeitnerBox> Boxes;
+    public IEnumerable<LeitnerBox> BoxesBefore;
+    public IEnumerable<LeitnerBox> BoxesAfter { get; set; }
 }
