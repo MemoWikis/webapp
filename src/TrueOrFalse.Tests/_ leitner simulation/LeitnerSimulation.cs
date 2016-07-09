@@ -32,7 +32,7 @@ public class LeitnerSimulation
     {
         var currentDay = Days.Count + 1;
         boxes.ForEach(b => b.ToRepeat = false);        
-        var boxesToRepeat = boxes.Where(x => currentDay % x.RepeatEvery== 0).ToList();
+        var boxesToRepeat = boxes.GetBoxesToRepeat(currentDay);
         boxesToRepeat.ForEach(b => b.ToRepeat = true);
 
         var firstBox = boxes.ByNumber(1);

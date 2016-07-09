@@ -23,9 +23,8 @@ public class LeitnerSimulationTest
                 Console.WriteLine(
                     $"Box{(box.ToRepeat ? "*" : "")}{box.Number}: " +
                     $"{box.Questions.Count} / {day.BoxesAfter.ByNumber(box.Number).Questions.Count}");
-
-                //Console.WriteLine($"Sum of repititions: ");
             }
+            Console.WriteLine($"Sum of repititions: {day.GetSumOfRepetitions()}");
         }
     }
 }

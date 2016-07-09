@@ -325,6 +325,7 @@
     <Compile Include="_ code\Email\GetEmailsFromPickupDirectory.cs" />
     <Compile Include="_ leitner simulation\LeitnerAnswer.cs" />
     <Compile Include="_ leitner simulation\LeitnerBox.cs" />
+    <Compile Include="_ leitner simulation\LeitnerBoxListExts.cs" />
     <Compile Include="_ leitner simulation\LeitnerDay.cs" />
     <Compile Include="_ leitner simulation\LeitnerQuestion.cs" />
     <Compile Include="_ leitner simulation\LeitnerSimulation.cs" />

@@ -23,7 +23,7 @@ public class ProbabilityCalc_Curve_HalfLife_12h{
 /// <summary>After 24h 50% probability</summary>
 public class ProbabilityCalc_Curve_HalfLife_24h
 {
-    private const int Stability = 2048;
+    public const int Stability = 2048;
 
     public int Run(
         IList<Answer> previousAnswers,
@@ -52,7 +52,7 @@ public class ProbabilityCalc_Curve_HalfLife_24h
             if (a.AnsweredCorrectly())
                 return 100 * probability;
             else
-                return 5 * probability;
+                return 80 * probability;
         });
     }
 

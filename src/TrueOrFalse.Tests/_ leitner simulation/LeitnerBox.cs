@@ -54,9 +54,3 @@ public class LeitnerBox
         question.Box = box;
     }
 }
-
-public static class LeitnerBoxListExts
-{
-    public static LeitnerBox ByNumber(this IEnumerable<LeitnerBox> boxes, int boxNumber) 
-        => boxes.First(box => box.Number == boxNumber);
-}

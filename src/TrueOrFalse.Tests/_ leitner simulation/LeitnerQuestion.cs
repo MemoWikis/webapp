@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Newtonsoft.Json;
 using NHibernate.Util;
@@ -64,19 +65,30 @@ public class LeitnerQuestion
                     .Last()
                     .GetAnswerOffsetInMinutes();
 
-        var stability = ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
+        var stability = 
+            ProbabilityCalc_Curve_HalfLife_24h.Stability +
+            ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
 
         var initialProbabilityValue = 100;
         if (!history.Any())
             initialProbabilityValue = LeitnerSimulation.InitialProbability;
 
-        var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, initialProbabilityValue);
+        Logg.r().Information("stability {stability} offset {offsetInMinutes}", stability, offsetInMinutes);
 
-        Logg.r()
-            .Information(
-                "day {currentday} box {boxNumer} {offsetInMinutes} {stability} {history} {probabilityNow}",
-                currentDay, Box.Number, offsetInMinutes, stability,
-                JsonConvert.SerializeObject(history, Formatting.Indented), probability);
+        if(currentDay == 10)
+            Debugger.Break();
+
+        var probability = ProbabilityCalc_Curve.GetProbability(
+            offsetInMinutes, 
+            stability, 
+            initialProbabilityValue
+        );
+
+        //Logg.r()
+        //    .Information(
+        //        "day {currentday} box {boxNumer} {offsetInMinutes} {stability} {history} {probabilityNow}",
+        //        currentDay, Box.Number, offsetInMinutes, stability,
+        //        JsonConvert.SerializeObject(history, Formatting.Indented), probability);
 
         return probability;
     }
