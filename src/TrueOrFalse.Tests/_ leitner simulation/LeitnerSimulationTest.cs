@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using ObjectDumper;
 
 [TestFixture]
 public class LeitnerSimulationTest
@@ -24,9 +22,5 @@ public class LeitnerSimulationTest
                 Console.WriteLine($"Box: {box.Number} {box.Questions.Count}");
             }
         }
-
-        //start simulation
-
-        //print result 
     }
 }

@@ -38,7 +38,7 @@ public class LeitnerSimulation
                 if (question.Answer(currentDay))
                     box.MoveToNextBox(question);
                 else
-                    box.MovetToBox(question, firstBox);
+                    box.MoveToBox(question, firstBox);
             }
 
     }

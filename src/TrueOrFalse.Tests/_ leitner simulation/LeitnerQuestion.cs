@@ -34,14 +34,11 @@ public class LeitnerQuestion
     
     public bool Answer(int dayNumber)
     {
-        Random random = new Random(Convert.ToInt32(DateTime.Now.Ticks.ToString().Substring(15)));
         var probability = GetProbability(dayNumber, History);
         var wasCorrect = _random.Next(0, 100) < probability;
-        Logg.r().Information($"Day: {dayNumber} Rnd:{random.Next(100)} Prob:{probability}");
-
         History.Add(new LeitnerAnswer
         {
-            Day = dayNumber,
+            DayAnswered = dayNumber,
             WasCorrect = wasCorrect,
             ProbabilityBefore = probability
         });
@@ -51,12 +48,21 @@ public class LeitnerQuestion
 
     public int GetProbability(int currentDay, IList<LeitnerAnswer> history)
     {
-        var offsetInMinutes = TimeSpan.FromDays(currentDay - (History.Any() ? History.Last().Day : 1)).TotalMinutes;
+        history.ForEach(a => a.SetResultFor_GetAnswerOffsetInMinutes(currentDay));
 
-        history.ForEach(a => a.SetResultFor_GetAnswerOffsetInMinutes(offsetInMinutes));
+        var offsetInMinutes = 0;
+        if (history.Any())
+            offsetInMinutes = (int) history.Last().GetAnswerOffsetInMinutes();
 
         var stability = ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
+        var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, 100);
 
-        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, 100);
+        Logg.r().Information(
+                $"day: {currentDay} "+
+                $"offsetInMinutes: {offsetInMinutes} " +
+                $"stability: {stability} " +
+                $"probability: {probability}");
+
+        return probability;
     }
 }

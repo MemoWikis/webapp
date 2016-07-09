@@ -45,7 +45,7 @@ public class LeitnerBox
         NextBox.Questions.Add(question);
     }
 
-    public void MovetToBox(LeitnerQuestion question, LeitnerBox box)
+    public void MoveToBox(LeitnerQuestion question, LeitnerBox box)
     {
         Remove(question);
         box.Questions.Add(question);
