@@ -31,11 +31,12 @@ public class LeitnerSimulationTest : BaseTest
         sb.AppendLine($"Amount days: {numberOfDays}");
         sb.AppendLine("");
         sb.AppendLine($"Total Leitner of repititions: {leitnerSimulation.Days.GetSumOfRepetitions()}");
+        sb.AppendLine("");
 
         TrainingPlan.AvgRepetitionsPerTraingDate = 2;
-        sb.AppendLine("Total memucho of repetitions: " + memuchoTrainingPlan.GetSumOfRepetitions() + "(avg. 2 repetitions per training session)");
+        sb.AppendLine("Total memucho of repetitions: " + memuchoTrainingPlan.GetSumOfRepetitions() + " (avg. 2 repetitions per training session)");
         TrainingPlan.AvgRepetitionsPerTraingDate = 3;
-        sb.AppendLine("Total memucho of repetitions: " + memuchoTrainingPlan.GetSumOfRepetitions() + "(avg. 3 repetitions per training session)");
+        sb.AppendLine("Total memucho of repetitions: " + memuchoTrainingPlan.GetSumOfRepetitions() + " (avg. 3 repetitions per training session)");
 
 
         sb.AppendLine("----------------------------------------------------------");
