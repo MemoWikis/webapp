@@ -45,15 +45,9 @@ public class Date : DomainEntity
             .ToList();
     }
 
-    public virtual int CountQuestions()
-    {
-        return AllQuestions().Count;
-    }
-
-    public virtual int LearningSessionQuestionsAnswered()
-    {
-        return LearningSessions.SelectMany(s => s.Steps).Count(q => q.AnswerState == StepAnswerState.Answered);
-    }
+    public virtual int CountQuestions() => AllQuestions().Count;
+    public virtual int LearningSessionQuestionsAnswered() => 
+        LearningSessions.SelectMany(s => s.Steps).Count(q => q.AnswerState == StepAnswerState.Answered);
 
     public virtual TimeSpan TimeSpentLearning()
     {
@@ -77,24 +71,8 @@ public class Date : DomainEntity
         return "Am " + DateTime.ToString("dd.MM.yyy") + " um " + DateTime.ToString("HH:mm");
     }
 
-    public virtual TimeSpan Remaining()
-    {
-        return DateTime - DateTime.Now;
-    }
-
-    public virtual int RemainingDays()
-    {
-        return Math.Abs(Convert.ToInt32(Remaining().TotalDays));
-    }
-
-    public virtual int RemainingMinutes()
-    {
-        return Math.Abs(Convert.ToInt32(Remaining().TotalMinutes));
-    }
-
-    public virtual TimeSpanLabel RemainingLabel()
-    {   
-        return new TimeSpanLabel(Remaining());
-    }
-
+    public virtual TimeSpan Remaining() => DateTime - DateTime.Now;
+    public virtual int RemainingDays() => Math.Abs(Convert.ToInt32(Remaining().TotalDays));
+    public virtual int RemainingMinutes() => Math.Abs(Convert.ToInt32(Remaining().TotalMinutes));
+    public virtual TimeSpanLabel RemainingLabel() => new TimeSpanLabel(Remaining());
 }

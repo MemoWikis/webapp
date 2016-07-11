@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
@@ -61,8 +60,6 @@ public class LeitnerSimulation
             Number = currentDay,
             BoxesBefore = boxesBefore,
             BoxesAfter = boxes.DeepClone()
-
         });
-
     }
 }

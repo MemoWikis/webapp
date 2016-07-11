@@ -42,7 +42,7 @@ public class LeitnerQuestion
         var random = _random.Next(0, 100);
         var wasCorrect =  random < probability;
 
-        Logg.r().Information($"day: {dayNumber} box:{Box.Number} random: {random} prob:{probability} wascorrect: {wasCorrect}");
+        //Logg.r().Information($"day: {dayNumber} box:{Box.Number} random: {random} prob:{probability} wascorrect: {wasCorrect}");
 
         History.Add(new LeitnerAnswer
         {
@@ -73,8 +73,6 @@ public class LeitnerQuestion
         if (!history.Any())
             initialProbabilityValue = LeitnerSimulation.InitialProbability;
 
-        Logg.r().Information("stability {stability} offset {offsetInMinutes}", stability, offsetInMinutes);
-
         if(currentDay == 10)
             Debugger.Break();
 
@@ -83,12 +81,6 @@ public class LeitnerQuestion
             stability, 
             initialProbabilityValue
         );
-
-        //Logg.r()
-        //    .Information(
-        //        "day {currentday} box {boxNumer} {offsetInMinutes} {stability} {history} {probabilityNow}",
-        //        currentDay, Box.Number, offsetInMinutes, stability,
-        //        JsonConvert.SerializeObject(history, Formatting.Indented), probability);
 
         return probability;
     }
