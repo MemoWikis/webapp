@@ -27,7 +27,7 @@ public class LeitnerBox
                 allBoxes[i].NextBox = allBoxes[i + 1];
 
         allBoxes[0].RepeatEvery = 1;
-        allBoxes[1].RepeatEvery = 2;
+        allBoxes[1].RepeatEvery = 3;
         allBoxes[2].RepeatEvery = 9;
         allBoxes[3].RepeatEvery = 30;
         allBoxes[4].RepeatEvery = 90;

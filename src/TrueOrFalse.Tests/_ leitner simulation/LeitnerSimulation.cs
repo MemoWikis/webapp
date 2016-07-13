@@ -53,8 +53,9 @@ public class LeitnerSimulation
                     questionsToMoveToFirstBox.Add(question);
             }
             questionToMoveToNextBox.ForEach(q => q.Box.MoveToNextBox(q));
-            questionsToMoveToFirstBox.ForEach(q => q.Box.MoveToBox(q, firstBox));
         }
+
+        questionsToMoveToFirstBox.ForEach(q => q.Box.MoveToBox(q, firstBox));
 
         Days.Add(new LeitnerDay
         {
