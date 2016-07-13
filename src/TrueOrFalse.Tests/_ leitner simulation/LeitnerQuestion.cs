@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
 using NHibernate.Util;
+using ObjectDumper;
 
 [Serializable]
 public class LeitnerQuestion
@@ -13,7 +16,7 @@ public class LeitnerQuestion
 
     public int NextRepetitionDayNumber = 0;
 
-    public static IEnumerable<LeitnerQuestion> CreateQuestions(int amount = 100)
+    public static IList<LeitnerQuestion> CreateQuestions(int amount)
     {
         return Enumerable
             .Range(start: 0, count: amount)
@@ -27,21 +30,23 @@ public class LeitnerQuestion
                     complexity = 75;
 
                 return new LeitnerQuestion{ Complexity = complexity };
-            });
+            })
+            .ToList();
     }
 
+    private static readonly Random _random = new Random();
+    
     public bool Answer(int dayNumber)
     {
-
         var probability = GetProbability(dayNumber, History);
-        var rd = LeitnerSimulation.Random.Next(0, 100);
-        var wasCorrect =  rd < probability;
-        Console.WriteLine(rd);
-        Logg.r().Information($"Day: {dayNumber} Rnd:{rd} Prob:{probability}");
+        var random = _random.Next(0, 100);
+        var wasCorrect =  random < probability;
+
+        //Logg.r().Information($"day: {dayNumber} box:{Box.Number} random: {random} prob:{probability} wascorrect: {wasCorrect}");
 
         History.Add(new LeitnerAnswer
         {
-            Day = dayNumber,
+            DayAnswered = dayNumber,
             WasCorrect = wasCorrect,
             ProbabilityBefore = probability
         });
@@ -51,12 +56,32 @@ public class LeitnerQuestion
 
     public int GetProbability(int currentDay, IList<LeitnerAnswer> history)
     {
-        var offsetInMinutes = TimeSpan.FromDays(currentDay - (History.Any() ? History.Last().Day : 1)).TotalMinutes;
+        history.ForEach(a => a.SetResultFor_GetAnswerOffsetInMinutes(currentDay));
 
-        history.ForEach(a => a.SetResultFor_GetAnswerOffsetInMinutes(offsetInMinutes));
+        var offsetInMinutes = 0;
+        if (history.Any())
+            offsetInMinutes = (int) history
+                    .OrderByDescending(h => h.DayAnswered)
+                    .Last()
+                    .GetAnswerOffsetInMinutes();
 
-        var stability = ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
+        var stability = 
+            ProbabilityCalc_Curve_HalfLife_24h.Stability +
+            ProbabilityCalc_Curve_HalfLife_24h.GetStabilityModificator(history.ToList<IAnswered>());
 
-        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, 100);
+        var initialProbabilityValue = 100;
+        if (!history.Any())
+            initialProbabilityValue = LeitnerSimulation.InitialProbability;
+
+        if(currentDay == 10)
+            Debugger.Break();
+
+        var probability = ProbabilityCalc_Curve.GetProbability(
+            offsetInMinutes, 
+            stability, 
+            initialProbabilityValue
+        );
+
+        return probability;
     }
 }

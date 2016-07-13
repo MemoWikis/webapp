@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NHibernate.Criterion;
-using NHibernate.Util;
-using RazorEngine.Compilation.ImpromptuInterface.Build;
 using TrueOrFalse;
 
 public class TrainingPlanCreator
@@ -26,7 +22,7 @@ public class TrainingPlanCreator
         return trainingPlan;
     }
 
-    public static TrainingPlan Run_(Date date, TrainingPlanSettings settings)
+    private static TrainingPlan Run_(Date date, TrainingPlanSettings settings)
     {
         var trainingPlan = new TrainingPlan();
         trainingPlan.Date = date;
@@ -311,8 +307,8 @@ public class TrainingPlanCreator
             var newProbability = forgettingCurve.Run(
                 answerProbability.History.Select(x => x.Answer).ToList(),
                 answerProbability.Question,
-                answerProbability.User,
-                (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes,
+                answerProbability.User, 
+                (int) (dateTime - answerProbability.CalculatedAt).TotalMinutes, 
                 answerProbability.CalculatedProbability
             );
 

@@ -121,4 +121,9 @@ public class TrainingPlan : DomainEntity
                         && d.IsExpired())
                 .ForEach(d => d.LearningSession.CompleteSession());
     }
+
+    public static decimal AvgRepetitionsPerTraingDate = 2;
+
+    public virtual int GetSumOfRepetitions() => 
+        (int)Dates.Sum(d => d.AllQuestionsInTraining.Count * AvgRepetitionsPerTraingDate);
 }

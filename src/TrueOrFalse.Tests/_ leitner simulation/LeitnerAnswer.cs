@@ -3,7 +3,7 @@
 [Serializable]
 public class LeitnerAnswer : IAnswered
 {
-    public int Day;
+    public int DayAnswered;
     public bool WasCorrect;
     public int ProbabilityBefore;
 
@@ -12,5 +12,8 @@ public class LeitnerAnswer : IAnswered
     private double _answerOffsetInMinutes = 0;
     public double GetAnswerOffsetInMinutes() => _answerOffsetInMinutes;
 
-    public void SetResultFor_GetAnswerOffsetInMinutes(double minutes) => _answerOffsetInMinutes = minutes;
+    public void SetResultFor_GetAnswerOffsetInMinutes(int currentDay)
+    {
+        _answerOffsetInMinutes = (currentDay - DayAnswered) * 24 * 60;
+    }
 }

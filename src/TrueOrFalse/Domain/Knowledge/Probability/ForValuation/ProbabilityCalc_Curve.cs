@@ -6,6 +6,9 @@ public static class ProbabilityCalc_Curve
 {
     public static int GetProbability(double minutes, int stability, int startValue = 100)
     {
+        if (minutes == 0 && stability == 0)
+            return startValue;
+
         return (int) Math.Round(Math.Pow(Math.E, -(1d * minutes / stability)) * startValue, 0);
     }
 }
@@ -20,7 +23,7 @@ public class ProbabilityCalc_Curve_HalfLife_12h{
 /// <summary>After 24h 50% probability</summary>
 public class ProbabilityCalc_Curve_HalfLife_24h
 {
-    private const int Stability = 2048;
+    public const int Stability = 2048;
 
     public int Run(
         IList<Answer> previousAnswers,
@@ -47,11 +50,13 @@ public class ProbabilityCalc_Curve_HalfLife_24h
             var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, Stability, startValue: 100);
 
             if (a.AnsweredCorrectly())
-                return 100*probability;
+                return 100 * probability;
             else
-                return 5*probability;
+                return 80 * probability;
         });
     }
+
+
 }
 
 /// <summary>After 7days 50% probability</summary>
