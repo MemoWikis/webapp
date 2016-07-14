@@ -47,7 +47,7 @@
     
         <section id="MasterSection">
         <div id="MasterSectionBackgroundLayer" class="MasterSectionBackgroundLayer">
-            <div class="container" style="width: 500px;">
+            <div class="container">
                 <div id="gradientLeft"></div>
                 <div id="gradientRight"></div>
             </div>
