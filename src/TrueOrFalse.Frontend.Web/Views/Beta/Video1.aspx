@@ -17,11 +17,11 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2" style="margin-bottom: 200px">
             <h1 style="margin-top: 30px; margin-bottom: 20px;" class="animated">
-                Video: Memucho Lernplan
+                Video Übungsplan
             </h1>
                 
             <div class="row">
-                <iframe width="853" height="480" src="https://www.youtube.com/embed/hwJbGzdr5Ew?rel=0" frameborder="0" allowfullscreen></iframe>
+                <iframe width="853" height="480" src="https://www.youtube.com/embed/SGXqP-Df_Y8?rel=0" frameborder="0" allowfullscreen></iframe>
             </div>
 
         </div>
