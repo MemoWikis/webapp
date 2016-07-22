@@ -38,23 +38,7 @@ public class LeitnerQuestion
     
     public bool Answer(int dayNumber)
     {
-        //var probability = GetProbability(dayNumber, History);
-        var probability = History.Any() ? History.OrderBy(a => a.DayAnswered).Last().ProbabilityBefore : LeitnerSimulation.InitialProbability;
-        if (History.Any())
-        {
-            var lastAnswer = History.OrderBy(a => a.DayAnswered).Last();
-            if (lastAnswer.WasCorrect)
-                probability += 10;
-            else
-            {
-                probability += 1;
-            }
-            var daysDifference = dayNumber - lastAnswer.DayAnswered;
-            probability -= daysDifference;
-
-            probability = Math.Min(probability, 100);
-        }
-
+        var probability = GetProbability(dayNumber, History);
         var random = _random.Next(0, 100);
         var wasCorrect =  random < probability;
 
@@ -64,7 +48,7 @@ public class LeitnerQuestion
         {
             DayAnswered = dayNumber,
             WasCorrect = wasCorrect,
-            ProbabilityBefore = probability,
+            ProbabilityBefore = probability
         });
 
         return wasCorrect;
