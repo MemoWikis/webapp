@@ -486,6 +486,7 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Beta\Video1.aspx" />
     <Content Include="Views\Dates\Js\DateRowCopy.js">
       <DependentUpon>DateRowCopy.ts</DependentUpon>
     </Content>

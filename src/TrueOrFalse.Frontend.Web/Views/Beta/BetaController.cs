@@ -7,6 +7,11 @@ public class BetaController : BaseController
         return View();
     }
 
+    public ActionResult Video1()
+    {
+        return View();
+    }
+
     public JsonResult IsValidBetaUser(string betacode)
     {
         var isValidBetaCode = IsValidBetaCode.Yes(betacode);
