@@ -13,7 +13,7 @@ public class TrainingPlanRepo : RepositoryDbBase<TrainingPlan>
     public void DeleteUnstartedDatesAfter(TrainingPlan trainingPlan, DateTime after)
     {
         var datesToDelete = trainingPlan.Dates
-            .Where(d => d.LearningSession == null && d.DateTime > after)
+            .Where(d => d.LearningSession == null && d.ExpiresAt > after)
             .ToList();
 
         datesToDelete.ForEach(d => trainingPlan.Dates.Remove(d));

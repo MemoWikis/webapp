@@ -116,9 +116,8 @@ public class TrainingPlan : DomainEntity
 
     public virtual void CompleteUnfinishedSessions()
     {
-        PastDates.Where(d => d.LearningSession != null 
-                        && !d.LearningSession.IsCompleted 
-                        && d.IsExpired())
+        Dates.Where(d => d.LearningSession != null 
+                        && !d.LearningSession.IsCompleted)
                 .ForEach(d => d.LearningSession.CompleteSession());
     }
 
