@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Linq;
+using NHibernate;
 
 public class LearningSessionRepo : RepositoryDbBase<LearningSession>
 {
@@ -13,4 +14,11 @@ public class LearningSessionRepo : RepositoryDbBase<LearningSession>
                 .ExecuteUpdate();
     }
 
+    public LearningSession GetByStepId(int stepId)
+    {
+        return _session.QueryOver<LearningSession>()
+            .JoinQueryOver<LearningSessionStep>(l => l.Steps)
+            .Where(s => s.Id == stepId)
+            .SingleOrDefault<LearningSession>();
+    }
 }

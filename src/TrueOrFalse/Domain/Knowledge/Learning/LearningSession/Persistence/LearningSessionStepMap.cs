@@ -11,6 +11,8 @@ public class LearningSessionStepMap : ClassMap<LearningSessionStep>
 
         Map(x => x.Idx);
 
+        Map(x => x.IsRepetition);
+
         Map(x => x.AnswerState);
 
         HasOne(x => x.Answer).PropertyRef(x => x.LearningSessionStep);

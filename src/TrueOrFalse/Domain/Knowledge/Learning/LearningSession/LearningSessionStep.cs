@@ -6,6 +6,7 @@ public class LearningSessionStep : DomainEntity, IRegisterAsInstancePerLifetime
     public virtual Question Question { get; set; }
     public virtual Answer Answer { get; set; }
     public virtual StepAnswerState AnswerState { get; set; }
+    public virtual bool IsRepetition { get; set; }
 
     public static void Skip(int stepId)
     {

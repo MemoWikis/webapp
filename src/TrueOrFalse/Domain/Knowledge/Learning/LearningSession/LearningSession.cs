@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
+using RabbitMQ.Client.Impl;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Web.Uris;
 
@@ -101,5 +102,48 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         }
 
         return learningSession;
+    }
+
+    public virtual void UpdateAfterAnswer(LearningSessionStep affectedStep)
+    {
+        if(Steps.Count(s => s.Question == affectedStep.Question) >= 3) return;
+
+        if(Steps.Count > Steps.Select(s => s.Question).Distinct().Count() * 2) return;
+
+        var idxOfNewStep = Math.Min(affectedStep.Idx + 3, Steps.Count);
+
+        foreach (var step in Steps)
+        {
+            step.Idx = step.Idx + 10000;
+        }
+
+        var learningSessionRepo = Sl.R<LearningSessionRepo>();
+        
+        learningSessionRepo.Update(this);
+
+        learningSessionRepo.Flush();
+
+        var newStepForRepetion = new LearningSessionStep
+        {
+            Question = affectedStep.Question,
+            IsRepetition = true,
+            DateCreated = DateModified = DateTime.Now
+        };
+
+        Steps = Steps.OrderBy(s => s.Idx).ToList();
+
+        Steps.Insert(idxOfNewStep, newStepForRepetion);
+
+        Sl.R<LearningSessionRepo>().Update(this);
+
+        var idx = 0;
+
+        foreach (var step in Steps)
+        {
+            step.Idx = idx;
+            idx++;
+        }
+
+        Sl.R<LearningSessionRepo>().Update(this);
     }
 }

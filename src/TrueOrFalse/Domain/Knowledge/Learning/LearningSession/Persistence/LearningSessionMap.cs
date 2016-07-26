@@ -7,7 +7,7 @@ public class LearningSessionMap : ClassMap<LearningSession>
         Id(x => x.Id);
 
         HasMany(x => x.Steps)
-            .Cascade.SaveUpdate().OrderBy("Id");
+            .Cascade.SaveUpdate().OrderBy("Idx");
 
         References(x => x.User);
 

@@ -46,6 +46,11 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             learningSessionStep.AnswerState = StepAnswerState.Answered;
             _learningSessionStepRepo.Update(learningSessionStep);
 
+            if (!answerQuestionResult.IsCorrect)
+            {
+                var learningSession = Sl.R<LearningSessionRepo>().GetByStepId(stepId);
+                learningSession.UpdateAfterAnswer(learningSessionStep);
+            }
         });
     }
 
