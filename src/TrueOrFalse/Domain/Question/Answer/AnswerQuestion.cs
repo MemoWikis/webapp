@@ -49,7 +49,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             if (!answerQuestionResult.IsCorrect)
             {
                 var learningSession = Sl.R<LearningSessionRepo>().GetByStepId(stepId);
-                learningSession.UpdateAfterAnswer(learningSessionStep);
+                learningSession.UpdateAfterWrongAnswer(learningSessionStep);
             }
         });
     }

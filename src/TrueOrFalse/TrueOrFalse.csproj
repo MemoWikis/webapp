@@ -370,7 +370,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSession.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\GetLearningSessionSteps.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSessionStep.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionStepMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionMap.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository .cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
@@ -781,6 +780,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs081.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs125.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs137.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs133.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs132.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs131.cs" />

@@ -13,7 +13,27 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual Player Player { get; set; }
 
-    public virtual LearningSessionStep LearningSessionStep { get; set; }
+    public virtual int LearningSessionStepId { get; set; }
+
+    public virtual LearningSessionStep _learningSessionStep { get; set; }
+
+    public virtual LearningSessionStep LearningSessionStep
+    {
+        get
+        {
+            if (_learningSessionStep != null)
+                return _learningSessionStep;
+
+            _learningSessionStep = Sl.R<LearningSessionStepRepo>().GetById(LearningSessionStepId);
+            LearningSessionStep.Id = _learningSessionStep.Id;
+            return _learningSessionStep;
+        }
+        set
+        {
+            _learningSessionStep = value;
+            LearningSessionStepId = _learningSessionStep.Id;
+        }
+    }
 
     /// <summary>Duration</summary>
     public virtual int Milliseconds { get; set; }

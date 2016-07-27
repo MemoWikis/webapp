@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
+using Newtonsoft.Json;
 using RabbitMQ.Client.Impl;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Web.Uris;
@@ -10,6 +11,12 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 {
     public virtual User User { get; set; }
     public virtual IList<LearningSessionStep> Steps{ get; set; }
+
+    public virtual string StepsJson
+    {
+        get { return JsonConvert.SerializeObject(Steps); }
+        set { Steps = JsonConvert.DeserializeObject<IList<LearningSessionStep>>(value).OrderBy(s => s.Idx).ToList(); }
+    }
 
     public virtual Set SetToLearn { get; set; }
     public virtual Date DateToLearn { get; set; }
@@ -109,24 +116,11 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         return learningSession;
     }
 
-    public virtual void UpdateAfterAnswer(LearningSessionStep affectedStep)
+    public virtual void UpdateAfterWrongAnswer(LearningSessionStep affectedStep)
     {
         if(Steps.Count(s => s.Question == affectedStep.Question) >= 3) return;
 
         if(Steps.Count > Steps.Select(s => s.Question).Distinct().Count() * 2) return;
-
-        var idxOfNewStep = Math.Min(affectedStep.Idx + 3, Steps.Count);
-
-        foreach (var step in Steps)
-        {
-            step.Idx = step.Idx + 10000;
-        }
-
-        var learningSessionRepo = Sl.R<LearningSessionRepo>();
-        
-        learningSessionRepo.Update(this);
-
-        learningSessionRepo.Flush();
 
         var newStepForRepetion = new LearningSessionStep
         {
@@ -135,11 +129,11 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
             DateCreated = DateModified = DateTime.Now
         };
 
+        var idxOfNewStep = Math.Min(affectedStep.Idx + 3, Steps.Count);
+
         Steps = Steps.OrderBy(s => s.Idx).ToList();
 
         Steps.Insert(idxOfNewStep, newStepForRepetion);
-
-        Sl.R<LearningSessionRepo>().Update(this);
 
         var idx = 0;
 
