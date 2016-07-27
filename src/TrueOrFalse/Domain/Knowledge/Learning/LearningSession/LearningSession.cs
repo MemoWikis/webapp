@@ -49,6 +49,11 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         }
     }
 
+    public virtual IList<Question> Questions()
+    {
+        return Steps.Select(s => s.Question).Distinct().ToList();
+    }
+
     public virtual int CurrentLearningStepIdx()
     {
         return Steps.ToList()
