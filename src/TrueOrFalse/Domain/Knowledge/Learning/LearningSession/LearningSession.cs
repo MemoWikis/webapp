@@ -93,7 +93,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
                 && !date.TrainingPlan.BoostingPhaseHasStarted()))
         {
             learningSession.Steps = GetLearningSessionSteps
-                .Run(date.Sets.SelectMany(s => s.Questions()).ToList(),
+                .Run(date.AllQuestions(),
                 date.TrainingPlanSettings.QuestionsPerDate_Minimum);
         }
         else if (trainingDate.LearningSession != null)
@@ -116,6 +116,16 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         return learningSession;
     }
 
+    public virtual void SkipStep(int stepIdx)
+    {
+        var stepToSkip = Steps[stepIdx];
+        if (stepToSkip != null && stepToSkip.AnswerState != StepAnswerState.Answered)
+        {
+            stepToSkip.AnswerState = StepAnswerState.Skipped;
+            Sl.R<LearningSessionRepo>().Update(this);
+        }
+    }
+
     public virtual void UpdateAfterWrongAnswer(LearningSessionStep affectedStep)
     {
         if(Steps.Count(s => s.Question == affectedStep.Question) >= 3) return;
@@ -124,9 +134,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
         var newStepForRepetion = new LearningSessionStep
         {
+            Guid = Guid.NewGuid(),
             Question = affectedStep.Question,
             IsRepetition = true,
-            DateCreated = DateModified = DateTime.Now
         };
 
         var idxOfNewStep = Math.Min(affectedStep.Idx + 3, Steps.Count);
@@ -144,5 +154,15 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         }
 
         Sl.R<LearningSessionRepo>().Update(this);
+    }
+
+    public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid)
+    {
+        var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
+        var steps = learningSession.Steps.Where(s => s.Guid == learningSessionStepGuid).ToList();
+        if(steps.Count > 1)
+            throw new Exception("duplicate Guid");
+
+        return steps.FirstOrDefault();
     }
 }

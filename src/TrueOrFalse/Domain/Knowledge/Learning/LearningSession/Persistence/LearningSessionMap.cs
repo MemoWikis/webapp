@@ -6,7 +6,7 @@ public class LearningSessionMap : ClassMap<LearningSession>
     {
         Id(x => x.Id);
 
-        Map(x => x.StepsJson).Length(4000);
+        Map(x => x.StepsJson).CustomSqlType("varchar(8000)");
 
         References(x => x.User);
 

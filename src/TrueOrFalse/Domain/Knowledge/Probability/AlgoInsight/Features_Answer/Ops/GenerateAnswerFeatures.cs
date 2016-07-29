@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class GenerateAnswerFeatures
@@ -53,14 +54,14 @@ public class GenerateAnswerFeatures
             Group = AnswerFeatureGroups.TrainingType,
             DoesApply = param => 
                 param.Answer.Round == null && 
-                param.Answer.LearningSessionStep == null
+                param.Answer.LearningSessionStepGuid == Guid.Empty
         });
 
         answerFeatures.Add(new AnswerFeature{
             Id2 = "LearningSession",
             Name = "Lernsitzung",
             Group = AnswerFeatureGroups.TrainingType,
-            DoesApply = param => param.Answer.LearningSessionStep != null
+            DoesApply = param => param.Answer.LearningSessionStepGuid != Guid.Empty
         });
 
         answerFeatures.Add(new AnswerFeature{

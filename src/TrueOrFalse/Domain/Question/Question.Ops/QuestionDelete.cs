@@ -14,7 +14,6 @@ public class QuestionDelete
         //delete connected db-entries
         Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
-        Sl.R<LearningSessionStepRepo>().DeleteForQuestion(questionId);
         Sl.R<QuestionInSetRepo>().DeleteForQuestion(questionId);
         Sl.R<UserActivityRepo>().DeleteForQuestion(questionId);
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);

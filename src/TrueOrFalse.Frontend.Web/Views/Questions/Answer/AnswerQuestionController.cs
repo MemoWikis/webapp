@@ -34,16 +34,16 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepId = -1)
+    public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepIdx = -1)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
         if(learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
-        if (skipStepId != -1 && learningSession.Steps.Any(s => s.Id == skipStepId))
+        if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
         {
-            LearningSessionStep.Skip(skipStepId);
+            learningSession.SkipStep(skipStepIdx);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
                 new {learningSessionId, learningSessionName = learningSessionName, stepNo});
         }
@@ -81,7 +81,8 @@ public class AnswerQuestionController : BaseController
         _saveQuestionView.Run(
             learningSession.Steps[currentLearningStepIdx].Question,
             _sessionUser.User.Id,
-            learningSessionStep: learningSession.Steps[currentLearningStepIdx]);
+            learningSession: learningSession,
+            learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
 
         return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), currentLearningStepIdx + 1));
     }
@@ -205,9 +206,9 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswerLearningSession(int id, int stepId, string answer)
+    public JsonResult SendAnswerLearningSession(int id, int learningSessionId, Guid stepGuid, string answer)
     {
-        var result = _answerQuestion.Run(id, answer, UserId, stepId);
+        var result = _answerQuestion.Run(id, answer, UserId, learningSessionId, stepGuid);
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 

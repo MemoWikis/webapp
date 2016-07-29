@@ -116,7 +116,7 @@ class AnswerQuestion
                 && !self.AnswerCountedAsCorrect
                 && !self._isLastLearningStep)
             {
-                var href = $(this).attr('href') + "?skipStepId=" + $('#hddIsLearningSession').attr('data-current-step-id');
+                var href = $(this).attr('href') + "?skipStepIdx=" + $('#hddIsLearningSession').attr('data-current-step-idx');
                 window.location.href = href;
                 return false;
             }

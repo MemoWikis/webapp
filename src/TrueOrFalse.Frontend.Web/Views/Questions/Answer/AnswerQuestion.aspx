@@ -35,7 +35,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
-        data-current-step-id="<%= Model.IsLearningSession ? Model.LearningSessionStep.Id : -1 %>"
+        data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
         data-is-last-step="<%= Model.IsLastLearningStep %>"/>
 
     <div class="row">

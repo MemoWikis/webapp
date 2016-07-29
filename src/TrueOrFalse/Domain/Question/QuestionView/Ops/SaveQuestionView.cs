@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using NHibernate;
 using TrueOrFalse.Search;
 
@@ -28,7 +29,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         int userId,
         Player player = null,
         Round round = null,
-        LearningSessionStep learningSessionStep = null)
+        LearningSession learningSession = null,
+        Guid learningSessionStepGuid = default(Guid))
     {
         if (userId != -1) //if user is logged in, always log
             if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
@@ -40,7 +42,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             UserId = userId,
             Player = player,
             Round = round,
-            LearningSessionStep = learningSessionStep
+            LearningSession = learningSession,
+            LearningSessionStepGuid = learningSessionStepGuid
         });
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();

@@ -326,7 +326,6 @@
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\IntervalizerResultItem.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningAnalyzer\ForgettingCurve\AnswerPairFromHistoryRows.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\StepSelectionParams.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionStepRepository.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\StepAnswerState.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfo.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\AlgoInfo\AlgoInfoRepo.cs" />
@@ -780,6 +779,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs081.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs125.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs138.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs137.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs133.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs132.cs" />

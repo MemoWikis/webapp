@@ -122,10 +122,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string SendAnswer(UrlHelper url, Question question,
-            LearningSessionStep learningSessionStep)
+            LearningSession learningSession, LearningSessionStep learningSessionStep)
         {
             return url.Action("SendAnswerLearningSession", AnswerQuestionController,
-                new { id = question.Id, stepId = learningSessionStep.Id }, null);
+                new { id = question.Id, learningSessionId = learningSession.Id, stepGuid = learningSessionStep.Guid }, null);
         }
 
         public static string GetSolution(UrlHelper url, Question question)

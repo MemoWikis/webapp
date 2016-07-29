@@ -16,7 +16,8 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         int userId,
         Player player = null,
         Round round = null,
-        LearningSessionStep learningSessionStep = null,
+        LearningSession learningSession = null,
+        Guid learningSessionStepGuid = default(Guid),
       //  bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
@@ -28,7 +29,8 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
             Round = round,
             Player = player,
-            LearningSessionStep = learningSessionStep,
+            LearningSession = learningSession,
+            LearningSessionStepGuid = learningSessionStepGuid,
             DateCreated = dateCreated == default(DateTime)
                 ? DateTime.Now
                 : dateCreated

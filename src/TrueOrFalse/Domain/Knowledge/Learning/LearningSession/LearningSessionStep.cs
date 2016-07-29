@@ -1,11 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 
 [JsonObject(MemberSerialization.OptIn)]
-public class LearningSessionStep : DomainEntity, IRegisterAsInstancePerLifetime
+public class LearningSessionStep
 {
     [JsonProperty]
-    public int Idx { get; set; }
+    public Guid Guid;
+
+    [JsonProperty]
+    public int Idx;
 
     private Question _question;
 
@@ -58,15 +62,4 @@ public class LearningSessionStep : DomainEntity, IRegisterAsInstancePerLifetime
 
     [JsonProperty]
     public bool IsRepetition { get; set; }
-
-    public static void Skip(int stepId)
-    {
-        var stepRepo = Sl.Resolve<LearningSessionStepRepo>();
-        var stepToSkip = stepRepo.GetById(stepId);
-        if (stepToSkip != null && stepToSkip.AnswerState != StepAnswerState.Answered)
-        {
-            stepToSkip.AnswerState = StepAnswerState.Skipped;
-            stepRepo.Update(stepToSkip);
-        }
-    }
 }

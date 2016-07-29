@@ -73,15 +73,15 @@ public class Should_create_learningSession_steps : BaseTest
 
         RecycleContainer();
 
-        R<AnswerQuestion>().Run(steps[0].Question.Id, "answer1", -1, steps[0].Id);
-        R<AnswerQuestion>().Run(steps[1].Question.Id, "answer2", -1, steps[1].Id);
+        R<AnswerQuestion>().Run(steps[0].Question.Id, "answer1", -1, learningSession.Id, steps[0].Guid);
+        R<AnswerQuestion>().Run(steps[1].Question.Id, "answer2", -1, learningSession.Id, steps[1].Guid);
 
         RecycleContainer();
 
         var learningSessionFromDb = R<LearningSessionRepo>().GetById(learningSession.Id);
 
         if (IsMysqlInMemoryEngine())
-            learningSessionFromDb.Steps = learningSessionFromDb.Steps.OrderBy(s => s.Id).ToList();
+            learningSessionFromDb.Steps = learningSessionFromDb.Steps.OrderBy(s => s.Idx).ToList();
 
         Assert.That(learningSessionFromDb.Steps[0].Answer.AnswerText, Is.EqualTo("answer1"));
         Assert.That(learningSessionFromDb.Steps[1].Answer.AnswerText == "answer2");

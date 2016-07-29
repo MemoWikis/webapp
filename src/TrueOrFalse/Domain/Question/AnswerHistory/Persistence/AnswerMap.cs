@@ -15,7 +15,8 @@ public class AnswerMap : ClassMap<Answer>
 
         References(x => x.Round).Cascade.None();
         References(x => x.Player).Cascade.None();
-        //References(x => x.LearningSessionStepId).Column("LearningSessionStep_id").Cascade.None().Unique();
+        References(x => x.LearningSession).Cascade.None();
+        Map(x => x.LearningSessionStepGuid).Unique();
 
         HasManyToMany(x => x.Features).
             Table("answerFeature_to_answer");
