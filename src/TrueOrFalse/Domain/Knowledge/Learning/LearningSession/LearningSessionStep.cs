@@ -43,19 +43,13 @@ public class LearningSessionStep
             if (_answer != null)
                 return _answer;
 
-            _answer = Sl.R<AnswerRepo>().GetById(AnswerId);
-            AnswerId = _answer.Id;
-            return _answer;
+            return Sl.R<AnswerRepo>().GetByLearningSessionStepGuid(Guid);
         }
         set
         {
             _answer = value;
-            AnswerId = _answer.Id;
         }
     }
-
-    [JsonProperty]
-    public int AnswerId;
 
     [JsonProperty]
     public StepAnswerState AnswerState { get; set; }

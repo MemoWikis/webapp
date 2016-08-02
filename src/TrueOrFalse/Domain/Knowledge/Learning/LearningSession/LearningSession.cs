@@ -15,7 +15,16 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public virtual string StepsJson
     {
         get { return JsonConvert.SerializeObject(Steps); }
-        set { Steps = JsonConvert.DeserializeObject<IList<LearningSessionStep>>(value).OrderBy(s => s.Idx).ToList(); }
+        set
+        {
+            if (value == null)
+            {
+                Steps = new List<LearningSessionStep>();
+                return;
+            }
+
+            Steps = JsonConvert.DeserializeObject<IList<LearningSessionStep>>(value).OrderBy(s => s.Idx).ToList();
+        }
     }
 
     public virtual Set SetToLearn { get; set; }
