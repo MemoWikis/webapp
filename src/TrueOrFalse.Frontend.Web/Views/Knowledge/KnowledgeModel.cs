@@ -65,7 +65,7 @@ public class KnowledgeModel : BaseModel
         ReputationTotal = reputation.TotalRepuation;
 
         var msg = new RecalcProbabilitiesMsg {UserId = UserId};
-        Bus.Get().Publish(msg);
+        //Bus.Get().Publish(msg);
 
         KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
 
