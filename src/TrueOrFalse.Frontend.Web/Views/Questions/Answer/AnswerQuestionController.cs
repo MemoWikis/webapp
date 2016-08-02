@@ -69,7 +69,7 @@ public class AnswerQuestionController : BaseController
                 if (trainingDate.IsExpired())
                 {
                     return RedirectToAction("StartLearningSession", Links.DatesController,
-                    new { trainingDate.TrainingPlan.Date.Id });
+                    new { dateId = trainingDate.TrainingPlan.Date.Id });
                 }
 
                 trainingDate.ExpiresAt =
