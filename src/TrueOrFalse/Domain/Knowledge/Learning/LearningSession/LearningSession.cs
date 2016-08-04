@@ -137,9 +137,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual void UpdateAfterWrongAnswer(LearningSessionStep affectedStep)
     {
-        if(Steps.Count(s => s.Question == affectedStep.Question) >= 3) return;
-
-        if(Steps.Count > Steps.Select(s => s.Question).Distinct().Count() * 2) return;
+        if(LimitForThisQuestionHasBeenReached(affectedStep) 
+            || LimitForNumberOfRepetitionsHasBeenReached())
+            return;
 
         var newStepForRepetion = new LearningSessionStep
         {
@@ -154,6 +154,13 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
         Steps.Insert(idxOfNewStep, newStepForRepetion);
 
+        ReindexSteps();
+
+        Sl.R<LearningSessionRepo>().Update(this);
+    }
+
+    public virtual void ReindexSteps()
+    {
         var idx = 0;
 
         foreach (var step in Steps)
@@ -161,8 +168,16 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
             step.Idx = idx;
             idx++;
         }
+    }
 
-        Sl.R<LearningSessionRepo>().Update(this);
+    public virtual bool LimitForThisQuestionHasBeenReached(LearningSessionStep step)
+    {
+        return Steps.Count(s => s.Question == step.Question) >= 3;
+    }
+
+    public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
+    {
+        return Steps.Count > Steps.Select(s => s.Question).Distinct().Count()*2;
     }
 
     public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid)
