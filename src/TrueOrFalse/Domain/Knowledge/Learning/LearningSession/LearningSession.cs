@@ -23,7 +23,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
                 return;
             }
 
-            Steps = JsonConvert.DeserializeObject<IList<LearningSessionStep>>(value).OrderBy(s => s.Idx).ToList();
+            Steps = JsonConvert.DeserializeObject<IList<LearningSessionStep>>(value).Where(s => s.Question != null).OrderBy(s => s.Idx).ToList();
         }
     }
 
