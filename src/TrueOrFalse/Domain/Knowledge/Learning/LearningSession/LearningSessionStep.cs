@@ -21,7 +21,7 @@ public class LearningSessionStep
                 return _question;
 
             _question = Sl.R<QuestionRepo>().GetById(QuestionId);
-            QuestionId = _question.Id;
+            QuestionId = _question?.Id ?? -1;
             return _question;
         }
         set
