@@ -5,6 +5,7 @@ public class TimeSpanLabel
     private readonly bool _showTimeUnit;
     public string Label;
     public int Value;
+    public bool TimeSpanIsNegative;
 
     public TimeSpanInterval Interval;
 
@@ -15,6 +16,8 @@ public class TimeSpanLabel
     public TimeSpanLabel(TimeSpan timeSpan, bool useDativ = false, bool showTimeUnit = false)
     {
         _showTimeUnit = showTimeUnit;
+
+        TimeSpanIsNegative = timeSpan.Ticks < 0;
 
         timeSpan = timeSpan.Duration();
 

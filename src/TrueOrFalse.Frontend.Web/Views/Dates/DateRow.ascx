@@ -167,10 +167,18 @@
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-bell"></i></div>
                     <div class="col-md-10">
-                        <% if(trainingPlan.HasOpenDates) { %>
-                            nächste Übungssitzung <br/>
-                            in <span class="TPTimeToNextTrainingDate"><%= new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit:true).Full %></span> 
-                            (<span class="TPQuestionsInNextTrainingDate"><%= trainingPlan.QuestionCountInNextDate %></span> Fragen)
+                        <% if(trainingPlan.HasOpenDates)
+                            {
+                                var timeSpanLabel = new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit: true);
+                                if (timeSpanLabel.TimeSpanIsNegative)
+                                { %>
+                                    Jetzt lernen! <% }
+                                else
+                                { %>
+                                    nächste Übungssitzung <br/>
+                                    in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
+                                <% } %>
+                                (<span class="TPQuestionsInNextTrainingDate"><%= trainingPlan.QuestionCountInNextDate %></span> Fragen)
                         <% } %>
                     </div>
                 </div>
