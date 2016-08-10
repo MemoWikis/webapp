@@ -252,8 +252,9 @@
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Datum');
         if (rowsAsArray.length > 0) {
-            for (var i = 1; i <= rowsAsArray[0].length - 1; i++) {
+            for (var i = 1; i <= (rowsAsArray[0].length - 1)/2; i++) {
                 data.addColumn('number', 'Übungssitzung ' + i);
+                data.addColumn({ type: 'string', role: 'tooltip' });
             }
 
             for (var i = 0; i < rowsAsArray.length; i++) {
@@ -265,7 +266,6 @@
                 }
             }
         }
-
         data.addRows(rowsAsArray);
         
         var view = new google.visualization.DataView(data);
