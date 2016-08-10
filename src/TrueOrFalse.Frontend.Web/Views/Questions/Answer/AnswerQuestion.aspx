@@ -220,7 +220,7 @@
                         <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
                     </span>                
                     <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                        <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
+                        <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
                     </span><br />
                 </p>
 

@@ -53,7 +53,7 @@
                 &nbsp;
                     
                 <span class="show-tooltip" data-original-title="Frage wurde <%= Model.Views %>x gesehen">
-                    <i class="fa fa-eye" style="color:darkslategray;"></i>                
+                    <i class="fa fa-eye"></i>                
                     <span class="NumberTimes"><%= Model.Views %>x</span>
                 </span>
             </div>

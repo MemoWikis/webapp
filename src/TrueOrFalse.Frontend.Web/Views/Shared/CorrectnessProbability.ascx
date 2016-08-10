@@ -11,7 +11,7 @@
             Alle Nutzer: <%: Model.CPAll %>%<br />
             Deine Abweichung: <%= Model.CPDerivationSign %> <%: Model.CPDerivation %>%
         </div>">
-        <i class="fa fa-tachometer" style="color:#69D069;"></i> 
+        <i class="fa fa-tachometer"></i> 
             <%: Model.CPPersonal %>% 
             <span style="color:silver"><%= Model.CPDerivationSign %><%: Model.CPDerivation %></span>
 <% } else if (Model.QuestionHasAnswerHistory) { %>
