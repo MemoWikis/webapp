@@ -95,6 +95,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/js/DeleteQuestion")
+                .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")

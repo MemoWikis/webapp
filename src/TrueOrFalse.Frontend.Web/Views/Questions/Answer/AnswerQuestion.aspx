@@ -7,6 +7,7 @@
     <title>Frage - <%= Model.QuestionText %></title>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
+    <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
 
     <style type="text/css">
          .selectorShowSolution{/* marker class */}
@@ -358,6 +359,6 @@
         </div>
     </div>
     
-<% if (Model.IsOwner) Html.RenderPartial("ModalDeleteQuestion"); %>
+<% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 
 </asp:Content>

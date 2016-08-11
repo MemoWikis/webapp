@@ -1,7 +1,7 @@
 ﻿enum QuestionRowDeleteSourcePage {
     QuestionRow,
     QuestionDetail
-}
+} 
 
 class QuestionRowDelete {
     
