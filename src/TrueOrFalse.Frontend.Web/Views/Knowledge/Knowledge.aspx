@@ -146,10 +146,10 @@
             chart.draw(view, options);
             <% if (!Model.HasLearnedInLast30Days) { %>
                 var infoDivNotLearned = document.createElement('div');
-                infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>'
-                infoDivNotLearned.setAttribute('style', 'position: absolute; background-color: white; top: 145px;')
+                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 130px;');
+                infoDivNotLearned.setAttribute('class', 'alert alert-info');
+                infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
                 document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
-                document.getElementById("chartActivityLastDays").style.opacity = 0.5;
             <% } %>
 
         }
@@ -242,6 +242,7 @@
                 </div>
 
                 <% if(Model.KnowledgeSummary.Total == 0) { %>
+                    <div class="alert alert-info">
                         <p>
                             memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
                         </p>
@@ -260,6 +261,7 @@
                             </ul>
                             
                         </p>
+                    </div>
                 <% }else { %>
                     <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
                 <% } %>
@@ -401,19 +403,25 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
-
-                    <div class="row" style="margin-bottom: 7px;">
-                        <div class="col-md-12">
-                            in den nächsten <b>7 Tagen</b>
-                            <ul>
-                                <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
-                                <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
-                            </ul>
+                    <% if (Model.TrainingDates.Count ==0) { %>
+                        <div class="row" style="margin-bottom: 7px;">
+                            <div class="col-md-12">
+                                Du hast in den nächsten <b>7 Tagen</b> keine geplanten Übungssitzungen.
+                            </div>
                         </div>
-                    </div>
-                    
-                    <% foreach(var trainingDate in Model.TrainingDates) { %>
-                        <% Html.RenderPartial("TrainingDate", trainingDate); %>
+                    <% } else { %>
+                        <div class="row" style="margin-bottom: 7px;">
+                            <div class="col-md-12">
+                                in den nächsten <b>7 Tagen</b>
+                                <ul>
+                                    <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
+                                    <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <% foreach(var trainingDate in Model.TrainingDates) { %>
+                            <% Html.RenderPartial("TrainingDate", trainingDate); %>
+                        <% } %>
                     <% } %>
                 </div>
             </div>
