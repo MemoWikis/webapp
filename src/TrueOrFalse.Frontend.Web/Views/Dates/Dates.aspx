@@ -132,7 +132,7 @@
                     <div class="bs-callout bs-callout-info"  style="margin-top: 0; <%= Html.CssHide(Model.DatesInNetwork.Any()) %>">
                         <h4>Keine kommenden Termine im Netzwerk</h4>
                         <p>
-                            <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
+                            <a href="<%= Url.Action("Users", "Users") %>" class="btn btn-sm" style="margin-top: 10px;">
                                 <i class="fa fa-plus-circle"></i> &nbsp; Netzwerk erweitern
                             </a>
                         </p>

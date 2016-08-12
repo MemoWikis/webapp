@@ -211,8 +211,9 @@
         <div class="row">
                             
             <div class="col-xs-12 col-md-6">
-                <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
-                <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Im Wunschwissen: (berücksichtigt nur dein Wunschwissen)</p>
+                <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
+                <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
                 <%--<p>
                     In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
                     <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
@@ -222,8 +223,8 @@
                         <div class="number-box-questions" style="text-align: center;">
                             <a href="<%= Links.QuestionsWish() %>">
                                 <div>
-                                    <span style="font-weight: 900; font-size: 20px;"><%= 134 %></span>
-                                    <span style="font-size: 14px">Fragen</span>
+                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
+                                    <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %></span>
                                 </div>
                             </a>
                         </div>
@@ -232,15 +233,15 @@
                         <div class="number-box-sets" style="text-align: center;">
                             <a href="<%= Links.SetsWish() %>">
                                 <div>
-                                    <span style="font-weight: 900; font-size: 20px;"><%= 8 %></span>
-                                    &nbsp;<span style="font-size: 14px">Fragesätze</span>
+                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
+                                    &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz","sätze") %></span>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
+                <% if(Model.KnowledgeSummary.Total == 0) { %>
                         <p>
                             memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
                         </p>
@@ -265,9 +266,10 @@
             </div>
 
             <div class="col-xs-12 col-md-6">
-                <div class="col-xs-12" style="padding: 10px;">
+                <div class="col-xs-12">
 
-                    <h3 style="margin-top: 0;">Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
+                    <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
+                    <p style="font-size: 12px; color: silver;">In den letzten 30 Tagen</p>
                 
                     <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
                 
