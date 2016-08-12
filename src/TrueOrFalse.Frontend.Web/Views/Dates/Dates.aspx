@@ -131,6 +131,13 @@
                 <% if (!Model.DatesInNetwork.Any()){ %>
                     <div class="bs-callout bs-callout-info"  style="margin-top: 0; <%= Html.CssHide(Model.DatesInNetwork.Any()) %>">
                         <h4>Keine kommenden Termine im Netzwerk</h4>
+                        <p style="padding-top: 5px;">
+                        <% if (!Model.IsFollowingAnyUsers) { %>
+                            Du folgst noch keinem anderen Nutzer. Erweitere dein Netzwerk und folge deinen Freunden, damit du Termine von ihnen übernehmen kannst und ihr gemeinsam lernen könnt.
+                        <% } else { %>
+                            Erweitere dein Netzwerk und folge weiteren Freunden, damit du Termine von ihnen übernehmen kannst und ihr gemeinsam lernen könnt.
+                        <% } %>
+                        </p>                        
                         <p>
                             <a href="<%= Url.Action("Users", "Users") %>" class="btn btn-sm" style="margin-top: 10px;">
                                 <i class="fa fa-plus-circle"></i> &nbsp; Netzwerk erweitern
