@@ -466,6 +466,7 @@
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
+    <Content Include="Scripts\guidedTour\bootstrap-tour.js" />
     <Content Include="Scripts\guidedTour\tourWelcome.js">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
