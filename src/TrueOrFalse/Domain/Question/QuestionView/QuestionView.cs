@@ -12,5 +12,20 @@ public class QuestionView : IPersistable, WithDateCreated
     public virtual LearningSession LearningSession { get; set; }
     public virtual Guid LearningSessionStepGuid { get; set; }
 
+    public virtual string LearningSessionStepGuidString
+    {
+        get { return LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString(); }
+        set
+        {
+            if (value == null)
+            {
+                LearningSessionStepGuid = Guid.Empty;
+                return;
+            }
+
+            LearningSessionStepGuid = new Guid(value);
+        }
+    }
+
     public virtual DateTime DateCreated { get; set; }
 }

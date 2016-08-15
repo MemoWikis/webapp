@@ -12,7 +12,7 @@ public class QuestionViewMap : ClassMap<QuestionView>
         References(x => x.Player).Cascade.None();
 
         References(x => x.LearningSession).Cascade.None();
-        Map(x => x.LearningSessionStepGuid).Unique();
+        Map(x => x.LearningSessionStepGuidString).Column("LearningSessionStepGuid").CustomSqlType("varchar(36)").Unique();
 
         Map(x => x.DateCreated);
     }
