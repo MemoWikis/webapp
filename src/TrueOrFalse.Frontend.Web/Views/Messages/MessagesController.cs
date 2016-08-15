@@ -15,13 +15,13 @@ public class MessagesController : BaseController
                     Subject = "Hallo Unbekannte(r)!",
                     Body = @"<p>
                                 schön, dass du bei uns vorbeischaust. 
-                                Eigentlich gibt es hier nichts zu sehen, 
-                                wenn du nicht angemeldet bist.
+                                Du bist nicht angemeldet, daher gibt es hier eigentlich nichts zu sehen.
+                                Melde dich am besten gleich an oder registriere dich, es dauert nur wenige Sekunden.
                             </p>
                             <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>
                             <p>
-                                Viele Grüße<br>
-                                Jule & Robert
+                                Viele Grüße,<br>
+                                Christof, Jule & Robert
                             </p>",
                     DateCreated = DateTime.Now,
                     IsRead = false

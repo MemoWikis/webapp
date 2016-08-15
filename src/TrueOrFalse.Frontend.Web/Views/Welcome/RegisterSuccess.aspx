@@ -14,15 +14,41 @@
                 Bitte bestätige noch deine Email-Adresse über den Link, den wir dir gerade per Email geschickt haben.
             </p>
 
-	        <p>Trotzdem kannst du schon loslegen!
-	            <ul>
-		            <li>Stöbere in den <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>">vorhandenen 
-                        Fragen</a> und füge einige zu deinem Wunschwissen hinzu (klicke dazu auf das Herz neben der Frage).</li>
-                    <li>Erstelle eine <a href="<%= Links.CreateQuestion(Url) %>">neue Frage</a>.</li>
-		            <li>Füge <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>">deinem Benutzerkonto</a> ein Bild von dir hinzu.</li>
-                    <li>Suche <a href="<%= Url.Action("Users", "Users") %>">deine Freunde</a> und füge sie zu deinem Netzwerk hinzu.</li>
-	        </ul>
-            </p>
+	        <p>Trotzdem kannst du schon loslegen!</p>
+            <div class="col-xs-12 well well-sm">
+                <div class="row">
+                    <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">
+                      <i class="fa fa-book fa-2x" style="color: #2C5FB2"></i><br/>
+                        <p><b>Wissen entdecken</b></p>
+                        <p>
+                            Stöbere bei den <a href="<%= Url.Action("Sets", "Sets")%>">Fragesätzen</a> oder den 
+                            <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>">Fragen</a> nach interessantem Wissen und füge es 
+                            deinem <span style="white-space: nowrap;"><i class='fa fa-heart' style='color:#b13a48;'></i>&nbsp;Wunschwissen</span> hinzu.
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">
+                      <i class="fa fa-pencil fa-2x" style="color: #2C5FB2"></i><br/>
+                        <p><b>Wissen erstellen</b></p>
+                        <p>
+                            <a href="<%= Links.CreateQuestion(Url) %>">Erstelle eigene Fragen</a>, die du gerne lernen möchtest und füge sie zu eigenen Fragesätzen zusammen.
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">
+                      <i class="fa fa-camera fa-2x" style="color: #2C5FB2"></i><br/>
+                        <p><b>Dein Profilbild</b></p>
+                        <p>
+		                    Füge <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>">deinem Benutzerkonto</a> ein Bild von dir hinzu.
+                        </p>
+                    </div>
+                    <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">
+                      <i class="fa fa-users fa-2x" style="color: #2C5FB2"></i><br/>
+                        <p><b>Freunden folgen</b></p>
+                        <p>
+                            Suche <a href="<%= Url.Action("Users", "Users") %>">deine Freunde</a> und füge sie zu deinem memucho-Netzwerk hinzu.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

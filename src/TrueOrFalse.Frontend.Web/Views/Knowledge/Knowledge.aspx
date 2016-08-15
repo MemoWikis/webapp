@@ -146,10 +146,10 @@
             chart.draw(view, options);
             <% if (!Model.HasLearnedInLast30Days) { %>
                 var infoDivNotLearned = document.createElement('div');
-                infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>'
-                infoDivNotLearned.setAttribute('style', 'position: absolute; background-color: white; top: 145px;')
+                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 130px;');
+                infoDivNotLearned.setAttribute('class', 'alert alert-info');
+                infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
                 document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
-                document.getElementById("chartActivityLastDays").style.opacity = 0.5;
             <% } %>
 
         }
@@ -211,8 +211,9 @@
         <div class="row">
                             
             <div class="col-xs-12 col-md-6">
-                <h3 style="margin-bottom: 3px; margin-top: 0;">Dein Wissensstand</h3>
-                <p style="margin-bottom: 1px; font-size: 12px; color: silver;">Im Wunschwissen: (berücksichtigt nur dein Wunschwissen)</p>
+                <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
+                <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
                 <%--<p>
                     In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
                     <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
@@ -222,8 +223,8 @@
                         <div class="number-box-questions" style="text-align: center;">
                             <a href="<%= Links.QuestionsWish() %>">
                                 <div>
-                                    <span style="font-weight: 900; font-size: 20px;"><%= 134 %></span>
-                                    <span style="font-size: 14px">Fragen</span>
+                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
+                                    <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %></span>
                                 </div>
                             </a>
                         </div>
@@ -232,15 +233,16 @@
                         <div class="number-box-sets" style="text-align: center;">
                             <a href="<%= Links.SetsWish() %>">
                                 <div>
-                                    <span style="font-weight: 900; font-size: 20px;"><%= 8 %></span>
-                                    &nbsp;<span style="font-size: 14px">Fragesätze</span>
+                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
+                                    &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz","sätze") %></span>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <% if(Model.KnowledgeSummary.Total == 0) { %> <%--Warum nicht "if sets == 0 & questions == 0 then"?--%>
+                <% if(Model.KnowledgeSummary.Total == 0) { %>
+                    <div class="alert alert-info">
                         <p>
                             memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
                         </p>
@@ -259,15 +261,17 @@
                             </ul>
                             
                         </p>
+                    </div>
                 <% }else { %>
                     <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
                 <% } %>
             </div>
 
             <div class="col-xs-12 col-md-6">
-                <div class="col-xs-12" style="padding: 10px;">
+                <div class="col-xs-12">
 
-                    <h3 style="margin-top: 0;">Training <span style="font-size: 12px; color: silver; padding-left: 15px;">letzte 30 Tage</span></h3>
+                    <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
+                    <p style="font-size: 12px; color: silver;">In den letzten 30 Tagen</p>
                 
                     <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
                 
@@ -399,19 +403,25 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
-
-                    <div class="row" style="margin-bottom: 7px;">
-                        <div class="col-md-12">
-                            in den nächsten <b>7 Tagen</b>
-                            <ul>
-                                <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
-                                <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
-                            </ul>
+                    <% if (Model.TrainingDates.Count ==0) { %>
+                        <div class="row" style="margin-bottom: 7px;">
+                            <div class="col-md-12">
+                                Du hast in den nächsten <b>7 Tagen</b> keine geplanten Übungssitzungen.
+                            </div>
                         </div>
-                    </div>
-                    
-                    <% foreach(var trainingDate in Model.TrainingDates) { %>
-                        <% Html.RenderPartial("TrainingDate", trainingDate); %>
+                    <% } else { %>
+                        <div class="row" style="margin-bottom: 7px;">
+                            <div class="col-md-12">
+                                in den nächsten <b>7 Tagen</b>
+                                <ul>
+                                    <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
+                                    <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <% foreach(var trainingDate in Model.TrainingDates) { %>
+                            <% Html.RenderPartial("TrainingDate", trainingDate); %>
+                        <% } %>
                     <% } %>
                 </div>
             </div>

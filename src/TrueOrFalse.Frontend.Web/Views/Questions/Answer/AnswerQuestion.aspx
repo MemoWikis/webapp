@@ -7,6 +7,7 @@
     <title>Frage - <%= Model.QuestionText %></title>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
+    <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
 
     <style type="text/css">
          .selectorShowSolution{/* marker class */}
@@ -220,7 +221,7 @@
                         <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
                     </span>                
                     <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                        <i class="fa fa-eye" style="color:darkslategray;"></i> <%= Model.TotalViews %>x
+                        <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
                     </span><br />
                 </p>
 
@@ -358,6 +359,6 @@
         </div>
     </div>
     
-<% if (Model.IsOwner) Html.RenderPartial("ModalDeleteQuestion"); %>
+<% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
 
 </asp:Content>
