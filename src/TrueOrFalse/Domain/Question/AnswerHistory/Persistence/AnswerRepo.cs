@@ -141,7 +141,7 @@ public class AnswerRepo : RepositoryDb<Answer>
         return learningSessionStepGuid == default(Guid) 
             ? null 
             : _session.QueryOver<Answer>()
-                .Where(a => a.LearningSessionStepGuid == learningSessionStepGuid)
+                .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
                 .SingleOrDefault();
     }
 

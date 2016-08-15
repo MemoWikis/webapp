@@ -16,6 +16,21 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
     public virtual LearningSession LearningSession { get; set; }
     public virtual Guid LearningSessionStepGuid { get; set; }
 
+    public virtual string LearningSessionStepGuidString
+    {
+        get { return LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString(); }
+        set
+        {
+            if (value == null)
+            {
+                LearningSessionStepGuid = Guid.Empty;
+                return;
+            }
+
+            LearningSessionStepGuid = new Guid(value);
+        }
+    }
+
     /// <summary>Duration</summary>
     public virtual int Milliseconds { get; set; }
     public virtual DateTime DateCreated { get; set; }
