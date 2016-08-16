@@ -779,6 +779,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs081.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs125.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs139.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs138.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs137.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs133.cs" />

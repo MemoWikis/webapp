@@ -123,8 +123,7 @@ class AnswerQuestion
             return true;
         });
 
-        if (this._isLastLearningStep) 
-            $('#btnNext').html('Zum Ergebnis');
+        
     }
 
     static GetQuestionId() : number {
@@ -160,14 +159,18 @@ class AnswerQuestion
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
 
-                    if (result.correct)
-                    {
-	                    self.AnsweredCorrectly = true;
+                    if (result.correct) {
+                        self.AnsweredCorrectly = true;
                         self._inputFeedback.ShowSuccess();
                         self._inputFeedback.ShowSolution();
+                        if (self._isLastLearningStep)
+                            $('#btnNext').html('Zum Ergebnis');
                     }
                     else //!result.correct
                     {
+                        if (self._isLastLearningStep && !result.newStepAdded)
+                            $('#btnNext').html('Zum Ergebnis');
+
                         if (self.IsGameMode) {
                             self._inputFeedback.ShowErrorGame();
                             self._inputFeedback.ShowSolution();

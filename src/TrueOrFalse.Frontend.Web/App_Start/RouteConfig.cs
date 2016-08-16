@@ -48,7 +48,7 @@ namespace TrueOrFalse
             routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
-            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
+            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}", new { controller = "AnswerQuestion", action = "Learn" });
 
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });

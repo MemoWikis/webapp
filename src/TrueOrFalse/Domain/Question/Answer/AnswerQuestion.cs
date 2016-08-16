@@ -39,7 +39,9 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         var learningSession = learningSessionRepo.GetById(learningSessionId);
         var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
 
-        return Run(questionId, answer, userId, (question, answerQuestionResult) =>
+        var numberOfStepsBeforeAnswer = learningSession.Steps.Count;
+
+        var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
             _answerLog.Run(question, answerQuestionResult, userId, learningSession: learningSession, learningSessionStepGuid: learningSessionStep.Guid, dateCreated: dateCreated);
 
@@ -49,8 +51,11 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             if (!answerQuestionResult.IsCorrect)
             {
                 learningSession.UpdateAfterWrongAnswer(learningSessionStep);
+                answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
             }
         });
+
+        return result;
     }
 
     public AnswerQuestionResult Run(

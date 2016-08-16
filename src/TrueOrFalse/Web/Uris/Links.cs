@@ -150,16 +150,13 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /*Learn*/
 
-        public static string LearningSession(LearningSession learningSession, int nextStepToLearnIdx = -1)
+        public static string LearningSession(LearningSession learningSession)
         {
             return GetUrlHelper().Action("Learn", AnswerQuestionController,
                 new
                 {
                     learningSessionId = learningSession.Id,
                     learningSessionName = learningSession.UrlName,
-                    stepNo = nextStepToLearnIdx == -1
-                        ? learningSession.CurrentLearningStepIdx() + 1 //Convert idx to number to improve readability of url for user
-                        : nextStepToLearnIdx + 1
                 });
         }
 
