@@ -220,7 +220,8 @@ public class AnswerQuestionController : BaseController
                 correctAnswer = result.CorrectAnswer,
                 choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ?
                     ((QuestionSolutionMultipleChoice)solution).Choices
-                    : null
+                    : null,
+                newStepAdded = result.NewStepAdded
             }
         };
     }

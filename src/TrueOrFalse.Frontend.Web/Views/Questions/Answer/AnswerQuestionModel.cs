@@ -111,22 +111,20 @@ public class AnswerQuestionModel : BaseModel
         LearningSessionStep = LearningSession.Steps[currentLearningStepIdx];
         IsLastLearningStep = LearningSessionCurrentStepNo == LearningSession.Steps.Count();
 
-        if (currentLearningStepIdx + 1 < learningSession.Steps.Count) { 
+        //if (currentLearningStepIdx + 1 < learningSession.Steps.Count) { 
             NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
                 new {
                     learningSessionId = learningSession.Id,
                     learningSessionName = learningSession.UrlName,
                     stepNo = LearningSessionCurrentStepNo + 1
                 });
-        }
-        else if (currentLearningStepIdx + 1 == learningSession.Steps.Count())
-        {
-            NextUrl = url => url.Action("LearningSessionResult", Links.LearningSessionResultController,
-                new {
-                    learningSessionId = learningSession.Id,
-                    learningSessionName = learningSession.UrlName
-                });
-        }
+       ////
+       //     NextUrl = url => url.Action("LearningSessionResult", Links.LearningSessionResultController,
+       //         new {
+       //             learningSessionId = learningSession.Id,
+       //             learningSessionName = learningSession.UrlName
+       //         });
+       // }
         Populate(LearningSessionStep.Question);
     }
 
