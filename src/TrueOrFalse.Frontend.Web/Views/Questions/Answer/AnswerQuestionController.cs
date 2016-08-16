@@ -34,7 +34,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepIdx = -1)
+    public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
@@ -45,7 +45,7 @@ public class AnswerQuestionController : BaseController
         {
             learningSession.SkipStep(skipStepIdx);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
-                new {learningSessionId, learningSessionName = learningSessionName, stepNo});
+                new { learningSessionId, learningSessionName = learningSessionName });
         }
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
@@ -53,11 +53,6 @@ public class AnswerQuestionController : BaseController
         if (currentLearningStepIdx == -1) //None of the steps is uncompleted
             return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
                 new { learningSessionId, learningSessionName = learningSessionName });
-
-        if (currentLearningStepIdx != stepNo - 1)//Correct url if stepNo is adjusted
-        {
-            return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
-        }
 
         if (learningSession.IsDateSession)
         {
@@ -84,7 +79,7 @@ public class AnswerQuestionController : BaseController
             learningSession: learningSession,
             learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
 
-        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), currentLearningStepIdx + 1));
+        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
     public ActionResult AnswerSet(int setId, int questionId)

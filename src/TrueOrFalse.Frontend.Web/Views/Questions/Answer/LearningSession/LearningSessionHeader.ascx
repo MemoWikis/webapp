@@ -24,6 +24,6 @@
             <%= Model.LearningSession.TotalPossibleQuestions %> Fragen 
             aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
         <% } %>
-        <br/>Abfrage <%= Model.LearningSessionCurrentStepNo %> von <%= Model.LearningSession.Steps.Count() %>        
+        <br/>Abfrage <%= Model.CurrentLearningStepIdx + 1 %> von <%= Model.LearningSession.Steps.Count() %>        
     </div>
 </div>
