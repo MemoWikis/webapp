@@ -65,10 +65,9 @@
         </div>
         
         <div class="StatsGroup">
-            <a href="<%= Model.UserLink(Url)  %>" class="userPopover" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
+            <a href="<%= Model.UserLink(Url)  %>" class="userPopover show-tooltip" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
                data-original-title="Erstellt von <%=Model.CreatorName %>">
-                <%= Model.CreatorName %>
-            </a>
+                <%= Model.CreatorName %></a>
             
             &nbsp;
             &nbsp;
