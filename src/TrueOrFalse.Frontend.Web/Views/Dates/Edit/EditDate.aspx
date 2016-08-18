@@ -148,7 +148,7 @@
                         
                         <div class="form-group">
                             <label class="columnLabel control-label">
-                                <span class="show-tooltip" data-toggle="tooltip" title="Termine, die in deinem Netzwerk sichtbar sind, können von deinen Freunden einfach übernommen werden. Dafür erhälst du Reputationspunkte.">Sichtbarkeit des Termins&nbsp;<i class='fa fa-info-circle'></i></span>
+                                <span class="show-tooltip" data-toggle="tooltip" title="Termine, die in deinem Netzwerk sichtbar sind, können von deinen Freunden einfach übernommen werden. Dafür erhältst du Reputationspunkte.">Sichtbarkeit des Termins&nbsp;<i class='fa fa-info-circle'></i></span>
                             </label>
                             <div class="columnControlsFull">
                                 <%--<label><input type="radio" name="Visibility" value="inNetwork" <%= Model.Selected("inNetwork") %>/>Sichtbar in deinem Netzwerk</label>

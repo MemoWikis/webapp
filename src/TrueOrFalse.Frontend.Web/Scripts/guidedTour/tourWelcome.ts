@@ -19,7 +19,7 @@ var tourWelcome = new Tour({
             backdrop: true,
             backdropPadding: 10,
             title: "Deine Wissenszentrale",
-            content: "Die Wunschwissen-Seite ist deine persönliche Wissenszentrale: Hier hast du deinen Wissensstand immer im Blick, erhälst eine Auswertung zu deinem Lernverhalten, siehst welche Termine und Übungssitzungen demnächst anstehen und was in deinem Netzwerk passiert."
+            content: "Die Wunschwissen-Seite ist deine persönliche Wissenszentrale: Hier hast du deinen Wissensstand immer im Blick, erhältst eine Auswertung zu deinem Lernverhalten, siehst welche Termine und Übungssitzungen demnächst anstehen und was in deinem Netzwerk passiert."
         },
         {
             element: ".Pin:eq(1)",
@@ -41,7 +41,7 @@ var tourWelcome = new Tour({
             backdrop: true,
             backdropPadding: 10,
             title: "Für eine Prüfung lernen",
-            content: "Um für eine Prüfung zu lernen, erstellst du einfach einen Termin. memucho generiert für dich einen Übungsplan, damit du genau weißt, wann und wieviel du noch üben musst. Per Email erhälst du eine Erinnerung kurz vor jeder Übungssitzung."
+            content: "Um für eine Prüfung zu lernen, erstellst du einfach einen Termin. memucho generiert für dich einen Übungsplan, damit du genau weißt, wann und wieviel du noch üben musst. Per Email erhältst du eine Erinnerung kurz vor jeder Übungssitzung."
         },
         {
             element: "#mainMenuBtnUsers",
