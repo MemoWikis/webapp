@@ -156,7 +156,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>
+                    <div class="col-md-12"><h4 class="ColoredUnderline Date">Vorgeschlagene Übungssitzungen</h4></div>
                 </div>
                 
                 <div id="divTrainingPlanDetailsSpinner" class="row" style="display: none">
@@ -169,10 +169,7 @@
                 
                 <div id="divTrainingPlanDetails">
                     <div class="row" style="margin-top: 4px">
-                        <div class="col-md-8" style="">
-                            Bis Benachrichtigung
-                        </div>
-                        <div class="col-md-2">Vorher</div>
+                        <div class="col-md-offset-8 col-md-2">Vorher</div>
                         <div class="col-md-2">Nachher</div>
                     </div>
                     <div class="row">
