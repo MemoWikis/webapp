@@ -87,6 +87,11 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/User")
                 .IncludeDirectory("~/Views/Users/Detail/", "*.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Js/User")
+                .IncludeDirectory("~/Views/Users/Detail/Js", "*.js")
+                .Include("~/Views/Users/Js/UserRowFollow.js").
+                Include("~/Views/Users/Js/UserRow.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/AnswerQuestion")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")

@@ -512,6 +512,9 @@
     </Content>
     <Content Include="Views\Sets\Detail\SetQuestionRowResult.ascx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
+    <Content Include="Views\Users\Detail\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Sets\Edit\EditSet.css">
       <DependentUpon>EditSet.less</DependentUpon>
@@ -1385,6 +1388,7 @@
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
+    <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
   </ItemGroup>
@@ -1979,6 +1983,9 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
+    <Content Include="Views\Users\Detail\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
