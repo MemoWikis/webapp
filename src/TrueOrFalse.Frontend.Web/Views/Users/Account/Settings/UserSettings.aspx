@@ -115,9 +115,9 @@
                                     <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
                                     <label class="CheckboxTitle">Support-Login zulassen</label><br/>
                                     <label for="AllowsSupportiveLogin">
-                                        Erlaube Mitarbeitern von memucho zur Fehlerbehebung oder zu deiner Unterstützung, 
-                                        sich in deinem Nutzerkonto anzumelden. Das ist nur nach Rücksprache nötig 
-                                        (<a href="<%= Url.Action("DatenSicherheit","Help") %>">Mehr zur Datensicherheit</a>).
+                                        Achtung: Das ist nur nach Rücksprache mit dem meucho-Team nötig! Wenn du den Support-Login aktivierst, 
+                                        können sich Mitarbeiter von memucho zur Fehlerbehebung oder zu deiner Unterstützung 
+                                        in deinem Nutzerkonto anmelden, selbstverständlich ohne dein Passwort zu benötigen oder sehen zu können.
                                     </label>
                                 </label>
                             </div>
