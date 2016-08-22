@@ -533,6 +533,9 @@
     <Content Include="Views\Welcome\Js\TourInit.js.map">
       <DependentUpon>TourInit.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
     </Content>
@@ -1386,6 +1389,7 @@
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -1978,6 +1982,9 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
+    <Content Include="Views\Welcome\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
