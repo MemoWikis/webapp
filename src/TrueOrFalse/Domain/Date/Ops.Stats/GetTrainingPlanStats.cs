@@ -18,15 +18,14 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
         var tdByDay = trainingPlan.OpenDates.OrderBy(d => d.DateTime).GroupBy(t => t.DateTime.Date);
         var result = new TrainingPlanStatsResult();
 
-        var prevDay = DateTime.Now.Date;
+        var dayCounter = DateTime.Now.Date;
 
         foreach (var tdDay in tdByDay)
         {
-            prevDay = prevDay.AddDays(1);
-            while (prevDay < tdDay.First().DateTime.Date)
+            while (dayCounter < tdDay.First().DateTime.Date)
             {
-                result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(prevDay));
-                prevDay = prevDay.AddDays(1);
+                result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(dayCounter));
+                dayCounter = dayCounter.AddDays(1);
             }
             var resultPartial = new TrainingPlanStatsPerDayResult(tdDay.First().DateTime.Date);
             tdDay.ToList().ForEach(d => resultPartial.TrainingDates.Add(d));
@@ -34,11 +33,12 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
             if (resultPartial.TrainingDates.Count() > result.MaxNumberOfTrainingSessionsPerDay)
                 result.MaxNumberOfTrainingSessionsPerDay = resultPartial.TrainingDates.Count();
             result.TrainingPlanStatsPerDay.Add(resultPartial);
+            dayCounter = dayCounter.AddDays(1);
         }
-        while (prevDay < trainingPlan.Date.DateTime.Date)
+        while (dayCounter <= trainingPlan.Date.DateTime.Date)
         {
-            prevDay = prevDay.AddDays(1);
-            result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(prevDay));
+            result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(dayCounter));
+            dayCounter = dayCounter.AddDays(1);
         }
 
         return result;
