@@ -162,9 +162,11 @@
                 </div>
                 <div class="row" style="height: 100%;">
                     <% if(!Model.IsNetworkDate && !Model.HideEditPlanButton) { %>
-                    <div class="col-md-1"><i class="fa fa-pencil"></i></div>
+                    <div class="col-md-1">&nbsp;</div>
                     <div class="col-md-10">
-                        <a href="#modalTraining" style="margin-top: 29px;" data-dateId="<%= date.Id %>">Details &amp; bearbeiten</a>
+                        <a href="#modalTraining" class="btn btn-default btn-sm" style="margin: 5px 0;" data-dateId="<%= date.Id %>">
+                            <i class="fa fa-pencil"></i> Details &amp; bearbeiten
+                        </a>
                     </div>
                     <% } %>
                 </div>
