@@ -60,6 +60,18 @@ public class WelcomeController : BaseController
     }
 
     [HttpPost]
+    public JsonResult IsUserNameAvailable(string selectedName)
+    {
+        return new JsonResult {Data = new { isAvailable = R<UserRepo>().GetByName(selectedName) == null}};
+    }
+
+    [HttpPost]
+    public JsonResult IsEmailAvailable(string selectedEmail)
+    {
+        return new JsonResult { Data = new { isAvailable = R<UserRepo>().GetByEmail(selectedEmail) == null } };
+    }
+
+    [HttpPost]
     public ActionResult Login(LoginModel loginModel)
     {
         loginModel.EmailAddress = loginModel.EmailAddress;
