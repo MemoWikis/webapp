@@ -101,17 +101,16 @@
 
             <div class="row">
                 <% if (!Model.IsNetworkDate){ %>
-                    <div class="col-xs-12" style="text-align: left">
-                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
-                            style="display: inline-block; margin-top: 29px; margin-right: 11px;">
-                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
-                            Spiel starten
-                        </a>
-                        
-                        <a style="display: inline-block;"
+                    <div class="col-xs-12" style="text-align: left; margin-top: 15px; margin-bottom: 10px;">
+                        <a style="display: inline-block;" class="btn btn-primary btn-sm"
                             data-btn="startLearningSession" 
                             href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
                             Jetzt üben
+                        </a>
+                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
+                            style="display: inline-block;">
+                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                            Spiel starten
                         </a>
                     </div>
                 <% } %>
@@ -163,9 +162,11 @@
                 </div>
                 <div class="row" style="height: 100%;">
                     <% if(!Model.IsNetworkDate && !Model.HideEditPlanButton) { %>
-                    <div class="col-md-1"><i class="fa fa-pencil"></i></div>
+                    <div class="col-md-1">&nbsp;</div>
                     <div class="col-md-10">
-                        <a href="#modalTraining" style="margin-top: 29px;" data-dateId="<%= date.Id %>">Details &amp; bearbeiten</a>
+                        <a href="#modalTraining" class="btn btn-default btn-sm" style="margin: 5px 0;" data-dateId="<%= date.Id %>">
+                            <i class="fa fa-pencil"></i> Details &amp; bearbeiten
+                        </a>
                     </div>
                     <% } %>
                 </div>
