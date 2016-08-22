@@ -38,7 +38,7 @@
         <td><p>Telefon: </p></td>
         <td><p>01577 6825707</p></td></tr>
         <tr><td><p>E-Mail:</p></td>
-        <td><p ><span class="mailme">team at memucho dot de</span></p></td>
+        <td><p><span class="mailme">team at memucho dot de</span></p></td>
         </tr></table>
         <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
         <p>Christof Mauersberger<br />

@@ -114,15 +114,6 @@
                             Jetzt üben
                         </a>
                     </div>
-                <% }else{ %>
-                    <div class="col-sm-12" style="text-align: right;">
-                        <div style="margin-top: 29px;">
-                            <a data-toggle="modal" data-dateId="<%= date.Id %>" class="btn btn-sm btn-info" href="#modalCopy" data-url="toSecurePost">
-                                <i class="fa fa-files-o"></i>
-                                 Termin übernehmen
-                            </a>
-                        </div>
-                    </div>                
                 <% } %>
             </div>
         </div>
@@ -142,21 +133,12 @@
         </div>
         
         <div class="col-sm-3">
-            <% if(!Model.IsPast) { %>
-                <% if (!Model.IsNetworkDate){ %>
-                    <div class="row">
-                        <div class="col-md-1"><i class="fa fa-clock-o"></i></div>
-                        <% if (Model.LearningSessionQuestionsLearned == 0) { %>
-                            <div class="col-md-10" style="border-bottom-style: dotted; border-bottom-width: 1px; margin-bottom: 5px;">Bisher nicht gelernt</div>
-                        <% }else { %>
-                            <div class="col-md-10" style="border-bottom-style: dotted; border-bottom-width: 1px; margin-bottom: 5px;">Bisher gelernt: ca. <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %></div>
-                        <% } %>
-                    </div>
-                <% } %>
-
+            <% if (!Model.IsNetworkDate && !Model.IsPast) { %>
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-                    <div class="col-md-10">Übungsplan: <span style="font-size: 9px">(verbleibend)</span></div>
+                    <div class="col-md-10">
+                        <b>Übungsplan:</b> <span style="font-size: 9px">(verbleibend)</span>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">ca. <span class="TPTrainingDateCount"><%= Model.TrainingDateCount %></span> Übungssitzungen</div>
@@ -167,18 +149,15 @@
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-bell"></i></div>
                     <div class="col-md-10">
-                        <% if(trainingPlan.HasOpenDates)
-                            {
-                                var timeSpanLabel = new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit: true);
-                                if (timeSpanLabel.TimeSpanIsNegative)
-                                { %>
-                                    Jetzt lernen! <% }
-                                else
-                                { %>
-                                    nächste Übungssitzung <br/>
-                                    in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
-                                <% } %>
-                                (<span class="TPQuestionsInNextTrainingDate"><%= trainingPlan.QuestionCountInNextDate %></span> Fragen)
+                        <% if(trainingPlan.HasOpenDates) {
+                            var timeSpanLabel = new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit: true);
+                            if (timeSpanLabel.TimeSpanIsNegative) { %>
+                                <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=Model.Date.Id %>">Jetzt üben!</a>
+                            <% } else { %>
+                                nächste Übungssitzung <br/>
+                                in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
+                            <% } %>
+                            (<span class="TPQuestionsInNextTrainingDate"><%= trainingPlan.QuestionCountInNextDate %></span> Fragen)
                         <% } %>
                     </div>
                 </div>
@@ -190,10 +169,22 @@
                     </div>
                     <% } %>
                 </div>
-            <% }else{ /* Model.IsPast */ %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="border-top-style: dotted; border-top-width: 1px; margin-top: 10px;">
+                            <i class="fa fa-clock-o"></i>
+                            <% if (Model.LearningSessionQuestionsLearned == 0) { %>
+                                Bisher nicht gelernt
+                            <% }else { %>
+                                Bisher gelernt: ca. <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }else if (Model.IsPast){ %>
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-                    <div class="col-md-10">Übungshistorie:</div>
+                    <div class="col-md-10"><b>Übungshistorie:</b></div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -203,6 +194,17 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">ca. <%= new TimeSpanLabel(Model.TimeSpentLearning, showTimeUnit: true).Full %> (Schätzung)</div>
+                </div>
+            <% }else if (Model.IsNetworkDate){ %>
+                <div class="row">
+                    <div class="col-md-11" style="padding-top: 35px;">
+                        <p style="font-size: 11px; line-height: 11px; padding: 5px 13px;">Übernehme diesen Termin, damit memucho einen individuellen Übungsplan für dich erstellen kann.</p>
+                        <p style="text-align: center;">
+                            <a data-toggle="modal" data-dateId="<%= date.Id %>" class="btn btn-sm btn-info" href="#modalCopy" data-url="toSecurePost">
+                                <i class="fa fa-files-o"></i> Termin übernehmen
+                            </a>
+                        </p>
+                    </div>
                 </div>
             <% } %>
 

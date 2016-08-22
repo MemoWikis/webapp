@@ -4,8 +4,9 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
-    <title>Benutzer <%=Model.Name %> </title>
+    <title>Nutzer <%=Model.Name %> </title>
     <%= Styles.Render("~/bundles/User") %>
+    <%= Scripts.Render("~/bundles/Js/User") %>
 </asp:Content>
 
 
@@ -61,7 +62,24 @@
         </div>
         
         <div class="col-lg-2 col-xs-3 xxs-stack">
-            <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" />          
+            <img style="width:100%; border-radius:5px;" src="<%=Model.ImageUrl_250 %>" /><br/>
+            <div style="text-align: center; margin-top: 10px;" data-userid="<%=Model.UserIdProfile %>">
+                <% if(!Model.IsCurrentUser){ %>
+                    <button class="btn btn-default btn-sm" type="button" data-type="btn-follow"
+                        style="<%= Html.CssHide(Model.DoIFollow) %> ">
+                        <i class="fa fa-user-plus"></i>
+                        Folgen
+                    </button>
+                    
+                    <i class='fa fa-spinner fa-pulse' data-type="btnFollowSpinner" style="display:none"></i>
+                
+                    <button class="btn btn-warning btn-sm " type="button" data-type="btn-unfollow"
+                        style="<%= Html.CssHide(!Model.DoIFollow) %>">
+                        <i class="fa fa-user-times"></i>
+                        Entfolgen
+                    </button>
+                <% } %>
+            </div>
         </div>
     </div>
     

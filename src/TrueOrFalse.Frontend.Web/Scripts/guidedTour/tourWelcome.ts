@@ -18,8 +18,8 @@ var tourWelcome = new Tour({
             element: "#mainMenuBtnKnowledge",
             backdrop: true,
             backdropPadding: 10,
-            title: "Deine Wissenszentrale",
-            content: "Die Wunschwissen-Seite ist deine persönliche Wissenszentrale: Hier hast du deinen Wissensstand immer im Blick, erhältst eine Auswertung zu deinem Lernverhalten, siehst welche Termine und Übungssitzungen demnächst anstehen und was in deinem Netzwerk passiert."
+            title: "Dein Überblick",
+            content: "Diese Seite ist deine persönliche Wissenszentrale: Hier hast du deinen Wissensstand immer im Blick, erhältst eine Auswertung zu deinem Lernverhalten, siehst, welche Termine und Übungssitzungen demnächst anstehen und was in deinem Netzwerk passiert."
         },
         {
             element: ".Pin:eq(1)",

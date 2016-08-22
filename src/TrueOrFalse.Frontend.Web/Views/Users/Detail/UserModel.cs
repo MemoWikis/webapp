@@ -25,6 +25,8 @@ public class UserModel : BaseModel
     public bool IsActiveTabBadges;
 
     public User User;
+    public int UserIdProfile;
+    public bool DoIFollow;
 
     public UserModel(User user, bool isActiveTabKnowledge = false, bool isActiveTabBadges = false)
     {
@@ -51,5 +53,9 @@ public class UserModel : BaseModel
         ReputationRank = user.ReputationPos;
         ReputationTotal = reputation.TotalRepuation;
         Reputation = reputation;
+
+        UserIdProfile = user.Id;
+        var followerIAm = R<FollowerIAm>().Init(new List<int> { UserIdProfile }, UserId);
+        DoIFollow = followerIAm.Of(user.Id);
     }
 }
