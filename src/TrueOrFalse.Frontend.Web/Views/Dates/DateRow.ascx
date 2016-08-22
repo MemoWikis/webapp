@@ -101,17 +101,16 @@
 
             <div class="row">
                 <% if (!Model.IsNetworkDate){ %>
-                    <div class="col-xs-12" style="text-align: left">
-                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
-                            style="display: inline-block; margin-top: 29px; margin-right: 11px;">
-                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
-                            Spiel starten
-                        </a>
-                        
-                        <a style="display: inline-block;"
+                    <div class="col-xs-12" style="text-align: left; margin-top: 15px; margin-bottom: 10px;">
+                        <a style="display: inline-block;" class="btn btn-primary btn-sm"
                             data-btn="startLearningSession" 
                             href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
                             Jetzt üben
+                        </a>
+                        <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
+                            style="display: inline-block;">
+                            <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                            Spiel starten
                         </a>
                     </div>
                 <% } %>
