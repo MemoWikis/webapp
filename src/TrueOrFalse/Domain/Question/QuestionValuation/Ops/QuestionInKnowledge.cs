@@ -4,14 +4,14 @@ using TrueOrFalse;
 
 public static class QuestionInKnowledge
 {
-    public static void Pin(int setId, User user)
+    public static void Pin(int questionId, User user)
     {
-        UpdateRelevancePersonal(setId, user);
+        UpdateRelevancePersonal(questionId, user);
     }
 
-    public static void Unpin(int setId, User user)
+    public static void Unpin(int questionId, User user)
     {
-        UpdateRelevancePersonal(setId, user, -1);
+        UpdateRelevancePersonal(questionId, user, -1);
     }
 
     public static void Run(QuestionValuation questionValuation)
@@ -44,6 +44,8 @@ public static class QuestionInKnowledge
     {
         Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, user.Id, relevancePersonal: relevance);
 
+        SetUserWishCountQuestions(user);
+
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
@@ -52,6 +54,21 @@ public static class QuestionInKnowledge
 
         if(relevance != -1)
             Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, user.Id);
+    }
+
+    private static void SetUserWishCountQuestions(User user)
+    {
+        var query =
+            $@"
+            UPDATE user 
+            SET WishCountQuestions =
+                (SELECT count(id)
+                FROM QuestionValuation
+                WHERE userId = {user
+                .Id}
+                AND RelevancePersonal > 0) 
+            WHERE Id = {user.Id}";
+        Sl.Resolve<ISession>().CreateSQLQuery(query).ExecuteUpdate();
     }
 
     public static void UpdateRelevanceAll(int questionId, int userId, int relevance)
