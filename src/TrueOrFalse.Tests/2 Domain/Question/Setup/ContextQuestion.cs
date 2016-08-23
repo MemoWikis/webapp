@@ -108,9 +108,7 @@ namespace TrueOrFalse.Tests
         {
             var lastQuestion = All.Last();
             
-            Sl.R<QuestionValuationRepo>().Create(
-                new QuestionValuation { Question = lastQuestion, User = user, RelevancePersonal = 50 }
-            );
+            QuestionInKnowledge.Pin(lastQuestion.Id, user);
 
             return this;
         }
