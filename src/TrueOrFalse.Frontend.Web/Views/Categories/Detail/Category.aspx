@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
     Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="NHibernate.Properties" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
@@ -63,7 +64,7 @@
                 <% if(Model.AnswersTotal > 0) { %>
                     <div style="margin-top: 6px;">
                         In dieser Kategorie wurden
-                        <%= Model.AnswersTotal + "x Frage".Plural(Model.AnswersTotal, "n") %> beantwortet, 
+                        <%= Model.AnswersTotal + "x Frage" + StringUtils.Plural(Model.AnswersTotal, "n") %> beantwortet, 
                         davon <%= Model.CorrectnesProbability %>% richtig.
                     </div>
                 <% } %>                
@@ -111,17 +112,26 @@
                     </h4>
                 <%  } %>
             </div>
-            <% if(Model.CountQuestions > 0){ %>
-                <h4 style="margin-top: 0;">Fragen in dieser Kategorie (<%=Model.CountQuestions %>)</h4>
-                <% var index = 0; foreach(var question in Model.TopQuestions){ index++;%>
+            <h4 style="margin-top: 0;">Fragen in dieser Kategorie (<%= Model.CountQuestions %>)</h4>
+
+            <% if (Model.CountQuestions > 0)
+               { %>
+                <% var index = 0;
+                   foreach (var question in Model.TopQuestions)
+                   {
+                       index++; %>
                     <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
-                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
                 <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 18px; font-style: italic">
-                    <i class="fa fa-forward" style="color: #afd534;"></i> Alle <%: Model.CountQuestions %> Fragen dieser Kategorie zeigen
+                    <i class="fa fa-forward" style="color: #afd534;"></i> <%= StringUtils.Plural(Model.CountQuestions, "Alle ") %><%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
                 </a>
-            <% } %>
+            <% }
+               else{ %> 
+                Bisher gibt es keine Fragen in dieser Kategorie.
+            
+                <% } %>
             
             <% if(Model.CountReferences > 0) { %>
                 <h4 style="margin-top: 0;">Fragen mit dieser Kategorie als Referenz (<%=Model.CountReferences %>)</h4>

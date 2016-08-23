@@ -13,7 +13,7 @@
         <div class="MainContentUpper">
             <div class="TitleText" style="font-size: 20px">
                 <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
-                <span style="font-size: small;">(<%= Model.QuestionCount + " Frage".Plural(Model.QuestionCount, "n") %>)</span>
+                <span style="font-size: small;">(<%= Model.QuestionCount + " Frage" + StringUtils.Plural(Model.QuestionCount, "n") %>)</span>
                 <button class="btn btn-default btn-xs" type="button">Folgen</button>
             </div>
             

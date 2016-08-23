@@ -224,7 +224,7 @@
                             <a href="<%= Links.QuestionsWish() %>">
                                 <div>
                                     <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
-                                    <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %></span>
+                                    <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n") %></span>
                                 </div>
                             </a>
                         </div>
@@ -234,7 +234,7 @@
                             <a href="<%= Links.SetsWish() %>">
                                 <div>
                                     <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
-                                    &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz","sätze") %></span>
+                                    &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz") %></span>
                                 </div>
                             </a>
                         </div>

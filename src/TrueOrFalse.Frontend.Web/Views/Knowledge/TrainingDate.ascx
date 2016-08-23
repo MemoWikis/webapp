@@ -16,7 +16,7 @@
         Noch <%= Model.TimeSpanLabel.Full %>
     </div>
     <div class="col-md-6">
-        <%= Model.QuestionCount %> <%= "Frage".Plural(Model.QuestionCount, "n")%> 
+        <%= Model.QuestionCount %> <%= "Frage" + StringUtils.Plural(Model.QuestionCount, "n")%> 
     </div>
 </div>
 <div class="row" style="font-size: 12px; margin-bottom: 13px;">

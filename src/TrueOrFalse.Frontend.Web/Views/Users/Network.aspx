@@ -32,7 +32,7 @@
                 <div class="search-section">
     
                     <h4 style="margin-bottom: 15px; margin-top: 0px;">
-                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UsersIFollow.Count() %></span> Nutzer<%= StringUtils.Plural(Model.UsersIFollow.Count(),"n","","n") %></span>
+                        <span class="ColoredUnderline User">Du folgst <span class="JS-AmountFollowers"><%= Model.UsersIFollow.Count() %></span> Nutzer<%= StringUtils.Plural(Model.UsersIFollow.Count(),"n") %></span>
                     </h4>
                     
                     <% if(!Model.UsersIFollow.Any()){ %>
@@ -58,7 +58,7 @@
                     <div class="clearfix" style="width: 100%"></div>
 
                     <h4 style="margin-bottom: 15px; margin-top: 0px;" class="clearfix">
-                        <span class="ColoredUnderline User">Dir folg<%= StringUtils.Plural(Model.UsersFollowingMe.Count(),"en","t","en") %> <%= Model.UsersFollowingMe.Count() %> Nutzer</span>
+                        <span class="ColoredUnderline User">Dir folg<%= StringUtils.Plural(Model.UsersFollowingMe.Count(),"en","t") %> <%= Model.UsersFollowingMe.Count() %> Nutzer</span>
                     </h4>
                     
                     <% if (!Model.UsersFollowingMe.Any()){ %>

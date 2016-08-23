@@ -1,11 +1,15 @@
 ﻿public static class StringUtils
 {
 
-    public static string Plural(int amount, string pluralSuffix, string singularSuffix = "", string zeroSuffix = "")
+    public static string Plural(int numberItems, string pluralSuffix, string singularSuffix = "", string divergentZeroSuffix = null)
     {
-        if (amount > 1)
-            return pluralSuffix;
-        return amount == 0 ? zeroSuffix : singularSuffix;
+        if (numberItems == 1)
+            return singularSuffix;
+
+        if (numberItems == 0)
+            return divergentZeroSuffix ?? pluralSuffix;
+
+        return pluralSuffix;
     }
 
 }
