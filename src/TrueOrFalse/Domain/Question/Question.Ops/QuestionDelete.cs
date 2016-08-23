@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NHibernate;
 
 public class QuestionDelete
@@ -7,8 +8,13 @@ public class QuestionDelete
     {
         var questionRepo = Sl.R<QuestionRepo>();
         var question = questionRepo.GetById(questionId);
-
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(question.Creator.Id);
+
+        var canBeDeletedResult = CanBeDeleted(Sl.R<SessionUser>().UserId, questionId);
+        if (!canBeDeletedResult.Yes)
+        {
+            throw new Exception("Question cannot be deleted: " + canBeDeletedResult.IfNot_Reason);
+        }
 
         var categoriesToUpdate = question.Categories.ToList();
         //delete connected db-entries
