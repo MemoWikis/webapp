@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Mapping;
+﻿using System;
+using FluentNHibernate.Mapping;
 
 public class AnswerMap : ClassMap<Answer>
 {
@@ -15,8 +16,9 @@ public class AnswerMap : ClassMap<Answer>
 
         References(x => x.Round).Cascade.None();
         References(x => x.Player).Cascade.None();
-        References(x => x.LearningSessionStep).Cascade.None().Unique();
-
+        References(x => x.LearningSession).Cascade.None();
+        Map(x => x.LearningSessionStepGuidString).Column("LearningSessionStepGuid").CustomSqlType("varchar(36)").Unique();
+        
         HasManyToMany(x => x.Features).
             Table("answerFeature_to_answer");
 

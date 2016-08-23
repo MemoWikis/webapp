@@ -8,4 +8,6 @@
     public string AnswerGiven = "";
 
     public string CorrectAnswer = "";
+
+    public bool NewStepAdded;
 }

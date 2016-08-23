@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
@@ -133,6 +134,15 @@ public class AnswerRepo : RepositoryDb<Answer>
         //    ) a1
         //    ON a1.maxId = a2.Id";
         //return Session.CreateSQLQuery(query).List<Answer>();
+    }
+
+    public Answer GetByLearningSessionStepGuid(Guid learningSessionStepGuid)
+    {
+        return learningSessionStepGuid == default(Guid) 
+            ? null 
+            : _session.QueryOver<Answer>()
+                .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
+                .SingleOrDefault();
     }
 
     public override void Create(Answer answer)

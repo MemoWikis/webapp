@@ -34,18 +34,18 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    public ActionResult Learn(int learningSessionId, string learningSessionName, int stepNo, int skipStepId = -1)
+    public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
 
         if(learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
 
-        if (skipStepId != -1 && learningSession.Steps.Any(s => s.Id == skipStepId))
+        if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
         {
-            LearningSessionStep.Skip(skipStepId);
+            learningSession.SkipStep(skipStepIdx);
             return RedirectToAction("Learn", Links.AnswerQuestionController, 
-                new {learningSessionId, learningSessionName = learningSessionName, stepNo});
+                new { learningSessionId, learningSessionName = learningSessionName });
         }
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
@@ -53,11 +53,6 @@ public class AnswerQuestionController : BaseController
         if (currentLearningStepIdx == -1) //None of the steps is uncompleted
             return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
                 new { learningSessionId, learningSessionName = learningSessionName });
-
-        if (currentLearningStepIdx != stepNo - 1)//Correct url if stepNo is adjusted
-        {
-            return Redirect(Links.LearningSession(learningSession, currentLearningStepIdx));
-        }
 
         if (learningSession.IsDateSession)
         {
@@ -69,7 +64,7 @@ public class AnswerQuestionController : BaseController
                 if (trainingDate.IsExpired())
                 {
                     return RedirectToAction("StartLearningSession", Links.DatesController,
-                    new { trainingDate.TrainingPlan.Date.Id });
+                    new { dateId = trainingDate.TrainingPlan.Date.Id });
                 }
 
                 trainingDate.ExpiresAt =
@@ -81,9 +76,10 @@ public class AnswerQuestionController : BaseController
         _saveQuestionView.Run(
             learningSession.Steps[currentLearningStepIdx].Question,
             _sessionUser.User.Id,
-            learningSessionStep: learningSession.Steps[currentLearningStepIdx]);
+            learningSession: learningSession,
+            learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
 
-        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId), currentLearningStepIdx + 1));
+        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
     public ActionResult AnswerSet(int setId, int questionId)
@@ -205,9 +201,9 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswerLearningSession(int id, int stepId, string answer)
+    public JsonResult SendAnswerLearningSession(int id, int learningSessionId, Guid stepGuid, string answer)
     {
-        var result = _answerQuestion.Run(id, answer, UserId, stepId);
+        var result = _answerQuestion.Run(id, answer, UserId, learningSessionId, stepGuid);
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
@@ -219,7 +215,8 @@ public class AnswerQuestionController : BaseController
                 correctAnswer = result.CorrectAnswer,
                 choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ?
                     ((QuestionSolutionMultipleChoice)solution).Choices
-                    : null
+                    : null,
+                newStepAdded = result.NewStepAdded
             }
         };
     }

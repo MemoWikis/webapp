@@ -1,9 +1,8 @@
-﻿ class UserRowFollow
- {
-     constructor() {
+﻿class UserRowFollow
+{
+    constructor() {
 
         $("[data-type=btn-follow]").click(function() {
-
             if (NotLoggedIn.Yes()) {
                 NotLoggedIn.ShowErrorMsg(); return;
             }
@@ -20,7 +19,7 @@
                 parentSpinner.hide();
                 $this.parent().find("[data-type=btn-unfollow]").show();
 
-                UserRowFollow.UiIncreaseFollowerCount();
+                UserRowFollow.UiIncreaseFollowerCount(); //only necessary when called from UserRow.ascx (and not from User.aspx)
             });
         });
 
@@ -37,7 +36,7 @@
                 parentSpinner.hide();
                 $this.parent().find("[data-type=btn-follow]").show();
 
-                UserRowFollow.UiDecreaseFollowerCount();
+                UserRowFollow.UiDecreaseFollowerCount(); //only necessary when called from UserRow.ascx (and not from User.aspx)
             });
         });
     }

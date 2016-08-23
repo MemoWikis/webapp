@@ -79,7 +79,7 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
                     "WHERE UserId = " + userId + " ";
 
         if (onlyLearningSessions)
-            query += "AND LearningSessionStep_id is not null ";
+            query += "AND LearningSessionStepGuid is not null ";
 
         if(startHour != null && endHour != null)
             query +=

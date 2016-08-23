@@ -91,42 +91,28 @@ public class AnswerQuestionModel : BaseModel
     public bool IsLearningSession => LearningSession != null;
     public LearningSession LearningSession;
     public LearningSessionStep LearningSessionStep;
-    public int LearningSessionCurrentStepNo;
+    public int CurrentLearningStepIdx;
     public bool IsLastLearningStep = false;
 
     public AnswerQuestionModel()
     {
     }
 
-    public AnswerQuestionModel(LearningSession learningSession, int currentLearningStepNo = -1)
+    public AnswerQuestionModel(LearningSession learningSession)
     {
         LearningSession = learningSession;
 
-        LearningSessionCurrentStepNo = currentLearningStepNo == -1 
-            ? LearningSession.CurrentLearningStepIdx() + 1
-            : currentLearningStepNo;
+        CurrentLearningStepIdx = LearningSession.CurrentLearningStepIdx();
 
-        var currentLearningStepIdx = LearningSessionCurrentStepNo - 1;
+        LearningSessionStep = LearningSession.Steps[CurrentLearningStepIdx];
+        IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
-        LearningSessionStep = LearningSession.Steps[currentLearningStepIdx];
-        IsLastLearningStep = LearningSessionCurrentStepNo == LearningSession.Steps.Count();
+        NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
+            new {
+                learningSessionId = learningSession.Id,
+                learningSessionName = learningSession.UrlName
+            });
 
-        if (currentLearningStepIdx + 1 < learningSession.Steps.Count) { 
-            NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
-                new {
-                    learningSessionId = learningSession.Id,
-                    learningSessionName = learningSession.UrlName,
-                    stepNo = LearningSessionCurrentStepNo + 1
-                });
-        }
-        else if (currentLearningStepIdx + 1 == learningSession.Steps.Count())
-        {
-            NextUrl = url => url.Action("LearningSessionResult", Links.LearningSessionResultController,
-                new {
-                    learningSessionId = learningSession.Id,
-                    learningSessionName = learningSession.UrlName
-                });
-        }
         Populate(LearningSessionStep.Question);
     }
 

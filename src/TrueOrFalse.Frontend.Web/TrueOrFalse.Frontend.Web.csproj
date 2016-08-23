@@ -450,6 +450,7 @@
     <Content Include="Images\Logo\LogoSmall.png" />
     <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w100.png" />
+    <Content Include="Images\Logo\memucho_MEMO_angry_blau_w220.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w70.png" />
     <Content Include="Images\no-profile-picture-250.png" />
     <Content Include="Images\no-profile-picture-30.png" />
@@ -474,6 +475,7 @@
     <Content Include="mstile-310x310.png" />
     <Content Include="mstile-70x70.png" />
     <Content Include="safari-pinned-tab.svg" />
+    <Content Include="Scripts\guidedTour\bootstrap-tour.js" />
     <Content Include="Scripts\guidedTour\tourWelcome.js">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
@@ -494,6 +496,7 @@
     <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
     <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Beta\Video1.aspx" />
     <Content Include="Views\Dates\Js\DateRowCopy.js">
       <DependentUpon>DateRowCopy.ts</DependentUpon>
     </Content>
@@ -518,6 +521,9 @@
     </Content>
     <Content Include="Views\Sets\Detail\SetQuestionRowResult.ascx" />
     <Content Include="Views\Shared\UnpinSetModal.ascx" />
+    <Content Include="Views\Users\Detail\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Users\UserSearchResult.ascx" />
     <Content Include="Views\Sets\Edit\EditSet.css">
       <DependentUpon>EditSet.less</DependentUpon>
@@ -539,6 +545,9 @@
     </Content>
     <Content Include="Views\Welcome\Js\TourInit.js.map">
       <DependentUpon>TourInit.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
@@ -1398,9 +1407,11 @@
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
+    <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
     <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -1610,21 +1621,21 @@
       <DependentUpon>EditQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
-    <TypeScriptCompile Include="Scripts\QuestionRowDelete.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
     <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
     <Content Include="Views\Questions\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\QuestionRowDelete.js">
+    <Content Include="Views\Questions\Js\QuestionRowDelete.js">
       <DependentUpon>QuestionRowDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowSelection.js">
       <DependentUpon>QuestionRowSelection.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="Views\Questions\Js\ToQuestionSet.ts" />
-    <Content Include="Views\Shared\ModalDeleteQuestion.ascx" />
+    <Content Include="Views\Questions\Modals\ModalDeleteQuestion.ascx" />
     <Content Include="Views\Questions\Modals\ToQuestionSet.ascx" />
     <Content Include="Views\Questions\Js\Questions.js" />
     <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
@@ -1700,7 +1711,7 @@
     <Content Include="Views\Questions\Answer\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\QuestionRowDelete.js.map">
+    <Content Include="Views\Questions\Js\QuestionRowDelete.js.map">
       <DependentUpon>QuestionRowDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\Page.js.map">
@@ -1994,6 +2005,12 @@
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
     <Content Include="Views\Shared\Site.PureContent.Master" />
+    <Content Include="Views\Welcome\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

@@ -13,6 +13,8 @@ namespace TrueOrFalse
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
             routes.MapRoute("Login", "Anmelden", new { controller = "Welcome", action = "Login" });
+            routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Welcome", action = "IsUserNameAvailable" });
+            routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Welcome", action = "IsEmailAvailable" });
             routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
@@ -48,7 +50,7 @@ namespace TrueOrFalse
             routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
-            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}/{stepNo}", new { controller = "AnswerQuestion", action = "Learn", stepNo = UrlParameter.Optional });
+            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}", new { controller = "AnswerQuestion", action = "Learn" });
 
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });

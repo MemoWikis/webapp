@@ -103,7 +103,7 @@
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtEqualizedSpacingMaxMultiplier" style="width: 30px; height: 20px; font-size: 13px;" value="90" class="EqualizeSpacingOptions"/>
-                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Maximaler Multiplikator für Mindestabstand zwischen zwei Übungssitzungen (wird in unendlichem Abstand zum Termin erreicht). (Empfohlen: 90)"></i>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Maximaler Multiplikator für Mindestabstand zwischen zwei Übungssitzungen. Je größer die Zahl, desto größer der Mindestabstand. (Empfohlen: 90)"></i>
                             </div>
                         </div>                        
                         <div class="row" style="margin-top: 4px;">
@@ -118,7 +118,7 @@
                             </div>
                             <div class="col-md-2" style="padding-left: 0px">
                                 <input type="text" id="txtEqualizedSpacingDelayerDays" style="width: 30px; height: 20px; font-size: 13px;" value="180" class="EqualizeSpacingOptions"/>
-                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Gibt die Verzögerung für die Anpassung des Mindestabstands an. Nach soviel Tagen wird der Mindestabstand mit dem halben oben angegebenen Faktor multipliziert. (Empfohlen: 180)"></i>
+                                <i class="fa fa-question-circle show-tooltip" data-toggle="tooltip" title="Je kleiner die Zahl, desto länger ist der erhöhte Mindestabstand wirksam. (Genauer: Bei soviel Tagen Abstand zum Termin wird der Mindestabstand mit dem halben oben angegebenen Faktor multipliziert. Empfohlen: 180)"></i>
                             </div>
 
                         </div>                        
@@ -156,7 +156,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-md-12"><h4 class="ColoredUnderline Date">Terminvorschläge</h4></div>
+                    <div class="col-md-12"><h4 class="ColoredUnderline Date">Vorgeschlagene Übungssitzungen</h4></div>
                 </div>
                 
                 <div id="divTrainingPlanDetailsSpinner" class="row" style="display: none">
@@ -169,10 +169,7 @@
                 
                 <div id="divTrainingPlanDetails">
                     <div class="row" style="margin-top: 4px">
-                        <div class="col-md-8" style="">
-                            Bis Benachrichtigung
-                        </div>
-                        <div class="col-md-2">Vorher</div>
+                        <div class="col-md-offset-8 col-md-2">Vorher</div>
                         <div class="col-md-2">Nachher</div>
                     </div>
                     <div class="row">

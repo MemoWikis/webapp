@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 
-public class Answer : IPersistable, WithDateCreated
+public class Answer : IPersistable, WithDateCreated, IAnswered
 {
     public virtual int Id { get; set; }
     public virtual int UserId { get; set; }
@@ -13,7 +13,23 @@ public class Answer : IPersistable, WithDateCreated
 
     public virtual Player Player { get; set; }
 
-    public virtual LearningSessionStep LearningSessionStep { get; set; }
+    public virtual LearningSession LearningSession { get; set; }
+    public virtual Guid LearningSessionStepGuid { get; set; }
+
+    public virtual string LearningSessionStepGuidString
+    {
+        get { return LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString(); }
+        set
+        {
+            if (value == null)
+            {
+                LearningSessionStepGuid = Guid.Empty;
+                return;
+            }
+
+            LearningSessionStepGuid = new Guid(value);
+        }
+    }
 
     /// <summary>Duration</summary>
     public virtual int Milliseconds { get; set; }
@@ -31,4 +47,15 @@ public class Answer : IPersistable, WithDateCreated
         return AnswerredCorrectly == AnswerCorrectness.True 
             || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
     }
+
+    public virtual double GetAnswerOffsetInMinutes()
+    {
+        return (DateTimeX.Now() - DateCreated).TotalMinutes;
+    }
+}
+
+public interface IAnswered
+{
+    bool AnsweredCorrectly();
+    double GetAnswerOffsetInMinutes();
 }

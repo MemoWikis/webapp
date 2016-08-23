@@ -1,20 +1,59 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System;
+using Newtonsoft.Json;
+using Seedworks.Lib.Persistence;
 
-public class LearningSessionStep : DomainEntity, IRegisterAsInstancePerLifetime
+[JsonObject(MemberSerialization.OptIn)]
+public class LearningSessionStep
 {
-    public virtual int Idx { get; set; }
-    public virtual Question Question { get; set; }
-    public virtual Answer Answer { get; set; }
-    public virtual StepAnswerState AnswerState { get; set; }
+    [JsonProperty]
+    public Guid Guid;
 
-    public static void Skip(int stepId)
+    [JsonProperty]
+    public int Idx;
+
+    private Question _question;
+
+    public Question Question
     {
-        var stepRepo = Sl.Resolve<LearningSessionStepRepo>();
-        var stepToSkip = stepRepo.GetById(stepId);
-        if (stepToSkip != null && stepToSkip.AnswerState != StepAnswerState.Answered)
+        get
         {
-            stepToSkip.AnswerState = StepAnswerState.Skipped;
-            stepRepo.Update(stepToSkip);
+            if (_question != null)
+                return _question;
+
+            _question = Sl.R<QuestionRepo>().GetById(QuestionId);
+            QuestionId = _question?.Id ?? -1;
+            return _question;
+        }
+        set
+        {
+            _question = value;
+            QuestionId = _question.Id;
         }
     }
+
+    [JsonProperty]
+    public int QuestionId;
+
+    private Answer _answer;
+
+    public Answer Answer
+    {
+        get
+        {
+            if (_answer != null)
+                return _answer;
+
+            return Sl.R<AnswerRepo>().GetByLearningSessionStepGuid(Guid);
+        }
+        set
+        {
+            _answer = value;
+        }
+    }
+
+    [JsonProperty]
+    public StepAnswerState AnswerState { get; set; }
+
+    [JsonProperty]
+    public bool IsRepetition { get; set; }
 }

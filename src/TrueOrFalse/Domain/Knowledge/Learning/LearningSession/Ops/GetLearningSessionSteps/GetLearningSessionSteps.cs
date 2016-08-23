@@ -10,18 +10,12 @@ public class GetLearningSessionSteps
         return Run(allQuestions);
     }
 
-    public static IList<LearningSessionStep> Run(TrainingDate date)
+    public static IList<LearningSessionStep> Run(TrainingDate trainingDate)
     {
-        if (date != null)
-        {
-            return ComplementPreselectedSteps(
-                date.AllQuestionsInTraining
-                    .Select(q => new LearningSessionStep { Question = q.Question })
-                    .ToList());
-        }
-
-        var allQuestions = date.TrainingPlan.Date.Sets.SelectMany(s => s.Questions()).ToList();
-        return Run(allQuestions);
+        return ComplementPreselectedSteps(
+            trainingDate.AllQuestionsInTraining
+                .Select(q => new LearningSessionStep { Guid = Guid.NewGuid(), Question = q.Question })
+                .ToList());
     }
 
     public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10)
@@ -38,8 +32,6 @@ public class GetLearningSessionSteps
 
         foreach (var step in steps)
         {
-            step.DateCreated = DateTime.Now;
-            step.DateModified = DateTime.Now;
             step.Idx = idx;
             idx++;
         }
@@ -108,7 +100,7 @@ public class GetLearningSessionSteps
 
         return allQuestionsOrdered
             .Take(numberOfSteps)
-            .Select(q => new LearningSessionStep {Question = q})
+            .Select(q => new LearningSessionStep {Guid = Guid.NewGuid(), Question = q})
             .ToList();
     }
 }

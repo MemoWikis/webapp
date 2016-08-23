@@ -1,4 +1,6 @@
-﻿using NHibernate;
+﻿using System;
+using System.Linq;
+using NHibernate;
 
 public class LearningSessionRepo : RepositoryDbBase<LearningSession>
 {
@@ -12,5 +14,4 @@ public class LearningSessionRepo : RepositoryDbBase<LearningSession>
                 .SetParameter("setId", setId)
                 .ExecuteUpdate();
     }
-
 }

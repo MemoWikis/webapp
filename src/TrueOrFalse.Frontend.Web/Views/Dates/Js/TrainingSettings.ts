@@ -166,7 +166,6 @@
     }
 
     ToggleEqualizeSpacingOptions() {
-        //text inputs are not disabled; when greyed out, values can still be changed and trainingplan is newly generated, even though changes made in greyed out textboxes won't affect trainingplan
         if ($("#chkbxEqualizeSpacingBetweenSessions").prop("checked")) {
             $(".EqualizeSpacingOptions").css("opacity", "1");
             $("#txtEqualizedSpacingMaxMultiplier").prop("disabled", false);
@@ -252,8 +251,9 @@
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Datum');
         if (rowsAsArray.length > 0) {
-            for (var i = 1; i <= rowsAsArray[0].length - 1; i++) {
+            for (var i = 1; i <= (rowsAsArray[0].length - 1)/2; i++) {
                 data.addColumn('number', 'Übungssitzung ' + i);
+                data.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
             }
 
             for (var i = 0; i < rowsAsArray.length; i++) {
@@ -265,13 +265,14 @@
                 }
             }
         }
-
         data.addRows(rowsAsArray);
+        //console.log(rowsAsArray);
         
         var view = new google.visualization.DataView(data);
 
         var options = {
             title: "Übungssitzungen bis zum Termin",
+            tooltip: { isHtml: true },
             hAxis: {
                 title: "", 
                 format: "d.M." //alternative: format as string
@@ -287,8 +288,14 @@
         };
 
         var chart = new google.visualization.ColumnChart(document.getElementById("chartTrainingTime"));
+        google.visualization.events.addListener(chart, 'error', function (googleError) {
+            (google as any).visualization.errors.removeError(googleError.id);
+            if ((rowsAsArray.length != 1) && (rowsAsArray[0].length != 1)) {
+                console.log("Error displaying the chart:");
+                console.log(googleError);
+            } // else: TrainingDateStats have no data to display, so chart shouldn't be drawn
+        });
         chart.draw(view, options);
-
     }
 
     SelectLearningStrategyChange() {

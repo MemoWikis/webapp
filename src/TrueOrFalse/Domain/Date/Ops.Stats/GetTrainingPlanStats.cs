@@ -18,27 +18,27 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
         var tdByDay = trainingPlan.OpenDates.OrderBy(d => d.DateTime).GroupBy(t => t.DateTime.Date);
         var result = new TrainingPlanStatsResult();
 
-        var prevDay = DateTime.Now.Date;
+        var dayCounter = DateTime.Now.Date;
 
         foreach (var tdDay in tdByDay)
         {
-            prevDay = prevDay.AddDays(1);
-            while (prevDay < tdDay.First().DateTime.Date)
+            while (dayCounter < tdDay.First().DateTime.Date)
             {
-                result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(prevDay));
-                prevDay = prevDay.AddDays(1);
+                result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(dayCounter));
+                dayCounter = dayCounter.AddDays(1);
             }
             var resultPartial = new TrainingPlanStatsPerDayResult(tdDay.First().DateTime.Date);
-            tdDay.ToList().ForEach(d => resultPartial.QuestionsInEachSession.Add(d.AllQuestionsInTraining.Count()));
+            tdDay.ToList().ForEach(d => resultPartial.TrainingDates.Add(d));
 
-            if (resultPartial.QuestionsInEachSession.Count() > result.MaxNumberOfTrainingSessionsPerDay)
-                result.MaxNumberOfTrainingSessionsPerDay = resultPartial.QuestionsInEachSession.Count();
+            if (resultPartial.TrainingDates.Count() > result.MaxNumberOfTrainingSessionsPerDay)
+                result.MaxNumberOfTrainingSessionsPerDay = resultPartial.TrainingDates.Count();
             result.TrainingPlanStatsPerDay.Add(resultPartial);
+            dayCounter = dayCounter.AddDays(1);
         }
-        while (prevDay < trainingPlan.Date.DateTime.Date)
+        while (dayCounter <= trainingPlan.Date.DateTime.Date)
         {
-            prevDay = prevDay.AddDays(1);
-            result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(prevDay));
+            result.TrainingPlanStatsPerDay.Add(new TrainingPlanStatsPerDayResult(dayCounter));
+            dayCounter = dayCounter.AddDays(1);
         }
 
         return result;
@@ -48,17 +48,27 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
     {
         StringBuilder result = new StringBuilder();
         result.Append("[");
-        foreach (var tdDay in tpStatsResult.TrainingPlanStatsPerDay) //fill up IList with 0 until MaxNumberOTSPD
+        foreach (var tdDay in tpStatsResult.TrainingPlanStatsPerDay) 
         {
-            while (tdDay.TrainingSessionsCount < tpStatsResult.MaxNumberOfTrainingSessionsPerDay)
-                tdDay.QuestionsInEachSession.Add(0);
-            result.Append("[\"").Append(tdDay.Date.ToString("yyyy-MM-dd")).Append("\""); //this is formatted to be converted to JS date when handled; alternative: set string as it should be displayed (e.g.: "d.M.");
-            tdDay.QuestionsInEachSession.ToList().ForEach(n => result.Append(", ").Append(n));
+            var curTrainingSession = 1;
+            var orgTrainingDateCount = tdDay.TrainingDates.Count;
+            while (tdDay.TrainingSessionsCount < tpStatsResult.MaxNumberOfTrainingSessionsPerDay) //fill up IList with 0 until MaxNumberOTSPD
+                tdDay.TrainingDates.Add(new TrainingDate());
+            result.Append("[\"").Append(tdDay.Date.ToString("yyyy-MM-dd")).Append("\"");
+            tdDay.TrainingDates.ToList().ForEach(d =>
+            {
+                result.Append(", ")
+                    .Append(d.AllQuestionsInTraining.Count)
+                    .Append(", \"<p style='margin: 5px; text-align: center;'><b>" + d.AllQuestionsInTraining.Count + " Fragen</b><br/>"+
+                            "<span style='white-space: nowrap'>Übungssitzung " + curTrainingSession + " von "+ orgTrainingDateCount + "</span><br/>"+
+                            "<span style='white-space: nowrap'>am " + d.DateTime.ToString("dd.MM. 'um' HH:mm") + "</span></p>\"");
+                curTrainingSession++;
+            });
             result.Append(" ],");
         }
         result.Length--; //remove last trailing comma
         result.Append("]");
 
-        return result.ToString(); //should look like this: "[[\"1.5.\", 12, 9],[\"2.5.\", 3, 4],[\"3.5.\", 6, 8]]";
+        return result.ToString(); //should look like this: "[[\"1.5.\", 12, \"tooltip for previous number\", 9, \"tooltip for previous number\"],[\"2.5.\", 3, \"tooltip for previous number\", 4, \"tooltip for previous number\"]]";
     }
 }

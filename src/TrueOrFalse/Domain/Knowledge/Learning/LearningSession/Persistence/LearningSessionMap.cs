@@ -6,8 +6,7 @@ public class LearningSessionMap : ClassMap<LearningSession>
     {
         Id(x => x.Id);
 
-        HasMany(x => x.Steps)
-            .Cascade.SaveUpdate().OrderBy("Id");
+        Map(x => x.StepsJson).CustomSqlType("varchar(8000)");
 
         References(x => x.User);
 

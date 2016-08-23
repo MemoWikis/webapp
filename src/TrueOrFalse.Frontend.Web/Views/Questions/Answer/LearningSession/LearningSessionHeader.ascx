@@ -6,10 +6,10 @@
 
     <div class="well" style="background-color: transparent;">
         Du lernst 
-        <% if (Model.LearningSession.Steps.Count() == Model.LearningSession.TotalPossibleQuestions){ %>
+        <% if (Model.LearningSession.Questions().Count() == Model.LearningSession.TotalPossibleQuestions){ %>
             alle
         <% }else { %>
-            <%= Model.LearningSession.Steps.Count() %> von 
+            <%= Model.LearningSession.Questions().Count() %> von 
         <% } %>
         
         <% if(Model.LearningSession.IsSetSession) { %>
@@ -24,6 +24,6 @@
             <%= Model.LearningSession.TotalPossibleQuestions %> Fragen 
             aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
         <% } %>
-        <br/>Frage <%= Model.LearningSessionCurrentStepNo %> von <%= Model.LearningSession.Steps.Count() %>        
+        <br/>Abfrage <%= Model.CurrentLearningStepIdx + 1 %> von <%= Model.LearningSession.Steps.Count() %>        
     </div>
 </div>

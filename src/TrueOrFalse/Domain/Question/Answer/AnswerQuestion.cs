@@ -5,15 +5,11 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionRepo _questionRepo;
     private readonly AnswerLog _answerLog;
-    private readonly LearningSessionStepRepo _learningSessionStepRepo;
 
-    public AnswerQuestion(QuestionRepo questionRepo, 
-                          AnswerLog answerLog, 
-                          LearningSessionStepRepo learningSessionStepRepo)
+    public AnswerQuestion(QuestionRepo questionRepo, AnswerLog answerLog)
     {
         _questionRepo = questionRepo;
         _answerLog = answerLog;
-        _learningSessionStepRepo = learningSessionStepRepo;
     }
 
     public AnswerQuestionResult Run(
@@ -35,18 +31,31 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        int questionId,
        string answer,
        int userId,
-       int stepId,
+       int learningSessionId,
+       Guid stepGuid,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
-        var learningSessionStep = _learningSessionStepRepo.GetById(stepId);
+        var learningSessionRepo = Sl.R<LearningSessionRepo>();
+        var learningSession = learningSessionRepo.GetById(learningSessionId);
+        var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
 
-        return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerLog.Run(question, answerQuestionResult, userId, learningSessionStep: learningSessionStep, dateCreated: dateCreated);
-            
+        var numberOfStepsBeforeAnswer = learningSession.Steps.Count;
+
+        var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
+        {
+            _answerLog.Run(question, answerQuestionResult, userId, learningSession: learningSession, learningSessionStepGuid: learningSessionStep.Guid, dateCreated: dateCreated);
+
             learningSessionStep.AnswerState = StepAnswerState.Answered;
-            _learningSessionStepRepo.Update(learningSessionStep);
+            learningSessionRepo.Update(learningSession);
 
+            if (!answerQuestionResult.IsCorrect)
+            {
+                learningSession.UpdateAfterWrongAnswer(learningSessionStep);
+                answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
+            }
         });
+
+        return result;
     }
 
     public AnswerQuestionResult Run(

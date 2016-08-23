@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NHibernate.Util;
 
 public class DatesModel : BaseModel
 {
@@ -6,6 +7,8 @@ public class DatesModel : BaseModel
     public IList<Date> DatesInNetwork = new List<Date>();
 
     public bool HasPreviousDates = false;
+
+    public bool IsFollowingAnyUsers = false;
 
     public DatesModel()
     {
@@ -15,7 +18,9 @@ public class DatesModel : BaseModel
         var dateRepo = R<DateRepo>();
 
         HasPreviousDates = dateRepo.AmountOfPreviousItems(UserId) > 0;
-        
+
+        IsFollowingAnyUsers = R<TotalIFollow>().Run(UserId) > 0;
+
         Dates = dateRepo.GetBy(UserId, onlyUpcoming: true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
     }

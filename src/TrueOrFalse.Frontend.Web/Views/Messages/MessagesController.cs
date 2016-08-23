@@ -15,13 +15,14 @@ public class MessagesController : BaseController
                     Subject = "Hallo Unbekannte(r)!",
                     Body = @"<p>
                                 schön, dass du bei uns vorbeischaust. 
-                                Eigentlich gibt es hier nichts zu sehen, 
-                                wenn du nicht angemeldet bist.
+                                Du bist nicht angemeldet, daher gibt es hier eigentlich nichts zu sehen.
+                                <a href=" + Url.Action("Login", "Welcome") + @"><i class='fa fa-sign-in'></i>&nbsp;Melde dich am besten gleich an</a> oder 
+                                <a href=" + Url.Action("Register", "Welcome") + @"><i class='fa fa-user-plus'></i>&nbsp;registriere dich</a> als neuer Benutzer, es dauert nur wenige Sekunden.
                             </p>
                             <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>
                             <p>
-                                Viele Grüße<br>
-                                Jule & Robert
+                                Viele Grüße,<br>
+                                Christof, Jule & Robert
                             </p>",
                     DateCreated = DateTime.Now,
                     IsRead = false

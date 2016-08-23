@@ -83,10 +83,10 @@
             <div class="TableRow">
                 <div class="DescrLeft">Gelernt:</div>
                 <div class="DescrRight">
-                    <%= Model.TotalNumberSteps %>
+                    <%= Model.NumberQuestions %>
                     von
                     <%= Model.LearningSession.TotalPossibleQuestions %>
-                    <%= Language.SingularPlural(Model.TotalNumberSteps, "Frage", "Fragen") %>
+                    <%= Language.SingularPlural(Model.NumberQuestions, "Frage", "Fragen") %>
                     <% if(Model.LearningSession.IsSetSession) { %>
                         aus dem Fragesatz
                         <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">

@@ -116,9 +116,13 @@ public class TrainingPlan : DomainEntity
 
     public virtual void CompleteUnfinishedSessions()
     {
-        PastDates.Where(d => d.LearningSession != null 
-                        && !d.LearningSession.IsCompleted 
-                        && d.IsExpired())
+        Dates.Where(d => d.LearningSession != null 
+                        && !d.LearningSession.IsCompleted)
                 .ForEach(d => d.LearningSession.CompleteSession());
     }
+
+    public static decimal AvgRepetitionsPerTraingDate = 2;
+
+    public virtual int GetSumOfRepetitions() => 
+        (int)Dates.Sum(d => d.AllQuestionsInTraining.Count * AvgRepetitionsPerTraingDate);
 }

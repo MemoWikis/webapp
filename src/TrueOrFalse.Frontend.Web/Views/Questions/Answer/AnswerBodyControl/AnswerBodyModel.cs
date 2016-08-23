@@ -40,7 +40,7 @@ public class AnswerBodyModel : BaseModel
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
 
-        if (player != null)
+        if (player != null) 
         {
             AjaxUrl_SendAnswer = url => Links.SendAnswer(url, question, game, player, round);
             AjaxUrl_GetSolution = url => Links.GetSolution(url, question, round);
@@ -69,7 +69,8 @@ public class AnswerBodyModel : BaseModel
         {
             AjaxUrl_SendAnswer = url => Links.SendAnswer(
                 url, 
-                answerQuestionModel.Question, 
+                answerQuestionModel.Question,
+                answerQuestionModel.LearningSession,
                 answerQuestionModel.LearningSessionStep);
 
             IsLastLearningStep = answerQuestionModel.IsLastLearningStep;
