@@ -1,4 +1,6 @@
-﻿public static class StringExtensions
+﻿using System.Text.RegularExpressions;
+
+public static class StringExtensions
 {
     public static bool StartsAndEndsWith(this string input, string searchTerm)
     {
@@ -37,5 +39,10 @@
             .Replace("\r\n", "<br>")
             .Replace("\n", "<br>")
             .Replace("\r", "<br>");
+    }
+
+    public static string TrimAndReplaceWhitespacesWithSingleSpace(this string stringToTrim)
+    {
+        return Regex.Replace(stringToTrim, @"\s+", " ").Trim();
     }
 }

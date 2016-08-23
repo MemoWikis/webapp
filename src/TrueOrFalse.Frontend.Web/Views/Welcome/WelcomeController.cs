@@ -39,7 +39,7 @@ public class WelcomeController : BaseController
     {
 
         if (!IsEmailAddressAvailable.Yes(model.Email))
-            ModelState.AddModelError("Email", "Die Emailadresse ist bereits vergeben.");
+            ModelState.AddModelError("Email", "Diese Emailadresse ist bereits registriert.");
 
         if (!ModelState.IsValid)
             return View(model);
@@ -62,13 +62,13 @@ public class WelcomeController : BaseController
     [HttpPost]
     public JsonResult IsUserNameAvailable(string selectedName)
     {
-        return new JsonResult {Data = new { isAvailable = R<UserRepo>().GetByName(selectedName) == null}};
+        return new JsonResult {Data = new { isAvailable = global::IsUserNameAvailable.Yes(selectedName) } };
     }
 
     [HttpPost]
     public JsonResult IsEmailAvailable(string selectedEmail)
     {
-        return new JsonResult { Data = new { isAvailable = R<UserRepo>().GetByEmail(selectedEmail) == null } };
+        return new JsonResult { Data = new { isAvailable = IsEmailAddressAvailable.Yes(selectedEmail) } };
     }
 
     [HttpPost]
