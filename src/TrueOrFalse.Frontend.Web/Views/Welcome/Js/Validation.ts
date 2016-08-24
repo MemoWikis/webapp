@@ -1,8 +1,8 @@
 ﻿//If changed, please change server side backup validation as well
 
 fnAddRegExMethod("Email", /.+@.+\..+/, "Bitte gib eine gültige Emailadresse an.");
-fnAddRegExMethod("UserName", /^[A-Z0-9\u00e4\u00f6\u00fc\u00df _-]*$/i, "Bitte verwende nur Buchstaben (ohne Akzente etc.), Zahlen, Bindestrich, Unterstrich und Leerzeichen.");
-fnAddRegExMethod("UserName2", /[A-Z].*[A-Z]/i, "Bitte verwende mindestens 2 Buchstaben.");
+fnAddRegExMethod("UserName", /^[A-Z\u00e4\u00f6\u00fc\u00df0-9 _-]*$/i, "Bitte verwende nur Buchstaben (ohne Akzente etc.), Zahlen, Bindestrich, Unterstrich und Leerzeichen.");
+fnAddRegExMethod("UserName2", /[A-Z\u00e4\u00f6\u00fc\u00df].*[A-Z\u00e4\u00f6\u00fc\u00df]/i, "Bitte verwende mindestens 2 Buchstaben.");
 fnAddRegExMethod("UserName3", /^[^_-].*[^_-]$/, "Bitte verwende keinen Bindestrich oder Unterstrich am Anfang oder am Ende.");
 
 
