@@ -19,7 +19,9 @@
             <fieldset>
                 <legend>Registriere dich</legend>
 
-                <%--<% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben"); %>--%>
+                <% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben"); %>
+                <% Html.ValidationMessage("Email"); %>
+                <% Html.ValidationMessage("Name"); %>
                 
                 <div class="alert alert-info">
                     <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst memucho nutzen :-)
@@ -36,7 +38,7 @@
                     <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" }) %>
                     <div class="col-sm-5">
                         <%: Html.TextBoxFor(model => model.Name, new { @class="form-control" }) %>
-                        <%--<%: Html.ValidationMessageFor(model => model.Name) %>--%>
+                        <%: Html.ValidationMessageFor(model => model.Name) %>
                     </div>
                 </div>
                 
@@ -44,7 +46,7 @@
                     <%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" }) %>
                     <div class="col-sm-5">
                         <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
-                        <%--<%: Html.ValidationMessageFor(model => model.Email) %>--%>
+                        <%: Html.ValidationMessageFor(model => model.Email) %>
                     </div>
                 </div>
 
@@ -52,7 +54,7 @@
                     <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" }) %>
                     <div class="col-sm-5">
                         <%: Html.PasswordFor(model => model.Password, new { @class="form-control" }) %>
-                        <%--<%: Html.ValidationMessageFor(model => model.Password) %>--%>
+                        <%: Html.ValidationMessageFor(model => model.Password) %>
                     </div>
                 </div>
 
@@ -62,7 +64,7 @@
                             <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved, new { @class="" }) %>
                             Ich akzeptiere die <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%>.
                         </label>
-                        <%--<%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>--%>
+                        <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
                     </div>
                 </div>
                 

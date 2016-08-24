@@ -41,6 +41,9 @@ public class WelcomeController : BaseController
         if (!IsEmailAddressAvailable.Yes(model.Email))
             ModelState.AddModelError("Email", "Diese Emailadresse ist bereits registriert.");
 
+        if (!global::IsUserNameAvailable.Yes(model.Name))
+            ModelState.AddModelError("Name", "Dieser Benutzername ist bereits vergeben.");
+
         if (!ModelState.IsValid)
             return View(model);
 

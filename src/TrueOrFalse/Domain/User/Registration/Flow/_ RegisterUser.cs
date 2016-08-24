@@ -28,6 +28,9 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
                 throw new Exception("There is already a user with that email address.");
 
+            if (!IsUserNameAvailable.Yes(user.Name))
+                throw new Exception("There is already a user with that name.");
+
             _userRepo.Create(user);
                 
             transaction.Commit();
