@@ -4,7 +4,7 @@ using System.Web.Hosting;
 using Seedworks.Web.State;
 using TrueOrFalse.Infrastructure;
 
-public class AsyncExe
+public static class AsyncExe
 {
     public static void Run(Action action, bool withAutofac = false)
     {

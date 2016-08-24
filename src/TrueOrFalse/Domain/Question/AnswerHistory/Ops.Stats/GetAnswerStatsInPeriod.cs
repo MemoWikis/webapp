@@ -12,38 +12,45 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
     }
 
     public GetAnswerStatsInPeriodResult RunForThisWeek(int userId){
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfThisWeek(), DateTime.Now)[0];
     }
 
     public GetAnswerStatsInPeriodResult RunForThisMonth(int userId){
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfThisMonth(), DateTime.Now)[0];
     }
 
     public GetAnswerStatsInPeriodResult RunForThisYear(int userId){
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfThisYear(), DateTime.Now)[0];
     }
 
     public GetAnswerStatsInPeriodResult RunForLastWeek(int userId){
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfLastWeek(), DateTimeUtils.FirstDayOfThisWeek())[0];
     }
 
     public GetAnswerStatsInPeriodResult RunForLastMonth(int userId){
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfLastMonth(), DateTimeUtils.FirstDayOfThisMonth())[0];
     }
 
     public GetAnswerStatsInPeriodResult RunForLastYear(int userId){
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfLastYear(), DateTimeUtils.FirstDayOfThisYear())[0];
     }
 
     public GetAnswerStatsInPeriodResult Run(int userId)
     {
+        //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, null, null)[0];
     }
 
     public IList<GetAnswerStatsInPeriodResult> GetLast30Days(int userId)
     {
         var result = new List<GetAnswerStatsInPeriodResult>();
-        var rowsFromDb = Run(userId, DateTime.Now.AddDays(-30).Date, DateTime.Now, groupByDate: true);
+        var rowsFromDb = Run(userId, DateTime.Now.AddDays(-30).Date, DateTime.Now, groupByDate: true, excludeAnswerViews: true);
         for (var i = 1; i <= 30; i++)
         {
             var entryDate = DateTime.Now.AddDays(-(30 - i)).Date;
@@ -69,7 +76,8 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         bool groupByDate = false,
         bool onlyLearningSessions = false,
         int? startHour = null,
-        int? endHour = null)
+        int? endHour = null,
+        bool excludeAnswerViews = false)
     {
         var query = "SELECT " +
                     " COUNT(ah) as total," +
@@ -77,6 +85,9 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
                     " Date(DateCreated) " +
                     "FROM Answer ah " +
                     "WHERE UserId = " + userId + " ";
+
+        if (excludeAnswerViews)
+            query += "AND AnswerredCorrectly != 3 ";
 
         if (onlyLearningSessions)
             query += "AND LearningSessionStepGuid is not null ";

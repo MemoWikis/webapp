@@ -1,17 +1,19 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using NHibernate;
+using Seedworks.Web.State;
 using TrueOrFalse;
 
 public static class QuestionInKnowledge
 {
-    public static void Pin(int setId, User user)
+    public static void Pin(int questionId, User user)
     {
-        UpdateRelevancePersonal(setId, user);
+        UpdateRelevancePersonal(questionId, user);
     }
 
-    public static void Unpin(int setId, User user)
+    public static void Unpin(int questionId, User user)
     {
-        UpdateRelevancePersonal(setId, user, -1);
+        UpdateRelevancePersonal(questionId, user, -1);
     }
 
     public static void Run(QuestionValuation questionValuation)
@@ -33,7 +35,7 @@ public static class QuestionInKnowledge
 
     public static void UpdateQuality(int questionId, int userId, int quality)
     {
-        Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, userId, quality: quality);
+        CreateOrUpdateQuestionValue(questionId, userId, quality: quality);
 
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateQualityQuery(questionId)).ExecuteUpdate();
@@ -42,21 +44,41 @@ public static class QuestionInKnowledge
 
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
-        Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, user.Id, relevancePersonal: relevance);
+        CreateOrUpdateQuestionValue(questionId, user.Id, relevancePersonal: relevance);
+
+        SetUserWishCountQuestions(user);
 
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
 
-        AsyncExe.Run(()=> { Sl.R<ReputationUpdate>().ForQuestion(questionId); });
-
-        if(relevance != -1)
+        if(ContextUtil.IsWebContext)
+            AsyncExe.Run(() => { Sl.R<ReputationUpdate>().ForQuestion(questionId);});
+        else
+            Sl.R<ReputationUpdate>().ForQuestion(questionId);
+    
+        if (relevance != -1)
             Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, user.Id);
+    }
+
+    private static void SetUserWishCountQuestions(User user)
+    {
+        var query =
+            $@"
+            UPDATE user 
+            SET WishCountQuestions =
+                (SELECT count(id)
+                FROM QuestionValuation
+                WHERE userId = {user
+                .Id}
+                AND RelevancePersonal > 0) 
+            WHERE Id = {user.Id}";
+        Sl.Resolve<ISession>().CreateSQLQuery(query).ExecuteUpdate();
     }
 
     public static void UpdateRelevanceAll(int questionId, int userId, int relevance)
     {
-        Sl.R<CreateOrUpdateQuestionValue>().Run(questionId, userId, relevanceForAll: relevance);
+        CreateOrUpdateQuestionValue(questionId, userId, relevanceForAll: relevance);
 
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateRelevanceAllQuery(questionId)).ExecuteUpdate();
@@ -98,5 +120,38 @@ public static class QuestionInKnowledge
                     "(SELECT COUNT(Id) FROM QuestionValuation " +
                     "WHERE QuestionId = " + questionId + " AND " + fieldSource + " != -1) " +
                 "WHERE Id = " + questionId + ";";
+    }
+
+    private static void CreateOrUpdateQuestionValue(int questionId,
+                    int userId,
+                    int quality = -2,
+                    int relevancePersonal = -2,
+                    int relevanceForAll = -2)
+    {
+        QuestionValuationRepo questionValuationRepo = Sl.R<QuestionValuationRepo>();
+        var questionValuation = questionValuationRepo.GetBy(questionId, userId);
+
+        if (questionValuation == null)
+        {
+            var newQuestionVal = new QuestionValuation
+            {
+                Question = Sl.R<QuestionRepo>().GetById(questionId),
+                User = Sl.R<UserRepo>().GetById(userId),
+                Quality = quality,
+                RelevancePersonal = relevancePersonal,
+                RelevanceForAll = relevanceForAll
+            };
+
+            questionValuationRepo.Create(newQuestionVal);
+        }
+        else
+        {
+            if (quality != -2) questionValuation.Quality = quality;
+            if (relevancePersonal != -2) questionValuation.RelevancePersonal = relevancePersonal;
+            if (relevanceForAll != -2) questionValuation.RelevanceForAll = relevanceForAll;
+
+            questionValuationRepo.Update(questionValuation);
+        }
+        questionValuationRepo.Flush();
     }
 }
