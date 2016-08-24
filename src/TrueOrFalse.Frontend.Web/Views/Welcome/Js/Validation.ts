@@ -1,11 +1,20 @@
-﻿fnAddRegExMethod("Email", /.+@.+\..+/, "Bitte gib eine gültige Emailadresse an.");
+﻿//If changed, please change server side backup validation as well
+
+fnAddRegExMethod("Email", /.+@.+\..+/, "Bitte gib eine gültige Emailadresse an.");
+fnAddRegExMethod("UserName", /^[A-Z0-9\u00e4\u00f6\u00fc\u00df _-]*$/i, "Bitte verwende nur Buchstaben (ohne Akzente etc.), Zahlen, Bindestrich, Unterstrich und Leerzeichen.");
+fnAddRegExMethod("UserName2", /[A-Z].*[A-Z]/i, "Bitte verwende mindestens 2 Buchstaben.");
+fnAddRegExMethod("UserName3", /^[^_-].*[^_-]$/, "Bitte verwende keinen Bindestrich oder Unterstrich am Anfang oder am Ende.");
+
 
 var validationSettingsRegistration = {
     rules: {
         Name: {
             required: true,
-            minlength: 4,
+            minlength: 2,
             maxlength: 40,
+            UserName: true,
+            UserName2: true,
+            UserName3: true,
             remote: {
                 url: "/Registrieren/IsUserNameAvailable",
                 type: "post",
