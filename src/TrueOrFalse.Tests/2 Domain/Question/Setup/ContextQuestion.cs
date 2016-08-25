@@ -51,10 +51,10 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddQuestions(int amount)
+        public ContextQuestion AddQuestions(int amount, User creator = null)
         {
             for (var i = 0; i < amount; i++)
-                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + 1);
+                AddQuestion(questionText: "Question" + i, solutionText: "Solution" + i, creator: creator);
 
             return this;
         }
