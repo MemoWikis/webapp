@@ -72,7 +72,94 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
     <h2>Lernen: Dein Ergebnis</h2>
-    <div style="margin-top: 20px; margin-bottom: 20px;">
+    
+    <style>
+        .chart-container { 
+            display: table;
+            width: 100%
+        }
+        .chart2 {
+            display: table-cell; /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+            text-align: center;
+            overflow: hidden;
+            height: 40px;
+            vertical-align: middle;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-sm-9 xxs-stack">
+<%--            <div class="chart-container" style="margin-top: 10px;">
+                <div class="chart2 chartCorrectAnswer" style="width: 15%; background-color: yellowgreen">15%</div>
+                <div class="chart2 chartCorrectAnswer" style="width: 1%; background-color: yellow">1%</div>
+                <div class="chart2 chartCorrectAnswer" style="width: 70%; background-color: red">70%</div>
+                <div class="chart2 chartCorrectAnswer" style="width: 14%; background-color: silver">14%</div>
+            </div>--%>
+            <div class="chart-container" style="margin: 10px 0;">
+                <div class="chart2 chartCorrectAnswer" style="width: <%=Model.NumberCorrectPercentage %>%; background-color: yellowgreen">
+                    <% if (Model.NumberCorrectPercentage>0) {%> <%=Model.NumberCorrectPercentage %> <%} %>
+                </div>
+                <div class="chart2 chartCorrectAnswer" style="width: <%=Model.NumberCorrectAfterRepetitionPercentage %>%; background-color: yellow">
+                    <% if (Model.NumberCorrectAfterRepetitionPercentage>0) {%> <%=Model.NumberCorrectAfterRepetitionPercentage %> <%} %>
+                </div>
+                <div class="chart2 chartCorrectAnswer" style="width: <%=Model.NumberWrongAnswersPercentage %>%; background-color: red">
+                    <% if (Model.NumberWrongAnswersPercentage>0) {%> <%=Model.NumberWrongAnswersPercentage %> <%} %>
+                </div>
+                <div class="chart2 chartCorrectAnswer" style="width: <%=Model.NumberNotAnsweredPercentage %>%; background-color: silver">
+                    <% if (Model.NumberNotAnsweredPercentage>0) {%> <%=Model.NumberNotAnsweredPercentage %> <%} %>
+                </div>
+            </div>
+
+            <div class="" style="clear: left;">
+                In dieser Übungssitzung hast du <%= Model.NumberQuestions %> Fragen gelernt und dabei
+                <div class="row">
+                    <div class="col-xs-2" style="text-align: right; padding-right: 0;"><%=Model.NumberCorrectPercentage %>%</div>
+                    <div class="col-xs-10" style="text-align: left;">beim 1. Versuch gewusst (<%=Model.NumberCorrectAnswers %> Fragen)</div>
+                    <div class="col-xs-2" style="text-align: right; padding-right: 0;"><%=Model.NumberCorrectAfterRepetitionPercentage %>%</div>
+                    <div class="col-xs-10" style="text-align: left;">beim 2. oder 3. Versuch gewusst (<%=Model.NumberCorrectAfterRepetitionAnswers %> Fragen)</div>
+                    <div class="col-xs-2" style="text-align: right; padding-right: 0;"><%=Model.NumberWrongAnswersPercentage %>%</div>
+                    <div class="col-xs-10" style="text-align: left;">nicht gewusst (<%=Model.NumberWrongAnswers %> Fragen)</div>
+                    <div class="col-xs-2" style="text-align: right; padding-right: 0;"><%=Model.NumberNotAnsweredPercentage %>%</div>
+                    <div class="col-xs-10" style="text-align: left;">übersprungen (<%=Model.NumberNotAnswered %> Fragen)</div>
+                </div>
+            </div>
+            <div class="" style="margin-top: 20px; text-align: right;">
+                <% if(Model.LearningSession.IsDateSession) { %>
+                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin beginnen">
+                        Neue Lernsitzung
+                    </a>
+                    <a href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
+                        Zum Überblick
+                    </a>
+                <% } else if (Model.LearningSession.IsSetSession) { %>
+                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
+                    <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
+                        Neue Lernsitzung
+                    </a>
+                <% } else {
+                    throw new Exception("buttons for this type of learning session not specified");
+                } %>
+            </div>
+
+            <div id="detailedAnswerAnalysis">
+                
+            </div>
+
+        </div>
+
+        <div class="col-sm-3 xxs-stack">
+            Du hast zu diesem Termin/Fragesatz gelernt:
+            [Zur Terminübersicht]
+            [Knowledge-Chart]
+        </div>
+    </div>
+
+    
+    
+    
+    
+
+    <div style="margin-top: 200px; margin-bottom: 20px;">
         <% if (Model.LearningSession.IsDateSession)
            { %>
             <% Html.RenderPartial("~/Views/Dates/DateRow.ascx", new DateRowModel(Model.LearningSession.DateToLearn, hideEditPlanButton: true));

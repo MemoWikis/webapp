@@ -8,10 +8,12 @@ public class LearningSessionResultModel : BaseModel
     public LearningSession LearningSession;
     public int NumberSteps;
     public int NumberQuestions;
-    public int NumberCorrectAnswers;
+    public int NumberCorrectAnswers; //answered correctly at first try
+    public int NumberCorrectAfterRepetitionAnswers; 
     public int NumberWrongAnswers;
     public int NumberNotAnswered;
     public int NumberCorrectPercentage;
+    public int NumberCorrectAfterRepetitionPercentage;
     public int NumberWrongAnswersPercentage;
     public int NumberNotAnsweredPercentage;
 
