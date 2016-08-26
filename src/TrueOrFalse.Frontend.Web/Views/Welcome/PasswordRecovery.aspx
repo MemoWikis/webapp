@@ -1,9 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<PasswordRecoveryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+    <%= Scripts.Render("~/Views/Welcome/Js/ValidationPasswordRecovery.js") %>
+</asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<% using (Html.BeginForm()) { %>
+<% using (Html.BeginForm("PasswordRecovery", "Welcome", null, FormMethod.Post, new { id = "PasswordRecoveryForm", enctype = "multipart/form-data" })) { %>
     
     <div class="row" style="padding-top:30px;">
         <div class="BackToHome col-md-3">
@@ -13,8 +18,6 @@
             <fieldset>
                 <legend>Ein neues Passwort setzen</legend>
 
-                <% Html.ValidationSummary(true, "Bitte überprüfe Deine Angaben");  %>
-                                
                 <div class="alert alert-info">
                     Gib hier die Email-Adresse an, mit der du dich angemeldet hast. 
                     Wir schicken dir einen Link, mit dem du dir ein neues Passwort setzen kannst.
