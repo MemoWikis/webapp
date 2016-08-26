@@ -546,6 +546,9 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordRecovery.js.map">
       <DependentUpon>ValidationPasswordRecovery.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Js\ValidationPasswordReset.js">
+      <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Welcome\Welcome.css">
       <DependentUpon>Welcome.less</DependentUpon>
     </Content>
@@ -1402,6 +1405,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />

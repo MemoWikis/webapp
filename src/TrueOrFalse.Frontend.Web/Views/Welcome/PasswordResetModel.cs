@@ -7,6 +7,7 @@ public class PasswordResetModel
     public UIMessage Message;
 
     [Required(ErrorMessage = "* Pflichtfeld")]
+    [StringLength(40, MinimumLength = 5, ErrorMessage = "Mindestens 5 Zeichen und maximal 40 Zeichen.")]
     [DisplayName("Neues Password")]
     public string NewPassword1 { get; set; }
 

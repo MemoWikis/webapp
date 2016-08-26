@@ -1,9 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<PasswordResetModel>" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+    <%= Scripts.Render("~/Views/Welcome/Js/ValidationPasswordReset.js") %>
+</asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<% using (Html.BeginForm()) { %>
-    
+<% using (Html.BeginForm("PasswordReset", "Welcome", null, FormMethod.Post, new { id = "PasswordResetForm", enctype = "multipart/form-data" })) { %>
+
     <div class="row" style="padding-top:30px;">
         <div class="BackToHome col-md-3">
             <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
