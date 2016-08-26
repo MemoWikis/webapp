@@ -9,12 +9,23 @@
         ConfirmContentRights: {
             required: true,  
         },
-        
+        "choice-0": {
+            required: true,
+        },
+        "choice-1": {
+            required: true,
+        },
     },
     messages: {
        
         ConfirmContentRights: {
             required: "Bitte bestätige:",    
+        },
+        "choice-0": {
+            required: "Pflichtfeld",
+        },
+        "choice-1": {
+            required: "Bitte gib mindestens eine falsche Antwort ein.",
         },
        
     },
