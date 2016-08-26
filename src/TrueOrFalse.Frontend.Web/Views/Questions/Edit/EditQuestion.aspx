@@ -113,6 +113,7 @@
                         <div class="columnControlsFull">
                         <%--<div class="columnControls3of4">--%>
                             <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
+                            <%: Html.ValidationMessageFor(model => model.Question) %>
                         </div>
 <%--                    </div>
                     <div class="form-group">--%>
@@ -315,6 +316,7 @@
                         <div class="noLabel columnControlsFull">
                             <div class="checkbox">
                                 <label>
+                                    <%: Html.ValidationMessageFor(model => model.ConfirmContentRights) %>
                                     <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
                                     Ich stelle diesen Eintrag unter die Creative Commons-Lizenz "Namensnennung 4.0 International" (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">CC&nbsp;BY&nbsp;4.0</a>). 
                                     Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden 

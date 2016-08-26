@@ -6,7 +6,7 @@
 
 <div class="form-group">
     <div class="noLabel columnControlsFull ButtonContainer">
-        <button class="btn" id="addChoice">Antwort hinzufügen</button>
+        <button class="btn" id="addChoice">weitere falsche Antwort hinzufügen</button>
     </div>
 </div>
 

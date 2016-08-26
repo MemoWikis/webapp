@@ -12,8 +12,6 @@
             <fieldset>
                 <legend>Setze dein neues Passwort</legend>
 
-                <% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben");  %>
-                                                
                 <% Html.Message(Model.Message); %>
                 
                 <% if(Model.TokenFound){ %> 

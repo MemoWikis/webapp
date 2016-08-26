@@ -14,7 +14,10 @@ public class EditQuestionModel : BaseModel
 
     public QuestionVisibility Visibility { get; set; }
 
-    //[Required]
+    //Validation serves as backup for client side validation
+
+
+    [Required(ErrorMessage="Du musst eine Frage eingeben.")]
     [DataType(DataType.MultilineText )]
     [DisplayName("Frage")]
     public string Question { get; set; }
@@ -32,7 +35,7 @@ public class EditQuestionModel : BaseModel
     public string Description { get; set; }
 
     [DisplayName("Content rights")]
-    [Required]
+    [Range(typeof(bool), "true", "true", ErrorMessage = "Bitte bestätige: ")]
     public bool ConfirmContentRights { get; set;  }
 
     public int Id = -1;
