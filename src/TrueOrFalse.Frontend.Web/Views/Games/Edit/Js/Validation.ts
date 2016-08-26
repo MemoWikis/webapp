@@ -12,5 +12,14 @@
             required: true,
             range: [1, 100]
         }
+    },
+    errorPlacement: function (error, element) {
+        debugger;
+        if (element.parent().attr("class") == "input-group") {
+            error.insertAfter($(element).parent());
+        }
+        else {
+            error.insertAfter(element);
+        }
     }
 }
