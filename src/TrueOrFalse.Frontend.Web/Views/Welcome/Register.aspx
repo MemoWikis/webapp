@@ -19,9 +19,7 @@
             <fieldset>
                 <legend>Registriere dich</legend>
 
-                <% Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben"); %>
-                <% Html.ValidationMessage("Email"); %>
-                <% Html.ValidationMessage("Name"); %>
+                <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
                 
                 <div class="alert alert-info">
                     <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst memucho nutzen :-)
