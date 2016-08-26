@@ -186,7 +186,10 @@
 
         <div class="bs-callout bs-callout-danger">
             <h4>Anmelden oder registrieren</h4>
-            <p>Um Wunschwissen zu verwenden, musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.</p>
+            <p>
+                Um einen Überblick über deine Lernerfolge, deine anstehenden Übungssitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
+                musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
+            </p>
         </div>
 
     <% }else{  %>

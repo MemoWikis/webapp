@@ -199,7 +199,7 @@
             <% }else if (Model.IsNetworkDate){ %>
                 <div class="row">
                     <div class="col-md-11" style="padding-top: 35px;">
-                        <p style="font-size: 11px; line-height: 11px; padding: 5px 13px;">Übernehme diesen Termin, damit memucho einen individuellen Übungsplan für dich erstellen kann.</p>
+                        <p style="font-size: 11px; line-height: 11px; padding: 5px 13px;">Übernehme diesen Termin, damit memucho einen persönlichen Übungsplan für dich erstellen kann.</p>
                         <p style="text-align: center;">
                             <a data-toggle="modal" data-dateId="<%= date.Id %>" class="btn btn-sm btn-info" href="#modalCopy" data-url="toSecurePost">
                                 <i class="fa fa-files-o"></i> Termin übernehmen

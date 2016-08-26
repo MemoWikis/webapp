@@ -252,6 +252,7 @@
     <Compile Include="2 Domain\Question\Answer\AnswerDate_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\AnswerText_tests.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_get_following_answer.cs" />
+    <Compile Include="2 Domain\Question\Delete_question.cs" />
     <Compile Include="2 Domain\Question\History\ContextHistory.cs" />
     <Compile Include="2 Domain\Question\Answer\Should_retrieve_streak.cs" />
     <Compile Include="2 Domain\Question\History\AnswerTest_AlgoTester.cs" />
