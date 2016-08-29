@@ -34,7 +34,7 @@
        
                 <div class="form-group">
                     <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <%: Html.TextBoxFor(model => model.Name, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Name) %>
                     </div>
@@ -42,7 +42,7 @@
                 
                 <div class="form-group">
                     <%: Html.LabelFor(model => model.Email, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <%: Html.TextBoxFor(model => model.Email, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Email) %>
                     </div>
@@ -50,7 +50,7 @@
 
                 <div class="form-group">
                     <%: Html.LabelFor(model => model.Password, new { @class = "col-sm-2 control-label" }) %>
-                    <div class="col-sm-5">
+                    <div class="col-sm-6">
                         <%: Html.PasswordFor(model => model.Password, new { @class="form-control" }) %>
                         <%: Html.ValidationMessageFor(model => model.Password) %>
                     </div>
