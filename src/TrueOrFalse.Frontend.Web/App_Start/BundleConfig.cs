@@ -128,6 +128,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Dates/Edit/Js/", "*.js")
                 .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
+                .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
+
             //Games
             bundles.Add(new ScriptBundle("~/bundles/js/Games")
                 .IncludeDirectory("~/Views/Games/Js/", "*.js"));

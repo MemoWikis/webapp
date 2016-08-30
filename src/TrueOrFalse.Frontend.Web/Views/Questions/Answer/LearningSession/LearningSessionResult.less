@@ -120,10 +120,9 @@
 
 
 .QuestionLearned {
-     line-height: 21px;
-     margin-top: 15px;
+     margin-top: 3px;
 
-     i.fa-check {
+     /*i.fa-check {
         color: @color-correctAnswer;
      }
 
@@ -136,9 +135,36 @@
 
      i.fa-circle-o {
         color: @color-notAnswered;
-     }
+     }*/
  }
+
+.AnswerResultIcon {
+    font-size: 14px;
+}
+
+.QuestionLearned.AnsweredRight {
+    .AnswerResultIcon {
+        color: @color-correctAnswer;
+    }
+}
+.QuestionLearned.AnsweredRightAfterRepetition {
+    .AnswerResultIcon {
+        color: @color-correctAfterRepetitionAnswer;
+    }
+}
+.QuestionLearned.AnsweredWrong {
+    .AnswerResultIcon {
+        color: @color-wrongAnswer;
+    }
+}
+.QuestionLearned.Unanswered {
+    .AnswerResultIcon {
+        color: @color-notAnswered;
+    }
+}
 
 .answerDetails {
     padding-left: 30px;
+    margin-bottom: 10px;
 }
+

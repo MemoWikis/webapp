@@ -67,6 +67,7 @@
 
     </script>
 
+    <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -130,26 +131,29 @@
 
             <div id="detailedAnswerAnalysis">
                 <h3>Auswertung der Antworten</h3>
+                <p style="color: silver; font-size: 11px;">
+                    <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | Alle korrekten Fragen ausblenden
+                </p>
                 <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped) // not accounted for: if answered wrong and then skipped, it counts as skipped, but maybe should count as wrong.
                     {
                         if (uniqueQuestion.First().AnswerState != StepAnswerState.Answered)
                         { %>
                             <div class="row QuestionLearned Unanswered">
-                                <i class="fa fa-circle-o show-tooltip" title="Nicht beantwortet"></i>&nbsp;
+                                <i class="fa fa-circle-o AnswerResultIcon show-tooltip" title="Nicht beantwortet"></i>&nbsp;
                                 <%= uniqueQuestion.First().Question.Text %> <br/>
                                 <div class="answerDetails" data-questionId="<%= uniqueQuestion.First().QuestionId %>">
                         <% }
                         else if ((uniqueQuestion.First().AnswerState == StepAnswerState.Answered) && uniqueQuestion.First().Answer.AnsweredCorrectly())
                         { %> 
                             <div class="row QuestionLearned AnsweredRight">
-                                <i class="fa fa-check show-tooltip" title="Beim 1. Versuch richtig beantwortet"></i>&nbsp;
+                                <i class="fa fa-check AnswerResultIcon show-tooltip" title="Beim 1. Versuch richtig beantwortet"></i>&nbsp;
                                 <%= uniqueQuestion.First().Question.Text %> <br/>
                                 <div class="answerDetails" data-questionId="<%= uniqueQuestion.First().QuestionId %>">
                         <% }
                         else if ((uniqueQuestion.Count() > 1) && (uniqueQuestion.Last().AnswerState == StepAnswerState.Answered) && uniqueQuestion.Last().Answer.AnsweredCorrectly())
                         { %> 
                             <div class="row QuestionLearned AnsweredRightAfterRepetition">
-                                <i class="fa fa-dot-circle-o show-tooltip" title="Beim 2. oder 3. Versuch richtig beantwortet"></i>&nbsp; 
+                                <i class="fa fa-check AnswerResultIcon show-tooltip" title="Beim 2. oder 3. Versuch richtig beantwortet"></i>&nbsp; <%--fa-dot-circle-o--%>
                                 <%= uniqueQuestion.First().Question.Text %> <br/>
                                 <div class="answerDetails" data-questionId="<%= uniqueQuestion.First().QuestionId %>">
 
@@ -157,8 +161,8 @@
                         else if (((uniqueQuestion.Last().AnswerState == StepAnswerState.Answered) && (uniqueQuestion.Last().Answer.AnswerredCorrectly == AnswerCorrectness.False)) ||
                                  ((uniqueQuestion.Last().AnswerState != StepAnswerState.Answered) && (uniqueQuestion.Count() > 1)))
                         { %>
-                            <div class="row QuestionLearned AnsweredRight">
-                                <i class="fa fa-minus-circle show-tooltip" title="Falsch beantwortet"></i>&nbsp;
+                            <div class="row QuestionLearned AnsweredWrong">
+                                <i class="fa fa-minus-circle AnswerResultIcon show-tooltip" title="Falsch beantwortet"></i>&nbsp;
                                 <%= uniqueQuestion.First().Question.Text %> <br/>
                                 <div class="answerDetails" data-questionId="<%= uniqueQuestion.First().QuestionId %>">
                         <% } %>
@@ -192,7 +196,7 @@
         </div>
 
 
-        <div class="col-sm-3 xxs-stack">
+        <div class="col-sm-3 xxs-stack" style="border: 0px solid #000000;">
             <% if(Model.LearningSession.IsSetSession) { %>
                 Du hast diesen Fragesatz gelernt:
                 <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">
@@ -202,7 +206,7 @@
             <% if(Model.LearningSession.IsDateSession) { %>
                 Du hast für diesen Termin gelernt:
                 <b><a href="<%= Links.Dates() %>"><%= Model.DateToLearn.GetTitle() %></a></b> <br />
-                <%= Model.DateToLearn.DateTime.ToString("'Am' dd.MM.yyyy 'um' HH:mm") %> <br/>
+                <%= Model.DateToLearn.DateTime.ToString("'am' dd.MM.yyyy 'um' HH:mm") %> <br/>
                 (<% if(Model.DateIsInPast){
                         Response.Write("vorbei seit ");
                     }else { 
@@ -219,7 +223,19 @@
                 Dein aktueller Wissensstand:<br/>
                 <div id="chartKnowledgeDate<%=Model.DateToLearn.Id %>"></div>
 
-                Deine nächsten Übungssitzungen: <br/>
+                Dein Übungsplan enthält noch: <br/>
+                ca. <%= Model.TrainingDateCount %> Übungssitzunge(n)<br />
+                ca. <%= Model.RemainingTrainingTime%> Übungszeit<br/>
+                Die nächste Übungssitzung 
+                <% if(Model.TrainingPlan.HasOpenDates) {
+                    var timeSpanLabel = new TimeSpanLabel(Model.TrainingPlan.TimeToNextDate, showTimeUnit: true);
+                    if (timeSpanLabel.TimeSpanIsNegative) { %>
+                        <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=Model.DateToLearn.Id %>">startet jetzt!</a>
+                    <% } else { %>
+                        ist in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
+                    <% } %>
+                    (<span class="TPQuestionsInNextTrainingDate"><%= Model.TrainingPlan.QuestionCountInNextDate %></span> Fragen)<br/>
+                <% } %>
                 
                 [Zur Terminübersicht]
             <% } %>

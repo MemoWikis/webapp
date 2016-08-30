@@ -23,6 +23,9 @@ public class LearningSessionResultModel : BaseModel
     public Date DateToLearn;
     public bool DateIsInPast;
     public TimeSpanLabel DateRemainingTimeLabel;
+    public TrainingPlan TrainingPlan;
+    public int TrainingDateCount;
+    public string RemainingTrainingTime;
 
     public LearningSessionResultModel(LearningSession learningSession)
     {
@@ -36,6 +39,9 @@ public class LearningSessionResultModel : BaseModel
             var remaining = DateToLearn.Remaining();
             DateIsInPast = remaining.TotalSeconds < 0;
             DateRemainingTimeLabel = new TimeSpanLabel(remaining, DateIsInPast);
+            TrainingPlan = DateToLearn.TrainingPlan ?? new TrainingPlan();
+            TrainingDateCount = TrainingPlan.OpenDates.Count;
+            RemainingTrainingTime = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
         }
 
         if (NumberSteps > 0)

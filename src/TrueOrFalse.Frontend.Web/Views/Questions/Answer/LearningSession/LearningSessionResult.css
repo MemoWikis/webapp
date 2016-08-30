@@ -99,21 +99,38 @@
   }
 }
 .QuestionLearned {
-  line-height: 21px;
-  margin-top: 15px;
+  margin-top: 3px;
+  /*i.fa-check {
+        color: @color-correctAnswer;
+     }
+
+     i.fa-dot-circle-o {
+         color: @color-correctAfterRepetitionAnswer;
+     }
+     i.fa-minus-circle {
+        color: @color-wrongAnswer;
+     }
+
+     i.fa-circle-o {
+        color: @color-notAnswered;
+     }*/
 }
-.QuestionLearned i.fa-check {
+.AnswerResultIcon {
+  font-size: 14px;
+}
+.QuestionLearned.AnsweredRight .AnswerResultIcon {
   color: #3e7700;
 }
-.QuestionLearned i.fa-dot-circle-o {
+.QuestionLearned.AnsweredRightAfterRepetition .AnswerResultIcon {
   color: #fdd648;
 }
-.QuestionLearned i.fa-minus-circle {
+.QuestionLearned.AnsweredWrong .AnswerResultIcon {
   color: #B13A48;
 }
-.QuestionLearned i.fa-circle-o {
+.QuestionLearned.Unanswered .AnswerResultIcon {
   color: lightgray;
 }
 .answerDetails {
   padding-left: 30px;
+  margin-bottom: 10px;
 }

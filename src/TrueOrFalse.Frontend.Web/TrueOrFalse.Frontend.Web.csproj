@@ -1384,6 +1384,8 @@
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
