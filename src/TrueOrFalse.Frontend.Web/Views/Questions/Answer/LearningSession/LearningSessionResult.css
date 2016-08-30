@@ -4,6 +4,34 @@
 .well.Chart {
   background-color: transparent;
 }
+.stackedBarChartContainer {
+  display: table;
+  width: 100%;
+}
+.stackedBarChart {
+  display: table-cell;
+  /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-weight: bold;
+  color: #fff;
+}
+.chartCorrectAnswer {
+  background-color: #3e7700;
+  color: #fff;
+}
+.chartCorrectAfterRepetitionAnswer {
+  background-color: #fdd648;
+}
+.chartWrongAnswer {
+  background-color: #B13A48;
+  color: #fff;
+}
+.chartNotAnswered {
+  background-color: lightgray;
+}
 .DescrLeft,
 .DescrRight,
 .BarDescr,
@@ -26,13 +54,16 @@
   background-color: #3e7700;
 }
 #SummaryWrongAnswers .ChartBar {
-  background-color: #b13a48;
+  background-color: #B13A48;
 }
 #SummaryUnanswered .ChartBar {
   background-color: lightgray;
 }
 .ChartBarWrapper {
   padding-top: 20px;
+}
+.SummaryText {
+  margin-top: 20px;
 }
 @media (max-width: 479px) {
   .DescrLeft,
@@ -68,15 +99,21 @@
   }
 }
 .QuestionLearned {
-  line-height: 30px;
+  line-height: 21px;
+  margin-top: 15px;
 }
 .QuestionLearned i.fa-check {
   color: #3e7700;
 }
+.QuestionLearned i.fa-dot-circle-o {
+  color: #fdd648;
+}
 .QuestionLearned i.fa-minus-circle {
-  color: #b13a48;
+  color: #B13A48;
 }
 .QuestionLearned i.fa-circle-o {
   color: lightgray;
 }
-/*# sourceMappingURL=LearningSessionResult.css.map */
+.answerDetails {
+  padding-left: 30px;
+}

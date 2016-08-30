@@ -1,10 +1,45 @@
 ﻿@import (reference) '../../../../Style/includes/imports.less';
 
+@color-correctAnswer: @dark-green;
+@color-correctAfterRepetitionAnswer: #fdd648;
+@color-wrongAnswer: @dark-red;
+@color-notAnswered: lightgray;
+
 .Chart {
     margin-top: 20px;
     .well& {
         background-color: transparent;
     }
+}
+
+.stackedBarChartContainer { 
+    display: table;
+    width: 100%
+}
+
+.stackedBarChart {
+    display: table-cell; /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    font-weight: bold;
+    color: @white;
+}
+
+.chartCorrectAnswer {
+    background-color: @color-correctAnswer;
+    color: @white;
+}
+.chartCorrectAfterRepetitionAnswer {
+    background-color: @color-correctAfterRepetitionAnswer;
+}
+.chartWrongAnswer {
+    background-color: @color-wrongAnswer;
+    color: @white;
+}
+.chartNotAnswered {
+    background-color: @color-notAnswered;
 }
 
 .DescrLeft, .DescrRight, .BarDescr, .ChartBarWrapper, .ChartNumbers {
@@ -23,20 +58,24 @@
     height: 10px;
 
     #SummaryRightAnswers & {
-        background-color: @dark-green;
+        background-color: @color-correctAnswer;
     }
 
     #SummaryWrongAnswers & {
-        background-color: @dark-red;
+        background-color: @color-wrongAnswer;
     }
 
     #SummaryUnanswered & {
-        background-color: lightgray;
+        background-color: @color-notAnswered;
     }
 }
 
 .ChartBarWrapper {
     padding-top: 20px;
+}
+
+.SummaryText {
+    margin-top: 20px;
 }
 
 .media-below-xs({
@@ -81,17 +120,25 @@
 
 
 .QuestionLearned {
-     line-height: 30px;
+     line-height: 21px;
+     margin-top: 15px;
 
      i.fa-check {
-        color: @dark-green;
+        color: @color-correctAnswer;
      }
 
+     i.fa-dot-circle-o {
+         color: @color-correctAfterRepetitionAnswer;
+     }
      i.fa-minus-circle {
-        color: @dark-red;
+        color: @color-wrongAnswer;
      }
 
      i.fa-circle-o {
-        color: lightgray;
+        color: @color-notAnswered;
      }
  }
+
+.answerDetails {
+    padding-left: 30px;
+}
