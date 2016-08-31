@@ -12,5 +12,19 @@
             $(".answerDetails").hide(300);
         });
 
+        $("[data-action=showDetailsExceptRightAnswer]").click((e) => {
+            e.preventDefault();
+            $(".answerDetails").not(".AnsweredRight .answerDetails").show(300);
+        });
+
+        $("[data-action=showAnswerDetails]").click(function(e) {
+            e.preventDefault();
+            $(this).siblings(".answerDetails").toggle(300);
+        });
+
+        $("[data-action=toggleDateSets]").click((e) => {
+            e.preventDefault();
+            $(".dateSets").toggle(300);
+        });
     }
 }
