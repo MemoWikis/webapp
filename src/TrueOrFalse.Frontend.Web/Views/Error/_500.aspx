@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" 
-        Title="Error"
+        Title="Fehler"
 %>
 
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">

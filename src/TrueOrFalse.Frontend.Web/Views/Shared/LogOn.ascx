@@ -15,7 +15,7 @@
 </a>
 <a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">
     <i class="fa fa-question-circle"></i>
-    <span class="TextSpan Help">Hilfe & mehr</span>
+    <span class="TextSpan Help">FAQ</span>
 </a> 
 
 <%--<a href="#" class="helpLink TextLinkWithIcon" id="startWelcomeTour">
