@@ -27,6 +27,11 @@ public class LearningSessionResultModel : BaseModel
     public int TrainingDateCount;
     public string RemainingTrainingTime;
 
+    public int KnowledgeNotLearned;
+    public int KnowledgeNeedsLearning;
+    public int KnowledgeNeedsConsolidation;
+    public int KnowledgeSolid;
+
     public LearningSessionResultModel(LearningSession learningSession)
     {
         LearningSession = learningSession;
@@ -42,6 +47,11 @@ public class LearningSessionResultModel : BaseModel
             TrainingPlan = DateToLearn.TrainingPlan ?? new TrainingPlan();
             TrainingDateCount = TrainingPlan.OpenDates.Count;
             RemainingTrainingTime = new TimeSpanLabel(TrainingPlan.TimeRemaining).Full;
+            var summary = KnowledgeSummaryLoader.Run(UserId, DateToLearn.AllQuestions().GetIds(), onlyValuated: false);
+            KnowledgeNotLearned = summary.NotLearned;
+            KnowledgeNeedsLearning = summary.NeedsLearning;
+            KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
+            KnowledgeSolid = summary.Solid;
         }
 
         if (NumberSteps > 0)
@@ -64,6 +74,7 @@ public class LearningSessionResultModel : BaseModel
             NumberCorrectAfterRepetitionPercentage = (int)Math.Round(NumberCorrectAfterRepetitionAnswers / (float)NumberUniqueQuestions * 100);
             NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)NumberUniqueQuestions * 100);
             NumberNotAnsweredPercentage = (int)Math.Round(NumberNotAnswered / (float)NumberUniqueQuestions * 100);
+
         }
     }
 }
