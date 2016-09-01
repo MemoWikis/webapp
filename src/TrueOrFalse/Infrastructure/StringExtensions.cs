@@ -43,6 +43,6 @@ public static class StringExtensions
 
     public static string TrimAndReplaceWhitespacesWithSingleSpace(this string stringToTrim)
     {
-        return Regex.Replace(stringToTrim, @"\s+", " ").Trim();
+        return stringToTrim == null ? null : Regex.Replace(stringToTrim, @"\s+", " ").Trim();
     }
 }

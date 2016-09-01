@@ -8,6 +8,8 @@ public class GameModel : BaseModel
     public int Id;
     public UIMessage Message;
 
+    //Validation serves as backup for client side validation
+
     [Required][Range(2, 30)]
     public int MaxPlayers { get; set; }
     

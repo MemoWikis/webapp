@@ -27,7 +27,7 @@
 
                 <div class="form-group">
                     <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-sm-2 control-label" })%>
-                    <div class="col-sm-3">
+                    <div class="col-sm-6">
                         <%= Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control" })%> 
                     </div>
                     <%: Html.ValidationMessageFor(m => m.EmailAddress)%>            
@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     <label class = "col-sm-2 control-label" for="Password">Passwort</label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-6">
                         <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>
                     </div>
                     <div class="col-sm-4" style="padding-top: 8px;">
