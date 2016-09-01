@@ -306,7 +306,7 @@
             if (!userSession.IsLoggedIn){
         %>
             <div class="box" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Anmelden</a>
+                <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Einloggen</a>
                 <br/><br/>
                 <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary btn-lg" style="width: 100%;" role="button">Registrieren</a>
             </div>

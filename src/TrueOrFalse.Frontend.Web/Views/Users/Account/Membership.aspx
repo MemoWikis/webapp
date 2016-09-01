@@ -147,10 +147,10 @@
                     <div class="col-md-9">
                         <% if(!Model.IsLoggedIn){ %>
                             <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
-                                <h4>Anmelden oder registrieren</h4>
+                                <h4>Einloggen oder registrieren</h4>
                                 <p>
                                     Um Mitglied zu werden 
-                                    musst du dich <a href="/Anmelden">anmelden</a> oder <a href="/Registrieren">registrieren</a>.
+                                    musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
                                 </p>
                             </div>
                         <% }%>

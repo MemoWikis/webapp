@@ -8,8 +8,8 @@
         </div>
     
         <div class="form-horizontal col-md-9">
-            <h2>Abgemeldet</h2>
-            <p>Du wurdest erfolgreich abgemeldet.</p>    
+            <h2>Ausgeloggt</h2>
+            <p>Du wurdest erfolgreich ausgeloggt.</p>    
         </div>        
     </div>
 

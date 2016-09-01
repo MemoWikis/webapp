@@ -14,7 +14,7 @@ public class LoginModel : BaseModel
 
     public void SetToWrongCredentials()
     {
-        Message = new UIMessage(MessageType.IsError, 
-            "Du konntest nicht angemeldet werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort"); ;
+        Message = new UIMessage(MessageType.IsError,
+            "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort"); ;
     }
 }

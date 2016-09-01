@@ -40,16 +40,16 @@
                 <li><a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Konto-Einstellungen</a></li>
                 <li class="divider"></li>
                  
-                <li><a href="<%= Url.Action(Links.Logout, Links.WelcomeController) %>"><i class="fa fa-power-off" title="Abmelden"></i> Abmelden</a>  </li>
+                <li><a href="<%= Url.Action(Links.Logout, Links.WelcomeController) %>"><i class="fa fa-power-off" title="Ausloggen"></i> Ausloggen</a>  </li>
                 <% if(userSession.IsInstallationAdmin){ %>
-                    <li><a href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>"><i class="fa fa-power-off" title="Abmelden"></i> Adminrechte abgeben</a>  </li>
+                    <li><a href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>"><i class="fa fa-power-off" title="Ausloggen"></i> Adminrechte abgeben</a>  </li>
                 <% } %>
             </ul>
         </div>
 <%
     }else {
 %> 
-        <a class="TextLinkWithIcon" href="<%=Url.Action("Login", Links.WelcomeController) %>" title="Anmelden"><i class="fa fa-sign-in"></i> <span class="TextSpan">Anmelden</span></a>
+        <a class="TextLinkWithIcon" href="<%=Url.Action("Login", Links.WelcomeController) %>" title="Einloggen"><i class="fa fa-sign-in"></i> <span class="TextSpan">Einloggen</span></a>
 <%
     }
 %>    
