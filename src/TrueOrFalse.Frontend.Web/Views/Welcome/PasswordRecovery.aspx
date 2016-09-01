@@ -19,7 +19,7 @@
                 <legend>Ein neues Passwort setzen</legend>
 
                 <div class="alert alert-info">
-                    Gib hier die Email-Adresse an, mit der du dich angemeldet hast. 
+                    Gib hier die E-Mail-Adresse an, mit der du dich angemeldet hast. 
                     Wir schicken dir einen Link, mit dem du dir ein neues Passwort setzen kannst.
                 </div>
                 

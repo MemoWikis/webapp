@@ -1,6 +1,18 @@
 ﻿<%@ Page Title="Hilfe & FAQ" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<HelpModel>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+<script type="text/javascript" >
+
+    /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
+    $(function () {
+        var spt = $('span.mailme');
+        var at = / at /;
+        var dot = / dot /g;
+        var addr = $(spt).text().replace(at, "@").replace(dot, ".");
+        $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
+        $(spt).remove();
+    });
+</script>    
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -172,8 +184,8 @@
         <div id="FaqTextContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingContact">
           <div class="panel-body">
               <p>
-                  Per Email: <a href="mailto:kontakt@memucho.de">kontakt@memucho.de</a><br/> 
-                  Robert erreichst du auch über Skype ("robert-mischke") oder per Telefon (+49-178-18 668 48).
+                  Per E-Mail: <span class="mailme">team at memucho dot de</span><br/> 
+                  Christof erreichst du auch über Skype ("cmauersberger") oder per Telefon (+49-1577-6825707).
               </p>
               <p>
                   Oder du schreibst uns eine Postkarte oder kommst persönlich bei uns vorbei (am besten mit Anmeldung)!<br/>

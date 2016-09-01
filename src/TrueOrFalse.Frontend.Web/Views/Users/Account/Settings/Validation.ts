@@ -17,7 +17,7 @@ var validationSettings_UserSettingsForm = {
             required: "Bitte gib einen Nutzernamen an.",    
         },
         Email: {
-            required: "Bitte gib eine gültige Emailadresse an.",    
+            required: "Bitte gib eine gültige E-Mail-Adresse an.",    
         },
        
     },

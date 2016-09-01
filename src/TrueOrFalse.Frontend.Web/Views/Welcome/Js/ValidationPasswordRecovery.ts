@@ -26,7 +26,7 @@
     messages: {
 
         Email: {
-            remote: "Diese Email-Adresse ist uns unbekannt. Wir benötigen die Email-Adresse, mit der du dich angemeldet hast.",
+            remote: "Diese E-Mail-Adresse ist uns unbekannt. Wir benötigen die E-Mail-Adresse, mit der du dich angemeldet hast.",
         },
 
     },

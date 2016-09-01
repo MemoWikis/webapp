@@ -161,7 +161,7 @@
     
                     <h3>Deine Rechnungsdaten</h3>
     
-                    <p>Du erhältst von uns eine Rechnung per Email an <b><%= Model.BillingEmail%></b>.</p>
+                    <p>Du erhältst von uns eine Rechnung per E-Mail an <b><%= Model.BillingEmail%></b>.</p>
     
     
                     <div class="row">

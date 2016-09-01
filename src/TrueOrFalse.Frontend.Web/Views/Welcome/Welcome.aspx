@@ -6,6 +6,20 @@
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>memucho</title>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
+    
+    <script type="text/javascript" >
+
+        /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
+        $(function () {
+            var spt = $('span.mailme');
+            var at = / at /;
+            var dot = / dot /g;
+            var addr = $(spt).text().replace(at, "@").replace(dot, ".");
+            $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
+            $(spt).remove();
+        });
+    </script>
+
     <%= Scripts.Render("~/bundles/guidedTourScript") %>
     <%= Styles.Render("~/bundles/guidedTourStyle") %>
     <%= Scripts.Render("~/bundles/Welcome") %>
@@ -279,7 +293,7 @@
                         Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
                     </p>
                     <p>
-                        Wenn du Fragen oder Anregungen hast, schreibe uns eine Email an <a href="mailto:kontakt@memucho.de">kontakt@memucho.de</a> oder rufe Christof an: 01577-6825707.
+                        Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe Christof an: +49-1577-6825707.
                     </p>
                 </div>
             </div>

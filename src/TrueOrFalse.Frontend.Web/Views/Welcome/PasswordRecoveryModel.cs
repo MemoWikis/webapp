@@ -7,8 +7,8 @@ public class PasswordRecoveryModel
 {
     public UIMessage Message;
 
-    [Required(ErrorMessage = "Wir benötigen die Email-Adresse, mit der du dich angemeldet hast.")]
-    [RegularExpression(Regexes.Email, ErrorMessage = "Bitte gib eine gültige Email-Adresse an.")]
-    [DisplayName("Email")]
+    [Required(ErrorMessage = "Wir benötigen die E-Mail-Adresse, mit der du dich angemeldet hast.")]
+    [RegularExpression(Regexes.Email, ErrorMessage = "Bitte gib eine gültige E-Mail-Adresse an.")]
+    [DisplayName("E-Mail")]
     public string Email { get; set; }
 }
