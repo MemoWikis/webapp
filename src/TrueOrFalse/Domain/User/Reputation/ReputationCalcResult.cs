@@ -12,7 +12,7 @@
     public int ForDatesCreatedVisible;
     public int ForDatesCopied;
 
-    public int TotalRepuation
+    public int TotalReputation
     {
         get
         {
