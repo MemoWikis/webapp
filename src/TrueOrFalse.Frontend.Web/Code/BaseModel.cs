@@ -16,6 +16,8 @@
 
     public bool IsCreatorOfGame;
 
+    public bool ShowUserReportWidget = true;
+
     public BaseModel()
     {
         if (IsLoggedIn)

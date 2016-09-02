@@ -337,6 +337,9 @@
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
+    <Compile Include="Views\Widgets\WidgetController.cs" />
+    <Compile Include="Views\Widgets\WidgetSetModel.cs" />
+    <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -461,6 +464,11 @@
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
+      <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Modal\ShareQuestion.ascx" />
+    <Content Include="Views\Widgets\AwesomeIframe.js" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
     <Content Include="mstile-310x150.png" />
@@ -501,6 +509,7 @@
     <Content Include="Views\Dates\Modals\CopyDate.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
+    <Content Include="Views\Drafts\Widget.html" />
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
@@ -564,6 +573,12 @@
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
+    <Content Include="Views\Widgets\question.js" />
+    <Content Include="Views\Widgets\WidgetQuestion.js">
+      <DependentUpon>WidgetQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\WidgetSet.aspx" />
+    <Content Include="Views\Widgets\WidgetQuestion.aspx" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -1393,6 +1408,7 @@
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
@@ -1405,6 +1421,7 @@
     <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
+    <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
@@ -2000,6 +2017,7 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
+    <Content Include="Views\Shared\Site.PureContent.Master" />
     <Content Include="Views\Welcome\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
