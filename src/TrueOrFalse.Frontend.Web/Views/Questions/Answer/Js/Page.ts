@@ -16,4 +16,5 @@ $(() => {
     } loadFacebook(window.document, 'script', 'facebook-jssdk');
 
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
+    new ShareQuestion();
 });
