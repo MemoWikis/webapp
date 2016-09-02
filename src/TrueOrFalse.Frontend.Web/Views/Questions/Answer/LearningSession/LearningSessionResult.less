@@ -41,25 +41,6 @@
     color: @white;
 }
 
-.stackedVBarChartContainer { 
-    margin-top: 30px;
-    margin-bottom: 50px;
-    display: table;
-    width: 50px;
-    height: 300px;
-    display: none;
-}
-
-.stackedVBarChart {
-    display: list-item; /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    overflow: hidden;
-    font-weight: bold;
-    color: @white;
-}
-
 .chartCorrectAnswer {
     background-color: @color-correctAnswer;
     color: @white;
@@ -83,28 +64,39 @@
     }
 }
 
+.sumPctCol {
+    width: auto!important;
+    padding-right: 0;
+}
 .sumPct {
     text-align: right;
-    padding-right: 6px;
-    border-right-width: 12px;
+    padding: 5px 8px;
+    border-right-width: 0px;
     border-right-style: solid;
+    color: white;
+    width: 55px;
+}
+.sumPctSpan {
+    width: 35px;
 }
 .sumPctRight {
-    border-color: @color-correctAnswer;
+    background-color: @color-correctAnswer;
 }
 .sumPctRightAfterRep {
-    border-color: @color-correctAfterRepetitionAnswer;
+    background-color: @color-correctAfterRepetitionAnswer;
 }
 .sumPctWrong {
-    border-color: @color-wrongAnswer;
+    background-color: @color-wrongAnswer;
 }
 .sumPctNotAnswered {
-    border-color: @color-notAnswered;
+    background-color: @color-notAnswered;
 }
 
 .sumExpl {
     text-align: left;
     padding-left: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .buttonRow {
@@ -201,8 +193,9 @@
 }
 .boxInfoContent {
     padding: 8px;
-    font-size: 12px;
+    font-size: 14px;
     h3 {
+        font-family: 'Open Sans';
         margin: 2px 0 10px;
         font-size: 14px;
         font-weight: bold;
@@ -214,77 +207,10 @@
 
 
 
-.DescrLeft, .DescrRight, .BarDescr, .ChartBarWrapper, .ChartNumbers {
-    display: inline-block;
-    line-height: 30px;
-    height: 30px;
-}
-
-.DescrLeft, .BarDescr {
-    width: 120px;
-    text-align: right;
-}
-
-.ChartBar {
-    width: 100%;
-    height: 10px;
-
-    #SummaryRightAnswers & {
-        background-color: @color-correctAnswer;
-    }
-
-    #SummaryWrongAnswers & {
-        background-color: @color-wrongAnswer;
-    }
-
-    #SummaryUnanswered & {
-        background-color: @color-notAnswered;
-    }
-}
-
-.ChartBarWrapper {
-    padding-top: 20px;
-}
-
-
 .media-below-xs({
-
-    .DescrLeft, .BarDescr {
-        display: block;
-        text-align: left;
-    }
-
-    .DescrRight {
-        line-height: 1.5em;
-    }
-
-    .BarDescr {
-        margin-bottom: -20px;
-    }
-
 });
 
 .media-xs-up({
-     #SummaryAll {
-         display: table;
-     }
-
-     .TableRow {
-         display: table-row;
-     }
-
-     .DescrLeft, .DescrRight {
-         display: table-cell;
-         vertical-align: top;
-     }
-
-     .DescrLeft, .BarDescr {
-        padding-right: 5px;
-    }
-
-     .DescrRight {
-         padding-left: 3px;
-     }
- });
+});
 
 

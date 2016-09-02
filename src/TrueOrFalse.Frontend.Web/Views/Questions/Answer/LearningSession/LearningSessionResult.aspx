@@ -72,37 +72,59 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <h2>Deine Übungssitzung: Ergebnis</h2>
+    <h2 style="margin-bottom: 15px; margin-top: 0px;">
+        <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
+                        if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
+                        %>">Ergebnis</span>
+    </h2>
     
 
     <div class="row">
         <div class="col-sm-9 xxs-stack">
             <div class="stackedBarChartContainer">
-                <div class="stackedBarChart chartCorrectAnswer" style="width: <%=Model.NumberCorrectPercentage %>%;">
-                    <% if (Model.NumberCorrectPercentage>0) {%> <%=Model.NumberCorrectPercentage %>% <%} %>
-                </div>
-                <div class="stackedBarChart chartCorrectAfterRepetitionAnswer" style="width: <%=Model.NumberCorrectAfterRepetitionPercentage %>%;">
-                    <% if (Model.NumberCorrectAfterRepetitionPercentage>0) {%> <%=Model.NumberCorrectAfterRepetitionPercentage %>% <%} %>
-                </div>
-                <div class="stackedBarChart chartWrongAnswer" style="width: <%=Model.NumberWrongAnswersPercentage %>%;">
-                    <% if (Model.NumberWrongAnswersPercentage>0) {%> <%=Model.NumberWrongAnswersPercentage %>% <%} %>
-                </div>
-                <div class="stackedBarChart chartNotAnswered" style="width: <%=Model.NumberNotAnsweredPercentage %>%;">
-                    <% if (Model.NumberNotAnsweredPercentage>0) {%> <%=Model.NumberNotAnsweredPercentage %>% <%} %>
-                </div>
+                <% if (Model.NumberCorrectPercentage>0) {%>
+                    <div class="stackedBarChart chartCorrectAnswer" style="width: <%=Model.NumberCorrectPercentage %>%;">
+                        <%=Model.NumberCorrectPercentage %>% 
+                    </div>
+                <% } %>                
+                <% if (Model.NumberCorrectAfterRepetitionPercentage>0) {%>
+                    <div class="stackedBarChart chartCorrectAfterRepetitionAnswer" style="width: <%=Model.NumberCorrectAfterRepetitionPercentage %>%;">
+                        <%=Model.NumberCorrectAfterRepetitionPercentage %>% 
+                    </div>
+                <% } %>                
+                <% if (Model.NumberWrongAnswersPercentage>0) {%>
+                    <div class="stackedBarChart chartWrongAnswer" style="width: <%=Model.NumberWrongAnswersPercentage %>%;">
+                        <%=Model.NumberWrongAnswersPercentage %>% 
+                    </div>
+                <% } %>                
+                <% if (Model.NumberNotAnsweredPercentage>0) {%>
+                    <div class="stackedBarChart chartNotAnswered" style="width: <%=Model.NumberNotAnsweredPercentage %>%;">
+                        <%=Model.NumberNotAnsweredPercentage %>% 
+                    </div>
+                <% } %>                
             </div>
 
             <div class="SummaryText" style="clear: left;">
                 <p>In dieser Übungssitzung hast du <%= Model.NumberQuestions %> Fragen gelernt und dabei</p>
                 <div class="row">
-                    <div class="col-xs-2 sumPct sumPctRight"><%=Model.NumberCorrectPercentage %>%</div>
-                    <div class="col-xs-10 sumExpl">beim 1. Versuch gewusst (<%=Model.NumberCorrectAnswers %> Fragen)</div>
-                    <div class="col-xs-2 sumPct sumPctRightAfterRep"><%=Model.NumberCorrectAfterRepetitionPercentage %>%</div>
-                    <div class="col-xs-10 sumExpl">beim 2. oder 3. Versuch gewusst (<%=Model.NumberCorrectAfterRepetitionAnswers %> Fragen)</div>
-                    <div class="col-xs-2 sumPct sumPctWrong"><%=Model.NumberWrongAnswersPercentage %>%</div>
-                    <div class="col-xs-10 sumExpl">nicht gewusst (<%=Model.NumberWrongAnswers %> Fragen)</div>
-                    <div class="col-xs-2 sumPct sumPctNotAnswered"><%=Model.NumberNotAnsweredPercentage %>%</div>
-                    <div class="col-xs-10 sumExpl">übersprungen (<%=Model.NumberNotAnswered %> Fragen)</div>
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-offset-1 sumPctCol"><div class="sumPct sumPctRight"><span class="sumPctSpan"><%=Model.NumberCorrectPercentage %>%</span></div></div>
+                            <div class="col-xs-10 col-sm-9 sumExpl">beim 1. Versuch gewusst (<%=Model.NumberCorrectAnswers %> Fragen)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-offset-1 sumPctCol"><div class="sumPct sumPctRightAfterRep"><span class="sumPctSpan"><%=Model.NumberCorrectAfterRepetitionPercentage %>%</span></div></div>
+                            <div class="col-xs-10 col-sm-9 sumExpl">beim 2. oder 3. Versuch gewusst (<%=Model.NumberCorrectAfterRepetitionAnswers %> Fragen)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-offset-1 sumPctCol"><div class="sumPct sumPctWrong"><span class="sumPctSpan"><%=Model.NumberWrongAnswersPercentage %>%</span></div></div>
+                            <div class="col-xs-10 col-sm-9 sumExpl">nicht gewusst (<%=Model.NumberWrongAnswers %> Fragen)</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-2 col-sm-offset-1 sumPctCol"><div class="sumPct sumPctNotAnswered"><span class="sumPctSpan"><%=Model.NumberNotAnsweredPercentage %>%</span></div></div>
+                            <div class="col-xs-10 col-sm-9 sumExpl">übersprungen (<%=Model.NumberNotAnswered %> Fragen)</div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="buttonRow">
@@ -123,22 +145,6 @@
                 } %>
             </div>
             
-            <div class="stackedVBarChartContainer">
-                <div class="stackedVBarChart chartCorrectAnswer" style="height: <%=Model.NumberCorrectPercentage %>%;">
-                    <% if (Model.NumberCorrectPercentage>0) {%> <%=Model.NumberCorrectPercentage %>% <%} %>
-                </div>
-                <div class="stackedVBarChart chartCorrectAfterRepetitionAnswer" style="height: <%=Model.NumberCorrectAfterRepetitionPercentage %>%;">
-                    <% if (Model.NumberCorrectAfterRepetitionPercentage>0) {%> <%=Model.NumberCorrectAfterRepetitionPercentage %>% <%} %>
-                </div>
-                <div class="stackedVBarChart chartWrongAnswer" style="height: <%=Model.NumberWrongAnswersPercentage %>%;">
-                    <% if (Model.NumberWrongAnswersPercentage>0) {%> <%=Model.NumberWrongAnswersPercentage %>% <%} %>
-                </div>
-                <div class="stackedVBarChart chartNotAnswered" style="height: <%=Model.NumberNotAnsweredPercentage %>%;">
-                    <% if (Model.NumberNotAnsweredPercentage>0) {%> <%=Model.NumberNotAnsweredPercentage %>% <%} %>
-                </div>
-            </div>
-
-
             <div id="detailedAnswerAnalysis">
                 <h3>Auswertung der Antworten</h3>
                 <p style="color: silver; font-size: 11px;">
@@ -261,25 +267,28 @@
                     <div class="boxInfoContent">
                         <h3><%= Model.DateToLearn.GetTitle() %></h3>
                         <div class="tableLayout">
-                            <div class="tableCellLayout"><i class="fa fa-calendar-o">&nbsp;</i></div>
-                            <div class="tableCellLayout">
-                                <%= Model.DateToLearn.DateTime.ToString("dd.MM.yyyy 'um' HH:mm") %>
-                                (<% if(Model.DateIsInPast){
-                                        Response.Write("vorbei seit ");
+                            <div class="tableCellLayout" style="min-width: 18px;"><i class="fa fa-calendar-o">&nbsp;</i></div>
+                            <div class="tableCellLayout show-tooltip" title="Dein Termin ist am <%= Model.DateToLearn.DateTime.ToString("dd.MM.yyyy 'um' HH:mm") %>">
+                                <% if(Model.DateIsInPast){
+                                        Response.Write("Vorbei seit ");
                                     }else { 
-                                        Response.Write("noch ");
-                                    }%><%= Model.DateRemainingTimeLabel.Value %> <%= Model.DateRemainingTimeLabel.Label %>)
+                                        Response.Write("Noch ");
+                                    }%><%= Model.DateRemainingTimeLabel.Value %> <%= Model.DateRemainingTimeLabel.Label %>
                             </div>
                         </div>
                         <div class="tableLayout">
-                            <div class="tableCellLayout"><i class="fa fa-list">&nbsp;</i></div>
-                            <div class="tableCellLayout">
-                                Insgesamt <%= Model.DateToLearn.CountQuestions() %> Fragen aus<br /> 
+                            <div class="tableCellLayout" style="min-width: 18px; text-align: center;">
                                 <a href="#" data-action="toggleDateSets">
-                                    <i class="fa fa-caret-right dateSets">&nbsp;</i><i class="fa fa-caret-down dateSets" style="display: none;">&nbsp;</i><%= Model.DateToLearn.Sets.Count %> 
-                                    <%= StringUtils.Plural(Model.DateToLearn.Sets.Count, "Fragesätzen","Fragesatz") %>
+                                    <i class="fa fa-caret-right dateSets">&nbsp;</i><i class="fa fa-caret-down dateSets" style="display: none;">&nbsp;</i>
                                 </a>
+                            </div>
+                            <div class="tableCellLayout">
+                                <a href="#" data-action="toggleDateSets">
+                                    <%= Model.DateToLearn.CountQuestions() %> Fragen 
+                                </a>
+                                    
                                 <div class="dateSets" style="display: inline; position: relative; display: none;" >
+                                    aus <%= Model.DateToLearn.Sets.Count %> <%= StringUtils.Plural(Model.DateToLearn.Sets.Count, "Fragesätzen","Fragesatz") %>
                                     <%  foreach(var set in Model.DateToLearn.Sets){ %>
                                         <a href="<%= Links.SetDetail(Url, set) %>">
                                             <span class="label label-set"><%= set.Name %></span>
@@ -289,8 +298,8 @@
                             </div>
                         </div>
                                 
-                        <p style="font-weight: bold;">
-                            Dein aktueller Wissensstand:<br/>
+                        <p style="margin-top: 10px;">
+                            Dein Wissensstand:<br/>
                             <div id="chartKnowledgeDate<%=Model.DateToLearn.Id %>" 
                                     data-date-id="<%= Model.DateToLearn.Id %>"
                                     data-notLearned="<%= Model.KnowledgeNotLearned %>"
@@ -315,8 +324,8 @@
                                 ca. <%= Model.TrainingDateCount %> Übungssitzung<%= StringUtils.Plural(Model.DateToLearn.Sets.Count, "en") %><br />
                                 ca. <%= Model.RemainingTrainingTime%> Übungszeit
                             </p>
-                            <p>
-                                Deine nächste Übungssitzung: <br/><i class="fa fa-bell"></i>&nbsp;
+                            <p style="margin-top: 10px;">
+                                Nächste Übungssitzung: <br/><i class="fa fa-bell"></i>&nbsp;
                                 <% if(Model.TrainingPlan.HasOpenDates) {
                                     var timeSpanLabel = new TimeSpanLabel(Model.TrainingPlan.TimeToNextDate, showTimeUnit: true);
                                     if (timeSpanLabel.TimeSpanIsNegative) { %>
