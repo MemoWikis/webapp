@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 public class Round : DomainEntity
@@ -29,7 +30,7 @@ public class Round : DomainEntity
 
     public virtual bool AllPlayersDidAnswer()
     {
-        return Game.Players.Count == Answers.Count;
+        return Game.Players.Count == Answers.Count(answer => !answer.IsView());
     }
 
     public Round()

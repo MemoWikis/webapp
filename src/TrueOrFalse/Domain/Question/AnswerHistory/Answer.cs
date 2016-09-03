@@ -52,6 +52,11 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
     {
         return (DateTimeX.Now() - DateCreated).TotalMinutes;
     }
+
+    public virtual bool IsView()
+    {
+        return AnswerredCorrectly == AnswerCorrectness.IsView;
+    }
 }
 
 public interface IAnswered
