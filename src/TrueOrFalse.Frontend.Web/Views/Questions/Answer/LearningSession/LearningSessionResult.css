@@ -1,82 +1,175 @@
-﻿.Chart {
+﻿/*@color-correctAnswer: inherit;
+@color-correctAfterRepetitionAnswer: inherit;
+@color-wrongAnswer: inherit;
+@color-notAnswered: inherit;*/
+.tableLayout {
+  display: table;
+}
+.tableCellLayout {
+  display: table-cell;
+}
+.Chart {
   margin-top: 20px;
 }
 .well.Chart {
   background-color: transparent;
 }
-.DescrLeft,
-.DescrRight,
-.BarDescr,
-.ChartBarWrapper,
-.ChartNumbers {
-  display: inline-block;
-  line-height: 30px;
-  height: 30px;
-}
-.DescrLeft,
-.BarDescr {
-  width: 120px;
-  text-align: right;
-}
-.ChartBar {
+.stackedBarChartContainer {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  display: table;
   width: 100%;
-  height: 10px;
 }
-#SummaryRightAnswers .ChartBar {
+.stackedBarChart {
+  display: table-cell;
+  /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-weight: bold;
+  color: #fff;
+}
+.chartCorrectAnswer {
   background-color: #3e7700;
+  color: #fff;
 }
-#SummaryWrongAnswers .ChartBar {
-  background-color: #b13a48;
+.chartCorrectAfterRepetitionAnswer {
+  background-color: #fdd648;
 }
-#SummaryUnanswered .ChartBar {
+.chartWrongAnswer {
+  background-color: #B13A48;
+  color: #fff;
+}
+.chartNotAnswered {
   background-color: lightgray;
 }
-.ChartBarWrapper {
-  padding-top: 20px;
+.SummaryText {
+  margin: 40px 0;
 }
-@media (max-width: 479px) {
-  .DescrLeft,
-  .BarDescr {
-    display: block;
-    text-align: left;
-  }
-  .DescrRight {
-    line-height: 1.5em;
-  }
-  .BarDescr {
-    margin-bottom: -20px;
-  }
+.SummaryText p {
+  margin-bottom: 5px;
+  font-weight: normal;
 }
-@media (min-width: 480px) {
-  #SummaryAll {
-    display: table;
-  }
-  .TableRow {
-    display: table-row;
-  }
-  .DescrLeft,
-  .DescrRight {
-    display: table-cell;
-    vertical-align: top;
-  }
-  .DescrLeft,
-  .BarDescr {
-    padding-right: 5px;
-  }
-  .DescrRight {
-    padding-left: 3px;
-  }
+.sumPctCol {
+  width: auto!important;
+  padding-right: 0;
+}
+.sumPct {
+  text-align: right;
+  padding: 5px 8px;
+  border-right-width: 0px;
+  border-right-style: solid;
+  color: white;
+  width: 55px;
+}
+.sumPctSpan {
+  width: 35px;
+}
+.sumPctRight {
+  background-color: #3e7700;
+}
+.sumPctRightAfterRep {
+  background-color: #fdd648;
+}
+.sumPctWrong {
+  background-color: #B13A48;
+}
+.sumPctNotAnswered {
+  background-color: lightgray;
+}
+.sumExpl {
+  text-align: left;
+  padding-left: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.buttonRow {
+  text-align: right;
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 .QuestionLearned {
-  line-height: 30px;
+  margin-top: 4px;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 5px 10px;
+  /*i.fa-check {
+        color: @color-correctAnswer;
+     }
+
+     i.fa-dot-circle-o {
+         color: @color-correctAfterRepetitionAnswer;
+     }
+     i.fa-minus-circle {
+        color: @color-wrongAnswer;
+     }
+
+     i.fa-circle-o {
+        color: @color-notAnswered;
+     }*/
 }
-.QuestionLearned i.fa-check {
+.AnswerResultIcon {
+  font-size: 14px;
+}
+.QuestionLearned.AnsweredRight .AnswerResultIcon {
   color: #3e7700;
 }
-.QuestionLearned i.fa-minus-circle {
-  color: #b13a48;
+.QuestionLearned.AnsweredRightAfterRepetition .AnswerResultIcon {
+  color: #fdd648;
 }
-.QuestionLearned i.fa-circle-o {
+.QuestionLearned.AnsweredWrong .AnswerResultIcon {
+  color: #B13A48;
+}
+.QuestionLearned.Unanswered .AnswerResultIcon {
   color: lightgray;
 }
-/*# sourceMappingURL=LearningSessionResult.css.map */
+.answerDetails {
+  padding-left: 30px;
+  margin-bottom: 2px;
+  display: none;
+}
+.answerDetails p {
+  margin: 2px 0;
+}
+.answerDetails .rightAnswer {
+  font-weight: bold;
+}
+.answerDetails .answerTry {
+  margin-left: 15px;
+}
+.answerDetails .answerLinkToQ {
+  font-size: 11px;
+  margin-top: 9px;
+  color: silver;
+}
+.answerDetailImage {
+  padding: 4px 4px 4px 0;
+  max-width: 80px;
+}
+.boxInfo {
+  margin-top: 30px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  border-color: #eeeeee;
+}
+.boxInfoHeader {
+  background-color: #eeeeee;
+  padding: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.boxInfoContent {
+  padding: 8px;
+  font-size: 14px;
+}
+.boxInfoContent h3 {
+  font-family: 'Open Sans';
+  margin: 2px 0 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.boxInfoContent p {
+  margin: 3px 0;
+}

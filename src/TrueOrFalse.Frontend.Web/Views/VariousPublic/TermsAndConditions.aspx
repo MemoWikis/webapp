@@ -46,7 +46,7 @@
                 <li>Sei nett zu anderen memucho-Nutzern!</li>
                 <li>Wenn du Inhalte (z.B. Fragen) selber einstellst, stelle sicher, dass du keine Urheberrechte verletzt.</li>
                 <li>Wenn du Inhalte einstellst, achte auf Richtigkeit und Rechtschreibung. Stelle keine Inhalte ein, die falsch, beleidigend, verboten oder Werbung sind.</li>
-                <li>Anmelden dürfen sich nur Privatpersonen und z.B. keine Unternehmen.</li>
+                <li>Registrieren dürfen sich nur Privatpersonen und z.B. keine Unternehmen.</li>
             </ul>
             <p style="font-style: italic; margin-top: 20px;">Diese Zusammenfassung ist nicht Teil der rechtsverbindlichen Nutzungsbedingungen. Sie dient allein dem Überblick und ist informativ.</p>
         </div>
@@ -111,7 +111,7 @@
         
         <h3>4) Nutzer & Mitgliedschaft</h3>
         <p>
-            Als normale Nutzer anmelden dürfen sich nur Privatpersonen und z.B. keine Unternehmen. Für Unternehmen, gemeinnützige Vereine etc. 
+            Als normale Nutzer registrieren dürfen sich nur Privatpersonen und z.B. keine Unternehmen. Für Unternehmen, gemeinnützige Vereine etc. 
             gibt es nach Absprache andere Modelle der Mitgliedschaft.
         </p>
 

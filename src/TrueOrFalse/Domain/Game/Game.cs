@@ -19,12 +19,14 @@ public class Game : DomainEntity
     public virtual GameStatus Status { get; set; }
     public virtual string Comment { get; set; }
 
-    public virtual bool IsInProgess { get { return Status == GameStatus.InProgress; } }
-    public virtual bool IsCompleted { get { return Status == GameStatus.Completed; } }
-    public virtual bool IsNeverStarted { get { return Status == GameStatus.NeverStarted; } }
-    public virtual bool IsReady { get { return Status == GameStatus.Ready; } }
+    public virtual bool IsInProgess => Status == GameStatus.InProgress;
+    public virtual bool IsCompleted => Status == GameStatus.Completed;
+    public virtual bool IsNeverStarted => Status == GameStatus.NeverStarted;
+    public virtual bool IsReady => Status == GameStatus.Ready;
 
-    public virtual Player Creator { get { return Players.Creator(); } }
+    public virtual Player Creator => Players.Creator();
+
+    public virtual bool WithSystemAvgPlayer { get; set; }
 
     public virtual bool AddPlayer(User user, bool isCreator = false)
     {

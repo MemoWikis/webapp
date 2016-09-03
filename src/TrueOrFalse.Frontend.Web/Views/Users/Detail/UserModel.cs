@@ -51,7 +51,7 @@ public class UserModel : BaseModel
 
         var reputation = Resolve<ReputationCalc>().Run(user);
         ReputationRank = user.ReputationPos;
-        ReputationTotal = reputation.TotalRepuation;
+        ReputationTotal = reputation.TotalReputation;
         Reputation = reputation;
 
         UserIdProfile = user.Id;

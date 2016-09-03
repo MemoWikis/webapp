@@ -18,4 +18,5 @@ $(() => {
     $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
+    new ShareQuestion();
 });

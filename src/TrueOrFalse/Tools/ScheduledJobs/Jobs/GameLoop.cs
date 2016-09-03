@@ -74,16 +74,18 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     continue;
                 }
 
-                var currentRound = game.GetCurrentRound();
-                if (currentRound == null)
+                var currentRound = game.GetCurrentRound();                
+                if (currentRound == null) 
                 {
+                    //game is not started, we advance to first round.
                     game.NextRound();
                     continue;
                 }
 
-                AutomatedMemuchoAnswer(game, currentRound);
+                if(game.WithSystemAvgPlayer)
+                    AutomatedMemuchoAnswer(game, currentRound);
 
-                if (currentRound.IsOverdue() || currentRound.AllPlayersDidAnswer())
+                if (currentRound.IsExpired() || currentRound.AllPlayersDidAnswer())
                 {
                     game.NextRound();
                     game.SetPlayerPositions();

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<dynamic>" %>
+﻿<%@ Page Title="Ausgeloggt" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -8,8 +8,8 @@
         </div>
     
         <div class="form-horizontal col-md-9">
-            <h2>Abgemeldet</h2>
-            <p>Du wurdest erfolgreich abgemeldet.</p>    
+            <h2>Ausgeloggt</h2>
+            <p>Du wurdest erfolgreich ausgeloggt.</p>    
         </div>        
     </div>
 

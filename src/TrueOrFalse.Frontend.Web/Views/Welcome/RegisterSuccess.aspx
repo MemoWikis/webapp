@@ -11,7 +11,7 @@
 
 	        <p>
 	            Schön, dass du dabei bist! Du bist nun registriert. <br/>
-                Bitte bestätige noch deine Email-Adresse über den Link, den wir dir gerade per Email geschickt haben.
+                Bitte bestätige noch deine E-Mail-Adresse über den Link, den wir dir gerade per E-Mail geschickt haben.
             </p>
 
 	        <p>Trotzdem kannst du schon loslegen!</p>

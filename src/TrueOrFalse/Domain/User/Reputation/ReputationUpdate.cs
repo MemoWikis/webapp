@@ -24,7 +24,7 @@
     public void Run(User userToUpdate)
     {
         var oldReputation = userToUpdate.Reputation;
-        var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalRepuation;
+        var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
 
         var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
         for (int i = 0; i < users.Count; i++)

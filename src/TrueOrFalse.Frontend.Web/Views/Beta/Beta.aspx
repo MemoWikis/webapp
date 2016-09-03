@@ -144,7 +144,7 @@
             </p>
             
             <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
-                Keine gültige Email.
+                Keine gültige E-Mail.
             </div>
             
             <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">

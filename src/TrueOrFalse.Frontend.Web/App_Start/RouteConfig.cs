@@ -12,7 +12,7 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
-            routes.MapRoute("Login", "Anmelden", new { controller = "Welcome", action = "Login" });
+            routes.MapRoute("Login", "Einloggen", new { controller = "Welcome", action = "Login" });
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Welcome", action = "IsUserNameAvailable" });
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Welcome", action = "IsEmailAvailable" });
             routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
@@ -114,6 +114,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
+            routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "VariousPublic", action = "WelfareCompany" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
 
@@ -135,6 +136,8 @@ namespace TrueOrFalse
             routes.MapRoute("Redirect3", "f/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
 
             routes.MapRoute("Topic", "Thema/{topicName}", new { controller = "Topics", action = "Topic" });
+
+            routes.MapRoute("WidgetQuestion", "widget/frage/{questionId}", new { controller = "Widget", action = "Question" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
         }

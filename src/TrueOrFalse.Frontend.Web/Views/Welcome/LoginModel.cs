@@ -7,14 +7,14 @@ public class LoginModel : BaseModel
 
     public string Password;
 
-    [DisplayName("Email")]
+    [DisplayName("E-Mail")]
     public string EmailAddress { get; set; }
 
     public bool PersistentLogin { get; set; }
 
     public void SetToWrongCredentials()
     {
-        Message = new UIMessage(MessageType.IsError, 
-            "Du konntest nicht angemeldet werden. Bitte überprüfe deine Email-Adresse und das Passwort"); ;
+        Message = new UIMessage(MessageType.IsError,
+            "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort"); ;
     }
 }
