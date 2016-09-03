@@ -159,6 +159,7 @@
             $("#SolutionDetailsSpinner").remove();
             $("#SolutionDetails").show();
             $('#Buttons').css('visibility', 'visible');
+            $('#hddTimeRecords').attr('data-time-of-solution-view', $.now());
         }, 50);
     }
 

@@ -201,8 +201,16 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswerLearningSession(int id, int learningSessionId, Guid stepGuid, string answer)
+    public JsonResult SendAnswerLearningSession(int id, int learningSessionId, Guid stepGuid, string answer, string timeOnLoadString, string timeOfAnswerString)
     {
+        //var timeOnLoad = DateTime(int.Parse(timeOnLoadString)
+
+        //var timeOnLoad = DateTime.MinValue.AddMilliseconds(long.Parse(timeOnLoadString));
+
+        var timeOnLoad = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOnLoadString));
+        var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
+          
+
         var result = _answerQuestion.Run(id, answer, UserId, learningSessionId, stepGuid);
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
@@ -249,6 +257,12 @@ public class AnswerQuestionController : BaseController
                 })
             }
         };
+    }
+
+    [HttpPost]
+    public void LogTimeAfterSolution(int answerId, string timeOfPageLeaveString)
+    {
+
     }
 
     [HttpPost]

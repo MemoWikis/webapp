@@ -15,5 +15,7 @@ $(() => {
         fjs.parentNode.insertBefore(js, fjs);
     } loadFacebook(window.document, 'script', 'facebook-jssdk');
 
+    $('#hddTimeRecords').attr('data-time-on-load', $.now());
+
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
 });

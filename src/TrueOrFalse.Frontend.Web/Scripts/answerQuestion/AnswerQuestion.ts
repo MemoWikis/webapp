@@ -72,6 +72,12 @@ class AnswerQuestion
         //       // $("#txtAnswer").select();
         //    });
 
+        $("#btnCheck, #btnCheckAgain").click(
+            e => {
+                e.preventDefault();
+                $('#hddTimeRecords').attr('data-time-of-answer', $.now());
+            });
+
         $("#btnCheck").click(
             e => {
                 e.preventDefault();
@@ -152,7 +158,11 @@ class AnswerQuestion
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
-                data: self._getAnswerData(),
+                data: $.extend(self._getAnswerData(),
+                {
+                    timeOnLoadString: $('#hddTimeRecords').attr('data-time-on-load'),
+                    timeOfAnswerString: $('#hddTimeRecords').attr('data-time-of-answer')
+                }),
                 cache: false,
                 success(result) {
                     answerResult = result;
