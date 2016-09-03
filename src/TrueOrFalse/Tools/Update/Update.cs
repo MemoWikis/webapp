@@ -70,6 +70,7 @@
                 .Add(UpdateToVs137.Run)
                 .Add(UpdateToVs138.Run)
                 .Add(UpdateToVs139.Run)
+                .Add(UpdateToVs140.Run)
                 .Run();
         }
     }

@@ -19,9 +19,9 @@ public class Round : DomainEntity
     public virtual IList<Answer> Answers { get; set; }
 
     /// <summary>Seconds</summary>
-    public virtual int RoundLength { get { return 20; } }
+    public virtual int RoundLength => 20;
 
-    public virtual bool IsOverdue()
+    public virtual bool IsExpired()
     {
         Debug.Assert(StartTime != null, "StartTime != null");
         return ((DateTime)StartTime).AddSeconds(RoundLength) < DateTime.Now;

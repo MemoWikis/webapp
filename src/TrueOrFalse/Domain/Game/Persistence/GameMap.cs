@@ -10,6 +10,8 @@ public class GameMap : ClassMap<Game>
         Map(x => x.MaxPlayers);
         Map(x => x.RoundCount);
 
+        Map(x => x.WithSystemAvgPlayer);
+
         HasMany(x => x.Players)
             .Cascade.SaveUpdate();
 

@@ -67,9 +67,10 @@ public class GameController : BaseController
         game.MaxPlayers = gameModel.MaxPlayers;
         game.WillStartAt = DateTime.Now.AddMinutes(Convert.ToInt32(gameModel.StartsInMinutes));
         game.Comment = gameModel.Comment;
+        game.WithSystemAvgPlayer = gameModel.WithSystemAvgPlayer;
         game.AddPlayer(_sessionUser.User, isCreator:true);
 
-        if (!_sessionUser.User.IsMemuchoUser)
+        if (!_sessionUser.User.IsMemuchoUser && game.WithSystemAvgPlayer)
             game.AddPlayer(this.MemuchoUser());
 
         game.Status = GameStatus.Ready;
