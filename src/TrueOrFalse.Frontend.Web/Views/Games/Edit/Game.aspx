@@ -32,137 +32,137 @@
         </div>
     </div>
         
-        <div class="row">
-            <div class="col-sm-9">
-                <% if(!Model.IsLoggedIn){ %>
-                    <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
-                        <h4>Einloggen oder registrieren</h4>
-                        <p>
-                            Um Spiele zu erstellen,
-                            musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
-                        </p>
-                    </div>
-                <% }%>
-            </div>            
-        </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <% if(!Model.IsLoggedIn){ %>
+                <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
+                    <h4>Einloggen oder registrieren</h4>
+                    <p>
+                        Um Spiele zu erstellen,
+                        musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+                    </p>
+                </div>
+            <% }%>
+        </div>            
+    </div>
         
-        <div class="row">
-            <div class="col-md-9 xxs-stack">
-                <% Html.Message(Model.Message); %>
-            </div>
+    <div class="row">
+        <div class="col-md-9 xxs-stack">
+            <% Html.Message(Model.Message); %>
+        </div>
             
-            <div class="col-md-9">
-                <div class="form-horizontal">
-                    <div class="FormSection">
+        <div class="col-md-9">
+            <div class="form-horizontal">
+                <div class="FormSection">
 
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label class="columnLabel control-label">
-                                        <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in: 
-                                        &nbsp;<i class="fa fa-question-circle show-tooltip" title="Gib hier an, wie lange du maximal auf Mitspieler warten möchtest." data-placement="right"></i>
-                                    </label>
-                                    <div class="col-md-11 col-sm-8 col-xs-11">
-                                        <div class="input-group">
-                                            <input class="form-control" name="StartsInMinutes" value="5" style="height: 30px;" />
-                                            <span class="input-group-addon" style="height: 30px;">
-                                                (max. 10min)
-                                            </span>
-                                        </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="columnLabel control-label">
+                                    <i class="fa fa-clock-o"></i> &nbsp; Startet spätestens in: 
+                                    &nbsp;<i class="fa fa-question-circle show-tooltip" title="Gib hier an, wie lange du maximal auf Mitspieler warten möchtest." data-placement="right"></i>
+                                </label>
+                                <div class="col-md-11 col-sm-8 col-xs-11">
+                                    <div class="input-group">
+                                        <input class="form-control" name="StartsInMinutes" value="5" style="height: 30px;" />
+                                        <span class="input-group-addon" style="height: 30px;">
+                                            (max. 10min)
+                                        </span>
                                     </div>
-                                </div>                                
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label class="columnLabel control-label">
-                                        <i class="fa fa-users"></i> &nbsp; Max. Anzahl Spieler:
-                                    </label>
-                                    <div class="col-md-10 col-sm-8 col-xs-11">
-                                        <div class="input-group">
-                                            <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
-                                            <span class="input-group-addon" style="height: 30px;">
-                                                (max. 30)
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label class="columnLabel control-label">
-                                        <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden (=Fragen)
-                                    </label>
-                                    <div class="col-md-11 col-sm-8 col-xs-11">
-                                        <div class="input-group">
-                                            <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
-                                            <span class="input-group-addon" style="height: 30px;">
-                                                (max. 100) &nbsp;&nbsp;&nbsp;&nbsp; 
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-lg-7">
-                                <div class="form-group">
-                                    <div class="col-md-11 col-sm-8 col-xs-11">
-                                          <div class="checkbox">
-                                            <label>
-                                                <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple-Choice-Fragen
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>
-                        </div>
-                                                                     
-                        <div class="form-group">
-                            <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>
-                            <div class="JS-Sets columnControlsFull">
-                                <script type="text/javascript">
-                                    $(function () {
-                                        <%foreach (var set in Model.Sets) { %>
-                                        $("#txtSet")
-                                            .val('<%=set.Name %>')
-                                            .data('set-id', '<%=set.Id %>')
-                                            .trigger("initSetFromTxt");
-                                        <% } %>
-                                    });
-                                </script>
-                                <div class="JS-SetInputContainer ControlInline ">
-                                    <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
                                 </div>
+                            </div>                                
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="columnLabel control-label">
+                                    <i class="fa fa-users"></i> &nbsp; Max. Anzahl Spieler:
+                                </label>
+                                <div class="col-md-10 col-sm-8 col-xs-11">
+                                    <div class="input-group">
+                                        <input class="form-control" name="MaxPlayers" value="10" style="height: 30px;" name="amountPlayers" />
+                                        <span class="input-group-addon" style="height: 30px;">
+                                            (max. 30)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                        
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="columnLabel control-label">
+                                    <i class="fa fa-retweet"></i>&nbsp; Anzahl Runden (=Fragen)
+                                </label>
+                                <div class="col-md-11 col-sm-8 col-xs-11">
+                                    <div class="input-group">
+                                        <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
+                                        <span class="input-group-addon" style="height: 30px;">
+                                            (max. 100) &nbsp;&nbsp;&nbsp;&nbsp; 
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                        
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                                <div class="col-md-11 col-sm-8 col-xs-11">
+                                        <div class="checkbox">
+                                        <label>
+                                            <%= Html.CheckBoxFor(x => x.OnlyMultipleChoice) %> Nur Multiple-Choice-Fragen
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>                                
+                        </div>
+                    </div>
+                                                                     
+                    <div class="form-group">
+                        <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>
+                        <div class="JS-Sets columnControlsFull">
+                            <script type="text/javascript">
+                                $(function () {
+                                    <%foreach (var set in Model.Sets) { %>
+                                    $("#txtSet")
+                                        .val('<%=set.Name %>')
+                                        .data('set-id', '<%=set.Id %>')
+                                        .trigger("initSetFromTxt");
+                                    <% } %>
+                                });
+                            </script>
+                            <div class="JS-SetInputContainer ControlInline ">
+                                <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
                             </div>
                         </div>
+                    </div>
 
 <%--                        <div class="form-group">
-                            <%= Html.LabelFor(m => m.Comment, new { @class = "columnLabel control-label" })%>
-                            <div class="columnControlsFull">
-                                <%= Html.TextAreaFor(m => m.Comment, 
-                                    new
-                                    {
-                                        @class="form-control", 
-                                        placeholder = "Nachricht an deine Mitspieler (optional)", 
-                                        rows = 3
-                                    })%>
-                            </div>
-                        </div>--%>
-                        
-                        <div class="form-group">
-                            <div class="noLabel columnControlsFull">
-                                <input type="submit" value="Spiel erstellen " class="btn btn-primary" name="btnSave" 
-                                    <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> />
-                            </div>
+                        <%= Html.LabelFor(m => m.Comment, new { @class = "columnLabel control-label" })%>
+                        <div class="columnControlsFull">
+                            <%= Html.TextAreaFor(m => m.Comment, 
+                                new
+                                {
+                                    @class="form-control", 
+                                    placeholder = "Nachricht an deine Mitspieler (optional)", 
+                                    rows = 3
+                                })%>
                         </div>
-
+                    </div>--%>
+                        
+                    <div class="form-group">
+                        <div class="noLabel columnControlsFull">
+                            <input type="submit" value="Spiel erstellen " class="btn btn-primary" name="btnSave" 
+                                <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> />
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 <% } %>
 </asp:Content>
