@@ -1,5 +1,5 @@
 ﻿var iframeId = "memuchoFrame";
-var senderDomains = ['http://memucho', 'http://memucho.de'];
+var senderDomains = ['http://memucho', 'https://memucho.de'];
 
 //http://stackoverflow.com/questions/9162933/make-iframe-height-dynamic-based-on-content-inside-jquery-javascript
 function iframeLoaded() {
@@ -52,7 +52,7 @@ var scripts = document.getElementsByTagName('script');
 var scriptTag = scripts[scripts.length - 1];
 var questionId = scriptTag.getAttribute("questionId");
 
-var filePath = 'http://memucho/widget/frage/' + questionId;
+var filePath = 'https://memucho.de/widget/frage/' + questionId;
 var iframeHtml = '<iframe ' +
     'id="' + iframeId + '" name="widget" ' +
     'src="#" height="1" ' +
