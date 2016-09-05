@@ -228,7 +228,7 @@
                 <p style="width: 150px;">
                     <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
                     <div style="margin-top: 5px">
-                        <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-share-alt" aria-hidden="true"></i> Einbetten</a>
+                        <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-share-alt" aria-hidden="true">&nbsp;</i>Einbetten</a>
                     </div>
                 </p>
             </div>
