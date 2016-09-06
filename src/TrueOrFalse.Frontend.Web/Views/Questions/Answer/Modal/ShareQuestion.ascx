@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div>
                     <input type="text" class="form-control" 
-                        value="<%: Html.Raw("&lt;script src=&quot;http://memucho/views/widgets/question.js&quot; questionId=&quot;" + Model.QuestionId + "&quot; width=&quot;560&quot; height=&quot;315&quot;/&gt;") %>"/>
+                        value="<%: Html.Raw("&lt;script src=&quot;https://memucho.de/views/widgets/question.js&quot; questionId=&quot;" + Model.QuestionId + "&quot; width=&quot;560&quot; height=&quot;315&quot;&gt; &lt;/script&gt;") %>"/>
                 </div>
             </div>
             <div class="modal-footer">

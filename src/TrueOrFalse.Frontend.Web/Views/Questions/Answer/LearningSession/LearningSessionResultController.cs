@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
-using FluentNHibernate.Utils;
 
 public class LearningSessionResultController : BaseController
 {

@@ -43,7 +43,13 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
-            _answerLog.Run(question, answerQuestionResult, userId, learningSession: learningSession, learningSessionStepGuid: learningSessionStep.Guid, dateCreated: dateCreated);
+            _answerLog.Run(
+                question, 
+                answerQuestionResult, 
+                userId, 
+                learningSession: learningSession, 
+                learningSessionStepGuid: learningSessionStep.Guid, 
+                dateCreated: dateCreated);
 
             learningSessionStep.AnswerState = StepAnswerState.Answered;
             learningSessionRepo.Update(learningSession);

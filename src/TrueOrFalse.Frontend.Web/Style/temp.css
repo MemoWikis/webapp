@@ -119,7 +119,7 @@ ul {
 }
 @media (max-width: 479px) {
   .well img:not(.ItemImage) {
-    width: 30%;
+    width: 100%;
   }
 }
 .well.Founder .ImageColumn {

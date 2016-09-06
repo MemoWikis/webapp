@@ -93,7 +93,7 @@
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#Buttons').css('visibility', 'hidden');
-        window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 1000);
+        window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 500);
 
         AnswerQuestion.AjaxGetSolution(result => {
 
