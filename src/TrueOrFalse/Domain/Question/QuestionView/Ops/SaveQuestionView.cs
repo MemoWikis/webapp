@@ -19,12 +19,13 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Question question, User user)
+    public void Run(Guid questionViewGuid, Question question, User user)
     {
-        Run(question, user == null ? -1 : user.Id);
+        Run(questionViewGuid, question, user == null ? -1 : user.Id);
     }
 
     public void Run(
+        Guid questionViewGuid,
         Question question,
         int userId,
         Player player = null,
@@ -36,8 +37,11 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
                 return;
 
+        var questionView = _questionViewRepo.GetById(1231048);
+
         _questionViewRepo.Create(new QuestionView
         {
+            Guid = questionViewGuid,
             QuestionId = question.Id,
             UserId = userId,
             Player = player,

@@ -73,13 +73,16 @@ public class AnswerQuestionController : BaseController
             }
         }
 
+        var questionViewGuid = Guid.NewGuid();
+
         _saveQuestionView.Run(
+            questionViewGuid,
             learningSession.Steps[currentLearningStepIdx].Question,
             _sessionUser.User.Id,
             learningSession: learningSession,
             learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
 
-        return View(_viewLocation, new AnswerQuestionModel(Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
+        return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
     public ActionResult AnswerSet(int setId, int questionId)
@@ -95,8 +98,9 @@ public class AnswerQuestionController : BaseController
             .VisitedQuestions
             .Add(new QuestionHistoryItem(set, question));
 
-        _saveQuestionView.Run(question, _sessionUser.User);
-        return View(_viewLocation, new AnswerQuestionModel(set, question));
+        var questionViewGuid = Guid.NewGuid();
+        _saveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, set, question));
     }
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
@@ -128,9 +132,11 @@ public class AnswerQuestionController : BaseController
             activeSearchSpec.CurrentPage = (int)elementOnPage;
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
-        _saveQuestionView.Run(question, _sessionUser.User);
 
-        return View(_viewLocation, new AnswerQuestionModel(question, activeSearchSpec));
+        var questionViewGuid = Guid.NewGuid();
+        _saveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+
+        return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec));
     }
 
     public ActionResult Next(string pager, int? setId, int? questionId)
@@ -174,9 +180,11 @@ public class AnswerQuestionController : BaseController
             }
 
             _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
-            _saveQuestionView.Run(question, _sessionUser.UserId);
 
-            return View(_viewLocation, new AnswerQuestionModel(question, searchSpec));
+            var questionViewGuid = Guid.NewGuid();
+            _saveQuestionView.Run(questionViewGuid, question, _sessionUser.UserId);
+
+            return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, searchSpec));
         }
     }
 
@@ -201,12 +209,19 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswerLearningSession(int id, int learningSessionId, Guid stepGuid, string answer, string timeOnLoadString, string timeOfAnswerString)
+    public JsonResult SendAnswerLearningSession(int id,
+                                                int learningSessionId,
+                                                string questionViewGuidString,
+                                                Guid stepGuid, 
+                                                string answer, 
+                                                string timeOnLoadString, 
+                                                string timeOfAnswerString)
     {
         //var timeOnLoad = DateTime(int.Parse(timeOnLoadString)
 
         //var timeOnLoad = DateTime.MinValue.AddMilliseconds(long.Parse(timeOnLoadString));
 
+        var questionViewGuid = new Guid(questionViewGuidString);
         var timeOnLoad = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOnLoadString));
         var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
           

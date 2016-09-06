@@ -160,6 +160,7 @@ class AnswerQuestion
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
                 data: $.extend(self._getAnswerData(),
                 {
+                    questionViewGuidString: $('#hddQuestionViewGuid').val(),
                     timeOnLoadString: $('#hddTimeRecords').attr('data-time-on-load'),
                     timeOfAnswerString: $('#hddTimeRecords').attr('data-time-of-answer')
                 }),

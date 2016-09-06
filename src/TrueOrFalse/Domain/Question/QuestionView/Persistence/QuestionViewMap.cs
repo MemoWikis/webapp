@@ -5,6 +5,8 @@ public class QuestionViewMap : ClassMap<QuestionView>
     public QuestionViewMap()
     {
         Id(x => x.Id);
+        Map(x => x.GuidString).Column("Guid").CustomSqlType("varchar(36)").Unique();
+
         Map(x => x.UserId);
         Map(x => x.QuestionId);
 

@@ -11,6 +11,8 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> PreviousUrl;
     public Func<UrlHelper, string> NextUrl;
 
+    public Guid QuestionViewGuid;
+
     public int QuestionId;
     public Question Question;
     public User Creator;
@@ -98,8 +100,10 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
-    public AnswerQuestionModel(LearningSession learningSession)
+    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession)
     {
+        QuestionViewGuid = questionViewGuid;
+
         LearningSession = learningSession;
 
         CurrentLearningStepIdx = LearningSession.CurrentLearningStepIdx();
@@ -116,8 +120,10 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(Question question, QuestionSearchSpec searchSpec)
+    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec)
     {
+        QuestionViewGuid = questionViewGuid;
+
         PageCurrent = searchSpec.CurrentPage.ToString();
         PagesTotal = searchSpec.PageCount.ToString();
         PagerKey = searchSpec.Key;
@@ -141,8 +147,10 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Set set, Question question)
+    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question)
     {
+        QuestionViewGuid = questionViewGuid;
+
         int pageCurrent = set.QuestionsInSet.GetIndex(question.Id) + 1;
         int pagesTotal = set.QuestionsInSet.Count;
         PageCurrent = pageCurrent.ToString();

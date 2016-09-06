@@ -4,6 +4,8 @@
 
 <div id="AnswerBody" class="well">
                                 
+    <input type="hidden" id="hddQuestionViewGuid" value="<%= Model.QuestionViewGuid.ToString() %>" />
+    <input type="hidden" id="hddInteractionNumber" value="1" />
     <input type="hidden" id="questionId" value="<%= Model.QuestionId %>" />
     <input type="hidden" id="isLastQuestion" value="<%= Model.IsLastQuestion %>" />
     <input type="hidden" id="ajaxUrl_SendAnswer" value="<%= Model.AjaxUrl_SendAnswer(Url) %>" />
