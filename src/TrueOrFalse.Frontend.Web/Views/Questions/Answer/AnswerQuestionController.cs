@@ -189,9 +189,9 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswer(int id, string answer)
+    public JsonResult SendAnswer(int id, string answer, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
     {
-        var result = _answerQuestion.Run(id, answer, UserId);
+        var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
@@ -211,22 +211,15 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public JsonResult SendAnswerLearningSession(int id,
                                                 int learningSessionId,
-                                                string questionViewGuidString,
-                                                Guid stepGuid, 
+                                                Guid questionViewGuid,
+                                                int interactionNumber,
+                                                Guid stepGuid,
                                                 string answer, 
-                                                string timeOnLoadString, 
-                                                string timeOfAnswerString)
+                                                int millisecondsSinceQuestionView)
     {
-        //var timeOnLoad = DateTime(int.Parse(timeOnLoadString)
+        //var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
 
-        //var timeOnLoad = DateTime.MinValue.AddMilliseconds(long.Parse(timeOnLoadString));
-
-        var questionViewGuid = new Guid(questionViewGuidString);
-        var timeOnLoad = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOnLoadString));
-        var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
-          
-
-        var result = _answerQuestion.Run(id, answer, UserId, learningSessionId, stepGuid);
+        var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, learningSessionId, stepGuid);
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
@@ -245,16 +238,16 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id, string answer, int? roundId)
+    public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId)
     {
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
 
         if (IsLoggedIn)
             if(roundId == null)
-                R<AnswerLog>().LogAnswerView(question, this.UserId);
+                R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
             else
-                R<AnswerLog>().LogAnswerView(question, this.UserId, roundId);
+                R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, roundId);
 
         return new JsonResult
         {

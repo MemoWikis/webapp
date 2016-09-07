@@ -11,6 +11,9 @@ public class AnswerMap : ClassMap<Answer>
 
         References(x => x.Question).Column("QuestionId");
 
+        Map(x => x.QuestionViewGuidString).Column("QuestionViewGuid").CustomSqlType("varchar(36)");
+        Map(x => x.InteractionNumber);
+
         Map(x => x.AnswerText);
         Map(x => x.AnswerredCorrectly);
 
@@ -22,7 +25,7 @@ public class AnswerMap : ClassMap<Answer>
         HasManyToMany(x => x.Features).
             Table("answerFeature_to_answer");
 
-        Map(x => x.Milliseconds);
+        Map(x => x.MillisecondsSinceQuestionView).Column("Milliseconds");
         Map(x => x.DateCreated);
     }           
 }

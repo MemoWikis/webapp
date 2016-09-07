@@ -14,6 +14,9 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         Question question, 
         AnswerQuestionResult answerQuestionResult, 
         int userId,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
         Player player = null,
         Round round = null,
         LearningSession learningSession = null,
@@ -25,6 +28,9 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         {
             Question = question,
             UserId = userId,
+            QuestionViewGuid = questionViewGuid,
+            InteractionNumber = interactionNumber,
+            MillisecondsSinceQuestionView = millisecondsSinceQuestionView,
             AnswerText = answerQuestionResult.AnswerGiven,
             AnswerredCorrectly = answerQuestionResult.IsCorrect ? AnswerCorrectness.True : AnswerCorrectness.False,
             Round = round,
@@ -63,12 +69,15 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         _answerRepo.Create(answer);
     }
 
-    public void LogAnswerView(Question question, int userId, int? roundId = null)
+    public void LogAnswerView(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId = null)
     {
         var answer = new Answer
         {
             Question = question,
             UserId = userId,
+            QuestionViewGuid = questionViewGuid,
+            InteractionNumber = interactionNumber,
+            MillisecondsSinceQuestionView = millisecondsSinceQuestionView,
             AnswerText = "",
             AnswerredCorrectly = AnswerCorrectness.IsView,
             DateCreated = DateTime.Now

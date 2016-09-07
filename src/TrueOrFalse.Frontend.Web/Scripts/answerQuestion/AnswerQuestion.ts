@@ -162,13 +162,15 @@ class AnswerQuestion
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
                 data: $.extend(self._getAnswerData(),
                 {
-                    questionViewGuidString: $('#hddQuestionViewGuid').val(),
-                    timeOnLoadString: $('#hddTimeRecords').attr('data-time-on-load'),
-                    timeOfAnswerString: $('#hddTimeRecords').attr('data-time-of-answer')
-                }),
+                    questionViewGuid: $('#hddQuestionViewGuid').val(),
+                    interactionNumber: $('#hddInteractionNumber').val(),
+                    millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
+                 }),
                 cache: false,
                 success(result) {
                     answerResult = result;
+                    self.IncrementInteractionNumber();
+                    
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
 
@@ -294,13 +296,30 @@ class AnswerQuestion
 
     static AjaxGetSolution(onSuccessAction) {
 
+        var self = this;
+
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
+            data: {
+                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                interactionNumber: $('#hddInteractionNumber').val(),
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+            },
             cache: false,
             success: result => {
                 onSuccessAction(result);
             }
         });
+    }
+
+    private IncrementInteractionNumber() {
+        $('#hddInteractionNumber').val(function (i, oldval) {
+            return (parseInt(oldval, 10) + 1).toString();
+        });
+    }
+
+    static TimeSinceLoad(time: any) {
+        return parseInt(time) - parseInt($('#hddTimeRecords').attr('data-time-on-load'));
     }
 }

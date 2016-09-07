@@ -36,12 +36,15 @@ public class PlayController : BaseController
     [HttpPost]
     public JsonResult SendAnswerGame(
         int questionId,
+        Guid questionViewGuid,
+        int InteractionNumber,
+        int millisecondsSinceQuestionView,
         int gameId, 
         int playerId,
         int roundId,
         string answer)
     {
-        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, playerId, roundId);
+        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, questionViewGuid, InteractionNumber, millisecondsSinceQuestionView, playerId, roundId);
         var solution = R<GetQuestionSolution>().Run(questionId);
 
         R<GameHubConnection>().SendAnswered(gameId, playerId, result);

@@ -58,8 +58,8 @@ namespace TrueOrFalse.Tests
                 .AddQuestion(creator: user1);
             var question1 = contextQuestion.All[0];
 
-            Resolve<AnswerQuestion>().Run(question1.Id, "Some answer", user1.Id);
-            Resolve<AnswerQuestion>().Run(question1.Id, "Some answer", user2.Id);
+            Resolve<AnswerQuestion>().Run(question1.Id, "Some answer", user1.Id, Guid.NewGuid(), 1, -1);
+            Resolve<AnswerQuestion>().Run(question1.Id, "Some answer", user2.Id, Guid.NewGuid(), 1, -1);
 
             QuestionDelete.Run(question1.Id);
             Assert.That(Resolve<QuestionGetCount>().Run(user1.Id), Is.EqualTo(0));

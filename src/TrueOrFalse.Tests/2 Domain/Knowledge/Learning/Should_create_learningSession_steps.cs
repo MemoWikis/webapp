@@ -73,8 +73,8 @@ public class Should_create_learningSession_steps : BaseTest
 
         RecycleContainer();
 
-        R<AnswerQuestion>().Run(steps[0].Question.Id, "answer1", -1, learningSession.Id, steps[0].Guid);
-        R<AnswerQuestion>().Run(steps[1].Question.Id, "answer2", -1, learningSession.Id, steps[1].Guid);
+        R<AnswerQuestion>().Run(steps[0].Question.Id, "answer1", -1, Guid.NewGuid(), 1, learningSession.Id, -1, steps[0].Guid);
+        R<AnswerQuestion>().Run(steps[1].Question.Id, "answer2", -1, Guid.NewGuid(), 1, learningSession.Id, -1, steps[1].Guid);
 
         RecycleContainer();
 

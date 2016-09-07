@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace TrueOrFalse.Tests
 {
@@ -16,7 +17,7 @@ namespace TrueOrFalse.Tests
 
             var createdQuestion = contextQuestion.All[0];
             var user = contextUsers.Users[0];
-            Resolve<AnswerQuestion>().Run(createdQuestion.Id, "Some answer", user.Id);
+            Resolve<AnswerQuestion>().Run(createdQuestion.Id, "Some answer", user.Id, Guid.NewGuid(), 1, -1);
 
             var answers = Resolve<AnswerRepo>().GetAll();
             Assert.That(answers.Count, Is.EqualTo(1));
