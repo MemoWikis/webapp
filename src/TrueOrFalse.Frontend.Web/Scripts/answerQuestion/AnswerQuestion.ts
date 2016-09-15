@@ -255,6 +255,7 @@ class AnswerQuestion
         $.ajax({
             type: 'POST',
             url: url,
+            //data: guid, interaction nr
             cache: false,
             success: function (result) {
                 self.AnswerCountedAsCorrect = true;
