@@ -21,6 +21,7 @@
 
         if ($("#hddRound").length !== 0) {
             this.InitFromHtml();
+            $('#hddTimeRecords').attr('data-time-on-load', $.now());
         }
 
         this._play.Hub.client.NextRound = (game: Game) => {
@@ -32,6 +33,7 @@
                 htmlResult => {
                     this._play.ChangeContent("#divBodyAnswer", htmlResult);
                     this.InitGame(game);
+                    $('#hddTimeRecords').attr('data-time-on-load', $.now());
                 });
 
             $("[data-type=answeredCorrectly]").parent().css("background-color", "transparent");

@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System;
+using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 
@@ -21,4 +22,10 @@ public class QuestionViewRepository : RepositoryDb<QuestionView>
                 .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
+    public QuestionView GetByGuid(Guid guid)
+    {
+        return _session.QueryOver<QuestionView>()
+            .Where(x => x.GuidString == guid.ToString())
+            .SingleOrDefault<QuestionView>();
+    }
 }

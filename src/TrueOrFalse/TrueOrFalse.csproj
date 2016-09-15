@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TrueOrFalse</RootNamespace>
     <AssemblyName>TrueOrFalse</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -780,6 +780,10 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs081.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs125.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs144.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs143.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs142.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs141.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs140.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs139.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs138.cs" />

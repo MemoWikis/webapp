@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 public class WidgetController : BaseController
 {
@@ -9,6 +10,7 @@ public class WidgetController : BaseController
             "~/Views/Widgets/WidgetQuestion.aspx",
             new WidgetQuestionModel(
                 new AnswerQuestionModel(
+                    Guid.NewGuid(),
                     R<QuestionRepo>().GetById(questionId),
                     new QuestionSearchSpec())
             ));

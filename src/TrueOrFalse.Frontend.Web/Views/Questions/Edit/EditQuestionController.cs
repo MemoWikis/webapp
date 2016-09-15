@@ -56,6 +56,12 @@ public class EditQuestionController : BaseController
 
         DeleteUnusedImages.Run(model.QuestionExtended, id);
 
+        if (!ModelState.IsValid)
+        {
+            model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
+            return View(_viewLocation, model);
+        }
+
         _questionRepo.Update(
             EditQuestionModel_to_Question.Update(model, question, Request.Form)
         );
@@ -70,6 +76,12 @@ public class EditQuestionController : BaseController
     public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
+
+        if (!ModelState.IsValid)
+        {
+            model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
+            return View(_viewLocation, model);
+        }
 
         Question question;
         if (!String.IsNullOrEmpty(Request["questionId"]) && Request["questionId"] != "-1")

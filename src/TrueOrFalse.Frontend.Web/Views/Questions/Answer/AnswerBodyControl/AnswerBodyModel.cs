@@ -5,6 +5,8 @@ using TrueOrFalse.Web;
 
 public class AnswerBodyModel : BaseModel
 {
+    public Guid QuestionViewGuid;
+
     public int QuestionId;
     public bool IsInWishknowledge;
 
@@ -35,7 +37,9 @@ public class AnswerBodyModel : BaseModel
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
-        R<SaveQuestionView>().Run(question, _sessionUser.User.Id, player, round);
+        QuestionViewGuid = Guid.NewGuid();
+
+        R<SaveQuestionView>().Run(QuestionViewGuid, question, _sessionUser.User.Id, player, round);
         
         var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
         IsInWishknowledge = questionValuationForUser.IsInWishKnowledge();
@@ -56,6 +60,8 @@ public class AnswerBodyModel : BaseModel
 
     public AnswerBodyModel(AnswerQuestionModel answerQuestionModel)
     {
+        QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
+
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
 
         IsLearningSession = answerQuestionModel.IsLearningSession;

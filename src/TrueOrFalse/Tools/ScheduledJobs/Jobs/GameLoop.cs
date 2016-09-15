@@ -109,7 +109,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var result = Sl.R<AnswerQuestion>().Run(
                 currentRound.Question.Id,
                 "", 
-                memuchoPlayer.User.Id, 
+                memuchoPlayer.User.Id,
+                Guid.Empty,
+                -1,
+                -1,
                 memuchoPlayer.Id, 
                 currentRound.Id);
 

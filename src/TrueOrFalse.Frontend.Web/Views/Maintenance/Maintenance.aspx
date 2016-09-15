@@ -96,6 +96,16 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6 MaintenanceSection">
+            <h4>Sonstige</h4>
+            <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i> Antwortdaten migrieren 
+            </a>
+            
+        </div>        
+        
+    </div>
 
     <br/><br/>
 </asp:Content>

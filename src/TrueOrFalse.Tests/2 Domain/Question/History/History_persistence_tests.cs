@@ -8,7 +8,7 @@ public class QuestionAnswerPersistenceTests : BaseTest
     {
         var answer = new Answer();
         answer.Question = ContextQuestion.GetQuestion();
-        answer.Milliseconds = 100;
+        answer.MillisecondsSinceQuestionView = 100;
         answer.UserId = 1;
         answer.AnswerText = "asdfasfsf";
 

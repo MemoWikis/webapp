@@ -19,12 +19,13 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Question question, User user)
+    public void Run(Guid questionViewGuid, Question question, User user)
     {
-        Run(question, user == null ? -1 : user.Id);
+        Run(questionViewGuid, question, user == null ? -1 : user.Id);
     }
 
     public void Run(
+        Guid questionViewGuid,
         Question question,
         int userId,
         Player player = null,
@@ -38,16 +39,26 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
 
         _questionViewRepo.Create(new QuestionView
         {
+            Guid = questionViewGuid,
             QuestionId = question.Id,
             UserId = userId,
+            Milliseconds = -1,
             Player = player,
             Round = round,
             LearningSession = learningSession,
             LearningSessionStepGuid = learningSessionStepGuid
         });
+
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
 
         _searchIndexQuestion.Update(question);
+    }
+
+    public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)
+    {
+        var questionView = Sl.R<QuestionViewRepository>().GetByGuid(guid);
+        questionView.Milliseconds = millisencondsSinceQuestionView;
+        _questionViewRepo.Update(questionView);
     }
 }

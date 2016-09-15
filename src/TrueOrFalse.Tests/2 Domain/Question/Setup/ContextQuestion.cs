@@ -78,7 +78,7 @@ namespace TrueOrFalse.Tests
 
         public ContextQuestion AddAnswer(string answer)
         {
-            var result = Sl.Resolve<AnswerQuestion>().Run(All.Last().Id, answer, Learner.Id);
+            var result = Sl.Resolve<AnswerQuestion>().Run(All.Last().Id, answer, Learner.Id, Guid.NewGuid(), 1, -1);
 
             var answerRepo = Sl.R<AnswerRepo>();
             answerRepo.Flush();
@@ -96,10 +96,10 @@ namespace TrueOrFalse.Tests
             var lastQuestion = All.Last();
 
             for (var i = 0; i < countCorrect; i++)
-                Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution, Learner.Id, dateCreated);
+                Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution, Learner.Id, Guid.NewGuid(), 1, -1, dateCreated);
 
             for (var i = 0; i < countWrong; i++)
-                Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution + "möb", Learner.Id, dateCreated);
+                Sl.Resolve<AnswerQuestion>().Run(lastQuestion.Id, lastQuestion.Solution + "möb", Learner.Id, Guid.NewGuid(), 1, -1, dateCreated);
 
             return this;
         }

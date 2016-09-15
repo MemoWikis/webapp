@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 [SetMenu(MenuEntry.Play)]
 public class PlayController : BaseController
 {
@@ -35,12 +36,16 @@ public class PlayController : BaseController
     [HttpPost]
     public JsonResult SendAnswerGame(
         int questionId,
+        Guid questionViewGuid,
+        int InteractionNumber,
         int gameId, 
         int playerId,
         int roundId,
-        string answer)
+        string answer,
+        int millisecondsSinceQuestionView = -1
+        )
     {
-        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, playerId, roundId);
+        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, questionViewGuid, InteractionNumber, millisecondsSinceQuestionView, playerId, roundId);
         var solution = R<GetQuestionSolution>().Run(questionId);
 
         R<GameHubConnection>().SendAnswered(gameId, playerId, result);

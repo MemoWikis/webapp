@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using TrueOrFalse.Tests;
 
 public class History_totals_per_user_tests : BaseTest
@@ -16,9 +17,9 @@ public class History_totals_per_user_tests : BaseTest
         var createdQuestion2 = contextQuestion.All[1];
         var user1 = contextUsers.Users[0];
             
-        Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "Some answer 1", user1.Id);
-        Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "Some answer 2", user1.Id);
-        Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "AnswerA", user1.Id);
+        Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "Some answer 1", user1.Id, Guid.NewGuid(), 1, -1);
+        Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "Some answer 2", user1.Id, Guid.NewGuid(), 1, -1);
+        Resolve<AnswerQuestion>().Run(createdQuestion1.Id, "AnswerA", user1.Id, Guid.NewGuid(), 1, -1);
 
         var totalsPerUserLoader = Resolve<TotalsPersUserLoader>();
         var totalsResult = totalsPerUserLoader.Run(user1.Id, new[] { createdQuestion1.Id, createdQuestion2.Id});

@@ -15,7 +15,10 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     public AnswerQuestionResult Run(
         int questionId, 
         string answer, 
-        int userId, 
+        int userId,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
         int playerId,
         int roundId)
     {
@@ -23,7 +26,14 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         var round = Sl.R<RoundRepo>().GetById(roundId);
 
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerLog.Run(question, answerQuestionResult, userId, player, round);
+            _answerLog.Run(question, 
+                answerQuestionResult,
+                userId, 
+                questionViewGuid, 
+                interactionNumber,
+                millisecondsSinceQuestionView,
+                player,
+                round);
         });
     }
 
@@ -31,6 +41,9 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
        int questionId,
        string answer,
        int userId,
+       Guid questionViewGuid,
+       int interactionNumber,
+       int millisecondsSinceQuestionView,
        int learningSessionId,
        Guid stepGuid,
         /*for testing*/ DateTime dateCreated = default(DateTime))
@@ -46,7 +59,10 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             _answerLog.Run(
                 question, 
                 answerQuestionResult, 
-                userId, 
+                userId,
+                questionViewGuid,
+                interactionNumber,
+                millisecondsSinceQuestionView,
                 learningSession: learningSession, 
                 learningSessionStepGuid: learningSessionStep.Guid, 
                 dateCreated: dateCreated);
@@ -68,10 +84,19 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         int questionId, 
         string answer, 
         int userId,
+        Guid answerQuestionGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
         /*for testing*/ DateTime dateCreated = default(DateTime))
     {
         return Run(questionId, answer, userId, (question, answerQuestionResult) => {
-            _answerLog.Run(question, answerQuestionResult, userId, dateCreated: dateCreated); 
+            _answerLog.Run(question, 
+                answerQuestionResult, 
+                userId, 
+                answerQuestionGuid, 
+                interactionNumber,
+                millisecondsSinceQuestionView,
+                dateCreated: dateCreated); 
         });
     }
 

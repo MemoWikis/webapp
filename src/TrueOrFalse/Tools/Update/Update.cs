@@ -71,6 +71,10 @@
                 .Add(UpdateToVs138.Run)
                 .Add(UpdateToVs139.Run)
                 .Add(UpdateToVs140.Run)
+                .Add(UpdateToVs141.Run)
+                .Add(UpdateToVs142.Run)
+                .Add(UpdateToVs143.Run)
+                .Add(UpdateToVs144.Run)
                 .Run();
         }
     }

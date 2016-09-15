@@ -32,8 +32,8 @@ namespace TrueOrFalse.Tests
                     .Persist();
 
             var question = contextQuestion.All[0];
-            Resolve<SaveQuestionView>().Run(question, 2);
-            Resolve<SaveQuestionView>().Run(question, 2);
+            Resolve<SaveQuestionView>().Run(Guid.NewGuid(), question, 2);
+            Resolve<SaveQuestionView>().Run(Guid.NewGuid(), question, 2);
             Resolve<ISession>().Evict(contextQuestion.All[0]);
 
             Assert.That(Resolve<QuestionRepo>().GetById(question.Id).TotalViews, Is.EqualTo(2));
