@@ -1,6 +1,18 @@
 ﻿<%@ Page Title="Hilfe & FAQ" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<HelpModel>" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+<script type="text/javascript" >
+
+    /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
+    $(function () {
+        var spt = $('span.mailme');
+        var at = / at /;
+        var dot = / dot /g;
+        var addr = $(spt).text().replace(at, "@").replace(dot, ".");
+        $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
+        $(spt).remove();
+    });
+</script>    
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -40,7 +52,7 @@
               <p>
                   Für uns sind Datensicherheit und Datenschutz entscheidende Themen. Gerade weil wir viele Daten sammeln, sehen wir eine besondere 
                   Verantwortung darin, Daten zu schützen und transparent zu sein. Das kann jeder prüfen, denn der Programm-Quelltext für memucho ist
-                  als Open Source-Software öffentlich und auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i>Github</a> einsehbar.
+                  als Open Source-Software öffentlich und auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> einsehbar.
               </p>
               <p>
                   Der Datenschutz ist bei uns sehr streng. Wir fragen dich deshalb nicht nach persönlichen Daten, die wir nicht für die Seite
@@ -83,7 +95,7 @@
               </p>
               <p>
                   Wir sammeln diese Daten nur, um memucho zu einem möglichst nützlichem Werkzeug zu machen und nicht, um Nutzerdaten zu verkaufen. Der 
-                  <a href="#FaqTextDataPrivacy">Datenschutz</a> ist bei uns sehr streng. Wir fragen dich deshalb nicht nach persönlichen Daten, die wir nicht für die 
+                  Datenschutz ist bei uns sehr streng. Wir fragen dich deshalb nicht nach persönlichen Daten, die wir nicht für die 
                   Seite benötigen. Die wenigen persönlichen Daten, die wir von dir haben, sind sehr gut gesichert und wir werden sie auch niemals verkaufen.
               </p>
           </div>
@@ -107,11 +119,11 @@
               </p>
               <p>
                   Und das funktioniert so: In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. Du kannst einzelne Fragen oder 
-                  ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle neue  deine eigenen 
-                  Fragen hinzu.
+                  ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
+                  Fragen und Fragesätze.
                   
-                  Jeder kann <b>Fragen</b> erstellen (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
-                  (im Beispiel: "Mount Everest"). Mehrere Fragen können zu einem Fragesatz zusammengef
+                  Jeder kann <b>Fragen</b> (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
+                  (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Fragesatz zusammengefasst werden.
               </p>
           </div>
         </div>
@@ -172,8 +184,8 @@
         <div id="FaqTextContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingContact">
           <div class="panel-body">
               <p>
-                  Per Email: <a href="mailto:kontakt@memucho.de">kontakt@memucho.de</a><br/> 
-                  Robert erreichst du auch über Skype ("robert-mischke") oder per Telefon (+49-178-18 668 48).
+                  Per E-Mail: <span class="mailme">team at memucho dot de</span><br/> 
+                  Christof erreichst du auch über Skype ("cmauersberger") oder per Telefon (+49-1577-6825707).
               </p>
               <p>
                   Oder du schreibst uns eine Postkarte oder kommst persönlich bei uns vorbei (am besten mit Anmeldung)!<br/>

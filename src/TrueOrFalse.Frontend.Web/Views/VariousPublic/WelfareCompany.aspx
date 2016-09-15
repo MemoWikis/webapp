@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="memucho Gemeinwohlökonomie" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
@@ -16,7 +16,7 @@
             Unsere geplante Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
         </p>
         <p>
-            Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> 
+            Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de"><i class="fa fa-external-link">&nbsp;</i>Gemeinwohlökonomie</a> 
             sind wir davon überzeugt, dass Unternehmen der Gemeinschaft dienen müssen und deshalb 
             eine ethische, soziale und ökologische Verantwortung haben. Daher werden wir in Zukunft 
             eine Gemeinwohlbilanz veröffentlichen.

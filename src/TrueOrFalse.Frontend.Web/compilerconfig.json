@@ -76,19 +76,26 @@
       "enabled": false
     }
   },
-    {
-        "outputFile": "Views/Knowledge/Knowledge.css",
-        "inputFile": "Views/Knowledge/Knowledge.less",
-        "minify": {
-            "enabled": false
-        }
-    },
-    {
+  {
+    "outputFile": "Views/Knowledge/Knowledge.css",
+    "inputFile": "Views/Knowledge/Knowledge.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
     "outputFile": "Views/Beta/Beta.css",
     "inputFile": "Views/Beta/Beta.less",
     "minify": {
       "enabled": false
     }
   },
+  {
+    "outputFile": "Views/Questions/Answer/LearningSession/LearningSessionResult.css",
+    "inputFile": "Views/Questions/Answer/LearningSession/LearningSessionResult.less",
+    "minify": {
+      "enabled":  false 
+    } 
 
+  }
 ]

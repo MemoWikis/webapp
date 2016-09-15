@@ -14,11 +14,11 @@ public class WelcomeMsg
 <p>Hallo {0}, </p>
 <p>wir begrüßen dich herzlich bei memucho!</p>
 
-<p>memucho ist in der Beta-Phase, es gibt noch viel zu tun und wir haben viel vor. Du kannst uns untersützen, indem du deinen Freunden von uns erzählst und Fehler und Verbesserungsvorschläge an uns weiterleitest (nutze dazu am besten das Feedback-Werkzeug in der Mitte des rechten Bildschirm-Rands). Solltest du irgendwelche Fragen haben, helfen wir dir gerne.</p>
+<p>memucho ist in der Beta-Phase, es gibt noch viel zu tun und wir haben viel vor. Du kannst uns unterstützen, indem du deinen Freunden von uns erzählst und Fehler und Verbesserungsvorschläge an uns weiterleitest (nutze dazu am besten das Feedback-Werkzeug in der Mitte des rechten Bildschirm-Rands). Solltest du irgendwelche Fragen haben, helfen wir dir gerne.</p>
 
 <p>Viele Grüße,<br>
 Christof, Jule & Robert</p>
-<p style='font-size: 12px; margin-top: 20px'>Email: team@memucho.de | Telefon: 01577-6825707 (Christof)</p>
+<p style='font-size: 12px; margin-top: 20px'>E-Mail: team@memucho.de | Telefon: 01577-6825707 (Christof)</p>
 ", user.Name);
 
         Sl.R<MessageRepo>().Create(new Message{

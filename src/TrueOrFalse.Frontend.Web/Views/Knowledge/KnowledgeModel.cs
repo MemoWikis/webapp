@@ -62,7 +62,7 @@ public class KnowledgeModel : BaseModel
 
         var reputation = Resolve<ReputationCalc>().Run(User);
         ReputationRank = User.ReputationPos;
-        ReputationTotal = reputation.TotalRepuation;
+        ReputationTotal = reputation.TotalReputation;
 
         var msg = new RecalcProbabilitiesMsg {UserId = UserId};
         //Bus.Get().Publish(msg);

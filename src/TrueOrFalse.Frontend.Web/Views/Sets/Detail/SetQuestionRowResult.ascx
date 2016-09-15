@@ -6,7 +6,7 @@
         <%= GetQuestionImageFrontendData.Run(Model.Question)
                 .RenderHtmlImageBasis(128, true, ImageType.Question) %>                        
     </div>
-    <div class="col-md-9 col-sm-7 col-xs-10 col-1">
+    <div class="col-lg-9 col-md-8 col-sm-7 col-xs-10 col-1">
         <div class="Pin" data-question-id="<%= Model.Question.Id %>" style="float: right; display: inline-block">
             <a href="#" class="noTextdecoration" style="font-size: 16px; height: 10px; position: relative; top: 3px; padding-right: 7px; padding-left: 7px;">
                 <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
@@ -18,7 +18,7 @@
             <%=Model.Question.Text %>
         </a>
     </div>
-    <div class="col-md-2 col-sm-3 col-xs-12 col-2" style="padding-left: 5px; padding-top: 5px; line-height: 15px;">
+    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 col-2" style="padding-left: 5px; padding-top: 5px; line-height: 15px;">
         <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
     </div>
 </div>

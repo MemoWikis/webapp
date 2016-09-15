@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<LoginModel>" %>
+﻿<%@ Page Title="Einloggen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<LoginModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -12,7 +12,7 @@
         <div class="form-horizontal col-md-9" role="form">
             
             <fieldset>
-                <legend>Anmelden</legend>
+                <legend>Einloggen</legend>
             
                 <% Html.Message(Model.Message); %>
                 
@@ -46,14 +46,14 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <label class="checkbox" style="white-space:nowrap;">
-                            <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Angemeldet bleiben
+                            <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Eingeloggt bleiben
                         </label>
                     </div>
                  </div>
                 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" value="Anmelden" class="btn btn-primary" /> 
+                        <input type="submit" value="Einloggen" class="btn btn-primary" /> 
                         <%: Html.ActionLink("Passwort vergessen?", "PasswordRecovery", Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
                     </div>
                 </div>

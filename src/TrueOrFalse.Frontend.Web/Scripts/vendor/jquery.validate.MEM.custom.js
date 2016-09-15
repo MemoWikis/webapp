@@ -11,7 +11,7 @@
     maxlength: $.validator.format("Gib bitte maximal {0} Zeichen ein."),
     minlength: $.validator.format("Gib bitte mindestens {0} Zeichen ein."),
     rangelength: $.validator.format("Gib bitte mindestens {0} und maximal {1} Zeichen ein."),
-    email: "Gib bitte eine gültige E-Mail Adresse ein.",
+    email: "Gib bitte eine gültige E-Mail-Adresse ein.",
     url: "Ups, da stimmt was mit dem Format nicht. Bitte gib eine gültige URL ein.",
     date: "Bitte gib ein gültiges Datum ein.",
     number: "Gib bitte eine Zahl ein.",

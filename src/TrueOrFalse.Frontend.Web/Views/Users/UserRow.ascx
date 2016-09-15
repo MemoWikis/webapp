@@ -24,7 +24,7 @@
                     <% } %>
         
                     <% if(!Model.IsCurrentUser && Model.AllowsSupportiveLogin && Model.IsInstallationLogin){ %>
-                        <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Anmelden als dieser Nutzer" style="padding-left: 10px;"> <i class="fa fa-share" style="color: lightsteelblue"></i> </a>
+                        <a href="<%= Links.UserLoginAs(Url, Model.Id) %>" class="show-tooltip" title="Einloggen als dieser Nutzer" style="padding-left: 10px;"> <i class="fa fa-share" style="color: lightsteelblue"></i> </a>
                     <%} %>
 
                     <% if(!Model.IsCurrentUser){ %>
@@ -47,7 +47,7 @@
             </div>
             <div style="padding-top: 3px; font-size: 110%">
                 <span style="width: 65px; display: inline-block">Rang: <%= Model.Rank %></span> 
-                Repuation: <%= Model.Reputation %>
+                Reputation: <%= Model.Reputation %>
             </div>
             <div style="padding-top: 5px;">
                 <div>

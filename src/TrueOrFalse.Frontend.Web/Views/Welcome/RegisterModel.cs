@@ -11,9 +11,9 @@ public class RegisterModel : BaseModel
     [DisplayName("Benutzername")]
     public string Name { get; set; }
 
-    [Required(ErrorMessage = "Wir benötigen deine E-Mail Adresse.")]
-    [RegularExpression(Regexes.Email, ErrorMessage = "Wir benötigen eine gültige E-Mail Adresse.")]
-    [DisplayName("Email")]  
+    [Required(ErrorMessage = "Wir benötigen deine E-Mail-Adresse.")]
+    [RegularExpression(Regexes.Email, ErrorMessage = "Wir benötigen eine gültige E-Mail-Adresse.")]
+    [DisplayName("E-Mail")]  
     public string Email { get; set; }
 
     [Required(ErrorMessage ="Ein Passwort ist Pflicht!")]

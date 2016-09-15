@@ -27,9 +27,12 @@ public class GameModel : BaseModel
 
     public bool OnlyMultipleChoice { get; set; }
 
+    public bool WithSystemAvgPlayer { get; set; }
+
     public GameModel()
     {
         OnlyMultipleChoice = true;
+        WithSystemAvgPlayer = false;
     }
 
 }

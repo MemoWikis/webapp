@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Seedworks.Lib.Persistence;
 
 public class Round : DomainEntity
@@ -19,9 +20,9 @@ public class Round : DomainEntity
     public virtual IList<Answer> Answers { get; set; }
 
     /// <summary>Seconds</summary>
-    public virtual int RoundLength { get { return 20; } }
+    public virtual int RoundLength => 20;
 
-    public virtual bool IsOverdue()
+    public virtual bool IsExpired()
     {
         Debug.Assert(StartTime != null, "StartTime != null");
         return ((DateTime)StartTime).AddSeconds(RoundLength) < DateTime.Now;
@@ -29,7 +30,7 @@ public class Round : DomainEntity
 
     public virtual bool AllPlayersDidAnswer()
     {
-        return Game.Players.Count == Answers.Count;
+        return Game.Players.Count == Answers.Count(answer => !answer.IsView());
     }
 
     public Round()

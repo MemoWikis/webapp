@@ -15,8 +15,8 @@ public class MessagesController : BaseController
                     Subject = "Hallo Unbekannte(r)!",
                     Body = @"<p>
                                 schön, dass du bei uns vorbeischaust. 
-                                Du bist nicht angemeldet, daher gibt es hier eigentlich nichts zu sehen.
-                                <a href=" + Url.Action("Login", "Welcome") + @"><i class='fa fa-sign-in'></i>&nbsp;Melde dich am besten gleich an</a> oder 
+                                Du bist nicht eingeloggt, daher gibt es hier eigentlich nichts zu sehen.
+                                <a href=" + Url.Action("Login", "Welcome") + @"><i class='fa fa-sign-in'></i>&nbsp;Logge dich am besten gleich ein</a> oder 
                                 <a href=" + Url.Action("Register", "Welcome") + @"><i class='fa fa-user-plus'></i>&nbsp;registriere dich</a> als neuer Benutzer, es dauert nur wenige Sekunden.
                             </p>
                             <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>

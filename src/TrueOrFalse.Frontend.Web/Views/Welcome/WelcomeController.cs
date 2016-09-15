@@ -39,7 +39,7 @@ public class WelcomeController : BaseController
     {
 
         if (!IsEmailAddressAvailable.Yes(model.Email))
-            ModelState.AddModelError("Email", "Diese Emailadresse ist bereits registriert.");
+            ModelState.AddModelError("E-Mail", "Diese E-Mail-Adresse ist bereits registriert.");
 
         if (!global::IsUserNameAvailable.Yes(model.Name))
             ModelState.AddModelError("Name", "Dieser Benutzername ist bereits vergeben.");
@@ -132,9 +132,9 @@ public class WelcomeController : BaseController
     {
         var result = Sl.Resolve<PasswordRecovery>().Run(model.Email);
         if (result.TheEmailDoesNotExist)
-            model.Message = new ErrorMessage("Diese Email-Adresse ist uns unbekannt.");
+            model.Message = new ErrorMessage("Diese E-Mail-Adresse ist uns unbekannt.");
         else if (result.Success)
-            model.Message = new SuccessMessage("Wir haben an " + model.Email + " eine Email verschickt (überprüfe gegebenenfalls auch deinen Spam-Ordner). Klicke dort auf den Link, um ein neues Passwort zu setzen.");
+            model.Message = new SuccessMessage("Wir haben an " + model.Email + " eine E-Mail verschickt (überprüfe gegebenenfalls auch deinen Spam-Ordner). Klicke dort auf den Link, um ein neues Passwort zu setzen.");
 
         return View(model);
     }
@@ -152,7 +152,7 @@ public class WelcomeController : BaseController
         }
 
         if (!result.Success)
-            model.Message = new ErrorMessage("Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine Email an team@memucho.de.");
+            model.Message = new ErrorMessage("Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team@memucho.de.");
 
         return View(model);
     }

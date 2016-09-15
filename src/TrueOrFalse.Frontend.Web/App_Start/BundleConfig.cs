@@ -128,6 +128,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Dates/Edit/Js/", "*.js")
                 .Include("~/Scripts/autocompletes/AutocompleteSets.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
+                .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
+
             //Games
             bundles.Add(new ScriptBundle("~/bundles/js/Games")
                 .IncludeDirectory("~/Views/Games/Js/", "*.js"));
@@ -150,6 +153,12 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/GamePlay")
                 .Include("~/Views/Games/Play/*.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Widget")
+                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .Include("~/Views/Widgets/WidgetQuestion.js")
+                .Include("~/Views/Widgets/AwesomeIframe.js"));
 
             //Markdown
             bundles.Add(new ScriptBundle("~/bundles/markdown")
