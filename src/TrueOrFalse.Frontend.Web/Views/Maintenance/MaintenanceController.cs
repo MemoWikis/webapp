@@ -334,4 +334,76 @@ public class MaintenanceController : BaseController
 
         return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
     }
+
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public ActionResult MigrateAnswerData()
+    {
+        var questionViewRepo = Sl.R<QuestionViewRepository>();
+
+        var allQuestionViews = questionViewRepo.GetAll().ToList();
+
+        var answerRepo = Sl.R<AnswerRepo>();
+
+        var allAnswers = answerRepo.GetAll().OrderBy(x => x.DateCreated);
+
+        var questionViewsToUpdate = allQuestionViews
+            .Where(v => v.GuidString == null)
+            .OrderBy(v => v.DateCreated)
+            .ToList();
+
+        var maxTimeForView = TimeSpan.FromHours(2);
+
+        foreach (var questionView in questionViewsToUpdate.Where(q => q.UserId != -1))
+        {
+            questionView.Guid = Guid.NewGuid();
+            questionView.Migrated = true;
+            questionViewRepo.Update(questionView);
+
+            var nextViewIndex = allQuestionViews.FindIndex(x =>
+                                                           x.DateCreated > questionView.DateCreated
+                                                           && x.UserId == questionView.UserId
+                                                           && x.QuestionId == questionView.QuestionId);
+
+            var upperTimeBound = nextViewIndex != -1 && allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
+                                     ? allQuestionViews[nextViewIndex].DateCreated
+                                     : questionView.DateCreated.Add(maxTimeForView);
+
+            var answers = allAnswers
+                .Where(a =>
+                       a.QuestionViewGuidString == null
+                       && a.DateCreated >= questionView.DateCreated && a.DateCreated < upperTimeBound
+                       && a.UserId == questionView.UserId
+                       && a.Question.Id == questionView.QuestionId)
+                .OrderBy(a =>
+                {
+                    switch (a.AnswerredCorrectly)
+                    {
+                        case AnswerCorrectness.False: return 0;
+                        case AnswerCorrectness.True: return 1;
+                        case AnswerCorrectness.MarkedAsTrue: return 2;
+                        case AnswerCorrectness.IsView: return 3;
+                    }
+                    return 3;
+                })
+                .ThenBy(a => a.DateCreated)
+                .ToList();
+
+            var interactionNumber = 1;
+
+            foreach (var answer in answers)
+            {
+                answer.QuestionViewGuid = questionView.Guid;
+                answer.InteractionNumber = interactionNumber;
+                answer.Migrated = true;
+                answer.MillisecondsSinceQuestionView = (answer.DateCreated - questionView.DateCreated).Milliseconds;
+
+                answerRepo.Update(answer);
+                interactionNumber++;
+            }
+        }
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Wurde migriert") });
+    }
 }

@@ -53,6 +53,9 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     /// <summary>Duration</summary>
     public virtual int MillisecondsSinceQuestionView { get; set; }
+
+    public virtual bool Migrated { get; set; }
+
     public virtual DateTime DateCreated { get; set; }
 
     public virtual IList<AnswerFeature> Features { get; set; }

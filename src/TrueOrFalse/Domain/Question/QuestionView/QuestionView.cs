@@ -45,5 +45,7 @@ public class QuestionView : IPersistable, WithDateCreated
         }
     }
 
+    public virtual bool Migrated { get; set; }
+
     public virtual DateTime DateCreated { get; set; }
 }

@@ -26,6 +26,9 @@ public class AnswerMap : ClassMap<Answer>
             Table("answerFeature_to_answer");
 
         Map(x => x.MillisecondsSinceQuestionView).Column("Milliseconds");
+
+        Map(x => x.Migrated);
+
         Map(x => x.DateCreated);
     }           
 }
