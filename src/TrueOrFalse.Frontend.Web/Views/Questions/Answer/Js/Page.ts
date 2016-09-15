@@ -16,6 +16,17 @@ $(() => {
     } loadFacebook(window.document, 'script', 'facebook-jssdk');
 
     $('#hddTimeRecords').attr('data-time-on-load', $.now());
+    
+    $(window).unload( function () {
+        $.ajax({
+            type: 'POST',
+            url: "/AnswerQuestion/LogTimeForQuestionView/",
+            data: {
+                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+            }
+        });
+    });
 
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
     new ShareQuestion();

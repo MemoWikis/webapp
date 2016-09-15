@@ -238,7 +238,7 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId)
+    public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int? roundId, int millisecondsSinceQuestionView = -1)
     {
         var question = _questionRepo.GetById(id);
         var solution = new GetQuestionSolution().Run(question);
@@ -268,9 +268,9 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public void LogTimeAfterSolution(int answerId, string timeOfPageLeaveString)
+    public void LogTimeForQuestionView(Guid questionViewGuid, int millisecondsSinceQuestionView)
     {
-
+        _saveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
     }
 
     [HttpPost]

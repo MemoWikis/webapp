@@ -38,11 +38,12 @@ public class PlayController : BaseController
         int questionId,
         Guid questionViewGuid,
         int InteractionNumber,
-        int millisecondsSinceQuestionView,
         int gameId, 
         int playerId,
         int roundId,
-        string answer)
+        string answer,
+        int millisecondsSinceQuestionView = -1
+        )
     {
         var result = R<AnswerQuestion>().Run(questionId, answer, UserId, questionViewGuid, InteractionNumber, millisecondsSinceQuestionView, playerId, roundId);
         var solution = R<GetQuestionSolution>().Run(questionId);

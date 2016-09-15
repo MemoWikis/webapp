@@ -7,8 +7,10 @@ public class QuestionViewMap : ClassMap<QuestionView>
         Id(x => x.Id);
         Map(x => x.GuidString).Column("Guid").CustomSqlType("varchar(36)").Unique();
 
-        Map(x => x.UserId);
         Map(x => x.QuestionId);
+        Map(x => x.UserId);
+
+        Map(x => x.Milliseconds);
 
         References(x => x.Round).Cascade.None();
         References(x => x.Player).Cascade.None();

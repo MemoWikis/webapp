@@ -37,21 +37,28 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
                 return;
 
-        var questionView = _questionViewRepo.GetById(1231048);
-
         _questionViewRepo.Create(new QuestionView
         {
             Guid = questionViewGuid,
             QuestionId = question.Id,
             UserId = userId,
+            Milliseconds = -1,
             Player = player,
             Round = round,
             LearningSession = learningSession,
             LearningSessionStepGuid = learningSessionStepGuid
         });
+
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
             ExecuteUpdate();
 
         _searchIndexQuestion.Update(question);
+    }
+
+    public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)
+    {
+        var questionView = Sl.R<QuestionViewRepository>().GetByGuid(guid);
+        questionView.Milliseconds = millisencondsSinceQuestionView;
+        _questionViewRepo.Update(questionView);
     }
 }
