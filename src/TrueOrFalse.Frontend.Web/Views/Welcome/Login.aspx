@@ -54,7 +54,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="submit" value="Einloggen" class="btn btn-primary" /> 
-                        <%: Html.ActionLink("Passwort vergessen?", "PasswordRecovery", Links.VariousController, new {@style="vertical-align:bottom; margin-left:20px;"} )  %>
+                        <a href="<%= Url.Action("PasswordRecovery", "Welcome") %>" class="btn btn-link">Passwort vergessen?</a>
                     </div>
                 </div>
                 
