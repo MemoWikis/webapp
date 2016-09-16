@@ -136,6 +136,25 @@ public class AnswerRepo : RepositoryDb<Answer>
         //return Session.CreateSQLQuery(query).List<Answer>();
     }
 
+    public IList<Answer> GetByQuestionViewGuid(Guid questionViewGuid)
+    {
+        return questionViewGuid == default(Guid)
+            ? null
+            : _session.QueryOver<Answer>()
+                    .Where(a => a.QuestionViewGuidString == questionViewGuid.ToString())
+                    .List<Answer>();
+    }
+
+    public Answer GetByQuestionViewGuid(Guid questionViewGuid, int interactionNumber)
+    {
+        return questionViewGuid == default(Guid)
+            ? null
+            : _session.QueryOver<Answer>()
+                .Where(a => a.QuestionViewGuidString == questionViewGuid.ToString()
+                    && a.InteractionNumber == interactionNumber )
+                    .SingleOrDefault();
+    }
+
     public Answer GetByLearningSessionStepGuid(Guid learningSessionStepGuid)
     {
         return learningSessionStepGuid == default(Guid) 

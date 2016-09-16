@@ -274,15 +274,15 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public void CountLastAnswerAsCorrect(int id)
+    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber)
     {
-        _answerQuestion.Run(id, _sessionUser.UserId, countLastAnswerAsCorrect: true);
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, countLastAnswerAsCorrect: true);
     }
 
     [HttpPost]
-    public void CountUnansweredAsCorrect(int id)
+    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
     {
-        _answerQuestion.Run(id, _sessionUser.UserId, countUnansweredAsCorrect: true);
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
     }
 
     [HttpPost]

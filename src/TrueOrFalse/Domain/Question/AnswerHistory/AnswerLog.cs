@@ -45,9 +45,9 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         _answerRepo.Create(answer);
     }
 
-    public void CountLastAnswerAsCorrect(Question question, int userId)
+    public void CountLastAnswerAsCorrect(Guid questionViewGuid)
     {
-        var correctedAnswer = _answerRepo.GetByQuestion(question.Id, userId, includingSolutionViews: false).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+        var correctedAnswer = _answerRepo.GetByQuestionViewGuid(questionViewGuid).OrderBy(a => a.InteractionNumber).LastOrDefault(a => a.AnswerredCorrectly == AnswerCorrectness.False);
         if (correctedAnswer != null && correctedAnswer.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
@@ -55,10 +55,13 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         }
     }
 
-    public void CountUnansweredAsCorrect(Question question, int userId)
+    public void CountUnansweredAsCorrect(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
     {
         var answer = new Answer
         {
+            QuestionViewGuid = questionViewGuid,
+            InteractionNumber = interactionNumber,
+            MillisecondsSinceQuestionView = millisecondsSinceQuestionView,
             Question = question,
             UserId = userId,
             AnswerText = "",

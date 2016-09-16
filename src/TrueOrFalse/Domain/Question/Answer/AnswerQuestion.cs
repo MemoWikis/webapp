@@ -103,6 +103,9 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     public AnswerQuestionResult Run(
         int questionId,
         int userId,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView = -1,
         bool countLastAnswerAsCorrect = false,
         bool countUnansweredAsCorrect = false,
         /*for testing*/ DateTime dateCreated = default(DateTime))
@@ -113,12 +116,12 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         
         if (countLastAnswerAsCorrect)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
-                _answerLog.CountLastAnswerAsCorrect(question, userId), countLastAnswerAsCorrect: true
+                _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true
             );
 
         if (countUnansweredAsCorrect)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
-                _answerLog.CountUnansweredAsCorrect(question, userId), countUnansweredAsCorrect: true
+                _answerLog.CountUnansweredAsCorrect(question, userId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView), countUnansweredAsCorrect: true
             );
 
         throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect true");

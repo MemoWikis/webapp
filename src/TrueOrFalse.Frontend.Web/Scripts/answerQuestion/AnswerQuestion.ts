@@ -245,6 +245,12 @@ class AnswerQuestion
 
     private countAnswerAsCorrect() {
         var self = this;
+        var interactionNumber = $('#hddInteractionNumber').val();
+        if (!this.AtLeastOneWrongAnswer) {
+            interactionNumber++; //If no answer was given yet a new anser entry with interactionNumber has to be created
+            this.IncrementInteractionNumber();
+        }
+
         var url = this.AtLeastOneWrongAnswer
             ? AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect
             : AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect;
@@ -255,7 +261,11 @@ class AnswerQuestion
         $.ajax({
             type: 'POST',
             url: url,
-            //data: guid, interaction nr
+            data: {
+                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                interactionNumber: interactionNumber,
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+            },
             cache: false,
             success: function (result) {
                 self.AnswerCountedAsCorrect = true;
