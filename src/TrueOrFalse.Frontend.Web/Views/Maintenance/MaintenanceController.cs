@@ -415,10 +415,10 @@ public class MaintenanceController : BaseController
                             return 0;
                         case AnswerCorrectness.True:
                             return 1;
-                        case AnswerCorrectness.MarkedAsTrue:
-                            return 2;
                         case AnswerCorrectness.IsView:
                             return 3;
+                        case AnswerCorrectness.MarkedAsTrue:
+                            return a.AnswerText == "" ? 4 : 2;//MarkedAsTrue can be after IsView if newly created or before if existing answer is changed
                     }
                     return 3;
                 })
