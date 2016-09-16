@@ -69,10 +69,8 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white; margin-top: 10px;">
                         
-                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary"><i class="fa fa-chevron-circle-right"></i>  Registrieren</a>
-                        &nbsp;
-                        <%: Html.ActionLink("Ich bin schon Benutzer!", Links.Login, Links.VariousController,
-                                           new {@style = "vertical-align:bottom; margin-left:20px;"}) %>                        
+                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary"><i class="fa fa-chevron-circle-right">&nbsp;</i>Registrieren</a>
+                        <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-link">Ich bin schon Benutzer!</a>
 
                     </div>
                 </div>
