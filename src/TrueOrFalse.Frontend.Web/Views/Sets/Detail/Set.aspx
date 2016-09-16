@@ -45,18 +45,19 @@
         </div>
         <div class="col-xs-3 xxs-stack">
             <div class="navLinks">
-                <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+                <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
                 <% if(Model.IsOwner){ %>
-                    <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+                    <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
-                <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>"><i class="fa fa-line-chart"></i> 
-                    Jetzt üben
+                <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
+                    <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                 </a>
-                
-                <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." >
-                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
-                    Spiel starten
+                <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
+                    <i class="fa fa-gamepad">&nbsp;</i>Spiel starten
+                </a>
+                <a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                    <i class="fa fa-calendar">&nbsp;</i>Termin lernen
                 </a>
 
             </div>
