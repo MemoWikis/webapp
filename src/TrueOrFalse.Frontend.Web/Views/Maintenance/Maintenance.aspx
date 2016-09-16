@@ -99,8 +99,8 @@
     <div class="row">
         <div class="col-md-6 MaintenanceSection">
             <h4>Sonstige</h4>
-            <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Antwortdaten migrieren 
+            <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
+                <i class="fa fa-retweet"></i> Antwortdaten migrieren
             </a>
             
         </div>        
