@@ -8,11 +8,13 @@
 .tableCellLayout {
   display: table-cell;
 }
-.Chart {
-  margin-top: 20px;
-}
-.well.Chart {
-  background-color: transparent;
+.h2-additional-info {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding-left: 100px;
+  font-size: 12px;
+  opacity: 0.8;
 }
 .stackedBarChartContainer {
   margin-top: 30px;
@@ -43,6 +45,36 @@
 }
 .chartNotAnswered {
   background-color: lightgray;
+}
+.progressBarContainer {
+  position: relative;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: table;
+  width: 100%;
+}
+.progressBar {
+  display: table-cell;
+  /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  font-weight: bold;
+  color: #fff;
+}
+.progressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  color: #1964c8;
+}
+.progressBarDone {
+  background-color: #AFD534;
+}
+.progressBarLeft {
+  background-color: #dddddd;
 }
 .SummaryText {
   margin: 40px 0;
