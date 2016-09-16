@@ -432,4 +432,20 @@ public class MaintenanceController : BaseController
             interactionNumber++;
         }
     }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public ActionResult CheckForDuplicates()
+    {
+        var duplicates = Sl.R<AnswerRepo>().GetAll()
+            .Where(a => a.QuestionViewGuid != Guid.Empty)
+            .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
+            .Where(g => g.Skip(1).Any())
+            .SelectMany(g => g)
+            .ToList();
+
+        var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
+    }
 }

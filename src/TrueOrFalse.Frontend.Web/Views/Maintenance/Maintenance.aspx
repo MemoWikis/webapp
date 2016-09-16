@@ -102,6 +102,9 @@
             <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Antwortdaten migrieren
             </a>
+            <a href="<%= Url.Action("CheckForDuplicates", "Maintenance") %>" data-url="toSecurePost" style="">
+                <i class="fa fa-retweet"></i> Auf Antworten mit selber Guid und InteractionNr checken
+            </a>
             
         </div>        
         
