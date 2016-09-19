@@ -17,11 +17,13 @@
     display: table-cell;
 }
 
-.Chart {
-    margin-top: 20px;
-    .well& {
-        background-color: transparent;
-    }
+.h2-additional-info {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding-left: 100px;
+    font-size: 12px; 
+    opacity: 0.8;
 }
 
 .stackedBarChartContainer { 
@@ -54,6 +56,41 @@
 }
 .chartNotAnswered {
     background-color: @color-notAnswered;
+}
+
+
+.progressBarContainer { 
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: table;
+    width: 100%;
+}
+
+.progressBar {
+    display: table-cell; /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    font-weight: bold;
+    color: @white;
+}
+
+.progressBarLegend {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 100%;
+    color: @memo-blue-lighter;
+}
+
+.progressBarDone {
+    background-color: @memo-green;
+}
+
+.progressBarLeft {
+    background-color: #dddddd;
 }
 
 .SummaryText {

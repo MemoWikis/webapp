@@ -140,8 +140,8 @@
                        { %>
                         <span style="padding-right: 2px">
                             Die Frage bitte: &nbsp;
-                            <a href="#modalQuestionFlagImprove" data-toggle="modal"><i class="fa fa-repeat"></i> verbessern!</a>&nbsp; / 
-                            <a href="#modalQuestionFlagDelete" data-toggle="modal"><i class="fa fa-fire"></i> entfernen!</a>
+                            <a href="#modalQuestionFlagImprove" data-toggle="modal"><i class="fa fa-repeat">&nbsp;</i>verbessern!</a>&nbsp; / 
+                            <a href="#modalQuestionFlagDelete" data-toggle="modal"><i class="fa fa-fire">&nbsp;</i>entfernen!</a>
                         </span>
                     <% } %>
                 </div>
@@ -185,7 +185,7 @@
             <div class="well" style="background-color: white;">
                 <p>
                     von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
-                    vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></a> <br />
+                    vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
                 </p>
         
                 <% if (Model.Categories.Count > 0)

@@ -4,7 +4,7 @@
 
     <div class="row" style="margin-bottom: 100px;">
         <div class="BackToHome col-md-3">
-            <i class="fa fa-chevron-left"></i>&nbsp;<a href="/">zur Startseite</a>
+            <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
         </div>
     
         <div class="form-horizontal col-md-9">

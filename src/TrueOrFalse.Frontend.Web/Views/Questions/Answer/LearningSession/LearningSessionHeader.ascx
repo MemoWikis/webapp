@@ -1,29 +1,54 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="" style="margin-bottom: 20px;">
-    <h2 style="margin-top: 0;">Lernen</h2>
+<link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
-    <div class="well" style="background-color: transparent;">
+<div class="" style="margin-bottom: 20px;">
+    <h2 style="margin-top: 0; position: relative;">
+        <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
+                        if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
+                        %>">Lernen</span>
+    
+    <span class="h2-additional-info">
         Du lernst 
         <% if (Model.LearningSession.Questions().Count() == Model.LearningSession.TotalPossibleQuestions){ %>
             alle
         <% }else { %>
-            <%= Model.LearningSession.Questions().Count() %> von 
+            <%= Model.LearningSession.Questions().Count() %> 
         <% } %>
         
         <% if(Model.LearningSession.IsSetSession) { %>
-            <%= Model.LearningSession.TotalPossibleQuestions %> Fragen 
-            aus dem Fragesatz 
+            Fragen aus dem Fragesatz 
             <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="margin-top: 3px; display: inline-block;">
                 <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
             </a>
         <% } %>
         
         <% if(Model.LearningSession.IsDateSession) { %>
-            <%= Model.LearningSession.TotalPossibleQuestions %> Fragen 
-            aus dem Termin <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
+            Fragen aus dem Termin 
+            <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
         <% } %>
-        <br/>Abfrage <%= Model.CurrentLearningStepIdx + 1 %> von <%= Model.LearningSession.Steps.Count() %>        
+
+        <% if (Model.LearningSession.Questions().Count() < Model.LearningSession.TotalPossibleQuestions){ %>
+            mit <%= Model.LearningSession.TotalPossibleQuestions %> Fragen.
+        <% } %>
+    </span>
+    </h2>
+
+    <div class="progressBarContainer">
+        <% if (Model.CurrentLearningStepPercentage>0) {%>
+            <div class="progressBar progressBarDone" style="width: <%= Model.CurrentLearningStepPercentage %>%;">
+                &nbsp;
+            </div>
+        <% } %>                
+        <% if (Model.CurrentLearningStepPercentage<100) {%>
+            <div class="progressBar progressBarLeft" style="width: <%= 100-Model.CurrentLearningStepPercentage %>%;">
+                &nbsp; 
+            </div>
+        <% } %>   
+        <div class="progressBar progressBarLegend">
+            <%= Model.CurrentLearningStepPercentage %>%
+        </div>
     </div>
+
 </div>
