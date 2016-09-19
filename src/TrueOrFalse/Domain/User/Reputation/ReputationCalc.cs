@@ -27,7 +27,9 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /*Calculate Reputation for Questions and Sets created */
 
         var createdQuestions = _session.QueryOver<Question>()
-            .Where(q => q.Creator.Id == user.Id).List<Question>();
+            .Where(q => q.Creator.Id == user.Id)
+            .And(q => q.Visibility == QuestionVisibility.All)
+            .List<Question>();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
         var createdSets = _session.QueryOver<Set>()
