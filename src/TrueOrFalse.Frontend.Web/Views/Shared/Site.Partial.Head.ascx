@@ -69,16 +69,19 @@
 <% if(Model is BaseModel && ((BaseModel)Model).ShowUserReportWidget) { %>
     <%--UserReport Feedback system--%>
     <script type="text/javascript">
-        window._urq = window._urq || [];
-        _urq.push(['initSite', 'ae5712cf-5471-4cf0-9b97-7cb5e8672fba']);
-        (function() {
-        var ur = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;
-        ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);
-        })();
-    </script>
-
+    if (screen && screen.width > 767) {
+      document.write('<script type="text/javascript" src="/Scripts/userreport-plugin.js"><\/script>');
+    }
+    </script>    
 <% } %>
+<%--$( document ).ready(function() {      
+    var isMobile = window.matchMedia("only screen and (max-width: 760px)");
+    if (isMobile.matches) {
+        //Conditional script here
+    }
+});--%>
+
+
 <%--GoogleAnalytics Tracking Code--%>
 <% if(Settings.GoogleKeyIsSet){ %>
 <script>
