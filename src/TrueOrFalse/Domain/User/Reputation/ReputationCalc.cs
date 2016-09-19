@@ -6,6 +6,15 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
 
+    public const int PointsPerQuestionCreated = 1; //excluding private questions
+    public const int PointsPerQuestionInOtherWishknowledge = 5;
+    public const int PointsPerSetCreated = 5;
+    public const int PointsPerSetInOtherWishknowledge = 10;
+    public const int PointsPerDateCreatedVisible = 1;
+    public const int PointsPerDateCopied = 5; //Own dates copied by others
+    public const int PointsPerUserFollowingMe = 20;
+    public const int PointsForPublicWishknowledge = 30;
+
     public ReputationCalc(ISession session){
         _session = session;
     }
@@ -15,59 +24,51 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         var result = new ReputationCalcResult();
         result.User = user;
 
+        /*Calculate Reputation for Questions and Sets created */
+
         var createdQuestions = _session.QueryOver<Question>()
             .Where(q => q.Creator.Id == user.Id).List<Question>();
+        result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
-        result.ForQuestionsCreated = createdQuestions.Count * 5;
+        var createdSets = _session.QueryOver<Set>()
+            .Where(s => s.Creator.Id == user.Id)
+            .RowCount();
+        result.ForSetsCreated = createdSets*PointsPerSetCreated;
 
-        string query = 
+        /*Calculate Reputation for Questions and Sets in other user's wish knowledge */
+
+        var countQuestionsInOtherWishknowledge = _session.QueryOver<QuestionValuation>()
+            .Where(qv => qv.User != user)
+            .And(qv => qv.RelevancePersonal != -1)
+            .JoinQueryOver<Question>(qv => qv.Question)
+            .Where(q => q.Creator == user)
+            .RowCount();
+        result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge * PointsPerQuestionInOtherWishknowledge;
+
+
+        //The following doesn't work, unfortunately (reason: Set is not a property of setValuation)
+        //var countSetsInOtherWishknowledge = _session.QueryOver<SetValuation>()
+        //    .Where(sv => sv.UserId != user.Id)
+        //    .And(qv => qv.RelevancePersonal != -1)
+        //    .Left.JoinAlias()
+        //    .JoinQueryOver<Set>(sv => sv.Set)
+        //    .Where(s => s.Creator == user)
+        //    .RowCount();
+
+        //this is the alternative by writing sql-code (it is working)
+        var query =
             String.Format(
-@"SELECT count(qv.QuestionId), sum(qv.RelevancePersonal)
-FROM questionvaluation qv
-LEFT JOIN question q
-ON qv.QuestionId = q.Id
-WHERE q.Creator_id = {0}
-AND qv.UserId <> {0}
-AND qv.RelevancePersonal <> -1
-GROUP BY 
-qv.QuestionId, 
-qv.RelevancePersonal", user.Id);
+                @"SELECT count(*)
+                FROM setvaluation sv
+                LEFT JOIN questionset s
+                ON sv.SetId = s.Id
+                WHERE s.Creator_id = {0}
+                AND sv.UserId <> {0}
+                AND sv.RelevancePersonal <> -1",
+                user.Id);
+        var countSetsInOtherWishknowledge = Convert.ToInt32(_session.CreateSQLQuery(query).UniqueResult());
 
-        var wishCountQuestions = _session.CreateSQLQuery(query)
-            .List<object>()
-            .Select(item => new Tuple<int, int>(
-                Convert.ToInt32(((object[])item)[0]),
-                Convert.ToInt32(((object[])item)[1]))
-            )
-            .ToList();
-
-        result.ForQuestionsWishCount = wishCountQuestions.Sum(q => q.Item1) * 10;
-        result.ForQuestionsWishKnow = wishCountQuestions.Sum(q => q.Item2);
-
-
-        query =
-            String.Format(
-@"SELECT count(sv.SetId), sum(sv.RelevancePersonal)
-FROM setvaluation sv
-LEFT JOIN questionset s
-ON sv.SetId = s.Id
-WHERE s.Creator_id = {0}
-AND sv.UserId <> {0}
-AND sv.RelevancePersonal <> -1
-GROUP BY 
-sv.SetId, 
-sv.RelevancePersonal", user.Id);
-
-        var wishCountSets = _session.CreateSQLQuery(query)
-            .List<object>()
-            .Select(item => new Tuple<int, int>(
-                Convert.ToInt32(((object[])item)[0]),
-                Convert.ToInt32(((object[])item)[1]))
-            )
-            .ToList();
-
-        result.ForSetWishCount = wishCountSets.Sum(s => s.Item1) * 10;
-        result.ForSetWishKnow = wishCountSets.Sum(s => s.Item2);
+        result.ForSetsInOtherWishknowledge = countSetsInOtherWishknowledge * PointsPerSetInOtherWishknowledge;
 
 
         /* Calculate Reputation for Dates */
@@ -78,8 +79,13 @@ sv.RelevancePersonal", user.Id);
                 .RowCount();
         var datesCopiedInstancesCount =
             _session.QueryOver<Date>().Where(d => d.User == user).List<Date>().Sum(d => d.CopiedInstances.Count);
-        result.ForDatesCreatedVisible = datesCreatedVisibleCount * 1;
-        result.ForDatesCopied = datesCopiedInstancesCount * 5;
+        result.ForDatesCreatedVisible = datesCreatedVisibleCount * PointsPerDateCreatedVisible;
+        result.ForDatesCopied = datesCopiedInstancesCount * PointsPerDateCopied;
+
+        /* Calculate Reputation for ... */
+
+        result.ForPublicWishknowledge = user.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(user.Id) * PointsPerUserFollowingMe;
 
         return result;
     }

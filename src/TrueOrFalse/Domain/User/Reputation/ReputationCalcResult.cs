@@ -3,14 +3,17 @@
     public User User;
 
     public int ForQuestionsCreated;
-    public int ForQuestionsWishCount;
-    public int ForQuestionsWishKnow;
+    public int ForQuestionsInOtherWishknowledge;
 
-    public int ForSetWishCount;
-    public int ForSetWishKnow;
+    public int ForSetsCreated;
+    public int ForSetsInOtherWishknowledge;
 
     public int ForDatesCreatedVisible;
     public int ForDatesCopied;
+
+    public int ForUsersFollowingMe;
+
+    public int ForPublicWishknowledge;
 
     public int TotalReputation
     {
@@ -18,12 +21,13 @@
         {
             return
                 ForQuestionsCreated +
-                ForQuestionsWishCount +
-                ForQuestionsWishKnow +
-                ForSetWishCount +
-                ForSetWishKnow +
+                ForQuestionsInOtherWishknowledge +
+                ForSetsCreated +
+                ForSetsInOtherWishknowledge +
                 ForDatesCreatedVisible + 
-                ForDatesCopied;
+                ForDatesCopied +
+                ForUsersFollowingMe + 
+                ForPublicWishknowledge;
         }
     }
 }
