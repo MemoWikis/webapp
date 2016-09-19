@@ -101,7 +101,7 @@
                             <div class="columnControlsFull">
                                 <div class="checkbox">
                                     <%= Html.CheckBoxFor(m => m.ShowWishKnowledge)%>
-                                    <label class="CheckboxTitle">Wunschwissen zeigen</label><br/>
+                                    <label for="ShowWishKnowledge" class="CheckboxTitle">Wunschwissen zeigen</label><br/>
                                     <label for="ShowWishKnowledge">
                                         Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind 
                                         (außer private Fragen). Antwortstatistiken werden nicht angezeigt. 
@@ -113,7 +113,7 @@
                             <div class="columnControlsFull noLabel">
                                 <label class="checkbox">
                                     <%= Html.CheckBoxFor(m => m.AllowsSupportiveLogin)%>
-                                    <label class="CheckboxTitle">Support-Login zulassen</label><br/>
+                                    <label for="AllowsSupportiveLogin" class="CheckboxTitle">Support-Login zulassen</label><br/>
                                     <label for="AllowsSupportiveLogin">
                                         Achtung: Das ist nur nach Rücksprache mit dem memucho-Team nötig! Wenn du den Support-Login aktivierst, 
                                         können sich Mitarbeiter von memucho zur Fehlerbehebung oder zu deiner Unterstützung 
