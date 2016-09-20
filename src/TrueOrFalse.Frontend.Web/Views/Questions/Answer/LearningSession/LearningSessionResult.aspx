@@ -133,7 +133,7 @@
                         Neue Übungssitzung
                     </a>
                     <a href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Zum Überblick
+                        Zur Wissenszentrale
                     </a>
                 <% } else if (Model.LearningSession.IsSetSession) { %>
                     <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
