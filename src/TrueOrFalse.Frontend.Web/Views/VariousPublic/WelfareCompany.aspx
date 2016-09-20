@@ -9,9 +9,8 @@
     </div>
     <div class="form-horizontal col-md-9">
         
-        <div class="well">
-            <h2>Wir unterstützen die Gemeinwohlökonomie</h2>
-        </div>
+        <h2 style="margin-bottom: 15px; margin-top: 0px;">Wir unterstützen die Gemeinwohlökonomie</h2>
+
         <p>
             Unsere geplante Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
         </p>

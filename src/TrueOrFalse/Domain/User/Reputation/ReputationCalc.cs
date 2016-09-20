@@ -8,7 +8,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
     public const int PointsPerQuestionCreated = 1; //excluding private questions
     public const int PointsPerQuestionInOtherWishknowledge = 5;
-    public const int PointsPerSetCreated = 5;
+    public const int PointsPerSetCreated = 2;
     public const int PointsPerSetInOtherWishknowledge = 10;
     public const int PointsPerDateCreatedVisible = 1;
     public const int PointsPerDateCopied = 5; //Own dates copied by others

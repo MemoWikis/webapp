@@ -26,23 +26,20 @@
     
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
-<%--            <span style="display: inline;">Auf:</span>
             <ul id="footerOn" style="margin-left: -15px;">
-                <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a></li>        
+                <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a></li>        
                 <li>
                     <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
-                        <i class="fa fa-cogs"></i> 
+                        <i class="fa fa-cogs">&nbsp;</i>
                         <% var assembly = Assembly.Load("TrueOrFalse"); %>
                         Teamcity 
-                
                         <span style="color:darkgray">
                             (Build:<%= assembly.GetName().Version.Major %> am
-                            <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("f")) %>
+                            <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("f")) %>)
                         </span>
-                        )
                     </a>
                 </li>
-            </ul>--%>
+            </ul>
         </div>
         <div class="col-sm-6 col-xs-12 text-align-right-md">
             
