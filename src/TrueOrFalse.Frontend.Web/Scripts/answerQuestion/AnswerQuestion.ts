@@ -2,8 +2,7 @@
 
 var choices = [];
 
-class AnswerQuestion
-{
+class AnswerQuestion {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
     private _onNewAnswer: () => void;
@@ -25,7 +24,7 @@ class AnswerQuestion
     public AtLeastOneWrongAnswer = false;
     public AnswerCountedAsCorrect = false;
 
-    constructor(answerEntry : IAnswerEntry) {
+    constructor(answerEntry: IAnswerEntry) {
 
         this.IsGameMode = answerEntry.IsGameMode;
         if ($('#hddIsLearningSession').length === 1)
@@ -44,7 +43,7 @@ class AnswerQuestion
         AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
-        
+
         var self = this;
 
         $("#txtAnswer").keypress(e => {
@@ -67,74 +66,81 @@ class AnswerQuestion
         //        if ($("#buttons-edit-answer").is(":visible")) {
         //            //$(this).select();
         //            //self._onNewAnswer();
-                    
+
         //        }
         //       // $("#txtAnswer").select();
         //    });
 
-        $("#btnCheck, #btnCheckAgain").click(
-            e => {
+        $("#btnCheck, #btnCheckAgain")
+            .click(
+                e => {
+                    e.preventDefault();
+                    $('#hddTimeRecords').attr('data-time-of-answer', $.now());
+                });
+
+        $("#btnCheck")
+            .click(
+                e => {
+                    e.preventDefault();
+                    self.ValidateAnswer();
+                });
+
+        $("#btnCheckAgain")
+            .click(
+                e => {
+                    e.preventDefault();
+                    self.ValidateAnswer();
+                });
+
+        $("#aCountAsCorrect")
+            .click(
+                e => {
+                    e.preventDefault();
+                    self.countAnswerAsCorrect();
+                });
+
+        $("#CountWrongAnswers")
+            .click(e => {
                 e.preventDefault();
-                $('#hddTimeRecords').attr('data-time-of-answer', $.now());
+                var divWrongAnswers = $("#divWrongAnswers");
+                if (!divWrongAnswers.is(":visible"))
+                    divWrongAnswers.show();
+                else
+                    divWrongAnswers.hide();
             });
 
-        $("#btnCheck").click(
-            e => {
-                e.preventDefault();
-                self.ValidateAnswer();
-            });
-
-        $("#btnCheckAgain").click(
-            e => {
-                e.preventDefault();
-                self.ValidateAnswer();
-            });
-
-        $("#aCountAsCorrect").click(
-            e => {
-                e.preventDefault();
-                self.countAnswerAsCorrect();
-            });
-
-        $("#CountWrongAnswers").click(e => {
-            e.preventDefault();
-            var divWrongAnswers = $("#divWrongAnswers");
-            if (!divWrongAnswers.is(":visible"))
-                divWrongAnswers.show();
-            else
-                divWrongAnswers.hide();
-        });
-
-        $(".selectorShowSolution").click(() => {
-            //if in training session
-            //inform that this answer should be marked as show solution..
-            this._inputFeedback.ShowSolution();
-            return false;
-        });
-
-        $("#buttons-edit-answer").click((e) => {
-            e.preventDefault();
-            this._onNewAnswer();
-
-            this._inputFeedback.AnimateNeutral();
-        });
-
-        $("#btnNext, #aSkipStep").click(function (e) {
-            if (self.AmountOfTries === 0
-                && !self.AnswerCountedAsCorrect
-                && !self._isLastLearningStep)
-            {
-                var href = $(this).attr('href') + "?skipStepIdx=" + $('#hddIsLearningSession').attr('data-current-step-idx');
-                window.location.href = href;
+        $(".selectorShowSolution")
+            .click(() => {
+                //if in training session
+                //inform that this answer should be marked as show solution..
+                this._inputFeedback.ShowSolution();
                 return false;
-            }
-            return true;
-        });
+            });
 
-        
+        $("#buttons-edit-answer")
+            .click((e) => {
+                e.preventDefault();
+                this._onNewAnswer();
+
+                this._inputFeedback.AnimateNeutral();
+            });
+
+        $("#btnNext, #aSkipStep")
+            .click(function(e) {
+                if (self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self._isLastLearningStep) {
+                    var href = $(this).attr('href') +
+                        "?skipStepIdx=" +
+                        $('#hddIsLearningSession').attr('data-current-step-idx');
+                    window.location.href = href;
+                    return false;
+                }
+                return true;
+            });
+
+
     }
 
-    static GetQuestionId() : number {
+    static GetQuestionId(): number {
         return +$("#questionId").val();
     }
 
@@ -148,7 +154,9 @@ class AnswerQuestion
 
         if (answerText.trim().length === 0) {
             $('#spnWrongAnswer').hide();
-            self._inputFeedback.ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)", true);
+            self._inputFeedback
+                .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
+                    true);
             return false;
         } else {
             $('#spnWrongAnswer').show();
@@ -164,13 +172,14 @@ class AnswerQuestion
                 {
                     questionViewGuid: $('#hddQuestionViewGuid').val(),
                     interactionNumber: $('#hddInteractionNumber').val(),
-                    millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
-                 }),
+                    millisecondsSinceQuestionView: AnswerQuestion
+                        .TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
+                }),
                 cache: false,
                 success(result) {
                     answerResult = result;
                     self.IncrementInteractionNumber();
-                    
+
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
 
@@ -180,8 +189,7 @@ class AnswerQuestion
                         self._inputFeedback.ShowSolution();
                         if (self._isLastLearningStep)
                             $('#btnNext').html('Zum Ergebnis');
-                    }
-                    else //!result.correct
+                    } else //!result.correct
                     {
                         if (self._isLastLearningStep && !result.newStepAdded)
                             $('#btnNext').html('Zum Ergebnis');
@@ -189,10 +197,7 @@ class AnswerQuestion
                         if (self.IsGameMode) {
                             self._inputFeedback.ShowErrorGame();
                             self._inputFeedback.ShowSolution();
-                        }
-
-                        else
-                        {
+                        } else {
                             self._inputFeedback.UpdateAnswersSoFar();
 
                             self.RegisterWrongAnswer();
@@ -203,9 +208,7 @@ class AnswerQuestion
                                 self._inputFeedback.ShowSolution();
                                 $('#CountWrongAnswers, #divWrongAnswers').hide();
 
-                            } else
-
-                            if (result.choices != null) { //if multiple choice
+                            } else if (result.choices != null) { //if multiple choice
                                 choices = result.choices;
                                 if (self.allWrongAnswersTried(answerText)) {
                                     self._inputFeedback.ShowSolution();
@@ -215,9 +218,11 @@ class AnswerQuestion
                     };
 
                     $("#answerHistory").empty();
-                    $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
-                        $("#answerHistory").html(data);
-                    });
+                    $.post("/AnswerQuestion/PartialAnswerHistory",
+                        { questionId: AnswerQuestion.GetQuestionId() },
+                        function(data) {
+                            $("#answerHistory").html(data);
+                        });
                 }
             });
             return false;
@@ -227,13 +232,16 @@ class AnswerQuestion
     private RegisterWrongAnswer() {
         if (this.AtLeastOneWrongAnswer) return;
         this.AtLeastOneWrongAnswer = true;
-        $('#aCountAsCorrect').attr('data-original-title', 'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+        $('#aCountAsCorrect')
+            .attr('data-original-title',
+                'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
     }
 
     private allWrongAnswersTried(answerText: string) {
         var differentTriedAnswers = [];
         for (var i = 0; i < this.AnswersSoFar.length; i++) {
-            if ($.inArray(this.AnswersSoFar[i], choices) !== -1 && $.inArray(this.AnswersSoFar[i], differentTriedAnswers) === -1) {
+            if ($.inArray(this.AnswersSoFar[i], choices) !== -1 &&
+                $.inArray(this.AnswersSoFar[i], differentTriedAnswers) === -1) {
                 differentTriedAnswers.push(this.AnswersSoFar[i]);
             }
         }
@@ -267,15 +275,17 @@ class AnswerQuestion
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
             },
             cache: false,
-            success: function (result) {
+            success: function(result) {
                 self.AnswerCountedAsCorrect = true;
                 $(Utils.UIMessageHtml(successMessage, "success")).insertBefore('#Buttons');
                 $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
-                $.post("/AnswerQuestion/PartialAnswerHistory", { questionId: AnswerQuestion.GetQuestionId() }, function (data) {
-                    $("#answerHistory").html(data);
-                });
-            } 
+                $.post("/AnswerQuestion/PartialAnswerHistory",
+                    { questionId: AnswerQuestion.GetQuestionId() },
+                    function(data) {
+                        $("#answerHistory").html(data);
+                    });
+            }
         });
     }
 
@@ -291,7 +301,7 @@ class AnswerQuestion
             return true;
 
         return false;
-    }   
+    }
 
     public OnAnswerChange() {
         this.Renewable_answer_button_if_renewed_answer();
@@ -325,12 +335,24 @@ class AnswerQuestion
     }
 
     private IncrementInteractionNumber() {
-        $('#hddInteractionNumber').val(function (i, oldval) {
-            return (parseInt(oldval, 10) + 1).toString();
-        });
+        $('#hddInteractionNumber')
+            .val(function(i, oldval) {
+                return (parseInt(oldval, 10) + 1).toString();
+            });
     }
 
     static TimeSinceLoad(time: any) {
         return parseInt(time) - parseInt($('#hddTimeRecords').attr('data-time-on-load'));
+    }
+
+    static LogTimeForQuestionView() {
+        $.ajax({
+            type: 'POST',
+            url: "/AnswerQuestion/LogTimeForQuestionView/",
+            data: {
+                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+            }
+        });
     }
 }

@@ -18,14 +18,7 @@ $(() => {
     $('#hddTimeRecords').attr('data-time-on-load', $.now());
     
     $(window).unload( function () {
-        $.ajax({
-            type: 'POST',
-            url: "/AnswerQuestion/LogTimeForQuestionView/",
-            data: {
-                questionViewGuid: $('#hddQuestionViewGuid').val(),
-                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
-            }
-        });
+        AnswerQuestion.LogTimeForQuestionView();
     });
 
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);

@@ -24,6 +24,10 @@
             $('#hddTimeRecords').attr('data-time-on-load', $.now());
         }
 
+        $(window).unload(function () {
+            AnswerQuestion.LogTimeForQuestionView();
+        });
+
         this._play.Hub.client.NextRound = (game: Game) => {
 
             if (game.GameId != this._gameId) { return; }
@@ -31,6 +35,7 @@
             $.get("/Play/RenderAnswerBody/?questionId=" + game.QuestionId + "&gameId=" + game.GameId +
                     "&playerId=" + $("#hddPlayerId").val() + "&roundId=" + game.RoundId,
                 htmlResult => {
+                    AnswerQuestion.LogTimeForQuestionView();
                     this._play.ChangeContent("#divBodyAnswer", htmlResult);
                     this.InitGame(game);
                     $('#hddTimeRecords').attr('data-time-on-load', $.now());
