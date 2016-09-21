@@ -21,8 +21,12 @@
 
         if ($("#hddRound").length !== 0) {
             this.InitFromHtml();
-            $('#hddTimeRecords').attr('data-time-on-load', $.now());
         }
+
+        $(window).load(function () {
+                $('#hddTimeRecords').attr('data-time-on-load', $.now());
+            }
+        );
 
         $(window).unload(function () {
             AnswerQuestion.LogTimeForQuestionView();

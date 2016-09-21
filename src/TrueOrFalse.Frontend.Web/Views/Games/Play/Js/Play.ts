@@ -30,6 +30,8 @@
 
             if (game.GameId != this._gameId) { return; }
 
+            AnswerQuestion.LogTimeForQuestionView();
+
             $.get("/Play/RenderGameCompleted/?gameId=" + game.GameId,
                 htmlResult => { this.ChangeBody(htmlResult) }
             );
