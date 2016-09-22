@@ -399,11 +399,11 @@
     <Compile Include="Domain\Media\Image\ReassignTypeIds\GetImageMaintenanceInfos.cs" />
     <Compile Include="Domain\Media\Image\ReassignTypeIds\UpdateImageTypes.cs" />
     <Compile Include="Domain\Media\Image\Storage\ResizeImage.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\License\License.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseImage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseApplicability.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseNotifications.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseParser.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseRepo.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseImageRepo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\Ops\SetImageLicenseStatus.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\ParseMarkupFromDb.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\Markup2Html.cs" />
@@ -934,6 +934,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain.Userlytics\" />
+    <Folder Include="Domain\Question\Question.License\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

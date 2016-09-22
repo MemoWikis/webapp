@@ -314,6 +314,6 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                     .Any(notification => notification.Name == "Manual entry for author required"), Is.True,
                     "Author: Unparsed wiki markup - notification expected");
-        new License().InitLicenseSettings();
+        new LicenseImage().InitLicenseSettings();
     }
 }

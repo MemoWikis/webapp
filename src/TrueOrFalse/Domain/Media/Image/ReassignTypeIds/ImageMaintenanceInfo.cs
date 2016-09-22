@@ -24,10 +24,10 @@ public class ImageMaintenanceInfo
     public string Description;
     public string Author;
 
-    public License MainLicenseAuthorized;
-    public License SuggestedMainLicense;
-    public List<License> AllRegisteredLicenses;
-    public List<License> AllAuthorizedLicenses;
+    public LicenseImage MainLicenseAuthorized;
+    public LicenseImage SuggestedMainLicense;
+    public List<LicenseImage> AllRegisteredLicenses;
+    public List<LicenseImage> AllAuthorizedLicenses;
     public ImageLicenseState LicenseState;
     public string GlobalLicenseStateMessage;
     public string LicenseStateCssClass;
@@ -37,7 +37,7 @@ public class ImageMaintenanceInfo
 
     public ImageFrontendData FrontendData;
 
-    private readonly List<License> _offeredLicenses;
+    private readonly List<LicenseImage> _offeredLicenses;
 
     public int SelectedMainLicenseId { get; set; }
 
@@ -73,18 +73,18 @@ public class ImageMaintenanceInfo
                     ? ManualImageData.AuthorManuallyAdded
                     : (MetaData.AuthorParsed);
 
-        _offeredLicenses = new List<License> {new License { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
-            .Concat(new List<License> { new License { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
+        _offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
+            .Concat(new List<LicenseImage> { new LicenseImage { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
             .ToList();
             
-        if (License.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
+        if (LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseImageRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
         {
             _offeredLicenses = _offeredLicenses
-                .Concat(new List<License>{new License { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
+                .Concat(new List<LicenseImage>{new LicenseImage { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
                 .Concat(
-                    License.FromLicenseIdList(MetaData.AllRegisteredLicenses)
+                    LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses)
                         .Where(x => 
-                            LicenseRepo.GetAllAuthorizedLicenses()
+                            LicenseImageRepo.GetAllAuthorizedLicenses()
                             .Any(y => x.Id == y.Id)
                         )
                 )
@@ -92,18 +92,18 @@ public class ImageMaintenanceInfo
         }
 
         if (
-            LicenseRepo.GetAllAuthorizedLicenses()
-                .Any(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
+            LicenseImageRepo.GetAllAuthorizedLicenses()
+                .Any(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
         {
-            _offeredLicenses = _offeredLicenses.Concat(new List<License>{ new License { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
-                                                .Concat(LicenseRepo.GetAllAuthorizedLicenses().Where(x => License.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
+            _offeredLicenses = _offeredLicenses.Concat(new List<LicenseImage>{ new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
+                                                .Concat(LicenseImageRepo.GetAllAuthorizedLicenses().Where(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
                                                 .ToList();
         }
                 
         MainLicenseAuthorized = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
-        AllRegisteredLicenses = License.FromLicenseIdList(MetaData.AllRegisteredLicenses);
+        AllRegisteredLicenses = LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses);
         AllAuthorizedLicenses = AllRegisteredLicenses
-                                .Where(x => LicenseRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id))
+                                .Where(x => LicenseImageRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id))
                                 .ToList();
         SuggestedMainLicense = LicenseParser.SuggestMainLicenseFromParsedList(imageMetaData) ?? //Checked for requirements
                                 AllAuthorizedLicenses.FirstOrDefault(); //not checked
@@ -191,7 +191,7 @@ public class ImageMaintenanceInfo
         GlobalLicenseStateMessage = "Keine (autorisierte) Lizenz automatisch ermittelt.";
     }
 
-    private bool EvaluateLicenseRequirements(License license)
+    private bool EvaluateLicenseRequirements(LicenseImage license)
     {
         var requirementsCheck = LicenseParser.CheckLicenseRequirementsWithDb(license, MetaData);
         if (requirementsCheck.AllRequirementsMet)
@@ -320,7 +320,7 @@ public class ImageMaintenanceInfo
             : "";
     }
 
-    public string GetSingleLicenseStateMessage(License license)
+    public string GetSingleLicenseStateMessage(LicenseImage license)
     {
         switch (LicenseParser.CheckImageLicenseState(license, MetaData))
         {

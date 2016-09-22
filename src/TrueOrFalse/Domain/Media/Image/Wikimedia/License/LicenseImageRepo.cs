@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-public class LicenseRepo
+public class LicenseImageRepo
 {
-    public static List<License> GetAllRegisteredLicenses()
+    public static List<LicenseImage> GetAllRegisteredLicenses()
     {
-        var registeredLicenses = new List<License>()
+        var registeredLicenses = new List<LicenseImage>()
         { 
             //Don't change IDs!
             //Only set "LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded" if all necessary information is provided
@@ -14,7 +14,7 @@ public class LicenseRepo
             //Find template on Wikimedia "http://commons.wikimedia.org/wiki/template:" + WikiSearchString + "?uselang=de"
             //Overview of all wikimedia licenses: https://commons.wikimedia.org/wiki/Commons:Image_copyright_tags_visual
             
-            new License
+            new LicenseImage
             {
                 Id = 1,
                 WikiSearchString = "cc-by-1.0",
@@ -28,7 +28,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY 1.0",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 2,
                 WikiSearchString = "cc-by-2.0",
@@ -42,7 +42,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY 2.0",
             },
 
-            new License()
+            new LicenseImage()
             {
                 Id = 3,
                 WikiSearchString = "cc-by-2.5",
@@ -56,7 +56,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY 2.5",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 4,
                 WikiSearchString = "cc-by-3.0",
@@ -70,7 +70,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY 3.0",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 5,
                 WikiSearchString = "cc-by-3.0,2.5,2.0,1.0",
@@ -84,7 +84,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY 3.0",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 6,
                 WikiSearchString = "cc-sa-1.0",
@@ -98,7 +98,7 @@ public class LicenseRepo
                 LicenseShortName = "CC SA 1.0",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 7,
                 WikiSearchString = "cc-by-sa-1.0",
@@ -112,7 +112,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY-SA 1.0",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 8,
                 WikiSearchString = "cc-by-sa-2.0",
@@ -126,7 +126,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY-SA 2.0",
             },
 
-            new License
+            new LicenseImage
             {
                 Id = 9,
                 WikiSearchString = "cc-by-sa-2.5",
@@ -140,7 +140,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY-SA 2.5",
             },
 
-            new License()
+            new LicenseImage()
             {
                 Id = 10,
                 WikiSearchString = "cc-by-sa-3.0",
@@ -154,7 +154,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY-SA 3.0",
             },
             
-            new License()
+            new LicenseImage()
             {
                 Id = 11,
                 WikiSearchString = "cc-by-sa-3.0,2.5,2.0,1.0",
@@ -168,7 +168,7 @@ public class LicenseRepo
                 LicenseShortName = "CC BY-SA 3.0",
             },
 
-            new License()
+            new LicenseImage()
             {
                 Id = 12,
                 WikiSearchString = "cc-by-sa-4.0",
@@ -192,7 +192,7 @@ public class LicenseRepo
 
             //},
 
-            new License()
+            new LicenseImage()
             {
                 Id = 200,
                 WikiSearchString = "pd-old",
@@ -244,13 +244,13 @@ public class LicenseRepo
         return registeredLicenses;
     }
 
-    public static List<License> GetAllAuthorizedLicenses()
+    public static List<LicenseImage> GetAllAuthorizedLicenses()
     {
         return GetAllRegisteredLicenses().Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded).ToList();
         //$temp: What about "LicenseApplicability.LicenseIsConditionallyApplicable"?
     }
 
-    public static License GetById(int id)
+    public static LicenseImage GetById(int id)
     {
         return GetAllRegisteredLicenses().FirstOrDefault(license => license.Id == id);
     }

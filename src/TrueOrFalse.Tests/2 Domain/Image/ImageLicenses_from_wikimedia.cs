@@ -9,7 +9,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
     [Test]
     public void Authorized_licenses_should_contain_all_necessary_information()
     {
-        var allAuthorizedLicenses = LicenseRepo.GetAllAuthorizedLicenses();
+        var allAuthorizedLicenses = LicenseImageRepo.GetAllAuthorizedLicenses();
 
         //Check for licenses without valid id
         Assert.That(allAuthorizedLicenses.All(license => license.Id > 0),
@@ -40,7 +40,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                                         "Necessary url of local license copy not provided for:"));
     }
 
-    public static string CreateErrorMessage(IEnumerable<License> erroneousLicenses, string messageSeed)
+    public static string CreateErrorMessage(IEnumerable<LicenseImage> erroneousLicenses, string messageSeed)
     {
         return erroneousLicenses.Aggregate(messageSeed + Environment.NewLine,
                     (current, license) => current + String.Format("Id: {0}, SearchString: {1}" + Environment.NewLine,
@@ -52,14 +52,14 @@ internal class ImageLicenses_from_wikimedia : BaseTest
     public void Registered_licenses_should_not_contain_duplicates()
     {
         var duplicateIdLicenses =
-            LicenseRepo.GetAllRegisteredLicenses()
+            LicenseImageRepo.GetAllRegisteredLicenses()
                 .GroupBy(l => l.Id)
                 .Where(grp => grp.Count() > 1)
                 .SelectMany(grp => grp)
                 .ToList();
 
         var duplicateSearchStringLicenses =
-            LicenseRepo.GetAllRegisteredLicenses()
+            LicenseImageRepo.GetAllRegisteredLicenses()
                 .GroupBy(l => l.WikiSearchString)
                 .Where(grp => grp.Count() > 1)
                 .SelectMany(grp => grp)
@@ -71,11 +71,11 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                                                             duplicateSearchStringLicense.WikiSearchString, duplicateSearchStringLicense.Id));
 
         Assert.That(
-            !LicenseRepo.GetAllRegisteredLicenses().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
+            !LicenseImageRepo.GetAllRegisteredLicenses().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
             "Duplicate ID(s):" + Environment.NewLine + String.Join(Environment.NewLine, duplicateIdLicenses.Select(license => license.Id).ToList()));
 
         Assert.That(
-            !LicenseRepo.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
+            !LicenseImageRepo.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
             messageDuplicateSearchStrings);
     }
         
@@ -83,17 +83,17 @@ internal class ImageLicenses_from_wikimedia : BaseTest
     public void Should_sort_licenses()
     {
 
-        var sortedLicenses = new List<License>()
+        var sortedLicenses = new List<LicenseImage>()
         {
-            new License {WikiSearchString = "other"},
-            new License {WikiSearchString = "gfdl", LicenseRequirementsType = LicenseRequirementsType.GFDL},
-            new License {WikiSearchString = "cc-by-sa-3.0", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
-            new License {WikiSearchString = "pd", LicenseRequirementsType = LicenseRequirementsType.PD},
-            new License {WikiSearchString = "cc-by-sa-3.0-fr", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
-            new License {WikiSearchString = "cc-sa-3.0", LicenseRequirementsType = LicenseRequirementsType.Cc_Sa},
-            new License {WikiSearchString = "cc-by-sa-2.5", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
-            new License {WikiSearchString = "cc-by-sa-3.0-de", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
-            new License {WikiSearchString = "alternative"},
+            new LicenseImage {WikiSearchString = "other"},
+            new LicenseImage {WikiSearchString = "gfdl", LicenseRequirementsType = LicenseRequirementsType.GFDL},
+            new LicenseImage {WikiSearchString = "cc-by-sa-3.0", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+            new LicenseImage {WikiSearchString = "pd", LicenseRequirementsType = LicenseRequirementsType.PD},
+            new LicenseImage {WikiSearchString = "cc-by-sa-3.0-fr", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+            new LicenseImage {WikiSearchString = "cc-sa-3.0", LicenseRequirementsType = LicenseRequirementsType.Cc_Sa},
+            new LicenseImage {WikiSearchString = "cc-by-sa-2.5", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+            new LicenseImage {WikiSearchString = "cc-by-sa-3.0-de", LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa},
+            new LicenseImage {WikiSearchString = "alternative"},
         };
 
         sortedLicenses = LicenseParser.SortLicenses(sortedLicenses);
@@ -189,7 +189,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                         [[Category:Featured pictures of China]]
                         {{QualityImage}}";
 
-        Assert.That(LicenseRepo.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
+        Assert.That(LicenseImageRepo.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
         Assert.That(LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAuthorizedParsedLicenses failed");
     }
 

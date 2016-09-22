@@ -9,9 +9,9 @@ public class MainLicenseInfo
     public string Markup;
     public DateTime MarkupDownloadDate;
 
-    public License GetMainLicense()
+    public LicenseImage GetMainLicense()
     {
-        return LicenseRepo.GetById(MainLicenseId);
+        return LicenseImageRepo.GetById(MainLicenseId);
     }
 
     public string ToJson()

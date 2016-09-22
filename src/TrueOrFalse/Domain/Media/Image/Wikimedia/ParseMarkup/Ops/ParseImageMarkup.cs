@@ -20,7 +20,7 @@ namespace TrueOrFalse.WikiMarkup
         {
             var result = new ParseImageMarkupResult
             {
-                AllRegisteredLicenses = License.ToLicenseIdList(LicenseParser.ParseAllRegisteredLicenses(markup))
+                AllRegisteredLicenses = LicenseImage.ToLicenseIdList(LicenseParser.ParseAllRegisteredLicenses(markup))
             };
 
             var templateFound = false;

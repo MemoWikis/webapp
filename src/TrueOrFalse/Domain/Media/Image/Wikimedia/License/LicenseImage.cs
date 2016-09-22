@@ -6,7 +6,7 @@ using FluentNHibernate.Conventions.AcceptanceCriteria;
 using NHibernate.Mapping;
 using Seedworks.Lib;
 
-public class License
+public class LicenseImage
 {
     public int Id { get; set; }
     public string WikiSearchString { get; set; }
@@ -92,20 +92,20 @@ public class License
         return LicenseRequirementsType.NoCategory;
     }
 
-    public static List<License> FromLicenseIdList(string idList)
+    public static List<LicenseImage> FromLicenseIdList(string idList)
     {
         if (idList == null)
-            return new List<License>();
+            return new List<LicenseImage>();
 
         int y;
         return Regex.Split(idList, ", ")
             .ToList()
             .Where(x => Int32.TryParse(x, out y))
-            .Select(id => LicenseRepo.GetById(id.ToInt32()))
+            .Select(id => LicenseImageRepo.GetById(id.ToInt32()))
             .ToList();
     }
 
-    public static string ToLicenseIdList(List<License> licenses)
+    public static string ToLicenseIdList(List<LicenseImage> licenses)
     {
         return string.Join(",", licenses.Select(x => x.Id.ToString()));
     } 
@@ -117,7 +117,7 @@ public class GetCcLicenseComponents
     public string CcJurisdictionPortsToken;
     public string CcVersion;
 
-    public GetCcLicenseComponents(License license)
+    public GetCcLicenseComponents(LicenseImage license)
     {
         if (String.IsNullOrEmpty(license.WikiSearchString)) return;
 

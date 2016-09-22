@@ -16,35 +16,35 @@ using TrueOrFalse.WikiMarkup;
 
 public class LicenseParser
 {
-    public static List<License> GetAllParsedLicenses(string wikiMarkup)
+    public static List<LicenseImage> GetAllParsedLicenses(string wikiMarkup)
     {
-        return LicenseRepo.GetAllRegisteredLicenses()
+        return LicenseImageRepo.GetAllRegisteredLicenses()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString)
                                                         && x.ToLower() == license.WikiSearchString.ToLower()))
             .ToList();
     }
 
-    public static List<License> GetAuthorizedParsedLicenses(string wikiMarkup)
+    public static List<LicenseImage> GetAuthorizedParsedLicenses(string wikiMarkup)
     {
-         return LicenseRepo.GetAllAuthorizedLicenses()
+         return LicenseImageRepo.GetAllAuthorizedLicenses()
             .Where(license => ParseTemplate.TokenizeMarkup(wikiMarkup).Any(x => !String.IsNullOrEmpty(license.WikiSearchString) 
                                                         && x.ToLower() == license.WikiSearchString.ToLower()))
             .ToList();
     }
 
-    public static List<License> GetAuthorizedParsedLicenses(List<License> allLicenses)
+    public static List<LicenseImage> GetAuthorizedParsedLicenses(List<LicenseImage> allLicenses)
     {
-        return SortLicenses(LicenseRepo.GetAllAuthorizedLicenses()
+        return SortLicenses(LicenseImageRepo.GetAllAuthorizedLicenses()
                                 .Where(license => allLicenses.Any(x => x.Id == license.Id))
                                 .ToList());
     }
 
-    public static IList<License> GetNonAuthorizedParsedLicenses(string wikiMarkup)
+    public static IList<LicenseImage> GetNonAuthorizedParsedLicenses(string wikiMarkup)
     {
         return GetAllParsedLicenses(wikiMarkup).Except(GetAuthorizedParsedLicenses(wikiMarkup)).ToList();
     }
 
-    public static License SuggestMainLicenseFromMarkup(ImageMetaData imageMetaData)
+    public static LicenseImage SuggestMainLicenseFromMarkup(ImageMetaData imageMetaData)
     {
         return GetAuthorizedParsedLicenses(imageMetaData.Markup)
                 .Where(license => CheckLicenseRequirementsWithMarkup(license, imageMetaData).AllRequirementsMet)
@@ -52,20 +52,20 @@ public class LicenseParser
                 .FirstOrDefault();
     }
 
-    public static License SuggestMainLicenseFromParsedList(ImageMetaData imageMetaData)
+    public static LicenseImage SuggestMainLicenseFromParsedList(ImageMetaData imageMetaData)
     {
-        return GetAuthorizedParsedLicenses(License.FromLicenseIdList(imageMetaData.AllRegisteredLicenses))
+        return GetAuthorizedParsedLicenses(LicenseImage.FromLicenseIdList(imageMetaData.AllRegisteredLicenses))
             .Where(license => CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet)
                 .ToList()
                 .FirstOrDefault();
     }
 
-    public static List<License> ParseAllRegisteredLicenses(string markup)
+    public static List<LicenseImage> ParseAllRegisteredLicenses(string markup)
     {
         return SortLicenses(GetAllParsedLicenses(markup));
     } 
 
-    public static List<License> SortLicenses(List<License> licenseList)
+    public static List<LicenseImage> SortLicenses(List<LicenseImage> licenseList)
     {
         return licenseList
             .OrderBy(license => license.LicenseRequirementsType.GetRank())
@@ -76,7 +76,7 @@ public class LicenseParser
             .ToList();
     }
 
-    public static LicenseNotifications CheckLicenseRequirementsWithMarkup(License license, ImageMetaData imageMetaData)
+    public static LicenseNotifications CheckLicenseRequirementsWithMarkup(LicenseImage license, ImageMetaData imageMetaData)
     {
         return CheckLicenseRequirements(
             license,
@@ -86,7 +86,7 @@ public class LicenseParser
                 : "");
     }
 
-    public static LicenseNotifications CheckLicenseRequirementsWithDb(License license, ImageMetaData imageMetaData)
+    public static LicenseNotifications CheckLicenseRequirementsWithDb(LicenseImage license, ImageMetaData imageMetaData)
     {
         return CheckLicenseRequirements(
             license,
@@ -94,7 +94,7 @@ public class LicenseParser
             imageMetaData.AuthorParsed);
     }
 
-    private static LicenseNotifications CheckLicenseRequirements(License license, ImageMetaData imageMetaData, string author)
+    private static LicenseNotifications CheckLicenseRequirements(LicenseImage license, ImageMetaData imageMetaData, string author)
     {
         var licenseNotifications = new LicenseNotifications();
         if (license.AuthorRequired.IsTrue() &&
@@ -117,11 +117,11 @@ public class LicenseParser
         return licenseNotifications;
     }
 
-    public static LicenseState CheckImageLicenseState(License license, ImageMetaData imageMetaData)
+    public static LicenseState CheckImageLicenseState(LicenseImage license, ImageMetaData imageMetaData)
     {
-        if (LicenseRepo.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
+        if (LicenseImageRepo.GetAllRegisteredLicenses().Any(l => l.Id == license.Id))
         {
-            if (LicenseRepo.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
+            if (LicenseImageRepo.GetAllAuthorizedLicenses().Any(l => l.Id == license.Id))
             {
                 return CheckLicenseRequirementsWithDb(license, imageMetaData).AllRequirementsMet ? LicenseState.IsApplicableForImage : LicenseState.AuthorizedButInfoMissing;
             }
@@ -130,7 +130,7 @@ public class LicenseParser
         return LicenseState.NotSpecified;
     }
 
-    public static int PriotizeByCcJurisdictionToken(License license)    
+    public static int PriotizeByCcJurisdictionToken(LicenseImage license)    
     {
         var licenseComponents = new GetCcLicenseComponents(license);
 

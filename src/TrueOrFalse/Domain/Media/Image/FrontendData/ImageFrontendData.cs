@@ -10,7 +10,7 @@ public class ImageFrontendData
     public bool ImageCanBeDisplayed;
     public bool HasAuthorizedMainLicense;
     public bool LicenseDataIncomplete;
-    public License MainLicense;
+    public LicenseImage MainLicense;
     public string Author;
     public string Description;
     public string LicenseName;
@@ -61,7 +61,7 @@ public class ImageFrontendData
                     ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
                 {
                     HasAuthorizedMainLicense = true;
-                    MainLicense = LicenseRepo.GetById(MainLicenseInfo.MainLicenseId);
+                    MainLicense = LicenseImageRepo.GetById(MainLicenseInfo.MainLicenseId);
                     if (MainLicense != null)
                     {
                         LicenseName = !String.IsNullOrEmpty(MainLicense.LicenseShortName)
