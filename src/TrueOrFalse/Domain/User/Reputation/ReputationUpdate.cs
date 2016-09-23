@@ -1,4 +1,6 @@
-﻿public class ReputationUpdate : IRegisterAsInstancePerLifetime
+﻿using System.Collections.Generic;
+
+public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
     private readonly ReputationCalc _reputationCalc;
     private readonly UserRepo _userRepo;
@@ -21,21 +23,31 @@
         Run(Sl.Resolve<SetRepo>().GetById(setId).Creator);
     }
 
+    public static void ScheduleUpdate(IList<int> userIds)
+    {
+        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUsers, string.Join(",", userIds));
+    }
+
+    public static void ScheduleUpdate(int userId)
+    {
+        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUsers, userId.ToString());
+    }
+
     public void Run(User userToUpdate)
     {
         var oldReputation = userToUpdate.Reputation;
         var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
 
         var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
-        for (int i = 0; i < users.Count; i++)
+        foreach (User user in users)
         {
-            userToUpdate.ReputationPos = users[i].ReputationPos;
+            userToUpdate.ReputationPos = user.ReputationPos;
             if (newReputation < oldReputation)
-                users[i].ReputationPos--;
+                user.ReputationPos--;
             else
-                users[i].ReputationPos++;
+                user.ReputationPos++;
 
-            _userRepo.Update(users[i], runSolrUpdateAsync:true);
+            _userRepo.Update(user, runSolrUpdateAsync: true);
         }
 
         _userRepo.Update(userToUpdate, runSolrUpdateAsync:true);

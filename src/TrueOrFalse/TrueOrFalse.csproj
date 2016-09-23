@@ -734,6 +734,10 @@
     <Compile Include="SampleData\SampleData.cs" />
     <Compile Include="Tools\ScheduledJobs\AutofacJobFactory.cs" />
     <Compile Include="Tools\ScheduledJobs\JobExecute.cs" />
+    <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueue.cs" />
+    <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueMap.cs" />
+    <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueRepo.cs" />
+    <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueType.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeStati.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
@@ -743,7 +747,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />
     <Compile Include="Infrastructure\MutexX.cs" />
-    <Compile Include="Tools\ScheduledJobs\RunningsJobs\GameMap.cs" />
+    <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobMap.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJob.cs" />
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
@@ -812,6 +816,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs135.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs134.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs129.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs145.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />

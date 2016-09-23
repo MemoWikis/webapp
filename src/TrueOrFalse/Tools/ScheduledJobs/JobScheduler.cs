@@ -27,6 +27,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
+            Schedule_RecalcReputation();
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
         }
@@ -55,6 +56,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         x.StartingDailyAt(new TimeOfDay(2, 00))
                          .OnEveryDay()
                          .EndingDailyAfterCount(1)).Build());
+        }
+
+        private static void Schedule_RecalcReputation()
+        {
+            //here: check in table "jobs" if reputation should be recalculated for users. then do it.
         }
 
         private static void Schedule_TrainingPlanUpdateCheck()
