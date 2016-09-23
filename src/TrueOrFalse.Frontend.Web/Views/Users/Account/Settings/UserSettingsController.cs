@@ -35,7 +35,7 @@ public class UserSettingsController : BaseController
         _sessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
 
         _userRepo.Update(_sessionUser.User);
-        ReputationUpdate.ScheduleUpdate(_sessionUser.UserId); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
+        ReputationUpdate.ForUser(_sessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
         return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
     }

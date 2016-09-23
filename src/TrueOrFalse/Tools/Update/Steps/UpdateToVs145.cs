@@ -17,7 +17,7 @@ namespace TrueOrFalse.Updates
 	                PRIMARY KEY (`Id`)
                 )
                 COLLATE='utf8_general_ci'
-                ENGINE=MyIsam;"
+                ENGINE=InnoDB;"
             ).ExecuteUpdate();
 
         }

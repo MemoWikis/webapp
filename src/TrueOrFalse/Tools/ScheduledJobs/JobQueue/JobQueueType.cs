@@ -1,5 +1,5 @@
 ﻿public enum JobQueueType
 {
-    UpdateReputationForUsers = 1,
+    UpdateReputationForUser = 1,
 
 }

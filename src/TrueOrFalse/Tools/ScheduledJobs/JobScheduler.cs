@@ -60,7 +60,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private static void Schedule_RecalcReputation()
         {
-            //here: check in table "jobs" if reputation should be recalculated for users. then do it.
+            _scheduler.ScheduleJob(JobBuilder.Create<RecalcReputation>().Build(),
+                TriggerBuilder.Create()
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(2)
+                    .RepeatForever()).Build());
         }
 
         private static void Schedule_TrainingPlanUpdateCheck()

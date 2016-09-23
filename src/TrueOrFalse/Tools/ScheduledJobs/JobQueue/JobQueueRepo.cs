@@ -1,4 +1,6 @@
-﻿using NHibernate;
+﻿using System.Collections;
+using System.Collections.Generic;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
 public class JobQueueRepo : RepositoryDb<JobQueue>
@@ -15,6 +17,13 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
             JobContent = jobContent
         });
         Session.Flush();
+    }
+
+    public IList<int> GetReputationUpdateUsers()
+    {
+        var result = new List<int>();
+
+
     }
 }
     

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
@@ -13,24 +14,24 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         _userRepo = userRepo;
     }
 
-    public void ForQuestion(int questionId)
+    public static void ForQuestion(int questionId)
     {
-        Run(Sl.Resolve<QuestionRepo>().GetById(questionId).Creator);
+        ScheduleUpdate(Sl.Resolve<QuestionRepo>().GetById(questionId).Creator.Id);
     }
 
-    public void ForSet(int setId)
+    public static void ForSet(int setId)
     {
-        Run(Sl.Resolve<SetRepo>().GetById(setId).Creator);
+        ScheduleUpdate(Sl.Resolve<SetRepo>().GetById(setId).Creator.Id);
     }
 
-    public static void ScheduleUpdate(IList<int> userIds)
+    public static void ForUser(User user)
     {
-        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUsers, string.Join(",", userIds));
+        ScheduleUpdate(user.Id);
     }
 
-    public static void ScheduleUpdate(int userId)
+    private static void ScheduleUpdate(int userId)
     {
-        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUsers, userId.ToString());
+        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUser, userId.ToString());
     }
 
     public void Run(User userToUpdate)
@@ -52,4 +53,14 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
 
         _userRepo.Update(userToUpdate, runSolrUpdateAsync:true);
     }
+
+    //public void Run(IList<int> userIds)
+    //{
+    //    var uniqueUserIds = userIds.Distinct().ToList();
+    //    foreach (var userId in uniqueUserIds)
+    //    {
+    //        Run(Sl.R<UserRepo>().GetById(userId));
+    //    }
+
+    //}
 }
