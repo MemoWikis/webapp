@@ -1,28 +1,47 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NHibernate.Util;
 using Quartz;
+using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    [DisallowConcurrentExecution]
+    //[DisallowConcurrentExecution]
     public class RecalcReputation : IJob
     {
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
-                var userIds = scope.R<JobQueueRepo>().GetReputationUpdateUsers(); //nee, weil hier brauche ich auch die IDs der Tabellenzeilen, um die erfolgreichen nachher löschen zu können
-                //grouped by
-                //var uniqueUserIds = userIds
-                //foreach (var userId in uniqueUserIds)
-                //    {
-                //        Run(Sl.R<UserRepo>().GetById(userId));
-                //    }
-                //check in table "jobs" if reputation should be recalculated for users. group them by userid, then do it.
-                //mit try catch finally; bei catch Fehler in rollbar loggen; im finally die erfolgreichen löschen
+                List<int> successfullJobIds = new List<int>();
+                var jobs = scope.R<JobQueueRepo>().GetReputationUpdateUsers();
+                var jobsByUserId = jobs.GroupBy(j => j.JobContent);
+                foreach (var userJobs in jobsByUserId)
+                {
+                    try
+                    {
+                        scope.R<ReputationUpdate>().Run(scope.R<UserRepo>().GetById(Convert.ToInt32(userJobs.First().JobContent)));
+                        successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
+                    }
+                    catch (Exception e)
+                    {
+                        Logg.r().Error(e, "Error in job RecalcReputation");
+                        new RollbarClient().SendException(e);
+                    }
+                }
+
+                //Delete jobs that have been executed successfully
+
+                if (successfullJobIds.Count > 0)
+                {
+                    scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
+                    successfullJobIds.Clear();
+                }
+
             }, "RecalcReputation");
         }
 
