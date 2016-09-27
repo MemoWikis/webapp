@@ -314,6 +314,8 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
+    <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
+    <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
     <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />
@@ -793,6 +795,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs081.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs080.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs125.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs145.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs144.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs143.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs142.cs" />
@@ -934,7 +937,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain.Userlytics\" />
-    <Folder Include="Domain\Question\Question.License\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

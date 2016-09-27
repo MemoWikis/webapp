@@ -312,7 +312,19 @@
                     </div>
                 </div>
                 <div class="FormSection">
-                    <div id="Agreement" class="form-group">
+                    
+                <% if(Model.IsInstallationAdmin) {%>
+                    <div class="form-group">
+                        <label class="columnLabel control-label" for="SolutionType">
+                            <span>Lizenz (nur für Admins)</span>
+                        </label>
+                        <div class="columnControlsFull">
+                            <%= Html.DropDownListFor(m => Model.LicenseId, Model.LicenseDropdownList, new { @class = "form-control" })%>
+                        </div>
+                    </div>
+                    <%} %>
+                  <div id="Agreement" class="form-group">
+
                         <div class="noLabel columnControlsFull">
                             <div class="checkbox">
                                 <label>

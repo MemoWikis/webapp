@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Seedworks.Lib;
 using TrueOrFalse.Web;
 
@@ -15,8 +17,6 @@ public class EditQuestionModel : BaseModel
     public QuestionVisibility Visibility { get; set; }
 
     //Validation serves as backup for client side validation
-
-
     [Required(ErrorMessage="Du musst eine Frage eingeben.")]
     [DataType(DataType.MultilineText )]
     [DisplayName("Frage")]
@@ -37,6 +37,26 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Content rights")]
     [Range(typeof(bool), "true", "true", ErrorMessage = "Bitte bestätige: ")]
     public bool ConfirmContentRights { get; set;  }
+    public int LicenseId { get; set; }
+
+    public IEnumerable<SelectListItem> LicenseDropdownList
+    {
+        get {
+            if(_licenseDropdownList == null)
+
+                return LicenseQuestionRepo.GetAllRegisteredLicenses()
+                .Select(l => new SelectListItem
+                {
+                    Selected = IsEditing ? l.Id == LicenseId : l.IsDefault(),
+                    Text = l.NameShort,
+                    Value = l.Id.ToString()//http://stackoverflow.com/a/782030
+                });
+
+            return _licenseDropdownList;
+        }
+    }
+
+    public IEnumerable<SelectListItem> _licenseDropdownList;
 
     public int Id = -1;
 
@@ -44,11 +64,13 @@ public class EditQuestionModel : BaseModel
     public IList<Reference> References = new List<Reference>();
 
     public string PageTitle;
+
     public string FormTitle;
     public bool ShowSaveAndNewButton;
     public string ImageUrl_128;
     public string SoundUrl;
     public bool IsEditing;
+    private string _pageTitle;
 
     public IEnumerable<SelectListItem> VisibilityData { get {
             return new List<SelectListItem> {
@@ -95,6 +117,7 @@ public class EditQuestionModel : BaseModel
         Description = question.Description;
         Categories = question.Categories;
         References = question.References;
+        LicenseId = question.LicenseId;
         ImageUrl_128 = QuestionImageSettings.Create(question.Id).GetUrl_500px().Url;
         SoundUrl = new GetQuestionSoundUrl().Run(question);
         Visibility = question.Visibility;

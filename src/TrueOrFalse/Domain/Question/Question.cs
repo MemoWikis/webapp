@@ -13,7 +13,19 @@ public class Question : DomainEntity
     public virtual string Text { get; set; }
     public virtual string TextExtended { get; set; }
     public virtual string Description { get; set; }
-    public virtual string License { get; set; }
+    public virtual int LicenseId { get; set; }
+    public virtual LicenseQuestion License
+    {
+        get { return LicenseQuestionRepo.GetById(LicenseId); }
+        set
+        {
+            if (value == null)
+                return;
+
+            LicenseId = value.Id;
+        }
+    }
+
     public virtual string Solution { get; set; }
     public virtual SolutionType SolutionType { get; set; }
     public virtual string SolutionMetadataJson { get; set; }

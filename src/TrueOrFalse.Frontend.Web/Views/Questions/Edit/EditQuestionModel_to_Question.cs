@@ -7,7 +7,7 @@ public class EditQuestionModel_to_Question
 {
     public static Question Create(EditQuestionModel model, NameValueCollection postData)
     {
-        var question = new Question { License = "CC BY 3.0" };
+        var question = new Question();
         return Update(model, question, postData);
     }
 
@@ -25,6 +25,10 @@ public class EditQuestionModel_to_Question
 
         question.Visibility = model.Visibility;
         question.IsWorkInProgress = false;
+
+        question.License = Sl.R<SessionUser>().IsInstallationAdmin 
+            ? LicenseQuestionRepo.GetById(model.LicenseId)
+            : LicenseQuestionRepo.GetDefaultLicense();
 
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)

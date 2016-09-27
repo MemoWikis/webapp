@@ -56,6 +56,9 @@ public class EditQuestionController : BaseController
 
         DeleteUnusedImages.Run(model.QuestionExtended, id);
 
+        if(!_sessionUser.IsInstallationAdmin && model.LicenseId != LicenseQuestionRepo.DefaultLicenseId)
+            throw new Exception("Invalid license type");
+
         if (!ModelState.IsValid)
         {
             model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");

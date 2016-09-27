@@ -8,7 +8,7 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.Text).Length(Constants.VarCharMaxLength);
         Map(x => x.TextExtended).Length(Constants.VarCharMaxLength);
         Map(x => x.Description).Length(Constants.VarCharMaxLength);
-        Map(x => x.License);
+        Map(x => x.LicenseId).Column("License");
         Map(x => x.Visibility);
         References(x => x.Creator);
 
