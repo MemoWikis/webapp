@@ -744,6 +744,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputation.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputationForAll.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TestJob.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingReminderCheck.cs" />

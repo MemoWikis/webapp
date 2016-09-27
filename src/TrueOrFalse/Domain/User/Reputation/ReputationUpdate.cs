@@ -54,13 +54,4 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         _userRepo.Update(userToUpdate, runSolrUpdateAsync:true);
     }
 
-    //public void Run(IList<int> userIds)
-    //{
-    //    var uniqueUserIds = userIds.Distinct().ToList();
-    //    foreach (var userId in uniqueUserIds)
-    //    {
-    //        Run(Sl.R<UserRepo>().GetById(userId));
-    //    }
-
-    //}
 }

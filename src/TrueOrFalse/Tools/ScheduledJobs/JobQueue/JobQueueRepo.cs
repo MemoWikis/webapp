@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
@@ -22,20 +23,20 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
 
     public void DeleteById(IList<int> jobIds)
     {
-        string tmp = jobIds.Select(j => j.ToString()).Aggregate((a, b) => a + ", " + b);
-        Logg.r().Information("query: " + tmp);
-        _session.CreateSQLQuery("DELETE FROM jobqueue WHERE jobqueue.Id IN (" + tmp +")") // [todo: error with variable qJobIds; either solve on sql-part (handled as double), or use diff. syntax for inserting
-                .ExecuteUpdate(); //old: string.Join(",", jobIds) //older: .SetParameter("qJobIds", tmp)
+        var query = $"DELETE FROM jobqueue WHERE jobqueue.Id IN ({string.Join(", ", jobIds)})";
+        _session.CreateSQLQuery(query).ExecuteUpdate(); 
+    }
 
-        //Vorlage: userIds.Select(u => u.ToString()).Aggregate((a, b) => a + "," + b));
+    public void DeleteAllJobs(JobQueueType jobQueueType)
+    {
+        var query = $"DELETE FROM jobqueue WHERE jobqueue.JobQueueType = {jobQueueType}"; //might not work as jobQueueType might not be interpreted as int.
+        _session.CreateSQLQuery(query).ExecuteUpdate();
     }
 
     public IList<JobQueue> GetReputationUpdateUsers()
     {
         return 
             _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.UpdateReputationForUser).List();
-
-
     }
 }
     

@@ -28,6 +28,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
             Schedule_RecalcReputation();
+            Schedule_RecalcReputationForAll();
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
         }
@@ -60,10 +61,22 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private static void Schedule_RecalcReputation()
         {
+            //recalculates reputation for users specified in table jobqueue, which is filled when relevant actions are taken that affect users reputation
             _scheduler.ScheduleJob(JobBuilder.Create<RecalcReputation>().Build(),
                 TriggerBuilder.Create()
-                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(2)
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
                     .RepeatForever()).Build());
+        }
+
+        private static void Schedule_RecalcReputationForAll()
+        {
+            //once a day, recalculate reputation for all users
+            _scheduler.ScheduleJob(JobBuilder.Create<RecalcReputationForAll>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(3, 00))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
         }
 
         private static void Schedule_TrainingPlanUpdateCheck()
