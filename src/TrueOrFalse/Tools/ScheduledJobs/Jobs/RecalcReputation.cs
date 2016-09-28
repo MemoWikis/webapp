@@ -8,8 +8,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcReputation : IJob
     {
-        public const int IntervalInSeconds = 1;
-        //public const int ExpirationInMinutes = 3;
+        public const int IntervalInSeconds = 2;
 
         public void Execute(IJobExecutionContext context)
         {

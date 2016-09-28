@@ -29,7 +29,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
 
     public void DeleteAllJobs(JobQueueType jobQueueType)
     {
-        var query = $"DELETE FROM jobqueue WHERE jobqueue.JobQueueType = {jobQueueType}"; //might not work as jobQueueType might not be interpreted as int.
+        var query = $"DELETE FROM jobqueue WHERE jobqueue.JobQueueType = {(int)jobQueueType}";
         _session.CreateSQLQuery(query).ExecuteUpdate();
     }
 

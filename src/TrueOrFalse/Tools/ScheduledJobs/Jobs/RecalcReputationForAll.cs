@@ -15,10 +15,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                //scope.R<JobQueueRepo>().DeleteAllJobs(JobQueueType.UpdateReputationForUser);
-                
-                //recalc reputation for all
-
+                scope.R<JobQueueRepo>().DeleteAllJobs(JobQueueType.UpdateReputationForUser);
+                scope.R<ReputationUpdate>().RunForAll();
             }, "RecalcReputationForAll");
         }
 
