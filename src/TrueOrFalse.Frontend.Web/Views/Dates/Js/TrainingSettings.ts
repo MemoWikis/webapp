@@ -1,4 +1,6 @@
-﻿class TrainingSettings {
+﻿declare function ga(text: string, text2: string, text3?: string): any;
+
+class TrainingSettings {
 
     private _dateId: number;
     private _isDateDropDownInitialized: boolean;
@@ -15,8 +17,6 @@
     constructor() {
         var self = this;
 
-
-
         self._ddlDates = $("#modalTraining #SelectTrainingDates");
         self._ddlDates.change(function () {
             self.Populate(this.value);
@@ -31,6 +31,9 @@
             }
 
             self.Populate(self._dateId);
+
+            ga('set', 'page', '/Termine/Modal/TrainingSettings');
+            ga('send', 'pageview');
         });
 
         $('#selectLearningStrategy').on('change', '', function (e) {

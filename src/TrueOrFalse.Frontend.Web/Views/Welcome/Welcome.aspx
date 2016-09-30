@@ -32,7 +32,7 @@
     <div class="col-md-8">
             
         <div class="alert alert-success alert-dismissable" style="padding: 13px; padding-bottom: 10px; background-color: #c8e276;">
-            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">memucho: Besser Lernen mit mehr Spaß</h1>
+            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px;">memucho: Schneller lernen, länger wissen</h1>
             <div class="row">
                 <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>

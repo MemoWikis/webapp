@@ -3,6 +3,7 @@
 
 declare var drawKnowledgeCharts: any;
 declare var dateRowDelete: any;
+declare function ga(text: string, text2: string, text3?: string, text4?: string, text5?: string): any;
 
 class DateRowCopy {
 
@@ -14,6 +15,7 @@ class DateRowCopy {
         $('a[href*=#modalCopy]').click(function () {
             dateIdToCopy = $(this).attr("data-dateId");
             self.PopulatModal(dateIdToCopy);
+            ga('send', 'event', 'Modal', 'open', 'CopyDate');
         });
 
         $('#btnCloseDateCopy').click(function (e) {
