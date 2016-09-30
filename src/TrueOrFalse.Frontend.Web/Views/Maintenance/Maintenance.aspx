@@ -102,8 +102,14 @@
             <a href="<%= Url.Action("MigrateAnswerData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
                 <i class="fa fa-retweet"></i> Antwortdaten migrieren
             </a>
-            <a href="<%= Url.Action("CheckForDuplicates", "Maintenance") %>" data-url="toSecurePost" style="">
+            <a href="<%= Url.Action("ClearMigratedData", "Maintenance") %>" data-url="toSecurePost" style="display: none;">
+                <i class="fa fa-retweet"></i> Migrierte Daten löschen
+            </a>
+            <a href="<%= Url.Action("CheckForDuplicateInteractionNumbers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber Guid und InteractionNr checken
+            </a><br />
+            <a href="<%= Url.Action("CheckForDuplicateGameRoundAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
+                <i class="fa fa-retweet"></i> Auf Antworten mit selber RundenId und UserId checken
             </a>
             
         </div>        

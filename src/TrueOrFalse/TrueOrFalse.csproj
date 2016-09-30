@@ -895,6 +895,7 @@
     </Content>
     <Content Include="Infrastructure\SolrSchemas\solr.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Infrastructure\SolrSchemas\solrconfigUser.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
