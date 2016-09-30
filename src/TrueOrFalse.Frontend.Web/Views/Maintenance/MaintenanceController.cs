@@ -459,7 +459,7 @@ public class MaintenanceController : BaseController
             .Where(v => v.Migrated)
             .ForEach(v =>
             {
-                v.LearningSessionStepGuidString = null;
+                v.GuidString = null;
                 v.Milliseconds = 0;
                 questionViewRepo.Update(v);
             });
@@ -470,7 +470,7 @@ public class MaintenanceController : BaseController
             .Where(a => a.Migrated)
             .ForEach(a =>
             {
-                a.LearningSessionStepGuidString = null;
+                a.QuestionViewGuidString = null;
                 a.InteractionNumber = 0;
                 a.MillisecondsSinceQuestionView = 0;
                 answerRepo.Update(a);
