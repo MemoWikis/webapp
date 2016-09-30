@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Util;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Maintenance;
@@ -366,14 +367,13 @@ public class MaintenanceController : BaseController
             if (questionView.Round != null) {
 
                 answersForQuestionView = allAnswers.Where(a => a.Round == questionView.Round
-                         && a.Player == questionView.Player)
+                         && a.UserId == questionView.UserId)
                     .ToList();
             } else {
 
                 var nextViewIndex = allQuestionViews.FindIndex(x =>
                                                           x.DateCreated > questionView.DateCreated
-                                                          && x.UserId == questionView.UserId
-                                                          && x.QuestionId == questionView.QuestionId);
+                                                          && x.UserId == questionView.UserId);
 
                 var upperTimeBound = nextViewIndex != -1 && allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
                                          ? allQuestionViews[nextViewIndex].DateCreated
@@ -435,7 +435,7 @@ public class MaintenanceController : BaseController
 
     [AccessOnlyAsAdmin]
     [HttpPost]
-    public ActionResult CheckForDuplicates()
+    public ActionResult CheckForDuplicateInteractionNumbers ()
     {
         var duplicates = Sl.R<AnswerRepo>().GetAll()
             .Where(a => a.QuestionViewGuid != Guid.Empty)
@@ -445,6 +445,55 @@ public class MaintenanceController : BaseController
             .ToList();
 
         var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public ActionResult ClearMigratedData()
+    {
+        var questionViewRepo = Sl.R<QuestionViewRepository>();
+
+        questionViewRepo.GetAll()
+            .Where(v => v.Migrated)
+            .ForEach(v =>
+            {
+                v.GuidString = null;
+                v.Milliseconds = 0;
+                questionViewRepo.Update(v);
+            });
+
+        var answerRepo = Sl.R<AnswerRepo>();
+
+        answerRepo.GetAll()
+            .Where(a => a.Migrated)
+            .ForEach(a =>
+            {
+                a.QuestionViewGuidString = null;
+                a.InteractionNumber = 0;
+                a.MillisecondsSinceQuestionView = 0;
+                answerRepo.Update(a);
+            });
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Cleared") });
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
+    public ActionResult CheckForDuplicateGameRoundAnswers()
+    {
+        var duplicates = Sl.R<AnswerRepo>().GetAll()
+            .Where(a => a.Round != null)
+            .GroupBy(a => new { a.Round, a.UserId })
+            .Where(g => g.Count(a => a.AnswerredCorrectly== AnswerCorrectness.IsView) > 1
+                        || g.Count(a => a.AnsweredCorrectly()) > 1)
+            .SelectMany(g => g)
+            .ToList();
+
+        var message = duplicates.Any() ?
+                          $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
+                          : "Es gibt keine Dubletten.";
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
