@@ -4,6 +4,22 @@
 
 
 <div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="partnersAndSponsors">
+                <h4 style="text-align: left;">Partner und Förderer:</h4>
+                <img class="partnerImage" src="/Images/LogosPartners/BMWi-Logo-t.png"/>
+                <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png"/>
+                <img class="partnerImage" src="/Images/LogosPartners/Logo-ESF-rgb-gif.png"/>
+                <img class="partnerImage" src="/Images/LogosPartners/Logo-EU-cmyk-eps.png"/>
+                <img class="partnerImage" src="/Images/LogosPartners/Claim-ESF-cmyk-eps.png"/>
+                <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png"/>
+                <p>
+                    memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie und den Europäischen Sozialfonds gefördert.
+                </p>
+            </div>
+        </div>
+    </div>
     
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
@@ -26,20 +42,16 @@
     
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
-            <ul id="footerOn" style="margin-left: -15px;">
-                <li><a class="TextLinkWithIcon" href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a></li>        
-                <li>
-                    <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
-                        <i class="fa fa-cogs">&nbsp;</i>
-                        <% var assembly = Assembly.Load("TrueOrFalse"); %>
-                        Teamcity 
-                        <span style="color:darkgray">
-                            (Build:<%= assembly.GetName().Version.Major %> am
-                            <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("f")) %>)
-                        </span>
-                    </a>
-                </li>
-            </ul>
+            <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
+                <i class="fa fa-cogs">&nbsp;</i>Teamcity
+                <% var assembly = Assembly.Load("TrueOrFalse"); %>
+                <span style="color:darkgray">
+                    (Build: <%= assembly.GetName().Version.Major %> am
+                    <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
+                </span>
+            </a>
         </div>
         <div class="col-sm-6 col-xs-12 text-align-right-md">
             
