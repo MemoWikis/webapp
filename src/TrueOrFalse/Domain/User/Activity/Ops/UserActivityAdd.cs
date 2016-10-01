@@ -68,13 +68,15 @@ public class UserActivityAdd
     public static void CreatedDate(Date date)
     {
         var userCreator = Sl.R<UserRepo>().GetById(date.User.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        //var type = UserActivityType.CreatedDate;
         foreach (var follower in userCreator.Followers)
         {
+            //type = date.CopiedFrom == null ? UserActivityType.CreatedDate : UserActivityType.CopiedDate;
             Sl.R<UserActivityRepo>().Create(new UserActivity
             {
                 UserConcerned = follower.Follower,
                 At = DateTime.Now,
-                Type = UserActivityType.CreatedDate,
+                Type = date.CopiedFrom == null ? UserActivityType.CreatedDate : UserActivityType.CopiedDate,
                 Date = date,
                 UserCauser = date.User
             });

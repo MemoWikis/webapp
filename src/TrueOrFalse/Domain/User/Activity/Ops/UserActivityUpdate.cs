@@ -98,7 +98,7 @@ class UserActivityUpdate
             {
                 UserConcerned = userFollower,
                 At = date.DateCreated,
-                Type = UserActivityType.CreatedDate,
+                Type = date.CopiedFrom == null ? UserActivityType.CreatedDate : UserActivityType.CopiedDate,
                 Date = date,
                 UserCauser = date.User
             });
