@@ -142,7 +142,7 @@
             </div>
 
             <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
-                <i class="fa fa-caret-right"></i> Nutzer<img src="/images/menu-icon-person.png" style="position: relative; top: -1px; left: 4px;" >
+                <i class="fa fa-caret-right"></i> Nutzer
             </a>
             <%
                 var visitedU = new SessionUiData().VisitedUserDetails;
@@ -155,7 +155,7 @@
             <% } %>
         
             <a id="mainMenuBtnMessages" class="list-group-item messages <%= Model.Active(MenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>">
-                Nachrichten
+                <i class="fa fa-caret-right"></i> Nachrichten
                 <span id="badgeNewMessages" class="badge show-tooltip" title="Ungelesene Nachrichten" style="display:inline-block; position: relative; top: 1px;"><%= Model.UnreadMessageCount %></span>
             </a>
 
@@ -168,7 +168,7 @@
             </a>
                             
             <% if (Model.IsInstallationAdmin){ %>
-                <a class="list-group-item cat" style="margin-top: 10px;" href="<%= Url.Action("Maintenance", "Maintenance") %>">
+                <a class="list-group-item cat <%= Model.Active(MenuEntry.Maintenance) %>" style="margin-top: 10px;" href="<%= Url.Action("Maintenance", "Maintenance") %>">
                     <i class="fa fa-caret-right"></i> Administrativ
                 </a>
             <% } %>
