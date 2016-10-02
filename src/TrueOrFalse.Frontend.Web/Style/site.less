@@ -785,11 +785,19 @@ a.button span.ui-icon {
 ----------------------------------------------------------*/
     
 .label {
-    border: 2px solid;
+    border: 1px solid;
     border-radius: 4px;
     color: @dark-blue;
     display: inline-block;
+    vertical-align: middle;
+    font-weight: normal;
+    letter-spacing: .3px;
+    //padding: .2em .4em .3em;
+    margin-top: 3px;
     margin-bottom: 5px;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .label-question {
@@ -798,7 +806,6 @@ a.button span.ui-icon {
 }
     
 .label-category {
-    //background-color: @link-blue;
     background-color: @light-blue;
     border-color: @middle-blue;
 }

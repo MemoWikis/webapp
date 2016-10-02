@@ -25,7 +25,10 @@ function InitLabelTooltips() {
     });
     $('.label-set').each(function () {
         $(this).addClass('show-tooltip');
-        $(this).attr('title', 'Gehe zum Fragesatz').attr('data-placement', 'top');
+        if ($(this)[0].scrollWidth > $(this).innerWidth())
+            $(this).attr('title', 'Zum Fragesatz "' + $(this).html()+'"').attr('data-placement', 'top');
+        else 
+            $(this).attr('title', 'Zum Fragesatz').attr('data-placement', 'top');
     });
 }
 

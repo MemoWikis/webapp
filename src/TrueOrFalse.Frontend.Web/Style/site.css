@@ -1094,11 +1094,18 @@ a.button span.ui-icon {
 /*  LABELS
 ----------------------------------------------------------*/
 .label {
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 4px;
   color: #003264;
   display: inline-block;
+  vertical-align: middle;
+  font-weight: normal;
+  letter-spacing: .3px;
+  margin-top: 3px;
   margin-bottom: 5px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .label-question {
   background-color: #f2f8dd;
