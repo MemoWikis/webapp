@@ -7,7 +7,6 @@
     <div class="row">
         <div class="col-xs-12">
             <div id="partnersAndSponsors">
-                <h4 style="text-align: left;">Partner und Förderer:</h4>
                 <img class="partnerImage" src="/Images/LogosPartners/BMWi-Logo-t.png"/>
                 <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png"/>
                 <img class="partnerImage" src="/Images/LogosPartners/Logo-ESF-rgb-gif.png"/>
