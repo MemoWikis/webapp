@@ -322,6 +322,31 @@
         <div class="panel panel-default">
             <div class="panel-heading">Neueste Fragesätze:</div>
             <div class="panel-body">
+                <%-- <!-- some test-labels to test overflow behaviour -->                
+                <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
+                <a href="/Fragesaetze/Sieger_Fussball-WM_Herren/18/1"><span class="label label-set" id="settst" title="" data-placement="top" data-original-title="Zum Fragesatz">Sieger Fußball-WM Herren</span></a> 
+                    (24&nbsp;Fragen)
+                </p>
+                <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
+                <a href="/Fragesaetze/Sieger_Fussball-WM_Herren/18/1"><span class="label label-set" id="settst01" title="" data-placement="top" data-original-title="Zum Fragesatz">Sieger Fußball-WM Hexxx</span></a> 
+                    (24&nbsp;Fragen)
+                </p>
+                <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
+                <a href="/Fragesaetze/Sieger_Fussball-WM_Herren/18/1"><span class="label label-set" id="settst02" title="" data-placement="top" data-original-title="Zum Fragesatz">Sieger Fußball-WM HexxxI</span></a> 
+                    (24&nbsp;Fragen)
+                </p>
+                <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
+                <a href="/Fragesaetze/Sieger_Fussball-WM_Herren/18/1"><span class="label label-set" id="settst02" title="" data-placement="top" data-original-title="Zum Fragesatz">Sieger .Fußball-WM HexxxI</span></a> 
+                    (24&nbsp;Fragen)
+                </p>
+                <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
+                <a href="/Fragesaetze/Sieger_Fussball-WM_Herren/18/1"><span class="label label-set" id="settst03" title="" data-placement="top" data-original-title="Zum Fragesatz">Sieger Fußball-WM HexxxII</span></a> 
+                    (24&nbsp;Fragen)
+                </p>
+                <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
+                <a href="/Fragesaetze/Sieger_Fussball-WM_Herren/18/1"><span class="label label-set" id="settst04" title="" data-placement="top" data-original-title="Zum Fragesatz">Sieger Fußball-WM HexxxIII</span></a> 
+                    (24&nbsp;Fragen)
+                </p>--%>
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
         </div>
