@@ -30,7 +30,6 @@
        
     },
     errorPlacement: function (error, element) {
-        debugger;
         if (element.parent().attr("class") == "input-group") {
             error.insertAfter($(element).parent());
         }
