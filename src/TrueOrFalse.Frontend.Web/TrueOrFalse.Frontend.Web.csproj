@@ -486,7 +486,7 @@
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
-    <Content Include="Scripts\userreport-plugin.js" />
+    <Content Include="Scripts\userreport\userreport-plugin.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
