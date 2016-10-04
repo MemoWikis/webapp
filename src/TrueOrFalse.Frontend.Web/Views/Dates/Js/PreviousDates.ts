@@ -1,7 +1,7 @@
 ﻿class PreviousDates {
     constructor() {
-        $("#btnShowPreviousDates").click(function () {
-
+        $("#btnShowPreviousDates").click(function (e) {
+            e.preventDefault();
             $("#divShowPreviousDates").hide();
             $("#captionPreviousDate").show();
 
@@ -16,8 +16,8 @@
                     InitTooltips();
                 });
         });
-        $("#allDateRows").on("click", "#btnHidePreviousDates", function () {
-
+        $("#allDateRows").on("click", "#btnHidePreviousDates", function (e) {
+            e.preventDefault();
             $("#previousDates")
                 .animate({ opacitiy: 0.00 }, 900)
                 .empty();

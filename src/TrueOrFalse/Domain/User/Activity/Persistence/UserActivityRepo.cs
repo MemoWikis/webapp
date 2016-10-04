@@ -36,4 +36,14 @@ public class UserActivityRepo : RepositoryDb<UserActivity>
                 .SetParameter("setId", setId)
                 .ExecuteUpdate();
     }
+
+    public void DeleteForUser(int userConcernedId, int userNotFollowedAnymore)
+    {
+        //to be called when userConcerned unfollows userNotFollowedAnymore
+        Session.CreateSQLQuery(
+                "DELETE FROM useractivity WHERE UserConcerned_id = :userConcernedId AND UserCauser_id = :userNotFollowedAnymore")
+                .SetParameter("userConcernedId", userConcernedId)
+                .SetParameter("userNotFollowedAnymore", userNotFollowedAnymore)
+                .ExecuteUpdate();
+    }
 }

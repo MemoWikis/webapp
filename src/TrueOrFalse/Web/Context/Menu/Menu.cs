@@ -10,7 +10,8 @@ public enum MenuEntry
     Messages,
     Help,
     Dates,
-    Play
+    Play,
+    Maintenance
 }
 
 [Serializable]

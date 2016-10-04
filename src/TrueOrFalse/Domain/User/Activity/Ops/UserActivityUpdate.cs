@@ -98,7 +98,7 @@ class UserActivityUpdate
             {
                 UserConcerned = userFollower,
                 At = date.DateCreated,
-                Type = UserActivityType.CreatedDate,
+                Type = date.CopiedFrom == null ? UserActivityType.CreatedDate : UserActivityType.CopiedDate,
                 Date = date,
                 UserCauser = date.User
             });
@@ -128,14 +128,13 @@ class UserActivityUpdate
 
     private static void AddFollowedUser(ref List<UserActivity> userActivities, User userFollower, User userIsFollowed, int amount = 10)
     {
-        //todo: Because DateCreated is not available yet, UserActivity.At is set to current date -> needs to be changed
         var userIsFollowedFromDB = Sl.R<UserRepo>().GetById(userIsFollowed.Id); //needs to update userIsFollowed, because otherwise followers wouldn't be visible here (no session)
         foreach (var follower in userIsFollowedFromDB.Following)
         {
             userActivities.Add(new UserActivity
             {
                 UserConcerned = userFollower,
-                At = DateTime.Now,
+                At = follower.DateCreated,
                 Type = UserActivityType.FollowedUser,
                 UserIsFollowed = follower.User,
                 UserCauser = userIsFollowed

@@ -7,8 +7,7 @@ public class LearningSessionResultModel : BaseModel
 {
     public LearningSession LearningSession;
     public int NumberSteps;
-    public int NumberUniqueQuestions;
-    public int NumberQuestions;
+    public int NumberUniqueQuestions = 0;
     public int NumberCorrectAnswers; //answered correctly at first try
     public int NumberCorrectAfterRepetitionAnswers; 
     public int NumberWrongAnswers;
@@ -36,7 +35,6 @@ public class LearningSessionResultModel : BaseModel
     {
         LearningSession = learningSession;
         NumberSteps = LearningSession.Steps.Count();
-        NumberQuestions = LearningSession.Questions().Count;
 
         if (learningSession.IsDateSession)
         {

@@ -98,24 +98,23 @@
 
             <% }else{ %>
         
-                <% if (!Model.Dates.Any()){ %>
-                    <div id="noOwnCurrentDatesInfo" class="bs-callout bs-callout-info" style="margin-top: 0; margin-bottom: 10px;">
-                        <h4>Du hast keine aktuellen Termine</h4>
-                        <p style="padding-top: 5px;">
-                            Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
-                        </p>
-                        <p>
-                            <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
-                                <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
-                            </a>
-                        </p>
-                    </div>
-                <% } else { %>
-                    <% foreach(var date in Model.Dates){ %>
-                        <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
-                    <% } %>
+                <div id="noOwnCurrentDatesInfo" class="bs-callout bs-callout-info" style="margin-top: 0; margin-bottom: 10px;  <% if (Model.Dates.Any()) Response.Write("display: none;"); %>;">
+                    <h4>Du hast keine aktuellen Termine</h4>
+                    <p style="padding-top: 5px;">
+                        Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
+                    </p>
+                    <p>
+                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
+                            <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
+                        </a>
+                    </p>
+                </div>
+
+                <% foreach(var date in Model.Dates){ %>
+                    <% Html.RenderPartial("DateRow", new DateRowModel(date)); %>
                 <% } %>
-            
+                <div id="endOfFutureDates"></div>
+
                 <% if(Model.HasPreviousDates){ %>
                     <div style="margin-top: -2px; text-align: right;" id="divShowPreviousDates">
                         <a href="#" id="btnShowPreviousDates" style="font-size: 11px; color: darkgray"><i class="fa fa-caret-down"></i> Zeige Termine aus der Vergangenheit</a>

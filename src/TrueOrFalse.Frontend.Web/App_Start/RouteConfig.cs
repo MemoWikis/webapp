@@ -64,6 +64,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Sets_MineSearchApi", "Fragesaetze/Meine/SucheApi", new { controller = "Sets", action = "SetsMineSearchApi" });
             routes.MapRoute("Sets_Mine", "Fragesaetze/Meine", new { controller = "Sets", action = "SetsMine" });
+            routes.MapRoute("Sets_Wish", "Fragesaetze/Wunschwissen", new { controller = "Sets", action = "SetsWish" }); //}, new[] { "TrueOrFalse" }); ?
             routes.MapRoute("Sets_WishSearch", "Fragesaetze/Wunschwissen/Suche/{searchTerm}", new { controller = "Sets", action = "SetsWishSearch", searchTerm = UrlParameter.Optional });
             routes.MapRoute("Sets_WishSearchApi", "Fragesaetze/Wunschwissen/SucheApi", new { controller = "Sets", action = "SetsWishSearchApi" });
             routes.MapRoute("Sets_Search", "Fragesaetze/Suche/{searchTerm}", new { controller = "Sets", action = "SetsSearch", searchTerm = UrlParameter.Optional });

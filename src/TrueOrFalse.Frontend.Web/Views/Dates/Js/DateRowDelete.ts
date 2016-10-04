@@ -47,6 +47,9 @@ class DateRowDelete {
             url: "/Dates/Delete/" + dateId,
             cache: false,
             success: function() {
+                //check if last future date will be deleted, then show box #noOwnCurrentDatesInfo; need to do this first because of delay in hiding deleted date-row
+                if ($("#endOfFutureDates").prevAll(".date-row:visible").length === 1)
+                    $("#noOwnCurrentDatesInfo").show();
                 DateRow.HideRow(dateId);
             },
             error: function (e) {

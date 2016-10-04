@@ -461,6 +461,13 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\LogosPartners\BMWi-Logo-t.png" />
+    <Content Include="Images\LogosPartners\Claim-ESF-cmyk-eps.png" />
+    <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
+    <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
+    <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
+    <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
+    <Content Include="Images\LogosPartners\profund-innovation-logo.jpg" />
     <Content Include="Images\Logo\LogoPictogram.png" />
     <Content Include="Images\Logo\LogoSmall.png" />
     <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />

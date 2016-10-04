@@ -105,7 +105,7 @@
             </div>
 
             <div class="SummaryText" style="clear: left;">
-                <p>In dieser Übungssitzung hast du <%= Model.NumberQuestions %> Fragen gelernt und dabei</p>
+                <p>In dieser Übungssitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">

@@ -14,11 +14,13 @@ using TrueOrFalse.Web;
 public class MaintenanceController : BaseController
 {
     [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Maintenance(){
         return View(new MaintenanceModel());
     }
 
     [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Images(int? page)
     {
         var model = new ImagesModel();
@@ -42,6 +44,7 @@ public class MaintenanceController : BaseController
 
     [AccessOnlyAsAdmin]
     [HttpPost]
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Images(int? page, ImagesModel imageModel)
     {
         imageModel.Init(null);
@@ -86,12 +89,14 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Messages()
     {
         return View(new MessagesModel());
     }
 
     [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult CMS()
     {
         var settings = Sl.R<DbSettingsRepo>().Get();
@@ -193,7 +198,7 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Nutzer wurden neu indiziert.") });
     }
 
-    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
+    [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost][SetMenu(MenuEntry.Maintenance)]
     public ActionResult SendMessage(MessagesModel model)
     {
         CustomMsg.Send(
@@ -206,6 +211,7 @@ public class MaintenanceController : BaseController
     }
 
     [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Tools()
     {
         return View(new ToolsModel());
