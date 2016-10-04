@@ -46,30 +46,16 @@ class AnswerQuestion {
 
         var self = this;
 
-        $("#txtAnswer").keypress(e => {
-            if (e.keyCode == 13) {
-                if (self.IsAnswerPossible()) {
-                    self.ValidateAnswer();
-                    return false;
+        $("#txtAnswer")
+            .keypress(e => {
+                if (e.keyCode == 13) {
+                    if (self.IsAnswerPossible()) {
+                        self.ValidateAnswer();
+                        return false;
+                    }
                 }
-            }
-            return true;
-        });
-
-        //$(document).on('click', '#txtAnswer', function () { this.select(); });
-
-
-        //$("#txtAnswer").click(
-        //    function () {
-        ////        e.preventDefault();
-        //       // window.alert("lkjlkj");
-        //        if ($("#buttons-edit-answer").is(":visible")) {
-        //            //$(this).select();
-        //            //self._onNewAnswer();
-
-        //        }
-        //       // $("#txtAnswer").select();
-        //    });
+                return true;
+            });
 
         $("#btnCheck, #btnCheckAgain")
             .click(

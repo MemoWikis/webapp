@@ -457,6 +457,24 @@ public class MaintenanceController : BaseController
 
     [AccessOnlyAsAdmin]
     [HttpPost]
+    public ActionResult CheckForDuplicateLearningSessionStepGuidsInAnswers()
+    {
+        var duplicates = Sl.R<AnswerRepo>().GetAll()
+            .Where(a => a.LearningSessionStepGuid != Guid.Empty)
+            .GroupBy(a => new { a.LearningSessionStepGuid })
+            .Where(g => g.Skip(1).Any())
+            .SelectMany(g => g)
+            .ToList();
+
+        var message = duplicates.Any() 
+            ? $"Dubletten: {duplicates.Select(a => a.Id.ToString()).Aggregate((a, b) => a + " " + b)}"
+            : "Es gibt keine Dubletten.";
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
+    }
+
+    [AccessOnlyAsAdmin]
+    [HttpPost]
     public ActionResult ClearMigratedData()
     {
         var questionViewRepo = Sl.R<QuestionViewRepository>();
