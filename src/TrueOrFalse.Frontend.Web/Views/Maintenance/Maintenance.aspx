@@ -108,6 +108,9 @@
             <a href="<%= Url.Action("CheckForDuplicateInteractionNumbers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber Guid und InteractionNr checken
             </a><br />
+            <a href="<%= Url.Action("CheckForDuplicateLearningSessionStepGuidsInAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
+                <i class="fa fa-retweet"></i> Auf Antworten mit selber LearningSessionStepGuid checken
+            </a><br />
             <a href="<%= Url.Action("CheckForDuplicateGameRoundAnswers", "Maintenance") %>" data-url="toSecurePost" style="">
                 <i class="fa fa-retweet"></i> Auf Antworten mit selber RundenId und UserId checken
             </a>
