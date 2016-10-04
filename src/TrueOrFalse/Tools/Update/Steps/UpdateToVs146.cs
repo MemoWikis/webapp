@@ -4,7 +4,7 @@ using NHibernate;
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs145
+    public class UpdateToVs146
     {
         public static void Run()
         {
