@@ -84,7 +84,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         result.ForDatesCreatedVisible = datesCreatedVisibleCount * PointsPerDateCreatedVisible;
         result.ForDatesCopied = datesCopiedInstancesCount * PointsPerDateCopied;
 
-        /* Calculate Reputation for ... */
+        /* Calculate Reputation for other things */
 
         result.ForPublicWishknowledge = user.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
         result.ForUsersFollowingMe = _session.R<TotalFollowers>().Run(user.Id) * PointsPerUserFollowingMe;

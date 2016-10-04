@@ -38,6 +38,7 @@ public class User : DomainEntity
         Sl.R<UserRepo>().Flush();
         UserActivityAdd.FollowedUser(follower, this);
         UserActivityUpdate.NewFollower(follower, this);
+        ReputationUpdate.ForUser(this);
     }
     public virtual IList<int> FollowerIds(){
         return Followers.Select(f => f.Follower.Id).ToList();

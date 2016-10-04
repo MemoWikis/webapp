@@ -160,7 +160,7 @@ public class MaintenanceController : BaseController
     [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult UpdateUserReputationAndRankings()
     {
-        Resolve<UpdateReputationsAndRank>().Run();
+        Resolve<ReputationUpdate>().RunForAll();
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Reputation and Rankings wurden aktualisiert.") });
     }
 

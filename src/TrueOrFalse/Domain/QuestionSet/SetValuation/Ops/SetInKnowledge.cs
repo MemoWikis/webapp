@@ -54,7 +54,7 @@ public static class SetInKnowledge
         session.CreateSQLQuery(GenerateRelevancePersonal(setId)).ExecuteUpdate();
         session.Flush();
             
-        Sl.R<ReputationUpdate>().ForSet(setId);
+        ReputationUpdate.ForSet(setId);
     }
 
     private static string GenerateRelevancePersonal(int setId)
