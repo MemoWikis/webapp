@@ -182,28 +182,28 @@
         </div>
         
         <div class="col-sm-3 xxs-stack">
-            <div class="well" style="background-color: white;">
+            <div class="well" id="answerQuestionDetails" style="background-color: white;">
                 <p>
                     von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                     vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
                 </p>
         
                 <% if (Model.Categories.Count > 0)
-                   { %>
+                    { %>
                     <p style="padding-top: 10px;">
                         <% Html.RenderPartial("Category", Model.Question); %>
                     </p>
                 <% } %>
         
                 <% if (Model.SetMinis.Count > 0)
-                   { %>
+                    { %>
                     <% foreach (var setMini in Model.SetMinis)
-                       { %>
-                        <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
+                        { %>
+                        <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
                     <% } %>
         
                     <% if (Model.SetCount > 5)
-                       { %>
+                        { %>
                         <div style="margin-top: 3px;">
                             <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
                         </div>
