@@ -111,7 +111,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
-        if (String.IsNullOrEmpty(pager) && (elementOnPage == -1))
+        if (String.IsNullOrEmpty(pager) && ((elementOnPage == null) || (elementOnPage == -1)))
         {
             if (id == null)
                 throw new Exception("AnswerQuestionController: No id for question provided.");

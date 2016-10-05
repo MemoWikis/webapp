@@ -8,6 +8,8 @@ public class Settings
     [ThreadStatic]
     public static bool UseWebConfig;
 
+    public static string CanonicalHost = "https://memucho.de";
+
     public static string SolrUrl;
     public static string SolrPath;
     public static string SolrCoresSuffix;

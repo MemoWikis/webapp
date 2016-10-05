@@ -5,6 +5,7 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <title>Frage - <%= Model.QuestionText %></title>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
@@ -51,7 +52,7 @@
                 <li class="previous">
                     <% if (Model.HasPreviousPage)
                        { %>
-                        <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
+                        <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-arrow-left"></i></a>
                     <% } %>
                 </li>
                 <li>
@@ -104,7 +105,7 @@
                 <li class="next">
                     <% if (Model.HasNextPage)
                        { %>
-                        <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
+                        <a href="<%= Model.NextUrl(Url) %>" rel="nofollow"><i class="fa fa-arrow-right"></i> </a>
                     <% } %>
                 </li>
             </ul>

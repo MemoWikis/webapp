@@ -392,7 +392,7 @@
                                 <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
                             </div>
                             <div class="col-xs-9" style="">
-                                <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.Text %></a>
+                                <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
                             </div>
                         </div>
                     <% } %>
