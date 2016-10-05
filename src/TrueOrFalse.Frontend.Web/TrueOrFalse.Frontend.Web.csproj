@@ -489,6 +489,9 @@
     <Content Include="Scripts\userreport\userreport-plugin.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Views\Categories\Detail\Category.css">
+      <DependentUpon>Category.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
@@ -1510,9 +1513,6 @@
       <DependentUpon>Categories.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Category.aspx" />
-    <Content Include="Views\Categories\Detail\Category.css">
-      <DependentUpon>Category.less</DependentUpon>
-    </Content>
     <TypeScriptCompile Include="Views\Categories\Js\Categories.ts" />
     <Content Include="Views\Categories\Js\Categories.js">
       <DependentUpon>Categories.ts</DependentUpon>
@@ -1806,9 +1806,6 @@
     </Content>
     <Content Include="Views\Categories\Categories.css.map">
       <DependentUpon>Categories.css</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Category.css.map">
-      <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Edit\EditQuestion.css.map">
       <DependentUpon>EditQuestion.css</DependentUpon>

@@ -20,6 +20,7 @@ span.CategoryType {
   font-size: 145%;
   margin-top: 5px;
   white-space: normal;
+  max-width: 100%;
 }
 .Reference.DailyIssue .PublicationDate {
   display: none;
@@ -48,4 +49,3 @@ span.CategoryType {
 .RelationArrow {
   font-size: 18px;
 }
-/*# sourceMappingURL=Category.css.map */
