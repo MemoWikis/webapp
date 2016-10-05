@@ -309,7 +309,7 @@
             </div>
         </div>
 
-        <div class="row" style="padding-top: 10px;">
+        <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
         </div>
         
@@ -320,7 +320,7 @@
                 <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: bottom"/>&nbsp;Robert (120 Punkte)</p>
                 <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
             </div>
-        </div>
+        </div>--%>
 
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-6">

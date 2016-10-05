@@ -16,11 +16,13 @@ public class EditQuestionModel : BaseModel
 
     public QuestionVisibility Visibility { get; set; }
 
+    public Question Question;
+
     //Validation serves as backup for client side validation
     [Required(ErrorMessage="Du musst eine Frage eingeben.")]
     [DataType(DataType.MultilineText )]
     [DisplayName("Frage")]
-    public string Question { get; set; }
+    public string QuestionText { get; set; }
 
     [DataType(DataType.MultilineText)]
     [DisplayName("Frage erweitert")]
@@ -111,7 +113,8 @@ public class EditQuestionModel : BaseModel
     public EditQuestionModel(Question question)
     {
         Id = question.Id;
-        Question = question.Text;
+        Question = question;
+        QuestionText = question.Text;
         QuestionExtended = question.TextExtended;
         SolutionType = question.SolutionType.ToString();
         Description = question.Description;
@@ -146,8 +149,8 @@ public class EditQuestionModel : BaseModel
 
     public void SetToUpdateModel()
     {
-        PageTitle = "Frage bearbeiten ("+ Question.Truncate(30, "...") + ")";
-        FormTitle = string.Format("Frage '{0}' bearbeiten", Question.TruncateAtWord(30));
+        PageTitle = "Frage bearbeiten ("+ QuestionText.Truncate(30, "...") + ")";
+        FormTitle = string.Format("Frage '{0}' bearbeiten", QuestionText.TruncateAtWord(30));
         IsEditing = true;
         ShowSaveAndNewButton = false;
     }
@@ -155,7 +158,7 @@ public class EditQuestionModel : BaseModel
     public void Reset()
     {
         Id = -1;
-        Question = "";
+        QuestionText = "";
         Description = "";
         Categories = new List<Category>();
     }

@@ -38,7 +38,7 @@
                     
                 <% if(Model.IsEditing){ %>
                     <div style="line-height: 12px; padding-top: 3px;">
-                        <a href="<%= Links.AnswerQuestion(Url, Model.Question, (int)Model.Id) %>" style="font-size: 12px;
+                        <a href="<%= Links.AnswerQuestion(Model.Question) %>" style="font-size: 12px;
                             margin: 0;"><i class="fa fa-check-square"></i> Frage beantworten</a>
                     </div>                    
                 <% } %>
@@ -109,11 +109,11 @@
             <div class="form-horizontal" role="form">
                 <div class="FormSection">
                     <div class="form-group">
-                        <%= Html.LabelFor(m => m.Question, new { @class = "RequiredField columnLabel control-label" })%>
+                        <%= Html.LabelFor(m => m.QuestionText, new { @class = "RequiredField columnLabel control-label" })%>
                         <div class="columnControlsFull">
                         <%--<div class="columnControls3of4">--%>
-                            <%= Html.TextAreaFor(m => m.Question, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
-                            <%: Html.ValidationMessageFor(model => model.Question) %>
+                            <%= Html.TextAreaFor(m => m.QuestionText, new { @class="form-control", placeholder = "Bitte gib den Fragetext ein", rows = 3})%>
+                            <%: Html.ValidationMessageFor(model => model.QuestionText) %>
                         </div>
 <%--                    </div>
                     <div class="form-group">--%>
