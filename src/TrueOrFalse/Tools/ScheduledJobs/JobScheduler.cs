@@ -24,6 +24,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         public static void Start()
         {
+            Sl.R<RunningJobRepo>().TruncateTable();
+            
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();

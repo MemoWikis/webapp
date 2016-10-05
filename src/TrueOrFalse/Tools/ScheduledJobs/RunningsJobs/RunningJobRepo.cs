@@ -15,6 +15,7 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             var jobCount = Session.QueryOver<RunningJob>()
                 .Where(x => x.Name == jobName)
                 .RowCount();
+
             if (jobCount == 0)
                 return false;
 
@@ -57,5 +58,10 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             Delete(job);
 
         Session.Flush();
+    }
+
+    public void TruncateTable()
+    {
+        _session.CreateSQLQuery("truncate table runningjob").ExecuteUpdate();
     }
 }
