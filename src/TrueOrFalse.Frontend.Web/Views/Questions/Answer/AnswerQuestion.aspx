@@ -48,8 +48,11 @@
                    <%--new LearningSessionModel(Model)); %>--%>
             <% }else{ %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
-                <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
-                    <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
+                <li class="previous">
+                    <% if (Model.HasPreviousPage)
+                       { %>
+                        <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
+                    <% } %>
                 </li>
                 <li>
                     <% if (Model.SourceIsCategory){ %>
@@ -57,12 +60,12 @@
                         <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
                             <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
                                 Kategorie:
-                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -3px;">Spoiler</span>
+                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
                             </a>                    
                         <% } else { %>
                             <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
                                 Kategorie:
-                                <span class="label label-category" style="position: relative; top: -3px;"><%= Model.SourceCategory.Name %></span>
+                                <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
                             </a>
                         <% } %>
 
@@ -91,7 +94,12 @@
                     <% } %>                    
                 </li>
                 <li>
-                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
+                    <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal))
+                        { %>
+                        <span>
+                            <%= Model.PageCurrent %> von <%= Model.PagesTotal %>
+                        </span>
+                    <% } %>
                 </li>
                 <li class="next">
                     <% if (Model.HasNextPage)

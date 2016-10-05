@@ -75,12 +75,22 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string AnswerQuestion(Question question)
         {
-            return AnswerQuestion(GetUrlHelper(), question);
+            return AnswerQuestion(GetUrlHelper(), question, -1);
         }
 
       
 
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
+        {
+            if (paramElementOnPage == -1)
+            {
+                return url.Action("Answer", AnswerQuestionController,
+                    new
+                    {
+                        text = UriSegmentFriendlyQuestion.Run(questionText),
+                        id = questionId
+                    }, null);
+            }
             return url.Action("Answer", AnswerQuestionController,
                 new {
                     text = UriSegmentFriendlyQuestion.Run(questionText), 

@@ -34,6 +34,12 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
+    //[SetMenu(MenuEntry.QuestionDetail)]
+    //public ActionResult AnswerSingle(string text, int id)
+    //{
+    //    return AnswerQuestion(text, id, null, "", "");
+    //}
+
     public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
@@ -105,6 +111,14 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
+        if (String.IsNullOrEmpty(pager) && (elementOnPage == -1))
+        {
+            if (id == null)
+                throw new Exception("AnswerQuestionController: No id for question provided.");
+            var question2 = _questionRepo.GetById((int)id);
+            return View(_viewLocation, new AnswerQuestionModel(question2));
+        }
+
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
 
         if (!String.IsNullOrEmpty(category))
