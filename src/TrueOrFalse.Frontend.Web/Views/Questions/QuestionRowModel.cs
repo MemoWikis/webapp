@@ -11,9 +11,10 @@ public class QuestionRowModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public string CreatorName { get; private set; }
-    public string QuestionShort { get; private set; }
     public int QuestionId { get; private set; }
+    public string QuestionText { get; private set; }
+    public string QuestionShort { get; private set; }
+    public string CreatorName { get; private set; }
     public int IndexInResulSet { get; private set; }
 
     public string CreatorUrlName { get; private set; }
@@ -51,8 +52,9 @@ public class QuestionRowModel : BaseModel
         ImageFrontendData = GetQuestionImageFrontendData.Run(question);
 
         Question = question;
-        QuestionShort = question.GetShortTitle();
         QuestionId = question.Id;
+        QuestionText = question.Text;
+        QuestionShort = question.GetShortTitle();
         CreatorName = question.Creator.Name;
 
         CreatorUrlName = UriSegmentFriendlyUser.Run(question.Creator.Name);

@@ -169,9 +169,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Create", EditQuestionController);
         }
 
-        public static string EditQuestion(UrlHelper url, int questionId)
+        public static string EditQuestion(string questionText, int questionId)
         {
-            return url.Action("Edit", EditQuestionController, new { id = questionId });
+            return EditQuestion(GetUrlHelper(), questionText, questionId);
+        }
+        public static string EditQuestion(UrlHelper url, string questionText, int questionId)
+        {
+            return url.Action("Edit", EditQuestionController, new { text = UriSanitizer.Run(questionText), id = questionId });
         }
 
 
@@ -300,7 +304,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("QuestionSet", "Set", new {text = UriSanitizer.Run(name), id = id});
         }
-
 
         public static string QuestionSetEdit(string name, int questionSetId)
         {

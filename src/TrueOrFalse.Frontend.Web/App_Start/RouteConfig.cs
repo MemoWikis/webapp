@@ -29,6 +29,11 @@ namespace TrueOrFalse
             routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users", page = UrlParameter.Optional });
             routes.MapRoute("Users_Network", "Netzwerk", new { controller = "Users", action = "Network"});
 
+            routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
+            //routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
+            //routes.MapRoute("Question_AnswerSingle", "Fragen/{text}/{id}", new { controller = "AnswerQuestion", action = "AnswerSingle" });
+            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}", new { controller = "AnswerQuestion", action = "Learn" });
+
             routes.MapRoute("Questions_MineSearchApi", "Fragen/Meine/SucheApi", new { controller = "Questions", action = "QuestionsMineSearchApi" }, new[] { "TrueOrFalse" });
             routes.MapRoute("Questions_MineSearch", "Fragen/Meine/Suche/{searchTerm}", new { controller = "Questions", action = "QuestionsMineSearch", searchTerm = UrlParameter.Optional }, new[]{"TrueOrFalse"});
             routes.MapRoute("Questions_Mine", "Fragen/Meine", new { controller = "Questions", action = "QuestionsMine" }, new[]{"TrueOrFalse"});
@@ -46,14 +51,9 @@ namespace TrueOrFalse
             routes.MapRoute("Question_StoreImage", "Fragen/Bearbeite/StoreImage", new { controller = "EditQuestion", action = "StoreImage" });
             routes.MapRoute("Question_SolutionEditBody", "Fragen/Bearbeite/SolutionEditBody", new { controller = "EditQuestion", action = "SolutionEditBody" });
             routes.MapRoute("Question_ReferencePartial", "Fragen/Bearbeite/ReferencePartial", new { controller = "EditQuestion", action = "ReferencePartial" });
-            routes.MapRoute("Question_Edit", "Fragen/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
+            routes.MapRoute("Question_Edit", "Fragen/{text}/Bearbeite/{id}", new { controller = "EditQuestion", action = "Edit" });
 
             routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
-
-            routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
-            //routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer" });
-            //routes.MapRoute("Question_AnswerSingle", "Fragen/{text}/{id}", new { controller = "AnswerQuestion", action = "AnswerSingle" });
-            routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}", new { controller = "AnswerQuestion", action = "Learn" });
 
             /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });

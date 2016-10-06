@@ -161,7 +161,7 @@
                                                 <div class="QuestionTools">
                                                     <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Fragesatz entfernen"></i><br/>
                                                     <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
-                                                        <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Id) %>">
+                                                        <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Text, questionInSet.Question.Id) %>">
                                                             <i class="fa fa-pencil"></i> 
                                                         </a>
                                                     <% } %>

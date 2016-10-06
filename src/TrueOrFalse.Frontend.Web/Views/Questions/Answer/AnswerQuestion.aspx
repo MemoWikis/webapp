@@ -116,7 +116,7 @@
             <% if (Model.IsOwner)
                { %>
                 <div id="EditQuestion">
-                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" class="TextLinkWithIcon">
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
                         <i class="fa fa-pencil"></i>
                         <span class="TextSpan">Frage bearbeiten</span>
                     </a>

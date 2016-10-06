@@ -61,7 +61,7 @@
                     string activeClass = (index == 1) ? Model.Active(MenuEntry.QuestionDetail) : "";
             
                     if(question.Type == HistoryItemType.Edit){ %>
-                        <a href="<%= Links.EditQuestion(Url, question.Id) %>" class="list-group-item quest sub <%=activeClass + " " + visitedQ.CssFirst(index) + visitedQ.CssLast(index)%>" data-placement="right" data-html="true">
+                        <a href="<%= Links.EditQuestion(Url, question.Text, question.Id) %>" class="list-group-item quest sub <%=activeClass + " " + visitedQ.CssFirst(index) + visitedQ.CssLast(index)%>" data-placement="right" data-html="true">
                             <i class="fa fa-caret-right"></i>
                             <%=question.Text.Truncate(100)%>
                             <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
