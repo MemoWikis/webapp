@@ -102,7 +102,7 @@
                     <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
             
                     <% if(set.Type == HistoryItemType.Edit){ %>
-                        <a href="<%= Links.QuestionSetEdit(Url, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                        <a href="<%= Links.QuestionSetEdit(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
                             <i class="fa fa-caret-right"></i> 
                             <%=set.Name%>
                             <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>

@@ -10,8 +10,6 @@ public class SetRowModel
     public string Name;
     public string DescriptionShort;
 
-    public int IndexInResult;
-
     public int QuestionCount;
     public IList<Category> Categories; 
 
@@ -32,7 +30,6 @@ public class SetRowModel
     public SetRowModel(
         Set set, 
         SetValuation setValuation,
-        int indexInResultSet, 
         int currentUserid)
     {
         Id = set.Id;
@@ -44,7 +41,6 @@ public class SetRowModel
         QuestionCount = set.QuestionsInSet.Count;
         CreatorName = set.Creator.Name;
         IsOwner = currentUserid == set.Creator.Id;
-        IndexInResult = indexInResultSet;
 
         var imageMetaData = ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
@@ -54,7 +50,7 @@ public class SetRowModel
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 
-        DetailLink = urlHelper => Links.SetDetail(urlHelper, set, indexInResultSet);
+        DetailLink = urlHelper => Links.SetDetail(urlHelper, set);
         UserLink = urlHelper => Links.UserDetail(set.Creator.Name, set.Creator.Id);
 
         Categories = set.Categories;

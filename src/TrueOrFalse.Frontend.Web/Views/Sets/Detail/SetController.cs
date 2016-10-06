@@ -7,7 +7,7 @@ public class SetController : BaseController
     private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 
     [SetMenu(MenuEntry.QuestionSetDetail)]
-    public ActionResult QuestionSet(string text, int id, int elementOnPage)
+    public ActionResult QuestionSet(string text, int id)
     {
         return QuestionSetById(id);
     }

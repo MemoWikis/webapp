@@ -4,6 +4,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
+    <% if (Model.IsEditing) { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>" />
+    <% } else {  %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetCreate() %>" />
+    <% } %>
     <link href="/Views/Sets/Edit/EditSet.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/SetEdit") %>

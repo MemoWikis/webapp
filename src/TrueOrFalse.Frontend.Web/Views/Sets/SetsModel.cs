@@ -59,7 +59,6 @@ public class SetsModel : BaseModel
             new SetRowModel(
                 set,
                 NotNull.Run(valuations.BySetId(set.Id)),
-                counter++, 
                 _sessionUser.UserId
             ));
 

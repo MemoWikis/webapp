@@ -37,7 +37,7 @@ public class EditSetController : BaseController
             string.Format("Der Fragesatz <i>'{0}'</i> wurde erstellt. Du kannst ihn nun weiter bearbeiten.",
                           set.Name.TruncateAtWord(30)));
 
-        return RedirectToAction("Edit", Links.EditSetController, new {set.Id});
+        return RedirectToAction("Edit", Links.SetEditController, new { text = UriSanitizer.Run(set.Name), id = set.Id });
     }
 
     public ViewResult Edit(int id)

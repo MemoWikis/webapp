@@ -198,25 +198,28 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Sets() { return GetUrlHelper().Action(SetsAction, SetsController); }
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
+        public static string SetCreate() { return GetUrlHelper().Action(SetCreateAction, SetEditController); }
         public const string SetController = "Set";
-        public const string EditSetController = "EditSet";
+        public const string SetCreateAction = "Create";
+        public const string SetEditController = "EditSet";
 
 
         public static string SetDetail(UrlHelper url, SetMini setMini){
             return SetDetail(url, setMini.Name, setMini.Id);
         }
 
-        public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
-            return SetDetail(url, set.Name, set.Id, elementOnPage);
+        public static string SetDetail(UrlHelper url, Set set){
+            return SetDetail(url, set.Name, set.Id);
         }
 
-        public static string SetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
+        public static string SetDetail(UrlHelper url, string name, int id){
             return url.Action("QuestionSet", "Set",
-                new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
+                new { text = UriSanitizer.Run(name), id = id}, null);            
         }
 
-        public static string SetDetail(string name, int id){
-            return "/Fragesaetze/" + UriSanitizer.Run(name) + "/" + id +  "/1";
+        public static string SetDetail(string name, int id)
+        {
+            return GetUrlHelper().Action("QuestionSet", "Set", new {text = UriSanitizer.Run(name), id = id});
         }
 
         public static string CategoryDetail(string name, int id, int elementOnpage = 1){
@@ -232,8 +235,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", "EditCategory", new { id });
         }
 
-        public static string QuestionSetEdit(UrlHelper url, int questionSetId){
-            return url.Action("Edit", "EditSet", new {id = questionSetId});
+        public static string QuestionSetEdit(string name, int questionSetId)
+        {
+            return QuestionSetEdit(GetUrlHelper(), name, questionSetId);
+        }
+        public static string QuestionSetEdit(UrlHelper url, string name, int questionSetId)
+        {
+            return url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = questionSetId });
         }
 
         public static string Messages(UrlHelper url){
