@@ -358,24 +358,23 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Category*/
         public const string Categories = "Categories";
         public const string CategoriesController = "Categories";
-
-        public const string EditCategoryController = "EditCategory";
-        public const string EditCategory = "Edit";
-
-        public static string CategoryDetail(string name, int id, int elementOnpage = 1)
-        {
-            return GetUrlHelper().Action("Category", "Category",
-                new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);
-        }
+        public const string CategoryEditController = "EditCategory";
+        public const string CategoryCreateAction = "Create";
+        public static string CategoryCreate() { return GetUrlHelper().Action(CategoryCreateAction, CategoryEditController); }
 
         public static string CategoryDetail(Category category)
         {
             return CategoryDetail(category.Name, category.Id);
         }
-
-        public static object CategoryEdit(UrlHelper url, int id)
+        public static string CategoryDetail(string name, int id)
         {
-            return url.Action("Edit", "EditCategory", new { id });
+            return GetUrlHelper().Action("Category", "Category",
+                new { text = UriSanitizer.Run(name), id = id }, null);
+        }
+
+        public static object CategoryEdit(UrlHelper url, string name, int id)
+        {
+            return url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
         }
 
     }

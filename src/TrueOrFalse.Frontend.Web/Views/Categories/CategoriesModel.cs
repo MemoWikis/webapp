@@ -64,7 +64,6 @@ public class CategoriesModel : BaseModel
             select 
                 new CategoryRowModel(
                     category, 
-                    index++, 
                     referenceCounts.FirstOrDefault(x => x.CategoryId == category.Id)
                 );
     }

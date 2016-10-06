@@ -128,7 +128,7 @@
                  <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.CategoryDetail); } %>
 
                  <% if(categoryHistoryItem.Type == HistoryItemType.Edit){ %>
-                    <a href="<%= Links.CategoryEdit( Url, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie bearbeiten: <%=categoryHistoryItem.Name%>" data-placement="right">
+                    <a href="<%= Links.CategoryEdit(Url, categoryHistoryItem.Name, categoryHistoryItem.Id) %>" class="show-tooltip cat sub <%= activeClass + visitedC.CssFirst(index) + visitedC.CssLast(index) %> list-group-item" title="Kategorie bearbeiten: <%=categoryHistoryItem.Name%>" data-placement="right">
                         <i class="fa fa-caret-right"></i> 
                         <%=categoryHistoryItem.Name%>
                         <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i> 

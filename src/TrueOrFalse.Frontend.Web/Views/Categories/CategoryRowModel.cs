@@ -20,7 +20,7 @@ public class CategoryRowModel : BaseModel
     public int CorrectnesProbability;
     public int AnswersTotal;
 
-    public CategoryRowModel(Category category, int indexInResultSet, ReferenceCountPair referenceCountPair)
+    public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair)
     {
         CategoryId = category.Id;
         CategoryName = category.Name;
@@ -32,7 +32,7 @@ public class CategoryRowModel : BaseModel
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 
-        DetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id, indexInResultSet);
+        DetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id);
 
         DateCreated = category.DateCreated.ToString("dd.MM.yyyy");
         DateCreatedLong = category.DateCreated.ToString("U");//Change to "g" format?

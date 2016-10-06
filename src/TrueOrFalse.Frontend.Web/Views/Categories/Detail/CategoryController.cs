@@ -7,7 +7,7 @@ public class CategoryController : BaseController
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
     [SetMenu(MenuEntry.CategoryDetail)]
-    public ActionResult Category(string text, int id, int elementOnPage)
+    public ActionResult Category(string text, int id)
     {
         var category = Resolve<CategoryRepository>().GetById(id);
         return Category(category);
