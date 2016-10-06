@@ -35,8 +35,11 @@ public class DateRepo : RepositoryDbBase<Date>
     {
         base.Create(date);
         Flush();
-        UserActivityAdd.CreatedDate(date);
-        ReputationUpdate.ForUser(date.User);
+        if (date.Visibility != DateVisibility.Private)
+        {
+            UserActivityAdd.CreatedDate(date);
+            ReputationUpdate.ForUser(date.User);
+        }
     }
 
     public int Copy(Date sourceDate)
