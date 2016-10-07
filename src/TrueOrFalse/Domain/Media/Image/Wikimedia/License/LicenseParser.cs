@@ -158,7 +158,8 @@ public class LicenseParser
 
     public static string GetWikiDetailsPageFromSourceUrl(string sourceUrl)
     {
-        return !String.IsNullOrEmpty(sourceUrl) && sourceUrl.StartsWith("http://upload.wikimedia.org")
+        return !String.IsNullOrEmpty(sourceUrl) && 
+            (sourceUrl.StartsWith("http://upload.wikimedia.org") || sourceUrl.StartsWith("https://upload.wikimedia.org"))
             ? "http://commons.wikimedia.org/wiki/File:" + Regex.Split(sourceUrl, "/").Last()
             : "";
     }

@@ -135,7 +135,7 @@
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="col-lg-6">
                     <a href="#" class="btn btn-default" id="ReloadImage">
-                        <i class="fa fa-refresh"></i> Bild neuladen
+                        <i class="fa fa-refresh"></i> Bild neu laden
                     </a>                    
                 </div>
                 <div class="col-lg-6" style="text-align: right;">
