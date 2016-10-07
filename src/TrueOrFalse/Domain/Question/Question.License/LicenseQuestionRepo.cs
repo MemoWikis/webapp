@@ -14,9 +14,10 @@ public class LicenseQuestionRepo
             new LicenseQuestion
             {
                 Id = 1,
-                NameLong = "Creative Commons: Namensnennung 4.0 Unported",
+                NameLong = "Creative Commons: Namensnennung 4.0 International",
                 NameShort = "CC BY 4.0",
                 LicenseLinkOptional = @"https://creativecommons.org/licenses/by/4.0/legalcode",
+                LicenseShortDescriptionLinkOptional = @"https://creativecommons.org/licenses/by/4.0/deed.de"
             },
 
             new LicenseQuestion

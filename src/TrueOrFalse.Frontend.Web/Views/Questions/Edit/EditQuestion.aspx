@@ -330,10 +330,10 @@
                                 <label>
                                     <%: Html.ValidationMessageFor(model => model.ConfirmContentRights) %>
                                     <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
-                                    Ich stelle diesen Eintrag unter die Creative Commons-Lizenz "Namensnennung 4.0 International" (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">CC&nbsp;BY&nbsp;4.0</a>). 
-                                    Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden 
-                                    (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">mehr erfahren</a>).<br/>
-                                    Die Frage, die Anwort und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert. 
+                                    Ich stelle diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC&nbsp;BY&nbsp;4.0, <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank">Lizenztext</a>, <a>deutsche Zusammenfassung</a>).
+                                    Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden .
+                                    <br/>
+                                    Die Frage, die Anwort und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert.
                                 </label>
                             </div>
                         </div>
