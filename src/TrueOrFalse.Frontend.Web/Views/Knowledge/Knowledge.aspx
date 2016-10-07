@@ -5,7 +5,8 @@
 
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
-    
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>" />
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script>
@@ -251,7 +252,7 @@
                         </p>
                         <p>
                             Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                            oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
+                            oder <a href="<%= Links.SetsAll() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
                             <ul style="list-style-type: none">
                                 <li>
                                     <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>

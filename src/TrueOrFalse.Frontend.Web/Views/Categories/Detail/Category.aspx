@@ -15,7 +15,7 @@
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-xs-3 col-xs-push-9 xxs-stack">
                     <div class="navLinks">
-                        <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+                        <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                         <% if(Model.IsOwnerOrAdmin){ %>
                             <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                         <% } %>

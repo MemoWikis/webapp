@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -7,6 +8,8 @@ public class SetsModel : BaseModel
 {
     public UIMessage Message;
 
+    public string CanonicalUrl;
+    public bool HasFiltersOrChangedOrder;
     public bool ActiveTabAll;
     public bool ActiveTabMine;
     public bool ActiveTabWish;
@@ -85,5 +88,19 @@ public class SetsModel : BaseModel
         }
 
         SearchResultModel = new SetsSearchResultModel(this);
+
+        /* Generate Canonical URL: Ignores search specifications and filters */
+        if (!String.IsNullOrEmpty(SearchTerm) ||
+            !(searchSpec.OrderBy.BestMatch.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
+            HasFiltersOrChangedOrder = true;
+        if (ActiveTabAll)
+            CanonicalUrl = Links.SetsAll();
+        else if (ActiveTabWish)
+            CanonicalUrl = Links.SetsWish();
+        else if (ActiveTabMine)
+            CanonicalUrl = Links.SetsMine();
+        if (Pager.CurrentPage > 1)
+            CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
+
     }
 }

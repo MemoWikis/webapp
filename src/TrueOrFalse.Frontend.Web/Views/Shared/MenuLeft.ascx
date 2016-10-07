@@ -25,7 +25,7 @@
 <div class="mainMenuContainer">
     <nav id="mainMenu" style="display: none;">
         <div class="list-group">
-            <a id="mainMenuBtnKnowledge" class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>">
+            <a id="mainMenuBtnKnowledge" class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
                 <i class="fa fa-caret-right"></i> 
                 Wissenszentrale <span style="float:right"><i class="fa fa-heart" style="color:#b13a48;"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
@@ -88,7 +88,7 @@
                 <% } %>
             <% } %>
             
-            <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Url.Action("Sets", "Sets")%>">
+            <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
                 <i class="fa fa-caret-right"></i> Fragesätze
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
@@ -114,7 +114,7 @@
                     <% } %>
             <% } %>
 
-            <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>">
+            <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>">
                 <i class="fa fa-caret-right"></i> Kategorien
                 
                 <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
@@ -141,7 +141,7 @@
             <% } %>
             </div>
 
-            <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Url.Action("Users", "Users")%>" style="margin-top: 10px;">
+            <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Links.Users() %>" style="margin-top: 10px;">
                 <i class="fa fa-caret-right"></i> Nutzer
             </a>
             <%

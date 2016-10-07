@@ -34,6 +34,6 @@ public class PersonaController : BaseController
         if (Request["target-url"] != null)
             return Redirect(Request["target-url"]);
 
-        return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
+        return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
     }
 }

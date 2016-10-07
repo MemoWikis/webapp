@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionsModel : BaseModel
 {
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
+    public string CanonicalUrl { get; set; }
+    public bool HasFiltersOrChangedOrder { get; set; }
 
     public PagerModel Pager { get; set; }
 
@@ -107,5 +110,20 @@ public class QuestionsModel : BaseModel
 
         if (ActiveTabWish)
             KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId);
+
+        /* Generate Canonical URL: Ignores search specifications and filters */
+        if (((SearchFilter.Categories != null) && (SearchFilter.Categories.Count > 0)) || 
+            SearchFilter.Knowledge_FilterIsSet ||
+            !String.IsNullOrEmpty(SearchTerm) ||
+            !(questionSearchSpec.OrderBy.BestMatch.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
+            HasFiltersOrChangedOrder = true;
+        if (ActiveTabAll)
+            CanonicalUrl = Links.QuestionsAll();
+        else if (ActiveTabWish)
+            CanonicalUrl = Links.QuestionsWish();
+        else if (ActiveTabMine)
+            CanonicalUrl = Links.QuestionsMine();
+        if (Pager.CurrentPage > 1)
+            CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
     }
 }

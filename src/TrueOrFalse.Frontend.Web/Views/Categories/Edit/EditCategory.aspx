@@ -32,7 +32,7 @@
             </h2>
             <div class="headerControls pull-right">
                 <div>
-                    <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
+                    <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
                     </a><br/>
                     <% if(Model.IsEditing){ %>

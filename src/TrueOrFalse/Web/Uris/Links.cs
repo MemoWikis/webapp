@@ -20,7 +20,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string WelfareCompany = "Gemeinwohlökonomie";
 
         public const string KnowledgeController = "Knowledge";
-        public const string Knowledge = "Knowledge";
+        public const string KnowledgeAction = "Knowledge";
+        public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
 
         public const string HelpController = "Help";
         public const string HelpFAQ = "FAQ";
@@ -42,7 +43,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /*Users*/
         public const string UserController = "User";
-        public const string User = "User";
+        public const string UserAction = "User";
 
         public const string UserSettings = "UserSettings";
         public const string UserSettingsController = "UserSettings";
@@ -58,7 +59,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string UserDetail(string userName, int userId)
         {
-            return GetUrlHelper().Action(User, UserController,
+            return GetUrlHelper().Action(UserAction, UserController,
                 new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
         }
 
@@ -78,6 +79,12 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action(Login, VariousController);
         }
 
+        public const string UsersController = "Users";
+        public const string UsersAction = "Users";
+        public static string Users() { return GetUrlHelper().Action(UsersAction, UsersController); }
+
+        public const string NetworkAction = "Network";
+        public static string Network() { return GetUrlHelper().Action(NetworkAction, UsersController); }
 
 
         /*Question*/
@@ -281,7 +288,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string SetsAction = "Sets";
         public const string SetsWishAction = "SetsWish";
         public const string SetsMineAction = "SetsMine";
-        public static string Sets() { return GetUrlHelper().Action(SetsAction, SetsController); }
+        public static string SetsAll() { return GetUrlHelper().Action(SetsAction, SetsController); }
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
         public static string SetCreate() { return GetUrlHelper().Action(SetCreateAction, SetEditController); }
@@ -360,10 +367,11 @@ namespace TrueOrFalse.Frontend.Web.Code
 
 
         /*Category*/
-        public const string Categories = "Categories";
+        public const string CategoriesAction = "Categories";
         public const string CategoriesController = "Categories";
         public const string CategoryEditController = "EditCategory";
         public const string CategoryCreateAction = "Create";
+        public static string Categories() { return GetUrlHelper().Action(CategoriesAction, CategoriesController); }
         public static string CategoryCreate() { return GetUrlHelper().Action(CategoryCreateAction, CategoryEditController); }
 
         public static string CategoryDetail(Category category)

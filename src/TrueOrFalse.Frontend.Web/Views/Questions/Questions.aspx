@@ -3,6 +3,11 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% if (Model.HasFiltersOrChangedOrder) { %>
+        <meta name="robots" content="noindex" />
+    <% } else { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>" />
+    <% } %>
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/questions") %>
 </asp:Content>
@@ -121,7 +126,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
                                         <span class="input-group-btn">
-                                            <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
+                                            <button class="btn btn-default" id="btnSearch" rel="nofollow"><i class="fa fa-search"></i></button>
                                         </span>
                                     </div>
                                     <%--<% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
@@ -210,28 +215,28 @@
                         <div class="col-sm-4">
                             <ul class="nav pull-right">
                                 <li class="dropdown" id="menu1">
-                                    <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                    <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1" rel="nofollow">
                                         <span class="hidden-xxs">Sortieren nach:</span> <%= Model.OrderByLabel %>
                                         <b class="caret"></b>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>">
-                                                <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Beste Treffer
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>" rel="nofollow">
+                                                <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Beste Treffer
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>">
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byRelevance" %>" rel="nofollow">
                                                 <% if (Model.OrderBy.PersonalRelevance.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gemerkt
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>">
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byDateCreated" %>" rel="nofollow">
                                                 <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Datum erstellt
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>">
+                                            <a href="<%= Request.Url.AbsolutePath + "?orderBy=byViews" %>" rel="nofollow">
                                                 <% if (Model.OrderBy.Views.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>Gesehen
                                             </a>
                                         </li>

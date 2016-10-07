@@ -26,7 +26,7 @@ namespace TrueOrFalse
             routes.MapRoute("UserAccountMembership", "Nutzer/Mitgliedschaft", new { controller = "Account", action = "Membership" });
             routes.MapRoute("UserLoginAs", "Nutzer/LoginAs/{userId}", new { controller = "Users", action= "LoginAs" });
             routes.MapRoute("User", "Nutzer/{name}/{id}/{action}", new { controller = "User", action = "User" });
-            routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users", page = UrlParameter.Optional });
+            routes.MapRoute("Users", "Nutzer", new { controller = "Users", action = "Users" }); //included: , page = UrlParameter.Optional 
             routes.MapRoute("Users_Network", "Netzwerk", new { controller = "Users", action = "Network"});
 
             routes.MapRoute("Question_Answer", "Fragen/{text}/{id}/{elementOnPage}", new { controller = "AnswerQuestion", action = "Answer", elementOnPage = UrlParameter.Optional });
@@ -98,7 +98,7 @@ namespace TrueOrFalse
             /* API */ routes.MapRoute("Categories_EditSubCategoryItems", "Categories/EditSubCategoryItems/{id}", new { controller = "EditSubCategoryItems", action = "Edit" });
             /* API */ routes.MapRoute("Categories_AddSubCategoryItemRow", "Categories/EditSubCategoryItems/{id}/Add", new { controller = "EditSubCategoryItems", action = "AddSubCategoryItemRow" });
 
-            routes.MapRoute("Knowledge", "Wissen/{action}", new { controller = "Knowledge", action = "Knowledge" });
+            routes.MapRoute("Knowledge", "Wissenszentrale/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Knowledge", action = "EmailConfirmation" });
 
             routes.MapRoute("AlgoInsight", "AlgoInsight/{action}", new { controller = "AlgoInsight", action = "AlgoInsight" });

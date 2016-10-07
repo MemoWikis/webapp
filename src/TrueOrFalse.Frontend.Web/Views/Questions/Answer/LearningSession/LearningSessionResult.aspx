@@ -132,7 +132,7 @@
                     <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Übungssitzung zu diesem Termin/Fragesatz beginnen">
                         Neue Übungssitzung
                     </a>
-                    <a href="<%= Url.Action(Links.Knowledge, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
+                    <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
                         Zur Wissenszentrale
                     </a>
                 <% } else if (Model.LearningSession.IsSetSession) { %>

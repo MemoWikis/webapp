@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class UsersModel : BaseModel
 {
     public UIMessage Message;
 
+    public string CanonicalUrl;
+    public bool HasFiltersOrChangedOrder;
     public bool ActiveTabAll = true;//$temp
     public bool ActiveTabFollowed;//$temp
 
@@ -58,5 +62,13 @@ public class UsersModel : BaseModel
 
         HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
         HeaderModel.TotalIFollow = R<TotalIFollow>().Run(UserId);
+
+        if (!String.IsNullOrEmpty(SearchTerm) ||
+            !(_sessionUiData.SearchSpecUser.OrderBy.Reputation.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
+            HasFiltersOrChangedOrder = true;
+        CanonicalUrl = Links.Users();
+        if (Pager.CurrentPage > 1)
+            CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
+
     }
 }

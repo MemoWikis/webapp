@@ -89,7 +89,7 @@ public class WelcomeController : BaseController
 
             _sessionUser.Login(_credentialsAreValid.User);
 
-            return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
+            return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
         }
 
         loginModel.SetToWrongCredentials();
@@ -180,6 +180,6 @@ public class WelcomeController : BaseController
 
         _sessionUser.Login(user);
 
-        return RedirectToAction(Links.Knowledge, Links.KnowledgeController, new {passwordSet = "true"});
+        return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController, new {passwordSet = "true"});
     }
 }
