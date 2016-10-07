@@ -1,3 +1,4 @@
+using System;
 using NHibernate;
 using Seedworks.Lib.Persistence;
 
@@ -9,19 +10,27 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
 
     public bool IsJobRunning(string jobName)
     {
-        var jobCount = Session.QueryOver<RunningJob>()
-            .Where(x => x.Name == jobName)
-            .RowCount();
+        try
+        {
+            var jobCount = Session.QueryOver<RunningJob>()
+                .Where(x => x.Name == jobName)
+                .RowCount();
 
-        if (jobCount == 0)
-            return false;
+            if (jobCount == 0)
+                return false;
 
-        if (jobCount == 1)
+            if (jobCount == 1)
+                return true;
+
+            Logg.r().Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
+
             return true;
-
-        Logg.r().Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
-
-        return true;
+        }
+        catch (Exception e)
+        {
+            Logg.r().Error(e, "Error in IsJobRunning.");
+            return true;
+        }
     }
 
     public void Add(string jobName)
@@ -49,5 +58,10 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             Delete(job);
 
         Session.Flush();
+    }
+
+    public void TruncateTable()
+    {
+        _session.CreateSQLQuery("truncate table runningjob").ExecuteUpdate();
     }
 }

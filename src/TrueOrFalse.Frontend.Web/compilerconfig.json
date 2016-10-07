@@ -94,8 +94,11 @@
     "outputFile": "Views/Questions/Answer/LearningSession/LearningSessionResult.css",
     "inputFile": "Views/Questions/Answer/LearningSession/LearningSessionResult.less",
     "minify": {
-      "enabled":  false 
-    } 
-
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Views/Categories/Detail/Category.css",
+    "inputFile": "Views/Categories/Detail/Category.less"
   }
 ]

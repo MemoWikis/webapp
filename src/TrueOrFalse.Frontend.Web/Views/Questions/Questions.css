@@ -68,6 +68,9 @@ div.question-row{background-color:silver;}*/
     right: 0;
   }
 }
+.question-row .label {
+  max-width: 300px;
+}
 #menu1 ul.dropdown-menu {
   left: auto;
   right: 0;

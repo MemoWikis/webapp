@@ -170,44 +170,6 @@
                     </p>                
                 </div>
             </div>
-
-         <%--   <div class="row">
-                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2" title="memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. So brauchst du weniger Zeit zum Lernen."></i><br/>
-                    <b>Schneller lernen</b>
-                </div>
-                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-book fa-2x show-tooltip" style="color: #2C5FB2" title="Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!"></i><br/>
-                    <b>Allgemein- und Spezialwissen erweitern</b>
-                </div>
-                <div class="clearfix visible-xs"></div>
-                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2" title="Eine Klassenarbeit, eine Prüfung oder ein wichtiges Gespräch steht an? Lege einen Termin an und bestimme, was du bis dahin wissen musst. Mit memucho weißt du immer, was du schon sicher kannst und wo du noch weiter üben musst."></i><br/>
-                    <b>Zu einem bestimmten Termin lernen</b>
-                </div>
-                <div class="clearfix visible-md"></div>
-                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2" title="Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit memucho behältst du den Überblick."></i><br/>
-                    <b>Überblick behalten</b>
-                </div>
-                <div class="clearfix visible-xs"></div>
-                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2" title="memucho ist ein offenes Netzwerk, wo du dein Wissen teilen und auf das Wissen anderer zurückgreifen kannst. Denn Wissen wird mehr, wenn man es teilt!"></i><br/>
-                    <b>Wissen teilen</b>
-                </div>
-                <div class="col-xs-6 col-md-4" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-users fa-2x show-tooltip" style="color: #2C5FB2" title="Lerne gemeinsam mit Freunden und verabrede dich zum Quizduell, um dich auf die Klassenarbeit vorzubereiten."></i><br/>
-                    <b>Gemeinsam lernen</b>
-                </div>
-                <div class="clearfix visible-xs"></div>
-                <div class="col-xs-12">
-                    <p>
-                        Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
-                        Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
-                        <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
-                    </p>                
-                </div>
-            </div>--%>
         </div>
 
         <div class="well">
@@ -347,7 +309,7 @@
             </div>
         </div>
 
-        <div class="row" style="padding-top: 10px;">
+        <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
         </div>
         
@@ -358,7 +320,7 @@
                 <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: bottom"/>&nbsp;Robert (120 Punkte)</p>
                 <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
             </div>
-        </div>
+        </div>--%>
 
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-6">

@@ -1,4 +1,7 @@
-﻿public class ReputationUpdate : IRegisterAsInstancePerLifetime
+﻿using System.Collections.Generic;
+using System.Linq;
+
+public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
     private readonly ReputationCalc _reputationCalc;
     private readonly UserRepo _userRepo;
@@ -11,14 +14,24 @@
         _userRepo = userRepo;
     }
 
-    public void ForQuestion(int questionId)
+    public static void ForQuestion(int questionId)
     {
-        Run(Sl.Resolve<QuestionRepo>().GetById(questionId).Creator);
+        ScheduleUpdate(Sl.Resolve<QuestionRepo>().GetById(questionId).Creator.Id);
     }
 
-    public void ForSet(int setId)
+    public static void ForSet(int setId)
     {
-        Run(Sl.Resolve<SetRepo>().GetById(setId).Creator);
+        ScheduleUpdate(Sl.Resolve<SetRepo>().GetById(setId).Creator.Id);
+    }
+
+    public static void ForUser(User user)
+    {
+        ScheduleUpdate(user.Id);
+    }
+
+    private static void ScheduleUpdate(int userId)
+    {
+        Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUser, userId.ToString());
     }
 
     public void Run(User userToUpdate)
@@ -27,17 +40,38 @@
         var newReputation  = userToUpdate.Reputation = _reputationCalc.Run(userToUpdate).TotalReputation;
 
         var users = _userRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
-        for (int i = 0; i < users.Count; i++)
+        foreach (User user in users)
         {
-            userToUpdate.ReputationPos = users[i].ReputationPos;
+            userToUpdate.ReputationPos = user.ReputationPos;
             if (newReputation < oldReputation)
-                users[i].ReputationPos--;
+                user.ReputationPos--;
             else
-                users[i].ReputationPos++;
+                user.ReputationPos++;
 
-            _userRepo.Update(users[i], runSolrUpdateAsync:true);
+            _userRepo.Update(user, runSolrUpdateAsync: true);
         }
 
         _userRepo.Update(userToUpdate, runSolrUpdateAsync:true);
     }
+
+    public void RunForAll()
+    {
+        var allUsers = _userRepo.GetAll();
+        var results = allUsers
+            .Select(user => _reputationCalc.Run(user))
+            .OrderByDescending(r => r.TotalReputation);
+
+        var i = 0;
+        foreach (var result in results)
+        {
+            i++;
+            result.User.ReputationPos = i;
+            result.User.Reputation = result.TotalReputation;
+            result.User.WishCountQuestions = Sl.Resolve<GetWishQuestionCount>().Run(result.User.Id);
+            result.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
+
+            _userRepo.Update(result.User);
+        }
+    }
+
 }

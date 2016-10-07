@@ -70,7 +70,7 @@
             <% if (Model.IsCreator){%>
                 <div style="position: relative; top: -1px; display: inline-block">
                     <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion"><i class="fa fa-trash-o"></i></a>&nbsp;
-                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>"><i class="fa fa-pencil"></i></a>
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>"><i class="fa fa-pencil"></i></a>
                 </div>
             <% } %>
         </div>

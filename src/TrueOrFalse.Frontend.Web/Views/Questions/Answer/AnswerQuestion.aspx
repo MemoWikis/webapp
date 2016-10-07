@@ -5,6 +5,7 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <title>Frage - <%= Model.QuestionText %></title>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
@@ -48,8 +49,11 @@
                    <%--new LearningSessionModel(Model)); %>--%>
             <% }else{ %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
-                <li class="previous <%= Model.HasPreviousPage ? "" : "disabled" %>">
-                    <a href="<%= Model.PreviousUrl(Url) %>"><i class="fa fa-arrow-left"></i></a>
+                <li class="previous">
+                    <% if (Model.HasPreviousPage)
+                       { %>
+                        <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-arrow-left"></i></a>
+                    <% } %>
                 </li>
                 <li>
                     <% if (Model.SourceIsCategory){ %>
@@ -57,12 +61,12 @@
                         <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
                             <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
                                 Kategorie:
-                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -3px;">Spoiler</span>
+                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
                             </a>                    
                         <% } else { %>
                             <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
                                 Kategorie:
-                                <span class="label label-category" style="position: relative; top: -3px;"><%= Model.SourceCategory.Name %></span>
+                                <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
                             </a>
                         <% } %>
 
@@ -91,12 +95,17 @@
                     <% } %>                    
                 </li>
                 <li>
-                    <span><%= Model.PageCurrent %> von <%= Model.PagesTotal %></span>
+                    <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal))
+                        { %>
+                        <span>
+                            <%= Model.PageCurrent %> von <%= Model.PagesTotal %>
+                        </span>
+                    <% } %>
                 </li>
                 <li class="next">
                     <% if (Model.HasNextPage)
                        { %>
-                        <a href="<%= Model.NextUrl(Url) %>"><i class="fa fa-arrow-right"></i> </a>
+                        <a href="<%= Model.NextUrl(Url) %>" rel="nofollow"><i class="fa fa-arrow-right"></i> </a>
                     <% } %>
                 </li>
             </ul>
@@ -107,7 +116,7 @@
             <% if (Model.IsOwner)
                { %>
                 <div id="EditQuestion">
-                    <a href="<%= Links.EditQuestion(Url, Model.QuestionId) %>" class="TextLinkWithIcon">
+                    <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
                         <i class="fa fa-pencil"></i>
                         <span class="TextSpan">Frage bearbeiten</span>
                     </a>
@@ -182,28 +191,28 @@
         </div>
         
         <div class="col-sm-3 xxs-stack">
-            <div class="well" style="background-color: white;">
+            <div class="well" id="answerQuestionDetails" style="background-color: white;">
                 <p>
                     von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                     vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
                 </p>
         
                 <% if (Model.Categories.Count > 0)
-                   { %>
+                    { %>
                     <p style="padding-top: 10px;">
                         <% Html.RenderPartial("Category", Model.Question); %>
                     </p>
                 <% } %>
         
                 <% if (Model.SetMinis.Count > 0)
-                   { %>
+                    { %>
                     <% foreach (var setMini in Model.SetMinis)
-                       { %>
-                        <a href="<%= Links.SetDetail(Url, setMini) %>" style="margin-top: 3px; display: inline-block;"><span class="label label-set"><%: setMini.Name %></span></a>
+                        { %>
+                        <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
                     <% } %>
         
                     <% if (Model.SetCount > 5)
-                       { %>
+                        { %>
                         <div style="margin-top: 3px;">
                             <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
                         </div>

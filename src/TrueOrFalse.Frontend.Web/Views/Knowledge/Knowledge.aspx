@@ -5,7 +5,8 @@
 
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
-    
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>" />
+
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script>
@@ -251,7 +252,7 @@
                         </p>
                         <p>
                             Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                            oder <a href="<%= Links.Sets() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
+                            oder <a href="<%= Links.SetsAll() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
                             <ul style="list-style-type: none">
                                 <li>
                                     <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
@@ -317,7 +318,7 @@
     
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
-                <div class="rowBase" style="padding: 10px;">
+                <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
                     <p style="font-size: 12px; color: silver;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
                     <% if (Model.Dates.Count ==0) { %>
@@ -392,7 +393,7 @@
                                 <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
                             </div>
                             <div class="col-xs-9" style="">
-                                <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.Text %></a>
+                                <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
                             </div>
                         </div>
                     <% } %>

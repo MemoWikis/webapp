@@ -81,6 +81,9 @@
   background-color: #FFD700 !important;
   background-image: none !important;
 }
+.set-row .label {
+  max-width: 300px;
+}
 @media (min-width: 768px) {
   .column-MainContent {
     width: 442px;

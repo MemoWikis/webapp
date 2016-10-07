@@ -30,6 +30,8 @@ public class UserRepo : RepositoryDbBase<User>
         _session
             .CreateSQLQuery("DELETE FROM user_to_follower WHERE Id =" + followerInfo.Id)
             .ExecuteUpdate();
+        _session.Flush();
+        ReputationUpdate.ForUser(followerInfo.User);
     }
 
     public override void Update(User user)

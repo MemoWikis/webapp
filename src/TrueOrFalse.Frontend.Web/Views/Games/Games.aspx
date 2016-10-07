@@ -5,6 +5,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Games(Url) %>" />
     <%= Scripts.Render("~/bundles/js/Games") %>
     <%= Styles.Render("~/bundles/Games") %>
 </asp:Content>
@@ -50,7 +51,7 @@
             </div>
 
             <h3 style="margin-bottom: 10px;">
-                <span class="ColoredUnderline Play" style="padding-right: 3px;">Mitspielen:</span>
+                <span class="ColoredUnderline Play" style="padding-right: 3px;">Mitspielen</span>
             </h3>
 
             <div id="divGamesReadyNone" class="bs-callout bs-callout-info" 

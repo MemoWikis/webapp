@@ -6,6 +6,7 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
     <title>Kategorie - <%=Model.Name %> </title>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryDetail(Model.Name, Model.Id) %>" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -14,9 +15,9 @@
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col-xs-3 col-xs-push-9 xxs-stack">
                     <div class="navLinks">
-                        <a href="<%= Url.Action(Links.Categories, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+                        <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                         <% if(Model.IsOwnerOrAdmin){ %>
-                            <a href="<%= Links.CategoryEdit(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+                            <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                         <% } %>
                         <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
                     </div>
@@ -124,8 +125,8 @@
                         - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
-                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" style="display:block; margin-top: 10px; margin-bottom: 18px; font-style: italic">
-                    <i class="fa fa-forward" style="color: #afd534;"></i> <%= StringUtils.Plural(Model.CountQuestions, "Alle ") %><%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
+                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="display:block; margin-top: 10px; margin-bottom: 18px; font-style: italic">
+                    <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i><%= StringUtils.Plural(Model.CountQuestions, "Alle ") %><%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
                 </a>
             <% }
                else{ %> 
@@ -138,7 +139,7 @@
             
                 <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
                     <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
-                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
 
@@ -149,17 +150,17 @@
                     <h4 style="margin-top: 0;">Fragen in Kindkategorien</h4>
                     <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
                         <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
-                            - <a href="<%= Links.AnswerQuestion(Url, question) %>"><%= question.GetShortTitle(150) %></a>
+                            - <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
                         </div>
                     <% } %>
                 </div>
             <% } %>
             
             <% if(Model.CountWishQuestions > 0){ %>
-                <h4 style="margin-top: 0;">In deinem <a href="/Wissen">Wunschwissen</a> (<%=Model.CountWishQuestions %>)</h4>
+                <h4 style="margin-top: 0;">In deinem <a href="<%= Links.QuestionsWish() %>">Wunschwissen</a> (<%=Model.CountWishQuestions %>)</h4>
                 <% var index = 0; foreach(var question in Model.TopWishQuestions){index++; %>
                     <div style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;">
-                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                        - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
             

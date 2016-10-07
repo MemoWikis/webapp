@@ -93,26 +93,26 @@
     <div id="Buttons" style="margin-bottom: 10px; margin-top: 10px;">
         <div id="buttons-first-try" class="pull-right">
             <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
-            <a href="#" id="btnCheck" class="btn btn-primary" style="padding-right: 10px">Antworten</a>
+            <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
             <% if (Model.IsLearningSession && Model.NextUrl != null){%>
-                <br/><a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction pull-right" style="display: block; margin-top: 10px;"><i class="fa fa-step-forward"></i> Frage überspringen</a>
+                <br/><a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction pull-right" style="display: block; margin-top: 10px;"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
             <% } %>
         </div>
                     
         <div id="buttons-next-question" class="pull-right" style="display: none;">
-            <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet." style="display: none;">Hab ich gewusst!</a>
+            <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
             <% if(Model.NextUrl != null){ %>
-                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success">Nächste Frage</a>
+                <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success" rel="nofollow">Nächste Frage</a>
             <% } %>
         </div>
         
         <div id="buttons-edit-answer" class="pull-right" style="display: none;">
             <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
-            <a href="#" id="btnEditAnswer" class="btn btn-warning">Antwort überarbeiten</a>
+            <a href="#" id="btnEditAnswer" class="btn btn-warning" rel="nofollow">Antwort überarbeiten</a>
         </div>
         <div id="buttons-answer-again" class="pull-right" style="display: none">
             <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
-            <a href="#" id="btnCheckAgain" class="btn btn-warning">Nochmal Antworten</a>
+            <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
         </div>
                     
         <div style="clear: both"></div>

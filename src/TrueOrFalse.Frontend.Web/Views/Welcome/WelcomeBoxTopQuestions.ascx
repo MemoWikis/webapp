@@ -5,7 +5,7 @@
 <ul>
     <% foreach (var question in Model.Questions) {%>
             <li>
-                <a href="<%= Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a> 
+                <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
             </li>
     <%} %>
 </ul>

@@ -4,6 +4,11 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <title><%=Model.PageTitle %></title>
+    <% if (Model.IsEditing) { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>" />
+    <% } else {  %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetCreate() %>" />
+    <% } %>
     <link href="/Views/Sets/Edit/EditSet.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/SetEdit") %>
@@ -55,7 +60,7 @@
                 </h2>
                  <div class="headerControls pull-right">
                     <div>
-                        <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0;">
+                        <a href="<%= Links.SetsAll() %>" style="font-size: 12px; margin: 0;">
                             <i class="fa fa-list"></i>&nbsp;zur Übersicht
                         </a><br/>
                         <% if (Model.Set != null)
@@ -156,7 +161,7 @@
                                                 <div class="QuestionTools">
                                                     <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Fragesatz entfernen"></i><br/>
                                                     <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
-                                                        <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Id) %>">
+                                                        <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Text, questionInSet.Question.Id) %>">
                                                             <i class="fa fa-pencil"></i> 
                                                         </a>
                                                     <% } %>

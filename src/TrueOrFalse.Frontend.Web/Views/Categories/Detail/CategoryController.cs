@@ -7,7 +7,7 @@ public class CategoryController : BaseController
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
     [SetMenu(MenuEntry.CategoryDetail)]
-    public ActionResult Category(string text, int id, int elementOnPage)
+    public ActionResult Category(string text, int id)
     {
         var category = Resolve<CategoryRepository>().GetById(id);
         return Category(category);
@@ -19,9 +19,8 @@ public class CategoryController : BaseController
         return View(_viewLocation, new CategoryModel(category));
     }
 
-    public void ById()
+    public void CategoryById(int id)
     {
-        var id = Convert.ToInt32(Request["id"]);
         Response.Redirect(Links.CategoryDetail(Resolve<CategoryRepository>().GetById(id)));
     }
 

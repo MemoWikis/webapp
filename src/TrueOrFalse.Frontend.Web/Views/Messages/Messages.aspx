@@ -3,6 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Messages(Url) %>" />
     <%= Styles.Render("~/bundles/message") %>
     <%= Scripts.Render("~/bundles/js/Messages") %>
 </asp:Content>

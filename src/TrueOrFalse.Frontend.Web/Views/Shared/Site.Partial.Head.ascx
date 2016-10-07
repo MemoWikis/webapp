@@ -70,7 +70,7 @@
     <%--UserReport Feedback system--%>
     <script type="text/javascript">
     if (screen && screen.width > 767) {
-      document.write('<script type="text/javascript" src="/Scripts/userreport-plugin.js"><\/script>');
+        document.write('<script type="text/javascript" src="/Scripts/userreport/userreport-plugin.js"><\/script>');
     }
     </script>    
 <% } %>

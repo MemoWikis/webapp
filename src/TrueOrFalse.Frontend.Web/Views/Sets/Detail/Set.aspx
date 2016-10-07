@@ -5,6 +5,7 @@
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <title>Fragesatz - <%= Model.Set.Name %></title>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetDetail(Model.Name, Model.Id) %>" />
     <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
     <%= Scripts.Render("~/bundles/Set") %>
 </asp:Content>
@@ -45,9 +46,9 @@
         </div>
         <div class="col-xs-3 xxs-stack">
             <div class="navLinks">
-                <a href="<%= Links.Sets() %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
+                <a href="<%= Links.SetsAll() %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
                 <% if(Model.IsOwner){ %>
-                    <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
+                    <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
                 <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >

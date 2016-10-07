@@ -101,6 +101,13 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
+    public AnswerQuestionModel(Question question)
+    {
+        HasNextPage = HasPreviousPage = false;
+        SourceIsTabAll = true;
+        Populate(question);
+    }
+
     public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession)
     {
         QuestionViewGuid = questionViewGuid;

@@ -50,6 +50,7 @@ public class EditQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, HistoryItemType.Edit));
 
         model.Id = id;
+        model.Question = question;
         model.FillCategoriesFromPostData(Request.Form);
         model.FillReferencesFromPostData(Request, question);
         model.SetToUpdateModel();

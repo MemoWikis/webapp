@@ -3,6 +3,11 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% if (Model.HasFiltersOrChangedOrder) { %>
+        <meta name="robots" content="noindex" />
+    <% } else { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>" />
+    <% } %>
     <%= Styles.Render("~/Views/Sets/Sets.css") %>
     <%= Scripts.Render("~/bundles/Sets") %>
 </asp:Content>
@@ -35,7 +40,7 @@
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
                     <div class="btn-group  <%= Model.ActiveTabAll ? "active" : "" %> JS-All">
-                        <a  href="<%= Links.Sets() %>" type="button" class="btn btn-default">
+                        <a  href="<%= Links.SetsAll() %>" type="button" class="btn btn-default">
                             Alle (<span class="JS-Amount"><%= Model.TotalSetsInSystem %></span>)
                         </a>
                     </div>
@@ -57,8 +62,6 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <div id="set-main">
         <% using (Html.BeginForm()) { %>
         
            <script runat="server" type="text/C#">
@@ -75,7 +78,7 @@
                 <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs JS-Tabs">
                         <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-All">
-                            <a href="<%= Links.Sets() %>">
+                            <a href="<%= Links.SetsAll() %>">
                                 <% string von = GetTabText(Model.ActiveTabAll, Model.TotalSetsInSystem, Model.TotalSetsInResult); %> 
                                 Alle Fragesätze (<span class="JS-Amount"><%= von + Model.TotalSetsInSystem %></span>)
                             </a>
@@ -127,19 +130,19 @@
                             <div class="col-md-6">        
                                 <ul class="nav pull-right">
                                     <li class="dropdown" id="menu1">
-                                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                        <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1" rel="nofollow">
                                             Sortieren nach: <%= Model.OrderByLabel %>
                                             <b class="caret"></b>
                                         </button>
                                         <ul class="dropdown-menu">    
                                             <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byBestMatch" %>">
-                                                    <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Beste Treffer
+                                                    <% if (Model.OrderBy.BestMatch.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Beste Treffer
                                                 </a>
                                             </li>
                                             <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsCount" %>">
-                                                    <% if (Model.OrderBy.ValuationsCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Anzahl Gemerkt
+                                                    <% if (Model.OrderBy.ValuationsCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Anzahl Gemerkt
                                                 </a>
                                             </li>
                                         </ul>

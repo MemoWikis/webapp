@@ -25,7 +25,7 @@ public class ExportController : BaseController
     public ActionResult AllToLocalFile()
     {
         ExportToFile("Export", Server.MapPath("~/SampleData/Export.xml"));
-        return RedirectToAction(Links.Knowledge, Links.KnowledgeController);
+        return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
     }
 
     private void ExportToFile(string actionName , string filePath)

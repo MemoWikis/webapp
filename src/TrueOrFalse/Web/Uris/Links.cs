@@ -10,9 +10,40 @@ namespace TrueOrFalse.Frontend.Web.Code
 {
     public static class Links
     {
+
+        /**/
+        public const string WelcomeController = "Welcome";
+
+        public const string VariousController = "VariousPublic";
+        public const string Impressum = "Impressum";
+        public const string TermsAndConditions = "AGB";
+        public const string WelfareCompany = "Gemeinwohlökonomie";
+
+        public const string KnowledgeController = "Knowledge";
+        public const string KnowledgeAction = "Knowledge";
+        public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
+
+        public const string HelpController = "Help";
+        public const string HelpFAQ = "FAQ";
+        public const string HelpWillkommen = "Willkommen";
+        public const string HelpWunschwissen = "Willkommen";
+
+        public const string AccountController = "Account";
+        public const string Register = "Register";
+        public const string RegisterSuccess = "RegisterSuccess";
+        public const string Login = "Login";
+        public const string Logout = "Logout";
+        public const string Membership = "Membership";
+
+        public static UrlHelper GetUrlHelper()
+        {
+            return new UrlHelper(HttpContext.Current.Request.RequestContext);
+        }
+
+
         /*Users*/
         public const string UserController = "User";
-        public const string User = "User";
+        public const string UserAction = "User";
 
         public const string UserSettings = "UserSettings";
         public const string UserSettingsController = "UserSettings";
@@ -21,11 +52,47 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("LoginAs", "Users", new {userId = userId});
         }
 
+        public static string UserDetail(User user)
+        {
+            return UserDetail(user.Name, user.Id);
+        }
+
+        public static string UserDetail(string userName, int userId)
+        {
+            return GetUrlHelper().Action(UserAction, UserController,
+                new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
+        }
+
+        public static string UserDetailBadges(User user)
+        {
+            return GetUrlHelper().Action("Badges", UserController,
+                new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
+        }
+
+        public static string LoginUrl()
+        {
+            return GetUrlHelper().Action(Login, VariousController);
+        }
+
+        public static string RegisterUrl()
+        {
+            return GetUrlHelper().Action(Login, VariousController);
+        }
+
+        public const string UsersController = "Users";
+        public const string UsersAction = "Users";
+        public static string Users() { return GetUrlHelper().Action(UsersAction, UsersController); }
+
+        public const string NetworkAction = "Network";
+        public static string Network() { return GetUrlHelper().Action(NetworkAction, UsersController); }
+
+
         /*Question*/
         public const string Questions = "Questions";
         public const string QuestionsController = "Questions";
         public const string QuestionsMineAction = "QuestionsMine";
         public const string QuestionsWishAction = "QuestionsWish";
+        public const string EditQuestionController = "EditQuestion";
 
         public const string AnswerQuestionController = "AnswerQuestion";
 
@@ -75,12 +142,22 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string AnswerQuestion(Question question)
         {
-            return AnswerQuestion(GetUrlHelper(), question);
+            return AnswerQuestion(GetUrlHelper(), question, -1);
         }
 
       
 
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
+        {
+            if (paramElementOnPage == -1)
+            {
+                return url.Action("Answer", AnswerQuestionController,
+                    new
+                    {
+                        text = UriSegmentFriendlyQuestion.Run(questionText),
+                        id = questionId
+                    }, null);
+            }
             return url.Action("Answer", AnswerQuestionController,
                 new {
                     text = UriSegmentFriendlyQuestion.Run(questionText), 
@@ -91,19 +168,23 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string UserDetail(User user){
-            return UserDetail(user.Name, user.Id);
+        public static string CreateQuestion(UrlHelper url, int categoryId = -1)
+        {
+            if (categoryId != -1)
+                return url.Action("Create", EditQuestionController, new { categoryId = categoryId });
+
+            return url.Action("Create", EditQuestionController);
         }
 
-        public static string UserDetail(string userName, int userId){
-            return GetUrlHelper().Action(User, UserController, 
-                new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
+        public static string EditQuestion(string questionText, int questionId)
+        {
+            return EditQuestion(GetUrlHelper(), questionText, questionId);
+        }
+        public static string EditQuestion(UrlHelper url, string questionText, int questionId)
+        {
+            return url.Action("Edit", EditQuestionController, new { text = UriSanitizer.Run(questionText), id = questionId });
         }
 
-        public static string UserDetailBadges(User user){
-            return GetUrlHelper().Action("Badges", UserController,
-                new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
-        }
 
         public static string SendAnswer(UrlHelper url, Question question){
             return url.Action("SendAnswer", AnswerQuestionController, new { id = question.Id }, null);
@@ -148,7 +229,32 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("CountUnansweredAsCorrect", AnswerQuestionController, new { id = question.Id }, null);
         }
 
+
+        /*Dates*/
+        public const string DatesController = "Dates";
+        public const string DateCreateAction = "Create";
+        public const string DateEditController = "EditDate";
+        public static string DateCreate() { return GetUrlHelper().Action(DateCreateAction, DateEditController); }
+
+        public static string Dates()
+        {
+            return GetUrlHelper().Action("Dates", "Dates");
+        }
+
+        public static object DateEdit(int dateId)
+        {
+            return GetUrlHelper().Action("Edit", "EditDate", new { dateId = dateId });
+        }
+
+        public static object DateCreate(int setId)
+        {
+            return GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
+        }
+
+
         /*Learn*/
+
+        public const string LearningSessionResultController = "LearningSessionResult";
 
         public static string LearningSession(LearningSession learningSession)
         {
@@ -176,55 +282,52 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
-        /*Dates*/
-        public const string DatesController = "Dates";
 
-
-        /*Set*/
+        /*Questionsets / Sets*/
         public const string SetsController = "Sets";
         public const string SetsAction = "Sets";
         public const string SetsWishAction = "SetsWish";
         public const string SetsMineAction = "SetsMine";
-        public static string Sets() { return GetUrlHelper().Action(SetsAction, SetsController); }
+        public static string SetsAll() { return GetUrlHelper().Action(SetsAction, SetsController); }
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
+        public static string SetCreate() { return GetUrlHelper().Action(SetCreateAction, SetEditController); }
         public const string SetController = "Set";
-        public const string EditSetController = "EditSet";
+        public const string SetCreateAction = "Create";
+        public const string SetEditController = "EditSet";
 
 
         public static string SetDetail(UrlHelper url, SetMini setMini){
             return SetDetail(url, setMini.Name, setMini.Id);
         }
 
-        public static string SetDetail(UrlHelper url, Set set, int elementOnPage = 1){
-            return SetDetail(url, set.Name, set.Id, elementOnPage);
+        public static string SetDetail(UrlHelper url, Set set){
+            return SetDetail(url, set.Name, set.Id);
         }
-
-        public static string SetDetail(UrlHelper url, string name, int id, int elementOnpage = 1){
+        public static string SetDetail(Set set){
+            return SetDetail(set.Name, set.Id);
+        }
+        public static string SetDetail(string name, int id)
+        {
+            return SetDetail(GetUrlHelper(), name, id);
+        }
+        public static string SetDetail(UrlHelper url, string name, int id){
             return url.Action("QuestionSet", "Set",
-                new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage}, null);            
+                new { text = UriSanitizer.Run(name), id = id}, null);            
         }
 
-        public static string SetDetail(string name, int id){
-            return "/Fragesaetze/" + UriSanitizer.Run(name) + "/" + id +  "/1";
+        public static string QuestionSetEdit(string name, int questionSetId)
+        {
+            return QuestionSetEdit(GetUrlHelper(), name, questionSetId);
+        }
+        public static string QuestionSetEdit(UrlHelper url, string name, int questionSetId)
+        {
+            return url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = questionSetId });
         }
 
-        public static string CategoryDetail(string name, int id, int elementOnpage = 1){
-            return GetUrlHelper().Action("Category", "Category",
-                new { text = UriSanitizer.Run(name), id = id, elementOnPage = elementOnpage }, null);
-        }
 
-        public static string CategoryDetail(Category category){
-            return CategoryDetail(category.Name, category.Id);
-        }
 
-        public static object CategoryEdit(UrlHelper url, int id){
-            return url.Action("Edit", "EditCategory", new { id });
-        }
-
-        public static string QuestionSetEdit(UrlHelper url, int questionSetId){
-            return url.Action("Edit", "EditSet", new {id = questionSetId});
-        }
+        /* Messages */
 
         public static string Messages(UrlHelper url){
             return url.Action("Messages","Messages");
@@ -238,17 +341,9 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("SetMessageUnread", "Messages");
         }
 
-        public static string Dates(){
-            return GetUrlHelper().Action("Dates", "Dates");
-        }
 
-        public static object DateEdit(int dateId){
-            return GetUrlHelper().Action("Edit", "EditDate", new { dateId = dateId });
-        }
 
-        public static object DateCreate(int setId){
-            return GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
-        }
+        /* Games */
 
         public static string Games(UrlHelper url){
             return url.Action("Games", "Games");
@@ -270,65 +365,29 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
         }
 
-        public const string EditQuestionController = "EditQuestion"; 
-
-        public static string CreateQuestion(UrlHelper url, int categoryId = -1)
-        {
-            if (categoryId != -1)
-                return url.Action("Create", EditQuestionController, new { categoryId = categoryId }); 
-
-            return url.Action("Create", EditQuestionController);
-        }
-
-        public static string EditQuestion(UrlHelper url, int questionId)
-        {
-            return url.Action("Edit", EditQuestionController, new {id = questionId});
-        }
-
-        public static string LoginUrl(){
-            return GetUrlHelper().Action(Login, VariousController);
-        }
-
-        public static string RegisterUrl(){
-            return GetUrlHelper().Action(Login, VariousController);
-        }
-
-        public const string LearningSessionResultController = "LearningSessionResult";
 
         /*Category*/
-        public const string Categories = "Categories";
+        public const string CategoriesAction = "Categories";
         public const string CategoriesController = "Categories";
+        public const string CategoryEditController = "EditCategory";
+        public const string CategoryCreateAction = "Create";
+        public static string Categories() { return GetUrlHelper().Action(CategoriesAction, CategoriesController); }
+        public static string CategoryCreate() { return GetUrlHelper().Action(CategoryCreateAction, CategoryEditController); }
 
-        /* Category/Edit */
-        public const string EditCategoryController = "EditCategory";
-        public const string EditCategory = "Edit";
-
-        /**/
-        public const string WelcomeController = "Welcome";
-
-        public const string VariousController = "VariousPublic";
-        public const string Impressum = "Impressum";
-        public const string TermsAndConditions = "AGB";
-        public const string WelfareCompany = "Gemeinwohlökonomie";
-
-        public const string KnowledgeController = "Knowledge";
-        public const string Knowledge = "Knowledge";
-
-        public const string HelpController = "Help";
-        public const string HelpFAQ = "FAQ";
-        public const string HelpWillkommen = "Willkommen";
-        public const string HelpWunschwissen = "Willkommen";
-
-        public const string AccountController = "Account";
-        public const string Register = "Register";
-        public const string RegisterSuccess = "RegisterSuccess";
-        public const string Login = "Login";
-        public const string Logout = "Logout";
-        public const string Membership = "Membership";
-
-        public static UrlHelper GetUrlHelper()
+        public static string CategoryDetail(Category category)
         {
-            return new UrlHelper(HttpContext.Current.Request.RequestContext);
+            return CategoryDetail(category.Name, category.Id);
         }
+        public static string CategoryDetail(string name, int id)
+        {
+            return GetUrlHelper().Action("Category", "Category",
+                new { text = UriSanitizer.Run(name), id = id }, null);
+        }
+
+        public static object CategoryEdit(UrlHelper url, string name, int id)
+        {
+            return url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
+        }
+
     }
 }

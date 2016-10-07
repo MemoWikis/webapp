@@ -28,8 +28,8 @@ function InitLabelTooltips() {
     });
     $('.label-set').each(function () {
         $(this).addClass('show-tooltip');
-        //if ($(this)[0].scrollWidth > $(this).innerWidth()) //this is simpler and more to the point, but in cases when content is just truncated does not work; reason: scrollWidth gives different values in FF and Chrome
-        if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2*(parseInt($(this).css('border-left-width')))))
+        if ($(this)[0].scrollWidth > $(this).innerWidth()) //this is simpler and more to the point, but in cases when content is just truncated does not work in firefox; reason: scrollWidth gives different values in FF and Chrome
+        //if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2*(parseInt($(this).css('border-left-width')))))
             $(this).attr('title', 'Zum Fragesatz "' + $(this).html()+'"').attr('data-placement', 'top');
         else 
             $(this).attr('title', 'Zum Fragesatz').attr('data-placement', 'top');

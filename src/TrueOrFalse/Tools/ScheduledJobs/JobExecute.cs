@@ -23,12 +23,19 @@ public class JobExecute
                     Settings.UseWebConfig = true;
 
                     if (IsJobRunning(jobName, scope))
-                        return;
+                    {
+                        if (false)
+                        {
+                            //job has expired. Kill it
+                        }
+                        else
+                            return;
+                    }
 
                     try
                     {
                         var stopwatch = Stopwatch.StartNew();
-
+                         
                         var threadId = Thread.CurrentThread.ManagedThreadId;
                         var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 

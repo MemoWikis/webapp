@@ -4,8 +4,13 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% if (Model.IsEditing) { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateEdit(Model.DateId) %>" />
+    <% } else {  %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateCreate() %>" />
+    <% } %>
+
     <%= Styles.Render("~/bundles/EditDate") %>
     <%= Scripts.Render("~/bundles/js/EditDate") %>
     

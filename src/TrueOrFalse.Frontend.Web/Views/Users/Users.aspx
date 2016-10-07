@@ -2,6 +2,11 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% if (Model.HasFiltersOrChangedOrder) { %>
+        <meta name="robots" content="noindex" />
+    <% } else { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>" />
+    <% } %>
     <%= Styles.Render("~/bundles/Users") %>
     <%= Scripts.Render("~/bundles/js/Users") %>
 </asp:Content>
@@ -45,19 +50,19 @@
                                 
                             <ul class="nav pull-right">
                                 <li class="dropdown" id="menu1">
-                                    <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1">
+                                    <button class="dropdown-toggle btn btn-default btn-xs" data-toggle="dropdown" href="#menu1" rel="nofollow">
                                         Sortieren nach: <%= Model.OrderByLabel %>
                                         <b class="caret"></b>
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byReputation" %>">
-                                                <% if (Model.OrderBy.Reputation.IsCurrent()){ %><i class="icon-ok"></i> <% } %> Reputation
+                                                <% if (Model.OrderBy.Reputation.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Reputation
                                             </a>
                                         </li>
                                         <li>
                                             <a href="<%= Request.Url.AbsolutePath + "?orderBy=byWishCount" %>">
-                                                <% if (Model.OrderBy.WishCount.IsCurrent()){ %><i class="icon-ok"></i> <% } %>  Wunschwissen
+                                                <% if (Model.OrderBy.WishCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %>  Wunschwissen
                                             </a>
                                         </li>
                                     </ul>

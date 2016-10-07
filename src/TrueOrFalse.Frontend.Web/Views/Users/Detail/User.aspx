@@ -4,7 +4,8 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
-    <title>Nutzer <%=Model.Name %> </title>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.UserDetail(Model.User) %>" />
+    <title>Nutzer <%=Model.Name %></title>
     <%= Styles.Render("~/bundles/User") %>
     <%= Scripts.Render("~/bundles/Js/User") %>
 </asp:Content>

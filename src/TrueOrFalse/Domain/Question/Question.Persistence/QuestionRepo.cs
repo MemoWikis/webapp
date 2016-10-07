@@ -31,7 +31,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
-        UserActivityAdd.CreatedQuestion(question);
+        if (question.Visibility != QuestionVisibility.Owner)
+        {
+            UserActivityAdd.CreatedQuestion(question);
+            ReputationUpdate.ForUser(question.Creator);
+        }
         _searchIndexQuestion.Update(question);
     }
 

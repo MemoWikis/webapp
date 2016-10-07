@@ -38,6 +38,7 @@ public class SetRepo : RepositoryDbBase<Set>
         Flush();
         Sl.Resolve<UpdateSetCountForCategory>().Run(set.Categories);
         UserActivityAdd.CreatedSet(set);
+        ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
     }
 

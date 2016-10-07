@@ -16,6 +16,8 @@ class DateRowCopy {
             dateIdToCopy = $(this).attr("data-dateId");
             self.PopulatModal(dateIdToCopy);
             ga('send', 'event', 'Modal', 'open', 'CopyDate');
+            //ga('send', 'event', 'CopyDate', 'openModal', '');
+            //ga('send', 'event', 'CopyDate', 'copiedDate', 'dateId');
         });
 
         $('#btnCloseDateCopy').click(function (e) {

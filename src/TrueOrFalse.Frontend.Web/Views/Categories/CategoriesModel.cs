@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -12,6 +13,8 @@ public class CategoriesModel : BaseModel
 
     public IEnumerable<CategoryRowModel> Rows { get; set; }
 
+    public string CanonicalUrl;
+    public bool HasFiltersOrChangedOrder;
     public int TotalCategoriesInSystem { get; set; }
     public int TotalMine  { get; set; }
     public string SearchTerm  { get; set; }
@@ -31,7 +34,7 @@ public class CategoriesModel : BaseModel
         SetCategories(categories);
         Pager = new PagerModel(_sessionUiData.SearchSpecCategory){
             Controller = Links.CategoriesController,
-            Action = Links.Categories
+            Action = Links.CategoriesAction
         };
 
         Suggestion = _sessionUiData.SearchSpecCategory.GetSuggestion();
@@ -47,6 +50,12 @@ public class CategoriesModel : BaseModel
         OrderBy = _sessionUiData.SearchSpecCategory.OrderBy;
 
         SearchResultModel = new CategoriesSearchResultModel(this);
+        if (!String.IsNullOrEmpty(_sessionUiData.SearchSpecCategory.SearchTerm) ||
+            !(_sessionUiData.SearchSpecCategory.OrderBy.BestMatch.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
+            HasFiltersOrChangedOrder = true;
+        CanonicalUrl = Links.Categories();
+        if (Pager.CurrentPage > 1)
+            CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
     }
 
     public void SetCategories(IList<Category> categories)
@@ -64,7 +73,6 @@ public class CategoriesModel : BaseModel
             select 
                 new CategoryRowModel(
                     category, 
-                    index++, 
                     referenceCounts.FirstOrDefault(x => x.CategoryId == category.Id)
                 );
     }

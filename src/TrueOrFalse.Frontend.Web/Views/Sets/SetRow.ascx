@@ -74,7 +74,7 @@
             <% if (Model.IsOwner){%>
                 <div style="position: relative; top: -1px; display: inline-block">
                     <a data-toggle="modal" data-SetId="<%= Model.Id %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>&nbsp;
-                    <a href="<%= Links.QuestionSetEdit(Url, Model.Id) %>"><i class="fa fa-pencil"></i></a>
+                    <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i></a>
                 </div>
             <% } %>
         </div>
