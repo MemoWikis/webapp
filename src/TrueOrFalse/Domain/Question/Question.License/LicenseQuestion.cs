@@ -8,11 +8,15 @@ public class LicenseQuestion
 {
     public int Id;
 
-    public string NameShort;
-
     public string NameLong;
 
-    public string LicenseText;
+    public string NameShort;
+
+    public string DisplayTextHtml;
+
+    public string LicenseLinkOptional;
+
+    public string LicenseShortDescriptionLinkOptional;
 
     public bool IsDefault()
     {

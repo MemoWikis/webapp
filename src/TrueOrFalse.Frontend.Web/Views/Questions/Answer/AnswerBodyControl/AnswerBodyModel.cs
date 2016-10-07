@@ -13,6 +13,8 @@ public class AnswerBodyModel : BaseModel
     public string QuestionText;
     public string QuestionTextMarkdown;
 
+    public LicenseQuestion LicenseQuestion;
+
     public bool HasSound{ get { return !string.IsNullOrEmpty(SoundUrl); } }
     public string SoundUrl;
     
@@ -100,7 +102,8 @@ public class AnswerBodyModel : BaseModel
 
         QuestionText = question.Text;
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
-
+        LicenseQuestion = question.License;
+                          
         SoundUrl = new GetQuestionSoundUrl().Run(question);
 
         SolutionMetadata = new SolutionMetadata { Json = question.SolutionMetadataJson };

@@ -16,13 +16,15 @@ public class LicenseQuestionRepo
                 Id = 1,
                 NameLong = "Creative Commons: Namensnennung 4.0 Unported",
                 NameShort = "CC BY 4.0",
+                LicenseLinkOptional = @"https://creativecommons.org/licenses/by/4.0/legalcode",
             },
 
             new LicenseQuestion
             {
                 Id = 2,
                 NameLong = "Andere Lizenz lang",
-                NameShort = "Andere Lizenz kurz"
+                NameShort = "Andere Lizenz kurz",
+                DisplayTextHtml = "Dieser Beitrag steht unter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
             }
         };
 

@@ -117,4 +117,18 @@
                     
         <div style="clear: both"></div>
     </div>
+    <div id="License" style="margin-top: 15px; font-size: 90%">
+    <% if (Model.LicenseQuestion.IsDefault())
+        { %>
+        <a class="TextLinkWithIcon show-tooltip" href="<%= LicenseQuestionRepo.GetDefaultLicense().LicenseLinkOptional %>" target="_blank" 
+            data-original-title="Lizenz: Creative Commons - Namensnennung 4.0 Unported">
+            <img src="/Images/Licenses/cc-by 88x31.png" style="width: 60px;"/>
+            <span class="TextSpan">CC&nbsp;BY&nbsp;4.0</span>
+        </a>
+        <% } else { %>
+            <%= Model.LicenseQuestion.DisplayTextHtml %>
+        <% } %>
+    </div>
 </div>
+<%--<div id="License" style="margin-top: -10px; font-size: 90%">
+</div>--%>
