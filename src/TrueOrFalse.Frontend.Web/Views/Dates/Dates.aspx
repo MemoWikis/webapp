@@ -1,7 +1,9 @@
 ﻿<%@ Page Title="Termine" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<DatesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Dates() %>" />
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     

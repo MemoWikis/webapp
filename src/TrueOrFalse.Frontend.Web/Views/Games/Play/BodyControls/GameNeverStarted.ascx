@@ -6,7 +6,7 @@
 <p>Es haben sich keine zwei Spieler gefunden.</p>
 
 <div style="margin-top: 20px;">
-    <a href="<%= Links.Games(Url) %>" style="font-size: 18px; margin: 0;">
+    <a href="<%= Links.Games(Url) %>">
         <i class="fa fa-list"></i>&nbsp;zur Übersicht
     </a>
 </div>

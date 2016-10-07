@@ -225,6 +225,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /*Dates*/
         public const string DatesController = "Dates";
+        public const string DateCreateAction = "Create";
+        public const string DateEditController = "EditDate";
+        public static string DateCreate() { return GetUrlHelper().Action(DateCreateAction, DateEditController); }
 
         public static string Dates()
         {
@@ -294,15 +297,16 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetDetail(UrlHelper url, Set set){
             return SetDetail(url, set.Name, set.Id);
         }
-
+        public static string SetDetail(Set set){
+            return SetDetail(set.Name, set.Id);
+        }
+        public static string SetDetail(string name, int id)
+        {
+            return SetDetail(GetUrlHelper(), name, id);
+        }
         public static string SetDetail(UrlHelper url, string name, int id){
             return url.Action("QuestionSet", "Set",
                 new { text = UriSanitizer.Run(name), id = id}, null);            
-        }
-
-        public static string SetDetail(string name, int id)
-        {
-            return GetUrlHelper().Action("QuestionSet", "Set", new {text = UriSanitizer.Run(name), id = id});
         }
 
         public static string QuestionSetEdit(string name, int questionSetId)

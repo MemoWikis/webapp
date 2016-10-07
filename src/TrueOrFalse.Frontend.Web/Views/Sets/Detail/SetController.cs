@@ -9,15 +9,18 @@ public class SetController : BaseController
     [SetMenu(MenuEntry.QuestionSetDetail)]
     public ActionResult QuestionSet(string text, int id)
     {
-        return QuestionSetById(id);
+        var set = Resolve<SetRepo>().GetById(id);
+        return QuestionSet(set);
     }
 
-    [SetMenu(MenuEntry.QuestionSetDetail)]
-    public ActionResult QuestionSetById(int id)
+    public void QuestionSetById(int id)
     {
-        var set = Resolve<SetRepo>().GetById(id);
-        _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
+        Response.Redirect(Links.SetDetail(Resolve<SetRepo>().GetById(id)));
+    }
 
+    private ActionResult QuestionSet(Set set)
+    {
+        _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
         return View(_viewLocation, new SetModel(set));
     }
 
