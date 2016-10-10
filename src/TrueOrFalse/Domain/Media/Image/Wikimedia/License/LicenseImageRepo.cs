@@ -13,6 +13,9 @@ public class LicenseImageRepo
             //Run Tests "Authorized_licenses_should_contain_all_necessary_information()" and "Registered_licenses_should_not_contain_duplicates()"
             //Find template on Wikimedia "http://commons.wikimedia.org/wiki/template:" + WikiSearchString + "?uselang=de"
             //Overview of all wikimedia licenses: https://commons.wikimedia.org/wiki/Commons:Image_copyright_tags_visual
+
+            //LicenseImage id=13 is not a Wikimedia-License, but treated as one here (e.g., contains a "WikiSearchString"). ImageLicenses should be treated seperately from Wikimedia,
+            //to allow for other licenses not covered there.
             
             new LicenseImage
             {
@@ -196,6 +199,7 @@ public class LicenseImageRepo
             {
                 //License requires stating the source and prohibits changes
                 Id = 13,
+                WikiSearchString = "Anderes Amtliches Werk",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
                 LicenseRequirementsType = LicenseRequirementsType.AmtlichesWerkDE,
