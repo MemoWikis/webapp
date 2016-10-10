@@ -8,7 +8,7 @@ public class Settings
     [ThreadStatic]
     public static bool UseWebConfig;
 
-    public static string CanonicalHost = "https://memucho.de";
+    public static string CanonicalHost;
 
     public static string SolrUrl;
     public static string SolrPath;
@@ -77,5 +77,6 @@ public class Settings
         SolrCoresSuffix = GetValue(OverwrittenConfig.Value("solrCoresSuffix"), "SolrCoresSuffix");
         SolrPath = GetValue(OverwrittenConfig.Value("pathToSolr"), "SolrPath");
         SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
+        CanonicalHost = GetValue(OverwrittenConfig.Value("CanonicalHost"), "CanonicalHost");
     }
 }
