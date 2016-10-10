@@ -318,6 +318,7 @@
     <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
+    <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
@@ -461,6 +462,8 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\Licenses\cc-by 88x31.png" />
+    <Content Include="Images\Licenses\cc-by-sa 88x31.png" />
     <Content Include="Images\LogosPartners\BMWi-Logo-t.png" />
     <Content Include="Images\LogosPartners\Claim-ESF-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />

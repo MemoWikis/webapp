@@ -389,5 +389,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
         }
 
+        public static string FAQItem(string itemNameInView)
+        {
+            return GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
+        }
+
     }
 }

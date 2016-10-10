@@ -11,6 +11,9 @@
         var addr = $(spt).text().replace(at, "@").replace(dot, ".");
         $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
         $(spt).remove();
+        $(document).ready(function () { //http://stackoverflow.com/questions/12008389/linking-to-a-section-of-an-accordion-from-another-page#answer-12008992
+            location.hash && $(location.hash + '.collapse').collapse('show');
+        });
     });
 </script>    
 </asp:Content>
@@ -20,16 +23,19 @@
     <h2 class="PageHeader">FAQ - Häufig gestellte Fragen</h2>
     
     <div class="panel-group" id="FaqAccordion" role="tablist" aria-multiselectable="true">
+            <% FAQAccordeonItem currentFaqItem;%>
         
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingWhyNameMemucho">
+        <% currentFaqItem = new FAQAccordeonItem("WhyNameMemucho"); %>
+          
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextWhyNameMemucho" aria-expanded="true" aria-controls="FaqTextWhyNameMemucho">
+            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Woher kommt der Name memucho?
             </a>
           </h4>
         </div>
-        <div id="FaqTextWhyNameMemucho" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingWhyNameMemucho">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               memucho ist ein Kunstwort setzt sich zusammen aus MEMO und MUCHO. "MEMO" kommt von "memorieren", 
               stammt von dem Lateinischen Wort "memorare" ab und bedeutet "merken".<br/>
@@ -40,14 +46,15 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingDataPrivacy">
+        <% currentFaqItem = new FAQAccordeonItem("DataPrivacy"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextDataPrivacy" aria-expanded="false" aria-controls="FaqTextDataPrivacy">
+            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="false" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Wie sieht es bei euch genau mit dem Datenschutz aus?
             </a>
           </h4>
         </div>
-        <div id="FaqTextDataPrivacy" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingDataPrivacy">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
                   Für uns sind Datensicherheit und Datenschutz entscheidende Themen. Gerade weil wir viele Daten sammeln, sehen wir eine besondere 
@@ -72,14 +79,15 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingWhichDataWhy">
+        <% currentFaqItem = new FAQAccordeonItem("WhichDataWhy"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextWhichDataWhy" aria-expanded="false" aria-controls="FaqTextWhichDataWhy">
+            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="false" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Welche Daten werden von euch erfasst? Warum?
             </a>
           </h4>
         </div>
-        <div id="FaqTextWhichDataWhy" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingWhichDataWhy">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
                    Wir versuchen, möglichst alle deine Interaktionen mit Fragen und Antworten zu sammeln. Wie oft wurde eine Frage angesehen, wie oft und von wem
@@ -103,14 +111,15 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingHowMemuchoWorks">
+        <% currentFaqItem = new FAQAccordeonItem("HowMemuchoWorks"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextHowMemuchoWorks" aria-expanded="true" aria-controls="FaqTextHowMemuchoWorks">
+            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Wie funktioniert memucho?
             </a>
           </h4>
         </div>
-        <div id="FaqTextHowMemuchoWorks" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingHowMemuchoWorks">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
                   memucho ist eine vernetzte Lern- und Wissensplattform. Hier wird Wissen in Frage-Antwort-Form gespeichert, organisiert und 
@@ -130,14 +139,15 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingWhatIsKnowledge">
+        <% currentFaqItem = new FAQAccordeonItem("WhatIsKnowledge"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextWhatIsKnowledge" aria-expanded="true" aria-controls="FaqTextWhatIsKnowledge">
+            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Was ist "Wunschwissen"?
             </a>
           </h4>
         </div>
-        <div id="FaqTextWhatIsKnowledge" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingWhatIsKnowledge">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
                   In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. So behälst du besser den Überblick. Du kannst jede einzelne 
@@ -151,14 +161,15 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingWhatIsBeta">
+        <% currentFaqItem = new FAQAccordeonItem("WhatIsBeta"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextWhatIsBeta" aria-expanded="false" aria-controls="FaqTextWhatIsBeta">
+            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="false" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Was bedeutet BETA-Phase?
             </a>
           </h4>
         </div>
-        <div id="FaqTextWhatIsBeta" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingWhatIsBeta">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
                   memucho befindet sich in der Beta-Phase. Das bedeutet, dass die Seite noch nicht ganz fertig ist. Einige Funktionen fehlen noch 
@@ -174,14 +185,16 @@
       </div>
 
       <div class="panel panel-default">
-        <div class="panel-heading" role="tab" id="FaqHeadingContact">
+            <% currentFaqItem = new FAQAccordeonItem("Contact"); %>
+          
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
-            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#FaqTextContact" aria-expanded="false" aria-controls="FaqTextContact">
+            <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="false" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
               Wie erreiche ich euch?
             </a>
           </h4>
         </div>
-        <div id="FaqTextContact" class="panel-collapse collapse" role="tabpanel" aria-labelledby="FaqHeadingContact">
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
                   Per E-Mail: <span class="mailme">team at memucho dot de</span><br/> 
