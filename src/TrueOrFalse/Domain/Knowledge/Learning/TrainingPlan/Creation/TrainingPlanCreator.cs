@@ -159,7 +159,7 @@ public class TrainingPlanCreator
 
         var endTimeOfLastTrainingDone = answersOfLastTrainingDone.Last().DateCreated;
 
-        return endTimeOfLastTrainingDone.AddMinutes(settings.MinSpacingBetweenSessionsInMinutes);
+        return endTimeOfLastTrainingDone.AddMinutes(settings.GetMinSpacingInMinutes((date.DateTime.Date - endTimeOfLastTrainingDone.Date).Days));
     }
 
     private static void AddExpirationDate(Date date, List<TrainingDate> learningDates)
