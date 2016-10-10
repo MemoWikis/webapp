@@ -73,6 +73,21 @@ public class LicenseImageRepo
                 LicenseShortName = "CC BY 3.0",
             },
 
+            new LicenseImage()
+            {
+                Id = 14,
+                WikiSearchString = "cc-by-4.0",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By,
+                LicenseLink = "https://creativecommons.org/licenses/by/4.0/legalcode",
+
+                LicenseShortDescriptionLink = "https://creativecommons.org/licenses/by/4.0/deed.de",
+                LicenseLongName = "Creative Commons: Namensnennung 4.0 International",
+                LicenseShortName = "CC BY 4.0",
+            },
+
+
             new LicenseImage
             {
                 Id = 5,
