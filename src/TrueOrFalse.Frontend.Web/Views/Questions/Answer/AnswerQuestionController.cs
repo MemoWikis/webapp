@@ -34,12 +34,6 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
-    //[SetMenu(MenuEntry.QuestionDetail)]
-    //public ActionResult AnswerSingle(string text, int id)
-    //{
-    //    return AnswerQuestion(text, id, null, "", "");
-    //}
-
     public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
