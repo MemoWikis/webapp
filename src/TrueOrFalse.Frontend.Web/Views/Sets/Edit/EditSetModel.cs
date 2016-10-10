@@ -73,6 +73,8 @@ public class EditSetModel : BaseModel
 
         set.Categories = Categories;
 
+        this.Set = set;
+
         return set;
     }
 

@@ -18,6 +18,10 @@ public class LicenseQuestion
 
     public string LicenseShortDescriptionLinkOptional;
 
+    public bool? AuthorRequired;
+    public bool? LicenseLinkRequired;
+    public bool? ChangesNotAllowed;
+
     public bool IsDefault()
     {
         return Id == LicenseQuestionRepo.DefaultLicenseId;

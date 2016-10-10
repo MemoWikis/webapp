@@ -17,6 +17,7 @@ public class LicenseImage
 
     public bool? AuthorRequired;
     public bool? LicenseLinkRequired;
+    public bool? ChangesNotAllowed;
     /// <summary>
     /// Page where the license can be found online
     /// </summary>
@@ -65,6 +66,13 @@ public class LicenseImage
             AuthorRequired = false;
             LicenseLinkRequired = false;
             CopyOfLicenseTextRequired = false;
+        }
+        else if (LicenseRequirementsType == LicenseRequirementsType.AmtlichesWerkDE)
+        {
+            AuthorRequired = true;
+            LicenseLinkRequired = false;
+            CopyOfLicenseTextRequired = false;
+            ChangesNotAllowed = true;
         }
     }
 
@@ -146,6 +154,7 @@ public enum LicenseRequirementsType
     Cc0 = 4,
     PD = 5,
     GFDL = 6,
+    AmtlichesWerkDE = 7,
 }
 
 public static class LicenseRequirementsTypeExts
