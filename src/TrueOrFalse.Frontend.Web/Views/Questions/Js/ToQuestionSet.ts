@@ -10,11 +10,16 @@ class ToQuestionSetModal {
     _templateSuccessMsg: string;
 
     constructor() {
-        $('#btnSelectionToSet').click(function () { _page.ToQuestionSetModal.Show(); });
+        $('#btnSelectionToSet').click(function (e) { _page.ToQuestionSetModal.Show(e); });
         this._templateSuccessMsg = $("#tqsSuccessMsg").html();
     }
 
-    Show() {
+    Show(e) {
+        e.preventDefault();
+        if (NotLoggedIn.Yes()) {
+            NotLoggedIn.ShowErrorMsg(); return;
+        }
+
         this.Populate();
         $('#modalToQuestionSet').modal('show');
     }
