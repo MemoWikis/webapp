@@ -12,7 +12,7 @@ class QuestionsSearch extends SearchInTabs {
         };
 
         autoCompleteCategories.OnRemove = (categoryId) => {
-            this._categories = $.grep(this._categories, (x) => { return x !== categoryId; });
+            this._categories = $.grep(this._categories, (x) => { return x != categoryId; });
             this.SubmitSearch();
         };
 
