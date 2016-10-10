@@ -194,6 +194,20 @@ public class LicenseImageRepo
 
             new LicenseImage()
             {
+                //License requires stating the source and prohibits changes
+                Id = 13,
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.AmtlichesWerkDE,
+                LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html",
+
+                LicenseShortDescriptionLink = "",
+                LicenseLongName = "Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
+                LicenseShortName = "Amtliches Werk",
+            },
+
+            new LicenseImage()
+            {
                 Id = 200,
                 WikiSearchString = "pd-old",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,

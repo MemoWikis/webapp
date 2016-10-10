@@ -17,15 +17,21 @@ public class LicenseQuestionRepo
                 NameLong = "Creative Commons: Namensnennung 4.0 International",
                 NameShort = "CC BY 4.0",
                 LicenseLinkOptional = @"https://creativecommons.org/licenses/by/4.0/legalcode",
-                LicenseShortDescriptionLinkOptional = @"https://creativecommons.org/licenses/by/4.0/deed.de"
+                LicenseShortDescriptionLinkOptional = @"https://creativecommons.org/licenses/by/4.0/deed.de",
+                AuthorRequired = true,
+                LicenseLinkRequired = true,
+                ChangesNotAllowed = false
             },
 
             new LicenseQuestion
             {
                 Id = 2,
-                NameLong = "Andere Lizenz lang",
-                NameShort = "Andere Lizenz kurz",
-                DisplayTextHtml = "Dieser Beitrag steht unter Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+                NameLong = "Amtliches Werk im Sinne von ß 5 Abs. 2 Urheberrechtsgesetz",
+                NameShort = "Amtliches Werk",
+                DisplayTextHtml = "Dieser Beitrag stellt ein \"andere[s] amtliche[s] Werk[]\" gem‰ﬂ ß 5 Abs. 2 des Urhererrechtsgesetzes dar.",
+                AuthorRequired = true,
+                LicenseLinkRequired = false,
+                ChangesNotAllowed = true
             }
         };
 
