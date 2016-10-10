@@ -318,6 +318,7 @@
     <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
+    <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
