@@ -48,15 +48,15 @@
             </span>
             
             <div style="margin-top: 10px;" class="actions">
-                <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>">
+                <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>" rel="nofollow">
                     <i class="fa fa-line-chart"></i> 
                     Jetzt üben
                 </a>
-                <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
+                <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
                     <i class="fa fa-gamepad" style="font-size: 15px;"></i>
                     Spiel starten
                 </a>
-                <a style="display: block;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                <a style="display: block;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
                     <i class="fa fa-calendar" style="font-size: 13px;"></i>
                     Termin lernen
                 </a>

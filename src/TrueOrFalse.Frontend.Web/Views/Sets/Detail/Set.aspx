@@ -51,13 +51,13 @@
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
-                <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
+                <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
                     <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                 </a>
-                <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
+                <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
                     <i class="fa fa-gamepad">&nbsp;</i>Spiel starten
                 </a>
-                <a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                <a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
                     <i class="fa fa-calendar">&nbsp;</i>Termin lernen
                 </a>
 
