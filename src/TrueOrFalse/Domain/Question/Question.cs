@@ -8,7 +8,7 @@ using TrueOrFalse;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
-public class Question : DomainEntity
+public class Question : DomainEntity, ICreator
 {
     public virtual string Text { get; set; }
     public virtual string TextExtended { get; set; }

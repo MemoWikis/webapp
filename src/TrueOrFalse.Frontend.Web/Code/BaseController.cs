@@ -13,16 +13,10 @@ public class BaseController : Controller
     public bool IsMemuchoUser => IsLoggedIn && Settings.MemuchoUserId == UserId;
 
     /// <summary>The user fresh from the db</summary>
-    public User UserFresh(){ return R<UserRepo>().GetById(UserId);}
-    public User MemuchoUser(){ return R<UserRepo>().GetById(Settings.MemuchoUserId); }
+    public User UserFresh() => R<UserRepo>().GetById(UserId);
+    public User MemuchoUser() => R<UserRepo>().GetById(Settings.MemuchoUserId);
 
-    protected T Resolve<T>()
-    {
-        return ServiceLocator.Resolve<T>();
-    }
+    protected T Resolve<T>() => ServiceLocator.Resolve<T>();
 
-    protected T R<T>()
-    {
-        return ServiceLocator.Resolve<T>();
-    }
+    protected T R<T>() => ServiceLocator.Resolve<T>();
 }

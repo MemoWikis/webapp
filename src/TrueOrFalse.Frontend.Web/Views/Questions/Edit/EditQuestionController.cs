@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
@@ -34,7 +35,10 @@ public class EditQuestionController : BaseController
         var question = _questionRepo.GetById(id);
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, HistoryItemType.Edit));
         var model = new EditQuestionModel(question);
-        
+
+        if (!IsAllowedTo.ToEdit(question))
+            throw new SecurityException("Not allowed to edit question");
+
         model.SetToUpdateModel();
         if (TempData["createQuestionsMsg"] != null){
             model.Message = (SuccessMessage) TempData["createQuestionsMsg"];
@@ -65,6 +69,9 @@ public class EditQuestionController : BaseController
             model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
             return View(_viewLocation, model);
         }
+
+        if (!IsAllowedTo.ToEdit(question))
+            throw new SecurityException("Not allowed to edit question");
 
         _questionRepo.Update(
             EditQuestionModel_to_Question.Update(model, question, Request.Form)

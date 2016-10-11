@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
@@ -47,10 +48,11 @@ public class EditSetController : BaseController
         var model = new EditSetModel(set);
         model.SetToUpdateModel();
 
+        if (!IsAllowedTo.ToEdit(set))
+            throw new SecurityException("Not allowed to edit set");
+
         if (TempData["createSetMsg"] != null)
-        {
-            model.Message = (SuccessMessage)TempData["createSetMsg"];
-        }
+            model.Message = (SuccessMessage) TempData["createSetMsg"];
 
         return View(_viewLocation, model);
     }
@@ -60,6 +62,10 @@ public class EditSetController : BaseController
     {
         var setRepo = Resolve<SetRepo>();
         var set = setRepo.GetById(id);
+
+        if (!IsAllowedTo.ToEdit(set))
+            throw new SecurityException("Not allowed to edit set");
+
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         StoreImage(set.Id);
         model.Fill(set);
