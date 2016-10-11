@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 
-[AccessBeta]
 public class BaseController : Controller
 {
     protected SessionUser _sessionUser => Resolve<SessionUser>();

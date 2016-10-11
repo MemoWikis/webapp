@@ -4,7 +4,7 @@ public class BetaController : BaseController
 {
     public ActionResult Beta()
     {
-        return View();
+        return Redirect("/");
     }
 
     public ActionResult Video1()
