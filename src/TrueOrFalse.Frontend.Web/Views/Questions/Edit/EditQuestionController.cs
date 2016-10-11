@@ -150,7 +150,7 @@ public class EditQuestionController : BaseController
     {
         int newQuestionId = -1;
         if (questionId == -1)
-        {    
+        {
             var question = new Question();
             question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
             question.Solution = "Temporäre Frage";
@@ -159,6 +159,11 @@ public class EditQuestionController : BaseController
             _questionRepo.Create(question);
 
             newQuestionId = questionId = question.Id;
+        }
+        else
+        {
+            if (!IsAllowedTo.ToEdit(_questionRepo.GetById(questionId)))
+                throw new SecurityException("Not allowed to edit question");
         }
 
         if (imageSource == "wikimedia"){
@@ -203,7 +208,10 @@ public class EditQuestionController : BaseController
     private void UpdateSound(HttpPostedFileBase soundfile, int questionId)
     {
         if (soundfile == null) return;
-        
+
+        if (!IsAllowedTo.ToEdit(_questionRepo.GetById(questionId)))
+            throw new SecurityException("Not allowed to edit question");
+
         new StoreSound().Run(soundfile.InputStream, Path.Combine(Server.MapPath("/Sounds/Questions/"), questionId + ".m4a"));
     }
 }
