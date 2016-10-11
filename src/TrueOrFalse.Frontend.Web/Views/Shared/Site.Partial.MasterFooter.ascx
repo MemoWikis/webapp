@@ -6,16 +6,41 @@
 <div class="col-xs-12">
     <div class="row">
         <div class="col-xs-12">
-            <div id="partnersAndSponsors">
-                <img class="partnerImage" src="/Images/LogosPartners/BMWi-Logo-t.png"/>
-                <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png"/>
-                <img class="partnerImage" src="/Images/LogosPartners/Logo-ESF-rgb-gif.png"/>
-                <img class="partnerImage" src="/Images/LogosPartners/Logo-EU-cmyk-eps.png"/>
-                <img class="partnerImage" src="/Images/LogosPartners/Claim-ESF-cmyk-eps.png"/>
-                <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png"/>
-                <p>
-                    memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie und den Europäischen Sozialfonds gefördert.
-                </p>
+            <div class="partnersAndSponsors MobileHide">
+                <div class="row">
+                    <div class="col-xs-2" style="text-align: left;">
+                        <img class="partnerImage" src="/Images/LogosPartners/BMWi-Logo-t.png" width=""/>
+                    </div>
+                    <div class="col-xs-2">
+                        <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png"/>
+                    </div>
+                    <div class="col-xs-2" style="padding-top: 10px;">
+                        <img class="partnerImage" src="/Images/LogosPartners/Logo-ESF-rgb-gif.png"/>
+                    </div>
+                    <div class="col-xs-2" style="padding-top: 8px;">
+                        <img class="partnerImage" src="/Images/LogosPartners/Logo-EU-cmyk-eps.png"/>
+                    </div>
+                    <div class="col-xs-2" style="padding-top: 8px;">
+                        <img class="partnerImage" src="/Images/LogosPartners/Claim-ESF-cmyk-eps.png"/>
+                    </div>
+                    <div class="col-xs-2" style="text-align: right; padding-top: 8px;">
+                        <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png"/>
+                    </div>
+                </div>
+            </div>
+            <div class="partnersAndSponsors DesktopHide">
+                <div class="row">
+                    <div class="col-xs-12" style="white-space: nowrap;">
+                        <img class="partnerImage" src="/Images/LogosPartners/BMWi-Logo-t.png" width=""/>
+                        <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png"/>
+                        <img class="partnerImage" src="/Images/LogosPartners/Logo-ESF-rgb-gif.png"/>
+                    </div>
+                    <div class="col-xs-12" style="white-space: nowrap;">
+                        <img class="partnerImage" src="/Images/LogosPartners/Logo-EU-cmyk-eps.png"/>
+                        <img class="partnerImage" src="/Images/LogosPartners/Claim-ESF-cmyk-eps.png"/>
+                        <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
