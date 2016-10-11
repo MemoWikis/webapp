@@ -13,6 +13,9 @@ public class LicenseImageRepo
             //Run Tests "Authorized_licenses_should_contain_all_necessary_information()" and "Registered_licenses_should_not_contain_duplicates()"
             //Find template on Wikimedia "http://commons.wikimedia.org/wiki/template:" + WikiSearchString + "?uselang=de"
             //Overview of all wikimedia licenses: https://commons.wikimedia.org/wiki/Commons:Image_copyright_tags_visual
+
+            //LicenseImage id=13 is not a Wikimedia-License, but treated as one here (e.g., contains a "WikiSearchString"). ImageLicenses should be treated seperately from Wikimedia,
+            //to allow for other licenses not covered there.
             
             new LicenseImage
             {
@@ -69,6 +72,21 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 3.0 Unported",
                 LicenseShortName = "CC BY 3.0",
             },
+
+            new LicenseImage()
+            {
+                Id = 14,
+                WikiSearchString = "cc-by-4.0",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By,
+                LicenseLink = "https://creativecommons.org/licenses/by/4.0/legalcode",
+
+                LicenseShortDescriptionLink = "https://creativecommons.org/licenses/by/4.0/deed.de",
+                LicenseLongName = "Creative Commons: Namensnennung 4.0 International",
+                LicenseShortName = "CC BY 4.0",
+            },
+
 
             new LicenseImage
             {
@@ -196,16 +214,34 @@ public class LicenseImageRepo
             {
                 //License requires stating the source and prohibits changes
                 Id = 13,
+                WikiSearchString = "Anderes Amtliches Werk",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
                 LicenseRequirementsType = LicenseRequirementsType.AmtlichesWerkDE,
                 LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html",
 
                 LicenseShortDescriptionLink = "",
-                LicenseLongName = "Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
+                LicenseLongName = "Anderes Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
                 LicenseShortName = "Amtliches Werk",
             },
 
+            new LicenseImage()
+            {
+                Id = 198,
+                WikiSearchString = "Public Domain / Gemeinfrei (Amtliches Werk)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                //LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html", //valid only for Germany, but 
+                LicenseRequirementsType = LicenseRequirementsType.PD
+            },
+            new LicenseImage()
+            {
+                Id = 199,
+                WikiSearchString = "Public Domain / Gemeinfrei", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.PD
+            },
             new LicenseImage()
             {
                 Id = 200,

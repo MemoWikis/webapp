@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class ImageMaintenanceInfo
 {
     public int ImageId;
     public int TypeId;
+    public bool ImageUsageFound;
+    public string URLToWhereImageIsUsed;
 
     public bool InQuestionFolder;
     public bool InCategoryFolder;
@@ -60,6 +63,37 @@ public class ImageMaintenanceInfo
         ImageId = imageMetaData.Id;
         MetaData = imageMetaData;
         TypeId = imageMetaData.TypeId;
+        ImageUsageFound = true;
+        try
+        {
+            switch (MetaData.Type)
+            {
+                case ImageType.Category:
+                    URLToWhereImageIsUsed =
+                        Links.CategoryDetail(ServiceLocator.R<CategoryRepository>().GetById(MetaData.TypeId));
+                    break;
+                case ImageType.QuestionSet:
+                    URLToWhereImageIsUsed =
+                        Links.SetDetail(ServiceLocator.R<SetRepo>().GetById(MetaData.TypeId));
+                    break;
+                case ImageType.Question:
+                    URLToWhereImageIsUsed =
+                        Links.AnswerQuestion(ServiceLocator.R<QuestionRepo>().GetById(MetaData.TypeId));
+                    break;
+                case ImageType.User:
+                    URLToWhereImageIsUsed =
+                        Links.UserDetail(ServiceLocator.R<UserRepo>().GetById(MetaData.TypeId));
+                    break;
+                default:
+                    URLToWhereImageIsUsed = "";
+                    break;
+            }
+        }
+        catch (Exception)
+        {
+            ImageUsageFound = false;
+        }
+
         ManualImageData = ManualImageData.FromJson(MetaData.ManualEntries);
             
         //new

@@ -35,7 +35,7 @@
             <% foreach(var question in Model.WishQuestions){ %>
                 <div>
                     <% if(question.IsPrivate()){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
-                    <a href="<%: Links.AnswerQuestion(Url, question) %>"><%: question.Text %></a>
+                    <a href="<%: Links.AnswerQuestion(question) %>"><%: question.Text %></a>
                 </div>
             <% } %>
         <% } else { %>

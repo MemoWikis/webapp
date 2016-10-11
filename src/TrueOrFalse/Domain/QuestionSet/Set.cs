@@ -6,7 +6,7 @@ using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class Set : DomainEntity
+public class Set : DomainEntity, ICreator
 {
     public virtual string Name { get; set; }
     public virtual string Text { get; set; }

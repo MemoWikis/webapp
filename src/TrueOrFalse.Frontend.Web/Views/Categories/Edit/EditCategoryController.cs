@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -30,6 +31,10 @@ public class EditCategoryController : BaseController
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
+
+        if(!IsAllowedTo.ToEdit(category))
+            throw new SecurityException("Not allowed to edit categoty");
+
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
         var model = new EditCategoryModel(category){IsEditing = true};
@@ -45,6 +50,9 @@ public class EditCategoryController : BaseController
     {
         var category = _categoryRepository.GetById(id);
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
+
+        if (!IsAllowedTo.ToEdit(category))
+            throw new SecurityException("Not allowed to edit categoty");
 
         var categoryAllowed = new CategoryNameAllowed();
 

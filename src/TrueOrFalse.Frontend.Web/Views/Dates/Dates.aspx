@@ -134,9 +134,9 @@
                         <h4>Keine kommenden Termine im Netzwerk</h4>
                         <p style="padding-top: 5px;">
                         <% if (!Model.IsFollowingAnyUsers) { %>
-                            Du folgst noch keinem anderen Nutzer. Erweitere dein Netzwerk und folge deinen Freunden, damit du Termine von ihnen übernehmen kannst und ihr gemeinsam lernen könnt.
+                            Du folgst noch keinem anderen Nutzer. Erweitere dein Netzwerk und folge deinen Freunden. Dann kannst du Termine von ihnen übernehmen und ihr könnt gemeinsam lernen.
                         <% } else { %>
-                            Erweitere dein Netzwerk und folge weiteren Freunden, damit du Termine von ihnen übernehmen kannst und ihr gemeinsam lernen könnt.
+                            Erweitere dein Netzwerk und folge weiteren Freunden. Dann kannst du Termine von ihnen übernehmen und ihr könnt gemeinsam lernen.
                         <% } %>
                         </p>                        
                         <p>

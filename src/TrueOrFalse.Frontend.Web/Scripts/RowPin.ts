@@ -25,6 +25,11 @@ class Pin {
 
         allPins.click(function (e) {
 
+            e.preventDefault();
+            if (NotLoggedIn.Yes()) {
+                NotLoggedIn.ShowErrorMsg(); return;
+            }
+
             var elemPin = $($(this).parents(".Pin"));
 
             var id = -1;
@@ -33,7 +38,6 @@ class Pin {
             else if (self.IsSetRow() || self.IsSetDetail())
                 id = parseInt(elemPin.attr("data-set-id"));
 
-            e.preventDefault();
             if (this._changeInProgress)
                 return;
 

@@ -7,8 +7,14 @@
     <td class="ColumnInfo">
         <input id="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" class="form-control" name="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" type="hidden" value="<%= !String.IsNullOrEmpty(Model.MaintenanceRowMessage) ? Model.MaintenanceRowMessage : "" %>" />
         Image-Id: <b><%= Model.ImageId %></b><br/>
-        <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
-        TypeId: <%= Model.TypeId %>
+        <a href="<%=Model.URLToWhereImageIsUsed %>" target="_blank">
+            <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
+            TypeId: <%= Model.TypeId %>
+        </a>
+        <% if (!Model.ImageUsageFound)
+           {
+               Response.Write("<i class=\"fa fa-exclamation-triangle\">&nbsp;</i>Verwendung nicht gefunden.");
+           }%>
     </td>
     <td class="ColumnDescription">
         <b>Datei: </b>

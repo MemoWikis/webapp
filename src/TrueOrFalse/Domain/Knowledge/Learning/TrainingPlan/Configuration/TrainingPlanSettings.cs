@@ -10,13 +10,11 @@ public class TrainingPlanSettings
     public const int QuestionsPerDate_IdealAmount_DefaultMinimum = 10;
     public const int QuestionsPerDate_IdealAmount_DefaultMaximum = 30;
 
-    //public virtual int SpacingBetweenSessionsInMinutes { get; set; } = 60 * 3; //obsolete
-
     // after EqualizedSpacingDelayerDays days, MinSpacingBetweenSessionsInMinutes is multiplied by EqualizedSpacingMaxMultiplier/2
-    public virtual int MinSpacingBetweenSessionsInMinutes { get; set; } = 60 * 3;
+    public virtual int MinSpacingBetweenSessionsInMinutes { get; set; } = 60 * 10; //always use GetMinSpacingInMinutes() to acknowledge spacing effect
     public virtual bool EqualizeSpacingBetweenSessions { get; set; } = true;
-    public virtual int EqualizedSpacingMaxMultiplier { get; set; } = 90; // higher values lead to higher spacing
-    public virtual int EqualizedSpacingDelayerDays { get; set; } = 180; // higher values lead spacing effect to be effective when distance till date is greater
+    public virtual int EqualizedSpacingMaxMultiplier { get; set; } = 10; // higher values lead to higher spacing
+    public virtual int EqualizedSpacingDelayerDays { get; set; } = 20; // higher values lead spacing effect to be effective when distance till date is greater
 
     public static int TryAddDateIntervalInMinutes = 15;
 
@@ -53,7 +51,7 @@ public class TrainingPlanSettings
         if (!EqualizeSpacingBetweenSessions || (distanceTillDateInDays < 1))
             return MinSpacingBetweenSessionsInMinutes;
 
-        /* spacing equalization is done via an arctan-function: [(2f/pi) * arctan(x/d)] * minSpacing.
+        /* spacing equalization is done via an arctan-function: [(f/(pi/2)) * arctan(x/d)] * minSpacing.
         ** x is number of days untill date (=exam)
         ** f distorts curve up, e.g.: higher f lead to higher spacing. (math: In infinity, minSpacing is factored by f)
         ** (division through pi/2 is done to normalize curve)
