@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SetMenu(MenuEntry.Play)]
@@ -79,6 +80,6 @@ public class GameController : BaseController
         R<GameCreate>().Run(game, gameModel.OnlyMultipleChoice);
         R<GameHubConnection>().SendCreated(game.Id);
 
-        return Redirect("/Spielen");
+        return Redirect(Links.Games());
     }
 }

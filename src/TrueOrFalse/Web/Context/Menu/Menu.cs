@@ -9,7 +9,7 @@ public enum MenuEntry
     Categories, CategoryDetail,
     Messages,
     Help,
-    Dates,
+    Dates, DateDetail,
     Play,
     Maintenance
 }

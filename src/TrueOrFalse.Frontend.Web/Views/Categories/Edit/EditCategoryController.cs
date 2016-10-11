@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class EditCategoryController : BaseController
@@ -17,6 +18,7 @@ public class EditCategoryController : BaseController
         ActionInvoker = new JavaScriptActionInvoker();
     }
 
+    [SetMenu(MenuEntry.Categories)]
     public ViewResult Create(string name, string parent, string type)
     {
         var model = new EditCategoryModel {Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
@@ -75,6 +77,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.Categories)]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {                
         model.FillReleatedCategoriesFromPostData(Request.Form);
@@ -98,9 +101,9 @@ public class EditCategoryController : BaseController
         {
             model.Message = new ErrorMessage(
                 string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
-                              "Klicke <a href=\"{1}\">hier</a>, um sie zu bearbeiten.",
+                              "<a href=\"{1}\">Klicke hier</a>, um sie zu bearbeiten.",
                               categoryNameAllowed.ExistingCategories.First().Name,
-                              Url.Action("Edit", new { id = categoryNameAllowed.ExistingCategories.First().Id })));
+                              Links.CategoryEdit(categoryNameAllowed.ExistingCategories.First()))); //Url.Action("Edit", new { id = categoryNameAllowed.ExistingCategories.First().Id })
 
             return View(_viewPath, model);
         }
@@ -115,10 +118,11 @@ public class EditCategoryController : BaseController
             = new SuccessMessage(string.Format(
                  "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
                  "Du kannst die Kategorie jetzt bearbeiten" +
-                 " oder eine <a href='/Kategorien/Erstelle'>neue Kategorie anlegen</a>.", 
-                category.Name));
+                 " oder eine <a href=\"{1}\">neue Kategorie anlegen</a>.", 
+                category.Name,
+                Links.CategoryCreate()));
 
-        return Redirect("/Kategorien/Bearbeite/" + category.Id);
+        return Redirect(Links.CategoryEdit(category));
     }
 
     public ActionResult DetailsPartial(int? categoryId, CategoryType type, string typeModelGuid)
