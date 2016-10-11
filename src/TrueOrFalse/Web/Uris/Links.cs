@@ -168,6 +168,10 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
+        public static string CreateQuestion()
+        {
+            return CreateQuestion(GetUrlHelper());
+        }
         public static string CreateQuestion(UrlHelper url, int categoryId = -1)
         {
             if (categoryId != -1)
@@ -176,6 +180,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Create", EditQuestionController);
         }
 
+        public static string EditQuestion(Question question)
+        {
+            return EditQuestion(GetUrlHelper(), question.Text, question.Id);
+        }
         public static string EditQuestion(string questionText, int questionId)
         {
             return EditQuestion(GetUrlHelper(), questionText, questionId);
@@ -345,6 +353,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /* Games */
 
+        public static string Games(){
+            return Games(GetUrlHelper());
+        }
         public static string Games(UrlHelper url){
             return url.Action("Games", "Games");
         }
@@ -384,7 +395,11 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id }, null);
         }
 
-        public static object CategoryEdit(UrlHelper url, string name, int id)
+        public static string CategoryEdit(Category category)
+        {
+            return CategoryEdit(GetUrlHelper(), category.Name, category.Id);
+        }
+        public static string CategoryEdit(UrlHelper url, string name, int id)
         {
             return url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
         }

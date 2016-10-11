@@ -26,8 +26,6 @@ public class BaseTest
         CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
 
-        SessionFactory.TruncateAllTables();
-
         Resolve<SessionUser>().Login(new User());
         Resolve<SessionUser>().IsInstallationAdmin = true;
 
@@ -46,9 +44,10 @@ public class BaseTest
         MySQL5FlexibleDialect.Engine = "MEMORY";
         BuildContainer();
         ServiceLocator.Init(_container);
+        SessionFactory.TruncateAllTables();
     }
 
-    protected bool IsMysqlInMemoryEngine()
+    protected bool IsMysqlInMemoryEngine()  
     {
         return MySQL5FlexibleDialect.IsInMemoryEngine();
     }

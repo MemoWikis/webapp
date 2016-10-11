@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [SetMenu(MenuEntry.Dates)]
@@ -9,6 +10,7 @@ public class EditDateController : BaseController
     private const string _viewLocation = "~/Views/Dates/Edit/EditDate.aspx";
 
     [HttpGet]
+    [SetMenu(MenuEntry.Dates)]
     public ViewResult Create(int? setId)
     {
         var model = new EditDateModel();
@@ -27,6 +29,7 @@ public class EditDateController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.Dates)]
     public ViewResult Create(EditDateModel model)
     {
         if (model.IsDateTimeInPast())
@@ -45,13 +48,14 @@ public class EditDateController : BaseController
 
             CareAboutAnswerProbability(date);
 
-            Response.Redirect("/Termine", true);
+            Response.Redirect(Links.Dates(), true);
         }
 
         return View(_viewLocation, model);
     }
 
     [HttpGet]
+    [SetMenu(MenuEntry.DateDetail)]
     public ViewResult Edit(int dateId)
     {
         var date = R<DateRepo>().GetById(dateId);
@@ -65,6 +69,7 @@ public class EditDateController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.DateDetail)]
     public ViewResult Edit(EditDateModel model)
     {
         if (!_sessionUser.IsLoggedInUser(model.UserId))
@@ -87,7 +92,7 @@ public class EditDateController : BaseController
 
             CareAboutAnswerProbability(date);
 
-            Response.Redirect("/Termine", true);
+            Response.Redirect(Links.Dates(), true);
         }
 
         model.IsEditing = true;
