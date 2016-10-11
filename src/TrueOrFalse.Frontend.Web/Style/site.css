@@ -203,23 +203,19 @@ img {
 #LogoLink {
   display: block;
   height: 100%;
-  width: 255px;
+  float: left;
   overflow-y: visible;
 }
-@media (max-width: 991px) {
-  #LogoLink {
-    width: 245px;
-  }
+#BetaLogo {
+  display: block;
+  height: 100%;
+  float: left;
+  color: black;
+  z-index: 1;
 }
-@media (max-width: 767px) {
-  #LogoLink {
-    width: 215px;
-  }
-}
-@media (max-width: 479px) {
-  #LogoLink {
-    width: 75px;
-  }
+#BetaLogo img {
+  width: auto;
+  height: 100%;
 }
 #Pictogram {
   float: left;
@@ -242,6 +238,7 @@ img {
 }
 #Wordmark {
   height: 100%;
+  float: left;
 }
 @media (max-width: 479px) {
   #Wordmark {
@@ -263,11 +260,6 @@ img {
 #LogoSmall img {
   width: auto;
   height: 100%;
-}
-#BetaLogo {
-  height: 100%;
-  color: black;
-  z-index: 1;
 }
 #loginAndHelp {
   color: #E7ECF6;

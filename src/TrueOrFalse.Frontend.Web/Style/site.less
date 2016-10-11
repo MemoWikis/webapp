@@ -201,17 +201,20 @@ img {
 #LogoLink {
     display: block;
     height: 100%;
-    width: 255px;//To restrict clickable area
+    float: left;
     overflow-y: visible;
-    .media-below-md ({
-        width: 245px;
-    });
-    .media-below-sm ({
-        width: 215px;
-    });
-     .media-below-xs ({
-        width: 75px;
-    });
+}
+
+#BetaLogo {
+    display: block;
+    height: 100%;
+    float: left;
+    color: black;
+    z-index: 1;
+    img {
+        width: auto;
+        height: 100%;
+    }
 }
 
 #Pictogram {
@@ -237,6 +240,7 @@ img {
 #Wordmark {
 
     height: 100%;
+    float: left;
 
     .media-below-xs ({
         display: none;
@@ -260,12 +264,6 @@ img {
         width: auto;
         height: 100%;
     }
-}
-
-#BetaLogo {
-    height: 100%;
-    color: black;
-    z-index: 1;
 }
 
 #loginAndHelp {
