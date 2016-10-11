@@ -5,6 +5,7 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <title>memucho</title>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %>" />
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     
     <script type="text/javascript" >

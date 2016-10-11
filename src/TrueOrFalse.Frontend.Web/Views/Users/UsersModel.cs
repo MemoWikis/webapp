@@ -57,11 +57,6 @@ public class UsersModel : BaseModel
         OrderByLabel = _sessionUiData.SearchSpecUser.OrderBy.ToText();
         OrderBy = _sessionUiData.SearchSpecUser.OrderBy;
 
-        if (!IsLoggedIn)
-            return;
-
-        HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
-        HeaderModel.TotalIFollow = R<TotalIFollow>().Run(UserId);
 
         if (!String.IsNullOrEmpty(SearchTerm) ||
             !(_sessionUiData.SearchSpecUser.OrderBy.Reputation.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
@@ -69,6 +64,12 @@ public class UsersModel : BaseModel
         CanonicalUrl = Links.Users();
         if (Pager.CurrentPage > 1)
             CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
+
+
+        if (!IsLoggedIn)
+            return;
+        HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
+        HeaderModel.TotalIFollow = R<TotalIFollow>().Run(UserId);
 
     }
 }
