@@ -61,8 +61,8 @@ public class EditQuestionController : BaseController
 
         DeleteUnusedImages.Run(model.QuestionExtended, id);
 
-        if(!_sessionUser.IsInstallationAdmin && model.LicenseId != LicenseQuestionRepo.DefaultLicenseId)
-            throw new Exception("Invalid license type");
+        if(!_sessionUser.IsInstallationAdmin && model.LicenseId > 0)
+            Logg.r().Warning("Unallowed access to license selection by non-admin");
 
         if (!ModelState.IsValid)
         {
