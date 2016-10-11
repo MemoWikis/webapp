@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NHibernate.Mapping;
-using NHibernate.Util;
 using NUnit.Framework;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -19,7 +17,7 @@ public class Should_create_trainingsplan : BaseTest
         trainingsPlan.DumpToConsole();
     }
 
-    [Ignore]
+    [Ignore("")]
     [Test]
     public void When_not_trained__in_the_remaining_time_the_dates_amount_should_increase()
     {
@@ -60,7 +58,7 @@ public class Should_create_trainingsplan : BaseTest
         Assert.That(!(anyQuestionAnsweredLessThan3Times && date.TrainingPlan.LearningGoalIsReached));
     }
 
-    [Ignore]
+    [Ignore("")]
     [Test]
     public void Should_do_update_check()
     {

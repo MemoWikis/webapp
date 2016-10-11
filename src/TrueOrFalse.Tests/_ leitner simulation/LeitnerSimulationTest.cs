@@ -7,7 +7,7 @@ using NUnit.Framework;
 public class LeitnerSimulationTest : BaseTest
 {
     [Test]
-    [Ignore]
+    [Ignore("")]
     public void ExecuteSimulation()
     {
         for(var i = 1; i <= 5; i++) { 

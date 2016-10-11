@@ -235,7 +235,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
     }
 
     [Test]
-    [Ignore]
+    [Ignore("")]
     public void Should_parse_author_and_description()
     {
         var markup = "";
