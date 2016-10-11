@@ -227,11 +227,19 @@ public class LicenseImageRepo
 
             new LicenseImage()
             {
-                Id = 199,
-                WikiSearchString = "Gemeinfrei (Amtliches Werk DE)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
+                Id = 198,
+                WikiSearchString = "Public Domain / Gemeinfrei (Amtliches Werk)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
-                LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html",
+                //LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html", //valid only for Germany, but 
+                LicenseRequirementsType = LicenseRequirementsType.PD
+            },
+            new LicenseImage()
+            {
+                Id = 199,
+                WikiSearchString = "Public Domain / Gemeinfrei", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
             new LicenseImage()
