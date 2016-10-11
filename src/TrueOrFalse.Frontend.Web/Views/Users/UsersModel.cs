@@ -65,11 +65,10 @@ public class UsersModel : BaseModel
         if (Pager.CurrentPage > 1)
             CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
 
-
-        if (!IsLoggedIn)
-            return;
-        HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
-        HeaderModel.TotalIFollow = R<TotalIFollow>().Run(UserId);
-
+        if (IsLoggedIn)
+        {
+            HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
+            HeaderModel.TotalIFollow = R<TotalIFollow>().Run(UserId);
+        }
     }
 }
