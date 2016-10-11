@@ -50,7 +50,7 @@
             <%--<a href="#"><i class="fa fa-bar-chart"></i>--%>
                 <%--<%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>--%>
                 <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%>
-            </a>
+            <%--</a>--%>
         </div>
 
         <div class="col-sm-6 col-xs-12 text-align-right-md">
