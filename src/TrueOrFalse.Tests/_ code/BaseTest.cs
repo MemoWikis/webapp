@@ -26,7 +26,7 @@ public class BaseTest
         CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
 
-        SessionFactory.BuildSchema();
+        SessionFactory.TruncateAllTables();
 
         Resolve<SessionUser>().Login(new User());
         Resolve<SessionUser>().IsInstallationAdmin = true;

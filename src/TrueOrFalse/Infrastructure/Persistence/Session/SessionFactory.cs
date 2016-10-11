@@ -99,9 +99,27 @@ namespace TrueOrFalse
                   drop table #tables;";
 
             using (var session = _configuration.BuildSessionFactory().OpenSession())
-            {
                 session.CreateSQLQuery(sqlString);
-            }
+        }
+
+
+        public static void TruncateAllTables()
+        {
+            const string sqlString =
+                @"select name into #tables from sys.objects where type = 'U'
+                  while (select count(1) from #tables) > 0
+                  begin
+                  declare @sql varchar(max)
+                  declare @tbl varchar(255)
+                  select top 1 @tbl = name from #tables
+                  set @sql = 'truncate table ' + @tbl
+                  exec(@sql)
+                  delete from #tables where name = @tbl
+                  end
+                  drop table #tables;";
+
+            using (var session = _configuration.BuildSessionFactory().OpenSession())
+                session.CreateSQLQuery(sqlString);
         }
     }
 }
