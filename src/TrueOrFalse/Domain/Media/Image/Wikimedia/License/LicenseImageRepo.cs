@@ -221,10 +221,19 @@ public class LicenseImageRepo
                 LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html",
 
                 LicenseShortDescriptionLink = "",
-                LicenseLongName = "Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
+                LicenseLongName = "Anderes Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
                 LicenseShortName = "Amtliches Werk",
             },
 
+            new LicenseImage()
+            {
+                Id = 199,
+                WikiSearchString = "Gemeinfrei (Amtliches Werk DE)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html",
+                LicenseRequirementsType = LicenseRequirementsType.PD
+            },
             new LicenseImage()
             {
                 Id = 200,
