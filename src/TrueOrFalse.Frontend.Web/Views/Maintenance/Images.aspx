@@ -53,7 +53,7 @@
                     <li class="excluded">
                         <label>
                             <%= Html.CheckBoxFor(m => m.CkbExcluded) %>
-                            ausgesschlossene 
+                            ausgeschlossene 
                         </label>                    
                     </li>
                 </ul>
