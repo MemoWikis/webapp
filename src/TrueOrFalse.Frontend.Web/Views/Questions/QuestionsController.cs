@@ -34,12 +34,14 @@ namespace TrueOrFalse
                     SearchTabType.All));
         }
 
+        [SetMenu(MenuEntry.Questions)]
         public ActionResult QuestionsSearch(string searchTerm, QuestionsModel model, int? page, string orderBy)
         {
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionAll, model, searchTerm);
             return Questions(page, model, orderBy);
         }
 
+        [SetMenu(MenuEntry.Questions)]
         public ActionResult QuestionsSearchCategoryFilter(string categoryName, int categoryId)
         {
             _sessionUiData.SearchSpecQuestionAll.Filter.Clear();

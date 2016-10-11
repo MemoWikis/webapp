@@ -37,13 +37,16 @@
             </a>            
             <%
                 var visitedD = new SessionUiData().VisitedDatePages;
-                index = 0; 
-                foreach (var date in visitedD){ index++;  %>
-                <% var activeClass = ""; if (index == 1) { activeClass = Model.Active(MenuEntry.Dates); } %>
-                <a href="<%= Links.DateEdit(date.Id) %>" class="list-group-item dues sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
-                    <i class="fa fa-caret-right"></i> <%=date.Name%>
-                    <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
-                </a>
+                index = 0;
+                foreach (var date in visitedD){
+                    index++;
+                    var activeClass = "";
+                    if (index == 1) { activeClass = Model.Active(MenuEntry.DateDetail); 
+                    } %>
+                    <a href="<%= Links.DateEdit(date.Id) %>" class="list-group-item dues sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
+                        <i class="fa fa-caret-right"></i> <%=date.Name%>
+                        <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
+                    </a>
             <% } %>
             
             <div id="mainMenuQuestionsSetsCategories">

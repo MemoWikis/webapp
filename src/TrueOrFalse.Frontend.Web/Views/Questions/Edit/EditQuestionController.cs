@@ -4,6 +4,7 @@ using System.Security;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class EditQuestionController : BaseController
@@ -16,6 +17,7 @@ public class EditQuestionController : BaseController
         _questionRepo = questionRepo;
     }
 
+    [SetMenu(MenuEntry.Questions)]
     public ActionResult Create(int? categoryId)
     {
         var model = new EditQuestionModel();
@@ -61,8 +63,8 @@ public class EditQuestionController : BaseController
 
         DeleteUnusedImages.Run(model.QuestionExtended, id);
 
-        if(!_sessionUser.IsInstallationAdmin && model.LicenseId != LicenseQuestionRepo.DefaultLicenseId)
-            throw new Exception("Invalid license type");
+        if(!_sessionUser.IsInstallationAdmin && model.LicenseId > 0)
+            Logg.r().Warning("Unallowed access to license selection by non-admin");
 
         if (!ModelState.IsValid)
         {
@@ -128,14 +130,14 @@ public class EditQuestionController : BaseController
                 string.Format("Die Frage <i>'{0}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.",
                                 question.Text.TruncateAtWord(30)));
 
-            return Redirect("Erstelle/");
+            return Redirect(Links.CreateQuestion());
         }
         
         TempData["createQuestionsMsg"] = new SuccessMessage(
             string.Format("Die Frage <i>'{0}'</i> wurde erstellt. Du kannst sie nun weiter bearbeiten.",
                           question.Text.TruncateAtWord(30)));
 
-        return Redirect("Bearbeite/" + question.Id);
+        return Redirect(Links.EditQuestion(question));
     }
 
     [HttpPost]
