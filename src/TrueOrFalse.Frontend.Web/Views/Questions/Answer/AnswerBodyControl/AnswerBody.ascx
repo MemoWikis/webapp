@@ -124,7 +124,13 @@
             data-original-title="Lizenz: Creative Commons - Namensnennung 4.0 Unported">
             <img src="/Images/Licenses/cc-by 88x31.png" style="width: 60px;"/>
             <span class="TextSpan">CC&nbsp;BY&nbsp;4.0</span>
-        </a>
+        </a> 
+        <%--<a class="TextLinkWithIcon" href="#"
+            data-toggle="popover" data-trigger="click focus" title="" data-content="test content <a href='' title='test add link'>link on content</a>"
+            >
+            <img src="/Images/Licenses/cc-by 88x31.png" style="width: 60px;"/>
+            <span class="TextSpan">CC&nbsp;BY&nbsp;4.0</span>
+        </a>--%>
         <% } else { %>
             <%= Model.LicenseQuestion.DisplayTextHtml %>
         <% } %>

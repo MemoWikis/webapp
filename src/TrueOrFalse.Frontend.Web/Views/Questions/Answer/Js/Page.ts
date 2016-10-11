@@ -23,4 +23,6 @@ $(() => {
 
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
     new ShareQuestion();
+
+    $('[data-toggle=popover]').popover({ html: true });
 });

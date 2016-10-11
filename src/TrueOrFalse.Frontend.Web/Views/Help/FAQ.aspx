@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Hilfe & FAQ" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<HelpModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
 <script type="text/javascript" >
@@ -57,7 +58,7 @@
         <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
-                  Für uns sind Datensicherheit und Datenschutz entscheidende Themen. Gerade weil wir viele Daten sammeln, sehen wir eine besondere 
+                  Für uns sind Datensicherheit und Datenschutz wichtige Themen. Gerade weil wir viele Daten sammeln, sehen wir eine besondere 
                   Verantwortung darin, Daten zu schützen und transparent zu sein. Das kann jeder prüfen, denn der Programm-Quelltext für memucho ist
                   als Open Source-Software öffentlich und auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> einsehbar.
               </p>
@@ -72,7 +73,7 @@
                   Fragen unter einer Creative Commons-Lizenz (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>).
                   Jeder andere Nutzer kann die Fragen also (unter bestimmten Bedingungen) für seine Zwecke nutzen. So ist das auch bei Wikipedia, 
                   deswegen können wir zum Beispiel viele Bilder von Wikipedia verwenden und sie auch weiterhin nutzen, wenn sie bei Wikipedia selbst 
-                  nicht mehr zu sehen sein sollten. Die privaten Fragen von dir bleiben aber privat.
+                  nicht mehr zu sehen sein sollten. Die privaten Fragen von dir bleiben aber privat und sind nicht für andere sichtbar.
               </p>
           </div>
         </div>
@@ -131,7 +132,7 @@
                   ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
                   Fragen und Fragesätze.
                   
-                  Jeder kann <b>Fragen</b> (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
+                  Jeder kann Fragen (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
                   (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Fragesatz zusammengefasst werden.
               </p>
           </div>
@@ -150,10 +151,10 @@
         <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <div class="panel-body">
               <p>
-                  In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. So behälst du besser den Überblick. Du kannst jede einzelne 
+                  In deinem Wunschwissen legst du fest, was du gern langfristig wissen möchtest. So behältst du besser den Überblick. Du kannst jede einzelne 
                   Frage oder ganze Fragesätze zu deinem Wunschwissen hinzufügen. Klicke dazu einfach auf das Herz-Symbol bei einer Frage oder 
                   einem Fragesatz. Ist das Herz komplett rot ausgefüllt, ist die Frage bzw. der Fragesatz in deinem  Wunschwissen, ansonsten 
-                  ist das Herz weiß. Du kannst Fragen auch wieder aus deinem Wunschwissen entfernen, wenn du wieder auf das Herz bei der 
+                  ist das Herz weiß. Du kannst Fragen auch wieder aus deinem Wunschwissen entfernen, indem du wieder auf das Herz bei der 
                   entsprechenden Frage klickst.
               </p>
           </div>
@@ -173,12 +174,12 @@
           <div class="panel-body">
               <p>
                   memucho befindet sich in der Beta-Phase. Das bedeutet, dass die Seite noch nicht ganz fertig ist. Einige Funktionen fehlen noch 
-                  (zum Beispiel das Lernen zu einem bestimmten Termin), andere Dinge müssen wir noch verbessern und benutzerfreundlicher machen 
+                  (zum Beispiel das Sammeln von Trophäen), andere Dinge müssen wir noch verbessern und benutzerfreundlicher machen 
                   (zum Beispiel den Lernalgorithmus). Außerdem haben wir noch sooo viele Ideen, die auf Verwirklichung warten. Wir arbeiten daran! 
               </p>
               <p>
                   Aber schon jetzt kannst du memucho nutzen - und uns als Beta-Nutzer wichtige Hinweise geben, wo etwas nicht funktioniert und 
-                  welche Funktionen dir besonders dringend fehlen. Am besten wirst du schon jetzt Fördermitglied!
+                  welche Funktionen dir besonders dringend fehlen. Am besten wirst du schon jetzt <a href="<%= Url.Action(Links.Membership, Links.AccountController) %>">Fördermitglied</a>!
               </p>
           </div>
         </div>
@@ -211,9 +212,32 @@
           </div>
         </div>
       </div>
-
+    <div class="panel panel-default">
+        <% currentFaqItem = new FAQAccordeonItem("QuestionLicense"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
+              Unter welcher Lizenz stehen die Fragen bei memucho und (wie) können sie weiterverwendet werden?
+            </a>
+          </h4>
+        </div>
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
+          <div class="panel-body">
+              In der Detailansicht steht bei jeder Frage die Lizenz, unter der sie veröffentlicht wurde.
+              Die nutzererstellten Fragen bei memucho stehen alle unter der Lizenz "Creative Commons - Namensnennung 4.0 International" 
+              (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>).
+              Diese Fragen können bei angemessener Nennung des Urhebers (gib am besten die Url der Fragedetailseite und den Nutzernamen des Erstellers an) 
+              und der Lizenz frei weiterverwendet und dabei auch verändert werden.
+              Einige von uns eingestellte Fragen stehen unter anderen Lizenzen (zum Beispiel amtliche Fragesammlungen wie Führerscheinfragen). 
+              Ist bei diesen Fragen die Weiterverwendung eingeschränkt, findest du einen entsprechenden Hinweis darauf bei der Lizenzangabe.
+          </div>
+        </div>
+      </div>
     </div>
     
 </asp:Content>
+
+
+
 
 
