@@ -264,6 +264,11 @@ img {
   width: auto;
   height: 100%;
 }
+#BetaLogo {
+  height: 100%;
+  color: black;
+  z-index: 1;
+}
 #loginAndHelp {
   color: #E7ECF6;
   float: right;

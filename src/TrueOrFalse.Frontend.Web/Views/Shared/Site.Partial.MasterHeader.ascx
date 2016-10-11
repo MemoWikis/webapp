@@ -19,6 +19,12 @@
                                 <img src="/Images/Logo/LogoSmall.png">
                             </div>
                         </a>
+                        <!--a id="BetaLogo" href="/">
+                            <div>
+                                <img src="/Images/Logo/LogoSmall.png">
+                                [Beta]
+                            </div>
+                        </!a-->
                     </div>
                     <div class="col-xs-6 col-LoginAndHelp">
             	        <div id="loginAndHelp" >
