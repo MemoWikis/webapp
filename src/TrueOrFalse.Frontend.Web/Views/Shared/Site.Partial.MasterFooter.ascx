@@ -4,6 +4,7 @@
 
 
 <div class="col-xs-12">
+    <div style="width: 100%" >
     <div class="row">
         <div class="col-xs-12">
             <div id="partnersAndSponsors">
@@ -13,11 +14,9 @@
                 <img class="partnerImage" src="/Images/LogosPartners/Logo-EU-cmyk-eps.png"/>
                 <img class="partnerImage" src="/Images/LogosPartners/Claim-ESF-cmyk-eps.png"/>
                 <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png"/>
-                <p>
-                    memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie und den Europäischen Sozialfonds gefördert.
-                </p>
             </div>
         </div>
+    </div>
     </div>
     
     <div class="row">
@@ -25,7 +24,7 @@
             <%--<a href="#"><i class="fa fa-bar-chart"></i>--%>
                 <%--<%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>--%>
                 <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%>
-            </a>
+            <%--</a>--%>
         </div>
 
         <div class="col-sm-6 col-xs-12 text-align-right-md">
