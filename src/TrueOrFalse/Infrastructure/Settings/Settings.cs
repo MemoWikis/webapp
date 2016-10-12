@@ -45,6 +45,10 @@ public class Settings
 
     public static bool DisableAllJobs() { return OverwrittenConfig.ValueBool("disableAllJobs"); }
 
+    public static string RollbarAccessToken => Get<string>("Rollbar.AccessToken");
+    public static string RollbarEnvironment => Get<string>("Rollbar.Environment");
+
+
     public static string ConnectionString()
     {
         var result = OverwrittenConfig.Value("connectionString");

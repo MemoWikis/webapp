@@ -5,11 +5,13 @@
     }
 
     public InitCountDown() {
-        $('[data-willStartIn]').each(function () {
+        $('[data-remainingSeconds]').each(function () {
 
-            var $this = $(this), finalDate = $(this).attr('data-willStartIn');
+            var $this = $(this);
+            var remainingSeconds = +$(this).attr('data-remainingSeconds');
 
-            window.console.log(finalDate);
+            var finalDate = new Date();
+            finalDate.setSeconds(finalDate.getSeconds() + remainingSeconds);
 
             $this.countdown(finalDate, event => {
                 $this.html(event.strftime('%-Mm %Ss'));

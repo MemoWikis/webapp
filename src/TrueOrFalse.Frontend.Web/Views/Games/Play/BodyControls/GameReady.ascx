@@ -27,6 +27,6 @@
     <div class="col-xs-12" style="padding-top: 30px; font-size: 50px;">
         <span style="font-size: 22px; margin-right: 10px;">Start in </span>
         <span style="font-weight: bolder"
-            data-willStartIn="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>
+            data-remainingSeconds="<%= Model.RemainingSeconds %>"></span>
     </div>            
 </div>

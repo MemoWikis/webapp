@@ -8,6 +8,7 @@ public class PlayBaseModel : BaseModel
     public int RoundCount;
 
     public DateTime WillStartAt;
+    public int RemainingSeconds;
 
     public List<Player> Players = new List<Player>();
 
@@ -20,5 +21,6 @@ public class PlayBaseModel : BaseModel
         RoundCount = game.RoundCount;
 
         WillStartAt = game.WillStartAt;
+        RemainingSeconds = (int)(game.WillStartAt - DateTime.Now).TotalSeconds;
     }
 }
