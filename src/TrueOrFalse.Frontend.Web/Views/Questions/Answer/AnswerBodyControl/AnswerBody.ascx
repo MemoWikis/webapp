@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
-
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
 <div id="AnswerBody" class="well">
@@ -117,24 +117,19 @@
                     
         <div style="clear: both"></div>
     </div>
-    <div id="License" style="margin-top: 15px; font-size: 90%">
-    <% if (Model.LicenseQuestion.IsDefault())
-        { %>
-        <a class="TextLinkWithIcon show-tooltip" href="<%= LicenseQuestionRepo.GetDefaultLicense().LicenseLinkOptional %>" target="_blank" 
-            data-original-title="Lizenz: Creative Commons - Namensnennung 4.0 Unported">
-            <img src="/Images/Licenses/cc-by 88x31.png" style="width: 60px;"/>
-            <span class="TextSpan">CC&nbsp;BY&nbsp;4.0</span>
-        </a> 
-        <%--<a class="TextLinkWithIcon" href="#"
-            data-toggle="popover" data-trigger="click focus" title="" data-content="test content <a href='' title='test add link'>link on content</a>"
-            >
-            <img src="/Images/Licenses/cc-by 88x31.png" style="width: 60px;"/>
-            <span class="TextSpan">CC&nbsp;BY&nbsp;4.0</span>
-        </a>--%>
-        <% } else { %>
-            <%= Model.LicenseQuestion.DisplayTextHtml %>
-        <% } %>
-    </div>
 </div>
-<%--<div id="License" style="margin-top: -10px; font-size: 90%">
-</div>--%>
+<div id="LicenseQuestion">
+<% if (Model.LicenseQuestion.IsDefault())
+    { %>
+    <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto left"
+            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>"
+        >
+        <img src="/Images/Licenses/cc-by 88x31.png" width="88" height="31" style="margin-top: 5px;"/><br/>
+        <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>&nbsp;<i class="fa fa-info-circle"></i>
+    </a>
+    <% } else { %>
+        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto left" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
+            <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
+        </a>
+    <% } %>
+</div>
