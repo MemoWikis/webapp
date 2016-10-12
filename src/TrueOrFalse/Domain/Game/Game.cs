@@ -163,5 +163,5 @@ public class Game : DomainEntity
         return Players.First();
     }
 
-    public virtual bool IsWithMemuchoPlayer() => Players.Any(p => p.User.IsMemuchoUser);
+    public virtual bool MemuchoPlayerIsHuman() => Players.Any(p => p.User.IsMemuchoUser);
 }

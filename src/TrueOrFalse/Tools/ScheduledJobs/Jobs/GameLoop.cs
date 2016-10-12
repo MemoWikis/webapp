@@ -98,7 +98,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         
         private void AutomatedMemuchoAnswer(Game game, Round currentRound)
         {
-            if (!game.IsWithMemuchoPlayer())
+            if (!game.MemuchoPlayerIsHuman())
                 return;
 
             if(currentRound.Answers.Any(x => x.Player.IsMemucho))
