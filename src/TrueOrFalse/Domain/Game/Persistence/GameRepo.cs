@@ -46,8 +46,13 @@ public class GameRepo : RepositoryDbBase<Game>
 
     public IList<Game> GetRunningGames()
     {
+        Round roundsAlias = null;
+        Answer answerAlias = null;
+
         return _session
             .QueryOver<Game>()
+            .JoinAlias(g => g.Rounds, () => roundsAlias)
+            .JoinAlias(() => roundsAlias.Answers, () => answerAlias)
             .Where(g => g.Status == GameStatus.InProgress)
             .List<Game>();        
     }

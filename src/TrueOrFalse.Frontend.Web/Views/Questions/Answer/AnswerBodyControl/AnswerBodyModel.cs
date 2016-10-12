@@ -110,6 +110,6 @@ public class AnswerBodyModel : BaseModel
         SolutionMetaDataJson = question.SolutionMetadataJson;
         SolutionType = question.SolutionType.ToString();
         SolutionTypeInt = (int)question.SolutionType;
-        SolutionModel = new GetQuestionSolution().Run(question);
+        SolutionModel = GetQuestionSolution.Run(question);
     }
 }

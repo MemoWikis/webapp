@@ -98,17 +98,27 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         
         private void AutomatedMemuchoAnswer(Game game, Round currentRound)
         {
-            if (!game.MemuchoPlayerIsHuman())
+            if (currentRound.IsExpired())
                 return;
 
-            if(currentRound.Answers.Any(x => x.Player.IsMemucho))
+            if (currentRound.Answers.Any(x => x.Player.IsMemucho))
+                return;
+
+            if (currentRound.SecondsElapsed() < 3)
+                return;
+
+            if (!currentRound.IsThreeSecondsBeforeEnd() && new Random(currentRound.SecondsElapsed()).Next(0, 10) % 10 != 0)
                 return;
 
             var memuchoPlayer = game.Players.First(p => p.IsMemucho);
 
+            string answer = "-1";
+            if(new Random().Next(0, 101) <= currentRound.Question.CorrectnessProbability)
+                answer = GetQuestionSolution.Run(currentRound.Question).CorrectAnswer();
+            
             var result = Sl.R<AnswerQuestion>().Run(
                 currentRound.Question.Id,
-                "", 
+                answer,
                 memuchoPlayer.User.Id,
                 Guid.Empty,
                 -1,
@@ -116,7 +126,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 memuchoPlayer.Id, 
                 currentRound.Id);
 
-            Sl.R<GameHubConnection>().SendAnswered(game.Id, memuchoPlayer.Id, result);
+            Sl.R<GameHubConnection>().SendAnswered(game.Id, memuchoPlayer.User.Id, result);
         }
     }
 }

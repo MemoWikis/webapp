@@ -206,7 +206,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new{
                     questionId = question.Id, 
                     gameId = game.Id,
-                    playerId = player.Id,
+                    userId = player.Id,
                     roundId = round.Id
                 }, null);
         }

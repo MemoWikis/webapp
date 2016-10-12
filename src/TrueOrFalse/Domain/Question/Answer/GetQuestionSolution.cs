@@ -2,15 +2,15 @@ using System;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
 
-public class GetQuestionSolution : IRegisterAsInstancePerLifetime
+public class GetQuestionSolution
 {
-    public QuestionSolution Run(int questionId)
+    public static QuestionSolution Run(int questionId)
     {
         var question = Sl.R<QuestionRepo>().GetById(questionId);
         return Run(question);
     }
 
-    public QuestionSolution Run(Question question)
+    public static QuestionSolution Run(Question question)
     {
         var serializer = new JavaScriptSerializer();
         switch (question.SolutionType)

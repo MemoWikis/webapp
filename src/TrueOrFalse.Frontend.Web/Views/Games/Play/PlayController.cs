@@ -39,16 +39,16 @@ public class PlayController : BaseController
         Guid questionViewGuid,
         int InteractionNumber,
         int gameId, 
-        int playerId,
+        int userId,
         int roundId,
         string answer,
         int millisecondsSinceQuestionView = -1
         )
     {
-        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, questionViewGuid, InteractionNumber, millisecondsSinceQuestionView, playerId, roundId);
-        var solution = R<GetQuestionSolution>().Run(questionId);
+        var result = R<AnswerQuestion>().Run(questionId, answer, UserId, questionViewGuid, InteractionNumber, millisecondsSinceQuestionView, userId, roundId);
+        var solution = GetQuestionSolution.Run(questionId);
 
-        R<GameHubConnection>().SendAnswered(gameId, playerId, result);
+        R<GameHubConnection>().SendAnswered(gameId, userId, result);
 
         return new JsonResult
         {

@@ -211,7 +211,7 @@ public class AnswerQuestionModel : BaseModel
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
-        SolutionModel = new GetQuestionSolution().Run(question);
+        SolutionModel = GetQuestionSolution.Run(question);
 
         SolutionMetadata = new SolutionMetadata {Json = question.SolutionMetadataJson};
         SolutionMetaDataJson = question.SolutionMetadataJson;

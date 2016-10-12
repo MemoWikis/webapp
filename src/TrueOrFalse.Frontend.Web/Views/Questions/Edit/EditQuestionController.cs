@@ -198,7 +198,7 @@ public class EditQuestionController : BaseController
         if (questionId.HasValue && questionId.Value > 0)
         {
             var question = _questionRepo.GetById(questionId.Value);
-            model = new GetQuestionSolution().Run(question);
+            model = GetQuestionSolution.Run(question);
         }
 
         return View(string.Format(_viewLocationBody, type), model);
