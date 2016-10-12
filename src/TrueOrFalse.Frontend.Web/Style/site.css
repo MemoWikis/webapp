@@ -210,7 +210,10 @@ img {
   display: block;
   height: 100%;
   float: left;
-  color: black;
+  color: #AFD534;
+  font-size: 18px;
+  margin-top: 0px;
+  margin-left: 7px;
   z-index: 1;
 }
 #BetaLogo img {
