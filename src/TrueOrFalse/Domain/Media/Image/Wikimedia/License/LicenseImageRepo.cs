@@ -16,6 +16,8 @@ public class LicenseImageRepo
 
             //LicenseImage id=13 is not a Wikimedia-License, but treated as one here (e.g., contains a "WikiSearchString"). ImageLicenses should be treated seperately from Wikimedia,
             //to allow for other licenses not covered there.
+
+            //to do: add link to author! Often, Wikipedia-Authors link to their profiles!
             
             new LicenseImage
             {
