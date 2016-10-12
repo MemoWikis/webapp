@@ -11,14 +11,18 @@
     
     <div class="column-MainContent">
         <div class="MainContentUpper">
-            <div class="TitleText" style="font-size: 20px">
+            <div class="TitleText" style="line-height: 15px; margin-top: 6px;">
+                <div style="float: right;">
+                    <button class="btn btn-default btn-sm featureNotImplemented" type="button" style="position: relative; top: -3px; right: -11px; margin-left: 10px;"">Folgen</button>
+                </div>
                 <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
-                <span style="font-size: small;">(<%= Model.QuestionCount + " Frage" + StringUtils.Plural(Model.QuestionCount, "n") %>)</span>
-                <button class="btn btn-default btn-xs" type="button">Folgen</button>
             </div>
             
+            <div style="font-size: ; margin-top: 5px;">
+                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.Plural(Model.QuestionCount, "n") %></a>
+            </div>
             <% if(Model.AnswersTotal > 0) { %>
-                <div style="margin-top: 6px;">
+                <div style="margin-top: 6px; font-size: small;">
                     <%= Model.AnswersTotal  %>x beantwortet, 
                     davon <%= Model.CorrectnesProbability %>% richtig.
                 </div>
@@ -26,16 +30,17 @@
         </div>
 
         <div class="MainContentLower">
-            <% if(Model.UserCanEdit){ %>
-            <a data-toggle="modal" data-categoryId="<%= Model.CategoryId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>
 
-            <a href="<%= Links.CategoryEdit(Url, Model.CategoryName, Model.CategoryId) %>">
-                <i class="fa fa-pencil"></i> 
-            </a>
+            <% if(Model.UserCanEdit){ %>
+                <a data-toggle="modal" data-categoryId="<%= Model.CategoryId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>
+
+                <a href="<%= Links.CategoryEdit(Url, Model.CategoryName, Model.CategoryId) %>" style="margin-right: 10px;">
+                    <i class="fa fa-pencil"></i> 
+                </a>
             <% } %>
             
-            <span class="show-tooltip" title="erstellt: <%= Model.DateCreatedLong %>" style="font-size: 11px; position: relative; top: 1px; left: 10px; ">
-                erstellt: <%= Model.DateCreated %>
+            <span class="show-tooltip" title="erstellt: <%= Model.DateCreatedLong %>" style="font-size: small; position: relative; top: 1px;">
+                Erstellt am <%= Model.DateCreated %>
             </span>
         </div>
         
