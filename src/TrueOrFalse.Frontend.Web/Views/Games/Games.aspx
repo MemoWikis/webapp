@@ -81,7 +81,7 @@
                                 <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
                             </div>
                             <div class="col-xs-9" style="">
-                                <a href="<%= Links.GameCreateFromSet(set.Id) %>"><%= set.Name %></a>
+                                <a href="<%= Links.GameCreateFromSet(set.Id) %>" rel="nofollow"><%= set.Name %></a>
                             </div>
                         </div>
                     <% } %>

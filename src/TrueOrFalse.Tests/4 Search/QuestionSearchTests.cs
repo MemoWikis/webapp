@@ -96,6 +96,7 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_get_paged_result()
         {
+            SessionFactory.TruncateAllTables();
             var context = ContextQuestion.New();
             Enumerable.Range(1, 50).ToList().ForEach(x => context.AddQuestion(questionText: "Question" + x, solutionText: "Answer" + x).AddCategory("Question"));
             context.Persist();

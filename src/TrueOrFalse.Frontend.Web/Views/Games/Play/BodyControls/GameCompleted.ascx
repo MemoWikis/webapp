@@ -36,7 +36,7 @@
                     <%= playerRow.TotalWrong %> Falsch
                 </div>
                 <div class="col-sm-3" style="background-color: silver">
-                    <%= playerRow.TotalNotAnswered %> Nicht
+                    <%= playerRow.TotalNotAnswered %> Nicht beantwortet
                 </div>        
             </div>
         </div>

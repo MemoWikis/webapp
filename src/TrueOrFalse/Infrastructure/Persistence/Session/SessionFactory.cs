@@ -78,48 +78,24 @@ namespace TrueOrFalse
 
         public static void BuildSchema()
         {
-            DropAllTables();
             new SchemaExport(_configuration)
                 .Create(useStdOut: false, execute: true);
-        }
-
-        private static void DropAllTables()
-        {
-            const string sqlString = 
-                @"select name into #tables from sys.objects where type = 'U'
-                  while (select count(1) from #tables) > 0
-                  begin
-                  declare @sql varchar(max)
-                  declare @tbl varchar(255)
-                  select top 1 @tbl = name from #tables
-                  set @sql = 'drop table ' + @tbl
-                  exec(@sql)
-                  delete from #tables where name = @tbl
-                  end
-                  drop table #tables;";
-
-            using (var session = _configuration.BuildSessionFactory().OpenSession())
-                session.CreateSQLQuery(sqlString);
         }
 
 
         public static void TruncateAllTables()
         {
             const string sqlString =
-                @"select name into #tables from sys.objects where type = 'U'
-                  while (select count(1) from #tables) > 0
-                  begin
-                  declare @sql varchar(max)
-                  declare @tbl varchar(255)
-                  select top 1 @tbl = name from #tables
-                  set @sql = 'truncate table ' + @tbl
-                  exec(@sql)
-                  delete from #tables where name = @tbl
-                  end
-                  drop table #tables;";
+                @"SELECT Concat('TRUNCATE TABLE ',table_schema,'.',TABLE_NAME, ';') 
+                  FROM INFORMATION_SCHEMA.TABLES where  table_schema in (DATABASE())";
 
             using (var session = _configuration.BuildSessionFactory().OpenSession())
-                session.CreateSQLQuery(sqlString);
+            {
+                var statements = session.CreateSQLQuery(sqlString).List<string>();
+
+                foreach (var statement in statements)
+                    session.CreateSQLQuery(statement).ExecuteUpdate();
+            }
         }
     }
 }
