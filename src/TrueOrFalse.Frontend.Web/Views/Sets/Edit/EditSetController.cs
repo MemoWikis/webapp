@@ -18,6 +18,7 @@ public class EditSetController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.QuestionSet)]
     public ActionResult Create(EditSetModel model)
     {
         if (!ModelState.IsValid){
@@ -41,6 +42,7 @@ public class EditSetController : BaseController
         return Redirect(Links.QuestionSetEdit(set.Name, set.Id));
     }
 
+    [SetMenu(MenuEntry.QuestionSet)]
     public ViewResult Edit(int id)
     {
         var set = Resolve<SetRepo>().GetById(id);
@@ -58,6 +60,7 @@ public class EditSetController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.QuestionSet)]
     public ViewResult Edit(int id, EditSetModel model)
     {
         var setRepo = Resolve<SetRepo>();
