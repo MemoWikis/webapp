@@ -293,6 +293,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /* Testing */
 
+        public const string TestSessionResultController = "TestSessionResult";
+        public const string TestSessionResultAction = "TestSessionResult";
+
         public static string TestSession()
         {
             return GetUrlHelper().Action("Test", AnswerQuestionController);

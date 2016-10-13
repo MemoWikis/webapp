@@ -100,6 +100,7 @@ public class AnswerQuestionModel : BaseModel
     public bool IsTestSession;
     public int TestSessionCurrentStep;
     public int TestSessionNumberOfSteps;
+    public bool TestSessionIsLastStep = false;
 
     public AnswerQuestionModel()
     {
@@ -141,8 +142,11 @@ public class AnswerQuestionModel : BaseModel
         TestSessionCurrentStep = testSession.CurrentStep;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
         var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
+        NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
+        TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;
+        HasNextPage = true; //testSession.CurrentStep < testSession.NumberOfSteps;
         Populate(question);
-        _sessionUser.TestSession.CurrentStep++;
+        _sessionUser.TestSession.CurrentStep++; //todo: should be set when actually answered
     }
 
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec)

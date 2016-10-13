@@ -326,7 +326,7 @@
     <Compile Include="Views\Games\GamesModel.cs" />
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
-    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
+    <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />

@@ -88,6 +88,8 @@ public class AnswerQuestionController : BaseController
     public ActionResult Test()
     {
         var testSession = _sessionUser.TestSession; // equals: var testSession = Sl.R<SessionUser>().TestSession;
+        if (testSession.CurrentStep > testSession.NumberOfSteps)
+            return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController);
         return View(_viewLocation, new AnswerQuestionModel(testSession));
     }
 

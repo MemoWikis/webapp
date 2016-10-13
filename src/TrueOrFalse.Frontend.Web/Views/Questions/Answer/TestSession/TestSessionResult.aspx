@@ -9,7 +9,7 @@
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-/asp:Content>
+</asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
