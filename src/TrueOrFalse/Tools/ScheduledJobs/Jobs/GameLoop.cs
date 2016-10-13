@@ -101,13 +101,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             if (currentRound.IsExpired())
                 return;
 
-            if (currentRound.Answers.Any(x => x.Player.IsMemucho))
+            if (currentRound.Answers.Any(x => !x.IsView() && x.Player.IsMemucho))
                 return;
 
             if (currentRound.SecondsElapsed() < 3)
                 return;
 
-            if (!currentRound.IsThreeSecondsBeforeEnd() && new Random(currentRound.SecondsElapsed()).Next(0, 10) % 10 != 0)
+            if (!currentRound.IsThreeSecondsBeforeEnd() && new Random(currentRound.SecondsElapsed()).Next(0, 3) % 3 != 0)
                 return;
 
             var memuchoPlayer = game.Players.First(p => p.IsMemucho);
@@ -126,7 +126,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 memuchoPlayer.Id, 
                 currentRound.Id);
 
-            Sl.R<GameHubConnection>().SendAnswered(game.Id, memuchoPlayer.User.Id, result);
+            Sl.R<GameHubConnection>().SendAnswered(game.Id, memuchoPlayer.Id, result);
         }
     }
 }
