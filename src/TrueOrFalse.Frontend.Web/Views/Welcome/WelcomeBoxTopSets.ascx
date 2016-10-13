@@ -2,16 +2,14 @@
     Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxTopSetsModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<p style="padding-left: 15px; margin-bottom: 0px; margin-top: 12px;">
-    <% foreach (var topSet in Model.TopSets){%>
-            <p style="margin-bottom: 0px; padding-left: 0px; padding-bottom: 5px; line-height: 12px;">
-                <a href="<%= Links.SetDetail(Url,topSet.Name,topSet.SetId) %>"><span class="label label-set"><%: topSet.Name %></span></a> 
-                <% if (topSet.QCount == 1) {%> 
-                    (1&nbsp;Frage)
-                <% } else {%>
-                    (<%: topSet.QCount %>&nbsp;Fragen)<%} 
-                %>
-            </p>
-    <%} %>
-</p>
+<% foreach (var topSet in Model.TopSets){%>
+    <div class="LabelItem LabelItem-Set">
+        <a href="<%= Links.SetDetail(Url,topSet.Name,topSet.SetId) %>"><span class=""><%: topSet.Name %></span></a> 
+        <% if (topSet.QCount == 1) {%> 
+            (1&nbsp;Frage)
+        <% } else {%>
+            (<%: topSet.QCount %>&nbsp;Fragen)<%} 
+        %>
+    </div>
+<%} %>
 

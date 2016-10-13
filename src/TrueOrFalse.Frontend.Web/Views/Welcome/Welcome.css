@@ -27,3 +27,6 @@ a.question-short {
   padding-top: 2px;
   padding-bottom: 0px;
 }
+.well {
+  background-color: white;
+}

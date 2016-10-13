@@ -16,6 +16,7 @@
     BUTTONS
     MODALS
     LABELS
+    LABEL-LIST
     SEARCH SECTION
     CONTAINER
     ROWS
@@ -833,6 +834,48 @@ a.button span.ui-icon {
     background-color: @pastel-yellow;
     border-color: @middle-yellow;
 }
+
+/*  LABEL LIST
+----------------------------------------------------------*/
+
+.LabelList {
+    margin: 0.75em 0;
+    padding: 0 1em;
+    list-style: none;
+
+    .LabelItem {
+        display: list-item;
+
+        &:before { 
+            content: "";
+            border-color: rgba(255,255,255,0) @memo-blue;
+            //border-color: rgba(255,255,255,0) @color-category; 
+        
+            border-style: solid;
+            border-width: 0.35em 0 0.35em 0.45em;
+            display: block;
+            height: 0;
+            width: 0;
+            left: -1em;
+            top: 0.9em;
+            position: relative;
+        }
+
+        &.LabelItem-Category:before {
+            border-color: rgba(255,255,255,0) @color-category; 
+        }
+
+        &.LabelItem-Set:before {
+            border-color: rgba(255,255,255,0) @color-set; 
+        }
+
+        &.LabelItem-Question:before {
+            border-color: rgba(255,255,255,0) @color-question; 
+        }
+    }
+}
+
+
       
 
 /* SEARCH SECTION

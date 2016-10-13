@@ -2,11 +2,9 @@
     Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxTopQuestionsModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<ul>
-    <% foreach (var question in Model.Questions) {%>
-            <li>
-                <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
-            </li>
-    <%} %>
-</ul>
+<% foreach (var question in Model.Questions) {%>
+    <div class="LabelItem LabelItem-Question">
+        <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
+    </div>
+<%} %>
 

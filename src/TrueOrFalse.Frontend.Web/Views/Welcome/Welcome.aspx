@@ -268,44 +268,44 @@
             var userSession = new SessionUser();
             if (!userSession.IsLoggedIn){
         %>
-            <div class="box" id="boxLoginOrRegister" style="padding: 20px; ">
+            <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
                 <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Einloggen</a>
                 <br/><br/>
                 <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary btn-lg" style="width: 100%;" role="button">Registrieren</a>
             </div>
         <% } %>
             
-        <div class="panel panel-default">
-            <div class="panel-heading">Top-Kategorien nach Fragen:</div>
-            <div class="panel-body">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-            </div>
+        <div class="well">
+            <h4>Top-Kategorien nach Fragen</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
+                </div>
         </div>
         
-        <div class="panel panel-default">
-            <div class="panel-heading">Neueste Fragesätze:</div>
-            <div class="panel-body">
+        <div class="well">
+            <h4>Neueste Fragesätze</h4>
+            <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
         </div>
         
-        <div class="panel panel-default">
-            <div class="panel-heading">Umfangreichste Fragesätze:</div>
-            <div class="panel-body">
+        <div class="well">
+            <h4>Umfangreichste Fragesätze</h4>
+            <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>
         </div>
         
-        <div class="panel panel-default">
-            <div class="panel-heading">Neueste Fragen:</div>
-            <div class="panel-body" style="padding-top: 12px;">
+        <div class="well">
+            <h4>Neueste Fragen</h4>
+            <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
             </div>
         </div>
         
-        <div class="panel panel-default">
-            <div class="panel-heading">Neueste Kategorien:</div>
-            <div class="panel-body" style="padding-top: 12px;">
+        <div class="well">
+            <h4>Neueste Kategorien:</h4>
+            <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
             </div>
         </div>
