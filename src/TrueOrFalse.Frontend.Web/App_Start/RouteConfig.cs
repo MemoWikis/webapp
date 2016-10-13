@@ -114,6 +114,7 @@ namespace TrueOrFalse
             routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });
 
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
+            routes.MapRoute("MemuchoBeta", "Beta-Phase", new { controller = "VariousPublic", action = "MemuchoBeta" });
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
             routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "VariousPublic", action = "WelfareCompany" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });

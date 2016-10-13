@@ -136,7 +136,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         bool countUnansweredAsCorrect = false)
     {
         var question = _questionRepo.GetById(questionId);
-        var solution = new GetQuestionSolution().Run(question);
+        var solution = GetQuestionSolution.Run(question);
 
         var result = new AnswerQuestionResult
         {

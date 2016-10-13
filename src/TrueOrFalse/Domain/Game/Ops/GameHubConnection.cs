@@ -73,9 +73,9 @@ public class GameHubConnection : IRegisterAsInstancePerLifetime, IDisposable
         Send(() => { _hubProxy.Invoke("Started", gameId).Wait(); });
     }
 
-    public void SendAnswered(int gameId, int playerId, AnswerQuestionResult result)
+    public void SendAnswered(int gameId, int userId, AnswerQuestionResult result)
     {
-        Send(() => { _hubProxy.Invoke("Answered", gameId, playerId, result).Wait(); });
+        Send(() => { _hubProxy.Invoke("Answered", gameId, userId, result).Wait(); });
     }
 
     public void SendCancelation(int gameId)

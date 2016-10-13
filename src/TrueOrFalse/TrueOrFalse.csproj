@@ -314,6 +314,8 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
+    <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
+    <Compile Include="Domain\Knowledge\TestSession\TestSessionType.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />

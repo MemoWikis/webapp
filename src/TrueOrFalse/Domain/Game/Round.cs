@@ -28,15 +28,18 @@ public class Round : DomainEntity
         return ((DateTime)StartTime).AddSeconds(RoundLength) < DateTime.Now;
     }
 
-    public virtual bool AllPlayersDidAnswer()
-    {
-        return Game.Players.Count == Answers.Count(answer => !answer.IsView());
-    }
+    public virtual int SecondsElapsed() => (int)(DateTime.Now - StartTime.Value).TotalSeconds;
+
+    public virtual bool AllPlayersDidAnswer() => 
+        Game.Players.Count == Answers.Count(answer => !answer.IsView());
+
+    public virtual bool IsThreeSecondsBeforeEnd() => SecondsElapsed() - 3 >= RoundLength;
 
     public Round()
     {
         Answers = new List<Answer>();
     }
+
 }
 
 public enum GameRoundStatus

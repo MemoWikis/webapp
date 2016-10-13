@@ -85,6 +85,12 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
+    public ActionResult Test()
+    {
+        var testSession = _sessionUser.TestSession; // equals: var testSession = Sl.R<SessionUser>().TestSession;
+        return View(_viewLocation, new AnswerQuestionModel(testSession));
+    }
+
     public ActionResult AnswerSet(int setId, int questionId)
     {
         var set = Resolve<SetRepo>().GetById(setId);
@@ -201,7 +207,7 @@ public class AnswerQuestionController : BaseController
     {
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
         var question = _questionRepo.GetById(id);
-        var solution = new GetQuestionSolution().Run(question);
+        var solution = GetQuestionSolution.Run(question);
 
         return new JsonResult
         {
@@ -229,7 +235,7 @@ public class AnswerQuestionController : BaseController
 
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, learningSessionId, stepGuid);
         var question = _questionRepo.GetById(id);
-        var solution = new GetQuestionSolution().Run(question);
+        var solution = GetQuestionSolution.Run(question);
 
         return new JsonResult
         {
@@ -249,7 +255,7 @@ public class AnswerQuestionController : BaseController
     public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int? roundId, int millisecondsSinceQuestionView = -1)
     {
         var question = _questionRepo.GetById(id);
-        var solution = new GetQuestionSolution().Run(question);
+        var solution = GetQuestionSolution.Run(question);
 
         if (IsLoggedIn)
             if(roundId == null)

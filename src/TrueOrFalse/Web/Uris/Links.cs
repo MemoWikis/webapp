@@ -34,6 +34,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Login = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
+        public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
 
         public static UrlHelper GetUrlHelper()
         {
@@ -205,7 +206,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new{
                     questionId = question.Id, 
                     gameId = game.Id,
-                    playerId = player.Id,
+                    userId = player.Id,
                     roundId = round.Id
                 }, null);
         }
@@ -288,6 +289,18 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string StartSetLearningSession(int setId)
         {
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
+        }
+
+        /* Testing */
+
+        public static string TestSession()
+        {
+            return GetUrlHelper().Action("Test", AnswerQuestionController);
+        }
+
+        public static string TestSessionStartForSet(int setId)
+        {
+            return GetUrlHelper().Action("StartTestSession", SetController, new { setId = setId });
         }
 
 

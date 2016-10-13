@@ -32,6 +32,7 @@ public class EditQuestionController : BaseController
         return View(_viewLocation, model);
     }
 
+    [SetMenu(MenuEntry.Questions)]
     public ViewResult Edit(int id)
     {
         var question = _questionRepo.GetById(id);
@@ -50,6 +51,7 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.Questions)]
     public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
         var question = _questionRepo.GetById(id);
@@ -86,6 +88,7 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.Questions)]
     public ActionResult Create(EditQuestionModel model, HttpPostedFileBase soundfile)
     {
         model.FillCategoriesFromPostData(Request.Form);
@@ -195,7 +198,7 @@ public class EditQuestionController : BaseController
         if (questionId.HasValue && questionId.Value > 0)
         {
             var question = _questionRepo.GetById(questionId.Value);
-            model = new GetQuestionSolution().Run(question);
+            model = GetQuestionSolution.Run(question);
         }
 
         return View(string.Format(_viewLocationBody, type), model);

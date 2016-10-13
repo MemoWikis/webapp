@@ -51,6 +51,9 @@
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
+                <%--<a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
+                    <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                </a>--%>
                 <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
                     <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                 </a>

@@ -60,26 +60,13 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual IList<AnswerFeature> Features { get; set; }
 
-    public virtual User GetUser()
-    {
-        return Sl.R<UserRepo>().GetById(UserId);
-    }
+    public virtual User GetUser() => Sl.R<UserRepo>().GetById(UserId);
 
-    public virtual bool AnsweredCorrectly()
-    {
-        return AnswerredCorrectly == AnswerCorrectness.True 
-            || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
-    }
+    public virtual bool AnsweredCorrectly() => 
+        AnswerredCorrectly == AnswerCorrectness.True || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
 
-    public virtual double GetAnswerOffsetInMinutes()
-    {
-        return (DateTimeX.Now() - DateCreated).TotalMinutes;
-    }
-
-    public virtual bool IsView()
-    {
-        return AnswerredCorrectly == AnswerCorrectness.IsView;
-    }
+    public virtual double GetAnswerOffsetInMinutes() => (DateTimeX.Now() - DateCreated).TotalMinutes;
+    public virtual bool IsView() => AnswerredCorrectly == AnswerCorrectness.IsView;
 }
 
 public interface IAnswered

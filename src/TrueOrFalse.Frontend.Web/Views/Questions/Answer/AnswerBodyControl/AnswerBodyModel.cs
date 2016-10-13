@@ -8,6 +8,7 @@ public class AnswerBodyModel : BaseModel
     public Guid QuestionViewGuid;
 
     public int QuestionId;
+    public User Creator;
     public bool IsInWishknowledge;
 
     public string QuestionText;
@@ -96,6 +97,7 @@ public class AnswerBodyModel : BaseModel
     private void Init(Question question)
     {
         QuestionId = question.Id;
+        Creator = question.Creator;
 
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
@@ -110,6 +112,6 @@ public class AnswerBodyModel : BaseModel
         SolutionMetaDataJson = question.SolutionMetadataJson;
         SolutionType = question.SolutionType.ToString();
         SolutionTypeInt = (int)question.SolutionType;
-        SolutionModel = new GetQuestionSolution().Run(question);
+        SolutionModel = GetQuestionSolution.Run(question);
     }
 }

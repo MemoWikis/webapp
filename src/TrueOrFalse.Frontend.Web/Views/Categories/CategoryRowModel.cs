@@ -4,6 +4,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryRowModel : BaseModel
 {
+    public Category Category;
     public int QuestionCount;
     public int CategoryId;
     public string CategoryName;
@@ -22,6 +23,7 @@ public class CategoryRowModel : BaseModel
 
     public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair)
     {
+        Category = category;
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";

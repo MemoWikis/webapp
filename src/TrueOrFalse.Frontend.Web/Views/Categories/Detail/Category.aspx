@@ -126,7 +126,7 @@
                     </div>
                 <% } %>
                 <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="display:block; margin-top: 10px; margin-bottom: 18px; font-style: italic">
-                    <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i><%= StringUtils.Plural(Model.CountQuestions, "Alle ") %><%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
+                    <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
                 </a>
             <% }
                else{ %> 

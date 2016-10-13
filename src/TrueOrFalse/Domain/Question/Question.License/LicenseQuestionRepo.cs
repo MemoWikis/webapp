@@ -16,8 +16,12 @@ public class LicenseQuestionRepo
                 Id = 1,
                 NameLong = "Creative Commons: Namensnennung 4.0 International",
                 NameShort = "CC BY 4.0",
-                LicenseLinkOptional = @"https://creativecommons.org/licenses/by/4.0/legalcode",
-                LicenseShortDescriptionLinkOptional = @"https://creativecommons.org/licenses/by/4.0/deed.de",
+                LicenseLink = @"https://creativecommons.org/licenses/by/4.0/legalcode",
+                LicenseShortDescriptionLink = @"https://creativecommons.org/licenses/by/4.0/deed.de",
+                DisplayTextShort = "CC BY 4.0", //should/could be the image
+                DisplayTextFull = @"Du kannst diesen Beitrag frei verwenden und verändern, solange du den Autor angibst und die Lizenz verlinkst 
+                                    (vgl. <a href='https://creativecommons.org/licenses/by/4.0/deed.de' target='_blank'>die Kurzfassung</a>
+                                    und <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>den ausführlichen Lizenztext</a>).",
                 AuthorRequired = true,
                 LicenseLinkRequired = true,
                 ChangesNotAllowed = false
@@ -26,9 +30,11 @@ public class LicenseQuestionRepo
             new LicenseQuestion
             {
                 Id = 2,
-                NameLong = "Amtliches Werk im Sinne von § 5 Abs. 2 Urheberrechtsgesetz",
-                NameShort = "Amtliches Werk",
-                DisplayTextHtml = "Dieser Beitrag stellt ein \"andere[s] amtliche[s] Werk[]\" gemäß § 5 Abs. 2 des Urhererrechtsgesetzes dar.",
+                NameLong = "Anderes Amtliches Werk, Quelle BAMF",
+                NameShort = "Amtliches Werk BAMF",
+                DisplayTextShort = "Quelle: BAMF",
+                DisplayTextFull = "Dieser Beitrag stellt ein 'anderes amtliches Werk' gemäß <a href='https://www.gesetze-im-internet.de/urhg/__5.html' target='_blank'>§ 5 Abs. 2 des Urheberrechtsgesetzes</a> dar. Es darf frei verwendet werden, allerdings unter Angabe der Quelle und ohne Veränderungen.",
+                LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html",
                 AuthorRequired = true,
                 LicenseLinkRequired = false,
                 ChangesNotAllowed = true

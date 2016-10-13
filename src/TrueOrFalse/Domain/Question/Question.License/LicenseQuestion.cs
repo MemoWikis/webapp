@@ -12,11 +12,12 @@ public class LicenseQuestion
 
     public string NameShort;
 
-    public string DisplayTextHtml;
+    public string DisplayTextShort;
+    public string DisplayTextFull;
 
-    public string LicenseLinkOptional;
+    public string LicenseLink;
 
-    public string LicenseShortDescriptionLinkOptional;
+    public string LicenseShortDescriptionLink;
 
     public bool? AuthorRequired;
     public bool? LicenseLinkRequired;

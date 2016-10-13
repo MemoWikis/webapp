@@ -162,6 +162,4 @@ public class Game : DomainEntity
         SetPlayerPositions();
         return Players.First();
     }
-
-    public virtual bool IsWithMemuchoPlayer() => Players.Any(p => p.User.IsMemuchoUser);
 }

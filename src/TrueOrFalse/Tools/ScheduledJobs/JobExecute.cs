@@ -23,14 +23,7 @@ public class JobExecute
                     Settings.UseWebConfig = true;
 
                     if (IsJobRunning(jobName, scope))
-                    {
-                        if (false)
-                        {
-                            //job has expired. Kill it
-                        }
-                        else
-                            return;
-                    }
+                        return;
 
                     try
                     {
