@@ -32,7 +32,7 @@ public class GameModel : BaseModel
     public GameModel()
     {
         OnlyMultipleChoice = true;
-        WithSystemAvgPlayer = false;
+        WithSystemAvgPlayer = true;
     }
 
 }
