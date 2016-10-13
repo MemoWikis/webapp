@@ -85,6 +85,12 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
+    public ActionResult Test()
+    {
+        var testSession = _sessionUser.TestSession; // equals: var testSession = Sl.R<SessionUser>().TestSession;
+        return View(_viewLocation, new AnswerQuestionModel(testSession));
+    }
+
     public ActionResult AnswerSet(int setId, int questionId)
     {
         var set = Resolve<SetRepo>().GetById(setId);

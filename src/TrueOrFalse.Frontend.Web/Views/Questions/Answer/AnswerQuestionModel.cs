@@ -97,6 +97,10 @@ public class AnswerQuestionModel : BaseModel
     public int CurrentLearningStepPercentage;
     public bool IsLastLearningStep = false;
 
+    public bool IsTestSession;
+    public int TestSessionCurrentStep;
+    public int TestSessionNumberOfSteps;
+
     public AnswerQuestionModel()
     {
     }
@@ -129,6 +133,16 @@ public class AnswerQuestionModel : BaseModel
             });
 
         Populate(LearningSessionStep.Question);
+    }
+
+    public AnswerQuestionModel(TestSession testSession)
+    {
+        IsTestSession = true;
+        TestSessionCurrentStep = testSession.CurrentStep;
+        TestSessionNumberOfSteps = testSession.NumberOfSteps;
+        var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
+        Populate(question);
+        _sessionUser.TestSession.CurrentStep++;
     }
 
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec)

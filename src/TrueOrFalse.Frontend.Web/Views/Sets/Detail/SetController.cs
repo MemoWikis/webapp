@@ -55,5 +55,11 @@ public class SetController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
+
+    public ActionResult StartTestSession(int setId)
+    {
+        Sl.R<SessionUser>().TestSession = new TestSession(setId);
+        return Redirect(Links.TestSession());
+    }
 }
 

@@ -291,6 +291,18 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
+        /* Testing */
+
+        public static string TestSession()
+        {
+            return GetUrlHelper().Action("Test", AnswerQuestionController);
+        }
+
+        public static string TestSessionStartForSet(int setId)
+        {
+            return GetUrlHelper().Action("StartTestSession", SetController, new { setId = setId });
+        }
+
 
         /*Questionsets / Sets*/
         public const string SetsController = "Sets";

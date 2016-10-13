@@ -73,4 +73,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             return -1;
         }
     }
+
+    public TestSession TestSession
+    {
+        get { return Data.Get<TestSession>("testSession"); }
+        set { Data["testSession"] = (TestSession)value; }
+    }
+
 }
