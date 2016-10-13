@@ -12,8 +12,10 @@
         var addr = $(spt).text().replace(at, "@").replace(dot, ".");
         $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });
         $(spt).remove();
+
+
         $(document).ready(function () { //http://stackoverflow.com/questions/12008389/linking-to-a-section-of-an-accordion-from-another-page#answer-12008992
-            location.hash && $(location.hash + '.collapse').collapse('show');
+            location.hash && $(location.hash.replace("#", "#FaqText")).collapse('show');
         });
     });
 </script>    
@@ -191,7 +193,7 @@
         <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
           <h4 class="panel-title">
             <a class="collapsed" data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="false" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
-              Wie erreiche ich euch?
+              Kontakt: Wie erreiche ich euch?
             </a>
           </h4>
         </div>

@@ -34,27 +34,9 @@
     
     <div class="row">
         <div class="col-sm-6 col-xs-12">        
-            <%--<a href="#"><i class="fa fa-bar-chart"></i>--%>
-                <%--<%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>--%>
-                <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%>
-            <%--</a>--%>
-        </div>
-
-        <div class="col-sm-6 col-xs-12 text-align-right-md">
-            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%> | 
-            <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%>
-        </div>
-    </div>
-    <div class="Clearfix"></div>
-</div>
-
-
-<div class="col-xs-12" style="margin-top: 2px;">
-    
-    <div class="row">
-        <div class="col-sm-6 col-xs-12">        
-            <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a>
-            &nbsp;&nbsp;&nbsp;&nbsp;
+            <%--<%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>--%>
+            <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%> <br/>
+            <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> <br/>
             <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs">&nbsp;</i>Teamcity
                 <% var assembly = Assembly.Load("TrueOrFalse"); %>
@@ -63,11 +45,21 @@
                     <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
                 </span>
             </a>
+
         </div>
+
         <div class="col-sm-6 col-xs-12 text-align-right-md">
-            
+            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%> <br/>
+            <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%> <br />
+            <a href="<%=Links.FAQItem("WhatIsBeta") %>">Kontakt</a>
         </div>
     </div>
+    <div class="Clearfix"></div>
+</div>
+
+
+<div class="col-xs-12" style="margin-top: 2px;">
+   
     <div class="pull-right">
         <% if(ViewBag.BetaBackgroundLicenceUrl != null){ %>
             <a href="<%= ViewBag.BetaBackgroundLicenceUrl %>">Lizenz Hintergrundbild</a>
