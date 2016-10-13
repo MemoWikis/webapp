@@ -210,11 +210,17 @@ img {
   display: block;
   height: 100%;
   float: left;
-  color: #AFD534;
+  color: #FFD700;
   font-size: 18px;
-  margin-top: 0px;
+  margin-top: -5px;
   margin-left: 7px;
   z-index: 1;
+}
+#BetaLogo:hover,
+#BetaLogo:active,
+#BetaLogo:focus {
+  color: #AFD534;
+  text-decoration: none;
 }
 #BetaLogo img {
   width: auto;

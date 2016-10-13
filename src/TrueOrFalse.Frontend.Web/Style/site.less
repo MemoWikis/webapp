@@ -209,11 +209,16 @@ img {
     display: block;
     height: 100%;
     float: left;
-    color: @memo-green;
+    color: #FFD700;
     font-size: 18px;
-    margin-top: 0px;
+    margin-top: -5px;
     margin-left: 7px;
     z-index: 1;
+
+    &:hover, &:active, &:focus {
+            color: @memo-green;
+            text-decoration: none;
+         }    
     img {
         width: auto;
         height: 100%;

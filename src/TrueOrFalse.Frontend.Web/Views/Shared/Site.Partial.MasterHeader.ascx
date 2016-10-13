@@ -20,7 +20,8 @@
                             </div>
                         </a>
                         <a id="BetaLogo" href="<%= Links.BetaInfo() %>">
-                            <img src="/Images/Logo/beta-logo.png" width="22" height="56">
+                            <%--<img src="/Images/Logo/beta-logo.png" width="22" height="56">--%>
+                            [beta]
                         </a>
                     </div>
                     <div class="col-xs-6 col-LoginAndHelp">
