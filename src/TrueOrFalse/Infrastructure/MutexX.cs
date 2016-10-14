@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
@@ -29,6 +30,9 @@ public class MutexX : IDisposable
 
     public MutexX(int timeOut, string nameSuffix)
     {
+        if (Debugger.IsAttached)
+            timeOut = -1;
+
         InitMutex(nameSuffix);
         try
         {
