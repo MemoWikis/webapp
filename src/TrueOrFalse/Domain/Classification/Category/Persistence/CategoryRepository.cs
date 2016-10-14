@@ -89,10 +89,11 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .List();
     }
 
-    public IEnumerable<Category> GetMostRecent(int amount)
+    public IEnumerable<Category> GetMostRecent_WithAtLeast3Questions(int amount)
     {
         return _session
             .QueryOver<Category>()
+            .Where(c => c.CountQuestions > 3)
             .OrderBy(c => c.DateCreated)
             .Desc
             .Take(amount)

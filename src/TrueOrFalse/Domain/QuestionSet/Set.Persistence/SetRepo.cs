@@ -67,25 +67,32 @@ public class SetRepo : RepositoryDbBase<Set>
             .List<Set>();
     }
 
-    public IEnumerable<Set> GetMostRecent(int amount)
+    public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
     {
+        string query = $@"SELECT s.* FROM questionset s
+            LEFT JOIN questioninset qs
+            ON s.Id = qs.Set_Id 
+            GROUP BY s.Id
+            Having Count(qs.Set_Id )  > 3
+            ORDER BY s.DateCreated DESC
+            LIMIT {amount}";
+
         return _session
-            .QueryOver<Set>()
-            .OrderBy(s => s.DateCreated)
-            .Desc
-            .Take(amount)
-            .List();
+            .CreateSQLQuery(query)
+            .AddEntity(typeof(Set))
+            .List<Set>();
     }
 
     public IEnumerable<TopSetResult> GetMostQuestions(int amount)
     {
-        return _session.CreateSQLQuery("SELECT QCount, Set_id as SetId, Name, Text FROM " +
-                                       "(SELECT count(questioninset.Question_id) AS QCount, questioninset.Set_id " +
-                                       "FROM questioninset GROUP BY Set_id ORDER BY QCount DESC " +
-                                       "LIMIT "+ amount +") AS qis_r " +
-                                       "LEFT JOIN questionset ON qis_r.Set_id = questionset.Id")
-                        .SetResultTransformer(Transformers.AliasToBean(typeof(TopSetResult)))
-                        .List<TopSetResult>().ToList();
+        return _session.CreateSQLQuery(
+            "SELECT QCount, Set_id as SetId, Name, Text FROM " +
+            "(SELECT count(questioninset.Question_id) AS QCount, questioninset.Set_id " +
+            "FROM questioninset GROUP BY Set_id ORDER BY QCount DESC " +
+            "LIMIT "+ amount +") AS qis_r " +
+            "LEFT JOIN questionset ON qis_r.Set_id = questionset.Id")
+            .SetResultTransformer(Transformers.AliasToBean(typeof(TopSetResult)))
+            .List<TopSetResult>().ToList();
     }
 
     /// <summary>
