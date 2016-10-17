@@ -7,7 +7,9 @@
         "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
     ];
 
-    private _successMsgs = ["Yeah! Weiter so.", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!"];
+    private _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
+                            "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse", "Schubidu!",
+                            "Wer sagt's denn!", "Exakt"];
 
     private _answerQuestion: AnswerQuestion;
 
