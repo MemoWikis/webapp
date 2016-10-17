@@ -150,7 +150,7 @@
                 <p style="color: silver; font-size: 11px;">
                     <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
                 </p>
-                <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped) // not accounted for: if answered wrong and then skipped, it counts as skipped, but maybe should count as wrong.
+                <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped)
                     {
                         if (uniqueQuestion.First().AnswerState != StepAnswerState.Answered)
                         { %>
@@ -204,7 +204,7 @@
                                                     <%= GetQuestionImageFrontendData.Run(uniqueQuestion.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question) %> 
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
-                                                    <p class="rightAnswer">Richtige Antwort: <%=new GetQuestionSolution().Run(uniqueQuestion.First().Question).CorrectAnswer()%><br/></p>
+                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).CorrectAnswer()%><br/></p>
                                                     <%
                                                     int counter = 1;
                                                     foreach (var step in uniqueQuestion)
