@@ -293,6 +293,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /* Testing */
 
+        public const string TestSessionController = "TestSession";
         public const string TestSessionResultController = "TestSessionResult";
         public const string TestSessionResultAction = "TestSessionResult";
 
@@ -306,6 +307,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("StartTestSession", SetController, new { setId = setId });
         }
 
+        public static string TestSessionRegisterQuestionAnswered(UrlHelper url)
+        {
+            return url.Action("RegisterQuestionAnswered", TestSessionController);
+        }
 
         /*Questionsets / Sets*/
         public const string SetsController = "Sets";

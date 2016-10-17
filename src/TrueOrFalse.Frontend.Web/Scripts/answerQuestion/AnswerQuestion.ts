@@ -15,6 +15,7 @@ class AnswerQuestion {
     static ajaxUrl_GetSolution: string;
     static ajaxUrl_CountLastAnswerAsCorrect: string;
     static ajaxUrl_CountUnansweredAsCorrect: string;
+    static ajaxUrl_TestSessionRegisterAnsweredQuestion : string;
 
     public IsGameMode: boolean;
     public IsLearningSession = false;
@@ -49,6 +50,7 @@ class AnswerQuestion {
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
         AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
+        AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion = $("#ajaxUrl_TestSessionRegisterAnsweredQuestion").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
@@ -177,8 +179,19 @@ class AnswerQuestion {
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
 
-                    if (self.IsTestSession && self._isLastTestSessionStep) {
-                        $('#btnNext').html('Zum Ergebnis');
+                    if (self.IsTestSession) {
+                        $.ajax({
+                            type: 'POST',
+                            url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
+                            data: {
+                                questionId: AnswerQuestion.GetQuestionId(),
+                                questionViewGuid: $('#hddQuestionViewGuid').val()
+                            },
+                            cache: false
+                        });
+                        if (self._isLastTestSessionStep) {
+                            $('#btnNext').html('Zum Ergebnis');
+                        }
                     }
 
                     if (result.correct) {

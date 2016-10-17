@@ -330,6 +330,7 @@
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
+    <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />

@@ -14,6 +14,7 @@ public class TestSession
     public virtual int TestSessionTypeTypeId { get; set; }
     public virtual int CurrentStep { get; set; }
     public virtual int NumberOfSteps => QuestionIds.Count;
+    public virtual List<Guid> AnsweredQuestionsQuestionViewGuid { get; set; }
 
 
     public TestSession(int setId = 19)
@@ -23,11 +24,11 @@ public class TestSession
         var set = Sl.R<SetRepo>().GetById(setId);
         TestSessionTypeTypeId = set.Id;
         QuestionIds = new List<int>();
+        AnsweredQuestionsQuestionViewGuid = new List<Guid>();
         QuestionIds = (IList<int>) set.QuestionIds().Take(4).ToList(); //create SetRepo-Method to get most interesting/relevant/popular questions
-
     }
 
-    private void Populate(TestSession testSession)
-    {
-    }
+    //private void Populate(TestSession testSession)
+    //{
+    //}
 }

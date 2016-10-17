@@ -136,6 +136,21 @@ public class AnswerRepo : RepositoryDb<Answer>
         //return Session.CreateSQLQuery(query).List<Answer>();
     }
 
+    public IList<Answer> GetByQuestionViewGuids(List<Guid> questionViewGuids, bool excludeSolutionViews)
+    {
+        if (questionViewGuids.All(g => g == default(Guid)))
+            return null;
+
+        var questionViewGuidsStrings = questionViewGuids.ConvertAll(g => Convert.ToString(g));
+        var result = _session.QueryOver<Answer>()
+                    .WhereRestrictionOn(a => a.QuestionViewGuidString)
+                    .IsIn(questionViewGuidsStrings);
+        if (!excludeSolutionViews)
+            return result.List<Answer>();
+        else
+            return result.Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView).List<Answer>();
+    }
+
     public IList<Answer> GetByQuestionViewGuid(Guid questionViewGuid)
     {
         return questionViewGuid == default(Guid)

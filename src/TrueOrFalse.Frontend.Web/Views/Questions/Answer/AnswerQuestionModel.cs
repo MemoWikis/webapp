@@ -136,17 +136,16 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(TestSession testSession)
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question)
     {
+        QuestionViewGuid = questionViewGuid;
         IsTestSession = true;
         TestSessionCurrentStep = testSession.CurrentStep;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
-        var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
-        NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
         TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;
-        HasNextPage = true; //testSession.CurrentStep < testSession.NumberOfSteps;
+        NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
+        HasNextPage = true;
         Populate(question);
-        _sessionUser.TestSession.CurrentStep++; //todo: should be set when actually answered
     }
 
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec)
