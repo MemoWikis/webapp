@@ -17,7 +17,7 @@ public class TestSession
     public virtual List<Guid> AnsweredQuestionsQuestionViewGuid { get; set; }
 
 
-    public TestSession(int setId = 19)
+    public TestSession(int setId, List<int> excludeQuestionIds = null)
     {
         CurrentStep = 1;
         TestSessionType = TestSessionType.Set;
@@ -25,7 +25,7 @@ public class TestSession
         TestSessionTypeTypeId = set.Id;
         QuestionIds = new List<int>();
         AnsweredQuestionsQuestionViewGuid = new List<Guid>();
-        QuestionIds = (IList<int>) set.QuestionIds().Take(4).ToList(); //create SetRepo-Method to get most interesting/relevant/popular questions
+        QuestionIds = Sl.R<SetRepo>().GetRandomQuestions(set, 5, excludeQuestionIds, true).GetIds();
     }
 
     //private void Populate(TestSession testSession)

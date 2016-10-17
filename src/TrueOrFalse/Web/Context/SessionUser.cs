@@ -81,7 +81,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set { Data["testSession"] = (TestSession)value; }
     }
 
-    public IList<int> AnsweredQuestionIds { get; set; }
+    public List<int> AnsweredQuestionIds
+    {
+        get { return Data.Get<List<int>>("answeredQuestionIds"); }
+        set { Data["answeredQuestionIds"] = (List<int>)value; }
+    }
 
     public SessionUser()
     {

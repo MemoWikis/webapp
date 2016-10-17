@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -58,7 +59,8 @@ public class SetController : BaseController
 
     public ActionResult StartTestSession(int setId)
     {
-        Sl.R<SessionUser>().TestSession = new TestSession(setId);
+        var excludeQuestionIds = _sessionUser.AnsweredQuestionIds.ToList();
+        Sl.R<SessionUser>().TestSession = new TestSession(setId, excludeQuestionIds);
         return Redirect(Links.TestSession());
     }
 }
