@@ -12,12 +12,6 @@
 <body>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
     <section id="MasterSection">
-        <div id="MasterSectionBackgroundLayer" class="MasterSectionBackgroundLayer">
-            <div class="container">
-                <div id="gradientLeft"></div>
-                <div id="gradientRight"></div>
-            </div>
-        </div>
         
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
 
