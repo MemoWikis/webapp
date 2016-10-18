@@ -1,8 +1,8 @@
 ﻿@import (reference) '../../../../Style/includes/imports.less';
 
-@color-correctAnswer: @dark-green;
+@color-correctAnswer: #1bbd00;
 @color-correctAfterRepetitionAnswer: #fdd648;
-@color-wrongAnswer: @dark-red;
+@color-wrongAnswer: #db0808;
 @color-notAnswered: lightgray;
 /*@color-correctAnswer: inherit;
 @color-correctAfterRepetitionAnswer: inherit;
@@ -24,6 +24,29 @@
     padding-left: 100px;
     font-size: 12px; 
     opacity: 0.8;
+}
+
+.progress-bar {
+    background-color: @memo-green;
+    color: @memo-blue-lighter;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 30px;
+}
+.progress {
+    height: 30px;
+}
+
+#divIndicatorAverage {
+    margin-top: -15px;
+    color: @color-correctAnswer;
+}
+
+#divIndicatorAverageText {
+    text-align: center;
+    width: 230px;
+    margin-top: -10px;
+    margin-bottom: 50px;
 }
 
 .stackedBarChartContainer { 

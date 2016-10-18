@@ -29,6 +29,7 @@ public class AnswerBodyModel : BaseModel
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
     public bool IsTestSession;
+    public int TestSessionProgessAfterAnswering;
 
     public bool IsLastQuestion = false;
 
@@ -72,7 +73,8 @@ public class AnswerBodyModel : BaseModel
         IsLearningSession = answerQuestionModel.IsLearningSession;
         LearningSession = answerQuestionModel.LearningSession;
         IsTestSession = answerQuestionModel.IsTestSession;
-        
+        TestSessionProgessAfterAnswering = answerQuestionModel.TestSessionProgessAfterAnswering;
+
         NextUrl = answerQuestionModel.NextUrl;
 
         IsLastQuestion = !IsLearningSession && !answerQuestionModel.HasNextPage;

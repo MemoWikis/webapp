@@ -100,7 +100,9 @@ public class AnswerQuestionModel : BaseModel
     public bool IsTestSession;
     public int TestSessionCurrentStep;
     public int TestSessionNumberOfSteps;
+    public int TestSessionCurrentStepPercentage;
     public bool TestSessionIsLastStep = false;
+    public int TestSessionProgessAfterAnswering;
 
     public AnswerQuestionModel()
     {
@@ -143,6 +145,10 @@ public class AnswerQuestionModel : BaseModel
         TestSessionCurrentStep = testSession.CurrentStep;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
         TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;
+        TestSessionCurrentStepPercentage = TestSessionCurrentStep == 0
+            ? 0
+            : (int) Math.Round((TestSessionCurrentStep-1)/(float) TestSessionNumberOfSteps*100);
+        TestSessionProgessAfterAnswering = (int)Math.Round((TestSessionCurrentStep) / (float)TestSessionNumberOfSteps * 100);
         NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
         HasNextPage = true;
         Populate(question);
