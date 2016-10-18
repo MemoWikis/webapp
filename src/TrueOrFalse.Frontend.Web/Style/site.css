@@ -45,7 +45,7 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   color: #203256;
-  background-color: white;
+  background-color: #F6F8FA;
 }
 h1,
 h2,
@@ -1322,7 +1322,7 @@ div.box-main .box-content {
 .well,
 .thumbnail,
 .panel {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
 /*ROWS
 ---------------------------------------------------------*/
