@@ -109,7 +109,7 @@ input[type="color"],
 textarea,
 textarea.form-control,
 select.form-control {
-  color: #2e487b;
+  color: #003264;
 }
 optgroup:disabled {
   color: GrayText;
@@ -267,9 +267,11 @@ div.control-group.markdown label {
 .FormSection {
   margin: 20px 0;
   padding: 20px;
-  border-left: 3px solid #eee;
-  background-color: #f6f8fc;
-  border-color: #5bc0de !important;
+  /*border-left: 3px solid #eee;*/
+  border: 1px solid #dddddd;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  background-color: white;
+  /*border-color: #5bc0de !important;*/
   border: none;
   margin-top: 0;
   margin-bottom: -1px;
@@ -293,7 +295,7 @@ div.control-group.markdown label {
 label.ValidationError:not(#PriceSelection) {
   display: block;
   clear: left;
-  color: #b13a48;
+  color: #B13A48;
   font-family: Arial, sans-serif;
   font-style: italic;
   font-size: 13px;
@@ -312,10 +314,10 @@ label.ValidationError:not(#PriceSelection) {
 .ValidationError:not(#PriceSelection) .checkbox,
 .ValidationError:not(#PriceSelection) .radio-inline,
 .ValidationError:not(#PriceSelection) .checkbox-inline {
-  color: #b13a48;
+  color: #B13A48;
 }
 .ValidationError:not(#PriceSelection) .form-control {
-  border-color: #b13a48;
+  border-color: #B13A48;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
@@ -325,17 +327,16 @@ label.ValidationError:not(#PriceSelection) {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d47d87;
 }
 .ValidationError:not(#PriceSelection) .input-group-addon {
-  color: #b13a48;
-  border-color: #b13a48;
+  color: #B13A48;
+  border-color: #B13A48;
   background-color: #f4dbe0;
 }
 .ValidationError:not(#PriceSelection) .form-control-feedback {
-  color: #b13a48;
+  color: #B13A48;
 }
 .ValidationError:not(#PriceSelection) .checkbox label {
   color: #203256;
 }
 .ValidationError:not(#PriceSelection) .checkbox label.ValidationError {
-  color: #b13a48;
+  color: #B13A48;
 }
-/*# sourceMappingURL=form.css.map */

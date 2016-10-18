@@ -51,14 +51,6 @@ div.question-row{background-color:silver;}*/
 .SearchQuestionsForm .form-group:after {
   clear: both;
 }
-.JS-RelatedCategories {
-  position: relative;
-  float: left;
-  width: 100%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
 @media (max-width: 479px) {
   .JS-RelatedCategories {
     float: none;
