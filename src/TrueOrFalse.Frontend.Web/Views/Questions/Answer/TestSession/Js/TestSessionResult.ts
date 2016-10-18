@@ -35,14 +35,17 @@
         let marginLeft : string;
         if ((textFrameWidth / 2) > idealMiddlePosition) {
             $("#divIndicatorAverageText").css("margin-left", 0);
+            $("#divIndicatorAverageText").css("text-align", "left");
             return;
         }
         if ((availableWidth - idealMiddlePosition) < (textFrameWidth / 2)) {
             marginLeft = (availableWidth - textFrameWidth) + "px";
             $("#divIndicatorAverageText").css("margin-left", marginLeft);
+            $("#divIndicatorAverageText").css("text-align", "right");
             return;
         }
         marginLeft = (idealMiddlePosition - (textFrameWidth / 2)) + "px";
         $("#divIndicatorAverageText").css("margin-left", marginLeft);
+        $("#divIndicatorAverageText").css("text-align", "center");
     }
 }

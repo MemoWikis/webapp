@@ -146,7 +146,7 @@
             </div>
             
             <div id="detailedAnswerAnalysis">
-                <h3>Auswertung der Antworten</h3>
+                <h3>Auswertung deiner Antworten</h3>
                 <p style="color: silver; font-size: 11px;">
                     <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
                 </p>

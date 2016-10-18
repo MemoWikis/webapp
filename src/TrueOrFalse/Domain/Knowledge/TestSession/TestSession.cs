@@ -25,7 +25,7 @@ public class TestSession
         TestSessionTypeTypeId = set.Id;
         QuestionIds = new List<int>();
         AnsweredQuestionsQuestionViewGuid = new List<Guid>();
-        QuestionIds = Sl.R<SetRepo>().GetRandomQuestions(set, 5, excludeQuestionIds, true).GetIds();
+        QuestionIds = Sl.R<SetRepo>().GetRandomQuestions(set, 10, excludeQuestionIds, true).GetIds();
     }
 
     //private void Populate(TestSession testSession)

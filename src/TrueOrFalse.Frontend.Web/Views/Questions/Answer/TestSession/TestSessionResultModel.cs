@@ -14,6 +14,7 @@ public class TestSessionResultModel : BaseModel
     public int NumberWrongAnswersPercentage;
     //public int NumberNotAnsweredPercentage;
     public int PercentageAverageRightAnswers;
+    public bool MeBetterThanAverage;
     public bool TestSessionTypeIsSet;
     public bool TestSessionTypeIsCategory;
     public IList<Answer> Answers;
@@ -42,7 +43,7 @@ public class TestSessionResultModel : BaseModel
         NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)NumberQuestions * 100);
 
         PercentageAverageRightAnswers = (int)Math.Round(Answers.Sum(a => a.Question.CorrectnessProbability) / (float)NumberQuestions);
-
+        MeBetterThanAverage = NumberCorrectPercentage > PercentageAverageRightAnswers;
 
     }
 }

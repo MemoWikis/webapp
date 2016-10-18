@@ -87,9 +87,4 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set { Data["answeredQuestionIds"] = (List<int>)value; }
     }
 
-    public SessionUser()
-    {
-        AnsweredQuestionIds = new List<int>();
-    }
-
 }

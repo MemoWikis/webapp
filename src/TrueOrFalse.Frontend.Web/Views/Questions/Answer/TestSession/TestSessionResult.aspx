@@ -48,7 +48,7 @@
                 <div id="divIndicatorAverageText">
                     <p style="">
                         Der Durchschnitt aller Nutzer <br />
-                        beantwortet <span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>% richtig.
+                        beantwortet <%= Model.MeBetterThanAverage ? "nur " : "" %><span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>% richtig.
                     </p>
                 </div>
             </div>
@@ -56,6 +56,9 @@
             <div class="buttonRow">
                 <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-link" style="padding-right: 10px">
                     Zur Wissenszentrale
+                </a>
+                <a href="<%= Links.TestSessionStartForSet(Model.TestSession.TestSessionTypeTypeId) %>" class="btn btn-primary show-tooltip" style="padding-right: 10px" title="Neue Fragen aus dem gleichen Fragesatz">
+                    <i class="fa fa-repeat AnswerResultIcon">&nbsp;</i>Noch einmal testen
                 </a>
                 <% 
                     var userSession = new SessionUser();
@@ -67,7 +70,7 @@
             </div>
             
             <div id="detailedAnswerAnalysis">
-                <h3>Auswertung der Antworten</h3>
+                <h3>Auswertung deiner Antworten</h3>
                 <p style="color: silver; font-size: 11px;">
                     <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
                 </p>

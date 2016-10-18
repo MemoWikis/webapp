@@ -48,9 +48,9 @@
             </span>
             
             <div style="margin-top: 10px;" class="actions">
-                <%--<a style="display: block" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
+                <a style="display: block" href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
                     <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
-                </a>--%>
+                </a>
                 <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>" rel="nofollow">
                     <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                 </a>
