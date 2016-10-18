@@ -498,6 +498,9 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Category.min.css">
+      <DependentUpon>Category.css</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
