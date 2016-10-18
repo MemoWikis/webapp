@@ -14,20 +14,21 @@ public class TestSession
     public virtual int TestSessionTypeTypeId { get; set; }
     public virtual int CurrentStep { get; set; }
     public virtual int NumberOfSteps => QuestionIds.Count;
+    public virtual List<Guid> AnsweredQuestionsQuestionViewGuid { get; set; }
 
 
-    public TestSession(int setId = 19)
+    public TestSession(int setId, List<int> excludeQuestionIds = null)
     {
         CurrentStep = 1;
         TestSessionType = TestSessionType.Set;
         var set = Sl.R<SetRepo>().GetById(setId);
         TestSessionTypeTypeId = set.Id;
         QuestionIds = new List<int>();
-        QuestionIds = (IList<int>) set.QuestionIds().Take(4).ToList(); //create SetRepo-Method to get most interesting/relevant/popular questions
-
+        AnsweredQuestionsQuestionViewGuid = new List<Guid>();
+        QuestionIds = Sl.R<SetRepo>().GetRandomQuestions(set, 5, excludeQuestionIds, true).GetIds();
     }
 
-    private void Populate(TestSession testSession)
-    {
-    }
+    //private void Populate(TestSession testSession)
+    //{
+    //}
 }

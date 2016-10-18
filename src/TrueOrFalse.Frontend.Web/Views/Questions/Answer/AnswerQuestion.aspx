@@ -45,15 +45,17 @@
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
         data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
         data-is-last-step="<%= Model.IsLastLearningStep %>"/>
+    <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
+        data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
+        data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 
     <div class="row">
         <div class="col-lg-9 col-xs-9 xxs-stack">
-            <% if (Model.IsLearningSession)
-               { %>
-                   <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx",
-                   Model); %>
-                   <%--new LearningSessionModel(Model)); %>--%>
-            <% }else{ %>
+            <% if (Model.IsLearningSession) { %>
+                   <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
+            <% }else if (Model.IsTestSession) { %>
+                   <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
+            <% }else { %>
             <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
                 <li class="previous">
                     <% if (Model.HasPreviousPage)

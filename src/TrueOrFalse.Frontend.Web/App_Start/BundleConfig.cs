@@ -131,6 +131,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/LearningSessionResult")
                 .IncludeDirectory("~/Views/Questions/Answer/LearningSession/Js/", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/TestSessionResult")
+                .IncludeDirectory("~/Views/Questions/Answer/TestSession/Js/", "*.js"));
+
             //Games
             bundles.Add(new ScriptBundle("~/bundles/js/Games")
                 .IncludeDirectory("~/Views/Games/Js/", "*.js"));

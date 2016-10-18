@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
 
@@ -78,6 +79,17 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         get { return Data.Get<TestSession>("testSession"); }
         set { Data["testSession"] = (TestSession)value; }
+    }
+
+    public List<int> AnsweredQuestionIds
+    {
+        get { return Data.Get<List<int>>("answeredQuestionIds"); }
+        set { Data["answeredQuestionIds"] = (List<int>)value; }
+    }
+
+    public SessionUser()
+    {
+        AnsweredQuestionIds = new List<int>();
     }
 
 }

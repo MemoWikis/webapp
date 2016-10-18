@@ -22,7 +22,7 @@ public class WelcomeBoxTopCategoriesModel : BaseModel
     {
         var result = new WelcomeBoxTopCategoriesModel();
         var categoryRepo = Sl.R<CategoryRepository>();
-        result.Categories = categoryRepo.GetMostRecent(amount);
+        result.Categories = categoryRepo.GetMostRecent_WithAtLeast3Questions(amount);
 
         return result;
     }

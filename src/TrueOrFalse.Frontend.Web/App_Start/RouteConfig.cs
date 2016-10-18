@@ -52,7 +52,11 @@ namespace TrueOrFalse
             routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}", new { controller = "AnswerQuestion", action = "Learn" });
             routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
 
-            /* API */ routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
+            //routes.MapRoute("TestSession", "Test/Fragesatz/{setName}", new { controller = "AnswerQuestion", action = "Test" });
+            routes.MapRoute("TestSession_RegisterAnsweredQuestion", "TestSession/RegisterAnsweredQuestion/", new { controller = "TestSession", action = "RegisterQuestionAnswered" });
+
+            /* API */
+            routes.MapRoute("Questions_DeleteDetails", "Questions/DeleteDetails/{questionId}", new { controller = "Questions", action = "DeleteDetails" });
             /* API */ routes.MapRoute("Questions_Delete", "Questions/Delete/{questionId}", new { controller = "Questions", action = "Delete" });
             /* API */ routes.MapRoute("Question_SendAnswer", "Questions/SendAnswer/{id}", new { controller = "AnswerQuestion", action = "SendAnswer" });
             /* API */ routes.MapRoute("Question_GetSolution", "Questions/GetSolution/{id}", new { controller = "AnswerQuestion", action = "GetSolution" });

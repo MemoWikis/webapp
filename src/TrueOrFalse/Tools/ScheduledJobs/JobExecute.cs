@@ -65,7 +65,9 @@ public class JobExecute
         catch (Exception e)
         {
             Logg.r().Error(e, "Job error on " + jobName);
-            new RollbarClient().SendException(e);
+
+            if (!String.IsNullOrEmpty(Settings.RollbarAccessToken))
+                new RollbarClient().SendException(e);
         }
     }
 

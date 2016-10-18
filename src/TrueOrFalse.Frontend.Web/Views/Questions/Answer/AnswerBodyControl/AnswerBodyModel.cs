@@ -28,6 +28,7 @@ public class AnswerBodyModel : BaseModel
     public bool IsLearningSession;
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
+    public bool IsTestSession;
 
     public bool IsLastQuestion = false;
 
@@ -37,6 +38,7 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_GetSolution { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountUnansweredAsCorrect { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_TestSessionRegisterAnsweredQuestion { get; private set; }
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
@@ -69,6 +71,7 @@ public class AnswerBodyModel : BaseModel
 
         IsLearningSession = answerQuestionModel.IsLearningSession;
         LearningSession = answerQuestionModel.LearningSession;
+        IsTestSession = answerQuestionModel.IsTestSession;
         
         NextUrl = answerQuestionModel.NextUrl;
 
@@ -101,6 +104,8 @@ public class AnswerBodyModel : BaseModel
 
         AjaxUrl_CountLastAnswerAsCorrect = url => Links.CountLastAnswerAsCorrect(url, question);
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
+        if (IsTestSession)
+            AjaxUrl_TestSessionRegisterAnsweredQuestion = Links.TestSessionRegisterQuestionAnswered;
 
         QuestionText = question.Text;
         QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);

@@ -103,15 +103,11 @@ public class Game : DomainEntity
         return this;
     }
 
-    private Round GetNextOpenRund()
-    {
-        return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Open);
-    }
+    private Round GetNextOpenRund() => 
+        Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Open);
 
-    public virtual Round GetCurrentRound()
-    {
-        return Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Current);
-    }
+    public virtual Round GetCurrentRound() => 
+        Rounds.FirstOrDefault(x => x.Status == GameRoundStatus.Current);
 
     public virtual int GetCurrentRoundNumber()
     {

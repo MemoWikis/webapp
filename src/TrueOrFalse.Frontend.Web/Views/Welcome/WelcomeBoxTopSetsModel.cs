@@ -24,7 +24,7 @@ public class WelcomeBoxTopSetsModel : BaseModel
     public static WelcomeBoxTopSetsModel CreateMostRecent(int amount)
     {
         var setRepo = Sl.R<SetRepo>();
-        return new WelcomeBoxTopSetsModel(setRepo.GetMostRecent(amount));
+        return new WelcomeBoxTopSetsModel(setRepo.GetMostRecent_WithAtLeast3Questions(amount));
     }
 
     public static WelcomeBoxTopSetsModel CreateMostQuestions(int amount)

@@ -67,25 +67,32 @@ public class SetRepo : RepositoryDbBase<Set>
             .List<Set>();
     }
 
-    public IEnumerable<Set> GetMostRecent(int amount)
+    public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
     {
+        string query = $@"SELECT s.* FROM questionset s
+            LEFT JOIN questioninset qs
+            ON s.Id = qs.Set_Id 
+            GROUP BY s.Id
+            Having Count(qs.Set_Id )  > 3
+            ORDER BY s.DateCreated DESC
+            LIMIT {amount}";
+
         return _session
-            .QueryOver<Set>()
-            .OrderBy(s => s.DateCreated)
-            .Desc
-            .Take(amount)
-            .List();
+            .CreateSQLQuery(query)
+            .AddEntity(typeof(Set))
+            .List<Set>();
     }
 
     public IEnumerable<TopSetResult> GetMostQuestions(int amount)
     {
-        return _session.CreateSQLQuery("SELECT QCount, Set_id as SetId, Name, Text FROM " +
-                                       "(SELECT count(questioninset.Question_id) AS QCount, questioninset.Set_id " +
-                                       "FROM questioninset GROUP BY Set_id ORDER BY QCount DESC " +
-                                       "LIMIT "+ amount +") AS qis_r " +
-                                       "LEFT JOIN questionset ON qis_r.Set_id = questionset.Id")
-                        .SetResultTransformer(Transformers.AliasToBean(typeof(TopSetResult)))
-                        .List<TopSetResult>().ToList();
+        return _session.CreateSQLQuery(
+            "SELECT QCount, Set_id as SetId, Name, Text FROM " +
+            "(SELECT count(questioninset.Question_id) AS QCount, questioninset.Set_id " +
+            "FROM questioninset GROUP BY Set_id ORDER BY QCount DESC " +
+            "LIMIT "+ amount +") AS qis_r " +
+            "LEFT JOIN questionset ON qis_r.Set_id = questionset.Id")
+            .SetResultTransformer(Transformers.AliasToBean(typeof(TopSetResult)))
+            .List<TopSetResult>().ToList();
     }
 
     /// <summary>
@@ -124,5 +131,29 @@ public class SetRepo : RepositoryDbBase<Set>
         base.Delete(set);
         Flush();
     }
+
+    public IList<Question> GetRandomQuestions(Set set, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
+    {
+        var result = set.Questions();
+        if ((excludeQuestionIds != null) && (excludeQuestionIds.Count > 0) && (result.Count > amount))
+        {
+            result = result.Where(q => !excludeQuestionIds.Contains(q.Id)).ToList();
+            if (ignoreExclusionIfNotEnoughQuestions && (result.Count < amount))
+            {
+                //possible improvement: if questions are to be reasked, prioritize those that have been answered wrong by the user.
+                var fillUpAmount = amount - result.Count;
+                var fillUpQuestions = set.Questions().Where(q => excludeQuestionIds.Contains(q.Id)).ToList();
+                fillUpQuestions.Shuffle();
+                ((List<Question>) result).AddRange(fillUpQuestions.Take(fillUpAmount).ToList());
+            }
+        }
+        result.Shuffle();
+        return result.Take(amount).ToList();
+    }
+
+    //public IList<Question> GetMostViewedRandomQuestions(Set set, int amount, List<int> excludeQuestionIds = null)
+    //{
+        
+    //}
 
 }

@@ -100,6 +100,7 @@ public class AnswerQuestionModel : BaseModel
     public bool IsTestSession;
     public int TestSessionCurrentStep;
     public int TestSessionNumberOfSteps;
+    public bool TestSessionIsLastStep = false;
 
     public AnswerQuestionModel()
     {
@@ -135,14 +136,16 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(TestSession testSession)
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question)
     {
+        QuestionViewGuid = questionViewGuid;
         IsTestSession = true;
         TestSessionCurrentStep = testSession.CurrentStep;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
-        var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
+        TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;
+        NextUrl = url => url.Action("Test", Links.AnswerQuestionController);
+        HasNextPage = true;
         Populate(question);
-        _sessionUser.TestSession.CurrentStep++;
     }
 
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec)

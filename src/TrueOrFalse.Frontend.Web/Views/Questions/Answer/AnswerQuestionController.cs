@@ -87,8 +87,15 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult Test()
     {
-        var testSession = _sessionUser.TestSession; // equals: var testSession = Sl.R<SessionUser>().TestSession;
-        return View(_viewLocation, new AnswerQuestionModel(testSession));
+        var testSession = _sessionUser.TestSession;
+        if (testSession.CurrentStep > testSession.NumberOfSteps)
+            return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController);
+
+        var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
+        var questionViewGuid = Guid.NewGuid();
+        _saveQuestionView.Run(questionViewGuid,question,_sessionUser.User);
+
+        return View(_viewLocation, new AnswerQuestionModel(testSession, questionViewGuid, question));
     }
 
     public ActionResult AnswerSet(int setId, int questionId)
