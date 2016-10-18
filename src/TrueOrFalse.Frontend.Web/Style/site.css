@@ -1161,7 +1161,6 @@ div.box-content {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: -1px;
-  background-color: white;
 }
 .green {
   background-color: #D1EBA7;
@@ -1323,6 +1322,7 @@ div.box-main .box-content {
 .thumbnail,
 .panel {
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  background-color: white;
 }
 /*ROWS
 ---------------------------------------------------------*/
@@ -1339,7 +1339,8 @@ div.box-main .box-content {
 }
 .rowBase,
 .category-row {
-  /*border-top: 5px solid lighten(@middle-blue, 20%);*/
+  background-color: white;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
 .rowBase:first-child,
 .category-row:first-child {
