@@ -21,7 +21,7 @@
             </div>
         <% } %>
     </div>
-    <div class="row" style="clear: left;">
+<%--    <div class="row" style="clear: left;">
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4">
                 <p style="margin-top: 5px; text-align: center;">
@@ -29,8 +29,10 @@
                 </p>
             </div>
         <% } %>
+    </div>--%>
 
-
+    <div class="pull-right">
+        <a href="<%= Links.TestSessionStartForCategory(Model.CategoryId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
     </div>
 
 </div>

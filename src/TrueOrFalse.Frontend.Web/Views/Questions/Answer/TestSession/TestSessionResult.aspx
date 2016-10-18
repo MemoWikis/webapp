@@ -17,11 +17,21 @@
         <span class="">Dein Ergebnis</span>
     </h2>
     <p>
-        Du hast dein Wissen zu dem Fragesatz 
-        <a href="<%= Links.SetDetail(Url, Model.TestedSet) %>" style="display: inline-block;">
-            <span class="label label-set"><%: Model.TestedSet.Name %></span>
-        </a>
-        mit insgesamt <%=Model.TestedSet.Questions().Count %> Fragen getestet und dabei <%= Model.NumberQuestions %> Fragen beantwortet.
+        Du hast dein Wissen zu 
+        <% if (Model.TestSessionTypeIsSet) { %>
+            dem Fragesatz 
+            <a href="<%= Links.SetDetail(Url, Model.TestedSet) %>" style="display: inline-block;">
+                <span class="label label-set"><%: Model.TestedSet.Name %></span>
+            </a>
+            mit insgesamt <%=Model.TestedSet.Questions().Count %> Fragen
+        <% } else if (Model.TestSessionTypeIsCategory) { %>
+            der Kategorie
+            <a href="<%= Links.CategoryDetail(Model.TestedCategory) %>" style="display: inline-block;">
+                <span class="label label-category"><%: Model.TestedCategory.Name %></span>
+            </a>
+            mit insgesamt <%=Model.TestedCategory.CountQuestions %> Fragen
+        <% } %>
+        getestet und dabei <%= Model.NumberQuestions %> Fragen beantwortet.
     </p>
     
 
@@ -57,7 +67,10 @@
                 <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-link" style="padding-right: 10px">
                     Zur Wissenszentrale
                 </a>
-                <a href="<%= Links.TestSessionStartForSet(Model.TestSession.TestSessionTypeTypeId) %>" class="btn btn-primary show-tooltip" style="padding-right: 10px" title="Neue Fragen aus dem gleichen Fragesatz">
+                <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
+                        title="Neue Fragen aus <% if (Model.TestSessionTypeIsSet) Response.Write("dem gleichen Fragesatz");
+                                                  else if (Model.TestSessionTypeIsCategory) Response.Write("der gleichen Kategorie");%>
+                    ">
                     <i class="fa fa-repeat AnswerResultIcon">&nbsp;</i>Noch einmal testen
                 </a>
                 <% 

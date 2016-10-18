@@ -13,7 +13,10 @@
         <div class="MainContentUpper">
             <div class="TitleText" style="line-height: 15px; margin-top: 6px;">
                 <div style="float: right;">
-                    <button class="btn btn-default btn-sm featureNotImplemented" type="button" style="position: relative; top: -3px; right: -11px; margin-left: 10px;"">Folgen</button>
+                    <a class="btn btn-primary btn-sm show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                        <i class="fa fa-play-circle">&nbsp;</i> Testen
+                    </a>
+                    <%--<button class="btn btn-default btn-sm featureNotImplemented" type="button" style="position: relative; top: -3px; right: -11px; margin-left: 10px;"">Folgen</button>--%>
                 </div>
                 <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
             </div>

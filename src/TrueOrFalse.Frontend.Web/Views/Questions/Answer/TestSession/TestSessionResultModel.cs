@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class TestSessionResultModel : BaseModel
 {
@@ -20,6 +21,8 @@ public class TestSessionResultModel : BaseModel
     public IList<Answer> Answers;
 
     public Set TestedSet;
+    public Category TestedCategory;
+    public string LinkForRepeatTest;
 
     public TestSessionResultModel()
     {
@@ -28,10 +31,21 @@ public class TestSessionResultModel : BaseModel
             throw new Exception("TestSession is not defined");
 
         TestSessionTypeIsSet = TestSession.TestSessionType == TestSessionType.Set;
-        if (TestSessionTypeIsSet)
-            TestedSet = Sl.R<SetRepo>().GetById(TestSession.TestSessionTypeTypeId);
-
         TestSessionTypeIsCategory = TestSession.TestSessionType == TestSessionType.Category;
+        if (TestSessionTypeIsSet)
+        {
+            TestedSet = Sl.R<SetRepo>().GetById(TestSession.TestSessionTypeTypeId);
+            LinkForRepeatTest = Links.TestSessionStartForSet(TestSession.TestSessionTypeTypeId);
+        } else if (TestSessionTypeIsCategory)
+        {
+            TestedCategory = Sl.R<CategoryRepository>().GetById(TestSession.TestSessionTypeTypeId);
+            LinkForRepeatTest = Links.TestSessionStartForCategory(TestSession.TestSessionTypeTypeId);
+        }
+        else
+        {
+            throw new Exception("TestSessionType is not defined.");
+        }
+
         Answers = Sl.R<AnswerRepo>().GetByQuestionViewGuids(TestSession.AnsweredQuestionsQuestionViewGuid, true);
         if (Answers.Count != TestSession.AnsweredQuestionsQuestionViewGuid.Count)
             throw new Exception("There should be an equal number of answers and questions asked in a test session (no duplicate/second answers for same question asked).");

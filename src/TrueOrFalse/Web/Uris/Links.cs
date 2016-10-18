@@ -306,6 +306,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("StartTestSession", SetController, new { setId = setId });
         }
+        public static string TestSessionStartForCategory(int categoryId)
+        {
+            return GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryId = categoryId });
+        }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url)
         {
@@ -401,6 +405,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         /*Category*/
         public const string CategoriesAction = "Categories";
         public const string CategoriesController = "Categories";
+        public const string CategoryController = "Category";
+        public const string CategoryDetailAction = "Category";
         public const string CategoryEditController = "EditCategory";
         public const string CategoryCreateAction = "Create";
         public static string Categories() { return GetUrlHelper().Action(CategoriesAction, CategoriesController); }
@@ -412,7 +418,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
         public static string CategoryDetail(string name, int id)
         {
-            return GetUrlHelper().Action("Category", "Category",
+            return GetUrlHelper().Action(CategoryDetailAction, CategoryController,
                 new { text = UriSanitizer.Run(name), id = id }, null);
         }
 

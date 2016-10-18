@@ -60,7 +60,8 @@ public class SetController : BaseController
     public ActionResult StartTestSession(int setId)
     {
         var excludeQuestionIds = _sessionUser.AnsweredQuestionIds.ToList();
-        Sl.R<SessionUser>().TestSession = new TestSession(setId, excludeQuestionIds);
+        var set = Sl.R<SetRepo>().GetById(setId);
+        Sl.R<SessionUser>().TestSession = new TestSession(set, excludeQuestionIds);
         return Redirect(Links.TestSession());
     }
 }

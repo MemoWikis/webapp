@@ -90,7 +90,7 @@
                             <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
                                 <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                             </a>
-                            <a class="btn btn-primary" data-btn="startLearningSession" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                            <a class="btn btn-primary" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
                                 <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                             </a>
                         </div>
