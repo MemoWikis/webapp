@@ -215,65 +215,66 @@
         <div class="row">
                             
             <div class="col-xs-12 col-md-6">
-                <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
-                <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
-                <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
-                <%--<p>
-                    In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
-                    <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
-                </p>--%>
-                <div class="row" style="line-height: 30px; margin-bottom: 20px;">
-                    <div class="col-md-6">
-                        <div class="number-box-questions" style="text-align: center;">
-                            <a href="<%= Links.QuestionsWish() %>">
-                                <div>
-                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
-                                    <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n") %></span>
-                                </div>
-                            </a>
+                <div class="rowBase" style="padding: 10px">
+                    <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
+                    <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                    <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
+                    <%--<p>
+                        In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
+                        <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Fragesatz klickst."></i>
+                    </p>--%>
+                    <div class="row" style="line-height: 30px; margin-bottom: 20px;">
+                        <div class="col-md-6">
+                            <div class="number-box-questions" style="text-align: center;">
+                                <a href="<%= Links.QuestionsWish() %>">
+                                    <div>
+                                        <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
+                                        <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n") %></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="number-box-sets" style="text-align: center;">
+                                <a href="<%= Links.SetsWish() %>">
+                                    <div>
+                                        <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
+                                        &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz") %></span>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="number-box-sets" style="text-align: center;">
-                            <a href="<%= Links.SetsWish() %>">
-                                <div>
-                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
-                                    &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz") %></span>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <% if(Model.KnowledgeSummary.Total == 0) { %>
-                    <div class="alert alert-info">
-                        <p>
-                            memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
-                        </p>
-                        <p>
-                            Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                            oder <a href="<%= Links.SetsAll() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
-                            <ul style="list-style-type: none">
-                                <li>
-                                    <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
-                                    In deinem Wunschwissen
-                                </li>                                
-                                <li>
-                                    <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
-                                    <i>Nicht</i> in deinem Wunschwissen.
-                                </li>
-                            </ul>
+                    <% if(Model.KnowledgeSummary.Total == 0) { %>
+                        <div class="alert alert-info">
+                            <p>
+                                memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                            </p>
+                            <p>
+                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                                oder <a href="<%= Links.SetsAll() %>">Fragesätze</a> aus und klicke dort auf das Herzsymbol:
+                                <ul style="list-style-type: none">
+                                    <li>
+                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        In deinem Wunschwissen
+                                    </li>                                
+                                    <li>
+                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i>Nicht</i> in deinem Wunschwissen.
+                                    </li>
+                                </ul>
                             
-                        </p>
-                    </div>
-                <% }else { %>
-                    <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
-                <% } %>
+                            </p>
+                        </div>
+                    <% }else { %>
+                        <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                    <% } %>
+                </div>
             </div>
 
             <div class="col-xs-12 col-md-6">
-                <div class="col-xs-12">
-
+                <div class="rowBase" style="padding: 10px; height: 351px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
                     <p style="font-size: 12px; color: silver;">In den letzten 30 Tagen</p>
                 

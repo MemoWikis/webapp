@@ -1199,13 +1199,12 @@ div.box-main .box-content {
 @media (min-width: 992px) {
   .box-with-tabs ul.nav-tabs,
   .boxtainer-outlined-tabs ul.nav-tabs {
-    background-color: white;
     border-bottom: solid 3px #D1EBA7;
     margin-top: -5px;
   }
   .box-with-tabs ul.nav-tabs li,
   .boxtainer-outlined-tabs ul.nav-tabs li {
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid transparent;
     top: 5px;
   }
   .box-with-tabs ul.nav-tabs li a,
