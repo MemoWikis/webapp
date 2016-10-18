@@ -6,7 +6,7 @@
 <div class="ThumbnailColumn">
     <div class="thumbnail">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Url,Model.SetName,Model.SetId)) %>
         </div>
 
         <div>

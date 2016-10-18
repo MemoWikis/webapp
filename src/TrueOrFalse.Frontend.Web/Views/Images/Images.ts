@@ -17,6 +17,13 @@ class Images {
     }
 
     private static InitItemImages() {
+
+        Images.AddHoverCheckboxArea();
+        //Images.AddHoverLicenseArea();
+        Images.AddLicenseCaption();
+    }
+
+    private static AddHoverCheckboxArea() {
         $('.JS-InitImage').each(function () {
             $("<div class='SelectAreaCheckbox'>" +
                 "<div class='CheckboxIconContainer'>" +
@@ -26,18 +33,24 @@ class Images {
                 "</div>" +
                 "</div>").insertAfter($(this));
         });
-        $('.LicensedImage.JS-InitImage').each(function () {
+    }
+
+    private static AddHoverLicenseArea() {
+         $('.LicensedImage.JS-InitImage').each(function () {
             $("<div class='SelectAreaImageInfo'>" +
                 "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='HoverMessage JS-InitImageDetailModal'>Bild- und Lizenzinfos</div>" +
                 "</div>").insertAfter($(this).parent().find('.SelectAreaCheckbox'));
         });
+    }
+
+    private static AddLicenseCaption() {
         $('.LicensedImage.JS-InitImage').each(function () {
             var ancestorToInsertAfter = $(this).attr('data-append-image-link-to');
             $(this).removeAttr('data-append-image-link-to');
             $("<a data-image-id ='" + $(this).attr('data-image-id') + "' class='ImageLicenseCaption JS-InitImageDetailModal' href='#'>Bild- und Lizenzinfos</a>")
                 .insertAfter($(this).closest("." + ancestorToInsertAfter));
             $(this).removeClass('JS-InitImage');
-        });         
+        });      
     }
 
     private static InitMarkdownImages() {

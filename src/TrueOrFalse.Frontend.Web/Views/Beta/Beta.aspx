@@ -5,12 +5,6 @@
     <link href="/Views/Beta/Beta.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/beta") %>
     
-        <style type="text/css">
-        #MasterSectionBackgroundLayer .container {
-            width: 500px;
-        }
-    </style>
-
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">    

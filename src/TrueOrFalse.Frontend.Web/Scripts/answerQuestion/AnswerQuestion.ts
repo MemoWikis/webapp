@@ -58,6 +58,18 @@ class AnswerQuestion {
 
         var self = this;
 
+        $('body').keydown(function(e) {
+            e.preventDefault();
+            if (e.keyCode == 13) {
+                $("#btnCheck:visible").click();
+                $("#btnEditAnswer:visible").click();
+                $("#btnCheckAgain:visible").click();
+                if ($('#btnNext').is(':visible')) {
+                    window.location.href = $('#btnNext:visible').attr('href');
+                }
+            }
+        });
+
         $("#txtAnswer")
             .keypress(e => {
                 if (e.keyCode == 13) {
@@ -78,7 +90,7 @@ class AnswerQuestion {
 
         $("#btnCheck")
             .click(
-                e => {
+            e => {
                     e.preventDefault();
                     self.ValidateAnswer();
                 });

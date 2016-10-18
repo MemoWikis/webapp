@@ -24,7 +24,7 @@
     <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>1.7</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -499,6 +499,9 @@
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.min.css">
+      <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>

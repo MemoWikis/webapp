@@ -22,18 +22,109 @@ a.question-short {
     font-size: 15px;
 }
 
-.panel-default{
-    border: none; 
-    margin-top: 0px; 
-    margin-bottom: 5px;
-    padding-bottom: 0px;
-    box-shadow: none;
+.well {
+    background-color: @color-background-lightblue;
+    background-color: white;
 
-    .panel-body{
-        padding-top: 2px; padding-bottom: 0px;        
+    > h1, > h2, > h3, > h4 {
+        &:first-child {margin-top: 0;}
+    }
+
+    img {
+        border-radius: 4px;
+    }
+
+    .media-below-xs ({
+
+        img:not(.ItemImage) {
+            width: 100%;
+        }
+    });
+
+    &.Founder .ImageColumn {
+        .make-xs-column(6);
+        .media-xs-up ({
+           width: auto;
+        });
+                                   
+        img {
+            //width: 100%;
+            width: auto;
+            max-width: 100%;
+        }
     }
 }
 
-.well {
-    background-color: white;
+    
+.panel {
+    img {
+        border-radius: 4px;
+    }
+
+    .pull-left { 
+        .media-below-xs ({
+            width: 30%;
+        })
+    }
+}
+
+.panel-body {
+    padding: 10px;
+}
+
+//Bootstrap Thumbnails    
+
+.ThumbnailRow {
+    .media-xs-up ({
+        display: flex;
+    })
+}
+
+.ThumbnailColumn {
+    display: flex;
+    .make-xs-column(4);
+    .xxs-stack;
+}
+
+.thumbnail {
+
+    width: 100%;
+    padding: 10px;
+
+    img {
+        border-radius: 4px;
+    }
+
+    .btn {
+        .btn-sm;
+    }
+
+    .caption {
+        padding: 0;
+    }
+
+    .media-below-xs ({
+
+        .clearfix;
+        padding: 10px;
+        //display: flex;
+
+        img {
+            float: left;
+            width: 30%;
+        }
+
+        .caption {
+           // display: flex;
+           margin-left: 30%;
+           padding-top: 0;
+           padding-bottom: 0;
+           padding-right: 0;
+           padding-left: 10px;
+        }
+
+        h4 {margin-top: 0;}
+
+      //  .btn {float: right;}
+    })
 }
