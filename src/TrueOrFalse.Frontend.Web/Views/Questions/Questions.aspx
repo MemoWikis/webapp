@@ -119,7 +119,7 @@
             
             <% if(!Model.NotAllowed){ %>
                 <div class="search-section">
-                    <div class="SearchQuestionsForm form-horizontal">
+                    <div class="SearchQuestionsForm">
                         <div class="row">
                             <div class="col-md-7">
                                 <div class="form-group">

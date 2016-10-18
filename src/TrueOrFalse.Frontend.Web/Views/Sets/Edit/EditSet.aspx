@@ -97,7 +97,7 @@
                 </div>
             </div>
             <div class="col-md-9 col-md-pull-3">
-                <div class="form-horizontal">
+                <div class="form-horizontal rowBase">
                     <div class="FormSection">
                         <div class="form-group">
                             <%= Html.LabelFor(m => m.Title, new { @class = "RequiredField control-label columnLabel" })%>

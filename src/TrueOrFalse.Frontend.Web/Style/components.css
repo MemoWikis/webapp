@@ -209,11 +209,9 @@ div.selected-row:hover {
   display: inline-block;
 }
 .rowBase {
-  /* TEST */
+  border-radius: 4px;
+  border: 1px solid #dddddd;
   margin-bottom: 13px;
-  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
-  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
-  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
 }
 @media (min-width: 768px) {
   .rowBase.question-row,

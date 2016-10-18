@@ -2082,14 +2082,14 @@
 /*  Layout elements
 ----------------------------------------------------------*/
 .drop-shadow1 {
-  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
-  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
-  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
 }
 .ShadowBox {
-  -webkit-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
-  -moz-box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
-  box-shadow: 2px 2px 7px 1px rgba(168, 165, 168, 0.5);
+  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
   padding: 20px;
   margin-bottom: 30px;
 }
@@ -2155,17 +2155,19 @@
 ----------------------------------------------------------*/
 /*Modified styles from bootstrap website (not part of framework)*/
 .bs-callout-info {
-  background-color: #F6F8FC;
-  border-color: #5bc0de !important;
+  background-color: white;
+  /*border-color: #5bc0de !important;*/
 }
 .bs-callout-danger {
-  background-color: #F6F8FC;
-  border-color: #ce4844 !important;
+  background-color: white;
+  /*border-color: #ce4844 !important;*/
 }
 .bs-callout {
   margin: 20px 0;
   padding: 20px;
-  border-left: 3px solid #eee;
+  /*border-left: 3px solid #eee;*/
+  border: 1px solid #dddddd;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
 .bs-callout h4 {
   margin-top: 0;

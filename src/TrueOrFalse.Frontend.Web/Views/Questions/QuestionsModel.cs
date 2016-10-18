@@ -96,15 +96,6 @@ public class QuestionsModel : BaseModel
             SearchUrl = "/Fragen/Meine/Suche";
         }
 
-        MenuLeftModel.Categories = questions.GetAllCategories()
-                                    .GroupBy(c => c.Name)
-                                    .OrderByDescending(g => g.Count())
-                                    .Select(g =>  new MenuModelCategoryItem{
-                                        SearchUrl = SearchUrl,
-                                        Category = g.First(), OnPageCount = g.Count()
-                                    })
-                                    .ToList();
-
         SearchResultModel = new QuestionsSearchResultModel(this);
         SearchFilter = questionSearchSpec.Filter;
 

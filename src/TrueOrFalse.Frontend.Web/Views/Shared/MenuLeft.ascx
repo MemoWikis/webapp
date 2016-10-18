@@ -179,12 +179,3 @@
         </div>
     </nav>
 </div>
-
-<% if(Model.Categories.Any()){ %>
-    <div class="menuCategories">
-        <h4><span class="ColoredUnderline">Kategorien</span></h4>
-        <% foreach(var catMenuItem in Model.Categories){ %>
-            <a href="<%= Links.QuestionWithCategoryFilter(Url, catMenuItem) %>"><span class="label label-category"> <%=catMenuItem.Category.Name %> (<span><%=catMenuItem.OnPageCount %>x) </span> </span></a>
-        <% } %>
-    </div>
-<% } %>
