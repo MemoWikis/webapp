@@ -185,7 +185,8 @@ public class ImageFrontendData
         bool asSquare, 
         ImageType imageTypeForDummies, 
         string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", 
-        string additionalCssClasses = "")
+        string additionalCssClasses = "",
+        string linkToItem = "")
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
         if(additionalCssClasses != "")
@@ -199,13 +200,27 @@ public class ImageFrontendData
                 //return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage CantBeDisplayed" + additionalCssClasses + "' />";
             }
 
-            return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
+            return AddLink(
+                    "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
                     + "' class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses
                     + "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url
-                    + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />";
+                    + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />",
+                    linkToItem);
         }
         
-        return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage" + additionalCssClasses + "' />";
+        return AddLink(
+            "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url 
+            + "' class='ItemImage JS-InitImage" + additionalCssClasses + "' />", 
+            linkToItem);
+    }
+
+    private static string AddLink(string html, string link)
+    {
+        if(link == "")
+            return html;
+
+        return $"<a href='{link}'>{html}</a>";
+
     }
 
     private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)
