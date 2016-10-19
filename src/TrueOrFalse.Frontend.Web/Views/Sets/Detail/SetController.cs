@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -45,6 +46,8 @@ public class SetController : BaseController
     public ActionResult StartLearningSession(int setId)
     {
         var set = Resolve<SetRepo>().GetById(setId);
+        if (set.Questions().Count == 0)
+            throw new Exception("Cannot start LearningSession from set with no questions.");
 
         var learningSession = new LearningSession{
             SetToLearn = set,
@@ -61,7 +64,11 @@ public class SetController : BaseController
     {
         var excludeQuestionIds = _sessionUser.AnsweredQuestionIds.ToList();
         var set = Sl.R<SetRepo>().GetById(setId);
-        Sl.R<SessionUser>().TestSession = new TestSession(set, excludeQuestionIds);
+        var testSession = new TestSession(set, excludeQuestionIds);
+        if (testSession.QuestionIds.Count == 0)
+            throw new Exception("Cannot start TestSession from set with no questions.");
+
+        Sl.R<SessionUser>().TestSession = testSession;
         return Redirect(Links.TestSession());
     }
 }
