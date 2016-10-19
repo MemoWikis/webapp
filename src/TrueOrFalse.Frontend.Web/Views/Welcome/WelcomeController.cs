@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Mail;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -181,5 +182,17 @@ public class WelcomeController : BaseController
         _sessionUser.Login(user);
 
         return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController, new {passwordSet = "true"});
+    }
+
+    public void SendNewsletterRequest(string requesterEmail)
+    {
+        if (String.IsNullOrEmpty(requesterEmail))
+            return;
+
+        SendEmail.Run(new MailMessage(
+            Settings.EmailFrom,
+            Settings.EmailTo,
+            "Newsletter sign up request",
+            requesterEmail + " asked to sign up for newsletter."));
     }
 }
