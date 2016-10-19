@@ -110,5 +110,17 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Style/temp.css",
+    "inputFile": "Style/temp.less"
+  },
+  {
+    "outputFile": "Views/Maintenance/Images.css",
+    "inputFile": "Views/Maintenance/Images.less"
+  },
+  {
+    "outputFile": "Style/Images.css",
+    "inputFile": "Style/Images.less"
   }
 ]
