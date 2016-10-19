@@ -210,7 +210,8 @@ public class ImageFrontendData
         
         return AddLink(
             "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url 
-            + "' class='ItemImage JS-InitImage" + additionalCssClasses + "' />", 
+            + "' class='ItemImage JS-InitImage" + additionalCssClasses
+            + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />",
             linkToItem);
     }
 

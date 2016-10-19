@@ -116,6 +116,10 @@
     "inputFile": "Style/temp.less"
   },
   {
+    "outputFile": "Style/cards.css",
+    "inputFile": "Style/cards.less"
+  },
+  {
     "outputFile": "Views/Maintenance/Images.css",
     "inputFile": "Views/Maintenance/Images.less"
   },

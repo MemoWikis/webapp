@@ -1,0 +1,30 @@
+﻿@import (reference) 'includes/imports.less';
+
+
+.Card {
+    border: 1px solid @well-border;
+    border-radius: @border-radius-card;
+
+    .ImageFull {
+        border-top-left-radius: @border-radius-card;
+        border-top-right-radius: @border-radius-card;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+       
+    }
+}
+
+.CardContent {
+    margin-left: @margin-card;
+    margin-right: @margin-card;
+}
+
+.Card .ImageLicenseCaption {
+
+    height: 15px;
+
+    a {
+        margin-left: @margin-card;
+        margin-right: @margin-card;
+    }
+}

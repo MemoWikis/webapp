@@ -10,7 +10,7 @@
   height: auto;
   border-radius: 5px;
 }
-a.ImageLicenseCaption {
+.ImageLicenseCaption a {
   display: block;
   font-size: 10px;
 }
@@ -146,4 +146,3 @@ a.ImageLicenseCaption {
 #modalImageDetail .InfoLabel {
   font-weight: bold;
 }
-/*# sourceMappingURL=Images.css.map */

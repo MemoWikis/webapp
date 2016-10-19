@@ -497,11 +497,29 @@
     <Content Include="Scripts\userreport\userreport-plugin.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Style\bootstrap\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Style\cards.css">
+      <DependentUpon>cards.less</DependentUpon>
+    </Content>
+    <Content Include="Style\cards.min.css">
+      <DependentUpon>cards.css</DependentUpon>
+    </Content>
+    <Content Include="Style\Images.min.css">
+      <DependentUpon>Images.css</DependentUpon>
+    </Content>
+    <Content Include="Style\temp.min.css">
+      <DependentUpon>temp.css</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images.min.css">
+      <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
@@ -1261,6 +1279,7 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="manifest.json" />
+    <Content Include="Style\cards.less" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">
