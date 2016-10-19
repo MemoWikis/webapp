@@ -45,7 +45,7 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   color: #203256;
-  background-color: white;
+  background-color: #F6F8FA;
 }
 h1,
 h2,
@@ -1161,7 +1161,6 @@ div.box-content {
   -moz-border-radius: 3px;
   border-radius: 3px;
   margin: -1px;
-  background-color: white;
 }
 .green {
   background-color: #D1EBA7;
@@ -1200,13 +1199,12 @@ div.box-main .box-content {
 @media (min-width: 992px) {
   .box-with-tabs ul.nav-tabs,
   .boxtainer-outlined-tabs ul.nav-tabs {
-    background-color: white;
     border-bottom: solid 3px #D1EBA7;
     margin-top: -5px;
   }
   .box-with-tabs ul.nav-tabs li,
   .boxtainer-outlined-tabs ul.nav-tabs li {
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid transparent;
     top: 5px;
   }
   .box-with-tabs ul.nav-tabs li a,
@@ -1322,7 +1320,8 @@ div.box-main .box-content {
 .well,
 .thumbnail,
 .panel {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  background-color: white;
 }
 /*ROWS
 ---------------------------------------------------------*/
@@ -1339,7 +1338,8 @@ div.box-main .box-content {
 }
 .rowBase,
 .category-row {
-  /*border-top: 5px solid lighten(@middle-blue, 20%);*/
+  background-color: white;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
 .rowBase:first-child,
 .category-row:first-child {

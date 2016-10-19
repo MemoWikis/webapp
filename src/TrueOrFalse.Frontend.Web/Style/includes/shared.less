@@ -73,13 +73,13 @@
 //Drop shadow
 
 .drop-shadow1 {
-    .drop-shadow(2px, 2px, 7px, 1px, 0.5);
+    .drop-shadow(0px, 0px, 1px, 1px, 0.16);
 }
 
 .drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
-    -webkit-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
-    -moz-box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
-    box-shadow: @x @y @blur @spread rgba(168,165,168,@alpha);
+    -webkit-box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
+    -moz-box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
+    box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
 }
 
 //Shadow box
@@ -259,20 +259,23 @@
 
 /*Modified styles from bootstrap website (not part of framework)*/
 
+
 .bs-callout-info {
-    background-color: @color-background-lightblue;
-    border-color: #5bc0de !important;
+    background-color: white;
+    /*border-color: #5bc0de !important;*/
 }
 
 .bs-callout-danger {
-    background-color: @color-background-lightblue;
-    border-color: #ce4844 !important;
+    background-color: white;
+    /*border-color: #ce4844 !important;*/
 }
 
 .bs-callout {
     margin: 20px 0;
     padding: 20px;
-    border-left: 3px solid #eee;
+    /*border-left: 3px solid #eee;*/
+    border: 1px solid #dddddd;
+    box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);
 }
 
 .bs-callout h4 {

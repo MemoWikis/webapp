@@ -99,6 +99,16 @@
   },
   {
     "outputFile": "Views/Categories/Detail/Category.css",
-    "inputFile": "Views/Categories/Detail/Category.less"
+    "inputFile": "Views/Categories/Detail/Category.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/form.css",
+    "inputFile": "Style/form.less",
+    "minify": {
+      "enabled": false
+    }
   }
 ]

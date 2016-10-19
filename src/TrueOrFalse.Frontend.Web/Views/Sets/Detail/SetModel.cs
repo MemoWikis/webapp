@@ -20,6 +20,7 @@ public class SetModel : BaseModel
     public ImageFrontendData ImageFrontendData;
 
     public bool IsOwner;
+    public bool IsLoggedIn;
 
     public Func<UrlHelper, string> DetailLink;
 
@@ -45,6 +46,7 @@ public class SetModel : BaseModel
         Set = set;
         
         IsOwner = _sessionUser.IsLoggedInUser(set.Creator.Id);
+        IsLoggedIn = _sessionUser.IsLoggedIn;
 
         Creator = set.Creator;
         CreatorName = set.Creator.Name;

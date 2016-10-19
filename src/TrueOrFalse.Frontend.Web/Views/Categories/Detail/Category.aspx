@@ -125,9 +125,14 @@
                         - <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
-                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="display:block; margin-top: 10px; margin-bottom: 18px; font-style: italic">
-                    <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
-                </a>
+                <div style="margin: 10px 0;">
+                    <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                    </a>
+                    <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="font-style: italic; margin-left: 10px;">
+                        <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
+                    </a>
+                </div>
             <% }
                else{ %> 
                 Bisher gibt es keine Fragen in dieser Kategorie.

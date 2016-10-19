@@ -35,7 +35,7 @@
                 </span>
                 
                 <span style="font-size: 16px;">
-                    Kategorien:
+                    <br />Kategorien:&nbsp;
                     <div style="display: inline-block; position: relative; top:-2px;">
                         <% foreach (var category in Model.Set.Categories){ %>
                             <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
@@ -51,9 +51,15 @@
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
-                <%--<a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
-                    <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
-                </a>--%>
+                <% if (!Model.IsLoggedIn) { %>
+                    <a class="btn btn-primary btn-sm" data-btn="startLearningSession" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
+                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                    </a>
+                <% } else { %>
+                    <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
+                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                    </a>
+                <% } %>
                 <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
                     <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                 </a>
@@ -66,7 +72,7 @@
 
             </div>
         </div>
-   
+        
         <div class="col-lg-10 col-xs-9 xxs-stack" style="margin-top: 20px;">
             <div id="rowContainer">
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>
@@ -74,16 +80,18 @@
                 <% } %>
             </div>
 
-            <div class="row "style="margin-top: 20px; height: 40px;">
+            <div class="row">
                 <div class="col-md-12">
                     <% if (Model.QuestionsInSet.Any()){ %>
                         <div class="pull-right">
                             <a href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block; padding-right: 15px; margin-top: 29px;">
-                                <i class="fa fa-gamepad" style="font-size: 18px;"></i>
-                                Spiel starten
+                                <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;</i>Spiel starten
                             </a>
-                            <a class="btn btn-primary" data-btn="startLearningSession" href="<%= Links.StartSetLearningSession(Model.Id) %>"><i class="fa fa-line-chart"></i> 
-                                Jetzt üben
+                            <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
+                            </a>
+                            <a class="btn btn-primary" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                                <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                             </a>
                         </div>
                     <% } %>
@@ -101,7 +109,7 @@
 
             <div style="margin-top: 10px;">
                 von: <a href="<%= Links.UserDetail(Model.Creator) %>"> <%= Model.CreatorName %> </a> <br/>
-                vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a> <br />
+                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
             </div>
             
         </div>

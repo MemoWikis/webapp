@@ -2,7 +2,6 @@
 
 public class MenuLeftModel : BaseResolve
 {
-    public IList<MenuModelCategoryItem> Categories = new List<MenuModelCategoryItem>();
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
     public Menu Menu;

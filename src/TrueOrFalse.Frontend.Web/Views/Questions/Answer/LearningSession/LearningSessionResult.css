@@ -16,6 +16,26 @@
   font-size: 12px;
   opacity: 0.8;
 }
+.progress-bar {
+  background-color: #AFD534;
+  color: #1964c8;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 30px;
+}
+.progress {
+  height: 30px;
+}
+#divIndicatorAverage {
+  margin-top: -15px;
+  color: #1bbd00;
+}
+#divIndicatorAverageText {
+  text-align: center;
+  width: 230px;
+  margin-top: -10px;
+  margin-bottom: 50px;
+}
 .stackedBarChartContainer {
   margin-top: 30px;
   margin-bottom: 50px;
@@ -33,14 +53,14 @@
   color: #fff;
 }
 .chartCorrectAnswer {
-  background-color: #3e7700;
+  background-color: #1bbd00;
   color: #fff;
 }
 .chartCorrectAfterRepetitionAnswer {
   background-color: #fdd648;
 }
 .chartWrongAnswer {
-  background-color: #B13A48;
+  background-color: #db0808;
   color: #fff;
 }
 .chartNotAnswered {
@@ -99,13 +119,13 @@
   width: 35px;
 }
 .sumPctRight {
-  background-color: #3e7700;
+  background-color: #1bbd00;
 }
 .sumPctRightAfterRep {
   background-color: #fdd648;
 }
 .sumPctWrong {
-  background-color: #B13A48;
+  background-color: #db0808;
 }
 .sumPctNotAnswered {
   background-color: lightgray;
@@ -145,13 +165,13 @@
   font-size: 14px;
 }
 .QuestionLearned.AnsweredRight .AnswerResultIcon {
-  color: #3e7700;
+  color: #1bbd00;
 }
 .QuestionLearned.AnsweredRightAfterRepetition .AnswerResultIcon {
   color: #fdd648;
 }
 .QuestionLearned.AnsweredWrong .AnswerResultIcon {
-  color: #B13A48;
+  color: #db0808;
 }
 .QuestionLearned.Unanswered .AnswerResultIcon {
   color: lightgray;

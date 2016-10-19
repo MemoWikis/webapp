@@ -16,6 +16,7 @@ class AnswerQuestion {
     static ajaxUrl_CountLastAnswerAsCorrect: string;
     static ajaxUrl_CountUnansweredAsCorrect: string;
     static ajaxUrl_TestSessionRegisterAnsweredQuestion : string;
+    static TestSessionProgessAfterAnswering: number;
 
     public IsGameMode: boolean;
     public IsLearningSession = false;
@@ -51,6 +52,7 @@ class AnswerQuestion {
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
         AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
         AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion = $("#ajaxUrl_TestSessionRegisterAnsweredQuestion").val();
+        AnswerQuestion.TestSessionProgessAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
@@ -169,6 +171,8 @@ class AnswerQuestion {
             $('#spnWrongAnswer').show();
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
+            $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
+            $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
 
             $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
 

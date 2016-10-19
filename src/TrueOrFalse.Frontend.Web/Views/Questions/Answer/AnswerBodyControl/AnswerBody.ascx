@@ -14,6 +14,7 @@
     <input type="hidden" id="ajaxUrl_CountUnansweredAsCorrect" value="<%= Model.AjaxUrl_CountUnansweredAsCorrect(Url) %>" />
     <% if (Model.IsTestSession) { %>
         <input type="hidden" id="ajaxUrl_TestSessionRegisterAnsweredQuestion" value="<%= Model.AjaxUrl_TestSessionRegisterAnsweredQuestion(Url) %>" />
+        <input type="hidden" id="TestSessionProgessAfterAnswering" value="<%= Model.TestSessionProgessAfterAnswering %>" />
     <% } %>
     <input type="hidden" id="hddTimeRecords" />
 
@@ -95,7 +96,9 @@
             
     <div id="Buttons" style="margin-bottom: 10px; margin-top: 10px;">
         <div id="buttons-first-try" class="pull-right">
-            <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
+            <% if (!Model.IsTestSession) { %>
+                <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
+            <% } %>
             <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
             <% if (Model.IsLearningSession && Model.NextUrl != null){%>
                 <br/><a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction pull-right" style="display: block; margin-top: 10px;"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>

@@ -27,8 +27,8 @@
             <h4 style="margin-top: 5px;"><%: Model.SetName %></h4>
             <p><%: Model.SetText %></p>
             <p style="text-align: center;">
-                <a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>
-                <%--<a href="<%= Links.StartSetLearningSession(Model.SetId) %>" class="btn btn-link btn-sm" role="button">Jetzt üben (10 Fragen)</a>--%>
+                <a href="<%= Links.TestSessionStartForSet(Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
+                <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             </p>
         </div>
     </div>
