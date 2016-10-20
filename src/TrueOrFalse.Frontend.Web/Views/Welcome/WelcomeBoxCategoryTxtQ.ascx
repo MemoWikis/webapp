@@ -15,7 +15,9 @@
     <div class="CardContent">
         <div class="row">
             <div class="col-xs-4">
-                <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category) %>
+                <div class="ImageContainer">
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category) %>
+                </div>
             </div>
             <div class="col-xs-8 xxs-stack">
                 <p><%: Model.CategoryDescription %></p>

@@ -28,8 +28,10 @@
             <div class="row" style="padding-bottom: 10px;">
                     
                 <div class="col-xs-3 col-sm-12">
-                    <%= Model.QuestionImageFrontendDatas
-                    .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question) %>
+                    <div class="ImageContainer">
+                        <%= Model.QuestionImageFrontendDatas
+                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question) %>
+                    </div>
                 </div>
                 <div class="col-xs-9 col-sm-12">
                     <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">

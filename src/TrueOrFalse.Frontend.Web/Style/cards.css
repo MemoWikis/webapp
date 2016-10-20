@@ -9,7 +9,7 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-.Card.Set .ImageContainer {
+.Card.SingleItem.Set .ImageContainer {
   border-bottom: 5px solid #FFD700;
 }
 .Card .BottomBar {
