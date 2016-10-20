@@ -152,5 +152,12 @@
     "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Style/menu.css",
+    "inputFile": "Style/menu.less",
+     "minify": {
+      "enabled": false
+    }
   }
 ]
