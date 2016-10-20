@@ -30,7 +30,7 @@
     
 <div class="row">
        
-    <div class="col-md-8">
+    <div class="col-md-9">
             
         <div class="well" style="padding: 13px; padding-bottom: 10px;">
             <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: Schneller lernen, länger wissen</h1>
@@ -263,7 +263,7 @@
         </div>  
     </div>
             
-    <div class="col-md-4">
+    <div class="col-md-3">
         <%
             var userSession = new SessionUser();
             if (!userSession.IsLoggedIn){
