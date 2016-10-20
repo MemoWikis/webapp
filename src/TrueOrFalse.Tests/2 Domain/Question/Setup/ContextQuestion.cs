@@ -59,7 +59,11 @@ namespace TrueOrFalse.Tests
             return this;
         }
 
-        public ContextQuestion AddQuestion(string questionText = "defaultText", string solutionText = "defaultSolution", User creator = null)
+        public ContextQuestion AddQuestion(
+            string questionText = "defaultText", 
+            string solutionText = "defaultSolution", 
+            User creator = null, 
+            IList<Category> categories = null)
         {
             var question = new Question();
             question.Text = questionText;
@@ -67,6 +71,9 @@ namespace TrueOrFalse.Tests
             question.SolutionType = SolutionType.Text;
             question.SolutionMetadataJson = new SolutionMetadataText{IsCaseSensitive = true, IsExactInput = false}.Json;
             question.Creator = creator ?? _contextUser.All.First();
+
+            if (categories != null)
+                question.Categories = categories;
 
             All.Add(question);
 

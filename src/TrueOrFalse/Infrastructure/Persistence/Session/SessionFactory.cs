@@ -7,6 +7,7 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using Seedworks.Web.State;
 using TrueOrFalse.Infrastructure.Persistence;
 using Environment = NHibernate.Cfg.Environment;
 
@@ -50,7 +51,7 @@ namespace TrueOrFalse
 
         private static Configuration BuildConfiguration()
         {
-            return Fluently.Configure()
+            var configuration = Fluently.Configure()
                 .Database(
                     MySQLConfiguration.Standard
                         .ConnectionString(Settings.ConnectionString())
@@ -59,6 +60,11 @@ namespace TrueOrFalse
                 .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
                 .ExposeConfiguration(SetConfig)
                 .BuildConfiguration();
+
+            if (!ContextUtil.IsWebContext)
+                configuration = configuration.SetProperty("generate_statistics", "true");
+
+            return configuration;
         }
 
         private static FluentMappingsContainer AddConventions(MappingConfiguration m)

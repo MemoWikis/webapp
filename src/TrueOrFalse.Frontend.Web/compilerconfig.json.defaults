@@ -16,5 +16,12 @@
       "bare": false,
       "runtimeMode": "node"
     }
+  },
+  "minifiers": {
+    "css": {
+      "enabled": false,
+      "termSemicolons": true,
+      "gzip": false
+    }
   }
 }

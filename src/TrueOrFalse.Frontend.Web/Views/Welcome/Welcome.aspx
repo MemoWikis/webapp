@@ -277,6 +277,29 @@
             </div>
         <% } %>
             
+        <div class="well" id="newsletterSignUp" style="padding: 20px; ">
+            <h4>memucho-Newsletter</h4>
+            <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
+            <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
+                Keine gültige E-Mail-Adresse.
+            </div>
+            
+            <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
+                Deine Adresse wurde für den Newsletter angemeldet.
+            </div>
+
+            <form class="form-inline" style="color: white;">
+                <div class="">
+                    <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
+                </div>
+                <div class="" style="text-align: center; margin-top: 10px;">
+                    <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
+                        <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
+                    </a>
+                </div>
+            </form> 
+        </div>
+
         <div class="well">
             <h4>Top-Kategorien nach Fragen</h4>
                 <div class="LabelList">
