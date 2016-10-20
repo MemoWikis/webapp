@@ -43,9 +43,11 @@
 .CardContent {
   margin-left: 15px;
   margin-right: 15px;
-  height: 180px;
   overflow: hidden;
   border-bottom: 1px solid #dfdfdf;
+}
+.SingleItem .CardContent {
+  height: 180px;
 }
 .CardContent .ItemTitle {
   margin-top: 5px;
@@ -64,6 +66,9 @@
 .ButtonEllipsis {
   margin-left: 0px !important;
 }
+.ButtonOnHover {
+  font-weight: bold;
+}
 .ButtonOnHover:hover {
   background-color: lightgray !important;
   border-radius: 4px;
@@ -71,13 +76,22 @@
   color: #203256 !important;
 }
 .CardBig {
-  padding: 15px;
+  padding-top: 15px;
 }
 .CardBig header {
-  padding-bottom: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
   border-bottom: 5px solid #003264;
   margin-bottom: 15px;
 }
 .Category.CardBig header {
   border-bottom-color: #5bc0de;
+}
+.Set.CardBig header {
+  border-bottom-color: #FFD700;
+}
+.CardBig .ItemImage {
+  margin-bottom: 5px;
+  /*border-bottom-left-radius: @border-radius-card;
+        border-bottom-right-radius: @border-radius-card;*/
 }

@@ -10,24 +10,40 @@
                 <%= Model.QuestionCount %> Fragen
             </a>
         </h6>
-        <h4 class="media-heading"><%: Model.CategoryName %></h4>
+        <h4><%: Model.CategoryName %></h4>
     </header>
-    <div class="pull-left">
+    <div class="CardContent">
+        <div class="row">
+            <div class="col-xs-4">
+                <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category) %>
+            </div>
+            <div class="col-xs-8 xxs-stack">
+                <p><%: Model.CategoryDescription %></p>
+            </div>
+            <div class="col-xs-8 xxs-stack pull-right">
+
+                <div class="LabelList">
+                    <% foreach (var question in Model.Questions){ %>
+                    <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
+                        <%= question.Text %>
+                    </div>
+            <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+   <%-- <div class="pull-left">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.QuestionSet) %>
         </div>        
     </div>
-    <div class="media-body">
-        
-        <p><%: Model.CategoryDescription %></p>
-    </div>
+    
     <div class="row" style="clear: left;">
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4" style="padding-top: 10px">
                 <div class="caption"><p><%= question.Text %></p></div>
             </div>
         <% } %>
-    </div>
+    </div>--%>
 <%--    <div class="row" style="clear: left;">
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4">
