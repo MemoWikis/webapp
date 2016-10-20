@@ -1,4 +1,13 @@
-﻿div.question-short-row {
+﻿/*Fonts*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', sans-serif;
+}
+div.question-short-row {
   background-color: white;
   margin-left: 5px;
   margin-right: 5px;
