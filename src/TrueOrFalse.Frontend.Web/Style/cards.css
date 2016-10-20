@@ -1,6 +1,7 @@
 ﻿.Card {
   border: 1px solid #e3e3e3;
   border-radius: 4px;
+  margin-bottom: 20px;
 }
 .Card .ImageFull {
   border-top-left-radius: 4px;
@@ -8,9 +9,52 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+.Card .ImageContainer {
+  border-bottom: 5px solid #FFD700;
+}
+.Card .BottomBar {
+  /*margin-left: @margin-card;
+        margin-right: @margin-card;*/
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-top: 1px solid #dfdfdf;
+}
+.Card .BottomBar:before,
+.Card .BottomBar:after {
+  content: " ";
+  display: table;
+}
+.Card .BottomBar:after {
+  clear: both;
+}
+.Card .BottomBar:before,
+.Card .BottomBar:after {
+  content: " ";
+  display: table;
+}
+.Card .BottomBar:after {
+  clear: both;
+}
+.Card .BottomBar a.btn {
+  display: block;
+  float: right;
+}
+.Card .BottomBar .dropdown {
+  float: right;
+}
 .CardContent {
   margin-left: 15px;
   margin-right: 15px;
+}
+.CardContent .ItemTitle {
+  margin-top: 5px;
+}
+.CardContent .ItemInfo {
+  margin-bottom: 8px;
+  color: #a3a3a3;
+}
+.CardContent .ItemText {
+  height: 110px;
 }
 .Card .ImageLicenseCaption {
   height: 15px;
@@ -18,4 +62,13 @@
 .Card .ImageLicenseCaption a {
   margin-left: 15px;
   margin-right: 15px;
+}
+.ButtonEllipsis {
+  margin-left: 0px !important;
+}
+.ButtonOnHover:hover {
+  background-color: lightgray !important;
+  border-radius: 4px;
+  text-decoration: none !important;
+  color: #203256 !important;
 }

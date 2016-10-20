@@ -4,6 +4,7 @@
 .Card {
     border: 1px solid @well-border;
     border-radius: @border-radius-card;
+    margin-bottom: 20px;
 
     .ImageFull {
         border-top-left-radius: @border-radius-card;
@@ -12,11 +13,46 @@
         border-bottom-right-radius: 0;
        
     }
+
+    .ImageContainer {
+        border-bottom: 5px solid @color-set;
+    }
+
+    .BottomBar {
+        /*margin-left: @margin-card;
+        margin-right: @margin-card;*/
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-top: 1px solid #dfdfdf;
+        .clearfix;
+
+        a.btn {
+            display: block;
+            float: right;
+        }
+
+        .dropdown {
+            float: right;
+        }
+    }
 }
 
 .CardContent {
     margin-left: @margin-card;
     margin-right: @margin-card;
+
+    .ItemTitle {
+         margin-top: 5px;
+    }
+    
+    .ItemInfo {
+        margin-bottom: 8px;
+        color: #a3a3a3;
+    }
+
+    .ItemText {
+        height: 110px;
+    }
 }
 
 .Card .ImageLicenseCaption {
@@ -26,5 +62,22 @@
     a {
         margin-left: @margin-card;
         margin-right: @margin-card;
+    }
+}
+
+
+
+.ButtonEllipsis {
+    
+   margin-left: 0px !important;
+   
+}
+
+.ButtonOnHover {
+     &:hover{
+        background-color: lightgray !important;
+        border-radius: 4px;
+        text-decoration: none !important;
+        color: @global-text-color !important;
     }
 }

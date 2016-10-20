@@ -35,7 +35,7 @@
 </div>
 
 <div class="ThumbnailColumn">
-    <div class="Card">
+    <div class="Card SingleItem Set">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, additionalCssClasses: "ImageFull", linkToItem: Links.SetDetail(Url,Model.SetName,Model.SetId)) %>
         </div>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="CardContent">
-            <h6 style="margin-bottom: 5px; color: #a3a3a3;">
+            <h6 class="ItemInfo">
                 <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
                     <a href="#" class="noTextdecoration">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
@@ -55,12 +55,39 @@
                 </span>&nbsp;
                 Fragesatz mit <a href="<%= Links.SetDetail(Url,Model.SetName,Model.SetId) %>"><%= Model.QCount %> Fragen</a>
             </h6>
-            <h4 style="margin-top: 5px;"><%: Model.SetName %></h4>
-            <p><%: Model.SetText %></p>
-            <p style="text-align: center;">
-                <a href="<%= Links.TestSessionStartForSet(Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
+            <h4 class="ItemTitle"><%: Model.SetName %></h4>
+            <div class="ItemText"><%: Model.SetText %></div>
+                
+            <div class="BottomBar">
+                
                 <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
-            </p>
+                <div class="dropdown">
+                    <% var buttonId = Guid.NewGuid(); %>
+                    <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
+                        <li><a href="#"> Action 1</a></li>
+                        <li><a href="#"> Action 2</a></li>
+                    </ul>
+                </div>
+                <a href="<%= Links.TestSessionStartForSet(Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+                    <%--<i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>--%>
+                    &nbsp;JETZT TESTEN
+                </a>
+               <%-- <ul class="nav nav-pills" style="display: inline-block;">
+                    <li class="dropdown">
+                    <% var buttonId = Guid.NewGuid(); %>
+                    <a href="#" id="<%=buttonId %>" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
+                        <li><a href="#"> Action 1</a></li>
+                        <li><a href="#"> Action 2</a></li>
+                    </ul>
+                    </li>
+                </ul>--%>
+            </div>
         </div>
     </div>
 </div>

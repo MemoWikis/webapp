@@ -63,7 +63,9 @@
         </div>
 
         <div class="row ThumbnailRow" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
+            <% Html.RenderPartial("" +
+                                  "WelcomeBoxSingleSet" +
+                                  "", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
         </div>
