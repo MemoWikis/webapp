@@ -14,7 +14,7 @@
        
     }
 
-    .ImageContainer {
+    &.Set .ImageContainer {
         border-bottom: 5px solid @color-set;
     }
 
@@ -79,5 +79,19 @@
         border-radius: 4px;
         text-decoration: none !important;
         color: @global-text-color !important;
+    }
+}
+
+.CardBig {
+    padding: 15px;
+
+    header {
+        padding-bottom: 5px;
+        border-bottom: 5px solid @memo-blue;
+        margin-bottom: 15px;
+
+        .Category& {
+            border-bottom-color: @color-category;
+        }
     }
 }

@@ -9,7 +9,7 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-.Card .ImageContainer {
+.Card.Set .ImageContainer {
   border-bottom: 5px solid #FFD700;
 }
 .Card .BottomBar {
@@ -69,4 +69,15 @@
   border-radius: 4px;
   text-decoration: none !important;
   color: #203256 !important;
+}
+.CardBig {
+  padding: 15px;
+}
+.CardBig header {
+  padding-bottom: 5px;
+  border-bottom: 5px solid #003264;
+  margin-bottom: 15px;
+}
+.Category.CardBig header {
+  border-bottom-color: #5bc0de;
 }
