@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate;
 
 public class SetModel : BaseModel
 {
@@ -45,7 +46,9 @@ public class SetModel : BaseModel
         Name = set.Name;
 
         Set = set;
-        
+
+        var foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+
         IsOwner = _sessionUser.IsLoggedInUser(set.Creator.Id);
         IsLoggedIn = _sessionUser.IsLoggedIn;
 
@@ -56,6 +59,8 @@ public class SetModel : BaseModel
 
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
+
+        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>()
             .GetActiveInWishknowledge(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
@@ -72,6 +77,8 @@ public class SetModel : BaseModel
 
         QuestionCount = QuestionsInSet.Count;
 
+        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+
         AnswersAllCount = questions.Sum(q => q.TotalAnswers());
         AnswersAllPercentageTrue = questions.Sum(q => q.TotalTrueAnswersPercentage());
         AnswersAllPercentageFalse = questions.Sum(q => q.TotalFalseAnswerPercentage());
@@ -80,11 +87,15 @@ public class SetModel : BaseModel
         AnswerMePercentageTrue = totalsPerUser.Sum(q => q.TotalTrue);
         AnswerMePercentageFalse = totalsPerUser.Sum(q => q.TotalFalse);
 
+        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+
         var setValuations = Resolve<SetValuationRepo>().GetBy(Id);
         var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);
         if (setValuation != null){
             IsInWishknowledge = setValuation.IsInWishKnowledge();
         }
+
+        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 

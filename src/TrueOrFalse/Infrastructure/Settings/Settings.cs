@@ -21,6 +21,7 @@ public class Settings
     
     public static string MemuchoCookie = "memucho";
     public static int MemuchoUserId = 26;
+    public static bool WithNHibernateStatistics = true;
 
     public static bool DevelopOffline()
     {
@@ -29,25 +30,25 @@ public class Settings
     }
 
     /// <summary>Develop / Stage / Live</summary>
-    public static string Environment(){ return OverwrittenConfig.ValueString("environment"); }
-    public static string LogglyKey(){ return OverwrittenConfig.ValueString("logglyKey"); }
-    public static string BetaCode(){ return OverwrittenConfig.ValueString("betaCode"); }
+    public static string Environment() => OverwrittenConfig.ValueString("environment");
 
-    public static string SignalrUrl() { return OverwrittenConfig.ValueString("signalrUrl"); }
-    public static string SignalrUser() { return OverwrittenConfig.ValueString("signalrUser"); }
-    public static string SignalrPassword() { return OverwrittenConfig.ValueString("signalrPassword"); }
+    public static string LogglyKey() => OverwrittenConfig.ValueString("logglyKey");
+    public static string BetaCode() => OverwrittenConfig.ValueString("betaCode");
 
-    public static string InvoiceFolder() { return OverwrittenConfig.ValueString("invoiceFolderPath"); }
-    public static string WkHtmlToPdfFolder() { return OverwrittenConfig.ValueString("wkHtmlToPdfFolder"); }
+    public static string SignalrUrl() => OverwrittenConfig.ValueString("signalrUrl");
+    public static string SignalrUser() => OverwrittenConfig.ValueString("signalrUser");
+    public static string SignalrPassword() => OverwrittenConfig.ValueString("signalrPassword");
 
-    public static bool DebugUserNHProfiler() { return OverwrittenConfig.ValueBool("debugUserNHProfiler"); }
-    public static bool DebugMiniProfiler() { return OverwrittenConfig.ValueBool("debugMiniProfiler"); }
+    public static string InvoiceFolder() => OverwrittenConfig.ValueString("invoiceFolderPath");
+    public static string WkHtmlToPdfFolder() => OverwrittenConfig.ValueString("wkHtmlToPdfFolder");
 
-    public static bool DisableAllJobs() { return OverwrittenConfig.ValueBool("disableAllJobs"); }
+    public static bool DebugUserNHProfiler() => OverwrittenConfig.ValueBool("debugUserNHProfiler");
+    public static bool DebugMiniProfiler() => OverwrittenConfig.ValueBool("debugMiniProfiler");
+
+    public static bool DisableAllJobs() => OverwrittenConfig.ValueBool("disableAllJobs");
 
     public static string RollbarAccessToken => Get<string>("Rollbar.AccessToken");
     public static string RollbarEnvironment => Get<string>("Rollbar.Environment");
-
 
     public static string ConnectionString()
     {

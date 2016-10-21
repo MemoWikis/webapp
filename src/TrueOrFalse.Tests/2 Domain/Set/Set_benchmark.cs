@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 public class Set_benchmark : BaseTest
 {
-
     [Test]
     public void Ensure_that_only_one_query_is_performed_when_loading_set()
     {

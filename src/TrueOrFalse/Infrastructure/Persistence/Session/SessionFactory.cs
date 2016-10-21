@@ -61,7 +61,7 @@ namespace TrueOrFalse
                 .ExposeConfiguration(SetConfig)
                 .BuildConfiguration();
 
-            if (!ContextUtil.IsWebContext)
+            if (!ContextUtil.IsWebContext || Settings.WithNHibernateStatistics)
                 configuration = configuration.SetProperty("generate_statistics", "true");
 
             return configuration;
