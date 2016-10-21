@@ -1,4 +1,13 @@
-﻿div.question-short-row {
+﻿/*Fonts*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', sans-serif;
+}
+div.question-short-row {
   background-color: white;
   margin-left: 5px;
   margin-right: 5px;
@@ -63,26 +72,19 @@ a.question-short {
   padding: 10px;
 }
 @media (min-width: 480px) {
-  .ThumbnailRow {
-    display: flex;
-  }
 }
 .ThumbnailColumn {
-  display: flex;
-  position: relative;
   float: left;
-  width: 33.33333333%;
+  width: 50%;
+  position: relative;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
 }
-@media (max-width: 479px) {
+@media (min-width: 768px) {
   .ThumbnailColumn {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-    left: 0;
-    right: 0;
+    float: left;
+    width: 33.33333333%;
   }
 }
 .thumbnail {

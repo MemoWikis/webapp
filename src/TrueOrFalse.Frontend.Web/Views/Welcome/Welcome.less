@@ -1,5 +1,10 @@
 ﻿@import (reference) '../../Style/includes/imports.less';
 
+/*Fonts*/
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
+}
+
 div.question-short-row {
     background-color: white;
     margin-left: 5px;
@@ -76,14 +81,15 @@ a.question-short {
 
 .ThumbnailRow {
     .media-xs-up ({
-        display: flex;
+        //display: flex;
     })
 }
 
 .ThumbnailColumn {
-    display: flex;
-    .make-xs-column(4);
-    .xxs-stack;
+    //display: flex;
+    .make-xs-column(6);
+    .make-sm-column(4);
+    //.xxs-stack;
 }
 
 .thumbnail {

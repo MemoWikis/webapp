@@ -44,11 +44,18 @@ class Images {
     }
 
     private static AddLicenseCaption() {
-        $('.LicensedImage.JS-InitImage').each(function () {
+        $('.JS-InitImage').each(function () {
             var ancestorToInsertAfter = $(this).attr('data-append-image-link-to');
             $(this).removeAttr('data-append-image-link-to');
-            $("<a data-image-id ='" + $(this).attr('data-image-id') + "' class='ImageLicenseCaption JS-InitImageDetailModal' href='#'>Bild- und Lizenzinfos</a>")
-                .insertAfter($(this).closest("." + ancestorToInsertAfter));
+
+            var htmlToInsert = $(this).hasClass('LicensedImage')
+                ? $("<div class='ImageLicenseCaption'><a data-image-id ='" +
+                    $(this).attr('data-image-id') +
+                    "' class='JS-InitImageDetailModal' href='#'>Bild- und Lizenzinfos</a></div>")
+                : $("<div class='ImageLicenseCaption'></div>");
+
+            htmlToInsert.insertAfter($(this).closest("." + ancestorToInsertAfter));
+           
             $(this).removeClass('JS-InitImage');
         });      
     }

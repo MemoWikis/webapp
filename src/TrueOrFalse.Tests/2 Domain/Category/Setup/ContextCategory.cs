@@ -21,6 +21,14 @@ namespace TrueOrFalse.Tests
             _contextUser.Add("Context Category" ).Persist();
         }
 
+        public ContextCategory Add(int amount)
+        {
+            for (var i = 0; i < amount; i++)
+                Add($"category name {0}");
+
+            return this;
+        }
+
         public ContextCategory Add(string categoryName, CategoryType categoryType = CategoryType.Standard, User creator = null)
         {
             Category category;

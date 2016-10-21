@@ -11,6 +11,7 @@ public class SetModel : BaseModel
     public Set Set;
 
     public IList<SetQuestionRowModel> QuestionsInSet;
+    public int QuestionCount;
 
     public User Creator;
     public string CreatorName;
@@ -68,6 +69,8 @@ public class SetModel : BaseModel
                 totalsPerUser.ByQuestionId(x.Question.Id),
                 questionValutionsForCurrentUser.ByQuestionId(x.Question.Id)))
             .ToList();
+
+        QuestionCount = QuestionsInSet.Count;
 
         AnswersAllCount = questions.Sum(q => q.TotalAnswers());
         AnswersAllPercentageTrue = questions.Sum(q => q.TotalTrueAnswersPercentage());

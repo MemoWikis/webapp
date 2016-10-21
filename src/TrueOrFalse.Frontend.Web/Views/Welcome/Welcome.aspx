@@ -30,24 +30,24 @@
     
 <div class="row">
        
-    <div class="col-md-8">
+    <div class="col-md-9">
             
         <div class="well" style="padding: 13px; padding-bottom: 10px;">
             <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: Schneller lernen, länger wissen</h1>
             <div class="row">
-                <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
+                <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
                         memucho hilft dir beim Lernen. Du sparst Zeit und es macht mehr Spaß!<br/>
                     </p>
                 </div>
-                <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
+                <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-book" style="color: #2C5FB2;"></i><br/>
                         Unsere Prinzipien: Freie Bildungsinhalte, Gemeinwohlorientierung und Transparenz.
                     </p>
                 </div>
-                <div class="col-xs-4" style="text-align: center; font-size: 100%; padding: 5px;">
+                <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-users" style="color: #2C5FB2;"></i><br/>
                         Robert, Jule und Christof entwickeln memucho zusammen. Wir haben uns viel vorgenommen.
@@ -63,22 +63,18 @@
         </div>
 
         <div class="row ThumbnailRow" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
+            <% Html.RenderPartial("" +
+                                  "WelcomeBoxSingleSet" +
+                                  "", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
         </div>
 
-        <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
-        </div>
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
 
-        <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(14, new int[] { 404, 405, 406 }, "Du verstehst den Wirtschafts-Teil der Zeitung nicht? Du möchtest die Griechenland-Verhandlungen einschätzen können? Erweitere dein Wissen zu Wirtschaftsthemen!")); %>
-        </div>
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(14, new int[] { 404, 405, 406 }, "Du verstehst den Wirtschafts-Teil der Zeitung nicht? Du möchtest die Griechenland-Verhandlungen einschätzen können? Erweitere dein Wissen zu Wirtschaftsthemen!")); %>
 
-        <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 }, "Weißt du, wo diese weltweit bekannten Sehenswürdigkeiten stehen?")); %>
-        </div>
+        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 }, "Weißt du, wo diese weltweit bekannten Sehenswürdigkeiten stehen?")); %>
 
         <div class="row ThumbnailRow" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(12)); %>
@@ -86,17 +82,11 @@
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); %>
         </div>
 
-        <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); %>
-        </div>
+        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); %>
 
-        <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(14, new[] { 348, 341, 344 })); %>
-        </div>
+        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(14, new[] { 348, 341, 344 })); %>
 
-        <div class="panel panel-default">
-            <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
-        </div>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
 
 <%--        <div class="row ThumbnailRow" style="padding-top: 0px;">
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 385)); %>
@@ -114,7 +104,7 @@
             </p>
             
             <div class="row">
-                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
                   <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Schneller lernen</b>
                     <p>
@@ -122,7 +112,7 @@
                         So brauchst du weniger Zeit zum Lernen.
                     </p>
                 </div>
-                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
                   <i class="fa fa-book fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Wissen erweitern</b>
                     <p>
@@ -131,7 +121,7 @@
                     </p>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
                   <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Zu einem bestimmten Termin lernen</b>
                     <p>
@@ -139,7 +129,7 @@
                         was du schon sicher kannst und wo du weiter üben musst.
                     </p>
                 </div>
-                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
                   <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Überblick behalten</b>
                     <p>
@@ -147,7 +137,7 @@
                     </p>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
+                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
                   <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Wissen teilen</b>
                     <p>
@@ -155,7 +145,7 @@
                         Denn Wissen wird mehr, wenn man es teilt!
                     </p>
                 </div>
-                <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
+                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
                   <i class="fa fa-users fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
                     <b>Gemeinsam lernen</b>
                     <p>
@@ -263,18 +253,41 @@
         </div>  
     </div>
             
-    <div class="col-md-4">
+    <div class="col-md-3">
         <%
             var userSession = new SessionUser();
             if (!userSession.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success btn-lg" style="width: 100%" role="button">Einloggen</a>
+                <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success" style="width: 100%" role="button">Einloggen</a>
                 <br/><br/>
-                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary btn-lg" style="width: 100%;" role="button">Registrieren</a>
+                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" style="width: 100%;" role="button">Registrieren</a>
             </div>
         <% } %>
             
+        <div class="well" id="newsletterSignUp" style="padding: 20px; ">
+            <h4>Newsletter</h4>
+            <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
+            <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
+                Keine gültige E-Mail-Adresse.
+            </div>
+            
+            <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
+                Deine Adresse wurde für den Newsletter angemeldet.
+            </div>
+
+            <form class="form-inline" style="color: white;">
+                <div class="">
+                    <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
+                </div>
+                <div class="" style="text-align: center; margin-top: 10px;">
+                    <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
+                        <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
+                    </a>
+                </div>
+            </form> 
+        </div>
+
         <div class="well">
             <h4>Top-Kategorien nach Fragen</h4>
                 <div class="LabelList">

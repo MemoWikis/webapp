@@ -67,7 +67,7 @@ a.TextLinkWithIcon.active span {
   transform: rotate(0);
 }
 .PinIcon:hover i {
-  color: #b13a48 !important;
+  color: #B13A48 !important;
 }
 .flexboxx {
   /* basic styling */
@@ -101,133 +101,6 @@ a.TextLinkWithIcon.active span {
 .flexboxx > div:nth-child(3) {
   background: #CCF;
 }
-ul {
-  padding-left: 20px;
-  margin-left: 0;
-}
-.well {
-  
-}
-.well > h1:first-child,
-.well > h2:first-child,
-.well > h3:first-child,
-.well > h4:first-child {
-  margin-top: 0;
-}
-.well img {
-  border-radius: 4px;
-}
-@media (max-width: 479px) {
-  .well img:not(.ItemImage) {
-    width: 100%;
-  }
-}
-.well.Founder .ImageColumn {
-  position: relative;
-  float: left;
-  width: 50%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (min-width: 480px) {
-  .well.Founder .ImageColumn {
-    width: auto;
-  }
-}
-.well.Founder .ImageColumn img {
-  width: auto;
-  max-width: 100%;
-}
-.panel img {
-  border-radius: 4px;
-}
-@media (max-width: 479px) {
-  .panel .pull-left {
-    width: 30%;
-  }
-}
-.panel-body {
-  padding: 10px;
-}
-@media (min-width: 480px) {
-  .ThumbnailRow {
-    display: flex;
-  }
-}
-.ThumbnailColumn {
-  display: flex;
-  position: relative;
-  float: left;
-  width: 33.33333333%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .ThumbnailColumn {
-    float: none;
-    width: 100%;
-    margin-left: 0;
-    left: 0;
-    right: 0;
-  }
-}
-.thumbnail {
-  width: 100%;
-  padding: 10px;
-}
-.thumbnail img {
-  border-radius: 4px;
-}
-.thumbnail .btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  padding: 2px 10px;
-  font-size: 11.9px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-.thumbnail .caption {
-  padding: 0;
-}
-@media (max-width: 479px) {
-  .thumbnail {
-    padding: 10px;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail img {
-    float: left;
-    width: 30%;
-  }
-  .thumbnail .caption {
-    margin-left: 30%;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 0;
-    padding-left: 10px;
-  }
-  .thumbnail h4 {
-    margin-top: 0;
-  }
-}
 .StatsRow:before,
 .StatsRow:after {
   content: " ";
@@ -256,7 +129,7 @@ ul {
 @media aufraeumen {
   .box.box-menu {
     border: none;
-    border: 1px solid #e7ecf6;
+    border: 1px solid #E7ECF6;
     background-color: white;
     padding-bottom: 15px;
     padding-top: 15px;
@@ -290,8 +163,8 @@ ul {
   #mainMenu .testy:first-child {
     border-top-width: 4px;
     border-top-style: solid;
-    border-top-color: #2e487b;
-    border-left-color: #2e487b;
+    border-top-color: #003264;
+    border-left-color: #003264;
     border-top-left-radius: 4px;
     padding-bottom: 2px;
     padding-top: 0;
@@ -299,8 +172,8 @@ ul {
   #mainMenu .testy:last-child {
     border-bottom-width: 4px;
     border-bottom-style: solid;
-    border-bottom-color: #2e487b;
-    border-left-color: #2e487b;
+    border-bottom-color: #003264;
+    border-left-color: #003264;
     border-bottom-left-radius: 4px;
     padding-bottom: 2px;
     padding-top: 0;
@@ -308,7 +181,7 @@ ul {
   #mainMenu .list-group {
     border-right-width: 4px;
     border-right-style: solid;
-    border-right-color: #2e487b;
+    border-right-color: #003264;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
   }
@@ -342,4 +215,3 @@ ul {
     text-shadow: rgba(255, 255, 255, 0.3) 0px 3px 3px;
   }
 }
-/*# sourceMappingURL=temp.css.map */

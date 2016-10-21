@@ -113,14 +113,51 @@
   },
   {
     "outputFile": "Style/temp.css",
-    "inputFile": "Style/temp.less"
+    "inputFile": "Style/temp.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/cards.css",
+    "inputFile": "Style/cards.less",
+    "minify": {
+      "enabled": false
+    }
   },
   {
     "outputFile": "Views/Maintenance/Images.css",
-    "inputFile": "Views/Maintenance/Images.less"
+    "inputFile": "Views/Maintenance/Images.less",
+    "minify": {
+      "enabled": false
+    }
   },
   {
     "outputFile": "Style/Images.css",
-    "inputFile": "Style/Images.less"
+    "inputFile": "Style/Images.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/z_variables_2.3.2.css",
+    "inputFile": "Style/z_variables_2.3.2.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/z_buttons_2.3.2.css",
+    "inputFile": "Style/z_buttons_2.3.2.less",
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFile": "Style/menu.css",
+    "inputFile": "Style/menu.less",
+     "minify": {
+      "enabled": false
+    }
   }
 ]

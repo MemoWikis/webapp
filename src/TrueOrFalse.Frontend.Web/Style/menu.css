@@ -12,12 +12,12 @@
     border-bottom-right-radius: 4px;
     position: absolute;
     top: 0;
-    background-color: white;
+    background-color: #F6F8FA;
     width: 90%;
     max-width: 270px;
     opacity: 1;
     z-index: 100;
-    box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+    box-shadow: 0 8px 10px #555, 5px 5px 15px #555;
   }
   #mainMenu .list-group {
     margin-bottom: 0;
@@ -35,12 +35,13 @@
   }
 }
 #mainMenu .list-group-item {
-  margin-top: 2px;
+  margin-top: 3px;
   background-color: #f6f8fc;
-  border: solid 4px #2c5fb2;
+  background-color: white;
+  border: solid 4px #2C5FB2;
   border-top: none;
-  border-bottom: none;
-  border-right: none;
+  border-bottom: 1px solid #e3e3e3;
+  border-right: 1px solid #e3e3e3!important;
   font-size: 15px;
   padding-top: 6px;
   padding-bottom: 6px;
@@ -77,20 +78,20 @@
   float: right;
 }
 #mainMenu .list-group-item .set-color {
-  color: #ffd700;
+  color: #FFD700;
 }
 #mainMenu .list-group-item .quest-color {
-  color: #afd534;
+  color: #AFD534;
 }
 #mainMenu .list-group-item .cat-color {
   color: #5bc0de;
 }
 #mainMenu .list-group-item.set {
-  border-left-color: #ffd700;
-  border-right-color: #ffd700;
+  border-left-color: #FFD700;
+  border-right-color: #FFD700;
 }
 #mainMenu .list-group-item.set i.fa-caret-right {
-  color: #ffd700;
+  color: #FFD700;
 }
 #mainMenu .list-group-item.set:hover {
   background-color: #ffeb80;
@@ -100,11 +101,11 @@
   color: white;
 }
 #mainMenu .list-group-item.quest {
-  border-left-color: #afd534;
-  border-right-color: #afd534;
+  border-left-color: #AFD534;
+  border-right-color: #AFD534;
 }
 #mainMenu .list-group-item.quest i.fa-caret-right {
-  color: #afd534;
+  color: #AFD534;
 }
 #mainMenu .list-group-item.quest:hover {
   background-color: #d0e689;
@@ -125,11 +126,11 @@
   color: black;
 }
 #mainMenu .list-group-item.know {
-  border-left-color: #b13a48;
-  border-right-color: #b13a48;
+  border-left-color: #B13A48;
+  border-right-color: #B13A48;
 }
 #mainMenu .list-group-item.know i.fa-caret-right {
-  color: #b13a48;
+  color: #B13A48;
 }
 #mainMenu .list-group-item.know:hover {
   background-color: #ce6975;
@@ -139,11 +140,11 @@
   color: white;
 }
 #mainMenu .list-group-item.messages {
-  border-left-color: #ffa500;
-  border-right-color: #ffa500;
+  border-left-color: #FFA500;
+  border-right-color: #FFA500;
 }
 #mainMenu .list-group-item.messages i.fa-caret-right {
-  color: #ffa500;
+  color: #FFA500;
 }
 #mainMenu .list-group-item.messages:hover {
   background-color: #ffdb99;
@@ -151,7 +152,7 @@
 }
 #mainMenu .list-group-item.dues {
   border-left-color: #138992;
-  border-right-color: #b13a48;
+  border-right-color: #B13A48;
 }
 #mainMenu .list-group-item.dues i.fa-caret-right {
   color: #138992;
@@ -164,17 +165,17 @@
   color: white;
 }
 #mainMenu .list-group-item.users {
-  border-left-color: #2c5fb2;
+  border-left-color: #2C5FB2;
 }
 #mainMenu .list-group-item.users i.fa-caret-right {
-  color: #2c5fb2;
+  color: #2C5FB2;
 }
 #mainMenu .list-group-item.users:hover {
   background-color: #93b2e4;
   color: white;
 }
 #mainMenu .list-group-item.users:hover i.fa-caret-right {
-  color: #2c5fb2;
+  color: #2C5FB2;
 }
 #mainMenu .list-group-item.play {
   border-left-color: #3e7700;
@@ -232,7 +233,7 @@ div.menu a {
 }
 div.menu a:hover,
 div.menu a.active:hover {
-  background-color: #2e487b;
+  background-color: #003264;
   color: white;
 }
 div.menu div.main {
@@ -240,7 +241,7 @@ div.menu div.main {
 }
 div.menu div.main a:hover,
 div.menu div.main a.active:hover {
-  background-color: #2e487b;
+  background-color: #003264;
   color: white;
 }
 div.menu div.no-hover:hover {
@@ -248,7 +249,7 @@ div.menu div.no-hover:hover {
 }
 div.menu a.active,
 div.menu div.main a.active {
-  color: #b13a48;
+  color: #B13A48;
 }
 div.menu i.fa-caret-right {
   visibility: hidden;
@@ -291,4 +292,3 @@ div.menu .tooltip-inner {
   padding-top: 7px;
   padding-bottom: 15px;
 }
-/*# sourceMappingURL=menu.css.map */

@@ -16,13 +16,15 @@
         <div class="xxs-stack col-xs-9">
             <h2 style="margin-top:0px;">
                 <span style="margin-right: 15px;" class="ColoredUnderline Set"><%= Model.Name %></span>
+                <span class="label label-question show-tooltip" style="font-size: 12px; margin-right: 20px;" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Fragesatz">
+                    <%= Model.QuestionCount %> Fragen
+                </span>
                 <span style="display: inline-block; font-size: 20px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
                         <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
                         <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
                     </a>
-                    
                     <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
 
                     <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
@@ -51,25 +53,26 @@
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
-                <% if (!Model.IsLoggedIn) { %>
-                    <a class="btn btn-primary btn-sm" data-btn="startLearningSession" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
-                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                <% if (Model.QuestionCount > 0) { %>
+                    <% if (!Model.IsLoggedIn) { %>
+                        <a class="btn btn-primary btn-sm" data-btn="startLearningSession" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
+                            <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                        </a>
+                    <% } else { %>
+                        <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
+                            <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                        </a>
+                    <% } %>
+                    <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
+                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                     </a>
-                <% } else { %>
-                    <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
-                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                    <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
+                        <i class="fa fa-gamepad">&nbsp;</i>Spiel starten
+                    </a>
+                    <a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                        <i class="fa fa-calendar">&nbsp;</i>Termin lernen
                     </a>
                 <% } %>
-                <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
-                    <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
-                </a>
-                <a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
-                    <i class="fa fa-gamepad">&nbsp;</i>Spiel starten
-                </a>
-                <a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
-                    <i class="fa fa-calendar">&nbsp;</i>Termin lernen
-                </a>
-
             </div>
         </div>
         

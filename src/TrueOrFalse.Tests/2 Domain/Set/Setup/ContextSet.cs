@@ -28,7 +28,8 @@ public class ContextSet
         string name, 
         string text = "", 
         User creator = null, 
-        int numberOfQuestions = 0, 
+        int numberOfQuestions = 0,
+        int amountCategoriesPerQuestion = 0,
         IList<Question> questions = null)
     {
         var set = new Set{
@@ -39,11 +40,13 @@ public class ContextSet
             
         All.Add(set);
 
+        var categories = ContextCategory.New().Add(amountCategoriesPerQuestion).Persist().All;
+
         if (questions != null)
-            AddQuestions(questions);
+            AddQuestions(questions, categories);
 
         for (var i = 0; i < numberOfQuestions; i++)
-            AddQuestion("question_" + i, "answer_" + i);
+            AddQuestion("question_" + i, "answer_" + i, categories);
 
         return this;
     }
@@ -57,7 +60,7 @@ public class ContextSet
         return this;
     }
 
-    public ContextSet AddQuestions(IList<Question> questions)
+    public ContextSet AddQuestions(IList<Question> questions, IList<Category> categories)
     {
         foreach (var question in questions)
             AddQuestion(question);
@@ -65,9 +68,9 @@ public class ContextSet
         return this;
     }
 
-    public ContextSet AddQuestion(string question, string solution)
+    public ContextSet AddQuestion(string question, string solution, List<Category> categories =  null)
     {
-        _contextQuestion.AddQuestion(questionText: question, solutionText: solution).Persist();
+        _contextQuestion.AddQuestion(questionText: question, solutionText: solution, categories: categories).Persist();
         var addedQuestion = _contextQuestion.All.Last();
 
         return AddQuestion(addedQuestion);
