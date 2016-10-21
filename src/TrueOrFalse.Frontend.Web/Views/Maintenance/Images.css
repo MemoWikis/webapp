@@ -120,27 +120,27 @@
 #modalImageMaintenance .ImageInfo .FluidColumn {
   overflow: hidden;
 }
-#modalImageMaintenance .LicenseInfo,
+#modalImageMaintenance .ModalLicenseInfo,
 #modalImageMaintenance .ImageTable {
   padding: 10px;
   margin-top: 10px;
   clear: left;
 }
-#modalImageMaintenance .LicenseInfo.success,
+#modalImageMaintenance .ModalLicenseInfo.success,
 #modalImageMaintenance .ImageTable.success,
-#modalImageMaintenance .LicenseInfo td.success,
+#modalImageMaintenance .ModalLicenseInfo td.success,
 #modalImageMaintenance .ImageTable td.success {
   background-color: #dbffd3;
 }
-#modalImageMaintenance .LicenseInfo.warning,
+#modalImageMaintenance .ModalLicenseInfo.warning,
 #modalImageMaintenance .ImageTable.warning {
   background-color: #fff3b1;
 }
-#modalImageMaintenance .LicenseInfo.danger,
+#modalImageMaintenance .ModalLicenseInfo.danger,
 #modalImageMaintenance .ImageTable.danger {
   background-color: #fee6eb !important;
 }
-#modalImageMaintenance .LicenseInfo h4,
+#modalImageMaintenance .ModalLicenseInfo h4,
 #modalImageMaintenance .ImageTable h4 {
   margin-top: 0;
 }

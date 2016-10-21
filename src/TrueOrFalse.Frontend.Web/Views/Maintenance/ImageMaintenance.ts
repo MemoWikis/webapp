@@ -25,6 +25,8 @@ class ImageMaintenanceModal {
 
     constructor(imgId: number, manualImageEvaluationStringVal: string) {
 
+        $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
+
         $('#ManualImageEvaluation').val(manualImageEvaluationStringVal);
 
         $('#SaveImageDataAndClose').click(function (e) {

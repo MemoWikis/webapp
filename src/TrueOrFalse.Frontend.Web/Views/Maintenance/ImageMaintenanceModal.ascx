@@ -63,7 +63,7 @@
                            <% } %>
                     </div>
                 </div>
-                <div class="LicenseInfo <%= Model.LicenseStateCssClass%>">
+                <div class="ModalLicenseInfo <%= Model.LicenseStateCssClass%>">
                     <h4>Lizenzen</h4>
                     
                     <div class="row">
@@ -138,9 +138,12 @@
 
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
                 <div class="col-lg-6">
-                    <a href="#" class="btn btn-default" id="ReloadImage">
+                    <% var dataContent = @"<span style='color: red'>ACHTUNG! Wirklich neu laden? Bitte vorher sicherstellen, dass das Bild mit dem alten übereinstimmt.</span>"; %>
+                    <a id="ReloadImage" class="btn btn-danger" 
+                        tabindex="0" role="button"
+                        data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
                         <i class="fa fa-refresh"></i> Bild neu laden
-                    </a>                    
+                    </a>
                 </div>
                 <div class="col-lg-6" style="text-align: right;">
                     <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
