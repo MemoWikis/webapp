@@ -8,7 +8,7 @@
         <% if (category.CountQuestions == 0) { %> 
             (0 Fragen)
         <% } else if (category.CountQuestions == 1) { %> 
-            <a href="<%: Links.QuestionWithCategoryFilter(Url, category) %>">(1 Frage)</a>
+            <a href="<%: Links.QuestionWithCategoryFilter(Url, category) %>" class="NumberQuestions">(1 Frage)</a>
         <% } else {%>
             <a href="<%: Links.QuestionWithCategoryFilter(Url, category) %>">(<%: category.CountQuestions %> Fragen)</a>
         <%} %>

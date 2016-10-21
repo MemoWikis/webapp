@@ -74,17 +74,16 @@ a.question-short {
 @media (min-width: 480px) {
 }
 .ThumbnailColumn {
-  float: left;
-  width: 50%;
   position: relative;
+  float: left;
+  width: 33.33333333%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
 }
-@media (min-width: 768px) {
+@media (max-width: 479px) {
   .ThumbnailColumn {
-    float: left;
-    width: 33.33333333%;
+    width: 50%;
   }
 }
 .thumbnail {
