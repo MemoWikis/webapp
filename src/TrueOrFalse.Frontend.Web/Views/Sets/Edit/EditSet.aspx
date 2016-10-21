@@ -1,9 +1,9 @@
-﻿<%@ Page Title="Fragesatz erstellen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <title><%=Model.PageTitle %></title>
+    <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>" />
     <% } else {  %>

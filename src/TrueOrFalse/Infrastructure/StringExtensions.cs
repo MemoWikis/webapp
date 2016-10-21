@@ -13,10 +13,12 @@ public static class StringExtensions
         return false;
     }
 
-    public static string Truncate(this string input, int maxLength)
+    public static string Truncate(this string input, int maxLength, bool addEllipsis = false)
     {
         if (string.IsNullOrEmpty(input))
             return input;
+        if (addEllipsis)
+            return input.Length <= maxLength ? input : input.Substring(0, maxLength - 3) + "...";
         return input.Length <= maxLength ? input : input.Substring(0, maxLength);
     }
     

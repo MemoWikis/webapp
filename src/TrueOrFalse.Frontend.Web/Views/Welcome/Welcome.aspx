@@ -1,11 +1,11 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+﻿<%@ Page Title="memucho: Schneller lernen, länger wissen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
 	Inherits="ViewPage<WelcomeModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
-    <title>memucho</title>
     <link rel="canonical" href="<%= Settings.CanonicalHost %>" />
+    <meta name="description" content="memucho hilft dir beim Lernen. Du sparst Zeit, bist effizienter und es macht mehr Spaß! Entdecke neues Wissen oder füge dein eigenes hinzu."/>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     
     <script type="text/javascript" >

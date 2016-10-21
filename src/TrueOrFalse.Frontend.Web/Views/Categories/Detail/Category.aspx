@@ -1,12 +1,12 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="NHibernate.Properties" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
-    <title>Kategorie - <%=Model.Name %> </title>
+    <% Title = "Kategorie: " + Model.Name; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryDetail(Model.Name, Model.Id) %>" />
+    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(25, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(89, true) %> - Lerne mit memucho!"/>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

@@ -8,6 +8,7 @@ public class SetModel : BaseModel
 {
     public int Id;
     public string Name;
+    public string Text;
 
     public Set Set;
 
@@ -44,6 +45,7 @@ public class SetModel : BaseModel
     {
         Id = set.Id;
         Name = set.Name;
+        Text = set.Text;
 
         Set = set;
 

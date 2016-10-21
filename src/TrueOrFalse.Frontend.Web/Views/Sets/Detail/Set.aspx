@@ -1,11 +1,12 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="ViewPage<SetModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<SetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <title>Fragesatz - <%= Model.Set.Name %></title>
+    <% Title = "Fragesatz: " + Model.Name; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetDetail(Model.Name, Model.Id) %>" />
+    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(40, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(74, true) %> - Lerne mit memucho!"/>
+
     <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
     <%= Scripts.Render("~/bundles/Set") %>
 </asp:Content>
@@ -45,6 +46,11 @@
                     </div>
                 </span>
             </h2>
+            <div>
+                <p style="font-size: 16px;">
+                    <%= Model.Text %>
+                </p>
+            </div>
         </div>
         <div class="col-xs-3 xxs-stack">
             <div class="navLinks">

@@ -1,10 +1,9 @@
-﻿<%@ Page Title="Ergebnis Übungssitzung" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<TestSessionResultModel>" %>
+﻿<%@ Page Title="Dein Ergebnis" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<TestSessionResultModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <title>Ergebnis</title>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />

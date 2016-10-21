@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Nutzer" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ContentPlaceHolderID="Head" runat="server">
+    <% Title = "Nutzer: " + Model.Name; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.UserDetail(Model.User) %>" />
-    <title>Nutzer <%=Model.Name %></title>
     <%= Styles.Render("~/bundles/User") %>
     <%= Scripts.Render("~/bundles/Js/User") %>
 </asp:Content>

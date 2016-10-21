@@ -4,7 +4,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <title>Ergebnis</title>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     
