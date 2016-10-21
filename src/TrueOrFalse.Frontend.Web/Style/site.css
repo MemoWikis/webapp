@@ -926,6 +926,11 @@ fieldset[disabled] #MenuButton:hover {
     width: 25%;
   }
 }
+@media (min-width: 1200px) {
+  #MasterLeftColumn {
+    width: 20%;
+  }
+}
 #MasterMainColumn {
   position: relative;
   min-height: 1px;
@@ -936,6 +941,11 @@ fieldset[disabled] #MenuButton:hover {
   #MasterMainColumn {
     float: left;
     width: 75%;
+  }
+}
+@media (min-width: 1200px) {
+  #MasterMainColumn {
+    width: 80%;
   }
 }
 /* MASTER FOOTER
