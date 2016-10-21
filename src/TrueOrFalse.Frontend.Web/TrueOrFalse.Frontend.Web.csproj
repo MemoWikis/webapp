@@ -553,9 +553,6 @@
       <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
     <Content Include="Style\guidedTour\bootstrap-tour.css" />
-    <Content Include="Style\site.min.css">
-      <DependentUpon>site.css</DependentUpon>
-    </Content>
     <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
     <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
     <Content Include="Views\AlgoInsight\TabForgettingCurve_.js">
