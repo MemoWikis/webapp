@@ -266,7 +266,7 @@
         <% } %>
             
         <div class="well" id="newsletterSignUp" style="padding: 20px; ">
-            <h4>memucho-Newsletter</h4>
+            <h4>Newsletter</h4>
             <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
             <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
                 Keine gültige E-Mail-Adresse.
