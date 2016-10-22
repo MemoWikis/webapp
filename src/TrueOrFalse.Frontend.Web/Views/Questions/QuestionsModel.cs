@@ -8,6 +8,7 @@ public class QuestionsModel : BaseModel
     public IEnumerable<QuestionRowModel> QuestionRows { get; set; }
     public string CanonicalUrl { get; set; }
     public bool HasFiltersOrChangedOrder { get; set; }
+    public string PageTitle = "Fragen";
 
     public PagerModel Pager { get; set; }
 
@@ -115,6 +116,9 @@ public class QuestionsModel : BaseModel
         else if (ActiveTabMine)
             CanonicalUrl = Links.QuestionsMine();
         if (Pager.CurrentPage > 1)
+        {
             CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
+            PageTitle += " (Seite " + Pager.CurrentPage.ToString() + ")";
+        }
     }
 }

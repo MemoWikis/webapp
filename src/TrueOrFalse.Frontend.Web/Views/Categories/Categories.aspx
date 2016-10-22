@@ -1,7 +1,8 @@
-﻿<%@ Page Title="Kategorien" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<CategoriesModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<CategoriesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% Title = Model.PageTitle; %>
     <% if (Model.HasFiltersOrChangedOrder) { %>
         <meta name="robots" content="noindex" />
     <% } else { %>

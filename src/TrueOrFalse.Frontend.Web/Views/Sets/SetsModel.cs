@@ -10,6 +10,8 @@ public class SetsModel : BaseModel
 
     public string CanonicalUrl;
     public bool HasFiltersOrChangedOrder;
+    public string PageTitle = "Fragesätze";
+
     public bool ActiveTabAll;
     public bool ActiveTabMine;
     public bool ActiveTabWish;
@@ -100,7 +102,9 @@ public class SetsModel : BaseModel
         else if (ActiveTabMine)
             CanonicalUrl = Links.SetsMine();
         if (Pager.CurrentPage > 1)
+        {
             CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
-
+            PageTitle += " (Seite " + Pager.CurrentPage.ToString() + ")";
+        }
     }
 }

@@ -15,6 +15,7 @@ public class CategoriesModel : BaseModel
 
     public string CanonicalUrl;
     public bool HasFiltersOrChangedOrder;
+    public string PageTitle = "Kategorien";
     public int TotalCategoriesInSystem { get; set; }
     public int TotalMine  { get; set; }
     public string SearchTerm  { get; set; }
@@ -55,7 +56,10 @@ public class CategoriesModel : BaseModel
             HasFiltersOrChangedOrder = true;
         CanonicalUrl = Links.Categories();
         if (Pager.CurrentPage > 1)
+        {
             CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
+            PageTitle += " (Seite " + Pager.CurrentPage.ToString() + ")";
+        }
     }
 
     public void SetCategories(IList<Category> categories)

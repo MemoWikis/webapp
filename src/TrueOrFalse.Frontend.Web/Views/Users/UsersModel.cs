@@ -10,6 +10,7 @@ public class UsersModel : BaseModel
 
     public string CanonicalUrl;
     public bool HasFiltersOrChangedOrder;
+    public string PageTitle = "Nutzer";
     public bool ActiveTabAll = true;//$temp
     public bool ActiveTabFollowed;//$temp
 
@@ -63,8 +64,10 @@ public class UsersModel : BaseModel
             HasFiltersOrChangedOrder = true;
         CanonicalUrl = Links.Users();
         if (Pager.CurrentPage > 1)
+        {
             CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
-
+            PageTitle += " (Seite " + Pager.CurrentPage.ToString() + ")";
+        }
         if (IsLoggedIn)
         {
             HeaderModel.TotalFollowingMe = R<TotalFollowers>().Run(UserId);
