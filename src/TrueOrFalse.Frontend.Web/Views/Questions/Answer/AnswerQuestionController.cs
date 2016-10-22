@@ -122,7 +122,12 @@ public class AnswerQuestionController : BaseController
         {
             if (id == null)
                 throw new Exception("AnswerQuestionController: No id for question provided.");
+
             var question2 = _questionRepo.GetById((int)id);
+
+            if (question2 == null)
+                throw new Exception("question not found");
+                
             return View(_viewLocation, new AnswerQuestionModel(question2));
         }
 
