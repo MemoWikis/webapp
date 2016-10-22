@@ -2,17 +2,16 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
-    
 <div class="row" style="padding-top:30px;">
     <div class="BackToHome col-md-3">
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
     </div>
     <div class="form-horizontal col-md-9">
         
-        <h2 style="margin-bottom: 15px; margin-top: 0px;">Wir unterstützen die Gemeinwohlökonomie</h2>
+        <h1 style="margin-bottom: 15px; margin-top: 0px;">Wir unterstützen die Gemeinwohlökonomie</h1>
 
         <p>
-            Unsere geplante Unternehmung soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
+            Unser Unternehmen soll dem Gemeinwohl dienen und deshalb auf gemeinwohlfördernden Werten aufbauen. 
         </p>
         <p>
             Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de"><i class="fa fa-external-link">&nbsp;</i>Gemeinwohlökonomie</a> 

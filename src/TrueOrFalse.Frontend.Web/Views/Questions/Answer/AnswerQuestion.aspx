@@ -3,15 +3,17 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse" %>
 
-<asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Frage: " + Model.QuestionText; %>
-    
     <% if (Model.IsLearningSession) { %>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
     <%}else { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />   
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
     <% } %>
-    <meta name="description" content="<%= (Model.QuestionText.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(85, true) + " - Lerne die richtige Antwort mit memucho und vergesse sie nie wieder!") %>"/>
+    <meta name="description" content="<%= (Model.QuestionText.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(85, true) + " - Lerne die richtige Antwort mit memucho und vergesse sie nie wieder!") %>">
+</asp:Content>
+
+<asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>

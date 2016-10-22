@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
     <% Html.RenderPartial("Site.Partial.Head", Model); %> 
     <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />

@@ -3,13 +3,15 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Register Src="~/Views/Categories/Edit/TypeControls/Book.ascx" TagPrefix="uc1" TagName="Book" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <% if (Model.IsEditing) { %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryEdit(Url, Model.Name, Model.Category.Id) %>">
+    <% } else {  %>
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryCreate() %>">
+    <% } %>
+</asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <% if (Model.IsEditing) { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryEdit(Url, Model.Name, Model.Category.Id) %>" />
-    <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryCreate() %>" />
-    <% } %>
     <link href="/Views/Categories/Edit/EditCategory.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/CategoryEdit") %>

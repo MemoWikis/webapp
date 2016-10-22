@@ -2,11 +2,13 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Fragesatz: " + Model.Name; %>
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetDetail(Model.Name, Model.Id) %>" />
-    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(40, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(74, true) %> - Lerne mit memucho!"/>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetDetail(Model.Name, Model.Id) %>">
+    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(40, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(74, true) %> - Lerne mit memucho!">
+</asp:Content>
 
+<asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
     <%= Scripts.Render("~/bundles/Set") %>
 </asp:Content>

@@ -13,7 +13,7 @@
         <% } %>
     </span>
 </a>
-<a class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">
+<a class="helpLink TextLinkWithIcon" href="<%= Links.HelpFAQ() %>">
     <i class="fa fa-question-circle"></i>
     <span class="TextSpan Help">FAQ</span>
 </a> 

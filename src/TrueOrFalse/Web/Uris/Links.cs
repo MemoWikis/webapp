@@ -24,7 +24,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
 
         public const string HelpController = "Help";
-        public const string HelpFAQ = "FAQ";
+        public const string HelpActionFAQ = "FAQ";
+        public static string HelpFAQ() { return GetUrlHelper().Action(HelpActionFAQ, HelpController); }
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 

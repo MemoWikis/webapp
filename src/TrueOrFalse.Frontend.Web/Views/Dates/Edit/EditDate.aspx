@@ -4,13 +4,15 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% if (Model.IsEditing) { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateEdit(Model.DateId) %>" />
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateEdit(Model.DateId) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateCreate() %>" />
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.DateCreate() %>">
     <% } %>
+</asp:Content>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/EditDate") %>
     <%= Scripts.Render("~/bundles/js/EditDate") %>
     

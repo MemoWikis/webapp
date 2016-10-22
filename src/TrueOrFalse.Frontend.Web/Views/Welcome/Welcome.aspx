@@ -3,9 +3,12 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %>">
+    <meta name="description" content="memucho hilft dir beim Lernen. Du sparst Zeit, bist effizienter und es macht mehr Spaß! Entdecke neues Wissen oder füge dein eigenes hinzu.">
+</asp:Content>
+
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %>" />
-    <meta name="description" content="memucho hilft dir beim Lernen. Du sparst Zeit, bist effizienter und es macht mehr Spaß! Entdecke neues Wissen oder füge dein eigenes hinzu."/>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     
     <script type="text/javascript" >
@@ -200,7 +203,7 @@
                     <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
                         Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Url.Action(Links.HelpFAQ, Links.HelpController) %>">Erfahre mehr</a> über unseren Datenschutz.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.HelpFAQ() %>">Erfahre mehr</a> über unseren Datenschutz.)
                     </p>
                 </li>
                 <li><i class="fa fa-li fa-github"></i>

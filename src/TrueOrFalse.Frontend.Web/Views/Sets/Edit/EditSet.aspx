@@ -2,13 +2,16 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>" />
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetCreate() %>" />
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetCreate() %>">
     <% } %>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Sets/Edit/EditSet.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
     <%= Scripts.Render("~/bundles/SetEdit") %>

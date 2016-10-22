@@ -2,13 +2,16 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
     <% if (Model.HasFiltersOrChangedOrder) { %>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
     <% } else { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>" />
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>">
     <% } %>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Questions/Questions.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/questions") %>
 </asp:Content>

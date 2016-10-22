@@ -3,9 +3,12 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-<asp:Content ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Nutzer: " + Model.Name; %>
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.UserDetail(Model.User) %>" />
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.UserDetail(Model.User) %>">
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/User") %>
     <%= Scripts.Render("~/bundles/Js/User") %>
 </asp:Content>
