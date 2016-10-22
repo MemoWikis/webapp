@@ -11,7 +11,7 @@ public class SetController : BaseController
     [SetMenu(MenuEntry.QuestionSetDetail)]
     public ActionResult QuestionSet(string text, int id)
     {
-        var set = Resolve<SetRepo>().GetById(id);
+        var set = Resolve<SetRepo>().GetByIdEager(id);
         return QuestionSet(set);
     }
 
