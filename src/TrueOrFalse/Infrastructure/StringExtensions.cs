@@ -47,4 +47,12 @@ public static class StringExtensions
     {
         return stringToTrim == null ? null : Regex.Replace(stringToTrim, @"\s+", " ").Trim();
     }
+
+    public static string StripHTMLTags(this string input)
+    {
+        // Method should not be used to process untrusted user input; see http://stackoverflow.com/questions/4878452/remove-html-tags-in-string
+        // for a safer version, see http://stackoverflow.com/questions/12787449/html-agility-pack-removing-unwanted-tags-without-removing-content
+        const string htmlTagPattern = "<.*?>";
+        return Regex.Replace(input, htmlTagPattern, " ");
+    }
 }
