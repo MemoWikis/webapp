@@ -15,7 +15,7 @@
     <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
     <div class="row">
         <div class="xxs-stack col-xs-9">
-            <h2 style="margin-top:0px;">
+            <h1 style="margin-top:0px;">
                 <span style="margin-right: 15px;" class="ColoredUnderline Set"><%= Model.Name %></span>
                 <span class="label label-question show-tooltip" style="font-size: 12px; margin-right: 20px;" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Fragesatz">
                     <%= Model.QuestionCount %> Fragen
@@ -45,7 +45,7 @@
                         <% } %>
                     </div>
                 </span>
-            </h2>
+            </h1>
             <div>
                 <p style="font-size: 16px;">
                     <%= Model.Text %>

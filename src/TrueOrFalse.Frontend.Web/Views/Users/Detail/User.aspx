@@ -16,12 +16,12 @@
         <div class="xxs-stack col-xs-12">
             <div class="row">
                 <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
-                    <h2 class="pull-left ColoredUnderline User" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
+                    <h1 class="pull-left ColoredUnderline User" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
                         <%= Model.Name %>
                         <span style="display: inline-block; font-size: 20px; font-weight: normal;">
                             &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
                         </span>
-                    </h2>
+                    </h1>
                 </div>
                 <div class="col-xs-3 xxs-stack">
                     <div class="navLinks">

@@ -181,7 +181,7 @@
         </div>        
     <% } %>
 
-    <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h2>
+    <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
 
     <% if(!Model.IsLoggedIn){ %>
 

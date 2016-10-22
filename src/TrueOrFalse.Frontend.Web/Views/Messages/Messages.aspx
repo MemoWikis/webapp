@@ -16,9 +16,9 @@
     <div class="row">
         <div class="col-md-9">
         
-            <h2 style="margin-top: 0; margin-bottom: 20px;">
+            <h1 style="margin-top: 0; margin-bottom: 20px;">
                 <span class="ColoredUnderline Message" style="padding-right: 3px;">Nachrichten</span>
-            </h2>    
+            </h1>    
 
             <% foreach(var msg in Model.Rows){ %>
                 <div class="row msgRow rowBase <%: msg.IsRead ? "isRead" : "" %>" data-messageId="<%: msg.MessageId %>">

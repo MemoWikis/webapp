@@ -72,9 +72,9 @@
 
     <div class="row">
         <div class="PageHeader col-md-9">
-            <h2 style="margin-bottom: 15px; margin-top: 0px;" class="pull-left">
+            <h1 style="margin-bottom: 15px; margin-top: 0px;" class="pull-left">
                 <span class="ColoredUnderline Date">Deine Termine</span>
-            </h2>
+            </h1>
         </div>
         <div class="col-md-3">
             <div class="headerControls pull-right">

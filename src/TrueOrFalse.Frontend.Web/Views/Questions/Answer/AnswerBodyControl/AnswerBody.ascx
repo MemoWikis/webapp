@@ -31,8 +31,10 @@
             <i class="fa fa-spinner fa-spin hide2" id="iAddSpinner" style="color:#b13a48;"></i>
         </a>
     </div>    
-    <div style="font-size: 22px; padding-bottom: 20px;">
-        <%= Model.QuestionText %>
+    <div>
+        <h1 style="font-size: 22px; padding-bottom: 20px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
+            <%= Model.QuestionText %>
+        </h1>
     </div>
                 
     <div class="RenderedMarkdown"><%= Model.QuestionTextMarkdown %></div>
