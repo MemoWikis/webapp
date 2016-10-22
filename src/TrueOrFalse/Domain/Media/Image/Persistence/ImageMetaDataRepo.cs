@@ -13,13 +13,16 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
+        if (ImageMetaDataCache.IsInCache(typeId, imageType))
+            return ImageMetaDataCache.FromCache(typeId, imageType);
+
         return GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
     }
 
-    public IList<ImageMetaData> GetBy(List<int> typeId, ImageType imageType)
+    public IList<ImageMetaData> GetBy(IList<int> typeIds, ImageType imageType)
     {
         return _session.QueryOver<ImageMetaData>()
-            .Where(Restrictions.In("TypeId", typeId))
+            .Where(Restrictions.In("TypeId", typeIds.ToList()))
             .And(x => x.Type == imageType)
             .List<ImageMetaData>();
     }

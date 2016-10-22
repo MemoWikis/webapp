@@ -49,6 +49,8 @@ public class SetModel : BaseModel
 
         Set = set;
 
+        ImageMetaDataCache.WarmupRequestCache(set);
+
         var foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         IsOwner = _sessionUser.IsLoggedInUser(set.Creator.Id);

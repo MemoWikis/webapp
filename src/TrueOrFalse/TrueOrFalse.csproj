@@ -316,6 +316,7 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionType.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataCache.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
