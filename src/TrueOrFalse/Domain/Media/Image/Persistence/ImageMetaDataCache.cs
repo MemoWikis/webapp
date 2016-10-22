@@ -48,7 +48,7 @@ public class ImageMetaDataCache
 
         var items = Sl.Resolve<ImageMetaDataRepo>()
             .GetBy(ids, imageType)
-            .ToDictionary(r => r.Id);
+            .ToDictionary(r => r.TypeId);
 
         var dictionary = new Dictionary<int, ImageMetaData>();
         

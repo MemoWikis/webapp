@@ -71,6 +71,7 @@ public class SetModel : BaseModel
 
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
+
         QuestionsInSet = set.QuestionsInSet.Select(
             x => new SetQuestionRowModel(
                 x.Question, 
