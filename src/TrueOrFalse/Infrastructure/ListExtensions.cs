@@ -6,6 +6,22 @@ public static class ListExtensions
 {
     public static void Shuffle<T>(this IList<T> list)
     {
+        if (list.Count > 255)
+        {
+            Random rng = new Random();
+            int m = list.Count;
+            while (m > 1)
+            {
+                m--;
+                int k = rng.Next(m + 1);
+                T value = list[k];
+                list[k] = list[m];
+                list[m] = value;
+            }
+
+            return;
+        }
+
         //http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp
         var provider = new RNGCryptoServiceProvider();
         int n = list.Count;
