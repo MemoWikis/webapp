@@ -8,7 +8,7 @@ public class UserHistoryItem : HistoryItemBase
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
-    public HistoryItemType Type { get {return HistoryItemType.Any;} }
+    public HistoryItemType Type => HistoryItemType.Any;
 
     public UserHistoryItem(User user)
     {
