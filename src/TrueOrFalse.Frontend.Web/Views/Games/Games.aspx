@@ -18,7 +18,7 @@
     <input type="hidden" id="hddCurrentUserId" value="<%= Model.UserId %>"/>
 
     <div class="row">
-        <div class="PageHeader col-md-6">
+        <div class="PageHeader col-md-9">
             <h3 style="margin-bottom: 20px; margin-top: 0px;" class="pull-left">
                 <span class="ColoredUnderline Play" style="padding-right: 3px;">Laufende Spiele</span>
             </h3> 
@@ -75,25 +75,18 @@
             
         </div>
         <div class="col-md-3">
-            <div class="panel panel-default" style="border: none;">
-                <div class="panel-heading">Spiel-Empfehlungen</div>
-                <div class="panel-body">
-                    <% foreach(var set in Model.SuggestedGames) { %>
-                        <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-xs-3">
-                                <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.GameCreateFromSet(set.Id)) %>
-                            </div>
-                            <div class="col-xs-9" style="">
-                                <a href="<%= Links.GameCreateFromSet(set.Id) %>" rel="nofollow"><%= set.Name %></a>
-                            </div>
+            <div class="well">
+                <h4 style="margin-bottom: 20px; margin-top: 0px;">Spiel-Empfehlungen</h4>
+                <% foreach(var set in Model.SuggestedGames) { %>
+                    <div class="row" style="margin-bottom: 10px;">
+                        <div class="col-xs-3">
+                            <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.GameCreateFromSet(set.Id)) %>
                         </div>
-                    <% } %>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    
-                </div>
+                        <div class="col-xs-9" style="">
+                            <a href="<%= Links.GameCreateFromSet(set.Id) %>" rel="nofollow"><%= set.Name %></a>
+                        </div>
+                    </div>
+                <% } %>
             </div>
         </div>
     </div>
