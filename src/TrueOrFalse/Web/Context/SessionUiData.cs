@@ -3,7 +3,7 @@ using Seedworks.Web.State;
 
 public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
 {
-    public Menu Menu { get { return Data.Get("menu", new Menu()); } }
+    public Menu Menu => Data.Get("menu", new Menu());
 
     /* History **************/
     public QuestionHistory VisitedQuestions{
@@ -11,25 +11,11 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
         set { Data["lastVisitedQuestions"] = value; }
     }
 
-    public QuestionSetHistory VisitedSets{
-        get { return Data.Get("lastVisitedQuestionSets", new QuestionSetHistory()); }
-    }
-
-    public UserHistory VisitedUserDetails{
-        get { return Data.Get("lastVisitedUsers", new UserHistory()); }
-    }
-
-    public CategoryHistory VisitedCategories{
-        get { return Data.Get("lastVisitedCategories", new CategoryHistory()); }
-    }
-
-    public HelpHistory VisitedHelpPages{
-        get { return Data.Get("lastVisitedHelpPages", new HelpHistory()); }
-    }
-
-    public DateHistory VisitedDatePages{
-        get { return Data.Get("lastVisitedDatePages", new DateHistory()); }
-    }
+    public QuestionSetHistory VisitedSets => Data.Get("lastVisitedQuestionSets", new QuestionSetHistory());
+    public UserHistory VisitedUserDetails => Data.Get("lastVisitedUsers", new UserHistory());
+    public CategoryHistory VisitedCategories => Data.Get("lastVisitedCategories", new CategoryHistory());
+    public HelpHistory VisitedHelpPages => Data.Get("lastVisitedHelpPages", new HelpHistory());
+    public DateHistory VisitedDatePages => Data.Get("lastVisitedDatePages", new DateHistory());
 
     /* SearchSpecs *************/
     public QuestionSearchSpec SearchSpecQuestionAll{ get { return Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 }); } }

@@ -67,7 +67,7 @@
                             <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                         </a>
                     <% } else { %>
-                        <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Name,Model.Id) %>" rel="nofollow">
+                        <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
                             <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                         </a>
                     <% } %>

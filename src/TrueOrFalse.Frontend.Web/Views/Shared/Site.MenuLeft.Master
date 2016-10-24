@@ -9,7 +9,7 @@
     <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
-
+     
 <body>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
     <section id="MasterSection">

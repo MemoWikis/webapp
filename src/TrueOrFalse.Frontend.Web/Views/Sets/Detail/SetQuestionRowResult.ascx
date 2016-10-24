@@ -3,8 +3,7 @@
 
 <div class="rowBase row question-row" style="padding-top: 7px; padding-bottom: 7px;">
     <div class="col-md-1 col-sm-2 col-xs-2 col-0" style="padding-left: 2px; padding-right: 0px;">
-        <%= GetQuestionImageFrontendData.Run(Model.Question)
-                .RenderHtmlImageBasis(128, true, ImageType.Question) %>                        
+        <%= GetQuestionImageFrontendData.Run(Model.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, Model.Question, Model.Set)) %>
     </div>
     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-10 col-1">
         <div class="Pin" data-question-id="<%= Model.Question.Id %>" style="float: right; display: inline-block">

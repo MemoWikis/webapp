@@ -130,7 +130,7 @@
                                         <div class="answerDetails" data-questionId="<%= step.Question.Id %>">
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-2 answerDetailImage">
-                                                    <%= GetQuestionImageFrontendData.Run(step.Question).RenderHtmlImageBasis(128, true, ImageType.Question) %> 
+                                                    <%= GetQuestionImageFrontendData.Run(answer.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, answer.Question)) %> 
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
                                                     <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).CorrectAnswer()%><br/></p>

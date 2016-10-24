@@ -134,9 +134,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
         }
 
-        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec){
-            return "/AnswerQuestion/Answer?pager=" + searchSpec.Key;
-        }
+        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);

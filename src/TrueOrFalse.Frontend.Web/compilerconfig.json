@@ -156,8 +156,12 @@
   {
     "outputFile": "Style/menu.css",
     "inputFile": "Style/menu.less",
-     "minify": {
+    "minify": {
       "enabled": false
     }
+  },
+  {
+    "outputFile": "Views/Games/Play/Play.css",
+    "inputFile": "Views/Games/Play/Play.less"
   }
 ]
