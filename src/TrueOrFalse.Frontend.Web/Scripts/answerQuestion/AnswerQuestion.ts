@@ -9,7 +9,6 @@ class AnswerQuestion {
 
     private _inputFeedback: AnswerQuestionUserFeedback;
     private _isLastLearningStep = false;
-    private _isLastTestSessionStep = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -17,6 +16,7 @@ class AnswerQuestion {
     static ajaxUrl_CountUnansweredAsCorrect: string;
     static ajaxUrl_TestSessionRegisterAnsweredQuestion : string;
     static TestSessionProgessAfterAnswering: number;
+    static IsLastTestSessionStep = false;
 
     public IsGameMode: boolean;
     public IsLearningSession = false;
@@ -41,7 +41,7 @@ class AnswerQuestion {
             this.IsTestSession = $('#hddIsTestSession').val().toLowerCase() === "true";
 
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step'))
-            this._isLastTestSessionStep = $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true";
+            AnswerQuestion.IsLastTestSessionStep = $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true";
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
@@ -120,8 +120,6 @@ class AnswerQuestion {
 
         $(".selectorShowSolution")
             .click(() => {
-                //if in training session
-                //inform that this answer should be marked as show solution..
                 this._inputFeedback.ShowSolution();
                 return false;
             });
@@ -200,11 +198,12 @@ class AnswerQuestion {
                             url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
                             data: {
                                 questionId: AnswerQuestion.GetQuestionId(),
-                                questionViewGuid: $('#hddQuestionViewGuid').val()
+                                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                                answeredQuestion: true
                             },
                             cache: false
                         });
-                        if (self._isLastTestSessionStep) {
+                        if (AnswerQuestion.IsLastTestSessionStep) {
                             $('#btnNext').html('Zum Ergebnis');
                         }
                     }

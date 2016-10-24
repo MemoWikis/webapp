@@ -91,7 +91,7 @@ public class AnswerQuestionController : BaseController
         if (testSession.CurrentStep > testSession.NumberOfSteps)
             return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController);
 
-        var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
+        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep-1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
         _saveQuestionView.Run(questionViewGuid,question,_sessionUser.User);
 

@@ -226,7 +226,7 @@
                                                         }
                                                         counter++;
                                                     } %>
-                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(Url, uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
+                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
                                                     
                                                 </div>
                                                 

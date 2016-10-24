@@ -8,8 +8,8 @@
     ];
 
     private _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
-                            "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse", "Schubidu!",
-                            "Wer sagt's denn!", "Exakt"];
+                            "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse.", "Schubidu!",
+                            "Wer sagt's denn!", "Exakt.", "So ist es.", "Da kannste nicht meckern.", "Sieht gut aus.", "Oha!"];
 
     private _answerQuestion: AnswerQuestion;
 
@@ -98,6 +98,26 @@
         window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 500);
 
         AnswerQuestion.AjaxGetSolution(result => {
+
+            if (this._answerQuestion.IsTestSession && this._answerQuestion.AnswersSoFar.length === 0) {
+                //if solution is shown after answering the question in a TestSession, then this does not need to be registered
+                //otherwise, solutionview needs to be registered in the current TestSessionStep
+                $.ajax({
+                    type: 'POST',
+                    url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
+                    data: {
+                        questionId: AnswerQuestion.GetQuestionId(),
+                        questionViewGuid: $('#hddQuestionViewGuid').val(),
+                        answeredQuestion: false
+                    },
+                    cache: false
+                });
+                $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
+                $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
+                if (AnswerQuestion.IsLastTestSessionStep) {
+                    $('#btnNext').html('Zum Ergebnis');
+                }
+            }
 
             $("#Solution").show().find('.Content').html(result.correctAnswer);
             if (result.correctAnswerDesc) {

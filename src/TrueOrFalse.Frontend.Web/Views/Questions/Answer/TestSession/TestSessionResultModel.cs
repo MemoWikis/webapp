@@ -10,15 +10,16 @@ public class TestSessionResultModel : BaseModel
     public int NumberQuestions;
     public int NumberCorrectAnswers;
     public int NumberWrongAnswers;
-    //public int NumberNotAnswered;
+    public int NumberOnlySolutionView;
     public int NumberCorrectPercentage;
     public int NumberWrongAnswersPercentage;
-    //public int NumberNotAnsweredPercentage;
+    public int NumberOnlySolutionViewPercentage;
     public int PercentageAverageRightAnswers;
     public bool MeBetterThanAverage;
     public bool TestSessionTypeIsSet;
     public bool TestSessionTypeIsCategory;
-    public IList<Answer> Answers;
+    //public IList<Answer> Answers;
+    public IList<TestSessionStep> Steps;
 
     public Set TestedSet;
     public Category TestedCategory;
@@ -46,17 +47,18 @@ public class TestSessionResultModel : BaseModel
             throw new Exception("TestSessionType is not defined.");
         }
 
-        Answers = Sl.R<AnswerRepo>().GetByQuestionViewGuids(TestSession.AnsweredQuestionsQuestionViewGuid, true);
-        if (Answers.Count != TestSession.AnsweredQuestionsQuestionViewGuid.Count)
-            throw new Exception("There should be an equal number of answers and questions asked in a test session (no duplicate/second answers for same question asked).");
+        TestSession.FillUpStepProperties();
+        Steps = TestSession.Steps.Where(s => s.AnswerState != TestSessionStepAnswerState.Uncompleted).ToList();
 
-        NumberQuestions = Answers.Count();
-        NumberCorrectAnswers = Answers.Count(a => a.AnsweredCorrectly());
-        NumberWrongAnswers = Answers.Count(a => !a.AnsweredCorrectly());
+        NumberQuestions = Steps.Count(s => s.AnswerState != TestSessionStepAnswerState.Uncompleted);
+        NumberCorrectAnswers = Steps.Count(s => s.AnswerState == TestSessionStepAnswerState.AnsweredCorrect);
+        NumberWrongAnswers = Steps.Count(s => s.AnswerState == TestSessionStepAnswerState.AnsweredWrong);
+        NumberOnlySolutionView = Steps.Count(s => s.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution);
         NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)NumberQuestions * 100);
         NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)NumberQuestions * 100);
+        NumberOnlySolutionViewPercentage = (int)Math.Round(NumberOnlySolutionView / (float)NumberQuestions * 100);
 
-        PercentageAverageRightAnswers = (int)Math.Round(Answers.Sum(a => a.Question.CorrectnessProbability) / (float)NumberQuestions);
+        PercentageAverageRightAnswers = (int)Math.Round(Steps.Sum(s => s.Question.CorrectnessProbability) / (float)NumberQuestions);
         MeBetterThanAverage = NumberCorrectPercentage > PercentageAverageRightAnswers;
 
     }
