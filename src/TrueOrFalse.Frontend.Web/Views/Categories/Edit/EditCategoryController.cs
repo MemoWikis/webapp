@@ -29,7 +29,7 @@ public class EditCategoryController : BaseController
         return View(_viewPath, model);
     }
 
-
+    [SetMenu(MenuEntry.Categories)]
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
@@ -48,6 +48,7 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.Categories)]
     public ViewResult Edit(int id, EditCategoryModel model, HttpPostedFileBase file)
     {
         var category = _categoryRepository.GetById(id);
