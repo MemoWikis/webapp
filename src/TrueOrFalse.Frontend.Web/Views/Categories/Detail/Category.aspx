@@ -129,7 +129,7 @@
                     </div>
                 <% } %>
                 <div style="margin: 10px 0;">
-                    <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                    <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
                         <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                     </a>
                     <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="font-style: italic; margin-left: 10px;">

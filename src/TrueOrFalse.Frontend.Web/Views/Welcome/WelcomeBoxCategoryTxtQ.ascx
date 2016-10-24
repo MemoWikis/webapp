@@ -68,7 +68,7 @@
                     <li><a href="#"> Action 2</a></li>
                 </ul>
             </div>--%>
-            <a href="<%= Links.TestSessionStartForCategory(Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+            <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                 &nbsp;JETZT TESTEN
             </a>
         </div>

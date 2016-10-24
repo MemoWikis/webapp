@@ -35,11 +35,11 @@ public class TestSessionResultModel : BaseModel
         if (TestSessionTypeIsSet)
         {
             TestedSet = Sl.R<SetRepo>().GetById(TestSession.TestSessionTypeTypeId);
-            LinkForRepeatTest = Links.TestSessionStartForSet(TestSession.TestSessionTypeTypeId);
+            LinkForRepeatTest = Links.TestSessionStartForSet(TestedSet.Name, TestedSet.Id);
         } else if (TestSessionTypeIsCategory)
         {
             TestedCategory = Sl.R<CategoryRepository>().GetById(TestSession.TestSessionTypeTypeId);
-            LinkForRepeatTest = Links.TestSessionStartForCategory(TestSession.TestSessionTypeTypeId);
+            LinkForRepeatTest = Links.TestSessionStartForCategory(TestedCategory.Name, TestedCategory.Id);
         }
         else
         {

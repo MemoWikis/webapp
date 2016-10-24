@@ -292,7 +292,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
-        /* Testing */
+        /* Testing / TestSession*/
 
         public const string TestSessionController = "TestSession";
         public const string TestSessionResultController = "TestSessionResult";
@@ -303,13 +303,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("Test", AnswerQuestionController);
         }
 
-        public static string TestSessionStartForSet(int setId)
+        public static string TestSessionStartForSet(string setName, int setId)
         {
-            return GetUrlHelper().Action("StartTestSession", SetController, new { setId = setId });
+            return GetUrlHelper().Action("StartTestSession", SetController, new { setName = UriSanitizer.Run(setName), setId = setId });
         }
-        public static string TestSessionStartForCategory(int categoryId)
+        public static string TestSessionStartForCategory(string categoryName, int categoryId)
         {
-            return GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryId = categoryId });
+            return GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryName = UriSanitizer.Run(categoryName), categoryId = categoryId });
         }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url)
