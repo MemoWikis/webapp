@@ -120,8 +120,6 @@ class AnswerQuestion {
 
         $(".selectorShowSolution")
             .click(() => {
-                //if in training session
-                //inform that this answer should be marked as show solution..
                 this._inputFeedback.ShowSolution();
                 return false;
             });

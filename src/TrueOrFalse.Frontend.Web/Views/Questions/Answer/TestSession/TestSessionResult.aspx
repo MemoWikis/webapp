@@ -136,7 +136,7 @@
                                                     <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).CorrectAnswer()%><br/></p>
                                                     <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : step.AnswerText %></p>
                                                     <p class="averageCorrectness">Wahrscheinlichkeit richtige Antwort (alle Nutzer): <%= step.Question.CorrectnessProbability %>%</p>
-                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(Url, step.Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
+                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(step.Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
                                                     
                                                 </div>
                                                 
