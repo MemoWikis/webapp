@@ -23,18 +23,19 @@
 
     static Init() {
 
-        var countDowns = $('#divMsgPartOfGame [data-countdown-game]');
+        var countDowns = $('#divMsgPartOfGame [data-remainingSeconds]');
 
         if (countDowns.length > 0) {
             GameHub.OnChangeStartTime((changeStartTime: ChangeStartTimeEvent) => {
-                countDowns.countdown(changeStartTime.WillStartAt.toString());
+                countDowns.countdown(changeStartTime.RemainingSeconds.toString());
             });            
         }
 
         countDowns.each(function () {
-            var $this = $(this), finalDate = $(this).data('countdown-game');
+            var $this = $(this);
+            var remainingSeconds = +$(this).attr('data-remainingSeconds');
 
-            $this.countdown(<any>finalDate, event => {
+            $this.countdown(SiteMessages.GetFinalDate(remainingSeconds), event => {
 
                 var dateStartMinus60Secs = new Date(event.finalDate);
                 dateStartMinus60Secs.setSeconds(event.finalDate.getSeconds() - 60);
@@ -69,8 +70,15 @@
     }
 
     static StopAndHide() {
-        $('#divMsgPartOfGame [data-countdown-game]').countdown('stop');
+        $('#divMsgPartOfGame [remainingSeconds]').countdown('stop');
         $("#divMsgPartOfGame").fadeOut(600);
+    }
+
+    static GetFinalDate(remainingSeconds : number) : Date {
+        var finalDate = new Date();
+        finalDate.setSeconds(finalDate.getSeconds() + remainingSeconds);
+
+        return finalDate;
     }
 }
 

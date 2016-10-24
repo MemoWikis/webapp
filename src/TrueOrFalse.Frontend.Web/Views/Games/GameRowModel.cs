@@ -10,19 +10,15 @@ public class GameRowModel : BaseModel
     public IList<Set> Sets;
     public GameStatus Status;
     public DateTime WillStartAt;
+    public int RemainingSeconds;
     public int RoundCount;
     public int CurrentRound;
 
-    public bool IsCreator { get { return Creator.User.Id == base.UserId; } }
+    public bool IsCreator => Creator.User.Id == base.UserId;
+    public bool IsPlayer => Players.Any(p => p.User.Id == base.UserId) && !IsCreator;
+    public bool IsPlayerOrCreator => IsPlayer || IsCreator;
 
-    public bool IsPlayer { get{ return Players.Any(p => p.User.Id == base.UserId) && !IsCreator; } }
-
-    public bool IsPlayerOrCreator { get { return IsPlayer || IsCreator; } }
-
-    public bool InProgress()
-    {
-        return Status == GameStatus.InProgress;
-    }
+    public bool InProgress() => Status == GameStatus.InProgress;
 
     public GameRowModel(Game game)
     {
@@ -34,5 +30,6 @@ public class GameRowModel : BaseModel
         WillStartAt = game.WillStartAt;
         RoundCount = game.RoundCount;
         CurrentRound = game.GetCurrentRoundNumber();
+        RemainingSeconds = game.RemainingSeconds();
     }
 }

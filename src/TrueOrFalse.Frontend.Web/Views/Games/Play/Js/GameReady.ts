@@ -10,10 +10,7 @@
             var $this = $(this);
             var remainingSeconds = +$(this).attr('data-remainingSeconds');
 
-            var finalDate = new Date();
-            finalDate.setSeconds(finalDate.getSeconds() + remainingSeconds);
-
-            $this.countdown(finalDate, event => {
+            $this.countdown(SiteMessages.GetFinalDate(remainingSeconds), event => {
                 $this.html(event.strftime('%-Mm %Ss'));
             });
         });

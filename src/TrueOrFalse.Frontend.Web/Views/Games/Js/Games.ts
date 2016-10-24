@@ -116,7 +116,7 @@
 
         GameHub.OnChangeStartTime((changeStartTime: ChangeStartTimeEvent) => {
             var row = me.GetRow(changeStartTime.GameId);
-            row.ChangeTime(changeStartTime.WillStartAt);
+            row.ChangeTime(changeStartTime.RemainingSeconds);
         });
 
         $.connection.hub.start(() => {
@@ -137,18 +137,21 @@
     }
 
     InitializeRow(gameId : number) {
-        this.InitializeCountdown("[data-gameId=" + gameId + "] [data-countdown]");
+        this.InitializeCountdown("[data-gameId=" + gameId + "] [data-remainingSeconds]");
         $(".show-tooltip").tooltip();
 
         this._gameRows.push(new GameRow(gameId, this._hub));
     }
 
-    InitializeCountdownAll() { this.InitializeCountdown("[data-countdown]"); }
+    InitializeCountdownAll() { this.InitializeCountdown("[data-remainingSeconds]"); }
 
     InitializeCountdown(selector: string) {
         $(selector).each(function () {
-            var $this = $(this), finalDate = $(this).data('countdown');
-            $this.countdown(<any>finalDate, event => {
+
+            var $this = $(this);
+            var remainingSeconds = +$(this).attr('data-remainingSeconds');
+
+            $this.countdown(SiteMessages.GetFinalDate(remainingSeconds), event => {
                 $this.html(event.strftime('%-Mm %Ss'));
             });
         });

@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<GameRowModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="rowBase game-row" style="position: relative; padding: 5px;" 
@@ -27,7 +26,7 @@
                             </span>
                         <% }else{ %>
                             Start spät. in
-                            <span data-countdown="<%= Model.WillStartAt.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture) %>"></span>
+                            <span data-remainingSeconds="<%= Model.RemainingSeconds %>"></span>
                         <% } %>
                     </span>
                 </div>
