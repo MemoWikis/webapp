@@ -81,7 +81,7 @@
                     <% foreach(var set in Model.SuggestedGames) { %>
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-3">
-                                <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
+                                <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.GameCreateFromSet(set.Id)) %>
                             </div>
                             <div class="col-xs-9" style="">
                                 <a href="<%= Links.GameCreateFromSet(set.Id) %>" rel="nofollow"><%= set.Name %></a>

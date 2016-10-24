@@ -4,7 +4,7 @@
 <div class="rowBase set-row" data-setId="<%= Model.Id %>" style="position: relative">
     <div class="column-Image">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.QuestionSet) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.QuestionSet, linkToItem: Model.DetailLink(Url)) %>
         </div>
     </div>
     

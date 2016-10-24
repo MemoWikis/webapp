@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-xs-4">
                 <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category) %>
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category, linkToItem: Links.QuestionWithCategoryFilter(Url, Model.CategoryName, Model.CategoryId)) %>
                 </div>
             </div>
             <div class="col-xs-8 xxs-stack">

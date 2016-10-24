@@ -5,7 +5,7 @@
     
     <div class="column-Image">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Model.DetailLink(Url)) %>
         </div>
     </div>
     
