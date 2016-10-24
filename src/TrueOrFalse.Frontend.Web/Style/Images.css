@@ -112,6 +112,32 @@
 .SelectAreaImageInfo:hover .HoverMessage {
   display: block;
 }
+.LicenseInfo {
+  font-size: 10px;
+  cursor: pointer;
+}
+.LicenseInfo:after {
+  content: "Lizenz";
+}
+@media (min-width: 992px) {
+  .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+  }
+  .LicenseInfo:after {
+    content: "Bild- & Lizenzinfos";
+  }
+  .LicenseInfo:hover {
+    text-decoration: underline;
+  }
+}
 /*Image detail modal
 ---------------------------------------------------------*/
 #modalImageDetail .modal-body:before,

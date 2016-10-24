@@ -143,6 +143,39 @@ display: none;
     }
 }
 
+.LicenseInfo {
+    font-size: 10px;
+    cursor: pointer;
+
+    &:after {
+        content: "Lizenz";
+    }
+
+    .media-md-up ({
+        position: absolute;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 18px;
+        left: 0;
+        //right: 0;
+        bottom: 0;
+        color: white;
+        background-color: black; //Fallback color
+        background-color: rgba(0, 0, 0, 0.35);
+        //text-shadow: 1px 1px 2px #666, -1px 1px 2px #666, 1px -1px 2px #666, -1px -1px 2px #666;
+
+        &:after{
+            content: "Bild- & Lizenzinfos";
+        }
+
+        &:hover{
+            text-decoration: underline;
+        }
+    });
+    
+}
+
+
 
 /*Image detail modal
 ---------------------------------------------------------*/
