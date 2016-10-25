@@ -222,6 +222,32 @@
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
 }
+@media (min-width: 768px) {
+  .ImageLicenseOnImage-sm-up .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+  .ImageLicenseOnImage-sm-up .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+}
 .ImageLicenseOnImage .LicenseInfo {
   position: absolute;
   padding-left: 5px;

@@ -28,7 +28,7 @@
             <div class="row" style="padding-bottom: 10px;">
                     
                 <div class="col-xs-3 col-sm-12">
-                    <div class="ImageContainer">
+                    <div class="ImageContainer ImageLicenseOnImage-sm-up">
                         <%= Model.QuestionImageFrontendDatas
                         .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question) %>
                     </div>
