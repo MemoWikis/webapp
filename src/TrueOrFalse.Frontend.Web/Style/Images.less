@@ -146,16 +146,49 @@ display: none;
 .LicenseInfo {
     font-size: 10px;
     cursor: pointer;
+}
 
-    &:after {
-        content: "Lizenz";
+.ShortLicenseLinkText;
+
+.media-xs-up ({
+        
+    
+    .FullLicenseLinkText;
+});
+
+.rowBase {
+
+    .ImageLicenseOnImage;
+
+    .LicenseInfo {
+        right: 0;
+        border-bottom-left-radius: @border-radius-item-image;
+        border-bottom-right-radius: @border-radius-item-image;
+        text-align: center;
     }
 
-    .media-md-up ({
+    .media-below-sm ({
+        .ShortLicenseLinkText;
+    });
+}
+
+.ImageFull {
+    .ImageLicenseOnImage;
+    .FullLicenseLinkText;
+    border-bottom-left-radius: 0;
+}
+
+.ImageLicenseOnImage {
+    .ImageLicenseOnImage;
+}
+
+.ImageLicenseOnImage {
+
+    .LicenseInfo {
         position: absolute;
         padding-left: 5px;
         padding-right: 5px;
-        height: 18px;
+        line-height: 18px;
         left: 0;
         //right: 0;
         bottom: 0;
@@ -163,17 +196,38 @@ display: none;
         background-color: black; //Fallback color
         background-color: rgba(0, 0, 0, 0.35);
         //text-shadow: 1px 1px 2px #666, -1px 1px 2px #666, 1px -1px 2px #666, -1px -1px 2px #666;
-
-        &:after{
-            content: "Bild- & Lizenzinfos";
-        }
+        border-bottom-left-radius: @border-radius-item-image;
 
         &:hover{
             text-decoration: underline;
         }
-    });
-    
+    }
 }
+
+.FullLicenseLinkText{
+    .LicenseInfo {
+        &:after {
+          content: "Bild- & Lizenzinfos";
+        }
+    }
+}
+
+.ShortLicenseLinkText {
+    .ShortLicenseLinkText;
+}
+
+.ShortLicenseLinkText{
+    .LicenseInfo {
+        &:after {
+          content: "Lizenz";
+        }
+
+        line-height: 14px;
+
+    }
+}
+
+
 
 
 

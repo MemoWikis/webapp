@@ -3,7 +3,7 @@
   border-radius: 4px;
   margin-bottom: 20px;
 }
-.Card .ImageFull {
+.Card .ImageFull img {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   border-bottom-left-radius: 0;
@@ -57,7 +57,7 @@
   color: #a3a3a3;
 }
 .Card .ImageLicenseCaption {
-  height: 15px;
+  line-height: 15px;
 }
 .Card .ImageLicenseCaption a {
   margin-left: 15px;
@@ -91,7 +91,6 @@
   border-bottom-color: #FFD700;
 }
 .CardBig .ItemImage {
-  margin-bottom: 5px;
   /*border-bottom-left-radius: @border-radius-card;
         border-bottom-right-radius: @border-radius-card;*/
 }

@@ -4,7 +4,7 @@
 <div class="rowBase category-row col-lg-6 ">
     
     <div class="column-Image">
-        <div class="ImageContainer">
+        <div class="ImageContainer ShortLicenseLinkText">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category) %>
         </div>
     </div>

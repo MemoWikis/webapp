@@ -391,7 +391,9 @@
                     %>
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-3">
-                                <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
+                                <div class="ImageContainer ShortLicenseLinkText">
+                                    <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(128, true, ImageType.Question) %>
+                                </div>
                             </div>
                             <div class="col-xs-9" style="">
                                 <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
@@ -443,7 +445,7 @@
                         <% foreach(var activity in Model.NetworkActivities){ %>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
-                                    <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
+                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                 </div>
                                 <div class="col-xs-9" style="">
                                     <div style="color: silver; font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
