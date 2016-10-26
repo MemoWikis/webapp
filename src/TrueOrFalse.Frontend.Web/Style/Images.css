@@ -180,9 +180,6 @@
     content: "Lizenz";
   }
 }
-.ImageFull {
-  border-bottom-left-radius: 0;
-}
 .ImageFull .LicenseInfo {
   position: absolute;
   padding-left: 5px;
@@ -209,6 +206,9 @@
 }
 .ImageFull .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
+}
+.ImageFull .LicenseInfo {
+  border-bottom-left-radius: 0;
 }
 .ImageLicenseOnImage .LicenseInfo {
   position: absolute;
