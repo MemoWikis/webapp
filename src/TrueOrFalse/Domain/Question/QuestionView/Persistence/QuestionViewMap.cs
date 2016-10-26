@@ -11,6 +11,7 @@ public class QuestionViewMap : ClassMap<QuestionView>
         Map(x => x.UserId);
 
         Map(x => x.Milliseconds);
+        Map(x => x.UserAgent);
 
         References(x => x.Round).Cascade.None();
         References(x => x.Player).Cascade.None();

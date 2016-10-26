@@ -37,6 +37,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
                 return;
 
+        var userAgent = HttpContext.Current.Request.UserAgent;
+
         _questionViewRepo.Create(new QuestionView
         {
             Guid = questionViewGuid,
@@ -45,6 +47,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             Milliseconds = -1,
             Player = player,
             Round = round,
+            UserAgent = userAgent,
             LearningSession = learningSession,
             LearningSessionStepGuid = learningSessionStepGuid
         });
