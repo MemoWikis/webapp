@@ -52,8 +52,8 @@ namespace TrueOrFalse
             routes.MapRoute("Question_Answer_Learn", "Lernen/{learningSessionId}/{learningSessionName}", new { controller = "AnswerQuestion", action = "Learn" });
             routes.MapRoute("LearningSession_Result", "Lernen/Ergebnis/{learningSessionId}/{learningSessionName}/", new { controller = "LearningSessionResult", action = "LearningSessionResult" });
 
-            routes.MapRoute("Question_Answer_Test", "Testen", new { controller = "AnswerQuestion", action = "Test" });
-            routes.MapRoute("TestSession_Result", "Testen/Ergebnis", new { controller = "TestSessionResult", action = "TestSessionResult" });
+            routes.MapRoute("TestSession_Result", "Testen/{name}/Ergebnis/{testSessionId}", new { controller = "TestSessionResult", action = "TestSessionResult" });
+            routes.MapRoute("Question_Answer_Test", "Testen/{name}/{testSessionId}", new { controller = "AnswerQuestion", action = "Test" });
             /* API */ routes.MapRoute("TestSession_RegisterAnsweredQuestion", "TestSession/RegisterAnsweredQuestion/", new { controller = "TestSession", action = "RegisterQuestionAnswered" });
 
             /* API */

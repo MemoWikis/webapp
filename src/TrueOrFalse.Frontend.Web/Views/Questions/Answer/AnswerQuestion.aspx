@@ -5,7 +5,7 @@
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Frage: " + Model.QuestionText; %>
-    <% if (Model.IsLearningSession) { %>
+    <% if (Model.IsLearningSession || Model.IsTestSession) { %>
         <meta name="robots" content="noindex">
     <%}else { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
@@ -49,6 +49,7 @@
         data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
         data-is-last-step="<%= Model.IsLastLearningStep %>"/>
     <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
+        data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 

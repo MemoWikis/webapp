@@ -106,6 +106,7 @@
                     type: 'POST',
                     url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
                     data: {
+                        testSessionId: AnswerQuestion.TestSessionId,
                         questionId: AnswerQuestion.GetQuestionId(),
                         questionViewGuid: $('#hddQuestionViewGuid').val(),
                         answeredQuestion: false

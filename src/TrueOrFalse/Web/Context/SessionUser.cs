@@ -75,10 +75,21 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         }
     }
 
-    public TestSession TestSession
+    public List<TestSession> TestSessions
     {
-        get { return Data.Get<TestSession>("testSession"); }
-        set { Data["testSession"] = (TestSession)value; }
+        get { return Data.Get<List<TestSession>>("testSessions"); }
+        set { Data["testSessions"] = (List<TestSession>)value; }
+    }
+
+    private int _currentTestSessionId
+    {
+        get { return Data.Get("_currentTestSessionId", 0); }
+        set { Data["_currentTestSessionId"] = value; }
+    }
+
+    public int GetNextTestSessionId() {
+        _currentTestSessionId++;
+        return _currentTestSessionId;
     }
 
     public List<int> AnsweredQuestionIds
@@ -91,6 +102,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         if (AnsweredQuestionIds == null)
             AnsweredQuestionIds = new List<int>();
+        if (TestSessions == null)
+            TestSessions = new List<TestSession>();
     }
 
 }

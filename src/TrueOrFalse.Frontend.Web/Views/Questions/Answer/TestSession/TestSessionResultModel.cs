@@ -25,11 +25,9 @@ public class TestSessionResultModel : BaseModel
     public Category TestedCategory;
     public string LinkForRepeatTest;
 
-    public TestSessionResultModel()
+    public TestSessionResultModel(TestSession testSession)
     {
-        TestSession = _sessionUser.TestSession;
-        if (TestSession == null)
-            throw new Exception("TestSession is not defined");
+        TestSession = testSession;
 
         TestSessionTypeIsSet = TestSession.TestSessionType == TestSessionType.Set;
         TestSessionTypeIsCategory = TestSession.TestSessionType == TestSessionType.Category;

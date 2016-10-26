@@ -17,6 +17,7 @@ class AnswerQuestion {
     static ajaxUrl_TestSessionRegisterAnsweredQuestion : string;
     static TestSessionProgessAfterAnswering: number;
     static IsLastTestSessionStep = false;
+    static TestSessionId: number;
 
     public IsGameMode: boolean;
     public IsLearningSession = false;
@@ -42,6 +43,9 @@ class AnswerQuestion {
 
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step'))
             AnswerQuestion.IsLastTestSessionStep = $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true";
+
+        if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step'))
+            AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
         this._getAnswerText = answerEntry.GetAnswerText;
         this._getAnswerData = answerEntry.GetAnswerData;
@@ -134,7 +138,7 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click(function(e) {
-                if (self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self._isLastLearningStep) {
+                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self._isLastLearningStep) {
                     var href = $(this).attr('href') +
                         "?skipStepIdx=" +
                         $('#hddIsLearningSession').attr('data-current-step-idx');
@@ -197,6 +201,7 @@ class AnswerQuestion {
                             type: 'POST',
                             url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
                             data: {
+                                testSessionId: AnswerQuestion.TestSessionId,
                                 questionId: AnswerQuestion.GetQuestionId(),
                                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                                 answeredQuestion: true

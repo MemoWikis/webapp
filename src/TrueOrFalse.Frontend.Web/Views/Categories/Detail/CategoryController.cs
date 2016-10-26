@@ -29,12 +29,12 @@ public class CategoryController : BaseController
     {
         var excludeQuestionIds = _sessionUser.AnsweredQuestionIds.ToList();
         var category = Sl.R<CategoryRepository>().GetById(categoryId);
-        var testSession = new TestSession(category, excludeQuestionIds);
+        var testSession = new TestSession(category, _sessionUser.GetNextTestSessionId(), excludeQuestionIds);
         if (testSession.NumberOfSteps == 0)
             throw new Exception("Cannot start TestSession from set with no questions.");
 
-        Sl.R<SessionUser>().TestSession = testSession;
-        return Redirect(Links.TestSession());
+        Sl.R<SessionUser>().TestSessions.Add(testSession);
+        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
 
 }

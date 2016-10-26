@@ -75,7 +75,7 @@
                 <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
                         title="Neue Fragen aus <% if (Model.TestSessionTypeIsSet) Response.Write("dem gleichen Fragesatz");
                                                   else if (Model.TestSessionTypeIsCategory) Response.Write("der gleichen Kategorie");%>
-                    ">
+                    " rel="nofollow">
                     <i class="fa fa-repeat AnswerResultIcon">&nbsp;</i>Noch einmal testen
                 </a>
                 <% 
