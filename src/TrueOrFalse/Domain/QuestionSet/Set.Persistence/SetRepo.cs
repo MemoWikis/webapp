@@ -59,12 +59,26 @@ public class SetRepo : RepositoryDbBase<Set>
         return result;
     }
 
-    public IList<Set>GetForCategory(int categoryId)
+    public IList<Set> GetForCategory(int categoryId)
     {
         return _session.QueryOver<Set>()
             .JoinQueryOver<Category>(q => q.Categories)
             .Where(c => c.Id == categoryId)
             .List<Set>();
+    }
+
+    public Set GetByIdEager(int setId)
+    {
+        Question creatorAlias = null;
+
+        return _session.QueryOver<Set>()
+            .Where(set => set.Id == setId)
+            //.Fetch(s => s.Creator).Eager
+            //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
+            .JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+            .JoinQueryOver<Question>(s => s.Question)
+            .Left.JoinQueryOver<Category>(s => s.Categories)
+            .SingleOrDefault();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)

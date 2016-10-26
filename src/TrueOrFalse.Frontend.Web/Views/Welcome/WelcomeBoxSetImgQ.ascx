@@ -30,7 +30,7 @@
                 <div class="col-xs-3 col-sm-12">
                     <div class="ImageContainer">
                         <%= Model.QuestionImageFrontendDatas
-                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question) %>
+                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
                     </div>
                 </div>
                 <div class="col-xs-9 col-sm-12">
@@ -55,7 +55,7 @@
                     <li><a href="#"> Action 2</a></li>
                 </ul>
             </div>--%>
-            <a href="<%= Links.TestSessionStartForSet(Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+            <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                 &nbsp;JETZT TESTEN
             </a>
         </div>

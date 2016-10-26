@@ -2,11 +2,12 @@
     Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSingleQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<% var linkAnswerQuestion = Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage: 1, categoryFilter: Model.ContextCategoryName); %>
 
 <div class="ThumbnailColumn">
     <div class="thumbnail">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.Question) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.Question, linkAnswerQuestion) %>
         </div>
 
         <div class="caption">
@@ -14,7 +15,7 @@
             <h4 style="margin-top: 5px;"><%: Model.ContextCategoryName %></h4>
             <p><%: Model.QuestionText %></p>
             <p style="text-align: center;">
-                <a href="<%= Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage:1, categoryFilter:Model.ContextCategoryName) %>" class="btn btn-primary" role="button">Beantworten</a>
+                <a href="<%= linkAnswerQuestion %>" class="btn btn-primary" role="button">Beantworten</a>
             </p>
         </div>
     </div>

@@ -4,20 +4,14 @@ using System.Linq;
 
 public static class QuestionListExt
 {
-    public static Question ById(this IEnumerable<Question> questions, int id)
-    {
-        return questions.FirstOrDefault(question => question.Id == id);
-    }
-        
-    public static IList<int> GetIds(this IEnumerable<Question> questions)
-    {
-        return questions.Select(q => q.Id).ToList();
-    }
+    public static Question ById(this IEnumerable<Question> questions, int id) => 
+        questions.FirstOrDefault(question => question.Id == id);
 
-    public static IEnumerable<Category> GetAllCategories(this IEnumerable<Question> questions)
-    {
-        return questions.SelectMany(q => q.Categories).Where(c => c != null).Distinct();
-    }
+    public static IList<int> GetIds(this IEnumerable<Question> questions) => 
+        questions.Select(q => q.Id).ToList();
+
+    public static IEnumerable<Category> GetAllCategories(this IEnumerable<Question> questions) => 
+        questions.SelectMany(q => q.Categories).Where(c => c != null).Distinct();
 
     public static IEnumerable<QuestionsInCategory> QuestionsInCategories(this IEnumerable<Question> questions)
     {

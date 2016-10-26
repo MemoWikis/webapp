@@ -21,6 +21,6 @@ public class PlayBaseModel : BaseModel
         RoundCount = game.RoundCount;
 
         WillStartAt = game.WillStartAt;
-        RemainingSeconds = (int)(game.WillStartAt - DateTime.Now).TotalSeconds;
+        RemainingSeconds = game.RemainingSeconds();
     }
 }

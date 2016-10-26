@@ -24,7 +24,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
 
         public const string HelpController = "Help";
-        public const string HelpFAQ = "FAQ";
+        public const string HelpActionFAQ = "FAQ";
+        public static string HelpFAQ() { return GetUrlHelper().Action(HelpActionFAQ, HelpController); }
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 
@@ -133,9 +134,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
         }
 
-        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec){
-            return "/AnswerQuestion/Answer?pager=" + searchSpec.Key;
-        }
+        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
 
         public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
             return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
@@ -291,7 +290,7 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
         }
 
-        /* Testing */
+        /* Testing / TestSession*/
 
         public const string TestSessionController = "TestSession";
         public const string TestSessionResultController = "TestSessionResult";
@@ -302,13 +301,13 @@ namespace TrueOrFalse.Frontend.Web.Code
             return GetUrlHelper().Action("Test", AnswerQuestionController);
         }
 
-        public static string TestSessionStartForSet(int setId)
+        public static string TestSessionStartForSet(string setName, int setId)
         {
-            return GetUrlHelper().Action("StartTestSession", SetController, new { setId = setId });
+            return GetUrlHelper().Action("StartTestSession", SetController, new { setName = UriSanitizer.Run(setName), setId = setId });
         }
-        public static string TestSessionStartForCategory(int categoryId)
+        public static string TestSessionStartForCategory(string categoryName, int categoryId)
         {
-            return GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryId = categoryId });
+            return GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryName = UriSanitizer.Run(categoryName), categoryId = categoryId });
         }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url)

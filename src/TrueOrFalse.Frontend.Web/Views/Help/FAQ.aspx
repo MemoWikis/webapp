@@ -1,6 +1,10 @@
 ﻿<%@ Page Title="Hilfe & FAQ" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<HelpModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.HelpFAQ() %>">
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
 <script type="text/javascript" >
 

@@ -1,11 +1,14 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="ViewPage<SetModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<SetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <% Title = "Fragesatz: " + Model.Name; %>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetDetail(Model.Name, Model.Id) %>">
+    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(40, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(74, true) %> - Lerne mit memucho!">
+</asp:Content>
+
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <title>Fragesatz - <%= Model.Set.Name %></title>
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetDetail(Model.Name, Model.Id) %>" />
     <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
     <%= Scripts.Render("~/bundles/Set") %>
 </asp:Content>
@@ -14,7 +17,7 @@
     <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
     <div class="row">
         <div class="xxs-stack col-xs-9">
-            <h2 style="margin-top:0px;">
+            <h1 style="margin-top:0px;">
                 <span style="margin-right: 15px;" class="ColoredUnderline Set"><%= Model.Name %></span>
                 <span class="label label-question show-tooltip" style="font-size: 12px; margin-right: 20px;" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Fragesatz">
                     <%= Model.QuestionCount %> Fragen
@@ -44,7 +47,12 @@
                         <% } %>
                     </div>
                 </span>
-            </h2>
+            </h1>
+            <div>
+                <p style="font-size: 16px;">
+                    <%= Model.Text %>
+                </p>
+            </div>
         </div>
         <div class="col-xs-3 xxs-stack">
             <div class="navLinks">
@@ -59,7 +67,7 @@
                             <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                         </a>
                     <% } else { %>
-                        <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Id) %>" rel="nofollow">
+                        <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
                             <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                         </a>
                     <% } %>

@@ -2,6 +2,7 @@
     Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxCategoryImgQModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<% var primaryActionUrl = Links.AnswerQuestion(Url, Model.Questions.First().Text, Model.Questions.First().Id, paramElementOnPage: 1, categoryFilter: Model.CategoryName); %>
 
 <div class="media panel-body">
     <div class="media-body" style="padding-bottom: 10px;">
@@ -14,7 +15,7 @@
         <% foreach (var question in Model.Questions) { %>
         <div class="col-xs-4">
             <div class="ImageContainer">
-                <%= Model.QuestionImageFrontendDatas.First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(120, true, ImageType.Question) %>
+                <%= Model.QuestionImageFrontendDatas.First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(120, true, ImageType.Question, linkToItem: primaryActionUrl) %>
             </div>
             <div class="caption" style="padding-top: 10px">
                 <p><%= question.Text %></p>
@@ -23,6 +24,6 @@
         <% } %>
     </div>
     <div class="pull-right">
-        <a href="<%= Links.AnswerQuestion(Url, Model.Questions.First().Text, Model.Questions.First().Id, paramElementOnPage:1, categoryFilter:Model.CategoryName) %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
+        <a href="<%= primaryActionUrl %>" class="btn btn-primary btn-sm" role="button">Alle <%: Model.QuestionCount %> Fragen beantworten</a>
     </div>
 </div>

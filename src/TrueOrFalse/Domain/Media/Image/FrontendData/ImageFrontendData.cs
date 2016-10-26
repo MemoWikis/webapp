@@ -200,18 +200,27 @@ public class ImageFrontendData
                 //return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage CantBeDisplayed" + additionalCssClasses + "' />";
             }
 
+            var altDescription = String.IsNullOrEmpty(this.Description) ?
+                "" : 
+                this.Description.Replace("\"", "'")
+                    .Replace("„", "'")
+                    .Replace("“", "'")
+                    .StripHTMLTags()
+                    .Truncate(120, true);
             return AddLink(
                     "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
                     + "' class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses
                     + "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url
-                    + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />",
+                    + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
+                    + "' alt='" + altDescription + "'/>",
                     linkToItem);
         }
         
-        return AddLink(
+        return AddLink( //if no image, then display dummy picture
             "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url 
             + "' class='ItemImage JS-InitImage" + additionalCssClasses
-            + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' />",
+            + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass 
+            + "' alt=''/>",
             linkToItem);
     }
 

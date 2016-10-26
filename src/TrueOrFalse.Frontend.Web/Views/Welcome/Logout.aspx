@@ -1,9 +1,8 @@
 ﻿<%@ Page Title="Ausgeloggt" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<dynamic>" %>
 
-<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Url.Action("Logout", "Welcome") %>" />
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Url.Action("Logout", "Welcome") %>">
 </asp:Content>
-
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 

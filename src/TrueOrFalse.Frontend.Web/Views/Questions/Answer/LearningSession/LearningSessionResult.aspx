@@ -4,7 +4,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <title>Ergebnis</title>
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     
@@ -201,7 +200,7 @@
                                         <div class="answerDetails" data-questionId=<%= uniqueQuestion.First().QuestionId %>>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-2 answerDetailImage">
-                                                    <%= GetQuestionImageFrontendData.Run(uniqueQuestion.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question) %> 
+                                                    <%= GetQuestionImageFrontendData.Run(uniqueQuestion.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, uniqueQuestion.First().Question)) %> 
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
                                                     <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).CorrectAnswer()%><br/></p>
@@ -227,7 +226,7 @@
                                                         }
                                                         counter++;
                                                     } %>
-                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(Url, uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
+                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
                                                     
                                                 </div>
                                                 

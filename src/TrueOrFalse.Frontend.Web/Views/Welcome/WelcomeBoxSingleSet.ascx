@@ -6,7 +6,7 @@
 <div class="ThumbnailColumn" style="display: none;">
     <div class="thumbnail">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Url,Model.SetName,Model.SetId)) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
         </div>
 
         <div>
@@ -27,7 +27,7 @@
             <h4 style="margin-top: 5px;"><%: Model.SetName %></h4>
             <p><%: Model.SetText %></p>
             <p style="text-align: center;">
-                <a href="<%= Links.TestSessionStartForSet(Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
+                <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
                 <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             </p>
         </div>
@@ -37,7 +37,7 @@
 <div class="ThumbnailColumn">
     <div class="Card SingleItem Set">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, additionalCssClasses: "ImageFull", linkToItem: Links.SetDetail(Url,Model.SetName,Model.SetId)) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, additionalCssClasses: "ImageFull", linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
         </div>
 
         <div>
@@ -70,7 +70,7 @@
                     <li><a href="#"> Action 2</a></li>
                 </ul>
             </div>--%>
-            <a href="<%= Links.TestSessionStartForSet(Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+            <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                 &nbsp;JETZT TESTEN
             </a>
         </div>

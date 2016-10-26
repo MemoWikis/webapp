@@ -1,12 +1,15 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="NHibernate.Properties" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <% Title = "Kategorie: " + Model.Name; %>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(25, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(89, true) %> - Lerne mit memucho!"/>
+</asp:Content>
+
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
-    <title>Kategorie - <%=Model.Name %> </title>
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryDetail(Model.Name, Model.Id) %>" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -24,14 +27,14 @@
                 </div>
                 <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
                     <% if (Model.Type == "Standard") { %>
-                        <h2 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredUnderline Category"><%= Model.Name %></span></h2>
+                        <h1 style="margin-top: 0; margin-bottom: 10px;"><span class="ColoredUnderline Category"><%= Model.Name %></span></h1>
                     <% } else { %>
-                        <h2 style="margin-top: 0; margin-bottom: 10px;">
+                        <h1 style="margin-top: 0; margin-bottom: 10px;">
                             <span style="display: inline-block;">
                                 <span class="ColoredUnderline Category" style="display: inline; margin-right: 5px;"><%= Model.Name %></span>
                                 <span class="CategoryType">(<%= Model.Type %>)</span>
                             </span>
-                        </h2>
+                        </h1>
                     <% }
                     
                     if (Model.Type != "Standard") {
@@ -126,7 +129,7 @@
                     </div>
                 <% } %>
                 <div style="margin: 10px 0;">
-                    <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                    <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
                         <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                     </a>
                     <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="font-style: italic; margin-left: 10px;">

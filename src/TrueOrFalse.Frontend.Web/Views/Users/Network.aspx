@@ -2,8 +2,11 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Network() %>">
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Network() %>" />
     <%= Styles.Render("~/bundles/Users") %>
     <%= Scripts.Render("~/bundles/js/Users") %>
 </asp:Content>

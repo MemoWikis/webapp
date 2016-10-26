@@ -130,6 +130,6 @@
     }
 
     ChangeTime(newTime: string) {
-        this.Div.find("[data-countdown]").countdown(newTime);
+        this.Div.find("[remainingSeconds]").countdown(newTime);
     }
  }

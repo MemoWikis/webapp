@@ -10,7 +10,7 @@
         </p>
                         
         <p>
-            <a href="#" class="btn btn-default btn-sm" onclick="alert('Diese Funktion ist noch nicht umgesetzt.')">Bitte zeige mir dein Wunschwissen</a>    
+            <a href="#" class="btn btn-default btn-sm featureNotImplemented">Bitte zeige mir dein Wunschwissen</a>    
         </p>
     </div>                    
 

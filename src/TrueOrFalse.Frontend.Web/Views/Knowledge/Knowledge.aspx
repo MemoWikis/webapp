@@ -3,10 +3,11 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>">
+</asp:Content>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>" />
-
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
     <script>
@@ -181,7 +182,7 @@
         </div>        
     <% } %>
 
-    <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h2>
+    <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
 
     <% if(!Model.IsLoggedIn){ %>
 
@@ -391,7 +392,7 @@
                     %>
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-3">
-                                <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question) %>
+                                <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question, linkToItem: Links.AnswerQuestion(question)) %>
                             </div>
                             <div class="col-xs-9" style="">
                                 <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
@@ -443,7 +444,9 @@
                         <% foreach(var activity in Model.NetworkActivities){ %>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
-                                    <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
+                                    <a href="<%= Links.UserDetail(activity.UserCauser) %>">
+                                        <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />    
+                                    </a>
                                 </div>
                                 <div class="col-xs-9" style="">
                                     <div style="color: silver; font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>

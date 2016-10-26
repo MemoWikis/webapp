@@ -116,7 +116,7 @@ h2 *.ColoredUnderline {
 }
 h1.ColoredUnderline,
 h1 *.ColoredUnderline {
-  border-bottom-width: 4px;
+  border-bottom-width: 3px;
 }
 .ColoredUnderline.Knowledge {
   border-bottom-color: #B13A48;
@@ -1430,6 +1430,9 @@ h4,
 h5,
 h6 {
   font-family: 'Lato', sans-serif;
+}
+h1 {
+  font-size: 30px;
 }
 span.smaller {
   font-size: 90%;

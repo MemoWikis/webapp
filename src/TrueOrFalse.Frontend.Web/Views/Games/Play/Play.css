@@ -1,7 +1,4 @@
-﻿body {
-  background-color: lightyellow;
-}
-.text-right {
+﻿.text-right {
   text-align: right;
 }
 @media screen and (max-width: 768px) {
@@ -10,4 +7,3 @@
     text-align: left !important;
   }
 }
-/*# sourceMappingURL=Play.css.map */

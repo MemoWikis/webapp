@@ -1,11 +1,14 @@
-﻿<%@ Page Title="Nutzer" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
     Inherits="System.Web.Mvc.ViewPage<UserModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <% Title = "Nutzer: " + Model.Name; %>
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.UserDetail(Model.User) %>">
+</asp:Content>
+
 <asp:Content ContentPlaceHolderID="Head" runat="server">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.UserDetail(Model.User) %>" />
-    <title>Nutzer <%=Model.Name %></title>
     <%= Styles.Render("~/bundles/User") %>
     <%= Scripts.Render("~/bundles/Js/User") %>
 </asp:Content>
@@ -16,12 +19,12 @@
         <div class="xxs-stack col-xs-12">
             <div class="row">
                 <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
-                    <h2 class="pull-left ColoredUnderline User" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
+                    <h1 class="pull-left ColoredUnderline User" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
                         <%= Model.Name %>
                         <span style="display: inline-block; font-size: 20px; font-weight: normal;">
                             &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)
                         </span>
-                    </h2>
+                    </h1>
                 </div>
                 <div class="col-xs-3 xxs-stack">
                     <div class="navLinks">

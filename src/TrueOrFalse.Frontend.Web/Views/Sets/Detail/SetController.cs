@@ -11,7 +11,7 @@ public class SetController : BaseController
     [SetMenu(MenuEntry.QuestionSetDetail)]
     public ActionResult QuestionSet(string text, int id)
     {
-        var set = Resolve<SetRepo>().GetById(id);
+        var set = Resolve<SetRepo>().GetByIdEager(id);
         return QuestionSet(set);
     }
 
@@ -65,7 +65,7 @@ public class SetController : BaseController
         var excludeQuestionIds = _sessionUser.AnsweredQuestionIds.ToList();
         var set = Sl.R<SetRepo>().GetById(setId);
         var testSession = new TestSession(set, excludeQuestionIds);
-        if (testSession.QuestionIds.Count == 0)
+        if (testSession.NumberOfSteps == 0)
             throw new Exception("Cannot start TestSession from set with no questions.");
 
         Sl.R<SessionUser>().TestSession = testSession;

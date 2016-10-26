@@ -1,12 +1,16 @@
-﻿<%@ Page Title="Nutzer" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<UsersModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<UsersModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <% Title = Model.PageTitle; %>
     <% if (Model.HasFiltersOrChangedOrder) { %>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
     <% } else { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>" />
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Model.CanonicalUrl %>">
     <% } %>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Users") %>
     <%= Scripts.Render("~/bundles/js/Users") %>
 </asp:Content>

@@ -46,8 +46,8 @@
 
             </div>
             <div style="padding-top: 3px; font-size: 110%">
-                <span style="width: 65px; display: inline-block">Rang: <%= Model.Rank %></span> 
                 Reputation: <%= Model.Reputation %>
+                (Rang <%= Model.Rank %>)
             </div>
             <div style="padding-top: 5px;">
                 <div>

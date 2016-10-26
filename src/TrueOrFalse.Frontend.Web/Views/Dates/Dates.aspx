@@ -2,8 +2,11 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Dates() %>">
+</asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Dates() %>" />
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     
@@ -72,9 +75,9 @@
 
     <div class="row">
         <div class="PageHeader col-md-9">
-            <h2 style="margin-bottom: 15px; margin-top: 0px;" class="pull-left">
+            <h1 style="margin-bottom: 15px; margin-top: 0px;" class="pull-left">
                 <span class="ColoredUnderline Date">Deine Termine</span>
-            </h2>
+            </h1>
         </div>
         <div class="col-md-3">
             <div class="headerControls pull-right">

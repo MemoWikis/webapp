@@ -8,6 +8,7 @@ public class SetModel : BaseModel
 {
     public int Id;
     public string Name;
+    public string Text;
 
     public Set Set;
 
@@ -44,8 +45,11 @@ public class SetModel : BaseModel
     {
         Id = set.Id;
         Name = set.Name;
+        Text = set.Text;
 
         Set = set;
+
+        ImageMetaDataCache.WarmupRequestCache(set);
 
         var foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
@@ -67,6 +71,7 @@ public class SetModel : BaseModel
 
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
+
         QuestionsInSet = set.QuestionsInSet.Select(
             x => new SetQuestionRowModel(
                 x.Question, 

@@ -7,6 +7,7 @@ using Seedworks.Lib.Persistence;
 public class Game : DomainEntity
 {
     public virtual DateTime WillStartAt { get; set; }
+    public virtual int RemainingSeconds() => (int) (WillStartAt - DateTime.Now).TotalSeconds;
 
     public virtual IList<Player> Players { get; set; }
 

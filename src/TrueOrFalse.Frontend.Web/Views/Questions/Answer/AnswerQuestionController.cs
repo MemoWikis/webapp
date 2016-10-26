@@ -91,7 +91,7 @@ public class AnswerQuestionController : BaseController
         if (testSession.CurrentStep > testSession.NumberOfSteps)
             return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController);
 
-        var question = Sl.R<QuestionRepo>().GetById(testSession.QuestionIds.ElementAt(testSession.CurrentStep-1));
+        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep-1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
         _saveQuestionView.Run(questionViewGuid,question,_sessionUser.User);
 
@@ -122,7 +122,12 @@ public class AnswerQuestionController : BaseController
         {
             if (id == null)
                 throw new Exception("AnswerQuestionController: No id for question provided.");
+
             var question2 = _questionRepo.GetById((int)id);
+
+            if (question2 == null)
+                throw new Exception("question not found");
+                
             return View(_viewLocation, new AnswerQuestionModel(question2));
         }
 
