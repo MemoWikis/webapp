@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.HelpFAQ() %>">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.HelpFAQ %>">
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">

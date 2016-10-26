@@ -4,7 +4,7 @@
 <%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>">
+    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge %>">
 </asp:Content>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">

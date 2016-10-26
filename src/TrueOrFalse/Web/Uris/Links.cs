@@ -21,11 +21,11 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public const string KnowledgeController = "Knowledge";
         public const string KnowledgeAction = "Knowledge";
-        public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
+        public static string Knowledge => GetUrlHelper().Action(KnowledgeAction, KnowledgeController);
 
         public const string HelpController = "Help";
         public const string HelpActionFAQ = "FAQ";
-        public static string HelpFAQ() { return GetUrlHelper().Action(HelpActionFAQ, HelpController); }
+        public static string HelpFAQ => GetUrlHelper().Action(HelpActionFAQ, HelpController);
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 
@@ -35,7 +35,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Login = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
-        public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
+        public static string BetaInfo => GetUrlHelper().Action("MemuchoBeta", VariousController);
 
         public static UrlHelper GetUrlHelper()
         {
