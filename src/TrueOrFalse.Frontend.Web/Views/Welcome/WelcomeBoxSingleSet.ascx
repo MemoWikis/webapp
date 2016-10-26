@@ -36,8 +36,8 @@
 
 <div class="ThumbnailColumn">
     <div class="Card SingleItem Set">
-        <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, additionalCssClasses: "ImageFull", linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
+        <div class="ImageContainer ImageFull">
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
         </div>
 
         <div>

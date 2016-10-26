@@ -392,7 +392,9 @@
                     %>
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-3">
-                                <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(50, true, ImageType.Question, linkToItem: Links.AnswerQuestion(question)) %>
+                                <div class="ImageContainer ShortLicenseLinkText">
+                                    <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(question)) %>
+                                </div>
                             </div>
                             <div class="col-xs-9" style="">
                                 <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
@@ -445,7 +447,7 @@
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
                                     <a href="<%= Links.UserDetail(activity.UserCauser) %>">
-                                        <img src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />    
+                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
                                     </a>
                                 </div>
                                 <div class="col-xs-9" style="">

@@ -20,11 +20,13 @@ class Images {
 
         Images.AddHoverCheckboxArea();
         //Images.AddHoverLicenseArea();
-        Images.AddLicenseCaption();
+        Images.AddLicenseInfoContainer();
+        //Images.AddLicenseCaption();
     }
 
     private static AddHoverCheckboxArea() {
         $('.JS-InitImage').each(function () {
+            $(this).wrap("<div style='position: relative;'></div>");
             $("<div class='SelectAreaCheckbox'>" +
                 "<div class='CheckboxIconContainer'>" +
                 "<i class='Checked-Icon fa fa-check-square-o'></i>" +
@@ -40,6 +42,14 @@ class Images {
             $("<div class='SelectAreaImageInfo'>" +
                 "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='HoverMessage JS-InitImageDetailModal'>Bild- und Lizenzinfos</div>" +
                 "</div>").insertAfter($(this).parent().find('.SelectAreaCheckbox'));
+        });
+    }
+
+    private static AddLicenseInfoContainer() {
+        $('.LicensedImage.JS-InitImage').each(function () {
+            $(
+                "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='LicenseInfo JS-InitImageDetailModal'></div>")
+                .appendTo($(this).closest('.ImageContainer'));
         });
     }
 

@@ -46,6 +46,9 @@
   padding-top: 6px;
   padding-bottom: 6px;
 }
+#mainMenu .list-group-item.sub:not(.last) {
+  border-bottom: none;
+}
 #mainMenu .list-group-item:hover {
   color: white;
 }

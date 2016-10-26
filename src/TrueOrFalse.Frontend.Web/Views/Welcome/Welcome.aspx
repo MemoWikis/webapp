@@ -110,7 +110,10 @@
         </div>--%>
 
         <div class="well">
-            <h3><a name="teaserWhatIsMemucho"></a>Was ist memucho?</h3>
+            <h3>
+                <a name="teaserWhatIsMemucho"></a>
+                Was ist memucho?
+            </h3>
             <p>
                 memucho ist eine vernetzte Lern- und Wissensplattform. Damit kannst du:
             </p>
@@ -176,7 +179,10 @@
         </div>
 
         <div class="well">
-            <h3><a name="teaserPrinciples">Unsere Prinzipien</a></h3>
+            <h3>
+                <a name="teaserPrinciples"></a>
+                Unsere Prinzipien
+            </h3>
             <ul class="fa-ul">
                 <li><i class="fa fa-li fa-book"></i>
                     <b>Freie Bildungsinhalte ("Open Educational Resources")</b>
@@ -232,7 +238,10 @@
             </p>                
         </div>
         <div class="well Founder">
-            <h3><a name="teaserWhoWeAre">Team</a></h3>
+            <h3>
+                <a name="teaserWhoWeAre"></a>
+                Team
+            </h3>
             <div class="row">
                 
                 <div class="col-xs-4 ImageColumn">

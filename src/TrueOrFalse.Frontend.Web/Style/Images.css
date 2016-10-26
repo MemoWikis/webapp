@@ -112,6 +112,169 @@
 .SelectAreaImageInfo:hover .HoverMessage {
   display: block;
 }
+.LicenseInfo {
+  font-size: 10px;
+  cursor: pointer;
+}
+.LicenseInfo:hover {
+  text-decoration: underline;
+}
+.LicenseInfo {
+  line-height: 14px;
+}
+.LicenseInfo:after {
+  content: "Lizenz";
+}
+.LicenseInfo {
+  line-height: 14px;
+}
+.LicenseInfo:after {
+  content: "Lizenz";
+}
+@media (min-width: 480px) {
+  .LicenseInfo:after {
+    content: "Bild- & Lizenzinfos";
+  }
+}
+.rowBase .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.rowBase .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.rowBase .LicenseInfo {
+  right: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .rowBase .LicenseInfo {
+    line-height: 14px;
+  }
+  .rowBase .LicenseInfo:after {
+    content: "Lizenz";
+  }
+  .rowBase .LicenseInfo {
+    line-height: 14px;
+  }
+  .rowBase .LicenseInfo:after {
+    content: "Lizenz";
+  }
+}
+.ImageFull {
+  border-bottom-left-radius: 0;
+}
+.ImageFull .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.ImageFull .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.ImageFull .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
+}
+.ImageLicenseOnImage .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+@media (min-width: 768px) {
+  .ImageLicenseOnImage-sm-up .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+  .ImageLicenseOnImage-sm-up .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+}
+.ImageLicenseOnImage .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.FullLicenseLinkText .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
+}
+.ShortLicenseLinkText .LicenseInfo {
+  line-height: 14px;
+}
+.ShortLicenseLinkText .LicenseInfo:after {
+  content: "Lizenz";
+}
+.ShortLicenseLinkText .LicenseInfo {
+  line-height: 14px;
+}
+.ShortLicenseLinkText .LicenseInfo:after {
+  content: "Lizenz";
+}
 /*Image detail modal
 ---------------------------------------------------------*/
 #modalImageDetail .modal-body:before,
