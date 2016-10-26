@@ -118,6 +118,9 @@ h1.ColoredUnderline,
 h1 *.ColoredUnderline {
   border-bottom-width: 3px;
 }
+.ColoredUnderline.GeneralMemucho {
+  border-bottom-color: #AFD534;
+}
 .ColoredUnderline.Knowledge {
   border-bottom-color: #B13A48;
 }
