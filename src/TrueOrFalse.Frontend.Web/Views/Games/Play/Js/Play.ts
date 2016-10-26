@@ -51,7 +51,10 @@
         });        
     }
 
-    ChangeContent(selector : string, html: string) {
+    ChangeContent(selector: string, html: string) {
+
+        Play.HideSolutionDetails();
+
         $(selector)
             .empty()
             .animate({ opacity: 0.00 }, 0)
@@ -63,6 +66,11 @@
 
     ChangeBody(html : string) {
         this.ChangeContent("#divGameBody", html);
+    }
+
+    static HideSolutionDetails() {
+        $("#SolutionDetailsSpinner").hide();
+        $("#SolutionDetails").hide();
     }
 }
 

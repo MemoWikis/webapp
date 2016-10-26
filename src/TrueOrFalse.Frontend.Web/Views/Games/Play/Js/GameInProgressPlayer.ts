@@ -93,10 +93,8 @@
             this.thisRoundSecLeft = game.RoundLength;
         }
 
-        window.setTimeout(function() {
-            $("#SolutionDetailsSpinner").hide();
-            $("#SolutionDetails").hide();            
-        }, 300);
+        window.setTimeout(function () { Play.HideSolutionDetails(); }, 300);
+        window.setTimeout(function () { Play.HideSolutionDetails(); }, 700);
 
     }
 
