@@ -30,7 +30,7 @@
                 <div class="col-xs-3 col-sm-12">
                     <div class="ImageContainer">
                         <%= Model.QuestionImageFrontendDatas
-                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
+                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
                     </div>
                 </div>
                 <div class="col-xs-9 col-sm-12">

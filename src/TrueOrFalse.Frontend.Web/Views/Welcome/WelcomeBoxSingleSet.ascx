@@ -6,7 +6,7 @@
 <div class="ThumbnailColumn" style="display: none;">
     <div class="thumbnail">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
         </div>
 
         <div>
@@ -37,7 +37,7 @@
 <div class="ThumbnailColumn">
     <div class="Card SingleItem Set">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, additionalCssClasses: "ImageFull", linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, additionalCssClasses: "ImageFull", linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
         </div>
 
         <div>

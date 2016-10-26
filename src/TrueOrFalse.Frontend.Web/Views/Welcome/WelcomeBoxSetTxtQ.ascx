@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-xs-4">
                 <div class="ImageContainer">
-                     <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId)) %>
+                     <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
                 </div>
             </div>
             <div class="col-xs-8 xxs-stack">

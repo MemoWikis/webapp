@@ -186,7 +186,8 @@ public class ImageFrontendData
         ImageType imageTypeForDummies, 
         string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", 
         string additionalCssClasses = "",
-        string linkToItem = "")
+        string linkToItem = "",
+        bool noFollow = false)
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
         if(additionalCssClasses != "")
@@ -213,7 +214,7 @@ public class ImageFrontendData
                     + "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url
                     + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
                     + "' alt='" + altDescription + "'/>",
-                    linkToItem);
+                    linkToItem, noFollow);
         }
         
         return AddLink( //if no image, then display dummy picture
@@ -221,15 +222,16 @@ public class ImageFrontendData
             + "' class='ItemImage JS-InitImage" + additionalCssClasses
             + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass 
             + "' alt=''/>",
-            linkToItem);
+            linkToItem, noFollow);
     }
 
-    private static string AddLink(string html, string link)
+    private static string AddLink(string html, string link, bool noFollow = false)
     {
         if(link == "")
             return html;
 
-        return $"<a href='{link}'>{html}</a>";
+        var noFollowString = noFollow ? " rel='nofollow'" : "";
+        return $"<a href='{link}'{noFollowString}>{html}</a>";
 
     }
 
