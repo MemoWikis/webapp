@@ -23,20 +23,5 @@ namespace TrueOrFalse.Tests
             Assert.That(questionViewRepository.GetViewCount(2), Is.EqualTo(1));
             Assert.That(questionViewRepository.GetViewCount(3), Is.EqualTo(0));
         }
-
-        [Test]
-        public void Should_store_total_view_count_in_question_after_every_view()
-        {
-            var contextQuestion = ContextQuestion.New()
-                    .AddQuestion(questionText: "QuestionA", solutionText: "AnswerA").AddCategory("A")
-                    .Persist();
-
-            var question = contextQuestion.All[0];
-            Resolve<SaveQuestionView>().Run(Guid.NewGuid(), question, 2);
-            Resolve<SaveQuestionView>().Run(Guid.NewGuid(), question, 2);
-            Resolve<ISession>().Evict(contextQuestion.All[0]);
-
-            Assert.That(Resolve<QuestionRepo>().GetById(question.Id).TotalViews, Is.EqualTo(2));
-        }
     }
 }
