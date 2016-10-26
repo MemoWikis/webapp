@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using NHibernate;
 using TrueOrFalse.Search;
@@ -37,7 +38,10 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
                 return;
 
-        var userAgent = HttpContext.Current.Request.UserAgent;
+        var userAgent = HttpContext.Current.Request.UserAgent.ToLower();
+
+        if(CrawlerRepo.GetAll().Any(crawler => userAgent.Contains(crawler.Pattern)))
+            return;
 
         _questionViewRepo.Create(new QuestionView
         {
