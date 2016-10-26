@@ -34,11 +34,15 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         LearningSession learningSession = null,
         Guid learningSessionStepGuid = default(Guid))
     {
-        if (userId != -1) //if user is logged in, always log
-            if (HttpContext.Current != null && HttpContext.Current.Request.Browser.Crawler)
-                return;
+        if (userId != -1 && HttpContext.Current.Request.Browser.Crawler)
+            return;
 
-        var userAgent = HttpContext.Current.Request.UserAgent.ToLower();
+        if (HttpContext.Current == null)
+            return;
+
+        var userAgent = "";
+        if (HttpContext.Current.Request.UserAgent != null)
+            userAgent = HttpContext.Current.Request.UserAgent.ToLower();
 
         if(CrawlerRepo.GetAll().Any(crawler => userAgent.Contains(crawler.Pattern)))
             return;
