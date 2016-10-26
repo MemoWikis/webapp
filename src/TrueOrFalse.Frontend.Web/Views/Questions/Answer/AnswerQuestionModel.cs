@@ -98,6 +98,7 @@ public class AnswerQuestionModel : BaseModel
     public bool IsLastLearningStep = false;
 
     public bool IsTestSession;
+    public int TestSessionId;
     public int TestSessionCurrentStep;
     public int TestSessionNumberOfSteps;
     public int TestSessionCurrentStepPercentage;
@@ -142,6 +143,7 @@ public class AnswerQuestionModel : BaseModel
     {
         QuestionViewGuid = questionViewGuid;
         IsTestSession = true;
+        TestSessionId = testSession.Id;
         TestSessionCurrentStep = testSession.CurrentStep;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
         TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;

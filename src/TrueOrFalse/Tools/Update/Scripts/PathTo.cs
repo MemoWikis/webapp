@@ -28,6 +28,11 @@ public class PathTo
         return GetPath("/Domain/Message/Types/TrainingReminderMsg.cshtml");
     }
 
+    public static string Crawlers()
+    {
+        return GetPath("/Web/Crawlers/list-of-crawlers.json");
+    }
+
     private static string GetPath(string fileName)
     {
         if (HttpContext.Current != null)

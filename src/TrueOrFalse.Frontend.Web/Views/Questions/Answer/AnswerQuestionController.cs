@@ -85,11 +85,14 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
-    public ActionResult Test()
+    public ActionResult Test(int testSessionId)
     {
-        var testSession = _sessionUser.TestSession;
+        if (_sessionUser.TestSessions.Count(s => s.Id == testSessionId) != 1)
+            throw new Exception("TestSessionId is not unique, there are " + _sessionUser.TestSessions.Where(s => s.Id == testSessionId).Count().ToString() +
+                " results (0 means: session is simply not there yet; >1 means: more than 1 TestSession was created simultaneously with same Id)");
+        var testSession = _sessionUser.TestSessions.Find(s => s.Id == testSessionId);
         if (testSession.CurrentStep > testSession.NumberOfSteps)
-            return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController);
+            return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController, new { name = testSession.UriName, testSessionId = testSessionId });
 
         var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep-1).QuestionId);
         var questionViewGuid = Guid.NewGuid();

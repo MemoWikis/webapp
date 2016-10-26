@@ -296,9 +296,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string TestSessionResultController = "TestSessionResult";
         public const string TestSessionResultAction = "TestSessionResult";
 
-        public static string TestSession()
+        public static string TestSession(string UriName, int testSessionId)
         {
-            return GetUrlHelper().Action("Test", AnswerQuestionController);
+            return GetUrlHelper().Action("Test", AnswerQuestionController, new { name = UriName, testSessionId = testSessionId });
         }
 
         public static string TestSessionStartForSet(string setName, int setId)
