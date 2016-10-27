@@ -14,19 +14,19 @@
     </header>
     <div class="CardContent">
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-5 col-sm-4">
                 <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
                 </div>
             </div>
-            <div class="col-xs-8 xxs-stack">
+            <div class="col-xs-7 col-sm-8">
                 <p><%: Model.CategoryDescription %></p>
             </div>
-            <div class="col-xs-8 xxs-stack pull-right">
+            <div class="col-xs-12 col-sm-8">
 
                 <div class="LabelList">
                     <% foreach (var question in Model.Questions){ %>
-                    <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
+                    <div class="LabelItem LabelItem-Question" style="padding-bottom: 5px">
                         <%= question.Text %>
                     </div>
             <% } %>
