@@ -83,6 +83,8 @@
         <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); %>
 
         <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
+        
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
 
         <div class="row ThumbnailRow" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); %>
