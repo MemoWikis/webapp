@@ -41,19 +41,20 @@
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        Wir erstellen für dich persönliche Lernpläne!<br/>
+                        Wir erstellen für dich persönliche <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">Lernpläne!</a><br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa fa-calendar" style="color: #2C5FB2;"></i><br/>
-                        Terminlernen und Langzeitlernen.
+                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Langzeitlernen">Terminlernen</a> und 
+                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Terminlernen">Langzeitlernen</a>.
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-users" style="color: #2C5FB2;"></i><br/>
-                        Echtzeit-Quiz mit bis 30 Mitspielern
+                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Echtzeit-Quiz">Echtzeit-Quiz</a> mit bis zu 30 Mitspielern
                     </p>
                 </div>
             </div>

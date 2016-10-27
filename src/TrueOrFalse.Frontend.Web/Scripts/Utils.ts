@@ -104,5 +104,14 @@ class Utils
 
         return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
+
+    static SendGaEvent(category: string, action: string, label: string) {
+        try {
+            ga('send', 'event', category, action, label);    
+        }catch(e){
+            //locally: do nothing
+        }
+        
+    }
 }
 
