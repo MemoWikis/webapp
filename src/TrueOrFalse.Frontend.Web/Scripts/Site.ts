@@ -58,6 +58,23 @@ function Allowed_only_for_active_users() {
     });
 }
 
+function InitClickLog(){
+    $("[data-click-log]")
+        .click(function () {
+            var data = $(this).attr("data-click-log");
+            var datas = data.split(",");
+
+            var category = <string>datas[0];
+            var action = <string>datas[1];
+
+            var label = "";
+            if (data.length > 2)
+                label = <string>datas[2];
+
+            Utils.SendGaEvent(category, action, label);
+        });
+}
+
 function InitTooltips() {
     InitLabelTooltips();
     InitIconTooltips('fa-trash-o', 'Löschen');
@@ -65,7 +82,7 @@ function InitTooltips() {
     $('.show-tooltip').tooltip();
 }
 
-$(function () {
+function InitPopoverForAllSets() {
     $("[popover-all-sets-for]").click(function (e) {
 
         e.preventDefault();
@@ -74,7 +91,7 @@ $(function () {
 
         if (elem.attr("loaded") == "true")
             return;
-        
+
         $.post("/Api/Sets/ForQuestion", {
             "questionId": elem.attr("popover-all-sets-for")
         }, function (data) {
@@ -83,29 +100,34 @@ $(function () {
 
             var content = "";
             for (var i = 5; i < data.length; i++) {
-                content += "<a href='"+ data[i].Url +"'><span class='label label-set' style='display:block;'>" + data[i].Name +  "</span></a>&nbsp;";
+                content += "<a href='" + data[i].Url + "'><span class='label label-set' style='display:block;'>" + data[i].Name + "</span></a>&nbsp;";
             }
 
             content = "<div style=''>" + content + "</div>";
 
             elem.popover({
                 title: 'weitere Frages&#228tze',
-                html : true,
+                html: true,
                 content: content,
                 trigger: 'click'
             });
 
             elem.popover('show');
         });
-    });
-   
+    });    
+}
+
+$(function () {
+    
     $("#logo").hover(
         function () { $(this).animate({ 'background-size': '100%' }, 250); },
         function () { $(this).animate({ 'background-size': '86%' }, 250); }
     );
 
+    InitPopoverForAllSets();
     FillSparklineTotals();
     InitTooltips();
     Images.Init();
     Allowed_only_for_active_users();
+    InitClickLog();
 });

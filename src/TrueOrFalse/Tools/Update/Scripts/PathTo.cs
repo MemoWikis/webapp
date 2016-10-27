@@ -36,7 +36,7 @@ public class PathTo
     private static string GetPath(string fileName)
     {
         if (HttpContext.Current != null)
-            return HttpContext.Current.Server.MapPath("bin/" + fileName);
+            return HttpContext.Current.Server.MapPath("~/bin/" + fileName);
 
         if(JobExecute.CodeIsRunningInsideAJob)
             return AppDomain.CurrentDomain.BaseDirectory + "bin/" + fileName;

@@ -35,7 +35,7 @@
     </div>
     
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-lg-9">
             
             <div class="bs-callout bs-callout-info" id="divGamesInProgressNone"
                  style="margin-top: 0; <%= Html.CssHide(Model.GamesInProgress.Any()) %>">
@@ -74,24 +74,27 @@
             </div>
             
         </div>
-        <div class="col-md-3">
+        <div class="col-lg-3">
             <div class="well">
                 <h4 style="margin-bottom: 20px; margin-top: 0px;">Spiel-Empfehlungen</h4>
-                <% foreach(var set in Model.SuggestedGames) { %>
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-xs-3">
-                                <div class="ImageContainer ShortLicenseLinkText">
-                                    <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
-                                </div>
-                        </div>
-                        <div class="col-xs-9" style="">
-                            <a href="<%= Links.GameCreateFromSet(set.Id) %>" rel="nofollow"><%= set.Name %></a>
+                <div class="row">
+                    <% foreach(var set in Model.SuggestedGames) { %>
+                    <div class="xxs-stack col-xs-6 col-lg-12">
+
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-xs-3" style="padding-right: 0; max-width: 100px;">
+                                    <div class="ImageContainer ShortLicenseLinkText">
+                                        <%= ImageFrontendData.Create(set).RenderHtmlImageBasis(200, true, ImageType.QuestionSet) %>
+                                    </div>
+                            </div>
+                            <div class="col-xs-9" style="">
+                                <a href="<%= Links.GameCreateFromSet(set.Id) %>" rel="nofollow"><%= set.Name %></a>
+                            </div>
                         </div>
                     </div>
-                <% } %>
+                    <% } %>
+                </div>  
             </div>
         </div>
-    </div>
-</asp:Content>
     </div>
 </asp:Content>
