@@ -125,6 +125,7 @@ namespace TrueOrFalse
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
             routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "VariousPublic", action = "WelfareCompany" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });
+            routes.MapRoute("Jobs", "Jobs", new {controller = "VariousPublic", action="Jobs" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
 
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });

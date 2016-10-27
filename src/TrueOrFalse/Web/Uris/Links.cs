@@ -36,6 +36,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Logout = "Logout";
         public const string Membership = "Membership";
         public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
+        public static string Jobs() { return GetUrlHelper().Action("Jobs", VariousController); }
 
         public static UrlHelper GetUrlHelper()
         {

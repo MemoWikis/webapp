@@ -41,25 +41,25 @@
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        memucho hilft dir beim Lernen. Du sparst Zeit und es macht mehr Spaß!<br/>
+                        Wir erstellen für dich persönliche Lernpläne!<br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
-                        <i class="fa fa-2x fa-book" style="color: #2C5FB2;"></i><br/>
-                        Unsere Prinzipien: Freie Bildungsinhalte, Gemeinwohlorientierung und Transparenz.
+                        <i class="fa fa-2x fa fa-calendar" style="color: #2C5FB2;"></i><br/>
+                        Terminlernen und Langzeitlernen.
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-users" style="color: #2C5FB2;"></i><br/>
-                        Robert, Jule und Christof entwickeln memucho zusammen. Wir haben uns viel vorgenommen.
+                        Echtzeit-Quiz mit bis 30 Mitspielern
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12" style="text-align: center;">
-                    <a href="#teaserWhatIsMemucho" class="TextLinkWithIcon"><i class="fa fa-info-circle" style=""></i>&nbsp;Erfahre mehr</a><br/>
+                    <a href="#teaserWhatIsMemucho" class="TextLinkWithIcon"><i class="fa fa-info-circle" style=""></i>&nbsp;Und vieles mehr</a><br/>
                     <a href="#" class="TextLinkWithIcon" id="btnStartWelcomeTour"><i class="fa fa-map-signs"></i> Lerne memucho kennen in 6 Schritten</a>
                 </div>
             </div>
