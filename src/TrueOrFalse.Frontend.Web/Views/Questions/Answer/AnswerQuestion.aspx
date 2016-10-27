@@ -10,7 +10,12 @@
     <%}else { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
     <% } %>
+    
     <meta name="description" content="<%= (Model.QuestionText.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(85, true) + " - Lerne die richtige Antwort mit memucho und vergesse sie nie wieder!") %>">
+    
+    <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -246,8 +251,9 @@
                     </span><br />
                 </p>
 
-                <p style="width: 150px;">
-                    <div class="fb-like" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend" data-font="arial"></div>
+                <p style="width: 150px;">                    
+                    <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
+                    
                     <div style="margin-top: 5px">
                         <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-share-alt" aria-hidden="true">&nbsp;</i>Einbetten</a>
                     </div>
