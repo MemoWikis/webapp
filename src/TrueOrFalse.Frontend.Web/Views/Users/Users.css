@@ -1,4 +1,20 @@
-﻿.user-row:hover {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+.user-row:hover {
   background-color: #f3f5f8;
 }
 .user-row.loggedInUser {
