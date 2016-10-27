@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-12 col-sm-8 rowBase">
         <h3>Inhalte erstellen, pflegen und koordinieren (Nebenjob)</h3>
         <p>
             memucho ist ein junges Start-up. Wir wollen Lernen personalisieren, damit alle effizienter und mit mehr Spaß lernen können. 
