@@ -1008,6 +1008,19 @@ fieldset[disabled] #MenuButton:hover {
     padding-left: 6%;
   }
 }
+#MasterFooter .FooterCol {
+  padding-bottom: 20px;
+}
+@media (max-width: 479px) {
+  #MasterFooter .FooterCol {
+    text-align: center;
+  }
+}
+@media (min-width: 992px) {
+  #MasterFooter .FooterCol:last-child > div {
+    float: right;
+  }
+}
 /* VALIDATION
 ----------------------------------------------------------*/
 textarea.input-validation-error,

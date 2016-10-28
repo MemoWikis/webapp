@@ -33,7 +33,17 @@
     </div>
     
     <div class="row">
-        <div class="col-md-4 col-xs-12">        
+        
+        <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">
+            <b>Memucho</b><br/>
+            <a href="<%=Links.Jobs() %>">Jobs</a><br/>
+            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
+            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%><br/>
+            <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%><br />
+            
+        </div>
+        
+        <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">        
             
             <b>Software</b><br/>
             <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> <br/>
@@ -47,28 +57,21 @@
                 <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
             </span>
         </div>
-
-        <div class="col-md-4 col-xs-12 text-align-lef-md">
-            <b>Memucho</b><br/>
-            <a href="<%=Links.Jobs() %>">Jobs</a><br/>
-            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
-            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%><br/>
-            <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%><br />
-            
-        </div>
         
-        <div class="col-md-2 col-xs-12">
+        <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
             <b>Hilfe</b><br/>
             <a href="<%=Links.HelpFAQ() %>">FAQ</a><br/>
-            Christof: <br/>+49-1577-6825707
+            Christof: <span style="white-space: nowrap;">+49-1577-6825707</span>
         </div>
         
-        <div class="col-md-2 col-xs-12 text-align-right-md">
-            <b>Mehr</b><br/>
-            <%--<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>--%>
-            <div class="fb-follow" data-href="https://www.facebook.com/zuck" data-layout="button" data-size="small" data-show-faces="true"></div><br/>
-            <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true"></i> auf Facebook</a><br/>
-            <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true"></i> auf Twitter</a><br/>
+        <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
+            <div class="FooterLastCol">
+                <b>Mehr</b><br/>
+                <%--<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>--%>
+                <div class="fb-follow" data-href="https://www.facebook.com/zuck" data-layout="button" data-size="small" data-show-faces="true"></div><br/>
+                <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true"></i> auf Facebook</a><br/>
+                <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true"></i> auf Twitter</a><br/>
+            </div>
         </div>
     </div>
     <div class="Clearfix"></div>
