@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class WelcomeBoxSetTxtQModel : BaseModel
 {
@@ -10,6 +13,8 @@ public class WelcomeBoxSetTxtQModel : BaseModel
     public IList<Question> Questions;
 
     public ImageFrontendData ImageFrontendData;
+
+    public Func<UrlHelper, string> SetDetailLink;
 
     public bool IsInWishknowledge;
 
@@ -28,6 +33,7 @@ public class WelcomeBoxSetTxtQModel : BaseModel
         if (Questions.Count < 1)
             Questions.Add(new Question());
         IsInWishknowledge = R<SetValuationRepo>().GetBy(setId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
+        SetDetailLink = urlHelper => Links.SetDetail(urlHelper, Set);
     }
 
     public static WelcomeBoxSetTxtQModel GetWelcomeBoxSetTxtQModel(int setId, int[] questionIds,
