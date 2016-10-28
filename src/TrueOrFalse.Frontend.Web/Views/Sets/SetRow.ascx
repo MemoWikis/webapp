@@ -52,7 +52,7 @@
                     <a style="display: block" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
                         <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                     </a>
-                    <a style="display: block" data-allowed="logged-in"  href="/Set/StartLearningSession?setId=<%=Model.Id %>" rel="nofollow">
+                    <a style="display: block" data-allowed="logged-in"  href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                     </a>
                     <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >

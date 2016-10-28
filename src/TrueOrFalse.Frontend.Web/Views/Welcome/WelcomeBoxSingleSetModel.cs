@@ -1,5 +1,8 @@
-﻿using System.Net.Mime;
+﻿using System;
+using System.Net.Mime;
+using System.Web.Mvc;
 using NHibernate.Util;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class WelcomeBoxSingleSetModel : BaseModel
 {
@@ -9,6 +12,7 @@ public class WelcomeBoxSingleSetModel : BaseModel
     public int QCount; //Number of questions in questionset
     public int FirstQId;
     public string FirstQText;
+    public Func<UrlHelper, string> SetDetailLink;
 
     public bool IsInWishknowledge;
 
@@ -24,6 +28,8 @@ public class WelcomeBoxSingleSetModel : BaseModel
         SetId = set.Id;
         SetName = set.Name;
         SetText = setText ?? set.Text;
+        SetDetailLink = urlHelper => Links.SetDetail(urlHelper, set);
+
         QCount = set.Questions().Count;
         if (set.Questions().Count > 0)
         {

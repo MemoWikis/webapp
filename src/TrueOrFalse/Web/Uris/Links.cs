@@ -358,6 +358,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = questionSetId });
         }
 
+        public static string StartLearningSesssionForSet(int setId)
+        {
+            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
+        }
 
 
         /* Messages */
