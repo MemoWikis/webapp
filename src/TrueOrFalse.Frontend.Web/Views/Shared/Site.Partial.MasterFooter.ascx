@@ -33,38 +33,43 @@
     </div>
     
     <div class="row">
-        <div class="col-sm-6 col-xs-12">        
-            <%--<%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %>--%>
-            <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%> <br/>
+        <div class="col-md-4 col-xs-12">        
+            
+            <b>Software</b><br/>
             <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> <br/>
             <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs">&nbsp;</i>Teamcity
-                <% var assembly = Assembly.Load("TrueOrFalse"); %>
-                <span style="color:darkgray">
-                    (Build: <%= assembly.GetName().Version.Major %> am
-                    <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
-                </span>
-            </a>
-
+            </a><br/>
+            <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %><br/>
+            <% var assembly = Assembly.Load("TrueOrFalse"); %>
+            <span style="color:darkgray">
+                (Build: <%= assembly.GetName().Version.Major %> am
+                <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
+            </span>
         </div>
 
-        <div class="col-sm-6 col-xs-12 text-align-right-md">
-            <a href="<%=Links.Jobs() %>">Jobs bei memucho</a><br/>
-            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%> <br/>
-            <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%> <br />
-            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a>
+        <div class="col-md-4 col-xs-12 text-align-lef-md">
+            <b>Memucho</b><br/>
+            <a href="<%=Links.Jobs() %>">Jobs</a><br/>
+            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
+            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%><br/>
+            <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%><br />
+            
+        </div>
+        
+        <div class="col-md-2 col-xs-12">
+            <b>Hilfe</b><br/>
+            <a href="<%=Links.HelpFAQ() %>">FAQ</a><br/>
+            Christof: <br/>+49-1577-6825707
+        </div>
+        
+        <div class="col-md-2 col-xs-12 text-align-right-md">
+            <b>Mehr</b><br/>
+            <%--<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>--%>
+            <div class="fb-follow" data-href="https://www.facebook.com/zuck" data-layout="button" data-size="small" data-show-faces="true"></div><br/>
+            <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true"></i> auf Facebook</a><br/>
+            <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true"></i> auf Twitter</a><br/>
         </div>
     </div>
     <div class="Clearfix"></div>
-</div>
-
-
-<div class="col-xs-12" style="margin-top: 2px;">
-   
-    <div class="pull-right">
-        <% if(ViewBag.BetaBackgroundLicenceUrl != null){ %>
-            <a href="<%= ViewBag.BetaBackgroundLicenceUrl %>">Lizenz Hintergrundbild</a>
-        <% } %>        
-    </div>
-    
 </div>

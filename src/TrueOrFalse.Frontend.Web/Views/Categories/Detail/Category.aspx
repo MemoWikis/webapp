@@ -1,11 +1,14 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Import Namespace="NHibernate.Properties" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Kategorie: " + Model.Name; %>
-    <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+    <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
     <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(25, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(89, true) %> - Lerne mit memucho!"/>
+    
+    <meta property="og:url" content="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.Category).Url %>" />
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -72,6 +75,10 @@
                         davon <%= Model.CorrectnesProbability %>% richtig.
                     </div>
                 <% } %>                
+            </div>
+            
+            <div style="margin-top: 10px">
+                <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>                
             </div>
         </div>
         <div class="col-xs-9 col-xs-pull-3 xxs-stack">
@@ -187,6 +194,7 @@
             <% if (Model.CountCreators > 0){ %>
                 <h4>Ersteller (<%=Model.CountCreators %>)</h4>
             <% } %>
+            
         </div>         
     </div>
 </asp:Content>
