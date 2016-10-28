@@ -27,6 +27,7 @@
     VARIOUS
         Tooltips
         Icons
+        Dropdowns
 
 [Imports:]
 --------------------------------------------------------*/
@@ -1433,6 +1434,11 @@ ul.show-tooltip-ul {
   padding-left: 15px;
 }
 /*Icons*/
+/*Dropdowns*/
+ul.AlignDdRight {
+  left: auto;
+  right: 0;
+}
 /**/
 .navLinks {
   margin-bottom: 20px;
