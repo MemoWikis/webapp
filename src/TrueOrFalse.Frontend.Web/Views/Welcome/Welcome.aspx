@@ -41,7 +41,7 @@
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        Wir erstellen für dich persönliche <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">Lernpläne!</a><br/>
+                        Wir erstellen für dich deinen persönlichen <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">Übungsplan!</a><br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
