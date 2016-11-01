@@ -153,8 +153,25 @@
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
-            
-            <div style="margin-top: 30px; color: darkgray; font-weight: bold;" class="row">
+
+            <%--<% if (Model.ContentRecommendationResult != null) { %>
+                <div class="row ThumbnailRow" id="contentRecommendation">
+                    <% foreach (var set in Model.ContentRecommendationResult.Sets)
+                       { %>
+                        <% Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id)); %>
+                    <% } %>
+                    <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                       { Response.Write(category.Name); %>
+                        
+                    <% } %>
+                    <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
+                       { %>
+                        <% Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id)); %>
+                    <% } %>
+                </div>
+            <% } %>--%>
+
+            <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
 
                 <div class="col-xs-4">
                     <h4 style="padding:0; margin:0;">Kommentare</h4>    

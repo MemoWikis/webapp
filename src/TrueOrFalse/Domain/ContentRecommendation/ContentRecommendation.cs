@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentNHibernate.Testing.Values;
+using TrueOrFalse.Infrastructure;
 
-class ContentRecommendation
+public class ContentRecommendation
 {
     public static ContentRecommendationResult GetForSet(Set set, int amount = 6, IList<Set> excludeSets = null,
         IList<Category> excludeCategories = null)
@@ -25,16 +26,32 @@ class ContentRecommendation
         //todo: check to display only categories with at least 10 questions
         ((List<Category>)result.Categories).AddRange(question.Categories.Take(amountCategories));
         var fillUpAmount = amount - result.Sets.Count - result.Categories.Count;
-        ((List<Set>)result.PopularSets).AddRange(GetPopularSets(fillUpAmount, excludeSets: result.Sets));
+        ((List<Set>)result.PopularSets).AddRange(GetPopularSets(fillUpAmount, excludeSetIds: result.Sets.GetIds()));
         return result;
     }
 
-    public static List<Set> GetPopularSets(int amount, IList<Set> excludeSets = null, IList<Set> avoidSets = null)
+    public static List<Set> GetPopularSets(int amount, IList<int> excludeSetIds = null, IList<int> avoidSetIds = null)
     {
         //popular sets are by CMS; get them by shuffling
-        //if (amount == 0)
+        if (amount == 0)
             return new List<Set>();
-        
 
+        var suggestedSets = Sl.R<DbSettingsRepo>().Get().SuggestedSets();
+
+        if ((excludeSetIds != null) && excludeSetIds.Any())
+            suggestedSets.RemoveAll(s => excludeSetIds.Contains(s.Id));
+
+        if ((avoidSetIds != null) && avoidSetIds.Any() && (suggestedSets.Count > amount))
+        {
+            avoidSetIds.Shuffle();
+            var index = 0;
+            while ((suggestedSets.Count > amount) && (index < avoidSetIds.Count))
+            {
+                suggestedSets.RemoveAll(s => s.Id == avoidSetIds.ElementAt(index));
+                index++;
+            }
+        }
+
+        return suggestedSets;
     }
 }

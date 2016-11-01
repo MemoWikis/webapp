@@ -105,6 +105,8 @@ public class AnswerQuestionModel : BaseModel
     public bool TestSessionIsLastStep = false;
     public int TestSessionProgessAfterAnswering;
 
+    public ContentRecommendationResult ContentRecommendationResult;
+
     public AnswerQuestionModel()
     {
     }
@@ -113,6 +115,7 @@ public class AnswerQuestionModel : BaseModel
     {
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
+        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 
