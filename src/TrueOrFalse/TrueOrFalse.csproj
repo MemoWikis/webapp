@@ -267,6 +267,8 @@
     <Compile Include="Domain\Comments\Persistence\CommentMap.cs" />
     <Compile Include="Domain\Comments\Persistence\CommentRepository.cs" />
     <Compile Include="Domain\Comments\ShouldReasons.cs" />
+    <Compile Include="Domain\ContentRecommendation\ContentRecommendation.cs" />
+    <Compile Include="Domain\ContentRecommendation\ContentRecommendationResult.cs" />
     <Compile Include="Domain\Date\Date.cs" />
     <Compile Include="Domain\Date\DateVisibility.cs" />
     <Compile Include="Domain\Date\Ops.Stats\GetTrainingPlanStats.cs" />
@@ -829,6 +831,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs129.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs147.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs146.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs148.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />

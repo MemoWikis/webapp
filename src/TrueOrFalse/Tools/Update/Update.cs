@@ -78,6 +78,7 @@
                 .Add(UpdateToVs145.Run)
                 .Add(UpdateToVs146.Run)
                 .Add(UpdateToVs147.Run)
+                .Add(UpdateToVs148.Run)
                 .Run();
         }
     }

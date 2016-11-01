@@ -23,5 +23,21 @@ namespace TrueOrFalse.Infrastructure
                 .Where(set => set != null)
                 .ToList();
         }
+
+        public virtual string SuggestedSetsIdString { get; set; }
+
+        public virtual List<Set> SuggestedSets()
+        {
+            var setIds = SuggestedSetsIdString
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x));
+
+            var setRepo = Sl.R<SetRepo>();
+
+            return setIds
+                .Select(setId => setRepo.GetById(setId))
+                .Where(set => set != null)
+                .ToList();
+        }
     }
 }
