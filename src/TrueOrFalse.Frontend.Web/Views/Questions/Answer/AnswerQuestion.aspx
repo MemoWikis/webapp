@@ -45,6 +45,7 @@
         var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
 
+    <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 
@@ -154,22 +155,23 @@
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
 
-            <%--<% if (Model.ContentRecommendationResult != null) { %>
+            <% if (Model.ContentRecommendationResult != null) { %>
+                <h4>Das könnte dich auch interessieren:</h4>
                 <div class="row ThumbnailRow" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
-                       { %>
-                        <% Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id)); %>
-                    <% } %>
+                       {
+                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                       } %>
                     <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                       { Response.Write(category.Name); %>
-                        
-                    <% } %>
+                       {
+                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                       } %>
                     <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
-                       { %>
-                        <% Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id)); %>
-                    <% } %>
+                       { 
+                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                       } %>
                 </div>
-            <% } %>--%>
+            <% } %>
 
             <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
 

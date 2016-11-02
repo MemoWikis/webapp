@@ -28,6 +28,9 @@
 .Card.SingleItem.Set .ImageContainer {
   border-bottom: 5px solid #FFD700;
 }
+.Card.SingleItem.Category .ImageContainer {
+  border-bottom: 5px solid #5bc0de;
+}
 .Card .BottomBar {
   /*margin-left: @margin-card;
         margin-right: @margin-card;*/

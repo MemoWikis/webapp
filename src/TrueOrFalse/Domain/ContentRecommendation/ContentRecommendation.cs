@@ -51,7 +51,7 @@ public class ContentRecommendation
                 index++;
             }
         }
-
-        return suggestedSets;
+        suggestedSets.Shuffle();
+        return suggestedSets.Take(amount).ToList();
     }
 }
