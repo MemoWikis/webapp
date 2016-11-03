@@ -42,7 +42,7 @@
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="<%= Model.CategoryDetailLink %>"> Detailseite Kategorie</a></li>
+                    <li><a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"> Detailseite Kategorie</a></li>
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

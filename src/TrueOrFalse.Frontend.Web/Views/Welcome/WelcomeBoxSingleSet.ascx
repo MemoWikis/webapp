@@ -28,7 +28,6 @@
             <p><%: Model.SetText %></p>
             <p style="text-align: center;">
                 <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
-                <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             </p>
         </div>
     </div>
@@ -59,17 +58,16 @@
             <div class="ItemText"><%: Model.SetText %></div>
         </div>
         <div class="BottomBar">
-            <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             <div class="dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
                 <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>">Jetzt üben</a></li>
+                    <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" data-allowed="logged-in">Jetzt üben</a></li>
                     <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
                     <li><a href="<%= Links.DateCreate(Model.SetId) %>"> Termin anlegen</a></li>
-                    <li><a href="<%= Model.SetDetailLink %>"> Fragesatz-Detailseite</a></li>
+                    <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Fragesatz-Detailseite</a></li>
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

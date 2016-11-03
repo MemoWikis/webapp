@@ -10,7 +10,6 @@ public class CardSingleCategoryModel : BaseModel
     public string CategoryName;
     public string CategoryText;
     public int QCount; //Number of questions
-    public Func<UrlHelper, string> CategoryDetailLink;
 
     public ImageFrontendData ImageFrontendData;
 
@@ -24,7 +23,6 @@ public class CardSingleCategoryModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         CategoryText = categoryText ?? category.Description;
-        CategoryDetailLink = urlHelper => Links.CategoryDetail(category);
 
         QCount = category.CountQuestions;
     }
