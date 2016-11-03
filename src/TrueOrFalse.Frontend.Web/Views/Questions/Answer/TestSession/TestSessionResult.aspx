@@ -6,6 +6,7 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
+    <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -30,7 +31,8 @@
             </a>
             mit insgesamt <%=Model.TestedCategory.CountQuestions %> Fragen
         <% } %>
-        getestet und dabei <%= Model.NumberQuestions %> Fragen beantwortet.
+        getestet und dabei <%= Model.NumberQuestions %> Fragen beantwortet. 
+        (<a href="#detailedAnswerAnalysis">Zur Auswertung deiner Antworten</a>)
     </p>
     
 
@@ -87,6 +89,25 @@
                 <% } %>
             </div>
             
+            <% if (Model.ContentRecommendationResult != null) { %>
+                <h4>Lust auf mehr? Das könnte dich auch interessieren:</h4>
+                <div class="row ThumbnailRow" id="contentRecommendation">
+                    <% foreach (var set in Model.ContentRecommendationResult.Sets)
+                       {
+                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                       } %>
+                    <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                       {
+                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                       } %>
+                    <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
+                       { 
+                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                       } %>
+                </div>
+            <% } %>
+
+
             <div id="detailedAnswerAnalysis">
                 <h3>Auswertung deiner Antworten</h3>
                 <p style="color: silver; font-size: 11px;">

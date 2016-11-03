@@ -8,10 +8,33 @@ using TrueOrFalse.Infrastructure;
 
 public class ContentRecommendation
 {
-    public static ContentRecommendationResult GetForSet(Set set, int amount = 6, IList<Set> excludeSets = null,
-        IList<Category> excludeCategories = null)
+    public static ContentRecommendationResult GetForSet(Set set, int amount = 6)
     {
-        return new ContentRecommendationResult();
+        var result = new ContentRecommendationResult();
+        var amountSets = amount <= 3 ? 1 : (int)Math.Ceiling((double)amount / 3); //get at most 1/3 of amount (rounded up) sets
+        var sets = set.Questions().SelectMany(q => q.SetsTop5).Distinct().ToList();
+        sets.RemoveAll(s => s == set);
+        sets.Shuffle();
+        ((List<Set>)result.Sets).AddRange(sets.Take(amountSets));
+
+        var amountCategories = amount <= 2 ? 0 : (int)Math.Floor((double)amount / 3);
+        var categories = set.Questions().SelectMany(q => q.Categories).Distinct().Where(c => c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
+        categories.Shuffle();
+        ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
+
+        var fillUpAmount = amount - result.Sets.Count - result.Categories.Count;
+        var excludeSetIds = result.Sets.GetIds();
+        excludeSetIds.Add(set.Id);
+        ((List<Set>)result.PopularSets).AddRange(GetPopularSets(fillUpAmount, excludeSetIds: excludeSetIds));
+
+        return result;
+    }
+
+    public static ContentRecommendationResult GetForCategory(Category category, int amount = 6)
+    {
+        var result = new ContentRecommendationResult();
+
+        return result;
     }
 
     public static ContentRecommendationResult GetForQuestion(Question question, int amount = 6)
@@ -19,7 +42,7 @@ public class ContentRecommendation
         //gets recommended content for a single question. On third of "amount" is each filled with matching Sets (that the question is part of),
         //with matching Categories (with at least 10 questions), and with generally popular Sets
         var result = new ContentRecommendationResult();
-        var amountSets = amount <= 3 ? 1 : (int) Math.Ceiling((double)amount/3); //get relevant Sets for the question, at most 1/3 of amount (rounded up)
+        var amountSets = amount <= 3 ? 1 : (int) Math.Ceiling((double)amount/3); //get at most 1/3 of amount (rounded up) sets
         var sets = question.SetsTop5;
         sets.Shuffle();
         ((List<Set>)result.Sets).AddRange(sets.Take(amountSets));
