@@ -69,15 +69,9 @@
                 <% } %>
                 
                 <% if (Model.QuestionCount > 0) { %>
-                    <% if (!Model.IsLoggedIn) { %>
-                        <a class="btn btn-primary btn-sm" data-btn="startLearningSession" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
-                            <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
-                        </a>
-                    <% } else { %>
-                        <a style="font-size: 12px;" data-allowed="logged-in"  href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
-                            <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
-                        </a>
-                    <% } %>
+                    <a class="btn btn-primary btn-sm" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
+                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                    </a>
                     <a style="font-size: 12px;" data-allowed="logged-in" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
                     </a>
