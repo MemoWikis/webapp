@@ -37,10 +37,10 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         get
         {
             if (SetToLearn != null)
-                return UriSegmentFriendlyUser.Run(SetToLearn.Name);
+                return "Fragesatz-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
 
             if (DateToLearn != null)
-                return "Termin_" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");
+                return "Termin-" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");
 
             throw new Exception("unknown session type");
         }
