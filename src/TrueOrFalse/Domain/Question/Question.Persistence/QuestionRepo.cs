@@ -57,6 +57,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<Question>();
     }
 
+    public IList<Question> GetForCategory(int categoryId)
+    {
+        return _session.QueryOver<Question>()
+            .Where(q => q.Visibility == QuestionVisibility.All)
+            .JoinQueryOver<Category>(q => q.Categories)
+            .Where(c => c.Id == categoryId)
+            .List<Question>();
+    }
+
     public IList<Question> GetForReference(int categoryId, int resultCount, int currentUser)
     {
         return _session.QueryOver<Question>()

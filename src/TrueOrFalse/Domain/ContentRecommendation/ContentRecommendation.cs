@@ -34,6 +34,25 @@ public class ContentRecommendation
     {
         var result = new ContentRecommendationResult();
 
+        var amountSets = amount <= 3 ? 1 : (int)Math.Ceiling((double)amount / 3); //get at most 1/3 of amount (rounded up) sets
+        var questions = Sl.R<QuestionRepo>().GetForCategory(category.Id);
+
+        var sets = questions.SelectMany(q => q.SetsTop5).Distinct().ToList();
+        sets.AddRange(Sl.R<SetRepo>().GetForCategory(category.Id));
+        sets.Shuffle();
+        ((List<Set>)result.Sets).AddRange(sets.Take(amountSets));
+
+        var amountCategories = amount <= 2 ? 0 : (int)Math.Floor((double)amount / 3);
+        var categories = Sl.R<CategoryRepository>().GetChildren(category.Id);
+        ((List<Category>)categories).AddRange(category.ParentCategories);
+        //not yet included: "sibling"-categories (= children of parent categories).
+        ((List<Category>)categories.Distinct()).RemoveAll(c => c.CountQuestions <= 5 || c == category); //only consider categories with at least 5 questions
+        categories.Shuffle();
+        ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
+
+        var fillUpAmount = amount - result.Sets.Count - result.Categories.Count;
+        ((List<Set>)result.PopularSets).AddRange(GetPopularSets(fillUpAmount, excludeSetIds: result.Sets.GetIds()));
+
         return result;
     }
 
