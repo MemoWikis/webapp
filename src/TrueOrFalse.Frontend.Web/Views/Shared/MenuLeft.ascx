@@ -48,7 +48,7 @@
                     if(question.Set != null)
                         url = Links.AnswerQuestion(Url, question.Question, question.Set);
                     else
-                        url = Links.AnswerQuestion(Url, question.SearchSpec);
+                        url = Links.AnswerQuestion(question.Question);
 
                     string tooltip = "";
                     if (!String.IsNullOrEmpty(question.Text))
