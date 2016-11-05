@@ -66,15 +66,15 @@
             </div>
         </div>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row" style="padding-top: 0;">
             <% Html.RenderPartial("" +
                                   "WelcomeBoxSingleSet" +
                                   "", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(27)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du, wie diese Nudelsorten heißen?")); %>
         </div>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(30)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(35)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(29)); %>
@@ -86,7 +86,7 @@
         
         <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(37)); %>
@@ -96,7 +96,7 @@
 
         <%--<% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 })); %>--%> <%-- Sehenswürdigkeiten--%>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(13)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); %>
@@ -106,7 +106,7 @@
 
         <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
 
-<%--        <div class="row ThumbnailRow" style="padding-top: 0px;">
+<%--        <div class="row" style="padding-top: 0px;">
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 385)); %>
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 337)); %>
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 233)); %>

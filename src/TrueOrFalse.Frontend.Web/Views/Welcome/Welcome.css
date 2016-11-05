@@ -82,9 +82,7 @@ a.question-short {
 .panel-body {
   padding: 10px;
 }
-@media (min-width: 480px) {
-}
-.ThumbnailColumn {
+.CardColumn {
   position: relative;
   float: left;
   width: 33.33333333%;
@@ -93,7 +91,7 @@ a.question-short {
   padding-right: 10px;
 }
 @media (max-width: 479px) {
-  .ThumbnailColumn {
+  .CardColumn {
     width: 50%;
   }
 }

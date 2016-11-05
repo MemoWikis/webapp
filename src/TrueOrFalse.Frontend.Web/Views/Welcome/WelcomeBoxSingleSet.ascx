@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="ThumbnailColumn" style="display: none;">
+<div class="CardColumn" style="display: none;">
     <div class="thumbnail">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<div class="ThumbnailColumn">
+<div class="CardColumn">
     <div class="Card SingleItem Set">
         <div class="ImageContainer ImageFull">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
