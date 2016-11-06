@@ -56,6 +56,7 @@
                 (Build: <%= assembly.GetName().Version.Major %> am
                 <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
             </span>
+            <br/>&nbsp;
         </div>
         
         <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
