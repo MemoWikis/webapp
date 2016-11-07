@@ -130,7 +130,12 @@ public class AnswerQuestionController : BaseController
 
             if (question2 == null)
                 throw new Exception("question not found");
-                
+
+            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
+
+            var questionViewGuid2 = Guid.NewGuid();
+            _saveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
+
             return View(_viewLocation, new AnswerQuestionModel(question2));
         }
 
