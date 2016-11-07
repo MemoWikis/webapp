@@ -36,7 +36,7 @@
     <div class="col-md-9">
             
         <div class="well" style="padding: 13px; padding-bottom: 10px;">
-            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: Schneller lernen, länger wissen</h1>
+            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: <span style="white-space: nowrap;">Schneller lernen,</span> <span style="white-space: nowrap;">länger wissen</span></h1>
             <div class="row">
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
