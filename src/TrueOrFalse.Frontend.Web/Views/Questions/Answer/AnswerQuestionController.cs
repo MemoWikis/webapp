@@ -168,25 +168,15 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec));
     }
 
-    public ActionResult Next(string pager, int? setId, int? questionId)
+    public ActionResult Next(string pager)
     {
-        if (setId != null && questionId != null){
-            var set = Resolve<SetRepo>().GetById((int)setId);
-            return AnswerSet(set, set.QuestionsInSet.GetNextTo((int) questionId).Question);
-        }
-
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.NextPage(1);
         return GetViewBySearchSpec(activeSearchSpec);
     }
 
-    public ActionResult Previous(string pager, int? setId, int? questionId)
+    public ActionResult Previous(string pager)
     {
-        if (setId != null && questionId != null){
-            var set = Resolve<SetRepo>().GetById((int)setId);
-            return AnswerSet(set, set.QuestionsInSet.GetPreviousTo((int)questionId).Question);
-        }
-
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.PreviousPage(1);
         return GetViewBySearchSpec(activeSearchSpec);
