@@ -287,29 +287,24 @@
                 <br/><br/>
                 <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" style="width: 100%;" role="button">Registrieren</a>
             </div>
-            <div class="well" id="newsletterSignUp" style="padding: 20px; ">
-                <h4>Newsletter</h4>
-                <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
-                <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
-                    Keine gültige E-Mail-Adresse.
-                </div>
-            
-                <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
-                    Deine Adresse wurde für den Newsletter angemeldet.
-                </div>
-
-                <form class="form-inline" style="color: white;">
-                    <div class="">
-                        <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
-                    </div>
-                    <div class="" style="text-align: center; margin-top: 10px;">
-                        <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
-                            <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
-                        </a>
-                    </div>
-                </form> 
-            </div>
         <% } %>
+
+        <div class="well" id="nominationInnopreis" style="padding: 20px; ">
+            <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+            <p>
+                memucho ist nominiert für den Innovationspreis Berlin Brandenburg!
+            </p>
+            <p>
+                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
+                </a>
+            </p>
+            <p>
+                <a href="http://www.inforadio.de/programm/schema/sendungen/wirtschaft_aktuell/201611/73133.html" target="_blank">
+                    Bericht <span style="white-space: nowrap">rbb Inforadio <i class="fa fa-external-link"></i></span>
+                </a>
+            </p>
+        </div>
 
         <div class="well">
             <h4>Top-Kategorien nach Fragen</h4>
@@ -346,6 +341,31 @@
             </div>
         </div>
 
+        <% if (!userSession.IsLoggedIn)
+           { %>
+            <div class="well" id="newsletterSignUp" style="padding: 20px; ">
+                <h4>Newsletter</h4>
+                <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
+                <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
+                    Keine gültige E-Mail-Adresse.
+                </div>
+            
+                <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
+                    Deine Adresse wurde für den Newsletter angemeldet.
+                </div>
+
+                <form class="form-inline" style="color: white;">
+                    <div class="">
+                        <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
+                    </div>
+                    <div class="" style="text-align: center; margin-top: 10px;">
+                        <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
+                            <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
+                        </a>
+                    </div>
+                </form> 
+            </div>
+        <% } %>
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
         </div>
