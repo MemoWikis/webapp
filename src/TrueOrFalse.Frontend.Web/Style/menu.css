@@ -45,7 +45,7 @@
     border-bottom-left-radius: 0;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   #mainMenu {
     display: block !important;
   }
