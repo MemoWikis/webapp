@@ -95,6 +95,186 @@
 /*  Cards
 ----------------------------------------------------------*/
 
+.CardsLandscape { // Apply to row
+    .CardColumn {
+
+        .make-xs-column(12);
+
+        .MakeSingleItemCardLandscape;
+
+        @media (max-width: (@extra-breakpoint-cards - 1)){
+            .StackCards;
+        };
+
+        @media (min-width: @extra-breakpoint-cards){
+            width: 50%;
+        }
+    
+        .xxs-stack;
+    }
+}
+
+.CardsLandscapeNarrow { // Apply to row
+    .CardColumn {
+
+        .MakeSingleItemCardLandscape;
+        
+        .make-xs-column(6);
+        .make-sm-column(12);
+        .make-md-column(6);
+        .xxs-stack;
+
+        @media (max-width: (@extra-breakpoint-cards - 1)){
+            .StackCards;
+        };
+
+        @media (min-width: @extra-breakpoint-cards) and (max-width: (@screen-sm-min - 1)){
+            width: 50%;
+        }
+
+        .media-sm({
+            width: 100%; 
+            .StackCards;
+        });
+    }
+}
+
+.CardsPortrait{ // Apply to row
+    .CardColumn {
+        .make-xs-column(4);
+        .make-sm-column(4);
+        @media (max-width: (@extra-breakpoint-cards - 1)){
+            .MakeSingleItemCardLandscape;
+            .StackCards;
+        };
+        @media (min-width: @extra-breakpoint-cards){
+            .MakeSingleItemCardPortrait;
+        }
+        .xxs-stack;
+    }
+}
+
+.Card {
+
+    border: 1px solid @well-border;
+    border-radius: @border-radius-card;
+    margin-bottom: 20px;
+
+    &.Set {
+        .ItemTitle{
+            border-bottom-color: @color-set !important;
+        }
+        .ImageContainer{
+            border-bottom-color: @color-set !important;
+            border-right-color: @color-set !important;
+        }
+    }
+
+    &.Category {
+        .ItemTitle{
+            border-bottom-color: @color-category !important;
+        }
+        .ImageContainer{
+            border-bottom-color: @color-category !important;
+            border-right-color: @color-category !important;
+        }
+    }
+
+    .ItemInfo .Pin {
+        padding-left: 1px;
+        display: inline-block;
+    }
+
+    .BottomBar {
+        /*margin-left: @margin-card;
+        margin-right: @margin-card;*/
+        padding: 5px;
+        .clearfix;
+
+        a.btn {
+            display: block;
+            float: right;
+        }
+
+        .dropdown {
+            float: right;
+        }
+    }
+}
+
+.CardContent {
+    margin-left: @margin-card;
+    margin-right: @margin-card;
+    overflow: hidden;
+    border-bottom: 1px solid @ruler-grey;
+
+    .SingleItem & {
+        .media-below-md({
+        height: 180px;
+    });
+    .media-md-up({
+        height: 157px;
+    });
+    }
+
+    .ItemTitle {
+         margin-top: 5px;
+    }
+    
+    .ItemInfo {
+        margin-bottom: 8px;
+        color: #a3a3a3;
+    }
+
+    .ItemText {
+    }
+}
+
+.Card .ImageLicenseCaption {
+
+    line-height: 15px;
+
+    a {
+        margin-left: @margin-card;
+        margin-right: @margin-card;
+    }
+}
+
+.ButtonEllipsis {
+   margin-left: 0px !important;
+}
+
+.ButtonOnHover {
+    font-weight: bold;
+
+     &:hover{
+        background-color: lightgray !important;
+        border-radius: 4px;
+        text-decoration: none !important;
+        color: @global-text-color !important;
+    }
+}
+
+.CardBig {
+    padding-top: 15px;
+
+    header {
+        margin-left: @margin-card;
+        margin-right: @margin-card;
+        //padding-bottom: 5px;
+        border-bottom: 5px solid @memo-blue;
+        margin-bottom: 15px;
+
+        .Category& {
+            border-bottom-color: @color-category;
+        }
+        
+        .Set& {
+            border-bottom-color: @color-set;
+        }
+    }
+}
+
 .MakeSingleItemCardPortrait() { //Apply to .CardColumn
     .Card {
         
@@ -105,6 +285,7 @@
             max-width: 300px;
             .ImageContainer{
 
+                float: none;
                 border-bottom-width: 5px;
                 border-bottom-style: solid;
 
@@ -132,14 +313,6 @@
                 height: 180px;
             }
         } 
-
-        &.SingleItem.Set .ImageContainer {
-            border-bottom-color: @color-set;
-        }
-
-        &.SingleItem.Category .ImageContainer {
-            border-bottom-color: @color-category;
-        }
     }
 }
 
@@ -251,6 +424,20 @@
             left: 0;
             bottom: 0;
         }
+    }
+}
+
+.StackCards() {
+    & {
+        width: 100%;
+    }
+
+    .Card {
+        margin-bottom: 10px;
+    }
+
+    .CardContent {
+        height: auto !important;
     }
 }
 

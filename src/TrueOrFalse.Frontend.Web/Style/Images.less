@@ -174,15 +174,6 @@ display: none;
     });
 }
 
-.ImageFull {
-    .ImageLicenseOnImage;
-    .FullLicenseLinkText;
-
-    .LicenseInfo {
-         border-bottom-left-radius: 0;
-    }
-}
-
 .ImageLicenseOnImage {
     .ImageLicenseOnImage;
 }
@@ -192,49 +183,6 @@ display: none;
         .ImageLicenseOnImage;
     });
 }
-
-.ImageLicenseOnImage {
-
-    .LicenseInfo {
-        position: absolute;
-        padding-left: 5px;
-        padding-right: 5px;
-        line-height: 18px;
-        left: 0;
-        //right: 0;
-        bottom: 0;
-        color: white;
-        background-color: black; //Fallback color
-        background-color: rgba(0, 0, 0, 0.35);
-        //text-shadow: 1px 1px 2px #666, -1px 1px 2px #666, 1px -1px 2px #666, -1px -1px 2px #666;
-        border-bottom-left-radius: @border-radius-item-image;
-    }
-}
-
-.FullLicenseLinkText{
-    .LicenseInfo {
-        &:after {
-          content: "Bild- & Lizenzinfos";
-        }
-    }
-}
-
-.ShortLicenseLinkText {
-    .ShortLicenseLinkText;
-}
-
-.ShortLicenseLinkText{
-    .LicenseInfo {
-        &:after {
-          content: "Lizenz";
-        }
-
-        line-height: 14px;
-
-    }
-}
-
-
 
 
 

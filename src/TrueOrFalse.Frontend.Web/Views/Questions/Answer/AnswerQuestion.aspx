@@ -157,7 +157,7 @@
 
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4>Das könnte dich auch interessieren:</h4>
-                <div class="row" id="contentRecommendation">
+                <div class="row CardsLandscapeNarrow" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {
                             Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));

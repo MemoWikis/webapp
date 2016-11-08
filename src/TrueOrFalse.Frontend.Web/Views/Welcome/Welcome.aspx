@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class="row" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("" +
                                   "WelcomeBoxSingleSet" +
                                   "", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(27)); %>
@@ -74,7 +74,7 @@
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du, wie diese Nudelsorten heißen?")); %>
         </div>
 
-        <div class="row" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(30)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(35)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(29)); %>
@@ -86,7 +86,7 @@
         
         <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
 
-        <div class="row" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(37)); %>
@@ -96,7 +96,7 @@
 
         <%--<% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 })); %>--%> <%-- Sehenswürdigkeiten--%>
 
-        <div class="row" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(13)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); %>

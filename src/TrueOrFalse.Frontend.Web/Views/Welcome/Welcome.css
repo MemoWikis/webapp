@@ -14,6 +14,10 @@
 }
 @media (max-width: 767px) {
 }
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
 /*Fonts*/
 h1,
 h2,
@@ -82,19 +86,6 @@ a.question-short {
 .panel-body {
   padding: 10px;
 }
-.CardColumn {
-  position: relative;
-  float: left;
-  width: 33.33333333%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (max-width: 479px) {
-  .CardColumn {
-    width: 50%;
-  }
-}
 .thumbnail {
   width: 100%;
   padding: 10px;
@@ -148,5 +139,46 @@ a.question-short {
   }
   .thumbnail h4 {
     margin-top: 0;
+  }
+}
+@media (min-width: 768px) {
+  .CardsPortrait .CardColumn .Card {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem {
+    max-width: 300px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer {
+    float: none;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
+    content: "Bild- & Lizenzinfos";
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    border-bottom-left-radius: 0;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer img {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
+    height: 180px;
   }
 }

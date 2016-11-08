@@ -24,7 +24,7 @@
 
 <div class="CardColumn">
     <div class="Card SingleItem Category">
-        <div class="ImageContainer ImageFull">
+        <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
         </div>
 

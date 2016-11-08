@@ -2118,6 +2118,422 @@
 }
 /*  Cards
 ----------------------------------------------------------*/
+.CardsLandscape .CardColumn {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem {
+  max-width: none;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer {
+  width: 100px;
+  float: left;
+  margin: 10px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  border-bottom: none;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  right: 0;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer img {
+  border-radius: 4px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ContentContainer {
+  margin-left: 110px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .CardContent {
+  border-bottom: 1px solid #dfdfdf;
+  padding-bottom: 10px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ItemTitle {
+  padding-bottom: 10px;
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .BottomBar {
+  padding: 5px 0;
+  margin: 0 10px 0 0;
+}
+@media (max-width: 649px) {
+  .CardsLandscape .CardColumn {
+    width: 100%;
+  }
+  .CardsLandscape .CardColumn .Card {
+    margin-bottom: 10px;
+  }
+  .CardsLandscape .CardColumn .CardContent {
+    height: auto !important;
+  }
+}
+@media (min-width: 650px) {
+  .CardsLandscape .CardColumn {
+    width: 50%;
+  }
+}
+@media (max-width: 479px) {
+  .CardsLandscape .CardColumn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.CardsLandscapeNarrow .CardColumn {
+  float: left;
+  width: 50%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem {
+  max-width: none;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer {
+  width: 100px;
+  float: left;
+  margin: 10px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  border-bottom: none;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 18px;
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  right: 0;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer img {
+  border-radius: 4px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ContentContainer {
+  margin-left: 110px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .CardContent {
+  border-bottom: 1px solid #dfdfdf;
+  padding-bottom: 10px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ItemTitle {
+  padding-bottom: 10px;
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .BottomBar {
+  padding: 5px 0;
+  margin: 0 10px 0 0;
+}
+@media (min-width: 768px) {
+  .CardsLandscapeNarrow .CardColumn {
+    float: left;
+    width: 100%;
+  }
+}
+@media (min-width: 992px) {
+  .CardsLandscapeNarrow .CardColumn {
+    float: left;
+    width: 50%;
+  }
+}
+@media (max-width: 479px) {
+  .CardsLandscapeNarrow .CardColumn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+@media (max-width: 649px) {
+  .CardsLandscapeNarrow .CardColumn {
+    width: 100%;
+  }
+  .CardsLandscapeNarrow .CardColumn .Card {
+    margin-bottom: 10px;
+  }
+  .CardsLandscapeNarrow .CardColumn .CardContent {
+    height: auto !important;
+  }
+}
+@media (min-width: 650px) and (max-width: 767px) {
+  .CardsLandscapeNarrow .CardColumn {
+    width: 50%;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .CardsLandscapeNarrow .CardColumn {
+    width: 100%;
+  }
+  .CardsLandscapeNarrow .CardColumn .Card {
+    margin-bottom: 10px;
+  }
+  .CardsLandscapeNarrow .CardColumn .CardContent {
+    height: auto !important;
+  }
+}
+.CardsPortrait .CardColumn {
+  float: left;
+  width: 33.33333333%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  .CardsPortrait .CardColumn {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+@media (max-width: 649px) {
+  .CardsPortrait .CardColumn {
+    width: 100%;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem {
+    max-width: none;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer {
+    width: 100px;
+    float: left;
+    margin: 10px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    border-bottom: none;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
+    content: "Bild- & Lizenzinfos";
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    right: 0;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer img {
+    border-radius: 4px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ContentContainer {
+    margin-left: 110px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 10px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ItemTitle {
+    padding-bottom: 10px;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .BottomBar {
+    padding: 5px 0;
+    margin: 0 10px 0 0;
+  }
+  .CardsPortrait .CardColumn .Card {
+    margin-bottom: 10px;
+  }
+  .CardsPortrait .CardColumn .CardContent {
+    height: auto !important;
+  }
+}
+@media (min-width: 650px) {
+  .CardsPortrait .CardColumn .Card {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem {
+    max-width: 300px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer {
+    float: none;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    position: absolute;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 18px;
+    left: 0;
+    bottom: 0;
+    color: white;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
+    content: "Bild- & Lizenzinfos";
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    border-bottom-left-radius: 0;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer img {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
+    height: 180px;
+  }
+}
+@media (max-width: 479px) {
+  .CardsPortrait .CardColumn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.Card {
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.Card.Set .ItemTitle {
+  border-bottom-color: #FFD700 !important;
+}
+.Card.Set .ImageContainer {
+  border-bottom-color: #FFD700 !important;
+  border-right-color: #FFD700 !important;
+}
+.Card.Category .ItemTitle {
+  border-bottom-color: #5bc0de !important;
+}
+.Card.Category .ImageContainer {
+  border-bottom-color: #5bc0de !important;
+  border-right-color: #5bc0de !important;
+}
+.Card .ItemInfo .Pin {
+  padding-left: 1px;
+  display: inline-block;
+}
+.Card .BottomBar {
+  /*margin-left: @margin-card;
+        margin-right: @margin-card;*/
+  padding: 5px;
+}
+.Card .BottomBar:before,
+.Card .BottomBar:after {
+  content: " ";
+  display: table;
+}
+.Card .BottomBar:after {
+  clear: both;
+}
+.Card .BottomBar:before,
+.Card .BottomBar:after {
+  content: " ";
+  display: table;
+}
+.Card .BottomBar:after {
+  clear: both;
+}
+.Card .BottomBar a.btn {
+  display: block;
+  float: right;
+}
+.Card .BottomBar .dropdown {
+  float: right;
+}
+.CardContent {
+  margin-left: 15px;
+  margin-right: 15px;
+  overflow: hidden;
+  border-bottom: 1px solid #dfdfdf;
+}
+@media (max-width: 991px) {
+  .SingleItem .CardContent {
+    height: 180px;
+  }
+}
+@media (min-width: 992px) {
+  .SingleItem .CardContent {
+    height: 157px;
+  }
+}
+.CardContent .ItemTitle {
+  margin-top: 5px;
+}
+.CardContent .ItemInfo {
+  margin-bottom: 8px;
+  color: #a3a3a3;
+}
+.Card .ImageLicenseCaption {
+  line-height: 15px;
+}
+.Card .ImageLicenseCaption a {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.ButtonEllipsis {
+  margin-left: 0px !important;
+}
+.ButtonOnHover {
+  font-weight: bold;
+}
+.ButtonOnHover:hover {
+  background-color: lightgray !important;
+  border-radius: 4px;
+  text-decoration: none !important;
+  color: #203256 !important;
+}
+.CardBig {
+  padding-top: 15px;
+}
+.CardBig header {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-bottom: 5px solid #003264;
+  margin-bottom: 15px;
+}
+.Category.CardBig header {
+  border-bottom-color: #5bc0de;
+}
+.Set.CardBig header {
+  border-bottom-color: #FFD700;
+}
 /*  Images
 ----------------------------------------------------------*/
 .ImageLicenseOnImage .LicenseInfo {

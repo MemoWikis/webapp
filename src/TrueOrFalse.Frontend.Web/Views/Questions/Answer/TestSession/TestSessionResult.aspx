@@ -6,7 +6,6 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
-    <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -91,7 +90,7 @@
             
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4>Lust auf mehr? Das könnte dich auch interessieren:</h4>
-                <div class="row" id="contentRecommendation">
+                <div class="row CardsLandscape" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {
                             Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
