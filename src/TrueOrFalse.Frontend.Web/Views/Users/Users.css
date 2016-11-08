@@ -14,6 +14,10 @@
 }
 @media (max-width: 767px) {
 }
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
 .user-row:hover {
   background-color: #f3f5f8;
 }
