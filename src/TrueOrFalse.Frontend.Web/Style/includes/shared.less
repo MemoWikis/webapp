@@ -7,6 +7,7 @@
     Helper Classes
     General Styles
     Layout Elements
+    Cards
     Images
     Color scheme
     Media query mixins
@@ -91,6 +92,168 @@
     h1, h2, h3, h4 {margin-top: 0;}
 }
 
+/*  Cards
+----------------------------------------------------------*/
+
+.MakeSingleItemCardPortrait() { //Apply to .CardColumn
+    .Card {
+        
+        margin-left: auto;
+        margin-right: auto;
+
+        &.SingleItem{
+            max-width: 300px;
+            .ImageContainer{
+
+                border-bottom-width: 5px;
+                border-bottom-style: solid;
+
+                .ImageLicenseOnImage;
+                .FullLicenseLinkText;
+
+                .LicenseInfo {
+                     border-bottom-left-radius: 0;
+                }
+
+                img {
+                    border-top-left-radius: @border-radius-card;
+                    border-top-right-radius: @border-radius-card;
+                    border-bottom-left-radius: 0;
+                    border-bottom-right-radius: 0;
+
+                    //http://stackoverflow.com/questions/11552380/how-to-automatically-crop-and-center-an-image/11552460#11552460
+                    //object-fit: none; /* Do not scale the image */
+                    //object-position: center; /* Center the image within the element */
+                    //height: 70%;
+                    //width: 100%;
+                }
+            }
+            .CardContent {
+                height: 180px;
+            }
+        } 
+
+        &.SingleItem.Set .ImageContainer {
+            border-bottom-color: @color-set;
+        }
+
+        &.SingleItem.Category .ImageContainer {
+            border-bottom-color: @color-category;
+        }
+    }
+}
+
+.MakeSingleItemCardPortrait2(){ //Apply to .CardColumn
+    .Card {
+
+        &.SingleItem{
+            .ImageContainer{
+                width: 100px;
+                margin: 10px;
+                float: left;
+            }
+        }
+    }
+}
+
+.MakeSingleItemCardLandscape() { //Apply to .CardColumn
+    .Card.SingleItem {
+
+        max-width: none;
+
+        .ImageContainer {
+            width: 100px;
+            float: left;
+            margin: 10px;
+
+            margin-bottom: 5px;
+            margin-right: 10px;
+            border-bottom: none;
+
+            .ImageLicenseOnImage;
+            .FullLicenseLinkText;
+            .LicenseInfo{
+                right: 0;
+            }
+
+            img {
+                border-radius: @border-radius-card;
+            }
+        }
+
+        .ContentContainer {
+            margin-left: 110px;
+        }
+
+        .CardContent {
+            border-bottom: 1px solid @ruler-grey;
+            padding-bottom: 10px;
+        }
+
+        .ItemTitle {
+            padding-bottom: 10px;
+            border-bottom-width: 5px;
+            border-bottom-style: solid;
+        }
+
+
+        .BottomBar {
+            //border-top: 1px solid @ruler-grey;
+            padding: 5px 0;
+            margin: 0 10px 0 0;
+        }
+    }
+}
+
+.MakeSingleItemCardLandscape2(){ //Apply to .CardColumn
+    .Card.SingleItem {
+        height: 165px;
+        position: relative;
+        max-width: none;
+
+        .ImageContainer {
+            /*width: 100px;*/
+            /*width: 150px;*/
+            float: left;
+            //margin: 10px;
+
+            //margin-bottom: 5px;
+            margin-right: 10px;
+            border-right-width: 5px;
+            border-right-style: solid;
+            border-bottom: none;
+
+
+            img {
+                border-radius: @border-radius-card 0 0 @border-radius-card;
+                width: 165px;
+            }
+        }
+
+        .ContentContainer {
+            position: relative;
+            height: 100%;
+        }
+
+        .CardContent {
+            /*height: 120px;*/
+            /*height: 135px;*/
+            border-bottom: none !important;
+        }
+
+        .BottomBar {
+            border-top: 1px solid @ruler-grey;
+            padding: 5px 0;
+            margin: 0 10px;
+            margin-left: 180px;
+            position: absolute;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
+    }
+}
+
 
 /*  Images
 ----------------------------------------------------------*/
@@ -119,6 +282,47 @@
 
     .SelectAreaImageInfo {
         display: none;
+    }
+}
+
+.ImageLicenseOnImage {
+
+    .LicenseInfo {
+        position: absolute;
+        padding-left: 5px;
+        padding-right: 5px;
+        line-height: 18px;
+        left: 0;
+        //right: 0;
+        bottom: 0;
+        color: white;
+        background-color: black; //Fallback color
+        background-color: rgba(0, 0, 0, 0.35);
+        //text-shadow: 1px 1px 2px #666, -1px 1px 2px #666, 1px -1px 2px #666, -1px -1px 2px #666;
+        border-bottom-left-radius: @border-radius-item-image;
+    }
+}
+
+.FullLicenseLinkText{
+    .LicenseInfo {
+        &:after {
+          content: "Bild- & Lizenzinfos";
+        }
+    }
+}
+
+.ShortLicenseLinkText {
+    .ShortLicenseLinkText;
+}
+
+.ShortLicenseLinkText{
+    .LicenseInfo {
+        &:after {
+          content: "Lizenz";
+        }
+
+        line-height: 14px;
+
     }
 }
 
