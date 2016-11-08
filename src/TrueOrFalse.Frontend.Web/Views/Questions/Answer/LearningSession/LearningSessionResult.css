@@ -14,6 +14,10 @@
 }
 @media (max-width: 767px) {
 }
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
 /*@color-correctAnswer: inherit;
 @color-correctAfterRepetitionAnswer: inherit;
 @color-wrongAnswer: inherit;

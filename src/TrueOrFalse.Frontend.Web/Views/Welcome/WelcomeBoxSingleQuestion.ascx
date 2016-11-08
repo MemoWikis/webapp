@@ -4,7 +4,7 @@
 
 <% var linkAnswerQuestion = Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage: 1, categoryFilter: Model.ContextCategoryName); %>
 
-<div class="ThumbnailColumn">
+<div class="CardColumn">
     <div class="thumbnail">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.Question, linkAnswerQuestion) %>
