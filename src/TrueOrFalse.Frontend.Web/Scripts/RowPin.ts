@@ -27,7 +27,8 @@ class Pin {
 
             e.preventDefault();
             if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg(); return;
+                NotLoggedIn.ShowErrorMsg("Pin_" + PinRowType[self._pinRowType]);
+                return;
             }
 
             var elemPin = $($(this).parents(".Pin"));

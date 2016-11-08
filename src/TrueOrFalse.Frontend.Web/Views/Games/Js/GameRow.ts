@@ -38,7 +38,7 @@
         this.ButtonCancelGame.click((e) => { e.preventDefault(); this.CancelGame(); });
         this.ButtonJoinGame.click((e) => {
             if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg();
+                NotLoggedIn.ShowErrorMsg("JoinGame");
                 return;
             }
              e.preventDefault(); this.JoinGame();
