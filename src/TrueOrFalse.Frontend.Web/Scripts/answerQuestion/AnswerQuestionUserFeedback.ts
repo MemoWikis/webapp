@@ -50,7 +50,15 @@
 
     AnimateWrongAnswer() {
         $("#buttons-edit-answer").show();
-        $("#txtAnswer").animate({ backgroundColor: "#efc7ce" }, 1000);
+        //$("#txtAnswer").animate({ backgroundColor: "#efc7ce" }, 1000);
+        $("#AnswerInputSection").animate({ backgroundColor: "#efc7ce" }, 1000, function () {
+            $(this).animate({ "background-color": "#ffffff" }, 700);
+        });
+    }
+    AnimateCorrectAnswer() {
+        $("#AnswerInputSection").animate({ backgroundColor: "#1bbd00" }, 1000, function () {
+            $(this).animate({ "background-color": "#ffffff" }, 700);
+        });
     }
 
     AnimateNeutral() {
@@ -63,7 +71,7 @@
         $("#divAnsweredCorrect").show();
         $("#buttons-next-question").show();
         $("#buttons-edit-answer").hide();
-        $("#txtAnswer").animate({ backgroundColor: "#D1EBA7" }, 1000);
+        this.AnimateCorrectAnswer();
         $("#divWrongAnswer").hide();
 
         $("#divAnsweredCorrect").show();

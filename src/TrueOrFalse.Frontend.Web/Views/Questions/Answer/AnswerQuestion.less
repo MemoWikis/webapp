@@ -6,6 +6,74 @@
     });
 }
 
+#InputAndButtons {
+    padding-bottom: 10px;
+}
+
+#AnswerInputSection {
+    display: inline-block;
+    vertical-align: bottom;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 0px;
+    width: 64%;
+    .media-below-md ({
+        margin-top: 15px;
+        width: 100%;
+    });
+
+    textarea, input {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+#Buttons {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 35%;
+
+    .media-below-md ({
+        margin-top: 15px;
+        width: 100%;
+    });
+     
+    .buttonSingle {
+        .SecAction {
+            padding-right: 0;
+            padding-top: 0;
+            .media-below-md ({
+                padding-right: 12px;
+                padding-top: 6px;
+            });
+        }
+        .media-below-md ({
+            float: left;
+        });
+    }
+
+    text-align: right;
+
+    #buttons-first-try {
+        float: right;
+    }
+
+    #buttons-next-question {
+        float: right;
+    }
+
+    #buttons-edit-answer {
+        float: right;
+    }
+
+    #buttons-answer-again {
+        float: right;
+    }
+}
+
 #EditQuestion, #DeleteQuestion {
 
     float: right;
@@ -26,10 +94,6 @@
 }
 
 #divAnsweredCorrect {
-    margin-bottom: 15px;
-}
-
-#AnswerInputSection {
     margin-bottom: 15px;
 }
 

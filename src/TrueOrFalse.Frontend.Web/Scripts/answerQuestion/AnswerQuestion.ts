@@ -308,6 +308,7 @@ class AnswerQuestion {
             success: function(result) {
                 self.AnswerCountedAsCorrect = true;
                 $(Utils.UIMessageHtml(successMessage, "success")).insertBefore('#Buttons');
+                self._inputFeedback.AnimateCorrectAnswer();
                 $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();
                 $.post("/AnswerQuestion/PartialAnswerHistory",

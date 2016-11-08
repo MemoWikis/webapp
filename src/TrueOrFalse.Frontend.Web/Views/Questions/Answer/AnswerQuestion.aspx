@@ -45,7 +45,6 @@
         var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
 
-    <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
 

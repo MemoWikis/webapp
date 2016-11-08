@@ -23,6 +23,70 @@
     margin-bottom: 10px;
   }
 }
+#InputAndButtons {
+  padding-bottom: 10px;
+}
+#AnswerInputSection {
+  display: inline-block;
+  vertical-align: bottom;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 0px;
+  width: 64%;
+}
+@media (max-width: 991px) {
+  #AnswerInputSection {
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+#AnswerInputSection textarea,
+#AnswerInputSection input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#Buttons {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 35%;
+  text-align: right;
+}
+@media (max-width: 991px) {
+  #Buttons {
+    margin-top: 15px;
+    width: 100%;
+  }
+}
+#Buttons .buttonSingle .SecAction {
+  padding-right: 0;
+  padding-top: 0;
+}
+@media (max-width: 991px) {
+  #Buttons .buttonSingle .SecAction {
+    padding-right: 12px;
+    padding-top: 6px;
+  }
+}
+@media (max-width: 991px) {
+  #Buttons .buttonSingle {
+    float: left;
+  }
+}
+#Buttons #buttons-first-try {
+  float: right;
+}
+#Buttons #buttons-next-question {
+  float: right;
+}
+#Buttons #buttons-edit-answer {
+  float: right;
+}
+#Buttons #buttons-answer-again {
+  float: right;
+}
 #EditQuestion,
 #DeleteQuestion {
   float: right;
@@ -42,9 +106,6 @@
   max-width: 100%;
 }
 #divAnsweredCorrect {
-  margin-bottom: 15px;
-}
-#AnswerInputSection {
   margin-bottom: 15px;
 }
 #LicenseQuestion {
