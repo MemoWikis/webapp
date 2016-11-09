@@ -1,4 +1,7 @@
-﻿using Serilog;
+﻿using System;
+using System.Web;
+using RollbarSharp;
+using Serilog;
 
 public class Logg
 {
@@ -13,5 +16,29 @@ public class Logg
         }
 
         return _logger;
+    }
+
+    public static void Error(Exception exception)
+    {
+        try
+        {
+            if (HttpContext.Current == null)
+            {
+                Logg.r().Error(exception, "Error");
+                return;
+            }
+
+            var request = HttpContext.Current.Request;
+
+            Logg.r().Error(exception, "PageError {Url} {Headers}",
+                request.Headers.ToString(),
+                request.RawUrl);
+
+            if (!request.IsLocal)
+                new RollbarClient().SendException(exception);
+        }
+        catch
+        {
+        }
     }
 }
