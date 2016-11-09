@@ -46,6 +46,10 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+#AnswerInputSection label {
+  position: relative;
+  top: 6px;
+}
 .answerFeedback {
   position: absolute;
   bottom: 10px;
