@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Web.Mvc;
 using RazorEngine;
-using RollbarSharp;
 
-public class InvoiceCreate : IRegisterAsInstancePerLifetime
+public class InvoiceCreate
 {
-    public void PDF()
+    public static void PDF()
     {
         var invoiceModel = new InvoiceModel
         {
