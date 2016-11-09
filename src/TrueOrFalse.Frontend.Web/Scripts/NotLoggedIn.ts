@@ -11,6 +11,5 @@
     static ShowErrorMsg(feature = "unknown") {
         $('#modalNotLoggedIn').modal('show');
         Utils.SendGaEvent("NotLoggedIn", "Click", feature);
-        console.log("nli: " + feature);
     }
 }

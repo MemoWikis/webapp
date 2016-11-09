@@ -524,6 +524,9 @@
     <Content Include="Views\Maintenance\Images.min.css">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
+      <DependentUpon>AnswerQuestion.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
@@ -584,9 +587,6 @@
     <Content Include="Views\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
-    <Content Include="Views\Questions\Answer\AnswerQuestion.min.css">
-      <DependentUpon>AnswerQuestion.css</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Edit\Js\Validation.js">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -1605,9 +1605,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
-      <DependentUpon>AnswerQuestion.less</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
     <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
@@ -1920,9 +1917,6 @@
       <DependentUpon>QuestionsSearch.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.less" />
-    <Content Include="Views\Questions\Answer\AnswerQuestion.css.map">
-      <DependentUpon>AnswerQuestion.css</DependentUpon>
-    </Content>
     <Content Include="Style\Images.less" />
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
