@@ -53,6 +53,13 @@
                         
                 Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
             %>
+
+            <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
+                <i class="fa fa-check-circle">&nbsp;</i>Richtig!
+            </div>
+            <div class="answerFeedback answerFeedbackWrong" style="display: none;">
+                <i class="fa fa-minus-circle">&nbsp;</i>Leider falsch
+            </div>
         </div>
 
         <div id="Buttons" class="" style="">
@@ -101,7 +108,7 @@
         <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsche Antwort </b></span>
         <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
                 
-        <div style="margin-top:5px;" id="answerFeedback">Du könntest es wenigstens probieren!</div>
+        <div style="margin-top:5px;" id="answerFeedbackTry">Du könntest es wenigstens probieren!</div>
                 
         <div style="margin-top:7px; display: none;" id="divWrongAnswers" >
             <span class="WrongAnswersHeading">Deine bisherigen Antwortversuche:</span>

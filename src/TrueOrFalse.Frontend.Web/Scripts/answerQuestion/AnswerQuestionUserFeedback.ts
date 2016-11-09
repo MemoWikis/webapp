@@ -40,9 +40,9 @@
         $("#buttons-answer-again").hide();
 
         if (forceShow || Utils.Random(1, 10) % 4 === 0) {
-            $("#answerFeedback").html(text).show();
+            $("#answerFeedbackTry").html(text).show();
         } else {
-            $("#answerFeedback").html(text).hide();
+            $("#answerFeedbackTry").html(text).hide();
         }
 
         this.AnimateWrongAnswer();
@@ -50,19 +50,18 @@
 
     AnimateWrongAnswer() {
         $("#buttons-edit-answer").show();
-        //$("#txtAnswer").animate({ backgroundColor: "#efc7ce" }, 1000);
-        $("#AnswerInputSection").animate({ backgroundColor: "#efc7ce" }, 1000, function () {
-            $(this).animate({ "background-color": "#ffffff" }, 700);
+        $(".answerFeedbackWrong").fadeIn(1200, function() {
+             $(this).fadeOut(800);
         });
     }
     AnimateCorrectAnswer() {
-        $("#AnswerInputSection").animate({ backgroundColor: "#1bbd00" }, 1000, function () {
-            $(this).animate({ "background-color": "#ffffff" }, 700);
+        $(".answerFeedbackCorrect").fadeIn(1200, function () {
+            $(this).fadeOut(800);
         });
     }
 
     AnimateNeutral() {
-        $("#txtAnswer").animate({ backgroundColor: "white" }, 200);
+        //$("#txtAnswer").animate({ backgroundColor: "white" }, 200);
     }
 
     ShowSuccess() {
@@ -81,10 +80,6 @@
     ShowSolution() {
 
         this.ShowNextQuestionLink();
-
-        if (!this._answerQuestion.AtLeastOneWrongAnswer) {
-            $("#txtAnswer").hide();
-        }
 
         $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
         if (this._answerQuestion.AnswersSoFar.length === 1) {
@@ -239,7 +234,7 @@
             $("#aCountAsCorrect").show();
         }
 
-        $("#answerFeedback").hide();
+        $("#answerFeedbackTry").hide();
 
         $("#buttons-first-try").hide();
         $("#buttons-edit-answer").hide();
