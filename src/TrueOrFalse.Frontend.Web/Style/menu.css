@@ -25,7 +25,7 @@
   min-width: 200px;
   text-align: left;
 }
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
   #mainMenu {
     padding: 15px;
     border-bottom-left-radius: 4px;
