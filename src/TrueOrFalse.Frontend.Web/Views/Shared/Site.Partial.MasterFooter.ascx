@@ -47,7 +47,7 @@
             
             <b>Software</b><br/>
             <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> <br/>
-            <a href="http://teamcity.richtig-oder-falsch.de:8080/project.html?projectId=TrueOrFalse&guest=1">
+            <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs">&nbsp;</i>Teamcity
             </a><br/>
             <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %><br/>
