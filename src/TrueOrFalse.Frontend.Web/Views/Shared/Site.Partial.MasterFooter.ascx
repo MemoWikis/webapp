@@ -68,8 +68,7 @@
         <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
             <div class="FooterLastCol">
                 <b>Mehr</b><br/>
-                <%--<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>--%>
-                <div class="fb-follow" data-href="https://www.facebook.com/zuck" data-layout="button" data-size="small" data-show-faces="true"></div><br/>
+                <div class="fb-like" data-href="https://www.facebook.com/MemuchoWissen" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>
                 <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true"></i> auf Facebook</a><br/>
                 <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true"></i> auf Twitter</a><br/>
             </div>
