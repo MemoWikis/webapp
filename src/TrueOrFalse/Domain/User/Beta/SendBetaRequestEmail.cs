@@ -6,7 +6,7 @@ public class SendBetaRequestEmail
     {
         SendEmail.Run(new MailMessage(
             Settings.EmailFrom, 
-            Settings.EmailTo,
+            Settings.EmailToMemucho,
             "Beta access request", 
             requesterEmail + " asked for private beta access."));
     }

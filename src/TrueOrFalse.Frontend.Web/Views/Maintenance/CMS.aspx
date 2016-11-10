@@ -27,6 +27,14 @@
         
             <%= Html.AntiForgeryToken() %>
             <div class="form-group">
+                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Fragesätze</span> (Set-Ids kommasepariert)</label>
+                <%= Html.TextBoxFor(m => m.SuggestedSetsIdString, new {@class="form-control"} ) %>
+                <% foreach(var set in Model.SuggestedSets) { %>
+                    <a href="<%= Links.SetDetail(Url, set) %>"><span class="label label-set"><%: set.Id %>-<%: set.Name %></span></a>
+                <% } %>
+            </div>
+        
+            <div class="form-group">
                 <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Spiele</span> (Set-Ids kommasepariert)</label>
                 <%= Html.TextBoxFor(m => m.SuggestedGames, new {@class="form-control"} ) %>
                 <% foreach(var set in Model.SuggestedGameSets) { %>

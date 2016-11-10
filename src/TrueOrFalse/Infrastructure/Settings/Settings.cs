@@ -17,7 +17,7 @@ public class Settings
     public static string GoogleKey;
 
     public static string EmailFrom = "team@memucho.de";
-    public static string EmailTo = "team@memucho.de";
+    public static string EmailToMemucho = "team@memucho.de";
     
     public static string MemuchoCookie = "memucho";
     public static int MemuchoUserId = 26;

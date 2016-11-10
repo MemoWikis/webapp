@@ -50,12 +50,14 @@ function InitIconTooltips(awesomeClass : string, tooltipText : string) {
 }
 
 function Allowed_only_for_active_users() {
-    $("[data-allowed=logged-in]").click(e => {
-        if (NotLoggedIn.Yes()) {
-            e.preventDefault();
-            NotLoggedIn.ShowErrorMsg();
-        }
-    });
+    $("[data-allowed=logged-in]")
+        .click(function(e) {
+            var elem = $(this);
+            if (NotLoggedIn.Yes()) {
+                e.preventDefault();
+                NotLoggedIn.ShowErrorMsg(elem.attr("data-allowed-type"));
+            }
+        });
 }
 
 function InitClickLog(){
@@ -117,6 +119,17 @@ function InitPopoverForAllSets() {
     });    
 }
 
+function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
+    $('.dropdown')
+        .on('shown.bs.dropdown',
+            function(e) {
+                var dropdown = $(e.delegateTarget).find('ul');
+                if (dropdown.offset().left + dropdown.outerWidth() > document.body.clientWidth) {
+                    dropdown.addClass('AlignDdRight');
+                }
+            });
+}
+
 $(function () {
     
     $("#logo").hover(
@@ -130,4 +143,7 @@ $(function () {
     Images.Init();
     Allowed_only_for_active_users();
     InitClickLog();
+    PreventDropdonwnsFromBeingHorizontallyOffscreen();
 });
+
+

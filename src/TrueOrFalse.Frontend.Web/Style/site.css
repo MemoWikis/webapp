@@ -27,9 +27,30 @@
     VARIOUS
         Tooltips
         Icons
+        Dropdowns
 
 [Imports:]
 --------------------------------------------------------*/
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
 /*  [Local variables:]
 ----------------------------------------------------------*/
 /*  PRIMARY LAYOUT ELEMENTS   
@@ -746,7 +767,7 @@ fieldset[disabled] #MenuButton:hover {
 #MenuButton:hover.active {
   background-color: #203256 \9;
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   #MenuButton {
     display: none;
   }
@@ -923,7 +944,7 @@ fieldset[disabled] #MenuButton:hover {
   padding-right: 10px;
   position: static;
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   #MasterLeftColumn {
     float: left;
     width: 25%;
@@ -940,7 +961,7 @@ fieldset[disabled] #MenuButton:hover {
   padding-left: 10px;
   padding-right: 10px;
 }
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   #MasterMainColumn {
     float: left;
     width: 75%;
@@ -990,6 +1011,19 @@ fieldset[disabled] #MenuButton:hover {
   #MasterFooter .partnersAndSponsors .alignLeftUntillMD {
     text-align: left;
     padding-left: 6%;
+  }
+}
+#MasterFooter .FooterCol {
+  padding-bottom: 20px;
+}
+@media (max-width: 479px) {
+  #MasterFooter .FooterCol {
+    text-align: center;
+  }
+}
+@media (min-width: 992px) {
+  #MasterFooter .FooterCol:last-child > div {
+    float: right;
   }
 }
 /* VALIDATION
@@ -1404,6 +1438,11 @@ ul.show-tooltip-ul {
   padding-left: 15px;
 }
 /*Icons*/
+/*Dropdowns*/
+ul.AlignDdRight {
+  left: auto;
+  right: 0;
+}
 /**/
 .navLinks {
   margin-bottom: 20px;

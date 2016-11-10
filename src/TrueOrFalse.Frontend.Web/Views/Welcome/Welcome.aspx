@@ -36,12 +36,12 @@
     <div class="col-md-9">
             
         <div class="well" style="padding: 13px; padding-bottom: 10px;">
-            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: Schneller lernen, länger wissen</h1>
+            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: <span style="white-space: nowrap;">Schneller lernen,</span> <span style="white-space: nowrap;">länger wissen</span></h1>
             <div class="row">
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        Wir erstellen für dich persönliche <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">Lernpläne!</a><br/>
+                        Wir erstellen für dich deinen persönlichen <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">Übungsplan!</a><br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -66,15 +66,15 @@
             </div>
         </div>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("" +
                                   "WelcomeBoxSingleSet" +
                                   "", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(27)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du wie diese Nudelsorten heißen?")); %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du, wie diese Nudelsorten heißen?")); %>
         </div>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(30)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(35)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(29)); %>
@@ -86,7 +86,7 @@
         
         <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(37)); %>
@@ -96,7 +96,7 @@
 
         <%--<% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 })); %>--%> <%-- Sehenswürdigkeiten--%>
 
-        <div class="row ThumbnailRow" style="padding-top: 0;">
+        <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(13)); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); %>
@@ -106,7 +106,7 @@
 
         <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
 
-<%--        <div class="row ThumbnailRow" style="padding-top: 0px;">
+<%--        <div class="row" style="padding-top: 0px;">
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 385)); %>
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 337)); %>
             <% Html.RenderPartial("WelcomeBoxSingleQuestion", WelcomeBoxSingleQuestionModel.GetWelcomeBoxQuestionVModel(questionId: 233)); %>
@@ -287,29 +287,24 @@
                 <br/><br/>
                 <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" style="width: 100%;" role="button">Registrieren</a>
             </div>
-            <div class="well" id="newsletterSignUp" style="padding: 20px; ">
-                <h4>Newsletter</h4>
-                <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
-                <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
-                    Keine gültige E-Mail-Adresse.
-                </div>
-            
-                <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
-                    Deine Adresse wurde für den Newsletter angemeldet.
-                </div>
-
-                <form class="form-inline" style="color: white;">
-                    <div class="">
-                        <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
-                    </div>
-                    <div class="" style="text-align: center; margin-top: 10px;">
-                        <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
-                            <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
-                        </a>
-                    </div>
-                </form> 
-            </div>
         <% } %>
+
+        <div class="well" id="nominationInnopreis" style="padding: 20px; ">
+            <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+            <p>
+                memucho ist nominiert für den Innovationspreis Berlin Brandenburg!
+            </p>
+            <p>
+                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
+                </a>
+            </p>
+            <p>
+                <a href="http://www.inforadio.de/programm/schema/sendungen/wirtschaft_aktuell/201611/73133.html" target="_blank">
+                    Bericht <span style="white-space: nowrap">rbb Inforadio <i class="fa fa-external-link"></i></span>
+                </a>
+            </p>
+        </div>
 
         <div class="well">
             <h4>Top-Kategorien nach Fragen</h4>
@@ -346,6 +341,31 @@
             </div>
         </div>
 
+        <% if (!userSession.IsLoggedIn)
+           { %>
+            <div class="well" id="newsletterSignUp" style="padding: 20px; ">
+                <h4>Newsletter</h4>
+                <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
+                <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
+                    Keine gültige E-Mail-Adresse.
+                </div>
+            
+                <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
+                    Deine Adresse wurde für den Newsletter angemeldet.
+                </div>
+
+                <form class="form-inline" style="color: white;">
+                    <div class="">
+                        <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
+                    </div>
+                    <div class="" style="text-align: center; margin-top: 10px;">
+                        <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
+                            <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
+                        </a>
+                    </div>
+                </form> 
+            </div>
+        <% } %>
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
         </div>

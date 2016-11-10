@@ -130,7 +130,12 @@ public class AnswerQuestionController : BaseController
 
             if (question2 == null)
                 throw new Exception("question not found");
-                
+
+            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
+
+            var questionViewGuid2 = Guid.NewGuid();
+            _saveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
+
             return View(_viewLocation, new AnswerQuestionModel(question2));
         }
 
@@ -168,25 +173,15 @@ public class AnswerQuestionController : BaseController
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec));
     }
 
-    public ActionResult Next(string pager, int? setId, int? questionId)
+    public ActionResult Next(string pager)
     {
-        if (setId != null && questionId != null){
-            var set = Resolve<SetRepo>().GetById((int)setId);
-            return AnswerSet(set, set.QuestionsInSet.GetNextTo((int) questionId).Question);
-        }
-
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.NextPage(1);
         return GetViewBySearchSpec(activeSearchSpec);
     }
 
-    public ActionResult Previous(string pager, int? setId, int? questionId)
+    public ActionResult Previous(string pager)
     {
-        if (setId != null && questionId != null){
-            var set = Resolve<SetRepo>().GetById((int)setId);
-            return AnswerSet(set, set.QuestionsInSet.GetPreviousTo((int)questionId).Question);
-        }
-
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.PreviousPage(1);
         return GetViewBySearchSpec(activeSearchSpec);
@@ -194,6 +189,7 @@ public class AnswerQuestionController : BaseController
 
     private ActionResult GetViewBySearchSpec(QuestionSearchSpec searchSpec)
     {
+
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
             var question = AnswerQuestionControllerSearch.Run(searchSpec);
@@ -208,12 +204,15 @@ public class AnswerQuestionController : BaseController
                 searchSpec.HistoryItem = null;
             }
 
-            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, searchSpec));
-
-            var questionViewGuid = Guid.NewGuid();
-            _saveQuestionView.Run(questionViewGuid, question, _sessionUser.UserId);
-
-            return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, searchSpec));
+            return RedirectToAction("Answer", Links.AnswerQuestionController,
+                new
+                {
+                    text = UriSegmentFriendlyQuestion.Run(question.Text),
+                    id = question.Id,
+                    elementOnPage = searchSpec.CurrentPage,
+                    pager = searchSpec.Key,
+                    category = ""
+                });
         }
     }
 

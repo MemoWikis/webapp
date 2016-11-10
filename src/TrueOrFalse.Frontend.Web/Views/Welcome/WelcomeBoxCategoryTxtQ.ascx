@@ -14,19 +14,19 @@
     </header>
     <div class="CardContent">
         <div class="row">
-            <div class="col-xs-4">
+            <div class="col-xs-5 col-sm-4">
                 <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(180, false, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
                 </div>
             </div>
-            <div class="col-xs-8 xxs-stack">
+            <div class="col-xs-7 col-sm-8">
                 <p><%: Model.CategoryDescription %></p>
             </div>
-            <div class="col-xs-8 xxs-stack pull-right">
+            <div class="col-xs-12 col-sm-8">
 
                 <div class="LabelList">
                     <% foreach (var question in Model.Questions){ %>
-                    <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
+                    <div class="LabelItem LabelItem-Question" style="padding-bottom: 5px">
                         <%= question.Text %>
                     </div>
             <% } %>
@@ -57,17 +57,16 @@
     </div>--%>
 
     <div class="BottomBar">
-            <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
-            <%--<div class="dropdown">
+<%--            <a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
+            <div class="dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
-                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a href="" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="#"> Action 1</a></li>
-                    <li><a href="#"> Action 2</a></li>
+                    <li><a href="<%= Model.CategoryDetailLink(Url) %>"> Zur Kategorie-Detailseite</a></li>
                 </ul>
-            </div>--%>
+            </div>
             <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                 &nbsp;JETZT TESTEN
             </a>

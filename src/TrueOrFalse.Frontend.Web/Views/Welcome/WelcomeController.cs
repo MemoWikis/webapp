@@ -191,7 +191,7 @@ public class WelcomeController : BaseController
 
         SendEmail.Run(new MailMessage(
             Settings.EmailFrom,
-            Settings.EmailTo,
+            Settings.EmailToMemucho,
             "Newsletter sign up request",
             requesterEmail + " asked to sign up for newsletter."));
     }

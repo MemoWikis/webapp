@@ -105,6 +105,8 @@ public class AnswerQuestionModel : BaseModel
     public bool TestSessionIsLastStep = false;
     public int TestSessionProgessAfterAnswering;
 
+    public ContentRecommendationResult ContentRecommendationResult;
+
     public AnswerQuestionModel()
     {
     }
@@ -113,6 +115,7 @@ public class AnswerQuestionModel : BaseModel
     {
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
+        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 
@@ -195,8 +198,13 @@ public class AnswerQuestionModel : BaseModel
         HasPreviousPage = pageCurrent > 1;
         HasNextPage = pageCurrent < pagesTotal;
 
-        NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
-        PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
+        //NextUrl = url => url.Action("Next", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
+        //PreviousUrl = url => url.Action("Previous", Links.AnswerQuestionController, new { setId = set.Id, questionId = question.Id });
+        if (HasNextPage)
+            NextUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetNextTo(question.Id).Question, set);
+
+        if (HasPreviousPage)
+            PreviousUrl = url => Links.AnswerQuestion(url, set.QuestionsInSet.GetPreviousTo(question.Id).Question, set);
 
         SourceIsSet = true;
         Set = set;

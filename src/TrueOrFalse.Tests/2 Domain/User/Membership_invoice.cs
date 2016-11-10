@@ -12,7 +12,7 @@ public class Membership_invoice : BaseTest
         foreach(var file in filesToDelete)
             file.Delete();
 
-        R<InvoiceCreate>().PDF();
+        InvoiceCreate.PDF();
 
         var files = Directory.GetFiles(Settings.InvoiceFolder());
         Assert.That(files.Length, Is.EqualTo(1));

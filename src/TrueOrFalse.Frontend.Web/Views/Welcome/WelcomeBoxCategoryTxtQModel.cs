@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class WelcomeBoxCategoryTxtQModel : BaseModel
 {
@@ -7,6 +10,7 @@ public class WelcomeBoxCategoryTxtQModel : BaseModel
     public string CategoryDescription;
     public int QuestionCount;
     public IList<Question> Questions;
+    public Func<UrlHelper, string> CategoryDetailLink;
 
     public ImageFrontendData ImageFrontendData;
 
@@ -21,6 +25,7 @@ public class WelcomeBoxCategoryTxtQModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         CategoryDescription = categoryDescription ?? category.Description;
+        CategoryDetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id);
         QuestionCount = category.CountQuestions;
         Questions = R<QuestionRepo>().GetByIds(questionIds) ?? new List<Question>(); //not checked if questionIds are part of category!
         if (Questions.Count < 1) Questions.Add(new Question());

@@ -18,12 +18,13 @@ public class TestSessionResultModel : BaseModel
     public bool MeBetterThanAverage;
     public bool TestSessionTypeIsSet;
     public bool TestSessionTypeIsCategory;
-    //public IList<Answer> Answers;
     public IList<TestSessionStep> Steps;
 
     public Set TestedSet;
     public Category TestedCategory;
     public string LinkForRepeatTest;
+
+    public ContentRecommendationResult ContentRecommendationResult;
 
     public TestSessionResultModel(TestSession testSession)
     {
@@ -35,12 +36,13 @@ public class TestSessionResultModel : BaseModel
         {
             TestedSet = Sl.R<SetRepo>().GetById(TestSession.TestSessionTypeTypeId);
             LinkForRepeatTest = Links.TestSessionStartForSet(TestedSet.Name, TestedSet.Id);
+            ContentRecommendationResult = ContentRecommendation.GetForSet(TestedSet, 6);
         } else if (TestSessionTypeIsCategory)
         {
             TestedCategory = Sl.R<CategoryRepository>().GetById(TestSession.TestSessionTypeTypeId);
             LinkForRepeatTest = Links.TestSessionStartForCategory(TestedCategory.Name, TestedCategory.Id);
-        }
-        else
+            ContentRecommendationResult = ContentRecommendation.GetForCategory(TestedCategory, 6);
+        } else
         {
             throw new Exception("TestSessionType is not defined.");
         }

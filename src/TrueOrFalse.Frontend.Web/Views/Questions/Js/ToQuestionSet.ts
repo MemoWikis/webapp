@@ -17,7 +17,8 @@ class ToQuestionSetModal {
     Show(e) {
         e.preventDefault();
         if (NotLoggedIn.Yes()) {
-            NotLoggedIn.ShowErrorMsg(); return;
+            NotLoggedIn.ShowErrorMsg("AddQuestionToSet");
+            return;
         }
 
         this.Populate();

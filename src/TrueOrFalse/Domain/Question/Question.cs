@@ -74,11 +74,22 @@ public class Question : DomainEntity, ICreator
     {
         get
         {
-            if(String.IsNullOrEmpty(SetsTop5Json))
+            if (String.IsNullOrEmpty(SetsTop5Json))
                 return new List<SetMini>();
             return JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json);
         }
-        set { SetsTop5Json = JsonConvert.SerializeObject(value);  }
+        set { SetsTop5Json = JsonConvert.SerializeObject(value); }
+    }
+    public virtual IList<Set> SetsTop5
+    {
+        get
+        {
+            if (String.IsNullOrEmpty(SetsTop5Json))
+                return new List<Set>();
+            var result = new List<Set>();
+            JsonConvert.DeserializeObject<List<SetMini>>(SetsTop5Json).ForEach(s => result.Add(Sl.R<SetRepo>().GetById(s.Id)));
+            return result;
+        }
     }
 
     public virtual bool IsWorkInProgress { get; set; }

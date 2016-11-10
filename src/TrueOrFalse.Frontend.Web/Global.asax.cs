@@ -85,7 +85,7 @@ namespace TrueOrFalse.Frontend.Web
                 LoginFromCookie.Run();
         }
 
-        protected void Application_Error(Object sender, EventArgs e)
+        protected void Application_Error(object sender, EventArgs e)
         {
             var exception = Server.GetLastError();
             if (exception == null)
@@ -94,20 +94,7 @@ namespace TrueOrFalse.Frontend.Web
             var code = (exception is HttpException) ? (exception as HttpException).GetHttpCode() : 500;
 
             if (code != 404)
-            {
-                try
-                {
-                    Logg.r().Error(exception, "PageError {Url} {Headers}", 
-                        Request.Headers.ToString(),
-                        Request.RawUrl);
-
-                    if (!Request.IsLocal)
-                    {
-                        (new RollbarClient()).SendException(exception);
-                    }
-                }
-                catch{}
-            }
+                Logg.Error(exception);
 
             if(!Request.IsLocal)
                 Response.Redirect(string.Format("~/Fehler/{0}", code), true);

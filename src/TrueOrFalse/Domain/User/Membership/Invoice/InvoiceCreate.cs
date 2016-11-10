@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using RazorEngine;
 
-public class InvoiceCreate : IRegisterAsInstancePerLifetime
+public class InvoiceCreate
 {
-    public void PDF()
+    public static void PDF()
     {
         var invoiceModel = new InvoiceModel
         {
@@ -46,6 +46,10 @@ public class InvoiceCreate : IRegisterAsInstancePerLifetime
             {
                 exeProcess.WaitForExit();
             }
+        }
+        catch (Exception e)
+        {
+            Logg.Error(e);
         }
         finally 
         {

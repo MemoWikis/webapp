@@ -4,7 +4,8 @@
 
         $("[data-type=btn-follow]").click(function() {
             if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg(); return;
+                NotLoggedIn.ShowErrorMsg("FollowUser");
+                return;
             }
 
             var $this = $(this);
