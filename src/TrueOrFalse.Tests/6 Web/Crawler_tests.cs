@@ -7,6 +7,6 @@ public class Crawler_tests
     {
         var allCrawlers = CrawlerRepo.GetAll();
 
-        Assert.That(allCrawlers.Count, Is.EqualTo(199));
+        Assert.That(allCrawlers.Count, Is.GreaterThanOrEqualTo(199));
     }
 }
