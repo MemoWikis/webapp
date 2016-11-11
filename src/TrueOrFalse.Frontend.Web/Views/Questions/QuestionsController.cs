@@ -107,13 +107,16 @@ namespace TrueOrFalse
 
         public JsonResult QuestionsWishSearchApi(string searchTerm, List<Int32> categories, string knowledgeFilter)
         {
-            dynamic dKnowledgeFilter = JsonConvert.DeserializeObject(knowledgeFilter);
+            if (!String.IsNullOrEmpty(knowledgeFilter))
+            {
+                dynamic dKnowledgeFilter = JsonConvert.DeserializeObject(knowledgeFilter);
 
-            var filter = _sessionUiData.SearchSpecQuestionWish.Filter;
-            filter.Knowledge_Solid = dKnowledgeFilter.Knowledge_Solid;
-            filter.Knowledge_ShouldConsolidate = dKnowledgeFilter.Knowledge_ShouldConsolidate;
-            filter.Knowledge_ShouldLearn = dKnowledgeFilter.Knowledge_ShouldLearn;
-            filter.Knowledge_None = dKnowledgeFilter.Knowledge_None;
+                var filter = _sessionUiData.SearchSpecQuestionWish.Filter;
+                filter.Knowledge_Solid = dKnowledgeFilter.Knowledge_Solid;
+                filter.Knowledge_ShouldConsolidate = dKnowledgeFilter.Knowledge_ShouldConsolidate;
+                filter.Knowledge_ShouldLearn = dKnowledgeFilter.Knowledge_ShouldLearn;
+                filter.Knowledge_None = dKnowledgeFilter.Knowledge_None;
+            }
 
             _util.SetSearchFilter(_sessionUiData.SearchSpecQuestionWish, new QuestionsModel(), searchTerm, categories ?? new List<int>());
             return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecQuestionWish, SearchTabType.Wish, ControllerContext);
