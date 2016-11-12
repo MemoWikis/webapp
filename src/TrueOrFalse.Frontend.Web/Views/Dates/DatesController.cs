@@ -91,6 +91,7 @@ public class DatesController : BaseController
         );
     }
 
+    [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int dateId)
     {
         var date = Resolve<DateRepo>().GetById(dateId);

@@ -521,6 +521,7 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
+    <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Maintenance\Images.min.css">
       <DependentUpon>Images.css</DependentUpon>
     </Content>

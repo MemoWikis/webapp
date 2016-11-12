@@ -1,14 +1,13 @@
 ﻿using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
-public class AccessOnlyAsLoggedInAttribute : ActionFilterAttribute
+public class RedirectToErrorPage_IfNotLoggedInAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         var userSession = new SessionUser();
         if (!userSession.IsLoggedIn)
-            throw new InvalidAccessException();
-
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(userSession.UserId);
+            filterContext.Result = new RedirectResult(Links.ErrorNotLoggedIn());
 
         base.OnActionExecuting(filterContext);
     }

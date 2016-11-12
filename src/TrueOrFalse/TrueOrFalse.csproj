@@ -853,6 +853,7 @@
     <Compile Include="Web\Controls\UserMessage\UIMessage.cs" />
     <Compile Include="Web\Crawlers\CrawlerRepo.cs" />
     <Compile Include="Web\Filters\AccessBetaAttribute.cs" />
+    <Compile Include="Web\Filters\RedirectToErrorPage_IfNotLoggedInAttribute.cs" />
     <Compile Include="Web\Filters\AccessOnlyAsLoggedInAttribute.cs" />
     <Compile Include="Web\Filters\AccessOnlyAsAdminAttribute.cs" />
     <Compile Include="Web\Filters\SetMenuAttribute.cs" />
