@@ -33,11 +33,11 @@ public class Set_performance : BaseTest
             Console.WriteLine(question.Categories.Count);
         }
 
-        Assert.That(session.SessionFactory.Statistics.PrepareStatementCount, Is.EqualTo(4));
+        Assert.That(session.SessionFactory.Statistics.PrepareStatementCount, Is.EqualTo(3));
 
         Console.WriteLine(set.Questions().GetAllCategories().Select(c => c.Id));
         Console.WriteLine(set.Categories.Count);
 
-        Assert.That(session.SessionFactory.Statistics.PrepareStatementCount, Is.EqualTo(4));
+        Assert.That(session.SessionFactory.Statistics.PrepareStatementCount, Is.EqualTo(3));
     }
 }
