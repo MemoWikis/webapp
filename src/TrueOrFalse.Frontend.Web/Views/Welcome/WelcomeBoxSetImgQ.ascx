@@ -51,7 +51,7 @@
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>">Jetzt üben</a></li>
+                    <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" rel="nofollow" data-allowed="logged-in">Jetzt üben</a></li>
                     <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
                     <li><a href="<%= Links.DateCreate(Model.SetId) %>"> Termin anlegen</a></li>
                     <li><a href="<%= Model.SetDetailLink %>"> Fragesatz-Detailseite</a></li>
