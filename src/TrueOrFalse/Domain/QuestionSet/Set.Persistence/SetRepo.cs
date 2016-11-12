@@ -75,8 +75,8 @@ public class SetRepo : RepositoryDbBase<Set>
             .Where(set => set.Id == setId)
             //.Fetch(s => s.Creator).Eager
             //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
-            .JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
-            .JoinQueryOver<Question>(s => s.Question)
+            .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+            .Left.JoinQueryOver<Question>(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .SingleOrDefault();
     }

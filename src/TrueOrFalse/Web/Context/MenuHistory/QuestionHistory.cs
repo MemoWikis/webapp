@@ -61,6 +61,8 @@ public class QuestionHistoryItem : HistoryItemBase
         Question = question;
         Id = question.Id;
         Text = question.Text;
-        Solution = question.Solution;            
+        Solution = GetQuestionSolution.Run(question).CorrectAnswer();
+
+
     }
 }

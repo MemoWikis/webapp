@@ -11,7 +11,7 @@ public class Set : DomainEntity, ICreator
     public virtual string Name { get; set; }
     public virtual string Text { get; set; }
 
-    public virtual IList<QuestionInSet> QuestionsInSet{ get; set;}
+    public virtual ISet<QuestionInSet> QuestionsInSet{ get; set;}
     public virtual User Creator { get; set; }
 
     public virtual int TotalRelevancePersonalAvg { get; set; }
@@ -36,7 +36,7 @@ public class Set : DomainEntity, ICreator
     }
 
     public Set(){
-        QuestionsInSet = new List<QuestionInSet>();
+        QuestionsInSet = new HashSet<QuestionInSet>();
         Categories = new List<Category>();
     }
 

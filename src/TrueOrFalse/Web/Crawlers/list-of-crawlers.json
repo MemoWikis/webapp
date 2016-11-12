@@ -59,7 +59,7 @@
     "pattern": "Go-http-client",
     "addition_date": "2016/03/26",
     "url": "https://golang.org/pkg/net/http/",
-    "instances": ["Go-http-client/1.1"]
+    "instances": [ "Go-http-client/1.1" ]
   },
   {
     "pattern": "phpcrawl",
@@ -93,12 +93,12 @@
   },
   {
     "pattern": "gigabot",
-    "instances": ["Gigabot/1.0", "Gigabot/2.0 (http://www.gigablast.com/spider.html)", "Gigabot/2.0 (http://www.gigablast.com/spider.html)"],
+    "instances": [ "Gigabot/1.0", "Gigabot/2.0 (http://www.gigablast.com/spider.html)", "Gigabot/2.0 (http://www.gigablast.com/spider.html)" ],
     "url": "https://github.com/gigablast/open-source-search-engine"
   },
   {
     "pattern": "gigablast",
-    "instances": ["GigablastOpenSource/1.0"],
+    "instances": [ "GigablastOpenSource/1.0" ],
     "url": "https://github.com/gigablast/open-source-search-engine"
   },
   {
@@ -188,7 +188,7 @@
   {
     "pattern": "yandexbot",
     "url": "http://yandex.com/bots",
-    "instances": ["Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)"],
+    "instances": [ "Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)" ],
     "addition_date": "2015/04/14"
   },
   {
@@ -283,7 +283,7 @@
   {
     "pattern": "Mail.RU_Bot",
     "addition_date": "2011/04/27",
-    "instances" : [
+    "instances": [
       "Mozilla/5.0 (compatible; Linux x86_64; Mail.RU_Bot/2.0; +http://go.mail.ru/",
       "Mozilla/5.0 (compatible; Mail.RU_Bot/2.0; +http://go.mail.ru/"
     ]
@@ -575,7 +575,7 @@
   {
     "pattern": "fr-crawler",
     "addition_date": "2014/07/31",
-    "instances": ["Mozilla/5.0 (compatible; fr-crawler/1.1)"]
+    "instances": [ "Mozilla/5.0 (compatible; fr-crawler/1.1)" ]
   },
   {
     "pattern": "binlar",
@@ -591,47 +591,47 @@
   {
     "pattern": "SimpleCrawler",
     "addition_date": "2014/09/12",
-    "instances": ["SimpleCrawler/0.1" ]
+    "instances": [ "SimpleCrawler/0.1" ]
   },
   {
     "pattern": "Livelapbot",
     "addition_date": "2014/09/12",
-    "instances": ["Livelapbot/0.1" ]
+    "instances": [ "Livelapbot/0.1" ]
   },
   {
     "pattern": "Twitterbot",
     "addition_date": "2014/09/12",
-    "instances": ["Twitterbot/0.1", "Twitterbot/1.0" ]
+    "instances": [ "Twitterbot/0.1", "Twitterbot/1.0" ]
   },
   {
     "pattern": "cXensebot",
     "addition_date": "2014/10/05",
-    "instances": ["cXensebot/1.1a"],
+    "instances": [ "cXensebot/1.1a" ],
     "url": "http://www.cxense.com/bot.html"
   },
   {
     "pattern": "smtbot",
     "addition_date": "2014/10/04",
-    "instances": ["Mozilla/5.0 (compatible; SMTBot/1.0; +http://www.similartech.com/smtbo)t", "SMTBot (similartech.com/smtbot)"],
+    "instances": [ "Mozilla/5.0 (compatible; SMTBot/1.0; +http://www.similartech.com/smtbo)t", "SMTBot (similartech.com/smtbot)" ],
     "url": "http://www.similartech.com/smtbot"
   },
   {
     "pattern": "bnf.fr_bot",
     "addition_date": "2014/11/18",
     "url": "http://www.bnf.fr/fr/outils/a.dl_web_capture_robot.html",
-    "instances": ["Mozilla/5.0 (compatible; bnf.fr_bot; +http://www.bnf.fr/fr/outils/a.dl_web_capture_robot.html)"]
+    "instances": [ "Mozilla/5.0 (compatible; bnf.fr_bot; +http://www.bnf.fr/fr/outils/a.dl_web_capture_robot.html)" ]
   },
   {
     "pattern": "A6-Indexer",
     "addition_date": "2014/12/05",
     "url": "http://www.a6corp.com/a6-web-scraping-policy/",
-    "instances": ["A6-Indexer"]
+    "instances": [ "A6-Indexer" ]
   },
   {
     "pattern": "ADmantX",
     "addition_date": "2014/12/05",
     "url": "http://www.admantx.com",
-    "instances": ["ADmantX Platform Semantic Analyzer - ADmantX Inc. - www.admantx.com - support@admantx.com"]
+    "instances": [ "ADmantX Platform Semantic Analyzer - ADmantX Inc. - www.admantx.com - support@admantx.com" ]
   },
   {
     "pattern": "Facebot",
@@ -645,67 +645,67 @@
   },
   {
     "pattern": "OrangeBot",
-    "instances": ["Mozilla/5.0 (compatible; OrangeBot/2.0; support.orangebot@orange.com"],
+    "instances": [ "Mozilla/5.0 (compatible; OrangeBot/2.0; support.orangebot@orange.com" ],
     "addition_date": "2015/01/12"
   },
   {
     "pattern": "memorybot",
     "url": "http://mignify.com/bot.htm",
-    "instances": ["Mozilla/5.0 (compatible; memorybot/1.21.14 +http://mignify.com/bot.html)"],
+    "instances": [ "Mozilla/5.0 (compatible; memorybot/1.21.14 +http://mignify.com/bot.html)" ],
     "addition_date": "2015/02/01"
   },
   {
     "pattern": "AdvBot",
     "url": "http://advbot.net/bot.html",
-    "instances": ["Mozilla/5.0 (compatible; AdvBot/2.0; +http://advbot.net/bot.html)"],
+    "instances": [ "Mozilla/5.0 (compatible; AdvBot/2.0; +http://advbot.net/bot.html)" ],
     "addition_date": "2015/02/01"
   },
   {
     "pattern": "MegaIndex",
     "url": "https://www.megaindex.ru/?tab=linkAnalyze",
-    "instances": ["Mozilla/5.0 (compatible; MegaIndex.ru/2.0; +https://www.megaindex.ru/?tab=linkAnalyze)"],
+    "instances": [ "Mozilla/5.0 (compatible; MegaIndex.ru/2.0; +https://www.megaindex.ru/?tab=linkAnalyze)" ],
     "addition_date": "2015/03/28"
   },
   {
     "pattern": "SemanticScholarBot",
     "url": "http://s2.allenai.org/bot.html",
-    "instances": ["SemanticScholarBot/1.0 (+http://s2.allenai.org/bot.html)"],
+    "instances": [ "SemanticScholarBot/1.0 (+http://s2.allenai.org/bot.html)" ],
     "addition_date": "2015/03/28"
   },
   {
     "pattern": "ltx71",
     "url": "http://ltx71.com/",
-    "instances": ["ltx71 - (http://ltx71.com/)"],
+    "instances": [ "ltx71 - (http://ltx71.com/)" ],
     "addition_date": "2015/04/04"
   },
   {
     "pattern": "nerdybot",
     "url": "http://nerdybot.com/",
-    "instances": ["nerdybot"],
+    "instances": [ "nerdybot" ],
     "addition_date": "2015/04/05"
   },
   {
     "pattern": "xovibot",
     "url": "http://www.xovibot.net/",
-    "instances": ["Mozilla/5.0 (compatible; XoviBot/2.0; +http://www.xovibot.net/)"],
+    "instances": [ "Mozilla/5.0 (compatible; XoviBot/2.0; +http://www.xovibot.net/)" ],
     "addition_date": "2015/04/05"
   },
   {
     "pattern": "BUbiNG",
     "url": "http://law.di.unimi.it/BUbiNG.html",
-    "instances": ["BUbiNG (+http://law.di.unimi.it/BUbiNG.html)"],
+    "instances": [ "BUbiNG (+http://law.di.unimi.it/BUbiNG.html)" ],
     "addition_date": "2015/04/06"
   },
   {
     "pattern": "Qwantify",
     "url": "https://www.qwant.com/",
-    "instances": ["Mozilla/5.0 (compatible; Qwantify/2.0n; +https://www.qwant.com/)/*"],
+    "instances": [ "Mozilla/5.0 (compatible; Qwantify/2.0n; +https://www.qwant.com/)/*" ],
     "addition_date": "2015/04/06"
   },
   {
     "pattern": "archive.org_bot",
     "url": "http://www.archive.org/details/archive.org_bot",
-    "instances": ["Mozilla/5.0 (compatible; archive.org_bot +http://www.archive.org/details/archive.org_bot)"],
+    "instances": [ "Mozilla/5.0 (compatible; archive.org_bot +http://www.archive.org/details/archive.org_bot)" ],
     "addition_date": "2015/04/14"
   },
   {
@@ -716,105 +716,105 @@
   {
     "pattern": "TweetmemeBot",
     "url": "http://datasift.com/bot.html",
-    "instances": ["Mozilla/5.0 (TweetmemeBot/4.0; +http://datasift.com/bot.html) Gecko/20100101 Firefox/31.0"],
+    "instances": [ "Mozilla/5.0 (TweetmemeBot/4.0; +http://datasift.com/bot.html) Gecko/20100101 Firefox/31.0" ],
     "addition_date": "2015/04/15"
   },
   {
     "pattern": "crawler4j",
     "url": "https://github.com/yasserg/crawler4j",
-    "instances": ["crawler4j (http://code.google.com/p/crawler4j/)"],
+    "instances": [ "crawler4j (http://code.google.com/p/crawler4j/)" ],
     "addition_date": "2015/05/07"
   },
   {
     "pattern": "findxbot",
     "url": "http://www.findxbot.com",
-    "instances": ["Mozilla/5.0 (compatible; Findxbot/1.0; +http://www.findxbot.com)"],
+    "instances": [ "Mozilla/5.0 (compatible; Findxbot/1.0; +http://www.findxbot.com)" ],
     "addition_date": "2015/05/07"
   },
   {
     "pattern": "SemrushBot",
     "url": "http://www.semrush.com/bot.html",
-    "instances": ["Mozilla/5.0 (compatible; SemrushBot/0.98~bl; +http://www.semrush.com/bot.html)"],
+    "instances": [ "Mozilla/5.0 (compatible; SemrushBot/0.98~bl; +http://www.semrush.com/bot.html)" ],
     "addition_date": "2015/05/26"
   },
   {
     "pattern": "yoozBot",
     "url": "http://yooz.ir",
-    "instances": ["Mozilla/5.0 (compatible; yoozBot-2.2; http://yooz.ir; info@yooz.ir)"],
+    "instances": [ "Mozilla/5.0 (compatible; yoozBot-2.2; http://yooz.ir; info@yooz.ir)" ],
     "addition_date": "2015/05/26"
   },
   {
     "pattern": "lipperhey",
     "url": "http://www.lipperhey.com/",
-    "instances": ["Mozilla/5.0 (compatible; Lipperhey Link Explorer; http://www.lipperhey.com/)", "Mozilla/5.0 (compatible; Lipperhey SEO Service; http://www.lipperhey.com/)", "Mozilla/5.0 (compatible; Lipperhey Site Explorer; http://www.lipperhey.com/)", "Mozilla/5.0 (compatible; Lipperhey-Kaus-Australis/5.0; +https://www.lipperhey.com/en/about/)"],
+    "instances": [ "Mozilla/5.0 (compatible; Lipperhey Link Explorer; http://www.lipperhey.com/)", "Mozilla/5.0 (compatible; Lipperhey SEO Service; http://www.lipperhey.com/)", "Mozilla/5.0 (compatible; Lipperhey Site Explorer; http://www.lipperhey.com/)", "Mozilla/5.0 (compatible; Lipperhey-Kaus-Australis/5.0; +https://www.lipperhey.com/en/about/)" ],
     "addition_date": "2015/08/26"
   },
   {
     "pattern": "y!j-asr",
     "url": "http://www.yahoo-help.jp/app/answers/detail/p/595/a_id/42716/",
-    "instances": ["Y!J-ASR/0.1 crawler (http://www.yahoo-help.jp/app/answers/detail/p/595/a_id/42716/)"],
+    "instances": [ "Y!J-ASR/0.1 crawler (http://www.yahoo-help.jp/app/answers/detail/p/595/a_id/42716/)" ],
     "addition_date": "2015/05/26"
- },
- {
+  },
+  {
     "pattern": "Domain Re-Animator Bot",
     "url": "http://domainreanimator.com",
-    "instances": ["Domain Re-Animator Bot (http://domainreanimator.com) - support@domainreanimator.com"],
+    "instances": [ "Domain Re-Animator Bot (http://domainreanimator.com) - support@domainreanimator.com" ],
     "addition_date": "2015/04/14"
- },
- {
+  },
+  {
     "pattern": "AddThis",
     "url": "https://www.addthis.com",
-    "instances": ["AddThis.com robot tech.support@clearspring.com"],
+    "instances": [ "AddThis.com robot tech.support@clearspring.com" ],
     "addition_date": "2015/06/02"
- },
- {
+  },
+  {
     "pattern": "Screaming Frog SEO Spider",
     "url": "http://www.screamingfrog.co.uk/seo-spider",
-    "instances": ["Screaming Frog SEO Spider/5.1"],
+    "instances": [ "Screaming Frog SEO Spider/5.1" ],
     "addition_date": "2016/01/08"
- },
- {
+  },
+  {
     "pattern": "MetaURI",
     "url": "http://www.useragentstring.com/MetaURI_id_17683.php",
-    "instances": ["MetaURI API/2.0 +metauri.com"],
+    "instances": [ "MetaURI API/2.0 +metauri.com" ],
     "addition_date": "2016/01/02"
- },
- {
+  },
+  {
     "pattern": "Scrapy",
     "url": "http://scrapy.org/",
-    "instances": ["Scrapy/1.0.3 (+http://scrapy.org)"],
+    "instances": [ "Scrapy/1.0.3 (+http://scrapy.org)" ],
     "addition_date": "2016/01/02"
- },
- {
+  },
+  {
     "pattern": "LivelapBot",
     "url": "http://site.livelap.com/crawler",
-    "instances": ["LivelapBot/0.2 (http://site.livelap.com/crawler)"],
+    "instances": [ "LivelapBot/0.2 (http://site.livelap.com/crawler)" ],
     "addition_date": "2016/01/02"
- },
- {
+  },
+  {
     "pattern": "OpenHoseBot",
     "url": "http://www.openhose.org/bot.html",
-    "instances": ["Mozilla/5.0 (compatible; OpenHoseBot/2.1; +http://www.openhose.org/bot.html)"],
+    "instances": [ "Mozilla/5.0 (compatible; OpenHoseBot/2.1; +http://www.openhose.org/bot.html)" ],
     "addition_date": "2016/01/02"
- },
- {
+  },
+  {
     "pattern": "CapsuleChecker",
     "url": "http://www.capsulink.com/about",
-    "instances": ["CapsuleChecker (http://www.capsulink.com/)"],
+    "instances": [ "CapsuleChecker (http://www.capsulink.com/)" ],
     "addition_date": "2016/01/02"
- },
- {
+  },
+  {
     "pattern": "collection@infegy.com",
     "url": "http://infegy.com/",
-    "instances": ["Mozilla/5.0 (compatible) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36 collection@infegy.com"],
+    "instances": [ "Mozilla/5.0 (compatible) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36 collection@infegy.com" ],
     "addition_date": "2016/01/03"
- },
- {
+  },
+  {
     "pattern": "IstellaBot",
     "url": "http://www.tiscali.it/",
-    "instances": ["Mozilla/5.0 (compatible; IstellaBot/1.23.15 +http://www.tiscali.it/)"],
+    "instances": [ "Mozilla/5.0 (compatible; IstellaBot/1.23.15 +http://www.tiscali.it/)" ],
     "addition_date": "2016/01/09"
- },
+  },
   {
     "pattern": "DeuSu\\/",
     "addition_date": "2016/01/23",
@@ -888,17 +888,21 @@
     "pattern": "iskanie",
     "addition_date": "2016/09/02",
     "url": "http://www.iskanie.com",
-    "instances": ["iskanie (+http://www.iskanie.com)"]
+    "instances": [ "iskanie (+http://www.iskanie.com)" ]
   },
   {
     "pattern": "SafeDNSBot",
     "addition_date": "2016/09/10",
     "url": "https://www.safedns.com/searchbot",
-    "instances": ["SafeDNSBot (https://www.safedns.com/searchbot)"]
+    "instances": [ "SafeDNSBot (https://www.safedns.com/searchbot)" ]
   },
   {
     "pattern": "SkypeUriPreview",
     "addition_date": "2016/10/10",
-    "instances": ["Mozilla/5.0 (Windows NT 6.1; WOW64) SkypeUriPreview Preview/0.5"]
+    "instances": [ "Mozilla/5.0 (Windows NT 6.1; WOW64) SkypeUriPreview Preview/0.5" ]
+  },
+  {
+    "pattern": "seoscanners.net",
+    "instances": [ "mozilla/5.0 (compatible; seoscanners.net/1; +spider@seoscanners.net)" ]
   }
 ]

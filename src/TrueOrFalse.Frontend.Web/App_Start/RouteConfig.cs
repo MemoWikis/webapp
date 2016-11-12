@@ -142,6 +142,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("404", "Fehler/404", new { controller = "Error", action = "_404" });
             routes.MapRoute("500", "Fehler/500", new { controller = "Error", action = "_500" });
+            routes.MapRoute("NotLoggedIn", "Fehler/NichtAngemeldet", new { controller = "Error", action = "_NotLoggedIn" });
 
             routes.MapRoute("Redirect1", "umfrage/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
             routes.MapRoute("Redirect2", "redirect/to/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });

@@ -36,7 +36,7 @@ public class EditSetModel : BaseModel
     public string PageTitle;
     public string FormTitle;
 
-    public IList<QuestionInSet> QuestionsInSet = new List<QuestionInSet>();
+    public ISet<QuestionInSet> QuestionsInSet = new HashSet<QuestionInSet>();
 
     public Set Set;
 

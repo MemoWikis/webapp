@@ -21,7 +21,7 @@ public class UpdateSetDataForQuestion : IRegisterAsInstancePerLifetime
         Run(_questionRepo.GetAll());
     }
 
-    public void Run(IList<QuestionInSet> questionsInSet)
+    public void Run(ISet<QuestionInSet> questionsInSet)
     {
         Run(questionsInSet.Select(c => c.Question));
     }

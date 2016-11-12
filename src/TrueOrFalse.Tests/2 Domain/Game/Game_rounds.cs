@@ -19,9 +19,9 @@ public class Game_rounds : BaseTest
             .Persist()
             .All[0];
 
-        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet[0].Question });
-        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet[1].Question });
-        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet[2].Question });
+        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet.ElementAt(0).Question});
+        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet.ElementAt(1).Question });
+        game.AddRound(new Round { Set = set, Question = set.QuestionsInSet.ElementAt(2).Question });
         gameRepo.Update(game);
         gameRepo.Flush();
     }

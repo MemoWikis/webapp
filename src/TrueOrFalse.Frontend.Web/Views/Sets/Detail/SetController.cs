@@ -43,6 +43,7 @@ public class SetController : BaseController
         return Json( new { Html = sbHtmlRows.ToString() });
     }
 
+    [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int setId)
     {
         var set = Resolve<SetRepo>().GetById(setId);
