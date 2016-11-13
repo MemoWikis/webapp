@@ -70,7 +70,7 @@ var tourWelcome = new Tour({
                     this.orphan = true;
                 }
             },
-            title: "Einloggen oder Registrieren",
+            title: "Einloggen oder registrieren",
             content: "Registriere dich am besten gleich, damit du mit memucho schneller und mit mehr Spaß lernen kannst."
         }
     ],
