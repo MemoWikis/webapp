@@ -546,6 +546,9 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Register.css">
+      <DependentUpon>Register.less</DependentUpon>
+    </Content>
     <Content Include="Views\Widgets\AwesomeIframe.js" />
     <Content Include="mstile-144x144.png" />
     <Content Include="mstile-150x150.png" />
@@ -2097,6 +2100,7 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Register.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

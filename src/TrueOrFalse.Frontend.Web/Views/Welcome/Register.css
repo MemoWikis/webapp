@@ -1,0 +1,14 @@
+﻿.omb_login .omb_socialButtons a {
+  color: white;
+  opacity: 0.9;
+}
+.omb_login .omb_socialButtons a:hover {
+  color: white;
+  opacity: 1;
+}
+.omb_login .omb_socialButtons .omb_btn-facebook {
+  background: #3b5998;
+}
+.omb_login .omb_socialButtons .omb_btn-google {
+  background: #c32f10;
+}

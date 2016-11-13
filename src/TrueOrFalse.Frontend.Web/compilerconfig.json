@@ -163,5 +163,9 @@
   {
     "outputFile": "Views/Games/Play/Play.css",
     "inputFile": "Views/Games/Play/Play.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Register.css",
+    "inputFile": "Views/Welcome/Register.less"
   }
 ]
