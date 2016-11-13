@@ -283,9 +283,8 @@
             if (!userSession.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success" style="width: 100%" role="button">Einloggen</a>
-                <br/><br/>
-                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" style="width: 100%;" role="button">Registrieren</a>
+                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>
 
