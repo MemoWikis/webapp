@@ -17,7 +17,7 @@
         </div>
         <div class="form-horizontal col-md-9">
             <fieldset>
-                <legend>Registriere dich</legend>
+                <legend>Jetzt registrieren. Memucho ist kostenlos.</legend>
 
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
                 
@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <%: Html.LabelFor(model => model.Name, new { @class = "col-sm-2 control-label" }) %>
                     <div class="col-sm-6">
-                        <%: Html.TextBoxFor(model => model.Name, new { @class="form-control" }) %>
+                        <%: Html.TextBoxFor(model => model.Name, new { @class="form-control", placeholder = Model.Name }) %>
                         <%: Html.ValidationMessageFor(model => model.Name) %>
                     </div>
                 </div>
@@ -67,10 +67,10 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10" style="border-top:0px; background-color:white; margin-top: 10px;">
+                    <div class="col-sm-offset-2 col-sm-6" style="border-top:0px; margin-top: 10px;">
                         
-                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-primary"><i class="fa fa-chevron-circle-right">&nbsp;</i>Registrieren</a>
-                        <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-link">Ich bin schon Benutzer!</a>
+                        <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-link">Ich bin schon Nutzer!</a>
+                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-success"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
 
                     </div>
                 </div>
