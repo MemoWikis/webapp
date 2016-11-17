@@ -109,7 +109,7 @@
     ga('set', 'dimension2', '<%= Sl.R<SessionUser>().IsLoggedIn %>');
     <% if (Sl.R<SessionUser>().IsLoggedIn)
           {
-              Response.Write("ga('set', 'userId', {{"+Sl.R<SessionUser>().UserId + "}});");
+              Response.Write("ga('set', 'userId', {{'"+Sl.R<SessionUser>().UserId + "'}});");
           }
     %>
     ga('send', 'pageview');
