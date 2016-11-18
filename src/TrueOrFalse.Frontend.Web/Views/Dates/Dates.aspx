@@ -110,7 +110,7 @@
                         </div>
                         <div class="col-xs-3 explanationDiv">
                             <p><i class="fa fa-3x fa-book"></i></p>
-                            <p>Wähle die Lerninhalte aus</p>
+                            <p>Wähle die Lerninhalte</p>
                         </div>
                         <div class="col-xs-1 arrowDiv">
                             <i class="fa fa-lg fa-arrow-right"></i>
@@ -120,12 +120,14 @@
                             <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
                         </div>
                     </div>
-                    <p><b>Deine Vorteile:</b></p>
+                    <p><b>Deine 5 Vorteile:</b></p>
                     <ul>
-                        <li>Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
-                        <li>Du lernst immer nur das, was du wirklich lernen musst.</li>
-                        <li>Du wirst erinnert, wenn deine nächste Übungssitzung ansteht.</li>
-                        <li>Du hast deinen aktuellen Wissensstand immer im Blick.</li>
+                        <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
+                        <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
+                        <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
+                        <li><b>Sicherheit:</b> Optimierte Algorithmen sorgen dafür, dass du Gelerntes nicht vergisst.</li>
+                        <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
+                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
                     </ul>
                     <p>
                         <b>Registriere dich und probiere es gleich aus!</b>
@@ -165,7 +167,7 @@
                         </div>
                         <div class="col-xs-3 explanationDiv">
                             <p><i class="fa fa-3x fa-book"></i></p>
-                            <p>Wähle die Lerninhalte aus</p>
+                            <p>Wähle die Lerninhalte</p>
                         </div>
                         <div class="col-xs-1 arrowDiv">
                             <i class="fa fa-lg fa-arrow-right"></i>
@@ -175,12 +177,14 @@
                             <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
                         </div>
                     </div>
-                    <p><b>Deine Vorteile:</b></p>
+                    <p><b>Deine 5 Vorteile:</b></p>
                     <ul>
-                        <li>Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
-                        <li>Du lernst immer nur das, was du wirklich lernen musst.</li>
-                        <li>Du wirst erinnert, wenn deine nächste Übungssitzung ansteht.</li>
-                        <li>Du hast deinen aktuellen Wissensstand immer im Blick.</li>
+                        <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
+                        <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
+                        <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
+                        <li><b>Sicherheit:</b> Optimierte Algorithmen sorgen dafür, dass du Gelerntes nicht vergisst.</li>
+                        <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
+                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
                     </ul>
                 </div>
 
