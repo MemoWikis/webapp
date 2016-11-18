@@ -51,7 +51,10 @@ public class KnowledgeModel : BaseModel
             Message = new SuccessMessage("Du hast dein Passwort aktualisiert.");
 
         if (!IsLoggedIn)
+        {
+            FillWithSampleData();
             return;
+        }
 
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetsCount = R<GetWishSetCount>().Run(UserId);
@@ -89,32 +92,104 @@ public class KnowledgeModel : BaseModel
         {
             TrainingDates.Add(new TrainingDateModel(tdTrainingDate));
         }
-        //TrainingDates = new List<TrainingDateModel>
-        //{
-        //    new TrainingDateModel
-        //    {
-        //        DateTime = DateTime.Now.AddHours(4),
-        //        QuestionCount = 12,
-        //        Date = new Date { Details = "Klassenarbeit DE"}
-        //    },
-        //    new TrainingDateModel
-        //    {
-        //        DateTime = DateTime.Now.AddHours(24),
-        //        QuestionCount = 21,
-        //        Date = new Date { Details = "Klassenarbeit DE"}
-        //    },
-        //    new TrainingDateModel
-        //    {
-        //        DateTime = DateTime.Now.AddHours(57),
-        //        QuestionCount = 19,
-        //        Date = new Date { Details = "Mündliche Prüfung am Fr."}
-        //    },
-        //    new TrainingDateModel
-        //    {
-        //        DateTime = DateTime.Now.AddHours(71),
-        //        QuestionCount = 20,
-        //    }
-        //};
+    }
 
+    private void FillWithSampleData()
+    {
+        QuestionsCount = 288;
+        SetsCount = 12;
+        User = new User {
+            Name = "Unbekannte(r)"
+        };
+
+        QuestionsCreatedCount = 13;
+        SetsCreatedCount = 2;
+
+        var reputation = new ReputationCalcResult
+        {
+            ForQuestionsCreated = 120,
+            ForSetsCreated = 80,
+            ForDatesCopied = 20,
+            ForSetsInOtherWishknowledge = 40,
+            ForQuestionsInOtherWishknowledge = 220
+        };
+        ReputationRank = 38;
+        ReputationTotal = reputation.TotalReputation;
+
+        KnowledgeSummary = new KnowledgeSummary
+        {
+            NotLearned = 25,
+            NeedsLearning = 44,
+            NeedsConsolidation = 91,
+            Solid = 128
+        };
+
+        var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
+        //Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
+        Last30Days = new List<GetAnswerStatsInPeriodResult>();
+        int totalDayAnswers;
+        var random = new Random();
+        for (int i = 0; i < 30; i++)
+        {
+            totalDayAnswers = random.Next(0, 65);
+            Last30Days.Add(new GetAnswerStatsInPeriodResult
+            {
+                DateTime = DateTime.Now.AddDays(-i),
+                TotalAnswers = totalDayAnswers,
+                TotalTrueAnswers = (int)Math.Ceiling((double)(random.Next(40,101) / (double)100) * totalDayAnswers)
+            });
+        }
+        HasLearnedInLast30Days = Last30Days.Sum(d => d.TotalAnswers) > 0;
+        StreakDays = new GetStreaksDaysResult
+        {
+            LongestStart = DateTime.Now.AddDays(-123),
+            LongestEnd = DateTime.Now.AddDays(-80),
+            LongestLength = 43,
+            LastStart = DateTime.Now.AddDays(-12),
+            LastEnd = DateTime.Now,
+            LastLength = 12
+        };
+
+        Dates = GetSampleDates.Run();
+        DatesInNetwork = GetSampleDates.RunAgain();
+
+        AnswerRecent = new List<Answer>();
+        var questionsLearned = R<QuestionRepo>().GetMostViewed(9);
+        for (int i = 0; i < questionsLearned.Count; i++)
+        {
+            AnswerRecent.Add(new Answer
+            {
+                Question = questionsLearned[i]
+            });
+        }
+
+        NetworkActivities = new List<UserActivity>(); //to do: get SampleNetworkActivity
+
+        TrainingDates = new List<TrainingDateModel>
+        {
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(4),
+                QuestionCount = 15,
+                Date = Dates[0]
+            },
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(24),
+                QuestionCount = 28,
+                Date = Dates[0]
+            },
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(57),
+                QuestionCount = 22,
+                Date = Dates[1]
+            },
+            new TrainingDateModel
+            {
+                DateTime = DateTime.Now.AddHours(71),
+                QuestionCount = 34,
+            }
+        };
     }
 }
