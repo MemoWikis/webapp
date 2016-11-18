@@ -61,7 +61,7 @@
             <div class="row">
                 <div class="col-xs-12" style="text-align: center;">
                     <a href="#teaserWhatIsMemucho" class="TextLinkWithIcon"><i class="fa fa-info-circle" style=""></i>&nbsp;Und vieles mehr</a><br/>
-                    <a href="#" class="TextLinkWithIcon" id="btnStartWelcomeTour"><i class="fa fa-map-signs"></i> Lerne memucho kennen in 6 Schritten</a>
+                    <a href="#" class="TextLinkWithIcon" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start"><i class="fa fa-map-signs"></i> Lerne memucho kennen in 6 Schritten</a>
                 </div>
             </div>
         </div>
