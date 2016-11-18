@@ -26,9 +26,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string HelpWunschwissen = "Willkommen";
 
         public const string AccountController = "Account";
-        public const string Register = "Register";
+        public const string RegisterAction = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
-        public const string Login = "Login";
+        public const string LoginAction = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
         public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
@@ -58,8 +58,8 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
         }
 
-        public static string LoginUrl() => GetUrlHelper().Action(Login, VariousController);
-        public static string RegisterUrl() => GetUrlHelper().Action(Login, VariousController);
+        public static string Login() => GetUrlHelper().Action(LoginAction, WelcomeController);
+        public static string Register() => GetUrlHelper().Action(RegisterAction, WelcomeController);
 
         public const string UsersController = "Users";
         public const string UsersAction = "Users";

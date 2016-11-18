@@ -163,5 +163,9 @@
   {
     "outputFile": "Views/Games/Play/Play.css",
     "inputFile": "Views/Games/Play/Play.less"
+  },
+  {
+    "outputFile": "Views/Dates/Dates.css",
+    "inputFile": "Views/Dates/Dates.less"
   }
 ]

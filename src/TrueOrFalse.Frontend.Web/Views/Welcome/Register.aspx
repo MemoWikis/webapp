@@ -17,7 +17,7 @@
         </div>
         <div class="form-horizontal col-md-9">
             <fieldset>
-                <legend>Jetzt registrieren. Memucho ist kostenlos.</legend>
+                <legend>Jetzt registrieren. memucho ist kostenlos.</legend>
 
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
                 
