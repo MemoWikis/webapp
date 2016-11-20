@@ -172,6 +172,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List();
     }
 
+    public IList<Question> GetMostViewed(int amount)
+    {
+        return _session
+            .QueryOver<Question>()
+            .OrderBy(q => q.TotalViews).Desc
+            .Take(amount)
+            .List();
+    }
+
     /// <summary>
     /// Return how often a question is in other peoples WuWi
     /// </summary>

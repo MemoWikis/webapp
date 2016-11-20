@@ -38,6 +38,20 @@ public class LicenseQuestionRepo
                 AuthorRequired = true,
                 LicenseLinkRequired = false,
                 ChangesNotAllowed = true
+            },
+
+            new LicenseQuestion
+            {
+                Id = 3,
+                NameLong = "Elektronischer Wasserstraﬂen-Informationsservice (ELWIS.de)",
+                NameShort = "ELWIS",
+                DisplayTextShort = "Quelle: ELWIS.de",
+                DisplayTextFull = "Die <a href='https://www.elwis.de/Freizeitschifffahrt/fuehrerscheininformationen/' target='_blank'>Frage und die Antwortmˆglichkeiten</a> " +
+                                  "entstammen dem Elektronischen Wasserstraﬂen-Informationsservice (ELWIS.de) der Wasserstraﬂen- und Schifffahrtsverwaltung des Bundes.",
+                LicenseLink = "https://www.elwis.de/misc/disclaimer.html",
+                AuthorRequired = true,
+                LicenseLinkRequired = false,
+                ChangesNotAllowed = true
             }
         };
 

@@ -95,24 +95,97 @@
 
             <% if(!Model.IsLoggedIn){ %>
 
-                <div class="bs-callout bs-callout-danger">
+                <div class="bs-callout bs-callout-info">
+                    <h4>Optimal auf Prüfungen vorbereiten mit memucho</h4>
+                    <p style="margin-top: 15px;">
+                        <b>Mit memucho kannst du dich optimal auf Prüfungen vorbereiten.</b> Das geht ganz einfach:
+                    </p>
+                    <div class="row explanationRow">
+                        <div class="col-xs-3 explanationDiv" style="margin-left: 2%;">
+                            <p><i class="fa fa-3x fa-calendar-check-o"></i></p>
+                            <p>Wähle dein Prüfungsdatum</p>
+                        </div>
+                        <div class="col-xs-1 arrowDiv">
+                            <i class="fa fa-lg fa-arrow-right"></i>
+                        </div>
+                        <div class="col-xs-3 explanationDiv">
+                            <p><i class="fa fa-3x fa-book"></i></p>
+                            <p>Wähle die Lerninhalte</p>
+                        </div>
+                        <div class="col-xs-1 arrowDiv">
+                            <i class="fa fa-lg fa-arrow-right"></i>
+                        </div>
+                        <div class="col-xs-3 explanationDiv">
+                            <p><i class="fa fa-3x fa-bar-chart"></i></p>
+                            <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
+                        </div>
+                    </div>
+                    <p><b>Deine 5 Vorteile:</b></p>
+                    <ul>
+                        <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
+                        <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
+                        <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
+                        <li><b>Sicherheit:</b> Optimierte Algorithmen sorgen dafür, dass du Gelerntes nicht vergisst.</li>
+                        <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
+                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
+                    </ul>
+                    <p>
+                        <b>Registriere dich und probiere es gleich aus!</b>
+                    </p>
+                    <p>                        
+                        <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                        <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
+                        <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
+                    </p>
+                </div>
+
+<%--                <div class="bs-callout bs-callout-danger">
                     <h4>Einloggen oder registrieren</h4>
                     <p>Um Termine zu erstellen, musst du dich <a href="/Einloggen">einloggen</a> 
                        oder <a href="/Registrieren">registrieren</a>.</p>
-                </div>
+                </div>--%>
 
             <% }else{ %>
         
                 <div id="noOwnCurrentDatesInfo" class="bs-callout bs-callout-info" style="margin-top: 0; margin-bottom: 10px;  <% if (Model.Dates.Any()) Response.Write("display: none;"); %>;">
                     <h4>Du hast keine aktuellen Termine</h4>
-                    <p style="padding-top: 5px;">
-                        Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
-                    </p>
                     <p>
                         <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
                             <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
                         </a>
                     </p>
+                    <p style="padding-top: 5px;">
+                        Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten. Das geht ganz einfach:
+                    </p>
+                    <div class="row explanationRow">
+                        <div class="col-xs-3 explanationDiv" style="margin-left: 2%;">
+                            <p><i class="fa fa-3x fa-calendar-check-o"></i></p>
+                            <p>Wähle dein Prüfungsdatum</p>
+                        </div>
+                        <div class="col-xs-1 arrowDiv">
+                            <i class="fa fa-lg fa-arrow-right"></i>
+                        </div>
+                        <div class="col-xs-3 explanationDiv">
+                            <p><i class="fa fa-3x fa-book"></i></p>
+                            <p>Wähle die Lerninhalte</p>
+                        </div>
+                        <div class="col-xs-1 arrowDiv">
+                            <i class="fa fa-lg fa-arrow-right"></i>
+                        </div>
+                        <div class="col-xs-3 explanationDiv">
+                            <p><i class="fa fa-3x fa-bar-chart"></i></p>
+                            <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
+                        </div>
+                    </div>
+                    <p><b>Deine 5 Vorteile:</b></p>
+                    <ul>
+                        <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
+                        <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
+                        <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
+                        <li><b>Sicherheit:</b> Optimierte Algorithmen sorgen dafür, dass du Gelerntes nicht vergisst.</li>
+                        <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
+                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
+                    </ul>
                 </div>
 
                 <% foreach(var date in Model.Dates){ %>

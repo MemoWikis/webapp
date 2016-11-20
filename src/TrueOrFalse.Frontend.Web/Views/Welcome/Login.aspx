@@ -65,7 +65,7 @@
                 <div class="form-group"> 
                     <div class="col-sm-offset-2 col-sm-10">
                         Noch kein Benutzer?&nbsp;
-                        <%: Html.ActionLink("Jetzt registrieren!", Links.Register) %><br/><br />
+                        <%: Html.ActionLink("Jetzt registrieren!", Links.RegisterAction) %><br/><br />
                     </div>
                 </div>
 

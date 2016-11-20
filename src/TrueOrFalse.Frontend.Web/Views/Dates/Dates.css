@@ -1,4 +1,50 @@
-﻿/*.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+.explanationRow {
+  /*display: table;*/
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media (max-width: 991px) {
+  .explanationRow {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+.explanationDiv {
+  text-align: center;
+}
+.explanationDiv i {
+  color: #1964c8;
+}
+.arrowDiv {
+  margin-top: 13px;
+  text-align: center;
+}
+.arrowDiv i {
+  color: #1964c8;
+}
+/*.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
     -webkit-box-shadow: @x @y @blur 0px rgba(168,165,168,@alpha);
     -moz-box-shadow: @x @y @blur 0px rgba(168,165,168,@alpha);
     box-shadow: @x @y @blur 0px rgba(168,165,168,@alpha);
@@ -7,4 +53,3 @@
 .date-row{
     .drop-shadow(3px, 3px, 9px, 7, 0.4);
 }*/
-/*# sourceMappingURL=Dates.css.map */

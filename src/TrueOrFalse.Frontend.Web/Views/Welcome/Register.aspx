@@ -17,8 +17,7 @@
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
         </div>
         
-        <div class="form-horizontal col-md-9">
-            
+        <div class="form-horizontal col-md-9">            
             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                 <div class="col-xs-12" >
                     <h1>Jetzt registrieren. Memucho ist kostenlos.</h1>                 
@@ -94,7 +93,7 @@
                     <div class="col-sm-offset-2 col-sm-6" style="border-top:0px; margin-top: 10px;">
                         
                         <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-link">Ich bin schon Nutzer!</a>
-                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-success"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a>
+                        <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-success"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
 
                     </div>
                 </div>

@@ -165,6 +165,10 @@
     "inputFile": "Views/Games/Play/Play.less"
   },
   {
+    "outputFile": "Views/Dates/Dates.css",
+    "inputFile": "Views/Dates/Dates.less"
+  },
+  {
     "outputFile": "Views/Welcome/Register.css",
     "inputFile": "Views/Welcome/Register.less"
   }
