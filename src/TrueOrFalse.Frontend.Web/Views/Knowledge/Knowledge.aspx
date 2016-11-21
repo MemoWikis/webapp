@@ -190,12 +190,21 @@
             <h4>Einloggen oder registrieren</h4>
             <p>
                 Um einen Überblick über deine Lernerfolge, deine anstehenden Übungssitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
-                musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+                musst du dich <a href="<%= Links.Login() %>">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
+            </p>
+            <p>
+                <b>Registriere dich und probiere es gleich aus!</b>
+            </p>
+            <p>                        
+                <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
+                <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
             </p>
         </div>
+    <% } %>
 
-    <% }else{  %>
-            
+    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">
+
         <div class="number-box-reputation" style="float: left;">
             <a href="<%= Links.UserDetail(Model.UserName, Model.UserId) %>">
                 <div style="padding-left: 14px; padding: 8px;">                        
@@ -473,5 +482,6 @@
             </div>
         </div>
 
-    <% } %>
+    </div>
+
 </asp:Content>
