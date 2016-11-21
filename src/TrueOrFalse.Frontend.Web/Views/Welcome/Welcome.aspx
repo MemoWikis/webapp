@@ -69,8 +69,7 @@
         <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(42)); //Abitur Weimarer Republik %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(45)); //EU-Integration %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
-            <%--<% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(44)); //EU-Organe %>--%>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(49)); //Abitur Franz. Rev %>
         </div>
 
         <div class="row CardsPortrait" style="padding-top: 0;">
@@ -80,6 +79,12 @@
         </div>
 
         <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); // EU-Länder erkennen %>
+
+        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(44)); //EU-Organe %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(46)); //Pferdehaltung %>
+        </div>
 
         <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(30)); //Literatur Klassik %>
