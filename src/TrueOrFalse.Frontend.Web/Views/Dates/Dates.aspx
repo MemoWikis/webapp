@@ -125,7 +125,7 @@
                         <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
                         <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
                         <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
-                        <li><b>Sicherheit:</b> Optimierte Algorithmen sorgen dafür, dass du Gelerntes nicht vergisst.</li>
+                        <li><b>Sicherheit:</b> Optimierte Algorithmen erinnern dich daran zu lernen, bevor du vergisst.</li>
                         <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
                         <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
                     </ul>
@@ -182,7 +182,7 @@
                         <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
                         <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
                         <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
-                        <li><b>Sicherheit:</b> Optimierte Algorithmen sorgen dafür, dass du Gelerntes nicht vergisst.</li>
+                        <li><b>Sicherheit:</b> Optimierte Algorithmen erinnern dich daran zu lernen, bevor du vergisst.</li>
                         <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
                         <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
                     </ul>
