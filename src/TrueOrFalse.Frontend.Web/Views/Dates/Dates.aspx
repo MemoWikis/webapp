@@ -95,8 +95,8 @@
 
             <% if(!Model.IsLoggedIn){ %>
 
-                <div class="bs-callout bs-callout-info">
-                    <h4>Optimal auf Prüfungen vorbereiten mit memucho</h4>
+                <div class="bs-callout bs-callout-info" style="margin-top: 10px">
+                    <h3 style="margin-top: 0px">Optimal auf Prüfungen vorbereiten mit memucho</h3>
                     <p style="margin-top: 15px;">
                         <b>Mit memucho kannst du dich optimal auf Prüfungen vorbereiten.</b> Das geht ganz einfach:
                     </p>
@@ -120,7 +120,7 @@
                             <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
                         </div>
                     </div>
-                    <p><b>Deine 5 Vorteile:</b></p>
+                    <h3>Deine 5 Vorteile:</h3>
                     <ul>
                         <li><b>Mehr Freizeit:</b> Durch das optimierte Lernen sparst du Zeit.</li>
                         <li><b>Planbarkeit:</b> Du siehst sofort, wieviel Zeit du zum Lernen einplanen musst.</li>
@@ -129,21 +129,15 @@
                         <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
                         <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
                     </ul>
-                    <p>
-                        <b>Registriere dich und probiere es gleich aus!</b>
-                    </p>
-                    <p>                        
+                    
+                    <h3>Registriere dich und probiere es gleich aus!</h3>
+                    <p>Memucho ist kostenlos. Die Registrierung dauert nur 20 Sekunden.</p>
+                    <p class="registrationParagraph">                        
                         <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
                         <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
-                        <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
                     </p>
                 </div>
 
-<%--                <div class="bs-callout bs-callout-danger">
-                    <h4>Einloggen oder registrieren</h4>
-                    <p>Um Termine zu erstellen, musst du dich <a href="/Einloggen">einloggen</a> 
-                       oder <a href="/Registrieren">registrieren</a>.</p>
-                </div>--%>
 
             <% }else{ %>
         
