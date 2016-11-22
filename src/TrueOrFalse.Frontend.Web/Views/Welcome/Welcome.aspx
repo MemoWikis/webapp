@@ -36,32 +36,41 @@
     <div class="col-md-9">
             
         <div class="well" style="padding: 13px; padding-bottom: 10px;">
-            <h1 style="margin-top: 0; margin-bottom: 12px; font-size: 24px; text-align: center;">memucho: <span style="white-space: nowrap;">Schneller lernen,</span> <span style="white-space: nowrap;">länger wissen</span></h1>
+            <h1 style="margin-top: 0; margin-bottom: 15px; font-size: 24px; text-align: center;"><span style="white-space: nowrap;">Schneller lernen,</span> <span style="white-space: nowrap;">länger wissen</span></h1>
             <div class="row">
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
-                        <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i><br/>
-                        Wir erstellen für dich deinen persönlichen <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">Übungsplan!</a><br/>
+                        <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i>
+                    </p>
+                    <p>
+                        Wir optimieren dein Lernen mit einem <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">persönlichen Übungsplan!</a><br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
-                        <i class="fa fa-2x fa fa-calendar" style="color: #2C5FB2;"></i><br/>
-                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Langzeitlernen">Terminlernen</a> und 
-                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Terminlernen">Langzeitlernen</a>.
+                        <i class="fa fa-2x fa fa-clock-o" style="color: #2C5FB2;"></i>
+                    </p>
+                    <p>
+                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Zeitsparen">Du sparst Zeit</a> und siehst, wie viel Zeit du noch zum Lernen brauchst.
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
                     <p>
-                        <i class="fa fa-2x fa-users" style="color: #2C5FB2;"></i><br/>
-                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Echtzeit-Quiz">Echtzeit-Quiz</a> mit bis zu 30 Mitspielern
+                        <i class="fa fa-2x fa-line-chart" style="color: #2C5FB2;"></i>
+                    </p>
+                    <p>
+                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Algos">Optimierte Algorithmen</a> erinnern dich ans Lernen, bevor du vergisst.
                     </p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12" style="text-align: center;">
-                    <a href="#teaserWhatIsMemucho" class="TextLinkWithIcon"><i class="fa fa-info-circle" style=""></i>&nbsp;Und vieles mehr</a><br/>
-                    <a href="#" class="TextLinkWithIcon" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start"><i class="fa fa-map-signs"></i> Lerne memucho kennen in 6 Schritten</a>
+                <div class="col-xs-12" style="text-align: center; margin-top: 15px;">
+                    <p>
+                        <a href="#teaserWhatIsMemucho" class="" data-click-log="StartPage,Click,WasKannMemucho"><i class="fa fa-info-circle" style="">&nbsp;</i>Erfahre, wie memucho dir beim Lernen hilft</a><br/>
+                    </p>
+                    <p>
+                        <a href="#" class="" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start"><i class="fa fa-map-signs">&nbsp;</i>Lerne memucho kennen in 6 Schritten</a>
+                    </p>    
                 </div>
             </div>
         </div>
@@ -312,23 +321,9 @@
         </div>
 
         <div class="well">
-            <h4>Top-Kategorien nach Fragen</h4>
-                <div class="LabelList">
-                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-                </div>
-        </div>
-        
-        <div class="well">
             <h4>Neueste Fragesätze</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        
-        <div class="well">
-            <h4>Umfangreichste Fragesätze</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>
         </div>
         
@@ -340,12 +335,26 @@
         </div>
         
         <div class="well">
+            <h4>Top-Kategorien nach Fragen</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
+                </div>
+        </div>
+        
+        <div class="well">
             <h4>Neueste Kategorien:</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
             </div>
         </div>
 
+        <div class="well">
+            <h4>Umfangreichste Fragesätze</h4>
+            <div class="LabelList">
+                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
+            </div>
+        </div>
+        
         <% if (!userSession.IsLoggedIn)
            { %>
             <div class="well" id="newsletterSignUp" style="padding: 20px; ">
