@@ -71,7 +71,7 @@ var tourWelcome = new Tour({
                 }
             },
             title: "Einloggen oder Registrieren",
-            content: "Registriere dich am besten gleich, damit du mit memucho schneller und mit mehr Spaß lernen kannst."
+            content: "Registriere dich am besten gleich. Mit memucho sparst du Zeit beim Lernen und kannst dich entspannter auf Prüfungen vorbereiten."
         }
     ],
     template: tourTemplate,

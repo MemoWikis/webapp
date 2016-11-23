@@ -59,7 +59,7 @@
             </div>
             <div id="divIndicatorAverageWrapper" style="width: 100%">
                 <div id="divIndicatorAverage" style="margin-left: <%= Model.PercentageAverageRightAnswers %>%">
-                    <i class="fa fa-caret-up fa-4x show-tooltip" style="margin-left: -16px;" title="Der Durchschnitt beantwortet <%= Model.PercentageAverageRightAnswers %> richtig."></i>
+                    <i class="fa fa-caret-up fa-4x show-tooltip" style="margin-left: -16px;" title="Der Durchschnitt beantwortet <%= Model.PercentageAverageRightAnswers %>% richtig."></i>
                 </div>
                 <div id="divIndicatorAverageText">
                     <p style="">

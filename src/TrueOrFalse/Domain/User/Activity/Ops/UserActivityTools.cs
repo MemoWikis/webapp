@@ -32,6 +32,8 @@ public class UserActivityTools
                 return "erstellte den Fragesatz";
             case UserActivityType.CreatedGame:
                 return "erstellte ein Spiel."; //Game has no title
+            case UserActivityType.GamePlayed:
+                return "spielte ein Quiz.";
             case UserActivityType.FollowedUser:
                 return "folgt jetzt";
         }

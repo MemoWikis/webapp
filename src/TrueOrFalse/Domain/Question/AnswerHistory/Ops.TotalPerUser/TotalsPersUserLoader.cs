@@ -31,41 +31,48 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
         if (!questionIds.Any())
             return new TotalPerUser[]{};
 
-        var sbQuestionIdRestriction = new StringBuilder();
 
-        var firstHit = true;
-        foreach (var questionId in questionIds)
-            if(firstHit)
-            {
-                sbQuestionIdRestriction.AppendLine("AND QuestionId = " + questionId);
-                firstHit = false;
-            }
-            else
-                sbQuestionIdRestriction.AppendLine("OR QuestionId = " + questionId);
+        var totals = new List<TotalPerUser>();
+
+        if(userId != -1)
+        { 
+            var sbQuestionIdRestriction = new StringBuilder();
+
+            var firstHit = true;
+            foreach (var questionId in questionIds)
+                if(firstHit)
+                {
+                    sbQuestionIdRestriction.AppendLine("AND QuestionId = " + questionId);
+                    firstHit = false;
+                }
+                else
+                    sbQuestionIdRestriction.AppendLine("OR QuestionId = " + questionId);
             
-        var query = String.Format(
-            @"SELECT 
-	                QuestionId,
-	                CAST(SUM(CASE WHEN AnswerredCorrectly = 1 THEN 1 WHEN AnswerredCorrectly = 2 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalTrue,
-	                CAST(SUM(CASE WHEN AnswerredCorrectly = 0 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalFalse
-                FROM Answer
-                WHERE UserId = {0}
-                GROUP BY QuestionId, UserId
-                HAVING UserId = {0} 
-                {1}", userId, sbQuestionIdRestriction);
+            var query = String.Format(
+                @"SELECT 
+	                    QuestionId,
+	                    CAST(SUM(CASE WHEN AnswerredCorrectly = 1 THEN 1 WHEN AnswerredCorrectly = 2 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalTrue,
+	                    CAST(SUM(CASE WHEN AnswerredCorrectly = 0 THEN 1 ELSE 0 END) AS signed INTEGER) as TotalFalse
+                    FROM Answer
+                    WHERE UserId = {0}
+                    GROUP BY QuestionId, UserId
+                    HAVING UserId = {0} 
+                    {1}", userId, sbQuestionIdRestriction);
 
-        var totals = _session.CreateSQLQuery(query)
-                        .List<object>()
-                        .Select(item => new TotalPerUser
-                            {
-                                QuestionId = Convert.ToInt32(((object[])item)[0]),
-                                TotalTrue = Convert.ToInt32(((object[])item)[1]),
-                                TotalFalse = Convert.ToInt32(((object[])item)[2]),
-                            })
-                        .ToList();
+            totals = _session.CreateSQLQuery(query)
+                            .List<object>()
+                            .Select(item => new TotalPerUser
+                                {
+                                    QuestionId = Convert.ToInt32(((object[])item)[0]),
+                                    TotalTrue = Convert.ToInt32(((object[])item)[1]),
+                                    TotalFalse = Convert.ToInt32(((object[])item)[2]),
+                                })
+                            .ToList();
 
-        
-        foreach(var questionId in questionIds)
+        }
+
+
+        foreach (var questionId in questionIds)
             if(totals.All(t => t.QuestionId != questionId))
                 totals.Add(new TotalPerUser
                 {
