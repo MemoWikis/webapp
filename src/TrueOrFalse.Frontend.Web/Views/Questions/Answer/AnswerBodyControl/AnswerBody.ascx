@@ -144,10 +144,9 @@
 <div id="LicenseQuestion">
 <% if (Model.LicenseQuestion.IsDefault())
     { %>
-    <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto left"
-            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>"
-        >
-        <img src="/Images/Licenses/cc-by 88x31.png" width="88" height="31" style="margin-top: 5px;"/><br/>
+        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto left"
+            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
+        <img src="/Images/Licenses/cc-by 88x31.png" width="60"  style="margin-top: 4px; opacity: 0.6;"/>&nbsp;
         <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>&nbsp;<i class="fa fa-info-circle"></i>
     </a>
     <% } else { %>
