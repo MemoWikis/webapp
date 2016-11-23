@@ -22,7 +22,7 @@
             </div>
             
             <div style="font-size: ; margin-top: 5px;">
-                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.Plural(Model.QuestionCount, "n") %></a>
+                <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>
             </div>
             <% if(Model.AnswersTotal > 0) { %>
                 <div style="margin-top: 6px; font-size: small;">

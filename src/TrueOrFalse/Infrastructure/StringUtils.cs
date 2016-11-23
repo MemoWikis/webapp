@@ -1,7 +1,7 @@
 ﻿public static class StringUtils
 {
 
-    public static string Plural(int numberItems, string pluralSuffix, string singularSuffix = "", string divergentZeroSuffix = null)
+    public static string PluralSuffix(int numberItems, string pluralSuffix, string singularSuffix = "", string divergentZeroSuffix = null)
     {
         if (numberItems == 1)
             return singularSuffix;

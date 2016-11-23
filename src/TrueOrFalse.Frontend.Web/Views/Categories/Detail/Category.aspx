@@ -71,7 +71,7 @@
                 <% if(Model.AnswersTotal > 0) { %>
                     <div style="margin-top: 6px;">
                         In dieser Kategorie wurden
-                        <%= Model.AnswersTotal + "x Frage" + StringUtils.Plural(Model.AnswersTotal, "n") %> beantwortet, 
+                        <%= Model.AnswersTotal + "x Frage" + StringUtils.PluralSuffix(Model.AnswersTotal, "n") %> beantwortet, 
                         davon <%= Model.CorrectnesProbability %>% richtig.
                     </div>
                 <% } %>                
@@ -140,7 +140,7 @@
                         <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
                     </a>
                     <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="font-style: italic; margin-left: 10px;">
-                        <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.Plural(Model.CountQuestions, "n") %> dieser Kategorie zeigen
+                        <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> dieser Kategorie zeigen
                     </a>
                 </div>
             <% }

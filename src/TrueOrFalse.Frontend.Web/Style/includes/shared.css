@@ -7,6 +7,8 @@
     Helper Classes
     General Styles
     Layout Elements
+    NavLinks
+    Boxes
     Cards
     Images
     Color scheme
@@ -2103,21 +2105,83 @@
   -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
   box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
 }
-.ShadowBox {
-  -webkit-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
-  -moz-box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
-  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.16);
-  padding: 20px;
-  margin-bottom: 30px;
+/*  Material design elements
+----------------------------------------------------------*/
+.Divider {
+  height: 1px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.12);
 }
-.ShadowBox h1,
-.ShadowBox h2,
-.ShadowBox h3,
-.ShadowBox h4 {
-  margin-top: 0;
+.BottomBar {
+  /*margin-left: @margin-card;
+    margin-right: @margin-card;*/
+}
+.BottomBar:before,
+.BottomBar:after {
+  content: " ";
+  display: table;
+}
+.BottomBar:after {
+  clear: both;
+}
+.BottomBar:before,
+.BottomBar:after {
+  content: " ";
+  display: table;
+}
+.BottomBar:after {
+  clear: both;
+}
+.BottomBar a.btn {
+  display: block;
+  float: right;
+}
+.BottomBar .dropdown {
+  float: right;
+}
+/*  Boxes
+----------------------------------------------------------*/
+.Box {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+.ShadowBox {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
 /*  Cards
 ----------------------------------------------------------*/
+.Card {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 15px;
+  padding: 0;
+}
+.Card.Set .ItemTitle {
+  border-bottom-color: #FFD700 !important;
+}
+.Card.Set .ImageContainer {
+  border-bottom-color: #FFD700 !important;
+  border-right-color: #FFD700 !important;
+}
+.Card.Category .ItemTitle {
+  border-bottom-color: #5bc0de !important;
+}
+.Card.Category .ImageContainer {
+  border-bottom-color: #5bc0de !important;
+  border-right-color: #5bc0de !important;
+}
+.Card .ItemInfo .Pin {
+  padding-left: 1px;
+  display: inline-block;
+}
+.Card .BottomBar {
+  padding: 5px;
+}
 .CardsLandscape .CardColumn {
   position: relative;
   float: left;
@@ -2425,57 +2489,6 @@
     left: 0;
     right: 0;
   }
-}
-.Card {
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-.Card.Set .ItemTitle {
-  border-bottom-color: #FFD700 !important;
-}
-.Card.Set .ImageContainer {
-  border-bottom-color: #FFD700 !important;
-  border-right-color: #FFD700 !important;
-}
-.Card.Category .ItemTitle {
-  border-bottom-color: #5bc0de !important;
-}
-.Card.Category .ImageContainer {
-  border-bottom-color: #5bc0de !important;
-  border-right-color: #5bc0de !important;
-}
-.Card .ItemInfo .Pin {
-  padding-left: 1px;
-  display: inline-block;
-}
-.Card .BottomBar {
-  /*margin-left: @margin-card;
-        margin-right: @margin-card;*/
-  padding: 5px;
-}
-.Card .BottomBar:before,
-.Card .BottomBar:after {
-  content: " ";
-  display: table;
-}
-.Card .BottomBar:after {
-  clear: both;
-}
-.Card .BottomBar:before,
-.Card .BottomBar:after {
-  content: " ";
-  display: table;
-}
-.Card .BottomBar:after {
-  clear: both;
-}
-.Card .BottomBar a.btn {
-  display: block;
-  float: right;
-}
-.Card .BottomBar .dropdown {
-  float: right;
 }
 .CardContent {
   margin-left: 15px;

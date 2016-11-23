@@ -7,6 +7,8 @@
     Helper Classes
     General Styles
     Layout Elements
+    NavLinks
+    Boxes
     Cards
     Images
     Color scheme
@@ -83,17 +85,84 @@
     box-shadow: @x @y @blur @spread rgba(0,0,0,@alpha);
 }
 
-//Shadow box
+/*  Material design elements
+----------------------------------------------------------*/
+
+.Divider {
+    height: 1px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.BottomBar {
+    /*margin-left: @margin-card;
+    margin-right: @margin-card;*/
+    .clearfix;
+
+    a.btn {
+        display: block;
+        float: right;
+    }
+
+    .dropdown {
+        float: right;
+    }
+}
+
+
+
+/*  Boxes
+----------------------------------------------------------*/
+
+.Box {
+    .ShadowBox;
+    border-radius: @border-radius-box;
+    border: 1px solid @well-border;
+    border-radius: @border-radius-box;
+    margin-bottom: 20px;
+    padding: 15px;
+}
 
 .ShadowBox {
-    .drop-shadow1;
-    padding: 20px;
-    margin-bottom: 30px;
-    h1, h2, h3, h4 {margin-top: 0;}
+    box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);   
 }
 
 /*  Cards
 ----------------------------------------------------------*/
+.Card {
+
+    .Box;
+    padding: 0;
+
+    &.Set {
+        .ItemTitle{
+            border-bottom-color: @color-set !important;
+        }
+        .ImageContainer{
+            border-bottom-color: @color-set !important;
+            border-right-color: @color-set !important;
+        }
+    }
+
+    &.Category {
+        .ItemTitle{
+            border-bottom-color: @color-category !important;
+        }
+        .ImageContainer{
+            border-bottom-color: @color-category !important;
+            border-right-color: @color-category !important;
+        }
+    }
+
+    .ItemInfo .Pin {
+        padding-left: 1px;
+        display: inline-block;
+    }
+
+    .BottomBar {
+        padding: 5px;
+    }
+}
 
 .CardsLandscape { // Apply to row
     .CardColumn {
@@ -154,53 +223,7 @@
     }
 }
 
-.Card {
 
-    border: 1px solid @well-border;
-    border-radius: @border-radius-card;
-    margin-bottom: 20px;
-
-    &.Set {
-        .ItemTitle{
-            border-bottom-color: @color-set !important;
-        }
-        .ImageContainer{
-            border-bottom-color: @color-set !important;
-            border-right-color: @color-set !important;
-        }
-    }
-
-    &.Category {
-        .ItemTitle{
-            border-bottom-color: @color-category !important;
-        }
-        .ImageContainer{
-            border-bottom-color: @color-category !important;
-            border-right-color: @color-category !important;
-        }
-    }
-
-    .ItemInfo .Pin {
-        padding-left: 1px;
-        display: inline-block;
-    }
-
-    .BottomBar {
-        /*margin-left: @margin-card;
-        margin-right: @margin-card;*/
-        padding: 5px;
-        .clearfix;
-
-        a.btn {
-            display: block;
-            float: right;
-        }
-
-        .dropdown {
-            float: right;
-        }
-    }
-}
 
 .CardContent {
     margin-left: @margin-card;
@@ -262,7 +285,7 @@
         margin-left: @margin-card;
         margin-right: @margin-card;
         //padding-bottom: 5px;
-        border-bottom: 5px solid @memo-blue;
+        border-bottom: @colored-line-width solid @memo-blue;
         margin-bottom: 15px;
 
         .Category& {
@@ -297,8 +320,8 @@
                 }
 
                 img {
-                    border-top-left-radius: @border-radius-card;
-                    border-top-right-radius: @border-radius-card;
+                    border-top-left-radius: @border-radius-box;
+                    border-top-right-radius: @border-radius-box;
                     border-bottom-left-radius: 0;
                     border-bottom-right-radius: 0;
 
@@ -350,7 +373,7 @@
             }
 
             img {
-                border-radius: @border-radius-card;
+                border-radius: @border-radius-box;
             }
         }
 
@@ -398,7 +421,7 @@
 
 
             img {
-                border-radius: @border-radius-card 0 0 @border-radius-card;
+                border-radius: @border-radius-box 0 0 @border-radius-box;
                 width: 165px;
             }
         }

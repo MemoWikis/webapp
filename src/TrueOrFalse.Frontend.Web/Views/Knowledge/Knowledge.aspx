@@ -230,7 +230,7 @@
                                 <a href="<%= Links.QuestionsWish() %>">
                                     <div>
                                         <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
-                                        <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n") %></span>
+                                        <span style="font-size: 14px">Frage<%= StringUtils.PluralSuffix(Model.QuestionsCount,"n") %></span>
                                     </div>
                                 </a>
                             </div>
@@ -240,7 +240,7 @@
                                 <a href="<%= Links.SetsWish() %>">
                                     <div>
                                         <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
-                                        &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz") %></span>
+                                        &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.PluralSuffix(Model.SetsCount,"sätze","satz") %></span>
                                     </div>
                                 </a>
                             </div>
@@ -369,13 +369,13 @@
                             <hr style="margin: 8px 0;"/>  
                         <% } %>
                         <% if (Model.Dates.Count > 3) { %>
-                            <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                            <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.PluralSuffix(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
                             <hr style="margin: 8px 0px;"/>
                         <% } %>
                     <% } %>
                     <p>
                         <% if (Model.DatesInNetwork.Count > 0) { %>
-                            <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                            <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.PluralSuffix(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
                             &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
                         <% } else {  %>
                             Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.

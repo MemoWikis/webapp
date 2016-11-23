@@ -30,6 +30,9 @@
   height: auto;
   border-radius: 5px;
 }
+.SingleItem .ItemImage {
+  min-width: 100%;
+}
 .ImageLicenseCaption a {
   display: block;
   font-size: 10px;

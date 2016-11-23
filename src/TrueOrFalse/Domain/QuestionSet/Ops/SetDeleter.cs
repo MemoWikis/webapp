@@ -48,7 +48,7 @@ public class SetDeleter
                 Yes = false,
                 IfNot_Reason =
                     "Der Fragesatz kann nicht gelöscht werden, da in " +
-                    howOftenInFutureDate + " Termin" + StringUtils.Plural(howOftenInFutureDate, "en") +
+                    howOftenInFutureDate + " Termin" + StringUtils.PluralSuffix(howOftenInFutureDate, "en") +
                     " (vielleicht auch bei dir) damit gelernt wurde oder wird. " +
                     "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
             };

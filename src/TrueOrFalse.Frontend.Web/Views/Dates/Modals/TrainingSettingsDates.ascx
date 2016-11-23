@@ -11,7 +11,7 @@
             <%= trainingDate.DateTime.ToString("dd.MM.yyyy HH:mm") %>Uhr
         </div>
         <div class="col-md-4">
-            <%= trainingDate.QuestionCount %> <%= "Frage" + StringUtils.Plural(trainingDate.QuestionCount, "n")%> <br />
+            <%= trainingDate.QuestionCount %> <%= "Frage" + StringUtils.PluralSuffix(trainingDate.QuestionCount, "n")%> <br />
             ca. <%= trainingDate.LearningTimeInMin %>min Aufwand
         </div>
         <div class="col-xs-2">

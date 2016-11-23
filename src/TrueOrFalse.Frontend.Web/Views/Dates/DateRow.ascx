@@ -189,8 +189,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <%= Model.LearningSessionCount %> Übungssitzung<%= StringUtils.Plural(Model.LearningSessionCount,"en") %> mit <br/>
-                        <%= Model.LearningSessionQuestionsLearned %> Frage<%= StringUtils.Plural(Model.LearningSessionQuestionsLearned,"n") %>
+                        <%= Model.LearningSessionCount %> Übungssitzung<%= StringUtils.PluralSuffix(Model.LearningSessionCount,"en") %> mit <br/>
+                        <%= Model.LearningSessionQuestionsLearned %> Frage<%= StringUtils.PluralSuffix(Model.LearningSessionQuestionsLearned,"n") %>
                     </div>
                 </div>
                 <div class="row">

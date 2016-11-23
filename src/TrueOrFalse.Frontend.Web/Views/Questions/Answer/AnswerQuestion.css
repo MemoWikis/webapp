@@ -112,21 +112,6 @@
 #Buttons #buttons-answer-again {
   float: right;
 }
-#EditQuestion,
-#DeleteQuestion {
-  float: right;
-}
-@media (max-width: 479px) {
-  #EditQuestion,
-  #DeleteQuestion {
-    margin-bottom: 10px;
-  }
-}
-@media (max-width: 479px) {
-  #DeleteQuestion {
-    float: left;
-  }
-}
 #answerQuestionDetails .label {
   max-width: 100%;
 }
