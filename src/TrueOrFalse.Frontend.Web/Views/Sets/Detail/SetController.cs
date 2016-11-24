@@ -63,14 +63,11 @@ public class SetController : BaseController
 
     public ActionResult StartTestSession(int setId)
     {
-        var excludeQuestionIds = _sessionUser.AnsweredQuestionIds.ToList();
         var set = Sl.R<SetRepo>().GetById(setId);
-        var testSession = new TestSession(set, _sessionUser.GetNextTestSessionId(), excludeQuestionIds);
-        if (testSession.NumberOfSteps == 0)
-            throw new Exception("Cannot start TestSession from set with no questions.");
+        var testSession = new TestSession(set);
 
-        Sl.R<SessionUser>().TestSessions.Add(testSession);
+        R<SessionUser>().AddTestSession(testSession);
+
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
 }
-
