@@ -41,6 +41,9 @@ public class SetModel : BaseModel
 
     public SetActiveMemory ActiveMemory;
 
+    public ContentRecommendationResult ContentRecommendationResult;
+
+
     public SetModel(Set set)
     {
         Id = set.Id;
@@ -105,6 +108,8 @@ public class SetModel : BaseModel
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 
         ActiveMemory = SetActiveMemoryLoader.Run(set, questionValutionsForCurrentUser);
+
+        ContentRecommendationResult = ContentRecommendation.GetForSet(Set, 6);
     }
-    
+
 }

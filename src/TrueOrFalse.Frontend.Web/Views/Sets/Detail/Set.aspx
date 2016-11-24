@@ -77,12 +77,12 @@
                             </div>        
                     
                             <%--<div class="Divider" style="margin-top: 10px; margin-bottom: 10px;"></div>--%>
-                            <div style="margin-top: 10px;">
-                                erstellt von: <a href="<%= Links.UserDetail(Model.Creator) %>"> <%= Model.CreatorName %> </a> <br/>
+                            <div class="Divider" style="margin-top: 10px; margin-bottom: 0px;"></div>
+                            <div style="margin-top: 0px; color: silver; font-size: 11px;">
+                                erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" style="color: inherit;"><%= Model.CreatorName %></a> 
                                 <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
                             </div>
-                            <div class="Divider" style="margin-top: 10px; margin-bottom: 10px;"></div>
-                            <div style="margin-top:0px;">
+                            <div style="margin-top:6px;">
                                 <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
                                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                                         <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color:#b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
@@ -97,7 +97,6 @@
                                         <i class="fa fa-tachometer" style="margin-left: 20px; color: #69D069;"></i> 
                                         <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
                                     </span>
-
                                 </span>
                             </div>
                             <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
@@ -116,7 +115,7 @@
                                         <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
                                     </ul>
                                 </div>
-                                <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
+                                <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-primary btn-sm " role="button" rel="nofollow">
                                     &nbsp;JETZT TESTEN
                                 </a>
                             </div>
@@ -147,6 +146,25 @@
                     <% } %>
                 </div>
             </div> 
+
+            <% if (Model.ContentRecommendationResult != null) { %>
+                <h4 style="margin-top: 40px;">Lust auf mehr? Andere Nutzer lernen auch:</h4>
+                <div class="row CardsLandscape" id="contentRecommendation">
+                    <% foreach (var set in Model.ContentRecommendationResult.Sets)
+                       {
+                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                       } %>
+                    <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                       {
+                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                       } %>
+                    <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
+                       { 
+                            Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                       } %>
+                </div>
+            <% } %>
+
         </div>
         
         

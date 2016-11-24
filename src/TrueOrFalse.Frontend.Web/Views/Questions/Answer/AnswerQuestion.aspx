@@ -157,7 +157,7 @@
                    new AnswerBodyModel(Model)); %>
 
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4>Das könnte dich auch interessieren:</h4>
+                <h4>Lust auf mehr? Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscapeNarrow" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {
