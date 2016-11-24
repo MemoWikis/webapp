@@ -88,7 +88,7 @@ public class AnswerQuestionController : BaseController
     public ActionResult Test(int testSessionId)
     {
         if (_sessionUser.TestSessions.Count(s => s.Id == testSessionId) != 1)
-            throw new Exception("TestSessionId is not unique, there are " + _sessionUser.TestSessions.Where(s => s.Id == testSessionId).Count().ToString() +
+            throw new Exception("TestSessionId is not unique, there are " + _sessionUser.TestSessions.Count(s => s.Id == testSessionId) +
                 " results (0 means: session is simply not there yet; >1 means: more than 1 TestSession was created simultaneously with same Id)");
 
         var testSession = _sessionUser.TestSessions.Find(s => s.Id == testSessionId);
