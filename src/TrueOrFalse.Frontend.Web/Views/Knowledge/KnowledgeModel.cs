@@ -124,8 +124,6 @@ public class KnowledgeModel : BaseModel
             Solid = 128
         };
 
-        var getAnswerStatsInPeriod = Resolve<GetAnswerStatsInPeriod>();
-        //Last30Days = getAnswerStatsInPeriod.GetLast30Days(UserId);
         Last30Days = new List<GetAnswerStatsInPeriodResult>();
         int totalDayAnswers;
         var random = new Random();
@@ -163,7 +161,7 @@ public class KnowledgeModel : BaseModel
             });
         }
 
-        NetworkActivities = new List<UserActivity>(); //to do: get SampleNetworkActivity
+        NetworkActivities = GetSampleUserActivities.Run(User);
 
         TrainingDates = new List<TrainingDateModel>
         {

@@ -190,12 +190,21 @@
             <h4>Einloggen oder registrieren</h4>
             <p>
                 Um einen Überblick über deine Lernerfolge, deine anstehenden Übungssitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
-                musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+                musst du dich <a href="<%= Links.Login() %>">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
+            </p>
+            <p>
+                <b>Registriere dich und probiere es gleich aus!</b>
+            </p>
+            <p>                        
+                <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
+                <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
             </p>
         </div>
+    <% } %>
 
-    <% }else{  %>
-            
+    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">
+
         <div class="number-box-reputation" style="float: left;">
             <a href="<%= Links.UserDetail(Model.UserName, Model.UserId) %>">
                 <div style="padding-left: 14px; padding: 8px;">                        
@@ -230,7 +239,7 @@
                                 <a href="<%= Links.QuestionsWish() %>">
                                     <div>
                                         <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
-                                        <span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.QuestionsCount,"n") %></span>
+                                        <span style="font-size: 14px">Frage<%= StringUtils.PluralSuffix(Model.QuestionsCount,"n") %></span>
                                     </div>
                                 </a>
                             </div>
@@ -240,7 +249,7 @@
                                 <a href="<%= Links.SetsWish() %>">
                                     <div>
                                         <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
-                                        &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.Plural(Model.SetsCount,"sätze","satz") %></span>
+                                        &nbsp;<span style="font-size: 14px">Frage<%= StringUtils.PluralSuffix(Model.SetsCount,"sätze","satz") %></span>
                                     </div>
                                 </a>
                             </div>
@@ -369,13 +378,13 @@
                             <hr style="margin: 8px 0;"/>  
                         <% } %>
                         <% if (Model.Dates.Count > 3) { %>
-                            <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.Plural(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                            <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.PluralSuffix(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
                             <hr style="margin: 8px 0px;"/>
                         <% } %>
                     <% } %>
                     <p>
                         <% if (Model.DatesInNetwork.Count > 0) { %>
-                            <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.Plural(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                            <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.PluralSuffix(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
                             &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
                         <% } else {  %>
                             Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
@@ -473,5 +482,6 @@
             </div>
         </div>
 
-    <% } %>
+    </div>
+
 </asp:Content>

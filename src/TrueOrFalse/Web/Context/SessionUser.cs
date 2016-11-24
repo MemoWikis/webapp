@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
@@ -78,7 +79,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     public List<TestSession> TestSessions
     {
         get { return Data.Get<List<TestSession>>("testSessions"); }
-        set { Data["testSessions"] = (List<TestSession>)value; }
+        set { Data["testSessions"] = value; }
     }
 
     private int _currentTestSessionId
@@ -87,21 +88,36 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         set { Data["_currentTestSessionId"] = value; }
     }
 
-    public int GetNextTestSessionId() {
-        _currentTestSessionId++;
-        return _currentTestSessionId;
+    public int GetNextTestSessionId()
+    {
+        lock ("6F33CE8C-F40E-4E7D-85D8-5C025AD98F87")
+        {
+            var currentSessionId = _currentTestSessionId;
+            currentSessionId++;
+            _currentTestSessionId = currentSessionId;
+            return currentSessionId;
+        }
+    }
+
+    public void AddTestSession(TestSession testSession)
+    {
+        if (testSession.NumberOfSteps == 0)
+            throw new Exception("Cannot start TestSession from set with no questions.");
+
+        TestSessions.Add(testSession);
     }
 
     public List<int> AnsweredQuestionIds
     {
         get { return Data.Get<List<int>>("answeredQuestionIds"); }
-        set { Data["answeredQuestionIds"] = (List<int>)value; }
+        set { Data["answeredQuestionIds"] = value; }
     }
 
     public SessionUser()
     {
         if (AnsweredQuestionIds == null)
             AnsweredQuestionIds = new List<int>();
+
         if (TestSessions == null)
             TestSessions = new List<TestSession>();
     }

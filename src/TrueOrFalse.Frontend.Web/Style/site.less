@@ -84,9 +84,9 @@ a {
     &.TextLinkWithIcon {
         text-decoration: none;
         display: inline-block;
-        @media (max-width: @screen-xs-max) {
+        /*@media (max-width: @screen-xs-max) {
             line-height: @icon-size-touch;
-        }
+        }*/
 
         &:hover {
             text-decoration: none;
@@ -100,9 +100,9 @@ a {
 
         i {
             vertical-align: middle;
-            @media (max-width: @screen-xs-max) {
+            /*@media (max-width: @screen-xs-max) {
                 font-size: @icon-size-touch;
-            }
+            }*/
         }
 
         .TextSpan {
@@ -1042,8 +1042,8 @@ div.box-main .box-content {
     padding-bottom: 5px;
 }
 
-.well, .thumbnail, .panel, .Card {
-    box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);
+.well, .thumbnail, .panel, .Card, .Box {
+    .ShadowBox;
     background-color: white;
 }
 
@@ -1155,14 +1155,16 @@ ul.AlignDdRight{
 
     margin-bottom: 20px;
 
-    a {
-        margin-right: 5px;
+    > a, > div {
+        font-size: 12px;
+        display: inline-block;
+        margin-right: 10px;
     }
 
-    @media screen and (min-width: (@screen-xs-min)) {
+    @media screen and (min-width: (@screen-sm-min)) {
         float: right; 
         
-        a {
+        > a, > div {
             display: block;
             margin-right: 0;
         }

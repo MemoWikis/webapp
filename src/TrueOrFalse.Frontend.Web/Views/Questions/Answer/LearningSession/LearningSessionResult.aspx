@@ -289,7 +289,7 @@
                                 </a>
                                     
                                 <div class="dateSets" style="display: inline; position: relative; display: none;" >
-                                    aus <%= Model.DateToLearn.Sets.Count %> <%= StringUtils.Plural(Model.DateToLearn.Sets.Count, "Fragesätzen","Fragesatz") %>
+                                    aus <%= Model.DateToLearn.Sets.Count %> <%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "Fragesätzen","Fragesatz") %>
                                     <%  foreach(var set in Model.DateToLearn.Sets){ %>
                                         <a href="<%= Links.SetDetail(Url, set) %>">
                                             <span class="label label-set"><%= set.Name %></span>
@@ -322,7 +322,7 @@
                         <% if (Model.TrainingDateCount > 0) { %>
                             <p>
                                 Vor dir liegen noch: <br/>
-                                ca. <%= Model.TrainingDateCount %> Übungssitzung<%= StringUtils.Plural(Model.DateToLearn.Sets.Count, "en") %><br />
+                                ca. <%= Model.TrainingDateCount %> Übungssitzung<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "en") %><br />
                                 ca. <%= Model.RemainingTrainingTime%> Übungszeit
                             </p>
                             <p style="margin-top: 10px;">

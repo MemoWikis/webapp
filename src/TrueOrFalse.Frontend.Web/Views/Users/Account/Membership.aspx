@@ -14,8 +14,8 @@
             <h2 class="PageHeader">Danke, dass du uns unterstützt <i class="fa fa-smile-o"></i></h2>
             
             <% Html.Message(Model.Message); %>
-            <div class="ShadowBox">
-                <h3 style="margin-bottom: 20px;">Deine Mitgliedschaft:</h3>
+            <div class="Box">
+                <h3 style="margin-top: 0; margin-bottom: 20px;">Deine Mitgliedschaft:</h3>
     
                 <div>
                     <p><b>Monatlicher Preis:</b> <%= String.Format("{0:C}", Model.Membership.PricePerMonth) %></p>

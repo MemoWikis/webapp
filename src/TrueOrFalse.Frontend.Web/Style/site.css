@@ -90,11 +90,9 @@ a.TextLink:hover {
 a.TextLinkWithIcon {
   text-decoration: none;
   display: inline-block;
-}
-@media (max-width: 767px) {
-  a.TextLinkWithIcon {
-    line-height: 25px;
-  }
+  /*@media (max-width: @screen-xs-max) {
+            line-height: @icon-size-touch;
+        }*/
 }
 a.TextLinkWithIcon:hover {
   text-decoration: none;
@@ -110,11 +108,9 @@ a.TextLinkWithIcon:focus .TextSpan {
 }
 a.TextLinkWithIcon i {
   vertical-align: middle;
-}
-@media (max-width: 767px) {
-  a.TextLinkWithIcon i {
-    font-size: 25px;
-  }
+  /*@media (max-width: @screen-xs-max) {
+                font-size: @icon-size-touch;
+            }*/
 }
 a.TextLinkWithIcon .TextSpan {
   vertical-align: middle;
@@ -1367,7 +1363,8 @@ div.box-main .box-content {
 .well,
 .thumbnail,
 .panel,
-.Card {
+.Card,
+.Box {
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   background-color: white;
 }
@@ -1447,14 +1444,18 @@ ul.AlignDdRight {
 .navLinks {
   margin-bottom: 20px;
 }
-.navLinks a {
-  margin-right: 5px;
+.navLinks > a,
+.navLinks > div {
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 10px;
 }
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 768px) {
   .navLinks {
     float: right;
   }
-  .navLinks a {
+  .navLinks > a,
+  .navLinks > div {
     display: block;
     margin-right: 0;
   }

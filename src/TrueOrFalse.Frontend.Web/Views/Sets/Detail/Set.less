@@ -1,9 +1,48 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
-.question-row{
-    margin-bottom: 15px;
+.navLinks {
+     .media-below-md ({
+        float: none; 
+        margin-bottom: 10px;
 
-    .col-0{
+        > a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    });
+}
+
+#SetInfo {
+    
+    padding-bottom: 5px;
+
+    header{
+        border-bottom: @colored-line-width solid @color-set;
+        margin-bottom: 10px;
+    }
+
+    .ImageContainer {
+
+        margin-bottom: 10px;
+
+        .media-below-sm({
+
+            img {
+                max-height: 150px;
+                width: auto;
+            }
+        }); 
+    }
+
+    .BottomBar {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+.question-row{
+
+    /*.col-0{
         img{
             border-radius:5px;
         }
@@ -22,10 +61,23 @@
             padding-top: 15px;
             font-size: 16px;
         }
-    }
+    }*/
 
 }
 
 .sparklineTotals, .sparklineTotalsUser{
     font-size: 11px;
+}
+
+/*.Stats {
+    .media-below-md({
+        margin-left: 16.66666667%;
+        margin-left: 20%;
+        float: left;
+    });
+}*/
+
+.StatsRow {
+    margin-left: 0;
+    margin-right: 0;
 }

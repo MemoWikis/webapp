@@ -62,15 +62,15 @@
                         musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
                     </p>
                 </div>
-            <% }%>
+            <% } %>
             <div>
                 <% Html.Message(Model.Message); %>
             </div>
         </div>
     </div>
         
-
-    <div class="row">
+    <% if(Model.IsLoggedIn){ %>
+        <div class="row">
             <div class="aside col-md-3 col-md-push-9 rowBase" style="margin-bottom: 11px;">
                 <div class="form-horizontal " role="form">
                     <div class="FormSection">
@@ -360,6 +360,7 @@
                     <% } %>
                 </div>
             </div>
+        <% } %>
     </div>
     <% } %>
     

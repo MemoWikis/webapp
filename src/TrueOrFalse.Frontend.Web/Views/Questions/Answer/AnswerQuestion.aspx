@@ -132,17 +132,19 @@
         <div class="col-xs-3 xxs-stack">
             <% if (Model.IsOwner)
                { %>
-                <div id="EditQuestion">
-                    <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
-                        <i class="fa fa-pencil"></i>
-                        <span class="TextSpan">Frage bearbeiten</span>
-                    </a>
-                </div>
+                <div class="navLinks">
+                    <div id="EditQuestion">
+                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
+                            <i class="fa fa-pencil"></i>
+                            <span class="TextSpan">Frage bearbeiten</span>
+                        </a>
+                    </div>
             
-                <div id="DeleteQuestion">
-                    <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
-                        <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
-                    </a>
+                    <div id="DeleteQuestion">
+                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
+                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
+                        </a>
+                    </div>
                 </div>
             <% } %>
         </div>
@@ -155,7 +157,7 @@
                    new AnswerBodyModel(Model)); %>
 
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4>Das könnte dich auch interessieren:</h4>
+                <h4>Lust auf mehr? Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscapeNarrow" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {

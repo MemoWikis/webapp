@@ -59,7 +59,7 @@
             </div>
             <div id="divIndicatorAverageWrapper" style="width: 100%">
                 <div id="divIndicatorAverage" style="margin-left: <%= Model.PercentageAverageRightAnswers %>%">
-                    <i class="fa fa-caret-up fa-4x show-tooltip" style="margin-left: -16px;" title="Der Durchschnitt beantwortet <%= Model.PercentageAverageRightAnswers %> richtig."></i>
+                    <i class="fa fa-caret-up fa-4x show-tooltip" style="margin-left: -16px;" title="Der Durchschnitt beantwortet <%= Model.PercentageAverageRightAnswers %>% richtig."></i>
                 </div>
                 <div id="divIndicatorAverageText">
                     <p style="">
@@ -89,7 +89,7 @@
             </div>
             
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4>Lust auf mehr? Das könnte dich auch interessieren:</h4>
+                <h4>Lust auf mehr? Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscape" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {
