@@ -76,12 +76,6 @@
                                 <% } %>
                             </div>        
                     
-                            <%--<div class="Divider" style="margin-top: 10px; margin-bottom: 10px;"></div>--%>
-                            <div class="Divider" style="margin-top: 10px; margin-bottom: 0px;"></div>
-                            <div style="margin-top: 0px; color: silver; font-size: 11px;">
-                                erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" style="color: inherit;"><%= Model.CreatorName %></a> 
-                                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
-                            </div>
                             <div style="margin-top:6px;">
                                 <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
                                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
@@ -98,6 +92,10 @@
                                         <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
                                     </span>
                                 </span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 10px; color: silver; font-size: 11px;">
+                                erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" ><%= Model.CreatorName %></a> 
+                                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
                             </div>
                             <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                             <div class="BottomBar">
