@@ -19,15 +19,6 @@
                 <legend>Einloggen</legend>
             
                 <% Html.Message(Model.Message); %>
-                
-<%--                <div class="form-group">    
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <a class="zocial icon facebook"></a>
-                        <a class="zocial icon google"></a>
-                        <a class="zocial icon twitter"></a>
-                        <p style="margin-top: 10px; margin-bottom: 0;">oder mit</p>
-                    </div>
-                </div>--%>
 
                 <div class="form-group">
                     <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-sm-2 control-label" })%>

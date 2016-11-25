@@ -1557,9 +1557,6 @@
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
-    <Content Include="Style\zocial\css\zocial-regular-webfont.svg" />
-    <Content Include="Style\zocial\css\zocial.css" />
-    <Content Include="Style\zocial\sample.html" />
     <Content Include="Views\Categories\Categories.css">
       <DependentUpon>Categories.less</DependentUpon>
     </Content>
@@ -1773,10 +1770,6 @@
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
-    <Content Include="Style\zocial\css\zocial-regular-webfont.eot" />
-    <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
-    <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
-    <Content Include="Style\zocial\README.md" />
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
