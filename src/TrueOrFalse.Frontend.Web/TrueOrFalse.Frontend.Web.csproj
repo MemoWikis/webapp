@@ -560,7 +560,6 @@
     <Content Include="Scripts\guidedTour\tourWelcome.js">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\vendor\bootstrap-tour.js" />
     <Content Include="Scripts\TrainingPlan.js">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
@@ -1372,10 +1371,8 @@
     <Content Include="Scripts\vendor.file-uploader\uploader.js" />
     <Content Include="Scripts\vendor.file-uploader\util.js" />
     <Content Include="Scripts\vendor\html5shiv.js" />
-    <None Include="Scripts\vendor\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\vendor\jquery-2.0.3.js" />
     <Content Include="Scripts\vendor\jquery.scrollTo-1.4.3.1.js" />
-    <Content Include="Scripts\vendor\jquery-2.0.3.min.map" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\json2.js" />
     <Content Include="Scripts\vendor\Markdown.Converter.js" />
@@ -1546,7 +1543,6 @@
     <Content Include="img\icon-twitter.png" />
     <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
-    <Content Include="Scripts\vendor\jquery.jplayer.js" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
     <Content Include="Style\fonts\OFL.txt" />
