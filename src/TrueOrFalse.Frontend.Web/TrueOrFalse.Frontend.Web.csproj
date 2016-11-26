@@ -498,8 +498,6 @@
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
     <Content Include="Scripts\userreport\userreport-plugin.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
@@ -1541,7 +1539,6 @@
     <Content Include="img\icon-github.png" />
     <Content Include="img\icon-html5.png" />
     <Content Include="img\icon-twitter.png" />
-    <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
