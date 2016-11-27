@@ -48,7 +48,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Registration")
-                .Include("~/Views/Welcome/Register.css"));
+                .Include("~/Views/Welcome/Registration/Register.css"));
 
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));

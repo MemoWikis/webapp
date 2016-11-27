@@ -188,7 +188,7 @@
                 <div class="clearfix visible-xs"></div>
                 <div class="col-xs-12">
                     <p>
-                        Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                        Ausprobieren? <a href="<%= Url.Action("Register", "Register") %>">Registriere dich</a> und lege los! <br/>
                         Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
                         <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
                     </p>                
@@ -250,7 +250,7 @@
                 </li>        
             </ul>
             <p>
-                Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
+                Ausprobieren? <a href="<%= Url.Action("Register", "Register") %>">Registriere dich</a> und lege los! <br/>
                 Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
                 <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
             </p>                
@@ -298,7 +298,7 @@
             if (!userSession.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a>
+                <a href="<%= Url.Action("Register", "Register") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a>
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>

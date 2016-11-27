@@ -82,7 +82,7 @@
                 <% 
                     var userSession = new SessionUser();
                     if (!userSession.IsLoggedIn){ %>
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" style="padding-right: 10px">
+                        <a href="<%= Url.Action("Register", "Register") %>" class="btn btn-primary" style="padding-right: 10px">
                             Zur Registrierung
                         </a>
                 <% } %>

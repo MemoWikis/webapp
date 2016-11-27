@@ -45,9 +45,11 @@
                     } else if (response.status === 'not_authorized') {
                         FB.login(function (response) {
 
+                            var facebook_user_id = response.userId;
+                            var is_new_user = false;
+
                             /*    
-                                var facebook_user_id = response.userId;
-                                var is_new_user = false;
+
 
                                 if(!is_registerred(facebook_user_id)){
                                     is_new_user = register user();
@@ -72,9 +74,8 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
-    <% using (Html.BeginForm("Register", "Welcome", null, FormMethod.Post, new { id = "RegistrationForm", enctype = "multipart/form-data" })){%>
+    <% using (Html.BeginForm("Register", "Register", null, FormMethod.Post, new { id = "RegistrationForm", enctype = "multipart/form-data" })){%>
     
-
     <div class="row">
         <div class="BackToHome col-md-3">
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>

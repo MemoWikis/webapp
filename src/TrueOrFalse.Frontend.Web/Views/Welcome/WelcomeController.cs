@@ -6,13 +6,10 @@ using TrueOrFalse.Web;
 
 public class WelcomeController : BaseController
 {
-    private readonly RegisterUser _registerUser;
     private readonly CredentialsAreValid _credentialsAreValid;
 
-    public WelcomeController(RegisterUser registerUser,
-                             CredentialsAreValid credentialsAreValid)
+    public WelcomeController(CredentialsAreValid credentialsAreValid)
     {
-        _registerUser = registerUser;
         _credentialsAreValid = credentialsAreValid;
     }
 
@@ -21,10 +18,7 @@ public class WelcomeController : BaseController
         return View(new WelcomeModel());
     }
 
-    public ActionResult LogOn()
-    {
-        return View();
-    }
+    public ActionResult LogOn() => View();
 
     public ActionResult Logout()
     {
@@ -33,47 +27,15 @@ public class WelcomeController : BaseController
         return View(new BaseModel());
     }
 
-    public ActionResult Register() { return View(new RegisterModel()); }
+    public ActionResult Login() => View(new LoginModel());
 
     [HttpPost]
-    public ActionResult Register(RegisterModel model)
-    {
-
-        if (!IsEmailAddressAvailable.Yes(model.Email))
-            ModelState.AddModelError("E-Mail", "Diese E-Mail-Adresse ist bereits registriert.");
-
-        if (!global::IsUserNameAvailable.Yes(model.Name))
-            ModelState.AddModelError("Name", "Dieser Benutzername ist bereits vergeben.");
-
-        if (!ModelState.IsValid)
-            return View(model);
-
-        var user = RegisterModelToUser.Run(model);
-        _registerUser.Run(user);
-
-        _sessionUser.Login(user);
-
-        return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
-    }
-
-    public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }
-
-    public ActionResult Login()
-    {
-        return View(new LoginModel());
-    }
+    public JsonResult IsUserNameAvailable(string selectedName) => 
+        new JsonResult {Data = new { isAvailable = global::IsUserNameAvailable.Yes(selectedName) } };
 
     [HttpPost]
-    public JsonResult IsUserNameAvailable(string selectedName)
-    {
-        return new JsonResult {Data = new { isAvailable = global::IsUserNameAvailable.Yes(selectedName) } };
-    }
-
-    [HttpPost]
-    public JsonResult IsEmailAvailable(string selectedEmail)
-    {
-        return new JsonResult { Data = new { isAvailable = IsEmailAddressAvailable.Yes(selectedEmail) } };
-    }
+    public JsonResult IsEmailAvailable(string selectedEmail) => 
+        new JsonResult { Data = new { isAvailable = IsEmailAddressAvailable.Yes(selectedEmail) } };
 
     [HttpPost]
     public ActionResult Login(LoginModel loginModel)

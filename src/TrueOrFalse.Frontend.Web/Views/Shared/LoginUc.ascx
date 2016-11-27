@@ -15,5 +15,5 @@
 <div style="width:155px; margin-top:50px; " >
 <h3>Registrieren</h3>
 <span style="font-size:1.2em">Noch kein Benutzer?</span><br />
-<%= Html.ActionLink("Hier registrieren", Links.RegisterAction, Links.WelcomeController)%>
+<%= Html.ActionLink("Hier registrieren", Links.RegisterAction, Links.RegisterController)%>
 </div>

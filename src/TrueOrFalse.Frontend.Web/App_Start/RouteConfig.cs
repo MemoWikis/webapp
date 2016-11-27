@@ -16,8 +16,9 @@ namespace TrueOrFalse
             routes.MapRoute("Logout", "Ausloggen", new { controller = "Welcome", action = "Logout" });
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Welcome", action = "IsUserNameAvailable" });
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Welcome", action = "IsEmailAvailable" });
-            routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
+
+            routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
