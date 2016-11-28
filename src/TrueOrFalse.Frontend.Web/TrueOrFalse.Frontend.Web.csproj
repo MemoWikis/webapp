@@ -546,7 +546,7 @@
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Registration\Js\Registration.js">
-      <DependentUpon>Registration.ts</DependentUpon>
+      <DependentUpon>FacebookRegistration.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Registration\Register.css">
       <DependentUpon>Register.less</DependentUpon>
@@ -1501,7 +1501,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
-    <TypeScriptCompile Include="Views\Welcome\Registration\Js\Registration.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />

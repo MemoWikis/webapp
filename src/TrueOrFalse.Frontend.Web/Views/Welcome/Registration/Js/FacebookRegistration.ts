@@ -1,4 +1,4 @@
-﻿class Registration {
+﻿class FacebookRegistration {
 
     constructor() {
 
@@ -47,4 +47,4 @@
     }
 }
 
-new Facebook(() => {new Registration()});
+new Facebook(() => {new FacebookRegistration()});
