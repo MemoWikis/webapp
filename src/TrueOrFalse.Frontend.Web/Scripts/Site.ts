@@ -130,7 +130,7 @@ function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
             });
 }
 
-$(function () {
+$(() => {
     
     $("#logo").hover(
         function () { $(this).animate({ 'background-size': '100%' }, 250); },
@@ -146,4 +146,8 @@ $(function () {
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
 });
 
-
+class Site {
+    static RedirectToDashboard() {
+        location.href = "/Wissenszentrale";
+    }       
+}

@@ -47,6 +47,10 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/Welcome")
                 .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/RegistrationJs")
+                .Include("~/Views/Welcome/Js/Validation.js")
+                .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Registration")
                 .Include("~/Views/Welcome/Registration/Register.css"));
 
