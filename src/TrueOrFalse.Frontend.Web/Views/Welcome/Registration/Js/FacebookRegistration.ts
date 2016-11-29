@@ -18,11 +18,14 @@
                 if (response.status === 'connected') {
                     Site.RedirectToDashboard();
                 } else if (response.status === 'not_authorized') {
-                    FB.login((response : any) => {
 
-                        console.log(response);
+                    FB.login((response) => {
 
-                        var facebook_user_id = response.userId;
+                        if (response.status !== "connected")
+                            return;
+
+                        //if(Facebook.IsRegistered(response.authResponse.userID));
+
                         var is_new_user = false;
 
                         /*    

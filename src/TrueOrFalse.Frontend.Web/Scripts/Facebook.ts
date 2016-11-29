@@ -21,4 +21,34 @@
             fjs.parentNode.insertBefore(js, fjs);
         } (document, 'script', 'facebook-jssdk'));
     }
+
+    static IsRegistered(facebookId : string): boolean {
+
+        $.post("/Api/Sets/UnpinQuestionsInSet/", { setId: -1}, () => {
+            
+        });
+
+        return false;
+    }
+
+    static Register(facebookId : string) {
+
+        $.post("/Api/Users/RegisterFacebook/", { userName: "", email: "" }, () => {
+
+        });
+
+    }
+
+    static GetUser(facebookId: string, accessToken : string) : any {
+        FB.api(
+            "/" + facebookId,
+            { access_token: accessToken, fields: 'name' },
+            response => {
+                if (response && !response.error) {
+                    console.log(response);    
+                } else {
+                    throw (response);
+                }
+            });
+    }
 }
