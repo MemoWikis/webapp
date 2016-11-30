@@ -98,7 +98,7 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
-                <h3>Top 5 Features (mehr als 50 Daten)</h3>
+                <h3>Top 5 Features</h3>
             </div>
         </div>
             

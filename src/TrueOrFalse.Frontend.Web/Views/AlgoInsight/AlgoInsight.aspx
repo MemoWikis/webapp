@@ -17,18 +17,28 @@
         </div>        
     <% } %>
 
-    <h2 style="color: black; margin-bottom: 5px; margin-top: 0px;">
+    <h2 style="color: black; margin-bottom: 25px; margin-top: 0px;">
         <span class="ColoredUnderline Knowledge">Algorithmus-Einblick</span>
     </h2>
     
-    <p style="margin-top: 20px; margin-bottom: 20px;">
-        Hier erhältst du Einblick in die Algorithmen, die die <b>Richtige-Antwort-Wahrscheinlichkeit</b> 
-        und den <b>optimalen Wiedervorlage-Zeitpunkt</b> berechnen.
-        memucho ist Open Source<a href="https://github.com/TrueOrFalse/TrueOrFalse"> (auf Github)</a>. 
-        Wir freuen uns über Verbesserungsvorschläge.
+    <p>
+        Hier erhältst du Einblick in die Algorithmen, die dir beim Lernen mit memucho helfen. 
+    </p>
+    <p>
+        Wir glauben, dass es nicht <em>den</em> einen perfekten Algorithmus beim Lernen gibt.
+        Deshalb treten bei memucho immer verschiedene <b>Algorithmen in einem Wettbewerb</b> gegeneinander an. Gewinner ist, wer die beste Vorhersage darüber trifft, 
+        wann du etwas vergessen wirst - damit wir dich kurz vorher an's Wiederholen erinnern können! (Wenn du es genau wissen willst: Wir arbeiten mit Vergessensschwellen. 
+        Das heißt, wenn die Wahrscheinlichkeit einer korrekten Antwort z.B. unter 90% sinkt, dann sollte diese Frage wiederholt werden.) <br/>
+        Wir gehen sogar noch einen Schritt weiter: <b>Je nach Lernsituation</b> können unterschiedliche Algorithmen gewinnen. 
+        Lernst du Geschichte für eine Prüfung in zwei Wochen ist möglicherweise ein anderer Algorithmus besser 
+        als für das Allgemeinwissen in Literatur, welches du immer parat haben möchtest. Das berücksichtigen wir!
+    </p>
+    <p>
+        Wir haben gerade erste angefangen und sind noch in der <a href="<%= Links.BetaInfo() %>">Beta-Phase</a>, es wird noch viel passieren. memucho ist 
+        Open Source, du kannst dir den <a href="https://github.com/TrueOrFalse/TrueOrFalse">Quelltext auf Github ansehen</a>. Wir freuen uns über Verbesserungsvorschläge!
     </p>        
             
-    <div class="row">
+    <div class="row" style="margin-top: 20px;">
         
         <div id="MobileSubHeader" class="MobileSubHeader DesktopHide" style="margin-top: 0px;">
             <div class="MainFilterBarWrapper">
