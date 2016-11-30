@@ -34,8 +34,8 @@
         als für das Allgemeinwissen in Literatur, welches du immer parat haben möchtest. Das berücksichtigen wir!
     </p>
     <p>
-        Wir haben gerade erste angefangen und sind noch in der <a href="<%= Links.BetaInfo() %>">Beta-Phase</a>, es wird noch viel passieren. memucho ist 
-        Open Source, du kannst dir den <a href="https://github.com/TrueOrFalse/TrueOrFalse">Quelltext auf Github ansehen</a>. Wir freuen uns über Verbesserungsvorschläge!
+        Wir haben gerade erst angefangen und sind noch in der <a href="<%= Links.BetaInfo() %>">Beta-Phase</a>, es wird noch viel passieren. memucho ist 
+        Open Source, du kannst dir den <a href="https://github.com/TrueOrFalse/TrueOrFalse">Quelltext auf <i class="fa fa-github"></i> Github ansehen</a>. Wir freuen uns über Verbesserungsvorschläge!
     </p>        
             
     <div class="row" style="margin-top: 20px;">
