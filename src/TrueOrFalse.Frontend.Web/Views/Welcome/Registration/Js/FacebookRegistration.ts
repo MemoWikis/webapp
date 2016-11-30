@@ -26,6 +26,8 @@
 
                         //if(Facebook.IsRegistered(response.authResponse.userID));
 
+                        console.log(response);
+
                         var is_new_user = false;
 
                         /*    
@@ -43,7 +45,7 @@
                                 redirect_to_welcome();
                         */
 
-                    });
+                    }, { scope: 'email' });
                 }
             });
         });

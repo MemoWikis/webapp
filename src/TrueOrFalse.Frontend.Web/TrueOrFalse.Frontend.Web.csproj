@@ -549,7 +549,7 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Registration\Js\Registration.js">
+    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Registration\Register.css">
