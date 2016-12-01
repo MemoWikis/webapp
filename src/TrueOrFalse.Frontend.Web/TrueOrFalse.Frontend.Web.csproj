@@ -541,7 +541,11 @@
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\VariousPublic\AboutMemucho.css">
+      <DependentUpon>AboutMemucho.less</DependentUpon>
+    </Content>
     <Content Include="Views\VariousPublic\Jobs.aspx" />
+    <Content Include="Views\VariousPublic\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -2097,6 +2101,7 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\VariousPublic\AboutMemucho.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

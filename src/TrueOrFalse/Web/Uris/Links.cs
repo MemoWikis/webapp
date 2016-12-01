@@ -32,9 +32,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Logout = "Logout";
         public const string Membership = "Membership";
         public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
+        public static string AboutMemucho() { return GetUrlHelper().Action("AboutMemucho", VariousController); }
         public static string Jobs() { return GetUrlHelper().Action("Jobs", VariousController); }
 
         public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        /* AlgoInsight */
+        public const string AlgoInsightController = "AlgoInsight";
+        public static string AlgoInsightForecast() { return GetUrlHelper().Action("Forecast", AlgoInsightController); }
+
 
         /*Users*/
         public const string UserController = "User";
