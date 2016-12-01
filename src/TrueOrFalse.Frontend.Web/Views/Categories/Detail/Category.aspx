@@ -123,7 +123,17 @@
                     </h4>
                 <%  } %>
             </div>
-            <h4 style="margin-top: 0;">Fragen in dieser Kategorie (<%= Model.CountQuestions %>)</h4>
+            <% if(Model.CountSets > 0){ %>    
+                <h4><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h4>
+                <% foreach(var set in Model.TopSets){ %>
+                    <div>
+                        - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+                            (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
+                    </div>
+                <% } %>
+            <% } %>
+        
+            <h4 style="margin-top: 20px;"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h4>
 
             <% if (Model.CountQuestions > 0)
                { %>
@@ -181,16 +191,6 @@
             
             <% } %>
             
-            <% if(Model.CountSets > 0){ %>    
-                <h4><%if(Model.CountSets == 1){ %> In einem Fragesatz <% }
-                      else{ %> In <%=Model.CountSets %> Fragesätzen<% } %></h4>
-                <% foreach(var set in Model.TopSets){ %>
-                    <div>
-                        - <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                    </div>
-                <% } %>
-            <% } %>
-        
             <% if (Model.CountCreators > 0){ %>
                 <h4>Ersteller (<%=Model.CountCreators %>)</h4>
             <% } %>
