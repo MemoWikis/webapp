@@ -475,6 +475,8 @@
     <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
+    <Content Include="Images\LogosPartners\Logo-OER_200px_by_Jonathasmello.png" />
+    <Content Include="Images\LogosPartners\Logo_tutory_300px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo.jpg" />
     <Content Include="Images\Logo\LogoComplete_M.png" />

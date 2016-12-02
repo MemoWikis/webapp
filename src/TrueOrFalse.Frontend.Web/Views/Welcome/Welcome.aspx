@@ -64,12 +64,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12" style="text-align: center; margin-top: 15px;">
+                <div class="col-xs-12" style="text-align: left; margin-top: 15px;">
+                        <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start"><i class="fa fa-map-signs">&nbsp;</i>Lerne memucho kennen in 6 Schritten</a>
+                        <a href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover pull-right">ERFAHRE MEHR...</a><br />
                     <p>
-                        <a href="#teaserWhatIsMemucho" class="" data-click-log="StartPage,Click,WasKannMemucho"><i class="fa fa-info-circle" style="">&nbsp;</i>Erfahre, wie memucho dir beim Lernen hilft</a><br/>
+<%--                        <a href="#teaserWhatIsMemucho" class="" data-click-log="StartPage,Click,WasKannMemucho"><i class="fa fa-info-circle" style="">&nbsp;</i>Erfahre, wie memucho dir beim Lernen hilft</a><br/>--%>
                     </p>
                     <p>
-                        <a href="#" class="" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start"><i class="fa fa-map-signs">&nbsp;</i>Lerne memucho kennen in 6 Schritten</a>
                     </p>    
                 </div>
             </div>
@@ -236,7 +237,7 @@
                     <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
                         Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.HelpFAQ() %>">Erfahre mehr</a> über unseren Datenschutz.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Erfahre mehr</a> über unseren Datenschutz.)
                     </p>
                 </li>
                 <li><i class="fa fa-li fa-github"></i>
@@ -244,7 +245,7 @@
                     <p>
                         Die Software, mit der memucho läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
                         sind frei verfügbar und können von allen frei verwendet werden. Du findest sie 
-                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a>. 
                         In Zukunft möchten wir neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
                     </p> 
                 </li>        

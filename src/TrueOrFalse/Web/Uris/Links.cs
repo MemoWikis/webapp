@@ -13,7 +13,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string VariousController = "VariousPublic";
         public const string Impressum = "Impressum";
         public const string TermsAndConditions = "AGB";
-        public const string WelfareCompany = "Gemeinwohlökonomie";
+        public const string WelfareCompanyAction = "WelfareCompany";
+        public static string WelfareCompany() { return GetUrlHelper().Action(WelfareCompanyAction,VariousController); }
 
         public const string KnowledgeController = "Knowledge";
         public const string KnowledgeAction = "Knowledge";
