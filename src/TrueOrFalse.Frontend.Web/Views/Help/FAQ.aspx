@@ -3,6 +3,8 @@
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.HelpFAQ() %>">
+
+    <link href="/Views/Help/FAQ.css" rel="stylesheet" />
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">

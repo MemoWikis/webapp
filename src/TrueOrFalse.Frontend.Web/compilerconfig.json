@@ -171,5 +171,9 @@
   {
     "outputFile": "Views/VariousPublic/AboutMemucho.css",
     "inputFile": "Views/VariousPublic/AboutMemucho.less"
+  },
+  {
+    "outputFile": "Views/Help/FAQ.css",
+    "inputFile": "Views/Help/FAQ.less"
   }
 ]

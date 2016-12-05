@@ -526,6 +526,9 @@
       <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
+    <Content Include="Views\Help\FAQ.css">
+      <DependentUpon>FAQ.less</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\Images.min.css">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
@@ -2106,6 +2109,7 @@
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
     <Content Include="Views\VariousPublic\AboutMemucho.less" />
+    <Content Include="Views\Help\FAQ.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
