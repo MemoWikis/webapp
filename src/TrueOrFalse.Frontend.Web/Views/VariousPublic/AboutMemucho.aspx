@@ -20,9 +20,18 @@
             <p>
                 Wir möchten, dass du mit memucho besser lernen kannst und mehr Spaß dabei hast, neues und altes Wissen zu entdecken. Das ist unser großes Ziel! 
                 Noch sind wir in der <a href="<%= Links.BetaInfo() %>">Beta-Phase</a> und freuen uns, dass du von Anfang an dabei bist. 
-                Hier erfährst du, welche Vorteile dir memucho bietet und <a href="#headlinePrinciples">welche Prinzipien</a> uns leiten.
+                Hier erfährst du, <a href="#Vorteile">welche Vorteile</a> dir memucho bietet, <a href="#Prinzipien">welche Prinzipien</a> uns leiten und <a href="#Team">wer wir sind</a>.
             </p>
         </div>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
+        </div>
+        
+        
+        <h1 class="PageHeader" style="margin-bottom: 15px; margin-top: 0px;" id="Vorteile">
+            <span class="ColoredUnderline Question">Deine Vorteile bei memucho</span>
+        </h1>
 
         <div class="well">
             <div class="row aboutRow">
@@ -129,7 +138,7 @@
     
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px;" id="headlinePrinciples">
+        <h1 class="PageHeader" style="margin-bottom: 15px;" id="Prinzipien">
             <span class="ColoredUnderline Question">Unsere Prinzipien</span>
         </h1>
     </div>
@@ -163,9 +172,7 @@
                     </p>
                 </div>
             </div>
-        </div>
 
-        <div class="well">
             <div class="row aboutRow">
                 <div class="col-xs-3 aboutImg xxs-stack">
                     <div class="aboutImgInner">
@@ -185,9 +192,7 @@
                     </p>
                 </div>
             </div>
-        </div>
 
-        <div class="well">
             <div class="row aboutRow">
                 <div class="col-xs-3 aboutImg xxs-stack">
                     <div class="aboutImgInner">
@@ -207,11 +212,11 @@
     </div>
 </div>
     
-<%--   
+    
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px;" id="headlinePartner">
-            <span class="ColoredUnderline Question">Unsere Partner</span>
+        <h1 class="PageHeader" style="margin-bottom: 15px;" id="Team">
+            <span class="ColoredUnderline Question">Das Team</span>
         </h1>
     </div>
 </div>
@@ -219,9 +224,54 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="well">
-            <img src="/Images/LogosPartners/Logo_tutory_300px.png"/>
+            <p>
+                Wir möchten den Zugang zu freien Bildungsinhalten verbessern und mit memucho ein soziales Wissensnetzwerk aufbauen, mit dem
+                Faktenlernen effizienter wird und mehr Spaß macht. Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
+            </p>
         </div>
     </div>
-</div>--%>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="well partnerLogos">
+
+            <div class="row">
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_robert-rund_160.png"/>
+                        <br/> <b>Robert</b> (Gründer) <br/>
+                </div>
+                
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_jule-rund_160.png"/>  
+                    <br/> <b>Jule</b> (Gründerin) <br/> 
+                </div>
+
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_christof-rund_160.png"/>  
+                    <br/> <b>Christof</b> (Gründer) <br/> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+<div class="row">
+    <div class="col-xs-12">
+        <h1 class="PageHeader" style="margin-bottom: 15px;" id="Partner">
+            <span class="ColoredUnderline Question">Unsere Partner</span>
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="well partnerLogos">
+            <a href="https://www.tutory.de/" target="_blank"><img src="/Images/LogosPartners/Logo_tutory_250px.png"/></a>
+            <a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>
+        </div>
+    </div>
+</div>
 
 </asp:Content>

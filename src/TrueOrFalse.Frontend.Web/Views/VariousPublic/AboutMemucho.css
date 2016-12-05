@@ -55,3 +55,12 @@
     margin-top: 15px;
   }
 }
+.TeamPic {
+  text-align: center;
+}
+.partnerLogos {
+  text-align: center;
+}
+.partnerLogos img {
+  padding: 20px;
+}
