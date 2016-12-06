@@ -131,6 +131,15 @@
                     </p>
                 </div>
             </div>
+            <div class="row aboutRow">
+                <%  var isLoggedIn = Sl.R<SessionUser>().IsLoggedIn;
+                    if (!isLoggedIn) { %>
+                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
+                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                    </div>
+                <%  } %>
+            </div>
 
         </div>
     </div>
@@ -208,6 +217,16 @@
                     </p>
                 </div>
             </div>
+
+            <div class="row aboutRow">
+                <%  if (!isLoggedIn) { %>
+                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
+                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                    </div>
+                <%  } %>
+            </div>
+
         </div>
     </div>
 </div>
@@ -239,17 +258,17 @@
             <div class="row">
                 <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_robert-rund_160.png"/>
-                        <br/> <b>Robert</b> (Gründer) <br/>
+                        <br/> <b>Robert</b><br/>(Gründer) 
                 </div>
                 
                 <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_jule-rund_160.png"/>  
-                    <br/> <b>Jule</b> (Gründerin) <br/> 
+                    <br/> <b>Jule</b><br/>(Gründerin)
                 </div>
 
                 <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_christof-rund_160.png"/>  
-                    <br/> <b>Christof</b> (Gründer) <br/> 
+                    <br/> <b>Christof</b><br/>(Gründer)
                 </div>
             </div>
         </div>

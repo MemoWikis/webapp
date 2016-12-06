@@ -70,8 +70,8 @@
             <div class="FooterLastCol">
                 <b>Mehr</b><br/>
                 <div class="fb-like" data-href="https://www.facebook.com/MemuchoWissen" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>
-                <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true"></i> auf Facebook</a><br/>
-                <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true"></i> auf Twitter</a><br/>
+                <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true">&nbsp;</i>auf Facebook</a><br/>
+                <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true">&nbsp;</i>auf Twitter</a><br/>
             </div>
         </div>
     </div>
