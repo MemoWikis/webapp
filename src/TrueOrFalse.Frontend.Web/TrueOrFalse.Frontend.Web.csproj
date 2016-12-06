@@ -320,6 +320,8 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Maintenance\StatisticsModel.cs" />
+    <Compile Include="Views\Maintenance\ContentReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
@@ -529,6 +531,11 @@
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Statistics.aspx" />
+    <Content Include="Views\Maintenance\ContentReport.aspx" />
+    <Content Include="Views\Maintenance\ContentReport.css">
+      <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\Images.min.css">
       <DependentUpon>Images.css</DependentUpon>
@@ -2111,6 +2118,7 @@
     </Content>
     <Content Include="Views\VariousPublic\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
+    <Content Include="Views\Maintenance\ContentReport.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
