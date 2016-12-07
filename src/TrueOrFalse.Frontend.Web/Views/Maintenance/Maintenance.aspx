@@ -48,7 +48,7 @@
             </a><br/>
             <a href="<%= Url.Action("DeleteValuationsForRemovedSets", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
-                cleanup set valuations
+                cleanup set valuations & update SetInfo for all questions
             </a>
         </div>
     </div>
