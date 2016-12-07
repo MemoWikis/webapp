@@ -58,7 +58,7 @@
                     var curentDay = Model.SinceGoLive;
                     while (curentDay <= DateTime.Now.Date)
                     {
-                        Response.Write("['" + curentDay.ToString("dd.MM.yyyy") + "', " + Model.Users.Count(u => u.DateCreated <= curentDay) + ", ''],");
+                        Response.Write("['" + curentDay.ToString("dd.MM.yyyy") + "', " + Model.Users.Count(u => u.DateCreated.Date <= curentDay) + ", ''],");
                         curentDay = curentDay.AddDays(1);
                     }
                  %>
