@@ -14,6 +14,12 @@ public class VariousPublicController : Controller
     }
 
     [SetMenu(MenuEntry.None)]
+    public ActionResult AboutMemucho()
+    {
+        return View(new BaseModel());
+    }
+
+    [SetMenu(MenuEntry.None)]
     public ActionResult Jobs()
     {
         return View(new BaseModel());

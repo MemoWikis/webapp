@@ -115,6 +115,20 @@ public class MaintenanceController : BaseController
         return View(cmsModel);
     }
 
+    [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
+    public ActionResult ContentReport()
+    {
+        return View(new ContentReportModel());
+    }
+
+    [AccessOnlyAsAdmin]
+    [SetMenu(MenuEntry.Maintenance)]
+    public ActionResult Statistics()
+    {
+        return View(new StatisticsModel());
+    }
+
     [AccessOnlyAsAdmin][ValidateAntiForgeryToken][HttpPost]
     public ActionResult RecalculateAllKnowledgeItems()
     {

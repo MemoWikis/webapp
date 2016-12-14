@@ -320,6 +320,8 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Maintenance\StatisticsModel.cs" />
+    <Compile Include="Views\Maintenance\ContentReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
@@ -475,8 +477,10 @@
     <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
+    <Content Include="Images\LogosPartners\Logo_Geschichtsinfos_de_w200.jpg" />
+    <Content Include="Images\LogosPartners\Logo_lernenmitspass_w200.gif" />
+    <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
-    <Content Include="Images\LogosPartners\profund-innovation-logo.jpg" />
     <Content Include="Images\Logo\LogoComplete_M.png" />
     <Content Include="Images\Logo\LogoPictogram.png" />
     <Content Include="Images\Logo\LogoSmall.png" />
@@ -489,12 +493,15 @@
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />
     <Content Include="Images\Screenshots\fragen-zu-fragesatz.png" />
+    <Content Include="Images\Team\team_christof-rund_160.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
+    <Content Include="Images\Team\team_jule-rund_160.png" />
     <Content Include="Images\Team\team_jule201509-1_155.jpg" />
     <Content Include="Images\Team\team_jule201509-1_600.jpg" />
     <Content Include="Images\Team\team_jule201509-2_155.jpg" />
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
+    <Content Include="Images\Team\team_robert-rund_160.png" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
     <Content Include="Scripts\userreport\userreport-plugin.js" />
@@ -522,6 +529,14 @@
       <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
+    <Content Include="Views\Help\FAQ.css">
+      <DependentUpon>FAQ.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Statistics.aspx" />
+    <Content Include="Views\Maintenance\ContentReport.aspx" />
+    <Content Include="Views\Maintenance\ContentReport.css">
+      <DependentUpon>ContentReport.less</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\Images.min.css">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
@@ -541,7 +556,11 @@
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\VariousPublic\AboutMemucho.css">
+      <DependentUpon>AboutMemucho.less</DependentUpon>
+    </Content>
     <Content Include="Views\VariousPublic\Jobs.aspx" />
+    <Content Include="Views\VariousPublic\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -2097,6 +2116,9 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\VariousPublic\AboutMemucho.less" />
+    <Content Include="Views\Help\FAQ.less" />
+    <Content Include="Views\Maintenance\ContentReport.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

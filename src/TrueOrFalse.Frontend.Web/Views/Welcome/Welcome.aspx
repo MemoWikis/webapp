@@ -43,7 +43,7 @@
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i>
                     </p>
                     <p>
-                        Wir optimieren dein Lernen mit einem <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Lernplaene">persönlichen Übungsplan!</a><br/>
+                        Wir optimieren dein Lernen mit einem persönlichen Übungsplan!<br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -51,7 +51,7 @@
                         <i class="fa fa-2x fa fa-clock-o" style="color: #2C5FB2;"></i>
                     </p>
                     <p>
-                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Zeitsparen">Du sparst Zeit</a> und siehst, wie viel Zeit du noch zum Lernen brauchst.
+                        Du sparst Zeit und siehst, wie viel Zeit du noch zum Lernen brauchst.
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -59,18 +59,16 @@
                         <i class="fa fa-2x fa-line-chart" style="color: #2C5FB2;"></i>
                     </p>
                     <p>
-                        <a href="#teaserWhatIsMemucho" data-click-log="StartPage,Click,Algos">Optimierte Algorithmen</a> erinnern dich ans Lernen, bevor du vergisst.
+                        Optimierte Algorithmen erinnern dich ans Lernen, bevor du vergisst.
                     </p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12" style="text-align: center; margin-top: 15px;">
-                    <p>
-                        <a href="#teaserWhatIsMemucho" class="" data-click-log="StartPage,Click,WasKannMemucho"><i class="fa fa-info-circle" style="">&nbsp;</i>Erfahre, wie memucho dir beim Lernen hilft</a><br/>
-                    </p>
-                    <p>
-                        <a href="#" class="" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start"><i class="fa fa-map-signs">&nbsp;</i>Lerne memucho kennen in 6 Schritten</a>
-                    </p>    
+                <div class="col-xs-12" style="text-align: left; margin-top: 15px;">
+                    <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
+                        <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
+                    </a>
+                    <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover pull-right">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
         </div>
@@ -186,12 +184,14 @@
                     </p>
                 </div>
                 <div class="clearfix visible-xs"></div>
-                <div class="col-xs-12">
-                    <p>
-                        Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
-                        Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
-                        <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
-                    </p>                
+                <% if (!Model.IsLoggedIn) { %>
+                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
+                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                    </div>
+                <% } %>
+                <div class="col-xs-12" style="margin-top: 10px; text-align: right;">
+                    <a id="btnMoreFeatures" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
         </div>
@@ -236,7 +236,7 @@
                     <b>Datenschutz ist uns sehr sehr wichtig</b>
                     <p>
                         Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.HelpFAQ() %>">Erfahre mehr</a> über unseren Datenschutz.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Erfahre mehr</a> über unseren Datenschutz.)
                     </p>
                 </li>
                 <li><i class="fa fa-li fa-github"></i>
@@ -244,16 +244,22 @@
                     <p>
                         Die Software, mit der memucho läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
                         sind frei verfügbar und können von allen frei verwendet werden. Du findest sie 
-                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github"></i> Github</a>. 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a>. 
                         In Zukunft möchten wir neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
                     </p> 
                 </li>        
             </ul>
-            <p>
-                Ausprobieren? <a href="<%= Url.Action("Register", "Welcome") %>">Registriere dich</a> und lege los! <br/>
-                Tolle Idee? Unterstütze uns und werde <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
-                <i class="fa fa-thumbs-up"></i>&nbsp;Fördermitglied</a> der ersten Stunde!
-            </p>                
+            <div class="row">
+                <% if (!Model.IsLoggedIn) { %>
+                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
+                        <a id="btnRegisterMorePrinciples" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                    </div>
+                <% } %>
+                <div class="col-xs-12" style="margin-top: 10px; text-align: right;">
+                    <a id="btnMorePrinciples" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover">ERFAHRE MEHR...</a><br />
+                </div>
+            </div>
         </div>
         <div class="well Founder">
             <h3>
@@ -294,11 +300,10 @@
             
     <div class="col-md-3">
         <%
-            var userSession = new SessionUser();
-            if (!userSession.IsLoggedIn){
+            if (!Model.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>
@@ -314,8 +319,8 @@
                 </a>
             </p>
             <p>
-                <a href="http://www.inforadio.de/programm/schema/sendungen/wirtschaft_aktuell/201611/73133.html" target="_blank">
-                    Bericht <span style="white-space: nowrap">rbb Inforadio <i class="fa fa-external-link"></i></span>
+                <a href="http://www.inforadio.de/programm/schema/sendungen/wirtschaft_aktuell/201611/81202.html" target="_blank">
+                    Beitrag <span style="white-space: nowrap">rbb Inforadio <i class="fa fa-external-link"></i></span>
                 </a>
             </p>
         </div>
@@ -355,7 +360,7 @@
             </div>
         </div>
         
-        <% if (!userSession.IsLoggedIn)
+        <% if (!Model.IsLoggedIn)
            { %>
             <div class="well" id="newsletterSignUp" style="padding: 20px; ">
                 <h4>Newsletter</h4>

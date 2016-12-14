@@ -167,5 +167,17 @@
   {
     "outputFile": "Views/Dates/Dates.css",
     "inputFile": "Views/Dates/Dates.less"
+  },
+  {
+    "outputFile": "Views/VariousPublic/AboutMemucho.css",
+    "inputFile": "Views/VariousPublic/AboutMemucho.less"
+  },
+  {
+    "outputFile": "Views/Help/FAQ.css",
+    "inputFile": "Views/Help/FAQ.less"
+  },
+  {
+    "outputFile": "Views/Maintenance/ContentReport.css",
+    "inputFile": "Views/Maintenance/ContentReport.less"
   }
 ]

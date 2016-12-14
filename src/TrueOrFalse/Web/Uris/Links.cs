@@ -13,7 +13,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string VariousController = "VariousPublic";
         public const string Impressum = "Impressum";
         public const string TermsAndConditions = "AGB";
-        public const string WelfareCompany = "Gemeinwohlökonomie";
+        public const string WelfareCompanyAction = "WelfareCompany";
+        public static string WelfareCompany() { return GetUrlHelper().Action(WelfareCompanyAction,VariousController); }
 
         public const string KnowledgeController = "Knowledge";
         public const string KnowledgeAction = "Knowledge";
@@ -32,9 +33,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Logout = "Logout";
         public const string Membership = "Membership";
         public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
+        public static string AboutMemucho() { return GetUrlHelper().Action("AboutMemucho", VariousController); }
         public static string Jobs() { return GetUrlHelper().Action("Jobs", VariousController); }
 
         public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        /* AlgoInsight */
+        public const string AlgoInsightController = "AlgoInsight";
+        public static string AlgoInsightForecast() { return GetUrlHelper().Action("Forecast", AlgoInsightController); }
+
 
         /*Users*/
         public const string UserController = "User";

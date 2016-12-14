@@ -90,8 +90,13 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public int GetNextTestSessionId()
     {
-        _currentTestSessionId++;
-        return _currentTestSessionId;
+        lock ("6F33CE8C-F40E-4E7D-85D8-5C025AD98F87")
+        {
+            var currentSessionId = _currentTestSessionId;
+            currentSessionId++;
+            _currentTestSessionId = currentSessionId;
+            return currentSessionId;
+        }
     }
 
     public void AddTestSession(TestSession testSession)

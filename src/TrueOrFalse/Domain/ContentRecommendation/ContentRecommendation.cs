@@ -46,7 +46,8 @@ public class ContentRecommendation
         var categories = Sl.R<CategoryRepository>().GetChildren(category.Id);
         ((List<Category>)categories).AddRange(category.ParentCategories);
         //not yet included: "sibling"-categories (= children of parent categories).
-        ((List<Category>)categories.Distinct()).RemoveAll(c => c.CountQuestions <= 5 || c == category); //only consider categories with at least 5 questions
+        categories = categories.Distinct().ToList();
+        ((List<Category>)categories).RemoveAll(c => c.CountQuestions <= 5 || c == category); //only consider categories with at least 5 questions
         categories.Shuffle();
         ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
 

@@ -19,6 +19,8 @@
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                     <li><a href="/Maintenance/Tools">Tools</a></li>
                     <li><a href="/Maintenance/CMS">CMS</a></li>
+                    <li><a href="/Maintenance/ContentReport">Content</a></li>
+                    <li><a href="/Maintenance/Statistics">Stats</a></li>
                 </ul>
             </div>
         </nav>
@@ -46,7 +48,7 @@
             </a><br/>
             <a href="<%= Url.Action("DeleteValuationsForRemovedSets", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
-                cleanup set valuations
+                cleanup set valuations & update SetInfo for all questions
             </a>
         </div>
     </div>

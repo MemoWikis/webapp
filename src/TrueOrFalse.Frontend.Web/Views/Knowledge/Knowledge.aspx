@@ -148,7 +148,7 @@
             chart.draw(view, options);
             <% if (!Model.HasLearnedInLast30Days) { %>
                 var infoDivNotLearned = document.createElement('div');
-                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 130px;');
+                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 130px; left: 20px; right: 20px;');
                 infoDivNotLearned.setAttribute('class', 'alert alert-info');
                 infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
                 document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);

@@ -30,6 +30,8 @@ public class SetRepo : RepositoryDbBase<Set>
         categoriesToUpdate.AddRange(set.Categories.Select(x => x.Id).ToList());
         categoriesToUpdate = categoriesToUpdate.GroupBy(x => x).Select(x => x.First()).ToList();
         Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdate);
+
+        Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
     }
 
     public override void Create(Set set)

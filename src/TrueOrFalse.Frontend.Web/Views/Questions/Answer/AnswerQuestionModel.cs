@@ -183,6 +183,7 @@ public class AnswerQuestionModel : BaseModel
                 SourceIsCategory = true;
         }
 
+        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 
@@ -209,6 +210,7 @@ public class AnswerQuestionModel : BaseModel
         SourceIsSet = true;
         Set = set;
 
+        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 

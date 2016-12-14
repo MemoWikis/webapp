@@ -36,11 +36,12 @@
         
         <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">
             <b>Memucho</b><br/>
-            <a href="<%=Links.Jobs() %>">Jobs</a><br/>
+            <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br/>
             <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
-            <%= Html.ActionLink("Gemeinwohlökonomie", Links.WelfareCompany, Links.VariousController)%> <br/>
+            <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
             <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%><br/>
             <%= Html.ActionLink("Impressum", Links.Impressum, Links.VariousController)%><br />
+            <a href="<%=Links.Jobs() %>">Jobs</a><br/>
         </div>
         
         <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">        
@@ -69,8 +70,8 @@
             <div class="FooterLastCol">
                 <b>Mehr</b><br/>
                 <div class="fb-like" data-href="https://www.facebook.com/MemuchoWissen" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>
-                <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true"></i> auf Facebook</a><br/>
-                <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true"></i> auf Twitter</a><br/>
+                <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true">&nbsp;</i>auf Facebook</a><br/>
+                <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true">&nbsp;</i>auf Twitter</a><br/>
             </div>
         </div>
     </div>
