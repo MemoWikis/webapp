@@ -102,7 +102,7 @@
                                 <div style="float: left; padding-top: 3px;">
                                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
-                                <div class="dropdown">
+                                <%--<div class="dropdown">
                                     <% var buttonId = Guid.NewGuid(); %>
                                     <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <i class="fa fa-ellipsis-v"></i>
@@ -112,7 +112,13 @@
                                         <li><a href="<%= Links.GameCreateFromSet(Model.Id) %>"> Spiel starten</a></li>
                                         <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
                                     </ul>
-                                </div>
+                                </div>--%>
+                                
+                                <a href="<%= Links.StartSetLearningSession(Model.Id) %>" class="btn btn-link btn-sm" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a>
+                                <a href="<%= Links.GameCreateFromSet(Model.Id) %>" class="btn btn-link btn-sm"> Spiel starten</a>
+                                <a href="<%= Links.DateCreate(Model.Id) %>" class="btn btn-link btn-sm"> Termin anlegen</a>
+                            </div>
+                            <div class="BottomBar">
                                 <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-primary btn-sm " role="button" rel="nofollow">
                                     &nbsp;JETZT TESTEN
                                 </a>
@@ -121,6 +127,7 @@
                     </div>
                 </div>    
             </div>
+            <h4>Fragesätze im Fragesatz</h4>
             <div id="rowContainer">
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>
                     <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
