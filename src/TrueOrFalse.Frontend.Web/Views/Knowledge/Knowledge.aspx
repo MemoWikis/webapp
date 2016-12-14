@@ -148,7 +148,7 @@
             chart.draw(view, options);
             <% if (!Model.HasLearnedInLast30Days) { %>
                 var infoDivNotLearned = document.createElement('div');
-                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 130px; left: 20px; right: 20px;');
+                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
                 infoDivNotLearned.setAttribute('class', 'alert alert-info');
                 infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
                 document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
@@ -278,20 +278,22 @@
                             </p>
                         </div>
                     <% }else { %>
-                        <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                        <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover"><i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen</a>
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover show-tooltip" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
+                            </a>
                         </div>
                     <% } %>
                 </div>
             </div>
 
             <div class="col-xs-12 col-md-6">
-                <div class="rowBase" style="padding: 10px; height: 404px;">
+                <div class="rowBase" style="padding: 10px; height: 384px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
                     <p style="font-size: 12px; color: silver;">In den letzten 30 Tagen</p>
                 
-                    <div id="chartActivityLastDays" style="margin-right: 20px; text-align: left;"></div>
+                    <div id="chartActivityLastDays" style="height: 245px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
                 
                     <div class="row" style="font-size: 12px">
                         <div class="col-md-12">
