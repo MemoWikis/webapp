@@ -1,4 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
 {
@@ -22,5 +25,29 @@ public class KnowledgeController : BaseController
         }
         else
             return -1;
+    }
+
+    [RedirectToErrorPage_IfNotLoggedIn]
+    public ActionResult StartLearningSession()
+    {
+        var user = _sessionUser.User;
+        if (user.WishCountQuestions == 0)
+            throw new Exception("Cannot start LearningSession from Wishknowledge with no questions.");
+
+        var valuations = Resolve<QuestionValuationRepo>()
+            .GetByUser(user.Id)
+            .QuestionIds().ToList();
+        var wishQuestions = Resolve<QuestionRepo>().GetByIds(valuations);
+
+        var learningSession = new LearningSession
+        {
+            IsWishSession = true,
+            Steps = GetLearningSessionSteps.Run(wishQuestions),
+            User = user
+        };
+
+        R<LearningSessionRepo>().Create(learningSession);
+
+        return Redirect(Links.LearningSession(learningSession));
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Mein Wissensstand" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
+﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
@@ -279,12 +279,15 @@
                         </div>
                     <% }else { %>
                         <div id="chartKnowledge" style="margin-right: 20px; text-align: left;"></div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover"><i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen</a>
+                        </div>
                     <% } %>
                 </div>
             </div>
 
             <div class="col-xs-12 col-md-6">
-                <div class="rowBase" style="padding: 10px; height: 351px;">
+                <div class="rowBase" style="padding: 10px; height: 404px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
                     <p style="font-size: 12px; color: silver;">In den letzten 30 Tagen</p>
                 

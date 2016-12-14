@@ -236,8 +236,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             throw new Exception("unknown type");
         }
 
-        public static string StartSetLearningSession(int setId) => 
-            GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
+        public static string StartSetLearningSession(int setId) =>
+            GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
+
+        public static string StartWishLearningSession() =>
+            GetUrlHelper().Action("StartLearningSession", KnowledgeController );
 
         /* Testing / TestSession*/
         public const string TestSessionController = "TestSession";

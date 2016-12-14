@@ -42,6 +42,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
             if (DateToLearn != null)
                 return "Termin-" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");
 
+            if (IsWishSession)
+                return "Wunschwissen";
+
             throw new Exception("unknown session type");
         }
     }
@@ -50,6 +53,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual bool IsDateSession{ get { return DateToLearn != null; }}
 
+    public virtual bool IsWishSession { get; set; }
 
     public virtual int TotalPossibleQuestions
     {
@@ -60,6 +64,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
             if (IsDateSession)
                 return DateToLearn.AllQuestions().Count;
+
+            if (IsWishSession)
+                return User.WishCountQuestions;
 
             throw new Exception("unknown session type");
         }
