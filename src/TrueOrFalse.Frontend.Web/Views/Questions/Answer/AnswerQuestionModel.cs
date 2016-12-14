@@ -104,6 +104,7 @@ public class AnswerQuestionModel : BaseModel
     public int TestSessionCurrentStepPercentage;
     public bool TestSessionIsLastStep = false;
     public int TestSessionProgessAfterAnswering;
+    public bool ShowErrorExpiredTestSession;
 
     public ContentRecommendationResult ContentRecommendationResult;
 
@@ -140,6 +141,15 @@ public class AnswerQuestionModel : BaseModel
             });
 
         Populate(LearningSessionStep.Question);
+    }
+
+    public static AnswerQuestionModel CreateExpiredTestSession()
+    {
+        var model = new AnswerQuestionModel();
+        model.IsTestSession = true;
+        model.ShowErrorExpiredTestSession = true;
+
+        return model;
     }
 
     public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question)
