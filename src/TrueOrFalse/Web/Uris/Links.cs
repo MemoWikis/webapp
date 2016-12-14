@@ -14,15 +14,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Impressum = "Impressum";
         public const string TermsAndConditions = "AGB";
         public const string WelfareCompanyAction = "WelfareCompany";
-        public static string WelfareCompany() { return GetUrlHelper().Action(WelfareCompanyAction,VariousController); }
+        public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
 
         public const string KnowledgeController = "Knowledge";
         public const string KnowledgeAction = "Knowledge";
-        public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
+        public static string Knowledge() => GetUrlHelper().Action(KnowledgeAction, KnowledgeController);
 
         public const string HelpController = "Help";
         public const string HelpActionFAQ = "FAQ";
-        public static string HelpFAQ() { return GetUrlHelper().Action(HelpActionFAQ, HelpController); }
+        public static string HelpFAQ() => GetUrlHelper().Action(HelpActionFAQ, HelpController);
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 
@@ -32,16 +32,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string LoginAction = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
-        public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
-        public static string AboutMemucho() { return GetUrlHelper().Action("AboutMemucho", VariousController); }
-        public static string Jobs() { return GetUrlHelper().Action("Jobs", VariousController); }
+        public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
+        public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", VariousController);
+        public static string Jobs() => GetUrlHelper().Action("Jobs", VariousController);
 
         public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
 
         /* AlgoInsight */
         public const string AlgoInsightController = "AlgoInsight";
-        public static string AlgoInsightForecast() { return GetUrlHelper().Action("Forecast", AlgoInsightController); }
-
+        public static string AlgoInsightForecast() => GetUrlHelper().Action("Forecast", AlgoInsightController);
 
         /*Users*/
         public const string UserController = "User";
