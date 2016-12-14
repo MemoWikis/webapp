@@ -321,6 +321,23 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { text = UriSanitizer.Run(name), id = id }, null);
         }
 
+        public static string GetUrl(object type)
+        {
+            if (type == null)
+                return "";
+
+            if (type is Category)
+                return CategoryDetail((Category) type);
+
+            if (type is Set)
+                return SetDetail((Set)type);
+
+            if (type is Question)
+                return AnswerQuestion((Question)type);
+
+            throw new Exception("unexpected type");
+        }
+
         public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
 

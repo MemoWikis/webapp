@@ -99,10 +99,12 @@
                             <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){%>
                                 <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Wiki-Bilddetailseite</a> (<i class="fa fa-exclamation-triangle"></i> gespeichertes Markup ist in der Regel älter!) <br />
                             <% } %>      
-                            <a href="<%= Model.URLToWhereImageIsUsed %>" target="_blank"><%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %>, TypeId: <%= Model.TypeId %></a>                      
-                            <% if (!Model.ImageUsageFound) {
-                                Response.Write("<i class=\"fa fa-exclamation-triangle\">&nbsp;</i>Verwendung nicht gefunden.");
-                            } %>
+                            <a href="<%= Model.TypeUrl %>" target="_blank"><%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %>, TypeId: <%= Model.TypeId %></a>                      
+                            <div>
+                                <% if (Model.TypeNotFound) { %>
+                                    <i class="fa fa-exclamation-triangle">&nbsp;</i>Typ nicht gefunden.
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
