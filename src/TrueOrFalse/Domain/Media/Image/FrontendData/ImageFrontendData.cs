@@ -169,7 +169,7 @@ public class ImageFrontendData
 
         else if (imageType == ImageType.QuestionSet)
         {
-            imageSettings = SetImageSettings.Create(typeId);
+            imageSettings = new SetImageSettings(typeId);
         }
 
         else //Default: question

@@ -24,7 +24,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             case ImageType.Question:
                 imageSettings = new QuestionImageSettings(imageMetaData.TypeId); break;
             case ImageType.QuestionSet:
-                imageSettings = SetImageSettings.Create(imageMetaData.TypeId); break;
+                imageSettings = new SetImageSettings(imageMetaData.TypeId); break;
             default:
                 throw new Exception("invalid type");
         }
@@ -75,5 +75,11 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         }
 
         _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+    }
+
+    public void Delete(ImageMetaData imageMetaData)
+    {
+        imageMetaData.GetSettings().DeleteFiles();
+        _imgMetaRepo.Delete(imageMetaData.Id);
     }
 }

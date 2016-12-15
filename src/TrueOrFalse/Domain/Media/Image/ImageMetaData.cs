@@ -30,4 +30,21 @@ public class ImageMetaData : DomainEntity
     {
         return ImageParsingNotifications.FromJson(Notifications);
     }
+
+    public virtual IImageSettings GetSettings()
+    {
+        switch (Type)
+        {
+            case ImageType.Category:
+                return new CategoryImageSettings(TypeId);
+            case ImageType.Question:
+                return new QuestionImageSettings(TypeId);
+            case ImageType.QuestionSet:
+                return new SetImageSettings(TypeId);
+            case ImageType.User:
+                return new CategoryImageSettings(TypeId);
+        }
+
+        throw new Exception("invalid type");
+    }
 }

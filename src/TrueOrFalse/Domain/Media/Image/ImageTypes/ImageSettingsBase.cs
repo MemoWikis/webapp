@@ -22,7 +22,7 @@ public abstract class ImageSettingsBase
     {
         var filesToDelete = Directory.GetFiles(ServerPath(), Id + "_*");
 
-        if (filesToDelete.Count() > 33)
+        if (filesToDelete.Length > 33)
             throw new Exception("unexpected high amount of files");
 
         foreach (var file in filesToDelete)

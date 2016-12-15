@@ -155,7 +155,7 @@ public class ImageMaintenanceInfo
             Url_128 = new QuestionImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
 
         if (MetaData.Type == ImageType.QuestionSet)
-            Url_128 = SetImageSettings.Create(MetaData.TypeId).GetUrl_128px_square().Url;
+            Url_128 = new SetImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
 
         FrontendData = new ImageFrontendData(MetaData);
     }

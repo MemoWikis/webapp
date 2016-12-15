@@ -146,6 +146,12 @@
                         data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
                         <i class="fa fa-refresh"></i> Bild neu laden
                     </a>
+                    <% dataContent = @"<span style='color: red'>ACHTUNG! Das Bild wird unwiederbringlich gelöscht.</span>"; %>
+                    <a id="DeleteImage" class="btn btn-danger" 
+                        tabindex="0" role="button"
+                        data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
+                        <i class="fa fa-trash-o"></i>&nbsp; Bild löschen
+                    </a>
                 </div>
                 <div class="col-lg-6" style="text-align: right;">
                     <a href="#" class="btn btn-default" data-dismiss="modal">Abbrechen</a>
