@@ -4,20 +4,17 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-public class UserImageSettings : ImageSettingsBase, IImageSettings
+public class UserImageSettings : ImageSettings, IImageSettings
 {
     public override int Id { get; set; }
 
-    public ImageType ImageType
-    {
-        get { return ImageType.User; }
-    }
+    public ImageType ImageType => ImageType.User;
 
-    public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 85, 50, 20 }; } }
-    public IEnumerable<int> SizesFixedWidth { get { return new[] { 100, 500 }; } }
+    public IEnumerable<int> SizesSquare => new[] { 512, 128, 85, 50, 20 };
+    public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
 
-    public override string BasePath { get { return "/Images/Users/"; } }
-    public string BaseDummyUrl { get { return "Images/no-profile-picture-"; } }
+    public override string BasePath => "/Images/Users/";
+    public string BaseDummyUrl => "Images/no-profile-picture-";
 
     public UserImageSettings(int id){
         Id = id;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Web;
 
-public abstract class ImageSettingsBase
+public abstract class ImageSettings
 {
     public abstract int Id { get; set;  }
     public abstract string BasePath { get;  }
@@ -27,5 +26,20 @@ public abstract class ImageSettingsBase
 
         foreach (var file in filesToDelete)
             File.Delete(file);
+    }
+
+    public static IImageSettings InitByType(ImageMetaData imageMetaData)
+    {
+        switch (imageMetaData.Type)
+        {
+            case ImageType.Category:
+                return new CategoryImageSettings(imageMetaData.TypeId);
+            case ImageType.Question:
+                return new QuestionImageSettings(imageMetaData.TypeId);
+            case ImageType.QuestionSet:
+                return new SetImageSettings(imageMetaData.TypeId);
+            default:
+                throw new Exception("invalid type");
+        }
     }
 }

@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
 
-public class CategoryImageSettings : ImageSettingsBase, IImageSettings
+public class CategoryImageSettings : ImageSettings, IImageSettings
 {
     public override int Id { get; set; }
-    public ImageType ImageType
-    {
-        get { return ImageType.Category; }
-    }
-    public IEnumerable<int> SizesSquare{ get { return new[] { 206, 50 }; } }
-    public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
+    public ImageType ImageType => ImageType.Category;
+    public IEnumerable<int> SizesSquare => new[] { 206, 50 };
+    public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
-    public override string BasePath { get { return "/Images/Categories/"; } }
-    public string BaseDummyUrl { get { return "/Images/no-category-picture-"; } }
+    public override string BasePath => "/Images/Categories/";
+    public string BaseDummyUrl => "/Images/no-category-picture-";
 
     public CategoryImageSettings(){}
 

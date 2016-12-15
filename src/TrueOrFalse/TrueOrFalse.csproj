@@ -401,7 +401,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository .cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettingsBase.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
