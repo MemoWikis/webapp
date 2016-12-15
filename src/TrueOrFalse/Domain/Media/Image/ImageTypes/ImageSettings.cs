@@ -38,6 +38,8 @@ public abstract class ImageSettings
                 return new QuestionImageSettings(imageMetaData.TypeId);
             case ImageType.QuestionSet:
                 return new SetImageSettings(imageMetaData.TypeId);
+            case ImageType.User:
+                return new UserImageSettings(imageMetaData.TypeId);
             default:
                 throw new Exception("invalid type");
         }
