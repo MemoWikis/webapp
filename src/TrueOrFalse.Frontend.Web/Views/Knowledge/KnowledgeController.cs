@@ -39,6 +39,16 @@ public class KnowledgeController : BaseController
             .QuestionIds().ToList();
         var wishQuestions = Resolve<QuestionRepo>().GetByIds(valuations);
 
+        // if User has uncompleted WishSession that is less than 3 hours old, then continue this one. Else: Start new one
+        var openWishSession = Sl.R<LearningSessionRepo>().GetLastWishSessionIfUncompleted(user);
+
+        if (openWishSession != null)
+        {
+            if (DateTime.Now - openWishSession.DateModified < new TimeSpan(0,5,0))
+                return Redirect(Links.LearningSession(openWishSession));
+            openWishSession.CompleteSession();
+        }
+
         var learningSession = new LearningSession
         {
             IsWishSession = true,
