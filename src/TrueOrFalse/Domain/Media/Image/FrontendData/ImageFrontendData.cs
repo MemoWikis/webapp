@@ -1,4 +1,4 @@
-﻿using System;
+﻿using static System.String;
 
 public class ImageFrontendData
 { 
@@ -25,133 +25,134 @@ public class ImageFrontendData
         
     public ImageFrontendData(ImageMetaData imageMetaData)
     {
-        if (imageMetaData != null)
-        {
-            ImageMetaDataExists = true;
-            ImageMetaData = imageMetaData;
-            MainLicenseInfo = !String.IsNullOrEmpty(ImageMetaData.MainLicenseInfo)
-                                ? MainLicenseInfo.FromJson(ImageMetaData.MainLicenseInfo)
-                                : null;
+        if (imageMetaData == null)
+            return;
 
-            if (ImageMetaData.Source == ImageSource.WikiMedia)
-            {
-                OriginalFileLink = LicenseParser.GetWikiDetailsPageFromSourceUrl(ImageMetaData.SourceUrl);
-            }
-        
-            ManualImageEvaluation = imageMetaData.ManualEntriesFromJson().ManualImageEvaluation;
-            ImageCanBeDisplayed = ManualImageEvaluation != ManualImageEvaluation.ImageManuallyRuledOut;
+        ImageMetaDataExists = true;
+        ImageMetaData = imageMetaData;
+        MainLicenseInfo = !IsNullOrEmpty(ImageMetaData.MainLicenseInfo)
+            ? MainLicenseInfo.FromJson(ImageMetaData.MainLicenseInfo)
+            : null;
 
-            Description = !String.IsNullOrEmpty(ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded)
-                    ? ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded
-                    : ImageMetaData.DescriptionParsed;
+        if (ImageMetaData.Source == ImageSource.WikiMedia)
+            OriginalFileLink = LicenseParser.GetWikiDetailsPageFromSourceUrl(ImageMetaData.SourceUrl);
+
+        ManualImageEvaluation = imageMetaData.ManualEntriesFromJson().ManualImageEvaluation;
+        ImageCanBeDisplayed = ManualImageEvaluation != ManualImageEvaluation.ImageManuallyRuledOut;
+
+        Description = !IsNullOrEmpty(ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded)
+            ? ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded
+            : ImageMetaData.DescriptionParsed;
             
 
-            if (!ImageCanBeDisplayed)
+        if (!ImageCanBeDisplayed)
+        {
+            AttributionHtmlString = "Das Bild kann aus lizenzrechtlichen Gründen leider zur Zeit nicht angezeigt werden. ";
+            if (!IsNullOrEmpty(OriginalFileLink))
             {
-                AttributionHtmlString = "Das Bild kann aus lizenzrechtlichen Gründen leider zur Zeit nicht angezeigt werden. ";
-                if (!String.IsNullOrEmpty(OriginalFileLink))
+                AttributionHtmlString += "Hier findest du die <a href='" + OriginalFileLink + "' target='_blank'>Originaldatei</a>.";
+            }
+        }
+        else //Image can be displayed
+        {
+            if (IsAuthorizedLicense())
+                FillFor_Authorized_License();
+            else
+                FillFor_NonAuthorized_License();
+        }
+
+        ImageParsingNotifications = ImageParsingNotifications.FromJson(ImageMetaData.Notifications);
+    }
+
+    public static ImageFrontendData Create(Question question) => new ImageFrontendData(question.Id, ImageType.Question);
+    public static ImageFrontendData Create(Set set) => new ImageFrontendData(set.Id, ImageType.QuestionSet);
+
+    private bool IsAuthorizedLicense()
+    {
+        return MainLicenseInfo != null && ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized;
+    }
+
+    private void FillFor_Authorized_License()
+    {
+        HasAuthorizedMainLicense = true;
+        MainLicense = LicenseImageRepo.GetById(MainLicenseInfo.MainLicenseId);
+        if (MainLicense != null)
+        {
+            LicenseName = !IsNullOrEmpty(MainLicense.LicenseShortName)
+                ? MainLicense.LicenseShortName
+                : MainLicense.LicenseLongName;
+            LicenseLink = MainLicense.LicenseLink;
+            LicenseShortDescriptionLink = MainLicense.LicenseShortDescriptionLink;
+        }
+
+        if (!IsNullOrEmpty(MainLicenseInfo.Author))
+        {
+            Author = MainLicenseInfo.Author;
+        }
+        else
+        {
+            LicenseDataIncomplete = true;
+            Author = !IsNullOrEmpty(ImageMetaData.ManualEntriesFromJson().AuthorManuallyAdded)
+                ? ImageMetaData.ManualEntriesFromJson().AuthorManuallyAdded
+                : ImageMetaData.AuthorParsed;
+        }
+
+        AttributionHtmlString =
+            $"<span class='InfoLabel'>Bild</span>: {(!IsNullOrEmpty(Author) ? Author + ", " : "")}";
+
+        if (ImageMetaData.Source == ImageSource.WikiMedia)
+        {
+            AttributionHtmlString +=
+                "<a href='http://commons.wikimedia.org/wiki/Main_Page?uselang=de' target='_blank'>Wikimedia Commons</a>";
+        }
+
+        if (IsNullOrEmpty(LicenseName))
+        {
+            LicenseDataIncomplete = true;
+        }
+        else //LicenseDataIncomplete
+        {
+            if (!IsNullOrEmpty(LicenseLink))
+            {
+                AttributionHtmlString += $", Lizenz: <a href='{LicenseLink}' target='_blank'>{LicenseName}</a>";
+
+                if (!IsNullOrEmpty(LicenseShortDescriptionLink))
                 {
-                    AttributionHtmlString += "Hier findest du die <a href='" + OriginalFileLink + "' target='_blank'>Originaldatei</a>.";
+                    AttributionHtmlString += $" (<a href='{LicenseShortDescriptionLink}' target='_blank'>Kurzfassung</a>)";
                 }
             }
-
-            else { //Image can be displayed
-
-                if (MainLicenseInfo != null &&
-                    ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
-                {
-                    HasAuthorizedMainLicense = true;
-                    MainLicense = LicenseImageRepo.GetById(MainLicenseInfo.MainLicenseId);
-                    if (MainLicense != null)
-                    {
-                        LicenseName = !String.IsNullOrEmpty(MainLicense.LicenseShortName)
-                                        ? MainLicense.LicenseShortName
-                                        : MainLicense.LicenseLongName;
-                        LicenseLink = MainLicense.LicenseLink;
-                        LicenseShortDescriptionLink = MainLicense.LicenseShortDescriptionLink;
-                    }
-           
-                    if(!String.IsNullOrEmpty(MainLicenseInfo.Author))
-                    {
-                        Author = MainLicenseInfo.Author;
-                    }
-                    else
-                    {
-                        LicenseDataIncomplete = true;
-                        Author = !String.IsNullOrEmpty(ImageMetaData.ManualEntriesFromJson().AuthorManuallyAdded)
-                            ? ImageMetaData.ManualEntriesFromJson().AuthorManuallyAdded
-                            : ImageMetaData.AuthorParsed;
-                    }
-
-                    AttributionHtmlString = "<span class='InfoLabel'>Bild</span>: " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
-
-                    if (ImageMetaData.Source == ImageSource.WikiMedia)
-                    {
-                        AttributionHtmlString +=
-                            "<a href='http://commons.wikimedia.org/wiki/Main_Page?uselang=de' target='_blank'>Wikimedia Commons</a>";
-                    }
-
-                    if (String.IsNullOrEmpty(LicenseName))
-                    {
-                        LicenseDataIncomplete = true;
-                    }
-                    else //LicenseDataIncomplete
-                    {
-                        if (!String.IsNullOrEmpty(LicenseLink))
-                        {
-                            AttributionHtmlString += $", Lizenz: <a href='{LicenseLink}' target='_blank'>{LicenseName}</a>";
-
-                            if (!String.IsNullOrEmpty(LicenseShortDescriptionLink))
-                            {
-                                AttributionHtmlString += " (<a href='" + LicenseShortDescriptionLink +
-                                                         "' target='_blank'>Kurzfassung</a>)";
-                            }
-                        }
-                        else if (MainLicense != null && MainLicense.LicenseLinkRequired == true)
-                        {
-                            LicenseDataIncomplete = true;
-                        }
-                        else
-                        {
-                            AttributionHtmlString += ", Lizenz: " + LicenseName;
-                        }
-                    }
-                }
-                else //No authorized main license
-                {
-                    Author = ImageMetaData.AuthorParsed;
-                    AttributionHtmlString = "<span class='InfoLabel'>Bild:</span> " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
-
-                    if (!String.IsNullOrEmpty(OriginalFileLink))
-                    {
-                        var source = "";
-
-                        if (ImageMetaData.Source == ImageSource.WikiMedia)
-                            source = "(Wikimedia Commons)";
-
-                        AttributionHtmlString +=
-                            $"<a href='{OriginalFileLink}' target='_blank'>Bildquelle und erweiterte Information {source}</a>.";
-                    }
-                    else
-                    {
-                        AttributionHtmlString +=
-                            "Die Lizenzangaben werden zur Zeit geprüft und aufbereitet. ";
-                    }
-                }
+            else if (MainLicense != null && MainLicense.LicenseLinkRequired == true)
+            {
+                LicenseDataIncomplete = true;
             }
-
-            ImageParsingNotifications = ImageParsingNotifications.FromJson(ImageMetaData.Notifications);
+            else
+            {
+                AttributionHtmlString += ", Lizenz: " + LicenseName;
+            }
         }
     }
 
-    public static ImageFrontendData Create(Question question)
+    private void FillFor_NonAuthorized_License()
     {
-        return new ImageFrontendData(question.Id, ImageType.Question);
-    }
+        Author = ImageMetaData.AuthorParsed;
+        AttributionHtmlString =
+            $"<span class='InfoLabel'>Bild:</span> {(!IsNullOrEmpty(Author) ? Author + ", " : "")}";
 
-    public static ImageFrontendData Create(Set set)
-    {
-        return new ImageFrontendData(set.Id, ImageType.QuestionSet);
+        if (!IsNullOrEmpty(OriginalFileLink))
+        {
+            var source = "";
+
+            if (ImageMetaData.Source == ImageSource.WikiMedia)
+                source = "(Wikimedia Commons)";
+
+            AttributionHtmlString +=
+                $"<a href='{OriginalFileLink}' target='_blank'>Bildquelle und erweiterte Information {source}</a>.";
+        }
+        else
+        {
+            AttributionHtmlString +=
+                "Die Lizenzangaben werden zur Zeit geprüft und aufbereitet. ";
+        }
     }
 
     public ImageUrl GetImageUrl(int width, bool asSquare = false, bool getDummy = false, ImageType imageTypeForDummy = ImageType.Question)
@@ -204,7 +205,7 @@ public class ImageFrontendData
                 //return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage CantBeDisplayed" + additionalCssClasses + "' />";
             }
 
-            var altDescription = String.IsNullOrEmpty(this.Description) ?
+            var altDescription = IsNullOrEmpty(this.Description) ?
                 "" : 
                 this.Description.Replace("\"", "'")
                     .Replace("„", "'")
