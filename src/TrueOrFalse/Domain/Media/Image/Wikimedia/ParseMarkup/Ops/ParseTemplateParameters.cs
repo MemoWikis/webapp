@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace TrueOrFalse.WikiMarkup
 {
@@ -11,7 +8,7 @@ namespace TrueOrFalse.WikiMarkup
     {
         enum States { Detault, ParameterStarted }
 
-        static public List<Parameter> Run(string section)
+        public static List<Parameter> Run(string section)
         {
             var textTokens = Regex.Split(section, "(\\||{{|}}|\\[\\[|\\]\\]|=)");
 

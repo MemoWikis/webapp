@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 public class InfoBoxTemplate
 {
@@ -12,14 +8,14 @@ public class InfoBoxTemplate
 
     public static List<InfoBoxTemplate> GetAllInfoBoxTemplates()
     {
-        return new List<InfoBoxTemplate>()
+        return new List<InfoBoxTemplate>
         {
-            new InfoBoxTemplate()
+            new InfoBoxTemplate
             {
                 TemplateName = "Information",
             },
 
-            new InfoBoxTemplate()
+            new InfoBoxTemplate
             {
                 TemplateName = "Infobox aircraft image",
                 AuthorParameterName = "imageauthor"
