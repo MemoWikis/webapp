@@ -8,7 +8,8 @@
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawChartNewUsers);
         google.setOnLoadCallback(drawChartUsers);
-        //google.setOnLoadCallback(drawChartNewQuestions);
+        google.setOnLoadCallback(drawChartQuestionCountStats);
+        google.setOnLoadCallback(drawChartNewQuestions);
 
         function drawChartNewUsers() {
             var data = google.visualization.arrayToDataTable([
@@ -87,13 +88,56 @@
         }
 
 
+        function drawChartQuestionCountStats() {
+            var data = google.visualization.arrayToDataTable([
+                [
+                    'Datum', 'Von memucho erstellte Fragen', 'Von anderen Nutzern erstellte Fragen', { role: 'annotation' }
+                ],
+                <%  lastDay = Model.SinceGoLive;
+                    var questionCountSoFarMemucho = 0;
+                    var questionCountSoFarOthers = 0;
+                    foreach (var day in Model.QuestionsExistingPerDayResults)
+                    {
+                        lastDay = lastDay.AddDays(1);
+                        while (lastDay < day.DateTime.Date) { 
+                            Response.Write("['" + lastDay.ToString("dd.MM.yyyy") + "', " + questionCountSoFarMemucho + ", " + questionCountSoFarOthers + ", ''],");
+                            lastDay = lastDay.AddDays(1);
+                        }
+                        questionCountSoFarMemucho = day.CountByMemucho;
+                        questionCountSoFarOthers = day.CountByOthers;
+                        Response.Write("['" + day.DateTime.ToString("dd.MM.yyyy") + "', " + questionCountSoFarMemucho + ", " + questionCountSoFarOthers + ", ''],"); 
+                    } %>
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2]);
+
+            var options = {
+                legend: { position: 'top', maxLines: 30 },
+                bar: { groupWidth: '89%' },
+                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                colors: ['#afd534', '#0000ff'],
+                isStacked: true
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById("chartQuestionCountStats"));
+            chart.draw(view, options);
+        }
+
         function drawChartNewQuestions() {
             var data = google.visualization.arrayToDataTable([
                 [
-                    'Datum', 'Fragen memucho', 'Fragen != memucho', { role: 'annotation' }
+                    'Datum', 'Von memucho neu erstellte Fragen', 'Von anderen Nutzern neu erstellte Fragen', { role: 'annotation' }
                 ],
-                <%  lastDay = Model.Since;
-                    foreach (var day in Model.QuestionsCreatedResult)
+                <%  lastDay = Model.SinceGoLive;
+                    foreach (var day in Model.QuestionsCreatedPerDayResults)
                     {
                         lastDay = lastDay.AddDays(1);
                         while (lastDay < day.DateTime.Date) { 
@@ -166,7 +210,10 @@
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
-            <div id="chartNewQuestions" style="margin-right: 20px; text-align: left;"></div>
+            <div id="chartQuestionCountStats" style="height: 400px; margin-right: 20px; text-align: left;"></div>
+        </div>
+        <div class="col-xs-12" style="margin-top: 20px;">
+            <div id="chartNewQuestions" style="height: 400px; margin-right: 20px; text-align: left;"></div>
         </div>
     </div>
 
