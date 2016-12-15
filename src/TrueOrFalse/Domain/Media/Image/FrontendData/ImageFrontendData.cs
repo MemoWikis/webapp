@@ -91,15 +91,20 @@ public class ImageFrontendData
                             "<a href='http://commons.wikimedia.org/wiki/Main_Page?uselang=de' target='_blank'>Wikimedia Commons</a>";
                     }
 
-                    if (!String.IsNullOrEmpty(LicenseName))
+                    if (String.IsNullOrEmpty(LicenseName))
+                    {
+                        LicenseDataIncomplete = true;
+                    }
+                    else //LicenseDataIncomplete
                     {
                         if (!String.IsNullOrEmpty(LicenseLink))
                         {
-                            AttributionHtmlString += ", Lizenz: " + "<a href='" + LicenseLink + "' target='_blank'>" + LicenseName + "</a>";
-                        
+                            AttributionHtmlString += $", Lizenz: <a href='{LicenseLink}' target='_blank'>{LicenseName}</a>";
+
                             if (!String.IsNullOrEmpty(LicenseShortDescriptionLink))
                             {
-                                AttributionHtmlString += " (<a href='" + LicenseShortDescriptionLink + "' target='_blank'>Kurzfassung</a>)";
+                                AttributionHtmlString += " (<a href='" + LicenseShortDescriptionLink +
+                                                         "' target='_blank'>Kurzfassung</a>)";
                             }
                         }
                         else if (MainLicense != null && MainLicense.LicenseLinkRequired == true)
@@ -108,12 +113,8 @@ public class ImageFrontendData
                         }
                         else
                         {
-                             AttributionHtmlString += ", Lizenz: " + LicenseName;
+                            AttributionHtmlString += ", Lizenz: " + LicenseName;
                         }
-                    }
-                    else //No license name
-                    {
-                        LicenseDataIncomplete = true;
                     }
                 }
                 else //No authorized main license
@@ -121,18 +122,20 @@ public class ImageFrontendData
                     Author = ImageMetaData.AuthorParsed;
                     AttributionHtmlString = "<span class='InfoLabel'>Bild:</span> " + (!String.IsNullOrEmpty(Author) ? Author + ", " : "");
 
-                    if (ImageMetaData.Source == ImageSource.WikiMedia)
-                    {
-                        AttributionHtmlString +=
-                            "<a href='http://commons.wikimedia.org/wiki/Main_Page?uselang=de' target='_blank'>Wikimedia Commons</a>. ";
-                    }
-
-                    AttributionHtmlString +=
-                        "Die Lizenzangaben werden zur Zeit aufbereitet und erscheinen innerhalb der nächsten Tage. ";
-
                     if (!String.IsNullOrEmpty(OriginalFileLink))
                     {
-                        AttributionHtmlString += "Hier findest du die <a href='" + OriginalFileLink + "' target='_blank'>Originaldatei</a>.";
+                        var source = "";
+
+                        if (ImageMetaData.Source == ImageSource.WikiMedia)
+                            source = "(Wikimedia Commons)";
+
+                        AttributionHtmlString +=
+                            $"<a href='{OriginalFileLink}' target='_blank'>Bildquelle und erweiterte Information {source}</a>.";
+                    }
+                    else
+                    {
+                        AttributionHtmlString +=
+                            "Die Lizenzangaben werden zur Zeit geprüft und aufbereitet. ";
                     }
                 }
             }
