@@ -74,6 +74,7 @@
     <h2 style="margin-bottom: 15px; margin-top: 0px;">
         <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                         if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
+                        if (Model.LearningSession.IsWishSession) Response.Write("ColoredUnderline Knowledge");
                         %>">Ergebnis</span>
     </h2>
     
@@ -137,6 +138,11 @@
                 <% } else if (Model.LearningSession.IsSetSession) { %>
                     <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
+                        Neue Übungssitzung
+                    </a>
+                <% } else if (Model.LearningSession.IsWishSession) { %>
+                    <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary" style="padding-right: 10px">
                         Neue Übungssitzung
                     </a>
                 <% } else {

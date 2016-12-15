@@ -307,6 +307,26 @@
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>
+        <% if (Model.IsLoggedIn) { %>
+            <div class="well" style="padding: 20px; ">
+                <div style="text-align: center">
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" style="t"title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt <br/>Wunschwissen lernen
+                    </a>
+                </div>
+                <% if (!Model.UserHasWishknowledge) { %>
+                    <p style="font-size: 11px; margin-top: 5px;">
+                        Du hast noch kein Wunschwissen. Füge Fragesätze oder Fragen zu 
+                        deinem <span style="white-space: nowrap"><i class="fa fa-heart show-tooltip" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span> hinzu, 
+                        um eine personalisierte Übungssitzung zu starten. 
+                    </p>
+                <% } else { %>
+                    <p style="font-size: 11px; margin-top: 5px;">
+                        *Starte eine personalisierte Lernsitzung mit 10 Fragen aus deinem Wunschwissen (enthält <a href="<%= Links.QuestionsWish() %>"><%= Model.WishCount %> Fragen</a>). 
+                    </p>
+                <% } %>
+            </div>
+        <% } %>
 
         <div class="well" id="nominationInnopreis" style="padding: 20px; ">
             <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>

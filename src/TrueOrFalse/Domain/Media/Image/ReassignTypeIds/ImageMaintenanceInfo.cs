@@ -11,8 +11,9 @@ public class ImageMaintenanceInfo
 {
     public int ImageId;
     public int TypeId;
-    public bool ImageUsageFound;
-    public string URLToWhereImageIsUsed;
+    public bool TypeNotFound;
+    public object Type;
+    public string TypeUrl;
 
     public bool InQuestionFolder;
     public bool InCategoryFolder;
@@ -44,10 +45,7 @@ public class ImageMaintenanceInfo
 
     public int SelectedMainLicenseId { get; set; }
 
-    public IEnumerable<SelectListItem> ParsedLicenses
-    {
-        get { return new SelectList(_offeredLicenses, "Id", "WikiSearchString"); }
-    }
+    public IEnumerable<SelectListItem> ParsedLicenses => new SelectList(_offeredLicenses, "Id", "WikiSearchString");
 
     public ImageMaintenanceInfo(int typeId, ImageType imageType)
         : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType))
@@ -63,37 +61,29 @@ public class ImageMaintenanceInfo
         ImageId = imageMetaData.Id;
         MetaData = imageMetaData;
         TypeId = imageMetaData.TypeId;
-        ImageUsageFound = true;
-        try
+        TypeNotFound = false;
+        
+        switch (MetaData.Type)
         {
-            switch (MetaData.Type)
-            {
-                case ImageType.Category:
-                    URLToWhereImageIsUsed =
-                        Links.CategoryDetail(ServiceLocator.R<CategoryRepository>().GetById(MetaData.TypeId));
-                    break;
-                case ImageType.QuestionSet:
-                    URLToWhereImageIsUsed =
-                        Links.SetDetail(ServiceLocator.R<SetRepo>().GetById(MetaData.TypeId));
-                    break;
-                case ImageType.Question:
-                    URLToWhereImageIsUsed =
-                        Links.AnswerQuestion(ServiceLocator.R<QuestionRepo>().GetById(MetaData.TypeId));
-                    break;
-                case ImageType.User:
-                    URLToWhereImageIsUsed =
-                        Links.UserDetail(ServiceLocator.R<UserRepo>().GetById(MetaData.TypeId));
-                    break;
-                default:
-                    URLToWhereImageIsUsed = "";
-                    break;
-            }
-        }
-        catch (Exception)
-        {
-            ImageUsageFound = false;
+            case ImageType.Category:
+                Type = Sl.R<CategoryRepository>().GetById(MetaData.TypeId);
+                TypeUrl = Links.GetUrl(Type);
+                break;
+            case ImageType.QuestionSet:
+                Type = Sl.R<SetRepo>().GetById(MetaData.TypeId);
+                TypeUrl = Links.GetUrl(Type);
+                break;
+            case ImageType.Question:
+                Type = Sl.R<QuestionRepo>().GetById(MetaData.TypeId);
+                TypeUrl = Links.GetUrl(Type);
+                break;
+            default:
+                throw new Exception("invalid type");
         }
 
+        if (Type == null)
+            TypeNotFound = true;
+       
         ManualImageData = ManualImageData.FromJson(MetaData.ManualEntries);
             
         //new
@@ -102,10 +92,10 @@ public class ImageMaintenanceInfo
                         : "";
         Description = !String.IsNullOrEmpty(ManualImageData.DescriptionManuallyAdded)
                         ? ManualImageData.DescriptionManuallyAdded
-                        : (MetaData.DescriptionParsed);
+                        : MetaData.DescriptionParsed;
         Author = !String.IsNullOrEmpty(ManualImageData.AuthorManuallyAdded)
                     ? ManualImageData.AuthorManuallyAdded
-                    : (MetaData.AuthorParsed);
+                    : MetaData.AuthorParsed;
 
         _offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
             .Concat(new List<LicenseImage> { new LicenseImage { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
