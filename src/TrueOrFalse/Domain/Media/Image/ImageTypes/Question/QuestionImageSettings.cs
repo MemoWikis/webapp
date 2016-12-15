@@ -3,15 +3,12 @@
 public class QuestionImageSettings : ImageSettingsBase, IImageSettings
 {
     public override int Id { get; set; }
-    public ImageType ImageType
-    {
-        get { return ImageType.Question; }
-    }
-    public IEnumerable<int> SizesSquare { get { return new[] { 512, 128, 50, 20 }; } }
-    public IEnumerable<int> SizesFixedWidth { get { return new[] { 500, 435, 100 }; } }
+    public ImageType ImageType => ImageType.Question;
+    public IEnumerable<int> SizesSquare => new[] { 512, 128, 50, 20 };
+    public IEnumerable<int> SizesFixedWidth => new[] { 500, 435, 100 };
 
-    public override string BasePath { get { return "/Images/Questions/"; } }
-    public string BaseDummyUrl { get { return "/Images/no-question-"; } }
+    public override string BasePath => "/Images/Questions/";
+    public string BaseDummyUrl => "/Images/no-question-";
 
     public QuestionImageSettings(){}
 
@@ -20,7 +17,7 @@ public class QuestionImageSettings : ImageSettingsBase, IImageSettings
     }
 
     public void Init(int questionId){
-        Id = questionId;//$temp: wenn id = questionId, was ist dann bei mehreren Bildern
+        Id = questionId; //$temp: wenn id = questionId, was ist dann bei mehreren Bildern
     }
 
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }

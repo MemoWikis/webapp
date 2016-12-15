@@ -67,7 +67,7 @@ public class SetsApiController : BaseController
                     Id = set.Id,
                     Name = set.Name,
                     NumberOfQuestions = set.QuestionsInSet.Count,
-                    ImageUrl = SetImageSettings.Create(set.Id).GetUrl_50px_square().Url,
+                    ImageUrl = new SetImageSettings(set.Id).GetUrl_50px_square().Url,
                 }
             ).ToList();
 
