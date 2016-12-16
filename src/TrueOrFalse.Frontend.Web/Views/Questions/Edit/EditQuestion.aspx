@@ -72,8 +72,8 @@
         
     <% if(Model.IsLoggedIn){ %>
         <div class="row">
-            <div class="aside col-md-3 col-md-push-9 rowBase" style="margin-bottom: 11px;">
-                <div class="form-horizontal " role="form">
+            <div class="aside col-md-3 col-md-push-9" style="margin-bottom: 11px;">
+                <div class="form-horizontal rowBase" role="form">
                     <div class="FormSection">
                         <div class="form-group">
                             <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbarkeit</label>
