@@ -16,25 +16,13 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
     public void ReloadWikipediaImage(ImageMetaData imageMetaData)
     {
-        IImageSettings imageSettings;
-        switch (imageMetaData.Type)
-        {
-            case ImageType.Category:
-                imageSettings = new CategoryImageSettings(imageMetaData.TypeId); break;
-            case ImageType.Question:
-                imageSettings = new QuestionImageSettings(imageMetaData.TypeId); break;
-            case ImageType.QuestionSet:
-                imageSettings = new SetImageSettings(imageMetaData.TypeId); break;
-            default:
-                throw new Exception("invalid type");
-        }
-
+        var imageSettings = ImageSettings.InitByType(imageMetaData);
         RunWikimedia(imageMetaData.SourceUrl, imageMetaData.TypeId, imageMetaData.Type, imageMetaData.UserId, imageSettings);
     }
 
     public void RunWikimedia(
         string imageWikiFileName,
-        int typeId,
+        int typeId, 
         ImageType imageType,
         int userId, 
         IImageSettings imageSettings)

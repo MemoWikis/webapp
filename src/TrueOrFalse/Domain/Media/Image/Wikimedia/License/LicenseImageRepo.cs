@@ -5,7 +5,7 @@ public class LicenseImageRepo
 {
     public static List<LicenseImage> GetAllRegisteredLicenses()
     {
-        var registeredLicenses = new List<LicenseImage>()
+        var registeredLicenses = new List<LicenseImage>
         { 
             //Don't change IDs!
             //Only set "LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded" if all necessary information is provided
@@ -47,7 +47,7 @@ public class LicenseImageRepo
                 LicenseShortName = "CC BY 2.0",
             },
 
-            new LicenseImage()
+            new LicenseImage
             {
                 Id = 3,
                 WikiSearchString = "cc-by-2.5",
@@ -74,21 +74,6 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung 3.0 Unported",
                 LicenseShortName = "CC BY 3.0",
             },
-
-            new LicenseImage()
-            {
-                Id = 14,
-                WikiSearchString = "cc-by-4.0",
-                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-
-                LicenseRequirementsType = LicenseRequirementsType.Cc_By,
-                LicenseLink = "https://creativecommons.org/licenses/by/4.0/legalcode",
-
-                LicenseShortDescriptionLink = "https://creativecommons.org/licenses/by/4.0/deed.de",
-                LicenseLongName = "Creative Commons: Namensnennung 4.0 International",
-                LicenseShortName = "CC BY 4.0",
-            },
-
 
             new LicenseImage
             {
@@ -160,7 +145,7 @@ public class LicenseImageRepo
                 LicenseShortName = "CC BY-SA 2.5",
             },
 
-            new LicenseImage()
+            new LicenseImage
             {
                 Id = 10,
                 WikiSearchString = "cc-by-sa-3.0",
@@ -174,7 +159,7 @@ public class LicenseImageRepo
                 LicenseShortName = "CC BY-SA 3.0",
             },
             
-            new LicenseImage()
+            new LicenseImage
             {
                 Id = 11,
                 WikiSearchString = "cc-by-sa-3.0,2.5,2.0,1.0",
@@ -188,7 +173,7 @@ public class LicenseImageRepo
                 LicenseShortName = "CC BY-SA 3.0",
             },
 
-            new LicenseImage()
+            new LicenseImage
             {
                 Id = 12,
                 WikiSearchString = "cc-by-sa-4.0",
@@ -201,7 +186,6 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International",
                 LicenseShortName = "CC BY-SA 4.0",
             },
-
             //new License()
             //{
             //    Id = 100,
@@ -212,7 +196,7 @@ public class LicenseImageRepo
 
             //},
 
-            new LicenseImage()
+            new LicenseImage
             {
                 //License requires stating the source and prohibits changes
                 Id = 13,
@@ -227,7 +211,35 @@ public class LicenseImageRepo
                 LicenseShortName = "Amtliches Werk",
             },
 
-            new LicenseImage()
+            new LicenseImage
+            {
+                Id = 14,
+                WikiSearchString = "cc-by-4.0",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By,
+                LicenseLink = "https://creativecommons.org/licenses/by/4.0/legalcode",
+
+                LicenseShortDescriptionLink = "https://creativecommons.org/licenses/by/4.0/deed.de",
+                LicenseLongName = "Creative Commons: Namensnennung 4.0 International",
+                LicenseShortName = "CC BY 4.0",
+            },
+
+            new LicenseImage
+            {
+                Id = 15,
+                WikiSearchString = "cc-by-sa-3.0-de",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
+                LicenseLink = "https://creativecommons.org/licenses/by-sa/3.0/de/legalcode",
+
+                LicenseShortDescriptionLink = "https://creativecommons.org/licenses/by-sa/3.0/de/deed.de",
+                LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Deutschland",
+                LicenseShortName = "CC BY-SA 3.0 DE",
+            },
+
+            new LicenseImage
             {
                 Id = 198,
                 WikiSearchString = "Public Domain / Gemeinfrei (Amtliches Werk)", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
@@ -236,7 +248,7 @@ public class LicenseImageRepo
                 //LicenseLink = "https://www.gesetze-im-internet.de/urhg/__5.html", //valid only for Germany, but 
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
-            new LicenseImage()
+            new LicenseImage
             {
                 Id = 199,
                 WikiSearchString = "Public Domain / Gemeinfrei", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
@@ -244,7 +256,7 @@ public class LicenseImageRepo
 
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
-            new LicenseImage()
+            new LicenseImage
             {
                 Id = 200,
                 WikiSearchString = "pd-old",

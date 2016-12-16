@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class SetImageSettings : ImageSettingsBase, IImageSettings
+public class SetImageSettings : ImageSettings, IImageSettings
 {
     public override int Id { get; set; }
     public ImageType ImageType => ImageType.QuestionSet;

@@ -325,7 +325,7 @@
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
-    <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedStatisticsResult.cs" />
+    <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
@@ -401,7 +401,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository .cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettingsBase.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />

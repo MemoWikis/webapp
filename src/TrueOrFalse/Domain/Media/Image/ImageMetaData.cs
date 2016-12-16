@@ -21,30 +21,8 @@ public class ImageMetaData : DomainEntity
     public virtual string Notifications { get; set; }
     public virtual ImageLicenseState LicenseState { get; set; }
         
-    public virtual ManualImageData ManualEntriesFromJson()
-    {
-        return ManualImageData.FromJson(ManualEntries);
-    }
+    public virtual ManualImageData ManualEntriesFromJson() => ManualImageData.FromJson(ManualEntries);
+    public virtual ImageParsingNotifications NotificationsFromJson() => ImageParsingNotifications.FromJson(Notifications);
 
-    public virtual ImageParsingNotifications NotificationsFromJson()
-    {
-        return ImageParsingNotifications.FromJson(Notifications);
-    }
-
-    public virtual IImageSettings GetSettings()
-    {
-        switch (Type)
-        {
-            case ImageType.Category:
-                return new CategoryImageSettings(TypeId);
-            case ImageType.Question:
-                return new QuestionImageSettings(TypeId);
-            case ImageType.QuestionSet:
-                return new SetImageSettings(TypeId);
-            case ImageType.User:
-                return new CategoryImageSettings(TypeId);
-        }
-
-        throw new Exception("invalid type");
-    }
+    public virtual IImageSettings GetSettings() => ImageSettings.InitByType(this);
 }

@@ -1,8 +1,5 @@
 using System;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
 using System.Xml;
 using TrueOrFalse.WikiMarkup;
 
@@ -14,8 +11,19 @@ namespace TrueOrFalse
         {
             imageTitle = WikiApiUtils.ExtractFileNameFromUrl(imageTitle);
 
-            var url = String.Format("http://" + apiHost + "/w/index.php?title=File:{0}&action=raw", imageTitle);
-            var markup = WikiApiUtils.GetWebpage(url);
+            var url = $"http://{apiHost}/w/index.php?title=File:{imageTitle}&action=raw";
+
+            string markup = "";
+
+            try
+            {
+                markup = WikiApiUtils.GetWebpage(url);
+            }
+            catch (Exception e)
+            {
+                Logg.r().Error(e, "Could not load markup: {url}", url);
+            }
+            
             markup = RemoveTroublesomeCharacters(markup);
 
             var parsedImageMarkup = ParseImageMarkup.Run(markup);
@@ -36,6 +44,5 @@ namespace TrueOrFalse
         {
             return new string(inString.Where(XmlConvert.IsXmlChar).ToArray());
         }
-
     }
 }

@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web.UI;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NHibernate.Impl;
-using SolrNet.Mapping.Validation;
+using static System.String;
 
 namespace TrueOrFalse.WikiMarkup
 {
@@ -79,7 +70,7 @@ namespace TrueOrFalse.WikiMarkup
                 return;
             }
 
-            if (String.IsNullOrEmpty(descrParameter.Value))
+            if (IsNullOrEmpty(descrParameter.Value))
             {
                 imageParsingNotifications.Description.Add(new Notification()
                 {
@@ -110,7 +101,7 @@ namespace TrueOrFalse.WikiMarkup
                 //Check for description in preferred languages (ordered by priority) in "multilingual description"/"mld"
                 if (mldSection.IsSet && mldSection.Parameters.Any(x => x.Key == preferredLanguages[i]))
                 {
-                    if (!String.IsNullOrEmpty(mldSection.ParamByKey(preferredLanguages[i]).Value))
+                    if (!IsNullOrEmpty(mldSection.ParamByKey(preferredLanguages[i]).Value))
                     {
                         selectedDescrValue = mldSection.ParamByKey(preferredLanguages[i]).Value;
                         break;
@@ -123,7 +114,7 @@ namespace TrueOrFalse.WikiMarkup
                 {
                     if (langSection.Parameters.Any())
                     {
-                        if (!String.IsNullOrEmpty(langSection.Parameters.First().Value))
+                        if (!IsNullOrEmpty(langSection.Parameters.First().Value))
                         {
                             selectedDescrValue = langSection.Parameters.First().Value;
                             break;
@@ -134,12 +125,12 @@ namespace TrueOrFalse.WikiMarkup
             }
 
             //If no description in preferred languages is found, search for descriptions in other languages and take the first of them (not very useful since languages are orderer alphabetically)
-            if (String.IsNullOrEmpty(selectedDescrValue))
+            if (IsNullOrEmpty(selectedDescrValue))
             {
                 //Search in "multilingual description"/"mld" parameters
-                if (mldSection.Parameters.Any(x => !String.IsNullOrEmpty(x.Value)))
+                if (mldSection.Parameters.Any(x => !IsNullOrEmpty(x.Value)))
                 {
-                    selectedDescrValue = mldSection.Parameters.Select(x => x.Value).First(x => !String.IsNullOrEmpty(x));
+                    selectedDescrValue = mldSection.Parameters.Select(x => x.Value).First(x => !IsNullOrEmpty(x));
                 }
                 //Search in seperate description templates
                 else if (GetDescriptionInAllAvailableLanguages(descrParameter.Value).Any(x => x.IsSet))
@@ -148,7 +139,7 @@ namespace TrueOrFalse.WikiMarkup
                 }
             }
             //If suitable mld paramater or description language template has been found
-            if (!String.IsNullOrEmpty(selectedDescrValue)) {
+            if (!IsNullOrEmpty(selectedDescrValue)) {
                 result.Description_Raw = selectedDescrValue;
                 var selectedDescrValueTransformed = Markup2Html.TransformAll(selectedDescrValue);
 
@@ -162,7 +153,7 @@ namespace TrueOrFalse.WikiMarkup
                     imageParsingNotifications.Description.Add(new Notification()
                     {
                         Name = "Manual entry for description required",
-                        NotificationText = String.Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.",
+                        NotificationText = Format("Das Markup für die Beschreibung konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Beschreibung manuell übernehmen.",
                                                             selectedDescrValueTransformed)
                     });
                 }
@@ -172,7 +163,7 @@ namespace TrueOrFalse.WikiMarkup
                 imageParsingNotifications.Description.Add(new Notification()
                 {
                     Name = "Manual entry for description required",
-                    NotificationText = String.Format("Es konnte keine Beschreibung in einer zugelassenen Sprache automatisch geparsed werden (Beschreibungstext: \"{0}\"). Bitte falls möglich Beschreibung manuell übernehmen.", 
+                    NotificationText = Format("Es konnte keine Beschreibung in einer zugelassenen Sprache automatisch geparsed werden (Beschreibungstext: \"{0}\"). Bitte falls möglich Beschreibung manuell übernehmen.", 
                                                         Markup2Html.TransformAll(descrParameter.Value))
                 });
             }
@@ -223,7 +214,7 @@ namespace TrueOrFalse.WikiMarkup
                 return;
             }
 
-            if (String.IsNullOrEmpty(paramAuthor.Value))
+            if (IsNullOrEmpty(paramAuthor.Value))
             {
                 imageParsingNotifications.Author.Add(new Notification()
                 {
@@ -247,7 +238,7 @@ namespace TrueOrFalse.WikiMarkup
                 imageParsingNotifications.Author.Add(new Notification()
                 {
                     Name = "Custom wiki user template",
-                    NotificationText = String.Format(
+                    NotificationText = Format(
                         "Bitte aus Template \"{0}\" gerenderten Text manuell als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> übernehmen.",
                         regexMatch_UserAttributionTemplate.Groups[0],
                         "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1])
@@ -262,7 +253,7 @@ namespace TrueOrFalse.WikiMarkup
                 {
                     Name = "Manual entry for author required",
                     NotificationText =
-                        String.Format(
+                        Format(
                             "Das Markup für den Autor konnte nicht (vollständig) automatisch geparsed werden (es ergab sich: \"{0}\"). Bitte Angaben für den Autor manuell übernehmen.",
                             authorText)
                 });

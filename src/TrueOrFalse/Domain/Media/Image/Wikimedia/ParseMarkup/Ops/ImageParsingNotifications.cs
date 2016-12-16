@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NHibernate.Mapping.ByCode;
 
 [Serializable]
 public class ImageParsingNotifications

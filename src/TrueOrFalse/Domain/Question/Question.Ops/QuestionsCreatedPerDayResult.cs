@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class QuestionsCreatedStatisticsResult
+public class QuestionsCreatedPerDayResult
 {
     public DateTime DateTime;
 
