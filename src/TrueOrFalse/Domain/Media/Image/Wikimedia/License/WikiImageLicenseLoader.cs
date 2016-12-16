@@ -1,13 +1,16 @@
 using System;
-using System.Linq;
-using System.Xml;
-using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse
 {
     public class WikiImageLicenseLoader : IRegisterAsInstancePerLifetime
     {
         public WikiImageLicenseInfo Run(string imageTitle, string apiHost)
+        {
+            var markup = LoadMarkupdFromWikipedia(imageTitle, apiHost);
+            return WikiImageLicenseInfo.ParseMarkup(markup);
+        }
+
+        private static string LoadMarkupdFromWikipedia(string imageTitle, string apiHost)
         {
             imageTitle = WikiApiUtils.ExtractFileNameFromUrl(imageTitle);
 
@@ -23,26 +26,8 @@ namespace TrueOrFalse
             {
                 Logg.r().Error(e, "Could not load markup: {url}", url);
             }
-            
-            markup = RemoveTroublesomeCharacters(markup);
 
-            var parsedImageMarkup = ParseImageMarkup.Run(markup);
-            var licenseInfo = new WikiImageLicenseInfo
-            {
-                AuthorName = parsedImageMarkup.AuthorName,
-                Description = parsedImageMarkup.Description,
-                Markup = markup,
-                MarkupDownloadDate = DateTime.Now,
-                AllRegisteredLicenses = parsedImageMarkup.AllRegisteredLicenses,
-                Notifications = parsedImageMarkup.Notifications
-            };
-
-            return licenseInfo;
-        }
-
-        public static string RemoveTroublesomeCharacters(string inString)
-        {
-            return new string(inString.Where(XmlConvert.IsXmlChar).ToArray());
+            return markup;
         }
     }
 }

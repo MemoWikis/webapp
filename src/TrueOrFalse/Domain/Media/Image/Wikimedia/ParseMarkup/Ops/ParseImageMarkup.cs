@@ -96,7 +96,7 @@ namespace TrueOrFalse.WikiMarkup
                 ParseTemplate.GetTemplateByName(descrParameter.Value, "Multilingual description") :
                 ParseTemplate.GetTemplateByName(descrParameter.Value, "mld");
 
-            while (i < preferredLanguages.Count()) {
+            while (i < preferredLanguages.Count) {
 
                 //Check for description in preferred languages (ordered by priority) in "multilingual description"/"mld"
                 if (mldSection.IsSet && mldSection.Parameters.Any(x => x.Key == preferredLanguages[i]))
