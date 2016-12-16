@@ -58,7 +58,7 @@ public class SetsApiController : BaseController
 
     public JsonResult ByName(string term)
     {
-        var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 1}, searchOnlyWithStartingWith: true).SetIds;
+        var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 5}, searchOnlyWithStartingWith: true).SetIds;
         var sets = R<SetRepo>().GetByIds(setIds);
 
         var items = sets.Select(set =>
