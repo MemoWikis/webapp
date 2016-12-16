@@ -9,9 +9,9 @@ namespace TrueOrFalse.Web
 {
     public class MarkdownInit
     {
-        public static Markdown Run()
+        public static MarkdownSharp.Markdown Run()
         {
-            return new Markdown(new MarkdownOptions { AutoHyperlink = true });
+            return new MarkdownSharp.Markdown(new MarkdownOptions { AutoHyperlink = true });
         }
     }
 }

@@ -93,6 +93,10 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Markdig, Version=0.10.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.10.4\lib\net40\Markdig.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
@@ -867,12 +871,13 @@
     <Compile Include="Web\InvalidAccessException.cs" />
     <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />
+    <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptViewEngine.cs" />
     <Compile Include="Web\ViewEngine\PartialSubDirectoriesViewEngine.cs" />
-    <Compile Include="Web\MarkdownInit.cs" />
+    <Compile Include="Web\Markdown\MarkdownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
     <Compile Include="Web\Uris\MenuModelCategoryItem.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />

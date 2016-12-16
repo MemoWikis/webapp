@@ -5,17 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using MarkdownSharp;
 using NUnit.Framework;
+using TrueOrFalse.Web;
 
 namespace TrueOrFalse.Tests
 {
     /// <summary>Just for playing arouund and as reference..</summary>
-    public class MarkdownTests
+    public class MarkdownSharpTests
     {
         [Test]
         public void Should_transform_markdown_links_to_html()
         {
             const string input = "Have you visited <http://www.example.com> before?";
-            const string expected = "<p>Have you visited <a href=\"http://www.example.com\">http://www.example.com</a> before?</p>\n";
+            const string expected =
+                "<p>Have you visited <a href=\"http://www.example.com\">http://www.example.com</a> before?</p>\n";
 
             string actual = new Markdown().Transform(input);
             Assert.AreEqual(expected, actual);
@@ -25,9 +27,10 @@ namespace TrueOrFalse.Tests
         public void Should_auto_transform_markdown_links_to_html()
         {
             const string input = "Have you visited http://www.example.com before?";
-            const string expected = "<p>Have you visited <a href=\"http://www.example.com\">http://www.example.com</a> before?</p>\n";
+            const string expected =
+                "<p>Have you visited <a href=\"http://www.example.com\">http://www.example.com</a> before?</p>\n";
 
-            string actual = new Markdown(new MarkdownOptions()){AutoHyperlink = true}.Transform(input);
+            string actual = new Markdown(new MarkdownOptions()) {AutoHyperlink = true}.Transform(input);
             Assert.AreEqual(expected, actual);
         }
     }
