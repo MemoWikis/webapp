@@ -295,7 +295,7 @@ public class AnswerQuestionController : BaseController
             Data = new
             {
                 correctAnswer = solution.CorrectAnswer(),
-                correctAnswerDesc = MardownInit.Run().Transform(question.Description),
+                correctAnswerDesc = MarkdownInit.Run().Transform(question.Description),
                 correctAnswerReferences = question.References.Select( r => new
                 {
                     referenceId = r.Id,

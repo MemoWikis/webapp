@@ -7,7 +7,7 @@ using MarkdownSharp;
 
 namespace TrueOrFalse.Web
 {
-    public class MardownInit
+    public class MarkdownInit
     {
         public static Markdown Run()
         {

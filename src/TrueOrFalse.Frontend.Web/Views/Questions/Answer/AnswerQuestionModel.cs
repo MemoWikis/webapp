@@ -253,7 +253,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
-        QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
+        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
         SolutionModel = GetQuestionSolution.Run(question);
