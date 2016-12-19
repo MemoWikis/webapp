@@ -10,6 +10,8 @@ public class MaintenanceImagesController : BaseController
 {
     private const string _viewLocation = "~/Views/Maintenance/Images/Images.aspx";
     private const string _viewLocationMarkup = "~/Views/Maintenance/Images/Markup.ascx";
+    private const string _viewLocationModal = "~/Views/Maintenance/Images/ImageMaintenanceModal.ascx";
+    private const string _viewLocationRow = "~/Views/Maintenance/Images/ImageMaintenanceRow.ascx";
 
     [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Images(int? page)
@@ -38,7 +40,7 @@ public class MaintenanceImagesController : BaseController
     [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Images(int? page, ImagesModel imageModel)
     {
-        imageModel.Init(null);
+        imageModel.Init(1);
         return View(_viewLocation, imageModel);
     }
 
@@ -105,7 +107,7 @@ public class MaintenanceImagesController : BaseController
     public string ImageMaintenanceModal(int imgId)
     {
         var imageMaintenanceInfo = new ImageMaintenanceInfo(Resolve<ImageMetaDataRepo>().GetById(imgId));
-        return ViewRenderer.RenderPartialView("ImageMaintenanceModal", imageMaintenanceInfo, ControllerContext);
+        return ViewRenderer.RenderPartialView(_viewLocationModal, imageMaintenanceInfo, ControllerContext);
     }
 
     [HttpPost]
@@ -166,6 +168,6 @@ public class MaintenanceImagesController : BaseController
         var imageMaintenanceInfo = new ImageMaintenanceInfo(imageMetaData);
         imageMaintenanceInfo.MaintenanceRowMessage = message;
 
-        return ViewRenderer.RenderPartialView("ImageMaintenanceRow", imageMaintenanceInfo, ControllerContext);
+        return ViewRenderer.RenderPartialView(_viewLocationRow, imageMaintenanceInfo, ControllerContext);
     }
 }
