@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using NHibernate.Util;
+
+
+public class SetCollectionModel : BaseModel
+{
+    public Set Set;
+    public string TopicHtml;
+
+    public int SetId;
+    public string SetName;
+    public string SetText;
+    public int QCount; //Number of questions in questionset
+
+    public bool IsInWishknowledge;
+
+    public ImageFrontendData ImageFrontendData;
+
+    public SetCollectionModel(Set set, string setText = null)
+    {
+        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
+        ImageFrontendData = new ImageFrontendData(imageMetaData);
+
+        Set = set;
+        SetId = set.Id;
+        SetName = set.Name;
+        SetText = setText ?? set.Text;
+
+        QCount = set.Questions().Count;
+
+        IsInWishknowledge = R<SetValuationRepo>().GetBy(SetId, _sessionUser.UserId)?.IsInWishKnowledge() ?? false;
+
+    }
+}

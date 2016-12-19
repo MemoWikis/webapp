@@ -8,6 +8,8 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
+    public string ContentHtml;
+
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
 
@@ -89,7 +91,6 @@ public class CategoryModel : BaseModel
 
         TopWishQuestions = wishQuestions.Items;
         TopSets = Resolve<SetRepo>().GetForCategory(category.Id);
-
     }
 
     private List<Question> GetTopQuestionsInSubCats()

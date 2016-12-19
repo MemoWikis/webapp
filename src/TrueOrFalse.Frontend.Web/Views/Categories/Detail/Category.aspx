@@ -123,6 +123,10 @@
                     </h4>
                 <%  } %>
             </div>
+            
+            <h1>Huhu!</h1>
+            <%= Model.ContentHtml %>
+
             <% if(Model.CountSets > 0){ %>    
                 <h4><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h4>
                 <% foreach(var set in Model.TopSets){ %>
