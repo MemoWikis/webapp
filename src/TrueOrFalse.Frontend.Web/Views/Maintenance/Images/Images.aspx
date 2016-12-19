@@ -2,20 +2,20 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Scripts.Render("~/bundles/js/Maintenance") %>
-    <%= Styles.Render("~/bundles/Maintenance") %>
+    <%= Scripts.Render("~/bundles/js/MaintenanceImages") %>
+    <%= Styles.Render("~/bundles/MaintenanceImages") %>
 </asp:Content>
 
 <asp:Content ID="MaintenanceImages" ContentPlaceHolderID="MainContent" runat="server">
    
-<form method="POST" action="/Maintenance/Images">
+<form method="POST" action="/MaintenanceImages/Images">
     <div style="margin:0 0 0 -10px; position: relative;" class="container-fluid">
         <nav class="navbar navbar-default" style="" role="navigation">
             <div class="container">
                 <a class="navbar-brand" href="#">Maintenance</a>
                 <ul class="nav navbar-nav">
                     <li><a href="/Maintenance">Allgemein</a></li>
-                    <li class="active"><a href="/Maintenance/Images">Bilder</a></li>
+                    <li class="active"><a href="/MaintenanceImages/Images">Bilder</a></li>
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                     <li><a href="/Maintenance/Tools">Tools</a></li>
                     <li><a href="/Maintenance/CMS">CMS</a></li>
@@ -27,15 +27,15 @@
     </div>
     <% Html.Message(Model.Message); %>
 
-    <a href="/Maintenance/ReparseMarkup_OfNoneAuthorized" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">
+    <a href="/MaintenanceImages/ReparseMarkup_OfNoneAuthorized" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">
         Markup für Bilder ohne Hauptlizenz parsen...
     </a>
         
-    <a href="/Maintenance/ReparseMarkup_OfNoneAuthorized_AndLoadFromWikipedia" class="btn btn-success" style="margin-bottom: 10px; margin-left: -2px; margin-top: -5px;">
+    <a href="/MaintenanceImages/ReparseMarkup_OfNoneAuthorized_AndLoadFromWikipedia" class="btn btn-success" style="margin-bottom: 10px; margin-left: -2px; margin-top: -5px;">
         ... und von Wikimedia laden
     </a>
     
-    <a href="/Maintenance/SetAllImageLicenseStati" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;" >Set stati</a>
+    <a href="/MaintenanceImages/SetAllImageLicenseStati" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;" >Set stati</a>
     
     <div class="row">
         <div class="col-lg-6">
@@ -83,14 +83,14 @@
         </tr>
         <%  var index = 0;
             foreach(var imageMaintenanceInfo in Model.ImageMaintenanceInfos){ index++; %>
-               <% Html.RenderPartial("ImageMaintenanceRow", imageMaintenanceInfo); %>
+               <% Html.RenderPartial("/Views/Maintenance/Images/ImageMaintenanceRow.ascx", imageMaintenanceInfo); %>
         <% } %>
     </table>
 
     <% Html.RenderPartial("Pager", Model.Pager); %>
     
-    <a href="/Maintenance/ReparseMarkup_All_AndLoadFromWikipedia" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup von Wikimedia für alle laden und parsen</a>
-    <br/><a href="/Maintenance/ParseMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup aus lokaler DB parsen</a>
+    <a href="/MaintenanceImages/ReparseMarkup_All_AndLoadFromWikipedia" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup von Wikimedia für alle laden und parsen</a>
+    <br/><a href="/MaintenanceImages/ParseMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup aus lokaler DB parsen</a>
 
     <script type="text/javascript">
         $(function () {
