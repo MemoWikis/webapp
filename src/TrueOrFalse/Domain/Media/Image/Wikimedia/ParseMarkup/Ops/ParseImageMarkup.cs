@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static System.String;
@@ -19,7 +20,7 @@ namespace TrueOrFalse.WikiMarkup
             {
                 if (ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName).IsSet)
                 {
-                    result.InfoTemplate = ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName);
+                    result.Template = ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName);
                     result.InfoBoxTemplate = infoBoxTemplate;
                     templateFound = true;
                     break;
@@ -27,8 +28,8 @@ namespace TrueOrFalse.WikiMarkup
             }
 
             if (templateFound) {
-                SetDescription(result);
-                SetAuthorFromAuthorKey(result);
+                SetDescription_FromTemplate(result);
+                SetAuthor_FromTemplate(result);
 
                 return result;
             }
@@ -45,10 +46,9 @@ namespace TrueOrFalse.WikiMarkup
             return result;
         }
 
-
-        private static void SetDescription(ParseImageMarkupResult result)
+        private static void SetDescription_FromTemplate(ParseImageMarkupResult result)
         {
-            var descrParameter = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.DescriptionParamaterName);
+            var descrParameter = result.Template.ParamByKey(result.InfoBoxTemplate.DescriptionParamaterName);
 
             var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
 
@@ -166,11 +166,9 @@ namespace TrueOrFalse.WikiMarkup
 
         }
 
-        private static void SetAuthorFromAuthorKey(ParseImageMarkupResult result)
+        private static void SetAuthor_FromTemplate(ParseImageMarkupResult result)
         {
-            //if (result.InfoBoxTemplate.UseAttributionFromLicense)
-
-            var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
+            var paramAuthor = result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
 
             //$temp: Cases left to match:
 
@@ -264,7 +262,6 @@ namespace TrueOrFalse.WikiMarkup
             result.AuthorName = authorText;
         }
 
-        
         public static bool MarkupSyntaxContained(string text)
         {
             return Regex.IsMatch(text, "[{}\\[\\]]"); //Check for "{", "}", "[" or "]"

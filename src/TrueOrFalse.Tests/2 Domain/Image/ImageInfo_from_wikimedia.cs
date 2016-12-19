@@ -59,8 +59,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                 | en = ''{{W|European flounder|Platichthys flesus}}'' near {{W|Vääna-Jõesuu}} in [[:w:Estonia|Estonia]].
                 | et = Vääna-Jõesuu rannikumere lest
                 | fr = Flet commun, ''Platichthys flesus'', près de Vääna-Jöesuu en [[:Estonie|Estonie]].
-                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].
-                }}
+                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].}}
                 |Date           = 2010-01-06
                 |Source         = {{own}}
                 |Author         = [[User:Tiithunt|Tiit Hunt]]
@@ -94,8 +93,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                 |Description    = {{mld
                 | cs = [[:cs:Platýs bradavičnatý|Platýs bradavičnatý]] blízko estonské vesnice Vääna Jöesuu
                 | et = Vääna-Jõesuu rannikumere lest
-                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].
-                }}
+                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].}}
                 |Date           = 2010-01-06
                 |Source         = {{own}}
                 |Author         = [[User:Tiithunt|Tiit Hunt]]
@@ -208,7 +206,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         var demoText = GetMarkupDemoText_mld_template();
 
         var parsedImageMarkup = ParseImageMarkup.Run(demoText);
-        var infoSectionParams = parsedImageMarkup.InfoTemplate.Parameters;
+        var infoSectionParams = parsedImageMarkup.Template.Parameters;
 
         Assert.That(infoSectionParams.Count, Is.EqualTo(7));
         Assert.That(infoSectionParams[0].Key, Is.EqualTo("Description"));
@@ -235,12 +233,11 @@ internal class ImageInfo_from_Wikimedia : BaseTest
     }
 
     [Test]
-    [Ignore("")]
     public void Should_parse_author_and_description()
     {
         var markup = "";
         var parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.InfoTemplate == null, Is.True,
+        Assert.That(parseImageMarkupResult.Template == null, Is.True,
             "InfoTemplate missing - template null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).InfoTemplate
             .Any(notification => notification.Name == "No information template found"), Is.True,
@@ -289,17 +286,6 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     "Custom wiki user template - notification expected");
 
         markup = @"{{Information
-                    |Description=Plain text
-                    |Author=Plain text
-                    ";
-
-        parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.Description == "Plain text", Is.EqualTo("Plain text"),
-                        "Description: Take plain text as is");
-        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Plain text"),
-                        "Author: Take plain text as is");
-
-        markup = @"{{Information
                     |Description=[[undefined internal wiki link]]
                     |Author=[[undefined internal wiki link]]
                     ";
@@ -315,5 +301,50 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     .Any(notification => notification.Name == "Manual entry for author required"), Is.True,
                     "Author: Unparsed wiki markup - notification expected");
         new LicenseImage().InitLicenseSettings();
+
+
+        markup = @"== {{int:filedesc}} ==
+                 {{BArch-image
+                 |wiki description =
+                 |short title =
+                 |archive title =
+                 |original title = '''Konrad Adenauer'''
+                 
+                 27.4.1988 (Repro)
+                 Porträt von Bundeskanzler Dr. Konrad Adenauer vom 23.6.1952
+                 
+                 Nur mit Aufschrift: Foto Katherine Young, New York, herausgeben!
+                 
+                 '''Abgebildete Personen:'''
+                 * [[:de:Konrad Adenauer|Adenauer, Konrad Dr.]]: Bundeskanzler, CDU, Bundesrepublik Deutschland ({{PND-link|11850066X|11850066X}})
+                 |biased =
+                 |depicted people =
+                 |depicted place =
+                 |photographer = Young, Katherine
+                 |date = 1952-06-23
+                 |year = 1952
+                 |ID = B 145 Bild-F078072-0004
+                 |inventory = B 145
+                 |other versions = 
+                 }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Young, Katherine"));
+
+        //TODO: 
+        /*
+         
+            markup = @"{{Information
+                        |Description=Plain text
+                        |Author=Plain text
+                        ";
+
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.Description == "Plain text", Is.EqualTo("Plain text"),
+                            "Description: Take plain text as is");
+            Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Plain text"),
+                            "Author: Take plain text as is");
+
+        */
     }
+
 }
