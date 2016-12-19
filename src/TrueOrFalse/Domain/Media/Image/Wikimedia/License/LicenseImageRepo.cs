@@ -253,7 +253,6 @@ public class LicenseImageRepo
                 Id = 199,
                 WikiSearchString = "Public Domain / Gemeinfrei", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
             new LicenseImage
@@ -261,10 +260,40 @@ public class LicenseImageRepo
                 Id = 200,
                 WikiSearchString = "pd-old",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-
                 LicenseRequirementsType = LicenseRequirementsType.PD
+            },
+            new LicenseImage
+            {
+                Id = 201,
+                WikiSearchString = "PD-UA-exempt",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain (Ukraine) / Gemeinfrei"
+            },
+            new LicenseImage
+            {
+                Id = 202,
+                WikiSearchString = "PD-ineligible",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain"
+            },
+            new LicenseImage
+            {
+                Id = 202,
+                WikiSearchString = "PD-RU-exemp",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain"
+            },
+            new LicenseImage
+            {
+                Id = 203,
+                WikiSearchString = "PD-Art",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain"
             }
-
 
 
             //Template for CC-BY-SA licenses:
@@ -310,7 +339,10 @@ public class LicenseImageRepo
 
     public static List<LicenseImage> GetAllAuthorizedLicenses()
     {
-        return GetAllRegisteredLicenses().Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded).ToList();
+        return GetAllRegisteredLicenses()
+            .Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded)
+            .ToList();
+        
         //$temp: What about "LicenseApplicability.LicenseIsConditionallyApplicable"?
     }
 
