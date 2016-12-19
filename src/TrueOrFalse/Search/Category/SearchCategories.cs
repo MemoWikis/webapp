@@ -2,6 +2,7 @@
 using Seedworks.Lib.Persistence;
 using SolrNet;
 using SolrNet.Commands.Parameters;
+using static System.String;
 
 namespace TrueOrFalse.Search
 {
@@ -16,8 +17,14 @@ namespace TrueOrFalse.Search
         public SearchCategoriesResult Run(CategorySearchSpec searchSpec)
         {
             var orderBy = SearchCategoriesOrderBy.None;
-            if(searchSpec.OrderBy.BestMatch.IsCurrent()) 
+            if (searchSpec.OrderBy.BestMatch.IsCurrent())
+            {
                 orderBy = SearchCategoriesOrderBy.None;
+
+                if (IsNullOrEmpty(searchSpec.SearchTerm))
+                    orderBy = SearchCategoriesOrderBy.QuestionCount;
+
+            } 
             else if (searchSpec.OrderBy.QuestionCount.IsCurrent()) 
                 orderBy = SearchCategoriesOrderBy.QuestionCount;
             else if (searchSpec.OrderBy.CreationDate.IsCurrent()) 

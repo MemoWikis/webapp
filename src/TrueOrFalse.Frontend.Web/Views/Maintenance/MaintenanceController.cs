@@ -49,13 +49,19 @@ public class MaintenanceController : BaseController
         return View(imageModel);
     }
 
-    public ActionResult LoadMarkupAndParse(int? page)
+    public ActionResult ReparseMarkup_OfNoneAuthorized(int? page)
+    {
+        Resolve<LoadImageMarkups>().UpdateAllWithoutAuthorizedMainLicense(loadMarkupFromWikipedia:false);
+        return View("Images", new ImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
+    }
+
+    public ActionResult ReparseMarkup_OfNoneAuthorized_AndLoadFromWikipedia(int? page)
     {
         Resolve<LoadImageMarkups>().UpdateAllWithoutAuthorizedMainLicense();
         return View("Images", new ImagesModel(page) { Message = new SuccessMessage("License data has been updated") });
     }
 
-    public ActionResult LoadMarkupAndParseAll(int? page)
+    public ActionResult ReparseMarkup_All_AndLoadFromWikipedia(int? page)
     {
         Resolve<LoadImageMarkups>().UpdateAll();
         return View("Images", new ImagesModel(page) { Message = new SuccessMessage("License data has been updated") });

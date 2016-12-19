@@ -26,9 +26,13 @@
         </nav>
     </div>
     <% Html.Message(Model.Message); %>
+
+    <a href="/Maintenance/ReparseMarkup_OfNoneAuthorized" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">
+        Markup für Bilder ohne Hauptlizenz parsen...
+    </a>
         
-    <a href="/Maintenance/LoadMarkupAndParse" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;">
-        Markup von Wikimedia für Bilder ohne Hauptlizenz laden und parsen
+    <a href="/Maintenance/ReparseMarkup_OfNoneAuthorized_AndLoadFromWikipedia" class="btn btn-success" style="margin-bottom: 10px; margin-left: -2px; margin-top: -5px;">
+        ... und von Wikimedia laden
     </a>
     
     <a href="/Maintenance/SetAllImageLicenseStati" class="btn btn-success" style="margin-bottom: 10px; margin-top: -5px;" >Set stati</a>
@@ -85,7 +89,7 @@
 
     <% Html.RenderPartial("Pager", Model.Pager); %>
     
-    <a href="/Maintenance/LoadMarkupAndParseAll" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup von Wikimedia für alle laden und parsen</a>
+    <a href="/Maintenance/ReparseMarkup_All_AndLoadFromWikipedia" class="btn btn-warning" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup von Wikimedia für alle laden und parsen</a>
     <br/><a href="/Maintenance/ParseMarkupFromDb" class="btn btn-primary" style="margin-bottom: 10px; margin-top: -5px;" disabled>Markup aus lokaler DB parsen</a>
 
     <script type="text/javascript">
