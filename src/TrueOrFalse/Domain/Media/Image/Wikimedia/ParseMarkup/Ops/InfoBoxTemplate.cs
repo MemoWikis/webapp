@@ -5,6 +5,7 @@ public class InfoBoxTemplate
     public string TemplateName;
     public string DescriptionParamaterName = "Description";
     public string AuthorParameterName = "Author";
+    public string AuthorParameterNameUrl = "";
 
     public static List<InfoBoxTemplate> GetAllInfoBoxTemplates()
     {
@@ -24,7 +25,13 @@ public class InfoBoxTemplate
             {
                 TemplateName = "BArch-image",
                 AuthorParameterName = "photographer"
-            }
+            },
+            new InfoBoxTemplate
+            {
+                TemplateName = "Flickr",
+                AuthorParameterName = "photographer",
+                AuthorParameterNameUrl = "photographer_url"
+            }  
         };
     } 
 }

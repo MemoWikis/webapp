@@ -330,6 +330,20 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
         Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Young, Katherine"));
 
+        markup = @"{{Flickr
+                    |description=The Chernobyl reactor #4 building as of 2006, including the later-built [[:en:Chernobyl Nuclear Power Plant sarcophagus|sarcophagus]] and elements of the maximum-security perimeter. 
+                    |flickr_url=http://flickr.com/photos/83713082@N00/535916329
+                    |title=reactor 4
+                    |taken=2006-09-18 20:07:00
+                    |photographer=Carl Montgomery
+                    |photographer_url=http://flickr.com/photos/83713082@N00
+                    |reviewer=Bubamara
+                    |permission={{User:Flickr upload bot/upload|date=08:47, 21 March 2008 (UTC)|reviewer=Bubamara}}
+                    {{cc-by-2.0}}
+                    }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("<a href='http://flickr.com/photos/83713082@N00'>Carl Montgomery</a>"));
+
         //TODO: 
         /*
          

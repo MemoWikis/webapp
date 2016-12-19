@@ -169,6 +169,7 @@ namespace TrueOrFalse.WikiMarkup
         private static void SetAuthor_FromTemplate(ParseImageMarkupResult result)
         {
             var paramAuthor = result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
+            var paramAuthorUrl = result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterNameUrl);
 
             //$temp: Cases left to match:
 
@@ -199,7 +200,8 @@ namespace TrueOrFalse.WikiMarkup
 
             var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
 
-            if (paramAuthor == null){
+            if (paramAuthor == null)
+            {
                 imageParsingNotifications.Author.Add(new Notification
                 {
                     Name = "No author parameter found",
@@ -243,6 +245,7 @@ namespace TrueOrFalse.WikiMarkup
                 result.Notifications = imageParsingNotifications.ToJson();
                 return;
             }
+
             if (MarkupSyntaxContained(authorText))
             {
                 imageParsingNotifications.Author.Add(new Notification()
@@ -255,6 +258,13 @@ namespace TrueOrFalse.WikiMarkup
                 });
 
                 result.Notifications = imageParsingNotifications.ToJson();
+                return;
+            }
+
+            if (!IsNullOrEmpty(paramAuthorUrl?.Value))
+            {
+                result.AuthorName_Raw = paramAuthorUrl.Value + " " + paramAuthor.Value;
+                result.AuthorName = $"<a href='{paramAuthorUrl.Value}'>{paramAuthor.Value}</a>";
                 return;
             }
 
