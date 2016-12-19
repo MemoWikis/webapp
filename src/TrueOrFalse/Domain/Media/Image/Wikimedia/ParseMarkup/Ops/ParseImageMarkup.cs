@@ -27,13 +27,14 @@ namespace TrueOrFalse.WikiMarkup
             }
 
             if (templateFound) {
-                Care_about_description_and_author(result);
+                SetDescription(result);
+                SetAuthorFromAuthorKey(result);
 
                 return result;
             }
 
             var imageParsingNotifications = new ImageParsingNotifications();
-            imageParsingNotifications.InfoTemplate.Add(new Notification()
+            imageParsingNotifications.InfoTemplate.Add(new Notification
             {
                 Name = "No information template found",
                 NotificationText = "Autor und Beschreibung konnten nicht automatisch geparsed werden: " +
@@ -45,17 +46,10 @@ namespace TrueOrFalse.WikiMarkup
         }
 
 
-        private static void Care_about_description_and_author(ParseImageMarkupResult result)
+        private static void SetDescription(ParseImageMarkupResult result)
         {
-            var paramDesc = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.DescriptionParamaterName);
-            SetDescription(result, paramDesc);
+            var descrParameter = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.DescriptionParamaterName);
 
-            var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
-            SetAuthor(result, paramAuthor);
-        }
-
-        private static void SetDescription(ParseImageMarkupResult result, Parameter descrParameter)
-        {
             var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
 
             if (descrParameter == null)
@@ -172,8 +166,12 @@ namespace TrueOrFalse.WikiMarkup
 
         }
 
-        private static void SetAuthor(ParseImageMarkupResult result, Parameter paramAuthor)
+        private static void SetAuthorFromAuthorKey(ParseImageMarkupResult result)
         {
+            //if (result.InfoBoxTemplate.UseAttributionFromLicense)
+
+            var paramAuthor = result.InfoTemplate.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
+
             //$temp: Cases left to match:
 
             //Mehrteilig:
@@ -190,7 +188,7 @@ namespace TrueOrFalse.WikiMarkup
             //{{self|User:Noaa/AttributionTemplate}}
             //Template can be found here: http://commons.wikimedia.org/wiki/User:Noaa/AttributionTemplate
 
-//          Link unter Autor sollte vielleicht nicht einfach verschwinden
+            //Link unter Autor sollte vielleicht nicht einfach verschwinden
             //https://commons.wikimedia.org/wiki/File:Cavalryatbalaklava2.jpg
             //|Author=[[:en:William Simpson (artist)|William Simpson]]<br/>Published by Paul & Dominic Colnaghi & Co.
 
@@ -204,7 +202,7 @@ namespace TrueOrFalse.WikiMarkup
             var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
 
             if (paramAuthor == null){
-                imageParsingNotifications.Author.Add(new Notification()
+                imageParsingNotifications.Author.Add(new Notification
                 {
                     Name = "No author parameter found",
                     NotificationText = "Es konnte kein Parameter für den Autor gefunden werden."
@@ -216,7 +214,7 @@ namespace TrueOrFalse.WikiMarkup
 
             if (IsNullOrEmpty(paramAuthor.Value))
             {
-                imageParsingNotifications.Author.Add(new Notification()
+                imageParsingNotifications.Author.Add(new Notification
                 {
                     Name = "Author parameter empty",
                     NotificationText = "Der Parameter für den Autor ist leer."
@@ -266,6 +264,7 @@ namespace TrueOrFalse.WikiMarkup
             result.AuthorName = authorText;
         }
 
+        
         public static bool MarkupSyntaxContained(string text)
         {
             return Regex.IsMatch(text, "[{}\\[\\]]"); //Check for "{", "}", "[" or "]"
