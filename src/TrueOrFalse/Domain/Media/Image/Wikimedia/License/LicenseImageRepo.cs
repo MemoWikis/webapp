@@ -280,7 +280,7 @@ public class LicenseImageRepo
             },
             new LicenseImage
             {
-                Id = 202,
+                Id = 203,
                 WikiSearchString = "PD-RU-exemp",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD,
@@ -288,7 +288,7 @@ public class LicenseImageRepo
             },
             new LicenseImage
             {
-                Id = 203,
+                Id = 204,
                 WikiSearchString = "PD-Art",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD,
