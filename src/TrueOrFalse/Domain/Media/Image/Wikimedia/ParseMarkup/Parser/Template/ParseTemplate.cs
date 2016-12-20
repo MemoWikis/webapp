@@ -8,6 +8,19 @@ namespace TrueOrFalse.WikiMarkup
 {
     public class ParseTemplate
     {
+        public static Template GetTemplateByName(string markup, string[] templateNames)
+        {
+            foreach (var templateName in templateNames)
+            {
+                var template = GetTemplateByName(markup, templateName);
+
+                if (template.IsSet)
+                    return template;
+            }
+
+            return new Template("", templateNames.Aggregate((a,b) => a + " " + b));
+        }
+
         public static Template GetTemplateByName(string markup, string templateName)
         {
             string[] markupTokenized = TokenizeMarkup(markup);

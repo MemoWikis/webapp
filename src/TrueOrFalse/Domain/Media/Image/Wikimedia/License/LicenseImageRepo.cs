@@ -300,9 +300,15 @@ public class LicenseImageRepo
                 WikiSearchString = "GPL",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.GPL,
+            },
+            new LicenseImage
+            {
+                Id = 206,
+                WikiSearchString = "PD-US",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain - published in USA before 1923"
             }
-
-            //{{GPL}}
 
 
             //Template for CC-BY-SA licenses:

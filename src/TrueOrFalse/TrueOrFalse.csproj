@@ -434,7 +434,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\ParseTemplate.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\ParseTemplateParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\InfoBoxTemplate.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Types\InfoBoxTemplate.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Types\WikiLanguage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseInfo.cs" />

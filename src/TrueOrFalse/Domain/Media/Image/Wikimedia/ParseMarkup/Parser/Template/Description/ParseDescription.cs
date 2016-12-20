@@ -21,10 +21,11 @@ namespace TrueOrFalse.WikiMarkup
                 AddNotification_AddDescriptionEmpty(result, imageParsingNotifications);
                 return;
             }
-            
+
+            var multiLanguageTemplateNames = new[] {"Multilingual description", "title"};
             //Parse for "multilingual description"/"mld"
-            var multilingualDescription = ParseTemplate.GetTemplateByName(descriptionParameter.Value, "Multilingual description").IsSet
-                ? ParseTemplate.GetTemplateByName(descriptionParameter.Value, "Multilingual description")
+            var multilingualDescription = ParseTemplate.GetTemplateByName(descriptionParameter.Value, multiLanguageTemplateNames).IsSet
+                ? ParseTemplate.GetTemplateByName(descriptionParameter.Value, multiLanguageTemplateNames)
                 : ParseTemplate.GetTemplateByName(descriptionParameter.Value, "mld");
 
             var description = GetDescription_choose_beste_language(descriptionParameter, multilingualDescription);
@@ -51,9 +52,9 @@ namespace TrueOrFalse.WikiMarkup
             }
             else //multilanguage description not found
             {
-                if (!IsNullOrEmpty(descriptionParameter.Value) && !descriptionParameter.Value.Contains("[["))
+                if (!IsNullOrEmpty(descriptionParameter.Value) && !descriptionParameter.Value.StartsWith("[["))
                 {
-                    result.Description = descriptionParameter.Value;
+                    result.Description = Markup2Html.TransformAll(descriptionParameter.Value);
                 }
                 else
                 {

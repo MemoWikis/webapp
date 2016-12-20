@@ -355,6 +355,35 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
         Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Screenshot of Anjuta's class inheritance graph and terminal"));
 
+        markup = @"== {{int:filedesc}} ==
+            {{Information
+            |Description=Photo of the ''Staffelwalze'' (English: '[[Wikipedia:Stepped Reckoner|Stepped Reckoner]]'), a prototype mechanical calculator invented by German mathematician [[Wikipedia:Gottfried von Leibniz|Gottfried Wilhelm Leibniz]] in 1674 and completed in 1694. About 67 cm (26 in.) long. This was the first calculator able to do all four arithmetic operations: addition, subtraction, multiplication, and division. Only two Stepped Reckoners were built. This one was found by workmen in 1879 in the attic of a building at the University of Gottingen, and is now in the [http://www.nlb-hannover.de/ National Library of Lower Saxony] (Niedersächsische Landesbibliothek), Hannover, Germany. For more information see [http://www.xnumber.com/xnumber/ James Redin (2007) A Brief History of Calculators Part 1: The Age of the Polymaths]. Caption: ""Leibnitz calculator, made in 1694.The first two-motion machine designed to compute multiplication by repeated addition"". Alterations: cropped out frame and caption, increased brightness.
+            | Source = Downloaded on 2008 - 1 - 14 from[http://books.google.com/books?id=ir00AAAAMAAJ&pg=PA133 J. A. V. Turck (1921) ''Origin of Modern Calculating Machines'', The Western Society of Engineers, Chicago, USA, p.133] on Google Books.
+            | Date = 1921
+                  | Author = J.A.V.Turck
+                  | Permission = Public domain - published in USA before 1923
+                  | other_versions =
+            }
+            }";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("J.A.V.Turck"));
+        Assert.That(parseImageMarkupResult.Description.StartsWith("Photo of the"));
+
+        markup = @"{{Artwork
+            |artist ={{Creator:Raffaello Sanzio}}
+            |title = {{title|lang=it|1=Scuola di Atene|de=Die Schule von Athen|el=[[:el:Η Σχολή των Αθηνών (Ραφαήλ)|Η Σχολή των Αθηνών]]|en=[[w:School of Athens|The School of Athens]]|es=[[:es:La escuela de Atenas|La escuela de Atenas]].}}
+            |Source=[[:File:Sanzio 01.jpg]]
+            |Date=1509
+            |medium = Fresco.
+            |Author=Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]].
+            |Permission=PD-Art
+            |institution = {{Institution:Musei Vaticani}}
+            |other_versions=[[File:Sanzio 01.jpg|thumb|none|Original]]
+            }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]]."));
+        Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Die Schule von Athen"));
+
         //TODO: 
         /*
          

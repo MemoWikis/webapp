@@ -31,7 +31,12 @@ public class InfoBoxTemplate
                 TemplateName = "Flickr",
                 AuthorParameterName = "photographer",
                 AuthorParameterNameUrl = "photographer_url"
-            }  
+            },
+            new InfoBoxTemplate
+            {
+                TemplateName = "Artwork",
+                DescriptionParamaterName = "title",
+            }
         };
     } 
 }
