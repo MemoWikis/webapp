@@ -189,7 +189,7 @@ public class LicenseImageRepo
 
             new LicenseImage
             {
-                Id = 13,
+                Id = 14,
                 WikiSearchString = "migration=relicense",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
