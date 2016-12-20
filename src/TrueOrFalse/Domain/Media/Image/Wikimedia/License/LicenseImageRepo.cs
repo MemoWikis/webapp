@@ -148,7 +148,7 @@ public class LicenseImageRepo
             new LicenseImage
             {
                 Id = 10,
-                WikiSearchString = "cc-by-sa-3.0, migration=relicense",
+                WikiSearchString = "cc-by-sa-3.0",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
                 LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
@@ -185,6 +185,20 @@ public class LicenseImageRepo
                 LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/4.0/deed.de",
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International",
                 LicenseShortName = "CC BY-SA 4.0",
+            },
+
+            new LicenseImage
+            {
+                Id = 13,
+                WikiSearchString = "migration=relicense",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
+                LicenseLink = "http://creativecommons.org/licenses/by-sa/3.0/legalcode",
+
+                LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/3.0/deed.de",
+                LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
+                LicenseShortName = "CC BY-SA 3.0",
             },
 
             

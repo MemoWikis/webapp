@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using SolrNet.Utils;
+using static System.String;
 
 internal class ImageLicenses_from_wikimedia : BaseTest
 {
@@ -17,8 +18,8 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                                         "No valid id assigned for:"));
 
         //Check for licenses without search string
-        Assert.That(allAuthorizedLicenses.All(license => !String.IsNullOrEmpty(license.WikiSearchString)),
-                    CreateErrorMessage(allAuthorizedLicenses.Where(license => String.IsNullOrEmpty(license.WikiSearchString)),
+        Assert.That(allAuthorizedLicenses.All(license => !IsNullOrEmpty(license.WikiSearchString)),
+                    CreateErrorMessage(allAuthorizedLicenses.Where(license => IsNullOrEmpty(license.WikiSearchString)),
                                         "No search string found for:"));
 
         //Check for licenses without information about author requirement
@@ -31,19 +32,19 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                     CreateErrorMessage(allAuthorizedLicenses.Where(license => !license.LicenseLinkRequired.HasValue),
                                         "No information about license link requirement provided for:"));
 
-        Assert.That(allAuthorizedLicenses.Where(license => license.LicenseLinkRequired.IsTrue()).All(license => !String.IsNullOrEmpty(license.LicenseLink)),
-                    CreateErrorMessage(allAuthorizedLicenses.Where(license => license.LicenseLinkRequired.IsTrue() && String.IsNullOrEmpty(license.LicenseLink)),
+        Assert.That(allAuthorizedLicenses.Where(license => license.LicenseLinkRequired.IsTrue()).All(license => !IsNullOrEmpty(license.LicenseLink)),
+                    CreateErrorMessage(allAuthorizedLicenses.Where(license => license.LicenseLinkRequired.IsTrue() && IsNullOrEmpty(license.LicenseLink)),
                                         "Necessary license link not provided for:"));
 
-        Assert.That(allAuthorizedLicenses.Where(license => license.CopyOfLicenseTextRequired.IsTrue()).All(license => !String.IsNullOrEmpty(license.CopyOfLicenseTextUrl)),
-                    CreateErrorMessage(allAuthorizedLicenses.Where(license => license.CopyOfLicenseTextRequired.IsTrue() && String.IsNullOrEmpty(license.CopyOfLicenseTextUrl)),
+        Assert.That(allAuthorizedLicenses.Where(license => license.CopyOfLicenseTextRequired.IsTrue()).All(license => !IsNullOrEmpty(license.CopyOfLicenseTextUrl)),
+                    CreateErrorMessage(allAuthorizedLicenses.Where(license => license.CopyOfLicenseTextRequired.IsTrue() && IsNullOrEmpty(license.CopyOfLicenseTextUrl)),
                                         "Necessary url of local license copy not provided for:"));
     }
 
     public static string CreateErrorMessage(IEnumerable<LicenseImage> erroneousLicenses, string messageSeed)
     {
         return erroneousLicenses.Aggregate(messageSeed + Environment.NewLine,
-                    (current, license) => current + String.Format("Id: {0}, SearchString: {1}" + Environment.NewLine,
+                    (current, license) => current + Format("Id: {0}, SearchString: {1}" + Environment.NewLine,
                         license.Id, license.WikiSearchString));
     }
 
@@ -67,12 +68,12 @@ internal class ImageLicenses_from_wikimedia : BaseTest
 
         var messageDuplicateSearchStrings = duplicateSearchStringLicenses
                                             .Aggregate("Duplicate search strings: " + Environment.NewLine,
-                                                        (current, duplicateSearchStringLicense) => current + String.Format("{0} (Id: {1})" + Environment.NewLine,
+                                                        (current, duplicateSearchStringLicense) => current + Format("{0} (Id: {1})" + Environment.NewLine,
                                                             duplicateSearchStringLicense.WikiSearchString, duplicateSearchStringLicense.Id));
 
         Assert.That(
             !LicenseImageRepo.GetAllRegisteredLicenses().GroupBy(l => l.Id).Any(grp => grp.Count() > 1),
-            "Duplicate ID(s):" + Environment.NewLine + String.Join(Environment.NewLine, duplicateIdLicenses.Select(license => license.Id).ToList()));
+            "Duplicate ID(s):" + Environment.NewLine + Join(Environment.NewLine, duplicateIdLicenses.Select(license => license.Id).ToList()));
 
         Assert.That(
             !LicenseImageRepo.GetAllRegisteredLicenses().GroupBy(l => l.WikiSearchString).Any(grp => grp.Count() > 1),
@@ -112,7 +113,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
         const string expectedResult = "cc-by-sa-3.0, cc-by-sa-3.0-de, cc-by-sa-3.0-fr, cc-by-sa-2.5, cc-sa-3.0, pd, gfdl, alternative, other";
 
         Assert.That(sortedLicenseStrings.Equals(expectedResult),
-                    String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
+                    Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, sortedLicenseStrings));
     }
 
     [Test]
@@ -127,7 +128,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                         {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
         ShowAllLicensesWithNotifications(markup);
-        Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("pd-old"));
+        Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
 
         markup = @"
                     {{Information
@@ -189,8 +190,20 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                         [[Category:Featured pictures of China]]
                         {{QualityImage}}";
 
-        Assert.That(LicenseImageRepo.GetAllRegisteredLicenses().Any(registeredLicense => !String.IsNullOrEmpty(registeredLicense.WikiSearchString) && registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAll failed");
-        Assert.That(LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), Is.True, "GetAuthorizedParsedLicenses failed");
+        Assert.That(
+            LicenseImageRepo.GetAllRegisteredLicenses()
+                .Any(
+                    registeredLicense => !IsNullOrEmpty(registeredLicense.WikiSearchString) && 
+                    registeredLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), 
+            Is.True, "GetAll failed"
+        );
+
+        var foo = LicenseParser.GetAuthorizedParsedLicenses(markup);
+
+        Assert.That(
+            LicenseParser.GetAuthorizedParsedLicenses(markup).Any(parsedLicense => parsedLicense.WikiSearchString.ToLower() == "cc-by-sa-3.0"), 
+            Is.True, "GetAuthorizedParsedLicenses failed"
+        );
     }
 
     [Test]
@@ -200,10 +213,10 @@ internal class ImageLicenses_from_wikimedia : BaseTest
         const string markup = "cc-by-sa-3.0|cc-by-sa-9.0|pd-phantasie|pd|lkjlkjlj";
 
         var otherPossibleLicenseStrings = LicenseParser.GetOtherPossibleLicenseStrings(markup).Aggregate((a, b) => a + ", " + b);
-        const string expectedResult = "cc-by-sa-3.0, cc-by-sa-9.0, pd-phantasie";
+        const string expectedResult = "cc-by-sa-9.0, pd-phantasie";
 
         Assert.That(otherPossibleLicenseStrings.Equals(expectedResult),
-                    String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
+                    Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
     }
 
     [Test]
@@ -222,7 +235,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                             "none";
         Console.WriteLine("Main license: " + mainLicense);
             
-        var allRegisteredLicenses = string.Join(", ", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.WikiSearchString.ToString()));
+        var allRegisteredLicenses = Join(", ", LicenseParser.GetAllParsedLicenses(markup).Select(x => x.WikiSearchString.ToString()));
         Console.WriteLine("All registered parsed licenses: " + Environment.NewLine + allRegisteredLicenses);
             
         Console.WriteLine(Environment.NewLine + "All authorized parsed licenses: ");
