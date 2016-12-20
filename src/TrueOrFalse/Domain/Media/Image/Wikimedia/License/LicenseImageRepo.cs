@@ -300,6 +300,7 @@ public class LicenseImageRepo
                 WikiSearchString = "GPL",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.GPL,
+                LicenseLink = "https://www.gnu.org/copyleft/gpl-3.0.html",
             },
             new LicenseImage
             {

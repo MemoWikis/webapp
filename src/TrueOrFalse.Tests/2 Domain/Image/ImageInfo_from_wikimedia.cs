@@ -379,6 +379,22 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]]."));
         Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Die Schule von Athen"));
 
+
+        markup = @"{{Artwork
+            |artist ={{Creator:Raffaello Sanzio}}
+            |title = {{title|lang=it|1=Scuola di Atene|de=Die Schule von Athen|el=[[:el:Η Σχολή των Αθηνών (Ραφαήλ)|Η Σχολή των Αθηνών]]|en=[[w:School of Athens|The School of Athens]]|es=[[:es:La escuela de Atenas|La escuela de Atenas]].}}
+            |Source=[[:File:Sanzio 01.jpg]]
+            |Date=1509
+            |medium = Fresco.
+            |Author=Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]].
+            |Permission=PD-Art
+            |institution = {{Institution:Musei Vaticani}}
+            |other_versions=[[File:Sanzio 01.jpg|thumb|none|Original]]
+            }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]]."));
+        Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Die Schule von Athen"));
+
         //TODO: 
         /*
          
