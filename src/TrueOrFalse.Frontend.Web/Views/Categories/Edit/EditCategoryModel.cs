@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -15,6 +16,7 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
+    //[AllowHtml]
     public string TopicMarkdown { get; set; }
 
     public bool IsEditing { get; set; }

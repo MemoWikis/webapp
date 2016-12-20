@@ -124,7 +124,6 @@
                 <%  } %>
             </div>
             
-            <h1>Huhu!</h1>
             <%= Model.ContentHtml %>
 
             <% if(Model.CountSets > 0){ %>    

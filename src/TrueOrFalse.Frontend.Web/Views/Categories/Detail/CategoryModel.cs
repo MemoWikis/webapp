@@ -57,6 +57,7 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         Type = category.Type.GetShortName();
+
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
         CategoriesParent = category.ParentCategories;

@@ -19,8 +19,6 @@ public class CategoryController : BaseController
     { 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
-        category.TopicMarkdown = "";
-        
         return View(_viewLocation,
             new CategoryModel(category)
             {
