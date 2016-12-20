@@ -73,7 +73,7 @@ namespace TrueOrFalse.WikiMarkup
 
             foreach (var regex in new[] { "{{(User:(.*))}}", "[[(User:(.*))]" })
             {
-                var regexMatch_UserAttributionTemplate = Regex.Match(authorText, regex);
+                var regexMatch_UserAttributionTemplate = Regex.Match(authorText, regex, RegexOptions.IgnoreCase);
                 if (regexMatch_UserAttributionTemplate.Success && regexMatch_UserAttributionTemplate.Groups.Count == 3)
                 {
                     var authorUrl = $"<a href='http://commons.wikimedia.org/wiki/{regexMatch_UserAttributionTemplate.Groups[1]}'>{regexMatch_UserAttributionTemplate.Groups[2]}</a>";

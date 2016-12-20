@@ -148,7 +148,7 @@ public class LicenseImageRepo
             new LicenseImage
             {
                 Id = 10,
-                WikiSearchString = "cc-by-sa-3.0",
+                WikiSearchString = "cc-by-sa-3.0, migration=relicense",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
                 LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
@@ -186,6 +186,8 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International",
                 LicenseShortName = "CC BY-SA 4.0",
             },
+
+            
             //new License()
             //{
             //    Id = 100,
@@ -309,6 +311,15 @@ public class LicenseImageRepo
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain - published in USA before 1923"
+            },
+            new LicenseImage
+            {
+                Id = 207,
+                WikiSearchString = "PD-textlogo",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain - text logo",
+                LicenseLink = "https://commons.wikimedia.org/wiki/Template_talk:PD-textlogo"
             }
 
 
