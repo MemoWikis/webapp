@@ -344,17 +344,16 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
         Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("<a href='http://flickr.com/photos/83713082@N00'>Carl Montgomery</a>"));
 
-        //markup = @"{{Information
-        //    |Description=Screenshot of Anjuta's class inheritance graph and terminal
-        //    |Source={{Transferred from|en.wikipedia}}
-        //    |Date={{original upload date|2005-06-25}}
-        //    |Author={{original uploader|Deeahbz|wikipedia|en}}
-        //    |Permission=GPL.
-        //    |other_versions=
-        //    }}";
-        //parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Screenshot of Anjuta's class inheritance graph and terminal"));
-        //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Deeahbz"));
+        markup = @"{{Information
+            |Description=Screenshot of Anjuta's class inheritance graph and terminal
+            |Source={{Transferred from|en.wikipedia}}
+            |Date={{original upload date|2005-06-25}}
+            |Author={{original uploader|Deeahbz|wikipedia|en}}
+            |Permission=GPL.
+            |other_versions=
+            }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Screenshot of Anjuta's class inheritance graph and terminal"));
 
         //TODO: 
         /*
