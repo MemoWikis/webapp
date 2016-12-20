@@ -171,5 +171,13 @@
   {
     "outputFile": "Views/Welcome/Register.css",
     "inputFile": "Views/Welcome/Register.less"
+  },
+  {
+    "outputFile": "Views/Help/FAQ.css",
+    "inputFile": "Views/Help/FAQ.less"
+  },
+  {
+    "outputFile": "Views/Maintenance/ContentReport.css",
+    "inputFile": "Views/Maintenance/ContentReport.less"
   }
 ]

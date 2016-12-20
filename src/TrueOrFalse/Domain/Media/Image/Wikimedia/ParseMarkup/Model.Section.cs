@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static System.String;
 
 namespace TrueOrFalse.WikiMarkup
 {
@@ -12,9 +9,9 @@ namespace TrueOrFalse.WikiMarkup
     {
         public string TemplateName;
         public string Raw;
-        public List<Parameter> Parameters = new List<Parameter>();
+        public List<Parameter> Parameters;
 
-        public bool IsSet{ get { return !String.IsNullOrEmpty(Raw); } }
+        public bool IsSet => !IsNullOrEmpty(Raw);
 
         public Template(string text, string templateName)
         {
@@ -23,9 +20,6 @@ namespace TrueOrFalse.WikiMarkup
             Parameters = ParseTemplateParameters.Run(text);
         }
 
-        public Parameter ParamByKey(string key)
-        {
-            return Parameters.ByKey(key);
-        }
+        public Parameter ParamByKey(string key) => Parameters.ByKey(key);
     }
 }

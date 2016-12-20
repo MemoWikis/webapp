@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace TrueOrFalse.WikiMarkup
 {
     public class ParseTemplate
     {
+        public static Template GetTemplateByName(string markup, string[] templateNames)
+        {
+            foreach (var templateName in templateNames)
+            {
+                var template = GetTemplateByName(markup, templateName);
+
+                if (template.IsSet)
+                    return template;
+            }
+
+            return new Template("", templateNames.Aggregate((a,b) => a + " " + b));
+        }
+
         public static Template GetTemplateByName(string markup, string templateName)
         {
             string[] markupTokenized = TokenizeMarkup(markup);

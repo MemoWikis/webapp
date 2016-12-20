@@ -11,7 +11,10 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.WikipediaURL);
 
         References(x => x.Creator);
-            
+
+        Map(x => x.TopicMarkdown);
+        Map(x => x.FeaturedSetsIdsString);
+
         Map(x => x.CountQuestions);
         Map(x => x.CountSets);
         Map(x => x.CountCreators);

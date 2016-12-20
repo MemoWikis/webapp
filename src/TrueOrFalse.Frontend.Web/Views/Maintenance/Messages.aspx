@@ -7,10 +7,12 @@
             <a class="navbar-brand" href="#">Maintenance</a>
             <ul class="nav navbar-nav">
                 <li><a href="/Maintenance">Allgemein</a></li>
-                <li><a href="/Maintenance/Images">Bilder</a></li>
+                <li><a href="/MaintenanceImages/Images">Bilder</a></li>
                 <li class="active"><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li><a href="/Maintenance/CMS">CMS</a></li>
+                <li><a href="/Maintenance/ContentReport">Content</a></li>
+                <li><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
     </nav>

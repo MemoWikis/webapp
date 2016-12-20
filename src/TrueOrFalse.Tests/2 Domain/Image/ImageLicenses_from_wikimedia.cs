@@ -206,6 +206,15 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                     String.Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
     }
 
+    [Test]
+    public void Should_find_cc_by_sa_de()
+    {
+        const string markup = "{{Cc-by-sa-3.0-de|attribution=Bundesarchiv, B 145 Bild-F078072-0004 / Katherine Young / CC-BY-SA 3.0}}";
+        var otherPossibleLicenseStrings = LicenseParser.GetOtherPossibleLicenseStrings(markup).Aggregate((a, b) => a + ", " + b);
+        Console.WriteLine(LicenseParser.GetAllParsedLicenses(markup).Select(x => x.LicenseShortName).Aggregate((a, b) => a + ", " + b));
+        Assert.That(otherPossibleLicenseStrings, Is.EqualTo("Cc-by-sa-3.0-de"));
+    }
+
     public void ShowAllLicensesWithNotifications(string markup)
     {
         var mainLicense = LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}) != null ?

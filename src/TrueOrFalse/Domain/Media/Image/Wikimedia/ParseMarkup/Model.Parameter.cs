@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static System.String;
 
 namespace TrueOrFalse.WikiMarkup
 {
@@ -16,7 +14,7 @@ namespace TrueOrFalse.WikiMarkup
         public string Raw;
         public List<string> Tokens;
 
-        public bool HasKey{ get { return !String.IsNullOrEmpty(Key); } }
+        public bool HasKey => !IsNullOrEmpty(Key);
 
         public List<Template> Subtemplates = new List<Template>();
 

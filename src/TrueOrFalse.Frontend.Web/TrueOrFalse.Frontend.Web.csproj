@@ -321,6 +321,9 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
+    <Compile Include="Views\Maintenance\StatisticsModel.cs" />
+    <Compile Include="Views\Maintenance\ContentReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
@@ -477,8 +480,10 @@
     <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
+    <Content Include="Images\LogosPartners\Logo_Geschichtsinfos_de_w200.jpg" />
+    <Content Include="Images\LogosPartners\Logo_lernenmitspass_w200.gif" />
+    <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
-    <Content Include="Images\LogosPartners\profund-innovation-logo.jpg" />
     <Content Include="Images\Logo\LogoComplete_M.png" />
     <Content Include="Images\Logo\LogoPictogram.png" />
     <Content Include="Images\Logo\LogoSmall.png" />
@@ -491,12 +496,15 @@
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />
     <Content Include="Images\Screenshots\fragen-zu-fragesatz.png" />
+    <Content Include="Images\Team\team_christof-rund_160.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
+    <Content Include="Images\Team\team_jule-rund_160.png" />
     <Content Include="Images\Team\team_jule201509-1_155.jpg" />
     <Content Include="Images\Team\team_jule201509-1_600.jpg" />
     <Content Include="Images\Team\team_jule201509-2_155.jpg" />
     <Content Include="Images\Team\team_jule201509-2_600.jpg" />
+    <Content Include="Images\Team\team_robert-rund_160.png" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
     <Content Include="Scripts\Facebook.js">
@@ -525,8 +533,13 @@
       <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
-    <Content Include="Views\Maintenance\Images.min.css">
-      <DependentUpon>Images.css</DependentUpon>
+    <Content Include="Views\Help\FAQ.css">
+      <DependentUpon>FAQ.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Statistics.aspx" />
+    <Content Include="Views\Maintenance\ContentReport.aspx" />
+    <Content Include="Views\Maintenance\ContentReport.css">
+      <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
@@ -544,7 +557,11 @@
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\VariousPublic\AboutMemucho.css">
+      <DependentUpon>AboutMemucho.less</DependentUpon>
+    </Content>
     <Content Include="Views\VariousPublic\Jobs.aspx" />
+    <Content Include="Views\VariousPublic\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -866,7 +883,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images.css">
+    <Content Include="Views\Maintenance\Images\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
@@ -1412,7 +1429,7 @@
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\Maintenance\ImagesModel.cs" />
+    <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
       <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
@@ -1582,19 +1599,19 @@
     <Content Include="Views\Images\ImageDetail.js">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\ImageMaintenance.js">
+    <Content Include="Views\Maintenance\Images\ImageMaintenance.js">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
     <Content Include="Views\Images\ImageDetailModal.ascx" />
-    <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
-    <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
+    <Content Include="Views\Maintenance\Images\ImageMaintenanceRow.ascx" />
+    <Content Include="Views\Maintenance\Images\ImageMaintenanceModal.ascx" />
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Markup.ascx" />
+    <Content Include="Views\Maintenance\Images\Markup.ascx" />
     <Content Include="Views\Maintenance\Tools.aspx" />
     <Content Include="Views\Maintenance\Messages.aspx" />
-    <Content Include="Views\Maintenance\Images.aspx" />
+    <Content Include="Views\Maintenance\Images\Images.aspx" />
     <Content Include="Views\Messages\Js\Message.js">
       <DependentUpon>Message.ts</DependentUpon>
     </Content>
@@ -1664,7 +1681,7 @@
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\ImageMaintenance.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Images\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
@@ -1925,7 +1942,7 @@
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\ImageMaintenance.js.map">
+    <Content Include="Views\Maintenance\Images\ImageMaintenance.js.map">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
     <Content Include="Views\Images\ImageDetail.js.map">
@@ -2050,10 +2067,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js.map">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images.less" />
-    <Content Include="Views\Maintenance\Images.css.map">
-      <DependentUpon>Images.css</DependentUpon>
-    </Content>
+    <Content Include="Views\Maintenance\Images\Images.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
@@ -2103,6 +2117,10 @@
     <Content Include="Views\Welcome\Registration\Register.less" />
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\VariousPublic\AboutMemucho.less" />
+    <Content Include="Views\Help\FAQ.less" />
+    <Content Include="Views\Maintenance\ContentReport.less" />
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

@@ -27,6 +27,7 @@
     <input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
     <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
     <input type="hidden" id="isEditing" name="isEditing" value="<%= Model.IsEditing %>"/>
+    <input type="hidden" id="isAdmin" name="isAdmin" value="<%= Model.IsInstallationAdmin %>"/>
     <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
 
     <div class="row">
@@ -71,8 +72,8 @@
         
     <% if(Model.IsLoggedIn){ %>
         <div class="row">
-            <div class="aside col-md-3 col-md-push-9 rowBase" style="margin-bottom: 11px;">
-                <div class="form-horizontal " role="form">
+            <div class="aside col-md-3 col-md-push-9" style="margin-bottom: 11px;">
+                <div class="form-horizontal rowBase" role="form">
                     <div class="FormSection">
                         <div class="form-group">
                             <label for="Visibility" class="columnLabel labelVisibility control-label">Sichtbarkeit</label>

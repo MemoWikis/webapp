@@ -17,12 +17,15 @@ namespace TrueOrFalse.Maintenance
             _wikiImageLicenseLoader = wikiImageLicenseLoader;
         }
 
-        public void Run(ImageMetaData imageMetaData)
+        public void Run(ImageMetaData imageMetaData, bool loadMarkupFromWikipedia = true)
         {
             if(imageMetaData.Source != ImageSource.WikiMedia) return;
 
             var fileName = imageMetaData.SourceUrl.Split('/').Last();
-            var licenseInfo = _wikiImageLicenseLoader.Run(fileName, imageMetaData.ApiHost);
+
+            var licenseInfo = loadMarkupFromWikipedia ? 
+                _wikiImageLicenseLoader.Run(fileName, imageMetaData.ApiHost) : 
+                WikiImageLicenseInfo.ParseMarkup(imageMetaData.Markup);
 
             imageMetaData.AuthorParsed = licenseInfo.AuthorName;
             imageMetaData.DescriptionParsed = licenseInfo.Description;
@@ -44,7 +47,7 @@ namespace TrueOrFalse.Maintenance
             Update(allImages);
         }
 
-        public void UpdateAllWithoutAuthorizedMainLicense()
+        public void UpdateAllWithoutAuthorizedMainLicense(bool loadMarkupFromWikipedia = true)
         {
             var allImages = _imgRepo.Session
                 .QueryOver<ImageMetaData>()
@@ -54,14 +57,14 @@ namespace TrueOrFalse.Maintenance
             var imagesToUpdate = allImages.Where(x => x.MainLicenseInfo == null ||
                 x.ManualEntriesFromJson().ManualImageEvaluation == ManualImageEvaluation.ImageNotEvaluated);
 
-            Update(imagesToUpdate);
+            Update(imagesToUpdate, loadMarkupFromWikipedia);
         }
 
-        private void Update(IEnumerable<ImageMetaData> imageList)
+        private void Update(IEnumerable<ImageMetaData> imageMetaDataList, bool loadMarkupFromWikipedia = true)
         {
-            foreach (var imageMetaData in imageList)
+            foreach (var imageMetaData in imageMetaDataList)
             {
-                Run(imageMetaData);
+                Run(imageMetaData, loadMarkupFromWikipedia);
 
                 try
                 {

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FluentNHibernate.Conventions.AcceptanceCriteria;
-using NHibernate.Mapping;
 using Seedworks.Lib;
 
 public class LicenseImage
@@ -50,6 +48,13 @@ public class LicenseImage
         else if (LicenseRequirementsType == LicenseRequirementsType.Cc_Sa)
         {
             AuthorRequired = false;
+            LicenseLinkRequired = true;
+            CopyOfLicenseTextRequired = false;
+        }
+
+        else if (LicenseRequirementsType == LicenseRequirementsType.GPL)//https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/licenses#GNU_GPL_and_LGPL
+        {
+            AuthorRequired = true;
             LicenseLinkRequired = true;
             CopyOfLicenseTextRequired = false;
         }
@@ -155,6 +160,7 @@ public enum LicenseRequirementsType
     PD = 5,
     GFDL = 6,
     AmtlichesWerkDE = 7,
+    GPL = 8,
 }
 
 public static class LicenseRequirementsTypeExts

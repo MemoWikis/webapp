@@ -93,6 +93,10 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Markdig, Version=0.10.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdig.0.10.4\lib\net40\Markdig.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MarkdownSharp">
       <HintPath>..\libs\MarkdownSharp.dll</HintPath>
     </Reference>
@@ -321,10 +325,13 @@
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionType.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataCache.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Author\ParseAuthor.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Description\ParseDescription.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
+    <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
@@ -400,7 +407,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository .cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
-    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettingsBase.cs" />
+    <Compile Include="Domain\Media\Image\ImageTypes\ImageSettings.cs" />
     <Compile Include="Domain\Media\Image\ManualImageEvaluation.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseState.cs" />
     <Compile Include="Domain\Media\Image\MainLicenseInfo.cs" />
@@ -418,17 +425,17 @@
     <Compile Include="Domain\Media\Image\Wikimedia\License\LicenseImageRepo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\Ops\SetImageLicenseStatus.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\ParseMarkupFromDb.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\Markup2Html.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Utils\Markup2Html.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Parameter.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkup.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\ParseImageMarkup.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Model.Section.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseImageMarkupResult.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ImageParsingNotifications.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplate.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\ParseTemplateParameters.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\ParseImageMarkupResult.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Types\ImageParsingNotifications.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\ParseTemplate.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\ParseTemplateParameters.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\Maintenance\LoadImageMarkups.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\InfoBoxTemplate.cs" />
-    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Ops\WikiLanguage.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Types\InfoBoxTemplate.cs" />
+    <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Types\WikiLanguage.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiApiUtils.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseInfo.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\License\WikiImageLicenseLoader.cs" />
@@ -832,6 +839,8 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs129.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs147.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs146.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs151.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs148.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
@@ -865,12 +874,13 @@
     <Compile Include="Web\InvalidAccessException.cs" />
     <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />
+    <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptViewEngine.cs" />
     <Compile Include="Web\ViewEngine\PartialSubDirectoriesViewEngine.cs" />
-    <Compile Include="Web\MardownInit.cs" />
+    <Compile Include="Web\Markdown\MarkdownInit.cs" />
     <Compile Include="Web\Uris\Links.cs" />
     <Compile Include="Web\Uris\MenuModelCategoryItem.cs" />
     <Compile Include="Web\Uris\UriSanitizer.cs" />

@@ -2532,6 +2532,10 @@
   text-decoration: none !important;
   color: #203256 !important;
 }
+.ButtonOnHover.disabled {
+  background-color: white !important;
+  color: silver !important;
+}
 .CardBig {
   padding-top: 15px;
 }

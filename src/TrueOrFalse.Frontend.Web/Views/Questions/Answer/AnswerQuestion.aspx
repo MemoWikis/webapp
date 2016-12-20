@@ -157,7 +157,7 @@
                    new AnswerBodyModel(Model)); %>
 
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4>Lust auf mehr? Andere Nutzer lernen auch:</h4>
+                <h4 style="margin-top: 30px;">Lust auf mehr? Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscapeNarrow" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {
@@ -228,6 +228,30 @@
         </div>
         
         <div class="col-sm-3 xxs-stack">
+            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
+                var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
+                <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px;">
+                    <h6 class="ItemInfo">
+                        <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
+                            <a href="#" class="noTextdecoration">
+                                <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                                <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                                <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                            </a>
+                        </span>&nbsp;
+                        Fragesatz mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
+                    </h6>
+                    <h4 class="ItemTitle"><%: primarySet.Name %></h4>
+                    <div class="ItemText"><%: primarySet.Text %></div>
+                    <div style="margin-top: 8px; text-align: center;">
+                        <a href="<%= Links.TestSessionStartForSet(primarySet.Name, primarySet.Id) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
+                            &nbsp;JETZT TESTEN
+                        </a>
+                    </div>
+                </div>
+                
+            <% } %>
+
             <div class="well" id="answerQuestionDetails" style="background-color: white;">
                 <p>
                     von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />

@@ -29,6 +29,11 @@
             <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
         <% } %>
 
+        <% if(Model.LearningSession.IsWishSession) { %>
+            Fragen aus deinem  
+            <a href="<%= Links.QuestionsWish() %>">Wunschwissen</a>
+        <% } %>
+
         <% if (Model.LearningSession.Questions().Count() < Model.LearningSession.TotalPossibleQuestions){ %>
             mit <%= Model.LearningSession.TotalPossibleQuestions %> Fragen.
         <% } %>

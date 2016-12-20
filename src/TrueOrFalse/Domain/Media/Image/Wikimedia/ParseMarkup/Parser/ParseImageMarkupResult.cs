@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Helpers;
-using System.Web.Mvc;
 
 namespace TrueOrFalse.WikiMarkup
 {
@@ -17,7 +11,9 @@ namespace TrueOrFalse.WikiMarkup
         public string AuthorName_Raw;
         public string AuthorName;
 
-        public Template InfoTemplate;
+        //public string Attribution;
+
+        public Template Template;
         public InfoBoxTemplate InfoBoxTemplate;
 
         public string AllRegisteredLicenses;

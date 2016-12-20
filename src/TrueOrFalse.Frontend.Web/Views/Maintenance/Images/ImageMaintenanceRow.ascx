@@ -7,14 +7,15 @@
     <td class="ColumnInfo">
         <input id="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" class="form-control" name="hddImageMaintenanceRowMessage-<%= Model.ImageId %>" type="hidden" value="<%= !String.IsNullOrEmpty(Model.MaintenanceRowMessage) ? Model.MaintenanceRowMessage : "" %>" />
         Image-Id: <b><%= Model.ImageId %></b><br/>
-        <a href="<%=Model.URLToWhereImageIsUsed %>" target="_blank">
+        <a href="<%=Model.TypeUrl %>" target="_blank">
             <%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %><br/>
             TypeId: <%= Model.TypeId %>
         </a>
-        <% if (!Model.ImageUsageFound)
-           {
-               Response.Write("<i class=\"fa fa-exclamation-triangle\">&nbsp;</i>Verwendung nicht gefunden.");
-           }%>
+        <div>
+        <% if (Model.TypeNotFound) { %>
+            <i class="fa fa-exclamation-triangle">&nbsp;</i>Typ nicht gefunden.
+        <% } %>
+        </div>
     </td>
     <td class="ColumnDescription">
         <b>Datei: </b>
@@ -81,7 +82,7 @@
             Keine Lizenzen gefunden.
         <% } %>
                     
-        <br/><a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
+        <br/><a href="<%= "/MaintenanceImages/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
         <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){
         %> <br/><a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Bilddetailseite</a><% } %>
                     

@@ -1,27 +1,22 @@
 ﻿using System.Collections.Generic;
 
-public class SetImageSettings : ImageSettingsBase, IImageSettings
+public class SetImageSettings : ImageSettings, IImageSettings
 {
     public override int Id { get; set; }
-    public ImageType ImageType
-    {
-        get { return ImageType.QuestionSet; }
-    }
-    public IEnumerable<int> SizesSquare { get { return new[] { 206, 20 }; } }
-    public IEnumerable<int> SizesFixedWidth { get { return new[] { 500 }; } }
-    public override string BasePath { get { return "/Images/QuestionSets/"; } }
-    public string BaseDummyUrl { get { return "/Images/no-set-"; } }
+    public ImageType ImageType => ImageType.QuestionSet;
+    public IEnumerable<int> SizesSquare => new[] { 206, 20 };
+    public IEnumerable<int> SizesFixedWidth => new[] { 500 };
+    public override string BasePath => "/Images/QuestionSets/";
+    public string BaseDummyUrl => "/Images/no-set-";
 
-    public static SetImageSettings Create(int questionSetId)
-    {
-        var result =  new SetImageSettings();
-        result.Init(questionSetId);
-        return result;
+    public SetImageSettings() {}
+
+    public SetImageSettings(int setId){
+        Init(setId);
     }
 
-    public void Init(int questionSetId)
-    {
-        Id = questionSetId;
+    public void Init(int setId){
+        Id = setId;
     }
 
     public ImageUrl GetUrl_50px_square() { return GetUrl(50, isSquare: true); }
@@ -42,4 +37,3 @@ public class SetImageSettings : ImageSettingsBase, IImageSettings
         ).SetSuffix(imageMeta);
     }
 }
-

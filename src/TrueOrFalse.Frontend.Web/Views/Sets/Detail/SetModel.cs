@@ -75,7 +75,7 @@ public class SetModel : BaseModel
         var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
 
-        QuestionsInSet = set.QuestionsInSet.Select(
+        QuestionsInSet = set.QuestionsInSet.OrderBy(q => q.Sort).ThenBy(q => q.Id).Select(
             x => new SetQuestionRowModel(
                 x.Question, 
                 x.Set,

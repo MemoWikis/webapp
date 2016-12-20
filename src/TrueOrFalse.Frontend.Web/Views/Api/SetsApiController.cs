@@ -61,7 +61,7 @@ public class SetsApiController : BaseController
 
     public JsonResult ByName(string term)
     {
-        var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 1}, searchOnlyWithStartingWith: true).SetIds;
+        var setIds = R<SearchSets>().Run(term, new Pager{PageSize = 5}, searchOnlyWithStartingWith: true).SetIds;
         var sets = R<SetRepo>().GetByIds(setIds);
 
         var items = sets.Select(set =>
@@ -70,7 +70,7 @@ public class SetsApiController : BaseController
                     Id = set.Id,
                     Name = set.Name,
                     NumberOfQuestions = set.QuestionsInSet.Count,
-                    ImageUrl = SetImageSettings.Create(set.Id).GetUrl_50px_square().Url,
+                    ImageUrl = new SetImageSettings(set.Id).GetUrl_50px_square().Url,
                 }
             ).ToList();
 

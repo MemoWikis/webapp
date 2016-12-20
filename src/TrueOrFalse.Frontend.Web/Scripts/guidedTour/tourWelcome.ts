@@ -74,6 +74,7 @@ var tourWelcome = new Tour({
             content: "Registriere dich am besten gleich. Mit memucho sparst du Zeit beim Lernen und kannst dich entspannter auf Prüfungen vorbereiten."
         }
     ],
+    storage: false, // tour starts at step 0 every time the page is reloaded
     template: tourTemplate,
     onNext: function(tour) {
         //console.log("onNext, left step-ID: " + tour.getCurrentStep());
@@ -88,10 +89,3 @@ var tourWelcome = new Tour({
         //console.log("onShowGlobal");
     }
 });
-
-//tourWelcome.onNext:
-
-//function (parameters) {
-//    console.log("onNext");
-//}
-

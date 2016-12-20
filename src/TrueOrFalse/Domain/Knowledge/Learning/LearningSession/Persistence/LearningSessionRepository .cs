@@ -14,4 +14,20 @@ public class LearningSessionRepo : RepositoryDbBase<LearningSession>
                 .SetParameter("setId", setId)
                 .ExecuteUpdate();
     }
+
+    public LearningSession GetLastWishSessionIfUncompleted(User user)
+    {
+        var result = Session.QueryOver<LearningSession>()
+            .Where(l => l.User == user)
+            .And(l => l.IsWishSession)
+            .OrderBy(l => l.DateModified).Desc
+            .List()
+            .FirstOrDefault();
+
+        if (result != null && !result.IsCompleted)
+            return result;
+
+        return null;
+    }
+
 }

@@ -21,13 +21,8 @@ public class ImageMetaData : DomainEntity
     public virtual string Notifications { get; set; }
     public virtual ImageLicenseState LicenseState { get; set; }
         
-    public virtual ManualImageData ManualEntriesFromJson()
-    {
-        return ManualImageData.FromJson(ManualEntries);
-    }
+    public virtual ManualImageData ManualEntriesFromJson() => ManualImageData.FromJson(ManualEntries);
+    public virtual ImageParsingNotifications NotificationsFromJson() => ImageParsingNotifications.FromJson(Notifications);
 
-    public virtual ImageParsingNotifications NotificationsFromJson()
-    {
-        return ImageParsingNotifications.FromJson(Notifications);
-    }
+    public virtual IImageSettings GetSettings() => ImageSettings.InitByType(this);
 }

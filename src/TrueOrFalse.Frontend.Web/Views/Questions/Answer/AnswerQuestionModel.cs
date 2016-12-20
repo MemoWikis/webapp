@@ -104,6 +104,7 @@ public class AnswerQuestionModel : BaseModel
     public int TestSessionCurrentStepPercentage;
     public bool TestSessionIsLastStep = false;
     public int TestSessionProgessAfterAnswering;
+    public bool ShowErrorExpiredTestSession;
 
     public ContentRecommendationResult ContentRecommendationResult;
 
@@ -140,6 +141,15 @@ public class AnswerQuestionModel : BaseModel
             });
 
         Populate(LearningSessionStep.Question);
+    }
+
+    public static AnswerQuestionModel CreateExpiredTestSession()
+    {
+        var model = new AnswerQuestionModel();
+        model.IsTestSession = true;
+        model.ShowErrorExpiredTestSession = true;
+
+        return model;
     }
 
     public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question)
@@ -183,6 +193,7 @@ public class AnswerQuestionModel : BaseModel
                 SourceIsCategory = true;
         }
 
+        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 
@@ -209,6 +220,7 @@ public class AnswerQuestionModel : BaseModel
         SourceIsSet = true;
         Set = set;
 
+        ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 
@@ -241,7 +253,7 @@ public class AnswerQuestionModel : BaseModel
 
         QuestionId = question.Id;
         QuestionText = question.Text;
-        QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
+        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
         Visibility = question.Visibility;
         SolutionType = question.SolutionType.ToString();
         SolutionModel = GetQuestionSolution.Run(question);

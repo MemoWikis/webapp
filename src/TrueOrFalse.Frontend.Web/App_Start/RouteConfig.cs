@@ -105,12 +105,14 @@ namespace TrueOrFalse
 
             routes.MapRoute("Category_StartTestSession", "Kategorie/Testen/{categoryName}/{categoryId}", new { controller = "Category", action = "StartTestSession" });
 
+            routes.MapRoute("Knowledge_Learn", "Lernen/Wunschwissen", new { controller = "Knowledge", action = "StartLearningSession" });
             routes.MapRoute("Knowledge", "Wissenszentrale/{action}", new { controller = "Knowledge", action = "Knowledge" });
             routes.MapRoute("Knowledge_ConfirmEmail", "EmailBestaetigen/{emailKey}", new { controller = "Knowledge", action = "EmailConfirmation" });
 
             routes.MapRoute("AlgoInsight", "AlgoInsight/{action}", new { controller = "AlgoInsight", action = "AlgoInsight" });
 
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
+            routes.MapRoute("MaintenanceImages", "MaintenanceImages/{action}", new { controller = "MaintenanceImages", action = "Images" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
             
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
@@ -125,6 +127,7 @@ namespace TrueOrFalse
 
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("MemuchoBeta", "Beta-Phase", new { controller = "VariousPublic", action = "MemuchoBeta" });
+            routes.MapRoute("AboutMemucho", "Ueber-memucho", new { controller = "VariousPublic", action = "AboutMemucho" });
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
             routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "VariousPublic", action = "WelfareCompany" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });

@@ -41,13 +41,24 @@ class EditQuestionForm
     }
 
     public InitLicenseAgreement() {
-        $('[name="Visibility"]').change(function () {
-            if ($('input[name="Visibility"]:checked').val() == "Owner") {
-                $('#Agreement').hide();
-            } else {
-                $('#Agreement').show();
-            }
-        });        
+
+        if ($('#isAdmin').val() == "True") {
+            $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("true");
+            $('#Agreement').hide();
+        } else {
+            if ($('input[name="Visibility"]:checked').val() === "Owner")
+                $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("true");
+
+            $('[name="Visibility"]').change(function () {
+                if ($('input[name="Visibility"]:checked').val() === "Owner") {
+                    $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("true");
+                    $('#Agreement').hide();
+                } else {
+                    $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("false");
+                    $('#Agreement').show();
+                }
+            });       
+        }
     }
 
     public InitButtonTextUpdate() {

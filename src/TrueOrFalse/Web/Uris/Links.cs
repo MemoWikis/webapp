@@ -14,15 +14,16 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string VariousController = "VariousPublic";
         public const string Impressum = "Impressum";
         public const string TermsAndConditions = "AGB";
-        public const string WelfareCompany = "Gemeinwohlökonomie";
+        public const string WelfareCompanyAction = "WelfareCompany";
+        public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
 
         public const string KnowledgeController = "Knowledge";
         public const string KnowledgeAction = "Knowledge";
-        public static string Knowledge() { return GetUrlHelper().Action(KnowledgeAction, KnowledgeController); }
+        public static string Knowledge() => GetUrlHelper().Action(KnowledgeAction, KnowledgeController);
 
         public const string HelpController = "Help";
         public const string HelpActionFAQ = "FAQ";
-        public static string HelpFAQ() { return GetUrlHelper().Action(HelpActionFAQ, HelpController); }
+        public static string HelpFAQ() => GetUrlHelper().Action(HelpActionFAQ, HelpController);
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
 
@@ -32,10 +33,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string LoginAction = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
-        public static string BetaInfo() { return GetUrlHelper().Action("MemuchoBeta", VariousController); }
-        public static string Jobs() { return GetUrlHelper().Action("Jobs", VariousController); }
+        public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
+        public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", VariousController);
+        public static string Jobs() => GetUrlHelper().Action("Jobs", VariousController);
 
         public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        /* AlgoInsight */
+        public const string AlgoInsightController = "AlgoInsight";
+        public static string AlgoInsightForecast() => GetUrlHelper().Action("Forecast", AlgoInsightController);
 
         /*Users*/
         public const string UserController = "User";
@@ -230,8 +236,11 @@ namespace TrueOrFalse.Frontend.Web.Code
             throw new Exception("unknown type");
         }
 
-        public static string StartSetLearningSession(int setId) => 
-            GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId});
+        public static string StartSetLearningSession(int setId) =>
+            GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
+
+        public static string StartWishLearningSession() =>
+            GetUrlHelper().Action("StartLearningSession", KnowledgeController );
 
         /* Testing / TestSession*/
         public const string TestSessionController = "TestSession";
@@ -311,6 +320,23 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action(CategoryDetailAction, CategoryController,
                 new { text = UriSanitizer.Run(name), id = id }, null);
+        }
+
+        public static string GetUrl(object type)
+        {
+            if (type == null)
+                return "";
+
+            if (type is Category)
+                return CategoryDetail((Category) type);
+
+            if (type is Set)
+                return SetDetail((Set)type);
+
+            if (type is Question)
+                return AnswerQuestion((Question)type);
+
+            throw new Exception("unexpected type");
         }
 
         public static string CategoryEdit(Category category) => CategoryEdit(GetUrlHelper(), category.Name, category.Id);

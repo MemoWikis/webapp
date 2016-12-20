@@ -1,0 +1,51 @@
+﻿@import '../../Style/includes/imports.less';
+
+.aboutRow {
+    display: flex;
+    .media-below-xs({
+        display: inherit;
+    });
+
+}
+
+.aboutImg {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px;
+    color: @memo-green;
+}
+
+.aboutImgInner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.aboutText {
+    padding: 10px;
+
+    h3 {
+        margin-top: 0;
+        .media-below-xs({
+            margin-top: 15px;
+        });
+    }
+}
+
+.TeamPic {
+    text-align: center;
+}
+
+.partnerLogos {
+    text-align: center;
+    img {
+        padding: 20px;
+    }
+}

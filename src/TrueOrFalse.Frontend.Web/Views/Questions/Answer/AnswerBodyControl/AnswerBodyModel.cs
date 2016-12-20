@@ -110,7 +110,7 @@ public class AnswerBodyModel : BaseModel
             AjaxUrl_TestSessionRegisterAnsweredQuestion = Links.TestSessionRegisterQuestionAnswered;
 
         QuestionText = question.Text;
-        QuestionTextMarkdown = MardownInit.Run().Transform(question.TextExtended);
+        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
         LicenseQuestion = question.License;
                           
         SoundUrl = new GetQuestionSoundUrl().Run(question);

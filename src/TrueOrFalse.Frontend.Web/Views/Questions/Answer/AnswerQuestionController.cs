@@ -13,7 +13,9 @@ public class AnswerQuestionController : BaseController
 
     private readonly AnswerQuestion _answerQuestion;
     private readonly SaveQuestionView _saveQuestionView;
+
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
+    private const string _viewLocationError = "~/Views/Questions/Answer/AnswerQuestionError.aspx";
 
     public AnswerQuestionController(QuestionRepo questionRepo,
                                     AnswerQuestion answerQuestion,
@@ -87,9 +89,17 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult Test(int testSessionId)
     {
-        if (_sessionUser.TestSessions.Count(s => s.Id == testSessionId) != 1)
-            throw new Exception("TestSessionId is not unique, there are " + _sessionUser.TestSessions.Count(s => s.Id == testSessionId) +
-                " results (0 means: session is simply not there yet; >1 means: more than 1 TestSession was created simultaneously with same Id)");
+        var sessionCount = _sessionUser.TestSessions.Count(s => s.Id == testSessionId);
+
+        if (sessionCount == 0)
+        {
+            //Logg.r().Error("SessionCount 0");
+            //return View(_viewLocation, AnswerQuestionModel.CreateExpiredTestSession());
+            throw new Exception("SessionCount is 0. Shoult be 1");
+        }
+
+        if (sessionCount > 1)
+            throw new Exception($"SessionCount is {_sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
 
         var testSession = _sessionUser.TestSessions.Find(s => s.Id == testSessionId);
 
@@ -285,7 +295,7 @@ public class AnswerQuestionController : BaseController
             Data = new
             {
                 correctAnswer = solution.CorrectAnswer(),
-                correctAnswerDesc = MardownInit.Run().Transform(question.Description),
+                correctAnswerDesc = MarkdownInit.Run().Transform(question.Description),
                 correctAnswerReferences = question.References.Select( r => new
                 {
                     referenceId = r.Id,

@@ -94,15 +94,17 @@
                                 <% } %>
                         </div>
                         <div class="col-lg-6">
-                            <a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
+                            <a href="<%= "/MaintenanceImages/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
                             <br />
                             <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){%>
                                 <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Wiki-Bilddetailseite</a> (<i class="fa fa-exclamation-triangle"></i> gespeichertes Markup ist in der Regel älter!) <br />
                             <% } %>      
-                            <a href="<%= Model.URLToWhereImageIsUsed %>" target="_blank"><%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %>, TypeId: <%= Model.TypeId %></a>                      
-                            <% if (!Model.ImageUsageFound) {
-                                Response.Write("<i class=\"fa fa-exclamation-triangle\">&nbsp;</i>Verwendung nicht gefunden.");
-                            } %>
+                            <a href="<%= Model.TypeUrl %>" target="_blank"><%=  Enum.Parse(typeof(ImageType), Model.MetaData.Type.ToString())  %>, TypeId: <%= Model.TypeId %></a>                      
+                            <div>
+                                <% if (Model.TypeNotFound) { %>
+                                    <i class="fa fa-exclamation-triangle">&nbsp;</i>Typ nicht gefunden.
+                                <% } %>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -143,6 +145,12 @@
                         tabindex="0" role="button"
                         data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
                         <i class="fa fa-refresh"></i> Bild neu laden
+                    </a>
+                    <% dataContent = @"<span style='color: red'>ACHTUNG! Das Bild wird unwiederbringlich gelöscht.</span>"; %>
+                    <a id="DeleteImage" class="btn btn-danger" 
+                        tabindex="0" role="button"
+                        data-toggle="popover" data-trigger="hover" data-content="<%= dataContent %>">
+                        <i class="fa fa-trash-o"></i>&nbsp; Bild löschen
                     </a>
                 </div>
                 <div class="col-lg-6" style="text-align: right;">

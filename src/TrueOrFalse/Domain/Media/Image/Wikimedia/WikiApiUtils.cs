@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TrueOrFalse
 {
@@ -36,7 +33,7 @@ namespace TrueOrFalse
 
             //remove query string if no file name comes after
             if (filePath.Contains("?")){
-                var filePathSplit = filePath.Split(new char[] { '?' }, 2);
+                var filePathSplit = filePath.Split(new[] { '?' }, 2);
                 if (!filePathSplit[1].Contains("File:"))
                     filePath = filePathSplit[0];
             }
