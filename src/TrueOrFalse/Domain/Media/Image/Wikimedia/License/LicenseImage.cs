@@ -155,6 +155,7 @@ public enum LicenseRequirementsType
     PD = 5,
     GFDL = 6,
     AmtlichesWerkDE = 7,
+    GPL = 8,
 }
 
 public static class LicenseRequirementsTypeExts
