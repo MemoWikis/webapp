@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using static System.String;
 
@@ -69,20 +70,23 @@ namespace TrueOrFalse.WikiMarkup
             //http://commons.wikimedia.org/wiki/File:Unho%C5%A1%C5%A5,_hlavn%C3%AD_t%C5%99%C3%ADda.JPG
             //|Author={{User:Aktron/Author2}}
             //Link to template: http://commons.wikimedia.org/wiki/User:Aktron/Author2
-            var regexMatch_UserAttributionTemplate = Regex.Match(authorText, "{{(User:\\w*/.*)}}");
-            if (regexMatch_UserAttributionTemplate.Success)
+
+            foreach (var regex in new[] { "{{(User:(.*))}}", "[[(User:(.*))]" })
             {
-                imageParsingNotifications.Author.Add(new Notification()
+                var regexMatch_UserAttributionTemplate = Regex.Match(authorText, regex);
+                if (regexMatch_UserAttributionTemplate.Success && regexMatch_UserAttributionTemplate.Groups.Count == 3)
                 {
-                    Name = "Custom wiki user template",
-                    NotificationText = Format(
-                        "Bitte aus Template \"{0}\" gerenderten Text manuell als Autor von der Bilddetailsseite oder unter <a href=\"{1}\">{1}</a> übernehmen.",
-                        regexMatch_UserAttributionTemplate.Groups[0],
-                        "http://commons.wikimedia.org/wiki/" + regexMatch_UserAttributionTemplate.Groups[1])
-                });
-                    
-                result.Notifications = imageParsingNotifications.ToJson();
-                return;
+                    var authorUrl = $"<a href='http://commons.wikimedia.org/wiki/{regexMatch_UserAttributionTemplate.Groups[1]}'>{regexMatch_UserAttributionTemplate.Groups[2]}</a>";
+                    result.AuthorName = authorUrl;
+                    result.AuthorName_Raw = authorText;
+                    imageParsingNotifications.Author.Add(new Notification{
+                        Name = "Custom wiki user template",
+                        NotificationText = "Bitte url prüfen"
+                    });
+
+                    result.Notifications = imageParsingNotifications.ToJson();
+                    return;
+                }
             }
 
             if (ParseImageMarkup.MarkupSyntaxContained(authorText))

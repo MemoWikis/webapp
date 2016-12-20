@@ -247,13 +247,11 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     |Source={{own}}, Collection [[User:Michael Gäbler|Michael Gäbler]]
                     ";
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.Description == null, Is.True,
-                "Description parameter missing - description null expected");
+        Assert.That(parseImageMarkupResult.Description == null, Is.True, "Description parameter missing - description null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
                 .Any(notification => notification.Name == "No description parameter found"), Is.True,
                 "Description parameter missing - notification expected");
-        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
-                "Author parameter missing - AuthorName null expected");
+        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True, "Author parameter missing - AuthorName null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                 .Any(notification => notification.Name == "No author parameter found"), Is.True,
                 "Author parameter missing - notification expected");
@@ -279,8 +277,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     |Author={{User:XRay/Templates/Author}}
                     ";
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
-                        "Custom wiki user template - author null expected");
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("<a href='http://commons.wikimedia.org/wiki/User:XRay/Templates/Author'>XRay/Templates/Author</a>"));
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                     .Any(notification => notification.Name == "Custom wiki user template"), Is.True,
                     "Custom wiki user template - notification expected");
@@ -290,13 +287,11 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     |Author=[[undefined internal wiki link]]
                     ";
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.Description == null, Is.True,
-                        "Unparsed wiki markup - description null expected");
+        Assert.That(parseImageMarkupResult.Description == null, Is.True, "Unparsed wiki markup - description null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
                     .Any(notification => notification.Name == "Manual entry for description required"), Is.True,
                     "Description: Unparsed wiki markup - notification expected");
-        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
-                        "Unparsed wiki markup - author null expected");
+        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,  "Unparsed wiki markup - author null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                     .Any(notification => notification.Name == "Manual entry for author required"), Is.True,
                     "Author: Unparsed wiki markup - notification expected");
