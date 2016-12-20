@@ -25,7 +25,13 @@
                             lastDay = lastDay.AddDays(1);
                         } %>
                         <%= "['" + date.First().DateCreated.ToString("dd.MM.yyyy") + "', " + date.Count() + ", '']," %> 
-                <%  } %>
+                <%  }
+                    while (lastDay <= DateTime.Now.Date)
+                    {
+                        Response.Write("['" + lastDay.ToString("dd.MM.yyyy") + "', 0, ''],");
+                        lastDay = lastDay.AddDays(1);
+                    }
+                %>
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -193,6 +199,9 @@
     <div class="row">
         <div class="col-xs-12">
             <h1 class="" style="margin-top: 0;">Registrierte Nutzer</h1>
+            <p>
+                Neu registrierte Nutzer der letzten 14 Tage und Nutzer insgesamt seit GoLive (11.10.2016).
+            </p>
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
@@ -206,7 +215,10 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="">Fragen</h1>
+            <h1 class="" style="margin-top: 20px">Fragen</h1>
+            <p>
+                Existierende und neu erstellte Fragen seit GoLive (11.10.2016).
+            </p>
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
