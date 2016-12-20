@@ -15,6 +15,8 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
+    public string TopicMarkdown { get; set; }
+
     public bool IsEditing { get; set; }
 
     public string ImageUrl { get; set; }
@@ -64,6 +66,7 @@ public class EditCategoryModel : BaseModel
         Description = category.Description;
         ParentCategories = parentCategories;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
+        TopicMarkdown = category.TopicMarkdown;
     }
 
     public ConvertToCategoryResult ConvertToCategory()
@@ -71,6 +74,7 @@ public class EditCategoryModel : BaseModel
         var category = new Category(Name);
         category.Description = Description;
         category.ParentCategories = ParentCategories;
+        category.TopicMarkdown = TopicMarkdown;
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -94,6 +98,7 @@ public class EditCategoryModel : BaseModel
         category.Name = Name;
         category.Description = Description;
         category.ParentCategories = ParentCategories;
+        category.TopicMarkdown = TopicMarkdown;
 
         FillFromRequest(category);
     }

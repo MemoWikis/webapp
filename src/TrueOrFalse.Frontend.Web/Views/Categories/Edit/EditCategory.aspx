@@ -177,6 +177,20 @@
                             </div>
                         </div>
                     </div>
+                    <% if (Model.IsInstallationAdmin)
+                    { %>
+                        <div class="form-group">
+                            <label class="columnLabel control-label" for="TopicMarkdown">
+                                Freie Seitengestaltung für Themenseite
+                                <i class="fa fa-question-circle show-tooltip" 
+                                    title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
+                                    data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            </label>
+                            <div class="columnControlsFull">
+                                <textarea class="form-control" name="TopicMarkdown" type="text"><%= Model.TopicMarkdown %></textarea>
+                            </div>
+                        </div>
+                    <% } %>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
