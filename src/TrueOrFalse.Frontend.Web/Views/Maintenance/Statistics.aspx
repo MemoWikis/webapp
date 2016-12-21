@@ -45,6 +45,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -82,6 +83,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -126,6 +128,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -165,6 +168,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
