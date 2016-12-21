@@ -149,5 +149,9 @@ $(() => {
 class Site {
     static RedirectToDashboard() {
         location.href = "/Wissenszentrale";
-    }       
+    }
+
+    static RedirectToRegisterSuccess() {
+        location.href = "/RegisterSuccess";
+    }      
 }

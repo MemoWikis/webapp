@@ -2121,6 +2121,9 @@
     <Content Include="Views\VariousPublic\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentReport.less" />
+    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
+      <DependentUpon>FacebookRegistration.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

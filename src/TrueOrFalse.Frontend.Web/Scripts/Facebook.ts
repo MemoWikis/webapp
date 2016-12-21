@@ -22,33 +22,76 @@
         } (document, 'script', 'facebook-jssdk'));
     }
 
-    static IsRegistered(facebookId : string): boolean {
+    static GetUser(facebookId: string, accessToken: string, continuation: (user: any)=> void){
+        FB.api(
+            "/" + facebookId,
+            { access_token: accessToken, fields: 'name, email' },
+            response => {
+                if (response && !response.error) {
+                    console.log(response);
+                    continuation(response);
+                } else {    
+                    throw (response);
+                }
+            });
+    }
 
-        $.post("/Api/Sets/UnpinQuestionsInSet/", { setId: -1}, () => {
-            
+    static RevokeUserAuthorization(facebookId: string, accessToken: string) {
+        FB.api("/me/permissions", "DELETE", function (response) {
+            console.log(response); //gives true on app delete success 
+        });
+    }
+}
+
+class FacebookMemuchoUser {
+
+    static Exists(facebookId: string): boolean {
+
+        $.ajax({
+            type: 'POST', async: false, cache: false,
+            data: { facebookId: facebookId },
+            url: "/Api/Users/FacebookUserExists",
+            error(error) { console.log(error); },
+            success(result) {
+                return (result == 'true');
+            }
         });
 
         return false;
     }
 
-    static Register(facebookId : string) {
+    static Throw_if_not_exists(facebookId: string): boolean {
 
-        $.post("/Api/Users/RegisterFacebook/", { userName: "", email: "" }, () => {
-
-        });
-
+        if (!this.Exists(facebookId)) {
+            throw new Error("user with facebookId '" + facebookId + "' does not exist");
+        }
+        return false;
     }
 
-    static GetUser(facebookId: string, accessToken : string) : any {
-        FB.api(
-            "/" + facebookId,
-            { access_token: accessToken, fields: 'name' },
-            response => {
-                if (response && !response.error) {
-                    console.log(response);    
-                } else {
-                    throw (response);
+    static CreateAndLogin(user : any, facebookAccessToken : string) {
+        $.ajax({
+            type: 'POST', async: false, cache: false,
+            data: { user: user },
+            url: "/Api/Users/CreateAndLogin/",
+            error(error) { throw error },
+            success(result) {
+                if (result.Data.Success == "false") {
+
+                    //
+
+                    var reason = result.EmailAlreadyInUse == "true" ? "Die Email-Adresse ist bereits in Verwendung" : "";
+                    alert("Die Registrierung konnte nicht abgeschlossen werden." + reason)
                 }
-            });
+            } 
+        });
+    }
+
+    static Login(facebookId: string) {
+        $.ajax({
+            type: 'POST', async: false, cache: false,
+            data: { facebookId: facebookId },
+            url: "/Api/Users/Login/",
+            error(error) { throw error }
+        });
     }
 }

@@ -30,6 +30,8 @@ public class User : DomainEntity
     /// <summary>Users I follow</summary>
     public virtual IList<FollowerInfo> Following { get; set; }
 
+    public virtual string FacebookId { get; set; }
+
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
 
     public virtual void AddFollower(User follower)
@@ -72,5 +74,15 @@ public class User : DomainEntity
     {
         return MembershipPeriods.FirstOrDefault(x => x.IsActive());
     }
+}
 
+public class FacebookUserCreateParameter
+{
+    /// <summary>
+    /// Facebook user id
+    /// </summary>
+    public string id;
+
+    public string name;
+    public string email;
 }

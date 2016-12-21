@@ -16,12 +16,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
     public void Run(User user)
     {
-        user.Reputation = 0;
-        user.ReputationPos = _userRepo.Session.QueryOver<User>()
-            .Select(
-                Projections.ProjectionList()
-                    .Add(Projections.Max<User>(u => u.ReputationPos)))
-            .SingleOrDefault<int>() + 1;
+        InitializeReputation(user);
 
         using(var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
@@ -39,4 +34,35 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         SendRegistrationEmail.Run(user);
         WelcomeMsg.Send(user);
     }
+
+    public void Run(FacebookUserCreateParameter facebookUserCreateParameter)
+    {
+        var user = new User();
+        InitializeReputation(user);
+
+        user.EmailAddress = facebookUserCreateParameter.email;
+        user.Name = facebookUserCreateParameter.name;
+        user.FacebookId = facebookUserCreateParameter.id;
+
+        _userRepo.Create(user);
+
+        WelcomeMsg.Send(user);
+    }
+
+    private void InitializeReputation(User user)
+    {
+        user.Reputation = 0;
+        user.ReputationPos =
+            _userRepo.Session.QueryOver<User>()
+                .Select(
+                    Projections.ProjectionList()
+                        .Add(Projections.Max<User>(u => u.ReputationPos)))
+                .SingleOrDefault<int>() + 1;
+    }
+}
+
+public class FacebookCreateResult
+{
+    public bool Success = false;
+    public bool EmailAlreadyInUse;
 }
