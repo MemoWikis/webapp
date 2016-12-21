@@ -52,6 +52,22 @@ public class AnswerCommentsController : BaseController
             new CommentModel(comment));
     }
 
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public void MarkCommentAsSettled(int commentId)
+    {
+        Sl.R<CommentRepository>().UpdateIsSettled(commentId, true);
+        //todo: inform comment-creator with message of changed status
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public void MarkCommentAsUnsettled(int commentId)
+    {
+        Sl.R<CommentRepository>().UpdateIsSettled(commentId, false);
+        //todo: inform comment-creator with message of changed status
+    }
+
     public ActionResult GetAnswerHtml()
     {
         return View("~/Views/Questions/Answer/Comments/CommentAnswerAdd.ascx", 
