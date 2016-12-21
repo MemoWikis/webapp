@@ -9,11 +9,11 @@ public class PartialParser
 {
     public static string Run(string stringToParse)
     {
-        var regex = new Regex(@"\[\[(.*?)\]\]");//Matches "[[something]]" non-greedily and only if not nested
+        var regex = new Regex(@"\[\[(.*?)\]\]", RegexOptions.Singleline);//Matches "[[something]]" non-greedily, across multiple lines and only if not nested
 
         return regex.Replace(stringToParse, match =>
         {
-            var partialString = GetPartial(match.Value.Substring(2,match.Value.Length - 4));
+            var partialString = GetPartial(match.Value.Substring(2, match.Value.Length - 4));
 
             return string.IsNullOrEmpty(partialString) ? match.Value : partialString;
         });
