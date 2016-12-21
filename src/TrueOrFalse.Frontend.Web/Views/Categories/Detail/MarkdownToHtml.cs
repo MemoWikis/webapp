@@ -9,7 +9,8 @@ public class MarkdownToHtml
 {
     public static string Run(string markdown, ControllerContext controllerContext)
     {
-        return MarkdownMarkdig.ToHtml(markdown);
-        //return "<div class='row'><div class='col-sm-4'>" + PartialParser.Run(markdown, controllerContext) + "</div></div>";
+        var result = MarkdownMarkdig.ToHtml(markdown);
+        result = "<div class='row'><div class='col-sm-4'>" + PartialParser.Run(result, controllerContext) + "</div></div>";
+        return result;
     }
 }
