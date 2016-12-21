@@ -20,12 +20,12 @@ $(() => {
 
     $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 
-    $(window).ready(e => {
-        if (document.getElementsByName("answer").length > 0)
-            document.getElementsByName("answer")[0].focus();
+    //set focus to first possible answer element
+    if (document.getElementsByName("answer").length > 0)
+        $("[name=answer]")[0].focus();
 
-        $("#txtAnswer:visible").focus();
-        $("#row-1:visible").focus();
-        window.scrollTo(0, 0);
-    });
+    $("#txtAnswer:visible").focus();
+    $("#row-1:visible").focus();
+    window.scrollTo(0, 0);
+
 });
