@@ -28,23 +28,23 @@
     margin-right: 10px;
   }
 }
-#SetInfo {
+#ItemMainInfo {
   padding-bottom: 5px;
 }
-#SetInfo header {
+#ItemMainInfo header {
   border-bottom: 5px solid #FFD700;
   margin-bottom: 10px;
 }
-#SetInfo .ImageContainer {
+#ItemMainInfo .ImageContainer {
   margin-bottom: 10px;
 }
 @media (max-width: 767px) {
-  #SetInfo .ImageContainer img {
+  #ItemMainInfo .ImageContainer img {
     max-height: 150px;
     width: auto;
   }
 }
-#SetInfo .BottomBar {
+#ItemMainInfo .BottomBar {
   padding-top: 5px;
   padding-bottom: 5px;
 }

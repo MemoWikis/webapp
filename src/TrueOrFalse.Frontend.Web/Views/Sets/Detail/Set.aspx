@@ -50,7 +50,7 @@
         </div>
        <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
-            <div id="SetInfo" class="Box">
+            <div id="ItemMainInfo" class="Set Box">
                 <div class="">
                     <div class="row">
                         <div class="col-xs-12 col-sm-3">
