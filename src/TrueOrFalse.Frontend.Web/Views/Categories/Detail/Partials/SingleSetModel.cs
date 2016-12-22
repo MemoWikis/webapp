@@ -5,7 +5,7 @@ using System.Web;
 using NHibernate.Util;
 
 
-public class SetCollectionModel : BaseModel
+public class SingleSetModel : BaseModel
 {
     public Set Set;
     public string TopicHtml;
@@ -19,7 +19,7 @@ public class SetCollectionModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public SetCollectionModel(Set set, string setText = null)
+    public SingleSetModel(Set set, string setText = null)
     {
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

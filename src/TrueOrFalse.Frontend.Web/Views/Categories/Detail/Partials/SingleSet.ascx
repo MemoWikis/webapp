@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
-    Inherits="System.Web.Mvc.ViewUserControl<SetCollectionModel>" %>
+    Inherits="System.Web.Mvc.ViewUserControl<SingleSetModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="CardColumn">

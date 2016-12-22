@@ -14,42 +14,42 @@ public class PartialParser
 
         return regex.Replace(stringToParse, match =>
         {
-            var partialString = GetPartial(
+            var partialJson = GetPartialJson(
                                     match.Value
                                         .Substring(2, match.Value.Length - 4)
-                                        .Replace("&quot;", @""""),
-                                    controllerContext);
+                                        .Replace("&quot;", @""""));
 
-            return string.IsNullOrEmpty(partialString) ? match.Value : partialString;
+            return partialJson == null ? match.Value : GetPartialHtml(partialJson, controllerContext);
         });
     }
 
-    private static string GetPartial(string partialTemplate, ControllerContext controllerContext)
+    private static PartialJson GetPartialJson(string partialTemplate)
     {
-        PartialJson partialJson;
-
         try
         {
-            partialJson = JsonConvert.DeserializeObject<PartialJson>(partialTemplate);
+            return JsonConvert.DeserializeObject<PartialJson>(partialTemplate);
         }
 
         catch
         {
-           return "";
+           return null;
         }
 
-        return GetSetCollectionPartial(partialJson, controllerContext);
+        
     }
 
-    public static string GetSetCollectionPartial(PartialJson partialJson, ControllerContext controllerContext)
+    public static string GetPartialHtml(PartialJson partialJson, ControllerContext controllerContext)
     {
-        if (partialJson.PartialName != "SetCollection") return "";
+        if (partialJson.PartialName != "SingleSet") return "";
 
         var set = Sl.R<SetRepo>().GetById(partialJson.CategoryId);
 
+        var renderPartialParams = new RenderPartialParams {PartialName = "SingleSet", Model = new SingleSetModel(set)};
+
         return ViewRenderer.RenderPartialView(
-            "~/Views/Categories/Detail/Partials/SetCollection.ascx",
-            new SetCollectionModel(set),
+            "~/Views/Categories/Detail/Partials/" + renderPartialParams.PartialName + ".ascx",
+            renderPartialParams.Model,
             controllerContext);
     }
+
 }

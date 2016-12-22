@@ -303,9 +303,10 @@
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\RenderPartialParams.cs" />
     <Compile Include="Views\Categories\Detail\Partials\PartialJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\PartialParser.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetCollectionModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
     <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
@@ -532,7 +533,7 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\SetCollection.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSet.ascx" />
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
