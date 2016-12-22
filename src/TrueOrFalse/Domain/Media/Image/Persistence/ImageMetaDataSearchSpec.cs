@@ -6,4 +6,7 @@ using Seedworks.Lib.Persistence;
 public class ImageMetaDataSearchSpec : Pager
 {
     public List<ImageLicenseState> LicenseStates = new List<ImageLicenseState>();
+
+    public bool A;
+    public bool B;
 }

@@ -14,8 +14,7 @@ namespace TrueOrFalse
 
         public List<ImageMaintenanceInfo> Run(ImageMetaDataSearchSpec searchSpec)
         {
-            var sessionUiData = Sl.R<SessionUiData>();
-            var imageMetaDatas = Sl.R<ImageMetaDataRepo>().GetBy(sessionUiData.ImageMetaDataSearchSpec);
+            var imageMetaDatas = Sl.R<ImageMetaDataRepo>().GetBy(searchSpec);
 
             return imageMetaDatas.Select(imageMetaData => new ImageMaintenanceInfo(imageMetaData)).ToList();
         }

@@ -36,4 +36,11 @@ public class CommentRepository : RepositoryDb<Comment>
                 .SetParameter("questionId", questionId)
                 .ExecuteUpdate();
     }
+
+    public void UpdateIsSettled(int commentId, bool settled)
+    {
+        var comment = GetById(commentId);
+        comment.IsSettled = settled;
+        Update(comment);
+    }
 }

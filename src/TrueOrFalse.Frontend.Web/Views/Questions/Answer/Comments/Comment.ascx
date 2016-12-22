@@ -5,14 +5,14 @@
     <div class="panel-heading">
         <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a>
         <span style="color: darkgray">
-            vor <a href="#" class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></a>
+            vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></span>
         </span>
     </div>
     <div class="panel-body" style="position: relative">
         <div class="col-xs-2">
             <img style="border-radius:5px;" src="<%= Model.ImageUrl %>">
         </div>
-        <div class="col-xs-10" style="height: 100%; padding-bottom: 25px; ">
+        <div class="col-xs-10" style="height: 100%; padding-bottom: 15px; ">
             <% if(Model.ShouldBeImproved){ %>
                 <div class='ReasonList'>
                     Ich bitte darum, dass diese Frage verbessert wird, weil:
@@ -46,7 +46,11 @@
     <div class="panel-body" style="position: relative">
         <% if(Model.IsLoggedIn){ %>
             <div style="position: absolute; bottom: 8px; right: 20px;">
-                <a href="#" class="btnAnswerComment" data-comment-id="<%= Model.Id %>">Antworten</a>
+                <% if (Model.IsInstallationAdmin) { %>
+                    <a href="#" class="btnMarkAsSettled btn btn-link" data-type="btn-markAsSettled" style="<%= Html.CssHide(Model.IsSettled) %>" data-comment-id="<%= Model.Id %>">Als erledigt markieren</a>
+                    <a href="#" class="btnMarkAsUnsettled btn btn-link" data-type="btn-markAsUnsettled" style="<%= Html.CssHide(!Model.IsSettled) %>" data-comment-id="<%= Model.Id %>">Als nicht erledigt markieren</a>
+                <% } %>
+                <a href="#" class="btnAnswerComment btn btn-link" data-comment-id="<%= Model.Id %>">Antworten</a>
             </div>
         <% } %>    
     </div>

@@ -13,7 +13,7 @@ public class CommentMsg
 
         var questionUrl = "";
         if(HttpContext.Current != null)
-            questionUrl = Links.AnswerQuestion(new UrlHelper(HttpContext.Current.Request.RequestContext), question);
+            questionUrl = Links.AnswerQuestion(question);
 
         string shouldImproveOrRemove = "";
         if (comment.ShouldImprove)

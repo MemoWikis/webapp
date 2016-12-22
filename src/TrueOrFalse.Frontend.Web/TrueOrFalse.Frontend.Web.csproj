@@ -324,6 +324,7 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
@@ -541,9 +542,6 @@
     <Content Include="Views\Maintenance\ContentReport.aspx" />
     <Content Include="Views\Maintenance\ContentReport.css">
       <DependentUpon>ContentReport.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Maintenance\Images.min.css">
-      <DependentUpon>Images.css</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
@@ -880,7 +878,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images.css">
+    <Content Include="Views\Maintenance\Images\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
@@ -1425,7 +1423,7 @@
     <Compile Include="Views\Categories\CategoryRowModel.cs" />
     <Compile Include="Views\Maintenance\MessagesModel.cs" />
     <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
-    <Compile Include="Views\Maintenance\ImagesModel.cs" />
+    <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
     <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
     <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
       <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
@@ -1599,19 +1597,19 @@
     <Content Include="Views\Images\ImageDetail.js">
       <DependentUpon>ImageDetail.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\ImageMaintenance.js">
+    <Content Include="Views\Maintenance\Images\ImageMaintenance.js">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
     <Content Include="Views\Images\ImageDetailModal.ascx" />
-    <Content Include="Views\Maintenance\ImageMaintenanceRow.ascx" />
-    <Content Include="Views\Maintenance\ImageMaintenanceModal.ascx" />
+    <Content Include="Views\Maintenance\Images\ImageMaintenanceRow.ascx" />
+    <Content Include="Views\Maintenance\Images\ImageMaintenanceModal.ascx" />
     <Content Include="Style\Images.css">
       <DependentUpon>Images.less</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Markup.ascx" />
+    <Content Include="Views\Maintenance\Images\Markup.ascx" />
     <Content Include="Views\Maintenance\Tools.aspx" />
     <Content Include="Views\Maintenance\Messages.aspx" />
-    <Content Include="Views\Maintenance\Images.aspx" />
+    <Content Include="Views\Maintenance\Images\Images.aspx" />
     <Content Include="Views\Messages\Js\Message.js">
       <DependentUpon>Message.ts</DependentUpon>
     </Content>
@@ -1681,7 +1679,7 @@
     </Content>
     <Content Include="Views\Sets\Edit\EditSet.aspx" />
     <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
-    <TypeScriptCompile Include="Views\Maintenance\ImageMaintenance.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Images\ImageMaintenance.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
@@ -1946,7 +1944,7 @@
     <Content Include="Style\Images.css.map">
       <DependentUpon>Images.css</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\ImageMaintenance.js.map">
+    <Content Include="Views\Maintenance\Images\ImageMaintenance.js.map">
       <DependentUpon>ImageMaintenance.ts</DependentUpon>
     </Content>
     <Content Include="Views\Images\ImageDetail.js.map">
@@ -2071,10 +2069,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js.map">
       <DependentUpon>AnswerEntryBase.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Images.less" />
-    <Content Include="Views\Maintenance\Images.css.map">
-      <DependentUpon>Images.css</DependentUpon>
-    </Content>
+    <Content Include="Views\Maintenance\Images\Images.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">

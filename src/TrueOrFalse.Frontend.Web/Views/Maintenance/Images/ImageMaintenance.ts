@@ -7,7 +7,7 @@ var fnInitImageMaintenanceModal = (jObject: JQuery) => {
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: "/Maintenance/ImageMaintenanceModal?imgId=" + $(this).attr('data-image-id'),
+                    url: "/MaintenanceImages/ImageMaintenanceModal?imgId=" + $(this).attr('data-image-id'),
                     success (result) { 
                         $('#modalImageMaintenance').remove();
                         $('#ImageMaintenanceModalScript').remove();
@@ -52,7 +52,7 @@ class ImageMaintenanceModal {
 
             $.ajax({
                 type: "POST",
-                url: "/Maintenance/UpdateImage/",
+                url: "/MaintenanceImages/UpdateImage/",
                 data: {
                     id: imageId,
                     authorManuallyAdded: $('#AuthorManuallyAdded').val(),
@@ -101,7 +101,7 @@ class ImageMaintenanceModal {
             $.ajax({
                 type: "POST",
                 data: { imageMetaDataId : imageId},
-                url: "/Maintenance/ImageReload/",
+                url: "/MaintenanceImages/ImageReload/",
                 success: result => {
                     icon.removeClass("fa-spin");
                     $("#Image").attr("src", result.Url);
@@ -119,7 +119,7 @@ class ImageMaintenanceModal {
             var icon = $("#DeleteImage").find("i");
             icon.addClass("fa-spin");
 
-            $.post("/Maintenance/ImageDelete/", { imageMetaDataId: imageId})
+            $.post("/MaintenanceImages/ImageDelete/", { imageMetaDataId: imageId})
                 .done(() => {
                     icon.removeClass("fa-spin");
                     ImageMaintenanceModal.Hide();

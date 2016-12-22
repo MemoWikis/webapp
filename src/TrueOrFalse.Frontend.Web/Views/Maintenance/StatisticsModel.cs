@@ -56,6 +56,13 @@ public class StatisticsModel : BaseModel
             })
             .ToList();
 
+        while (QuestionsCreatedPerDayResults.Last().DateTime.Date < DateTime.Now.Date)
+            QuestionsCreatedPerDayResults.Add(new QuestionsCreatedPerDayResult
+            {
+                DateTime = QuestionsCreatedPerDayResults.Last().DateTime.Date.AddDays(1),
+                CountByOthers = 0,
+                CountByMemucho = 0
+            });
 
         var questionCountSoFarMemucho = _session
             .QueryOver<Question>()

@@ -25,7 +25,13 @@
                             lastDay = lastDay.AddDays(1);
                         } %>
                         <%= "['" + date.First().DateCreated.ToString("dd.MM.yyyy") + "', " + date.Count() + ", '']," %> 
-                <%  } %>
+                <%  }
+                    while (lastDay <= DateTime.Now.Date)
+                    {
+                        Response.Write("['" + lastDay.ToString("dd.MM.yyyy") + "', 0, ''],");
+                        lastDay = lastDay.AddDays(1);
+                    }
+                %>
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -39,6 +45,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -76,6 +83,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -120,6 +128,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -159,6 +168,7 @@
                 2]);
 
             var options = {
+                tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
@@ -180,7 +190,7 @@
             <a class="navbar-brand" href="#">Maintenance</a>
             <ul class="nav navbar-nav">
                 <li><a href="/Maintenance">Allgemein</a></li>
-                <li><a href="/Maintenance/Images">Bilder</a></li>
+                <li><a href="/MaintenanceImages/Images">Bilder</a></li>
                 <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li><a href="/Maintenance/CMS">CMS</a></li>
@@ -193,6 +203,9 @@
     <div class="row">
         <div class="col-xs-12">
             <h1 class="" style="margin-top: 0;">Registrierte Nutzer</h1>
+            <p>
+                Neu registrierte Nutzer der letzten 14 Tage und Nutzer insgesamt seit GoLive (11.10.2016).
+            </p>
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
@@ -206,7 +219,10 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="">Fragen</h1>
+            <h1 class="" style="margin-top: 20px">Fragen</h1>
+            <p>
+                Existierende und neu erstellte Fragen seit GoLive (11.10.2016).
+            </p>
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">

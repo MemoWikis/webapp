@@ -186,6 +186,22 @@ public class LicenseImageRepo
                 LicenseLongName = "Creative Commons: Namensnennung - Weitergabe unter gleichen Bedingungen 4.0 International",
                 LicenseShortName = "CC BY-SA 4.0",
             },
+
+            new LicenseImage
+            {
+                Id = 14,
+                WikiSearchString = "migration=relicense",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
+                LicenseLink = "http://creativecommons.org/licenses/by-sa/3.0/legalcode",
+
+                LicenseShortDescriptionLink = "http://creativecommons.org/licenses/by-sa/3.0/deed.de",
+                LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
+                LicenseShortName = "CC BY-SA 3.0",
+            },
+
+            
             //new License()
             //{
             //    Id = 100,
@@ -253,7 +269,6 @@ public class LicenseImageRepo
                 Id = 199,
                 WikiSearchString = "Public Domain / Gemeinfrei", //Wiki-URL: https://de.wikipedia.org/wiki/Vorlage:Bild-PD-Amtliches_Werk
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-
                 LicenseRequirementsType = LicenseRequirementsType.PD
             },
             new LicenseImage
@@ -261,10 +276,65 @@ public class LicenseImageRepo
                 Id = 200,
                 WikiSearchString = "pd-old",
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
-
                 LicenseRequirementsType = LicenseRequirementsType.PD
+            },
+            new LicenseImage
+            {
+                Id = 201,
+                WikiSearchString = "PD-UA-exempt",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain (Ukraine) / Gemeinfrei"
+            },
+            new LicenseImage
+            {
+                Id = 202,
+                WikiSearchString = "PD-ineligible",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain"
+            },
+            new LicenseImage
+            {
+                Id = 203,
+                WikiSearchString = "PD-RU-exemp",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain"
+            },
+            new LicenseImage
+            {
+                Id = 204,
+                WikiSearchString = "PD-Art",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain"
+            },
+            new LicenseImage
+            {
+                Id = 205,
+                WikiSearchString = "GPL",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.GPL,
+                LicenseLink = "https://www.gnu.org/copyleft/gpl-3.0.html",
+            },
+            new LicenseImage
+            {
+                Id = 206,
+                WikiSearchString = "PD-US",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain - published in USA before 1923"
+            },
+            new LicenseImage
+            {
+                Id = 207,
+                WikiSearchString = "PD-textlogo",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain - text logo",
+                LicenseLink = "https://commons.wikimedia.org/wiki/Template_talk:PD-textlogo"
             }
-
 
 
             //Template for CC-BY-SA licenses:
@@ -310,7 +380,10 @@ public class LicenseImageRepo
 
     public static List<LicenseImage> GetAllAuthorizedLicenses()
     {
-        return GetAllRegisteredLicenses().Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded).ToList();
+        return GetAllRegisteredLicenses()
+            .Where(license => license.LicenseApplicability == LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded)
+            .ToList();
+        
         //$temp: What about "LicenseApplicability.LicenseIsConditionallyApplicable"?
     }
 

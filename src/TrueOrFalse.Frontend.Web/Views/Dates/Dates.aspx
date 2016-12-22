@@ -31,6 +31,7 @@
 
             var options = {
                 pieHole: 0.6,
+                tooltip: { isHtml: true },
                 legend: { position: 'none' },
                 pieSliceText: 'none',
                 height: 120,
