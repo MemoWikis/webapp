@@ -111,3 +111,23 @@ span.CategoryType {
   -moz-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
+#ItemMainInfo {
+  padding-bottom: 5px;
+}
+#ItemMainInfo header {
+  border-bottom: 5px solid #5bc0de;
+  margin-bottom: 10px;
+}
+#ItemMainInfo .ImageContainer {
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  #ItemMainInfo .ImageContainer img {
+    max-height: 150px;
+    width: auto;
+  }
+}
+#ItemMainInfo .BottomBar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
