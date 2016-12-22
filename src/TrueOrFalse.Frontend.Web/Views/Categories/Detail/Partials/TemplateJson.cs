@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 [Serializable]
-public class PartialJson
+public class TemplateJson
 {
     public string PartialName;
 

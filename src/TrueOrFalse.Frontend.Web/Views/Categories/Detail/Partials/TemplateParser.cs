@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 
-public class PartialParser
+public class TemplateParser
 {
     public static string Run(string stringToParse, ControllerContext controllerContext)
     {
@@ -14,7 +14,7 @@ public class PartialParser
 
         return regex.Replace(stringToParse, match =>
         {
-            var partialJson = GetPartialJson(
+            var partialJson = GetTemplateJson(
                                     match.Value
                                         .Substring(2, match.Value.Length - 4)
                                         .Replace("&quot;", @""""));
@@ -23,26 +23,24 @@ public class PartialParser
         });
     }
 
-    private static PartialJson GetPartialJson(string partialTemplate)
+    private static TemplateJson GetTemplateJson(string template)
     {
         try
         {
-            return JsonConvert.DeserializeObject<PartialJson>(partialTemplate);
+            return JsonConvert.DeserializeObject<TemplateJson>(template);
         }
 
         catch
         {
            return null;
         }
-
-        
     }
 
-    public static string GetPartialHtml(PartialJson partialJson, ControllerContext controllerContext)
+    public static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext)
     {
-        if (partialJson.PartialName != "SingleSet") return "";
+        if (templateJson.PartialName != "SingleSet") return "";
 
-        var set = Sl.R<SetRepo>().GetById(partialJson.CategoryId);
+        var set = Sl.R<SetRepo>().GetById(templateJson.CategoryId);
 
         var renderPartialParams = new RenderPartialParams {PartialName = "SingleSet", Model = new SingleSetModel(set)};
 
