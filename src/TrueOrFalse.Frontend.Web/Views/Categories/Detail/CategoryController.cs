@@ -19,10 +19,14 @@ public class CategoryController : BaseController
     { 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
+        var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown)
+            ? null
+            : MarkdownToHtml.Run(category.TopicMarkdown, ControllerContext);
+
         return View(_viewLocation,
             new CategoryModel(category)
             {
-              ContentHtml = MarkdownToHtml.Run(category.TopicMarkdown, ControllerContext)
+              ContentHtml = contentHtml
             });
     }
 
