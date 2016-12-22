@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities.Expressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,12 +15,17 @@ public class TemplateParser
 
         return regex.Replace(stringToParse, match =>
         {
-            var partialJson = GetTemplateJson(
+            var templateJson = GetTemplateJson(
                                     match.Value
                                         .Substring(2, match.Value.Length - 4)
                                         .Replace("&quot;", @""""));
 
-            return partialJson == null ? match.Value : GetPartialHtml(partialJson, controllerContext);
+            if (templateJson == null)
+                return match.Value;
+
+            var html = GetHtml(templateJson, controllerContext);
+
+            return string.IsNullOrEmpty(html) ? match.Value : html;
         });
     }
 
@@ -36,18 +42,56 @@ public class TemplateParser
         }
     }
 
-    public static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext)
+    private static string GetHtml(TemplateJson templateJson, ControllerContext controllerContext)
     {
-        if (templateJson.PartialName != "SingleSet") return "";
-
-        var set = Sl.R<SetRepo>().GetById(templateJson.CategoryId);
-
-        var renderPartialParams = new RenderPartialParams {PartialName = "SingleSet", Model = new SingleSetModel(set)};
-
-        return ViewRenderer.RenderPartialView(
-            "~/Views/Categories/Detail/Partials/" + renderPartialParams.PartialName + ".ascx",
-            renderPartialParams.Model,
-            controllerContext);
+        switch (templateJson.TemplateName.ToLower())
+        {
+            case "singleset":
+                return GetPartialHtml(templateJson, controllerContext);
+            default:
+                return GetElementHtml(templateJson);
+        }
     }
 
+    private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext)
+    {
+        var partialModel = GetPartialModel(templateJson);
+
+        try
+        {
+            return ViewRenderer.RenderPartialView(
+                "~/Views/Categories/Detail/Partials/" + templateJson.TemplateName + ".ascx",
+                partialModel,
+                controllerContext);
+        }
+
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static BaseModel GetPartialModel(TemplateJson templateJson)
+    {
+        switch (templateJson.TemplateName.ToLower())
+        {
+            case "singleset":
+                return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId));
+            default:
+                return null;
+        }
+    }
+
+    private static string GetElementHtml(TemplateJson templateJson)
+    {
+        switch (templateJson.TemplateName.ToLower())
+        {
+            case "divstart":
+                return "<div class='" + templateJson.CssClasses + "'>";
+            case "divend":
+                return "</div>";
+            default:
+                return null;
+        }
+    }
 }

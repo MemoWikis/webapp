@@ -303,7 +303,6 @@
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\RenderPartialParams.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />

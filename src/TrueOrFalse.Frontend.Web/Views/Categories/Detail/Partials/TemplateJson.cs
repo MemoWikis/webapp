@@ -6,7 +6,9 @@ using System.Web;
 [Serializable]
 public class TemplateJson
 {
-    public string PartialName;
+    public string TemplateName;
 
-    public int CategoryId;
+    public int SetId;
+
+    public string CssClasses;
 }
