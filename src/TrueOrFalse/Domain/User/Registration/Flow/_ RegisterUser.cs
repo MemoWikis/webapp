@@ -35,7 +35,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user);
     }
 
-    public void Run(FacebookUserCreateParameter facebookUserCreateParameter)
+    public FacebookCreateResult Run(FacebookUserCreateParameter facebookUserCreateParameter)
     {
         var user = new User();
         InitializeReputation(user);
@@ -44,9 +44,14 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         user.Name = facebookUserCreateParameter.name;
         user.FacebookId = facebookUserCreateParameter.id;
 
+        if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
+            return new FacebookCreateResult { Success = false };
+
         _userRepo.Create(user);
 
         WelcomeMsg.Send(user);
+
+        return new FacebookCreateResult {Success = true};
     }
 
     private void InitializeReputation(User user)

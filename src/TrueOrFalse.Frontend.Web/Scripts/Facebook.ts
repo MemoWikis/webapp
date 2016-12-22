@@ -1,4 +1,6 @@
-﻿class Facebook {
+﻿var Rollbar: any;
+
+class Facebook {
     constructor(onInit: () => void) {
         window.fbAsyncInit = () => {
             FB.init({
@@ -22,7 +24,7 @@
         } (document, 'script', 'facebook-jssdk'));
     }
 
-    static GetUser(facebookId: string, accessToken: string, continuation: (user: any)=> void){
+    static GetUser(facebookId: string, accessToken: string, continuation: (user: FacebookUserFields)=> void){
         FB.api(
             "/" + facebookId,
             { access_token: accessToken, fields: 'name, email' },
@@ -37,8 +39,8 @@
     }
 
     static RevokeUserAuthorization(facebookId: string, accessToken: string) {
-        FB.api("/me/permissions", "DELETE", function (response) {
-            console.log(response); //gives true on app delete success 
+        FB.api("/me/permissions", "DELETE", response => {
+            console.log(response); //return true on "app delete" success 
         });
     }
 }
@@ -47,17 +49,19 @@ class FacebookMemuchoUser {
 
     static Exists(facebookId: string): boolean {
 
+        var doesExist = false;
+
         $.ajax({
             type: 'POST', async: false, cache: false,
             data: { facebookId: facebookId },
             url: "/Api/Users/FacebookUserExists",
             error(error) { console.log(error); },
             success(result) {
-                return (result == 'true');
+                doesExist = result;
             }
         });
 
-        return false;
+        return doesExist;
     }
 
     static Throw_if_not_exists(facebookId: string): boolean {
@@ -68,30 +72,52 @@ class FacebookMemuchoUser {
         return false;
     }
 
-    static CreateAndLogin(user : any, facebookAccessToken : string) {
+    static CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
+
+        var success = false;
+
         $.ajax({
             type: 'POST', async: false, cache: false,
-            data: { user: user },
+            data: { facebookUserCreateParameter: user },
             url: "/Api/Users/CreateAndLogin/",
-            error(error) { throw error },
+            error(error) {
+                Rollbar.error("Something went wrong", error);
+                success = false;
+            },
             success(result) {
-                if (result.Data.Success == "false") {
 
-                    //
+                if (result.Success == "false") {
+
+                    Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
 
                     var reason = result.EmailAlreadyInUse == "true" ? "Die Email-Adresse ist bereits in Verwendung" : "";
-                    alert("Die Registrierung konnte nicht abgeschlossen werden." + reason)
+                    alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
+
+                    success = false;
                 }
+
+                success = true;
             } 
         });
+
+        return success;
     }
 
-    static Login(facebookId: string) {
+    static Login(facebookId: string, facebookAccessToken) {
+
+        FacebookMemuchoUser.Throw_if_not_exists(facebookId);
+
         $.ajax({
             type: 'POST', async: false, cache: false,
-            data: { facebookId: facebookId },
+            data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/Users/Login/",
-            error(error) { throw error }
+            error(error) { throw error },
         });
     }
+}
+
+interface FacebookUserFields {
+    id;
+    email;
+    name;
 }

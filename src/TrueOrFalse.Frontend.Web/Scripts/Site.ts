@@ -152,6 +152,6 @@ class Site {
     }
 
     static RedirectToRegisterSuccess() {
-        location.href = "/RegisterSuccess";
+        location.href = "/Register/RegisterSuccess";
     }      
 }

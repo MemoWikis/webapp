@@ -74,7 +74,7 @@
         $("#divMsgPartOfGame").fadeOut(600);
     }
 
-    static GetFinalDate(remainingSeconds : number) : Date {
+    static GetFinalDate(remainingSeconds : number) : any {
         var finalDate = new Date();
         finalDate.setSeconds(finalDate.getSeconds() + remainingSeconds);
 

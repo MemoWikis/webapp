@@ -7,7 +7,7 @@
             if (response.status === 'connected') {
                 $("#btn-logout-from-facebook").show();
 
-                FacebookMemuchoUser.Throw_if_not_exists(response.authResponse.userID);
+                FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
                 Site.RedirectToDashboard();
             }
 
@@ -18,11 +18,12 @@
 
             FB.getLoginStatus(response => {
 
-                console.log(response);
+                var facebookId = response.authResponse.userID;
+                var facebookAccessToken = response.authResponse.accessToken;
 
                 if (response.status === 'connected') {
 
-                    FacebookMemuchoUser.Throw_if_not_exists(response.authResponse.userID);
+                    FacebookMemuchoUser.Login(response.authResponse.userID, facebookAccessToken);
                     Site.RedirectToDashboard();
 
                 } else if (response.status === 'not_authorized' || response.status === 'unknown') {
@@ -32,18 +33,18 @@
                         if (response.status !== "connected")
                             return;
 
-                        var facebookId = response.authResponse.userID;
-                        var facebookAccessToken = response.authResponse.accessToken;
-
                         if (FacebookMemuchoUser.Exists(facebookId)) {
-                            FacebookMemuchoUser.Login(facebookId);
+                            FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
                             Site.RedirectToDashboard();
                             return;
                         }
 
-                        Facebook.GetUser(facebookId, facebookAccessToken, (user) => {
-                            FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken);
-                            Site.RedirectToRegisterSuccess();                            
+                        Facebook.GetUser(facebookId, facebookAccessToken, (user: FacebookUserFields) => {
+                            if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
+                                Site.RedirectToRegisterSuccess();
+                            } else {
+                                alert("Leider ist ein Fehler ist aufgetreten.");
+                            }
                         });
 
                     }, { scope: 'email' });

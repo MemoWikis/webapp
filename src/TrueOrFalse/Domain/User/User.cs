@@ -81,8 +81,8 @@ public class FacebookUserCreateParameter
     /// <summary>
     /// Facebook user id
     /// </summary>
-    public string id;
+    public string id { get; set; }
 
-    public string name;
-    public string email;
+    public string name { get; set; }
+    public string email { get; set; }
 }

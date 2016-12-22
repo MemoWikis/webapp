@@ -25,6 +25,14 @@ public class UserRepo : RepositoryDbBase<User>
             .SingleOrDefault<User>();
     }
 
+    public User UserGetByFacebookId(string facebookId)
+    {
+        return _session
+            .QueryOver<User>()
+            .Where(u => u.FacebookId == facebookId)
+            .SingleOrDefault();
+    }
+
     public bool FacebookUserExists(string facebookId)
     {
         return _session
