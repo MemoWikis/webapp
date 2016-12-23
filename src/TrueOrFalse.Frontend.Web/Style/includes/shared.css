@@ -21,6 +21,9 @@
 
 [Imports:]
 --------------------------------------------------------*/
+.color-category {
+  color: #45aece;
+}
 @media (min-width: 768px) {
 }
 @media (min-width: 768px) {
@@ -2169,11 +2172,11 @@
   border-right-color: #FFD700 !important;
 }
 .Card.Category .ItemTitle {
-  border-bottom-color: #5bc0de !important;
+  border-bottom-color: #45aece !important;
 }
 .Card.Category .ImageContainer {
-  border-bottom-color: #5bc0de !important;
-  border-right-color: #5bc0de !important;
+  border-bottom-color: #45aece !important;
+  border-right-color: #45aece !important;
 }
 .Card .ItemInfo .Pin {
   padding-left: 1px;
@@ -2546,7 +2549,7 @@
   margin-bottom: 15px;
 }
 .Category.CardBig header {
-  border-bottom-color: #5bc0de;
+  border-bottom-color: #45aece;
 }
 .Set.CardBig header {
   border-bottom-color: #FFD700;

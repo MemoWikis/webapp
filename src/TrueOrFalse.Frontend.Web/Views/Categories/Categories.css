@@ -1,4 +1,7 @@
-﻿@media (min-width: 768px) {
+﻿.color-category {
+  color: #45aece;
+}
+@media (min-width: 768px) {
 }
 @media (min-width: 768px) {
 }
@@ -21,31 +24,31 @@
 #MainFilterBarBackground .btn {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #4db0cd;
-  background-image: -moz-linear-gradient(top, #3da9c9, #65bbd4);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3da9c9), to(#65bbd4));
-  background-image: -webkit-linear-gradient(top, #3da9c9, #65bbd4);
-  background-image: -o-linear-gradient(top, #3da9c9, #65bbd4);
-  background-image: linear-gradient(to bottom, #3da9c9, #65bbd4);
+  background-color: #4398b1;
+  background-image: -moz-linear-gradient(top, #3a8da6, #51a8c2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a8da6), to(#51a8c2));
+  background-image: -webkit-linear-gradient(top, #3a8da6, #51a8c2);
+  background-image: -o-linear-gradient(top, #3a8da6, #51a8c2);
+  background-image: linear-gradient(to bottom, #3a8da6, #51a8c2);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3da9c9', endColorstr='#ff65bbd4', GradientType=0);
-  border-color: #65bbd4 #65bbd4 #339ab9;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a8da6', endColorstr='#ff51a8c2', GradientType=0);
+  border-color: #51a8c2 #51a8c2 #337d93;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 #MainFilterBar .btn-group .btn {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #8ed4e8;
-  background-image: -moz-linear-gradient(top, #b0e1ef, #5bc0de);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b0e1ef), to(#5bc0de));
-  background-image: -webkit-linear-gradient(top, #b0e1ef, #5bc0de);
-  background-image: -o-linear-gradient(top, #b0e1ef, #5bc0de);
-  background-image: linear-gradient(to bottom, #b0e1ef, #5bc0de);
+  background-color: #75c3db;
+  background-image: -moz-linear-gradient(top, #96d1e3, #45aece);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#96d1e3), to(#45aece));
+  background-image: -webkit-linear-gradient(top, #96d1e3, #45aece);
+  background-image: -o-linear-gradient(top, #96d1e3, #45aece);
+  background-image: linear-gradient(to bottom, #96d1e3, #45aece);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb0e1ef', endColorstr='#ff5bc0de', GradientType=0);
-  border-color: #5bc0de #5bc0de #28a1c5;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff96d1e3', endColorstr='#ff45aece', GradientType=0);
+  border-color: #45aece #45aece #29829d;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #5bc0de;
+  *background-color: #45aece;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -56,31 +59,31 @@
 #MainFilterBar .btn-group .btn.disabled,
 #MainFilterBar .btn-group .btn[disabled] {
   color: white;
-  background-color: #5bc0de;
-  *background-color: #46b8da;
+  background-color: #45aece;
+  *background-color: #34a4c5;
 }
 #MainFilterBar .btn-group .btn:active,
 #MainFilterBar .btn-group .btn.active {
-  background-color: #31b0d5 \9;
+  background-color: #2f93b1 \9;
 }
 #MainFilterBar .btn-group .btn:hover {
-  background-color: #5bc0de;
+  background-color: #45aece;
   background-image: none;
 }
 #MainFilterBar .btn-group.active .btn {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #4ab9db;
-  background-image: -moz-linear-gradient(top, #5bc0de, #31b0d5);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#5bc0de), to(#31b0d5));
-  background-image: -webkit-linear-gradient(top, #5bc0de, #31b0d5);
-  background-image: -o-linear-gradient(top, #5bc0de, #31b0d5);
-  background-image: linear-gradient(to bottom, #5bc0de, #31b0d5);
+  background-color: #3ca3c3;
+  background-image: -moz-linear-gradient(top, #45aece, #2f93b1);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#45aece), to(#2f93b1));
+  background-image: -webkit-linear-gradient(top, #45aece, #2f93b1);
+  background-image: -o-linear-gradient(top, #45aece, #2f93b1);
+  background-image: linear-gradient(to bottom, #45aece, #2f93b1);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff31b0d5', GradientType=0);
-  border-color: #31b0d5 #31b0d5 #1f7e9a;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff45aece', endColorstr='#ff2f93b1', GradientType=0);
+  border-color: #2f93b1 #2f93b1 #1f6175;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #31b0d5;
+  *background-color: #2f93b1;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -91,12 +94,12 @@
 #MainFilterBar .btn-group.active .btn.disabled,
 #MainFilterBar .btn-group.active .btn[disabled] {
   color: white;
-  background-color: #31b0d5;
-  *background-color: #28a1c5;
+  background-color: #2f93b1;
+  *background-color: #29829d;
 }
 #MainFilterBar .btn-group.active .btn:active,
 #MainFilterBar .btn-group.active .btn.active {
-  background-color: #2390b0 \9;
+  background-color: #247189 \9;
 }
 .category-row:hover {
   background-color: #f3f5f8;

@@ -107,7 +107,7 @@
   color: #AFD534;
 }
 #mainMenu .list-group-item .cat-color {
-  color: #5bc0de;
+  color: #45aece;
 }
 #mainMenu .list-group-item.set {
   border-left-color: #FFD700;
@@ -138,14 +138,14 @@
   color: white;
 }
 #mainMenu .list-group-item.cat {
-  border-left-color: #5bc0de;
-  border-right-color: #5bc0de;
+  border-left-color: #45aece;
+  border-right-color: #45aece;
 }
 #mainMenu .list-group-item.cat i.fa-caret-right {
-  color: #5bc0de;
+  color: #45aece;
 }
 #mainMenu .list-group-item.cat:hover {
-  background-color: #85d0e7;
+  background-color: #6dc0d9;
   color: black;
 }
 #mainMenu .list-group-item.know {
