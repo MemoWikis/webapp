@@ -130,8 +130,35 @@ function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
             });
 }
 
+class Site {
+
+    constructor() {
+        $("#btn-logout").click(function(e) {
+            e.preventDefault();
+
+            var redirect = () => { location.href = $(this).attr("data-url"); }
+
+            if ($(this).attr("data-is-facebook") == "true") {
+                FacebookMemuchoUser.Logout(redirect);
+            } else {
+                redirect();    
+            }
+        });
+    }
+
+    static RedirectToDashboard() {
+        location.href = "/Wissenszentrale";
+    }
+
+    static RedirectToRegisterSuccess() {
+        location.href = "/Register/RegisterSuccess";
+    }
+}
+
 $(() => {
-    
+
+    new Site();
+
     $("#logo").hover(
         function () { $(this).animate({ 'background-size': '100%' }, 250); },
         function () { $(this).animate({ 'background-size': '86%' }, 250); }
@@ -145,13 +172,3 @@ $(() => {
     InitClickLog();
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
 });
-
-class Site {
-    static RedirectToDashboard() {
-        location.href = "/Wissenszentrale";
-    }
-
-    static RedirectToRegisterSuccess() {
-        location.href = "/Register/RegisterSuccess";
-    }      
-}

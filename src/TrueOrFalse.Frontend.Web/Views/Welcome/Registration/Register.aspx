@@ -33,10 +33,6 @@
 
             <fieldset>
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
-
-		        <a href="#" class="btn btn-block omb_btn-facebook" id="btn-logout-from-facebook" style="width: 100%">
-			        <span>Facebook Logout</span>
-		        </a>
                                 
                 <div class="form-group omb_login">
                     <div class="row omb_socialButtons">

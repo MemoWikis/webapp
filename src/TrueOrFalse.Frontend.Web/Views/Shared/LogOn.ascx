@@ -1,7 +1,10 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
     
-<%  var userSession = new SessionUser(); %>
+<% 
+    var userSession = new SessionUser();
+    var user = userSession.User;
+%>
 
 <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.Membership, Links.AccountController) %>">
     <i class="fa fa-thumbs-up"></i>
@@ -40,7 +43,7 @@
                 <li><a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Konto-Einstellungen</a></li>
                 <li class="divider"></li>
                  
-                <li><a href="<%= Url.Action(Links.Logout, Links.WelcomeController) %>"><i class="fa fa-power-off" title="Ausloggen"></i> Ausloggen</a>  </li>
+                <li><a href="#" id="btn-logout" data-url="<%= Url.Action(Links.Logout, Links.WelcomeController) %>" data-is-facebook="<%= user.IsFacebookUser() ? "true" : ""  %>"><i class="fa fa-power-off" title="Ausloggen"></i> Ausloggen</a>  </li>
                 <% if(userSession.IsInstallationAdmin){ %>
                     <li><a href="<%= Url.Action("RemoveAdminRights", Links.AccountController) %>"><i class="fa fa-power-off" title="Ausloggen"></i> Adminrechte abgeben</a>  </li>
                 <% } %>

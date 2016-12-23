@@ -114,6 +114,18 @@ class FacebookMemuchoUser {
             error(error) { throw error },
         });
     }
+
+    static Logout(onLogout : () => void) {
+        FB.getLoginStatus(response => {
+            if (response.status === 'connected') {
+                FB.logout(responseLogout => {
+                    onLogout();
+                });
+            } else {
+                onLogout();
+            }
+        });
+    }
 }
 
 interface FacebookUserFields {

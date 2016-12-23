@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
+using static System.String;
 
 [Serializable]
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -70,10 +71,9 @@ public class User : DomainEntity
         return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
     }
 
-    public virtual Membership CurrentMembership()
-    {
-        return MembershipPeriods.FirstOrDefault(x => x.IsActive());
-    }
+    public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
+
+    public virtual bool IsFacebookUser() => !IsNullOrEmpty(FacebookId);
 }
 
 public class FacebookUserCreateParameter
