@@ -126,13 +126,6 @@
     }
   },
   {
-    "outputFile": "Views/Maintenance/Images.css",
-    "inputFile": "Views/Maintenance/Images.less",
-    "minify": {
-      "enabled": false
-    }
-  },
-  {
     "outputFile": "Style/Images.css",
     "inputFile": "Style/Images.less",
     "minify": {
