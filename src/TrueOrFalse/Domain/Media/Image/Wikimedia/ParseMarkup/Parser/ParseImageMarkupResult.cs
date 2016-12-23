@@ -11,7 +11,9 @@ namespace TrueOrFalse.WikiMarkup
         public string AuthorName_Raw;
         public string AuthorName;
 
-        public Template InfoTemplate;
+        //public string Attribution;
+
+        public Template Template;
         public InfoBoxTemplate InfoBoxTemplate;
 
         public string AllRegisteredLicenses;

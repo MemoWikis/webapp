@@ -59,8 +59,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                 | en = ''{{W|European flounder|Platichthys flesus}}'' near {{W|Vääna-Jõesuu}} in [[:w:Estonia|Estonia]].
                 | et = Vääna-Jõesuu rannikumere lest
                 | fr = Flet commun, ''Platichthys flesus'', près de Vääna-Jöesuu en [[:Estonie|Estonie]].
-                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].
-                }}
+                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].}}
                 |Date           = 2010-01-06
                 |Source         = {{own}}
                 |Author         = [[User:Tiithunt|Tiit Hunt]]
@@ -94,8 +93,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                 |Description    = {{mld
                 | cs = [[:cs:Platýs bradavičnatý|Platýs bradavičnatý]] blízko estonské vesnice Vääna Jöesuu
                 | et = Vääna-Jõesuu rannikumere lest
-                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].
-                }}
+                | pt = [[:pt:Linguado|Linguado]], ''Platichthys flesus'', nas proximidades de {{W|Vääna-Jõesuu}} na [[:w:Estonia|Estônia]].}}
                 |Date           = 2010-01-06
                 |Source         = {{own}}
                 |Author         = [[User:Tiithunt|Tiit Hunt]]
@@ -208,7 +206,7 @@ internal class ImageInfo_from_Wikimedia : BaseTest
         var demoText = GetMarkupDemoText_mld_template();
 
         var parsedImageMarkup = ParseImageMarkup.Run(demoText);
-        var infoSectionParams = parsedImageMarkup.InfoTemplate.Parameters;
+        var infoSectionParams = parsedImageMarkup.Template.Parameters;
 
         Assert.That(infoSectionParams.Count, Is.EqualTo(7));
         Assert.That(infoSectionParams[0].Key, Is.EqualTo("Description"));
@@ -235,12 +233,11 @@ internal class ImageInfo_from_Wikimedia : BaseTest
     }
 
     [Test]
-    [Ignore("")]
     public void Should_parse_author_and_description()
     {
         var markup = "";
         var parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.InfoTemplate == null, Is.True,
+        Assert.That(parseImageMarkupResult.Template == null, Is.True,
             "InfoTemplate missing - template null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).InfoTemplate
             .Any(notification => notification.Name == "No information template found"), Is.True,
@@ -250,13 +247,11 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     |Source={{own}}, Collection [[User:Michael Gäbler|Michael Gäbler]]
                     ";
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.Description == null, Is.True,
-                "Description parameter missing - description null expected");
+        Assert.That(parseImageMarkupResult.Description == null, Is.True, "Description parameter missing - description null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
                 .Any(notification => notification.Name == "No description parameter found"), Is.True,
                 "Description parameter missing - notification expected");
-        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
-                "Author parameter missing - AuthorName null expected");
+        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True, "Author parameter missing - AuthorName null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                 .Any(notification => notification.Name == "No author parameter found"), Is.True,
                 "Author parameter missing - notification expected");
@@ -282,38 +277,139 @@ internal class ImageInfo_from_Wikimedia : BaseTest
                     |Author={{User:XRay/Templates/Author}}
                     ";
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
-                        "Custom wiki user template - author null expected");
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("<a href='http://commons.wikimedia.org/wiki/User:XRay/Templates/Author'>XRay/Templates/Author</a>"));
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                     .Any(notification => notification.Name == "Custom wiki user template"), Is.True,
                     "Custom wiki user template - notification expected");
-
-        markup = @"{{Information
-                    |Description=Plain text
-                    |Author=Plain text
-                    ";
-
-        parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.Description == "Plain text", Is.EqualTo("Plain text"),
-                        "Description: Take plain text as is");
-        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Plain text"),
-                        "Author: Take plain text as is");
 
         markup = @"{{Information
                     |Description=[[undefined internal wiki link]]
                     |Author=[[undefined internal wiki link]]
                     ";
         parseImageMarkupResult = ParseImageMarkup.Run(markup);
-        Assert.That(parseImageMarkupResult.Description == null, Is.True,
-                        "Unparsed wiki markup - description null expected");
+        Assert.That(parseImageMarkupResult.Description == null, Is.True, "Unparsed wiki markup - description null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Description
                     .Any(notification => notification.Name == "Manual entry for description required"), Is.True,
                     "Description: Unparsed wiki markup - notification expected");
-        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,
-                        "Unparsed wiki markup - author null expected");
+        Assert.That(parseImageMarkupResult.AuthorName == null, Is.True,  "Unparsed wiki markup - author null expected");
         Assert.That(ImageParsingNotifications.FromJson(parseImageMarkupResult.Notifications).Author
                     .Any(notification => notification.Name == "Manual entry for author required"), Is.True,
                     "Author: Unparsed wiki markup - notification expected");
         new LicenseImage().InitLicenseSettings();
+
+
+        markup = @"== {{int:filedesc}} ==
+                 {{BArch-image
+                 |wiki description =
+                 |short title =
+                 |archive title =
+                 |original title = '''Konrad Adenauer'''
+                 
+                 27.4.1988 (Repro)
+                 Porträt von Bundeskanzler Dr. Konrad Adenauer vom 23.6.1952
+                 
+                 Nur mit Aufschrift: Foto Katherine Young, New York, herausgeben!
+                 
+                 '''Abgebildete Personen:'''
+                 * [[:de:Konrad Adenauer|Adenauer, Konrad Dr.]]: Bundeskanzler, CDU, Bundesrepublik Deutschland ({{PND-link|11850066X|11850066X}})
+                 |biased =
+                 |depicted people =
+                 |depicted place =
+                 |photographer = Young, Katherine
+                 |date = 1952-06-23
+                 |year = 1952
+                 |ID = B 145 Bild-F078072-0004
+                 |inventory = B 145
+                 |other versions = 
+                 }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Young, Katherine"));
+
+        markup = @"{{Flickr
+                    |description=The Chernobyl reactor #4 building as of 2006, including the later-built [[:en:Chernobyl Nuclear Power Plant sarcophagus|sarcophagus]] and elements of the maximum-security perimeter. 
+                    |flickr_url=http://flickr.com/photos/83713082@N00/535916329
+                    |title=reactor 4
+                    |taken=2006-09-18 20:07:00
+                    |photographer=Carl Montgomery
+                    |photographer_url=http://flickr.com/photos/83713082@N00
+                    |reviewer=Bubamara
+                    |permission={{User:Flickr upload bot/upload|date=08:47, 21 March 2008 (UTC)|reviewer=Bubamara}}
+                    {{cc-by-2.0}}
+                    }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("<a href='http://flickr.com/photos/83713082@N00'>Carl Montgomery</a>"));
+
+        markup = @"{{Information
+            |Description=Screenshot of Anjuta's class inheritance graph and terminal
+            |Source={{Transferred from|en.wikipedia}}
+            |Date={{original upload date|2005-06-25}}
+            |Author={{original uploader|Deeahbz|wikipedia|en}}
+            |Permission=GPL.
+            |other_versions=
+            }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Screenshot of Anjuta's class inheritance graph and terminal"));
+
+        markup = @"== {{int:filedesc}} ==
+            {{Information
+            |Description=Photo of the ''Staffelwalze'' (English: '[[Wikipedia:Stepped Reckoner|Stepped Reckoner]]'), a prototype mechanical calculator invented by German mathematician [[Wikipedia:Gottfried von Leibniz|Gottfried Wilhelm Leibniz]] in 1674 and completed in 1694. About 67 cm (26 in.) long. This was the first calculator able to do all four arithmetic operations: addition, subtraction, multiplication, and division. Only two Stepped Reckoners were built. This one was found by workmen in 1879 in the attic of a building at the University of Gottingen, and is now in the [http://www.nlb-hannover.de/ National Library of Lower Saxony] (Niedersächsische Landesbibliothek), Hannover, Germany. For more information see [http://www.xnumber.com/xnumber/ James Redin (2007) A Brief History of Calculators Part 1: The Age of the Polymaths]. Caption: ""Leibnitz calculator, made in 1694.The first two-motion machine designed to compute multiplication by repeated addition"". Alterations: cropped out frame and caption, increased brightness.
+            | Source = Downloaded on 2008 - 1 - 14 from[http://books.google.com/books?id=ir00AAAAMAAJ&pg=PA133 J. A. V. Turck (1921) ''Origin of Modern Calculating Machines'', The Western Society of Engineers, Chicago, USA, p.133] on Google Books.
+            | Date = 1921
+                  | Author = J.A.V.Turck
+                  | Permission = Public domain - published in USA before 1923
+                  | other_versions =
+            }
+            }";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("J.A.V.Turck"));
+        Assert.That(parseImageMarkupResult.Description.StartsWith("Photo of the"));
+
+        markup = @"{{Artwork
+            |artist ={{Creator:Raffaello Sanzio}}
+            |title = {{title|lang=it|1=Scuola di Atene|de=Die Schule von Athen|el=[[:el:Η Σχολή των Αθηνών (Ραφαήλ)|Η Σχολή των Αθηνών]]|en=[[w:School of Athens|The School of Athens]]|es=[[:es:La escuela de Atenas|La escuela de Atenas]].}}
+            |Source=[[:File:Sanzio 01.jpg]]
+            |Date=1509
+            |medium = Fresco.
+            |Author=Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]].
+            |Permission=PD-Art
+            |institution = {{Institution:Musei Vaticani}}
+            |other_versions=[[File:Sanzio 01.jpg|thumb|none|Original]]
+            }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]]."));
+        Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Die Schule von Athen"));
+
+
+        markup = @"{{Artwork
+            |artist ={{Creator:Raffaello Sanzio}}
+            |title = {{title|lang=it|1=Scuola di Atene|de=Die Schule von Athen|el=[[:el:Η Σχολή των Αθηνών (Ραφαήλ)|Η Σχολή των Αθηνών]]|en=[[w:School of Athens|The School of Athens]]|es=[[:es:La escuela de Atenas|La escuela de Atenas]].}}
+            |Source=[[:File:Sanzio 01.jpg]]
+            |Date=1509
+            |medium = Fresco.
+            |Author=Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]].
+            |Permission=PD-Art
+            |institution = {{Institution:Musei Vaticani}}
+            |other_versions=[[File:Sanzio 01.jpg|thumb|none|Original]]
+            }}";
+        parseImageMarkupResult = ParseImageMarkup.Run(markup);
+        //Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Raffaello Sanzio (1509). Original uploader was [[User:Jic]], new version [[User:FranksValli]]."));
+        Assert.That(parseImageMarkupResult.Description, Is.EqualTo("Die Schule von Athen"));
+
+        //TODO: 
+        /*
+         
+            markup = @"{{Information
+                        |Description=Plain text
+                        |Author=Plain text
+                        ";
+
+            parseImageMarkupResult = ParseImageMarkup.Run(markup);
+            Assert.That(parseImageMarkupResult.Description == "Plain text", Is.EqualTo("Plain text"),
+                            "Description: Take plain text as is");
+            Assert.That(parseImageMarkupResult.AuthorName, Is.EqualTo("Plain text"),
+                            "Author: Take plain text as is");
+
+        */
     }
+
 }

@@ -76,10 +76,7 @@ class AnswerQuestion {
         $("#txtAnswer")
             .keypress(e => {
                 if (e.keyCode == 13) {
-                    if (self.IsAnswerPossible()) {
-                        self.ValidateAnswer();
-                        return false;
-                    }
+                    return false;
                 }
                 return true;
             });

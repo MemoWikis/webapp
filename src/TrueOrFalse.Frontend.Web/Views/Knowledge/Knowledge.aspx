@@ -59,6 +59,7 @@
 
             var options = {
                 pieHole: 0.6,
+                tooltip: { isHtml: true },
                 legend: { position: 'labeled' },
                 pieSliceText: 'none',
                 chartArea: { 'width': '100%', height: '100%', top: 10},
@@ -138,6 +139,7 @@
 
             var options = {
                 legend: { position: 'top', maxLines: 30 },
+                tooltip: { isHtml: true },
                 bar: { groupWidth: '89%' },
                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
                 colors: ['#afd534', 'lightsalmon'],

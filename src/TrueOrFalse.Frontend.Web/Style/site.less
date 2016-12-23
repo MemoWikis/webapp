@@ -28,6 +28,7 @@
         Tooltips
         Icons
         Dropdowns
+        Google Chart Custom Layout
 
 [Imports:]
 --------------------------------------------------------*/
@@ -1175,7 +1176,27 @@ ul.AlignDdRight{
     }
 }
 
+/*Google Chart Custom Layout*/
 
+div.google-visualization-tooltip { 
+    pointer-events: none;
+    height: auto !important;
+    width: auto !important;
+    padding: 5px;
+}
+
+ul.google-visualization-tooltip-item-list {
+    margin: 0;
+}
+
+li.google-visualization-tooltip-item {
+    margin: 0 !important;
+    padding: 0px;
+}
+
+li.google-visualization-tooltip-item span {
+    font-size: 12px !important;
+}
 
 
 /* $ToDo: Clean up

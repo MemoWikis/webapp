@@ -21,6 +21,8 @@ public class Comment : DomainEntity
 
     public virtual string ShouldKeys { get; set; }
 
+    public virtual bool IsSettled { get; set; }
+
     public Comment ()
     {
         Type = CommentType.AnswerQuestion;

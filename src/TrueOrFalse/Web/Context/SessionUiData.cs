@@ -18,35 +18,19 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
     public DateHistory VisitedDatePages => Data.Get("lastVisitedDatePages", new DateHistory());
 
     /* SearchSpecs *************/
-    public QuestionSearchSpec SearchSpecQuestionAll{ get { return Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 }); } }
+    public QuestionSearchSpec SearchSpecQuestionAll => Data.Get("searchSpecQuestionAll", new QuestionSearchSpec { PageSize = 10 });
+    public QuestionSearchSpec SearchSpecQuestionMine => Data.Get("searchSpecQuestionMine", new QuestionSearchSpec(ignorePrivates:false) { PageSize = 10 });
+    public QuestionSearchSpec SearchSpecQuestionWish => Data.Get("searchSpecQuestionWish", new QuestionSearchSpec(ignorePrivates: false) { PageSize = 10 });
 
-    public QuestionSearchSpec SearchSpecQuestionMine
-    {
-        get { return Data.Get("searchSpecQuestionMine", new QuestionSearchSpec(ignorePrivates:false) { PageSize = 10 }); }
-    }
+    public List<QuestionSearchSpec> SearchSpecQuestions => Data.Get("searchSpecQuestions", new List<QuestionSearchSpec>());
 
-    public QuestionSearchSpec SearchSpecQuestionWish
-    {
-        get { return Data.Get("searchSpecQuestionWish", new QuestionSearchSpec(ignorePrivates: false) { PageSize = 10 }); }
-    }
+    public SetSearchSpec SearchSpecSetsAll => Data.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 });
+    public SetSearchSpec SearchSpecSetMine => Data.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 });
+    public SetSearchSpec SearchSpecSetWish => Data.Get("searchSpecSetWish", new SetSearchSpec { PageSize = 10 });
 
-    public List<QuestionSearchSpec> SearchSpecQuestions { get { return Data.Get("searchSpecQuestions", new List<QuestionSearchSpec>()); } } 
+    public CategorySearchSpec SearchSpecCategory => Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 });
+    public UserSearchSpec SearchSpecUser => Data.Get("searchSpecUser", new UserSearchSpec { PageSize = 10 });
+    public ImageMetaDataSearchSpec ImageMetaDataSearchSpec => Data.Get("searchSpecImageMetaData", new ImageMetaDataSearchSpec { PageSize = 50 });
 
-    public SetSearchSpec SearchSpecSetsAll{ get { return Data.Get("searchSpecSetAll", new SetSearchSpec { PageSize = 10 }); } }
-    public SetSearchSpec SearchSpecSetMine { get { return Data.Get("searchSpecSetMine", new SetSearchSpec { PageSize = 10 }); } }
-    public SetSearchSpec SearchSpecSetWish { get { return Data.Get("searchSpecSetWish", new SetSearchSpec { PageSize = 10 }); } }
-
-    public CategorySearchSpec SearchSpecCategory{
-        get { return Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 }); }
-    }
-
-    public UserSearchSpec SearchSpecUser{
-        get { return Data.Get("searchSpecUser", new UserSearchSpec { PageSize = 10 }); }
-    }
-
-    public ImageMetaDataSearchSpec ImageMetaDataSearchSpec{
-        get { return Data.Get("searchSpecImageMetaData", new ImageMetaDataSearchSpec { PageSize = 50 }); }
-    }
-
-    public TmpImageStore TmpImagesStore { get { return Data.Get("tmpImageStore", new TmpImageStore()); } }
+    public TmpImageStore TmpImagesStore => Data.Get("tmpImageStore", new TmpImageStore());
 }

@@ -170,12 +170,16 @@ namespace TrueOrFalse.View
                          "~/Scripts/Markdown.Editor.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Maintenance")
-               .Include("~/Views/Maintenance/ImageMaintenance.js")
-               .Include("~/Views/Maintenance/ImageDetail.js")
                .Include("~/Scripts/BootstrapCustomUtils.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Maintenance")
                 .Include("~/Views/Maintenance/*.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceImages")
+                .Include("~/Views/Maintenance/Images/ImageMaintenance.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/MaintenanceImages")
+                .Include("~/Views/Maintenance/Images/*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));

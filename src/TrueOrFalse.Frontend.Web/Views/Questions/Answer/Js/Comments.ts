@@ -6,6 +6,14 @@
         $("#btnImprove").click((e) => this.SaveImproveComment(e));
         $("#btnShouldDelete").click((e) => this.SaveDeleteComent(e));
         this.RegisterBtnAnswerComment($(window));
+        $(document).on("click", ".btnMarkAsSettled", function (e) {
+            e.preventDefault();
+            self.MarkAsSettled(this);
+        });
+        $(document).on("click", ".btnMarkAsUnsettled", function (e) {
+            e.preventDefault();
+            self.MarkAsUnsettled(this);
+        });
     }
 
     RegisterBtnAnswerComment(parent : JQuery) {
@@ -133,6 +141,44 @@
             parentContainer.append(data);
             parentContainer.append(answerRow);
             self.RegisterBtnAnswerComment(answerRow);
+        });
+    }
+
+    MarkAsSettled(buttonElem: JQuery) {
+        buttonElem = $(buttonElem);
+        var commentId = buttonElem.data("comment-id");
+        $.ajax({
+            type: 'POST',
+            url: "/AnswerComments/MarkCommentAsSettled",
+            data: { commentId: commentId },
+            cache: false,
+            success(e) {
+                buttonElem.hide();
+                buttonElem.parent().find("[data-type=btn-markAsUnsettled]").show();
+            },
+            error(e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten");
+            }
+        });
+    }
+
+    MarkAsUnsettled(buttonElem: JQuery) {
+        buttonElem = $(buttonElem);
+        var commentId = buttonElem.data("comment-id");
+        $.ajax({
+            type: 'POST',
+            url: "/AnswerComments/MarkCommentAsUnsettled",
+            data: { commentId: commentId },
+            cache: false,
+            success(e) {
+                buttonElem.hide();
+                buttonElem.parent().find("[data-type=btn-markAsSettled]").show();
+            },
+            error(e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten");
+            }
         });
     }
 }

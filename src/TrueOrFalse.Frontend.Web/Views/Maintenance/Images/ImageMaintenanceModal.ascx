@@ -94,7 +94,7 @@
                                 <% } %>
                         </div>
                         <div class="col-lg-6">
-                            <a href="<%= "/Maintenance/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
+                            <a href="<%= "/MaintenanceImages/ImageMarkup?imgId=" + Model.ImageId.ToString() %>" target="_blank">Gespeichertes Markup</a>
                             <br />
                             <% if (!String.IsNullOrEmpty(LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl))){%>
                                 <a href="<%= LicenseParser.GetWikiDetailsPageFromSourceUrl(Model.MetaData.SourceUrl) %>" target="_blank">Wiki-Bilddetailseite</a> (<i class="fa fa-exclamation-triangle"></i> gespeichertes Markup ist in der Regel älter!) <br />
