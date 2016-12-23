@@ -133,26 +133,31 @@ function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
 class Site {
 
     constructor() {
-        $("#btn-logout").click(function(e) {
-            e.preventDefault();
-
-            var redirect = () => { location.href = $(this).attr("data-url"); }
-
-            if ($(this).attr("data-is-facebook") == "true") {
-                FacebookMemuchoUser.Logout(redirect);
-            } else {
-                redirect();    
-            }
-        });
+        $("#btn-logout").click(this.LogoutClick);
+        $("[data-btn-login=true]").click(this.LoginClick);
     }
 
-    static RedirectToDashboard() {
-        location.href = "/Wissenszentrale";
+    private LogoutClick(e)
+    {
+        e.preventDefault();
+
+        var redirect = () => { location.href = $(this).attr("data-url"); }
+
+        if ($(this).attr("data-is-facebook") == "true") {
+            FacebookMemuchoUser.Logout(redirect);
+        } else {
+            redirect();
+        }
     }
 
-    static RedirectToRegisterSuccess() {
-        location.href = "/Register/RegisterSuccess";
+    private LoginClick(e) {
+        e.preventDefault();
+
+        alert("show login");
     }
+
+    static RedirectToDashboard() { location.href = "/Wissenszentrale"; }
+    static RedirectToRegisterSuccess() { location.href = "/Register/RegisterSuccess"; }
 }
 
 $(() => {

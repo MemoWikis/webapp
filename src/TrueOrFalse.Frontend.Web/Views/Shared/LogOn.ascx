@@ -52,7 +52,7 @@
 <%
     }else {
 %> 
-        <a class="TextLinkWithIcon" href="<%=Url.Action("Login", Links.WelcomeController) %>" title="Einloggen"><i class="fa fa-sign-in"></i> <span class="TextSpan">Einloggen</span></a>
+        <a class="TextLinkWithIcon" href="#" data-btn-login="true" title="Einloggen"><i class="fa fa-sign-in"></i> <span class="TextSpan">Einloggen</span></a>
 <%
     }
 %>    
