@@ -45,9 +45,7 @@
                                     <% if (Model.Type != "Standard"){ %>
                                         <%= Model.Type %>
                                     <% }
-                                    else if (!String.IsNullOrEmpty(Model.ContentHtml)) { %>
-                                        Thema 
-                                    <% } else{ %>
+                                    else { %>
                                         Kategorie
                                     <% }  %>
                                 </div>
@@ -106,8 +104,6 @@
                 </div>    
             </div>
             
-            <%= Model.ContentHtml %>
-
             <h4>Über- und untergeordnete Kategorien</h4>
             <div class="CategoryRelations well">
                 <% if (Model.CategoriesParent.Count > 0) { %>
