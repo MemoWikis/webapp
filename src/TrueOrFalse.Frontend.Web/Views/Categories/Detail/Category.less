@@ -77,3 +77,30 @@ span.CategoryType {
         padding-bottom: 5px;
     }
 }
+
+.ContentSubheading {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: @memo-blue;
+
+    &.Set {
+        border-bottom-color: @color-set;
+    }
+
+    &.Question {
+        border-bottom-color: @color-question;
+    }
+}
+
+.LabelList {
+    margin-top: 0;
+}
+
+.LabelItem a {
+    white-space: nowrap;
+    overflow: hidden;
+    -moz-text-overflow:ellipsis;
+    text-overflow:ellipsis;
+}
