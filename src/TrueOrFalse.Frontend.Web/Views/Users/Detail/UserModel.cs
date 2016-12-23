@@ -45,7 +45,7 @@ public class UserModel : BaseModel
         AmountWishCountQuestions = Resolve<GetWishQuestionCount>().Run(user.Id);
         AmountWishCountSets = Resolve<GetWishSetCount>().Run(user.Id);
 
-        var imageResult = new UserImageSettings(user.Id).GetUrl_250px(user.EmailAddress);
+        var imageResult = new UserImageSettings(user.Id).GetUrl_250px(user);
         ImageUrl_250 = imageResult.Url;
         ImageIsCustom = imageResult.HasUploadedImage;
 
