@@ -151,8 +151,8 @@
                             <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
                              (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
                         </div>
-                    </div>
                     <% } %>
+                    </div>
                 <% } %>
         
                 <h5 class="ContentSubheading Question" style="margin-top: 20px; margin-bottom: 5px;"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
