@@ -28,6 +28,7 @@
         Tooltips
         Icons
         Dropdowns
+        Google Chart Custom Layout
 
 [Imports:]
 --------------------------------------------------------*/
@@ -685,6 +686,10 @@ img {
             text-align: center;
         });
 
+         .media-xs-up ({
+             min-height: 170px;
+         });
+
         &:last-child > div {
             .media-md-up({
                 float: right;
@@ -808,7 +813,7 @@ a.button span.ui-icon {
 }
     
 .label-category {
-    background-color: @light-blue;
+    background-color: lighten(@color-category, 35);
     border-color: @middle-blue;
 }
 
@@ -1171,7 +1176,27 @@ ul.AlignDdRight{
     }
 }
 
+/*Google Chart Custom Layout*/
 
+div.google-visualization-tooltip { 
+    pointer-events: none;
+    height: auto !important;
+    width: auto !important;
+    padding: 5px;
+}
+
+ul.google-visualization-tooltip-item-list {
+    margin: 0;
+}
+
+li.google-visualization-tooltip-item {
+    margin: 0 !important;
+    padding: 0px;
+}
+
+li.google-visualization-tooltip-item span {
+    font-size: 12px !important;
+}
 
 
 /* $ToDo: Clean up
@@ -1187,6 +1212,10 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size: 30px;
+}
+
+h5 {
+    font-size: 15px;
 }
 
 span.smaller {

@@ -17,6 +17,8 @@ public class CommentModel : BaseModel
     public bool ShouldBeImproved;
     public bool ShouldBeDeleted;
 
+    public bool IsSettled;
+
     public List<string> ShouldReasons; 
 
     public IEnumerable<CommentModel> Answers = new List<CommentModel>(); 
@@ -34,6 +36,7 @@ public class CommentModel : BaseModel
         ShouldBeImproved = comment.ShouldImprove;
         ShouldBeDeleted = comment.ShouldRemove;
         ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(comment.ShouldKeys);
+        IsSettled = comment.IsSettled;
 
         if(comment.Answers != null)
             Answers = comment.Answers

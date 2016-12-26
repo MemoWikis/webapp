@@ -15,6 +15,8 @@ public class CommentMap : ClassMap<Comment>
         Map(x => x.ShouldImprove);
         Map(x => x.ShouldRemove);
         Map(x => x.ShouldKeys);
+
+        Map(x => x.IsSettled);
           
         References(x => x.Creator);
         Map(x => x.Text);

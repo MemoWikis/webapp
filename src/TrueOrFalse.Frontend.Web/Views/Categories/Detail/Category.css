@@ -36,7 +36,7 @@ span.CategoryType {
   }
 }
 .MainCategory span.label-category {
-  color: #31b0d5;
+  color: #247189;
   font-size: 145%;
   margin-top: 5px;
   white-space: normal;
@@ -68,4 +68,40 @@ span.CategoryType {
 }
 .RelationArrow {
   font-size: 18px;
+}
+#ItemMainInfo {
+  padding-bottom: 5px;
+}
+#ItemMainInfo header {
+  border-bottom: 5px solid #45aece;
+  margin-bottom: 10px;
+}
+#ItemMainInfo .ImageContainer {
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  #ItemMainInfo .ImageContainer img {
+    max-height: 150px;
+    width: auto;
+  }
+}
+#ItemMainInfo .BottomBar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.ContentSubheading {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #003264;
+}
+.ContentSubheading.Set {
+  border-bottom-color: #FFD700;
+}
+.ContentSubheading.Question {
+  border-bottom-color: #AFD534;
+}
+.LabelList {
+  margin-top: 0;
 }
