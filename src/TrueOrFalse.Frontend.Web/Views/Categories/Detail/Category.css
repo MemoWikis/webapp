@@ -96,6 +96,9 @@ span.CategoryType {
   border-bottom-width: 2px;
   border-bottom-color: #003264;
 }
+.ContentSubheading:not(:first-child) {
+  margin-top: 30px;
+}
 .ContentSubheading.Set {
   border-bottom-color: #FFD700;
 }
