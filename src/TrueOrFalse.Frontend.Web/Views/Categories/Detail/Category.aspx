@@ -25,10 +25,8 @@
                 <% } %>
                 <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
             </div>
-            <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
         </div>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
-            
             <div id="ItemMainInfo" class="Box">
                 <div class="">
                     <div class="row">
@@ -144,19 +142,18 @@
             <h4>Inhalte</h4>
             <div id="Content" class="Box">
                 <% if(Model.CountSets > 0){ %>    
-                    <h5 class="ContentSubheading Set" style="margin-bottom: 5px;"><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h5>
+                    <h5 class="ContentSubheading Set"><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h5>
                     <div class="LabelList">
                     <% foreach(var set in Model.TopSets){ %>
                         <div class="LabelItem LabelItem-Set">
                             <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
                              (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
                         </div>
-                    </div>
                     <% } %>
                     </div>
                 <% } %>
         
-                <h5 class="ContentSubheading Question" style="margin-top: 20px; margin-bottom: 5px;"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
+                <h5 class="ContentSubheading Question"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
 
                 <% if (Model.CountQuestions > 0){ %>
                     <div class="LabelList">
