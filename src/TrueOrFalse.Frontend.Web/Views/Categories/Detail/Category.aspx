@@ -26,8 +26,6 @@
                 <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
             </div>
             <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
-                    
-            </div>
         </div>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
             
@@ -47,7 +45,26 @@
                                     <% }
                                     else if (!String.IsNullOrEmpty(Model.ContentHtml)) { %>
                                         Thema 
-                                    <% } else{ %>
+                            <div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-10 col-md-pull-2">
+            
+            <div id="ItemMainInfo" class="Box">
+                <div class="">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="ImageContainer">
+                                <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                            <header>
+                                <div>
+                                    <% if (Model.Type != "Standard"){ %>
+                                        <%= Model.Type %>
+                                    <% }
+                                    else { %>
                                         Kategorie
                                     <% }  %>
                                 </div>
@@ -157,6 +174,7 @@
                         </div>
                     </div>
                     <% } %>
+                    </div>
                 <% } %>
         
                 <h5 class="ContentSubheading Question" style="margin-top: 20px; margin-bottom: 5px;"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
@@ -168,7 +186,7 @@
                         {
                             index++; %>
                         <div class="LabelItem LabelItem-Question">
-                            <a style="white-space: nowrap; overflow: hidden; -moz-text-overflow:ellipsis; text-overflow:ellipsis;" href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                            <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
                         </div>
                     <% } %>
                     </div>
