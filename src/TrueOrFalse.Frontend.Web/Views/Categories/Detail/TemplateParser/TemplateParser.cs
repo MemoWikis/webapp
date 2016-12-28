@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 
 public class TemplateParser
 {
-    public static string Run(string stringToParse, ControllerContext controllerContext)
+    public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        var regex = new Regex(@"\[\[(.*?)\]\]", RegexOptions.Singleline);//Matches "[[something]]" non-greedily, across multiple lines and only if not nested
+        var regex = new Regex(@"\[\[(.*?)\]\]", RegexOptions.Singleline);//Matches "[[something]]" non-greedily across multiple lines and only if not nested
 
         return regex.Replace(stringToParse, match =>
         {
@@ -23,7 +23,7 @@ public class TemplateParser
             if (templateJson == null)
                 return match.Value;
 
-            var html = GetHtml(templateJson, controllerContext);
+            var html = GetHtml(templateJson, category, controllerContext);
 
             return string.IsNullOrEmpty(html) ? match.Value : html;
         });
@@ -42,20 +42,22 @@ public class TemplateParser
         }
     }
 
-    private static string GetHtml(TemplateJson templateJson, ControllerContext controllerContext)
+    private static string GetHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "categorynetwork":
+            case "contentlists":
             case "singleset":
-                return GetPartialHtml(templateJson, controllerContext);
+                return GetPartialHtml(templateJson, category, controllerContext);
             default:
                 return GetElementHtml(templateJson);
         }
     }
 
-    private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext)
+    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
     {
-        var partialModel = GetPartialModel(templateJson);
+        var partialModel = GetPartialModel(templateJson, category);
 
         try
         {
@@ -71,10 +73,14 @@ public class TemplateParser
         }
     }
 
-    private static BaseModel GetPartialModel(TemplateJson templateJson)
+    private static BaseModel GetPartialModel(TemplateJson templateJson, Category category)
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "categorynetwork":
+            case "contentlists":
+                return new CategoryModel(category);
+
             case "singleset":
                 return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId));
             default:

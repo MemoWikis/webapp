@@ -7,10 +7,10 @@ using TrueOrFalse.Web;
 
 public class MarkdownToHtml
 {
-    public static string Run(string markdown, ControllerContext controllerContext)
+    public static string Run(Category category, ControllerContext controllerContext)
     {
-        var result = MarkdownMarkdig.ToHtml(markdown);
-        result = TemplateParser.Run(result, controllerContext);
+        var result = MarkdownMarkdig.ToHtml(category.TopicMarkdown);
+        result = TemplateParser.Run(result, category, controllerContext);
         return result;
     }
 }

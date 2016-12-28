@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class CategoryModel : BaseModel
+public class ContentListsModel : BaseModel
 {
-    public int Id;
+    //public int Id;
     public string Name;
-    public string Description;
-    public string Type;
+    //public string Description;
+    //public string Type;
 
-    public string CustomPageHtml;
+    //public string ContentHtml;
 
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
+
+    public Category Category;
 
     public IList<Set> TopSets;
     public IList<Question> TopQuestions;
@@ -20,18 +22,17 @@ public class CategoryModel : BaseModel
     public IList<Question> TopWishQuestions;
     public IList<User> TopCreaters;
 
-    public User Creator;
-    public string CreatorName;
-    public string CreationDate;
-    public string CreationDateNiceText;
+    //public User Creator;
+    //public string CreatorName;
+    //public string CreationDate;
+    //public string CreationDateNiceText;
 
-    public Category Category;
 
-    public ImageFrontendData ImageFrontendData;
+    //public ImageFrontendData ImageFrontendData;
 
-    public string WikiUrl;
+    //public string WikiUrl;
 
-    public bool IsOwnerOrAdmin;
+    //public bool IsOwnerOrAdmin;
 
     public int CountQuestions;
     public int CountReferences;
@@ -39,35 +40,35 @@ public class CategoryModel : BaseModel
     public int CountSets;
     public int CountCreators;
 
-    public int CorrectnesProbability;
-    public int AnswersTotal;
+    //public int CorrectnesProbability;
+    //public int AnswersTotal;
 
     private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepo;
 
-    public CategoryModel(Category category)
+    public ContentListsModel(Category category)
     {
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
 
-        WikiUrl = category.WikipediaURL;
+        //WikiUrl = category.WikipediaURL;
         Category = category;
 
-        Id = category.Id;
+        //Id = category.Id;
         Name = category.Name;
-        Description = category.Description;
-        Type = category.Type.GetShortName();
+        //Description = category.Description;
+        //Type = category.Type.GetShortName();
 
-        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
+        //IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
         CategoriesParent = category.ParentCategories;
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
 
-        CorrectnesProbability = category.CorrectnessProbability;
-        AnswersTotal = category.CorrectnessProbabilityAnswerCount;
+        //CorrectnesProbability = category.CorrectnessProbability;
+        //AnswersTotal = category.CorrectnessProbabilityAnswerCount;
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
-        ImageFrontendData = new ImageFrontendData(imageMetaData);
+        //var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
+        //ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 

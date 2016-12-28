@@ -21,12 +21,12 @@ public class CategoryController : BaseController
 
         var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown)
             ? null
-            : MarkdownToHtml.Run(category.TopicMarkdown, ControllerContext);
+            : MarkdownToHtml.Run(category, ControllerContext);
 
         return View(_viewLocation,
             new CategoryModel(category)
             {
-              ContentHtml = contentHtml
+              CustomPageHtml = contentHtml
             });
     }
 

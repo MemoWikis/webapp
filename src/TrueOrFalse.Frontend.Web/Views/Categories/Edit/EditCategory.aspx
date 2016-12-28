@@ -187,7 +187,7 @@
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                             </label>
                             <div class="columnControlsFull">
-                                <textarea class="form-control" name="TopicMarkdown" type="text"><%= Model.TopicMarkdown %></textarea>
+                                <textarea class="form-control" name="TopicMarkdown" type="text" rows="4" style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
                             </div>
                         </div>
                     <% } %>
