@@ -353,6 +353,7 @@
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
+    <Compile Include="Views\Welcome\Login\LoginController.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
@@ -566,11 +567,15 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Login\Login.ascx" />
+    <Content Include="Views\Welcome\Login\Login.js">
+      <DependentUpon>Login.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Registration\Register.css">
-      <DependentUpon>Register.less</DependentUpon>
+    <Content Include="Views\Welcome\Registration\SocialButtons.css">
+      <DependentUpon>SocialButtons.less</DependentUpon>
     </Content>
     <Content Include="Views\Widgets\AwesomeIframe.js" />
     <Content Include="mstile-144x144.png" />
@@ -1525,6 +1530,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
     <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
@@ -2114,7 +2120,7 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Welcome\Registration\Register.less" />
+    <Content Include="Views\Welcome\Registration\SocialButtons.less" />
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
@@ -2123,6 +2129,9 @@
     <Content Include="Views\Maintenance\ContentReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\Login.js.map">
+      <DependentUpon>Login.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
@@ -2159,7 +2168,6 @@
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
-    <Content Include="Views\Welcome\Login.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />
     <Content Include="Views\Welcome\Registration\RegisterSuccess.aspx" />
     <Content Include="Views\Welcome\Welcome.aspx" />
@@ -2220,4 +2228,9 @@
     <Error Condition="!Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
 </Project>

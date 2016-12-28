@@ -12,7 +12,7 @@ public class LoginModel : BaseModel
 
     public bool PersistentLogin { get; set; }
 
-    public void SetToWrongCredentials()
+    public void SetInfo_WrongCredentials()
     {
         Message = new UIMessage(MessageType.IsError,
             "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort"); ;

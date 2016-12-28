@@ -133,8 +133,7 @@ function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
 class Site {
 
     constructor() {
-        $("#btn-logout").click(this.LogoutClick);
-        $("[data-btn-login=true]").click(this.LoginClick);
+        $("#btn-logout").click(this.LogoutClick);        
     }
 
     private LogoutClick(e)
@@ -150,11 +149,6 @@ class Site {
         }
     }
 
-    private LoginClick(e) {
-        e.preventDefault();
-
-        alert("show login");
-    }
 
     static RedirectToDashboard() { location.href = "/Wissenszentrale"; }
     static RedirectToRegisterSuccess() { location.href = "/Register/RegisterSuccess"; }

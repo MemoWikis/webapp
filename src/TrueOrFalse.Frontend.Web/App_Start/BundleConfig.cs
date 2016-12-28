@@ -24,7 +24,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js")
                 .IncludeDirectory("~/Scripts/hubs", "*.js")
-                .IncludeDirectory("~/Views/Images", "*.js"));
+                .IncludeDirectory("~/Views/Images", "*.js")
+                .IncludeDirectory("~/Views/Welcome/Login", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
@@ -52,7 +53,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Registration")
-                .Include("~/Views/Welcome/Registration/Register.css"));
+                .Include("~/Views/Welcome/Registration/SocialButtons.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Login")
+                .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
