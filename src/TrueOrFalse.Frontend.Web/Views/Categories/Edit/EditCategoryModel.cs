@@ -16,8 +16,9 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
-    //[AllowHtml]
     public string TopicMarkdown { get; set; }
+
+    public string FeaturedSetIdsString { get; set; }
 
     public bool IsEditing { get; set; }
 
@@ -69,6 +70,7 @@ public class EditCategoryModel : BaseModel
         ParentCategories = parentCategories;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
+        FeaturedSetIdsString = category.FeaturedSetsIdsString;
     }
 
     public ConvertToCategoryResult ConvertToCategory()
@@ -77,6 +79,7 @@ public class EditCategoryModel : BaseModel
         category.Description = Description;
         category.ParentCategories = ParentCategories;
         category.TopicMarkdown = TopicMarkdown;
+        category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -101,6 +104,7 @@ public class EditCategoryModel : BaseModel
         category.Description = Description;
         category.ParentCategories = ParentCategories;
         category.TopicMarkdown = TopicMarkdown;
+        category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         FillFromRequest(category);
     }

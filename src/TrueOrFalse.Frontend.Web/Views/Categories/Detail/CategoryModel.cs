@@ -9,6 +9,7 @@ public class CategoryModel : BaseModel
     public string Type;
 
     public string CustomPageHtml;
+    public IList<Set> FeaturedSets;
 
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
@@ -57,6 +58,8 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         Type = category.Type.GetShortName();
+
+        FeaturedSets = category.FeaturedSets;
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 

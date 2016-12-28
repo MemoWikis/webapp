@@ -190,6 +190,17 @@
                                 <textarea class="form-control" name="TopicMarkdown" type="text" rows="4" style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="columnLabel control-label" for="FeaturedSetIdsString">
+                                Ausgewählte Fragesätze
+                                <i class="fa fa-question-circle show-tooltip" 
+                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben." 
+                                    data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            </label>
+                            <div class="columnControlsFull">
+                                <input class="form-control" name="FeaturedSetIdsString" type="text" value="<%= Model.FeaturedSetIdsString %>">
+                            </div>
+                        </div>
                     <% } %>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
