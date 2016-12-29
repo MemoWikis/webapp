@@ -192,9 +192,9 @@
                         </div>
                         <div class="form-group">
                             <label class="columnLabel control-label" for="FeaturedSetIdsString">
-                                Ausgewählte Fragesätze
+                                Offiziell präsentierte Fragesätze
                                 <i class="fa fa-question-circle show-tooltip" 
-                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben." 
+                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Fragesätze tatsächlich mit der Kategorie versehen sind." 
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                             </label>
                             <div class="columnControlsFull">
