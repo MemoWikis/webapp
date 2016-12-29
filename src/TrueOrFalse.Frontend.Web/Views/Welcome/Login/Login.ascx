@@ -15,7 +15,7 @@
                 </div>
             </div>
                 
-<% using (Html.BeginForm()) { %>
+<% using (Html.BeginForm("", "", null, FormMethod.Post, new { id = "LoginForm" })) { %>
 
     <div class="row">
         
@@ -38,11 +38,17 @@
 	                    </div>	
                     </div>
                 </div>
-                
+                                
                 <div class="row" style="margin-top: 30px; margin-bottom: 5px;">
                     <div class="col-sm-offset-1 col-sm-4 col-xs-5" style="border-bottom: 1px solid silver"></div>
                     <div class="col-sm-2 col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
                     <div class="col-sm-4 col-xs-5" style="border-bottom: 1px solid silver"></div>
+                </div>
+                
+                <div class="row" id="rowLoginMessage" style="display: none">
+                    <div class="col-sm-offset-1 col-sm-10" style="color: red; padding-bottom: 20px;">
+                        Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -59,16 +65,10 @@
                         <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>
                     </div>
                  </div>
-                 
-                <div class="form-group">
-                    <div class="col-sm-offset-1 col-sm-10">
-
-                    </div>
-                 </div>
-                
+                                 
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-8">
-                        <input type="submit" value="Einloggen" class="btn btn-primary" /> 
+                        <input type="submit" value="Einloggen" class="btn btn-primary" id="btnModalLogin" /> 
 
                         <label class="checkbox" style="white-space:nowrap;">
                             <%: Html.CheckBoxFor(model => model.PersistentLogin) %> Eingeloggt bleiben
@@ -94,5 +94,7 @@
             <%--<a href="#" data-dismiss="modal" class="btn btn-default" id="btnCloseDateDelete">Schließen</a>--%>
 <% } %>
 
+            </div>
+        </div>
     </div>
 </div>

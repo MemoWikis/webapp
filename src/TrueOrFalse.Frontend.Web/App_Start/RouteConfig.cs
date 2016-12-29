@@ -18,7 +18,7 @@ namespace TrueOrFalse
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
-            routes.MapRoute("Login", "Login", new { controller = "Login" });
+            routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 

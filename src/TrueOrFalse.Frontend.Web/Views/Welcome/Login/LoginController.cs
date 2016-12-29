@@ -3,8 +3,6 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class LoginController : BaseController
 {
-    public ActionResult Login() => View(new LoginModel());
-
     [HttpPost]
     public JsonResult IsUserNameAvailable(string selectedName) =>
         new JsonResult { Data = new { isAvailable = global::IsUserNameAvailable.Yes(selectedName) } };
@@ -14,10 +12,9 @@ public class LoginController : BaseController
         new JsonResult { Data = new { isAvailable = IsEmailAddressAvailable.Yes(selectedEmail) } };
 
     [HttpPost]
-    public ActionResult Login(LoginModel loginModel)
+    public JsonResult Login(LoginModel loginModel)
     {
-        loginModel.EmailAddress = loginModel.EmailAddress;
-        loginModel.Password = Request["Password"];
+        //loginModel.Password = Request["Password"];
 
         var credentialsAreValid = R<CredentialsAreValid>();
 
@@ -30,12 +27,17 @@ public class LoginController : BaseController
 
             _sessionUser.Login(credentialsAreValid.User);
 
-            return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
+            return Json(new
+            {
+                Success = true
+            });
         }
 
-        loginModel.SetInfo_WrongCredentials();
-
-        return View(loginModel);
+        return Json(new
+        {
+            Success = false,
+            Message = "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort"
+        });
     }
 
     public string LoginModal() => 

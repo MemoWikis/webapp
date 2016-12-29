@@ -16,7 +16,7 @@ var validationSettingsRegistration = {
             UserName2: true,
             UserName3: true,
             remote: {
-                url: "/Registrieren/IsUserNameAvailable",
+                url: "/Login/IsUserNameAvailable",
                 type: "post",
                 data: {
                     selectedName: function () {
@@ -38,7 +38,7 @@ var validationSettingsRegistration = {
             required: true,
             Email: true,
             remote: {
-                url: "/Registrieren/IsEmailAvailable",
+                url: "/Login/IsEmailAvailable",
                 type: "post",
                 data: {
                     selectedEmail: function () {
