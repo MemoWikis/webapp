@@ -9,8 +9,10 @@
         <div class="LabelList">
         <% foreach(var set in Model.TopSets){ %>
             <div class="LabelItem LabelItem-Set">
-                <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                    (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
+                <div class="EllipsWrapper">
+                    <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+                        (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
+                </div>
             </div>
         <% } %>
         </div>
@@ -25,7 +27,11 @@
             {
                 index++; %>
             <div class="LabelItem LabelItem-Question">
-                <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
+                <div class="EllipsWrapper">
+                    <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>">
+                        <%= question.Text %>
+                    </a>
+                </div>
             </div>
         <% } %>
         </div>
@@ -45,7 +51,9 @@
         <div class="LabelList">
             <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
                 <div class="LabelItem LabelItem-Question">
-                    <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
+                    <div class="EllipsWrapper">
+                        <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
+                    </div>
                 </div>
             <% } %>
         </div>
@@ -56,7 +64,9 @@
         <div class="LabelList">
         <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
             <div class="LabelItem LabelItem-Question">
-                <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
+                <div class="EllipsWrapper">
+                    <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
+                </div>
             </div>
         <% } %>
         </div>
@@ -67,7 +77,9 @@
         <div class="LabelList">
         <% var index = 0; foreach(var question in Model.TopWishQuestions){index++; %>
             <div class="LabelItem LabelItem-Question">
-                <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
+                <div class="EllipsWrapper">
+                     <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
+                </div>
             </div>
         <% } %>
         </div>

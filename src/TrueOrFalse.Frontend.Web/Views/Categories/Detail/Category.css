@@ -107,10 +107,15 @@ span.CategoryType {
 }
 .LabelList {
   margin-top: 0;
+  padding-right: 0;
 }
-.LabelItem a {
+.LabelItem {
+  padding-bottom: 5px;
+}
+.LabelItem:not(:hover) .EllipsWrapper {
+  width: 100%;
+  max-height: 28px;
   white-space: nowrap;
   overflow: hidden;
-  -moz-text-overflow: ellipsis;
   text-overflow: ellipsis;
 }
