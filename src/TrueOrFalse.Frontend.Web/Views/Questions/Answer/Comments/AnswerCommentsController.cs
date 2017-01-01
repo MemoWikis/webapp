@@ -64,7 +64,7 @@ public class AnswerCommentsController : BaseController
     public void MarkCommentAsSettled(int commentId)
     {
         Sl.R<CommentRepository>().UpdateIsSettled(commentId, true);
-        //todo: inform comment-creator and question-owner with message of changed status
+        CommentMarkedAsSettledMsg.Send(commentId);
     }
 
     [HttpPost]

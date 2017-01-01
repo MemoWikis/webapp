@@ -329,6 +329,7 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Description\ParseDescription.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
+    <Compile Include="Domain\Message\Types\CommentMarkedAsSettledMsg.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedPerDayResult.cs" />
