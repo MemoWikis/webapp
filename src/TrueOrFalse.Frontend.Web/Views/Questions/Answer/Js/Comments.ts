@@ -64,7 +64,7 @@
 
         this.SaveCommentJson(e, params);
 
-        $("#modalImprove").modal('hide');
+        $("#modalQuestionFlagImprove").modal('hide');
     }
 
     SaveComment(e: BaseJQueryEventObject) {
