@@ -63,7 +63,8 @@ class AnswerQuestion {
         var self = this;
 
         $('body').keydown(function(e) {
-            if (e.keyCode == 13) {
+            var target = $(e.target);
+            if (e.keyCode == 13 && (target.parents("#AnswerBody").length)) {
                 $("#btnCheck:visible").click();
                 $("#btnEditAnswer:visible").click();
                 $("#btnCheckAgain:visible").click();
