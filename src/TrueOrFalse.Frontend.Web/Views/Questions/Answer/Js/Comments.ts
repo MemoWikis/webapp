@@ -5,7 +5,9 @@
         $("#btnSaveComment").click((e) => this.SaveComment(e));
         $("#btnImprove").click((e) => this.SaveImproveComment(e));
         $("#btnShouldDelete").click((e) => this.SaveDeleteComent(e));
-        this.RegisterBtnAnswerComment($(window));
+        $(document).on("click", ".btnAnswerComment", function (e) {
+            self.ShowAddAnswer(e, this);
+        });        
         $(document).on("click", ".btnMarkAsSettled", function (e) {
             e.preventDefault();
             self.MarkAsSettled(this);
@@ -25,11 +27,6 @@
             self.showAllCommentsInclSettled(this);
         });
 
-    }
-
-    RegisterBtnAnswerComment(parent : JQuery) {
-        var self = this;
-        $(".btnAnswerComment").click(function (e) { self.ShowAddAnswer(e, this); });        
     }
 
     SaveDeleteComent(e: BaseJQueryEventObject) {
@@ -92,7 +89,6 @@
             txtNewComment.val("");
             $("#saveCommentSpinner").hide();
             txtNewComment.show();
-            self.RegisterBtnAnswerComment(txtNewComment);
         });
         
     }
@@ -151,7 +147,6 @@
             progress.hide();
             parentContainer.append(data);
             parentContainer.append(answerRow);
-            self.RegisterBtnAnswerComment(answerRow);
         });
     }
 
