@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Impressum" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Impressum & Datenschutz" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -26,7 +26,7 @@
     </div>
     <div class="form-horizontal col-md-9">
 
-        <h2 class="PageHeader">Impressum</h2>
+        <h2 class="PageHeader">Impressum & Datenschutz</h2>
 
         <p style="padding-bottom: 5px;">Angaben gemäß § 5 TMG:<br/></p>
         Christof Mauersberger<br />
@@ -91,7 +91,71 @@
             <p>Quelle: <i><a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer</a> von eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/" target="_blank">Rechtsanwalt</a> Sören Siebert.</i>
         </p>
         
-        <h3>Datenschutzerklärung</h3>
+        <h3>Datenschutz</h3>
+        
+        <p><strong>Erfassung von Daten</strong></p>
+        <p>
+            Während Sie auf unsere Webseiten zugreifen, erfassen wir automatisch Daten von allgemeiner 
+            Natur. Diese Daten (Server-Logfiles) umfassen zum Beispiel die Art ihres Browsers, ihr 
+            Betriebssystem, den Domainnamen Ihres Internetanbieters sowie weitere ähnliche allgemeine Daten. 
+            Diese Daten sind absolut Personen unabhängig und werden genutzt, um Ihnen die Webseiten korrekt 
+            darzustellen und werden bei jeder Nutzung des Internets abgerufen. Die absolut anonymen Daten 
+            werden statistisch ausgewertet um unseren Service für Sie zu verbessern.    
+        </p>
+        
+        <p><strong>Anmeldung auf unserer Webseite</strong></p>
+        <p>
+            Bei der Anmeldung für spezifische Angebote erfragen wir einige persönliche Daten wie Name, 
+            Anschrift, Kontakt, Telefonnummer oder E-Mail-Adresse. Angemeldete Nutzer können auf bestimmte 
+            Zusatzleistungen zugreifen. Angemeldete Nutzer haben die Möglichkeit, alle angegebenen persönlichen 
+            Daten zu jedem Zeitpunkt zu ändern oder löschen zu lassen. Sie können auch jederzeit die von ihnen 
+            gespeicherten Daten bei uns erfragen. Soweit gesetzlich keine Frist für die Aufbewahrung der Daten 
+            besteht, können diese geändert oder gelöscht werden. Bitte kontaktieren Sie uns dazu über unsere Kontaktseite.            
+        </p>
+        
+        <p><strong>Kostenpflichtige Leistungen</strong></p>
+        <p>
+            Wenn Sie kostenpflichtige Leistungen in Anspruch nehmen können zusätzliche Daten erforderlich werden, unter 
+            anderen Angaben zur Art der Bezahlung.            
+        </p>
+        <p>
+            Die Verwendung von aktuellster Technik und Verschlüsselungsverfahren sorgt für einen umfassenden Schutz ihrer Daten.            
+        </p>
+        
+        <p><strong>Kontaktformular</strong></p>
+        <p>
+            Wenn Sie uns über unsere Kontaktseite kontaktieren oder uns eine E-Mail schicken werden die entsprechenden 
+            Daten zur Bearbeitung gespeichert.            
+        </p>
+        
+        <p><strong>Löschung oder Sperrung von Daten</strong></p>
+        <p>
+            Ihre persönlichen Daten werden nur so lange gespeichert, wie dies absolut notwendig ist um die angegebenen Dienste zu leisten 
+            und es vom Gesetz vorgeschrieben ist. Nach Ablauf dieser Fristen werden die persönlichen Daten der Nutzer regelmäßig 
+            gesperrt oder gelöscht.            
+        </p>
+        
+        <p><strong>Cookies</strong></p>
+        <p>
+            Unsere Webseite verwendet „Cookies“. Cookies sind Textdateien, die vom Server einer Webseite auf 
+            Ihren Rechner übertragen werden. Bestimmte Daten wie IP-Adresse, Browser, Betriebssystem und Internet 
+            Verbindung werden dabei übertragen.
+        </p>
+        <p>
+            Cookies starten keine Programme und übertragen keine Viren. Die durch Cookies gesammelten Informationen 
+            dienen dazu, Ihnen die Navigation zu erleichtern und die Anzeige unserer Webseiten zu optimieren.            
+        </p>
+        <p>
+            Daten, die von uns erfasst werden, werden niemals ohne Ihre Einwilligung an Daten an Dritte weitergegeben 
+            oder mit personenbezogenen Daten verknüpft.            
+        </p>
+        <p>
+            Die Verwendung von Cookies kann über Einstellungen in ihrem Browser verhindert werden. In den Erläuterungen 
+            zu Ihrem Internetbrowsers finden Sie Informationen darüber, wie man diese Einstellungen verändern kann. 
+            Einzelne Funktionen unserer Website können unter Umständen nicht richtig funktionieren, wenn die Verwendung 
+            von Cookies desaktiviert ist.            
+        </p>
+
         <p><strong>Datenschutzerklärung für die Nutzung von Facebook-Plugins (Like-Button)</strong></p>
         <p>
             Auf unseren Seiten sind Plugins des sozialen Netzwerks Facebook, Anbieter Facebook Inc., 
