@@ -197,7 +197,7 @@
                         (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank"><i class="fa fa-external-link">&nbsp;</i>Hier erfährst du genaueres zur Creative-Commons-Lizenz CC BY 4.0</a> und 
                         <a href="http://www.unesco.de/fileadmin/medien/Dokumente/Bildung/Was_sind_OER__cc.pdf" target="_blank"><i class="fa fa-external-link">&nbsp;</i>hier gibt es Infos zu OER von der Unesco</a>).
 <%--                        <img src="/Images/LogosPartners/Logo-OER_200px_by_Jonathasmello.png" />
-                        <span style="font-size: 11px; color: silver">OER-Logo, von Jonathas Mello (CC BY 3.0)</span>--%>
+                        <span class="greyed" style="font-size: 11px;">OER-Logo, von Jonathas Mello (CC BY 3.0)</span>--%>
                     </p>
                 </div>
             </div>

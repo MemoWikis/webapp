@@ -4,7 +4,7 @@
 <div class="panel panel-default" style="margin-top: 7px;">
     <div class="panel-heading">
         <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a>
-        <span style="color: darkgray">
+        <span class="greyed">
             vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></span>
         </span>
         <% if (Model.IsSettled) { %>

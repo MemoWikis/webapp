@@ -77,7 +77,6 @@ public class KnowledgeModel : BaseModel
         HasLearnedInLast30Days = Last30Days.Sum(d => d.TotalAnswers) > 0;
         StreakDays = R<GetStreaksDays>().Run(User);
 
-        //Dates = GetSampleDates.Run();
         Dates = R<DateRepo>().GetBy(UserId, true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 

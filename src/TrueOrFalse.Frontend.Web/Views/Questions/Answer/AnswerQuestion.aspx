@@ -297,7 +297,7 @@
         
                 <p>
                     <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-                        <i class="fa fa-heart" style="color:silver;"></i> 
+                        <i class="fa fa-heart greyed"></i> 
                         <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
                     </span>                
                     <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
