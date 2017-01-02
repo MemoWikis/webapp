@@ -91,9 +91,9 @@
                                         <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
                                     </ul>
                                 </div>--%>
-                                <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                               <%-- <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
                                     &nbsp;JETZT TESTEN
-                                </a>
+                                </a>--%>
                             </div>
                         </div>
                     </div>
@@ -102,9 +102,10 @@
             
             <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) { %> 
             
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); %>
-            
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+                    %>
+            
+                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); 
                    }
             else
                { %> 

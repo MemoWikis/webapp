@@ -11,11 +11,18 @@
             <div class="LabelItem LabelItem-Set">
                 <div class="EllipsWrapper">
                     <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                        (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
+                    <span style="font-size: 90%;">
+                        (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>,    
+                        <a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
+                    </span>
                 </div>
             </div>
         <% } %>
         </div>
+        <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" style="float: right;" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+            &nbsp;JETZT TESTEN
+        </a>
+        <div class="clearfix"></div>
     <% } %>
         
     <h5 class="ContentSubheading Question"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
