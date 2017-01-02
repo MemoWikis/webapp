@@ -21,9 +21,11 @@ public class CommentModel : BaseModel
 
     public List<string> ShouldReasons; 
 
-    public IEnumerable<CommentModel> Answers = new List<CommentModel>(); 
+    public IEnumerable<CommentModel> Answers = new List<CommentModel>();
+    public int AnswersSettledCount = 0;
+    public bool ShowSettledAnswers;
 
-    public CommentModel(Comment comment)
+    public CommentModel(Comment comment, bool showSettled = false)
     {
         Id = comment.Id;
         Creator = comment.Creator;
@@ -37,10 +39,24 @@ public class CommentModel : BaseModel
         ShouldBeDeleted = comment.ShouldRemove;
         ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(comment.ShouldKeys);
         IsSettled = comment.IsSettled;
+        ShowSettledAnswers = showSettled;
 
-        if(comment.Answers != null)
-            Answers = comment.Answers
-                        .OrderBy(x => x.DateCreated)
-                        .Select(x => new CommentModel(x));
+        if (comment.Answers != null)
+        {
+            if (ShowSettledAnswers)
+            {
+                Answers = comment.Answers
+                    .OrderBy(x => x.DateCreated)
+                    .Select(x => new CommentModel(x, showSettled));
+            }
+            else
+            {
+                Answers = comment.Answers
+                    .Where(x => !x.IsSettled)
+                    .OrderBy(x => x.DateCreated)
+                    .Select(x => new CommentModel(x));
+            }
+            AnswersSettledCount = comment.Answers.Count(x => x.IsSettled);
+        }
     }
 }

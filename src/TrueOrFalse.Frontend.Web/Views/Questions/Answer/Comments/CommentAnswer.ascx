@@ -7,12 +7,15 @@
     </div>
     <div class="col-xs-10" style="height: 100%; padding-bottom: 15px; ">
         <div>
-            <span style="color:silver">
+            <span style="color:darkgray">
                 <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a>
-                <span style="font-size: 11px; padding-left: 5px;">vor <%= Model.CreationDateNiceText%></span>
+                <span style="padding-left: 5px;">vor <%= Model.CreationDateNiceText%></span>
             </span>
+            <% if (Model.IsSettled) { %>
+                <br/><span class="commentSettledInfo"><i class="fa fa-check">&nbsp;</i>Dieser Kommentar wurde als erledigt markiert.</span>
+            <% } %>
         </div>
-        <div>
+        <div style="margin-top: 10px;">
             <%= Model.Text.LineBreaksToBRs() %>    
         </div>
         <div>

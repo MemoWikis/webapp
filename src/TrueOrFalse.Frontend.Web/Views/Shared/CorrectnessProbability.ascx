@@ -13,18 +13,18 @@
         </div>">
         <i class="fa fa-tachometer"></i> 
             <%: Model.CPPersonal %>% 
-            <span style="color:silver"><%= Model.CPDerivationSign %><%: Model.CPDerivation %></span>
+            <span class="greyed"><%= Model.CPDerivationSign %><%: Model.CPDerivation %></span>
 <% } else if (Model.QuestionHasAnswerHistory) { %>
             <b><%: Model.CPAll %>%</b> beträgt die durchschnittliche Wahrscheinlichkeit einer korrekten Antwort (Basis: Alle memucho-Nutzer).<br/><br/>
             Du hast diese Frage <b>noch nie</b> beantwortet.
         </div>">
-        <i class="fa fa-tachometer" style="color:silver;"></i> 
-            <span style="color:silver"><%: Model.CPAll %>%</span>
+        <i class="fa fa-tachometer greyed"></i> 
+            <span class="greyed"><%: Model.CPAll %>%</span>
 <% } else { %>
             Diese Frage wurde <b>noch nie</b> beantwortet.<br/>
             Wir wissen daher noch nicht die Wahrscheinlichkeit einer korrekten Antwort.
         </div>">
-        <i class="fa fa-tachometer" style="color:silver;"></i> 
+        <i class="fa fa-tachometer greyed"></i> 
 <% }%>
 
 </span>

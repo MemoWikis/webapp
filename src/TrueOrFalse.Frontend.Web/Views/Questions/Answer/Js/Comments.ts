@@ -5,7 +5,9 @@
         $("#btnSaveComment").click((e) => this.SaveComment(e));
         $("#btnImprove").click((e) => this.SaveImproveComment(e));
         $("#btnShouldDelete").click((e) => this.SaveDeleteComent(e));
-        this.RegisterBtnAnswerComment($(window));
+        $(document).on("click", ".btnAnswerComment", function (e) {
+            self.ShowAddAnswer(e, this);
+        });        
         $(document).on("click", ".btnMarkAsSettled", function (e) {
             e.preventDefault();
             self.MarkAsSettled(this);
@@ -14,11 +16,17 @@
             e.preventDefault();
             self.MarkAsUnsettled(this);
         });
-    }
+        
+        $(document).on("click", ".showAllAnswersInclSettled", function (e) {
+            e.preventDefault();
+            self.showAllAnswersInclSettled(this);
+        });
 
-    RegisterBtnAnswerComment(parent : JQuery) {
-        var self = this;
-        $(".btnAnswerComment").click(function (e) { self.ShowAddAnswer(e, this); });        
+        $(document).on("click", "#showAllCommentsInclSettled", function (e) {
+            e.preventDefault();
+            self.showAllCommentsInclSettled(this);
+        });
+
     }
 
     SaveDeleteComent(e: BaseJQueryEventObject) {
@@ -53,7 +61,7 @@
 
         this.SaveCommentJson(e, params);
 
-        $("#modalImprove").modal('hide');
+        $("#modalQuestionFlagImprove").modal('hide');
     }
 
     SaveComment(e: BaseJQueryEventObject) {
@@ -81,7 +89,6 @@
             txtNewComment.val("");
             $("#saveCommentSpinner").hide();
             txtNewComment.show();
-            self.RegisterBtnAnswerComment(txtNewComment);
         });
         
     }
@@ -140,7 +147,6 @@
             progress.hide();
             parentContainer.append(data);
             parentContainer.append(answerRow);
-            self.RegisterBtnAnswerComment(answerRow);
         });
     }
 
@@ -178,6 +184,50 @@
             error(e) {
                 console.log(e);
                 window.alert("Ein Fehler ist aufgetreten");
+            }
+        });
+    }
+
+    showAllAnswersInclSettled(buttonElem: JQuery) {
+        buttonElem = $(buttonElem);
+        var commentId = buttonElem.data("comment-id");
+        $.ajax({
+            type: 'POST',
+            url: "/AnswerComments/GetAllAnswersInclSettledHtml",
+            data: { commentId: commentId },
+            cache: false,
+            success(data) {
+                var commentDiv = buttonElem.parents(".comment");
+                commentDiv.html(data);
+                commentDiv.animate({ opacity: 0.00 }, 0)
+                    .animate({ opacity: 1 }, 800);
+            },
+            error(e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten.");
+            }
+        });
+    }
+
+    showAllCommentsInclSettled(buttonElem: JQuery) {
+        buttonElem = $(buttonElem);
+        var questionId = buttonElem.data("question-id");
+        console.log("showing comments for question " + questionId);
+        $.ajax({
+            type: 'POST',
+            url: "/AnswerComments/GetAllCommentsInclSettledHtml",
+            data: { questionId: questionId },
+            cache: false,
+            success(data) {
+                var commentsDiv = buttonElem.parents("#comments");
+                commentsDiv.html(data);
+                console.log(data);
+                $(".commentIsSettled").animate({ opacity: 0.00 }, 0)
+                    .animate({ opacity: 1 }, 1200);
+            },
+            error(e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten.");
             }
         });
     }

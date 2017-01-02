@@ -4,15 +4,18 @@
 <div class="panel panel-default" style="margin-top: 7px;">
     <div class="panel-heading">
         <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a>
-        <span style="color: darkgray">
+        <span class="greyed">
             vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText%></span>
         </span>
+        <% if (Model.IsSettled) { %>
+            <br/><span class="commentSettledInfo"><i class="fa fa-check">&nbsp;</i>Dieser Kommentar wurde als erledigt markiert.</span>
+        <% } %>
     </div>
     <div class="panel-body" style="position: relative">
         <div class="col-xs-2">
             <img style="border-radius:5px;" src="<%= Model.ImageUrl %>">
         </div>
-        <div class="col-xs-10" style="height: 100%; padding-bottom: 15px; ">
+        <div class="col-xs-10" style="height: 100%;">
             <% if(Model.ShouldBeImproved){ %>
                 <div class='ReasonList'>
                     Ich bitte darum, dass diese Frage verbessert wird, weil:
@@ -39,10 +42,18 @@
         </div>
     </div>
     
-    <% foreach(var answer in Model.Answers){ %>
-        <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswer.ascx", answer); %>
+    <div class="commentAnswers">
+        <% foreach(var answer in Model.Answers){ %>
+            <% Html.RenderPartial("~/Views/Questions/Answer/Comments/CommentAnswer.ascx", answer); %>
+        <% } %>
+    </div>
+    <% if (!Model.ShowSettledAnswers && (Model.AnswersSettledCount > 0)) { %>
+        <div class="panel-body commentSettledInfo" style="text-align: right;">
+            Dieser Kommentar hat <%= Model.AnswersSettledCount %> 
+            <% if (Model.Answers.Any()) Response.Write("weitere "); %>
+            als erledigt markierte Antwort<%= StringUtils.PluralSuffix(Model.AnswersSettledCount,"en") %> (<a href="#" class="showAllAnswersInclSettled" data-comment-id="<%= Model.Id %>">alle anzeigen</a>).
+        </div>
     <% } %>
-    
     <div class="panel-body" style="position: relative">
         <% if(Model.IsLoggedIn){ %>
             <div style="position: absolute; bottom: 8px; right: 20px;">

@@ -229,7 +229,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="rowBase" style="padding: 10px">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
-                    <p style="font-size: 12px; color: silver;">Berücksichtigt nur dein Wunschwissen</p>
+                    <p class="greyed" style="font-size: 12px;">Berücksichtigt nur dein Wunschwissen</p>
                     <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
                     <%--<p>
                         In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Frage<%= StringUtils.Plural(Model.SetCount,"sätze","satz","sätze") %>. 
@@ -293,7 +293,7 @@
             <div class="col-xs-12 col-md-6">
                 <div class="rowBase" style="padding: 10px; height: 384px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
-                    <p style="font-size: 12px; color: silver;">In den letzten 30 Tagen</p>
+                    <p class="greyed" style="font-size: 12px;">In den letzten 30 Tagen</p>
                 
                     <div id="chartActivityLastDays" style="height: 245px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
                 
@@ -302,7 +302,7 @@
                             <% var streak = Model.StreakDays; %>
                             <!-- -->
                             <span style="display: inline-block; width: 40%">Lerntage gesamt: 
-                                <b><%= streak.TotalLearningDays %></b></span> <span style="color: silver; font-weight: bold;">
+                                <b><%= streak.TotalLearningDays %></b></span> <span class="greyed" style="font-weight: bold;">
                                 seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
                             </span><br />
                         
@@ -311,9 +311,9 @@
                                 Längste Folge: <b><%= streak.LongestLength %></b>
                             </span>
                             <% if (streak.LongestLength == 0){ %>
-                                <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                                <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
                             <% } else { %>
-                                <span style="color: silver; font-weight: bold;">
+                                <span class="greyed" style="font-weight: bold;">
                                     <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
                                 </span><br />
                             <% } %>
@@ -323,7 +323,7 @@
                                 Aktuelle Folge: <b><%= streak.LastLength %></b>
                             </span>
                             <% if (streak.LastLength == 0){ %>
-                                <span style="color: silver; font-weight: bold;">zuletzt nicht gelernt</span>
+                                <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
                             <% } else { %>
                                 <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
                             <% } %>
@@ -338,7 +338,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
-                    <p style="font-size: 12px; color: silver;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
+                    <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
                     <% if (Model.Dates.Count ==0) { %>
                         <p>
                             Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
@@ -453,7 +453,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
-                    <p style="font-size: 12px; color: silver;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+                    <p class="greyed" style="font-size: 12px;""><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
 
                     <% if (Model.NetworkActivities.Count == 0) { %>
                             Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
@@ -467,7 +467,7 @@
                                     </a>
                                 </div>
                                 <div class="col-xs-9" style="">
-                                    <div style="color: silver; font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                    <div class="greyed" style="font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
                                     <div style="clear: left;">
                                         <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
                                         <%= UserActivityTools.GetActionObject(activity) %>
