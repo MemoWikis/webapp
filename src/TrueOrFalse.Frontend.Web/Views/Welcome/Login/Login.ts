@@ -16,7 +16,16 @@
             $("#modalLogin").modal('show');
 
             self.InitializeForm();
+            self.InitializeFacebook();
         });
+    }
+
+    private InitializeFacebook() {
+
+        $("#btn-login-with-facebook-modal").click(() => {
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true);            
+        });
+
     }
 
     private InitializeForm() {
@@ -56,7 +65,6 @@
                 return;
             }
 
-            console.log("reload");
             window.location.reload(true);
         });
     } 

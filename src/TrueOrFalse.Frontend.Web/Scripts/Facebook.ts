@@ -111,8 +111,56 @@ class FacebookMemuchoUser {
             type: 'POST', async: false, cache: false,
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             url: "/Api/Users/Login/",
-            error(error) { throw error },
+            error(error) { throw error }
         });
+    }
+
+    static LoginOrRegister(stayOnPage = false)
+    {
+        FB.getLoginStatus(response => {
+            this.LoginOrRegister_(response, stayOnPage);
+        });
+    }
+
+    private static LoginOrRegister_(response: FB.LoginStatusResponse, stayOnPage = false) {
+
+        if (response.status === 'connected') {
+
+            FacebookMemuchoUser.Login(response.authResponse.userID, response.authResponse.accessToken);
+            Site.RedirectToDashboard();
+
+        } else if (response.status === 'not_authorized' || response.status === 'unknown') {
+
+            FB.login(response => {
+
+                var facebookId = response.authResponse.userID;
+                var facebookAccessToken = response.authResponse.accessToken;
+
+                if (response.status !== "connected")
+                    return;
+
+                if (FacebookMemuchoUser.Exists(facebookId)) {
+                    FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
+
+                    if (stayOnPage)
+                        window.location.reload(true);
+                    else
+                        Site.RedirectToDashboard();
+
+                    return;
+                }
+
+                Facebook.GetUser(facebookId, facebookAccessToken, (user: FacebookUserFields) => {
+                    if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
+                        Site.RedirectToRegisterSuccess();
+                    } else {
+                        alert("Leider ist ein Fehler ist aufgetreten.");
+                    }
+                });
+
+            }, { scope: 'email' });
+        }        
+
     }
 
     static Logout(onLogout : () => void) {
