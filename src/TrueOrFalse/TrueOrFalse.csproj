@@ -889,6 +889,12 @@
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
     <Compile Include="Web\ViewRenderer.cs" />
+    <Content Include="Domain\Message\HtmlMessage\HtmlMessageStylesInlined.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Domain\Message\HtmlMessage\HtmlMessage_v1old.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Domain\Message\HtmlMessage\HtmlMessage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

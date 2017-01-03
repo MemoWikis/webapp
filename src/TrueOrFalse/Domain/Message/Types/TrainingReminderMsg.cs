@@ -24,6 +24,7 @@ public class TrainingReminderMsg
             trainingDate.UserEmail(),
             "Lernerinnerung für Termin \"" + dateTitle + "\"",
             parsedTemplate)
-        {UserName = trainingDate.User().Name});
+        {UserName = trainingDate.User().Name},
+        "trainingReminderDate");
     }
 }
