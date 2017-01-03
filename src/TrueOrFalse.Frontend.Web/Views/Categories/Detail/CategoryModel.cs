@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class CategoryModel : BaseModel
@@ -14,12 +15,14 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
 
-    public IList<Set> TopSets;
+    public IList<Set> Sets;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
+    public IList<Question> SingleQuestions;
     public IList<User> TopCreaters;
+
 
     public User Creator;
     public string CreatorName;
@@ -94,7 +97,23 @@ public class CategoryModel : BaseModel
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
         TopWishQuestions = wishQuestions.Items;
-        TopSets = Resolve<SetRepo>().GetForCategory(category.Id);
+
+        Sets = Resolve<SetRepo>().GetForCategory(category.Id);
+
+        SingleQuestions = GetSingleQuestions();
+    }
+
+    private List<Question> GetSingleQuestions()
+    {
+        var result = new List<Question>();
+
+        var a = Sl.R<QuestionRepo>().GetForCategory(Id);
+
+        var b = Sets.SelectMany(s => s.QuestionsInSet).Select(x => x.Question);
+
+        result = a.Except(b).ToList();
+
+        return result;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

@@ -2,12 +2,14 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<h4>Inhalte</h4>
+
+
+<h4>Inhalte in dieser Kategorie</h4>
 <div id="Content" class="Box">
     <% if(Model.CountSets > 0){ %>    
         <h5 class="ContentSubheading Set"><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h5>
         <div class="LabelList">
-        <% foreach(var set in Model.TopSets){ %>
+        <% foreach(var set in Model.Sets){ %>
             <div class="LabelItem LabelItem-Set">
                 <div class="EllipsWrapper">
                     <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
@@ -19,12 +21,28 @@
             </div>
         <% } %>
         </div>
-        <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" style="float: right;" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
-            &nbsp;JETZT TESTEN
-        </a>
-        <div class="clearfix"></div>
+        
     <% } %>
         
+    <% if (Model.SingleQuestions.Count > 0) { %>
+    <h5 class="ContentSubheading Question"><%= Model.SingleQuestions.Count %> Einzelfrage<%= StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %> in dieser Kategorie</h5>
+    <div class="LabelList">
+        <% var index2 = 0;
+           foreach (var question in Model.SingleQuestions)
+           {
+               index2++; %>
+            <div class="LabelItem LabelItem-Question">
+                <div class="EllipsWrapper">
+                    <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index2, categoryFilter: Model.Name) %>">
+                        <%= question.Text %>
+                    </a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    <% } %>
+    
+
     <h5 class="ContentSubheading Question"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
 
     <% if (Model.CountQuestions > 0){ %>

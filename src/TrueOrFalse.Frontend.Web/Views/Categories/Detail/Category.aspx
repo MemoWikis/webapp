@@ -12,7 +12,7 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
+    <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" /> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -66,6 +66,21 @@
                                     </div>
                                 <% } %>
                             </div>
+                            <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
+                            <div class="LabelList" style="margin-bottom: 0;">
+                                <div class="LabelItem LabelItem-Set">
+                                    <%= Model.CountSets %> <a>Frage<%=StringUtils.PluralSuffix(Model.CountSets, "sätze", "satz") %></a>
+                                </div>
+                                <div class="LabelItem LabelItem-Question">
+                                    <%= Model.SingleQuestions.Count %> <a href="#">Einzelfrage<%=StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %></a>
+                                </div>
+                            </div>
+                            <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" style="float: right;" rel="nofollow">
+                                &nbsp;JETZT TESTEN
+                            </a>
+                            
+                                
+                            <div class="clearfix"></div>
                             <% if(Model.AnswersTotal > 0) { %>
                                 <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                                 <div style="margin-top: 6px; font-size: 11px;">
@@ -102,13 +117,33 @@
             
             <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) { %> 
             
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-                    %>
+                <h4>Überblick</h4>
+                <div class="Box">
+                    <div class="LabelList">
+                        <div class="LabelItem LabelItem-Set">
+                            <%= Model.CountSets %> Frage<%=StringUtils.PluralSuffix(Model.CountSets, "sätze", "satz") %>
+                        </div>
+                            <div class="LabelItem LabelItem-Question">
+                                <%= Model.SingleQuestions.Count %> Einzelfrage<%=StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %>
+                        </div>
+                    </div>
+                     <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" style="float: right;" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                         &nbsp;JETZT TESTEN
+                     </a>
+                    <div class="clearfix"></div>
+                </div>
+               
             
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); 
-                   }
-            else
-               { %> 
+                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model); %>
+                <% //Html.RenderPartial("~/Views/Categories/Detail/Partials/SetList.ascx", new SetListModel(Model.Category, Model.)); %>
+            
+                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); %>
+
+                <% //Html.RenderPartial("~/Views/Categories/Detail/Partials/QuestionLists.ascx", Model);
+
+                    }
+                    else
+                    { %> 
                     <%= Model.CustomPageHtml %>
             <% } %>
 
