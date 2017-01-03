@@ -27,6 +27,8 @@ public class SetRepo : RepositoryDbBase<Set>
             _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
             .List<int>().ToList();
 
+        Flush();//Flush exactly here: If category has been added, categories_to_sets entry has been added already (important for UpdateSetCountForCategory). If category has been removed, it is still included in categoriesToUpdate.
+
         categoriesToUpdate.AddRange(set.Categories.Select(x => x.Id).ToList());
         categoriesToUpdate = categoriesToUpdate.GroupBy(x => x).Select(x => x.First()).ToList();
         Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdate);
