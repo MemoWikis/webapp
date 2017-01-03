@@ -49,6 +49,8 @@
                             <% Html.RenderPartial("MessageGame", Model); %>
                         <% } %>
                     </div>
+                    
+                    <% Html.RenderPartial("WuWiMessage", Model); %>
 
                     <%-- MAIN CONTENT--%>
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
