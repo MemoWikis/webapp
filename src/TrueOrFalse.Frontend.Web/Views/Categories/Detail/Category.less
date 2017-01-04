@@ -79,6 +79,10 @@ span.CategoryType {
 }
 
 .ContentSubheading {
+
+    &:not(:first-child){
+        margin-top: 30px;
+    }
     margin-bottom: 5px;
     padding-bottom: 5px;
     border-bottom-style: solid;
@@ -96,4 +100,28 @@ span.CategoryType {
 
 .LabelList {
     margin-top: 0;
+    padding-right: 0;
+}
+
+.LabelItem{
+
+    padding-bottom: 7px;
+
+    .media-sm-up({
+
+        padding-bottom: 5px;
+
+        &:not(:hover) .EllipsWrapper  {
+            width: 100%;
+            max-height: 28px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    });
+   
+}
+
+.Box + h4 {
+    margin-top: 30px;
 }

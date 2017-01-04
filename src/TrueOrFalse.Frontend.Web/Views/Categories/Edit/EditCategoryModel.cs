@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -14,6 +15,10 @@ public class EditCategoryModel : BaseModel
     public UIMessage Message;
 
     public IList<Category> ParentCategories = new List<Category>();
+
+    public string TopicMarkdown { get; set; }
+
+    public string FeaturedSetIdsString { get; set; }
 
     public bool IsEditing { get; set; }
 
@@ -64,6 +69,8 @@ public class EditCategoryModel : BaseModel
         Description = category.Description;
         ParentCategories = parentCategories;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
+        TopicMarkdown = category.TopicMarkdown;
+        FeaturedSetIdsString = category.FeaturedSetsIdsString;
     }
 
     public ConvertToCategoryResult ConvertToCategory()
@@ -71,6 +78,8 @@ public class EditCategoryModel : BaseModel
         var category = new Category(Name);
         category.Description = Description;
         category.ParentCategories = ParentCategories;
+        category.TopicMarkdown = TopicMarkdown;
+        category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -94,6 +103,8 @@ public class EditCategoryModel : BaseModel
         category.Name = Name;
         category.Description = Description;
         category.ParentCategories = ParentCategories;
+        category.TopicMarkdown = TopicMarkdown;
+        category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         FillFromRequest(category);
     }

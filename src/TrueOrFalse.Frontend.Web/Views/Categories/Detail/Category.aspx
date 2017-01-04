@@ -12,7 +12,7 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" />
+    <link href="/Views/Categories/Detail/Category.css" rel="stylesheet" /> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -25,12 +25,8 @@
                 <% } %>
                 <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
             </div>
-            <div class="PageHeader col-xs-9 col-xs-pull-3 xxs-stack category">
-                    
-            </div>
         </div>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
-            
             <div id="ItemMainInfo" class="Box">
                 <div class="">
                     <div class="row">
@@ -70,6 +66,7 @@
                                     </div>
                                 <% } %>
                             </div>
+                            
                             <% if(Model.AnswersTotal > 0) { %>
                                 <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                                 <div style="margin-top: 6px; font-size: 11px;">
@@ -104,114 +101,35 @@
                 </div>    
             </div>
             
-            <h4>Über- und untergeordnete Kategorien</h4>
-            <div class="CategoryRelations well">
-                <% if (Model.CategoriesParent.Count > 0) { %>
-                    <div>
-                        <% foreach (var category in Model.CategoriesParent)
-                            { %>
-                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
-                        <% } %>
-                    </div>
-                <% }
-                    else { %>
-                    <div>keine übergeordneten Kategorien</div>
-                <%  } %>
+            <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
-                <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
-                <div class="MainCategory"><span class="label label-category"><%= Model.Name %></span></div>
-                <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
+                    if (Model.FeaturedSets.Count > 0){
 
-                <% if(Model.CategoriesChildren.Count > 0){ %>
-                    <div>
-                        <% foreach(var category in Model.CategoriesChildren){ %>
-                            <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
-                        <% } %>
-                        <i class="fa fa-plus-circle show-tooltip color-category add-new" 
-                            style="font-size: 14px; cursor: pointer"
-                            onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
-                            data-original-title="Neue untergeordnete Kategorie erstellen"></i>
-                    </div>
-                <% } else { %>
-                    <div style="margin-top: 0;">keine untergeordneten Kategorien
-                        <i class="fa fa-plus-circle show-tooltip color-category add-new" 
-                            style="font-size: 14px; cursor: pointer"
-                            onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
-                            data-original-title="Neue untergeordnete Kategorie erstellen"></i>
-                    </div>
-                <%  } %>
-            </div>
-            <h4>Inhalte</h4>
-            <div id="Content" class="Box">
-                <% if(Model.CountSets > 0){ %>    
-                    <h5 class="ContentSubheading Set" style="margin-bottom: 5px;"><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h5>
-                    <div class="LabelList">
-                    <% foreach(var set in Model.TopSets){ %>
-                        <div class="LabelItem LabelItem-Set">
-                            <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                             (<a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
-                        </div>
-                    <% } %>
-                    </div>
-                <% } %>
-        
-                <h5 class="ContentSubheading Question" style="margin-top: 20px; margin-bottom: 5px;"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
+                            new SingleSetCollectionModel(Model.FeaturedSets, "Ausgewählte Fragesätze"));
 
-                <% if (Model.CountQuestions > 0){ %>
-                    <div class="LabelList">
-                    <% var index = 0;
-                        foreach (var question in Model.TopQuestions)
-                        {
-                            index++; %>
-                        <div class="LabelItem LabelItem-Question">
-                            <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter: Model.Name) %>"><%= question.GetShortTitle(150) %></a>
-                        </div>
-                    <% } %>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="font-style: italic; margin-left: 10px;">
-                            <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> dieser Kategorie zeigen
-                        </a>
-                    </div>
-                <% }
-                    else{ %> 
-                    Bisher gibt es keine Fragen in dieser Kategorie.
-            
-                    <% } %>
-            
-                <% if(Model.CountReferences > 0) { %>
-                    <h5 class="ContentSubheading Question">Fragen mit diesem Medium als Quellenangabe (<%=Model.CountReferences %>)</h5>
-                    <div class="LabelList">
-                        <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
-                            <div class="LabelItem LabelItem-Question">
-                                <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
-                            </div>
-                        <% } %>
-                    </div>
-                <% } %>
-            
-                <% if(Model.TopQuestionsInSubCats.Count > 0){ %>
-                    <h5 class="ContentSubheading Question">Fragen in untergeordneten Kategorien</h5>
-                    <div class="LabelList">
-                    <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
-                        <div class="LabelItem LabelItem-Question">
-                            <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
-                        </div>
-                    <% } %>
-                    </div>
-                <% } %>
-            
-                <% if(Model.CountWishQuestions > 0){ %>
-                    <h5 class="ContentSubheading Question">In deinem <a href="<%= Links.QuestionsWish() %>">Wunschwissen</a> (<%=Model.CountWishQuestions %>)</h5>
-                    <div class="LabelList">
-                    <% var index = 0; foreach(var question in Model.TopWishQuestions){index++; %>
-                        <div class="LabelItem LabelItem-Question">
-                            <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
-                        </div>
-                    <% } %>
-                    </div>
-                <% } %>
-            </div>
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+
+
+                    } else {//no featured sets
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+                    }
+
+            } else { %> 
+
+                <%= Model.CustomPageHtml %>
+
+            <% } %>
+
         </div>
     </div>
 </asp:Content>

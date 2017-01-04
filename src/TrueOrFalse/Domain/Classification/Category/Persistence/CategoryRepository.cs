@@ -102,7 +102,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Question> GetRandomQuestions(Category category, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
     {
-        var result = Sl.R<QuestionRepo>().GetForCategory(category.Id, category.CountQuestions, _userSession.UserId);
+        var result = category.FeaturedSets.Count > 0 
+            ? category.FeaturedSets.SelectMany(s => s.Questions()).Distinct().ToList()
+            : Sl.R<QuestionRepo>().GetForCategory(category.Id, category.CountQuestions, _userSession.UserId);
+
         if ((excludeQuestionIds != null) && (excludeQuestionIds.Count > 0) && (result.Count > amount))
         {
             var fillUpQuestions = result.Where(q => excludeQuestionIds.Contains(q.Id)).ToList();
