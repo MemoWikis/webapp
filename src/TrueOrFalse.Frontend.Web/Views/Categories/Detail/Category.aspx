@@ -115,7 +115,7 @@
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
 
 
-                    } else {
+                    } else {//no featured sets
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
 
