@@ -123,3 +123,6 @@
   font-size: small;
   text-align: left;
 }
+.commentSettledInfo {
+  color: darkgray;
+}

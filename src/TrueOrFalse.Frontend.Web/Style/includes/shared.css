@@ -2098,6 +2098,9 @@
 .bold {
   font-weight: bold;
 }
+.greyed {
+  color: #999999;
+}
 /*  Layout elements
 ----------------------------------------------------------*/
 .drop-shadow1 {
@@ -2511,7 +2514,7 @@
 }
 .CardContent .ItemInfo {
   margin-bottom: 8px;
-  color: #a3a3a3;
+  color: #999999;
 }
 .Card .ImageLicenseCaption {
   line-height: 15px;
@@ -2534,7 +2537,7 @@
 }
 .ButtonOnHover.disabled {
   background-color: white !important;
-  color: silver !important;
+  color: #999999 !important;
 }
 .CardBig {
   padding-top: 15px;

@@ -489,9 +489,11 @@
     <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
     <Content Include="Images\Logo\LogoComplete_M.png" />
+    <Content Include="Images\Logo\LogoComplete_S.png" />
     <Content Include="Images\Logo\LogoPictogram.png" />
     <Content Include="Images\Logo\LogoSmall.png" />
     <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />
+    <Content Include="Images\Logo\LogoXSmall.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w100.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w220.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w70.png" />

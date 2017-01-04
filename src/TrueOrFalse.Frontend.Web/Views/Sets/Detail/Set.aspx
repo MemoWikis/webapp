@@ -93,7 +93,7 @@
                                     </span>
                                 </span>
                             </div>
-                            <div style="margin-top: 10px; margin-bottom: 10px; color: silver; font-size: 11px;">
+                            <div class="greyed" style="margin-top: 10px; margin-bottom: 10px; font-size: 11px;">
                                 erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" ><%= Model.CreatorName %></a> 
                                 <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
                             </div>

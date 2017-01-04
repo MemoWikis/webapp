@@ -89,6 +89,7 @@ public class AnswerQuestionModel : BaseModel
     public bool IsInWishknowledge;
 
     public IList<CommentModel> Comments;
+    public int CommentsSettledCount = 0;
 
     public bool IsLearningSession => LearningSession != null;
     public LearningSession LearningSession;
@@ -238,10 +239,12 @@ public class AnswerQuestionModel : BaseModel
 
         Question = question;
 
-        Comments = Resolve<CommentRepository>()
-            .GetForDisplay(question.Id)
+        var comments = Resolve<CommentRepository>().GetForDisplay(question.Id);
+        Comments = comments
+            .Where(c => !c.IsSettled)
             .Select(c => new CommentModel(c))
             .ToList();
+        CommentsSettledCount = comments.Count(c => c.IsSettled);
 
         Creator = question.Creator;
         CreatorId = question.Creator.Id.ToString();

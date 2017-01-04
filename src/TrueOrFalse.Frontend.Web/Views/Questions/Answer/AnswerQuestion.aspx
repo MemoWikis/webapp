@@ -195,7 +195,17 @@
             
             <div id="comments">
                 <% foreach (var comment in Model.Comments){ %>
-                    <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
+                    <div class="comment">
+                        <% Html.RenderPartial("~/Views/Questions/Answer/Comments/Comment.ascx", comment); %>
+                    </div>
+                <% } %>
+                <% if (Model.CommentsSettledCount > 0) { %>
+                    <div class="commentSettledInfo" style="margin: 5px 10px 15px;">
+                        Diese Frage hat <%= Model.CommentsSettledCount %> 
+                        <% if (Model.Comments.Any()) Response.Write("weitere "); %>
+                        als erledigt markierte<%= StringUtils.PluralSuffix(Model.CommentsSettledCount,"","n") %> Kommentar<%= StringUtils.PluralSuffix(Model.CommentsSettledCount,"e") %>
+                        (<a href="#" id="showAllCommentsInclSettled" data-question-id="<%= Model.QuestionId %>">alle anzeigen</a>).
+                    </div>
                 <% } %>
             </div>
                         
@@ -287,7 +297,7 @@
         
                 <p>
                     <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-                        <i class="fa fa-heart" style="color:silver;"></i> 
+                        <i class="fa fa-heart greyed"></i> 
                         <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
                     </span>                
                     <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">

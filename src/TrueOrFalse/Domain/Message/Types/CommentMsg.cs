@@ -9,6 +9,9 @@ public class CommentMsg
 {
     public static void Send(Comment comment)
     {
+        if (comment.Type != CommentType.AnswerQuestion)
+            throw new Exception("Other CommentType than AnswerQuestion is unknown.");
+
         var question = Sl.R<QuestionRepo>().GetById(comment.TypeId);
 
         var questionUrl = "";
@@ -49,7 +52,7 @@ public class CommentMsg
         }
 
         string body = String.Format(@"
-<p>Ein neuer Kommentar auf die Frage <a href='{0}'><i>'{1}'</i></a>: .</p>
+<p>Ein neuer Kommentar auf die Frage <a href='{0}'><i>{1}</i></a>:</p>
 {2}
 <p>{3}</p>", questionUrl, question.Text, shouldImproveOrRemove, comment.Text.LineBreaksToBRs());
 
