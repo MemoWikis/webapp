@@ -26,7 +26,7 @@
         
     <% } %>
         
-    <% if (Model.SingleQuestions.Count > 0) { %>
+   <%-- <% if (Model.SingleQuestions.Count > 0) { %>
     <h5 class="ContentSubheading Question">
         <%= Model.SingleQuestions.Count %> Einzelfrage<%= StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %> in dieser Kategorie
     </h5>
@@ -44,7 +44,7 @@
             </div>
         <% } %>
     </div>
-    <% } %>
+    <% } %>--%>
     
 
     <h5 class="ContentSubheading Question">
