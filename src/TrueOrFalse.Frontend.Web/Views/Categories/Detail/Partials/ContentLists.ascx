@@ -4,7 +4,7 @@
 
 
 
-<h4>Inhalte</h4>
+<h4>Alle Inhalte</h4>
 <div id="Content" class="Box">
     <% if(Model.CountSets > 0){ %>    
         <h5 class="ContentSubheading Set">

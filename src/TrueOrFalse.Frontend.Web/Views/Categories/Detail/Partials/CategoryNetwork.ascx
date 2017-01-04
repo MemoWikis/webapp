@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <h4>Über- und untergeordnete Kategorien</h4>
-<div class="CategoryRelations well">
+<div class="CategoryRelations Box">
     <% if (Model.CategoriesParent.Count > 0) { %>
         <div>
             <% foreach (var category in Model.CategoriesParent)

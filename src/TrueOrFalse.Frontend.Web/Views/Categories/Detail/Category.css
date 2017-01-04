@@ -124,3 +124,6 @@ span.CategoryType {
     text-overflow: ellipsis;
   }
 }
+.Box + h4 {
+  margin-top: 30px;
+}

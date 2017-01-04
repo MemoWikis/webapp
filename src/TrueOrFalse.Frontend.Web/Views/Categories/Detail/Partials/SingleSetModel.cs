@@ -8,7 +8,6 @@ using NHibernate.Util;
 public class SingleSetModel : BaseModel
 {
     public Set Set;
-    public string TopicHtml;
 
     public int SetId;
     public string SetName;

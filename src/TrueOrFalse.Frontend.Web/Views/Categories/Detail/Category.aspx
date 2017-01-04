@@ -101,17 +101,30 @@
                 </div>    
             </div>
             
-            <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) { %> 
-            
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model); %>
-            
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); %>
+            <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model); 
+                    if (Model.FeaturedSets.Count > 0){
 
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
+                            new SingleSetCollectionModel(Model.FeaturedSets, "Ausgewählte Fragesätze"));
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+
+
+                    } else {
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
                     }
-                    else
-                    { %> 
+
+                } else { %> 
                     <%= Model.CustomPageHtml %>
             <% } %>
 
