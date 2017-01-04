@@ -27,4 +27,6 @@
         }
     }
 
+    public string SignOutMessage;
+
 }
