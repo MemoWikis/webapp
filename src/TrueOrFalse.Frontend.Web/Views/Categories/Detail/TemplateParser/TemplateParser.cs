@@ -49,6 +49,7 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
             case "singleset":
+            case "setlistcard":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
                 return GetElementHtml(templateJson);
@@ -80,9 +81,10 @@ public class TemplateParser
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category);
-
             case "singleset":
-                return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId));
+                return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
+            case "setlistcard":
+                return new SetListCardModel(templateJson.SetList, templateJson.Title, templateJson.Description);
             default:
                 return null;
         }

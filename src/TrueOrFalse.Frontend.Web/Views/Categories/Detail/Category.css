@@ -127,3 +127,9 @@ span.CategoryType {
 .Box + h4 {
   margin-top: 30px;
 }
+.Card.ItemList {
+  padding: 10px;
+}
+.Card.ItemList .ItemText {
+  margin-bottom: 10px;
+}
