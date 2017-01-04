@@ -124,8 +124,10 @@
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
                     }
 
-                } else { %> 
-                    <%= Model.CustomPageHtml %>
+            } else { %> 
+
+                <%= Model.CustomPageHtml %>
+
             <% } %>
 
         </div>
