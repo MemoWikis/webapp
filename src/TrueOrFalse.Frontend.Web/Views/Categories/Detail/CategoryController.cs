@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -15,9 +16,18 @@ public class CategoryController : BaseController
     }
 
     private ActionResult Category(Category category)
-    {
+    { 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
-        return View(_viewLocation, new CategoryModel(category));
+
+        var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown)
+            ? null
+            : MarkdownToHtml.Run(category, ControllerContext);
+
+        return View(_viewLocation,
+            new CategoryModel(category)
+            {
+              CustomPageHtml = contentHtml
+            });
     }
 
     public void CategoryById(int id)

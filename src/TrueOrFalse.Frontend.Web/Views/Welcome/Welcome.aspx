@@ -72,57 +72,110 @@
                 </div>
             </div>
         </div>
-
+        
+        <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
+        <p class="welcomeContentSectionTarget">Allgemeinwissen, Abitur Politik, Politikwissenschaft</p>
+        <p class="welcomeContentSectionTeaser">Teste dein Wissen zu den Ländern der Europäischen Union und zu den wichtigen Aspekten der Europäischen Union.</p>
         <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(42)); //Abitur Weimarer Republik %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(45)); //EU-Integration %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(49)); //Abitur Franz. Rev %>
-        </div>
-
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(40)); //Mutterschutz Rechtliche Grundlagen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(47)); //Binnenschein-Basisfragen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(27)); //Einbürgerungstest %>
-        </div>
-
-        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); // EU-Länder erkennen %>
-
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(44)); //EU-Organe %>
+            <% //Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(45)); //EU-Integration %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(46)); //Pferdehaltung %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(44)); //EU-Organe %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(55)); //EU GASP %>
+        </div>
+        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); // EU-Länder erkennen %>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(45, new[] { 805, 237, 1065})); // EU-Integration %>
+
+
+        <h3 class="welcomeContentSectionHeader">Schwerpunkt Geschichte: Wichtige Epochen</h3>
+        <p class="welcomeContentSectionTarget">Allgemeinwissen, Geschichte Abitur, Geschichte Sekundarstufe I</p>
+        <p class="welcomeContentSectionTeaser">Teste dein Wissen zu wichtigen historischen Epochen - und lerne sie mit memucho, um sie immer abrufbereit zu haben!</p>
+        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(49)); //Abitur Franz. Rev %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(42)); //Abitur Weimarer Republik %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(52)); //Sek I Weimarer Republik %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(65)); //Abitur Absolutismus Preußen %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(62)); //Abitur Absolutismus Frankreich %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(58)); //Berliner Mauer %>
         </div>
 
+
+        <h3 class="welcomeContentSectionHeader">Schwerpunkt Politik & Wirtschaft</h3>
+        <p class="welcomeContentSectionTarget">Allgemeinwissen, Politik, Wirtschaft, Globalisierung, Migration, Geographie</p>
+        <p class="welcomeContentSectionTeaser">Teste dein Wissen zum politischen Zeitgeschehen und lerne mit memucho die wichtigsten Grundlagen.</p>
+        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(64)); //Sozialstaat Deutschland %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(57)); //UN %>
+            <% //Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(59)); //Wirtsch. Globalisierung %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
+            <% //Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); //Bundeskanzler erkennen %>
+        </div>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(59, new int[] { 1742, 1821, 1807 })); //Int'l Wirtschaftsbeziehungen %>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(66, new int[] { 2044, 2046, 2053 })); //Wirtschaftspolitik %>
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(14, new int[] { 404, 405, 406 }, "Du verstehst den Wirtschafts-Teil der Zeitung nicht? Teste und erweitere dein Grundlagen-Wissen zu Wirtschaftsthemen!")); %>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(27, new int[] { 749, 635, 630 })); //Einbürgerungstest %>
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
+
+
+        <h3 class="welcomeContentSectionHeader">Der Basispass Pferdekunde: Die wichtigsten Grundlagen</h3>
+        <p class="welcomeContentSectionTarget">Pferdesportler, Reiter, Pferdeinteressierte</p>
+        <p class="welcomeContentSectionTeaser">Lerne die Grundlagen der Pferdehaltung und teste dein Wissen zu deinen Fertigkeiten im Umgang mit dem Pferd.</p>
+        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(46)); //Pferdehaltung und Fütterung %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(61)); //Körperteile Pferde %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(60)); //Abzeichen %>
+        </div>
+        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(53, new[] { 1678, 1711, 1651 })); // Pferdefarben Basispass %>
+
+
+        <h3 class="welcomeContentSectionHeader">Sportbootführerschein</h3>
+        <p class="welcomeContentSectionTarget">Segler, Segelinteressierte, Sportbootführer</p>
+        <p class="welcomeContentSectionTeaser">Bereite dich auf die Prüfung zum Sportbootführerschein Binnen oder See vor.</p>
+        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(47)); //Binnenschein-Basisfragen %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(48)); //Binnenschein-Binnen %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(51)); //Seeschein-See %>
+        </div>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(50, new[] { 1391, 1370, 1359 })); //Binnenschein-Segeln%>
+
+
+        <h3 class="welcomeContentSectionHeader">Literatur: Vertreter und Zitate aus wichtigen Epochen</h3>
+        <p class="welcomeContentSectionTarget">Allgemeinwissen, Deutsch Abitur, Literaturwissenschaft</p>
+        <p class="welcomeContentSectionTeaser">Kennst du die wichtigen Vertreter und Werke der verschiedenen Literaturepochen? Teste hier dein Wissen und lerne die wichtigsten Fakten.</p>
         <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(30)); //Literatur Klassik %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(35)); //Literatur Barock %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(29)); //Literatur Zitate %>
         </div>
 
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
-        
+        <h3 class="welcomeContentSectionHeader">Allgemeinwissen und Unterhaltung</h3>
+        <p class="welcomeContentSectionTarget">Allgemeinwissen, Fußball, Sehenswürdigkeiten</p>
+        <p class="welcomeContentSectionTeaser">Teste und erweitere dein Allgemeinwissen. Entscheide, was du lernen und behalten möchtest.</p>
         <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du, wie diese Nudelsorten heißen?")); %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); //Sehenswürdigkeiten %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); //Laubbäume %>
-            <%--<% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(37)); //ARD-Intendanten %>--%>
-        </div>
-
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
-
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(14, new int[] { 404, 405, 406 }, "Du verstehst den Wirtschafts-Teil der Zeitung nicht? Teste und erweitere dein Grundlagen-Wissen zu Wirtschaftsthemen!")); %>
-
-        <%--<% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 })); %>--%> <%-- Sehenswürdigkeiten--%>
-
-        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du, wie diese Nudelsorten heißen?")); %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); //Sieger Fußbal-WM Herren %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(13)); //Scherzfragen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); //Bundeskanzler erkennen %>
+<%--            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); //Sehenswürdigkeiten %>--%>
         </div>
-
+        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 })); //Sehenswürdigkeiten %>  
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
+        <div class="row CardsPortrait" style="padding-top: 0;">
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(13)); //Scherzfragen %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(12)); //James Bond%>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(37)); //ARD-Intendanten %>
+        </div>
         <%--<% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(14, new[] { 348, 341, 344 })); // Laubbäume %>--%>
+        <%--<% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>--%>
 
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>
+
+        
+        <h3 class="welcomeContentSectionHeader">Schwangerschaft und Elternzeit</h3>
+        <p class="welcomeContentSectionTarget">(Zukünftige) Mütter & Väter</p>
+        <p class="welcomeContentSectionTeaser">Weißt du Bescheid beim Thema Schwangerschaft? Kennst du die rechtlichen Grundlagen bei Mutterschutz und Elternzeit? Teste dein Wissen!</p>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(39, new int[] { 991, 993, 1007})); //Schwangerschaft %>
+        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(40, new int[] { 1011, 1021, 1015 })); //Mutterschutz Rechtliche Grundlagen %>
+
+       
+        
 
 
         <div class="well">

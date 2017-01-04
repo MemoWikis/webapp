@@ -172,5 +172,9 @@
   {
     "outputFile": "Views/Maintenance/ContentReport.css",
     "inputFile": "Views/Maintenance/ContentReport.less"
+  },
+  {
+    "outputFile": "Views/Categories/Edit/EditCategory.css",
+    "inputFile": "Views/Categories/Edit/EditCategory.less"
   }
 ]

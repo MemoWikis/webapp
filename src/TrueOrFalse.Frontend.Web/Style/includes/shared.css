@@ -21,9 +21,6 @@
 
 [Imports:]
 --------------------------------------------------------*/
-.color-category {
-  color: #45aece;
-}
 @media (min-width: 768px) {
 }
 @media (min-width: 768px) {
@@ -2585,6 +2582,12 @@
 }
 /*  Color scheme
 ----------------------------------------------------------*/
+.color-category {
+  color: #45aece;
+}
+.color-wuwi {
+  color: #B13A48;
+}
 /*  Media query mixins
 ----------------------------------------------------------*/
 /*  Own responsive utilities

@@ -49,7 +49,7 @@
                             <% Html.RenderPartial("MessageGame", Model); %>
                         <% } %>
                     </div>
-
+                    
                     <%-- MAIN CONTENT--%>
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
                 </section>

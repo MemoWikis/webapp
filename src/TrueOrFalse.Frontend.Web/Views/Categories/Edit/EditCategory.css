@@ -1,4 +1,24 @@
-﻿.columnControlsFull {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+.columnControlsFull {
   font-size: 90%;
 }
 .columnControlsFull .radio,
@@ -93,43 +113,3 @@ select.form-control {
   margin-top: 0;
   margin-bottom: 20px;
 }
-[data-is-editing="True"] .RequiredField {
-  font-weight: normal;
-}
-[data-is-editing="True"] .JS-RelatedCategories {
-  font-weight: bold;
-}
-[data-is-editing="True"] .JS-RelatedCategories div.tooltip {
-  font-weight: normal;
-}
-[data-is-editing="True"] .ParentCategories .form-control-static {
-  font-weight: bold;
-}
-[data-is-editing="True"] .ParentCategories .form-control-static div.tooltip {
-  font-weight: normal;
-}
-[data-is-editing="True"] input[type="text"],
-[data-is-editing="True"] textarea[type="text"] {
-  font-weight: bold;
-}
-[data-is-editing="True"] input::-webkit-input-placeholder,
-[data-is-editing="True"] textarea::-webkit-input-placeholder {
-  /* WebKit browsers */
-  font-weight: normal;
-}
-[data-is-editing="True"] input:-moz-placeholder,
-[data-is-editing="True"] textarea:-moz-placeholder {
-  /* Mozilla Firefox 4 to 18 */
-  font-weight: normal;
-}
-[data-is-editing="True"] input::-moz-placeholder,
-[data-is-editing="True"] textarea::-moz-placeholder {
-  /* Mozilla Firefox 19+ */
-  font-weight: normal;
-}
-[data-is-editing="True"] input:-ms-input-placeholder,
-[data-is-editing="True"] textarea:-ms-input-placeholder {
-  /* Internet Explorer 10+ */
-  font-weight: normal;
-}
-/*# sourceMappingURL=EditCategory.css.map */
