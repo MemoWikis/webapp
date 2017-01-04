@@ -3,7 +3,7 @@ using RazorEngine;
 
 public class HtmlMessage
 {
-    public static void Send(MailMessage2 mailMessage, string utmSource = null, string utmCampaign = null)
+    public static void Send(MailMessage2 mailMessage, string signOutMessage = null, string utmSource = null, string utmCampaign = null)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate()),
@@ -11,6 +11,7 @@ public class HtmlMessage
             {
                 UserName = mailMessage.UserName,
                 Content = mailMessage.Body,
+                SignOutMessage = signOutMessage,
                 UtmSource = utmSource,
                 UtmCampaign = utmCampaign
             });

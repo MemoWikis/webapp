@@ -3,28 +3,29 @@ using RazorEngine;
 
 public class TrainingReminderMsg
 {
+    public const string UtmSource = "trainingReminderDate";
+
+    public const string SignOutMessage = "Du erhälst diese E-Mail, weil du einen Termin erstellt hast. " +
+                                         "Wenn du diese Lernerinnerungen nicht mehr erhalten möchtest, " +
+                                         "deaktiviere die E-Mail-Benachrichtigung bei den " +
+                                         "<a href=\"https://memucho.de/Termine\">Einstellungen zu diesem Termin</a>.";
+
     public static void SendHtmlMail(TrainingDate trainingDate)
     {
         var dateTitle = trainingDate.TrainingPlan.Date.GetTitle();
 
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_TrainingReminder()), 
-            new TrainingReminderMsgModel
-            {
-                DateName = dateTitle,
-                Date = trainingDate.DateTime.ToString("dd.MM.yyyy HH:mm"),
-                QuestionCount = trainingDate.AllQuestionsInTraining.Count.ToString(),
-                TrainingLength = new TimeSpanLabel(trainingDate.TimeEstimated()).Full,
-                LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + trainingDate.TrainingPlan.Date.Id
-            }
+            new TrainingReminderMsgModel(trainingDate)
         );
 
         HtmlMessage.Send(new MailMessage2(
             Settings.EmailFrom,
             trainingDate.UserEmail(),
-            "Lernerinnerung für Termin \"" + dateTitle + "\"",
+            "Lerne jetzt für deinen Termin \"" + dateTitle + "\"",
             parsedTemplate)
         {UserName = trainingDate.User().Name},
-        "trainingReminderDate");
+        signOutMessage: SignOutMessage,
+        utmSource: UtmSource);
     }
 }
