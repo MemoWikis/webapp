@@ -4,10 +4,12 @@
 
 
 
-<h4>Inhalte in dieser Kategorie</h4>
+<h4>Inhalte</h4>
 <div id="Content" class="Box">
     <% if(Model.CountSets > 0){ %>    
-        <h5 class="ContentSubheading Set"><%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie</h5>
+        <h5 class="ContentSubheading Set">
+            <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie
+        </h5>
         <div class="LabelList">
         <% foreach(var set in Model.Sets){ %>
             <div class="LabelItem LabelItem-Set">
@@ -25,7 +27,9 @@
     <% } %>
         
     <% if (Model.SingleQuestions.Count > 0) { %>
-    <h5 class="ContentSubheading Question"><%= Model.SingleQuestions.Count %> Einzelfrage<%= StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %> in dieser Kategorie</h5>
+    <h5 class="ContentSubheading Question">
+        <%= Model.SingleQuestions.Count %> Einzelfrage<%= StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %> in dieser Kategorie
+    </h5>
     <div class="LabelList">
         <% var index2 = 0;
            foreach (var question in Model.SingleQuestions)
@@ -43,7 +47,9 @@
     <% } %>
     
 
-    <h5 class="ContentSubheading Question"><%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie</h5>
+    <h5 class="ContentSubheading Question">
+        <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie
+    </h5>
 
     <% if (Model.CountQuestions > 0){ %>
         <div class="LabelList">
@@ -70,32 +76,6 @@
         Bisher gibt es keine Fragen in dieser Kategorie.
             
         <% } %>
-            
-    <% if(Model.CountReferences > 0) { %>
-        <h5 class="ContentSubheading Question">Fragen mit diesem Medium als Quellenangabe (<%=Model.CountReferences %>)</h5>
-        <div class="LabelList">
-            <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
-                <div class="LabelItem LabelItem-Question">
-                    <div class="EllipsWrapper">
-                        <a href="<%= Links.AnswerQuestion(Url, question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
-                    </div>
-                </div>
-            <% } %>
-        </div>
-    <% } %>
-            
-    <% if(Model.TopQuestionsInSubCats.Count > 0){ %>
-        <h5 class="ContentSubheading Question">Fragen in untergeordneten Kategorien</h5>
-        <div class="LabelList">
-        <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
-            <div class="LabelItem LabelItem-Question">
-                <div class="EllipsWrapper">
-                    <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
-                </div>
-            </div>
-        <% } %>
-        </div>
-    <% } %>
             
     <% if(Model.CountWishQuestions > 0){ %>
         <h5 class="ContentSubheading Question">In deinem <a href="<%= Links.QuestionsWish() %>">Wunschwissen</a> (<%=Model.CountWishQuestions %>)</h5>

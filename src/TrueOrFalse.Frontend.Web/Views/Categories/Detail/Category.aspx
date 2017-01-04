@@ -139,7 +139,9 @@
             
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); %>
 
-                <% //Html.RenderPartial("~/Views/Categories/Detail/Partials/QuestionLists.ascx", Model);
+                <% //Html.RenderPartial("~/Views/Categories/Detail/Partials/QuestionLists.ascx", Model);%>
+
+                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model); 
 
                     }
                     else
