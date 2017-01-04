@@ -104,11 +104,8 @@
             <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) { %> 
             
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model); %>
-                <% //Html.RenderPartial("~/Views/Categories/Detail/Partials/SetList.ascx", new SetListModel(Model.Category, Model.)); %>
             
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model); %>
-
-                <% //Html.RenderPartial("~/Views/Categories/Detail/Partials/QuestionLists.ascx", Model);%>
 
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model); 
 

@@ -304,7 +304,6 @@
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\FeaturedSetsJson.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetListModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
@@ -538,8 +537,6 @@
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentLists.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\QuestionLists.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\SetList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSet.ascx" />
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
