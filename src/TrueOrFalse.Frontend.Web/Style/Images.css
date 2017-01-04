@@ -143,18 +143,15 @@
   text-decoration: underline;
 }
 .LicenseInfo {
-  line-height: 14px;
-}
-.LicenseInfo:after {
-  content: "Lizenz";
-}
-.LicenseInfo {
-  line-height: 14px;
+  line-height: 13px;
 }
 .LicenseInfo:after {
   content: "Lizenz";
 }
 @media (min-width: 480px) {
+  .LicenseInfo {
+    line-height: 18px;
+  }
   .LicenseInfo:after {
     content: "Bild- & Lizenzinfos";
   }
@@ -163,7 +160,7 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
@@ -175,7 +172,7 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
@@ -191,13 +188,7 @@
 }
 @media (max-width: 767px) {
   .rowBase .LicenseInfo {
-    line-height: 14px;
-  }
-  .rowBase .LicenseInfo:after {
-    content: "Lizenz";
-  }
-  .rowBase .LicenseInfo {
-    line-height: 14px;
+    line-height: 13px;
   }
   .rowBase .LicenseInfo:after {
     content: "Lizenz";
@@ -207,7 +198,7 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
@@ -220,7 +211,7 @@
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;
@@ -232,7 +223,7 @@
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;

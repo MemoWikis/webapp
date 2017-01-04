@@ -2208,13 +2208,16 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  line-height: 18px;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
@@ -2289,13 +2292,16 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  line-height: 18px;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
@@ -2403,13 +2409,16 @@
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.35);
     border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    line-height: 18px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
     content: "Bild- & Lizenzinfos";
@@ -2460,13 +2469,16 @@
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.35);
     border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    line-height: 18px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
     content: "Bild- & Lizenzinfos";
@@ -2560,7 +2572,7 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
@@ -2568,17 +2580,14 @@
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
 }
+.FullLicenseLinkText .LicenseInfo {
+  line-height: 18px;
+}
 .FullLicenseLinkText .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
 }
 .ShortLicenseLinkText .LicenseInfo {
-  line-height: 14px;
-}
-.ShortLicenseLinkText .LicenseInfo:after {
-  content: "Lizenz";
-}
-.ShortLicenseLinkText .LicenseInfo {
-  line-height: 14px;
+  line-height: 13px;
 }
 .ShortLicenseLinkText .LicenseInfo:after {
   content: "Lizenz";
