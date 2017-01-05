@@ -11,13 +11,16 @@ public class TemplateParser
 {
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        var regex = new Regex(@"\[\[(.*?)\]\]", RegexOptions.Singleline);//Matches "[[something]]" non-greedily across multiple lines and only if not nested
+        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);//Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
 
         return regex.Replace(stringToParse, match =>
         {
             var templateJson = GetTemplateJson(
                                     match.Value
-                                        .Substring(2, match.Value.Length - 4)
+                                        .Replace("<p>[[","")
+                                        .Replace("]]</p>","")
+                                        .Replace("[[","")
+                                        .Replace("]]","")
                                         .Replace("&quot;", @""""));
 
             if (templateJson == null)
