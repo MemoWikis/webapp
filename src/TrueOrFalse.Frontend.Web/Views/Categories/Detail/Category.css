@@ -131,5 +131,41 @@ span.CategoryType {
   padding: 10px;
 }
 .Card.ItemList .ItemText {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+@media (min-width: 480px) {
+  .Card.ItemList .ItemText {
+    height: 40px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 480px) {
+  .ItemRow {
+    height: 85px;
+    overflow: hidden;
+  }
+}
+.ItemRow .ItemInfo {
+  margin-top: 0;
+  margin-bottom: 3px;
+}
+.ItemRow .ContentColumn {
+  margin-left: 60px;
+}
+.ItemRow .TextWrapper {
+  position: relative;
+  width: 100%;
+}
+.ItemRow .SetTitle:hover {
+  /*position: absolute;
+            left: 0;
+            right: 0;
+            height: auto;*/
+  /*overflow:visible;
+            box-shadow: 0 0 30px #000;
+            width: 100%;
+            z-index: 100000000000;*/
+}
+p:empty {
+  display: none;
 }

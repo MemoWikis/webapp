@@ -43,5 +43,7 @@ public class TemplateJson
         }
     }
 
+    public int RowCount;
+
     public string CssClasses;
 }

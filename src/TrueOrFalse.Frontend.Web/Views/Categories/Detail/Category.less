@@ -130,6 +130,52 @@ span.CategoryType {
     padding: 10px;
 
     .ItemText {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+        .media-xs-up ({
+            height: 40px;
+            overflow: hidden;
+        });
     }
+}
+
+.ItemRow {
+
+    .media-xs-up ({
+        height: 85px;
+        overflow: hidden;
+    });
+
+    .ItemInfo {
+        margin-top: 0;
+        margin-bottom: 3px;
+    }
+
+    .ContentColumn {
+        margin-left: 60px;
+    }
+
+    .TextWrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .SetTitle {
+        &:hover{
+            //.ShadowBox;
+            /*position: absolute;
+            left: 0;
+            right: 0;
+            height: auto;*/
+            /*overflow:visible;
+            box-shadow: 0 0 30px #000;
+            width: 100%;
+            z-index: 100000000000;*/
+     }
+    }
+}
+
+
+
+p:empty {
+   display: none;
 }

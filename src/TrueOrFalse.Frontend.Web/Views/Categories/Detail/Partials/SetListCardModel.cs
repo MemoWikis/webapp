@@ -11,11 +11,13 @@ public class SetListCardModel : BaseModel
 
     public string Title;
     public string Description;
+    public int RowCount;
 
-    public SetListCardModel(IList<Set> sets, string title, string description)
+    public SetListCardModel(IList<Set> sets, string title, string description, int rowCount = -1)
     {
         Sets = sets;
         Title = title;
         Description = description;
+        RowCount = rowCount;
     }
 }

@@ -7,22 +7,44 @@
         <h4 class="ItemTitle"><%: Model.Title %></h4>
         <div class="ItemText"><%: Model.Description %></div>
         <% foreach (var set in Model.Sets)
-           {
-        var imageMetaData = Sl.R<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
-        var imageFrontendData = new ImageFrontendData(imageMetaData);
-               %>
-        <div style="clear: left; margin-bottom: 10px;">
-            <div class="ImageColumn" style="width: 50px; float: left; margin-right: 10px;">
-                <div class="ImageContainer ShortLicenseLinkText">
-                    <%= imageFrontendData.RenderHtmlImageBasis(50, true, ImageType.QuestionSet) %>
+            {
+                var singleSetModel = new SingleSetModel(set);%>
+
+                <div class="ItemRow">
+                    <div class="ImageColumn" style="width: 50px; float: left; margin-right: 10px;">
+                        <div class="ImageContainer ShortLicenseLinkText">
+                            <%= singleSetModel.ImageFrontendData.RenderHtmlImageBasis(50, true, ImageType.QuestionSet) %>
+                        </div>
+                    </div>
+                    <div class="ContentColumn">
+                        <h6 class="ItemInfo">
+                            <span class="Pin" data-set-id="<%= singleSetModel.SetId %>" style="">
+                                <a href="#" class="noTextdecoration">
+                                    <i class="fa fa-heart show-tooltip iAdded <%= singleSetModel.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                                    <i class="fa fa-heart-o show-tooltip iAddedNot <%= singleSetModel.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                                    <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                                </a>
+                            </span>&nbsp;
+                            Fragesatz mit <a href="<%= Links.SetDetail(Url,singleSetModel.SetName,singleSetModel.SetId) %>"><%= singleSetModel.QCount %> Fragen</a>
+                        </h6>
+                        <div class="SetTitle">
+                            <%= set.Name %>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-            </div>
-            <%= set.Name %>
-            <div class="clearfix"></div>
-        </div>
-          <% } %>
+          <% }
+            if (Model.Sets.Count < Model.RowCount)
+            {
+                for (var i = 0; i < Model.RowCount - Model.Sets.Count; i++)
+                { %>
+                    <div class="ItemRow"></div> 
+                <% }
+            }%>
+        
+
         <div class="clearfix"></div>
-        <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
+        <div class="Divider" style="margin-bottom: 5px;"></div>
         <div class="BottomBar">
             
             <%-- <div class="dropdown">
