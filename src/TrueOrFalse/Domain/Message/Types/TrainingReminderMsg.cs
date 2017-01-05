@@ -24,8 +24,8 @@ public class TrainingReminderMsg
             trainingDate.UserEmail(),
             "Lerne jetzt für deinen Termin \"" + dateTitle + "\"",
             parsedTemplate)
-        {UserName = trainingDate.User().Name},
-        signOutMessage: SignOutMessage,
-        utmSource: UtmSource);
+            {UserName = trainingDate.User().Name},
+            signOutMessage: SignOutMessage,
+            utmSource: UtmSource);
     }
 }

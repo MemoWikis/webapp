@@ -330,6 +330,8 @@
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
     <Compile Include="Domain\Message\Types\CommentMarkedAsSettledMsg.cs" />
+    <Compile Include="Domain\Message\Types\KnowledgeReportMsg.cs" />
+    <Compile Include="Domain\Message\Types\KnowledgeReportMsgModel.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedPerDayResult.cs" />
@@ -895,6 +897,9 @@
     <Content Include="Domain\Message\HtmlMessage\HtmlMessage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Domain\Message\Types\KnowledgeReportMsg.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Domain\Message\Types\TrainingReminderMsgStylesInlined.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

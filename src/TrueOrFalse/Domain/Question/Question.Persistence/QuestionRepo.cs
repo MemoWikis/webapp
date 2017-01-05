@@ -222,4 +222,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
         //    .SetParameter("questionId", questionId)
         //    .ExecuteUpdate();
     }
+
+    public int HowManyNewQuestionsCreatedSince(DateTime since)
+    {
+        return _session.QueryOver<Question>()
+            .Where(q => q.DateCreated > since)
+            .RowCount();
+    }
 }

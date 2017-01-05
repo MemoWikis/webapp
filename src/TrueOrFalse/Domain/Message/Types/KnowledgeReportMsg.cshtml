@@ -1,0 +1,40 @@
+﻿@*<link href="foundation-emails.css" rel="stylesheet" />*@
+
+
+<p class="lead">
+    in deinem Wunschwissen sind aktuell <strong>@Model.QuestionCountWish</strong> und <strong>@Model.SetCountWish</strong>. So sieht dein aktueller Wissensstand aus:
+</p>
+
+<center data-parsed="">
+    <table class="button primary float-center">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td><a href="@(Model.LinkToLearningSession)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=learnNowWuWi">Jetzt Wunschwissen lernen</a></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</center>
+
+
+<table class="spacer">
+    <tbody>
+        <tr>
+            <td height="40px" style="font-size:40px;line-height:40px;">&#xA0;</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+In der <a href="@(Model.LinkToDates)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=dateOverview">Terminübersicht</a> kannst du die Details zu deinem Termin
+und zu deinem persönlichen Übungsplan ansehen und bearbeiten.
+
+<p>
+    <small>
+        <a href="@(Model.LinkToTechInfo)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=infoOnTechnology">Hier erfährst du mehr über unsere Technologie</a>.
+    </small>
+</p>

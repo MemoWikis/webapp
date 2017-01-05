@@ -27,7 +27,7 @@ public class TrainingReminderMsgModel
         var date = trainingDate.TrainingPlan.Date;
         DateName = date.GetTitle();
         DateOfDate = trainingDate.DateTime.ToString("'am' dd.MM.yyyy 'um' HH:mm");
-        var remainingLabel = new TimeSpanLabel(date.Remaining(), date.Remaining().TotalSeconds < 0);
+        var remainingLabel = new TimeSpanLabel(date.Remaining());
         DateAsDistance = remainingLabel.Full;
         QuestionCountTrainingSession = trainingDate.AllQuestionsInTraining.Count.ToString();
         TrainingLengthTrainingSession = new TimeSpanLabel(trainingDate.TimeEstimated()).Full;
