@@ -10,7 +10,7 @@ public class TemplateJson
 {
     public string TemplateName;
 
-    public int CategoryId;
+    public int CategoryId;//Doesn't have to be included in Json, is passed internally
 
     public string Title;
 

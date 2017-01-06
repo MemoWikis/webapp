@@ -44,4 +44,14 @@ public class CategoryController : BaseController
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
+
+    public ActionResult StartTestSessionForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
+    {
+        var sets = Sl.R<SetRepo>().GetByIds(setIds);
+        var testSession = new TestSession(sets, setListTitle, categoryId);
+
+        R<SessionUser>().AddTestSession(testSession);
+
+        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
+    }
 }

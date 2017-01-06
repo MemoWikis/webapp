@@ -21,7 +21,8 @@ public class TemplateParser
                                         .Replace("]]</p>","")
                                         .Replace("[[","")
                                         .Replace("]]","")
-                                        .Replace("&quot;", @""""));
+                                        .Replace("&quot;", @""""),
+                                    category.Id);
 
             if (templateJson == null)
                 return match.Value;
@@ -32,11 +33,13 @@ public class TemplateParser
         });
     }
 
-    private static TemplateJson GetTemplateJson(string template)
+    private static TemplateJson GetTemplateJson(string template, int categoryId)
     {
         try
         {
-            return JsonConvert.DeserializeObject<TemplateJson>(template);
+            var templateJson = JsonConvert.DeserializeObject<TemplateJson>(template);
+            templateJson.CategoryId = categoryId;
+            return templateJson;
         }
 
         catch
@@ -87,7 +90,7 @@ public class TemplateParser
             case "singleset":
                 return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
             case "setlistcard":
-                return new SetListCardModel(templateJson.SetList, templateJson.Title, templateJson.Description, templateJson.RowCount);
+                return new SetListCardModel(templateJson.SetList, templateJson.Title, templateJson.Description, category.Id, templateJson.RowCount);
             default:
                 return null;
         }
