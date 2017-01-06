@@ -30,4 +30,16 @@ public class LearningSessionRepo : RepositoryDbBase<LearningSession>
         return null;
     }
 
+    public DateTime? GetDateOfLastWishSession(User user)
+    {
+        var result = Session.QueryOver<LearningSession>()
+            .Where(l => l.User == user)
+            .And(l => l.IsWishSession)
+            .OrderBy(l => l.DateCreated).Desc
+            .List()
+            .FirstOrDefault();
+
+        return result?.DateCreated;
+    }
+
 }

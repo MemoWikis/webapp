@@ -28,6 +28,11 @@ public class PathTo
         return GetPath("/Domain/Message/Types/TrainingReminderMsgStylesInlined.cshtml");
     }
 
+    public static string EmailTemplate_KnowledgeReport()
+    {
+        return GetPath("/Domain/Message/Types/KnowledgeReportMsg.cshtml");
+    }
+
     public static string Crawlers()
     {
         return GetPath("/Web/Crawlers/list-of-crawlers.json");
