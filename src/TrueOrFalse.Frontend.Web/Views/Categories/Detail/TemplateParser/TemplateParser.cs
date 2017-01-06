@@ -118,6 +118,6 @@ public class TemplateParser
 
     private static string GetReplacementForNonparsableTemplate(string match)//If template cannot be parsed show it for admins, otherwise hide it
     {
-        return Sl.R<SessionUser>().IsInstallationAdmin ? match : "";
+        return Sl.R<SessionUser>().IsInstallationAdmin ? "<div style='background-color: rgba(130, 8, 22, 0.33)'>" + match + "</div>" : "";
     }
 }
