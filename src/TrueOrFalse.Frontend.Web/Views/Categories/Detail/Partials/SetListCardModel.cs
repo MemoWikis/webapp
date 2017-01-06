@@ -12,17 +12,21 @@ public class SetListCardModel : BaseModel
     public IList<Set> Sets;
 
     public string Title;
+    public int TitleRowCount;
     public string Description;
-    public int RowCount;
+    public int DescriptionRowCount;
+    public int SetRowCount;
     public int CategoryId;
     public string TestLink;
 
-    public SetListCardModel(IList<Set> sets, string title, string description, int categoryId, int rowCount = -1)
+    public SetListCardModel(IList<Set> sets, string title, string description, int categoryId, int titleRowCount = -1, int descriptionRowCount = -1, int setRowCount = -1)
     {
         Sets = sets;
         Title = title;
+        TitleRowCount = titleRowCount;
         Description = description;
-        RowCount = rowCount;
+        DescriptionRowCount = descriptionRowCount;
+        SetRowCount = setRowCount;
         CategoryId = categoryId;
     }
 }

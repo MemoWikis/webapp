@@ -90,7 +90,14 @@ public class TemplateParser
             case "singleset":
                 return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
             case "setlistcard":
-                return new SetListCardModel(templateJson.SetList, templateJson.Title, templateJson.Description, category.Id, templateJson.RowCount);
+                return new SetListCardModel(
+                    templateJson.SetList,
+                    templateJson.Title,
+                    templateJson.Description,
+                    category.Id,
+                    templateJson.TitleRowCount,
+                    templateJson.DescriptionRowCount,
+                    templateJson.SetRowCount);
             default:
                 return null;
         }

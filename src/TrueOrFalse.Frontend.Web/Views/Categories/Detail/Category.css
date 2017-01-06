@@ -130,14 +130,64 @@ span.CategoryType {
 .Card.ItemList {
   padding: 10px;
 }
+.Card.ItemList .ItemTitle,
 .Card.ItemList .ItemText {
-  margin-bottom: 20px;
+  line-height: 20px;
 }
 @media (min-width: 480px) {
-  .Card.ItemList .ItemText {
+  .Card.ItemList .ItemTitle.rowCount1,
+  .Card.ItemList .ItemText.rowCount1 {
+    height: 20px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount2,
+  .Card.ItemList .ItemText.rowCount2 {
     height: 40px;
     overflow: hidden;
   }
+  .Card.ItemList .ItemTitle.rowCount3,
+  .Card.ItemList .ItemText.rowCount3 {
+    height: 60px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount4,
+  .Card.ItemList .ItemText.rowCount4 {
+    height: 80px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount5,
+  .Card.ItemList .ItemText.rowCount5 {
+    height: 100px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount6,
+  .Card.ItemList .ItemText.rowCount6 {
+    height: 120px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount7,
+  .Card.ItemList .ItemText.rowCount7 {
+    height: 140px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount8,
+  .Card.ItemList .ItemText.rowCount8 {
+    height: 160px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount9,
+  .Card.ItemList .ItemText.rowCount9 {
+    height: 180px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount10,
+  .Card.ItemList .ItemText.rowCount10 {
+    height: 200px;
+    overflow: hidden;
+  }
+}
+.Card.ItemList .ItemText {
+  margin-bottom: 20px;
 }
 @media (min-width: 480px) {
   .ItemRow {

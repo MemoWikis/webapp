@@ -14,7 +14,11 @@ public class TemplateJson
 
     public string Title;
 
+    public int TitleRowCount;
+
     public string Description;
+
+    public int DescriptionRowCount;
 
     public int SetId;
 
@@ -43,7 +47,7 @@ public class TemplateJson
         }
     }
 
-    public int RowCount;
+    public int SetRowCount;
 
     public string CssClasses;
 }

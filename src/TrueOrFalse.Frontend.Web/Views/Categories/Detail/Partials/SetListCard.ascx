@@ -4,8 +4,8 @@
 
 <div class="CardColumn">
     <div class="Card ItemList Set">
-        <h4 class="ItemTitle"><%: Model.Title %></h4>
-        <div class="ItemText"><%: Model.Description %></div>
+        <h4 class="ItemTitle<%= Model.TitleRowCount > 0 ? " rowCount" + Model.TitleRowCount : "" %>"><%: Model.Title %></h4>
+        <div class="ItemText<%= Model.DescriptionRowCount > 0 ? " rowCount" + Model.DescriptionRowCount : "" %>"><%: Model.Description %></div>
         <% foreach (var set in Model.Sets)
             {
                 var singleSetModel = new SingleSetModel(set);%>
@@ -34,9 +34,9 @@
                     <div class="clearfix"></div>
                 </div>
           <% }
-            if (Model.Sets.Count < Model.RowCount)
+            if (Model.Sets.Count < Model.SetRowCount)
             {
-                for (var i = 0; i < Model.RowCount - Model.Sets.Count; i++)
+                for (var i = 0; i < Model.SetRowCount - Model.Sets.Count; i++)
                 { %>
                     <div class="ItemRow"></div> 
                 <% }
