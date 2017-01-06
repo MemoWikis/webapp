@@ -223,10 +223,18 @@ public class QuestionRepo : RepositoryDbBase<Question>
         //    .ExecuteUpdate();
     }
 
-    public int HowManyNewQuestionsCreatedSince(DateTime since)
+    public int HowManyNewPublicQuestionsCreatedSince(DateTime since)
     {
         return _session.QueryOver<Question>()
             .Where(q => q.DateCreated > since)
+            .And(q => q.Visibility == QuestionVisibility.All)
+            .RowCount();
+    }
+
+    public int TotalPublicQuestionCount()
+    {
+        return _session.QueryOver<Question>()
+            .Where(q => q.Visibility == QuestionVisibility.All)
             .RowCount();
     }
 }

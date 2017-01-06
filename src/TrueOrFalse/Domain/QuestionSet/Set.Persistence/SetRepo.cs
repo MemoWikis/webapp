@@ -169,9 +169,17 @@ public class SetRepo : RepositoryDbBase<Set>
         return result.Take(amount).ToList();
     }
 
-    //public IList<Question> GetMostViewedRandomQuestions(Set set, int amount, List<int> excludeQuestionIds = null)
-    //{
-        
-    //}
+    public int HowManyNewSetsCreatedSince(DateTime since)
+    {
+        return _session.QueryOver<Set>()
+            .Where(s => s.DateCreated > since)
+            .RowCount();
+    }
+
+    public int TotalSetCount()
+    {
+        return _session.QueryOver<Set>()
+            .RowCount();
+    }
 
 }

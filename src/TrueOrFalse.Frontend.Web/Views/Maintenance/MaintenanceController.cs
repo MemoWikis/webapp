@@ -151,6 +151,15 @@ public class MaintenanceController : BaseController
         return View("Messages", model);
     }
 
+    [ValidateAntiForgeryToken][HttpPost][SetMenu(MenuEntry.Maintenance)]
+    public ActionResult SendKnowledgeReportMessage(MessagesModel model)
+    {
+        KnowledgeReportMsg.SendHtmlMail(_sessionUser.User);
+
+        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + _sessionUser.User.Name + "</em> with email address <em>" + _sessionUser.User.EmailAddress + "</em>.");
+        return View("Messages", model);
+    }
+
     [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Tools()
     {

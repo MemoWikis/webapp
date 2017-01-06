@@ -55,5 +55,27 @@
 
         <% } %>
     </div>
+    
+    <div>
+        <hr/>
+    </div>
+
+    <div class="form-horizontal">
+        <% using (Html.BeginForm("SendKnowledgeReportMessage", "Maintenance")){%>
+
+            <%= Html.AntiForgeryToken() %>
+        
+            <div class="form-group" style="">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <p>
+                        Sende einen Wissensbericht (KnowledgeReport) per HTML-E-Mail an dich selbst.
+                    </p>
+
+                    <input type="submit" value="SendKnowledgeReport" class="btn btn-primary" name="btnSave" />
+                </div>
+            </div>
+
+        <% } %>
+    </div>
 
 </asp:Content>
