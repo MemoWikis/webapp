@@ -4,25 +4,46 @@
 
 <div class="CardColumn">
     <div class="Card ItemList Set">
-        <h4 class="ItemTitle"><%: Model.Title %></h4>
-        <div class="ItemText"><%: Model.Description %></div>
+        <h4 class="ItemTitle<%= Model.TitleRowCount > 0 ? " rowCount" + Model.TitleRowCount : "" %>"><%: Model.Title %></h4>
+        <div class="ItemText<%= Model.DescriptionRowCount > 0 ? " rowCount" + Model.DescriptionRowCount : "" %>"><%: Model.Description %></div>
         <% foreach (var set in Model.Sets)
-           {
-        var imageMetaData = Sl.R<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
-        var imageFrontendData = new ImageFrontendData(imageMetaData);
-               %>
-        <div style="clear: left; margin-bottom: 10px;">
-            <div class="ImageColumn" style="width: 50px; float: left; margin-right: 10px;">
-                <div class="ImageContainer ShortLicenseLinkText">
-                    <%= imageFrontendData.RenderHtmlImageBasis(50, true, ImageType.QuestionSet) %>
+            {
+                var singleSetModel = new SingleSetModel(set);%>
+
+                <div class="ItemRow">
+                    <div class="ImageColumn" style="width: 50px; float: left; margin-right: 10px;">
+                        <div class="ImageContainer ShortLicenseLinkText">
+                            <%= singleSetModel.ImageFrontendData.RenderHtmlImageBasis(50, true, ImageType.QuestionSet) %>
+                        </div>
+                    </div>
+                    <div class="ContentColumn">
+                        <h6 class="ItemInfo">
+                            <span class="Pin" data-set-id="<%= singleSetModel.SetId %>" style="">
+                                <a href="#" class="noTextdecoration">
+                                    <i class="fa fa-heart show-tooltip iAdded <%= singleSetModel.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
+                                    <i class="fa fa-heart-o show-tooltip iAddedNot <%= singleSetModel.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
+                                    <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                                </a>
+                            </span>&nbsp;
+                            Fragesatz mit <a href="<%= Links.SetDetail(Url,singleSetModel.SetName,singleSetModel.SetId) %>"><%= singleSetModel.QCount %> Fragen</a>
+                        </h6>
+                        <div class="SetTitle">
+                            <%= set.Name %>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-            </div>
-            <%= set.Name %>
-            <div class="clearfix"></div>
-        </div>
-          <% } %>
-        <div class="clearfix"></div>
-        <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
+          <% }
+            if (Model.Sets.Count < Model.SetRowCount)
+            {
+                for (var i = 0; i < Model.SetRowCount - Model.Sets.Count; i++)
+                { %>
+                    <div class="ItemRow"></div> 
+                <% }
+            }%>
+        
+
+        <div class="Divider" style="margin-bottom: 5px;"></div>
         <div class="BottomBar">
             
             <%-- <div class="dropdown">
@@ -36,46 +57,9 @@
                     <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
                 </ul>
             </div>--%>
-            <a class="btn btn-sm btn-primary show-tooltip" href="#" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+            <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForSetsInCategory(Model.Sets.Select(s => s.Id).ToList(), Model.Title, Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
                 &nbsp;JETZT TESTEN
             </a>
         </div>
-        <%--<div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
-        </div>--%>
-
-     <%--   
-        <div class="ContentContainer">
-            <div class="CardContent">
-                <h6 class="ItemInfo">
-                    <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
-                        <a href="#" class="noTextdecoration">
-                            <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
-                            <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
-                            <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
-                        </a>
-                    </span>&nbsp;
-                    Fragesatz mit <a href="<%= Links.SetDetail(Url,Model.SetName,Model.SetId) %>"><%= Model.QCount %> Fragen</a>
-                </h6>
-                
-            </div>
-            <div class="BottomBar">
-                <div class="dropdown">
-                    <% var buttonId = Guid.NewGuid(); %>
-                    <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fa fa-ellipsis-v"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                        <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a></li>
-                        <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
-                        <li><a href="<%= Links.DateCreate(Model.SetId) %>"> Termin anlegen</a></li>
-                        <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Fragesatz-Detailseite</a></li>
-                    </ul>
-                </div>
-                <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
-                    &nbsp;JETZT TESTEN
-                </a>
-            </div>
-        </div>--%>
     </div>
 </div>

@@ -150,24 +150,8 @@ public class SetRepo : RepositoryDbBase<Set>
         Flush();
     }
 
-    public IList<Question> GetRandomQuestions(Set set, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
-    {
-        var result = set.Questions();
-        if ((excludeQuestionIds != null) && (excludeQuestionIds.Count > 0) && (result.Count > amount))
-        {
-            result = result.Where(q => !excludeQuestionIds.Contains(q.Id)).ToList();
-            if (ignoreExclusionIfNotEnoughQuestions && (result.Count < amount))
-            {
-                //possible improvement: if questions are to be reasked, prioritize those that have been answered wrong by the user.
-                var fillUpAmount = amount - result.Count;
-                var fillUpQuestions = set.Questions().Where(q => excludeQuestionIds.Contains(q.Id)).ToList();
-                fillUpQuestions.Shuffle();
-                ((List<Question>) result).AddRange(fillUpQuestions.Take(fillUpAmount).ToList());
-            }
-        }
-        result.Shuffle();
-        return result.Take(amount).ToList();
-    }
+    
+
 
     public int HowManyNewSetsCreatedSince(DateTime since)
     {

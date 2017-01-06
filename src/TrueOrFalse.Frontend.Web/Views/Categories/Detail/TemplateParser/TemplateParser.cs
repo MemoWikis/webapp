@@ -11,29 +11,35 @@ public class TemplateParser
 {
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        var regex = new Regex(@"\[\[(.*?)\]\]", RegexOptions.Singleline);//Matches "[[something]]" non-greedily across multiple lines and only if not nested
+        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);//Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
 
         return regex.Replace(stringToParse, match =>
         {
             var templateJson = GetTemplateJson(
                                     match.Value
-                                        .Substring(2, match.Value.Length - 4)
-                                        .Replace("&quot;", @""""));
+                                        .Replace("<p>[[","")
+                                        .Replace("]]</p>","")
+                                        .Replace("[[","")
+                                        .Replace("]]","")
+                                        .Replace("&quot;", @""""),
+                                    category.Id);
 
             if (templateJson == null)
-                return match.Value;
+                return GetReplacementForNonparsableTemplate(match.Value);
 
             var html = GetHtml(templateJson, category, controllerContext);
 
-            return string.IsNullOrEmpty(html) ? match.Value : html;
+            return string.IsNullOrEmpty(html) ? GetReplacementForNonparsableTemplate(match.Value) : html;
         });
     }
 
-    private static TemplateJson GetTemplateJson(string template)
+    private static TemplateJson GetTemplateJson(string template, int categoryId)
     {
         try
         {
-            return JsonConvert.DeserializeObject<TemplateJson>(template);
+            var templateJson = JsonConvert.DeserializeObject<TemplateJson>(template);
+            templateJson.CategoryId = categoryId;
+            return templateJson;
         }
 
         catch
@@ -84,7 +90,14 @@ public class TemplateParser
             case "singleset":
                 return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
             case "setlistcard":
-                return new SetListCardModel(templateJson.SetList, templateJson.Title, templateJson.Description);
+                return new SetListCardModel(
+                    templateJson.SetList,
+                    templateJson.Title,
+                    templateJson.Description,
+                    category.Id,
+                    templateJson.TitleRowCount,
+                    templateJson.DescriptionRowCount,
+                    templateJson.SetRowCount);
             default:
                 return null;
         }
@@ -101,5 +114,10 @@ public class TemplateParser
             default:
                 return null;
         }
+    }
+
+    private static string GetReplacementForNonparsableTemplate(string match)//If template cannot be parsed show it for admins, otherwise hide it
+    {
+        return Sl.R<SessionUser>().IsInstallationAdmin ? "<div style='background-color: rgba(130, 8, 22, 0.33)'>" + match + "</div>" : "";
     }
 }

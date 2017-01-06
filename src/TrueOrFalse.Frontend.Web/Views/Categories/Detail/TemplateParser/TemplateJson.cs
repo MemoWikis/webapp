@@ -10,11 +10,15 @@ public class TemplateJson
 {
     public string TemplateName;
 
-    public int CategoryId;
+    public int CategoryId;//Doesn't have to be included in Json, is passed internally
 
     public string Title;
 
+    public int TitleRowCount;
+
     public string Description;
+
+    public int DescriptionRowCount;
 
     public int SetId;
 
@@ -42,6 +46,8 @@ public class TemplateJson
                 .ToList();
         }
     }
+
+    public int SetRowCount;
 
     public string CssClasses;
 }

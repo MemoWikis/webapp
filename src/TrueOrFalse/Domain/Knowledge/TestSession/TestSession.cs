@@ -21,7 +21,17 @@ public class TestSession
         TestSessionType = TestSessionType.Set;
         TestSessionTypeTypeId = set.Id;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
-        var questions = Sl.R<SetRepo>().GetRandomQuestions(set, 10, excludeQuestionIds, true).ToList();
+        var questions = GetRandomQuestions.Run(set, 10, excludeQuestionIds, true).ToList();
+        Populate(questions);
+    }
+
+    public TestSession(IList<Set> setsFromCategory, string setListTitle, int categoryId)
+    {
+        UriName = UriSanitizer.Run(setListTitle);
+        TestSessionType = TestSessionType.Category;
+        TestSessionTypeTypeId = categoryId;
+        var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
+        var questions = GetRandomQuestions.Run(setsFromCategory, 10, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 
@@ -31,7 +41,7 @@ public class TestSession
         TestSessionType = TestSessionType.Category;
         TestSessionTypeTypeId = category.Id;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
-        var questions = Sl.R<CategoryRepository>().GetRandomQuestions(category, 10, excludeQuestionIds, true).ToList();
+        var questions = GetRandomQuestions.Run(category, 10, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 

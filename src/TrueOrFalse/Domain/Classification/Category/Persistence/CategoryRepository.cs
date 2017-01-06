@@ -100,28 +100,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .List();
     }
 
-    public IList<Question> GetRandomQuestions(Category category, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
-    {
-        var result = category.FeaturedSets.Count > 0 
-            ? category.FeaturedSets.SelectMany(s => s.Questions()).Distinct().ToList()
-            : Sl.R<QuestionRepo>().GetForCategory(category.Id, category.CountQuestions, _userSession.UserId);
-
-        if ((excludeQuestionIds != null) && (excludeQuestionIds.Count > 0) && (result.Count > amount))
-        {
-            var fillUpQuestions = result.Where(q => excludeQuestionIds.Contains(q.Id)).ToList();
-            result = result.Where(q => !excludeQuestionIds.Contains(q.Id)).ToList();
-            if (ignoreExclusionIfNotEnoughQuestions && (result.Count < amount))
-            {
-                //possible improvement: if questions are to be reasked, prioritize those that have been answered wrong by the user.
-                var fillUpAmount = amount - result.Count;
-                fillUpQuestions.Shuffle();
-                ((List<Question>)result).AddRange(fillUpQuestions.Take(fillUpAmount).ToList());
-            }
-        }
-        result.Shuffle();
-        return result.Take(amount).ToList();
-    }
-
     public bool Exists(string categoryName)
     {
         return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
