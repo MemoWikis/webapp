@@ -25,11 +25,11 @@ public class TemplateParser
                                     category.Id);
 
             if (templateJson == null)
-                return match.Value;
+                return GetReplacementForNonparsableTemplate(match.Value);
 
             var html = GetHtml(templateJson, category, controllerContext);
 
-            return string.IsNullOrEmpty(html) ? match.Value : html;
+            return string.IsNullOrEmpty(html) ? GetReplacementForNonparsableTemplate(match.Value) : html;
         });
     }
 
@@ -114,5 +114,10 @@ public class TemplateParser
             default:
                 return null;
         }
+    }
+
+    private static string GetReplacementForNonparsableTemplate(string match)//If template cannot be parsed show it for admins, otherwise hide it
+    {
+        return Sl.R<SessionUser>().IsInstallationAdmin ? match : "";
     }
 }
