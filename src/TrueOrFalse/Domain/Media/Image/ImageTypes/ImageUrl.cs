@@ -47,7 +47,20 @@ public class ImageUrl
                 {
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
-                        requestedWidth = biggestAvailableImage.Width;
+                        if (isSquare)
+                        {
+                            requestedWidth = Math.Max(biggestAvailableImage.Width, biggestAvailableImage.Height);
+
+                            if (File.Exists(imageSettings.ServerPathAndId() + "_" + requestedWidth + SquareSuffix(true) + ".jpg"))
+                                return GetResult(imageSettings, requestedWidth, true);
+
+                            ResizeImage.Run(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, true);
+
+                        }
+                        else
+                        {
+                            requestedWidth = biggestAvailableImage.Width;
+                        }
                     }
                     else
                     {
