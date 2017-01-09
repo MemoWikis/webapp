@@ -30,7 +30,7 @@ public class PathTo
 
     public static string EmailTemplate_KnowledgeReport()
     {
-        return GetPath("/Domain/Message/Types/KnowledgeReportMsg.cshtml");
+        return GetPath("/Domain/Message/Types/KnowledgeReportMsgStylesInlined.cshtml");
     }
 
     public static string Crawlers()

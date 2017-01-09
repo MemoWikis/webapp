@@ -4,11 +4,12 @@ using RazorEngine;
 public class TrainingReminderMsg
 {
     public const string UtmSource = "trainingReminderDate";
+    public const string UtmCampaignFullString = "";
 
     public const string SignOutMessage = "Du erhälst diese E-Mail, weil du einen Termin erstellt hast. " +
                                          "Wenn du diese Lernerinnerungen nicht mehr erhalten möchtest, " +
                                          "deaktiviere die E-Mail-Benachrichtigung bei den " +
-                                         "<a href=\"https://memucho.de/Termine\">Einstellungen zu diesem Termin</a>.";
+                                         "<a href=\"https://memucho.de/Termine?utm_medium=email@utm_source="+UtmSource+UtmCampaignFullString+"&utm_term=editDateReminderSetting\">Einstellungen zu diesem Termin</a>.";
 
     public static void SendHtmlMail(TrainingDate trainingDate)
     {
