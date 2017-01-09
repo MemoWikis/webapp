@@ -6,12 +6,14 @@
 
 <h4>Alle Inhalte</h4>
 <div id="Content" class="Box">
-    <% if(Model.CountSets > 0){ %>    
-        <h5 class="ContentSubheading Set">
-            <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie
-        </h5>
+    <h5 class="ContentSubheading Set">
+        <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie
+    </h5>
+    <% if (Model.CountSets > 0)
+       { %>    
         <div class="LabelList">
-        <% foreach(var set in Model.Sets){ %>
+        <% foreach (var set in Model.Sets)
+           { %>
             <div class="LabelItem LabelItem-Set">
                 <div class="EllipsWrapper">
                     <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
@@ -24,6 +26,9 @@
         <% } %>
         </div>
         
+    <% }
+    else { %>
+        Bisher gibt es keine Fragesätze in dieser Kategorie.
     <% } %>
         
    <%-- <% if (Model.SingleQuestions.Count > 0) { %>
