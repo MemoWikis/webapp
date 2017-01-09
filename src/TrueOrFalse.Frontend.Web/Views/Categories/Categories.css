@@ -120,7 +120,7 @@
   height: auto;
   top: 0;
 }
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   .ImageLicenseCaption {
     word-break: break-all;
     overflow: hidden;
