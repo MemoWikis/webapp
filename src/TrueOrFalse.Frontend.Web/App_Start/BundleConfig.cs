@@ -75,6 +75,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
+                .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 

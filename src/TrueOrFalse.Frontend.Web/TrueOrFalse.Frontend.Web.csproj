@@ -543,6 +543,9 @@
     <Content Include="Views\Categories\Detail\Partials\SetListCard.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetCollection.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSet.ascx" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
@@ -697,6 +700,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowCopy.ts" />
@@ -1365,10 +1369,7 @@
     <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
-    <Content Include="Views\Categories\Js\CategoriesDelete.js">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
+    <Content Include="Views\Categories\Modals\ModalDeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
     <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\bootstrap.aspx" />
@@ -1862,9 +1863,6 @@
     <Content Include="Views\Categories\Js\Categories.js.map">
       <DependentUpon>Categories.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Js\CategoriesDelete.js.map">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>
     </Content>
@@ -2129,6 +2127,9 @@
     <Content Include="Views\VariousPublic\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentReport.less" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

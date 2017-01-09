@@ -59,6 +59,7 @@ public class CategoriesController : BaseController
     }
 
     [HttpPost]
+    [AccessOnlyAsAdmin]
     public JsonResult DeleteDetails(int id)
     {
         var category = _categoryRepo.GetById(id);
@@ -72,6 +73,7 @@ public class CategoriesController : BaseController
         };
     }
 
+    [AccessOnlyAsAdmin]
     public ActionResult Delete(int id)
     {
         var category = _categoryRepo.GetById(id);
