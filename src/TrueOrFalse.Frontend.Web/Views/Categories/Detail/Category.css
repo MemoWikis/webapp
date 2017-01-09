@@ -216,6 +216,11 @@ span.CategoryType {
             width: 100%;
             z-index: 100000000000;*/
 }
+.WikiLink {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 p:empty {
   display: none;
 }
