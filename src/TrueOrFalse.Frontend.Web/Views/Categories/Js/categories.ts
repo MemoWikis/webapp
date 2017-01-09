@@ -1,3 +1,4 @@
 $(() => {
     new SearchInTabs();
+    new CategoryDelete();
 });

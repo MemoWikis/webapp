@@ -9,6 +9,7 @@ using TrueOrFalse.Web;
 public class EditCategoryModel : BaseModel
 {
     public string Name { get; set; }
+    public int Id;
 
     public string Description { get; set; }
 
@@ -66,6 +67,7 @@ public class EditCategoryModel : BaseModel
 
         Category = category;
         Name = category.Name;
+        Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;

@@ -216,7 +216,7 @@
                         <div class="noLabel columnControlsFull">
                             <% if (Model.IsEditing){ %>
                                 <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                                <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                                <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
                             <% } else { %>
                                 <input type="submit" value="Kategorie erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>
@@ -247,7 +247,9 @@
         <% } %>
     </script>
 <% } 
-    Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
+    Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx");
+    Html.RenderPartial("~/Views/Categories/Modals/ModalDeleteCategory.ascx");
+%>
 
 
 </asp:Content>
