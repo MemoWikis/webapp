@@ -1,11 +1,11 @@
-class CategoryDelete {
+﻿class CategoryDelete {
 
 
     constructor() {
         var categoryIdToDelete;
         var self = this;
 
-        $('a[href*=#modalDeleteCategory]').click(function () {
+        $(document).on("click", 'a[href*=#modalDeleteCategory]', function (e) {
             categoryIdToDelete = $(this).attr("data-categoryId");
             self.PopulateDeleteCategory(categoryIdToDelete);
         });
@@ -42,7 +42,10 @@ class CategoryDelete {
             type: 'POST',
             url: "/Categories/Delete/" + catId,
             cache: false,
-            success: function () { window.location.reload(); },
+            success: function() {
+                window.alert("Die Kategorie wurde erfolgreich gelöscht.");
+                window.location.href = "/Kategorien";
+            },
             error: function (result) {
                 window.console.log(result);
                 window.alert("Ein Fehler ist aufgetreten");

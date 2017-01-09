@@ -74,20 +74,16 @@ public class CategoriesController : BaseController
     }
 
     [AccessOnlyAsAdmin]
-    public ActionResult Delete(int id)
+    public EmptyResult Delete(int id)
     {
         var category = _categoryRepo.GetById(id);
 
         if (category == null)
-            return Categories(null, new CategoriesModel {Message = new ErrorMessage("Die Kategorie existiert nicht mehr.")});
+            throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
         Resolve<CategoryDeleter>().Run(category);
 
-        var model = new CategoriesModel{
-            Message = new SuccessMessage("Die Kategorie '" + category.Name + "' wurde gelöscht")
-        };
-        
-        return Categories(null, model);
+        return new EmptyResult();
     }
 
     public void SetCategoriesOrderBy(string orderByCommand)

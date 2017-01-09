@@ -30,6 +30,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
     }
 
+    public override void Delete(Category category)
+    {
+        _searchIndexCategory.Delete(category);
+        base.Delete(category);
+    }
+
+
     public IList<Category> GetByName(string categoryName)
     {
         categoryName = categoryName ?? "";

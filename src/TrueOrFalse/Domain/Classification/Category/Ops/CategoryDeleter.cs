@@ -19,13 +19,13 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         if (category == null)
             return;
 
-        ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Id);
-
-        _searchIndexCategory.Delete(category);
+        ThrowIfNot_IsLoggedInUserOrAdmin.Run(category.Creator.Id);
 
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " + category.Id).ExecuteUpdate();
         _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id).ExecuteUpdate();
-        _session.CreateSQLQuery("DELETE FROM category WHERE Id = " + category.Id).ExecuteUpdate();   
+        Sl.R<UserActivityRepo>().DeleteForCategory(category.Id);
+
+        Sl.R<CategoryRepository>().Delete(category);
     }
 }
