@@ -210,6 +210,34 @@ public class MaintenanceController : BaseController
 
     }
 
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult AssignCategoryToQuestionsInSet(ToolsModel toolsModel)
+    {
+        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryId);
+
+        var setIds = toolsModel.SetsToUpdateIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x)).ToList();
+
+        var questionRepo = Sl.R<QuestionRepo>();
+
+        var questions = Sl.Resolve<SetRepo>().GetByIds(setIds).SelectMany(s => s.Questions());
+
+        foreach (var question in questions)
+        {
+            question.Categories.Add(categoryToAssign);
+            question.Categories = question.Categories.Distinct().ToList();
+            questionRepo.Update(question);
+        }
+
+        toolsModel.Message = new SuccessMessage($"Die Kategorie \"{categoryToAssign.Name}\" wurde den Fragen in den angegebenen Fragesätzen zugewiesen");
+
+        //ModelState.Clear(); 
+
+        return View("Tools", toolsModel );
+    }
+    
+
     [HttpPost]
     public ActionResult MigrateAnswerData()
     {

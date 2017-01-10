@@ -49,6 +49,36 @@
         Start 100 test jobs
     </a><br/>
     
+    <h4 style="margin-top: 20px;">Fragen in Fragesatz nachkategorisieren</h4>
+    <div class="form-horizontal">
+
+        <% using (Html.BeginForm("AssignCategoryToQuestionsInSet", "Maintenance")){%>
+        
+            <%= Html.AntiForgeryToken() %>
+
+            <div class="form-group">
+                <%= Html.LabelFor(m => m.SetsToUpdateIds, new {@class="col-sm-2 control-label"} ) %>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.SetsToUpdateIds, new {@class="form-control"} ) %>    
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <%= Html.LabelFor(m => m.CategoryId, new {@class="col-sm-2 control-label"} ) %>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.CategoryId, new {@class="form-control"} ) %>    
+                </div>
+            </div>
+
+            <div class="form-group" style="">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <input type="submit" value="Senden" class="btn btn-primary" />
+                </div>
+            </div>
+
+        <% } %>
+    </div>
+    
     <h4 style="margin-top: 20px;">Update concentration level</h4>
     <div class="form-horizontal">
         
