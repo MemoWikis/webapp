@@ -219,9 +219,22 @@ public class MaintenanceController : BaseController
         var setIds = toolsModel.SetsToUpdateIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x)).ToList();
 
+        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
+
+        if (sets.Count == 0)
+        {
+            throw new Exception("no sets found");
+        }
+
+        var setsString = "";
+
+        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
+
+        setsString = setsString.Substring(2); //Remove superfluous characters
+
         var questionRepo = Sl.R<QuestionRepo>();
 
-        var questions = Sl.Resolve<SetRepo>().GetByIds(setIds).SelectMany(s => s.Questions());
+        var questions = sets.SelectMany(s => s.Questions());
 
         foreach (var question in questions)
         {
@@ -230,7 +243,7 @@ public class MaintenanceController : BaseController
             questionRepo.Update(question);
         }
 
-        toolsModel.Message = new SuccessMessage($"Die Kategorie \"{categoryToAssign.Name}\" wurde den Fragen in den angegebenen Fragesätzen zugewiesen");
+        toolsModel.Message = new SuccessMessage($"Die Kategorie \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Fragesätzen {setsString} zugewiesen");
 
         //ModelState.Clear(); 
 
