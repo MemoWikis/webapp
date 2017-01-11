@@ -22,6 +22,16 @@
 @color-correctAfterRepetitionAnswer: inherit;
 @color-wrongAnswer: inherit;
 @color-notAnswered: inherit;*/
+.claimsMemucho {
+  font-weight: bold;
+  color: #203256;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.claimsMemucho i {
+  color: #AFD534;
+  margin-bottom: 10px;
+}
 .tableLayout {
   display: table;
 }
