@@ -11,9 +11,9 @@ public class UpdateSetCountForCategory : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(IList<Category> categoryIds)
+    public void Run(IList<Category> categories)
     {
-        Run(categoryIds.Select(c => c.Id));
+        Run(categories.Select(c => c.Id));
     }
 
     public void Run(IEnumerable<int> categoryIds)

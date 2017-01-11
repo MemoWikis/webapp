@@ -17,10 +17,14 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public new void Update(Question question)
     {
+        var categoriesBeforeUpdateIds =
+            _session.CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
+            .List<int>().ToList();
         _searchIndexQuestion.Update(question);
         base.Update(question);
         Flush();
-        Sl.Resolve<UpdateQuestionCountForCategory>().Run(question.Categories);
+        var categoriesToUpdateIds = categoriesBeforeUpdateIds.Union(question.Categories.Select(c => c.Id)).Distinct().ToList(); //All categories added or removed have to be updated
+        Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
     }
 
     public override void Create(Question question)
