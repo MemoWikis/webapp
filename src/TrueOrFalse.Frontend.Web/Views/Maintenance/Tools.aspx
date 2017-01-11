@@ -57,14 +57,14 @@
             <%= Html.AntiForgeryToken() %>
 
             <div class="form-group">
-                <%= Html.LabelFor(m => m.SetsToUpdateIds, new {@class="col-sm-2 control-label"} ) %>
+                <label class="col-sm-2 control-label">Fragesätze (Set-Ids kommasepariert)</label>
                 <div class="col-xs-2">
                     <%= Html.TextBoxFor(m => m.SetsToUpdateIds, new {@class="form-control"} ) %>    
                 </div>
             </div>
         
             <div class="form-group">
-                <%= Html.LabelFor(m => m.CategoryId, new {@class="col-sm-2 control-label"} ) %>
+                <label class="control-label col-sm-2">Kategorie (Id)</label>
                 <div class="col-xs-2">
                     <%= Html.TextBoxFor(m => m.CategoryId, new {@class="form-control"} ) %>    
                 </div>
@@ -72,7 +72,7 @@
 
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
-                    <input type="submit" value="Senden" class="btn btn-primary" />
+                    <input type="submit" value="Kategorie zuweisen" class="btn btn-primary" />
                 </div>
             </div>
 
