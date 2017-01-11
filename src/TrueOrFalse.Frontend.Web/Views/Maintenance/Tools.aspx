@@ -49,7 +49,7 @@
         Start 100 test jobs
     </a><br/>
     
-    <h4 style="margin-top: 20px;">Fragen in Fragesatz nachkategorisieren</h4>
+    <h4 style="margin-top: 20px;">Fragen in Fragesätzen nachkategorisieren</h4>
     <div class="form-horizontal">
 
         <% using (Html.BeginForm("AssignCategoryToQuestionsInSet", "Maintenance")){%>
