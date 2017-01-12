@@ -309,7 +309,7 @@
                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
                     
                     <div style="margin-top: 5px">
-                        <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-share-alt" aria-hidden="true">&nbsp;</i>Einbetten</a>
+                        <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
                     </div>
                 </p>
             </div>
