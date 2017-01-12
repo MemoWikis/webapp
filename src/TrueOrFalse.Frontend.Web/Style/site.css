@@ -774,6 +774,11 @@ fieldset[disabled] #MenuButton:hover {
 #MasterSection {
   position: relative;
 }
+@media (min-width: 768px) {
+  #MasterSection {
+    padding-bottom: 100px;
+  }
+}
 /* MOBILE SUBHEADER
 ----------------------------------------------------------*/
 #MobileSubHeader {
