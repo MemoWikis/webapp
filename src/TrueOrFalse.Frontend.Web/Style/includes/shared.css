@@ -18,6 +18,7 @@
         Modified styles from bootstrap website (not part of framework) / .bs-callout
         Form grid/columns conditional mixin
         Reference styles
+        Reduce opacity and color on non-hover
 
 [Imports:]
 --------------------------------------------------------*/
@@ -2757,3 +2758,14 @@
   vertical-align: bottom;
 }
 /*Have user inputs/existing data in forms bold when in editing mode*/
+/*Reduce opacity and color on non-hover*/
+.ReduceVisibilityOnNonHover .Card,
+.TestStyle .Card {
+  filter: grayscale(80%);
+  opacity: 0.8;
+}
+.ReduceVisibilityOnNonHover .Card:hover,
+.TestStyle .Card:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}

@@ -18,6 +18,7 @@
         Modified styles from bootstrap website (not part of framework) / .bs-callout
         Form grid/columns conditional mixin
         Reference styles
+        Reduce opacity and color on non-hover
 
 [Imports:]
 --------------------------------------------------------*/
@@ -999,6 +1000,20 @@
 
         input:-ms-input-placeholder, textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
             font-weight: normal;
+        }
+    }
+}
+
+/*Reduce opacity and color on non-hover*/
+
+.ReduceVisibilityOnNonHover, .TestStyle {
+
+    & .Card {
+         filter: grayscale(80%);
+        opacity: 0.8;
+        &:hover {
+            filter: grayscale(0%);
+            opacity: 1;
         }
     }
 }
