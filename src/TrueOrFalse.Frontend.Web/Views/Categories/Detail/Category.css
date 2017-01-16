@@ -134,7 +134,7 @@ span.CategoryType {
 .Card.ItemList .ItemText {
   line-height: 20px;
 }
-@media (min-width: 480px) {
+@media (min-width: 650px) {
   .Card.ItemList .ItemTitle.rowCount1,
   .Card.ItemList .ItemText.rowCount1 {
     height: 20px;

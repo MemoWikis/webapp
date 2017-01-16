@@ -132,7 +132,7 @@ span.CategoryType {
     .ItemTitle, .ItemText {
         line-height: 20px;
 
-        .media-xs-up ({
+        @media (min-width: @extra-breakpoint-cards){
 
             &.rowCount1 {
                 height: 20px;
@@ -184,7 +184,7 @@ span.CategoryType {
                 overflow: hidden;
             }
             
-        });
+        };
     }
 
     .ItemText {
