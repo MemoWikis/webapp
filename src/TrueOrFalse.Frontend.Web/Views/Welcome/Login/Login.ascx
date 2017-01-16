@@ -40,7 +40,7 @@
                     
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-10" style="font-size: 12px; padding-top: 7px;">
-                            *Du erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
+                            *Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
                             und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
                         </div>
                     </div>
@@ -93,6 +93,7 @@
                         </div>
                     </div>
                 </div>
+
 
              </fieldset>
         </div>        
