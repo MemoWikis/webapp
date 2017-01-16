@@ -9,7 +9,7 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
-    public string CustomPageHtml;
+    public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
     public IList<Category> CategoriesParent;
