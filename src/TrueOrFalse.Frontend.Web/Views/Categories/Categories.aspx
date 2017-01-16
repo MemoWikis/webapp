@@ -162,6 +162,6 @@
         <% } %>
     </div>
     
-    <% Html.RenderPartial("Modals/DeleteCategory"); %>
+    <% Html.RenderPartial("Modals/ModalDeleteCategory"); %>
 
 </asp:Content>

@@ -27,6 +27,8 @@ public class SetRepo : RepositoryDbBase<Set>
             _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
             .List<int>().ToList();
 
+        Flush();//Flush exactly here: If category has been added, categories_to_sets entry has been added already (important for UpdateSetCountForCategory). If category has been removed, it is still included in categoriesToUpdate.
+
         categoriesToUpdate.AddRange(set.Categories.Select(x => x.Id).ToList());
         categoriesToUpdate = categoriesToUpdate.GroupBy(x => x).Select(x => x.First()).ToList();
         Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdate);
@@ -148,28 +150,20 @@ public class SetRepo : RepositoryDbBase<Set>
         Flush();
     }
 
-    public IList<Question> GetRandomQuestions(Set set, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
+    
+
+
+    public int HowManyNewSetsCreatedSince(DateTime since)
     {
-        var result = set.Questions();
-        if ((excludeQuestionIds != null) && (excludeQuestionIds.Count > 0) && (result.Count > amount))
-        {
-            result = result.Where(q => !excludeQuestionIds.Contains(q.Id)).ToList();
-            if (ignoreExclusionIfNotEnoughQuestions && (result.Count < amount))
-            {
-                //possible improvement: if questions are to be reasked, prioritize those that have been answered wrong by the user.
-                var fillUpAmount = amount - result.Count;
-                var fillUpQuestions = set.Questions().Where(q => excludeQuestionIds.Contains(q.Id)).ToList();
-                fillUpQuestions.Shuffle();
-                ((List<Question>) result).AddRange(fillUpQuestions.Take(fillUpAmount).ToList());
-            }
-        }
-        result.Shuffle();
-        return result.Take(amount).ToList();
+        return _session.QueryOver<Set>()
+            .Where(s => s.DateCreated > since)
+            .RowCount();
     }
 
-    //public IList<Question> GetMostViewedRandomQuestions(Set set, int amount, List<int> excludeQuestionIds = null)
-    //{
-        
-    //}
+    public int TotalSetCount()
+    {
+        return _session.QueryOver<Set>()
+            .RowCount();
+    }
 
 }

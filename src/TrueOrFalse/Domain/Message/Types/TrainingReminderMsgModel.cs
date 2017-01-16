@@ -1,8 +1,51 @@
-﻿public class TrainingReminderMsgModel
+﻿using System.Linq;
+using TrueOrFalse.Frontend.Web.Code;
+
+public class TrainingReminderMsgModel
 {
     public string DateName;
-    public string Date;
-    public string QuestionCount;
-    public string TrainingLength;
+    public string DateOfDate;
+    public string DateAsDistance;
+    public string QuestionCountTrainingSession;
+    public string TrainingLengthTrainingSession;
     public string LinkToLearningSession;
+
+    public string LearningContentFullString;
+    public string RemainingTrainingSessionTime;
+    public string RemainingTrainingSessionCount;
+
+    public string LinkToDates;
+    public string LinkToTechInfo;
+
+    public string UtmSourceFullString;
+    public string UtmCampaignFullString = "";
+
+    public TrainingReminderMsgModel(TrainingDate trainingDate, string utmSource = "trainingReminderDate")
+    {
+        UtmSourceFullString = string.IsNullOrEmpty(utmSource) ? "" : "&utm_source=" + utmSource;
+
+        var date = trainingDate.TrainingPlan.Date;
+        DateName = date.GetTitle();
+        DateOfDate = trainingDate.DateTime.ToString("'am' dd.MM.yyyy 'um' HH:mm");
+        var remainingLabel = new TimeSpanLabel(date.Remaining());
+        DateAsDistance = remainingLabel.Full;
+        QuestionCountTrainingSession = trainingDate.AllQuestionsInTraining.Count.ToString();
+        TrainingLengthTrainingSession = new TimeSpanLabel(trainingDate.TimeEstimated()).Full;
+        LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + trainingDate.TrainingPlan.Date.Id;
+
+        LearningContentFullString = date.CountQuestions().ToString() + " Frage" + StringUtils.PluralSuffix(date.CountQuestions(),"n");
+        if (date.Sets.Any())
+        {
+            LearningContentFullString += "aus " + date.Sets.Count.ToString() + " Frage" +
+                                         StringUtils.PluralSuffix(date.Sets.Count, "sätzen", "satz");
+        }
+
+        RemainingTrainingSessionTime = new TimeSpanLabel(trainingDate.TrainingPlan.TimeRemaining).Full;
+        RemainingTrainingSessionCount = trainingDate.TrainingPlan.OpenDates.Count.ToString();
+        /*Should use Links.XX to create links, but Tests fail if UrlHelper trys to access HttpContext.Current.Request.RequestContext 
+        //LinkToDates = Links.Dates();
+        //LinkToTechInfo = Links.AlgoInsightForecast();*/
+        LinkToDates = "https://memucho.de/Termine";
+        LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
+    }
 }

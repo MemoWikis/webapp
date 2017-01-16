@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -255,6 +258,13 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string TestSessionStartForCategory(string categoryName, int categoryId) => 
             GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryName = UriSanitizer.Run(categoryName), categoryId = categoryId });
+
+        public static string TestSessionStartForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
+        {
+            return GetUrlHelper().Action("StartTestSessionForSetsInCategory", CategoryController, new { setListTitle, categoryId })
+                + "&setIds="
+                + string.Join("&setIds=", setIds);
+        }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url) => url.Action("RegisterQuestionAnswered", TestSessionController);
 

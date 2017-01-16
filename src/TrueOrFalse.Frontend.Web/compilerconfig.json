@@ -174,8 +174,8 @@
     "inputFile": "Views/Maintenance/ContentReport.less"
   },
   {
-    "outputFile": "Views/Welcome/Registration/Register.css",
-    "inputFile": "Views/Welcome/Registration/Register.less"
+    "outputFile": "Views/Categories/Edit/EditCategory.css",
+    "inputFile": "Views/Categories/Edit/EditCategory.less"
   },
   {
     "outputFile": "Views/Welcome/Registration/SocialButtons.css",

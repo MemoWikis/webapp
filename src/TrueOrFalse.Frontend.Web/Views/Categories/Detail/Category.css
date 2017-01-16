@@ -96,6 +96,9 @@ span.CategoryType {
   border-bottom-width: 2px;
   border-bottom-color: #003264;
 }
+.ContentSubheading:not(:first-child) {
+  margin-top: 30px;
+}
 .ContentSubheading.Set {
   border-bottom-color: #FFD700;
 }
@@ -104,4 +107,120 @@ span.CategoryType {
 }
 .LabelList {
   margin-top: 0;
+  padding-right: 0;
+}
+.LabelItem {
+  padding-bottom: 7px;
+}
+@media (min-width: 768px) {
+  .LabelItem {
+    padding-bottom: 5px;
+  }
+  .LabelItem:not(:hover) .EllipsWrapper {
+    width: 100%;
+    max-height: 28px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.Box + h4 {
+  margin-top: 30px;
+}
+.Card.ItemList {
+  padding: 10px;
+}
+.Card.ItemList .ItemTitle,
+.Card.ItemList .ItemText {
+  line-height: 20px;
+}
+@media (min-width: 480px) {
+  .Card.ItemList .ItemTitle.rowCount1,
+  .Card.ItemList .ItemText.rowCount1 {
+    height: 20px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount2,
+  .Card.ItemList .ItemText.rowCount2 {
+    height: 40px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount3,
+  .Card.ItemList .ItemText.rowCount3 {
+    height: 60px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount4,
+  .Card.ItemList .ItemText.rowCount4 {
+    height: 80px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount5,
+  .Card.ItemList .ItemText.rowCount5 {
+    height: 100px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount6,
+  .Card.ItemList .ItemText.rowCount6 {
+    height: 120px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount7,
+  .Card.ItemList .ItemText.rowCount7 {
+    height: 140px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount8,
+  .Card.ItemList .ItemText.rowCount8 {
+    height: 160px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount9,
+  .Card.ItemList .ItemText.rowCount9 {
+    height: 180px;
+    overflow: hidden;
+  }
+  .Card.ItemList .ItemTitle.rowCount10,
+  .Card.ItemList .ItemText.rowCount10 {
+    height: 200px;
+    overflow: hidden;
+  }
+}
+.Card.ItemList .ItemText {
+  margin-bottom: 20px;
+}
+@media (min-width: 480px) {
+  .ItemRow {
+    height: 85px;
+    overflow: hidden;
+  }
+}
+.ItemRow .ItemInfo {
+  margin-top: 0;
+  margin-bottom: 3px;
+}
+.ItemRow .ContentColumn {
+  margin-left: 60px;
+}
+.ItemRow .TextWrapper {
+  position: relative;
+  width: 100%;
+}
+.ItemRow .SetTitle:hover {
+  /*position: absolute;
+            left: 0;
+            right: 0;
+            height: auto;*/
+  /*overflow:visible;
+            box-shadow: 0 0 30px #000;
+            width: 100%;
+            z-index: 100000000000;*/
+}
+.WikiLink {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+p:empty {
+  display: none;
 }

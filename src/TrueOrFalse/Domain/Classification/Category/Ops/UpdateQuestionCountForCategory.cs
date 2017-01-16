@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
 
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
@@ -10,7 +11,12 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 
     public void Run(IList<Category> categories)
     {
-        foreach (var category in categories)
+        Run(categories.Select(c => c.Id));
+    }
+
+    public void Run(IEnumerable<int> categoryIds)
+    {
+        foreach (var categoryId in categoryIds)
         {
             var query =
                 "UPDATE category SET CountQuestions = " +
@@ -26,9 +32,9 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
                 "  ON r.Question_id = q.Id " +
                 "  WHERE r.Category_id = category.Id " +
                 "  AND q.Visibility = 0) " +
-                "WHERE Id = " + category.Id;
+                "WHERE Id = " + categoryId;
 
-            Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();                
+            Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();
         }
     }
 }

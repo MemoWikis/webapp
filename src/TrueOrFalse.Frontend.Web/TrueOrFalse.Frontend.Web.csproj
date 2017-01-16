@@ -303,6 +303,12 @@
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Api\UsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
     <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
@@ -486,9 +492,11 @@
     <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
     <Content Include="Images\Logo\LogoComplete_M.png" />
+    <Content Include="Images\Logo\LogoComplete_S.png" />
     <Content Include="Images\Logo\LogoPictogram.png" />
     <Content Include="Images\Logo\LogoSmall.png" />
     <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />
+    <Content Include="Images\Logo\LogoXSmall.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w100.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w220.png" />
     <Content Include="Images\Logo\memucho_MEMO_angry_blau_w70.png" />
@@ -533,6 +541,15 @@
     <Content Include="Views\Categories\Detail\Category.min.css">
       <DependentUpon>Category.css</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\ContentLists.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetListCard.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetCollection.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSet.ascx" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
@@ -558,6 +575,7 @@
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\VariousPublic\AboutMemucho.css">
       <DependentUpon>AboutMemucho.less</DependentUpon>
     </Content>
@@ -697,6 +715,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowCopy.ts" />
@@ -1368,10 +1387,7 @@
     <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
-    <Content Include="Views\Categories\Js\CategoriesDelete.js">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Modals\DeleteCategory.ascx" />
+    <Content Include="Views\Categories\Modals\ModalDeleteCategory.ascx" />
     <Content Include="Views\Dates\Dates.aspx" />
     <Content Include="Views\Drafts\Icons.aspx" />
     <Content Include="Views\Drafts\bootstrap.aspx" />
@@ -1855,9 +1871,6 @@
     </Content>
     <Content Include="Views\Categories\Js\Categories.js.map">
       <DependentUpon>Categories.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Js\CategoriesDelete.js.map">
-      <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
       <DependentUpon>SolutionTypeText.ts</DependentUpon>

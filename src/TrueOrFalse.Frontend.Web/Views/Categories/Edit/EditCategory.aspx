@@ -177,6 +177,34 @@
                             </div>
                         </div>
                     </div>
+                    <% if (Model.IsInstallationAdmin)
+                    { %>
+                        <div class="form-group">
+                            <label class="columnLabel control-label" for="TopicMarkdown">
+                                Freie Seitengestaltung für Themenseite
+                                <i class="fa fa-question-circle show-tooltip" 
+                                    title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
+                                    data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            </label>
+                            <div class="columnControlsFull">
+                                <textarea class="form-control" name="TopicMarkdown" type="text" 
+                                    <% var x = Model.TopicMarkdown; %>
+                                    rows="<%= string.IsNullOrEmpty(Model.TopicMarkdown) ? "4" : "16" %>" 
+                                    style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="columnLabel control-label" for="FeaturedSetIdsString">
+                                Offiziell präsentierte Fragesätze
+                                <i class="fa fa-question-circle show-tooltip" 
+                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Fragesätze tatsächlich mit der Kategorie versehen sind." 
+                                    data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            </label>
+                            <div class="columnControlsFull">
+                                <input class="form-control" name="FeaturedSetIdsString" type="text" value="<%= Model.FeaturedSetIdsString %>">
+                            </div>
+                        </div>
+                    <% } %>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
@@ -188,7 +216,7 @@
                         <div class="noLabel columnControlsFull">
                             <% if (Model.IsEditing){ %>
                                 <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                                <a href="<%=Url.Action("Delete", "Categories") %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                                <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
                             <% } else { %>
                                 <input type="submit" value="Kategorie erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>
@@ -219,7 +247,9 @@
         <% } %>
     </script>
 <% } 
-    Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
+    Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx");
+    Html.RenderPartial("~/Views/Categories/Modals/ModalDeleteCategory.ascx");
+%>
 
 
 </asp:Content>

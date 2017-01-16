@@ -320,6 +320,7 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
+    <Compile Include="Domain\Knowledge\TestSession\GetRandomQuestions.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />
@@ -330,6 +331,8 @@
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
     <Compile Include="Domain\Message\Types\CommentMarkedAsSettledMsg.cs" />
+    <Compile Include="Domain\Message\Types\KnowledgeReportMsg.cs" />
+    <Compile Include="Domain\Message\Types\KnowledgeReportMsgModel.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedPerDayResult.cs" />
@@ -891,9 +894,22 @@
     <Compile Include="Web\Uris\UriSegmentFriendlyQuestion.cs" />
     <Compile Include="Web\Uris\UriSegmentFriendlyUser.cs" />
     <Compile Include="Web\ViewRenderer.cs" />
+    <Content Include="Domain\Message\HtmlMessage\foundation-emails.css" />
+    <Content Include="Domain\Message\HtmlMessage\HtmlMessageStylesInlined.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Domain\Message\HtmlMessage\HtmlMessage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Domain\Message\Types\KnowledgeReportMsgStylesInlined.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Domain\Message\Types\KnowledgeReportMsg.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Domain\Message\Types\TrainingReminderMsgStylesInlined.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Domain\Message\Types\TrainingReminderMsg.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

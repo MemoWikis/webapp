@@ -169,13 +169,16 @@ a.question-short {
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.35);
     border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    line-height: 18px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
     content: "Bild- & Lizenzinfos";

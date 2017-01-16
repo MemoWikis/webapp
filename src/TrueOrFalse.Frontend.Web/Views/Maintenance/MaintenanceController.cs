@@ -151,6 +151,15 @@ public class MaintenanceController : BaseController
         return View("Messages", model);
     }
 
+    [ValidateAntiForgeryToken][HttpPost][SetMenu(MenuEntry.Maintenance)]
+    public ActionResult SendKnowledgeReportMessage(MessagesModel model)
+    {
+        KnowledgeReportMsg.SendHtmlMail(_sessionUser.User);
+
+        model.Message = new SuccessMessage("KnowledgeReport was sent to user <em>" + _sessionUser.User.Name + "</em> with email address <em>" + _sessionUser.User.EmailAddress + "</em>.");
+        return View("Messages", model);
+    }
+
     [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Tools()
     {
@@ -200,6 +209,47 @@ public class MaintenanceController : BaseController
         return View("Tools", new ToolsModel { Message = new SuccessMessage("Started 100 test jobs.") });
 
     }
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult AssignCategoryToQuestionsInSet(ToolsModel toolsModel)
+    {
+        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryId);
+
+        var setIds = toolsModel.SetsToUpdateIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x)).ToList();
+
+        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
+
+        if (sets.Count == 0)
+        {
+            throw new Exception("no sets found");
+        }
+
+        var setsString = "";
+
+        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
+
+        setsString = setsString.Substring(2); //Remove superfluous characters
+
+        var questionRepo = Sl.R<QuestionRepo>();
+
+        var questions = sets.SelectMany(s => s.Questions());
+
+        foreach (var question in questions)
+        {
+            question.Categories.Add(categoryToAssign);
+            question.Categories = question.Categories.Distinct().ToList();
+            questionRepo.Update(question);
+        }
+
+        toolsModel.Message = new SuccessMessage($"Die Kategorie \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Fragesätzen {setsString} zugewiesen");
+
+        //ModelState.Clear(); 
+
+        return View("Tools", toolsModel );
+    }
+    
 
     [HttpPost]
     public ActionResult MigrateAnswerData()

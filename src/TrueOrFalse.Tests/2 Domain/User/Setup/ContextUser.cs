@@ -23,7 +23,13 @@ public class ContextUser
 
     public ContextUser Add(string userName)
     {
-        All.Add(new User {Name = userName});
+        All.Add(new User { Name = userName });
+        return this;
+    }
+
+    public ContextUser Add(User user)
+    {
+        All.Add(user);
         return this;
     }
 

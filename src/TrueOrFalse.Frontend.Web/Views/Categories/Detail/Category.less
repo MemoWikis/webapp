@@ -79,6 +79,10 @@ span.CategoryType {
 }
 
 .ContentSubheading {
+
+    &:not(:first-child){
+        margin-top: 30px;
+    }
     margin-bottom: 5px;
     padding-bottom: 5px;
     border-bottom-style: solid;
@@ -96,4 +100,141 @@ span.CategoryType {
 
 .LabelList {
     margin-top: 0;
+    padding-right: 0;
+}
+
+.LabelItem{
+
+    padding-bottom: 7px;
+
+    .media-sm-up({
+
+        padding-bottom: 5px;
+
+        &:not(:hover) .EllipsWrapper  {
+            width: 100%;
+            max-height: 28px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    });
+   
+}
+
+.Box + h4 {
+    margin-top: 30px;
+}
+
+.Card.ItemList {
+    padding: 10px;
+
+    .ItemTitle, .ItemText {
+        line-height: 20px;
+
+        .media-xs-up ({
+
+            &.rowCount1 {
+                height: 20px;
+                overflow: hidden;
+            }
+            
+            &.rowCount2 {
+                height: 40px;
+                overflow: hidden;
+            }
+
+            &.rowCount3 {
+                height: 60px;
+                overflow: hidden;
+            }
+
+            &.rowCount4 {
+                height: 80px;
+                overflow: hidden;
+            }
+
+            &.rowCount5 {
+                height: 100px;
+                overflow: hidden;
+            }
+
+            &.rowCount6 {
+                height: 120px;
+                overflow: hidden;
+            }
+
+            &.rowCount7 {
+                height: 140px;
+                overflow: hidden;
+            }
+
+            &.rowCount8 {
+                height: 160px;
+                overflow: hidden;
+            }
+
+            &.rowCount9 {
+                height: 180px;
+                overflow: hidden;
+            }
+
+            &.rowCount10 {
+                height: 200px;
+                overflow: hidden;
+            }
+            
+        });
+    }
+
+    .ItemText {
+        margin-bottom: 20px;
+        
+    }
+}
+
+.ItemRow {
+
+    .media-xs-up ({
+        height: 85px;
+        overflow: hidden;
+    });
+
+    .ItemInfo {
+        margin-top: 0;
+        margin-bottom: 3px;
+    }
+
+    .ContentColumn {
+        margin-left: 60px;
+    }
+
+    .TextWrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .SetTitle {
+        &:hover{
+            //.ShadowBox;
+            /*position: absolute;
+            left: 0;
+            right: 0;
+            height: auto;*/
+            /*overflow:visible;
+            box-shadow: 0 0 30px #000;
+            width: 100%;
+            z-index: 100000000000;*/
+     }
+    }
+}
+
+.WikiLink {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+p:empty {
+   display: none;
 }

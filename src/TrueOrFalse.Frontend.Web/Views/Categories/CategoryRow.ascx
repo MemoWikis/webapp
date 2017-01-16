@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase category-row col-lg-6 ">
+<div class="rowBase category-row col-md-6 ">
     
     <div class="column-Image">
         <div class="ImageContainer ShortLicenseLinkText">
@@ -11,7 +11,7 @@
     
     <div class="column-MainContent">
         <div class="MainContentUpper">
-            <div class="TitleText" style="line-height: 15px; margin-top: 6px;">
+            <div class="TitleText" style="line-height: 21px; margin-top: 6px;">
                 <div style="float: right;">
                     <a class="btn btn-primary btn-sm <%= Model.QuestionCount == 0 ? "disabled " : "" %>show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.CategoryName,Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
                         <i class="fa fa-play-circle">&nbsp;</i> Testen
@@ -35,7 +35,7 @@
         <div class="MainContentLower">
 
             <% if(Model.UserCanEdit){ %>
-                <a data-toggle="modal" data-categoryId="<%= Model.CategoryId %>" href="#modalDelete"><i class="fa fa-trash-o"></i></a>
+                <a data-toggle="modal" data-categoryId="<%= Model.CategoryId %>" href="#modalDeleteCategory"><i class="fa fa-trash-o"></i></a>
 
                 <a href="<%= Links.CategoryEdit(Url, Model.CategoryName, Model.CategoryId) %>" style="margin-right: 10px;">
                     <i class="fa fa-pencil"></i> 

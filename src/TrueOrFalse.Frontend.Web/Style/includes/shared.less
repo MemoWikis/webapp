@@ -18,6 +18,7 @@
         Modified styles from bootstrap website (not part of framework) / .bs-callout
         Form grid/columns conditional mixin
         Reference styles
+        Reduce opacity and color on non-hover
 
 [Imports:]
 --------------------------------------------------------*/
@@ -227,7 +228,15 @@
     }
 }
 
+.Card.ItemList {
+    .ImageContainer{
 
+        .ImageLicenseOnImage;
+        .ShortLicenseLinkText;
+        .LicenseWholeWidth;
+    }
+
+}
 
 .CardContent {
     margin-left: @margin-card;
@@ -344,7 +353,9 @@
             .CardContent {
                 height: 180px;
             }
-        } 
+        }
+
+        
     }
 }
 
@@ -510,7 +521,7 @@
         position: absolute;
         padding-left: 5px;
         padding-right: 5px;
-        line-height: 18px;
+        /*line-height: 18px;*/
         left: 0;
         //right: 0;
         bottom: 0;
@@ -527,11 +538,9 @@
         &:after {
           content: "Bild- & Lizenzinfos";
         }
-    }
-}
 
-.ShortLicenseLinkText {
-    .ShortLicenseLinkText;
+        line-height: 18px;
+    }
 }
 
 .ShortLicenseLinkText{
@@ -540,8 +549,18 @@
           content: "Lizenz";
         }
 
-        line-height: 14px;
+        line-height: 13px;
 
+    }
+}
+
+.LicenseWholeWidth {
+
+    .LicenseInfo{
+        right: 0;
+        border-bottom-left-radius: @border-radius-item-image;
+        border-bottom-right-radius: @border-radius-item-image;
+        text-align: center;
     }
 }
 
@@ -551,6 +570,14 @@
 .ColoredBottomBorder (@color: @memo-green; @border-width: 2px) {
     border-bottom: solid @border-width @color;
     line-height: 130%;
+}
+
+.color-category {
+    color: @color-category;
+}
+
+.color-wuwi {
+    color: @color-knowledge;
 }
 
 
@@ -973,6 +1000,20 @@
 
         input:-ms-input-placeholder, textarea:-ms-input-placeholder { /* Internet Explorer 10+ */
             font-weight: normal;
+        }
+    }
+}
+
+/*Reduce opacity and color on non-hover*/
+
+.ReduceVisibilityOnNonHover, .TestStyle {
+
+    & .Card {
+         filter: grayscale(80%);
+        opacity: 0.8;
+        &:hover {
+            filter: grayscale(0%);
+            opacity: 1;
         }
     }
 }

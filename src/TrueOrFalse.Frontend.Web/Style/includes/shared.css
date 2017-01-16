@@ -18,12 +18,10 @@
         Modified styles from bootstrap website (not part of framework) / .bs-callout
         Form grid/columns conditional mixin
         Reference styles
+        Reduce opacity and color on non-hover
 
 [Imports:]
 --------------------------------------------------------*/
-.color-category {
-  color: #45aece;
-}
 @media (min-width: 768px) {
 }
 @media (min-width: 768px) {
@@ -2211,13 +2209,16 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
+}
+.CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  line-height: 18px;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
@@ -2292,13 +2293,16 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
+}
+.CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+  line-height: 18px;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
@@ -2406,13 +2410,16 @@
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.35);
     border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    line-height: 18px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
     content: "Bild- & Lizenzinfos";
@@ -2463,13 +2470,16 @@
     position: absolute;
     padding-left: 5px;
     padding-right: 5px;
-    line-height: 18px;
+    /*line-height: 18px;*/
     left: 0;
     bottom: 0;
     color: white;
     background-color: black;
     background-color: rgba(0, 0, 0, 0.35);
     border-bottom-left-radius: 5px;
+  }
+  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
+    line-height: 18px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
     content: "Bild- & Lizenzinfos";
@@ -2495,6 +2505,30 @@
     left: 0;
     right: 0;
   }
+}
+.Card.ItemList .ImageContainer .LicenseInfo {
+  position: absolute;
+  padding-left: 5px;
+  padding-right: 5px;
+  /*line-height: 18px;*/
+  left: 0;
+  bottom: 0;
+  color: white;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-bottom-left-radius: 5px;
+}
+.Card.ItemList .ImageContainer .LicenseInfo {
+  line-height: 13px;
+}
+.Card.ItemList .ImageContainer .LicenseInfo:after {
+  content: "Lizenz";
+}
+.Card.ItemList .ImageContainer .LicenseInfo {
+  right: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
 }
 .CardContent {
   margin-left: 15px;
@@ -2563,7 +2597,7 @@
   position: absolute;
   padding-left: 5px;
   padding-right: 5px;
-  line-height: 18px;
+  /*line-height: 18px;*/
   left: 0;
   bottom: 0;
   color: white;
@@ -2571,23 +2605,32 @@
   background-color: rgba(0, 0, 0, 0.35);
   border-bottom-left-radius: 5px;
 }
+.FullLicenseLinkText .LicenseInfo {
+  line-height: 18px;
+}
 .FullLicenseLinkText .LicenseInfo:after {
   content: "Bild- & Lizenzinfos";
 }
 .ShortLicenseLinkText .LicenseInfo {
-  line-height: 14px;
+  line-height: 13px;
 }
 .ShortLicenseLinkText .LicenseInfo:after {
   content: "Lizenz";
 }
-.ShortLicenseLinkText .LicenseInfo {
-  line-height: 14px;
-}
-.ShortLicenseLinkText .LicenseInfo:after {
-  content: "Lizenz";
+.LicenseWholeWidth .LicenseInfo {
+  right: 0;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  text-align: center;
 }
 /*  Color scheme
 ----------------------------------------------------------*/
+.color-category {
+  color: #45aece;
+}
+.color-wuwi {
+  color: #B13A48;
+}
 /*  Media query mixins
 ----------------------------------------------------------*/
 /*  Own responsive utilities
@@ -2715,3 +2758,14 @@
   vertical-align: bottom;
 }
 /*Have user inputs/existing data in forms bold when in editing mode*/
+/*Reduce opacity and color on non-hover*/
+.ReduceVisibilityOnNonHover .Card,
+.TestStyle .Card {
+  filter: grayscale(80%);
+  opacity: 0.8;
+}
+.ReduceVisibilityOnNonHover .Card:hover,
+.TestStyle .Card:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}

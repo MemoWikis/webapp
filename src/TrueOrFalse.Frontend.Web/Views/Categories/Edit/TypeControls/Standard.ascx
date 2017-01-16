@@ -15,7 +15,7 @@
         </i>
     </label>
     <div class="columnControlsFull">
-        <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
+        <textarea class="form-control" name="Description" type="text" rows="8"><%= Model.Description %></textarea>
     </div>
 </div>
 <div class="form-group">

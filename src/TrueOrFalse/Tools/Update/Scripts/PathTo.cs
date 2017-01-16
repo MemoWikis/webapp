@@ -20,12 +20,17 @@ public class PathTo
 
     public static string EmailTemplate()
     {
-        return GetPath("/Domain/Message/HtmlMessage/HtmlMessage.html");
+        return GetPath("/Domain/Message/HtmlMessage/HtmlMessageStylesInlined.html");
     }
 
     public static string EmailTemplate_TrainingReminder()
     {
-        return GetPath("/Domain/Message/Types/TrainingReminderMsg.cshtml");
+        return GetPath("/Domain/Message/Types/TrainingReminderMsgStylesInlined.cshtml");
+    }
+
+    public static string EmailTemplate_KnowledgeReport()
+    {
+        return GetPath("/Domain/Message/Types/KnowledgeReportMsgStylesInlined.cshtml");
     }
 
     public static string Crawlers()
