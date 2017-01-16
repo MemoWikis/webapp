@@ -15,8 +15,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterController = "Register";
 
         public const string VariousController = "VariousPublic";
-        public const string Impressum = "Impressum";
-        public const string TermsAndConditions = "AGB";
+        public static string TermsAndConditions => GetUrlHelper().Action("AGB", VariousController);
+        public static string Imprint => GetUrlHelper().Action("Impressum", VariousController);
+
         public const string WelfareCompanyAction = "WelfareCompany";
         public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
 

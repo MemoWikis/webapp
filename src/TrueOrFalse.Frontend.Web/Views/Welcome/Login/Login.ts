@@ -23,7 +23,7 @@
     private InitializeFacebook() {
 
         $("#btn-login-with-facebook-modal").click(() => {
-            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true);            
+            FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);            
         });
 
     }

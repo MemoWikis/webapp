@@ -34,6 +34,12 @@
             <fieldset>
                 <%= Html.ValidationSummary(true, "Bitte überprüfe deine Eingaben") %>
                                 
+                <%--<div class="row" style="margin-top: 5px; margin-bottom: 5px; padding-bottom: 10px">
+                    <div class="col-sm-offset-2 col-sm-6 col-xs-2" style="text-align: center">
+                        Registrieren mit
+                    </div>
+                </div>--%>
+
                 <div class="form-group omb_login">
                     <div class="row omb_socialButtons">
    	                    <div class="col-xs-12 col-sm-offset-2 col-sm-3" style="padding-top: 7px;">
@@ -48,6 +54,12 @@
 	                    </div>	
                     </div>
                 </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-6" style="font-size: 12px; padding-top: 5px;">
+                        *Datenschutz und Nutzungsbedingungen siehe unten.
+                    </div>
+                </div>                
                 
                 <div class="row" style="margin-top: 30px; margin-bottom: 5px;">
                     <div class="col-sm-offset-2  col-sm-2 col-xs-5" style="border-bottom: 1px solid silver"></div>
@@ -78,16 +90,6 @@
                         <%: Html.ValidationMessageFor(model => model.Password) %>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <label class="checkbox" style="white-space:nowrap;">
-                            <%: Html.CheckBoxFor(model => model.TermsAndConditionsApproved, new { @class="" }) %>
-                            Ich akzeptiere die <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%>.
-                        </label>
-                        <%: Html.ValidationMessageFor(model => model.TermsAndConditionsApproved) %>
-                    </div>
-                </div>
                 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-6" style="border-top:0px; margin-top: 10px;">
@@ -95,6 +97,13 @@
                         <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-link">Ich bin schon Nutzer!</a>
                         <a href="#" onclick="$(this).closest('form').submit(); return false;" class="btn btn-success"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
 
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-6" style="font-size: 12px; padding-top: 20px;">
+                        In dem du dich registrierst, erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
+                        und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
                     </div>
                 </div>
 

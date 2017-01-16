@@ -151,7 +151,8 @@ class Site {
 
 
     static RedirectToDashboard() { location.href = "/Wissenszentrale"; }
-    static RedirectToRegisterSuccess() { location.href = "/Register/RegisterSuccess"; }
+    static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
+    static RedirectToRegistration() { location.href = "/Registrieren"; }
 }
 
 $(() => {

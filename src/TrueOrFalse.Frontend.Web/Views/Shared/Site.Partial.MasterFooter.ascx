@@ -39,8 +39,8 @@
             <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br/>
             <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
             <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
-            <%= Html.ActionLink("Nutzungsbedingungen (AGBs)", Links.TermsAndConditions, Links.VariousController)%><br/>
-            <%= Html.ActionLink("Impressum & Datenschutz", Links.Impressum, Links.VariousController)%><br />
+            <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
+            <a href="<%=Links.Imprint %>">Impressum & Datenschutz</a><br/>
             <a href="<%=Links.Jobs() %>">Jobs</a><br/>
         </div>
         

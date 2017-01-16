@@ -37,9 +37,16 @@
 		                    </a>
 	                    </div>	
                     </div>
+                    
+                    <div class="form-group">
+                        <div class="col-sm-offset-1 col-sm-10" style="font-size: 12px; padding-top: 7px;">
+                            *Du erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
+                            und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
+                        </div>
+                    </div>
                 </div>
                                 
-                <div class="row" style="margin-top: 30px; margin-bottom: 5px;">
+                <div class="row" style="margin-top: 20px; margin-bottom: 5px;">
                     <div class="col-sm-offset-1 col-sm-4 col-xs-5" style="border-bottom: 1px solid silver"></div>
                     <div class="col-sm-2 col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
                     <div class="col-sm-4 col-xs-5" style="border-bottom: 1px solid silver"></div>

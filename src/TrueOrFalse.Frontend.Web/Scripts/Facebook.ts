@@ -115,14 +115,17 @@ class FacebookMemuchoUser {
         });
     }
 
-    static LoginOrRegister(stayOnPage = false)
+    static LoginOrRegister(stayOnPage = false, disallowRegistration = false)
     {
         FB.getLoginStatus(response => {
-            this.LoginOrRegister_(response, stayOnPage);
+            this.LoginOrRegister_(response, stayOnPage, disallowRegistration);
         });
     }
 
-    private static LoginOrRegister_(response: FB.LoginStatusResponse, stayOnPage = false) {
+    private static LoginOrRegister_(
+        response: FB.LoginStatusResponse,
+        stayOnPage = false,
+        disallowRegistration = false) {
 
         if (response.status === 'connected') {
 
@@ -150,9 +153,14 @@ class FacebookMemuchoUser {
                     return;
                 }
 
+                if (disallowRegistration) {
+                    Site.RedirectToRegistration();
+                    return;
+                }
+
                 Facebook.GetUser(facebookId, facebookAccessToken, (user: FacebookUserFields) => {
                     if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
-                        Site.RedirectToRegisterSuccess();
+                        Site.RedirectToRegistrationSuccess();
                     } else {
                         alert("Leider ist ein Fehler ist aufgetreten.");
                     }
