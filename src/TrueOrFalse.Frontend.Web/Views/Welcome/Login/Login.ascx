@@ -27,6 +27,8 @@
                 <div class="form-group omb_login">
                     <div class="row omb_socialButtons">
    	                    <div class="col-sm-offset-1 col-xs-12 col-sm-5" style="padding-top: 7px;">
+	                           
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
 		                    <a href="#" class="btn btn-block omb_btn-facebook" id="btn-login-with-facebook-modal" style="width: 100%">
 			                    <span>Facebook</span>
 		                    </a>

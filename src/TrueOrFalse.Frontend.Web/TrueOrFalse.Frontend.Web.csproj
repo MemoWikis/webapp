@@ -516,8 +516,11 @@
     <Content Include="Images\Team\team_robert-rund_160.png" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
-    <Content Include="Scripts\Facebook.js">
+    <Content Include="Scripts\socialLogins\Facebook.js">
       <DependentUpon>Facebook.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\Google.js">
+      <DependentUpon>Google.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
@@ -703,15 +706,18 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
-    <TypeScriptCompile Include="Scripts\Facebook.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\hubs\GameHub.ts" />
     <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
     <TypeScriptCompile Include="Scripts\TrainingPlan.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
@@ -1337,7 +1343,7 @@
     </None>
     <Content Include="manifest.json" />
     <Content Include="Style\cards.less" />
-    <Content Include="Scripts\Facebook.js.map">
+    <Content Include="Scripts\socialLogins\Facebook.js.map">
       <DependentUpon>Facebook.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />

@@ -24,6 +24,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js")
                 .IncludeDirectory("~/Scripts/hubs", "*.js")
+                .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                 .IncludeDirectory("~/Views/Images", "*.js")
                 .IncludeDirectory("~/Views/Welcome/Login", "*.js"));
 

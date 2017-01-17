@@ -145,6 +145,8 @@ class FacebookMemuchoUser {
                 if (FacebookMemuchoUser.Exists(facebookId)) {
                     FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
 
+                    debugger;
+
                     if (stayOnPage)
                         window.location.reload(true);
                     else
