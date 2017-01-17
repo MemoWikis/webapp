@@ -202,9 +202,21 @@
         
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="" style="margin-top: 0;">Registrierte Nutzer</h1>
+            <h1 class="" style="margin-top: 0;">Nutzungsstatistiken</h1>
+            <ul>
+                <li><a href="#UsersRegistered">Registrierte Nutzer</a></li>
+                <li><a href="#QuestionsCreated">Erstellte Fragen</a></li>
+                <li><a href="#QuestionsAnswered">Fragen beantwortet</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="" style="margin-top: 40px;" id="UsersRegistered">Registrierte Nutzer</h1>
+            <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
             <p>
-                Neu registrierte Nutzer der letzten 14 Tage und Nutzer insgesamt seit GoLive (11.10.2016).
+                Neu registrierte Nutzer der letzten 31 Tage und Nutzer insgesamt seit <%= Model.SinceGoLive.ToString("dd.MM.YYYY") %>.
             </p>
         </div>
 
@@ -219,17 +231,40 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="" style="margin-top: 20px">Fragen</h1>
+            <h1 class="" style="margin-top: 20px" id="QuestionsCreated">Erstellte Fragen</h1>
+            <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
             <p>
                 Existierende und neu erstellte Fragen seit GoLive (11.10.2016).
             </p>
         </div>
 
-        <div class="col-xs-12" style="margin-top: 20px;">
+        <div class="col-xs-12" style="margin-top: 40px;">
             <div id="chartQuestionCountStats" style="height: 400px; margin-right: 20px; text-align: left;"></div>
         </div>
         <div class="col-xs-12" style="margin-top: 20px;">
             <div id="chartNewQuestions" style="height: 400px; margin-right: 20px; text-align: left;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="" style="margin-top: 40px" id="QuestionsAnswered">Fragen beantwortet</h1>
+            <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
+            <p>
+                Anzahl Frage-Beantworten der letzten 31 Tage.<br/>
+                Select count(*) as answeredByLogged, Date(answer.DateCreated) as day from answer where UserId != -1 GROUP BY Date(DateCreated) <br/>
+                Select count(*) as viewedByLogged, Date(questionview.DateCreated) as day from questionview where UserId != -1 GROUP BY Date(DateCreated) ORDER BY day DESC;
+            </p>
+            <p>
+                <% foreach (var day in Model.Tempi)
+                   {
+                       Response.Write(day.DateTime.ToString() + " -- " + day.Int + " -- <br/>");
+                   } %>
+            </p>
+        </div>
+
+        <div class="col-xs-12" style="margin-top: 20px;">
+            <div id="chartQuestionsAnsweredStats" style="margin-right: 20px; text-align: left;"></div>
         </div>
     </div>
 
