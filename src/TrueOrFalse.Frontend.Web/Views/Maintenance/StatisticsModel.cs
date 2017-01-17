@@ -27,7 +27,6 @@ public class StatisticsModel : BaseModel
     public IList<QuestionsCreatedPerDayResult> QuestionsExistingPerDayResults;
 
     public IList<UsageStatisticsOfLoggedInUsersResult> UsageStats;
-    public IList<TypeDateTimeInt> Tempi;
 
 
     public StatisticsModel()
@@ -113,6 +112,8 @@ public class StatisticsModel : BaseModel
             .List<int>();
         excludedUserIds.Add(-1);
 
+        /* Part 1: How often did a logged in user (answer a questions | create a date | ...) on each day */
+
         var questionsAnsweredCount = _session
             .QueryOver<Answer>()
             //.Where(Restrictions.Not(Restrictions.In("UserId", excludedUserIds.ToList())))
@@ -167,26 +168,92 @@ public class StatisticsModel : BaseModel
             })
             .ToList();
 
+
         /* Part 2: How many different users have (answered Questions | created date | ...) on each day */
+        // to check plausibility: "SELECT * from questionview Where UserId NOT IN (-1, 2, 25, 26, 33, 72, 75, 77) AND DateCreated > '2016-12-18';"
 
         var usersThatAnsweredQuestionCount = new List<TypeDateTimeInt>();
-        _session
-            .QueryOver<Answer>()
-            .WhereRestrictionOn(l => l.UserId).Not.IsIn((ICollection) excludedUserIds)
-            .And(l => l.DateCreated > Since)
-            .List()
-            .GroupBy(a => a.DateCreated.Date)
-            .ForEach(u =>
-            {
-                usersThatAnsweredQuestionCount.Add(new TypeDateTimeInt
+        _session.QueryOver<Answer>()
+                .WhereRestrictionOn(a => a.UserId).Not.IsIn((ICollection)excludedUserIds)
+                .And(a => a.DateCreated > Since)
+                .List()
+                .GroupBy(a => a.DateCreated.Date)
+                .ForEach(u =>
                 {
-                    DateTime = u.Key,
-                    Int = u.Select(s => s.UserId).Distinct().Count()
+                    usersThatAnsweredQuestionCount.Add(new TypeDateTimeInt
+                    {
+                        DateTime = u.Key,
+                        Int = u.Select(s => s.UserId).Distinct().Count()
+                    });
                 });
+
+        var usersThatViewedQuestionCount = new List<TypeDateTimeInt>();
+        _session.QueryOver<QuestionView>()
+                .WhereRestrictionOn(v => v.UserId).Not.IsIn((ICollection)excludedUserIds)
+                .And(v => v.DateCreated > Since)
+                .List()
+                .GroupBy(v => v.DateCreated.Date)
+                .ForEach(u =>
+                {
+                    usersThatViewedQuestionCount.Add(new TypeDateTimeInt
+                    {
+                        DateTime = u.Key,
+                        Int = u.Select(s => s.UserId).Distinct().Count()
+                    });
+                });
+
+        var usersThatStartedLearningSessionCount = new List<TypeDateTimeInt>();
+        _session.QueryOver<LearningSession>()
+                .WhereRestrictionOn(l => l.User.Id).Not.IsIn((ICollection)excludedUserIds)
+                .And(l => l.DateCreated > Since)
+                .List()
+                .GroupBy(l => l.DateCreated.Date)
+                .ForEach(u =>
+                {
+                    usersThatStartedLearningSessionCount.Add(new TypeDateTimeInt
+                    {
+                        DateTime = u.Key,
+                        Int = u.Select(s => s.User.Id).Distinct().Count()
+                    });
+                });
+
+        var usersThatCreatedDateCount = new List<TypeDateTimeInt>();
+        _session.QueryOver<Date>()
+                .WhereRestrictionOn(l => l.User.Id).Not.IsIn((ICollection)excludedUserIds)
+                .And(l => l.DateCreated > Since)
+                .List()
+                .GroupBy(l => l.DateCreated.Date)
+                .ForEach(u =>
+                {
+                    usersThatCreatedDateCount.Add(new TypeDateTimeInt
+                    {
+                        DateTime = u.Key,
+                        Int = u.Select(s => s.User.Id).Distinct().Count()
+                    });
+                });
+
+
+        /* merge single usage statistics into condensed list */
+
+        UsageStats = new List<UsageStatisticsOfLoggedInUsersResult>();
+        var curDay = Since.Date;
+        while (curDay <= DateTime.Now.Date)
+        {
+            UsageStats.Add(new UsageStatisticsOfLoggedInUsersResult
+            {
+                DateTime = curDay,
+                QuestionsAnsweredCount = (questionsAnsweredCount.Find(i => i.DateTime == curDay) == null) ? 0 : questionsAnsweredCount.Find(i => i.DateTime == curDay).Int,
+                QuestionsViewedCount = (questionsViewedCount.Find(i => i.DateTime == curDay) == null) ? 0 : questionsViewedCount.Find(i => i.DateTime == curDay).Int,
+                LearningSessionsStartedCount = (learningSessionsStartedCount.Find(i => i.DateTime == curDay) == null) ? 0 : learningSessionsStartedCount.Find(i => i.DateTime == curDay).Int,
+                DatesCreatedCount = (datesCreatedCount.Find(i => i.DateTime == curDay) == null) ? 0 : datesCreatedCount.Find(i => i.DateTime == curDay).Int,
+
+                UsersThatAnsweredQuestionCount = (usersThatAnsweredQuestionCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatAnsweredQuestionCount.Find(i => i.DateTime == curDay).Int,
+                UsersThatViewedQuestionCount = (usersThatViewedQuestionCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatViewedQuestionCount.Find(i => i.DateTime == curDay).Int,
+                UsersThatStartedLearningSessionCount = (usersThatStartedLearningSessionCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatStartedLearningSessionCount.Find(i => i.DateTime == curDay).Int,
+                UsersThatCreatedDateCount = (usersThatCreatedDateCount.Find(i => i.DateTime == curDay) == null) ? 0 : usersThatCreatedDateCount.Find(i => i.DateTime == curDay).Int,
             });
-
-        Tempi = usersThatAnsweredQuestionCount;
-
+            curDay = curDay.AddDays(1);
+        }
     }
 
 }

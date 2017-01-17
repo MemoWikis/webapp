@@ -10,6 +10,8 @@
         google.setOnLoadCallback(drawChartUsers);
         google.setOnLoadCallback(drawChartQuestionCountStats);
         google.setOnLoadCallback(drawChartNewQuestions);
+        google.setOnLoadCallback(drawChartUsageStatsPt1);
+        google.setOnLoadCallback(drawChartUsageStatsPt2);
 
         function drawChartNewUsers() {
             var data = google.visualization.arrayToDataTable([
@@ -179,6 +181,67 @@
             var chart = new google.visualization.ColumnChart(document.getElementById("chartNewQuestions"));
             chart.draw(view, options);
         }
+
+
+
+        function drawChartUsageStatsPt1() {
+            var data = google.visualization.arrayToDataTable([
+                [
+                    'Datum', '# Fragen beantwortet', '# Fragen gesehen', '# Übungssitzungen gestartet', '# Termine angelegt'
+                ],
+                <%  foreach (var day in Model.UsageStats)
+                    {
+                        Response.Write("['" + day.DateTime.ToString("dd.MM.yyyy") + "', " + 
+                            day.QuestionsAnsweredCount + ", " + 
+                            day.QuestionsViewedCount + ", " + 
+                            day.LearningSessionsStartedCount + ", " + 
+                            day.DatesCreatedCount + "],");
+                    } %>
+            ]);
+
+            var view = new google.visualization.DataView(data);
+
+            var options = {
+                tooltip: { isHtml: true },
+                legend: { position: 'top', maxLines: 30 },
+                bar: { groupWidth: '75%' },
+                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                colors: ['#afd534', '#003264', '#b13a48', '#1964c8']
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById("chartUsageStats1"));
+            chart.draw(view, options);
+        }
+
+        function drawChartUsageStatsPt2() {
+            var data = google.visualization.arrayToDataTable([
+                [
+                    'Datum', '# Nutzer haben Fragen beantwortet', '# Nutzer haben Fragen gesehen', '# Nutzer haben Übungssitzung gestartet', '# Nutzer haben Termine angelegt'
+                ],
+                <%  foreach (var day in Model.UsageStats)
+                    {
+                        Response.Write("['" + day.DateTime.ToString("dd.MM.yyyy") + "', " + 
+                            day.UsersThatAnsweredQuestionCount + ", " + 
+                            day.UsersThatViewedQuestionCount + ", " + 
+                            day.UsersThatStartedLearningSessionCount + ", " + 
+                            day.UsersThatCreatedDateCount + "],");
+                    } %>
+            ]);
+
+            var view = new google.visualization.DataView(data);
+
+            var options = {
+                tooltip: { isHtml: true },
+                legend: { position: 'top', maxLines: 30 },
+                bar: { groupWidth: '75%' },
+                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                colors: ['#afd534', '#003264', '#b13a48', '#1964c8']
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById("chartUsageStats2"));
+            chart.draw(view, options);
+        }
+
     </script>
 </asp:Content>
 
@@ -206,7 +269,7 @@
             <ul>
                 <li><a href="#UsersRegistered">Registrierte Nutzer</a></li>
                 <li><a href="#QuestionsCreated">Erstellte Fragen</a></li>
-                <li><a href="#QuestionsAnswered">Fragen beantwortet</a></li>
+                <li><a href="#UsageStats">Nutzung durch eingeloggte Nutzer</a></li>
             </ul>
         </div>
     </div>
@@ -216,7 +279,7 @@
             <h1 class="" style="margin-top: 40px;" id="UsersRegistered">Registrierte Nutzer</h1>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
             <p>
-                Neu registrierte Nutzer der letzten 31 Tage und Nutzer insgesamt seit <%= Model.SinceGoLive.ToString("dd.MM.YYYY") %>.
+                Neu registrierte Nutzer der letzten 31 Tage und Nutzer insgesamt seit <%= Model.SinceGoLive.ToString("dd.MM.yyyy") %>.
             </p>
         </div>
 
@@ -234,7 +297,7 @@
             <h1 class="" style="margin-top: 20px" id="QuestionsCreated">Erstellte Fragen</h1>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
             <p>
-                Existierende und neu erstellte Fragen seit GoLive (11.10.2016).
+                Existierende und neu erstellte Fragen seit GoLive (<%= Model.SinceGoLive.ToString("dd.MM.yyyy") %>).
             </p>
         </div>
 
@@ -248,23 +311,21 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="" style="margin-top: 40px" id="QuestionsAnswered">Fragen beantwortet</h1>
+            <h1 class="" style="margin-top: 40px" id="UsageStats">Nutzung durch eingeloggte Nutzer (ohne Admins)</h1>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
-            <p>
-                Anzahl Frage-Beantworten der letzten 31 Tage.<br/>
-                Select count(*) as answeredByLogged, Date(answer.DateCreated) as day from answer where UserId != -1 GROUP BY Date(DateCreated) <br/>
-                Select count(*) as viewedByLogged, Date(questionview.DateCreated) as day from questionview where UserId != -1 GROUP BY Date(DateCreated) ORDER BY day DESC;
-            </p>
-            <p>
-                <% foreach (var day in Model.Tempi)
-                   {
-                       Response.Write(day.DateTime.ToString() + " -- " + day.Int + " -- <br/>");
-                   } %>
-            </p>
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
-            <div id="chartQuestionsAnsweredStats" style="margin-right: 20px; text-align: left;"></div>
+            <p>
+                Wie oft wurden pro Tag durch eingeloggte (!) Nutzer (ohne Admins)...
+            </p>
+            <div id="chartUsageStats1" style="height: 300px; margin-right: 20px; text-align: left;"></div>
+        </div>
+        <div class="col-xs-12" style="margin-top: 20px;">
+            <p>
+                Wie viele unterschiedliche eingeloggte Nutzer (ohne Admins) haben an diesem Tag...
+            </p>
+            <div id="chartUsageStats2" style="height: 300px; margin-right: 20px; text-align: left;"></div>
         </div>
     </div>
 
