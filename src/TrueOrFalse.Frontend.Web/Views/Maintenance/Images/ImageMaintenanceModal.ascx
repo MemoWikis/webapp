@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ImageMaintenanceInfo>" %>
 
 <div id="modalImageMaintenance" class="modal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="width: 1200px">
         <div class="modal-content">
             <div class="modal-body" id="modalBody">
     
@@ -56,8 +56,8 @@
                             </div>
                              
                            <% } %>
-                    </div>
-                </div>
+                        
+                        
                 <div class="ModalLicenseInfo <%= Model.LicenseStateCssClass%>">
                     <h4>Lizenzen</h4>
                     
@@ -131,6 +131,15 @@
                         %></textarea>
                     </p>    
                 </div>
+
+                    </div>
+                    
+                    
+
+                </div>
+                
+                
+
             </div>
 
             <div class="modal-footer" id="modalFooter" style="text-align: left;">
