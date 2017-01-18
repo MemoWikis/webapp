@@ -9,6 +9,12 @@ public class UsersApiController : BaseController
         return Json(R<UserRepo>().FacebookUserExists(facebookId));
     }
 
+    [HttpPost]
+    public JsonResult GoogleUserExists(string googleId)
+    {
+        return Json(R<UserRepo>().GoogleUserExists(googleId));
+    }
+
     [HttpGet]
     public EmptyResult CreateAndLogin()
     {

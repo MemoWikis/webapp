@@ -52,7 +52,6 @@
 			                    <span>Google+</span>
 		                    </a>
 	                    </div>	
-                        <script>startApp();</script>
                     </div>
                 </div>
                 

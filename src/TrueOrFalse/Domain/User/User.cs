@@ -32,6 +32,7 @@ public class User : DomainEntity
     public virtual IList<FollowerInfo> Following { get; set; }
 
     public virtual string FacebookId { get; set; }
+    public virtual string GoogleId { get; set; }
 
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
 
