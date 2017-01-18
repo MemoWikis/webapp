@@ -62,33 +62,24 @@
         function drawChartUsers() {
             var data = google.visualization.arrayToDataTable([
                 [
-                    'Datum', 'Registrierte Nutzer', { role: 'annotation' }
+                    'Datum', 'Registrierte Nutzer'
                 ],
                 <%  
                     var curentDay = Model.SinceGoLive;
                     while (curentDay <= DateTime.Now.Date)
                     {
-                        Response.Write("['" + curentDay.ToString("dd.MM.yyyy") + "', " + Model.Users.Count(u => u.DateCreated.Date <= curentDay) + ", ''],");
+                        Response.Write("['" + curentDay.ToString("dd.MM.yyyy") + "', " + Model.Users.Count(u => u.DateCreated.Date <= curentDay) + "],");
                         curentDay = curentDay.AddDays(1);
                     }
                  %>
             ]);
 
             var view = new google.visualization.DataView(data);
-            view.setColumns([0, 1,
-                {
-                    calc: "stringify",
-                    sourceColumn: 1,
-                    type: "string",
-                    role: "annotation"
-                },
-                2]);
-
             var options = {
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
-                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                chartArea: { 'width': '85%', 'height': '50%', top: 30, bottom:10 },
                 colors: ['#afd534'],
                 //isStacked: true,
             };
@@ -101,7 +92,7 @@
         function drawChartQuestionCountStats() {
             var data = google.visualization.arrayToDataTable([
                 [
-                    'Datum', 'Von memucho erstellte Fragen', 'Von anderen Nutzern erstellte Fragen', { role: 'annotation' }
+                    'Datum', 'Von memucho erstellte Fragen', 'Von anderen Nutzern erstellte Fragen'
                 ],
                 <%  lastDay = Model.SinceGoLive;
                     var questionCountSoFarMemucho = 0;
@@ -110,30 +101,21 @@
                     {
                         lastDay = lastDay.AddDays(1);
                         while (lastDay < day.DateTime.Date) { 
-                            Response.Write("['" + lastDay.ToString("dd.MM.yyyy") + "', " + questionCountSoFarMemucho + ", " + questionCountSoFarOthers + ", ''],");
+                            Response.Write("['" + lastDay.ToString("dd.MM.yyyy") + "', " + questionCountSoFarMemucho + ", " + questionCountSoFarOthers + "],");
                             lastDay = lastDay.AddDays(1);
                         }
                         questionCountSoFarMemucho = day.CountByMemucho;
                         questionCountSoFarOthers = day.CountByOthers;
-                        Response.Write("['" + day.DateTime.ToString("dd.MM.yyyy") + "', " + questionCountSoFarMemucho + ", " + questionCountSoFarOthers + ", ''],"); 
+                        Response.Write("['" + day.DateTime.ToString("dd.MM.yyyy") + "', " + questionCountSoFarMemucho + ", " + questionCountSoFarOthers + "],"); 
                     } %>
             ]);
 
             var view = new google.visualization.DataView(data);
-            view.setColumns([0, 1,
-                {
-                    calc: "stringify",
-                    sourceColumn: 1,
-                    type: "string",
-                    role: "annotation"
-                },
-                2]);
-
             var options = {
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '89%' },
-                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                chartArea: { 'width': '87%', 'height': '60%', top: 30, bottom:10 },
                 colors: ['#afd534', '#0000ff'],
                 isStacked: true
             };
@@ -205,7 +187,7 @@
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 bar: { groupWidth: '75%' },
-                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                //chartArea: { 'width': '80%', 'height': '60%', top: 30, bottom:-10 },
                 colors: ['#afd534', '#003264', '#b13a48', '#1964c8']
             };
 
@@ -232,9 +214,18 @@
 
             var options = {
                 tooltip: { isHtml: true },
-                legend: { position: 'top', maxLines: 30 },
+                legend: {
+                    position: 'top',
+                    maxLines: 30,
+                    textStyle: { fontSize: 11 }
+                },
+                hAxis: {
+                    format: 'd.M.',
+                    gridlines: {count: 8}
+                },
+                vAxis: {  },
                 bar: { groupWidth: '75%' },
-                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
+                //chartArea: { 'width': '90%', 'height': '60%', top: 30, bottom:0 },
                 colors: ['#afd534', '#003264', '#b13a48', '#1964c8']
             };
 
@@ -288,7 +279,7 @@
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
-            <div id="chartUsers" style="margin-right: 20px; text-align: left;"></div>
+            <div id="chartUsers" style="height: 300px; margin-right: 20px; text-align: left;"></div>
         </div>
     </div>
 
