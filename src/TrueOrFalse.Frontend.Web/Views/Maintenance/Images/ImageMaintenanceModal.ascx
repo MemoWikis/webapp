@@ -3,11 +3,6 @@
 <div id="modalImageMaintenance" class="modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h3 class="modal-title">Bildverwaltung</h3>
-            </div>
-
             <div class="modal-body" id="modalBody">
     
                 <div class="ImageInfo">
