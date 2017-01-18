@@ -13,5 +13,15 @@
         });
 
         return doesExist;
-    }    
+    }
+
+    static Login(googleId: string) {
+
+        $.ajax({
+            type: 'POST', async: false, cache: false,
+            data: { facebookUserId: googleId},
+            url: "/Api/Users/Login/",
+            error(error) { throw error }
+        });
+    }
 }

@@ -32,7 +32,7 @@
         $.ajax({
             type: 'POST', async: false, cache: false,
             data: { facebookUserCreateParameter: user },
-            url: "/Api/Users/CreateAndLogin/",
+            url: "/Api/Users/CreateAndLoginFacebookUser/",
             error(error) {
                 Rollbar.error("Something went wrong", error);
                 success = false;

@@ -525,6 +525,9 @@
     <Content Include="Scripts\socialLogins\Google.js">
       <DependentUpon>Google.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\socialLogins\Google.js.map">
+      <DependentUpon>Google.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
@@ -1351,7 +1354,6 @@
     <Content Include="Scripts\socialLogins\Facebook.js.map">
       <DependentUpon>Facebook.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\socialLogins\Google.js.map" />
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">

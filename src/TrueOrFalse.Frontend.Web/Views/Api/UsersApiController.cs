@@ -16,15 +16,19 @@ public class UsersApiController : BaseController
     }
 
     [HttpGet]
-    public EmptyResult CreateAndLogin()
+    public EmptyResult CreateAndLoginGoogleUser()
     {
         return new EmptyResult();
     }
 
     [HttpPost]
-    public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUserCreateParameter)
+    public JsonResult CreateAndLoginFacebookUser(FacebookUserCreateParameter facebookUserCreateParameter)
     {
-        return new JsonResult {Data = R<RegisterUser>().Run(facebookUserCreateParameter) };
+        var result = new JsonResult {Data = R<RegisterUser>().Run(facebookUserCreateParameter) };
+
+        R<SessionUser>().Login(R<UserRepo>().UserGetByFacebookId(facebookUserCreateParameter.id));
+
+        return result;
     }
 
     [HttpPost]
