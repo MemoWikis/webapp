@@ -337,7 +337,6 @@
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Statistics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Domain\Statistics\TypeDateTimeInt.cs" />
-    <Compile Include="Domain\Statistics\UsageStatisticsOfLoggedInUsers.cs" />
     <Compile Include="Domain\Statistics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
