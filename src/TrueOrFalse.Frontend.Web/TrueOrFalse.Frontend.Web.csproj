@@ -538,6 +538,7 @@
       <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetListCard.ascx" />
