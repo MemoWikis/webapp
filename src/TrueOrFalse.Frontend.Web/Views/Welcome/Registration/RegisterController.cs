@@ -22,7 +22,7 @@ public class RegisterController : BaseController
 
         var user = RegisterModelToUser.Run(model);
 
-        R<RegisterUser>().Run(user);
+        RegisterUser.Run(user);
 
         _sessionUser.Login(user);
 

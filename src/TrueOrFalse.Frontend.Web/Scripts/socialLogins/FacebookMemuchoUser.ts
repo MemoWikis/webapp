@@ -7,7 +7,7 @@
         $.ajax({
             type: 'POST', async: false, cache: false,
             data: { facebookId: facebookId },
-            url: "/Api/Users/FacebookUserExists",
+            url: "/Api/FacebookUsers/UserExists",
             error(error) { console.log(error); },
             success(result) {
                 doesExist = result;
@@ -31,8 +31,8 @@
 
         $.ajax({
             type: 'POST', async: false, cache: false,
-            data: { facebookUserCreateParameter: user },
-            url: "/Api/Users/CreateAndLoginFacebookUser/",
+            data: { facebookUser: user },
+            url: "/Api/FacebookUsers/CreateAndLogin/",
             error(error) {
                 Rollbar.error("Something went wrong", error);
                 success = false;
@@ -63,7 +63,7 @@
         $.ajax({
             type: 'POST', async: false, cache: false,
             data: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
-            url: "/Api/Users/Login/",
+            url: "/Api/FacebookUsers/Login/",
             error(error) { throw error }
         });
     }
@@ -101,7 +101,7 @@
                     debugger;
 
                     if (stayOnPage)
-                        window.location.reload(true);
+                        Site.ReloadPage();
                     else
                         Site.RedirectToDashboard();
 
@@ -117,7 +117,7 @@
                     if (FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)) {
                         Site.RedirectToRegistrationSuccess();
                     } else {
-                        alert("Leider ist ein Fehler ist aufgetreten.");
+                        alert("Leider ist ein Fehler aufgetreten.");
                     }
                 });
 

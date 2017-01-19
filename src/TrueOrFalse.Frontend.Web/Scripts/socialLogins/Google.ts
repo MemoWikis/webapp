@@ -21,21 +21,20 @@
         }) as any);
     }
 
-    OnLoginSuccess(googleUser) {
+    OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
 
-        var getId = googleUser.getBasicProfile().getName();
+        var googleId = googleUser.getBasicProfile().getName();
 
-        if (GoogleMemuchoUser.Exists(getId)) {
-            //Perform server side login
-            //Reload current page
-
+        if (GoogleMemuchoUser.Exists(googleId)) {
+            GoogleMemuchoUser.Login(googleId);
+            Site.ReloadPage();
             return;
         }
 
-        //Perform registration
-        //redirect to dashboard
+        if (GoogleMemuchoUser.CreateAndLogin(googleUser)) {
+            Site.RedirectToRegistrationSuccess();
+        }
     }
-
 
     OnLoginError(error) {
         alert(JSON.stringify(error, undefined, 2));

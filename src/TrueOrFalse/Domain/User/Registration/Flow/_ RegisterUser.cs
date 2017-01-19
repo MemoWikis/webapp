@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Data;
-using NHibernate;
 using NHibernate.Criterion;
 
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepo _userRepo;
-    private readonly ISession _session;
-
-    public RegisterUser(UserRepo  userRepo, ISession session)
-    {
-        _userRepo = userRepo;
-        _session = session;
-    }
-
-    public void Run(User user)
+    public static void Run(User user)
     {
         InitializeReputation(user);
 
-        using(var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
+        var userRepo = Sl.R<UserRepo>();
+
+        using (var transaction = userRepo.Session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
                 throw new Exception("There is already a user with that email address.");
@@ -26,7 +18,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             if (!IsUserNameAvailable.Yes(user.Name))
                 throw new Exception("There is already a user with that name.");
 
-            _userRepo.Create(user);
+            userRepo.Create(user);
                 
             transaction.Commit();
         }
@@ -35,38 +27,59 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user);
     }
 
-    public FacebookCreateResult Run(FacebookUserCreateParameter facebookUserCreateParameter)
+    public static UserCreateResult Run(FacebookUserCreateParameter facebookUser)
     {
-        var user = new User();
+        var user = new User
+        {
+            EmailAddress = facebookUser.email,
+            Name = facebookUser.name,
+            FacebookId = facebookUser.id
+        };
+
+        return Register(user);
+    }
+
+    public static UserCreateResult Run(GoogleUserCreateParameter googleUser)
+    {
+        var user = new User
+        {
+            EmailAddress = googleUser.Email,
+            Name = googleUser.UserName,
+            GoogleId = googleUser.GoogleId
+        };
+
+        return Register(user);
+    }
+
+    private static UserCreateResult Register(User user)
+    {
+        if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
+            return new UserCreateResult { Success = false };
+
         InitializeReputation(user);
 
-        user.EmailAddress = facebookUserCreateParameter.email;
-        user.Name = facebookUserCreateParameter.name;
-        user.FacebookId = facebookUserCreateParameter.id;
-
-        if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
-            return new FacebookCreateResult { Success = false };
-
-        _userRepo.Create(user);
+        Sl.UserRepo.Create(user);
 
         WelcomeMsg.Send(user);
 
-        return new FacebookCreateResult {Success = true};
+        return new UserCreateResult { Success = true };
     }
 
-    private void InitializeReputation(User user)
+    private static void InitializeReputation(User user)
     {
         user.Reputation = 0;
         user.ReputationPos =
-            _userRepo.Session.QueryOver<User>()
+            Sl.Session.QueryOver<User>()
                 .Select(
                     Projections.ProjectionList()
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
     }
+
+
 }
 
-public class FacebookCreateResult
+public class UserCreateResult
 {
     public bool Success = false;
     public bool EmailAlreadyInUse;

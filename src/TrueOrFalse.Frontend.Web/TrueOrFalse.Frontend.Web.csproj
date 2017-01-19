@@ -301,7 +301,8 @@
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
-    <Compile Include="Views\Api\UsersApiController.cs" />
+    <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
+    <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
@@ -527,6 +528,9 @@
     </Content>
     <Content Include="Scripts\socialLogins\Google.js.map">
       <DependentUpon>Google.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js">
+      <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
@@ -1353,6 +1357,12 @@
     <Content Include="Style\cards.less" />
     <Content Include="Scripts\socialLogins\Facebook.js.map">
       <DependentUpon>Facebook.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js.map">
+      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js.map">
+      <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />

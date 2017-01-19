@@ -338,6 +338,7 @@
     <Compile Include="Domain\Question\Question.Ops\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />
+    <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
     <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />

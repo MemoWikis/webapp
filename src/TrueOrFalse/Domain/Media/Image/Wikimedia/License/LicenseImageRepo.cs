@@ -332,8 +332,15 @@ public class LicenseImageRepo
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain - text logo",
                 LicenseLink = "https://commons.wikimedia.org/wiki/Template_talk:PD-textlogo"
+            },
+            new LicenseImage
+            {
+                Id = 208,
+                WikiSearchString = "PD-user",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain - by user",
             }
-
 
             //Template for CC-BY-SA licenses:
             //new License()

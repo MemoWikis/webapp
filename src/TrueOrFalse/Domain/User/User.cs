@@ -87,3 +87,11 @@ public class FacebookUserCreateParameter
     public string name { get; set; }
     public string email { get; set; }
 }
+
+public class GoogleUserCreateParameter
+{
+    public string GoogleId { get; set; }
+    public string Email { get; set; }
+    public string UserName { get; set; }
+    public string ProfileImage { get; set; }
+}
