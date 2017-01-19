@@ -15,4 +15,4 @@
     }
 }
 
-new Facebook(() => {new FacebookRegistration()});
+$(() => { new Facebook(() => { new FacebookRegistration() }); });
