@@ -26,6 +26,7 @@
             FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);            
         });
 
+        Google.AttachClickHandler('btn-login-with-google-modal');
     }
 
     private InitializeForm() {

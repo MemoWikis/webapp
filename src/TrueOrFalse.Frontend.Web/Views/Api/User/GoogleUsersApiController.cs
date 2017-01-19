@@ -23,7 +23,7 @@ public class GoogleUsersApiController : BaseController
         return Json(Sl.UserRepo.GoogleUserExists(googleId));
     }
 
-    [HttpGet]
+    [HttpPost]
     public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
         var registerResult = RegisterUser.Run(googleUser);

@@ -34,7 +34,7 @@
 		                    </a>
 	                    </div>
         	            <div class="col-xs-12 col-sm-5" style="padding-top: 7px;">
-		                    <a href="#" class="btn btn-block omb_btn-google" >
+		                    <a href="#" class="btn btn-block omb_btn-google" id="btn-login-with-google-modal" >
 			                    <span>Google+</span>
 		                    </a>
 	                    </div>	

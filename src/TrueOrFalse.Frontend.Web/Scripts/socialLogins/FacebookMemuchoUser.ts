@@ -39,17 +39,17 @@
             },
             success(result) {
 
-                if (result.Success == "false") {
+                success = true;
+
+                if (result.Success == false) {
 
                     Facebook.RevokeUserAuthorization(user.id, facebookAccessToken);
 
-                    var reason = result.EmailAlreadyInUse == "true" ? "Die Email-Adresse ist bereits in Verwendung" : "";
+                    var reason = result.EmailAlreadyInUse == true ? " Die Email-Adresse ist bereits in Verwendung" : "";
                     alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
 
                     success = false;
                 }
-
-                success = true;
             } 
         });
 

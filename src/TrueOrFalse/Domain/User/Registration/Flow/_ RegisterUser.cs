@@ -54,7 +54,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     private static UserCreateResult Register(User user)
     {
         if (!IsEmailAddressAvailable.Yes(user.EmailAddress))
-            return new UserCreateResult { Success = false };
+            return new UserCreateResult { Success = false, EmailAlreadyInUse = true};
 
         InitializeReputation(user);
 

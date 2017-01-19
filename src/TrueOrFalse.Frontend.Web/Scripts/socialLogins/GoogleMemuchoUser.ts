@@ -42,20 +42,20 @@
                     ProfileImage: basicProfile.getImageUrl()
                 }
             },
-            url: "/Api/GoogleUsers/Login",
+            url: "/Api/GoogleUsers/CreateAndLogin",
             success(result)
             {
-                if (result.Success == "false") {
+                success = true;    
+
+                if (result.Success == false) {
 
                     //ToDo: Revoke authorization
 
-                    var reason = result.EmailAlreadyInUse == "true" ? "Die Email-Adresse ist bereits in Verwendung" : "";
+                    var reason = result.EmailAlreadyInUse == true ? " Die Email-Adresse ist bereits in Verwendung" : "";
                     alert("Die Registrierung konnte nicht abgeschlossen werden." + reason);
 
                     success = false;
-                }
-
-                success = true;                
+                } 
             },
             error(error) { throw error }
         });

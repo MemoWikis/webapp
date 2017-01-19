@@ -1,17 +1,27 @@
 ﻿class Google {
+
+    static _auth2: gapi.auth2.GoogleAuth;
+
     constructor() {
 
         gapi.load('auth2', () => {
 
-            var auth2 = this.InitApi();
-
-            var element = document.getElementById('btn-login-with-google');
-
-            auth2.attachClickHandler(element, {},
-                googleUser => this.OnLoginSuccess(googleUser),
-                error => this.OnLoginError(error)
-            );
+            Google._auth2 = this.InitApi();
+            Google.AttachClickHandler('btn-login-with-google');
         });
+    }
+
+    static AttachClickHandler(selector : string) {
+
+        var element = document.getElementById(selector);
+
+        if (element == null)
+            return;
+
+        Google._auth2.attachClickHandler(element, {},
+            googleUser => Google.OnLoginSuccess(googleUser),
+            error => Google.OnLoginError(error)
+        );        
     }
 
     InitApi() {
@@ -21,9 +31,9 @@
         }) as any);
     }
 
-    OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
+    static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
 
-        var googleId = googleUser.getBasicProfile().getName();
+        var googleId = googleUser.getBasicProfile().getId();
 
         if (GoogleMemuchoUser.Exists(googleId)) {
             GoogleMemuchoUser.Login(googleId);
@@ -36,13 +46,10 @@
         }
     }
 
-    OnLoginError(error) {
+    static OnLoginError(error) {
         alert(JSON.stringify(error, undefined, 2));
     }
 
-    UserExists(userId) {
-        return false;
-    }
 }
 
 $(() => {
