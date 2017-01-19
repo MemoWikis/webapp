@@ -18,70 +18,50 @@
                 [
                     'Datum', '# Registrierungen am Tag', { role: 'annotation' }
                 ],
-                <%  var lastDay = Model.Since;
-                    foreach (var date in Model.NewUsersGroupedByRegistrationDate)
+                <%  foreach (var day in Model.UsersNewlyRegisteredPerDay)
                     {
-                        while (lastDay < date.First().DateCreated.Date) { 
-                            Response.Write("['" + lastDay.ToString("dd.MM.") + "', 0, ''],");
-                            lastDay = lastDay.AddDays(1);
-                        } %>
-                        <%= "['" + date.First().DateCreated.ToString("dd.MM.") + "', " + date.Count() + ", '']," %> 
-                        <% lastDay = lastDay.AddDays(1);
-                    }
-                    while (lastDay <= DateTime.Now.Date)
-                    {
-                        Response.Write("['" + lastDay.ToString("dd.MM.") + "', 0, ''],");
-                        lastDay = lastDay.AddDays(1);
-                    }
-                %>
+                        Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + day.Value + ", '" + day.Value + "'],");
+                    } %>
             ]);
 
             var view = new google.visualization.DataView(data);
-            view.setColumns([0, 1,
-                {
-                    calc: "stringify",
-                    sourceColumn: 1,
-                    type: "string",
-                    role: "annotation"
-                }
-                ]);
-
             var options = {
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 hAxis: {
-                    showTextEvery: 3
+                    format: 'dd.MM.',
+                    gridlines: { count: 8 }
                 },
                 bar: { groupWidth: '89%' },
                 chartArea: { top: 50, left: 50, right: 20, bottom: 35 },
                 colors: ['#afd534']
             };
-
             var chart = new google.visualization.ColumnChart(document.getElementById("chartNewUsers"));
             chart.draw(view, options);
         }
+
+     
 
         function drawChartUsers() {
             var data = google.visualization.arrayToDataTable([
                 [
                     'Datum', 'Registrierte Nutzer'
                 ],
-                <%  
-                    var curentDay = Model.SinceGoLive;
-                    while (curentDay <= DateTime.Now.Date)
+                <%  foreach (var day in Model.UsersTotalPerDay)
                     {
-                        Response.Write("['" + curentDay.ToString("dd.MM.yyyy") + "', " + Model.Users.Count(u => u.DateCreated.Date <= curentDay) + "],");
-                        curentDay = curentDay.AddDays(1);
-                    }
-                 %>
+                        Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + day.Value + "],");
+                    } %>
             ]);
 
             var view = new google.visualization.DataView(data);
             var options = {
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
+                hAxis: {
+                    format: 'dd.MM.yyyy'
+                },
                 bar: { groupWidth: '89%' },
-                chartArea: { top: 50, left: 50, right: 20, bottom: 10 },
+                chartArea: { top: 50, left: 50, right: 20, bottom: 35 },
                 colors: ['#afd534'],
                 lineWidth: 6,
             };
@@ -90,22 +70,16 @@
             chart.draw(view, options);
         }
 
-
+       
 
         function drawChartNewQuestions() {
             var data = google.visualization.arrayToDataTable([
                 [
                     'Datum', 'Von anderen Nutzern neu erstellte Fragen', 'Von memucho neu erstellte Fragen', { role: 'annotation' }
                 ],
-                <%  lastDay = Model.Since;
-                    foreach (var day in Model.QuestionsCreatedPerDayResults)
+                <%  foreach (var day in Model.QuestionsCreatedPerDayResults)
                     {
-                        while (lastDay < day.DateTime.Date) { 
-                            Response.Write("['" + lastDay.ToString("dd.MM.") + "', 0, 0, ''],");
-                            lastDay = lastDay.AddDays(1);
-                        } %>
-                        <%= "['" + day.DateTime.ToString("dd.MM.") + "', " + day.CountByOthers + ", " + day.CountByMemucho + ", " + day.TotalCount + "]," %> 
-                        <% lastDay = lastDay.AddDays(1);
+                        Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + day.CountByOthers + ", " + day.CountByMemucho + ", '" + day.TotalCount + "'],");
                     } %>
             ]);
 
@@ -116,7 +90,8 @@
                 annotations: { alwaysOutside: true },
                 legend: { position: 'top', maxLines: 30 },
                 hAxis: {
-                    showTextEvery: 3
+                    format: 'dd.MM.',
+                    gridlines: { count: 8 }
                 },
                 bar: { groupWidth: '89%' },
                 chartArea: { top: 50, left: 50, right: 20, bottom: 35 },
@@ -134,19 +109,9 @@
                 [
                     'Datum', 'Von Nutzern erstellte Fragen', 'Von memucho erstellte Fragen'
                 ],
-                <%  lastDay = Model.SinceGoLive;
-                    var questionCountSoFarMemucho = 0;
-                    var questionCountSoFarOthers = 0;
-                    foreach (var day in Model.QuestionsExistingPerDayResults)
+                <%  foreach (var day in Model.QuestionsExistingPerDayResults)
                     {
-                        while (lastDay < day.DateTime.Date) { 
-                            Response.Write("['" + lastDay.ToString("dd.MM.") + "', " + questionCountSoFarOthers + ", " + questionCountSoFarMemucho + "],");
-                            lastDay = lastDay.AddDays(1);
-                        }
-                        questionCountSoFarMemucho = day.CountByMemucho;
-                        questionCountSoFarOthers = day.CountByOthers;
-                        Response.Write("['" + day.DateTime.ToString("dd.MM.") + "', " + questionCountSoFarOthers + ", " + questionCountSoFarMemucho + "],"); 
-                        lastDay = lastDay.AddDays(1);
+                        Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + day.CountByOthers + ", " + day.CountByMemucho + "],");
                     } %>
             ]);
 
@@ -154,8 +119,11 @@
             var options = {
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
+                hAxis: {
+                    format: 'dd.MM.yyyy'
+                },
                 bar: { groupWidth: '89%' },
-                chartArea: { top: 50, left: 50, right: 20, bottom: 10 },
+                chartArea: { top: 50, left: 50, right: 20, bottom: 35 },
                 colors: ['#0000ff', '#afd534'],
                 lineWidth: 6,
                 isStacked: true
@@ -174,7 +142,7 @@
                 ],
                 <%  foreach (var day in Model.UsageStats)
                     {
-                        Response.Write("['" + day.DateTime.ToString("dd.MM.") + "', " + 
+                        Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + 
                             day.QuestionsAnsweredCount + ", " + 
                             day.QuestionsViewedCount + ", " + 
                             day.LearningSessionsStartedCount + ", " + 
@@ -188,7 +156,9 @@
                 tooltip: { isHtml: true },
                 legend: { position: 'top', maxLines: 30 },
                 hAxis: {
-                    showTextEvery: 3
+                    format: 'dd.MM.',
+                    gridlines: {count: 16},
+                    showTextEvery: 2
                 },
                 bar: { groupWidth: '80%' },
                 chartArea: { top: 50, left: 50, right: 20, bottom: 35 },
@@ -206,7 +176,7 @@
                 ],
                 <%  foreach (var day in Model.UsageStats)
                     {
-                        Response.Write("['" + day.DateTime.ToString("dd.MM.") + "', " + 
+                        Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + 
                             day.UsersThatAnsweredQuestionCount + ", " + 
                             day.UsersThatViewedQuestionCount + ", " + 
                             day.UsersThatStartedLearningSessionCount + ", " + 
@@ -224,7 +194,9 @@
                     textStyle: { fontSize: 11 }
                 },
                 hAxis: {
-                    showTextEvery: 3
+                    format: 'dd.MM.',
+                    gridlines: { count: 16 },
+                    showTextEvery: 2
                 },
                 bar: { groupWidth: '80%' },
                 chartArea: { top: 50, left: 50, right: 20, bottom: 35 },
@@ -281,7 +253,7 @@
         </div>
 
         <div class="col-xs-12" style="margin-top: 20px;">
-            <div id="chartUsers" style="height: 300px; margin-right: 20px; text-align: left;"></div>
+            <div id="chartUsers" style="height: 350px; margin-right: 20px; text-align: left;"></div>
         </div>
     </div>
 
@@ -290,7 +262,7 @@
             <h2 class="" style="margin-top: 60px" id="QuestionsCreated">Erstellte Fragen</h2>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
             <p>
-                Neu erstellte und existierende Fragen seit GoLive (<%= Model.SinceGoLive.ToString("dd.MM.yyyy") %>).
+                Neu erstellte Fragen seit <%= Model.Since.ToString("dd.MM.yyyy") %> und insgesamt existierende Fragen seit GoLive (<%= Model.SinceGoLive.ToString("dd.MM.yyyy") %>).
             </p>
         </div>
 
@@ -319,6 +291,13 @@
                 Wie viele unterschiedliche eingeloggte Nutzer (ohne Admins) haben an diesem Tag...
             </p>
             <div id="chartUsageStats2" style="height: 300px; margin-right: 20px; text-align: left;"></div>
+        </div>
+        <div class="col-xs-12" style="margin-top: 30px;">
+            <p>
+                Zur Anzeige der Nutzung von "WuWi hinzufügen": <a href="https://analytics.google.com/analytics/web/#report/content-event-events/a84537419w87487245p130133725/%3Fexplorer-segmentExplorer.segmentId%3Danalytics.eventLabel%26_r.drilldown%3Danalytics.eventCategory%3AWuWi%26explorer-table.plotKeys%3D%5B%5D%26explorer-table.secSegmentId%3Danalytics.eventAction/" target="_blank">
+                    <strong>WuWi-Statistik bei Google Analytics</strong>
+                </a>
+            </p>
         </div>
     </div>
 
