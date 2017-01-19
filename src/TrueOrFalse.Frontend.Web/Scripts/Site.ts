@@ -130,8 +130,37 @@ function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
             });
 }
 
-$(function () {
-    
+class Site {
+
+    constructor() {
+        $("#btn-logout").click(this.LogoutClick);        
+    }
+
+    private LogoutClick(e)
+    {
+        e.preventDefault();
+
+        var redirect = () => { location.href = $(this).attr("data-url"); }
+
+        if ($(this).attr("data-is-facebook") == "true") {
+            FacebookMemuchoUser.Logout(redirect);
+        } else {
+            redirect();
+        }
+    }
+
+
+    static RedirectToDashboard() { location.href = "/Wissenszentrale"; }
+    static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
+    static RedirectToRegistration() { location.href = "/Registrieren"; }
+
+    static ReloadPage() { window.location.reload(true) };
+}
+
+$(() => {
+
+    new Site();
+
     $("#logo").hover(
         function () { $(this).animate({ 'background-size': '100%' }, 250); },
         function () { $(this).animate({ 'background-size': '86%' }, 250); }
@@ -145,5 +174,3 @@ $(function () {
     InitClickLog();
     PreventDropdonwnsFromBeingHorizontallyOffscreen();
 });
-
-

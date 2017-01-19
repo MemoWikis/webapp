@@ -6,96 +6,18 @@ using TrueOrFalse.Web;
 
 public class WelcomeController : BaseController
 {
-    private readonly RegisterUser _registerUser;
-    private readonly CredentialsAreValid _credentialsAreValid;
-
-    public WelcomeController(RegisterUser registerUser,
-                             CredentialsAreValid credentialsAreValid)
-    {
-        _registerUser = registerUser;
-        _credentialsAreValid = credentialsAreValid;
-    }
-
     [SetMenu(MenuEntry.None)]
     public ActionResult Welcome(){
         return View(new WelcomeModel());
     }
 
-    public ActionResult LogOn()
-    {
-        return View();
-    }
+    public ActionResult LogOn() => View();
 
     public ActionResult Logout()
     {
         RemovePersistentLoginFromCookie.Run();
         _sessionUser.Logout();
         return View(new BaseModel());
-    }
-
-    public ActionResult Register() { return View(new RegisterModel()); }
-
-    [HttpPost]
-    public ActionResult Register(RegisterModel model)
-    {
-
-        if (!IsEmailAddressAvailable.Yes(model.Email))
-            ModelState.AddModelError("E-Mail", "Diese E-Mail-Adresse ist bereits registriert.");
-
-        if (!global::IsUserNameAvailable.Yes(model.Name))
-            ModelState.AddModelError("Name", "Dieser Benutzername ist bereits vergeben.");
-
-        if (!ModelState.IsValid)
-            return View(model);
-
-        var user = RegisterModelToUser.Run(model);
-        _registerUser.Run(user);
-
-        _sessionUser.Login(user);
-
-        return RedirectToAction(Links.RegisterSuccess, Links.WelcomeController);
-    }
-
-    public ActionResult RegisterSuccess() { return View(new RegisterSuccessModel()); }
-
-    public ActionResult Login()
-    {
-        return View(new LoginModel());
-    }
-
-    [HttpPost]
-    public JsonResult IsUserNameAvailable(string selectedName)
-    {
-        return new JsonResult {Data = new { isAvailable = global::IsUserNameAvailable.Yes(selectedName) } };
-    }
-
-    [HttpPost]
-    public JsonResult IsEmailAvailable(string selectedEmail)
-    {
-        return new JsonResult { Data = new { isAvailable = IsEmailAddressAvailable.Yes(selectedEmail) } };
-    }
-
-    [HttpPost]
-    public ActionResult Login(LoginModel loginModel)
-    {
-        loginModel.EmailAddress = loginModel.EmailAddress;
-        loginModel.Password = Request["Password"];
-
-        if (_credentialsAreValid.Yes(loginModel.EmailAddress, loginModel.Password))
-        {
-            if (loginModel.PersistentLogin)
-            {
-                WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id);
-            }
-
-            _sessionUser.Login(_credentialsAreValid.User);
-
-            return RedirectToAction(Links.KnowledgeAction, Links.KnowledgeController);
-        }
-
-        loginModel.SetToWrongCredentials();
-
-        return View(loginModel);
     }
 
     //For Tool.Muse and SignalRClients
@@ -111,11 +33,13 @@ public class WelcomeController : BaseController
             return new JsonResult { Data = new { UserId = -1 } };    
         }
 
+        var credentialsAreValid = R<CredentialsAreValid>();
+
         var userId = -1;
-        if (_credentialsAreValid.Yes(userName, password))
+        if (credentialsAreValid.Yes(userName, password))
         {
-            _sessionUser.Login(_credentialsAreValid.User);
-            userId = _credentialsAreValid.User.Id;
+            _sessionUser.Login(credentialsAreValid.User);
+            userId = credentialsAreValid.User.Id;
         }
         else
             Response.StatusCode = 401; 

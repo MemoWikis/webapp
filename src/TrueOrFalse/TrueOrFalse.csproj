@@ -339,6 +339,8 @@
     <Compile Include="Domain\Statistics\TypeDateTimeInt.cs" />
     <Compile Include="Domain\Statistics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
+    <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />
+    <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
     <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />
@@ -845,6 +847,8 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs129.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs147.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs146.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs155.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs154.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs153.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs152.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs151.cs" />

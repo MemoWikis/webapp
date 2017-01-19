@@ -23,7 +23,7 @@
 <div class="row" style="padding-top:30px;">
     <div class="BackToHome col-md-3">
         <p>
-            <a href="<%= Url.Action("Register", "Welcome") %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
+            <a href="<%= Url.Action("Register", "Register") %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
         </p>
         <p>
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>

@@ -12,8 +12,7 @@ namespace TrueOrFalse.View
                   "~/Style/includes/shared.css",
                   "~/Style/*.css",
                   "~/Style/jquery-ui/jquery-ui.structure.css", 
-                  "~/Style/jquery-ui/jquery-ui.theme.css", 
-                  "~/Style/zocial/css/zocial.css"));
+                  "~/Style/jquery-ui/jquery-ui.theme.css"));
 
             bundles.Add(new StyleBundle("~/bundles/markdownCss")
                 .Include("~/Style/markdown-editor.css"));
@@ -25,7 +24,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js")
                 .IncludeDirectory("~/Scripts/hubs", "*.js")
-                .IncludeDirectory("~/Views/Images", "*.js"));
+                .IncludeDirectory("~/Scripts/socialLogins", "*.js")
+                .IncludeDirectory("~/Views/Images", "*.js")
+                .IncludeDirectory("~/Views/Welcome/Login", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/fileUploader")
                 .Include("~/Scripts/vendor.file-uploader/header.js")
@@ -47,6 +48,16 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/Welcome")
                 .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/RegistrationJs")
+                .Include("~/Views/Welcome/Js/Validation.js")
+                .IncludeDirectory("~/Views/Welcome/Registration/Js/", "*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/Registration")
+                .Include("~/Views/Welcome/Registration/SocialButtons.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Login")
+                .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
