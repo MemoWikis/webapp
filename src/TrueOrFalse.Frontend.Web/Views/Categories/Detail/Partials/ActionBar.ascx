@@ -18,7 +18,7 @@
             <div class="BoxButtonText">
                 <span>Prüfungstermin anlegen</span> 
             </div>
-            <a></a>
+            <a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow"></a>
         </div>
     </div>
     <div class="BoxButtonColumn">
