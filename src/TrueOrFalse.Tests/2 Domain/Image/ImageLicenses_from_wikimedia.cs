@@ -128,7 +128,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
                         {{self|cc-by-sa-3.0|pd-old|gfdl}}";
 
         ShowAllLicensesWithNotifications(markup);
-        Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("pd-old"));
+        Assert.That(LicenseParser.SuggestMainLicenseFromMarkup(new ImageMetaData{Markup = markup}).WikiSearchString, Is.EqualTo("cc-by-sa-3.0"));
 
         markup = @"
                     {{Information
@@ -213,7 +213,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
         const string markup = "cc-by-sa-3.0|cc-by-sa-9.0|pd-phantasie|pd|lkjlkjlj";
 
         var otherPossibleLicenseStrings = LicenseParser.GetOtherPossibleLicenseStrings(markup).Aggregate((a, b) => a + ", " + b);
-        const string expectedResult = "cc-by-sa-3.0, cc-by-sa-9.0, pd-phantasie";
+        const string expectedResult = "cc-by-sa-9.0, pd-phantasie";
 
         Assert.That(otherPossibleLicenseStrings.Equals(expectedResult),
                     Format("expected: {0}" + Environment.NewLine + "was: {1}", expectedResult, otherPossibleLicenseStrings));
