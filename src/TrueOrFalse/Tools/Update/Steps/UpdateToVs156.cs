@@ -2,16 +2,16 @@
 
 namespace TrueOrFalse.Updates
 {
-    public class UpdateToVs137
+    public class UpdateToVs156
     {
         public static void Run()
         {
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
-                @"ALTER TABLE `learningsession`
-	                ADD COLUMN `StepsJson` TEXT NULL DEFAULT NULL AFTER `DateToLearn_id`;"
+                @"ALTER TABLE `questionview`
+	                CHANGE COLUMN `DateCreated` `DateCreated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `Migrated`;"
             ).ExecuteUpdate();
-
         }
     }
 }
+
