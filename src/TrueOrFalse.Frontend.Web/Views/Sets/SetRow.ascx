@@ -58,7 +58,7 @@
                     <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
                         <i class="fa fa-gamepad" style="font-size: 15px;">&nbsp;</i>Spiel starten
                     </a>
-                    <a style="display: block;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                    <a style="display: block;" href="<%= Links.DateCreateForSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
                         <i class="fa fa-calendar" style="font-size: 13px;">&nbsp;</i>Termin lernen
                     </a>
                 <% } %>

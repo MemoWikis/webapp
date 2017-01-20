@@ -211,7 +211,8 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string Dates() => GetUrlHelper().Action("Dates", "Dates");
         public static object DateEdit(int dateId) => GetUrlHelper().Action("Edit", "EditDate", new { dateId = dateId });
-        public static object DateCreate(int setId) => GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
+        public static object DateCreateForSet(int setId) => GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
+        public static object DateCreateForCategory(int categoryId) => GetUrlHelper().Action("Create", "EditDate", new { categoryId = categoryId });
 
 
         /*Learn*/

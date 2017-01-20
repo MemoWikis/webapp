@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -11,7 +12,7 @@ public class EditDateController : BaseController
 
     [HttpGet]
     [SetMenu(MenuEntry.Dates)]
-    public ViewResult Create(int? setId)
+    public ViewResult Create(int? setId = null, int? categoryId = null)
     {
         var model = new EditDateModel();
 
@@ -22,6 +23,15 @@ public class EditDateController : BaseController
             {
                 model.Details = set.Name;
                 model.Sets.Add(set);
+            }
+        } else if (categoryId != null)
+        {
+            var category = Sl.R<CategoryRepository>().GetById((int) categoryId);
+            var sets = category.GetSets(true);
+            if (sets != null)
+            {
+                model.Details = category.Name;
+                model.Sets = sets;
             }
         }
 

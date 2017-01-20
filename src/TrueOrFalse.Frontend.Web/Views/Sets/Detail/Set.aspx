@@ -110,7 +110,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
                                         <li><a href="<%= Links.StartSetLearningSession(Model.Id) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a></li>
                                         <li><a href="<%= Links.GameCreateFromSet(Model.Id) %>"> Spiel starten</a></li>
-                                        <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
+                                        <li><a href="<%= Links.DateCreateForSet(Model.Id) %>"> Termin anlegen</a></li>
                                     </ul>
                                 </div>
                                 <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-primary " role="button" <%= Model.QuestionCount == 0 ? "disabled " : "" %>rel="nofollow">
