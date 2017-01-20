@@ -162,8 +162,8 @@
     "inputFile": "Views/Dates/Dates.less"
   },
   {
-    "outputFile": "Views/VariousPublic/AboutMemucho.css",
-    "inputFile": "Views/VariousPublic/AboutMemucho.less"
+    "outputFile": "Views/Welcome/Register.css",
+    "inputFile": "Views/Welcome/Register.less"
   },
   {
     "outputFile": "Views/Help/FAQ.css",
@@ -176,5 +176,9 @@
   {
     "outputFile": "Views/Categories/Edit/EditCategory.css",
     "inputFile": "Views/Categories/Edit/EditCategory.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Registration/SocialButtons.css",
+    "inputFile": "Views/Welcome/Registration/SocialButtons.less"
   }
 ]

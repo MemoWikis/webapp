@@ -12,10 +12,12 @@ namespace TrueOrFalse.Frontend.Web.Code
     public static class Links
     {
         public const string WelcomeController = "Welcome";
+        public const string RegisterController = "Register";
 
         public const string VariousController = "VariousPublic";
-        public const string Impressum = "Impressum";
-        public const string TermsAndConditions = "AGB";
+        public static string TermsAndConditions => GetUrlHelper().Action("AGB", VariousController);
+        public static string Imprint => GetUrlHelper().Action("Impressum", VariousController);
+
         public const string WelfareCompanyAction = "WelfareCompany";
         public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
 
@@ -68,7 +70,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string Login() => GetUrlHelper().Action(LoginAction, WelcomeController);
-        public static string Register() => GetUrlHelper().Action(RegisterAction, WelcomeController);
+        public static string Register() => GetUrlHelper().Action(RegisterAction, RegisterController);
 
         public const string UsersController = "Users";
         public const string UsersAction = "Users";

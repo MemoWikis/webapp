@@ -111,7 +111,6 @@ class Utils
         }catch(e){
             //locally: do nothing
         }
-        
     }
 }
 

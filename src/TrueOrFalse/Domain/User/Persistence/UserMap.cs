@@ -38,6 +38,9 @@ public class UserMap : ClassMap<User>
 
         Map(x => x.Birthday);
 
+        Map(x => x.FacebookId);
+        Map(x => x.GoogleId);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
     }

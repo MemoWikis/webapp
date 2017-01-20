@@ -25,20 +25,31 @@ public class UserImageSettings : ImageSettings, IImageSettings
         throw new NotImplementedException();
     }
 
-    public ImageUrl GetUrl_20px_square(string emailAddress){return GetUrl(emailAddress, 20, isSquare: true);}
-    public ImageUrl GetUrl_30px_square(string emailAddress) { return GetUrl(emailAddress, 30, isSquare: true); }
-    public ImageUrl GetUrl_128px_square(string emailAddress){ return GetUrl(emailAddress, 128, isSquare: true);}
-    public ImageUrl GetUrl_85px_square(string emailAddress) { return GetUrl(emailAddress, 85, isSquare: true); }
-    public ImageUrl GetUrl_50px(string emailAddress){ return GetUrl(emailAddress, 50);}
-    public ImageUrl GetUrl_200px(string emailAddress) { return GetUrl(emailAddress, 200); }
-    public ImageUrl GetUrl_250px(string emailAddress) { return GetUrl(emailAddress, 250); }
+    public ImageUrl GetUrl_30px_square(User user) { return GetUrl(user, 30, isSquare: true); }
+    public ImageUrl GetUrl_128px_square(User user) { return GetUrl(user, 128, isSquare: true);}
+    public ImageUrl GetUrl_85px_square(User user) { return GetUrl(user, 85, isSquare: true); }
+    public ImageUrl GetUrl_50px(User user) { return GetUrl(user, 50);}
+    public ImageUrl GetUrl_200px(User user) { return GetUrl(user, 200); }
+    public ImageUrl GetUrl_250px(User user) { return GetUrl(user, 250); }
 
-    private ImageUrl GetUrl(string emailAddress, int width, bool isSquare = false){
-        return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(emailAddress, arg));
+    private ImageUrl GetUrl(User user, int width, bool isSquare = false){
+        return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
     }
 
-    protected string GetFallbackImage(string emailAddress, int width)
+    protected string GetFallbackImage(User user, int width)
     {
+        var emailAddress = user.EmailAddress;
+
+        if (user.IsFacebookUser())
+        {
+            var url = $"//graph.facebook.com/{user.FacebookId}/picture";
+
+            if (width > 50)
+                url += "? type = large";
+
+            return url;
+        }
+
         var sanitizedEmailAdress = emailAddress.Trim().ToLowerInvariant();
         var hash = new MD5CryptoServiceProvider().ComputeHash(Encoding.ASCII.GetBytes(sanitizedEmailAdress));
         return "//www.gravatar.com/avatar/" +

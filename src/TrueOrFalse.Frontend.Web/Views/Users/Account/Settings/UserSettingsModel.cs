@@ -37,7 +37,7 @@ public class UserSettingsModel : BaseModel
         IsMember = user.IsMember();
         Membership = user.CurrentMembership();
 
-        var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user.EmailAddress);
+        var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user);
         ImageUrl_200 = imageResult.Url;
         ImageIsCustom = imageResult.HasUploadedImage;
 

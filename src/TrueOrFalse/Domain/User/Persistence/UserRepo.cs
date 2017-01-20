@@ -11,19 +11,39 @@ public class UserRepo : RepositoryDbBase<User>
         _searchIndexUser = searchIndexUser;
     }
 
-    public User GetByEmail(string emailAddress)
-    {
-        return _session.QueryOver<User>()
+    public User GetByEmail(string emailAddress) => 
+        _session.QueryOver<User>()
             .Where(k => k.EmailAddress == emailAddress)
             .SingleOrDefault<User>();
-    }
 
-    public User GetByName(string name)
-    {
-        return _session.QueryOver<User>()
+    public User GetByName(string name) => 
+        _session.QueryOver<User>()
             .Where(k => k.Name == name)
             .SingleOrDefault<User>();
-    }
+
+    public User UserGetByFacebookId(string facebookId) => 
+        _session
+            .QueryOver<User>()
+            .Where(u => u.FacebookId == facebookId)
+            .SingleOrDefault();
+
+    public User UserGetByGoogleId(string googleId) =>
+        _session
+            .QueryOver<User>()
+            .Where(u => u.GoogleId == googleId)
+            .SingleOrDefault();
+
+    public bool FacebookUserExists(string facebookId) => 
+        _session
+            .QueryOver<User>()
+            .Where(u => u.FacebookId == facebookId)
+            .RowCount() == 1;
+
+    public bool GoogleUserExists(string googleId) =>
+        _session
+            .QueryOver<User>()
+            .Where(u => u.GoogleId == googleId)
+            .RowCount() == 1;
 
     public void RemoveFollowerInfo(FollowerInfo followerInfo)
     {

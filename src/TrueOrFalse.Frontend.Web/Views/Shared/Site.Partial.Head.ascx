@@ -32,9 +32,10 @@
 <meta name="msapplication-TileColor" content="#da532c">
 <meta name="msapplication-TileImage" content="/mstile-144x144.png">
 <meta name="theme-color" content="#ffffff">
-
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<%--<script src="https://apis.google.com/js/platform.js" async defer></script>--%>
+<script src="https://apis.google.com/js/api:client.js"></script>
 
 <script>
     var _rollbarConfig = {
@@ -97,7 +98,8 @@
 
 
 <%--GoogleAnalytics Tracking Code--%>
-<% if(Settings.GoogleKeyIsSet){ %>
+<%  var isAdmin = (Model is BaseModel && ((BaseModel)Model).IsInstallationAdmin);
+    if (!isAdmin && Settings.GoogleKeyIsSet){ %>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

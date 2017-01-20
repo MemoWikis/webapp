@@ -20,8 +20,8 @@ public class MaintenanceImagesController : BaseController
         if (!page.HasValue)
         {
             model.CkbOpen = true;
-            model.CkbExcluded = true;
-            model.CkbApproved = true;
+            model.CkbExcluded = false;
+            model.CkbApproved = false;
         }
         else
         {

@@ -463,7 +463,7 @@
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
                                     <a href="<%= Links.UserDetail(activity.UserCauser) %>">
-                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
+                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
                                     </a>
                                 </div>
                                 <div class="col-xs-9" style="">
