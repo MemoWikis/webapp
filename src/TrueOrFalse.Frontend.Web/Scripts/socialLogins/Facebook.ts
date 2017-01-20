@@ -50,5 +50,3 @@ interface FacebookUserFields {
     email;
     name;
 }
-
-new Facebook();
