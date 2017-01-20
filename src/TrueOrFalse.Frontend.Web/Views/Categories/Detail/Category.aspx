@@ -32,6 +32,9 @@
 
                     Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);
 
+                    Html.RenderPartial("~/Views/Categories/Detail/Partials/ActionBar.ascx", Model);%>
+
+
                     <% if (Model.FeaturedSets.Count > 0){
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
