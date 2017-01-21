@@ -4,9 +4,9 @@
     _categories: Array<number> = [];
     _knowledgeFilter: KnowledgeFilter;
 
-    _fnOnLoadPage: Function = () => { };
+    _fnOnLoadPage: () => void;
 
-    constructor(fnOnLoadPage?: Function) {
+    constructor(fnOnLoadPage?: () => void) {
         this._elemContainer = $("#JS-SearchResult");
 
         if(fnOnLoadPage != null)
@@ -66,10 +66,10 @@
                     .find(".JS-" + data.Tab)
                     .find("span.JS-Amount"), <any>tabAmount);
 
-                me._fnOnLoadPage();
-
                 $('.show-tooltip').tooltip();
                 Images.Init();
+
+                me._fnOnLoadPage();
             }
         });
     }
