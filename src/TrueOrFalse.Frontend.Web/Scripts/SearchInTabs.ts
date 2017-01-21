@@ -4,7 +4,7 @@
     _categories: Array<number> = [];
     _knowledgeFilter: KnowledgeFilter;
 
-    _fnOnLoadPage: () => void;
+    _fnOnLoadPage: () => void = () => {};
 
     constructor(fnOnLoadPage?: () => void) {
         this._elemContainer = $("#JS-SearchResult");
