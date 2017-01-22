@@ -252,6 +252,19 @@ public class LicenseImageRepo
                 LicenseLongName = "Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 Unported",
                 LicenseShortName = "CC BY-SA 3.0",
             },
+            new LicenseImage
+            {
+                Id = 17,
+                WikiSearchString = "Agência Brasil",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+
+                LicenseRequirementsType = LicenseRequirementsType.Cc_By_Sa,
+                LicenseLink = "https://creativecommons.org/licenses/by/3.0/br/legalcode",
+
+                LicenseShortDescriptionLink = "https://creativecommons.org/licenses/by/3.0/br/deed.pt",
+                LicenseLongName = "Atribuição 3.0 Brasil",
+                LicenseShortName = "CC BY 3.0 BR",
+            },
 
             new LicenseImage
             {
