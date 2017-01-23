@@ -135,7 +135,7 @@
                     <p>Memucho ist kostenlos. Die Registrierung dauert nur 20 Sekunden.</p>
                     <p class="registrationParagraph">                        
                         <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-                        <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
+                        <a href="#" data-btn-login="true">Ich bin schon Nutzer!</a>
                     </p>
                 </div>
 

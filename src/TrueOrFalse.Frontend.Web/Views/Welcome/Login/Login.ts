@@ -6,6 +6,8 @@
 
     private OpenModal(e) {
 
+        Site.CloseAllModals();
+
         var self = this;
 
         e.preventDefault();

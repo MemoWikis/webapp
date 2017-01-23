@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -34,7 +32,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string AccountController = "Account";
         public const string RegisterAction = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
-        public const string LoginAction = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
@@ -69,7 +66,6 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
         }
 
-        public static string Login() => GetUrlHelper().Action(LoginAction, WelcomeController);
         public static string Register() => GetUrlHelper().Action(RegisterAction, RegisterController);
 
         public const string UsersController = "Users";
@@ -102,6 +98,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string QuestionWithCategoryFilter(UrlHelper url, string categoryName, int categoryId){
+            return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
             return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
         }
 

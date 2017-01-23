@@ -160,6 +160,10 @@ class Site {
         else
             Site.ReloadPage();
     }
+
+    static CloseAllModals() {
+        $('.modal').modal('hide');
+    }
 }
 
 $(() => {
