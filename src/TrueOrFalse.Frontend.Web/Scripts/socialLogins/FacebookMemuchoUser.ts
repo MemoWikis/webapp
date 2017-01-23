@@ -101,7 +101,7 @@
                     debugger;
 
                     if (stayOnPage)
-                        Site.ReloadPage();
+                        Site.ReloadPage_butNotTo_Logout();
                     else
                         Site.RedirectToDashboard();
 

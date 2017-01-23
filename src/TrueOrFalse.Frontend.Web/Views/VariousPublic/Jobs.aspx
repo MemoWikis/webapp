@@ -28,6 +28,62 @@
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-8 rowBase">
+        <h3>Praktikum UX-Design & Usability</h3>
+        <p>
+            memucho ist ein junges Start-up. Wir wollen es Nutzern erleichern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
+            und personalisiert zu lernen. Dabei fördern wir freie Bildungsinhalte, denn unsere Inhalte stehen unter einer offenen Lizenz.
+            Die Anwendung, die wir entwickeln, ist zudem Open Source.
+        </p>
+        <p>
+            Unsere Anwendung ist in der öffentlichen Beta-Phase.  
+        </p>
+        <p>
+            Deine Aufgaben sind
+            <ul>
+                <li>Erstellung und Weiterentwicklung von Prototypen zur Verbesserung einzelner Teile einer vorhandenen Anwendung</li>
+                <li>Verbesserung von Navigations- und Interaktionselementen</li>
+                <li>Konzeption, Durchführung und Auswertung von Nutzertests</li>
+                <li>Weiterentwicklung der User Experience und des Designs</li>
+            </ul>
+            Dein perfektes Profil wäre:
+            <ul>
+                <li>Du studierst Kommunikationsdesign, Interaktionsdesign, Kommunikationsdesign, Informationsdesign oder ähnliches mindestens im 3. Semester und hast schon 
+                    erste Erfahrungen bei menschen-zentrierten Design-Prozessen gemacht</li>
+                <li>Du kannst mit Programmen zur Erstellung von Prototypen wie Invision umgehen oder bist bereit, dir während des Praktikums die Benutzung selbständig beizubringen</li>
+                <li>Du kannst mit Layout-Frageworks wie Google Material Design umgehen.</li>
+                <li>Du bist kreativ, hast eigene Ideen und kannst daran selbständig und genau arbeiten</li>
+                <li>Du hast Freude am Lernen</li>
+                <li>Du hast mindestens 3 Monate Zeit (Teilzeitmodelle möglich)</li>
+            </ul>
+            
+            Wir bieten dir
+            <ul>
+                <li>Du arbeitest in einem jungen kleinen Team ohne Hierarchien und bist stark involviert</li>
+                <li>Orientierung und Feedback von einem erfahrenen Grafiker</li>
+                <li>Deine guten Ideen können schnell verwirklicht werden</li>
+                <li>Du machst die Welt ein bisschen besser, weil du offene Bildungsinhalte und Open Source unterstützt</li>
+                <li>Flexible Arbeitszeiten in einem schönen Büro in Berlin-Kreuzberg</li>
+                <li>Home-Office (oder Café-Office, oder Train-Office... wo immer du arbeiten möchtest) nach Absprache möglich, bei mind. 3 Präsenztage</li>
+                <li>Teilzeit-Modelle gerne möglich</li>
+                <li>Eine monatliche Aufwandsentschädigung</li>
+            </ul>
+        </p>
+        <h4>Interesse?</h4>
+        <p>
+            Das freut uns! Schaue dich auf unserer Seite memucho.de um, damit du einen Eindruck von deinem "Arbeitsgegenstand" gewinnst.
+            Bei Fragen kannst du dich gerne an Christof wenden (Tel: +49-1577-6825707). Schicke dann deine Kurzbewerbung per E-Mail 
+            an Christof (<span class="mailme">christof at memucho dot de</span>) und erzähle uns, 
+            warum du auf dieses Praktikum wie die perfekte Antwort auf eine Frage passt. 
+        </p>
+    </div>
+    <div class="col-xs-12 col-sm-4" style="text-align: center;">
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 rowBase">
         <h3>Inhalte erstellen, pflegen und koordinieren (Nebenjob)</h3>
         <p>
             memucho ist ein junges Start-up. Wir wollen Lernen personalisieren, damit alle effizienter und mit mehr Spaß lernen können. 

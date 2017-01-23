@@ -149,12 +149,17 @@ class Site {
         }
     }
 
-
     static RedirectToDashboard() { location.href = "/Wissenszentrale"; }
     static RedirectToRegistrationSuccess() { location.href = "/Register/RegisterSuccess"; }
     static RedirectToRegistration() { location.href = "/Registrieren"; }
 
     static ReloadPage() { window.location.reload(true) };
+    static ReloadPage_butNotTo_Logout() {
+        if (location.href.indexOf("Ausloggen") !== -1)
+            Site.RedirectToDashboard();
+        else
+            Site.ReloadPage();
+    }
 }
 
 $(() => {

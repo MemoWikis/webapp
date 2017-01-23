@@ -66,7 +66,7 @@
                 return;
             }
 
-            window.location.reload(true);
+            Site.ReloadPage_butNotTo_Logout();
         });
     } 
 
