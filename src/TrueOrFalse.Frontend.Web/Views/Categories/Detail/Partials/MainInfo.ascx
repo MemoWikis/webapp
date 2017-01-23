@@ -68,12 +68,15 @@
                             <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
                         </ul>
                     </div>--%>
+                    <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                        &nbsp;JETZT TESTEN
+                    </a>
                 </div>
             </div>
         </div>
     </div>    
 </div>
-<div class="row BoxButtonBar">
+<%--<div class="row BoxButtonBar">
     <div class="BoxButtonColumn">
         <div class="BoxButton">
             <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
@@ -87,7 +90,7 @@
         <div class="BoxButton">
             <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
             <div class="BoxButtonText">
-                <span>Prüfungstermin anlegen</span> 
+                <span>Prüfungstermin anlegen</span>
             </div>
             <a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow"></a>
         </div>
@@ -108,4 +111,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>--%>
