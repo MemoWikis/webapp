@@ -245,51 +245,26 @@ p:empty {
   border: 1px solid #e3e3e3;
   margin-bottom: 20px;
   padding: 15px;
+  display: inline-block;
+  margin-bottom: 0;
   font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
   background-image: none;
   border: 1px solid transparent;
   white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
   line-height: 1.42857143;
+  border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  padding: 6px 12px;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
   color: #333;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
-  background-color: #f5f5f5;
-  background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
-  background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
-  background-image: -o-linear-gradient(top, #fff, #e6e6e6);
-  background-image: linear-gradient(to bottom, #fff, #e6e6e6);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
-  border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #e6e6e6;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 1px solid #ccc;
-  *border: 0;
-  border-bottom-color: #b3b3b3;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  *margin-left: .3em;
-  -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+  background-color: #fff;
+  border-color: #ccc;
   display: block;
   white-space: normal;
   height: 100px;
@@ -328,51 +303,37 @@ fieldset[disabled] .BoxButton {
 .BoxButton:focus,
 .BoxButton:active,
 .BoxButton.active,
-.BoxButton.disabled,
-.BoxButton[disabled] {
+.open .dropdown-toggle.BoxButton {
   color: #333;
-  background-color: #e6e6e6;
-  *background-color: #d9d9d9;
+  background-color: #ebebeb;
+  border-color: #adadad;
 }
 .BoxButton:active,
-.BoxButton.active {
-  background-color: #cccccc \9;
-}
-.BoxButton:first-child {
-  *margin-left: 0;
-}
-.BoxButton:hover,
-.BoxButton:focus {
-  color: #333;
-  text-decoration: none;
-  background-position: 0 -15px;
-  -webkit-transition: background-position 0.1s linear;
-  -moz-transition: background-position 0.1s linear;
-  -o-transition: background-position 0.1s linear;
-  transition: background-position 0.1s linear;
-}
-.BoxButton:focus {
-  outline: thin dotted #333;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
 .BoxButton.active,
-.BoxButton:active {
+.open .dropdown-toggle.BoxButton {
   background-image: none;
-  outline: 0;
-  -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
-  -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05);
 }
 .BoxButton.disabled,
-.BoxButton[disabled] {
-  cursor: default;
-  background-image: none;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+.BoxButton[disabled],
+fieldset[disabled] .BoxButton,
+.BoxButton.disabled:hover,
+.BoxButton[disabled]:hover,
+fieldset[disabled] .BoxButton:hover,
+.BoxButton.disabled:focus,
+.BoxButton[disabled]:focus,
+fieldset[disabled] .BoxButton:focus,
+.BoxButton.disabled:active,
+.BoxButton[disabled]:active,
+fieldset[disabled] .BoxButton:active,
+.BoxButton.disabled.active,
+.BoxButton[disabled].active,
+fieldset[disabled] .BoxButton.active {
+  background-color: #fff;
+  border-color: #ccc;
+}
+.BoxButton .badge {
+  color: #fff;
+  background-color: #333;
 }
 .BoxButton a {
   position: absolute;

@@ -37,7 +37,7 @@
     max-width: 270px;
     opacity: 1;
     z-index: 100;
-    box-shadow: 0 8px 10px #555, 5px 5px 15px #555;
+    box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
   }
   #mainMenu .list-group {
     margin-bottom: 0;
