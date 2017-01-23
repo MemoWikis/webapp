@@ -5,7 +5,7 @@
 <div class="row BoxButtonBar">
     <div class="BoxButtonColumn">
         <div class="BoxButton">
-            <div class="BoxButtonIcon"><i class="fa fa-heart"></i></div>
+            <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
             <div class="BoxButtonText">
                 <span>Spiel starten</span>
             </div>
@@ -14,7 +14,7 @@
     </div>
     <div class="BoxButtonColumn">
         <div class="BoxButton">
-            <div class="BoxButtonIcon"><i class="fa fa-archive"></i></div>
+            <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
             <div class="BoxButtonText">
                 <span>Prüfungstermin anlegen</span> 
             </div>
@@ -23,7 +23,7 @@
     </div>
     <div class="BoxButtonColumn">
         <div class="BoxButton">
-            <div class="BoxButtonIcon"><i class="fa fa-archive"></i></div>
+            <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
             <div class="BoxButtonText">
                 <span>Üben</span>
             </div>
@@ -31,7 +31,7 @@
     </div>
     <div class="BoxButtonColumn">
         <div class="BoxButton">
-            <div class="BoxButtonIcon"><i class="fa fa-archive"></i></div>
+            <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
             <div class="BoxButtonText">
                 <span>Wissen testen</span>
             </div>
