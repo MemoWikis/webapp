@@ -244,18 +244,14 @@ p:empty {
 }
 
 .BoxButtonColumn {
-    .make-xs-column(4);
-    .make-sm-column(3);
-    .media-below-sm({
+    .make-xs-column(3);
+    .media-below-xs({
         width: 50%;
     });
-     .xxs-stack;
 }
 
 .BoxButton {
     .Box;
-    background-color: white;
-    text-align: center;
     .btn;
     display: block;
     white-space: normal;
@@ -294,65 +290,3 @@ p:empty {
     }
 
 }
-
-.SchnurpsButtonBar {
-    margin-top: 10px;
-}
-
-.SchnurpsButton {
-    text-align: center;
-    /*display: table;*/
-    display: inline-block;
-    width: 100%;
-    height: 40px;
-    position: relative;
-    font-weight: normal;
-
-    .ButtonContent {
-         position: absolute;
-        top: 50%;
-        left: 50%; 
-        transform: translate(-50%, -50%);
-        width: 100%;
-    }
-
-    a {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-    }
-}
-
-.SchnurpsButtonIcon {
-    font-size: 14px;
-    padding-top: 10px;
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.SchnurpsButtonText {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-    padding-top: 8px;
-    font-size: 14px;
-    text-transform: uppercase;
-    width: 100%;
-    position: relative;
-
-    span {
-        ////Center horizontally and vertically to allow 1 line or 2 lines of button text
-        /*display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%; 
-        transform: translate(-50%, -50%);
-        width: 100%;*/
-        ////
-    }
-
-}
-
