@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -32,6 +34,9 @@ public class AnswerBodyModel : BaseModel
     public int TestSessionProgessAfterAnswering;
 
     public bool IsLastQuestion = false;
+
+    public bool ShowCommentLink => CommentCount != -1;
+    public int CommentCount = -1;
 
     public Func<UrlHelper, string> NextUrl;
     
@@ -95,6 +100,8 @@ public class AnswerBodyModel : BaseModel
         }
 
         AjaxUrl_GetSolution = url => Links.GetSolution(url, answerQuestionModel.Question);
+
+        CommentCount = answerQuestionModel.Comments.GetTotalCount();
 
         Init(answerQuestionModel.Question);
     }

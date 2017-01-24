@@ -177,7 +177,7 @@
             <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
 
                 <div class="col-xs-4">
-                    <h4 style="padding:0; margin:0;">Kommentare</h4>    
+                    <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
                 </div>
                 
                 <div class="col-xs-8 " style="vertical-align: text-bottom; 
