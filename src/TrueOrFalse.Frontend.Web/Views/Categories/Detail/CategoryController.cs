@@ -16,7 +16,9 @@ public class CategoryController : BaseController
     }
 
     private ActionResult Category(Category category)
-    { 
+    {
+        SaveCategoryView.Run(category, MemuchoUser());
+
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
         var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown)
