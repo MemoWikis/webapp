@@ -333,6 +333,10 @@
     <Compile Include="Domain\Message\Types\CommentMarkedAsSettledMsg.cs" />
     <Compile Include="Domain\Message\Types\KnowledgeReportMsg.cs" />
     <Compile Include="Domain\Message\Types\KnowledgeReportMsgModel.cs" />
+    <Compile Include="Domain\QuestionSet\SetView\Ops\SaveSetView.cs" />
+    <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewMap.cs" />
+    <Compile Include="Domain\QuestionSet\SetView\SetView.cs" />
+    <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
@@ -571,7 +575,7 @@
     <Compile Include="Domain\Question\QuestionValuation\QuestionValuationExt.cs" />
     <Compile Include="Domain\Question\QuestionView\Ops\SaveQuestionView.cs" />
     <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewMap.cs" />
-    <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewPersistence.cs" />
+    <Compile Include="Domain\Question\QuestionView\Persistence\QuestionViewRepository.cs" />
     <Compile Include="Domain\Question\QuestionView\QuestionView.cs" />
     <Compile Include="Domain\Question\SolutionType\Date\DateAnswerParser.cs" />
     <Compile Include="Domain\Question\SolutionType\SolutionMetadata.cs" />
@@ -855,6 +859,7 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs159.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs158.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs157.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs156.cs" />
@@ -878,6 +883,7 @@
     <Compile Include="Web\Controls\UserMessage\MessageType.cs" />
     <Compile Include="Web\Controls\UserMessage\UIMessage.cs" />
     <Compile Include="Web\Crawlers\CrawlerRepo.cs" />
+    <Compile Include="Web\Crawlers\IsCrawlerRequest.cs" />
     <Compile Include="Web\Filters\AccessBetaAttribute.cs" />
     <Compile Include="Web\Filters\RedirectToErrorPage_IfNotLoggedInAttribute.cs" />
     <Compile Include="Web\Filters\AccessOnlyAsLoggedInAttribute.cs" />
@@ -890,6 +896,7 @@
     <Compile Include="Web\AutocompleteUtils.cs" />
     <Compile Include="Web\Crawlers\Crawler.cs" />
     <Compile Include="Web\Markdown\MarkdownMarkdig.cs" />
+    <Compile Include="Web\UserAgent.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionDescriptor.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptActionInvoker.cs" />
     <Compile Include="Web\ViewEngine\JavascriptViewEngine\JavascriptView.cs" />

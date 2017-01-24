@@ -45,7 +45,14 @@
                         <i class="fa fa-calendar">&nbsp;</i>Termin lernen
                     </a>--%>
                 <% } %>
+                
+                <% if(Model.IsInstallationAdmin) { %>
+                    <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                        <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
+                    </a>    
+                <% } %>
             </div>
+
         </div>
        <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">

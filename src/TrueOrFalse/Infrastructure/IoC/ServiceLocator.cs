@@ -13,6 +13,7 @@ public class Sl
 
     public static ISession Session => R<ISession>();
     public static UserRepo UserRepo => R<UserRepo>();
+    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }

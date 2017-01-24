@@ -37,11 +37,9 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         if (HttpContext.Current == null)
             return;
 
-        string userAgent = "";
-        if (HttpContext.Current.Request.UserAgent != null)
-            userAgent = HttpContext.Current.Request.UserAgent.ToLower();
+        var userAgent = UserAgent.Get();
 
-        if (IsCrawlerRequest(userAgent))
+        if (IsCrawlerRequest.Yes(userAgent))
             return;
 
         _questionViewRepo.Create(new QuestionView
@@ -61,17 +59,6 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             ExecuteUpdate();
 
         _searchIndexQuestion.Update(question);
-    }
-
-    private static bool IsCrawlerRequest(string userAgent)
-    {
-        if (HttpContext.Current.Request.Browser.Crawler)
-            return true;
-
-        if (CrawlerRepo.GetAll().Any(crawler => userAgent.Contains(crawler.Pattern)))
-            return true;
-
-        return false;
     }
 
     public void LogOverallTime(Guid guid, int millisencondsSinceQuestionView)
