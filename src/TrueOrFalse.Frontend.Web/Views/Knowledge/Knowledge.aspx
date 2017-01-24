@@ -192,14 +192,14 @@
             <h4>Einloggen oder registrieren</h4>
             <p>
                 Um einen Überblick über deine Lernerfolge, deine anstehenden Übungssitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
-                musst du dich <a href="<%= Links.Login() %>">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
+                musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
             </p>
             <p>
                 <b>Registriere dich und probiere es gleich aus!</b>
             </p>
             <p>                        
                 <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-                <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
+                <a href="#" data-btn-login="true">Ich bin schon Nutzer!</a>
                 <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
             </p>
         </div>

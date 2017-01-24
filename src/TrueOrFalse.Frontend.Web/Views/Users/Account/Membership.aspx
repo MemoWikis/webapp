@@ -150,7 +150,7 @@
                                 <h4>Einloggen oder registrieren</h4>
                                 <p>
                                     Um Mitglied zu werden 
-                                    musst du dich <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+                                    musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
                                 </p>
                             </div>
                         <% }%>

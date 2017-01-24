@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class CategoryModel : BaseModel
@@ -143,4 +142,6 @@ public class CategoryModel : BaseModel
         result.AddRange(_questionRepo.GetForCategory(cat.Id, 5, UserId));
         return false;
     }
+
+    public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 }

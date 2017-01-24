@@ -85,7 +85,7 @@ public class SetModel : BaseModel
 
         QuestionCount = QuestionsInSet.Count;
 
-        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+        //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         AnswersAllCount = questions.Sum(q => q.TotalAnswers());
         AnswersAllPercentageTrue = questions.Sum(q => q.TotalTrueAnswersPercentage());
@@ -95,7 +95,7 @@ public class SetModel : BaseModel
         AnswerMePercentageTrue = totalsPerUser.Sum(q => q.TotalTrue);
         AnswerMePercentageFalse = totalsPerUser.Sum(q => q.TotalFalse);
 
-        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+        //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         var setValuations = Resolve<SetValuationRepo>().GetBy(Id);
         var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);
@@ -103,7 +103,7 @@ public class SetModel : BaseModel
             IsInWishknowledge = setValuation.IsInWishKnowledge();
         }
 
-        foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
+        //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
         TotalPins = set.TotalRelevancePersonalEntries.ToString();
 
@@ -112,4 +112,5 @@ public class SetModel : BaseModel
         ContentRecommendationResult = ContentRecommendation.GetForSet(Set, 6);
     }
 
+    public string GetViews() => Sl.SetViewRepo.GetViewCount(Id).ToString();
 }
