@@ -828,9 +828,11 @@ a.button span.ui-icon {
   margin-right: 5px;
   margin-bottom: 10px;
 }
-*#modalLogin .modal-dialog {
-  width: 450px;
-  height: 300px;
+@media screen and (min-width: 568px) {
+  *#modalLogin .modal-dialog {
+    width: 450px;
+    height: 300px;
+  }
 }
 /*  LABELS
 ----------------------------------------------------------*/
