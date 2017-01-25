@@ -35,7 +35,7 @@ public class AnswerBodyModel : BaseModel
 
     public bool IsLastQuestion = false;
 
-    public bool ShowCommentLink => CommentCount != -1;
+    public bool ShowCommentLink => CommentCount != -1 && !IsLearningSession && !IsTestSession;
     public int CommentCount = -1;
 
     public Func<UrlHelper, string> NextUrl;
