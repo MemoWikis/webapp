@@ -50,7 +50,7 @@
             <div style="margin-top: 10px;" class="actions">
                 <% if (Model.QuestionCount>0) { %>
                     <a style="display: block" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
-                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                        <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
                     </a>
                     <a style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben

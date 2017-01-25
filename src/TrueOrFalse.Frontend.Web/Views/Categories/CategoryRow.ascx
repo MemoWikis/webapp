@@ -17,11 +17,11 @@
                     <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
                 </div>
             
-                <div style="margin-top: 5px;">
+                <div style="margin-top: 1px;">
                     <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>
                 </div>
                 <% if(Model.AnswersTotal > 0) { %>
-                    <div style="margin-top: 6px; font-size: small;">
+                    <div style="margin-top: 2px; font-size: small;">
                         <%= Model.AnswersTotal  %>x beantwortet, 
                         davon <%= Model.CorrectnesProbability %>% richtig.
                     </div>
@@ -31,19 +31,21 @@
             <div class="MainContentLower">
 
                 <% if(Model.UserCanEdit){ %>
-                    <a data-toggle="modal" data-categoryId="<%= Model.CategoryId %>" href="#modalDeleteCategory"><i class="fa fa-trash-o"></i></a>
+                    <span style="font-size: small; position: relative; top: 4px;">
+                        <a data-toggle="modal" data-categoryId="<%= Model.CategoryId %>" href="#modalDeleteCategory"><i class="fa fa-trash-o"></i></a>
 
-                    <a href="<%= Links.CategoryEdit(Url, Model.CategoryName, Model.CategoryId) %>" style="margin-right: 10px;">
-                        <i class="fa fa-pencil"></i> 
-                    </a>
+                        <a href="<%= Links.CategoryEdit(Url, Model.CategoryName, Model.CategoryId) %>" style="margin-right: 10px;">
+                            <i class="fa fa-pencil"></i> 
+                        </a>
+                    </span>
                 <% } %>
             
-                <span class="show-tooltip" title="erstellt: <%= Model.DateCreatedLong %>" style="font-size: small; position: relative; top: 1px;">
+                <span class="show-tooltip" title="erstellt: <%= Model.DateCreatedLong %>" style="font-size: small; position: relative; top: 4px;">
                     Erstellt am <%= Model.DateCreated %>
                 </span>
                 <div style="float: right;">
                     <a class="btn btn-primary btn-sm <%= Model.QuestionCount == 0 ? "disabled " : "" %>show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.CategoryName,Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
-                        <i class="fa fa-play-circle">&nbsp;</i> Testen
+                        <i class="fa fa-play-circle">&nbsp;</i> Wissen testen
                     </a>
                 </div>
                 <div class="clearfix"></div>

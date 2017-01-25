@@ -69,7 +69,7 @@
                         </ul>
                     </div>--%>
                     <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
-                        &nbsp;JETZT TESTEN
+                        <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                     </a>
                 </div>
             </div>

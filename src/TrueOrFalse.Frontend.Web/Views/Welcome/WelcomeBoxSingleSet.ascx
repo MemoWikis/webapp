@@ -27,7 +27,7 @@
             <h4 style="margin-top: 5px;"><%: Model.SetName %></h4>
             <p><%: Model.SetText %></p>
             <p style="text-align: center;">
-                <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Jetzt testen</a>
+                <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow"><i class="fa fa-play-circle AnswerResultIcon">&nbsp;</i>&nbsp;Wissen testen</a>
             </p>
         </div>
     </div>
@@ -71,7 +71,7 @@
                     </ul>
                 </div>
                 <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
-                    &nbsp;JETZT TESTEN
+                    <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                 </a>
             </div>
         </div>
