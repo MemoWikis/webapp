@@ -111,7 +111,7 @@
                         <div class="form-group">
                             <%= Html.LabelFor(m => m.Text, new { @class = "control-label columnLabel" })%>
                             <div class="columnControlsFull">
-                                <%= Html.TextAreaFor(m => m.Text, new { style = "height:50px;", @class="form-control" }) %>
+                                <%= Html.TextAreaFor(m => m.Text, new { @class="form-control" }) %>
                             </div>
                         </div>
                         <div class="form-group">
