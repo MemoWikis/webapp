@@ -27,7 +27,7 @@
         <div class="col-xs-12 col-md-2 col-md-push-10">
             <div class="navLinks">
                 <a href="<%= Links.SetsAll() %>"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
-                <% if(Model.IsOwner){ %>
+                <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 

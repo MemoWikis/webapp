@@ -27,7 +27,7 @@ public class TrainingReminderMsgModel
         var date = trainingDate.TrainingPlan.Date;
         DateName = date.GetTitle();
         DateOfDate = trainingDate.DateTime.ToString("'am' dd.MM.yyyy 'um' HH:mm");
-        var remainingLabel = new TimeSpanLabel(date.Remaining());
+        var remainingLabel = new TimeSpanLabel(date.Remaining(), useDativ: true);
         DateAsDistance = remainingLabel.Full;
         QuestionCountTrainingSession = trainingDate.AllQuestionsInTraining.Count.ToString();
         TrainingLengthTrainingSession = new TimeSpanLabel(trainingDate.TimeEstimated()).Full;
@@ -36,7 +36,7 @@ public class TrainingReminderMsgModel
         LearningContentFullString = date.CountQuestions().ToString() + " Frage" + StringUtils.PluralSuffix(date.CountQuestions(),"n");
         if (date.Sets.Any())
         {
-            LearningContentFullString += "aus " + date.Sets.Count.ToString() + " Frage" +
+            LearningContentFullString += " aus " + date.Sets.Count.ToString() + " Frage" +
                                          StringUtils.PluralSuffix(date.Sets.Count, "sätzen", "satz");
         }
 

@@ -19,7 +19,7 @@
 
     <div class="row">
         
-        <div class="form-horizontal col-md-12" role="form">
+        <div class="form-horizontal col-xs-12" role="form">
             
             <fieldset>
                 <% Html.Message(Model.Message); %>
@@ -41,7 +41,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <div class="col-sm-offset-1 col-sm-10" style="font-size: 12px; padding-top: 7px;">
+                        <div class="col-sm-offset-1 col-sm-10 col-xs-12" style="font-size: 12px; padding-top: 7px;">
                             *Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
                             und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
                         </div>
@@ -55,7 +55,7 @@
                 </div>
                 
                 <div class="row" id="rowLoginMessage" style="display: none">
-                    <div class="col-sm-offset-1 col-sm-10" style="color: red; padding-bottom: 20px;">
+                    <div class="col-sm-offset-1 col-sm-10 col-xs-12" style="color: red; padding-bottom: 20px;">
                         Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort
                     </div>
                 </div>

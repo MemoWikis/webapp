@@ -1,6 +1,37 @@
 /*Included only for debugging purposes; Styles in actual emails must be inlined.
 Use: http://foundation.zurb.com/emails/inliner-v2.html   */
 
+/* custom */
+
+.header {
+    background: #8a8a8a;
+}
+      
+.header .columns {
+    padding-bottom: 0;
+}
+      
+.header p {
+    color: #fff;
+    margin-bottom: 0;
+}
+      
+.header .wrapper-inner {
+    padding: 20px;
+    /*controls the height of the header*/
+}
+      
+.header .container {
+    background: #8a8a8a;
+}
+      
+.wrapper.secondary {
+    background: #eeeeee; /* was #f3f3f3 */
+}
+
+
+/* original file, some styles changed*/
+
 .wrapper {
   width: 100%; }
 
@@ -75,10 +106,10 @@ table, tr, td {
 @media only screen {
   html {
     min-height: 100%;
-    background: #f3f3f3; } }
+    background: #eeeeee; } } /* was #f3f3f3*/
 
 table.body {
-  background: #f3f3f3;
+  background: #eeeeee; /* was #f3f3f3*/
   height: 100%;
   width: 100%; }
 
@@ -894,7 +925,7 @@ p {
 
 small {
   font-size: 80%;
-  color: #cacaca; }
+  color: #888888; } /* was #cacaca */
 
 a {
   color: #2199e8;
@@ -921,11 +952,11 @@ h6 a:visited {
   color: #2199e8; }
 
 pre {
-  background: #f3f3f3;
+  background: #eeeeee; /* was #f3f3f3*/
   margin: 30px 0;
   Margin: 30px 0; }
   pre code {
-    color: #cacaca; }
+    color: #888888; } /* was #cacaca*/
     pre code span.callout {
       color: #8a8a8a;
       font-weight: bold; }
@@ -958,7 +989,7 @@ span.preheader {
   visibility: hidden;
   mso-hide: all !important;
   font-size: 1px;
-  color: #f3f3f3;
+  color: #c8c8c8; /* was #f3f3f3 */
   line-height: 1px;
   max-height: 0px;
   max-width: 0px;
@@ -1123,11 +1154,11 @@ th.callout-inner {
   padding: 10px;
   background: #fefefe; }
   th.callout-inner.primary {
-    background: #def0fc;
+    background: #d0e689; /* was #def0fc */
     border: 1px solid #444444;
     color: #0a0a0a; }
   th.callout-inner.secondary {
-    background: #ebebeb;
+    background: #f0f0f0; /* was #ebebeb */
     border: 1px solid #444444;
     color: #0a0a0a; }
   th.callout-inner.success {

@@ -11,11 +11,12 @@
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
     <% } %>
     
-    <meta name="description" content="<%= (Model.QuestionText.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(85, true) + " - Lerne die richtige Antwort mit memucho und vergesse sie nie wieder!") %>">
+    <meta name="description" content="<%= Model.DescriptionForSearchEngines %>">
     
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
+    <meta property="og:description" content="<%= Model.DescriptionForFacebook %>" />
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -177,7 +178,7 @@
             <div class="row" style="margin-top: 30px; color: darkgray; font-weight: bold;">
 
                 <div class="col-xs-4">
-                    <h4 style="padding:0; margin:0;">Kommentare</h4>    
+                    <h4 style="padding:0; margin:0;">Kommentare<a name="comments"></a></h4>    
                 </div>
                 
                 <div class="col-xs-8 " style="vertical-align: text-bottom; 

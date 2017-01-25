@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse;
 
 public class CommentModel : BaseModel
 {
@@ -58,5 +57,21 @@ public class CommentModel : BaseModel
             }
             AnswersSettledCount = comment.Answers.Count(x => x.IsSettled);
         }
+    }
+}
+
+public static class CommentModelListExt
+{
+    public static int GetTotalCount(this IList<CommentModel> comments)
+    {
+        var totalCount = 0;
+
+        foreach (var comment in comments)
+        {
+            totalCount++;
+            totalCount += comment.Answers.Count();
+        }
+
+        return totalCount;
     }
 }

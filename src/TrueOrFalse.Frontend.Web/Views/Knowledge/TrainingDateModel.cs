@@ -7,8 +7,10 @@ public class TrainingDateModel
     public int QuestionCount;
 
     public Date Date;
+    public TrainingDate TrainingDate;
 
     public int LearningTimeInMin => (int) Math.Ceiling(30/*seconds per question*/ * QuestionCount / 60d);
+    //public int LearningTimeInMin => TrainingDate.TimeEstimated().Minutes;
 
     private TimeSpanLabel _timeSpanLabel;
     public TimeSpanLabel TimeSpanLabel => _timeSpanLabel ?? (_timeSpanLabel = new TimeSpanLabel(DateTime.Now - DateTime));
@@ -25,6 +27,7 @@ public class TrainingDateModel
         DateTime = trainingDate.DateTime;
         QuestionCount = trainingDate.AllQuestionsInTraining.Count;
         Date = trainingDate.TrainingPlan.Date;
+        TrainingDate = trainingDate;
         SummaryBefore = trainingDate.GetSummaryBefore();
         SummaryAfter = trainingDate.GetSummaryAfter();
     }

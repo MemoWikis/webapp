@@ -184,5 +184,9 @@
   {
     "outputFile": "Style/bootstrap/bootstrap.css",
     "inputFile": "Style/bootstrap/bootstrap.less"
+  },
+  {
+    "outputFile": "Views/Sets/Edit/EditSet.css",
+    "inputFile": "Views/Sets/Edit/EditSet.less"
   }
 ]

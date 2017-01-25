@@ -8,7 +8,8 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
         User user, 
         bool onlyLearningSessions = false,
         int? startHour = null,
-        int? endHour = null)
+        int? endHour = null,
+        DateTime? seperateStreakInRecentPeriodSince = null)
     {
         var getAnswerStats = Sl.R<GetAnswerStatsInPeriod>().Run(
             user.Id, 
@@ -28,6 +29,8 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
 
         SetLastStreak(getAnswerStats, result);
         SetLongestStreak(getAnswerStats, result);
+        if (seperateStreakInRecentPeriodSince.HasValue)
+            SetLongestStreakInRecentPeriod(getAnswerStats, result, (DateTime) seperateStreakInRecentPeriodSince);
 
         return result;
     }
@@ -70,17 +73,17 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
             if (previousItem.DateTime.Date == answerStatItem.DateTime.Date.AddDays(-1))
             {
                 currentStreakEnd = answerStatItem.DateTime.Date;
-            }
-            else
-            {
-                var lastStreakLength = (int) ((currentStreakEnd - currentStreakStart).TotalDays);
-                if (lastStreakLength > daysResult.LongestLength)
+
+                var lastStreakLength = (int)((currentStreakEnd - currentStreakStart).TotalDays);
+                if (lastStreakLength >= daysResult.LongestLength)
                 {
                     daysResult.LongestStart = currentStreakStart;
                     daysResult.LongestEnd = currentStreakEnd;
                     daysResult.LongestLength = lastStreakLength;
                 }
-
+            }
+            else
+            {
                 currentStreakStart = answerStatItem.DateTime.Date;
                 currentStreakEnd = answerStatItem.DateTime.Date;
             }
@@ -89,5 +92,19 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
         }
 
         daysResult.LongestLength = daysResult.LongestLength + 1;
+    }
+
+    private static void SetLongestStreakInRecentPeriod(IList<GetAnswerStatsInPeriodResult> getAnswerStats, GetStreaksDaysResult daysResult, DateTime since)
+    {
+        var recentResult = new GetStreaksDaysResult();
+        var answerStatsSince = getAnswerStats.Where(d => d.DateTime.Date >= since.Date).ToList();
+        SetLongestStreak(answerStatsSince, recentResult);
+        if (answerStatsSince.Count == 0)
+            return;
+
+        daysResult.RecentPeriodSince = since.Date;
+        daysResult.RecentPeriodSLongestStart = recentResult.LongestStart;
+        daysResult.RecentPeriodSLongestEnd = recentResult.LongestEnd;
+        daysResult.RecentPeriodSLongestLength = recentResult.LongestLength;
     }
 }

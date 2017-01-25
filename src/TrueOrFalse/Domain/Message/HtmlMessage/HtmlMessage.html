@@ -1,4 +1,16 @@
 ﻿@model HtmlMessageModel
+
+@*
+    File only included for better handling when improving. Actual template for emails is "...StylesInlined.(cs)html".
+    If you change this file, go to http://foundation.zurb.com/emails/inliner-v2.html and use this file and the
+    css file "../HtmlMessage/foundation-emails.css" to inline all styles and write result to "...StylesInlined.(cs)html".
+    See if "@" are correct (style-@ needs to be doubled to escape Razor) and check for all html-special chars in the inlined version
+    (all "&" are "corrected" to "&amp;", so "&amp;" becomes "&amp;amp;". Also: "&" in URI must not be changed to html-char).
+    And: remove this comment and the stylesheet-link above, also remove, when necessary, html- and body-tags (in .cshtml-files).
+*@
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 

@@ -60,6 +60,13 @@
         <hr/>
     </div>
 
+
+    <div class="row">
+        <div class="col-md-10 col-sm-offset-2">
+            <h4 style="margin-top: 20px;" class="">Knowledge-Report per E-Mail</h4>
+        </div>
+    </div>
+
     <div class="form-horizontal">
         <% using (Html.BeginForm("SendKnowledgeReportMessage", "Maintenance")){%>
 

@@ -314,7 +314,7 @@
                                 <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
                             <% } else { %>
                                 <span class="greyed" style="font-weight: bold;">
-                                    <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                                    <%= streak.LongestStart.ToString("dd.MM.") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
                                 </span><br />
                             <% } %>
                         
