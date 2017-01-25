@@ -14,7 +14,8 @@ public class AnswerQuestionModel : BaseModel
 
     public Guid QuestionViewGuid;
 
-    public string MetaDescription;
+    public string DescriptionForSearchEngines;
+    public string DescriptionForFacebook;
 
     public int QuestionId;
     public Question Question;
@@ -287,17 +288,17 @@ public class AnswerQuestionModel : BaseModel
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
 
-
-        MetaDescription = GetMetaDescription();
+        DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
+        DescriptionForFacebook = GetMetaDescriptionsFacebook();
     }
 
-    private string GetMetaDescription()
+    private string GetMetaDescriptionSearchEngines()
     {
         var result = "";
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
         {
-            result = $"Antwort: {SolutionModel.CorrectAnswer()} ";
+            result = $"Antwort: '{SolutionModel.CorrectAnswer()}' {Environment.NewLine}";
 
             if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
             {
@@ -310,8 +311,9 @@ public class AnswerQuestionModel : BaseModel
             {
                 result += "Alternativen: ";
                 result += ((QuestionSolutionMultipleChoice)SolutionModel)
-                    .Choices.Take(1)
-                    .Aggregate((a, b) => a + " - oder - " + b) + "?  ";
+                    .Choices
+                    .Skip(1)
+                    .Aggregate((a, b) => a + ", " + b) + "?  ";
             }
 
         }
@@ -321,5 +323,21 @@ public class AnswerQuestionModel : BaseModel
         }
 
         return result.Truncate(300, addEllipsis: true).Trim();
+    }
+
+    private string GetMetaDescriptionsFacebook()
+    {
+        var result = "";
+
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        {
+            result = ((QuestionSolutionMultipleChoice)SolutionModel)
+                .Choices
+                .Shuffle()
+                .Aggregate((a, b) => $"{a} - oder - {Environment.NewLine} {b}");
+
+        }
+
+        return result;
     }
 }

@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 public static class ListExtensions
 {
-    public static void Shuffle<T>(this IList<T> list)
+    public static IList<T> Shuffle<T>(this IList<T> list)
     {
         if (list.Count > 255)
         {
@@ -19,7 +19,7 @@ public static class ListExtensions
                 list[m] = value;
             }
 
-            return;
+            return list;
         }
 
         //http://stackoverflow.com/questions/273313/randomize-a-listt-in-c-sharp
@@ -36,6 +36,8 @@ public static class ListExtensions
             list[k] = list[n];
             list[n] = value;
         }
+
+        return list;
     }
 
     public static int IndexOf<T>(this IList<T> list, Predicate<T> match)
