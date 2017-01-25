@@ -1,4 +1,13 @@
-﻿
+﻿@*
+    File only included for better handling when improving. Actual template for emails is "...StylesInlined.(cs)html".
+    If you change this file, go to http://foundation.zurb.com/emails/inliner-v2.html and use this file and the
+    css file "../HtmlMessage/foundation-emails.css" to inline all styles and write result to "...StylesInlined.(cs)html".
+    See if "@" are correct (style-@ needs to be doubled to escape Razor) and check for all html-special chars in the inlined version
+    (all "&" are "corrected" to "&amp;", so "&amp;" becomes "&amp;amp;". Also: "&" in URI must not be changed to html-char).
+    And: remove this comment and the stylesheet-link above, also remove, when necessary, html- and body-tags (in .cshtml-files).
+*@
+
+
 <p>
     Jetzt ist für dich der ideale Zeitpunkt, um für deinen Termin <strong>@Model.DateName</strong> zu lernen. Deshalb hat memucho für dich eine persönliche Lernsitzung zusammengestellt:
 </p>
@@ -35,7 +44,7 @@
 
 
 <p>
-    <strong>Infos zum Termin @Model.DateName</strong>
+    Infos zum Termin <strong>@Model.DateName</strong>
 </p>
 
 <table class="row">
@@ -54,10 +63,6 @@
                         <th class="expander"></th>
                     </tr>
                 </table>
-                <p>
-                    In der <a href="@(Model.LinkToDates)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=dateOverview">Terminübersicht</a> kannst du die Details zu deinem Termin
-                    und zu deinem persönlichen Übungsplan ansehen und bearbeiten.
-                </p>
 
             </th>
         </tr>
@@ -65,11 +70,21 @@
 </table>
 
 <p>
+    In der <a href="@(Model.LinkToDates)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=dateOverview">Terminübersicht</a> kannst du die Details zu deinem Termin
+    und zu deinem persönlichen Übungsplan ansehen und bearbeiten.
+</p>
+
+<p>
+    Viel Spaß beim Lernen und Wissen wünschen dir<br/>
+    <strong>Christof, Jule &amp; Robert</strong>
+</p>
+
+<p>
     <small>
         Dein persönlicher Übungsplan wird von memucho nach jeder Übungssitzung aktualisiert,
         um dein Lernen zu optimieren.
         So sparst du Zeit und weißt immer genau, was du zu welchem Zeitpunkt am besten lernen solltest.
-        Übrigens werden unsere Prognosen zur Lernzeit immer genauer, je mehr du und deine Freunde
+        Übrigens werden unsere Prognosen für deine Lernzeit immer genauer, je mehr du und deine Freunde
         mit memucho lernen.
         <a href="@(Model.LinkToTechInfo)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=infoOnTechnology">Hier erfährst du mehr über unsere Technologie</a>.
     </small>

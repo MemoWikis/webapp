@@ -4,7 +4,8 @@
 </p>
 <p class="text-center" style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: center;">
     <strong>@Model.QuestionCountTrainingSession Fragen</strong>
-    <br>
+</p>
+<p class="text-center" style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: center;">
     <strong>@Model.TrainingLengthTrainingSession Lernzeit (geschätzt)</strong>
 </p>
 <center data-parsed="" style="min-width: 580px; width: 100%;">
@@ -37,7 +38,7 @@
 </table>
 
 <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-    <strong>Infos zum Termin @Model.DateName</strong>
+    Infos zum Termin <strong>@Model.DateName</strong>
 </p>
 <table class="row" style="border-collapse: collapse; border-spacing: 0; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%;">
     <tbody>
@@ -55,19 +56,23 @@
                         </tr>
                     </tbody>
                 </table>
-                <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                    In der <a href="@(Model.LinkToDates)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=dateOverview" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Terminübersicht</a>            kannst du die Details zu deinem Termin und zu deinem persönlichen Übungsplan ansehen und bearbeiten.
-                </p>
             </th>
         </tr>
     </tbody>
 </table>
 <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-    <small style="color: #cacaca; font-size: 80%;">
+    In der <a href="@(Model.LinkToDates)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=dateOverview" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Terminübersicht</a>    kannst du die Details zu deinem Termin und zu deinem persönlichen Übungsplan ansehen und bearbeiten.
+</p>
+<p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+    Viel Spaß beim Lernen und Wissen wünschen dir<br/>
+    <strong>Christof, Jule &amp; Robert</strong>
+</p>
+<p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+    <small style="color: #888888; font-size: 80%;">
         Dein persönlicher Übungsplan wird von memucho nach jeder Übungssitzung aktualisiert,
         um dein Lernen zu optimieren.
         So sparst du Zeit und weißt immer genau, was du zu welchem Zeitpunkt am besten lernen solltest.
-        Übrigens werden unsere Prognosen zur Lernzeit immer genauer, je mehr du und deine Freunde
+        Übrigens werden unsere Prognosen für deine Lernzeit immer genauer, je mehr du und deine Freunde
         mit memucho lernen.
         <a href="@(Model.LinkToTechInfo)?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=infoOnTechnology" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Hier erfährst du mehr über unsere Technologie</a>.
     </small>
