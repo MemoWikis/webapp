@@ -165,4 +165,6 @@ public class Question : DomainEntity, ICreator
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
     }
+
+    public virtual QuestionSolution GetSolution => GetQuestionSolution.Run(this);
 }

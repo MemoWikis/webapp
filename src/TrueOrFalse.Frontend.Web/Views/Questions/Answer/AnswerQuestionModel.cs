@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
+using static System.String;
 
 public class AnswerQuestionModel : BaseModel
 {
@@ -12,6 +13,8 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> NextUrl;
 
     public Guid QuestionViewGuid;
+
+    public string MetaDescription;
 
     public int QuestionId;
     public Question Question;
@@ -48,15 +51,8 @@ public class AnswerQuestionModel : BaseModel
 
     public string ImageUrlAddComment;
 
-    public bool HasImage
-    {
-        get { return !string.IsNullOrEmpty(ImageUrl_500px); }
-    }
-
-    public bool HasSound
-    {
-        get { return !string.IsNullOrEmpty(SoundUrl); }
-    }
+    public bool HasImage => !IsNullOrEmpty(ImageUrl_500px);
+    public bool HasSound => !IsNullOrEmpty(SoundUrl);
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
@@ -290,5 +286,40 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
+
+
+        MetaDescription = GetMetaDescription();
+    }
+
+    private string GetMetaDescription()
+    {
+        var result = "";
+
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        {
+            result = $"Antwort: {SolutionModel.CorrectAnswer()} ";
+
+            if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
+            {
+                result += Environment.NewLine;
+                result += "Erkärung: ";
+                result += Question.Description;
+            }
+
+            if (result.Length < 50)
+            {
+                result += "Alternativen: ";
+                result += ((QuestionSolutionMultipleChoice)SolutionModel)
+                    .Choices.Take(1)
+                    .Aggregate((a, b) => a + " - oder - " + b) + "?  ";
+            }
+
+        }
+        else
+        {
+            result += Question.Description;
+        }
+
+        return result.Truncate(300, addEllipsis: true).Trim();
     }
 }

@@ -11,7 +11,7 @@
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
     <% } %>
     
-    <meta name="description" content="<%= (Model.QuestionText.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(85, true) + " - Lerne die richtige Antwort mit memucho und vergesse sie nie wieder!") %>">
+    <meta name="description" content="<%= Model.MetaDescription  %>">
     
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
