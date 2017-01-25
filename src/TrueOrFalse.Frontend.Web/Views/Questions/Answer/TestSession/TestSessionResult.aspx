@@ -112,7 +112,7 @@
                         title="Neue Fragen aus <% if (Model.TestSessionTypeIsSet) Response.Write("dem gleichen Fragesatz");
                                                   else if (Model.TestSessionTypeIsCategory) Response.Write("der gleichen Kategorie");%>
                     " rel="nofollow">
-                    <i class="fa fa-repeat AnswerResultIcon">&nbsp;</i>Noch einmal testen
+                    <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
                 </a>
             </div>
             
