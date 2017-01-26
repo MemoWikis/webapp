@@ -12,7 +12,7 @@
     <span class="h2-additional-info">
         Du lernst 
         <% if (Model.LearningSession.Questions().Count() == Model.LearningSession.TotalPossibleQuestions){ %>
-            alle
+            alle <%= Model.LearningSession.Questions().Count() %>
         <% }else { %>
             <%= Model.LearningSession.Questions().Count() %> 
         <% } %>

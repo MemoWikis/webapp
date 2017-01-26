@@ -270,6 +270,23 @@
                 </div>
 
             <% } %>
+            
+            <% if(Model.LearningSession.IsCategorySession) { %>
+                <div class="boxInfo">
+                    <div class="boxInfoHeader">
+                        Kategorie-Info
+                    </div>
+                    <div class="boxInfoContent">
+                        <p>
+                            Du hast diese Kategorie gelernt:<br />
+                            <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" style="display: inline-block;">
+                                <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
+                            </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions %> Fragen)
+                        </p>
+                    </div>
+                </div>
+
+            <% } %>
 
             <% if(Model.LearningSession.IsDateSession) { %>
                 <div class="boxInfo">
