@@ -8,6 +8,7 @@
     General Styles
     Layout Elements
     NavLinks
+    Buttons
     Boxes
     Cards
     Images
@@ -2142,6 +2143,155 @@
 }
 .BottomBar .dropdown {
   float: right;
+}
+/*  Buttons
+----------------------------------------------------------*/
+/*Button bar on detail pages*/
+.BoxButtonBar {
+  margin-bottom: 20px;
+}
+.BoxButtonColumn {
+  float: left;
+  width: 50%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  /*.media-below-sm({
+        width: 50%;
+    });*/
+}
+@media (min-width: 768px) {
+  .BoxButtonColumn {
+    float: left;
+    width: 25%;
+  }
+}
+.BoxButton {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  border: 1px solid #e3e3e3;
+  padding: 15px;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  display: block;
+  white-space: normal;
+  height: 100px;
+  position: relative;
+  margin-bottom: 20px;
+  color: #003264;
+}
+.BoxButton:focus,
+.BoxButton:active:focus,
+.BoxButton.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.BoxButton:hover,
+.BoxButton:focus {
+  color: #333;
+  text-decoration: none;
+}
+.BoxButton:active,
+.BoxButton.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.BoxButton.disabled,
+.BoxButton[disabled],
+fieldset[disabled] .BoxButton {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.BoxButton:hover,
+.BoxButton:focus,
+.BoxButton:active,
+.BoxButton.active,
+.open .dropdown-toggle.BoxButton {
+  color: #333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+.BoxButton:active,
+.BoxButton.active,
+.open .dropdown-toggle.BoxButton {
+  background-image: none;
+}
+.BoxButton.disabled,
+.BoxButton[disabled],
+fieldset[disabled] .BoxButton,
+.BoxButton.disabled:hover,
+.BoxButton[disabled]:hover,
+fieldset[disabled] .BoxButton:hover,
+.BoxButton.disabled:focus,
+.BoxButton[disabled]:focus,
+fieldset[disabled] .BoxButton:focus,
+.BoxButton.disabled:active,
+.BoxButton[disabled]:active,
+fieldset[disabled] .BoxButton:active,
+.BoxButton.disabled.active,
+.BoxButton[disabled].active,
+fieldset[disabled] .BoxButton.active {
+  background-color: #fff;
+  border-color: #ccc;
+}
+.BoxButton .badge {
+  color: #fff;
+  background-color: #333;
+}
+.BoxButton.NotAvailable {
+  color: darkgray;
+}
+.BoxButton a {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.BoxButtonIcon {
+  font-size: 26px;
+  padding-top: 5px;
+}
+.BoxButtonText {
+  padding-top: 8px;
+  height: 50px;
+  font-size: 14px;
+  text-transform: uppercase;
+  width: 100%;
+  position: relative;
+  /*span {//Center text vertically
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }*/
 }
 /*  Boxes
 ----------------------------------------------------------*/

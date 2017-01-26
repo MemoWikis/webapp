@@ -108,25 +108,54 @@
                                 <div style="float: left; padding-top: 3px;">
                                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
-                                <div class="dropdown">
-                                    <% var buttonId = Guid.NewGuid(); %>
-                                    <a href="#" id="<%=buttonId %>" <%= Model.QuestionCount == 0 ? "disabled " : "" %>class="dropdown-toggle  btn btn-link ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                                        <li><a href="<%= Links.StartSetLearningSession(Model.Id) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a></li>
-                                        <li><a href="<%= Links.GameCreateFromSet(Model.Id) %>"> Spiel starten</a></li>
-                                        <li><a href="<%= Links.DateCreateForSet(Model.Id) %>"> Termin anlegen</a></li>
-                                    </ul>
-                                </div>
-                                <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-primary " role="button" <%= Model.QuestionCount == 0 ? "disabled " : "" %>rel="nofollow">
-                                    <i class="fa fa-play-circle">&nbsp;&nbsp;</i>WISSEN TESTEN
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>    
             </div>
+            <div class="row BoxButtonBar">
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>"
+                            data-original-title="Tritt gegen andere Nutzer im Echtzeit-Quizspiel an.">
+                        <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Spiel starten</span>
+                        </div>
+                        <a href="<%= Links.GameCreateFromSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">
+                        </a>
+                    </div>
+                </div>
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>" 
+                            data-original-title="Gib an, bis wann du alles zum Thema wissen musst und erhalte deinen persönlichen Übungsplan.">
+                        <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Prüfungstermin anlegen</span> 
+                        </div>
+                        <a href="<%= Links.DateCreateForSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">
+                        </a>
+                    </div>
+                </div>
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>" data-original-title="Lerne personalisiert genau die Fakten, die du am dringendsten wiederholen solltest.">
+                        <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Üben</span>
+                        </div>
+                        <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                        </a>
+                    </div>
+                </div>
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit 10 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
+                        <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Wissen testen</span>
+                        </div>
+                        <a href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" rel="nofollow"></a>
+                    </div>
+                </div>
+            </div> 
             <div id="rowContainer">
                 <div class="col-xs-12">
                     <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>

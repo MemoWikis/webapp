@@ -8,6 +8,7 @@
     General Styles
     Layout Elements
     NavLinks
+    Buttons
     Boxes
     Cards
     Images
@@ -115,6 +116,72 @@
 }
 
 
+
+/*  Buttons
+----------------------------------------------------------*/
+
+/*Button bar on detail pages*/
+
+.BoxButtonBar {
+    margin-bottom: 20px;
+}
+
+.BoxButtonColumn {
+    .make-xs-column(6);
+
+    .make-sm-column(3);
+    /*.media-below-sm({
+        width: 50%;
+    });*/
+}
+
+.BoxButton {
+    .Box;
+    .btn;
+    .btn-default;
+    display: block;
+    white-space: normal;
+    height: 100px;
+    position: relative;
+    margin-bottom: 20px;
+    color: @memo-blue;
+    
+    &.NotAvailable {
+        color: darkgray;
+    }
+
+    a {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+}
+
+.BoxButtonIcon {
+    font-size: 26px;
+    padding-top: 5px;
+}
+
+.BoxButtonText {
+    padding-top: 8px;
+    height: 50px;
+    font-size: 14px;
+    text-transform: uppercase;
+    width: 100%;
+    position: relative;
+
+    /*span {//Center text vertically
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }*/
+
+}
 
 /*  Boxes
 ----------------------------------------------------------*/
