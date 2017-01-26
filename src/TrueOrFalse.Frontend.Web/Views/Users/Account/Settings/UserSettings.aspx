@@ -123,19 +123,19 @@
                             </div>
                         </div>
 
-<%--                        <h4>Benachrichtigungen</h4>
+                        <h4>Benachrichtigungen</h4>
                         <div class="form-group">
                             <div class="columnControlsFull noLabel">
-                                <label class="dropdownSelect" for="KnowledgeReportNotificationInterval">
+                                <label class="dropdownSelect" for="KnowledgeReportInterval">
                                     <label class="dropdownTitle">
                                         Wissensreport per E-Mail: &nbsp;
                                     </label>
-                                    <select style="display: inline; width: 180px;" data-val="true" data-val-required="Das Feld &quot;KnowledgeReportNotificationInterval&quot; ist erforderlich." id="KnowledgeReportNotificationInterval" name="KnowledgeReportNotificationInterval" class="valid form-control">
-                                        <option value="Weekly" <%= Model.KnowledgeReportNotificationInterval == UserSettingNotificationInterval.Weekly ? "selected='selected'" : "" %>>Wöchentlich</option>
-                                        <option value="Monthly" <%= Model.KnowledgeReportNotificationInterval == UserSettingNotificationInterval.Monthly ? "selected='selected'" : "" %>>Monatlich</option>
-                                        <option value="Quarterly" <%= Model.KnowledgeReportNotificationInterval == UserSettingNotificationInterval.Quarterly ? "selected='selected'" : "" %>>Alle drei Monate</option>
-                                        <option disabled="disabled">---</option>
-                                        <option value="Never" <%= Model.KnowledgeReportNotificationInterval == UserSettingNotificationInterval.Never ? "selected='selected'" : "" %>>Nie</option>
+                                    <select style="display: inline; width: 180px;" data-val="true" data-val-required="Das Feld &quot;KnowledgeReportNotificationInterval&quot; ist erforderlich." id="KnowledgeReportInterval" name="KnowledgeReportInterval" class="valid form-control">
+                                        <option value="Daily" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Daily ? "selected='selected'" : "" %>>Täglich</option>
+                                        <option value="Weekly" <%= ((Model.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly) || (Model.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet)) ? "selected='selected'" : "" %>>Wöchentlich</option>
+                                        <option value="Monthly" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Monthly ? "selected='selected'" : "" %>>Monatlich</option>
+                                        <option value="Quarterly" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Quarterly ? "selected='selected'" : "" %>>Alle drei Monate</option>
+                                        <option value="Never" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "selected='selected'" : "" %>>Nie</option>
                                     </select>                                
                                     <label class="additionalInfo">
                                         Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem Wunschwissen, 
@@ -144,7 +144,7 @@
                                     </label>
                                 </label>
                             </div>
-                        </div>                                    --%>
+                        </div>                                    
 
 
                         <div class="form-group" style="margin-top: 30px;">

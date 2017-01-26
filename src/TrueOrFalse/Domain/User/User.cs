@@ -22,7 +22,7 @@ public class User : DomainEntity
     public virtual int WishCountSets { get; set; }
     public virtual bool ShowWishKnowledge { get; set; }
     public virtual bool AllowsSupportiveLogin { get; set; }
-    public virtual UserSettingNotificationInterval KnowledgeReportEmailInterval { get; set; }
+    public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }

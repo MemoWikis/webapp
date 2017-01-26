@@ -27,17 +27,19 @@ public class UserSettingsController : BaseController
             return View(_viewLocation, model);
         }
 
-        model.Message = new SuccessMessage("Wurde gespeichert");
-
         _sessionUser.User.EmailAddress = model.Email.Trim();
         _sessionUser.User.Name = model.Name.Trim();
         _sessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
         _sessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
+        _sessionUser.User.KnowledgeReportInterval = model.KnowledgeReportInterval;
 
         _userRepo.Update(_sessionUser.User);
         ReputationUpdate.ForUser(_sessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
-        return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
+        var newUserSettingsModel = new UserSettingsModel(_sessionUser.User);
+        newUserSettingsModel.Message = new SuccessMessage("Deine Änderungen wurden gespeichert");
+
+        return View(_viewLocation, newUserSettingsModel);
     }
 
     [HttpPost]

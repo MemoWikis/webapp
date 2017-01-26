@@ -25,7 +25,7 @@ public class UserSettingsModel : BaseModel
 
     public bool AllowsSupportiveLogin { get; set; }
     public bool ShowWishKnowledge { get; set; }
-    public UserSettingNotificationInterval KnowledgeReportNotificationInterval { get; set; }
+    public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
 
     private IEnumerable<SelectListItem> _knowledgeReportNotificationIntervalDropdownList;
 
@@ -44,7 +44,7 @@ public class UserSettingsModel : BaseModel
         Membership = user.CurrentMembership();
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowledge = user.ShowWishKnowledge;
-        KnowledgeReportNotificationInterval = user.KnowledgeReportEmailInterval;
+        KnowledgeReportInterval = user.KnowledgeReportInterval;
 
         var imageResult = new UserImageSettings(user.Id).GetUrl_200px(user);
         ImageUrl_200 = imageResult.Url;
