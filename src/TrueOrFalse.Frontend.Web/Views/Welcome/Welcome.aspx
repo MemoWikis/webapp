@@ -68,7 +68,7 @@
                     <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
                         <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
                     </a>
-                    <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover pull-right">ERFAHRE MEHR...</a><br />
+                    <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
         </div>
@@ -362,9 +362,9 @@
         <% } %>
         <% if (Model.IsLoggedIn) { %>
             <div class="well" style="padding: 20px; ">
-                <div style="text-align: center">
-                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" style="t"title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt <br/>Wunschwissen lernen
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                        <i class="fa fa-heart">&nbsp;&nbsp;</i>LERNEN
                     </a>
                 </div>
                 <% if (!Model.UserHasWishknowledge) { %>

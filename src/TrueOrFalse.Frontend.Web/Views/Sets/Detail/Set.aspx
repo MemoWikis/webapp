@@ -33,7 +33,7 @@
                 
                 <% if (Model.QuestionCount > 0) { %>
                     <%--<a class="btn btn-primary btn-sm" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
-                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                        <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
                     </a>--%>
                     <%--<a style="font-size: 12px;" data-allowed="logged-in" data-allowed-type="learning-session" href="" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
@@ -120,7 +120,7 @@
                                     </ul>
                                 </div>
                                 <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-primary " role="button" <%= Model.QuestionCount == 0 ? "disabled " : "" %>rel="nofollow">
-                                    &nbsp;JETZT TESTEN
+                                    <i class="fa fa-play-circle">&nbsp;&nbsp;</i>WISSEN TESTEN
                                 </a>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
             </div>
             <div id="rowContainer">
                 <div class="col-xs-12">
-                    <h4 style="margin-top: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
+                    <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
                 </div>
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>
                     <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
@@ -141,13 +141,13 @@
                     <% if (Model.QuestionsInSet.Any()){ %>
                         <div class="pull-right">
                             <a href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block; padding-right: 15px; margin-top: 29px;">
-                                <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;</i>Spiel starten
+                                <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;&nbsp;</i>SPIEL STARTEN
                             </a>
                             <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
-                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
+                                <i class="fa fa-line-chart">&nbsp;&nbsp;</i>JETZT ÜBEN
                             </a>
                             <a class="btn btn-primary" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
-                                <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                                <i class="fa fa-play-circle">&nbsp;&nbsp;</i>WISSEN TESTEN
                             </a>
                         </div>
                     <% } %>

@@ -256,7 +256,7 @@
                     <div class="ItemText"><%: primarySet.Text %></div>
                     <div style="margin-top: 8px; text-align: center;">
                         <a href="<%= Links.TestSessionStartForSet(primarySet.Name, primarySet.Id) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
-                            &nbsp;JETZT TESTEN
+                            <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                         </a>
                     </div>
                 </div>
