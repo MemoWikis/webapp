@@ -90,7 +90,7 @@
         <div class="BoxButton">
             <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
             <div class="BoxButtonText">
-                <span>Prüfungstermin anlegen</span>
+                <span>Prüfungstermin anlegen</span> 
             </div>
             <a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow"></a>
         </div>
@@ -101,6 +101,7 @@
             <div class="BoxButtonText">
                 <span>Üben</span>
             </div>
+            <a href="<%= Links.StartCategoryLearningSession(Model.Id) %>" rel="nofollow"></a>
         </div>
     </div>
     <div class="BoxButtonColumn">
@@ -109,6 +110,7 @@
             <div class="BoxButtonText">
                 <span>Wissen testen</span>
             </div>
+            <a href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" rel="nofollow"></a>
         </div>
     </div>
 </div>--%>

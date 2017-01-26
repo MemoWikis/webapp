@@ -132,6 +132,7 @@ public class AnswerQuestionModel : BaseModel
         CurrentLearningStepPercentage = CurrentLearningStepIdx == 0
             ? 0
             : (int)Math.Round(CurrentLearningStepIdx/(float)LearningSession.Steps.Count()*100);
+
         NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
             new {
                 learningSessionId = learningSession.Id,

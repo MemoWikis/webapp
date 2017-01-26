@@ -20,6 +20,7 @@ public class CategoryModel : BaseModel
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
     public IList<Question> SingleQuestions;
+
     public IList<User> TopCreaters;
 
 
@@ -99,20 +100,7 @@ public class CategoryModel : BaseModel
 
         Sets = Resolve<SetRepo>().GetForCategory(category.Id);
 
-        SingleQuestions = GetSingleQuestions();
-    }
-
-    private List<Question> GetSingleQuestions()
-    {
-        var result = new List<Question>();
-
-        var a = Sl.R<QuestionRepo>().GetForCategory(Id);
-
-        var b = Sets.SelectMany(s => s.QuestionsInSet).Select(x => x.Question);
-
-        result = a.Except(b).ToList();
-
-        return result;
+        SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
     }
 
     private List<Question> GetTopQuestionsInSubCats()

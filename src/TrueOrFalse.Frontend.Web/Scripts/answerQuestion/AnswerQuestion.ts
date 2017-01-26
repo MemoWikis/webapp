@@ -136,7 +136,7 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click(function(e) {
-                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self._isLastLearningStep) {
+                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect) {
                     var href = $(this).attr('href') +
                         "?skipStepIdx=" +
                         $('#hddIsLearningSession').attr('data-current-step-idx');

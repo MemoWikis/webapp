@@ -56,4 +56,26 @@ public class CategoryController : BaseController
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
+
+    [RedirectToErrorPage_IfNotLoggedIn]
+    public ActionResult StartLearningSession(int categoryId)
+    {
+        var category = Resolve<CategoryRepository>().GetById(categoryId);
+
+        var questions = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
+
+        if (questions.Count == 0)
+            throw new Exception("Cannot start LearningSession with 0 questions.");
+
+        var learningSession = new LearningSession
+        {
+            CategoryToLearn = category,
+            Steps = GetLearningSessionSteps.Run(questions),
+            User = _sessionUser.User
+        };
+
+        R<LearningSessionRepo>().Create(learningSession);
+
+        return Redirect(Links.LearningSession(learningSession));
+    }
 }
