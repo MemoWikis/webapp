@@ -99,7 +99,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionWithCategoryFilter(UrlHelper url, string categoryName, int categoryId){
             return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
-            return "/Fragen/Suche/Kategorie/" + UriSanitizer.Run(categoryName) + "/" + categoryId;
         }
 
         public static string QuestionWish_WithCategoryFilter(Category category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
@@ -317,6 +316,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Games(UrlHelper url) => url.Action("Games", "Games");
         public static string GameCreateFromDate(int dateId) => GetUrlHelper().Action("Create", "Game", new {dateId = dateId});
         public static string GameCreateFromSet(int setId) => GetUrlHelper().Action("Create", "Game", new { setId = setId});
+        public static string GameCreateFromSets(List<int> setIds) => GetUrlHelper().Action("Create", "Game") + "?setIds="
+                + string.Join("&setIds=", setIds);
+
         public static string GameCreate() => GetUrlHelper().Action("Create", "Game", null);
         public static string GamePlay(UrlHelper url, int gameId) => GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
 

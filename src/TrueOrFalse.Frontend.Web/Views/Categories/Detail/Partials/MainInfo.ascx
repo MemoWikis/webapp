@@ -78,12 +78,13 @@
 </div>
 <%--<div class="row BoxButtonBar">
     <div class="BoxButtonColumn">
-        <div class="BoxButton">
+        <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>"
+            data-original-title="">
             <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
             <div class="BoxButtonText">
                 <span>Spiel starten</span>
             </div>
-            <a></a>
+            <a href="<%= Links.GameCreateFromSets(Model.Category.GetSets().Select(s => s.Id).ToList()) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"></a>
         </div>
     </div>
     <div class="BoxButtonColumn">
@@ -92,7 +93,7 @@
             <div class="BoxButtonText">
                 <span>Prüfungstermin anlegen</span> 
             </div>
-            <a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow"></a>
+            <a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"></a>
         </div>
     </div>
     <div class="BoxButtonColumn">

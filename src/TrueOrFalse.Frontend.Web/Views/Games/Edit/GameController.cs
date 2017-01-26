@@ -26,6 +26,14 @@ public class GameController : BaseController
                 gameModel.Sets = new List<Set>{set};
         }
 
+        if (Request["setIds"] != null)
+        {
+            var setIds = Request["setIds"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x)).ToList();
+
+            gameModel.Sets = Sl.R<SetRepo>().GetByIds(setIds);
+        }
+
         if (Request["dateId"] != null)
         {
             var date = Sl.R<DateRepo>().GetById(Convert.ToInt32(Request["dateId"]));
