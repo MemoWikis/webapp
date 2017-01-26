@@ -344,6 +344,7 @@
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
+    <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
@@ -864,6 +865,7 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs162.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs161.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs160.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs159.cs" />

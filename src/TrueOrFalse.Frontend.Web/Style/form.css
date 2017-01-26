@@ -145,6 +145,14 @@ label {
   font-size: 111.11111111%;
   margin-bottom: 4px;
 }
+.dropdownSelect .dropdownTitle {
+  display: inline-block;
+  font-size: 111.11111111%;
+  margin-bottom: 15px;
+}
+.dropdownSelect .additionalInfo {
+  padding-left: 20px;
+}
 .RequiredField {
   font-weight: bold;
 }

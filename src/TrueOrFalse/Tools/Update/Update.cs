@@ -92,6 +92,7 @@
                 .Add(UpdateToVs159.Run)
                 .Add(UpdateToVs160.Run)
                 .Add(UpdateToVs161.Run)
+                .Add(UpdateToVs162.Run)
                 .Run();
         }
     }
