@@ -865,7 +865,6 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs162.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs161.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs160.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs159.cs" />
