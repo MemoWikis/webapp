@@ -6,11 +6,11 @@ namespace TrueOrFalse.Updates
     {
         public static void Run()
         {
-            //Sl.Resolve<ISession>()
-            //  .CreateSQLQuery(
-            //    @"ALTER TABLE `questionset`
-	           //     ADD COLUMN `VideoUrl` VARCHAR(255) NULL AFTER `Text`;"
-            //).ExecuteUpdate();
+            Sl.Resolve<ISession>()
+              .CreateSQLQuery(
+                @"ALTER TABLE `questionset`
+                 ADD COLUMN `VideoUrl` VARCHAR(255) NULL AFTER `Text`;"
+            ).ExecuteUpdate();
         }
     }
 }
