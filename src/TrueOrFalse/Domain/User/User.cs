@@ -15,13 +15,14 @@ public class User : DomainEntity
     public virtual string Name { get; set; }
     public virtual bool IsEmailConfirmed { get; set;  }
     public virtual bool IsInstallationAdmin { get; set; }
-    public virtual bool AllowsSupportiveLogin { get; set; }
     public virtual DateTime? Birthday { get; set; }
     public virtual int Reputation { get; set; }
     public virtual int ReputationPos { get; set; }
     public virtual int WishCountQuestions { get; set; }
     public virtual int WishCountSets { get; set; }
     public virtual bool ShowWishKnowledge { get; set; }
+    public virtual bool AllowsSupportiveLogin { get; set; }
+    public virtual UserSettingNotificationInterval KnowledgeReportEmailInterval { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }

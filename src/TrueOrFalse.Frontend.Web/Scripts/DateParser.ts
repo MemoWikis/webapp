@@ -45,7 +45,7 @@ class DateR{
             case DatePrecision.Century:
                 return this.Year + ". Jahrhundert";
             case DatePrecision.Millenium:
-                return this.Year + ". Jahrausend";
+                return this.Year + ". Jahrtausend";
         }
         return "";
     }
