@@ -232,6 +232,9 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (learningSession.IsSetSession)
                 return StartSetLearningSession(learningSession.SetToLearn.Id);
 
+            if (learningSession.IsCategorySession)
+                return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
+
             if (learningSession.IsDateSession)
                 return GetUrlHelper().Action("StartLearningSession", "Dates", new { dateId = learningSession.DateToLearn.Id });
 
@@ -243,6 +246,9 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string StartWishLearningSession() =>
             GetUrlHelper().Action("StartLearningSession", KnowledgeController );
+
+        public static string StartCategoryLearningSession(int categoryId) =>
+           GetUrlHelper().Action("StartLearningSession", CategoryController, new { categoryId = categoryId });
 
         /* Testing / TestSession*/
         public const string TestSessionController = "TestSession";

@@ -140,6 +140,11 @@
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
                         Neue Übungssitzung
                     </a>
+                <% } else if (Model.LearningSession.IsCategorySession) { %>
+                    <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zur Kategorie</a>
+                    <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
+                        Neue Übungssitzung
+                    </a>   
                 <% } else if (Model.LearningSession.IsWishSession) { %>
                     <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
                     <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary" style="padding-right: 10px">

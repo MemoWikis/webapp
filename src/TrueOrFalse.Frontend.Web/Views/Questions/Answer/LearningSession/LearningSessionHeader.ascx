@@ -24,6 +24,13 @@
             </a>
         <% } %>
         
+        <% if(Model.LearningSession.IsCategorySession) { %>
+            Fragen aus der Kategorie 
+            <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" style="margin-top: 3px; display: inline-block;">
+                <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
+            </a>
+        <% } %>
+        
         <% if(Model.LearningSession.IsDateSession) { %>
             Fragen aus dem Termin 
             <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
