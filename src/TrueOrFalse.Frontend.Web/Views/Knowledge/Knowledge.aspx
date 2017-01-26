@@ -282,7 +282,7 @@
                     <% }else { %>
                         <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover show-tooltip" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                                 <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                             </a>
                         </div>
