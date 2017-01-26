@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using RazorEngine;
 
-public class TrainingReminderMsg
+public class TrainingReminderForDateMsg
 {
     public const string UtmSource = "trainingReminderDate";
     public const string UtmCampaignFullString = "";
@@ -17,7 +17,7 @@ public class TrainingReminderMsg
 
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate_TrainingReminder()), 
-            new TrainingReminderMsgModel(trainingDate)
+            new TrainingReminderForDateMsgModel(trainingDate)
         );
 
         HtmlMessage.Send(new MailMessage2(
@@ -28,5 +28,7 @@ public class TrainingReminderMsg
             {UserName = trainingDate.User().Name},
             signOutMessage: SignOutMessage,
             utmSource: UtmSource);
+
+        Sl.R<MessageEmailRepo>().Create(new MessageEmail(trainingDate.User(), MessageEmailTypes.TrainingReminderForDate));
     }
 }

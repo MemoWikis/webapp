@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using Seedworks.Web.State;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class TrainingReminderMsgModel
+public class TrainingReminderForDateMsgModel
 {
     public string DateName;
     public string DateOfDate;
@@ -20,7 +21,7 @@ public class TrainingReminderMsgModel
     public string UtmSourceFullString;
     public string UtmCampaignFullString = "";
 
-    public TrainingReminderMsgModel(TrainingDate trainingDate, string utmSource = "trainingReminderDate")
+    public TrainingReminderForDateMsgModel(TrainingDate trainingDate, string utmSource = "trainingReminderDate")
     {
         UtmSourceFullString = string.IsNullOrEmpty(utmSource) ? "" : "&utm_source=" + utmSource;
 
@@ -31,7 +32,6 @@ public class TrainingReminderMsgModel
         DateAsDistance = remainingLabel.Full;
         QuestionCountTrainingSession = trainingDate.AllQuestionsInTraining.Count.ToString();
         TrainingLengthTrainingSession = new TimeSpanLabel(trainingDate.TimeEstimated()).Full;
-        LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + trainingDate.TrainingPlan.Date.Id;
 
         LearningContentFullString = date.CountQuestions().ToString() + " Frage" + StringUtils.PluralSuffix(date.CountQuestions(),"n");
         if (date.Sets.Any())
@@ -42,10 +42,21 @@ public class TrainingReminderMsgModel
 
         RemainingTrainingSessionTime = new TimeSpanLabel(trainingDate.TrainingPlan.TimeRemaining).Full;
         RemainingTrainingSessionCount = trainingDate.TrainingPlan.OpenDates.Count.ToString();
-        /*Should use Links.XX to create links, but Tests fail if UrlHelper trys to access HttpContext.Current.Request.RequestContext 
-        //LinkToDates = Links.Dates();
-        //LinkToTechInfo = Links.AlgoInsightForecast();*/
-        LinkToDates = "https://memucho.de/Termine";
-        LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
+
+
+        /* Create Links */
+
+        if (ContextUtil.IsWebContext)
+        {
+            LinkToLearningSession = Links.StartDateLearningSession(date.Id);
+            LinkToDates = Links.Dates();
+            LinkToTechInfo = Links.AlgoInsightForecast();
+        }
+        else
+        {
+            LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + date.Id;
+            LinkToDates = "https://memucho.de/Termine";
+            LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
+        }
     }
 }

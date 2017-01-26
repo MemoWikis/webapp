@@ -104,7 +104,8 @@
                     <div class="col-xs-12" style="text-align: left; margin-top: 15px; margin-bottom: 10px;">
                         <a style="display: inline-block;" class="btn btn-primary btn-sm"
                             data-btn="startLearningSession" 
-                            href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> 
+                            href="<%= Links.StartDateLearningSession(Model.Date.Id) %>"><i class="fa fa-line-chart"></i> 
+<%--                            href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> --%>
                             Jetzt üben
                         </a>
                         <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."

@@ -26,5 +26,7 @@ public class KnowledgeReportMsg
             { UserName = user.Name},
             signOutMessage: SignOutMessage,
             utmSource: UtmSource);
+
+        Sl.R<MessageEmailRepo>().Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
     }
 }

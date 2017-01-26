@@ -236,10 +236,13 @@ namespace TrueOrFalse.Frontend.Web.Code
                 return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
 
             if (learningSession.IsDateSession)
-                return GetUrlHelper().Action("StartLearningSession", "Dates", new { dateId = learningSession.DateToLearn.Id });
+                return StartDateLearningSession(learningSession.DateToLearn.Id);
 
             throw new Exception("unknown type");
         }
+
+        public static string StartDateLearningSession(int dateId) =>
+            GetUrlHelper().Action("StartLearningSession", DatesController, new { dateId = dateId });
 
         public static string StartSetLearningSession(int setId) =>
             GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });

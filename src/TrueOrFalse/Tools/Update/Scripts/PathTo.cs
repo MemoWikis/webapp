@@ -25,7 +25,7 @@ public class PathTo
 
     public static string EmailTemplate_TrainingReminder()
     {
-        return GetPath("/Domain/Message/Types/TrainingReminderMsgStylesInlined.cshtml");
+        return GetPath("/Domain/Message/Types/TrainingReminderForDateMsgStylesInlined.cshtml");
     }
 
     public static string EmailTemplate_KnowledgeReport()
