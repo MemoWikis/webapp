@@ -27,9 +27,6 @@ public class UserSettingsModel : BaseModel
     public bool ShowWishKnowledge { get; set; }
     public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
 
-    private IEnumerable<SelectListItem> _knowledgeReportNotificationIntervalDropdownList;
-
-
     public string ImageUrl_200;
     public ImageFrontendData ImageFrontendData;
     public bool ImageIsCustom;

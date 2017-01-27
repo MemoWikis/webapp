@@ -75,7 +75,8 @@
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
                     <p>
-                        Sende einen Wissensbericht (KnowledgeReport) per HTML-E-Mail an dich selbst.
+                        Sende einen Wissensbericht (KnowledgeReport) per HTML-E-Mail an dich selbst. 
+                        Versand wird in Tabelle gespeichert und damit beim nächsten regulären Versand berücksichtigt.
                     </p>
 
                     <input type="submit" value="SendKnowledgeReport" class="btn btn-primary" name="btnSave" />
