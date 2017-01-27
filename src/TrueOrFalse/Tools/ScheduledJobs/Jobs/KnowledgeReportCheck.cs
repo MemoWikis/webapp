@@ -20,7 +20,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var user in users)
                 {
                     if (KnowledgeReportMsg.ShouldSendToUser(user))
+                    {
                         Logg.r().Information("Would now send Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
+                        if (user.IsInstallationAdmin)
+                            KnowledgeReportMsg.SendHtmlMail(user);
+                    }
                     else
                         Logg.r().Information("Would NOT YET send Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
                 }

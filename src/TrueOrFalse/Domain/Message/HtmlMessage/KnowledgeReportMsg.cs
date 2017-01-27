@@ -29,6 +29,7 @@ public class KnowledgeReportMsg
             utmSource: UtmSource);
 
         Sl.R<MessageEmailRepo>().Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
+        Logg.r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
     }
 
 

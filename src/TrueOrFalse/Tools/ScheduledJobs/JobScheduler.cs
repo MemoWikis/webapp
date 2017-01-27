@@ -105,8 +105,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _scheduler.ScheduleJob(JobBuilder.Create<KnowledgeReportCheck>().Build(),
                 TriggerBuilder.Create()
-                    .WithSimpleSchedule(x => x.WithIntervalInHours(KnowledgeReportCheck.IntervalInHours)
-                    .RepeatForever()).Build());
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(10, 00))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
         }
 
 
