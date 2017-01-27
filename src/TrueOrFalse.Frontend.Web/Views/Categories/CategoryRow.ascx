@@ -13,8 +13,12 @@
         <div class="column-MainContent">
             <div class="MainContentUpper">
                 <div class="TitleText" style="line-height: 21px; margin-top: 6px;">
-                
-                    <a href="<%= Model.DetailLink(Url) %>"><%=Model.CategoryName.Truncate(35) %> </a> 
+                    
+                    <a href="<%= Model.DetailLink(Url) %>">
+                        <% if (Model.HasMarkdownContent) { 
+                            Response.Write("<i class=\"fa fa-star show-tooltip\" data-original-title=\"Themenseite mit zusätzlichen Inhalten\">&nbsp;</i>");
+                        } %><%=Model.CategoryName.Truncate(35) %>
+                    </a> 
                 </div>
             
                 <div style="margin-top: 1px;">
