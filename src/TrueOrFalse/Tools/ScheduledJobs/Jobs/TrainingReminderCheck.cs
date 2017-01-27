@@ -15,7 +15,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 foreach (var trainingDate in trainingDates)
                 {
-                    TrainingReminderMsg.SendHtmlMail(trainingDate);
+                    TrainingReminderForDateMsg.SendHtmlMail(trainingDate);
                     Logg.r().Information("Send training notification to: " + trainingDate.UserEmail());
 
                     trainingDate.NotificationStatus = NotificationStatus.ReminderSent;

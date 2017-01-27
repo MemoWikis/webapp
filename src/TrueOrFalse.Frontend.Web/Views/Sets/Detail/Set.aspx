@@ -147,15 +147,20 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit 10 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
+                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit 5 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
                         <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
                         <div class="BoxButtonText">
                             <span>Wissen testen</span>
                         </div>
-                        <a href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" rel="nofollow"></a>
+                        <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow"></a>
                     </div>
                 </div>
             </div> 
+            
+            <% if (Model.Set.HasVideo) { 
+                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));     
+            } %>
+
             <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
             <div id="rowContainer">
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>

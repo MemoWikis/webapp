@@ -9,6 +9,7 @@ public class CategoryRowModel : BaseModel
     public int CategoryId;
     public string CategoryName;
     public object DescriptionShort;
+    public bool HasMarkdownContent;
 
     public Func<UrlHelper, string> DetailLink;
     public bool UserCanEdit;
@@ -27,6 +28,7 @@ public class CategoryRowModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
+        HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
 
         QuestionCount = 
             category.CountQuestions + 

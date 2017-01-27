@@ -25,12 +25,12 @@ public class PathTo
 
     public static string EmailTemplate_TrainingReminder()
     {
-        return GetPath("/Domain/Message/Types/TrainingReminderMsgStylesInlined.cshtml");
+        return GetPath("/Domain/Message/HtmlMessage/TrainingReminderForDateMsgStylesInlined.cshtml");
     }
 
     public static string EmailTemplate_KnowledgeReport()
     {
-        return GetPath("/Domain/Message/Types/KnowledgeReportMsgStylesInlined.cshtml");
+        return GetPath("/Domain/Message/HtmlMessage/KnowledgeReportMsgStylesInlined.cshtml");
     }
 
     public static string Crawlers()

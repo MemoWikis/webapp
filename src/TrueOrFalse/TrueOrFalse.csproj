@@ -335,9 +335,13 @@
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Description\ParseDescription.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessage.cs" />
     <Compile Include="Domain\Message\HtmlMessage\HtmlMessageModel.cs" />
+    <Compile Include="Domain\Message\MessageEmail.cs" />
+    <Compile Include="Domain\Message\Persistence\MessageEmailMap.cs" />
+    <Compile Include="Domain\Message\Persistence\MessageEmailRepo.cs" />
     <Compile Include="Domain\Message\Types\CommentMarkedAsSettledMsg.cs" />
-    <Compile Include="Domain\Message\Types\KnowledgeReportMsg.cs" />
-    <Compile Include="Domain\Message\Types\KnowledgeReportMsgModel.cs" />
+    <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsg.cs" />
+    <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsgModel.cs" />
+    <Compile Include="Domain\Message\MessageEmailTypes.cs" />
     <Compile Include="Domain\QuestionSet\SetView\Ops\SaveSetView.cs" />
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewMap.cs" />
     <Compile Include="Domain\QuestionSet\SetView\SetView.cs" />
@@ -345,6 +349,7 @@
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
+    <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
@@ -353,8 +358,8 @@
     <Compile Include="Domain\User\Ops\IsGoogleAccessToken.cs" />
     <Compile Include="Infrastructure\Email\MailMessage2.cs" />
     <Compile Include="Domain\Message\MessageTypes.cs" />
-    <Compile Include="Domain\Message\Types\TrainingReminderMsgModel.cs" />
-    <Compile Include="Domain\Message\Types\TrainingReminderMsg.cs" />
+    <Compile Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsgModel.cs" />
+    <Compile Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cs" />
     <Compile Include="Domain\Question\References\Ops\ReferenceCount.cs" />
     <Compile Include="Infrastructure\AsyncExe.cs" />
     <Compile Include="Infrastructure\IoC\AutofacRegistrationWriter.cs" />
@@ -780,6 +785,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputation.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\KnowledgeReportCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputationForAll.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TestJob.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\TrainingPlanUpdateCheck.cs" />
@@ -865,13 +871,15 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
-    <Compile Include="Tools\Update\Steps\UpdateToVs162.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs163.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs161.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs160.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs159.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs158.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs157.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs156.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs162.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
@@ -925,16 +933,16 @@
     <Content Include="Domain\Message\HtmlMessage\HtmlMessage.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Domain\Message\Types\KnowledgeReportMsgStylesInlined.cshtml">
+    <None Include="Domain\Message\HtmlMessage\KnowledgeReportMsgStylesInlined.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Domain\Message\Types\KnowledgeReportMsg.cshtml">
+    <None Include="Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Domain\Message\Types\TrainingReminderMsgStylesInlined.cshtml">
+    <None Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsgStylesInlined.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Domain\Message\Types\TrainingReminderMsg.cshtml">
+    <None Include="Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Web\Crawlers\list-of-crawlers.json">

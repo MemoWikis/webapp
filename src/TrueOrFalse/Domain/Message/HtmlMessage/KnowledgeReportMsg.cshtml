@@ -108,7 +108,7 @@
                         </p>
                         <ul>
                             <li>an @Model.DaysLearnedSinceCount von @Model.LastSentSinceDays Tagen gelernt</li>
-                            <li>@Model.AnsweredQuestionsSinceCount beantwortet, <br/>davon @Model.AnsweredQuestionsCorrectSinceCount richtig (=@Model.AnsweredQuestionsCorrectSincePercentage %)</li>
+                            <li>@Model.AnsweredQuestionsSinceCount beantwortet@(Raw(@Model.AnsweredQuestionsCorrectSinceCount))</li>
                             <li>eine Folge von @Model.StreakSince gehabt</li>
                             <li>deine bisher längste Folge an Lerntagen war @Model.TopStreak </li>
                         </ul>
@@ -236,7 +236,7 @@
                                     </p>
 
                                     <p>
-                                        Du folgst @Model.FollowerIAm und @Model.FollowedIAm dir.
+                                        Du folgst @Model.FollowerIAm und @Model.FollowedIAm dir. <br/>
                                         <a href="https://memucho.de/Nutzer?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=expandNetwork">Netzwerk erweitern.</a>
                                     </p>
                                 </th>

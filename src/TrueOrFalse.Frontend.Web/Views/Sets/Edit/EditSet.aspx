@@ -24,10 +24,6 @@
             $('.control-label .show-tooltip').append($("<i class='fa fa-info-circle'></i>"));
         });
     </script>
-    
-    <style>
-       
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -41,15 +37,13 @@
     <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", 
                 "EditSet", null, FormMethod.Post,
                 new { id="EditSetForm", enctype = "multipart/form-data", style = "margin:0px;"})){ %>
-    
-            
+        
         <%: Html.HiddenFor(m => m.ImageIsNew) %>
         <%: Html.HiddenFor(m => m.ImageSource) %>
         <%: Html.HiddenFor(m => m.ImageWikiFileName) %>
         <%: Html.HiddenFor(m => m.ImageGuid) %>
         <%: Html.HiddenFor(m => m.ImageLicenseOwner) %>
-    
-    
+
         <div class="row">
             <div class="PageHeader col-xs-12">
                 <h2 class="pull-left">
@@ -104,9 +98,9 @@
                     <div class="FormSection">
                         <div class="form-group">
                             <%= Html.LabelFor(m => m.Title, new { @class = "RequiredField control-label columnLabel" })%>
-                                <div class="columnControlsFull">
-                                    <%= Html.TextBoxFor(m => m.Title, new { @class="form-control" }) %>
-                                </div>
+                            <div class="columnControlsFull">
+                                <%= Html.TextBoxFor(m => m.Title, new { @class="form-control" }) %>
+                            </div>
                         </div>
                         <div class="form-group">
                             <%= Html.LabelFor(m => m.Text, new { @class = "control-label columnLabel" })%>
@@ -114,9 +108,21 @@
                                 <%= Html.TextAreaFor(m => m.Text, new { @class="form-control" }) %>
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <label class="columnLabel control-label">
-                                <span class="show-tooltip" title = "Kategorien helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen, Fragesätze wiederzufinden." data-placement = "left">
+                                <span class="show-tooltip" title="Die Url aus der Adresszeile des Browser, zum Beispiel: https://www.youtube.com/watch?v=iQ6NxvQRfq4">
+                                    Youtube Url (optional)
+                                </span>
+                            </label>
+                            <div class="columnControlsFull">
+                                <%= Html.TextBoxFor(m => m.VideoUrl, new { @class="form-control" }) %>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="columnLabel control-label">
+                                <span class="show-tooltip" title="Kategorien helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen, Fragesätze wiederzufinden.">
                                     Kategorien
                                 </span>
                             </label>        

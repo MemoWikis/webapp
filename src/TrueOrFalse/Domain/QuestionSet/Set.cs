@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
+using static System.String;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -10,6 +11,7 @@ public class Set : DomainEntity, ICreator
 {
     public virtual string Name { get; set; }
     public virtual string Text { get; set; }
+    public virtual string VideoUrl { get; set; }
 
     public virtual ISet<QuestionInSet> QuestionsInSet{ get; set;}
     public virtual User Creator { get; set; }
@@ -40,15 +42,15 @@ public class Set : DomainEntity, ICreator
         Categories = new List<Category>();
     }
 
-    public virtual IList<int> QuestionIds()
-    {
-        return QuestionsInSet
+    public virtual IList<int> QuestionIds() => 
+        QuestionsInSet
             .Select(qv => qv.Question.Id)
             .ToList();
-    }
 
-    public virtual IList<Question> Questions()
-    {
-        return QuestionsInSet.Select(q => q.Question).ToList();
-    }
+    public virtual IList<Question> Questions() => 
+        QuestionsInSet.Select(q => q.Question).ToList();
+
+    public virtual bool HasVideo => 
+        !IsNullOrEmpty(VideoUrl) && 
+        !IsNullOrEmpty(YoutubeVideo.GetVideoKeyFromUrl(VideoUrl));
 }

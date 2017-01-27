@@ -138,9 +138,9 @@
                                         <option value="Never" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "selected='selected'" : "" %>>Nie</option>
                                     </select>                                
                                     <label class="additionalInfo">
-                                        Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem Wunschwissen, 
-                                        über anstehende Termine und über neue Inhalte bei memucho. 
-                                        Er wird nur verschickt, wenn du <span style="white-space: nowrap;"><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span> hast.
+                                        Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem 
+                                        <span style="white-space: nowrap;"><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span>, 
+                                        über anstehende Termine und über neue Inhalte bei memucho. Er wird nur verschickt, wenn du Wunschwissen hast.
                                     </label>
                                 </label>
                             </div>
