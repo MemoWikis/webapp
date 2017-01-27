@@ -90,7 +90,7 @@
                                 </p>
                                 <ul>
                                     <li>an @Model.DaysLearnedSinceCount von @Model.LastSentSinceDays Tagen gelernt</li>
-                                    <li>@Model.AnsweredQuestionsSinceCount beantwortet, <br>davon @Model.AnsweredQuestionsCorrectSinceCount richtig (=@Model.AnsweredQuestionsCorrectSincePercentage %)</li>
+                                    <li>@Model.AnsweredQuestionsSinceCount beantwortet@(Raw(@Model.AnsweredQuestionsCorrectSinceCount))</li>
                                     <li>eine Folge von @Model.StreakSince gehabt</li>
                                     <li>deine bisher längste Folge an Lerntagen war @Model.TopStreak </li>
                                 </ul>
@@ -210,7 +210,7 @@
                                                     Du hast <strong><a href="https://memucho.de/Nachrichten?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=showUnreadMessages" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">@Model.UnreadMessagesCount ungelesene Nachrichten</a></strong>.<br>
                                                 </p>
                                                 <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                                    Du folgst @Model.FollowerIAm und @Model.FollowedIAm dir.
+                                                    Du folgst @Model.FollowerIAm und @Model.FollowedIAm dir. <br/>
                                                     <a href="https://memucho.de/Nutzer?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=expandNetwork" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Netzwerk erweitern.</a>
                                                 </p>
                                             </th>

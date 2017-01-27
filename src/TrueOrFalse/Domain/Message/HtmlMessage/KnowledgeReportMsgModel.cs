@@ -100,11 +100,12 @@ public class KnowledgeReportMsgModel
         DaysLearnedSinceCount = answerStats.Count.ToString();
         var answeredQuestionsSinceCount = answerStats.Sum(d => d.TotalAnswers);
         AnsweredQuestionsSinceCount = answeredQuestionsSinceCount.ToString() + " Frage" + StringUtils.PluralSuffix(answerStats.Sum(d => d.TotalAnswers),"n");
-        var answeredQuestionsCorrectSinceCount = answerStats.Sum(d => d.TotalTrueAnswers);
-        AnsweredQuestionsCorrectSinceCount = answeredQuestionsCorrectSinceCount.ToString();
-        AnsweredQuestionsCorrectSincePercentage = (answeredQuestionsSinceCount == 0)
-            ? ""
-            : ((int)Math.Round(answeredQuestionsCorrectSinceCount / (float)answeredQuestionsSinceCount * 100)).ToString();
+        if (answeredQuestionsSinceCount > 0)
+        {
+            var answeredQuestionsCorrectSinceCount = answerStats.Sum(d => d.TotalTrueAnswers);
+            AnsweredQuestionsCorrectSinceCount = ",<br/> davon " + answeredQuestionsCorrectSinceCount.ToString() + " richtig (=";
+            AnsweredQuestionsCorrectSinceCount += ((int)Math.Round(answeredQuestionsCorrectSinceCount / (float)answeredQuestionsSinceCount * 100)).ToString() + " %)";
+        }
 
         var streak = Sl.R<GetStreaksDays>().Run(user, seperateStreakInRecentPeriodSince: LastSent.Date);
         StreakSince = streak.RecentPeriodSLongestLength.ToString() + " Lerntag" + StringUtils.PluralSuffix(streak.RecentPeriodSLongestLength, "en");
