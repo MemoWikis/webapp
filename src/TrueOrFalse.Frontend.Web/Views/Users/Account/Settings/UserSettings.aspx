@@ -32,6 +32,17 @@
                 <% Html.Message(Model.Message); %>
             </div>
         </div>
+    
+        <% if (!Model.IsLoggedIn) { %>
+            <div class="row">
+                <div class="col-xs-9 xxs-stack">
+                    Um Einstellungen vorzunehmen, musst du dich <a href="#" data-btn-login="true">einloggen</a>
+                </div>
+            </div>
+            <% return;
+           }
+        %>
+
         <div class="row">
             <div class="col-md-3 col-md-push-9" >
                 <img alt="" src="<%=Model.ImageUrl_200%>" class="img-responsive" style="border-radius:5px;" />
