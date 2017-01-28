@@ -89,8 +89,8 @@
                         <% } %>
 
                     <% } %>
-                    <% if (Model.SourceIsSet)
-                       { %>
+                    
+                    <% if (Model.SourceIsSet) { %>
                         <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                             Fragesatz:
                             <span class="label label-set"><%= Model.Set.Name %></span>
