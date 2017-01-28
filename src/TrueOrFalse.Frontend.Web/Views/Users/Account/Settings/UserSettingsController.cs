@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -15,6 +17,17 @@ public class UserSettingsController : BaseController
     [HttpGet]
     public ViewResult UserSettings()
     {
+        if ((Request["updateCommand"] != null) && (Request["token"] != null))
+        {
+            //check here if user trying to change his setting is logged in!
+            var userSettingsModel = new UserSettingsModel(_sessionUser.User);
+            var updateCommand = Request["updateCommand"];
+            var token = Request["token"];
+            //userSettingsModel.Message = new SuccessMessage("Hier biste richtig: " + updateCommand + " ----- " + token);
+            userSettingsModel.Message = ChangeKnowledgeReportInterval.Run(updateCommand, token);
+            return View(_viewLocation, userSettingsModel);
+        }
+
         return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
     }
 

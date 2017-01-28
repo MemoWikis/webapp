@@ -2263,8 +2263,20 @@ fieldset[disabled] .BoxButton.active {
   color: #fff;
   background-color: #333;
 }
-.BoxButton.NotAvailable {
+.BoxButton.LookDisabled {
   color: darkgray;
+  box-shadow: none;
+}
+.BoxButton.LookDisabled:hover {
+  background-color: white;
+}
+.BoxButton.LookNotClickable {
+  color: darkgray;
+  box-shadow: none;
+  cursor: default;
+}
+.BoxButton.LookNotClickable:hover {
+  background-color: white;
 }
 .BoxButton a {
   position: absolute;

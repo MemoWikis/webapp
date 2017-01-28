@@ -49,7 +49,7 @@
     }
 }
 
-#Clear{
+#Clear {
     content: "";
     display: block;
     clear: both;
@@ -146,8 +146,21 @@
     margin-bottom: 20px;
     color: @memo-blue;
     
-    &.NotAvailable {
+    &.LookDisabled {
         color: darkgray;
+        box-shadow: none;
+        &:hover {
+            background-color: white;
+        }
+    }
+
+    &.LookNotClickable {
+        color: darkgray;
+        box-shadow: none;
+        &:hover {
+            background-color: white;
+        }
+        cursor: default;
     }
 
     a {

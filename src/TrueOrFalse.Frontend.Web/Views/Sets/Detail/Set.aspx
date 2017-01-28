@@ -161,10 +161,8 @@
                 Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));     
             } %>
 
+            <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
             <div id="rowContainer">
-                <div class="col-xs-12">
-                    <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
-                </div>
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>
                     <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
                 <% } %>

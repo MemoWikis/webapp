@@ -27,9 +27,6 @@ public class UserSettingsModel : BaseModel
     public bool ShowWishKnowledge { get; set; }
     public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
 
-    private IEnumerable<SelectListItem> _knowledgeReportNotificationIntervalDropdownList;
-
-
     public string ImageUrl_200;
     public ImageFrontendData ImageFrontendData;
     public bool ImageIsCustom;
@@ -38,6 +35,16 @@ public class UserSettingsModel : BaseModel
 
     public UserSettingsModel(User user)
     {
+        if (user == null) // for e-mail newsletter changes authorized by token
+        {
+            // KnowledgeReportInterval__1__23__2017-02-16
+            // UserSetting__NewProperty__UserId__ExpirationDate
+            // URL: ?updateCommand=KnowledgeReportInterval__1__23__2017-02-16&token=agweHkjlsJKLkXsKJLJK
+            // http://memucho/Nutzer/Einstellungen?updateCommand=KnowledgeReportInterval__1__23__2017-02-31&token=agweHkjlsJKLkXsKJLJK
+            // use different constructor in controller
+            return;
+        }
+
         Name = user.Name;
         Email = user.EmailAddress;
         IsMember = user.IsMember();
