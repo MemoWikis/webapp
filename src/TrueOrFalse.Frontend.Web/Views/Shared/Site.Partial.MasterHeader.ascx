@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl"  %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
+<%if(!Settings.DevelopOffline()) { %>
 <script>
     window.fbAsyncInit = function() {
         FB.init({
@@ -18,6 +19,7 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 </script>
+<% } %>
 
 <header id="MasterHeader">
     <div class="container">
