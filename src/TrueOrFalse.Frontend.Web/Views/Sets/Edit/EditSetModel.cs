@@ -23,6 +23,8 @@ public class EditSetModel : BaseModel
     [DisplayName("Titel")]
     public string Title { get; set;  }
 
+    public string VideoUrl { get; set; }
+
     [DataType(DataType.MultilineText)]
     [DisplayName("Beschreibung")]
     public string Text { get; set; }
@@ -52,6 +54,7 @@ public class EditSetModel : BaseModel
         Id = set.Id;
         Title = set.Name;
         Text = set.Text;
+        VideoUrl = set.VideoUrl;
         ImageUrl_206px = new SetImageSettings(set.Id).GetUrl_206px_square().Url;
         Username = new SessionUser().User.Name;
         QuestionsInSet = set.QuestionsInSet;
@@ -66,6 +69,8 @@ public class EditSetModel : BaseModel
     public Set Fill(Set set){
         set.Name = Title;
         set.Text = Text;
+        set.VideoUrl = VideoUrl;
+
         ImageUrl_206px = new SetImageSettings(set.Id).GetUrl_206px_square().Url;
         QuestionsInSet = set.QuestionsInSet;
 

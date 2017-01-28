@@ -3,6 +3,8 @@
     public string UserName;
     public string Content;
 
+    public string MessageTitle;
+
     public string UtmCampaign;
     public string UtmCampaignFullString
     {

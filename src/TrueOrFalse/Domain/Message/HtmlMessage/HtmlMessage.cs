@@ -3,13 +3,14 @@ using RazorEngine;
 
 public class HtmlMessage
 {
-    public static void Send(MailMessage2 mailMessage, string signOutMessage = null, string utmSource = null, string utmCampaign = null)
+    public static void Send(MailMessage2 mailMessage, string messageTitle, string signOutMessage = null, string utmSource = null, string utmCampaign = null)
     {
         var parsedTemplate = Razor.Parse(
             File.ReadAllText(PathTo.EmailTemplate()),
             new HtmlMessageModel
             {
                 UserName = mailMessage.UserName,
+                MessageTitle = messageTitle,
                 Content = mailMessage.Body,
                 SignOutMessage = signOutMessage,
                 UtmSource = utmSource,

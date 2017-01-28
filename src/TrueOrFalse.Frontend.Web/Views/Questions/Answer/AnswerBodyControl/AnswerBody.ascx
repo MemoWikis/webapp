@@ -142,8 +142,7 @@
             
 </div>
 <div id="LicenseQuestion">
-<% if (Model.LicenseQuestion.IsDefault())
-    { %>
+    <% if (Model.LicenseQuestion.IsDefault()){ %>
         <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto left"
             data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
         <img src="/Images/Licenses/cc-by 88x31.png" width="60"  style="margin-top: 4px; opacity: 0.6;"/>&nbsp;
@@ -153,5 +152,19 @@
         <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto left" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
             <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
         </a>
+    <% } %>
+    
+    <%if (Model.ShowCommentLink) { %>
+        <div style="float: right; position: relative; top: 4px;">
+            <a href="#comments"><i class="fa fa-comment-o"></i> 
+                <% if(Model.CommentCount == 0) { %>
+                    Jetzt kommentieren
+                <% } else if(Model.CommentCount == 1) { %>
+                    1 Kommentar
+                <% } else if (Model.CommentCount > 1) { %>
+                    <%= Model.CommentCount %> Kommentare
+                <% } %>
+            </a>
+        </div>
     <% } %>
 </div>

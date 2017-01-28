@@ -1,7 +1,7 @@
 ﻿/* A shared class */
 class QuestionsSearch extends SearchInTabs {
 
-    constructor(fnOnLoad : Function) {
+    constructor(fnOnLoad : () => void) {
         super(fnOnLoad);
 
         var filterSelector = "#txtCategoryFilter";

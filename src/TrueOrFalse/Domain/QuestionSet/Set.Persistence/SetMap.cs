@@ -8,6 +8,7 @@ public class SetMap : ClassMap<Set>
         Id(x => x.Id);
         Map(x => x.Name).Length(100);
         Map(x => x.Text).Length(Constants.VarCharMaxLength);
+        Map(x => x.VideoUrl);
 
         Map(x => x.TotalRelevancePersonalAvg);
         Map(x => x.TotalRelevancePersonalEntries);

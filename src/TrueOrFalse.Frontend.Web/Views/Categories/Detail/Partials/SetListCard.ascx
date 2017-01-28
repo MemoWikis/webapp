@@ -58,7 +58,7 @@
                 </ul>
             </div>--%>
             <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForSetsInCategory(Model.Sets.Select(s => s.Id).ToList(), Model.Title, Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
-                &nbsp;JETZT TESTEN
+                <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
             </a>
         </div>
     </div>

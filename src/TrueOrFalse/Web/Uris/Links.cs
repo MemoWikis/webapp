@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -12,10 +10,12 @@ namespace TrueOrFalse.Frontend.Web.Code
     public static class Links
     {
         public const string WelcomeController = "Welcome";
+        public const string RegisterController = "Register";
 
         public const string VariousController = "VariousPublic";
-        public const string Impressum = "Impressum";
-        public const string TermsAndConditions = "AGB";
+        public static string TermsAndConditions => GetUrlHelper().Action("AGB", VariousController);
+        public static string Imprint => GetUrlHelper().Action("Impressum", VariousController);
+
         public const string WelfareCompanyAction = "WelfareCompany";
         public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
 
@@ -32,7 +32,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string AccountController = "Account";
         public const string RegisterAction = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
-        public const string LoginAction = "Login";
         public const string Logout = "Logout";
         public const string Membership = "Membership";
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
@@ -67,8 +66,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 new { name = UriSegmentFriendlyUser.Run(user.Name), id = user.Id }, null);
         }
 
-        public static string Login() => GetUrlHelper().Action(LoginAction, WelcomeController);
-        public static string Register() => GetUrlHelper().Action(RegisterAction, WelcomeController);
+        public static string Register() => GetUrlHelper().Action(RegisterAction, RegisterController);
 
         public const string UsersController = "Users";
         public const string UsersAction = "Users";
@@ -211,7 +209,8 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string Dates() => GetUrlHelper().Action("Dates", "Dates");
         public static object DateEdit(int dateId) => GetUrlHelper().Action("Edit", "EditDate", new { dateId = dateId });
-        public static object DateCreate(int setId) => GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
+        public static object DateCreateForSet(int setId) => GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
+        public static object DateCreateForCategory(int categoryId) => GetUrlHelper().Action("Create", "EditDate", new { categoryId = categoryId });
 
 
         /*Learn*/
@@ -232,17 +231,26 @@ namespace TrueOrFalse.Frontend.Web.Code
             if (learningSession.IsSetSession)
                 return StartSetLearningSession(learningSession.SetToLearn.Id);
 
+            if (learningSession.IsCategorySession)
+                return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
+
             if (learningSession.IsDateSession)
-                return GetUrlHelper().Action("StartLearningSession", "Dates", new { dateId = learningSession.DateToLearn.Id });
+                return StartDateLearningSession(learningSession.DateToLearn.Id);
 
             throw new Exception("unknown type");
         }
+
+        public static string StartDateLearningSession(int dateId) =>
+            GetUrlHelper().Action("StartLearningSession", DatesController, new { dateId = dateId });
 
         public static string StartSetLearningSession(int setId) =>
             GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
 
         public static string StartWishLearningSession() =>
             GetUrlHelper().Action("StartLearningSession", KnowledgeController );
+
+        public static string StartCategoryLearningSession(int categoryId) =>
+           GetUrlHelper().Action("StartLearningSession", CategoryController, new { categoryId = categoryId });
 
         /* Testing / TestSession*/
         public const string TestSessionController = "TestSession";
@@ -311,6 +319,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string Games(UrlHelper url) => url.Action("Games", "Games");
         public static string GameCreateFromDate(int dateId) => GetUrlHelper().Action("Create", "Game", new {dateId = dateId});
         public static string GameCreateFromSet(int setId) => GetUrlHelper().Action("Create", "Game", new { setId = setId});
+        public static string GameCreateFromSets(List<int> setIds) => GetUrlHelper().Action("Create", "Game") + "?setIds="
+                + string.Join("&setIds=", setIds);
+
         public static string GameCreate() => GetUrlHelper().Action("Create", "Game", null);
         public static string GamePlay(UrlHelper url, int gameId) => GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
 

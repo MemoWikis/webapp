@@ -63,7 +63,7 @@ public class UserRowModel : BaseModel
 
         UserLink = urlHelper => Links.UserDetail(user.Name, user.Id);
 
-        ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user.EmailAddress).Url;
+        ImageUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url;
 
         DoIFollow = followerIAm.Of(user.Id);
     }

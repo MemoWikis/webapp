@@ -1,4 +1,24 @@
-﻿.columnControlsFull {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+.columnControlsFull {
   font-size: 90%;
 }
 .columnControlsFull .radio,
@@ -123,4 +143,8 @@ select.form-control {
   margin-right: 5px;
   background-color: gainsboro;
 }
-/*# sourceMappingURL=EditSet.css.map */
+textarea.form-control {
+  width: 100%;
+  max-width: none;
+  height: 120px;
+}

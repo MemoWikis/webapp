@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse;
 
 public class CommentModel : BaseModel
 {
@@ -32,7 +31,7 @@ public class CommentModel : BaseModel
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
-        ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator.EmailAddress).Url;
+        ImageUrl = new UserImageSettings(comment.Creator.Id).GetUrl_128px_square(comment.Creator).Url;
         Text = comment.Text;
 
         ShouldBeImproved = comment.ShouldImprove;
@@ -58,5 +57,21 @@ public class CommentModel : BaseModel
             }
             AnswersSettledCount = comment.Answers.Count(x => x.IsSettled);
         }
+    }
+}
+
+public static class CommentModelListExt
+{
+    public static int GetTotalCount(this IList<CommentModel> comments)
+    {
+        var totalCount = 0;
+
+        foreach (var comment in comments)
+        {
+            totalCount++;
+            totalCount += comment.Answers.Count();
+        }
+
+        return totalCount;
     }
 }

@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="modalNotLoggedIn" class="modal fade">
     <div class="modal-dialog">
@@ -11,7 +10,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">Um diese Funktion zu nutzen, musst du eingeloggt sein. <br />
-                        Jetzt <a href="/Einloggen">einloggen</a> oder <a href="/Registrieren">registrieren</a>!
+                        Jetzt <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>!
                     </div>
                 </div>
             </div>

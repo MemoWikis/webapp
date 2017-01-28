@@ -48,12 +48,12 @@
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
                     <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" rel="nofollow" data-allowed="logged-in">Jetzt üben</a></li>
                     <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
-                    <li><a href="<%= Links.DateCreate(Model.SetId) %>"> Termin anlegen</a></li>
+                    <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Termin anlegen</a></li>
                     <li><a href="<%= Model.SetDetailLink %>"> Fragesatz-Detailseite</a></li>
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
-                &nbsp;JETZT TESTEN
+                <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
             </a>
         </div>
 </div>

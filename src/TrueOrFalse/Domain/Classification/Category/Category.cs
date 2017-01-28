@@ -71,6 +71,16 @@ public class Category : DomainEntity, ICreator
         return IsSpoilerCategory.Yes(Name, question);
     }
 
+    public virtual IList<Set> GetSets(bool featuredSetsOnlyIfAny = false)
+    {
+        if (FeaturedSets.Count > 0 && featuredSetsOnlyIfAny)
+        {
+            return FeaturedSets;
+        }
+                    
+        return Sl.R<SetRepo>().GetForCategory(Id);
+    }
+
     public virtual object GetTypeModel()
     {
         if (Type == CategoryType.Standard)

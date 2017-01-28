@@ -10,6 +10,7 @@ public class BaseController : Controller
     public bool IsLoggedIn => _sessionUser.IsLoggedIn;
     public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
     public bool IsMemuchoUser => IsLoggedIn && Settings.MemuchoUserId == UserId;
+    public bool IsFacebookUser => IsLoggedIn && _sessionUser.User.IsFacebookUser();
 
     /// <summary>The user fresh from the db</summary>
     public User UserFresh() => R<UserRepo>().GetById(UserId);

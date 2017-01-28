@@ -15,8 +15,8 @@ interface JQuery {
     watch(p1: any);
     typeWatch(p1: any);
 
-    countdown(finalDate: Date, callback: Function);
-    countdown(finalDate: string, callback: Function);
+    countdown(finalDate: Date, callback: (event?: any) => void);
+    countdown(finalDate: string, callback: () => void);
     countdown(action: string);
 
     _renderItem(p1: any);
@@ -26,4 +26,8 @@ interface JQuery {
 interface SignalR {
     brainWavesHub: any;
     gameHub: any;
+}
+
+interface String {
+    endsWith(searchString: string, endPosition?: number): boolean;
 }

@@ -21,7 +21,7 @@ public class Date : DomainEntity
 
     public virtual DateVisibility Visibility { get; set; }
 
-    public virtual TimeSpan TimeRemaining => TrainingPlan.TimeRemaining;
+    public virtual TimeSpan TrainingTimeRemaining => TrainingPlan.TimeRemaining;
     public virtual bool HasOpenDates => TrainingPlan.HasOpenDates;
     public virtual TimeSpan TimeToNextDate => TrainingPlan.TimeToNextDate;
 

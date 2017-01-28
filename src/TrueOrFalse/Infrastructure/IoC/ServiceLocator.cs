@@ -4,7 +4,6 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
-using System.Collections.Generic;
 using System.Threading;
 
 public class Sl
@@ -13,15 +12,16 @@ public class Sl
     public static T R<T>() { return ServiceLocator.Resolve<T>(); }
 
     public static ISession Session => R<ISession>();
+    public static UserRepo UserRepo => R<UserRepo>();
+    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
+    public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
+
     public static int CurrentUserId => R<SessionUser>().UserId;
 }
 
 public static class SlExt
 {
-    public static T R<T>(this object o)
-    {
-        return Sl.R<T>();
-    }
+    public static T R<T>(this object o) => Sl.R<T>();
 }
 
 public class ServiceLocator

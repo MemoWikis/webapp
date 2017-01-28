@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 
@@ -15,6 +17,17 @@ public class UserSettingsController : BaseController
     [HttpGet]
     public ViewResult UserSettings()
     {
+        if ((Request["updateCommand"] != null) && (Request["token"] != null))
+        {
+            //check here if user trying to change his setting is logged in!
+            var userSettingsModel = new UserSettingsModel(_sessionUser.User);
+            var updateCommand = Request["updateCommand"];
+            var token = Request["token"];
+            //userSettingsModel.Message = new SuccessMessage("Hier biste richtig: " + updateCommand + " ----- " + token);
+            userSettingsModel.Message = ChangeKnowledgeReportInterval.Run(updateCommand, token);
+            return View(_viewLocation, userSettingsModel);
+        }
+
         return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
     }
 
@@ -27,17 +40,19 @@ public class UserSettingsController : BaseController
             return View(_viewLocation, model);
         }
 
-        model.Message = new SuccessMessage("Wurde gespeichert");
-
         _sessionUser.User.EmailAddress = model.Email.Trim();
         _sessionUser.User.Name = model.Name.Trim();
         _sessionUser.User.AllowsSupportiveLogin = model.AllowsSupportiveLogin;
         _sessionUser.User.ShowWishKnowledge = model.ShowWishKnowledge;
+        _sessionUser.User.KnowledgeReportInterval = model.KnowledgeReportInterval;
 
         _userRepo.Update(_sessionUser.User);
         ReputationUpdate.ForUser(_sessionUser.User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
-        return View(_viewLocation, new UserSettingsModel(_sessionUser.User));
+        var newUserSettingsModel = new UserSettingsModel(_sessionUser.User);
+        newUserSettingsModel.Message = new SuccessMessage("Deine Änderungen wurden gespeichert");
+
+        return View(_viewLocation, newUserSettingsModel);
     }
 
     [HttpPost]

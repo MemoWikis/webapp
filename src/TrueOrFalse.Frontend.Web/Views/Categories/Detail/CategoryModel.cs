@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public class CategoryModel : BaseModel
@@ -9,7 +8,7 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
-    public string CustomPageHtml;
+    public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
     public IList<Category> CategoriesParent;
@@ -21,6 +20,7 @@ public class CategoryModel : BaseModel
     public List<Question> TopQuestionsInSubCats = new List<Question>();
     public IList<Question> TopWishQuestions;
     public IList<Question> SingleQuestions;
+
     public IList<User> TopCreaters;
 
 
@@ -100,20 +100,7 @@ public class CategoryModel : BaseModel
 
         Sets = Resolve<SetRepo>().GetForCategory(category.Id);
 
-        SingleQuestions = GetSingleQuestions();
-    }
-
-    private List<Question> GetSingleQuestions()
-    {
-        var result = new List<Question>();
-
-        var a = Sl.R<QuestionRepo>().GetForCategory(Id);
-
-        var b = Sets.SelectMany(s => s.QuestionsInSet).Select(x => x.Question);
-
-        result = a.Except(b).ToList();
-
-        return result;
+        SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -143,4 +130,6 @@ public class CategoryModel : BaseModel
         result.AddRange(_questionRepo.GetForCategory(cat.Id, 5, UserId));
         return false;
     }
+
+    public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 }

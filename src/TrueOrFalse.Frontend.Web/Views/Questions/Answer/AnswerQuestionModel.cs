@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
+using static System.String;
 
 public class AnswerQuestionModel : BaseModel
 {
@@ -12,6 +13,9 @@ public class AnswerQuestionModel : BaseModel
     public Func<UrlHelper, string> NextUrl;
 
     public Guid QuestionViewGuid;
+
+    public string DescriptionForSearchEngines;
+    public string DescriptionForFacebook;
 
     public int QuestionId;
     public Question Question;
@@ -48,15 +52,8 @@ public class AnswerQuestionModel : BaseModel
 
     public string ImageUrlAddComment;
 
-    public bool HasImage
-    {
-        get { return !string.IsNullOrEmpty(ImageUrl_500px); }
-    }
-
-    public bool HasSound
-    {
-        get { return !string.IsNullOrEmpty(SoundUrl); }
-    }
+    public bool HasImage => !IsNullOrEmpty(ImageUrl_500px);
+    public bool HasSound => !IsNullOrEmpty(SoundUrl);
 
     public string CreationDateNiceText { get; private set; }
     public string CreationDate { get; private set; }
@@ -135,6 +132,7 @@ public class AnswerQuestionModel : BaseModel
         CurrentLearningStepPercentage = CurrentLearningStepIdx == 0
             ? 0
             : (int)Math.Round(CurrentLearningStepIdx/(float)LearningSession.Steps.Count()*100);
+
         NextUrl = url => url.Action("Learn", Links.AnswerQuestionController,
             new {
                 learningSessionId = learningSession.Id,
@@ -235,7 +233,7 @@ public class AnswerQuestionModel : BaseModel
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
         if(IsLoggedIn)
-            ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User.EmailAddress).Url;
+            ImageUrlAddComment = new UserImageSettings(UserId).GetUrl_128px_square(_sessionUser.User).Url;
 
         Question = question;
 
@@ -290,5 +288,57 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
+
+        DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
+        DescriptionForFacebook = GetMetaDescriptionsFacebook();
+    }
+
+    private string GetMetaDescriptionSearchEngines()
+    {
+        var result = "";
+
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        {
+            result = $"Antwort: '{SolutionModel.CorrectAnswer()}' {Environment.NewLine}";
+
+            if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
+            {
+                result += Environment.NewLine;
+                result += "Erkärung: ";
+                result += Question.Description;
+            }
+
+            if (result.Length < 50)
+            {
+                result += "Alternativen: ";
+                result += ((QuestionSolutionMultipleChoice)SolutionModel)
+                    .Choices
+                    .Skip(1)
+                    .Aggregate((a, b) => a + ", " + b) + "?  ";
+            }
+
+        }
+        else
+        {
+            result += Question.Description;
+        }
+
+        return result.Truncate(300, addEllipsis: true).Trim();
+    }
+
+    private string GetMetaDescriptionsFacebook()
+    {
+        var result = "";
+
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        {
+            result = ((QuestionSolutionMultipleChoice)SolutionModel)
+                .Choices
+                .Shuffle()
+                .Aggregate((a, b) => $"{a} - oder - {Environment.NewLine} {b}");
+
+        }
+
+        return result;
     }
 }

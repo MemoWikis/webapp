@@ -33,6 +33,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_RecalcReputationForAll();
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
+            Schedule_KnowledgeReportCheck();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
@@ -99,6 +100,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         x.WithIntervalInMinutes(TrainingReminderCheck.IntervalInMinutes)
                         .RepeatForever()).Build());
         }
+
+        private static void Schedule_KnowledgeReportCheck()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<KnowledgeReportCheck>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(10, 00))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
+
 
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }

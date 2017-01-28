@@ -13,6 +13,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.IsInstallationAdmin);
         Map(x => x.AllowsSupportiveLogin);
         Map(x => x.ShowWishKnowledge);
+        Map(x => x.KnowledgeReportInterval);
 
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
@@ -37,6 +38,9 @@ public class UserMap : ClassMap<User>
         Map(x => x.WishCountSets);
 
         Map(x => x.Birthday);
+
+        Map(x => x.FacebookId);
+        Map(x => x.GoogleId);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

@@ -68,7 +68,7 @@
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
-                &nbsp;JETZT TESTEN
+                <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
             </a>
         </div>
 

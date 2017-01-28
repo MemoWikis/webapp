@@ -12,12 +12,13 @@ namespace TrueOrFalse
 
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
-            routes.MapRoute("Login", "Einloggen", new { controller = "Welcome", action = "Login" });
             routes.MapRoute("Logout", "Ausloggen", new { controller = "Welcome", action = "Logout" });
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Welcome", action = "IsUserNameAvailable" });
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Welcome", action = "IsEmailAvailable" });
-            routes.MapRoute("Register", "Registrieren", new { controller = "Welcome", action = "Register" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
+
+            routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
+            routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
 
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
@@ -113,12 +114,12 @@ namespace TrueOrFalse
             routes.MapRoute("Maintenance", "Maintenance/{action}", new { controller = "Maintenance", action = "Maintenance" });
             routes.MapRoute("MaintenanceImages", "MaintenanceImages/{action}", new { controller = "MaintenanceImages", action = "Images" });
             routes.MapRoute("Messages", "Nachrichten/{action}", new { controller = "Messages", action = "Messages" });
-            
+
+            routes.MapRoute("Dates_StartLearningSession", "Termin/Lernen/{dateId}", new { controller = "Dates", action = "StartLearningSession" });
             routes.MapRoute("Dates", "Termine/{action}", new { controller = "Dates", action = "Dates" });
             routes.MapRoute("DatesCreate", "Termin/Erstellen", new { controller = "EditDate", action = "Create" });
             routes.MapRoute("DatesEdit", "Termin/Bearbeiten/{dateId}", new { controller = "EditDate", action = "Edit" });
             routes.MapRoute("DatesDetails", "Termin/Details/{0}", new { controller = "Date", action = "Edit" });
-            routes.MapRoute("Dates_StartLearningSession", "Termin/Lernen/{dateId}", new { controller = "Dates", action = "StartLearningSession" });
 
             routes.MapRoute("Games", "Spielen/{action}", new { controller = "Games", action = "Games" });
             routes.MapRoute("GamesCreate", "Spiel/Erstellen", new { controller = "Game", action = "Create" });
@@ -136,7 +137,8 @@ namespace TrueOrFalse
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi" });
             routes.MapRoute("ApiSets", "Api/Sets/{action}", new { controller = "SetsApi" });
-            routes.MapRoute("ApiUser", "Api/User/{action}", new { controller = "UserApi" });
+            routes.MapRoute("ApiUserFacebook", "Api/FacebookUsers/{action}", new { controller = "FacebookUsersApi" });
+            routes.MapRoute("ApiUserGoogle", "Api/GoogleUsers/{action}", new { controller = "GoogleUsersApi" });
             routes.MapRoute("ApiQuestions", "Api/Questions/{action}", new { controller = "QuestionsApi" });
 
             routes.MapRoute("ImageUpload", "Images/ImageUpload/{action}", new { controller = "ImageUpload" });

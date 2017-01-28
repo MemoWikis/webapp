@@ -2,7 +2,6 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Fragesatz: " + Model.Name; %>
 
@@ -28,13 +27,13 @@
         <div class="col-xs-12 col-md-2 col-md-push-10">
             <div class="navLinks">
                 <a href="<%= Links.SetsAll() %>"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
-                <% if(Model.IsOwner){ %>
+                <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
                 
                 <% if (Model.QuestionCount > 0) { %>
                     <%--<a class="btn btn-primary btn-sm" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
-                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                        <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
                     </a>--%>
                     <%--<a style="font-size: 12px;" data-allowed="logged-in" data-allowed-type="learning-session" href="" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
@@ -46,7 +45,14 @@
                         <i class="fa fa-calendar">&nbsp;</i>Termin lernen
                     </a>--%>
                 <% } %>
+                
+                <% if(Model.IsInstallationAdmin) { %>
+                    <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                        <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
+                    </a>    
+                <% } %>
             </div>
+
         </div>
        <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
@@ -102,29 +108,61 @@
                                 <div style="float: left; padding-top: 3px;">
                                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
-                                <div class="dropdown">
-                                    <% var buttonId = Guid.NewGuid(); %>
-                                    <a href="#" id="<%=buttonId %>" <%= Model.QuestionCount == 0 ? "disabled " : "" %>class="dropdown-toggle  btn btn-link ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i class="fa fa-ellipsis-v"></i>
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                                        <li><a href="<%= Links.StartSetLearningSession(Model.Id) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a></li>
-                                        <li><a href="<%= Links.GameCreateFromSet(Model.Id) %>"> Spiel starten</a></li>
-                                        <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
-                                    </ul>
-                                </div>
-                                <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" class="btn btn-primary " role="button" <%= Model.QuestionCount == 0 ? "disabled " : "" %>rel="nofollow">
-                                    &nbsp;JETZT TESTEN
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>    
             </div>
-            <div id="rowContainer">
-                <div class="col-xs-12">
-                    <h4 style="margin-top: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
+            <div class="row BoxButtonBar">
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>"
+                            data-original-title="Tritt gegen andere Nutzer im Echtzeit-Quizspiel an.">
+                        <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Spiel starten</span>
+                        </div>
+                        <a href="<%= Links.GameCreateFromSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">
+                        </a>
+                    </div>
                 </div>
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>" 
+                            data-original-title="Gib an, bis wann du alles zum Thema wissen musst und erhalte deinen persönlichen Übungsplan.">
+                        <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Prüfungstermin anlegen</span> 
+                        </div>
+                        <a href="<%= Links.DateCreateForSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">
+                        </a>
+                    </div>
+                </div>
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>" data-original-title="Lerne personalisiert genau die Fakten, die du am dringendsten wiederholen solltest.">
+                        <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Üben</span>
+                        </div>
+                        <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                        </a>
+                    </div>
+                </div>
+                <div class="BoxButtonColumn">
+                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit 5 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
+                        <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Wissen testen</span>
+                        </div>
+                        <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow"></a>
+                    </div>
+                </div>
+            </div> 
+            
+            <% if (Model.Set.HasVideo) { 
+                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));     
+            } %>
+
+            <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
+            <div id="rowContainer">
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>
                     <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
                 <% } %>
@@ -135,13 +173,13 @@
                     <% if (Model.QuestionsInSet.Any()){ %>
                         <div class="pull-right">
                             <a href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block; padding-right: 15px; margin-top: 29px;">
-                                <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;</i>Spiel starten
+                                <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;&nbsp;</i>SPIEL STARTEN
                             </a>
                             <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
-                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
+                                <i class="fa fa-line-chart">&nbsp;&nbsp;</i>JETZT ÜBEN
                             </a>
                             <a class="btn btn-primary" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
-                                <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                                <i class="fa fa-play-circle">&nbsp;&nbsp;</i>WISSEN TESTEN
                             </a>
                         </div>
                     <% } %>

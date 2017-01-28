@@ -98,7 +98,8 @@ public class KnowledgeModel : BaseModel
         QuestionsCount = 288;
         SetsCount = 12;
         User = new User {
-            Name = "Unbekannte(r)"
+            Name = "Unbekannte(r)",
+            DateCreated = DateTime.Now.AddMonths(-11)
         };
 
         QuestionsCreatedCount = 13;
@@ -144,7 +145,8 @@ public class KnowledgeModel : BaseModel
             LongestLength = 43,
             LastStart = DateTime.Now.AddDays(-12),
             LastEnd = DateTime.Now,
-            LastLength = 12
+            LastLength = 12,
+            TotalLearningDays = 214
         };
 
         Dates = GetSampleDates.Run();
@@ -164,29 +166,30 @@ public class KnowledgeModel : BaseModel
 
         TrainingDates = new List<TrainingDateModel>
         {
-            new TrainingDateModel
+            new TrainingDateModel(new TrainingDate
             {
                 DateTime = DateTime.Now.AddHours(4),
-                QuestionCount = 15,
-                Date = Dates[0]
-            },
-            new TrainingDateModel
+                AllQuestions = Sl.R<SetRepo>().GetById(17).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
+                TrainingPlan = new TrainingPlan {Date = Dates[0]}
+            }),
+            new TrainingDateModel(new TrainingDate
             {
                 DateTime = DateTime.Now.AddHours(24),
-                QuestionCount = 28,
-                Date = Dates[0]
-            },
-            new TrainingDateModel
+                AllQuestions = Sl.R<SetRepo>().GetById(20).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
+                TrainingPlan = new TrainingPlan {Date = Dates[0]}
+            }),
+            new TrainingDateModel(new TrainingDate
             {
                 DateTime = DateTime.Now.AddHours(57),
-                QuestionCount = 22,
-                Date = Dates[1]
-            },
-            new TrainingDateModel
+                AllQuestions = Sl.R<SetRepo>().GetById(45).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
+                TrainingPlan = new TrainingPlan {Date = Dates[1]}
+            }),
+            new TrainingDateModel(new TrainingDate
             {
                 DateTime = DateTime.Now.AddHours(71),
-                QuestionCount = 34,
-            }
+                AllQuestions = Sl.R<SetRepo>().GetById(65).Questions().Select(q => new TrainingQuestion {Question = q, IsInTraining = true}).ToList(),
+                TrainingPlan = new TrainingPlan()
+            })
         };
     }
 }

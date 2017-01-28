@@ -68,7 +68,7 @@
                     <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
                         <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
                     </a>
-                    <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover pull-right">ERFAHRE MEHR...</a><br />
+                    <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
         </div>
@@ -356,15 +356,15 @@
             if (!Model.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>
         <% if (Model.IsLoggedIn) { %>
             <div class="well" style="padding: 20px; ">
-                <div style="text-align: center">
-                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" style="t"title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt <br/>Wunschwissen lernen
+                <div style="text-align: center; margin-bottom: 15px;">
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                        <i class="fa fa-heart">&nbsp;&nbsp;</i>LERNEN
                     </a>
                 </div>
                 <% if (!Model.UserHasWishknowledge) { %>

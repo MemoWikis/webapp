@@ -301,6 +301,8 @@
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
+    <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
+    <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
@@ -340,6 +342,7 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
@@ -358,6 +361,8 @@
     <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
+    <Compile Include="Views\Welcome\Login\LoginController.cs" />
+    <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />
@@ -513,9 +518,22 @@
     <Content Include="Images\Team\team_robert-rund_160.png" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Scripts\socialLogins\Facebook.js">
+      <DependentUpon>Facebook.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js">
+      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\Google.js">
+      <DependentUpon>Google.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\Google.js.map">
+      <DependentUpon>Google.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js">
+      <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
@@ -538,6 +556,7 @@
       <DependentUpon>Category.css</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\ContentLists.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetListCard.ascx" />
@@ -546,6 +565,7 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Drafts\CategoryPartials.aspx" />
     <Content Include="Views\Error\_NotLoggedIn.aspx" />
     <Content Include="Views\Help\FAQ.css">
       <DependentUpon>FAQ.less</DependentUpon>
@@ -570,6 +590,7 @@
     </Content>
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
+    <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\VariousPublic\AboutMemucho.css">
@@ -580,6 +601,16 @@
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\Login.ascx" />
+    <Content Include="Views\Welcome\Login\Login.js">
+      <DependentUpon>Login.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
+      <DependentUpon>FacebookRegistration.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Registration\SocialButtons.css">
+      <DependentUpon>SocialButtons.less</DependentUpon>
     </Content>
     <Content Include="Views\Widgets\AwesomeIframe.js" />
     <Content Include="mstile-144x144.png" />
@@ -592,7 +623,6 @@
     <Content Include="Scripts\guidedTour\tourWelcome.js">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\vendor\bootstrap-tour.js" />
     <Content Include="Scripts\TrainingPlan.js">
       <DependentUpon>TrainingPlan.ts</DependentUpon>
     </Content>
@@ -690,13 +720,21 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
+    <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
     <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
     <TypeScriptCompile Include="Scripts\hubs\GameHub.ts" />
     <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
     <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
     <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
     <TypeScriptCompile Include="Scripts\TrainingPlan.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
@@ -1322,6 +1360,15 @@
     </None>
     <Content Include="manifest.json" />
     <Content Include="Style\cards.less" />
+    <Content Include="Scripts\socialLogins\Facebook.js.map">
+      <DependentUpon>Facebook.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js.map">
+      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js.map">
+      <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">
@@ -1402,10 +1449,8 @@
     <Content Include="Scripts\vendor.file-uploader\uploader.js" />
     <Content Include="Scripts\vendor.file-uploader\util.js" />
     <Content Include="Scripts\vendor\html5shiv.js" />
-    <None Include="Scripts\vendor\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\vendor\jquery-2.0.3.js" />
     <Content Include="Scripts\vendor\jquery.scrollTo-1.4.3.1.js" />
-    <Content Include="Scripts\vendor\jquery-2.0.3.min.map" />
     <Content Include="Scripts\vendor\jquery.validate.js" />
     <Content Include="Scripts\vendor\json2.js" />
     <Content Include="Scripts\vendor\Markdown.Converter.js" />
@@ -1496,13 +1541,13 @@
     <Compile Include="Views\Welcome\LoginModel.cs" />
     <Compile Include="Views\Welcome\PasswordRecoveryModel.cs" />
     <Compile Include="Views\Welcome\PasswordResetModel.cs" />
-    <Compile Include="Views\Welcome\RegisterModel.cs">
+    <Compile Include="Views\Welcome\Registration\RegisterModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Welcome\RegisterModelToUser.cs">
+    <Compile Include="Views\Welcome\Registration\RegisterModelToUser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\Welcome\RegisterSuccessModel.cs">
+    <Compile Include="Views\Welcome\Registration\RegisterSuccessModel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Views\Welcome\WelcomeBoxTopCategoriesModel.cs" />
@@ -1530,6 +1575,8 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
     <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
@@ -1574,9 +1621,7 @@
     <Content Include="img\icon-github.png" />
     <Content Include="img\icon-html5.png" />
     <Content Include="img\icon-twitter.png" />
-    <Content Include="Scripts\Jplayer.swf" />
     <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
-    <Content Include="Scripts\vendor\jquery.jplayer.js" />
     <Content Include="Scripts\vendor\jquery.sparkline.js" />
     <Content Include="Sounds\Questions\include-folder.txt" />
     <Content Include="Style\fonts\OFL.txt" />
@@ -1587,9 +1632,6 @@
     <Content Include="Style\site-debug.css">
       <DependentUpon>site-debug.less</DependentUpon>
     </Content>
-    <Content Include="Style\zocial\css\zocial-regular-webfont.svg" />
-    <Content Include="Style\zocial\css\zocial.css" />
-    <Content Include="Style\zocial\sample.html" />
     <Content Include="Views\Categories\Categories.css">
       <DependentUpon>Categories.less</DependentUpon>
     </Content>
@@ -1803,10 +1845,6 @@
     <Content Include="Views\Shared\Site.MenuNo.Master" />
     <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
     <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
-    <Content Include="Style\zocial\css\zocial-regular-webfont.eot" />
-    <Content Include="Style\zocial\css\zocial-regular-webfont.ttf" />
-    <Content Include="Style\zocial\css\zocial-regular-webfont.woff" />
-    <Content Include="Style\zocial\README.md" />
     <Content Include="Views\Questions\Edit\EditQuestion.less" />
     <Content Include="Style\form.less" />
     <Content Include="Views\Categories\Categories.less" />
@@ -2124,9 +2162,19 @@
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Registration\SocialButtons.less" />
+    <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
+      <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
+    </Content>
     <Content Include="Views\VariousPublic\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentReport.less" />
+    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
+      <DependentUpon>FacebookRegistration.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\Login.js.map">
+      <DependentUpon>Login.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -2156,16 +2204,14 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\LoginUc.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
-    <Content Include="Views\Welcome\Login.aspx" />
-    <Content Include="Views\Welcome\Register.aspx" />
-    <Content Include="Views\Welcome\RegisterSuccess.aspx" />
+    <Content Include="Views\Welcome\Registration\Register.aspx" />
+    <Content Include="Views\Welcome\Registration\RegisterSuccess.aspx" />
     <Content Include="Views\Welcome\Welcome.aspx" />
     <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
     <None Include="Web.config">
@@ -2223,4 +2269,9 @@
     <Error Condition="!Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
     <Error Condition="Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
 </Project>

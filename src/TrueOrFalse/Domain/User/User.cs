@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Seedworks.Lib.Persistence;
+using static System.String;
 
 [Serializable]
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -14,13 +15,14 @@ public class User : DomainEntity
     public virtual string Name { get; set; }
     public virtual bool IsEmailConfirmed { get; set;  }
     public virtual bool IsInstallationAdmin { get; set; }
-    public virtual bool AllowsSupportiveLogin { get; set; }
     public virtual DateTime? Birthday { get; set; }
     public virtual int Reputation { get; set; }
     public virtual int ReputationPos { get; set; }
     public virtual int WishCountQuestions { get; set; }
     public virtual int WishCountSets { get; set; }
     public virtual bool ShowWishKnowledge { get; set; }
+    public virtual bool AllowsSupportiveLogin { get; set; }
+    public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
@@ -29,6 +31,9 @@ public class User : DomainEntity
     public virtual IList<FollowerInfo> Followers { get; set; }
     /// <summary>Users I follow</summary>
     public virtual IList<FollowerInfo> Following { get; set; }
+
+    public virtual string FacebookId { get; set; }
+    public virtual string GoogleId { get; set; }
 
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
 
@@ -68,9 +73,26 @@ public class User : DomainEntity
         return MembershipPeriods.Any(x => x.IsActive(DateTime.Now));
     }
 
-    public virtual Membership CurrentMembership()
-    {
-        return MembershipPeriods.FirstOrDefault(x => x.IsActive());
-    }
+    public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
 
+    public virtual bool IsFacebookUser() => !IsNullOrEmpty(FacebookId);
+}
+
+public class FacebookUserCreateParameter
+{
+    /// <summary>
+    /// Facebook user id
+    /// </summary>
+    public string id { get; set; }
+
+    public string name { get; set; }
+    public string email { get; set; }
+}
+
+public class GoogleUserCreateParameter
+{
+    public string GoogleId { get; set; }
+    public string Email { get; set; }
+    public string UserName { get; set; }
+    public string ProfileImage { get; set; }
 }

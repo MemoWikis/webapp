@@ -192,14 +192,14 @@
             <h4>Einloggen oder registrieren</h4>
             <p>
                 Um einen Überblick über deine Lernerfolge, deine anstehenden Übungssitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
-                musst du dich <a href="<%= Links.Login() %>">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
+                musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
             </p>
             <p>
                 <b>Registriere dich und probiere es gleich aus!</b>
             </p>
             <p>                        
                 <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-                <a href="<%= Links.Login() %>">Ich bin schon Nutzer!</a>
+                <a href="#" data-btn-login="true">Ich bin schon Nutzer!</a>
                 <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
             </p>
         </div>
@@ -282,7 +282,7 @@
                     <% }else { %>
                         <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-link ButtonOnHover show-tooltip" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                                 <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                             </a>
                         </div>
@@ -314,7 +314,7 @@
                                 <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
                             <% } else { %>
                                 <span class="greyed" style="font-weight: bold;">
-                                    <%= streak.LongestStart.ToString("dd.MM") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                                    <%= streak.LongestStart.ToString("dd.MM.") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
                                 </span><br />
                             <% } %>
                         
@@ -463,7 +463,7 @@
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
                                     <a href="<%= Links.UserDetail(activity.UserCauser) %>">
-                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser.EmailAddress).Url %>" />
+                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
                                     </a>
                                 </div>
                                 <div class="col-xs-9" style="">

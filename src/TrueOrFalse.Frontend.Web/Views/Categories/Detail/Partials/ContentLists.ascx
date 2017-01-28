@@ -19,7 +19,7 @@
                     <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
                     <span style="font-size: 90%;">
                         (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>,    
-                        <a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Jetzt Wissen testen</a>)
+                        <a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Wissen testen</a>)
                     </span>
                 </div>
             </div>

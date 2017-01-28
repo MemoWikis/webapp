@@ -50,7 +50,7 @@
             <div style="margin-top: 10px;" class="actions">
                 <% if (Model.QuestionCount>0) { %>
                     <a style="display: block" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
-                        <i class="fa fa-play-circle">&nbsp;</i>Jetzt testen
+                        <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
                     </a>
                     <a style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
@@ -58,7 +58,7 @@
                     <a style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
                         <i class="fa fa-gamepad" style="font-size: 15px;">&nbsp;</i>Spiel starten
                     </a>
-                    <a style="display: block;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                    <a style="display: block;" href="<%= Links.DateCreateForSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
                         <i class="fa fa-calendar" style="font-size: 13px;">&nbsp;</i>Termin lernen
                     </a>
                 <% } %>

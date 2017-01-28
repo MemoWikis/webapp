@@ -32,6 +32,17 @@
                 <% Html.Message(Model.Message); %>
             </div>
         </div>
+    
+        <% if (!Model.IsLoggedIn) { %>
+            <div class="row">
+                <div class="col-xs-9 xxs-stack">
+                    Um Einstellungen vorzunehmen, musst du dich <a href="#" data-btn-login="true">einloggen</a>
+                </div>
+            </div>
+            <% return;
+           }
+        %>
+
         <div class="row">
             <div class="col-md-3 col-md-push-9" >
                 <img alt="" src="<%=Model.ImageUrl_200%>" class="img-responsive" style="border-radius:5px;" />
@@ -82,7 +93,7 @@
                                     <a href="/Nutzer/Mitgliedschaft">Deine Mitgliedschaft</a> läuft bis zum <%= String.Format("{0:d}", Model.Membership.PeriodEnd) %>.
                                 <% } else { %>
                                     <span class="bold">Du bist zur Zeit kein Mitglied.</span><br/>
-                                    <a href="/Nutzer/Mitgliedschaft">Jetzt Mitglied werden.</a>
+                                    <a class="btn btn-primary" href="/Nutzer/Mitgliedschaft" style="margin-top: 12px;"><i class="fa fa-thumbs-up">&nbsp;&nbsp;</i>Jetzt Mitglied werden</a>
                                 <% } %>
                             </label>
                         </div>
@@ -90,7 +101,7 @@
                     <div class="FormSection">
                         <h3>Passwort</h3>
                         <p>
-                            Um dein Passwort neu zu setzen,<br /> 
+                            Um dein Passwort neu zu setzen, 
                             gehe zu: <a href="<%: Url.Action("PasswordRecovery", Links.WelcomeController) %>">"Passwort-Vergessen"</a>.
                         </p>
                         <p style="margin-top: 3px;">(Später werden wir das Setzen eines neuen Passworts auch hier ermöglichen.)</p>
@@ -122,10 +133,34 @@
                                 </label>
                             </div>
                         </div>
-                
+
+                        <h4>Benachrichtigungen</h4>
+                        <div class="form-group">
+                            <div class="columnControlsFull noLabel">
+                                <label class="dropdownSelect" for="KnowledgeReportInterval">
+                                    <label class="dropdownTitle">
+                                        Wissensreport per E-Mail: &nbsp;
+                                    </label>
+                                    <select style="display: inline; width: 180px;" data-val="true" data-val-required="Das Feld &quot;KnowledgeReportNotificationInterval&quot; ist erforderlich." id="KnowledgeReportInterval" name="KnowledgeReportInterval" class="valid form-control">
+                                        <option value="Daily" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Daily ? "selected='selected'" : "" %>>Täglich</option>
+                                        <option value="Weekly" <%= ((Model.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly) || (Model.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet)) ? "selected='selected'" : "" %>>Wöchentlich</option>
+                                        <option value="Monthly" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Monthly ? "selected='selected'" : "" %>>Monatlich</option>
+                                        <option value="Quarterly" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Quarterly ? "selected='selected'" : "" %>>Alle drei Monate</option>
+                                        <option value="Never" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "selected='selected'" : "" %>>Nie</option>
+                                    </select>                                
+                                    <label class="additionalInfo">
+                                        Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem 
+                                        <span style="white-space: nowrap;"><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span>, 
+                                        über anstehende Termine und über neue Inhalte bei memucho. Er wird nur verschickt, wenn du Wunschwissen hast.
+                                    </label>
+                                </label>
+                            </div>
+                        </div>                                    
+
+
                         <div class="form-group" style="margin-top: 30px;">
                             <div class="noLabel columnControlsFull">
-                                <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>&nbsp;&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-primary" name="btnSave" value="ssdfasdfave">Speichern</button>
                             </div>
                         </div>
                     </div>

@@ -29,6 +29,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual Set SetToLearn { get; set; }
     public virtual Date DateToLearn { get; set; }
+    public virtual Category CategoryToLearn { get; set; }
 
     public virtual bool IsCompleted { get; set; }
 
@@ -38,6 +39,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         {
             if (SetToLearn != null)
                 return "Fragesatz-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
+
+            if (CategoryToLearn != null)
+                return "Kategorie-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
 
             if (DateToLearn != null)
                 return "Termin-" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");
@@ -53,6 +57,8 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual bool IsDateSession{ get { return DateToLearn != null; }}
 
+    public virtual bool IsCategorySession{ get { return CategoryToLearn != null; }}
+
     public virtual bool IsWishSession { get; set; }
 
     public virtual int TotalPossibleQuestions
@@ -64,6 +70,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
             if (IsDateSession)
                 return DateToLearn.AllQuestions().Count;
+
+            if (IsCategorySession)
+                return GetQuestionsForCategory.AllIncludingQuestionsInSet(CategoryToLearn.Id).Count;
 
             if (IsWishSession)
                 return User.WishCountQuestions;

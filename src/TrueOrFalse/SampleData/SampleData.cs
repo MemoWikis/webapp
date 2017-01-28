@@ -4,18 +4,15 @@ namespace TrueOrFalse
 {
     public class SampleData : IRegisterAsInstancePerLifetime
     {
-        private readonly RegisterUser _registerUser;
         private readonly QuestionRepo _questionRepo;
         private readonly CategoryRepository _categoryRepository;
         private readonly Importer _importer;
 
         public SampleData(
-            RegisterUser registerUser, 
             QuestionRepo questionRepo, 
             CategoryRepository categoryRepository, 
             Importer importer)
         {
-            _registerUser = registerUser;
             _questionRepo = questionRepo;
             _categoryRepository = categoryRepository;
             _importer = importer;
@@ -27,19 +24,19 @@ namespace TrueOrFalse
             stefan.EmailAddress = "noackstefan@googlemail.com";
             stefan.Name = "Stefan Noack";
             SetUserPassword.Run("fooBar", stefan);
-            _registerUser.Run(stefan);
+            RegisterUser.Run(stefan);
 
             var robert = new User();
             robert.EmailAddress = "robert@robert-m.de";
             robert.Name = "Robert Mischke";
             SetUserPassword.Run("fooBar", robert);
-            _registerUser.Run(robert);
+            RegisterUser.Run(robert);
 
             var jule = new User();
             jule.EmailAddress = "jule@robert-m.de";
             jule.Name = "Jule";
             SetUserPassword.Run("fooBar", robert);
-            _registerUser.Run(jule);
+            RegisterUser.Run(jule);
 
             return new List<User> {stefan, robert, jule};
         }
