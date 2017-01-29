@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit 5 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
+                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount %> zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
                         <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
                         <div class="BoxButtonText">
                             <span>Wissen testen</span>

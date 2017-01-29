@@ -23,6 +23,8 @@ public class Settings
     public static int MemuchoUserId = 26;
     public static bool WithNHibernateStatistics = true;
 
+    public static int TestSessionQuestionCount = 5;
+
     private static bool? _developOffline;
 
     public static bool DevelopOffline()
