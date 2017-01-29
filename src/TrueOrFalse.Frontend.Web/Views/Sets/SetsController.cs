@@ -202,6 +202,7 @@ public class SetsController : BaseController
 
             if (orderByCommand == "byBestMatch") searchSpec.OrderBy.BestMatch.Desc();
             else if (orderByCommand == "byValuationsCount") searchSpec.OrderBy.ValuationsCount.Desc();
+            else if (orderByCommand == "byCreationDate") searchSpec.OrderBy.CreationDate.Desc();
             else if (orderByCommand == "byValuationsAvg") searchSpec.OrderBy.ValuationsAvg.Desc();
         }
 

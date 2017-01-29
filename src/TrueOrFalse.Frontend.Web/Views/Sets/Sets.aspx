@@ -145,6 +145,11 @@
                                                 </a>
                                             </li>
                                             <li>
+                                                <a href="<%= Request.Url.AbsolutePath + "?orderBy=byCreationDate" %>">
+                                                    <% if (Model.OrderBy.CreationDate.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Datum erstellt
+                                                </a>
+                                            </li>
+                                            <li>
                                                 <a href="<%= Request.Url.AbsolutePath + "?orderBy=byValuationsCount" %>">
                                                     <% if (Model.OrderBy.ValuationsCount.IsCurrent()){ %><i class="fa fa-check"></i> <% } %> Anzahl Gemerkt
                                                 </a>
