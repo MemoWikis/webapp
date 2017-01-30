@@ -223,11 +223,16 @@ img {
     &:hover, &:active, &:focus {
             color: @memo-green;
             text-decoration: none;
-         }    
+    }    
     img {
         width: auto;
         height: 100%;
     }
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+
 }
 
 #Pictogram {

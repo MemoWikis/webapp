@@ -17,9 +17,15 @@
 
 <table class="row">
     <tr>
-        <th class="small-2 large-3 first columns">
+        <th class="small-12 large-12 columns first last">
+            <ul>
+                <li>@Model.KnowledgeSolidPercentage % Sicheres Wissen (@Model.KnowledgeSolid Fragen)</li>
+                <li>@Model.KnowledgeNeedsConsolidationPercentage % Zu festigen (@Model.KnowledgeNeedsConsolidation Fragen) </li>
+                <li>@Model.KnowledgeNeedsLearningPercentage % Zu lernen (@Model.KnowledgeNeedsLearning Fragen) </li>
+                <li>@Model.KnowledgeNotLearnedPercentage % Noch nicht gelernt (@Model.KnowledgeNotLearned Fragen) </li>
+            </ul>
 
-            <table>
+            @*<table>
                 <tbody>
                     <tr>
                         <th>
@@ -37,23 +43,23 @@
 
         </th>
 
-        <th class="small-10 large-9 last columns">
+        <th class="small-10 large-10 last columns">
 
             <table>
                 <tbody>
                     <tr>
                         <th>
                             <p class="text-left">
-                                Sicheres Wissen (@Model.KnowledgeSolid Fragen) <br />
-                                Zu festigen (@Model.KnowledgeNeedsConsolidation Fragen) <br />
-                                Zu lernen (@Model.KnowledgeNeedsLearning Fragen) <br />
-                                Noch nicht gelernt (@Model.KnowledgeNotLearned Fragen) <br />
+                                Sicheres Wissen (@Model.KnowledgeSolid Fragen) <br/>
+                                Zu festigen (@Model.KnowledgeNeedsConsolidation Fragen) <br/>
+                                Zu lernen (@Model.KnowledgeNeedsLearning Fragen) <br/>
+                                Noch nicht gelernt (@Model.KnowledgeNotLearned Fragen) <br/>
                             </p>
                         </th>
                         <th class="expander"></th>
                     </tr>
                 </tbody>
-            </table>
+            </table>*@
 
         </th>
 
@@ -104,10 +110,10 @@
                     <th>
                         <h4>Lernstatistik</h4>
                         <p>
-                            Du hast in den letzten 7 Tagen:
+                            Du hast in @Model.ShowStatsForPeriodSinceString:
                         </p>
                         <ul>
-                            <li>an @Model.DaysLearnedSinceCount von @Model.LastSentSinceDays Tagen gelernt</li>
+                            <li>an @Model.DaysLearnedSinceCount von @Model.PossibleLearningDaysSince Tagen gelernt</li>
                             <li>@Model.AnsweredQuestionsSinceCount beantwortet@(Raw(@Model.AnsweredQuestionsCorrectSinceCount))</li>
                             <li>eine Folge von @Model.StreakSince gehabt</li>
                             <li>deine bisher längste Folge an Lerntagen war @Model.TopStreak </li>
@@ -133,7 +139,7 @@
 
                         <h4>Neues Wissen bei memucho</h4>
                         <p>
-                            In den letzten 7 Tagen wurden bei memucho <strong>@Model.NewQuestions neue Fragen</strong> und
+                            In @Model.ShowStatsForPeriodSinceString wurden bei memucho <strong>@Model.NewQuestions neue Fragen</strong> und
                             <strong>@Model.NewSets Fragesätze</strong> erstellt.<br/>
                             Damit kannst du jetzt insgesamt @Model.TotalAvailableQuestions Fragen und
                             @Model.TotalAvailableSets Fragesätze bei memucho lernen.

@@ -10,8 +10,8 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeReportMsgModel
 {
-    public DateTime LastSent;
-    public string LastSentSinceDays;
+    public DateTime ShowStatsForPeriodSince;
+    public string ShowStatsForPeriodSinceString;
 
     public string EmailTitle = "Dein wöchentlicher Wissensbericht";
 
@@ -31,6 +31,7 @@ public class KnowledgeReportMsgModel
     public string KnowledgeLastLearnedDateAsDistance;
 
     public string DaysLearnedSinceCount;
+    public string PossibleLearningDaysSince;
     public string AnsweredQuestionsSinceCount;
     public string AnsweredQuestionsCorrectSinceCount;
     public string AnsweredQuestionsCorrectSincePercentage;
@@ -61,11 +62,32 @@ public class KnowledgeReportMsgModel
     public string UtmSourceFullString;
     public string UtmCampaignFullString = "";
 
-    public KnowledgeReportMsgModel(User user, string utmSource = "knowledgeReportEmail")
+    public KnowledgeReportMsgModel(User user, string utmSource)
     {
-        LastSent = DateTime.Now.AddDays(-7); //todo: needs to be adapted if user can chose how often to receive update
-        LastSentSinceDays = (DateTime.Now.Date - LastSent.Date).Days.ToString();
-        UtmSourceFullString = string.IsNullOrEmpty(utmSource) ? "" : "&utm_source=" + utmSource;
+        UtmSourceFullString = "&utm_source=" + utmSource;
+
+        switch (user.KnowledgeReportInterval)
+        {
+            case UserSettingNotificationInterval.NotSet:
+                goto case UserSettingNotificationInterval.Weekly; //defines the standard behaviour if setting is not set; needs to be the same as in UserSettings.aspx
+            case UserSettingNotificationInterval.Daily:
+                goto case UserSettingNotificationInterval.Weekly; // even if interval is daily, show stats for last seven days
+            case UserSettingNotificationInterval.Weekly:
+                ShowStatsForPeriodSince = DateTime.Now.AddDays(-7);
+                ShowStatsForPeriodSinceString = "der letzten Woche";
+                break;
+            case UserSettingNotificationInterval.Monthly:
+                ShowStatsForPeriodSince = DateTime.Now.AddMonths(-1);
+                ShowStatsForPeriodSinceString = "dem letzten Monat";
+                break;
+            case UserSettingNotificationInterval.Quarterly:
+                ShowStatsForPeriodSince = DateTime.Now.AddMonths(-3);
+                ShowStatsForPeriodSinceString = "den letzten drei Monaten";
+                break;
+            default:
+                goto case UserSettingNotificationInterval.Weekly;
+        }
+
 
         QuestionCountWish = user.WishCountQuestions + " Frage" + StringUtils.PluralSuffix(user.WishCountQuestions, "n");
         SetCountWish = user.WishCountSets + " Frage" + StringUtils.PluralSuffix(user.WishCountSets, "sätze", "satz");
@@ -89,14 +111,18 @@ public class KnowledgeReportMsgModel
         else
         {
             KnowledgeLastLearnedDate = knowledgeLastLearnedDate?.ToString("'zuletzt am' dd.MM.yyyy 'um' HH:mm");
-            var remainingLabel = new TimeSpanLabel(DateTime.Now - (knowledgeLastLearnedDate ?? DateTime.Now));
+            var remainingLabel = new TimeSpanLabel(DateTime.Now - (knowledgeLastLearnedDate ?? DateTime.Now), useDativ: true);
             KnowledgeLastLearnedDateAsDistance = "<br />(Vor " + remainingLabel.Full + ")";
         }
 
 
         /* User's stats about recent learning behaviour */
 
-        var answerStats = Sl.R<GetAnswerStatsInPeriod>().Run(user.Id, LastSent.Date, DateTime.Now, groupByDate: true, excludeAnswerViews: true);
+        PossibleLearningDaysSince =
+            (DateTime.Now -
+             ((ShowStatsForPeriodSince < user.DateCreated) ? user.DateCreated : ShowStatsForPeriodSince)).Days
+                .ToString();
+        var answerStats = Sl.R<GetAnswerStatsInPeriod>().Run(user.Id, ShowStatsForPeriodSince.Date, DateTime.Now, groupByDate: true, excludeAnswerViews: true);
         DaysLearnedSinceCount = answerStats.Count.ToString();
         var answeredQuestionsSinceCount = answerStats.Sum(d => d.TotalAnswers);
         AnsweredQuestionsSinceCount = answeredQuestionsSinceCount.ToString() + " Frage" + StringUtils.PluralSuffix(answerStats.Sum(d => d.TotalAnswers),"n");
@@ -107,7 +133,7 @@ public class KnowledgeReportMsgModel
             AnsweredQuestionsCorrectSinceCount += ((int)Math.Round(answeredQuestionsCorrectSinceCount / (float)answeredQuestionsSinceCount * 100)).ToString() + " %)";
         }
 
-        var streak = Sl.R<GetStreaksDays>().Run(user, seperateStreakInRecentPeriodSince: LastSent.Date);
+        var streak = Sl.R<GetStreaksDays>().Run(user, seperateStreakInRecentPeriodSince: ShowStatsForPeriodSince.Date);
         StreakSince = streak.RecentPeriodSLongestLength.ToString() + " Lerntag" + StringUtils.PluralSuffix(streak.RecentPeriodSLongestLength, "en");
         TopStreak = streak.LongestLength.ToString() + " Tag" + StringUtils.PluralSuffix(streak.LongestLength, "e");
         if (streak.RecentPeriodSLongestLength > 1)
@@ -124,8 +150,8 @@ public class KnowledgeReportMsgModel
 
         /* Stats on new content */
 
-        NewQuestions = Sl.R<QuestionRepo>().HowManyNewPublicQuestionsCreatedSince(LastSent).ToString();
-        NewSets = Sl.R<SetRepo>().HowManyNewSetsCreatedSince(LastSent).ToString();
+        NewQuestions = Sl.R<QuestionRepo>().HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
+        NewSets = Sl.R<SetRepo>().HowManyNewSetsCreatedSince(ShowStatsForPeriodSince).ToString();
         TotalAvailableQuestions = Sl.R<QuestionRepo>().TotalPublicQuestionCount().ToString();
         TotalAvailableSets = Sl.R<SetRepo>().TotalSetCount().ToString();
 

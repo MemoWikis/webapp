@@ -15,7 +15,7 @@
                         <p>
                             <b>Autor geparsed:</b>
                             <% if (!String.IsNullOrEmpty(Model.MetaData.AuthorParsed)){ %>
-                                <%= Model.MetaData.AuthorParsed %>
+                                <span style="background-color: greenyellow"><%= Model.MetaData.AuthorParsed %></span>
                             <% } %>
                         </p>
                         <p>
@@ -27,9 +27,8 @@
                         </p>
                         <p>
                             <b>Beschreibung geparsed:</b>
-                            <% if (!String.IsNullOrEmpty(Model.MetaData.DescriptionParsed))
-                            { %>
-                                <%= Model.MetaData.DescriptionParsed %>
+                            <% if (!String.IsNullOrEmpty(Model.MetaData.DescriptionParsed)){ %>
+                                <span style="background-color: greenyellow"><%= Model.MetaData.DescriptionParsed %></span>
                             <% } %>
                         </p>
                          <p>

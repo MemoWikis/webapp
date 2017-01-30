@@ -53,5 +53,7 @@
 }
 
 $(() => {
-    new Google();
+    if (!Site.DevelopOffline()) {
+        new Google();
+    }
 });

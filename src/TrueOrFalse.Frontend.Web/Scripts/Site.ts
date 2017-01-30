@@ -130,6 +130,8 @@ function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
             });
 }
 
+var developOffline;
+
 class Site {
 
     constructor() {
@@ -163,6 +165,10 @@ class Site {
 
     static CloseAllModals() {
         $('.modal').modal('hide');
+    }
+
+    static DevelopOffline() {
+        return developOffline;
     }
 }
 

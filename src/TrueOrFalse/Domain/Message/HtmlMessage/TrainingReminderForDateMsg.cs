@@ -26,6 +26,7 @@ public class TrainingReminderForDateMsg
             "Lerne jetzt für deinen Termin \"" + dateTitle + "\"",
             parsedTemplate)
             {UserName = trainingDate.User().Name},
+            messageTitle: "Lernerinnerung für deinen Prüfungstermin",
             signOutMessage: SignOutMessage,
             utmSource: UtmSource);
 
