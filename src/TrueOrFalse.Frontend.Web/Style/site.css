@@ -249,6 +249,11 @@ img {
   width: auto;
   height: 100%;
 }
+@media (max-width: 600px) {
+  #BetaLogo {
+    display: none;
+  }
+}
 #Pictogram {
   float: left;
   height: 62px;

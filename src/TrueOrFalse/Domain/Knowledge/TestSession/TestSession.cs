@@ -21,7 +21,7 @@ public class TestSession
         TestSessionType = TestSessionType.Set;
         TestSessionTypeTypeId = set.Id;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
-        var questions = GetRandomQuestions.Run(set, 5, excludeQuestionIds, true).ToList();
+        var questions = GetRandomQuestions.Run(set, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 

@@ -23,10 +23,23 @@ public class Settings
     public static int MemuchoUserId = 26;
     public static bool WithNHibernateStatistics = true;
 
+    public static int TestSessionQuestionCount = 5;
+
+    private static bool? _developOffline;
+
     public static bool DevelopOffline()
     {
+        if (_developOffline != null)
+            return _developOffline.Value;
+
         var result = OverwrittenConfig.Value("developOffline");
-        return result.HasValue && Boolean.Parse(result.Value);
+
+        if (result.HasValue)
+            _developOffline = Boolean.Parse(result.Value);
+        else
+            _developOffline = false;
+
+        return _developOffline.Value;
     }
 
     /// <summary>Develop / Stage / Live</summary>
