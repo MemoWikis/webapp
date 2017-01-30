@@ -65,7 +65,7 @@
                 </div>
                 <div id="divIndicatorAverageText">
                     <p class="show-tooltip" title="<%= tooltip %>">
-                        Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>%).
+                        Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>%)
                     </p>
                 </div>
             </div>
