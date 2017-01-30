@@ -73,7 +73,7 @@ namespace TrueOrFalse.Search
             if (orderBy == SearchCategoriesOrderBy.QuestionCount)
                 orderby.Add(new SortOrder("QuestionCount", Order.DESC));
             else if (orderBy == SearchCategoriesOrderBy.DateCreated)
-                orderby.Add(new SortOrder("DateCreated", Order.DESC));
+                orderby.Add(new SortOrder("DateCreated", Order.ASC));
 
             #if DEBUG
                 Logg.r().Information("SearchCategories {Query}", sqb.ToString());
