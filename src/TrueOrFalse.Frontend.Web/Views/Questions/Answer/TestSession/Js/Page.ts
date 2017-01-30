@@ -6,7 +6,7 @@
 
     new Pin(PinRowType.Set);
     $("#divCallForRegistration")
-        .delay(1500)
+        .delay(3500)
         .fadeIn()
         .animate({ opacity: 1 }, 1500);
 
@@ -17,5 +17,5 @@
                 },
                 1000);
         },
-        10000);
+        7000);
 });
