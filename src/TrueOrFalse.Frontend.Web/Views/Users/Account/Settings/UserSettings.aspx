@@ -102,7 +102,7 @@
                         <h3>Passwort</h3>
                         <p>
                             Um dein Passwort neu zu setzen, 
-                            gehe zu: <a href="<%: Url.Action("PasswordRecovery", Links.WelcomeController) %>">"Passwort-Vergessen"</a>.
+                            gehe zu: <a href="<%: Url.Action("PasswordRecovery", Links.WelcomeController) %>">"Passwort vergessen"</a>.
                         </p>
                         <p style="margin-top: 3px;">(Später werden wir das Setzen eines neuen Passworts auch hier ermöglichen.)</p>
                     </div>
