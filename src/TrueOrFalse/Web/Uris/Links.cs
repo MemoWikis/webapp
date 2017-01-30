@@ -13,8 +13,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterController = "Register";
 
         public const string VariousController = "VariousPublic";
-        public static string TermsAndConditions => GetUrlHelper().Action("AGB", VariousController);
-        public static string Imprint => GetUrlHelper().Action("Impressum", VariousController);
+        public static string TermsAndConditions => GetUrlHelper().Action("TermsAndConditions", VariousController);
+        public static string Imprint => GetUrlHelper().Action("Imprint", VariousController);
 
         public const string WelfareCompanyAction = "WelfareCompany";
         public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
@@ -33,7 +33,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterAction = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
         public const string Logout = "Logout";
-        public const string Membership = "Membership";
+        public const string MembershipAction = "Membership";
+        public static string Membership() => GetUrlHelper().Action(MembershipAction, AccountController);
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
         public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", VariousController);
         public static string Jobs() => GetUrlHelper().Action("Jobs", VariousController);
@@ -48,8 +49,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string UserController = "User";
         public const string UserAction = "User";
 
-        public const string UserSettings = "UserSettings";
+        public const string UserSettingsAction = "UserSettings";
         public const string UserSettingsController = "UserSettings";
+        public static string UserSettings() => GetUrlHelper().Action(UserSettingsAction, UserSettingsController);
 
         public static string UserLoginAs(UrlHelper url, int userId) => url.Action("LoginAs", "Users", new {userId = userId});
         public static string UserDetail(User user) => UserDetail(user.Name, user.Id);

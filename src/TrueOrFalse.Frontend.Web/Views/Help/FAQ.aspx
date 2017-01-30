@@ -187,7 +187,7 @@
               </p>
               <p>
                   Aber schon jetzt kannst du memucho nutzen - und uns als Beta-Nutzer wichtige Hinweise geben, wo etwas nicht funktioniert und 
-                  welche Funktionen dir besonders dringend fehlen. Am besten wirst du schon jetzt <a href="<%= Url.Action(Links.Membership, Links.AccountController) %>">Fördermitglied</a>!
+                  welche Funktionen dir besonders dringend fehlen. Am besten wirst du schon jetzt <a href="<%= Links.Membership() %>">Fördermitglied</a>!
               </p>
           </div>
         </div>

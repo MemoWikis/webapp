@@ -18,7 +18,7 @@
                     <%--<a data-toggle="modal" data-questionId="<%= Model.Id %>" href="#modalDelete"><img src="/Images/delete.png"/> </a>--%>
             
                     <% if(Model.IsCurrentUser){ %>
-                        <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>">
+                        <a href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>">
                             <i class="fa fa-pencil show-tooltip" title="Deine Konto-Einstellungen bearbeiten"></i> 
                         </a>
                     <% } %>
