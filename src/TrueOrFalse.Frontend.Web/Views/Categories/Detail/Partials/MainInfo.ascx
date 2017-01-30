@@ -131,7 +131,7 @@
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <% var tooltipTest = "Teste dein Wissen mit <%= Settings.TestSessionQuestionCount %> zufällig ausgewählten Fragen aus dieser Kategorie und jeweils nur einem Antwortversuch.";
+        <% var tooltipTest = "Teste dein Wissen mit" + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen aus dieser Kategorie und jeweils nur einem Antwortversuch.";
            if (Model.CountSets == 0 && Model.CountQuestions == 0)
                tooltipTest = "Noch keine Fragesätze oder Fragen zum Testen in dieser Kategorie vorhanden";%>
         <div class="BoxButton show-tooltip 
