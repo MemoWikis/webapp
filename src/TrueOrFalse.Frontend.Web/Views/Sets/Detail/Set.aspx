@@ -115,44 +115,73 @@
             </div>
             <div class="row BoxButtonBar">
                 <div class="BoxButtonColumn">
-                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>"
-                            data-original-title="Tritt gegen andere Nutzer im Echtzeit-Quizspiel an.">
+                    <% var tooltipGame = "Tritt gegen andere Nutzer im Echtzeit-Quizspiel an.";
+                    if (Model.QuestionCount == 0)
+                        tooltipGame = "Noch keine Fragen zum Spielen in diesem Fragesatz vorhanden";%>
+                    <div class="BoxButton show-tooltip 
+                        <%= !Model.IsLoggedIn ? "LookDisabled" : ""%> 
+                        <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>"
+                        data-original-title="<%= tooltipGame %>">
                         <div class="BoxButtonIcon"><i class="fa fa-gamepad"></i></div>
                         <div class="BoxButtonText">
                             <span>Spiel starten</span>
                         </div>
-                        <a href="<%= Links.GameCreateFromSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">
-                        </a>
+                        <% if (Model.QuestionCount > 0) { %>
+                            <a href="<%= Links.GameCreateFromSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">
+                            </a>
+                        <% } %>
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>" 
-                            data-original-title="Gib an, bis wann du alles zum Thema wissen musst und erhalte deinen persönlichen Übungsplan.">
+                    <% var tooltipDate = "Gib an, bis wann du alle Fragen in diesem Fragesatz lernen musst und erhalte deinen persönlichen Übungsplan.";
+                    if (Model.QuestionCount == 0)
+                       tooltipDate = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
+                    <div class="BoxButton show-tooltip 
+                        <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
+                        <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>"
+                        data-original-title="<%= tooltipDate%>">
                         <div class="BoxButtonIcon"><i class="fa fa-calendar"></i></div>
                         <div class="BoxButtonText">
                             <span>Prüfungstermin anlegen</span> 
                         </div>
-                        <a href="<%= Links.DateCreateForSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">
-                        </a>
+                        <% if (Model.QuestionCount > 0) { %>
+                            <a href="<%= Links.DateCreateForSet(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">
+                            </a>
+                        <% } %>
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "NotAvailable" : ""%>" data-original-title="Lerne personalisiert genau die Fakten, die du am dringendsten wiederholen solltest.">
+                    <% var tooltipLearn = "Lerne personalisiert genau die Fakten, die du am dringendsten wiederholen solltest.";
+                    if (Model.QuestionCount == 0)
+                       tooltipLearn = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
+                    <div class="BoxButton show-tooltip 
+                        <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
+                        <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>" 
+                        data-original-title="<%= tooltipLearn %>">
                         <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
                         <div class="BoxButtonText">
                             <span>Üben</span>
                         </div>
-                        <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
-                        </a>
+                        <% if (Model.QuestionCount > 0) { %>
+                            <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                            </a>
+                        <% } %>
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <div class="BoxButton show-tooltip" data-original-title="Teste dein Wissen mit 5 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.">
+                    <% var tooltipTest = "Teste dein Wissen mit 5 zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.";
+                    if (Model.QuestionCount == 0)
+                        tooltipTest = "Noch keine Fragen zum Testen in diesem Fragesatz vorhanden";%>
+                    <div class="BoxButton show-tooltip
+                        <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>" 
+                        data-original-title="<%= tooltipTest %>">
                         <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
                         <div class="BoxButtonText">
                             <span>Wissen testen</span>
                         </div>
-                        <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow"></a>
+                        <% if (Model.QuestionCount > 0) { %>
+                         <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow"></a>
+                        <% } %>
                     </div>
                 </div>
             </div> 
@@ -161,7 +190,16 @@
                 Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));     
             } %>
 
-            <h4 style="margin-top: 30px; margin-bottom: 20px;">Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:</h4>
+            <% if(Model.QuestionCount > 0) { %>
+                <h4 style="margin-top: 30px; margin-bottom: 20px;">
+                    Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:
+                </h4>
+            <% } else { %>
+                <div style="margin-top: 30px; margin-bottom: 20px;">
+                    Dieser Fragesatz enthält noch keine Fragen.
+                </div>
+            <% } %>
+
             <div id="rowContainer">
                 <%  foreach(var questionRow in Model.QuestionsInSet){ %>
                     <% Html.RenderPartial("/Views/Sets/Detail/SetQuestionRowResult.ascx", questionRow); %>
