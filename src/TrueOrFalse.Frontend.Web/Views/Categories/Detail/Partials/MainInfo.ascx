@@ -114,23 +114,36 @@
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <div class="BoxButton show-tooltip <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>"
-            data-original-title="Lerne aus dieser Kategorie genau die Fakten, die du am dringendsten wiederholen solltest.">
+        <% var tooltipLearn = "Lerne aus dieser Kategorie genau die Fakten, die du am dringendsten wiederholen solltest.";
+           if (Model.CountSets == 0 && Model.CountQuestions == 0)
+               tooltipLearn = "Noch keine Fragesätze oder Fragen zum Lernen in dieser Kategorie vorhanden";%>
+         <div class="BoxButton show-tooltip 
+            <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
+            <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : ""%>"
+            data-original-title="<%= tooltipLearn%>">
             <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
             <div class="BoxButtonText">
                 <span>Üben</span>
             </div>
-            <a href="<%= Links.StartCategoryLearningSession(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"></a>
+            <% if (Model.CountSets > 0 || Model.CountQuestions > 0) { %>
+                <a href="<%= Links.StartCategoryLearningSession(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"></a>
+            <% } %>
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <div class="BoxButton show-tooltip"
-            data-original-title="Teste dein Wissen mit 10 zufällig ausgewählten Fragen aus dieser Kategorie und jeweils nur einem Antwortversuch.">
+        <% var tooltipTest = "Teste dein Wissen mit 5 zufällig ausgewählten Fragen aus dieser Kategorie und jeweils nur einem Antwortversuch.";
+           if (Model.CountSets == 0 && Model.CountQuestions == 0)
+               tooltipTest = "Noch keine Fragesätze oder Fragen zum Testen in dieser Kategorie vorhanden";%>
+        <div class="BoxButton show-tooltip 
+            <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : ""%>"
+            data-original-title="<%= tooltipTest %>">
             <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
             <div class="BoxButtonText">
                 <span>Wissen testen</span>
             </div>
-            <a href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" rel="nofollow"></a>
+            <% if (Model.CountSets > 0 || Model.CountQuestions > 0) { %>
+                <a href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" rel="nofollow"></a>
+            <% } %>
         </div>
     </div>
 </div>
