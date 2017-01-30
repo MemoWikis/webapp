@@ -68,7 +68,11 @@
                 return;
             }
 
-            Site.ReloadPage_butNotTo_Logout();
+            var backToLocation = Utils.GetQueryString().backTo;
+            if (backToLocation != undefined)
+                location.href = backToLocation;
+            else
+                Site.ReloadPage_butNotTo_Logout();
         });
     } 
 

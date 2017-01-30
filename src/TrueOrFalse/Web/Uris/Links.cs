@@ -366,6 +366,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
 
-        public static string ErrorNotLoggedIn() => GetUrlHelper().Action("_NotLoggedIn", "Error");
+        public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
     }
 }
+ 

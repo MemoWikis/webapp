@@ -518,6 +518,9 @@
     <Content Include="Images\Team\team_robert-rund_160.png" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Scripts\Pollyfills.js">
+      <DependentUpon>Pollyfills.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\socialLogins\Facebook.js">
       <DependentUpon>Facebook.ts</DependentUpon>
     </Content>
@@ -1368,6 +1371,9 @@
     </Content>
     <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js.map">
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Pollyfills.js.map">
+      <DependentUpon>Pollyfills.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
