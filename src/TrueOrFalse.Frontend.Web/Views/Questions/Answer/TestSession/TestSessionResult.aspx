@@ -34,6 +34,41 @@
         (<a href="#detailedAnswerAnalysis">Zur Auswertung</a>)
     </p>
     
+    
+    <% if (!Model.IsLoggedIn) { %>
+        <div class="bs-callout bs-callout-info" id="divCallForRegistration" style="width: 100%; margin-top: 0; text-align: left; opacity: 0; display: none;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 style="margin-top: 0;">Schneller lernen, länger wissen</h3>
+                    <p>
+                        Registriere dich bei memucho, um von den vielen Vorteilen personalisierten Lernens zu profitieren. <strong>memucho ist kostenlos!</strong>
+                    </p>
+                </div>
+                <div class="col-xs-12 claimsMemucho">
+                    <div class="row">
+                        <div class="col-xs-4" style="text-align: center;">
+                            <i class="fa fa-3x fa-line-chart"></i><br/>
+                            Personalisiere dein Lernen
+                        </div>
+                        <div class="col-xs-4" style="text-align: center;">
+                            <i class="fa fa-3x fa-heart"></i><br/>
+                            Sammele dein Wunschwissen
+                        </div>
+                        <div class="col-xs-4" style="text-align: center;">
+                            <i class="fa fa-3x fa-lightbulb-o"></i><br/>
+                            Entscheide, was du nie vergessen willst
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12" style="text-align: right;">
+                    <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr über memucho</a>
+                    <a href="<%= Url.Action("Register", "Register") %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                </div>
+            </div>
+        </div>
+            
+    <% } %>
+
 
     <div class="row">
         <div class="col-sm-12">
@@ -65,7 +100,7 @@
                 </div>
                 <div id="divIndicatorAverageText">
                     <p class="show-tooltip" title="<%= tooltip %>">
-                        Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>%).
+                        Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>%)
                     </p>
                 </div>
             </div>
@@ -133,43 +168,9 @@
                             </div>
                     <% } %>
             </div>
-        </div>
 
-            
-            <% if (!Model.IsLoggedIn) { %>
-                <div class="bs-callout bs-callout-info" id="divCallForRegistration" style="width: 100%; margin-top: 0; text-align: left; opacity: 0; display: none;">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h3 style="margin-top: 0;">Schneller lernen, länger wissen</h3>
-                            <p>
-                                Registriere dich bei memucho, um von den vielen Vorteilen personalisierten Lernens zu profitieren. <strong>memucho ist kostenlos!</strong>
-                            </p>
-                        </div>
-                        <div class="col-xs-12 claimsMemucho">
-                            <div class="row">
-                                <div class="col-xs-4" style="text-align: center;">
-                                    <i class="fa fa-3x fa-line-chart"></i><br/>
-                                    Personalisiere dein Lernen
-                                </div>
-                                <div class="col-xs-4" style="text-align: center;">
-                                    <i class="fa fa-3x fa-heart"></i><br/>
-                                    Sammele dein Wunschwissen
-                                </div>
-                                <div class="col-xs-4" style="text-align: center;">
-                                    <i class="fa fa-3x fa-lightbulb-o"></i><br/>
-                                    Entscheide, was du nie vergessen willst
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12" style="text-align: right;">
-                            <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr über memucho</a>
-                            <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
-                        </div>
-                    </div>
-                </div>
-            
-            <% } %>
-          
+
+                     
             <div class="buttonRow">
                 <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-link" style="padding-right: 10px">
                     Zur Wissenszentrale
@@ -200,4 +201,6 @@
                 </div>
             <% } %>
     </div>
+                          
+</div>
 </asp:Content>

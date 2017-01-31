@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate.Util;
-using Seedworks.Lib;
 using Seedworks.Web.State;
-using TrueOrFalse.Web;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeReportMsgModel
@@ -110,8 +106,8 @@ public class KnowledgeReportMsgModel
         }
         else
         {
-            KnowledgeLastLearnedDate = knowledgeLastLearnedDate?.ToString("'zuletzt am' dd.MM.yyyy 'um' HH:mm");
-            var remainingLabel = new TimeSpanLabel(DateTime.Now - (knowledgeLastLearnedDate ?? DateTime.Now), useDativ: true);
+            KnowledgeLastLearnedDate = knowledgeLastLearnedDate.Value.ToString("'zuletzt am' dd.MM.yyyy 'um' HH:mm");
+            var remainingLabel = new TimeSpanLabel(DateTime.Now - (DateTime) knowledgeLastLearnedDate, useDativ: true);
             KnowledgeLastLearnedDateAsDistance = "<br />(Vor " + remainingLabel.Full + ")";
         }
 
@@ -169,19 +165,17 @@ public class KnowledgeReportMsgModel
         else
         {
             sbUpcomingDates.AppendLine("Du lernst gerade für " + upcomingDates.Count + " Termin" + StringUtils.PluralSuffix(upcomingDates.Count, "e") + ":");
-            //sbUpcomingDates.AppendLine("<ul>");
             foreach (var date in upcomingDates)
             {
                 sbUpcomingDates.AppendLine("<br/><strong>-&nbsp;" + date.GetTitle() + "</strong> (in " + new TimeSpanLabel(date.Remaining()).Full + ")");
             }
-            //sbUpcomingDates.AppendLine("</ul>");
         }
         UpcomingDates = sbUpcomingDates.ToString();
 
         var datesInNetworkCount = Sl.R<GetDatesInNetwork>().Run(user.Id).Count;
         DatesInNetwork = datesInNetworkCount.ToString() + " Termin" + StringUtils.PluralSuffix(datesInNetworkCount, "e");
         
-        var upcomingTrainingDates = Sl.R<TrainingDateRepo>().GetUpcomingTrainingDates(7);
+        var upcomingTrainingDates = Sl.R<TrainingDateRepo>().GetUpcomingTrainingDates();
         UpcomingTrainingDatesCount = upcomingTrainingDates.Count.ToString();
         var trainingTimeTimeSpan = new TimeSpan();
         trainingTimeTimeSpan = upcomingTrainingDates.Aggregate(trainingTimeTimeSpan, (current, upcomingTrainingDate) => current.Add(upcomingTrainingDate.TimeEstimated())); //adds up al TimeEstimated
@@ -193,7 +187,7 @@ public class KnowledgeReportMsgModel
         UnreadMessagesCount = Sl.R<GetUnreadMessageCount>().Run(user.Id).ToString();
         var followerIAmCount = Sl.R<UserRepo>().GetById(user.Id).Followers.Count; //needs to be reloaded for avoiding lazy-load problems
         var followedIAmCount = Sl.R<UserRepo>().GetById(user.Id).Followers.Count;
-        FollowerIAm = followerIAmCount.ToString() + " Nutzer" + StringUtils.PluralSuffix(followerIAmCount, "n"); ;
+        FollowerIAm = followerIAmCount.ToString() + " Nutzer" + StringUtils.PluralSuffix(followerIAmCount, "n");
         FollowedIAm = followedIAmCount.ToString() + " Nutzer folg" + StringUtils.PluralSuffix(followedIAmCount, "en", "t");
 
 
@@ -201,10 +195,11 @@ public class KnowledgeReportMsgModel
 
         if (ContextUtil.IsWebContext)
         {
-            LinkToWishQuestions = Links.QuestionsWish();
-            LinkToWishSets = Links.SetsWish();
-            LinkToDates = Links.Dates();
-            LinkToTechInfo = Links.AlgoInsightForecast();
+            LinkToWishQuestions = Settings.CanonicalHost + Links.QuestionsWish();
+            LinkToWishSets = Settings.CanonicalHost + Links.SetsWish();
+            LinkToLearningSession = Settings.CanonicalHost + Links.StartWishLearningSession();
+            LinkToDates = Settings.CanonicalHost + Links.Dates();
+            LinkToTechInfo = Settings.CanonicalHost + Links.AlgoInsightForecast();
         }
         else
         {
