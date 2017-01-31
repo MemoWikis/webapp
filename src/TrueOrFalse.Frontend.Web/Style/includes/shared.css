@@ -12,6 +12,7 @@
     Boxes
     Cards
     Images
+    Markdown
     Color scheme
     Media query mixins
     Own responsive utilities
@@ -2783,6 +2784,15 @@ fieldset[disabled] .BoxButton.active {
   right: 0;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  text-align: center;
+}
+/*  Markdown
+----------------------------------------------------------*/
+.MarkdownVideo {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.MarkdownVideo p {
   text-align: center;
 }
 /*  Color scheme
