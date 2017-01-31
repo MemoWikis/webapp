@@ -13,6 +13,8 @@ public class Sl
 
     public static ISession Session => R<ISession>();
     public static UserRepo UserRepo => R<UserRepo>();
+    public static CategoryRepository CategoryRepo => R<CategoryRepository>();
+    public static SetRepo SetRepo => R<SetRepo>();
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 
