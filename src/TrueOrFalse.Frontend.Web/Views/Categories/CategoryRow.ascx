@@ -16,8 +16,7 @@
                     
                     <a href="<%= Model.DetailLink(Url) %>">
                         <% if (Model.HasMarkdownContent) { %>
-                            <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i>
-                        <% } %><%=Model.CategoryName.Truncate(35) %>
+                            <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% } %><%=Model.CategoryName.Truncate(35) %>
                     </a> 
                 </div>
             
