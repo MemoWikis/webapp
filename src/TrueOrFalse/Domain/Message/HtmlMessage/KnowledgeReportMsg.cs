@@ -80,8 +80,21 @@ public class KnowledgeReportMsg
     /// </summary>
     public static bool ShouldSendToUser(User user)
     {
-        // possible improvement: increase interval that this method is called (every hour) and then
-        // check for user's prefered time of day to use memucho, otherwise use standard time (10 a.m.)
+
+        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet) && (DateTime.Now.DayOfWeek != DayOfWeek.Monday)) // defines standard behaviour if setting is not set
+            return false;
+
+        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly) && (DateTime.Now.DayOfWeek != DayOfWeek.Monday))
+            return false;
+
+        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Monthly) && (DateTime.Now.Day != 1))
+            return false;
+
+        DateTime today = DateTime.Now;
+        int quarterNumber = (today.Month - 1) / 3 + 1;
+        DateTime firstDayOfQuarter = new DateTime(today.Year, (quarterNumber - 1) * 3 + 1, 1);
+        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Quarterly) && (DateTime.Now.Date != firstDayOfQuarter.Date))
+            return false;
 
         var lastMessageSent = Sl.R<MessageEmailRepo>().GetMostRecentForUserAndType(user.Id, MessageEmailTypes.KnowledgeReport);
         var lastSentOrRegistered = lastMessageSent?.DateCreated ?? user.DateCreated;
@@ -95,13 +108,13 @@ public class KnowledgeReportMsg
                 shouldHaveSent = DateTime.Now.AddHours(-23);
                 break;
             case UserSettingNotificationInterval.Weekly:
-                shouldHaveSent = DateTime.Now.AddDays(-7).AddHours(1);
+                shouldHaveSent = DateTime.Now.AddDays(-7).AddHours(2);
                 break;
             case UserSettingNotificationInterval.Monthly:
-                shouldHaveSent = DateTime.Now.AddMonths(-1).AddHours(1);
+                shouldHaveSent = DateTime.Now.AddMonths(-1).AddHours(2);
                 break;
             case UserSettingNotificationInterval.Quarterly:
-                shouldHaveSent = DateTime.Now.AddMonths(-3).AddHours(1);
+                shouldHaveSent = DateTime.Now.AddMonths(-3).AddHours(2);
                 break;
         }
 

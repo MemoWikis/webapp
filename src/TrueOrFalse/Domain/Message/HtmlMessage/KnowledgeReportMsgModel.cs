@@ -98,7 +98,7 @@ public class KnowledgeReportMsgModel
         KnowledgeNotLearned = knowledgeSummary.NotLearned.ToString();
         KnowledgeNotLearnedPercentage = knowledgeSummary.NotLearnedPercentage.ToString();
 
-        var knowledgeLastLearnedDate = Sl.R<LearningSessionRepo>().GetDateOfLastWishSession(user);// ?? DateTime.Now.AddDays(1);
+        var knowledgeLastLearnedDate = Sl.R<LearningSessionRepo>().GetDateOfLastWishSession(user);
         if (knowledgeLastLearnedDate == null)
         {
             KnowledgeLastLearnedDate = "noch nie";
