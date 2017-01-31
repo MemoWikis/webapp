@@ -6,12 +6,7 @@
 <div id="ItemMainInfo" class="Box">
     <div class="">
         <div class="row">
-            <div class="col-xs-12 col-sm-3">
-                <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-9">
+            <div class="col-xs-12">
                 <header>
                     <div>
                         <% if (Model.Type != "Standard"){ %>
@@ -25,6 +20,14 @@
                         <%= Model.Name %>
                     </h1>
                 </header>
+            </div>
+            <div class="xxs-stack col-xs-4 col-sm-3">
+                <div class="ImageContainer">
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                </div>
+            </div>
+            <div class="xxs-stack col-xs-8 col-sm-9">
+                
                 <div>
                         <% if (Model.Type != "Standard") {
                         Html.RenderPartial("Reference", Model.Category);

@@ -59,12 +59,7 @@
             <div id="ItemMainInfo" class="Set Box">
                 <div class="">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-3">
-                            <div class="ImageContainer">
-                                <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.QuestionSet, "ImageContainer") %>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-9">
+                        <div class="col-xs-12">
                             <header>
                                 <div>
                                     Fragesatz mit <%= Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
@@ -73,6 +68,13 @@
                                     <%= Model.Name %>
                                 </h1>
                             </header>
+                        </div>
+                        <div class="xxs-stack col-xs-4 col-sm-3">
+                            <div class="ImageContainer">
+                                <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.QuestionSet, "ImageContainer") %>
+                            </div>
+                        </div>
+                        <div class="xxs-stack col-xs-8 col-sm-9">
                             <div>
                                 <%= Model.Text %>
                             </div>
@@ -225,7 +227,7 @@
             </div> 
 
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4 style="margin-top: 40px;">Lust auf mehr? Andere Nutzer lernen auch:</h4>
+                <h4 style="margin-top: 100px;">Lust auf mehr? Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscape" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {

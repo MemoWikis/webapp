@@ -36,11 +36,12 @@
   margin-bottom: 10px;
 }
 #ItemMainInfo .ImageContainer {
+  margin-top: 4px;
   margin-bottom: 10px;
 }
 @media (max-width: 767px) {
   #ItemMainInfo .ImageContainer img {
-    max-height: 150px;
+    max-height: 300px;
     width: auto;
   }
 }
