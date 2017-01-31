@@ -344,6 +344,7 @@
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
+    <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
@@ -595,6 +596,7 @@
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\Shared\AddToWishknoledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\VariousPublic\AboutMemucho.css">
       <DependentUpon>AboutMemucho.less</DependentUpon>
