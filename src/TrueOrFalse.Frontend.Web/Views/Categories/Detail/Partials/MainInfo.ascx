@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div id="ItemMainInfo" class="Box">
+<div id="ItemMainInfo" class="Category Box">
     <div class="">
         <div class="row">
             <div class="col-xs-12">

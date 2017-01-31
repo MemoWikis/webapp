@@ -124,6 +124,44 @@ ul.ui-autocomplete {
     }
 }
 
+/* MainItemInfo for Categories + Sets
+----------------------------------------------------------*/
+
+#ItemMainInfo {
+    
+    padding-bottom: 5px;
+
+    header{
+        margin-bottom: 10px;
+    }
+
+    &.Set header {
+        border-bottom: @colored-line-width solid @color-set;
+    }
+
+    &.Category header {
+        border-bottom: @colored-line-width solid @color-category;
+    }
+
+    .ImageContainer {
+
+        margin-top: 4px;
+        margin-bottom: 10px;
+
+        .media-below-sm({
+
+            img {
+                max-height: 300px;
+                width: auto;
+            }
+        }); 
+    }
+
+    .BottomBar {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
 
 /* MESSAGES + COMMENTS
 ----------------------------------------------------------*/

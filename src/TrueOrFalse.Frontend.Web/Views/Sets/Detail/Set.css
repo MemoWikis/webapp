@@ -28,27 +28,6 @@
     margin-right: 10px;
   }
 }
-#ItemMainInfo {
-  padding-bottom: 5px;
-}
-#ItemMainInfo header {
-  border-bottom: 5px solid #FFD700;
-  margin-bottom: 10px;
-}
-#ItemMainInfo .ImageContainer {
-  margin-top: 4px;
-  margin-bottom: 10px;
-}
-@media (max-width: 767px) {
-  #ItemMainInfo .ImageContainer img {
-    max-height: 300px;
-    width: auto;
-  }
-}
-#ItemMainInfo .BottomBar {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
 .question-row {
   /*.col-0{
         img{
