@@ -121,7 +121,9 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Set")
-                .IncludeDirectory("~/Views/Sets/Detail/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Sets/Detail/Js/", "*.js")
+                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
