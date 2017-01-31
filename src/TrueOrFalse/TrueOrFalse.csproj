@@ -881,6 +881,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs157.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs156.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs162.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs165.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
