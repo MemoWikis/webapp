@@ -203,3 +203,15 @@ span.CategoryType {
 }
 p:empty {
   display: none;
+}
+.BoxButton + .tooltip {
+  font-size: 14px;
+  font-weight: bold;
+}
+.BoxButton + .tooltip .tooltip-inner {
+  background-color: #AFD534;
+  color: #003264;
+}
+.BoxButton + .tooltip .tooltip-arrow {
+  border-top-color: #AFD534;
+}
