@@ -13,6 +13,9 @@ $(() => {
         answerEntry.Init();
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());        
+
+        var pinQuestion = new PinQuestion();
+        pinQuestion.Init();
     }
 
     new Pin(PinRowType.SetDetail);
