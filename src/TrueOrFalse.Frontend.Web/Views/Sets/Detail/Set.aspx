@@ -15,8 +15,8 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
-    <%= Scripts.Render("~/bundles/Set") %>
+    <%= Styles.Render("~/bundles/Set") %>
+    <%= Scripts.Render("~/bundles/js/Set") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
