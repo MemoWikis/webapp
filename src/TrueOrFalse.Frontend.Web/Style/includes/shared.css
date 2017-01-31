@@ -2795,6 +2795,10 @@ fieldset[disabled] .BoxButton.active {
 .MarkdownVideo p {
   text-align: center;
 }
+.MarkdownVideo iframe {
+  display: inline-block;
+  max-width: 100%;
+}
 /*  Color scheme
 ----------------------------------------------------------*/
 .color-category {
