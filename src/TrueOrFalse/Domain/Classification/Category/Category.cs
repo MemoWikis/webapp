@@ -18,11 +18,11 @@ public class Category : DomainEntity, ICreator
     public virtual IList<Category> ParentCategories { get; set; }
 
     public virtual IList<Set> FeaturedSets {
-        get {
+        get
+        {
             if (string.IsNullOrEmpty(FeaturedSetsIdsString))
-            {
                 return new List<Set>();
-            }
+
             var setIds = FeaturedSetsIdsString
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x));

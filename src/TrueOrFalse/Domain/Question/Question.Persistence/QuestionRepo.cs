@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Properties;
 using TrueOrFalse.Search;
 
 public class QuestionRepo : RepositoryDbBase<Question>
@@ -49,14 +49,17 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Delete(question);
     }
 
-    public IList<Question> GetForCategory(int categoryId, int resultCount, int currentUser)
+    public IList<Question> GetForCategory(int categoryId, int resultCount, int currentUser) => 
+        GetForCategory(new List<int> {categoryId}, resultCount, currentUser);
+
+    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int resultCount, int currentUser)
     {
         return _session.QueryOver<Question>()
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
             .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
             .JoinQueryOver<Category>(q => q.Categories)
-            .Where(c => c.Id == categoryId)
+            .Where(Restrictions.In("Id", categoryIds.ToArray()))
             .Take(resultCount)
             .List<Question>();
     }
