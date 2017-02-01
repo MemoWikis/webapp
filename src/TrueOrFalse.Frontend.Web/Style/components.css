@@ -429,3 +429,13 @@ div.selected-row:hover {
     margin-right: 0;
   }
 }
+.Card.SingleItem .LinkArea {
+  position: relative;
+}
+.Card.SingleItem .LinkArea a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}

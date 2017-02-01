@@ -4,8 +4,9 @@
 
 <div class="CardColumn">
     <div class="Card SingleItem Set ">
+        <a href="<%= Links.SetDetail(Model.Set) %>">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Model.Set), noFollow: true) %>
         </div>
 
         <div>
@@ -21,10 +22,13 @@
                             <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
                         </a>
                     </span>&nbsp;
-                    Fragesatz mit <a href="<%= Links.SetDetail(Url,Model.SetName,Model.SetId) %>"><%= Model.QCount %> Fragen</a>
+                    Fragesatz mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %> 
                 </h6>
-                <h4 class="ItemTitle"><%: Model.SetName %></h4>
-                <div class="ItemText"><%: Model.SetText %></div>
+                <div class="LinkArea">
+                    <h4 class="ItemTitle"><%: Model.SetName %></h4>
+                    <div class="ItemText"><%: Model.SetText %></div>
+                    
+                </div>
             </div>
             <div class="BottomBar">
                 <div class="dropdown">
