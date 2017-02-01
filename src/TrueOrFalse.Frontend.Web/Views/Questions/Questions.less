@@ -57,11 +57,12 @@ div.question-row{background-color:silver;}*/
     });
     
     .media-md-up ({
-        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);
+        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is visible in md
+        width: (942px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is not visible in md
     });
 
     .media-lg ({
-        width: (852px - @column-Image-sm-width - @column-Additional-sm-width);
+        width: (910px - @column-Image-sm-width - @column-Additional-sm-width);
     });
 }
 
