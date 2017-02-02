@@ -203,3 +203,30 @@ span.CategoryType {
 }
 p:empty {
   display: none;
+}
+/*.Box .Card {
+    border: none;
+    box-shadow: none;
+
+    &.SingleItem {
+
+
+        .ImageContainer {
+            margin-left: 0 !important;
+        }
+
+        .ContentContainer {
+            margin-left: 100px !important;
+
+            .CardContent{
+                margin-right: 0px !important;
+            }
+        }
+    }
+}
+
+.Box .Box {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}*/
