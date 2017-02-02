@@ -10,7 +10,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class KnowledgeReportCheck : IJob
     {
-        public const int IntervalInHours = 1;
 
         public void Execute(IJobExecutionContext context)
         {
@@ -25,8 +24,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         if (user.IsInstallationAdmin)
                             KnowledgeReportMsg.SendHtmlMail(user);
                     }
-                    else
-                        Logg.r().Information("Would NOT YET send Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
                 }
 
             }, "KnowledgeReportCheck");

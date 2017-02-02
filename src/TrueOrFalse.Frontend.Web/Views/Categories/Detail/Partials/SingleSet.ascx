@@ -4,8 +4,9 @@
 
 <div class="CardColumn">
     <div class="Card SingleItem Set ">
+        <a href="<%= Links.SetDetail(Model.Set) %>">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Model.Set), noFollow: true) %>
         </div>
 
         <div>
@@ -16,15 +17,16 @@
                 <h6 class="ItemInfo">
                     <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
                         <a href="#" class="noTextdecoration">
-                            <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
-                            <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
-                            <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    Fragesatz mit <a href="<%= Links.SetDetail(Url,Model.SetName,Model.SetId) %>"><%= Model.QCount %> Fragen</a>
+                    Fragesatz mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %> 
                 </h6>
-                <h4 class="ItemTitle"><%: Model.SetName %></h4>
-                <div class="ItemText"><%: Model.SetText %></div>
+                <div class="LinkArea">
+                    <h4 class="ItemTitle"><%: Model.SetName %></h4>
+                    <div class="ItemText"><%: Model.SetText %></div>
+                    
+                </div>
             </div>
             <div class="BottomBar">
                 <div class="dropdown">

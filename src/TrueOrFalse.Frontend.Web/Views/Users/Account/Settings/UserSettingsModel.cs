@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
@@ -36,14 +32,7 @@ public class UserSettingsModel : BaseModel
     public UserSettingsModel(User user)
     {
         if (user == null) // for e-mail newsletter changes authorized by token
-        {
-            // KnowledgeReportInterval__1__23__2017-02-16
-            // UserSetting__NewProperty__UserId__ExpirationDate
-            // URL: ?updateCommand=KnowledgeReportInterval__1__23__2017-02-16&token=agweHkjlsJKLkXsKJLJK
-            // http://memucho/Nutzer/Einstellungen?updateCommand=KnowledgeReportInterval__1__23__2017-02-31&token=agweHkjlsJKLkXsKJLJK
-            // use different constructor in controller
             return;
-        }
 
         Name = user.Name;
         Email = user.EmailAddress;

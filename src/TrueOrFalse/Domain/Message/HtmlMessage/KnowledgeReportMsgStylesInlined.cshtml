@@ -74,8 +74,7 @@
                                 <ul>
                                     <li>an @Model.DaysLearnedSinceCount von @Model.PossibleLearningDaysSince Tagen gelernt</li>
                                     <li>@Model.AnsweredQuestionsSinceCount beantwortet@(Raw(@Model.AnsweredQuestionsCorrectSinceCount))</li>
-                                    <li>eine Folge von @Model.StreakSince gehabt</li>
-                                    <li>deine bisher längste Folge an Lerntagen war @Model.TopStreak </li>
+                                    <li>eine Folge von @Model.StreakSince gehabt. Deine bisher längste Folge an Lerntagen war @(Model.TopStreak). </li>
                                 </ul>
                                 <center data-parsed="" style="min-width: 290.33333px; width: 100%;">
                                     <table class="button float-center" style="Margin: 0 0 16px 0; border-collapse: collapse; border-spacing: 0; float: none; margin: 0 0 16px 0; padding: 0; text-align: center; vertical-align: top; width: auto;">
@@ -101,8 +100,8 @@
                                 <h4 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Neues Wissen bei memucho</h4>
                                 <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                     In @Model.ShowStatsForPeriodSinceString wurden bei memucho <strong>@Model.NewQuestions neue Fragen</strong> und
-                                    <strong>@Model.NewSets Fragesätze</strong> erstellt.<br> Damit kannst du jetzt insgesamt @Model.TotalAvailableQuestions Fragen und @Model.TotalAvailableSets Fragesätze bei memucho lernen. Da ist bestimmt etwas dabei, was du gerne wissen
-                                    möchtest!
+                                    <strong>@Model.NewSets Fragesätze</strong> erstellt.<br> Damit kannst du jetzt insgesamt @Model.TotalAvailableQuestions Fragen und @Model.TotalAvailableSets Fragesätze bei memucho lernen. <br/>
+                                    Da ist bestimmt etwas dabei, dass du gern wissen möchtest!
                                 </p>
                                 <center data-parsed="" style="min-width: 290.33333px; width: 100%;">
                                     <table class="button float-center" style="Margin: 0 0 16px 0; border-collapse: collapse; border-spacing: 0; float: none; margin: 0 0 16px 0; padding: 0; text-align: center; vertical-align: top; width: auto;">
@@ -194,7 +193,7 @@
                                                 </p>
                                                 <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                                     Du folgst @Model.FollowerIAm und @Model.FollowedIAm dir. <br/>
-                                                    <a href="https://memucho.de/Nutzer?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=expandNetwork" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Netzwerk erweitern.</a>
+                                                    <a href="https://memucho.de/Nutzer?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=expandNetwork" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">Netzwerk erweitern</a>
                                                 </p>
                                             </th>
                                             <th class="expander" style="Margin: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;"></th>

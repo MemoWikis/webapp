@@ -56,6 +56,12 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Registration")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/Category")
+                .Include("~/Views/Categories/Detail/Category.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Category")
+                .IncludeDirectory("~/Views/Categories/Detail/", "*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 

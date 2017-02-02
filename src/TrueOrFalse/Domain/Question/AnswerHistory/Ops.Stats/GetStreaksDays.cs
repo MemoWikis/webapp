@@ -69,13 +69,12 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
         daysResult.LongestLength = 0;
 
         var currentStreakStart = getAnswerStats[0].DateTime.Date;
-        var currentStreakEnd = getAnswerStats[0].DateTime.Date;
 
         foreach (var answerStatItem in getAnswerStats.Skip(1))
         {
             if (previousItem.DateTime.Date == answerStatItem.DateTime.Date.AddDays(-1))
             {
-                currentStreakEnd = answerStatItem.DateTime.Date;
+                var currentStreakEnd = answerStatItem.DateTime.Date;
 
                 var lastStreakLength = (int)((currentStreakEnd - currentStreakStart).TotalDays);
                 if (lastStreakLength >= daysResult.LongestLength)
@@ -88,7 +87,6 @@ public class GetStreaksDays : IRegisterAsInstancePerLifetime
             else
             {
                 currentStreakStart = answerStatItem.DateTime.Date;
-                currentStreakEnd = answerStatItem.DateTime.Date;
             }
 
             previousItem = answerStatItem;

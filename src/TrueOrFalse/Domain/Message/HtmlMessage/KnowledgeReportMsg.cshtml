@@ -115,8 +115,7 @@
                         <ul>
                             <li>an @Model.DaysLearnedSinceCount von @Model.PossibleLearningDaysSince Tagen gelernt</li>
                             <li>@Model.AnsweredQuestionsSinceCount beantwortet@(Raw(@Model.AnsweredQuestionsCorrectSinceCount))</li>
-                            <li>eine Folge von @Model.StreakSince gehabt</li>
-                            <li>deine bisher längste Folge an Lerntagen war @Model.TopStreak </li>
+                            <li>eine Folge von @Model.StreakSince gehabt. Deine bisher längste Folge an Lerntagen war @(Model.TopStreak). </li>
                         </ul>
 
                         <center data-parsed="">
@@ -142,8 +141,8 @@
                             In @Model.ShowStatsForPeriodSinceString wurden bei memucho <strong>@Model.NewQuestions neue Fragen</strong> und
                             <strong>@Model.NewSets Fragesätze</strong> erstellt.<br/>
                             Damit kannst du jetzt insgesamt @Model.TotalAvailableQuestions Fragen und
-                            @Model.TotalAvailableSets Fragesätze bei memucho lernen.
-                            Da ist bestimmt etwas dabei, was du gerne wissen möchtest!
+                            @Model.TotalAvailableSets Fragesätze bei memucho lernen.<br/>
+                            Da ist bestimmt etwas dabei, dass du gern wissen möchtest!
                         </p>
 
                         <center data-parsed="">
@@ -243,7 +242,7 @@
 
                                     <p>
                                         Du folgst @Model.FollowerIAm und @Model.FollowedIAm dir. <br/>
-                                        <a href="https://memucho.de/Nutzer?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=expandNetwork">Netzwerk erweitern.</a>
+                                        <a href="https://memucho.de/Nutzer?utm_medium=email@(Model.UtmSourceFullString)@(Model.UtmCampaignFullString)&utm_term=expandNetwork">Netzwerk erweitern</a>
                                     </p>
                                 </th>
 

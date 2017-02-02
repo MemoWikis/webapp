@@ -50,34 +50,6 @@ span.CategoryType {
     font-size: 18px;
 }
 
-#ItemMainInfo {
-    
-    padding-bottom: 5px;
-
-    header{
-        border-bottom: @colored-line-width solid @color-category;
-        margin-bottom: 10px;
-    }
-
-    .ImageContainer {
-
-        margin-bottom: 10px;
-
-        .media-below-sm({
-
-            img {
-                max-height: 150px;
-                width: auto;
-            }
-        }); 
-    }
-
-    .BottomBar {
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-}
-
 .ContentSubheading {
 
     &:not(:first-child){
@@ -239,3 +211,66 @@ p:empty {
    display: none;
 }
 
+/*******************************************************************/
+
+/** Default button **/
+.btn-breadcrumb 
+{
+    a{ text-decoration : underline; }
+    a.current{ text-decoration : none; }
+
+    /** Breadcrumb **/
+    .btn:not(:last-child):after {
+      content: " ";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 17px solid transparent;
+      border-bottom: 17px solid transparent;
+      border-left: 10px solid white;
+      position: absolute;
+      top: 50%;
+      margin-top: -17px;
+      left: 100%;
+      z-index: 3;
+    }
+    .btn:not(:last-child):before {
+      content: " ";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 17px solid transparent;
+      border-bottom: 17px solid transparent;
+      border-left: 10px solid rgb(173, 173, 173);
+      position: absolute;
+      top: 50%;
+      margin-top: -17px;
+      margin-left: 1px;
+      left: 100%;
+      z-index: 3;
+    }
+
+    /** The Spacing **/
+    .btn {
+      padding:6px 12px 6px 24px;
+    }
+    .btn:first-child {
+      padding:6px 6px 6px 10px;
+    }
+    .btn:last-child {
+      padding:6px 18px 6px 24px;
+    }
+
+    .btn.btn-default:not(:last-child):after {
+      border-left: 10px solid #fff;
+    }
+    .btn.btn-default:not(:last-child):before {
+      border-left: 10px solid #ccc;
+    }
+    .btn.btn-default:hover:not(:last-child):after {
+      border-left: 10px solid #ebebeb;
+    }
+    .btn.btn-default:hover:not(:last-child):before {
+      border-left: 10px solid #adadad;
+    }
+} 

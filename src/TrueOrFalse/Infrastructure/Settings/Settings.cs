@@ -52,6 +52,8 @@ public class Settings
     public static string SignalrUser() => OverwrittenConfig.ValueString("signalrUser");
     public static string SignalrPassword() => OverwrittenConfig.ValueString("signalrPassword");
 
+    public static string UpdateUserSettingsKey() => OverwrittenConfig.ValueString("updateUserSettingsKey");
+
     public static string InvoiceFolder() => OverwrittenConfig.ValueString("invoiceFolderPath");
     public static string WkHtmlToPdfFolder() => OverwrittenConfig.ValueString("wkHtmlToPdfFolder");
 

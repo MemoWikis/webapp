@@ -3,28 +3,43 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div id="ItemMainInfo" class="Box">
+<div style="padding-bottom: 15px;">
+    <div class="btn-group btn-breadcrumb">
+        <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
+        <a href="<%= Links.Categories() %>" class="btn btn-sm btn-default">
+            <% if (Model.Type != "Standard"){ %>
+                <%= Model.Type %>
+            <% } else { %> 
+                Kategorien
+            <% }  %>
+        </a>
+        
+        <% foreach (var item in Model.BreadCrumb){%>
+            <a href="<%= Links.CategoryDetail(item) %>" class="btn btn-sm btn-default"><%= item.Name %></a> 
+        <%}%>
+        
+        <a href="#" class="btn btn-sm btn-default current"><%= Model.Category.Name %></a>
+
+    </div>
+</div>
+
+<div id="ItemMainInfo" class="Category Box">
     <div class="">
         <div class="row">
-            <div class="col-xs-12 col-sm-3">
-                <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-9">
+            <div class="col-xs-12">
                 <header>
-                    <div>
-                        <% if (Model.Type != "Standard"){ %>
-                            <%= Model.Type %>
-                        <% }
-                        else { %>
-                            Kategorie
-                        <% }  %>
-                    </div>
                     <h1 style="margin-top: 5px; font-size: 26px;">
                         <%= Model.Name %>
                     </h1>
                 </header>
+            </div>
+            <div class="xxs-stack col-xs-4 col-sm-3">
+                <div class="ImageContainer">
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                </div>
+            </div>
+            <div class="xxs-stack col-xs-8 col-sm-9">
+                
                 <div>
                         <% if (Model.Type != "Standard") {
                         Html.RenderPartial("Reference", Model.Category);

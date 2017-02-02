@@ -90,10 +90,10 @@
                             <label class="columnLabel control-label">
                                 <% if (Model.IsMember) { %>
                                     <span class="bold">Du bist Mitglied!</span><br/>
-                                    <a href="/Nutzer/Mitgliedschaft">Deine Mitgliedschaft</a> läuft bis zum <%= String.Format("{0:d}", Model.Membership.PeriodEnd) %>.
+                                    <a href="<%= Links.Membership() %>">Deine Mitgliedschaft</a> läuft bis zum <%= String.Format("{0:d}", Model.Membership.PeriodEnd) %>.
                                 <% } else { %>
                                     <span class="bold">Du bist zur Zeit kein Mitglied.</span><br/>
-                                    <a class="btn btn-primary" href="/Nutzer/Mitgliedschaft" style="margin-top: 12px;"><i class="fa fa-thumbs-up">&nbsp;&nbsp;</i>Jetzt Mitglied werden</a>
+                                    <a class="btn btn-primary" href="<%= Links.Membership() %>" style="margin-top: 12px;"><i class="fa fa-thumbs-up">&nbsp;&nbsp;</i>Jetzt Mitglied werden</a>
                                 <% } %>
                             </label>
                         </div>
@@ -102,7 +102,7 @@
                         <h3>Passwort</h3>
                         <p>
                             Um dein Passwort neu zu setzen, 
-                            gehe zu: <a href="<%: Url.Action("PasswordRecovery", Links.WelcomeController) %>">"Passwort-Vergessen"</a>.
+                            gehe zu: <a href="<%: Url.Action("PasswordRecovery", Links.WelcomeController) %>">"Passwort vergessen"</a>.
                         </p>
                         <p style="margin-top: 3px;">(Später werden wir das Setzen eines neuen Passworts auch hier ermöglichen.)</p>
                     </div>
@@ -139,7 +139,7 @@
                             <div class="columnControlsFull noLabel">
                                 <label class="dropdownSelect" for="KnowledgeReportInterval">
                                     <label class="dropdownTitle">
-                                        Wissensreport per E-Mail: &nbsp;
+                                        Wissensbericht per E-Mail: &nbsp;
                                     </label>
                                     <select style="display: inline; width: 180px;" data-val="true" data-val-required="Das Feld &quot;KnowledgeReportNotificationInterval&quot; ist erforderlich." id="KnowledgeReportInterval" name="KnowledgeReportInterval" class="valid form-control">
                                         <option value="Daily" <%= Model.KnowledgeReportInterval == UserSettingNotificationInterval.Daily ? "selected='selected'" : "" %>>Täglich</option>
