@@ -556,6 +556,9 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Category.js">
+      <DependentUpon>Category.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
@@ -2180,6 +2183,9 @@
     </Content>
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.js.map">
+      <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
