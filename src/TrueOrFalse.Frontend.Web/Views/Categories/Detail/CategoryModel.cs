@@ -8,6 +8,8 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
+    public IList<Category> BreadCrumb;
+
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
@@ -22,7 +24,6 @@ public class CategoryModel : BaseModel
     public IList<Question> SingleQuestions;
 
     public IList<User> TopCreaters;
-
 
     public User Creator;
     public string CreatorName;
@@ -61,6 +62,7 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         Type = category.Type.GetShortName();
+        BreadCrumb = GetBreadCrumb.For(Category);
 
         FeaturedSets = category.FeaturedSets;
 
