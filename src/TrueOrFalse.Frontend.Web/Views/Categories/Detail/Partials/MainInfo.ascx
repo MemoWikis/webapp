@@ -29,7 +29,7 @@
             <div class="col-xs-12">
                 <header>
                     <h1 style="margin-top: 5px; font-size: 26px;">
-                        <% if (!string.IsNullOrEmpty(Model.CustomPageHtml.Trim()))
+                        <% if (!string.IsNullOrEmpty(Model.CustomPageHtml))
                            { %><i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% } %> <%= Model.Name %>
                     </h1>
                 </header>
