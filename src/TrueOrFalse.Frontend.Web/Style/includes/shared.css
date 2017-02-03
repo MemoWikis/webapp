@@ -2714,7 +2714,12 @@ fieldset[disabled] .BoxButton.active {
 }
 .CardContent .ItemInfo {
   margin-bottom: 8px;
-  color: #999999;
+}
+.CardContent .ItemInfo a,
+.CardContent .ItemInfo a:hover,
+.CardContent .ItemInfo a:focus {
+  color: #999999 !important;
+  text-decoration: none !important;
 }
 .Card .ImageLicenseCaption {
   line-height: 15px;

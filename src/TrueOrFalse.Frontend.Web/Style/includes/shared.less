@@ -341,8 +341,13 @@
     }
     
     .ItemInfo {
+
         margin-bottom: 8px;
-        color: @global-text-color-grey;
+        
+        a{&, &:hover, &:focus{
+            color: @global-text-color-grey !important;
+            text-decoration: none !important;
+        }}
     }
 
     .ItemText {

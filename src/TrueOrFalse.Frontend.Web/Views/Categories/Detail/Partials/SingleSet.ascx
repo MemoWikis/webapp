@@ -4,7 +4,6 @@
 
 <div class="CardColumn">
     <div class="Card SingleItem Set ">
-        <a href="<%= Links.SetDetail(Model.Set) %>">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Model.Set), noFollow: true) %>
         </div>
@@ -20,12 +19,12 @@
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    Fragesatz mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %> 
+                    <a href="<%= Links.SetDetail(Model.Set) %>">Fragesatz mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
                 </h6>
                 <div class="LinkArea">
                     <h4 class="ItemTitle"><%: Model.SetName %></h4>
                     <div class="ItemText"><%: Model.SetText %></div>
-                    
+                    <a href="<%= Links.SetDetail(Model.Set) %>"></a>
                 </div>
             </div>
             <div class="BottomBar">
