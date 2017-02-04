@@ -559,9 +559,6 @@
     <Content Include="Views\Categories\Detail\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Category.min.css">
-      <DependentUpon>Category.css</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
     <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />

@@ -29,7 +29,7 @@
             <div class="col-xs-12">
                 <header>
                     <h1 style="margin-top: 5px; font-size: 26px;">
-                        <%= Model.Name %>
+                       <%= Model.Name %>
                     </h1>
                 </header>
             </div>
