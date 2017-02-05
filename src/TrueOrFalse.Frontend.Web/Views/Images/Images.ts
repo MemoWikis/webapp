@@ -17,7 +17,6 @@ class Images {
     }
 
     private static InitItemImages() {
-
         Images.AddHoverCheckboxArea();
         //Images.AddHoverLicenseArea();
         Images.AddLicenseInfoContainer();

@@ -41,6 +41,8 @@ class SetVideo {
 
         var pinQuestion = new PinQuestion();
         pinQuestion.Init();
+
+        Images.Init();
     }
 }
 
