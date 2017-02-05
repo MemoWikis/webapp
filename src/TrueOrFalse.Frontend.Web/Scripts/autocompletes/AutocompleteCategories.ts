@@ -217,11 +217,10 @@ class AutocompleteCategories {
                 if (self.GetAlreadyAddedCategories(elemContainer, ui.item.id).length > 0) {
                     var alreadyAddedCategories = self.GetAlreadyAddedCategories(elemContainer, ui.item.id);
 
-                    function bounce() { alreadyAddedCategories.closest(".added-cat").effect('bounce', null, 'fast'); }
-                    bounce();
-                    bounce();
-                    bounce();
-                    bounce();
+                    for (var i = 0; i < 5; i++) {
+                        debugger;
+                        alreadyAddedCategories.closest(".added-cat").effect('bounce', null, 'fast');
+                    }
 
                     reopen = true;
 
