@@ -2,12 +2,14 @@
     extends AnswerEntryBase
     implements IAnswerEntry {
 
+    AnswerQuestion: AnswerQuestion;
+
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-        this.IsGameMode = answerEntry.IsGameMode;
 
-        var answerQuestion = new AnswerQuestion(this);
-        $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
+        this.AnswerQuestion = new AnswerQuestion(this);
+
+        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });    
     }
 
     GetAnswerText(): string {

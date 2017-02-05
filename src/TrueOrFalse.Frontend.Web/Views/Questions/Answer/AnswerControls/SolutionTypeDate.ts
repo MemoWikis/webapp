@@ -2,12 +2,14 @@
     extends AnswerEntryBase
     implements IAnswerEntry  {
 
-    constructor(answerEntry: AnswerEntry) {
+    AnswerQuestion: AnswerQuestion;
 
+    constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 
-        var answerQuestion = new AnswerQuestion(this);
-        $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });
+        this.AnswerQuestion = new AnswerQuestion(this);
+
+        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });
         $("#txtAnswer").keyup(() => { this.SetDateUi(); });
 
         var metaData = this.GetJsonMetaData();

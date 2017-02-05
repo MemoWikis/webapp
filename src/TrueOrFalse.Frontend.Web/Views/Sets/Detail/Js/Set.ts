@@ -18,7 +18,6 @@ class SetVideo {
             htmlResult => {
                 AnswerQuestion.LogTimeForQuestionView();
                 this.ChangeAnswerBody(htmlResult);
-                //$('#hddTimeRecords').attr('data-time-on-load', $.now());
             });
     }
 
