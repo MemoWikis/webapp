@@ -13,6 +13,10 @@
     </div>
 </div>
 
-<% Html.RenderPartial("Pager", Model.Pager); %>
+<% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
 
-<% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>             
+<div style="background-color: white;">
+    <div id="divBodyAnswer">
+        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
+    </div>
+</div>

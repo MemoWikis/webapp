@@ -1,3 +1,51 @@
+class SetVideo {
+    constructor() {
+
+        var self = this;
+
+        $("a[data-video-question-id]").click(function(e) {
+            self.LoadQuestionView(e, $(this).attr("data-video-question-id"));
+        });
+
+        this.InitAnswerBody();
+
+    }
+
+    LoadQuestionView(e : JQueryEventObject, questionId : any) {
+        e.preventDefault();
+
+        $.get("/SetVideo/RenderAnswerBody/?questionId=" + questionId,
+            htmlResult => {
+                AnswerQuestion.LogTimeForQuestionView();
+                this.ChangeAnswerBody(htmlResult);
+                //$('#hddTimeRecords').attr('data-time-on-load', $.now());
+            });
+    }
+
+    ChangeAnswerBody(html : string) {
+        $("#divBodyAnswer")
+            .empty()
+            .animate({ opacity: 0.00 }, 0)
+            .append(html)
+            .animate({ opacity: 1.00 }, 400);
+
+        $(".show-tooltip").tooltip();
+        this.InitAnswerBody();
+    }
+
+    InitAnswerBody() {
+
+        var answerEntry = new AnswerEntry();
+        answerEntry.Init();
+
+        $('#hddTimeRecords').attr('data-time-on-load', $.now());
+
+        var pinQuestion = new PinQuestion();
+        pinQuestion.Init();
+    }
+}
+
+
 $(() => {
     $(".pieTotals").each(function() {
         var me = $(this);
@@ -9,13 +57,7 @@ $(() => {
     });
 
     if ($("#hhdHasVideo").val() == "True") {
-        var answerEntry = new AnswerEntry();
-        answerEntry.Init();
-
-        $('#hddTimeRecords').attr('data-time-on-load', $.now());        
-
-        var pinQuestion = new PinQuestion();
-        pinQuestion.Init();
+        new SetVideo();
     }
 
     new Pin(PinRowType.SetDetail);

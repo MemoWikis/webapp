@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using Seedworks.Lib.Persistence;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 public class SetVideoModel : BaseModel
 {
-    public int QuestionCount;
     public AnswerBodyModel AnswerBodyModel;
-    public PagerModel Pager;
-
     public string VideoKey;
+
+    public int QuestionCount;
+    public IList<Question> Questions;
+    public int CurrentQuestion => AnswerBodyModel.QuestionId;
 
     public SetVideoModel(Set set)
     {
@@ -15,13 +16,8 @@ public class SetVideoModel : BaseModel
 
         VideoKey = set.VideoKey;
         AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
+
         QuestionCount = set.Questions().Count;
-
-        var pager = new Pager();
-        pager.TotalItems = set.Questions().Count;
-        pager.PageSize = 1;
-        pager.CurrentPage = 1;
-
-        Pager = new PagerModel(pager);
+        Questions = set.Questions();
     }
 }

@@ -342,6 +342,7 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
@@ -594,6 +595,7 @@
     </Content>
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
+    <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
