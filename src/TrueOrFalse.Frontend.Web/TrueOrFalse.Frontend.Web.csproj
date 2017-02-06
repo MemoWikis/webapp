@@ -534,6 +534,7 @@
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
+    <Content Include="Scripts\vendor\bootstrap2-toggle.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
@@ -549,6 +550,7 @@
     <Content Include="Style\temp.min.css">
       <DependentUpon>temp.css</DependentUpon>
     </Content>
+    <Content Include="Style\vendor\bootstrap2-toggle.css" />
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
@@ -590,6 +592,7 @@
     </Content>
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_v2.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
