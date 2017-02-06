@@ -2,8 +2,6 @@ class SolutionTypeSequence
     extends AnswerEntryBase
     implements IAnswerEntry
 {
-    AnswerQuestion: AnswerQuestion;
-
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
         this.AnswerQuestion = new AnswerQuestion(this);

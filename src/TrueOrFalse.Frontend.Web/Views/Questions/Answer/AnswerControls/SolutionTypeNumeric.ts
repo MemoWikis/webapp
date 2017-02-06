@@ -1,9 +1,7 @@
 ﻿class SolutionTypeNumeric
     extends AnswerEntryBase
-    implements IAnswerEntry {
-
-    AnswerQuestion: AnswerQuestion;
-
+    implements IAnswerEntry
+{
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 

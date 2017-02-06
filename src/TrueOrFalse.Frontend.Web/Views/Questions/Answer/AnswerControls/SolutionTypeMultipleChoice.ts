@@ -2,8 +2,6 @@ class SolutionTypeMultipleChoice
     extends AnswerEntryBase
     implements IAnswerEntry
 {
-    AnswerQuestion: AnswerQuestion;
-
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 

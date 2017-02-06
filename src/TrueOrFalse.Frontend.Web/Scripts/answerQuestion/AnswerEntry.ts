@@ -2,6 +2,11 @@
 
     IsGameMode: boolean;
 
+    _fnOnCorrectAnswer: () => void;
+    _fnOnWrongAnswer: () => void;
+
+    AnswerQuestion: AnswerQuestion;
+
     constructor(
         isGameMode: boolean = false) {
 
@@ -11,18 +16,29 @@
     public Init() {
 
         var solutionT = +$("#hddSolutionTypeNum").val();
+        var answerEntry: IAnswerEntry;
 
         switch (solutionT) {
             case SolutionType.Date:
-                new SolutionTypeDateEntry(this); break;
+                answerEntry = new SolutionTypeDateEntry(this); break;
             case SolutionType.MultipleChoice:
-                new SolutionTypeMultipleChoice(this); break;
+                answerEntry = new SolutionTypeMultipleChoice(this); break;
             case SolutionType.Text:
-                new SolutionTypeTextEntry(this); break;
+                answerEntry = new SolutionTypeTextEntry(this); break;
             case SolutionType.Numeric:
-                new SolutionTypeNumeric(this); break;
+                answerEntry = new SolutionTypeNumeric(this); break;
             case SolutionType.Sequence:
-                new SolutionTypeSequence(this); break;
-        };         
+                answerEntry = new SolutionTypeSequence(this); break;
+        };
+
+        //answerEntry.AnswerQuestion.
+    }
+
+    public OnCorrectAnswer(fn: () => void) {
+        this._fnOnCorrectAnswer = fn;
+    }
+
+    public OnWrongAnswer(fn: () => void) {
+        this._fnOnWrongAnswer = fn;
     }
 }
