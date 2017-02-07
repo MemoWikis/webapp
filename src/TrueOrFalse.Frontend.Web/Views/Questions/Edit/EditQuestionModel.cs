@@ -36,9 +36,6 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Ergänzungen")]
     public string Description { get; set; }
 
-    [DisplayName("Content rights")]
-    [Required]
-    public bool ConfirmContentRights { get; set;  }
     public int LicenseId { get; set; }
 
     public IEnumerable<SelectListItem> LicenseDropdownList
