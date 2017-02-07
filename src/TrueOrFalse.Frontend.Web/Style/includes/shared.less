@@ -249,10 +249,15 @@
         padding: 5px;
     }
 
-    
+    .CardsPortrait &, .CardsLandscape & {
+        margin-bottom: 0;
+    }
 }
 
 .CardsLandscape { // Apply to row
+
+    margin-bottom: 20px;
+
     .CardColumn {
 
         .make-xs-column(12);
@@ -272,6 +277,9 @@
 }
 
 .CardsLandscapeNarrow { // Apply to row
+
+    margin-bottom: 20px;
+    
     .CardColumn {
 
         .MakeSingleItemCardLandscape;
@@ -297,6 +305,9 @@
 }
 
 .CardsPortrait{ // Apply to row
+    
+    margin-bottom: 20px;
+
     .CardColumn {
         .make-xs-column(4);
         .make-sm-column(4);
