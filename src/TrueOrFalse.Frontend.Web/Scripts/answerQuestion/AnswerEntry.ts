@@ -1,10 +1,6 @@
 ﻿class AnswerEntry {
 
     IsGameMode: boolean;
-
-    _fnOnCorrectAnswer: () => void;
-    _fnOnWrongAnswer: () => void;
-
     AnswerQuestion: AnswerQuestion;
 
     constructor(
@@ -31,14 +27,14 @@
                 answerEntry = new SolutionTypeSequence(this); break;
         };
 
-        //answerEntry.AnswerQuestion.
+        this.AnswerQuestion = answerEntry.AnswerQuestion;
     }
 
     public OnCorrectAnswer(fn: () => void) {
-        this._fnOnCorrectAnswer = fn;
+        this.AnswerQuestion.OnCorrectAnswer(fn);
     }
 
     public OnWrongAnswer(fn: () => void) {
-        this._fnOnWrongAnswer = fn;
+        this.AnswerQuestion.OnWrongAnswer(fn);
     }
 }
