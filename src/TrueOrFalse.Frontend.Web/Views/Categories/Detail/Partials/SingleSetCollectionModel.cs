@@ -21,17 +21,7 @@ public class SingleSetCollectionModel : BaseModel
             CardOrientation = cardOrientationLandscapeOrPortrait;
         else
         {
-            if (Sets.Count % 2 == 0)
-            {
-                CardOrientation = "Landscape";
-            } else if (Sets.Count%3 == 0)
-            {
-                CardOrientation = "Portrait";
-            }
-            else
-            {
-                CardOrientation = "Landscape";
-            }
+            CardOrientation = Sets.Count % 3 == 0 ? "Portrait" : "Landscape";
         }
     }
 }
