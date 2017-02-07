@@ -23,6 +23,8 @@ public class Settings
     public static int MemuchoUserId = 26;
     public static bool WithNHibernateStatistics = true;
 
+    public static int TestSessionQuestionCount = 5;
+
     private static bool? _developOffline;
 
     public static bool DevelopOffline()
@@ -49,6 +51,8 @@ public class Settings
     public static string SignalrUrl() => OverwrittenConfig.ValueString("signalrUrl");
     public static string SignalrUser() => OverwrittenConfig.ValueString("signalrUser");
     public static string SignalrPassword() => OverwrittenConfig.ValueString("signalrPassword");
+
+    public static string UpdateUserSettingsKey() => OverwrittenConfig.ValueString("updateUserSettingsKey");
 
     public static string InvoiceFolder() => OverwrittenConfig.ValueString("invoiceFolderPath");
     public static string WkHtmlToPdfFolder() => OverwrittenConfig.ValueString("wkHtmlToPdfFolder");

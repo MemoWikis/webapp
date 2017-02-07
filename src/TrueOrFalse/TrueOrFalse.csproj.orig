@@ -350,9 +350,14 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice_v2.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
+<<<<<<< HEAD
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
+    <Compile Include="Domain\User\Ops\UpdateSetting.cs" />
+    <Compile Include="Domain\User\Settings\ChangeKnowledgeReportInterval.cs" />
+=======
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
+>>>>>>> origin/master
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />

@@ -344,6 +344,7 @@
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
+    <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
@@ -518,6 +519,9 @@
     <Content Include="Images\Team\team_robert-rund_160.png" />
     <Content Include="Images\Team\team_robert201509_155.jpg" />
     <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Scripts\Pollyfills.js">
+      <DependentUpon>Pollyfills.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\socialLogins\Facebook.js">
       <DependentUpon>Facebook.ts</DependentUpon>
     </Content>
@@ -554,8 +558,8 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Category.min.css">
-      <DependentUpon>Category.css</DependentUpon>
+    <Content Include="Views\Categories\Detail\Category.js">
+      <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
@@ -595,6 +599,7 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_v2.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\Shared\AddToWishknowledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\VariousPublic\AboutMemucho.css">
       <DependentUpon>AboutMemucho.less</DependentUpon>
@@ -741,6 +746,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
@@ -1371,6 +1377,9 @@
     </Content>
     <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js.map">
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Pollyfills.js.map">
+      <DependentUpon>Pollyfills.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
@@ -2177,6 +2186,9 @@
     </Content>
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.js.map">
+      <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

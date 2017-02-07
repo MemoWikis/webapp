@@ -110,6 +110,14 @@ a {
             vertical-align: middle;
         }
     }
+
+    &.PlainTextLook {
+        
+        &, &:hover, &:focus {
+            text-decoration: none;
+            color: @global-text-color;
+        }
+    }
 }
 
 /*Headings*/
@@ -223,11 +231,16 @@ img {
     &:hover, &:active, &:focus {
             color: @memo-green;
             text-decoration: none;
-         }    
+    }    
     img {
         width: auto;
         height: 100%;
     }
+
+    @media (max-width: 600px) {
+        display: none;
+    }
+
 }
 
 #Pictogram {
@@ -1175,7 +1188,7 @@ ul.AlignDdRight{
         margin-right: 10px;
     }
 
-    @media screen and (min-width: (@screen-sm-min)) {
+    @media screen and (min-width: (@screen-md-min)) {
         float: right; 
         
         > a, > div {

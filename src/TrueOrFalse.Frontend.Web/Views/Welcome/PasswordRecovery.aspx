@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <input type="submit" value="Link anfordern" class="btn btn-primary" />&nbsp;
-                        <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-link">Mein Passwort ist mir wieder eingefallen.</a>
+                        <a href="#" data-btn-login="true" class="btn btn-link">Mein Passwort ist mir wieder eingefallen.</a>
                     </div>
                 </div>
 

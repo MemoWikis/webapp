@@ -19,10 +19,10 @@
     <h1 style="margin-top: 0px;">Nicht angemeldet.</h1>
     
     <p>
-        Um die Funktion zu nutzen, mußt du eingeloggt sein.
+        Um die Funktion zu nutzen, musst du eingeloggt sein.
         <br />
         <br />
-        <a href="<%= Url.Action("Login", "Welcome") %>" class="btn btn-success">Jetzt einloggen</a> oder
+        <a href="#" data-btn-login="true" class="btn btn-success">Jetzt einloggen</a> oder
         <a href="<%= Url.Action("Register", "Register") %>"> registrieren</a>
     </p>
 

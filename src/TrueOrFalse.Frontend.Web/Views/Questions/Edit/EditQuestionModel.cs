@@ -35,9 +35,6 @@ public class EditQuestionModel : BaseModel
     [DisplayName("Ergänzungen")]
     public string Description { get; set; }
 
-    [DisplayName("Content rights")]
-    [Range(typeof(bool), "true", "true", ErrorMessage = "Bitte bestätige: ")]
-    public bool ConfirmContentRights { get; set;  }
     public int LicenseId { get; set; }
 
     public IEnumerable<SelectListItem> LicenseDropdownList

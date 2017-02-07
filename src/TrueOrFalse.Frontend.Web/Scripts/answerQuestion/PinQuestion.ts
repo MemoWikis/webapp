@@ -5,7 +5,7 @@
     Init() {
         var self = this;
 
-        $("#iAdded, #iAddedNot").click(function (e) {
+        $(".iAdded, .iAddedNot").click(function (e) {
 
             if (NotLoggedIn.Yes())
                 return;
@@ -16,13 +16,13 @@
 
             self._changeInProgress = true;
 
-            if ($(this).attr("id") == "iAddedNot") {
+            if ($(this).hasClass("iAddedNot")) {
 
                 self.Pin();
-                $("#iAddedNot, #iAddSpinner").toggle();
+                $(".iAddedNot, .iAddSpinner").toggle();
 
                 window.setTimeout(() => {
-                    $("#iAdded, #iAddSpinner").toggle();
+                    $(".iAdded, .iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsPluseOne();
                     self.SetSidebarValue(self.GetSidebarValue() + 1);
@@ -31,10 +31,10 @@
             } else {
 
                 self.UnPin();
-                $("#iAdded, #iAddSpinner").toggle();
+                $(".iAdded, .iAddSpinner").toggle();
 
                 window.setTimeout(() => {
-                    $("#iAddedNot, #iAddSpinner").toggle();
+                    $(".iAddedNot, .iAddSpinner").toggle();
                     self._changeInProgress = false;
                     Utils.MenuPinsMinusOne();
                     self.SetSidebarValue(self.GetSidebarValue() - 1);

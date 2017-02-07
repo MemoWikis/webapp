@@ -1,0 +1,3 @@
+﻿$(() => {
+    new Pin(PinRowType.Set);
+});

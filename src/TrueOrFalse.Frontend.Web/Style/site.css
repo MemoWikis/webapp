@@ -116,6 +116,12 @@ a.TextLinkWithIcon i {
 a.TextLinkWithIcon .TextSpan {
   vertical-align: middle;
 }
+a.PlainTextLook,
+a.PlainTextLook:hover,
+a.PlainTextLook:focus {
+  text-decoration: none;
+  color: #203256;
+}
 /*Headings*/
 .ColoredUnderline {
   border-bottom: solid 2px #AFD534;
@@ -248,6 +254,11 @@ img {
 #BetaLogo img {
   width: auto;
   height: 100%;
+}
+@media (max-width: 600px) {
+  #BetaLogo {
+    display: none;
+  }
 }
 #Pictogram {
   float: left;
@@ -1189,7 +1200,7 @@ ul.AlignDdRight {
   display: inline-block;
   margin-right: 10px;
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   .navLinks {
     float: right;
   }

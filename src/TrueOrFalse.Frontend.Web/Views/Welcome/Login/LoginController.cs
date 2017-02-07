@@ -36,7 +36,7 @@ public class LoginController : BaseController
         return Json(new
         {
             Success = false,
-            Message = "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort"
+            Message = "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
         });
     }
 

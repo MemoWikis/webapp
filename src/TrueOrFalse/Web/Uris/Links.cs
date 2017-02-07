@@ -13,8 +13,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterController = "Register";
 
         public const string VariousController = "VariousPublic";
-        public static string TermsAndConditions => GetUrlHelper().Action("AGB", VariousController);
-        public static string Imprint => GetUrlHelper().Action("Impressum", VariousController);
+        public static string TermsAndConditions => GetUrlHelper().Action("TermsAndConditions", VariousController);
+        public static string Imprint => GetUrlHelper().Action("Imprint", VariousController);
 
         public const string WelfareCompanyAction = "WelfareCompany";
         public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
@@ -33,7 +33,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string RegisterAction = "Register";
         public const string RegisterSuccess = "RegisterSuccess";
         public const string Logout = "Logout";
-        public const string Membership = "Membership";
+        public const string MembershipAction = "Membership";
+        public static string Membership() => GetUrlHelper().Action(MembershipAction, AccountController);
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
         public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", VariousController);
         public static string Jobs() => GetUrlHelper().Action("Jobs", VariousController);
@@ -48,8 +49,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string UserController = "User";
         public const string UserAction = "User";
 
-        public const string UserSettings = "UserSettings";
+        public const string UserSettingsAction = "UserSettings";
         public const string UserSettingsController = "UserSettings";
+        public static string UserSettings() => GetUrlHelper().Action(UserSettingsAction, UserSettingsController);
 
         public static string UserLoginAs(UrlHelper url, int userId) => url.Action("LoginAs", "Users", new {userId = userId});
         public static string UserDetail(User user) => UserDetail(user.Name, user.Id);
@@ -104,6 +106,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string QuestionWish_WithCategoryFilter(Category category) => "/Fragen/Wunschwissen/Suche/Kategorie/" + UriSanitizer.Run(category.Name) + "/" + category.Id;
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
+
+        public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 
@@ -257,8 +261,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string TestSessionResultController = "TestSessionResult";
         public const string TestSessionResultAction = "TestSessionResult";
 
-        public static string TestSession(string UriName, int testSessionId) => 
-            GetUrlHelper().Action("Test", AnswerQuestionController, new { name = UriName, testSessionId = testSessionId });
+        public static string TestSession(string uriName, int testSessionId) => 
+            GetUrlHelper().Action("Test", AnswerQuestionController, new { name = uriName, testSessionId = testSessionId });
 
         public static string TestSessionStartForSet(string setName, int setId) => 
             GetUrlHelper().Action("StartTestSession", SetController, new { setName = UriSanitizer.Run(setName), setId = setId });
@@ -364,6 +368,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
 
-        public static string ErrorNotLoggedIn() => GetUrlHelper().Action("_NotLoggedIn", "Error");
+        public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
     }
 }
+ 

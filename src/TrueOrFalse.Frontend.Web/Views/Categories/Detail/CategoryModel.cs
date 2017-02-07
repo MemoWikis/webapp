@@ -8,6 +8,8 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
+    public IList<Category> BreadCrumb;
+
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
 
@@ -22,7 +24,6 @@ public class CategoryModel : BaseModel
     public IList<Question> SingleQuestions;
 
     public IList<User> TopCreaters;
-
 
     public User Creator;
     public string CreatorName;
@@ -61,6 +62,7 @@ public class CategoryModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         Type = category.Type.GetShortName();
+        BreadCrumb = GetBreadCrumb.For(Category);
 
         FeaturedSets = category.FeaturedSets;
 
@@ -105,30 +107,25 @@ public class CategoryModel : BaseModel
 
     private List<Question> GetTopQuestionsInSubCats()
     {
-        var result = new List<Question>();
-        
-        foreach (var childCat in CategoriesChildren)
-            if (FillResult(result, childCat))
-                break;
+        var topQuestions = new List<Question>();
 
-        if (TopQuestionsInSubCats.Count < 3)
-            foreach (var childCat in CategoriesChildren)
-                foreach(var childOfChild in _categoryRepo.GetChildren(childCat.Id))
-                    if (FillResult(result, childOfChild))
-                        break;
+        var categoryIds = CategoriesChildren.Take(10).Select(c => c.Id);
+        topQuestions.AddRange(_questionRepo.GetForCategory(categoryIds, 15, UserId));
 
-        return result
+        if(topQuestions.Count < 7)
+            GetTopQuestionsFromChildrenOfChildren(topQuestions);
+                
+        return topQuestions
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
     }
 
-    private bool FillResult(List<Question> result, Category cat)
+    private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)
     {
-        if (TopQuestionsInSubCats.Count > 15)
-            return true;
-
-        result.AddRange(_questionRepo.GetForCategory(cat.Id, 5, UserId));
-        return false;
+        foreach (var childCat in CategoriesChildren)
+            foreach (var childOfChild in _categoryRepo.GetChildren(childCat.Id))
+                if (topQuestions.Count < 6)
+                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, 5, UserId));
     }
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();

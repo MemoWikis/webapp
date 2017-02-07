@@ -12,6 +12,7 @@
     Boxes
     Cards
     Images
+    Markdown
     Color scheme
     Media query mixins
     Own responsive utilities
@@ -2713,7 +2714,12 @@ fieldset[disabled] .BoxButton.active {
 }
 .CardContent .ItemInfo {
   margin-bottom: 8px;
-  color: #999999;
+}
+.Card .ItemInfo a,
+.Card .ItemInfo a:hover,
+.Card .ItemInfo a:focus {
+  color: #999999 !important;
+  text-decoration: none !important;
 }
 .Card .ImageLicenseCaption {
   line-height: 15px;
@@ -2784,6 +2790,19 @@ fieldset[disabled] .BoxButton.active {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   text-align: center;
+}
+/*  Markdown
+----------------------------------------------------------*/
+.MarkdownVideo {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+.MarkdownVideo p {
+  text-align: center;
+}
+.MarkdownVideo iframe {
+  display: inline-block;
+  max-width: 100%;
 }
 /*  Color scheme
 ----------------------------------------------------------*/

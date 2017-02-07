@@ -42,23 +42,18 @@ class EditQuestionForm
 
     public InitLicenseAgreement() {
 
-        if ($('#isAdmin').val() == "True") {
-            $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("true");
-            $('#Agreement').hide();
-        } else {
-            if ($('input[name="Visibility"]:checked').val() === "Owner")
-                $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("true");
+        if ($('input[name="Visibility"]:checked').val() === "Owner")
+            $('#ConfirmContentRights, [name="ConfirmContentRights"]').prop("checked", true);
 
-            $('[name="Visibility"]').change(function () {
-                if ($('input[name="Visibility"]:checked').val() === "Owner") {
-                    $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("true");
-                    $('#Agreement').hide();
-                } else {
-                    $('#ConfirmContentRights, [name="ConfirmContentRights"]').val("false");
-                    $('#Agreement').show();
-                }
-            });       
-        }
+        $('[name="Visibility"]').change(function () {
+            if ($('input[name="Visibility"]:checked').val() === "Owner") {
+                $('#ConfirmContentRights, [name="ConfirmContentRights"]').prop("checked", true);
+                $('#Agreement').hide();
+            } else {
+                $('#ConfirmContentRights, [name="ConfirmContentRights"]').prop("checked", false);
+                $('#Agreement').show();
+            }
+        });       
     }
 
     public InitButtonTextUpdate() {

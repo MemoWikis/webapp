@@ -37,7 +37,7 @@
                       <i class="fa fa-camera fa-2x" style="color: #2C5FB2"></i><br/>
                         <p><b>Dein Profilbild</b></p>
                         <p>
-		                    Füge <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>">deinem Benutzerkonto</a> ein Bild von dir hinzu.
+		                    Füge <a href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>">deinem Benutzerkonto</a> ein Bild von dir hinzu.
                         </p>
                     </div>
                     <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">

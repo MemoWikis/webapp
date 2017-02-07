@@ -27,7 +27,6 @@
     <input type="hidden" id="hddReferencesJson" name="hddReferencesJson"/>
     <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
     <input type="hidden" id="isEditing" name="isEditing" value="<%= Model.IsEditing %>"/>
-    <input type="hidden" id="isAdmin" name="isAdmin" value="<%= Model.IsInstallationAdmin %>"/>
     <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
 
     <div class="row">
@@ -332,14 +331,12 @@
                                 <%= Html.DropDownListFor(m => Model.LicenseId, Model.LicenseDropdownList, new { @class = "form-control" })%>
                             </div>
                         </div>
-                        <%} %>
+                        <%} else { %>
                       <div id="Agreement" class="form-group">
-
                             <div class="noLabel columnControlsFull">
                                 <div class="checkbox">
                                     <label>
-                                        <%: Html.ValidationMessageFor(model => model.ConfirmContentRights) %>
-                                        <%= Html.CheckBoxFor(x => x.ConfirmContentRights) %>
+                                        <input type="checkbox" name="ConfirmContentRights" value="confirmed"/> 
                                         Ich stelle diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC&nbsp;BY&nbsp;4.0, <a href="https://creativecommons.org/licenses/by/4.0/legalcode" target="_blank">Lizenztext</a>, <a>deutsche Zusammenfassung</a>).
                                         Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden .
                                         <br/>
@@ -348,6 +345,7 @@
                                 </div>
                             </div>
                         </div>
+                        <% } %>
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
                                 <button type="submit" class="btn btn-primary" id="btnSave" name="btnSave" value="save"

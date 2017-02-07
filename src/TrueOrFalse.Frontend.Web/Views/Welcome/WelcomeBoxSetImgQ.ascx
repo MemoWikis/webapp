@@ -3,44 +3,45 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div class="Card CardBig Set">
-    <header style="">
-        <h6 style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">
-            <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
+    <header>
+        <h6 class="ItemInfo" style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">
+            <span class="Pin" data-set-id="<%= Model.SetId %>">
                 <a href="#" class="noTextdecoration">
-                    <i class="fa fa-heart show-tooltip iAdded <%= Model.IsInWishknowledge ? "" : "hide2" %>" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen"></i>
-                    <i class="fa fa-heart-o show-tooltip iAddedNot <%= Model.IsInWishknowledge ? "hide2" : "" %>" style="color:#b13a48;" title="Zu deinem Wunschwissen hinzuzufügen"></i>
-                    <i class="fa fa-spinner fa-spin hide2 iAddSpinner" style="color:#b13a48;"></i>
+                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                 </a>
             </span>&nbsp;
-            Fragesatz mit <a href="<%: Links.SetDetail(Url, Model.Set) %>"><%= Model.QuestionCount %> Fragen</a>
+            <a href="<%: Links.SetDetail(Url, Model.Set) %>">Fragesatz mit <%= Model.QuestionCount %> Fragen</a>
+            
         </h6>
-        <h4><%: Model.SetName %></h4>
+        <h4>
+            <a class="PlainTextLook" href="<%: Links.SetDetail(Url, Model.Set) %>"><%: Model.SetName %></a>
+        </h4>
     </header>
     <div class="CardContent">
         <div class="row">
             
             <div class="col-xs-12 xxs-stack" style="margin-bottom: 10px">
-                <p><%: Model.SetText %></p>
+                <p><a class="PlainTextLook" href="<%: Links.SetDetail(Url, Model.Set) %>"><%: Model.SetText %></a></p>
             </div>
 
-        <% foreach (var question in Model.Questions){ %>
-        <div class="col-xs-12 col-sm-4">
-            <div class="row" style="padding-bottom: 10px;">
-                    
-                <div class="col-xs-3 col-sm-12" style="padding-bottom: 20px;">
-                    <div class="ImageContainer ImageLicenseOnImage-sm-up">
-                        <%= Model.QuestionImageFrontendDatas
-                        .First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(200, true, ImageType.Question, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
+            <% foreach (var question in Model.Questions){ %>
+            <div class="col-xs-12 col-sm-4">
+                <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-xs-3 col-sm-12" style="padding-bottom: 20px;">
+                        <div class="ImageContainer ImageLicenseOnImage-sm-up">
+                            <%= Model.QuestionImageFrontendDatas
+                            .First(x => x.Item1 == question.Id).Item2
+                            .RenderHtmlImageBasis(200, true, ImageType.Question, linkToItem: Links.AnswerQuestion(question, Model.Set), noFollow: true) %>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-9 col-sm-12">
-                    <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
-                        <%= question.Text %>
+                    <div class="col-xs-9 col-sm-12">
+                        <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
+                            <a class="PlainTextLook" href="<%= Links.AnswerQuestion(question, Model.Set)%>"><%= question.Text %></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    <% } %>
+            <% } %>
         </div>
     </div>
     <div class="BottomBar">

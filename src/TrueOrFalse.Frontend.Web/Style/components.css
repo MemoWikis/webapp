@@ -180,6 +180,34 @@ ul.ui-autocomplete .Reference .Url {
 #JS-References .Reference .Name {
   font-weight: bold;
 }
+/* MainItemInfo for Categories + Sets
+----------------------------------------------------------*/
+#ItemMainInfo {
+  padding-bottom: 5px;
+}
+#ItemMainInfo header {
+  margin-bottom: 10px;
+}
+#ItemMainInfo.Set header {
+  border-bottom: 5px solid #FFD700;
+}
+#ItemMainInfo.Category header {
+  border-bottom: 5px solid #45aece;
+}
+#ItemMainInfo .ImageContainer {
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  #ItemMainInfo .ImageContainer img {
+    max-height: 300px;
+    width: auto;
+  }
+}
+#ItemMainInfo .BottomBar {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 /* MESSAGES + COMMENTS
 ----------------------------------------------------------*/
 .ReasonList:before,
@@ -400,4 +428,14 @@ div.selected-row:hover {
   .StatsRow:last-child {
     margin-right: 0;
   }
+}
+.LinkArea {
+  position: relative;
+}
+.LinkArea a.Link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }

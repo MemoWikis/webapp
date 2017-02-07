@@ -114,11 +114,12 @@ div.question-row{background-color:silver;}*/
 @media (min-width: 992px) {
   .column-MainContent {
     width: 422px;
+    width: 662px;
   }
 }
 @media (min-width: 1200px) {
   .column-MainContent {
-    width: 572px;
+    width: 630px;
   }
 }
 .NumberTimes {

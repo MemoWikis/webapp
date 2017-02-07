@@ -30,7 +30,7 @@
                     <div class="navLinks">
                         <a href="<%= Url.Action("Users", "Users")%>" style="font-size: 12px; margin: 0px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
                         <% if (Model.IsCurrentUser) { %>
-                            <a href="<%= Url.Action(Links.UserSettings, Links.UserSettingsController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+                            <a href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>" style="font-size: 12px; margin: 0px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                         <% } %>
                     </div>
                 </div>

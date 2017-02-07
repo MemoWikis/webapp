@@ -21,7 +21,7 @@ public class CategoryController : BaseController
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
-        var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown)
+        var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown?.Trim())
             ? null
             : MarkdownToHtml.Run(category, ControllerContext);
 
