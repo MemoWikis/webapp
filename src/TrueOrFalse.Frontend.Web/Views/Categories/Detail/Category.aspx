@@ -44,7 +44,7 @@
                     <% if (Model.FeaturedSets.Count > 0){
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
-                            new SingleSetCollectionModel(Model.FeaturedSets, "Ausgewählte Fragesätze"));
+                            new SingleSetCollectionModel(Model.FeaturedSets));
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
 

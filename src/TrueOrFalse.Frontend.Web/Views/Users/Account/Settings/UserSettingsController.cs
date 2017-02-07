@@ -15,15 +15,19 @@ public class UserSettingsController : BaseController
     [HttpGet]
     public ViewResult UserSettings()
     {
-        var userSettingsModel = new UserSettingsModel(_sessionUser.User);
+        UIMessage message = null;
         if ((Request["update"] != null) && (Request["token"] != null))
         {
             var update = Request["update"];
             if (update.Split('_')[0] == UpdateKnowledgeReportInterval.CommandName)
             {
-                userSettingsModel.Message = UpdateKnowledgeReportInterval.Run(update, Request["token"]);
+                message = UpdateKnowledgeReportInterval.Run(update, Request["token"]);
             }
         }
+
+        var userSettingsModel = new UserSettingsModel(_sessionUser.User);
+        if (message != null)
+            userSettingsModel.Message = message;
 
         return View(_viewLocation, userSettingsModel);
     }

@@ -52,6 +52,10 @@ public class UpdateKnowledgeReportInterval
                                     "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.");
 
         user.KnowledgeReportInterval = knowledgeReportInterval;
+        if ((Sl.R<SessionUser>().User != null) && (Sl.R<SessionUser>().User.Id == user.Id)) //todo: do it somewhere else
+        {
+            Sl.R<SessionUser>().User.KnowledgeReportInterval = knowledgeReportInterval;
+        }
         Sl.R<UserRepo>().Update(user);
 
         var intervalWord = "";

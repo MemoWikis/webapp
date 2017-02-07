@@ -116,6 +116,12 @@ a.TextLinkWithIcon i {
 a.TextLinkWithIcon .TextSpan {
   vertical-align: middle;
 }
+a.PlainTextLook,
+a.PlainTextLook:hover,
+a.PlainTextLook:focus {
+  text-decoration: none;
+  color: #203256;
+}
 /*Headings*/
 .ColoredUnderline {
   border-bottom: solid 2px #AFD534;

@@ -43,18 +43,18 @@
 
         <div class="Divider" style="margin-bottom: 5px;"></div>
         <div class="BottomBar">
-            
-            <%-- <div class="dropdown">
+            <div class="dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
-                <a href="#" id="<%=buttonId %>" <%= Model.QuestionCount == 0 ? "disabled " : "" %>class="dropdown-toggle  btn btn-link ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="<%= Links.StartSetLearningSession(Model.Id) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a></li>
-                    <li><a href="<%= Links.GameCreateFromSet(Model.Id) %>"> Spiel starten</a></li>
-                    <li><a href="<%= Links.DateCreate(Model.Id) %>"> Termin anlegen</a></li>
+                    <li><a href="<%= Links.StartLearningSessionForSets(Model.Sets.Select(s => s.Id).ToList(), Model.Title) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt üben</a></li>
+                    <li><a href="<%= Links.GameCreateFromSets(Model.Sets.Select(s => s.Id).ToList()) %>"> Spiel starten</a></li>
+                    <li><a href="<%= Links.DateCreateForSets(Model.Sets.Select(s => s.Id).ToList(), Model.Title) %>"> Termin anlegen</a></li>
                 </ul>
-            </div>--%>
+            </div>
+
             <a class="btn btn-sm btn-primary show-tooltip" href="<%= Links.TestSessionStartForSetsInCategory(Model.Sets.Select(s => s.Id).ToList(), Model.Title, Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
                 <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
             </a>

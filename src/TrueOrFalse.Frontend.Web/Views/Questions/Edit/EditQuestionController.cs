@@ -68,14 +68,11 @@ public class EditQuestionController : BaseController
         if(!_sessionUser.IsInstallationAdmin && model.LicenseId > 0)
             Logg.r().Warning("Unallowed access to license selection by non-admin");
 
-        if (!ModelState.IsValid)
-        {
-            model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
-            return View(_viewLocation, model);
-        }
-
         if (!IsAllowedTo.ToEdit(question))
             throw new SecurityException("Not allowed to edit question");
+
+        if (!Validate(model))
+            return View(_viewLocation, model);
 
         _questionRepo.Update(
             EditQuestionModel_to_Question.Update(model, question, Request.Form)
@@ -93,11 +90,8 @@ public class EditQuestionController : BaseController
     {
         model.FillCategoriesFromPostData(Request.Form);
 
-        if (!ModelState.IsValid)
-        {
-            model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
-            return View(_viewLocation, model);
-        }
+        if (!Validate(model))
+            return View(_viewLocation, model); ;
 
         Question question;
         if (!String.IsNullOrEmpty(Request["questionId"]) && Request["questionId"] != "-1")
@@ -141,6 +135,25 @@ public class EditQuestionController : BaseController
                           question.Text.TruncateAtWord(30)));
 
         return Redirect(Links.EditQuestion(question));
+    }
+
+    private bool Validate(EditQuestionModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            model.Message = new ErrorMessage("Bitte überprüfe deine Eingaben.");
+            return false;
+        }
+
+        if (HttpContext.Request["ConfirmContentRights"] == null && !IsInstallationAdmin)
+        {
+            Logg.r().Error("Client side validation for Content Rights is not working.");
+            model.Message = new ErrorMessage("Bitte bestätige die Hinweise zur Lizensierung und zu den Urheberrechten.");
+
+            return false;
+        }
+
+        return true;
     }
 
     [HttpPost]

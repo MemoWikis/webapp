@@ -248,11 +248,10 @@
     .BottomBar {
         padding: 5px;
     }
-
-    
 }
 
 .CardsLandscape { // Apply to row
+
     .CardColumn {
 
         .make-xs-column(12);
@@ -272,6 +271,7 @@
 }
 
 .CardsLandscapeNarrow { // Apply to row
+
     .CardColumn {
 
         .MakeSingleItemCardLandscape;
@@ -297,6 +297,7 @@
 }
 
 .CardsPortrait{ // Apply to row
+    
     .CardColumn {
         .make-xs-column(4);
         .make-sm-column(4);
@@ -344,13 +345,17 @@
 
         margin-bottom: 8px;
         
-        a{&, &:hover, &:focus{
-            color: @global-text-color-grey !important;
-            text-decoration: none !important;
-        }}
+        
     }
 
     .ItemText {
+    }
+}
+
+.Card .ItemInfo a {
+    &, &:hover, &:focus{
+        color: @global-text-color-grey !important;
+        text-decoration: none !important;
     }
 }
 

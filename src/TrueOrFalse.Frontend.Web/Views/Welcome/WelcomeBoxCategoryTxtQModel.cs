@@ -5,6 +5,7 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class WelcomeBoxCategoryTxtQModel : BaseModel
 {
+    public Category Category;
     public int CategoryId;
     public string CategoryName;
     public string CategoryDescription;
@@ -17,6 +18,7 @@ public class WelcomeBoxCategoryTxtQModel : BaseModel
     public WelcomeBoxCategoryTxtQModel(int categoryId, int[] questionIds, string categoryDescription = null) 
     {
         var category = R<CategoryRepository>().GetById(categoryId) ?? new Category();
+        Category = category;
 
         var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

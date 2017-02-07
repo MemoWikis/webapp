@@ -28,8 +28,12 @@ h6 {
   font-family: 'Lato', sans-serif;
 }
 .welcomeContentSectionHeader {
-  margin-top: 30px;
+  margin-top: 50px;
   margin-bottom: 2px;
+}
+.CardsPortrait + .welcomeContentSectionHeader,
+.CardsLandscape + .welcomeContentSectionHeader {
+  margin-top: 30px;
 }
 .welcomeContentSectionTarget {
   color: #999999;

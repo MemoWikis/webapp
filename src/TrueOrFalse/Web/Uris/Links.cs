@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
@@ -107,6 +108,8 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
 
+        public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
+
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 
                 new { text = UriSegmentFriendlyQuestion.Run(question.Text), questionId = question.Id, setId = set.Id });
@@ -210,8 +213,15 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string DateCreate() { return GetUrlHelper().Action(DateCreateAction, DateEditController); }
 
         public static string Dates() => GetUrlHelper().Action("Dates", "Dates");
-        public static object DateEdit(int dateId) => GetUrlHelper().Action("Edit", "EditDate", new { dateId = dateId });
-        public static object DateCreateForSet(int setId) => GetUrlHelper().Action("Create", "EditDate", new { setId = setId });
+        public static object DateEdit(int dateId) => GetUrlHelper().Action("Edit", DateEditController, new { dateId = dateId });
+        public static object DateCreateForSet(int setId) => GetUrlHelper().Action("Create", DateEditController, new { setId = setId });
+        public static string DateCreateForSets(List<int> setIds, string setListTitle)
+        {
+            return GetUrlHelper().Action("Create", DateEditController, new { setListTitle })
+                + "&setIds="
+                + string.Join("&setIds=", setIds);
+        }
+
         public static object DateCreateForCategory(int categoryId) => GetUrlHelper().Action("Create", "EditDate", new { categoryId = categoryId });
 
 
@@ -231,7 +241,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string StartLearningSession(LearningSession learningSession)
         {
             if (learningSession.IsSetSession)
-                return StartSetLearningSession(learningSession.SetToLearn.Id);
+                return StartLearningSesssionForSet(learningSession.SetToLearn.Id);
+
+            if (learningSession.IsSetsSession)
+                return StartLearningSessionForSets(learningSession.SetsToLearn.Select(s => s.Id).ToList(), learningSession.SetListTitle);
 
             if (learningSession.IsCategorySession)
                 return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
@@ -245,14 +258,22 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string StartDateLearningSession(int dateId) =>
             GetUrlHelper().Action("StartLearningSession", DatesController, new { dateId = dateId });
 
-        public static string StartSetLearningSession(int setId) =>
-            GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
-
         public static string StartWishLearningSession() =>
             GetUrlHelper().Action("StartLearningSession", KnowledgeController );
 
         public static string StartCategoryLearningSession(int categoryId) =>
            GetUrlHelper().Action("StartLearningSession", CategoryController, new { categoryId = categoryId });
+
+        public static string StartLearningSesssionForSet(int setId)
+        {
+            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
+        }
+        public static string StartLearningSessionForSets(List<int> setIds, string setListTitle)
+        {
+            return GetUrlHelper().Action("StartLearningSessionForSets", CategoryController, new { setListTitle })
+                + "&setIds="
+                + string.Join("&setIds=", setIds);
+        }
 
         /* Testing / TestSession*/
         public const string TestSessionController = "TestSession";
@@ -304,10 +325,6 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionSetEdit(UrlHelper url, string name, int questionSetId){
             return url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = questionSetId });
-        }
-
-        public static string StartLearningSesssionForSet(int setId){
-            return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
         }
 
         /* Messages */

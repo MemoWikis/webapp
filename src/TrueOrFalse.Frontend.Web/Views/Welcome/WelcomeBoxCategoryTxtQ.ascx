@@ -5,22 +5,22 @@
 
 <div class="Card CardBig Category">
     <header style="">
-        <h6 style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">Kategorie mit 
-            <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.CategoryName, Model.CategoryId) %>">
-                <%= Model.QuestionCount %> Fragen
+        <h6 class="ItemInfo" style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;"> 
+            <a href="<%: Links.CategoryDetail(Model.Category) %>">
+                Kategorie mit <%= Model.QuestionCount %> Fragen
             </a>
         </h6>
-        <h4><%: Model.CategoryName %></h4>
+        <h4><a class="PlainTextLook" href="<%= Links.CategoryDetail(Model.Category) %>"><%: Model.CategoryName %></a></h4>
     </header>
     <div class="CardContent">
         <div class="row">
             <div class="col-xs-5 col-sm-4">
                 <div class="ImageContainer">
-                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
+                    <%= Model.ImageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category), noFollow: true) %>
                 </div>
             </div>
             <div class="col-xs-7 col-sm-8">
-                <p><%: Model.CategoryDescription %></p>
+                <p><a class="PlainTextLook" href="<%= Links.CategoryDetail(Model.Category) %>"><%: Model.CategoryDescription %></a></p>
             </div>
             <div class="col-xs-12 col-sm-8">
 

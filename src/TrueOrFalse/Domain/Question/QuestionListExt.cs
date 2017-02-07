@@ -23,6 +23,12 @@ public static class QuestionListExt
                 Questions = questionsArray.Where(q => q.Categories.Any(x => x == c)).ToList()
             });
     }
+
+    public static IList<Question> AllowedForUser(this IEnumerable<Question> questions, User user) =>
+        questions.Where(q => q.Visibility == QuestionVisibility.All || q.Creator == user).ToList();
+
+    public static IList<Question> PrivateForUserOnly(this IEnumerable<Question> questions, User user) =>
+        questions.Where(q => q.Visibility == QuestionVisibility.Owner && q.Creator == user).ToList();
 }
 
 [DebuggerDisplay("{Category.Name} {Questions.Count}")]
