@@ -45,7 +45,7 @@
             .append($("<div class='form-group'>")
                 .append($("<div class='noLabel columnControlsFull input-group'>")
                     .append($("<div class=''>")
-                                .append($("<select class='form-control'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
+                                .append($("<select class='form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
                             $("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />"),
                             actionButton
                     )
