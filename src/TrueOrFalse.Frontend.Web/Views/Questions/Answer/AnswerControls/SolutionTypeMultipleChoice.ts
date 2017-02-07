@@ -4,9 +4,11 @@ class SolutionTypeMultipleChoice
 {
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-        var answerQuestion = new AnswerQuestion(this);
-        $('input:radio[name=answer]').change(function () {
-            answerQuestion.OnAnswerChange();
+
+        this.AnswerQuestion = new AnswerQuestion(this);
+
+        $('input:radio[name=answer]').change(() => {
+            this.AnswerQuestion.OnAnswerChange();
         });
     }
 

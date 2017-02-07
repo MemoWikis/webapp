@@ -160,7 +160,7 @@ class SendQuestionsToAddResult {
 class SendQuestionsToAdd {
     static Run(questionSetId) {
 
-        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr: string, a) {
+        var questionIds = _.reduce(_page.RowSelector.Rows, function (aggr: string, a : any) {
             if (aggr.length == 0)
                 return a.QuestionId;
 

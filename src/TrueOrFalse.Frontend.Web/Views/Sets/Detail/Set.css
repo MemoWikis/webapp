@@ -65,3 +65,11 @@
   margin-left: 0;
   margin-right: 0;
 }
+#video-pager a.correctAnswer {
+  background-color: #10d410;
+  color: white;
+}
+#video-pager a.wrongAnswer {
+  background-color: #ff5a49;
+  color: white;
+}

@@ -1,9 +1,23 @@
-﻿public class SetVideoModel : BaseModel
+﻿using System.Collections.Generic;
+using System.Linq;
+
+public class SetVideoModel : BaseModel
 {
-    private readonly Set _set;
+    public AnswerBodyModel AnswerBodyModel;
+    public string VideoKey;
+
+    public int QuestionCount;
+    public IList<Question> Questions;
+    public int CurrentQuestion => AnswerBodyModel.QuestionId;
 
     public SetVideoModel(Set set)
     {
-        _set = set;
+        var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
+
+        VideoKey = set.VideoKey;
+        AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
+
+        QuestionCount = set.Questions().Count;
+        Questions = set.Questions();
     }
 }

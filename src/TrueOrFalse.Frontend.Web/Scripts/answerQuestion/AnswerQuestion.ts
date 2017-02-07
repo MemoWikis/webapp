@@ -7,6 +7,9 @@ class AnswerQuestion {
     private _getAnswerData: () => {};
     private _onNewAnswer: () => void;
 
+    private _onCorrectAnswer: () => void = () => {};
+    private _onWrongAnswer: () => void = () => { };
+
     private _inputFeedback: AnswerQuestionUserFeedback;
     private _isLastLearningStep = false;
 
@@ -145,8 +148,14 @@ class AnswerQuestion {
                 }
                 return true;
             });
+    }
 
+    public OnCorrectAnswer(func: () => void) {
+        this._onCorrectAnswer = func;
+    }
 
+    public OnWrongAnswer(func: () => void) {
+        this._onWrongAnswer = func;
     }
 
     static GetQuestionId(): number {
@@ -211,39 +220,10 @@ class AnswerQuestion {
                         }
                     }
 
-                    if (result.correct) {
-                        self.AnsweredCorrectly = true;
-                        self._inputFeedback.ShowSuccess();
-                        self._inputFeedback.ShowSolution();
-                        if (self._isLastLearningStep)
-                            $('#btnNext').html('Zum Ergebnis');
-                    } else //!result.correct
-                    {
-                        if (self._isLastLearningStep && !result.newStepAdded)
-                            $('#btnNext').html('Zum Ergebnis');
-
-                        if (self.IsGameMode) {
-                            self._inputFeedback.ShowErrorGame();
-                            self._inputFeedback.ShowSolution();
-                        } else {
-                            self._inputFeedback.UpdateAnswersSoFar();
-
-                            self.RegisterWrongAnswer();
-                            self._inputFeedback.ShowError();
-
-                            if (self.IsLearningSession || self.IsTestSession) {
-
-                                self._inputFeedback.ShowSolution();
-                                $('#CountWrongAnswers, #divWrongAnswers').hide();
-
-                            } else if (result.choices != null) { //if multiple choice
-                                choices = result.choices;
-                                if (self.allWrongAnswersTried(answerText)) {
-                                    self._inputFeedback.ShowSolution();
-                                }
-                            }
-                        }
-                    };
+                    if (result.correct)
+                        self.HandleCorrectAnswer();
+                    else 
+                        self.HandleWrongAnswer(result, answerText);
 
                     $("#answerHistory").empty();
                     $.post("/AnswerQuestion/PartialAnswerHistory",
@@ -256,6 +236,46 @@ class AnswerQuestion {
             return false;
         }
     }
+
+    private HandleCorrectAnswer() {
+        this.AnsweredCorrectly = true;
+        this._inputFeedback.ShowSuccess();
+        this._inputFeedback.ShowSolution();
+        if (this._isLastLearningStep)
+            $('#btnNext').html('Zum Ergebnis');
+
+        this._onCorrectAnswer();
+    }
+
+    private HandleWrongAnswer(result: any, answerText : string) {
+        if (this._isLastLearningStep && !result.newStepAdded)
+            $('#btnNext').html('Zum Ergebnis');
+
+        if (this.IsGameMode) {
+            this._inputFeedback.ShowErrorGame();
+            this._inputFeedback.ShowSolution();
+        } else {
+            this._inputFeedback.UpdateAnswersSoFar();
+
+            this.RegisterWrongAnswer();
+            this._inputFeedback.ShowError();
+
+            if (this.IsLearningSession || this.IsTestSession) {
+
+                this._inputFeedback.ShowSolution();
+                $('#CountWrongAnswers, #divWrongAnswers').hide();
+
+            } else if (result.choices != null) { //if multiple choice
+                choices = result.choices;
+                if (this.allWrongAnswersTried(answerText)) {
+                    this._inputFeedback.ShowSolution();
+                }
+            }
+        }
+
+        this._onWrongAnswer();
+    }
+    
 
     private RegisterWrongAnswer() {
         if (this.AtLeastOneWrongAnswer) return;
