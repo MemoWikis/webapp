@@ -59,11 +59,15 @@ class SetVideo {
     }
 
     HandleCorrectAnswer() {
-        this.GetCurrentMenuItem().addClass("correctAnswer");
+        this.GetCurrentMenuItem()
+            .removeClass("wrongAnswer")
+            .addClass("correctAnswer");
     }
 
     HandleWrongAnswer() {
-        this.GetCurrentMenuItem().addClass("wrongAnswer");
+        this.GetCurrentMenuItem()
+            .removeClass("correctAnswer")
+            .addClass("wrongAnswer");
     }
 
     GetCurrentMenuItem() : JQuery {
