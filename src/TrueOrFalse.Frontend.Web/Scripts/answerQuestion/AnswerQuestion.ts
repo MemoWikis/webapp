@@ -223,7 +223,7 @@ class AnswerQuestion {
                     if (result.correct)
                         self.HandleCorrectAnswer();
                     else 
-                        self.HandleError(result, answerText);
+                        self.HandleWrongAnswer(result, answerText);
 
                     $("#answerHistory").empty();
                     $.post("/AnswerQuestion/PartialAnswerHistory",
@@ -247,7 +247,7 @@ class AnswerQuestion {
         this._onCorrectAnswer();
     }
 
-    private HandleError(result: any, answerText : string) {
+    private HandleWrongAnswer(result: any, answerText : string) {
         if (this._isLastLearningStep && !result.newStepAdded)
             $('#btnNext').html('Zum Ergebnis');
 
