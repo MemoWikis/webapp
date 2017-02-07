@@ -301,3 +301,9 @@ p:empty {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
+.BreadcrumbsMobile i.fa-home {
+  font-size: 120%;
+}
+.BreadcrumbsMobile i.fa-chevron-right {
+  font-size: 80%;
+}

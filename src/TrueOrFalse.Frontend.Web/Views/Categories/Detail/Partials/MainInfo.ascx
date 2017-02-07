@@ -4,7 +4,7 @@
 
 
 <div style="padding-bottom: 15px;">
-    <div class="btn-group btn-breadcrumb">
+    <div class="btn-group btn-breadcrumb MobileHide">
         <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
         <a href="<%= Links.Categories() %>" class="btn btn-sm btn-default">
             <% if (Model.Type != "Standard"){ %>
@@ -19,6 +19,25 @@
         <%}%>
         
         <a href="#" class="btn btn-sm btn-default current"><%= Model.Category.Name %></a>
+
+    </div>
+    <div class="BreadcrumbsMobile DesktopHide">
+        <a href="/" class=""><i class="fa fa-home"></i></a>
+        <span> <i class="fa fa-chevron-right"></i> </span>
+        <a href="<%= Links.Categories() %>" class="">
+            <% if (Model.Type != "Standard"){ %>
+                <%= Model.Type %>
+            <% } else { %> 
+                Kategorien
+            <% }  %>
+        </a>
+        <span> <i class="fa fa-chevron-right"></i> </span>
+        <% foreach (var item in Model.BreadCrumb){%>
+            <a href="<%= Links.CategoryDetail(item) %>" class=""><%= item.Name %></a>
+            <span> <i class="fa fa-chevron-right"></i> </span>
+        <%}%>
+        
+        <a href="#" class="current"><%= Model.Category.Name %></a>
 
     </div>
 </div>
