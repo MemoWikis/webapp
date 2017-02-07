@@ -429,10 +429,10 @@ div.selected-row:hover {
     margin-right: 0;
   }
 }
-.Card.SingleItem .LinkArea {
+.LinkArea {
   position: relative;
 }
-.Card.SingleItem .LinkArea a {
+.LinkArea a.Link {
   position: absolute;
   top: 0;
   right: 0;

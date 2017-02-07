@@ -2715,9 +2715,9 @@ fieldset[disabled] .BoxButton.active {
 .CardContent .ItemInfo {
   margin-bottom: 8px;
 }
-.CardContent .ItemInfo a,
-.CardContent .ItemInfo a:hover,
-.CardContent .ItemInfo a:focus {
+.Card .ItemInfo a,
+.Card .ItemInfo a:hover,
+.Card .ItemInfo a:focus {
   color: #999999 !important;
   text-decoration: none !important;
 }

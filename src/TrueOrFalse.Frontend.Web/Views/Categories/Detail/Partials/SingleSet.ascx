@@ -24,7 +24,7 @@
                 <div class="LinkArea">
                     <h4 class="ItemTitle"><%: Model.SetName %></h4>
                     <div class="ItemText"><%: Model.SetText %></div>
-                    <a href="<%= Links.SetDetail(Model.Set) %>"></a>
+                    <a class="Link" href="<%= Links.SetDetail(Model.Set) %>"></a>
                 </div>
             </div>
             <div class="BottomBar">
