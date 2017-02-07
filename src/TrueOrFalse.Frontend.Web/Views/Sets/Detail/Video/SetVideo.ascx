@@ -13,6 +13,7 @@
     </div>
 </div>
 
+
 <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
 
 <div style="background-color: white;">
