@@ -3,16 +3,26 @@ class SetVideo {
 
         var self = this;
 
-        $("a[data-video-question-id]").click(function(e) {
-            self.LoadQuestionView(e, $(this).attr("data-video-question-id"));
+        $("a[data-video-question-id]").click(function (e) {
+            self.LoadQuestionView(e, $(this));
         });
 
         this.InitAnswerBody();
-
     }
 
-    LoadQuestionView(e : JQueryEventObject, questionId : any) {
+    LoadQuestionView(e : JQueryEventObject, menuItem : JQuery) {
         e.preventDefault();
+
+        $("#video-pager")
+            .find("[data-video-question-id]")
+            .removeClass("btn-info")
+            .removeClass("current");
+
+        menuItem
+            .addClass("btn-info")
+            .addClass("current");
+
+        var questionId = menuItem.attr("data-video-question-id");
 
         $.get("/SetVideo/RenderAnswerBody/?questionId=" + questionId,
             htmlResult => {
@@ -37,12 +47,27 @@ class SetVideo {
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
 
+        answerEntry.OnCorrectAnswer(() => { this.HandleCorrectAnswer(); });
+        answerEntry.OnWrongAnswer(() => { this.HandleWrongAnswer(); });
+
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
         var pinQuestion = new PinQuestion();
         pinQuestion.Init();
 
         Images.Init();
+    }
+
+    HandleCorrectAnswer() {
+        this.GetCurrentMenuItem().addClass("correctAnswer");
+    }
+
+    HandleWrongAnswer() {
+        this.GetCurrentMenuItem().addClass("wrongAnswer");
+    }
+
+    GetCurrentMenuItem() : JQuery {
+        return $("#video-pager").find("a.current").first();
     }
 }
 
