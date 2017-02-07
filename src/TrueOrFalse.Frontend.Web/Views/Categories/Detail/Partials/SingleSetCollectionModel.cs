@@ -12,7 +12,7 @@ public class SingleSetCollectionModel : BaseModel
     public string Title;
     public string CardOrientation;
 
-   public SingleSetCollectionModel(IList<Set> sets, string title, string cardOrientationLandscapeOrPortrait = null)
+   public SingleSetCollectionModel(IList<Set> sets, string title = "", string cardOrientationLandscapeOrPortrait = null)
     {
         Sets = sets;
         Title = title;
