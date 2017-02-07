@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-class UpdateSetting
+public class UpdateSetting
 {
 
     public static string HashUpdateCommand(User user, string updateCommand)
@@ -21,6 +21,9 @@ class UpdateSetting
 
     public static bool IsValidUpdateCommand(User user, string updateCommand, string token)
     {
+        if (user == null)
+            return false;
+
         return token == HashUpdateCommand(user, updateCommand);
     }
 }

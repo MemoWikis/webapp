@@ -2349,6 +2349,13 @@ fieldset[disabled] .BoxButton.active {
 .Card .BottomBar {
   padding: 5px;
 }
+.CardsPortrait .Card,
+.CardsLandscape .Card {
+  margin-bottom: 0;
+}
+.CardsLandscape {
+  margin-bottom: 20px;
+}
 .CardsLandscape .CardColumn {
   position: relative;
   float: left;
@@ -2432,6 +2439,9 @@ fieldset[disabled] .BoxButton.active {
     left: 0;
     right: 0;
   }
+}
+.CardsLandscapeNarrow {
+  margin-bottom: 20px;
 }
 .CardsLandscapeNarrow .CardColumn {
   float: left;
@@ -2539,6 +2549,9 @@ fieldset[disabled] .BoxButton.active {
   .CardsLandscapeNarrow .CardColumn .CardContent {
     height: auto !important;
   }
+}
+.CardsPortrait {
+  margin-bottom: 20px;
 }
 .CardsPortrait .CardColumn {
   float: left;
