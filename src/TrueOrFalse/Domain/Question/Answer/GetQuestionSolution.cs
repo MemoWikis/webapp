@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using TrueOrFalse;
+using TrueOrFalse.MultipleChoice;
 
 public class GetQuestionSolution
 {
@@ -23,10 +25,11 @@ public class GetQuestionSolution
 
             case SolutionType.MultipleChoice:
                 return serializer.Deserialize<QuestionSolutionMultipleChoice>(question.Solution);
-            //case SolutionType.MultipleChoice_v2:
-            //    return serializer.Deserialize<QuestionSolutionMultipleChoice_v2>(question.Solution);
+
+            case SolutionType.MultipleChoice_v2:
+                return serializer.Deserialize<QuestionSolutionMultipleChoice_v2>(question.Solution);
         }
 
-        throw new NotImplementedException(string.Format("Solution Type not implemented: {0}", question.SolutionType));
+        throw new NotImplementedException($"Solution Type not implemented: {question.SolutionType}");
     }
 }

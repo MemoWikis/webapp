@@ -1,35 +1,41 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using NHibernate.Transform;
 using TrueOrFalse.MultipleChoice;
 
-public class QuestionSolutionMultipleChoice_v2
+public class QuestionSolutionMultipleChoice_v2 : QuestionSolution
 {
     public List<Choice> Choices = new List<Choice>();
 
     public void FillFromPostData(NameValueCollection postData)
     {
-        List<string> Choice =
+        List<string> choices =
         (
-            from x in postData.AllKeys
-            where x.StartsWith("choice-")
-            select postData.Get(x)
+                from key in postData.AllKeys
+                where key.StartsWith("choice-")
+                select postData.Get(key)
         )
         .ToList();
 
-        List<string> ChoiceCorrect =
+        List<string> choicesCorrect =
         (
-            from x in postData.AllKeys
-            where x.StartsWith("choice_correct-")
-            select postData.Get(x)
+            from key in postData.AllKeys
+            where key.StartsWith("choice_correct-")
+            select postData.Get(key)
         )
         .ToList();
 
-        for (int i = 0; i < Choice.Count; i++)
+        for (int i = 0; i < choices.Count; i++)
         {
-            bool ChoiceCorrectBool = ChoiceCorrect[i] == "Richtige Antwort" ? true : false;
-            Choices.Add(new Choice {IsCorrect = ChoiceCorrectBool, Text = Choice[i]});
+            Choices.Add(new Choice
+            {
+                IsCorrect = choicesCorrect[i] == "Richtige Antwort",
+                Text = choices[i]
+            });
         }
     }
+
+    public override bool IsCorrect(string answer) => false;
+
+    public override string CorrectAnswer() => "";
 }
