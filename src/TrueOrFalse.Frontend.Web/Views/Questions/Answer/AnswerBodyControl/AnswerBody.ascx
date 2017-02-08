@@ -139,7 +139,7 @@
     </div>
             
 </div>
-<div id="LicenseQuestion">
+<div id="LicenseQuestion" class="Clearfix">
     <% if (Model.LicenseQuestion.IsDefault()){ %>
         <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto left"
             data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">

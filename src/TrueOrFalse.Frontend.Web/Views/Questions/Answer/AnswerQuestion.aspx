@@ -152,11 +152,96 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-9 xxs-stack">
+        <div class="col-xs-12">
             
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
 
+            <div class="row">
+                    <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
+                        var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
+                    <div class="col-sm-6 xxs-stack">
+                        <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px;">
+                            <h6 class="ItemInfo">
+                                <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
+                                    <a href="#" class="noTextdecoration">
+                                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                    </a>
+                                </span>&nbsp;
+                                Fragesatz mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
+                            </h6>
+                            <h4 class="ItemTitle"><%: primarySet.Name %></h4>
+                            <div class="ItemText"><%: primarySet.Text %></div>
+                            <div style="margin-top: 8px; text-align: right;">
+                                <a href="<%= Links.TestSessionStartForSet(primarySet.Name, primarySet.Id) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
+                                    <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <% } %>
+                    <div class="col-sm-6 xxs-stack">
+                        <div class="well" id="answerQuestionDetails" style="background-color: white;">
+                            <div class="row">
+                                <div class="col-xs-6 xxs-stack">
+                                    <p>
+                                        von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
+                                        vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
+                                    </p>
+        
+                                    <% if (Model.Categories.Count > 0)
+                                        { %>
+                                        <p style="padding-top: 10px;">
+                                            <% Html.RenderPartial("Category", Model.Question); %>
+                                        </p>
+                                    <% } %>
+        
+                                    <% if (Model.SetMinis.Count > 0)
+                                        { %>
+                                        <% foreach (var setMini in Model.SetMinis)
+                                            { %>
+                                            <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
+                                        <% } %>
+        
+                                        <% if (Model.SetCount > 5)
+                                            { %>
+                                            <div style="margin-top: 3px;">
+                                                <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
+                                            </div>
+                                        <% } %>
+
+                                    <% } %>
+                                </div>
+                                <div class="col-xs-6 xxs-stack">
+                                    <div style="padding-bottom: 20px;" id="answerHistory">
+                                        <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
+                                    </div>
+        
+                                    <p>
+                                        <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
+                                            <i class="fa fa-heart greyed"></i> 
+                                            <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
+                                        </span>                
+                                        <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
+                                            <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
+                                        </span><br />
+                                    </p>
+
+                                    <p style="width: 150px;">                    
+                                        <div class="fb-share-button" style="width: 100%; float: left; " data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
+                    
+                                        <div style="margin-top: 5px">
+                                            <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <%--</div>--%>
+            
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4 style="margin-top: 30px;">Lust auf mehr? Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscapeNarrow" id="contentRecommendation">
@@ -238,81 +323,7 @@
 
         </div>
         
-        <div class="col-sm-3 xxs-stack">
-            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
-                var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
-                <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px;">
-                    <h6 class="ItemInfo">
-                        <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
-                            <a href="#" class="noTextdecoration">
-                                <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                            </a>
-                        </span>&nbsp;
-                        Fragesatz mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
-                    </h6>
-                    <h4 class="ItemTitle"><%: primarySet.Name %></h4>
-                    <div class="ItemText"><%: primarySet.Text %></div>
-                    <div style="margin-top: 8px; text-align: center;">
-                        <a href="<%= Links.TestSessionStartForSet(primarySet.Name, primarySet.Id) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
-                            <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
-                        </a>
-                    </div>
-                </div>
-                
-            <% } %>
-
-            <div class="well" id="answerQuestionDetails" style="background-color: white;">
-                <p>
-                    von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
-                    vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
-                </p>
         
-                <% if (Model.Categories.Count > 0)
-                    { %>
-                    <p style="padding-top: 10px;">
-                        <% Html.RenderPartial("Category", Model.Question); %>
-                    </p>
-                <% } %>
-        
-                <% if (Model.SetMinis.Count > 0)
-                    { %>
-                    <% foreach (var setMini in Model.SetMinis)
-                        { %>
-                        <a href="<%= Links.SetDetail(Url, setMini) %>"><span class="label label-set"><%: setMini.Name %></span></a>
-                    <% } %>
-        
-                    <% if (Model.SetCount > 5)
-                        { %>
-                        <div style="margin-top: 3px;">
-                            <a href="#" popover-all-sets-for="<%= Model.QuestionId %>">+  <%= Model.SetCount - 5 %> weitere </a>
-                        </div>
-                    <% } %>
-
-                <% } %>
-    
-                <div style="padding-top: 20px; padding-bottom: 20px;" id="answerHistory">
-                    <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
-                </div>
-        
-                <p>
-                    <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
-                        <i class="fa fa-heart greyed"></i> 
-                        <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
-                    </span>                
-                    <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
-                        <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
-                    </span><br />
-                </p>
-
-                <p style="width: 150px;">                    
-                    <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
-                    
-                    <div style="margin-top: 5px">
-                        <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
-                    </div>
-                </p>
-            </div>
-        </div>
     
         <%--MODAL IMPROVE--%>
         <div id="modalQuestionFlagImprove" class="modal fade">
