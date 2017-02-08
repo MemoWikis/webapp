@@ -8,6 +8,16 @@
 
 #InputAndButtons {
     padding-bottom: 10px;
+
+    #MarkdownCol + #AnswerCol & {
+        .media-sm-up({
+            margin-left: 20px;
+        });
+    }
+}
+
+//Styles for #MarkdownCol (image etc.) present
+#MarkdownCol + #AnswerCol #Buttons {
 }
 
 #AnswerInputSection {
@@ -18,7 +28,8 @@
     padding-right: 10px;
     margin-bottom: 0px;
     width: 64%;
-    .media-below-md ({
+
+    .media-below-sm ({
         margin-top: 15px;
         width: 100%;
     });
@@ -31,6 +42,7 @@
         position: relative;
     }
 }
+
 
 
 .answerFeedback {
@@ -118,4 +130,8 @@
 
 .commentSettledInfo {
     color: darkgray;
+}
+
+.RenderedMarkdown {
+
 }

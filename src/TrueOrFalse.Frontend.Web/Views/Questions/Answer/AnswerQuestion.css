@@ -26,6 +26,11 @@
 #InputAndButtons {
   padding-bottom: 10px;
 }
+@media (min-width: 768px) {
+  #MarkdownCol + #AnswerCol #InputAndButtons {
+    margin-left: 20px;
+  }
+}
 #AnswerInputSection {
   position: relative;
   display: inline-block;
@@ -35,7 +40,7 @@
   margin-bottom: 0px;
   width: 64%;
 }
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   #AnswerInputSection {
     margin-top: 15px;
     width: 100%;
