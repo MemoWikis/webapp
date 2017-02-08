@@ -145,7 +145,7 @@
                 <div id="noOwnCurrentDatesInfo" class="bs-callout bs-callout-info" style="margin-top: 0; margin-bottom: 10px;  <% if (Model.Dates.Any()) Response.Write("display: none;"); %>;">
                     <h4>Du hast keine aktuellen Termine</h4>
                     <p>
-                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm" style="margin-top: 10px;">
+                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-primary btn-sm" style="margin-top: 10px;">
                             <i class="fa fa-plus-circle"></i> &nbsp; Termin erstellen
                         </a>
                     </p>
@@ -211,7 +211,7 @@
                         <% } %>
                         </p>                        
                         <p>
-                            <a href="<%= Url.Action("Users", "Users") %>" class="btn btn-sm" style="margin-top: 10px;">
+                            <a href="<%= Url.Action("Users", "Users") %>" class="btn btn-primary btn-sm" style="margin-top: 10px;">
                                 <i class="fa fa-plus-circle"></i> &nbsp; Netzwerk erweitern
                             </a>
                         </p>
