@@ -161,7 +161,7 @@
                     <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
                         var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
                     <div class="col-sm-6 xxs-stack">
-                        <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px;">
+                        <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px; min-height: 175px;">
                             <h6 class="ItemInfo">
                                 <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
                                     <a href="#" class="noTextdecoration">
@@ -182,7 +182,7 @@
                 
                     <% } %>
                     <div class="col-sm-6 xxs-stack">
-                        <div class="well" id="answerQuestionDetails" style="background-color: white;">
+                        <div class="well" id="answerQuestionDetails" style="background-color: white; padding-bottom: 10px; min-height: 175px;">
                             <div class="row">
                                 <div class="col-xs-6 xxs-stack">
                                     <p>
@@ -229,10 +229,10 @@
                                     </p>
 
                                     <p style="width: 150px;">                    
-                                        <div class="fb-share-button" style="width: 100%; float: left; " data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
+                                        <div class="fb-share-button" style="margin-right: 10px; margin-bottom: 5px; float: left; " data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
                     
                                         <div style="margin-top: 5px">
-                                            <a data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
+                                            <a style="white-space: nowrap" data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
                                         </div>
                                     </p>
                                 </div>
