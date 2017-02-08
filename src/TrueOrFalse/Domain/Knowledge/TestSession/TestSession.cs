@@ -10,38 +10,52 @@ public class TestSession
     public virtual int Id { get; set; }
     public virtual string UriName { get; set; }
     public virtual IList<TestSessionStep> Steps { get; set; }
-    public virtual TestSessionType TestSessionType { get; set; }
-    public virtual int TestSessionTypeTypeId { get; set; }
+    public virtual int SetToTestId { get; set; }
+    public virtual IList<int> SetsToTestIds { get; set; }
+    public virtual string SetListTitle { get; set; }
+    public virtual int CategoryToTestId { get; set; }
+
+    public virtual bool IsSetSession => SetToTestId > 0;
+    public virtual bool IsSetsSession => SetsToTestIds != null;
+    public virtual bool IsCategorySession => CategoryToTestId > 0;
+
     public virtual int CurrentStep { get; set; }
     public virtual int NumberOfSteps => Steps.Count;
 
     public TestSession(Set set)
     {
         UriName = "Fragesatz-" + UriSanitizer.Run(set.Name);
-        TestSessionType = TestSessionType.Set;
-        TestSessionTypeTypeId = set.Id;
+        SetToTestId = set.Id;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(set, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
+        Populate(questions);
+    }
+
+    public TestSession(IList<Set> sets, string setListTitle)
+    {
+        UriName = "Fragesaetze-" + UriSanitizer.Run(setListTitle);
+        SetsToTestIds = sets.Select(s => s.Id).ToList();
+        SetListTitle = setListTitle;
+        var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
+        var questions = GetRandomQuestions.Run(sets, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 
     public TestSession(IList<Set> setsFromCategory, string setListTitle, int categoryId)
     {
         UriName = UriSanitizer.Run(setListTitle);
-        TestSessionType = TestSessionType.Category;
-        TestSessionTypeTypeId = categoryId;
+        CategoryToTestId = categoryId;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
-        var questions = GetRandomQuestions.Run(setsFromCategory, 5, excludeQuestionIds, true).ToList();
+        var questions = GetRandomQuestions.Run(setsFromCategory, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 
     public TestSession(Category category)
     {
         UriName = "Kategorie-" + UriSanitizer.Run(category.Name);
-        TestSessionType = TestSessionType.Category;
-        TestSessionTypeTypeId = category.Id;
+        CategoryToTestId = category.Id;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
-        var questions = GetRandomQuestions.Run(category, 5, excludeQuestionIds, true).ToList();
+        var questions = GetRandomQuestions.Run(category, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 

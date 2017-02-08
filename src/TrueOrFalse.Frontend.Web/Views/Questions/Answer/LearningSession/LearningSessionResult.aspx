@@ -296,6 +296,23 @@
                     </div>
                 </div>
             <% } %>
+
+            <% if(Model.LearningSession.IsWishSession) { %>
+                <div class="boxInfo">
+                    <div class="boxInfoHeader">
+                        Wunschwissen
+                    </div>
+                    <div class="boxInfoContent">
+                        <p>
+                            Du hast dein Wunschwissen gelernt. Dein Wunschwissen enthält
+                        </p>
+                        <ul>
+                            <li><a href="<%= Links.QuestionsWish() %>"><%= Model.WishCountQuestions %> Fragen</a></li>
+                            <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Frage<%= StringUtils.PluralSuffix(Model.WishCountSets,"sätze","satz") %></a></li>
+                        </ul>
+                    </div>
+                </div>
+            <% } %>
             
             <% if(Model.LearningSession.IsCategorySession) { %>
                 <div class="boxInfo">
