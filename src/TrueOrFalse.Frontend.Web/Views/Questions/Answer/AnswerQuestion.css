@@ -23,13 +23,105 @@
     margin-bottom: 10px;
   }
 }
-#InputAndButtons {
+#AnswerInputSection {
   padding-bottom: 10px;
 }
+#AnswerInputSection .radio {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+#AnswerInputSection .radio + .radio {
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  #AnswerInputSection .radio + .radio {
+    margin-top: 15px;
+  }
+}
+#MarkdownCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 @media (min-width: 768px) {
-  #MarkdownCol + #AnswerCol #InputAndButtons {
+  #MarkdownCol {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+#AnswerAndSolutionCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol {
+    float: left;
+    width: 100%;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #MarkdownCol + #AnswerAndSolutionCol {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  #MarkdownCol + #AnswerAndSolutionCol > div {
     margin-left: 20px;
   }
+}
+#AnswerAndSolutionCol #AnswerInputSection {
+  margin-bottom: 15px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol #AnswerInputSection {
+    float: left;
+    width: 50%;
+  }
+}
+@media (max-width: 767px) {
+  #AnswerAndSolutionCol #AnswerInputSection {
+    max-width: 550px;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection {
+  width: 100%;
+}
+#AnswerAndSolutionCol #Buttons {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol #Buttons {
+    float: left;
+    width: 50%;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol #Buttons {
+  width: 100%;
+}
+#AnswerAndSolutionCol #AnswerFeedbackAndSolutionDetails {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 #AnswerInputSection {
   position: relative;
@@ -38,7 +130,7 @@
   padding-left: 10px;
   padding-right: 10px;
   margin-bottom: 0px;
-  width: 64%;
+  width: 100%;
 }
 @media (max-width: 767px) {
   #AnswerInputSection {
@@ -52,6 +144,9 @@
 }
 #AnswerInputSection label {
   position: relative;
+}
+#txtAnswer {
+  max-width: 450px;
 }
 .answerFeedback {
   position: absolute;
@@ -79,28 +174,12 @@
   margin-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  width: 35%;
+  width: 100%;
   text-align: right;
 }
 @media (max-width: 991px) {
   #Buttons {
-    margin-top: 15px;
     width: 100%;
-  }
-}
-#Buttons .buttonSingle .SecAction {
-  padding-right: 0;
-  padding-top: 0;
-}
-@media (max-width: 991px) {
-  #Buttons .buttonSingle .SecAction {
-    padding-right: 12px;
-    padding-top: 6px;
-  }
-}
-@media (max-width: 991px) {
-  #Buttons .buttonSingle {
-    float: left;
   }
 }
 #Buttons #buttons-first-try {
@@ -130,4 +209,9 @@
 }
 .commentSettledInfo {
   color: darkgray;
+}
+@media (max-width: 767px) {
+  .MarkdownImage img {
+    max-height: 250px;
+  }
 }

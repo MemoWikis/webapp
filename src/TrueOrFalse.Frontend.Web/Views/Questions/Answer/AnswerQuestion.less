@@ -6,18 +6,74 @@
     });
 }
 
-#InputAndButtons {
+#AnswerInputSection {
     padding-bottom: 10px;
 
-    #MarkdownCol + #AnswerCol & {
-        .media-sm-up({
-            margin-left: 20px;
-        });
+    
+
+    .radio {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        & +.radio {
+            margin-top: 10px;
+
+            .media-below-sm({
+                margin-top: 15px;
+            });
+        }
+        
     }
 }
 
-//Styles for #MarkdownCol (image etc.) present
-#MarkdownCol + #AnswerCol #Buttons {
+#MarkdownCol {
+    .make-sm-column(4);
+}
+
+#AnswerAndSolutionCol {
+
+    .make-sm-column(12);
+
+
+    #MarkdownCol + & {
+
+        .make-sm-column(8);
+
+        > div {
+
+            .media-sm-up({
+                margin-left: 20px;
+            });
+        }
+    }
+
+    #AnswerInputSection {
+
+        margin-bottom: 15px;
+
+        .make-sm-column(6);
+
+        .media-below-sm({
+            max-width: 550px;
+        });
+
+        #MarkdownCol + & {
+            width: 100%;
+        }
+    }
+
+    #Buttons {
+        .make-sm-column(6);
+
+        #MarkdownCol + & {
+            width: 100%;
+        }
+    }
+
+    #AnswerFeedbackAndSolutionDetails {
+        .make-xs-column(12);
+    }
+    
 }
 
 #AnswerInputSection {
@@ -27,7 +83,7 @@
     padding-left: 10px;
     padding-right: 10px;
     margin-bottom: 0px;
-    width: 64%;
+    width: 100%;
 
     .media-below-sm ({
         margin-top: 15px;
@@ -43,7 +99,9 @@
     }
 }
 
-
+#txtAnswer {
+    max-width: 450px;
+}
 
 .answerFeedback {
     position: absolute;
@@ -72,27 +130,12 @@
     margin-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    width: 35%;
+    width: 100%;
 
     .media-below-md ({
-        margin-top: 15px;
         width: 100%;
     });
      
-    .buttonSingle {
-        .SecAction {
-            padding-right: 0;
-            padding-top: 0;
-            .media-below-md ({
-                padding-right: 12px;
-                padding-top: 6px;
-            });
-        }
-        .media-below-md ({
-            float: left;
-        });
-    }
-
     text-align: right;
 
     #buttons-first-try {
@@ -132,6 +175,11 @@
     color: darkgray;
 }
 
-.RenderedMarkdown {
+.MarkdownImage {
+    img {
+        .media-below-sm({
+            max-height: 250px;
+        });
 
+    }
 }
