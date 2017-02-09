@@ -54,5 +54,6 @@ enum SolutionType {
     Numeric = 4,
     Date = 6,
     MultipleChoice = 3,
+    MultipleChoice_v2 = 7,
     Sequence = 5
 }

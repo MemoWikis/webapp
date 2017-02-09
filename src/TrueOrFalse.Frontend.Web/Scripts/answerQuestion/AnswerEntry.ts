@@ -25,6 +25,8 @@
                 answerEntry = new SolutionTypeNumeric(this); break;
             case SolutionType.Sequence:
                 answerEntry = new SolutionTypeSequence(this); break;
+            case SolutionType.MultipleChoice_v2:
+                answerEntry = new SolutionTypeMultipleChoice_v2(this); break;
         };
 
         this.AnswerQuestion = answerEntry.AnswerQuestion;

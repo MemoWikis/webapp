@@ -6,22 +6,31 @@ class SolutionTypeMultipleChoice_v2
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
-
-        $('input:radio[name=answer]').change(() => {
+        $('input:checkbox[name=answer]').change(() => {
             this.AnswerQuestion.OnAnswerChange();
         });
     }
 
+    static GetChosenAnswers(): string {
+        var selected = $('input:checkbox[name=answer]:checked');
+        var selectedValues = "";
+        for (var i = 0; i < selected.length; i++) {
+            selectedValues += (<any>selected.get(i)).value;
+            if (i < (selected.length - 1))
+                selectedValues += ", ";
+        }
+        return selectedValues;
+    }
+
     GetAnswerText(): string {
-        var selected = $('input:radio[name=answer]:checked');
-        return selected.length ? selected.val() : "";
+        return SolutionTypeMultipleChoice_v2.GetChosenAnswers();
     }
 
     GetAnswerData(): {} {
-        return { answer: $('input:radio[name=answer]:checked').val() };
+        return { answer: SolutionTypeMultipleChoice_v2.GetChosenAnswers()};
     }
 
     OnNewAnswer() {
-        $('input:radio[name=answer]:checked').prop('checked', false);
+        $('input:checkbox[name=answer]:checked').prop('checked', false);
     }
 };

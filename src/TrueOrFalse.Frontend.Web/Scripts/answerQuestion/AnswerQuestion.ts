@@ -167,7 +167,8 @@ class AnswerQuestion {
     }
 
     private ValidateAnswer() {
-        var answerText = this._getAnswerText();
+        var answerText
+            = this._getAnswerText();
         var self = this;
 
         if (answerText.trim().length === 0) {
@@ -183,8 +184,15 @@ class AnswerQuestion {
             $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
             $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
 
-            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+            var test = $.extend(self._getAnswerData(),
+            {
+                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                interactionNumber: $('#hddInteractionNumber').val(),
+                millisecondsSinceQuestionView: AnswerQuestion
+                    .TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
+            });
 
+            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,

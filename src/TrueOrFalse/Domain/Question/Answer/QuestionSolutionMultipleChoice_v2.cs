@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -35,7 +36,25 @@ public class QuestionSolutionMultipleChoice_v2 : QuestionSolution
         }
     }
 
-    public override bool IsCorrect(string answer) => false;
+    public override bool IsCorrect(string answer)
+    {
+        string[] Answers = answer.Split(new string[] {", "}, StringSplitOptions.RemoveEmptyEntries);
+        string[] Solutions = this.CorrectAnswer().Split(new string[] {", "}, StringSplitOptions.RemoveEmptyEntries);
+        return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
+    }
 
-    public override string CorrectAnswer() => "";
+    public override string CorrectAnswer()
+    {
+        string CorrectAnswer = "";
+        foreach (var SingleChoice in this.Choices)
+        {
+            if (SingleChoice.IsCorrect == true)
+            {
+                CorrectAnswer += SingleChoice.Text;
+                if (SingleChoice != this.Choices[(this.Choices.Count - 1)])
+                    CorrectAnswer += ", ";
+            }
+        }
+        return CorrectAnswer;
+    }
 }
