@@ -189,7 +189,10 @@
                                                     </div>
                                                 </div>
                                                 <div style="display: inline-block; float: right; width: 65px;">
-                                                    <input type="text" class="form-control" value="0:00" />
+                                                    <input type="text" class="form-control show-tooltip" value="<%= Timecode.ToString(questionInSet.Timecode) %>"
+                                                        data-in-set-id="<%= questionInSet.Id %>"
+                                                        data-input="video-timecode"
+                                                        data-original-title="Zeitpunkt zu dem das Video pausiert und die Frage gezeigt wird." />
                                                 </div>
                                             </li>  
                                         <%} %>
