@@ -29,7 +29,7 @@
         <% } %>
 
         <% if(Model.LearningSession.IsCategorySession) { %>
-            Fragen aus der Kategorie 
+            Fragen zu dem Thema 
             <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" style="margin-top: 3px; display: inline-block;">
                 <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
             </a>

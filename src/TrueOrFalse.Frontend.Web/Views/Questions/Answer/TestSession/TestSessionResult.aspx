@@ -16,15 +16,22 @@
         <span class="">Dein Ergebnis</span>
     </h2>
     <p>
-        Du hast dein Wissen zu 
-        <% if (Model.TestSessionTypeIsSet) { %>
-            dem Fragesatz 
+        Du hast dein Wissen 
+        <% if (Model.TestSession.IsSetSession) { %>
+            zu dem Fragesatz 
             <a href="<%= Links.SetDetail(Url, Model.TestedSet) %>" style="display: inline-block;">
                 <span class="label label-set"><%: Model.TestedSet.Name %></span>
             </a>
             <%--mit insgesamt <%=Model.TestedSet.Questions().Count %> Fragen--%>
-        <% } else if (Model.TestSessionTypeIsCategory) { %>
-            der Kategorie
+        <% } else if (Model.TestSession.IsSetsSession) { %>
+            zu den Fragesätzen
+            <% foreach (var set in Model.TestedSets) { %>
+                <a href="<%= Links.SetDetail(set) %>" style="display: inline-block;">
+                    <span class="label label-set"><%: set.Name %></span>
+                </a>
+            <% } %>
+        <% } else if (Model.TestSession.IsCategorySession) { %>
+            zum Thema
             <a href="<%= Links.CategoryDetail(Model.TestedCategory) %>" style="display: inline-block;">
                 <span class="label label-category"><%: Model.TestedCategory.Name %></span>
             </a>
@@ -176,8 +183,9 @@
                     Zur Wissenszentrale
                 </a>
                 <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
-                        title="Neue Fragen aus <% if (Model.TestSessionTypeIsSet) Response.Write("dem gleichen Fragesatz");
-                                                  else if (Model.TestSessionTypeIsCategory) Response.Write("der gleichen Kategorie");%>
+                        title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus dem gleichen Fragesatz");
+                                                  else if (Model.TestSession.IsSetsSession) Response.Write("aus den gleichen Fragesätzen");
+                                                  else if (Model.TestSession.IsCategorySession) Response.Write("zum gleichen Thema");%>
                     " rel="nofollow">
                     <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
                 </a>
@@ -192,7 +200,7 @@
                        } %>
                     <% foreach (var category in Model.ContentRecommendationResult.Categories)
                        {
-                            Html.RenderPartial("Cards/CardSingleCategory", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                            Html.RenderPartial("~/Views/Shared/Cards/CardSingleCategory.ascx", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
                        } %>
                     <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
                        { 

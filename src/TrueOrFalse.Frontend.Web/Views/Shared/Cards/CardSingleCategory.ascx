@@ -11,7 +11,7 @@
 
         <div class="caption">
             <h6 style="margin-bottom: 5px; color: #a3a3a3;">
-                Kategorie mit <a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"><%= Model.QCount %> Fragen</a>
+                Thema mit <a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"><%= Model.QCount %> Fragen</a>
             </h6>
             <h4 style="margin-top: 5px;"><%: Model.CategoryName %></h4>
             <p><%: Model.CategoryText %></p>
@@ -32,7 +32,7 @@
 
         <div class="CardContent">
             <h6 class="ItemInfo">
-                Kategorie mit <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>"><%= Model.QCount %> Fragen</a>
+                Thema mit <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>"><%= Model.QCount %> Fragen</a>
             </h6>
             <h4 class="ItemTitle"><%: Model.CategoryName %></h4>
             <div class="ItemText"><%: Model.CategoryText %></div>
@@ -44,7 +44,7 @@
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"> Detailseite Kategorie</a></li>
+                    <li><a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"> Detailseite zum Thema</a></li>
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

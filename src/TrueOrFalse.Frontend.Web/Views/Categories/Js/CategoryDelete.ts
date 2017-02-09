@@ -43,7 +43,7 @@
             url: "/Categories/Delete/" + catId,
             cache: false,
             success: function() {
-                window.alert("Die Kategorie wurde erfolgreich gelöscht.");
+                window.alert("Das Thema wurde erfolgreich gelöscht.");
                 window.location.href = "/Kategorien";
             },
             error: function (result) {

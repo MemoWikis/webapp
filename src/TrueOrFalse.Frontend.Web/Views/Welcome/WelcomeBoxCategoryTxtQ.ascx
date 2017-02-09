@@ -7,7 +7,7 @@
     <header style="">
         <h6 class="ItemInfo" style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;"> 
             <a href="<%: Links.CategoryDetail(Model.Category) %>">
-                Kategorie mit <%= Model.QuestionCount %> Fragen
+                Thema mit <%= Model.QuestionCount %> Fragen
             </a>
         </h6>
         <h4><a class="PlainTextLook" href="<%= Links.CategoryDetail(Model.Category) %>"><%: Model.CategoryName %></a></h4>
@@ -64,7 +64,7 @@
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                    <li><a href="<%= Model.CategoryDetailLink(Url) %>"> Zur Kategorie-Detailseite</a></li>
+                    <li><a href="<%= Model.CategoryDetailLink(Url) %>"> Detailseite zum Thema</a></li>
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

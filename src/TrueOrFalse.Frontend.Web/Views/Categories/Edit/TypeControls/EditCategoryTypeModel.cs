@@ -11,8 +11,8 @@ public class EditCategoryTypeModel : BaseModel
 
     public object Model;
 
-    public const string WikipediaInfo = "Falls es einen Wikipedia-Artikel zur Kategorie gibt, gib bitte hier den Link an (z.B. Kategorie 'Lerntheorie' - http://de.wikipedia.org/wiki/Lerntheorie).";
-    public const string DescriptionInfo = "Kurze Beschreibung der Kategorie und/oder alternative Bezeichnungen.";
+    public const string WikipediaInfo = "Falls es einen Wikipedia-Artikel zum Thema gibt, gib bitte hier den Link an (z.B. Thema 'Lerntheorie' - http://de.wikipedia.org/wiki/Lerntheorie).";
+    public const string DescriptionInfo = "Kurze Beschreibung des Themas und/oder alternative Bezeichnungen.";
 
     public const string IsbnInfo = " Bitte mit Bindestrichen angeben. Falls zwei ISBN-Nummern vorhanden sind, verwende bitte immer die längere (13-stellig). Die ISBN ist eine Identifizierungsnummer, die meist auf der Buchrückseite oder im Impressum eines Buchs zu finden ist. ";
      

@@ -24,7 +24,7 @@ public class AlgoInfoRepo
             {
                 Id = 3,
                 Name = "Simple 3",
-                Details = "Wenn keine Historie, dann Wahrscheinlichkeit der Kategorien verwenden.",
+                Details = "Wenn keine Historie, dann Wahrscheinlichkeit des Themas verwenden.",
                 Algorithm = Sl.R<ProbabilityCalc_Simple3>()
             }
         };

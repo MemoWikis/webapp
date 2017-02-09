@@ -289,6 +289,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string TestSessionStartForCategory(string categoryName, int categoryId) => 
             GetUrlHelper().Action("StartTestSession", CategoryController, new { categoryName = UriSanitizer.Run(categoryName), categoryId = categoryId });
 
+        public static string TestSessionStartForSets(List<int> setIds, string setListTitle)
+        {
+            return GetUrlHelper().Action("StartTestSessionForSets", SetController, new { setListTitle })
+                + "&setIds="
+                + string.Join("&setIds=", setIds);
+        }
         public static string TestSessionStartForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
         {
             return GetUrlHelper().Action("StartTestSessionForSetsInCategory", CategoryController, new { setListTitle, categoryId })

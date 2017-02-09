@@ -49,7 +49,7 @@
     
     <div class="col-lg-2 col-xs-3 xxs-stack">
         <% if(Model.User.ShowWishKnowledge || Model.IsCurrentUser){ %>
-        <h4 style="margin-top: 20px;">Kategorien mit Wunschwissen</h4>
+        <h4 style="margin-top: 20px;">Themen mit Wunschwissen</h4>
             <% foreach (var item in Model.WishQuestionsCategories.OrderByDescending(x => x.Questions.Count)){ %>
                 <a href="<%= Links.CategoryDetail(item.Category) %>">
                     <span class="label label-category" style="margin-top: 7px;"><%: item.Category.Name %></span>

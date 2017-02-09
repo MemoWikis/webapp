@@ -124,8 +124,8 @@
 
                         <div class="form-group">
                             <label class="columnLabel control-label">
-                                <span class="show-tooltip" title="Kategorien helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen, Fragesätze wiederzufinden.">
-                                    Kategorien
+                                <span class="show-tooltip" title="Themen helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen, Fragesätze wiederzufinden.">
+                                    Themen
                                 </span>
                             </label>        
                                 
@@ -141,7 +141,7 @@
                                     });
                                 </script>
                                 <div class="JS-CatInputContainer ControlInline">
-                                    <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                                    <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle ein Thema"  />
                                 </div>
                             </div>                                
                         </div>
