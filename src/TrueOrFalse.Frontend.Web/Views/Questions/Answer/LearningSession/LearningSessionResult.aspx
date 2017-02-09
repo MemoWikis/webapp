@@ -74,6 +74,7 @@
     <h2 style="margin-bottom: 15px; margin-top: 0px;">
         <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                         if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
+                        if (Model.LearningSession.IsSetsSession) Response.Write("ColoredUnderline Set");
                         if (Model.LearningSession.IsWishSession) Response.Write("ColoredUnderline Knowledge");
                         %>">Ergebnis</span>
     </h2>
@@ -140,8 +141,12 @@
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
                         Neue Übungssitzung
                     </a>
+                <% } else if (Model.LearningSession.IsSetsSession) { %>
+                    <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
+                        Neue Übungssitzung
+                    </a>
                 <% } else if (Model.LearningSession.IsCategorySession) { %>
-                    <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zur Kategorie</a>
+                    <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zum Thema</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
                         Neue Übungssitzung
                     </a>   
@@ -268,17 +273,55 @@
                         </p>
                     </div>
                 </div>
+            <% } %>
 
+            <% if(Model.LearningSession.IsSetsSession) { %>
+                <div class="boxInfo">
+                    <div class="boxInfoHeader">
+                        <%= Model.LearningSession.SetListTitle %>
+                    </div>
+                    <div class="boxInfoContent">
+                        <p>
+                            Du hast diese Fragesätze gelernt:
+                        </p>
+                        <div class="LabelList">
+                            <% foreach (var set in Model.LearningSession.SetsToLearn) { %>
+                                <div class="LabelItem LabelItem-Set">
+                                    <a href="<%= Links.SetDetail(Url, set) %>" style="display: inline-block;">
+                                        <span class=""><%: set.Name %></span>
+                                    </a> (<%= set.Questions().Count %> Fragen)
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+
+            <% if(Model.LearningSession.IsWishSession) { %>
+                <div class="boxInfo">
+                    <div class="boxInfoHeader">
+                        Wunschwissen
+                    </div>
+                    <div class="boxInfoContent">
+                        <p>
+                            Du hast dein Wunschwissen gelernt. Dein Wunschwissen enthält
+                        </p>
+                        <ul>
+                            <li><a href="<%= Links.QuestionsWish() %>"><%= Model.WishCountQuestions %> Fragen</a></li>
+                            <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Frage<%= StringUtils.PluralSuffix(Model.WishCountSets,"sätze","satz") %></a></li>
+                        </ul>
+                    </div>
+                </div>
             <% } %>
             
             <% if(Model.LearningSession.IsCategorySession) { %>
                 <div class="boxInfo">
                     <div class="boxInfoHeader">
-                        Kategorie-Info
+                        Thema
                     </div>
                     <div class="boxInfoContent">
                         <p>
-                            Du hast diese Kategorie gelernt:<br />
+                            Du hast dieses Thema gelernt:<br />
                             <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" style="display: inline-block;">
                                 <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
                             </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions %> Fragen)

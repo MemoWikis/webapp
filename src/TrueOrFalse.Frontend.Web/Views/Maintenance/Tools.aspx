@@ -64,7 +64,7 @@
             </div>
         
             <div class="form-group">
-                <label class="control-label col-sm-2">Kategorie (Id)</label>
+                <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
                 <div class="col-xs-2">
                     <%= Html.TextBoxFor(m => m.CategoryId, new {@class="form-control"} ) %>    
                 </div>
@@ -72,7 +72,7 @@
 
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
-                    <input type="submit" value="Kategorie zuweisen" class="btn btn-primary" />
+                    <input type="submit" value="Thema zuweisen" class="btn btn-primary" />
                 </div>
             </div>
 

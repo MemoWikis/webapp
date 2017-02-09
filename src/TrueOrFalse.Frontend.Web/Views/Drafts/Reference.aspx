@@ -46,7 +46,7 @@
         <div class="col-xs-9 col-xs-pull-3 xxs-stack">
             <div class="CategoryRelations well">
                 
-                    <h4 style="margin-top: 0;">Elternkategorien</h4>
+                    <h4 style="margin-top: 0;">Elternthemen</h4>
                     <div>
                         
                             <a href="/Kategorien/TestZeitung/71/1"><span class="label label-category">TestZeitung</span></a>
@@ -61,7 +61,7 @@
                 <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
 
                 
-                    <h4 style="margin-top: 0;">keine Kindkategorien</h4>
+                    <h4 style="margin-top: 0;">keine Kindthemen</h4>
                 
             </div>
             

@@ -28,6 +28,31 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     }
 
     public virtual Set SetToLearn { get; set; }
+    public virtual IList<Set> SetsToLearn
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(SetsToLearnIdsString))
+                return new List<Set>();
+
+            var setIds = SetsToLearnIdsString
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x));
+
+            var setRepo = Sl.R<SetRepo>();
+
+            return setIds
+                .Select(setId => setRepo.GetById(setId))
+                .Where(set => set != null)
+                .ToList();
+        }
+        set
+        {
+            SetsToLearnIdsString = value.Count == 0 ? null : string.Join(",", value.Select(x => x.Id.ToString()));
+        }
+    }
+    public virtual string SetsToLearnIdsString { get; set; }
+    public virtual string SetListTitle { get; set; }
     public virtual Date DateToLearn { get; set; }
     public virtual Category CategoryToLearn { get; set; }
 
@@ -37,13 +62,16 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     {
         get
         {
-            if (SetToLearn != null)
+            if (IsSetSession)
                 return "Fragesatz-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
 
-            if (CategoryToLearn != null)
-                return "Kategorie-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
+            if (IsSetsSession)
+                return "Fragesaetze-" + UriSegmentFriendlyUser.Run(SetListTitle);
 
-            if (DateToLearn != null)
+            if (IsCategorySession)
+                return "Thema-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
+
+            if (IsDateSession)
                 return "Termin-" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");
 
             if (IsWishSession)
@@ -53,12 +81,10 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         }
     }
 
-    public virtual bool IsSetSession{ get { return SetToLearn != null; }}
-
+    public virtual bool IsSetSession { get { return SetToLearn != null; } }
+    public virtual bool IsSetsSession { get { return !string.IsNullOrEmpty(SetsToLearnIdsString); } }
     public virtual bool IsDateSession{ get { return DateToLearn != null; }}
-
     public virtual bool IsCategorySession{ get { return CategoryToLearn != null; }}
-
     public virtual bool IsWishSession { get; set; }
 
     public virtual int TotalPossibleQuestions
@@ -67,6 +93,9 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         {
             if (IsSetSession)
                 return SetToLearn.Questions().Count;
+
+            if (IsSetsSession)
+                return SetsToLearn.Sum(s => s.Questions().Count);
 
             if (IsDateSession)
                 return DateToLearn.AllQuestions().Count;

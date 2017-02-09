@@ -8,7 +8,7 @@ using TrueOrFalse.Infrastructure;
 
 public class ContentRecommendation
 {
-    public static ContentRecommendationResult GetForSet(Set set, int amount = 6)
+    public static ContentRecommendationResult GetForSet(Set set, int amount)
     {
         var result = new ContentRecommendationResult();
         var amountSets = amount <= 3 ? 1 : (int)Math.Ceiling((double)amount / 3); //get at most 1/3 of amount (rounded up) sets
@@ -30,7 +30,7 @@ public class ContentRecommendation
         return result;
     }
 
-    public static ContentRecommendationResult GetForCategory(Category category, int amount = 6)
+    public static ContentRecommendationResult GetForCategory(Category category, int amount)
     {
         var result = new ContentRecommendationResult();
 

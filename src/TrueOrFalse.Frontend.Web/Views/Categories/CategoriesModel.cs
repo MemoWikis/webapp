@@ -15,7 +15,7 @@ public class CategoriesModel : BaseModel
 
     public string CanonicalUrl;
     public bool HasFiltersOrChangedOrder;
-    public string PageTitle = "Kategorien";
+    public string PageTitle = "Themen";
     public int TotalCategoriesInSystem { get; set; }
     public int TotalMine  { get; set; }
     public string SearchTerm  { get; set; }

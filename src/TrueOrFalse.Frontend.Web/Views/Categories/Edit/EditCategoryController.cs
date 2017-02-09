@@ -62,12 +62,12 @@ public class EditCategoryController : BaseController
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(category);
         if (model.Name != category.Name && categoryAllowed.No(model, category.Type)){
-            model.Message = new ErrorMessage(string.Format("Es existiert bereits eine Kategorie mit dem Namen <strong>'{0}'</strong>.",
+            model.Message = new ErrorMessage(string.Format("Es existiert bereits ein Thema mit dem Namen <strong>'{0}'</strong>.",
                                                             categoryAllowed.ExistingCategories.First().Name));
         } else {
             _categoryRepository.Update(category);
 
-            model.Message = new SuccessMessage("Die Kategorie wurde gespeichert.");
+            model.Message = new SuccessMessage("Das Thema wurde gespeichert.");
         }
         StoreImage(id);
         
@@ -101,8 +101,8 @@ public class EditCategoryController : BaseController
         if (categoryNameAllowed.No(category))
         {
             model.Message = new ErrorMessage(
-                string.Format("Die Kategorie <strong>'{0}'</strong> existiert bereits. " +
-                              "<a href=\"{1}\">Klicke hier</a>, um sie zu bearbeiten.",
+                string.Format("Das Thema <strong>'{0}'</strong> existiert bereits. " +
+                              "<a href=\"{1}\">Klicke hier</a>, um es zu bearbeiten.",
                               categoryNameAllowed.ExistingCategories.First().Name,
                               Links.CategoryEdit(categoryNameAllowed.ExistingCategories.First()))); //Url.Action("Edit", new { id = categoryNameAllowed.ExistingCategories.First().Id })
 
@@ -117,9 +117,9 @@ public class EditCategoryController : BaseController
 
         TempData["createCategoryMsg"] 
             = new SuccessMessage(string.Format(
-                 "Die Kategorie <strong>'{0}'</strong> wurde angelegt.<br>" + 
-                 "Du kannst die Kategorie jetzt bearbeiten" +
-                 " oder eine <a href=\"{1}\">neue Kategorie anlegen</a>.", 
+                 "Das Thema <strong>'{0}'</strong> wurde angelegt.<br>" + 
+                 "Du kannst das Thema jetzt bearbeiten" +
+                 " oder ein <a href=\"{1}\">neues Thema anlegen</a>.", 
                 category.Name,
                 Links.CategoryCreate()));
 

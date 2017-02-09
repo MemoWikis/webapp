@@ -57,7 +57,7 @@
                             if (Model.ActiveTabWish && Model.TotalWishKnowledge != Model.TotalQuestionsInResult)
                             von = Model.TotalQuestionsInResult + " von "; %>
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWishKnowledge %></span>)
-                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Fakten, die du dir merken möchtest." data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Fragen, die du dir merken möchtest." data-placement="right"></i>
                         </a>
                     </div>
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-<%= SearchTabType.Mine.ToString() %>">
@@ -104,7 +104,7 @@
                                von = Model.TotalQuestionsInResult + " von "; %>
                         <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen (<span class="tabWishKnowledgeCount"><span class="JS-Amount"><%= von + Model.TotalWishKnowledge %></span></span>)
                         <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" 
-                           title="Fakten, die du dir merken möchtest." data-placement="right"></i>
+                           title="Fragen, die du dir merken möchtest." data-placement="right"></i>
                     </a>
                 </li>
                 <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-<%= SearchTabType.Mine.ToString() %>">
@@ -158,7 +158,7 @@
                                             });
                                         </script>
                                         <div class="JS-CatInputContainer ControlInline pull-right">
-                                            <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einer Kategorie"  />
+                                            <input id="txtCategoryFilter" class="form-control .JS-ValidationIgnore" type="text" placeholder="Filtere nach einem Thema"  />
                                         </div>
                                     </div>
                                 </div>        

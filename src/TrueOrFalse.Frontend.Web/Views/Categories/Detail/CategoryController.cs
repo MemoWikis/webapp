@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryController : BaseController
@@ -78,4 +79,27 @@ public class CategoryController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
+
+    [RedirectToErrorPage_IfNotLoggedIn]
+    public ActionResult StartLearningSessionForSets(List<int> setIds, string setListTitle)
+    {
+        var sets = R<SetRepo>().GetByIds(setIds);
+        var questions = sets.SelectMany(s => s.Questions()).ToList();
+
+        if (questions.Count == 0)
+            throw new Exception("Cannot start LearningSession with 0 questions.");
+
+        var learningSession = new LearningSession
+        {
+            SetsToLearn = sets.ToList(),
+            SetListTitle = setListTitle,
+            Steps = GetLearningSessionSteps.Run(questions),
+            User = _sessionUser.User
+        };
+
+        R<LearningSessionRepo>().Create(learningSession);
+
+        return Redirect(Links.LearningSession(learningSession));
+    }
+
 }

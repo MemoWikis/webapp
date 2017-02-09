@@ -129,12 +129,12 @@
                 </div>
             </div>
             <p class="help-block help-text">
-                Kategorien helfen bei der Einordnung der Frage u. ermöglichen Dir und anderen
+                Themen helfen bei der Einordnung der Frage u. ermöglichen dir und anderen
                 <br>
                 die Fragen wiederzufinden.
             </p>
             <div class="control-group">
-                <label class="col-sm-2 control-label" for="Kategorien">Kategorien</label>
+                <label class="col-sm-2 control-label" for="Themen">Themen</label>
                 <div id="Div1" class="controls">
                     <script type="text/javascript">
                         $(function () {

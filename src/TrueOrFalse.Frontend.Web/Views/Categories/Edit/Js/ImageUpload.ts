@@ -8,7 +8,7 @@ declare var questionSetId: number;
 
 $(function () {
     var imageUploadModal = new ImageUploadModal();
-    imageUploadModal.SetTitle("Kategoriebild hochladen");
+    imageUploadModal.SetTitle("Themenbild hochladen");
     imageUploadModal.OnSave(function (url: string) {
         $("#categoryImg").attr("src", url);
 

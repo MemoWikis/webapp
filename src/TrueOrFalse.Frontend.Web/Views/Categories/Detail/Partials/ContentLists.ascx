@@ -7,7 +7,7 @@
 <h4>Alle Inhalte</h4>
 <div id="Content" class="Box">
     <h5 class="ContentSubheading Set">
-        <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> in dieser Kategorie
+        <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> zu diesem Thema
     </h5>
     <% if (Model.CountSets > 0)
        { %>    
@@ -33,7 +33,7 @@
         
    <%-- <% if (Model.SingleQuestions.Count > 0) { %>
     <h5 class="ContentSubheading Question">
-        <%= Model.SingleQuestions.Count %> Einzelfrage<%= StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %> in dieser Kategorie
+        <%= Model.SingleQuestions.Count %> Einzelfrage<%= StringUtils.PluralSuffix(Model.SingleQuestions.Count, "n") %> zu diesem Thema
     </h5>
     <div class="LabelList">
         <% var index2 = 0;
@@ -53,7 +53,7 @@
     
 
     <h5 class="ContentSubheading Question">
-        <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> in dieser Kategorie
+        <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions,"n") %> zu diesem Thema
     </h5>
 
     <% if (Model.CountQuestions > 0){ %>
@@ -73,12 +73,12 @@
         </div>
         <div style="margin-bottom: 15px;">
             <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow" style="font-style: italic; margin-left: 10px;">
-                <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> dieser Kategorie zeigen
+                <i class="fa fa-forward" style="color: #afd534;">&nbsp;</i>Alle <%: Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> dieses Themas zeigen
             </a>
         </div>
     <% }
         else{ %> 
-        Bisher gibt es keine Fragen in dieser Kategorie.
+        Bisher gibt es keine Fragen zu diesem Thema.
             
         <% } %>
             

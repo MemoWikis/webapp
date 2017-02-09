@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <% var tooltipLearn = "Lerne personalisiert genau die Fakten, die du am dringendsten wiederholen solltest.";
+                    <% var tooltipLearn = "Lerne personalisiert genau die Fragen, die du am dringendsten wiederholen solltest.";
                     if (Model.QuestionCount == 0)
                        tooltipLearn = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
                     <div class="BoxButton show-tooltip 
@@ -163,7 +163,7 @@
                             <span>Üben</span>
                         </div>
                         <% if (Model.QuestionCount > 0) { %>
-                            <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                            <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                             </a>
                         <% } %>
                     </div>
@@ -213,10 +213,10 @@
                             <a href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block; padding-right: 15px; margin-top: 29px;">
                                 <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;&nbsp;</i>SPIEL STARTEN
                             </a>
-                            <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                            <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                                 <i class="fa fa-line-chart">&nbsp;&nbsp;</i>JETZT ÜBEN
                             </a>
-                            <a class="btn btn-primary" href="<%= Links.StartSetLearningSession(Model.Id) %>" rel="nofollow">
+                            <a class="btn btn-primary" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                                 <i class="fa fa-play-circle">&nbsp;&nbsp;</i>WISSEN TESTEN
                             </a>
                         </div>
