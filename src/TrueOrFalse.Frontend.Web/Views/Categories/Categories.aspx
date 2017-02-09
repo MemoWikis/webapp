@@ -113,7 +113,7 @@
 
                                     <div class="input-group">
                                         <%: Html.TextBoxFor(model => model.SearchTerm, 
-                                                new {@class="form-control", id="txtSearch", formurl = "/Kategorien/Suche"}) %>
+                                                new {@class="form-control", placeholder="Beginne zu tippen, um Themen zu finden", id="txtSearch", formurl = "/Kategorien/Suche"}) %>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>

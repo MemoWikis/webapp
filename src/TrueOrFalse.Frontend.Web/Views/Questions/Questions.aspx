@@ -128,7 +128,7 @@
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="txtSearch" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
+                                        <input type="text" class="form-control" id="txtSearch" placeholder="Beginne zu tippen, um Fragen zu finden" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch" rel="nofollow"><i class="fa fa-search"></i></button>
                                         </span>
