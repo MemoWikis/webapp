@@ -25,7 +25,7 @@
         <% } %>
 
         <% if(Model.LearningSession.IsSetsSession) { %>
-            Fragen aus <%= Model.LearningSession.SetListTitle %> (<%= Model.LearningSession.SetsToLearn.Count %> Fragesätze)
+            Fragen aus <%= Model.LearningSession.SetListTitle %> (<%= Model.LearningSession.SetsToLearn().Count %> Fragesätze)
         <% } %>
 
         <% if(Model.LearningSession.IsCategorySession) { %>

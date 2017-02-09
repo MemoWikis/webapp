@@ -64,7 +64,7 @@ public class CategoryModel : BaseModel
         Type = category.Type.GetShortName();
         BreadCrumb = GetBreadCrumb.For(Category);
 
-        FeaturedSets = category.FeaturedSets;
+        FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 

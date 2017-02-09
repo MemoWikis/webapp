@@ -28,29 +28,6 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     }
 
     public virtual Set SetToLearn { get; set; }
-    public virtual IList<Set> SetsToLearn
-    {
-        get
-        {
-            if (string.IsNullOrEmpty(SetsToLearnIdsString))
-                return new List<Set>();
-
-            var setIds = SetsToLearnIdsString
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => Convert.ToInt32(x));
-
-            var setRepo = Sl.R<SetRepo>();
-
-            return setIds
-                .Select(setId => setRepo.GetById(setId))
-                .Where(set => set != null)
-                .ToList();
-        }
-        set
-        {
-            SetsToLearnIdsString = value.Count == 0 ? null : string.Join(",", value.Select(x => x.Id.ToString()));
-        }
-    }
     public virtual string SetsToLearnIdsString { get; set; }
     public virtual string SetListTitle { get; set; }
     public virtual Date DateToLearn { get; set; }
@@ -95,7 +72,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
                 return SetToLearn.Questions().Count;
 
             if (IsSetsSession)
-                return SetsToLearn.Sum(s => s.Questions().Count);
+                return SetsToLearn().Sum(s => s.Questions().Count); //DB is accessed
 
             if (IsDateSession)
                 return DateToLearn.AllQuestions().Count;
@@ -113,6 +90,23 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public virtual IList<Question> Questions()
     {
         return Steps.Select(s => s.Question).Distinct().ToList();
+    }
+
+    public virtual IList<Set> SetsToLearn()
+    {
+        if (string.IsNullOrEmpty(SetsToLearnIdsString))
+            return new List<Set>();
+
+        var setIds = SetsToLearnIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x));
+
+        var setRepo = Sl.R<SetRepo>();
+
+        return setIds
+            .Select(setId => setRepo.GetById(setId))
+            .Where(set => set != null)
+            .ToList();
     }
 
     public virtual int CurrentLearningStepIdx()

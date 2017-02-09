@@ -285,7 +285,7 @@
                             Du hast diese Fragesätze gelernt:
                         </p>
                         <div class="LabelList">
-                            <% foreach (var set in Model.LearningSession.SetsToLearn) { %>
+                            <% foreach (var set in Model.SetsToLearn) { %>
                                 <div class="LabelItem LabelItem-Set">
                                     <a href="<%= Links.SetDetail(Url, set) %>" style="display: inline-block;">
                                         <span class=""><%: set.Name %></span>
