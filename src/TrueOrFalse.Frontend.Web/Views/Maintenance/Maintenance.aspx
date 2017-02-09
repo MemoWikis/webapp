@@ -55,10 +55,10 @@
 
     <div class="row">
         <div class="col-md-6 MaintenanceSection">
-            <h4>Kategorien</h4>
+            <h4>Themen</h4>
             <a href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
-                Feld: AnzahlFragen pro Kategorie aktualisieren
+                Feld: AnzahlFragen pro Thema aktualisieren
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">
@@ -85,7 +85,7 @@
                 <i class="fa fa-retweet"></i> Fragesätze
             </a> /
             <a href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Kategorien
+                <i class="fa fa-retweet"></i> Themen
             </a> /
             <a href="<%= Url.Action("ReIndexAllUsers", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Nutzer

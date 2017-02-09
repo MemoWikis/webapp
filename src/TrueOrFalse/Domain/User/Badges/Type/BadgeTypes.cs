@@ -57,7 +57,7 @@ public class BadgeTypes
             {
                 Key = "NewbieSilver",
                 Name = "Newbie",
-                Description = "2 Multiple-Choice-Fragen mit Kategorie erstellt, 2 Fragesätze mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
+                Description = "2 Multiple-Choice-Fragen mit Thema erstellt, 2 Fragesätze mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate, BadgeCheckOn.SetUpdateOrCreate, BadgeCheckOn.WishKnowledgeAdd},
@@ -73,7 +73,7 @@ public class BadgeTypes
             {
                 Key = "NewbieGold",
                 Name = "Newbie",
-                Description = "wie Silber, dazu: 3 Spiele gespielt; 3 Termine angelegt; 3 Nutzern gefolgt, 30 Fragen im Wuwi, 1 Kommentar geschrieben, 1 Kategorie erstellt",
+                Description = "wie Silber, dazu: 3 Spiele gespielt; 3 Termine angelegt; 3 Nutzern gefolgt, 30 Fragen im Wuwi, 1 Kommentar geschrieben, 1 Thema erstellt",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetGold()},
                 BadgeCheckOn = new []{ BadgeCheckOn.GameFinished, BadgeCheckOn.DateCreated, BadgeCheckOn.UserFollowed, BadgeCheckOn.WishKnowledgeAdd, BadgeCheckOn.CommentedAdded, BadgeCheckOn.CategoryUpdateOrCreate },
@@ -175,7 +175,7 @@ public class BadgeTypes
             {
                 Key = "FamilyFriend",
                 Name = "Familienfreund",
-                Description = "{badgePoints} Eltern-/Kindkategorien verknüpft",
+                Description = "{badgePoints} Eltern-/Kindthemen verknüpft",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Categories),
                 Levels = new List<BadgeLevel>
                 {
@@ -191,7 +191,7 @@ public class BadgeTypes
             {
                 Key = "Expert",
                 Name = "VomFach",
-                Description = "{badgePoints} Fragen zu einer Kategorie erstellt",
+                Description = "{badgePoints} Fragen zu einem Thema erstellt",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Categories),
                 Levels = new List<BadgeLevel>
                 {
@@ -207,7 +207,7 @@ public class BadgeTypes
             {
                 Key = "Universalist",
                 Name = "Universalist",
-                Description = "{badgePoints} verschiedene Kategorien zu eigenen Fragen zugeordnet",
+                Description = "{badgePoints} verschiedene Themen zu eigenen Fragen zugeordnet",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Categories),
                 Levels = new List<BadgeLevel>
                 {

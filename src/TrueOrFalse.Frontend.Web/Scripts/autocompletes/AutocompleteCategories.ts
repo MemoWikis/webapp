@@ -285,7 +285,7 @@ class AutocompleteCategories {
                 if (item.isOnlyResult)
                     resultInfo = "Leider kein Treffer. Bitte anderen Suchbegriff verwenden oder ";
 
-                var linkText = "Kategorie in neuem Tab erstellen.";
+                var linkText = "Thema in neuem Tab erstellen.";
                 var urlCategory = "";
 
                 if (self._isReference) {

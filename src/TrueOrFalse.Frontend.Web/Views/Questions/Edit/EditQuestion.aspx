@@ -163,7 +163,7 @@
                         </div>--%>
                         <div class="form-group">    
                             <label class="columnLabel control-label">
-                                <span class="show-tooltip" data-toggle="tooltip" title="Kategorien helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du eine gesuchte Kategorie nicht findest, kannst du sie in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Kategorien</span>
+                                <span class="show-tooltip" data-toggle="tooltip" title="Themen helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du ein gesuchtes Thema nicht findest, kannst du es in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Themen</span>
                             </label>
 
                             <div class="JS-RelatedCategories columnControlsFull">
@@ -177,7 +177,7 @@
                                         <% } %>
                                     });
                                 </script>
-                                <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle eine Kategorie" /></div>
+                                <div class="JS-CatInputContainer ControlInline"><input id="txtNewRelatedCategory" class="form-control" type="text" placeholder="Wähle ein Thema" /></div>
                             </div>
                         </div>
                     </div>

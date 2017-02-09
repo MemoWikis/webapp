@@ -18,12 +18,12 @@ function InitLabelTooltips() {
     $('.label-category').each(function () {
         $(this).addClass('show-tooltip');
         if ($(this).attr("data-isSpolier") === "true"){
-            $(this).attr('title', 'Die Kategorie entspricht der Antwort.').attr('data-placement', 'top');
+            $(this).attr('title', 'Das Thema entspricht der Antwort.').attr('data-placement', 'top');
         } else {
             if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2 * (parseInt($(this).css('border-left-width')))))
-                $(this).attr('title', 'Zur Kategorie "' + $(this).html() + '"').attr('data-placement', 'top');
+                $(this).attr('title', 'Zum Thema "' + $(this).html() + '"').attr('data-placement', 'top');
             else 
-                $(this).attr('title', 'Zur Kategorie').attr('data-placement', 'top');
+                $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
         }
     });
     $('.label-set').each(function () {

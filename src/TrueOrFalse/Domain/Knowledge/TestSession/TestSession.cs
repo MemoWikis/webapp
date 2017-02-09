@@ -52,7 +52,7 @@ public class TestSession
 
     public TestSession(Category category)
     {
-        UriName = "Kategorie-" + UriSanitizer.Run(category.Name);
+        UriName = "Thema-" + UriSanitizer.Run(category.Name);
         CategoryToTestId = category.Id;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(category, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();

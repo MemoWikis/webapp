@@ -69,7 +69,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
                 return "Fragesaetze-" + UriSegmentFriendlyUser.Run(SetListTitle);
 
             if (IsCategorySession)
-                return "Kategorie-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
+                return "Thema-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
 
             if (IsDateSession)
                 return "Termin-" + DateToLearn.DateTime.ToString("D").Replace(",", "").Replace(" ", "_").Replace(".", "");

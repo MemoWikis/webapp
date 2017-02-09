@@ -146,7 +146,7 @@
                         Neue Übungssitzung
                     </a>
                 <% } else if (Model.LearningSession.IsCategorySession) { %>
-                    <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zur Kategorie</a>
+                    <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zum Thema</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
                         Neue Übungssitzung
                     </a>   
@@ -317,11 +317,11 @@
             <% if(Model.LearningSession.IsCategorySession) { %>
                 <div class="boxInfo">
                     <div class="boxInfoHeader">
-                        Kategorie-Info
+                        Thema
                     </div>
                     <div class="boxInfoContent">
                         <p>
-                            Du hast diese Kategorie gelernt:<br />
+                            Du hast dieses Thema gelernt:<br />
                             <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" style="display: inline-block;">
                                 <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
                             </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions %> Fragen)

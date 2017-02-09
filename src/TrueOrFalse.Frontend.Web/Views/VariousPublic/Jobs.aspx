@@ -100,7 +100,7 @@
             <ul>
                 <li>Erstellen von hochwertigen Fragesätzen bei memucho zu Themen der Allgemeinbildung <a href="<%= Links.SetsAll() %>">(Beispiele)</a></li>
                 <li>Entwickeln eigener guter Ideen zu Fragesätzen</li>
-                <li>Inhaltspflege vorhandener Inhalte (Rechtschreibung, Ergänzung von Kategorien, Quellen hinzufügen...)</li>
+                <li>Inhaltspflege vorhandener Inhalte (Rechtschreibung, Ergänzung von Themen, Quellen hinzufügen...)</li>
             </ul>
             Dein perfektes Profil wäre:
             <ul>

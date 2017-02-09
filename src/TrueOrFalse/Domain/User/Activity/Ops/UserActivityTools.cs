@@ -23,7 +23,7 @@ public class UserActivityTools
             case UserActivityType.CreatedQuestion:
                 return "erstellte die Frage";
             case UserActivityType.CreatedCategory:
-                return "erstellte die Kategorie";
+                return "erstellte das Thema";
             case UserActivityType.CreatedDate:
                 return "erstellte den Termin";
             case UserActivityType.CopiedDate:

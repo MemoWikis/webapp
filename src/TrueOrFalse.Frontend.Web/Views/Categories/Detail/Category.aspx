@@ -3,7 +3,7 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <% Title = "Kategorie: " + Model.Name; %>
+    <% Title = "Thema: " + Model.Name; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
     <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(25, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(89, true) %> - Lerne mit memucho!"/>
     

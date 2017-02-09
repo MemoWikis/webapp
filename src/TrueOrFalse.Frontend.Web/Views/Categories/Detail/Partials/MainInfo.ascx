@@ -10,7 +10,7 @@
             <% if (Model.Type != "Standard"){ %>
                 <%= Model.Type %>
             <% } else { %> 
-                Kategorien
+                Themen
             <% }  %>
         </a>
         
@@ -28,7 +28,7 @@
             <% if (Model.Type != "Standard"){ %>
                 <%= Model.Type %>
             <% } else { %> 
-                Kategorien
+                Themen
             <% }  %>
         </a>
         <span> <i class="fa fa-chevron-right"></i> </span>
@@ -80,7 +80,7 @@
                 <% if(Model.AnswersTotal > 0) { %>
                     <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                     <div style="margin-top: 6px; font-size: 11px;">
-                        In dieser Kategorie wurden
+                        Zu diesem Thema wurden
                         <%= Model.AnswersTotal + "x Frage" + StringUtils.PluralSuffix(Model.AnswersTotal, "n") %> beantwortet, 
                         davon <%= Model.CorrectnesProbability %>% richtig.
                     </div>
@@ -91,7 +91,7 @@
                     <div style="float: left; padding-top: 3px;">
                         <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>                
                     </div>
-                   <%-- <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                   <%-- <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen zu diesem Thema" rel="nofollow">
                         <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                     </a>--%>
                 </div>
@@ -99,19 +99,12 @@
         </div>
     </div>    
 </div>
-<%--<div class="row">
-    <div class="col-xs-12 col-sm-6" style="color: darkgray">
-        Für Fragesätze in dieser Kategorie
-    </div>
-    <div class="col-xs-12 col-sm-6" style="color: darkgray">
-        Für alle Inhalte in dieser Kategorie
-    </div>
-</div>--%>
+
 <div class="row BoxButtonBar">
     <div class="BoxButtonColumn">
-        <% var tooltipGame = "Tritt in dieser Kategorie gegen andere Nutzer im Echtzeit-Quizspiel an.";
+        <% var tooltipGame = "Tritt zu diesem Thema gegen andere Nutzer im Echtzeit-Quizspiel an.";
            if (Model.CountSets == 0)
-               tooltipGame = "Noch keine Fragesätze zum Spielen in dieser Kategorie vorhanden";%>
+               tooltipGame = "Noch keine Fragesätze zum Spielen zu diesem Thema vorhanden";%>
 
         <div class="BoxButton show-tooltip 
             <%= !Model.IsLoggedIn ? "LookDisabled" : ""%> 
@@ -130,9 +123,9 @@
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <% var tooltipDate = "Gib an, bis wann du alle Fragesätze in dieser Kategorie lernen musst und erhalte deinen persönlichen Übungsplan.";
+        <% var tooltipDate = "Gib an, bis wann du alle Fragesätze zu diesem Thema lernen musst und erhalte deinen persönlichen Übungsplan.";
            if (Model.CountSets == 0)
-               tooltipDate = "Noch keine Fragesätze in dieser Kategorie vorhanden";%>
+               tooltipDate = "Noch keine Fragesätze zu diesem Thema vorhanden";%>
         <div class="BoxButton show-tooltip 
             <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
             <%= Model.CountSets == 0 ? "LookNotClickable" : ""%>"
@@ -148,9 +141,9 @@
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <% var tooltipLearn = "Lerne aus dieser Kategorie genau die Fakten, die du am dringendsten wiederholen solltest.";
+        <% var tooltipLearn = "Lerne zu diesem Thema genau die Fragen, die du am dringendsten wiederholen solltest.";
            if (Model.CountSets == 0 && Model.CountQuestions == 0)
-               tooltipLearn = "Noch keine Fragesätze oder Fragen zum Lernen in dieser Kategorie vorhanden";%>
+               tooltipLearn = "Noch keine Fragesätze oder Fragen zum Lernen zu diesem Thema vorhanden";%>
          <div class="BoxButton show-tooltip 
             <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
             <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : ""%>"
@@ -165,9 +158,9 @@
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen aus dieser Kategorie und jeweils nur einem Antwortversuch.";
+        <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen zu diesem Thema und jeweils nur einem Antwortversuch.";
            if (Model.CountSets == 0 && Model.CountQuestions == 0)
-               tooltipTest = "Noch keine Fragesätze oder Fragen zum Testen in dieser Kategorie vorhanden";%>
+               tooltipTest = "Noch keine Fragesätze oder Fragen zum Testen zu diesem Thema vorhanden";%>
         <div class="BoxButton show-tooltip 
             <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : ""%>"
             data-original-title="<%= tooltipTest %>">

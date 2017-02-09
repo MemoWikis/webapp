@@ -78,12 +78,12 @@
                     
                         <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
                             <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
-                                Kategorie:
+                                Thema:
                                 <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
                             </a>                    
                         <% } else { %>
                             <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
-                                Kategorie:
+                                Thema:
                                 <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
                             </a>
                         <% } %>

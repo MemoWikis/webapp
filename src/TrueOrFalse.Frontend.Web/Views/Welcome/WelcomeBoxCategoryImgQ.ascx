@@ -7,7 +7,7 @@
 <div class="media panel-body">
     <div class="media-body" style="padding-bottom: 10px;">
         <h4 class="media-heading"><%: Model.CategoryName %></h4>
-        <h6 style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">Kategorie mit <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.CategoryName, Model.CategoryId) %>"><%= Model.QuestionCount %> Fragen</a></h6>
+        <h6 style="margin-bottom: 5px; margin-top: 0px; color: #a3a3a3;">Thema mit <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.CategoryName, Model.CategoryId) %>"><%= Model.QuestionCount %> Fragen</a></h6>
         <p><%: Model.CategoryDescription %></p>
     </div>
 

@@ -2,7 +2,7 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<h4>Über- und untergeordnete Kategorien</h4>
+<h4>Über- und untergeordnete Themen</h4>
 <div class="CategoryRelations Box">
     <% if (Model.CategoriesParent.Count > 0) { %>
         <div>
@@ -13,7 +13,7 @@
         </div>
     <% }
         else { %>
-        <div>keine übergeordneten Kategorien</div>
+        <div>keine übergeordneten Themen</div>
     <%  } %>
 
     <div class="RelationArrow"><i class="fa fa-arrow-down"></i></div>
@@ -28,14 +28,14 @@
             <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                 style="font-size: 14px; cursor: pointer"
                 onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
-                data-original-title="Neue untergeordnete Kategorie erstellen"></i>
+                data-original-title="Neues untergeordnetes Thema erstellen"></i>
         </div>
     <% } else { %>
-        <div style="margin-top: 0;">keine untergeordneten Kategorien
+        <div style="margin-top: 0;">keine untergeordneten Themen
             <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                 style="font-size: 14px; cursor: pointer"
                 onclick="window.location = '/Kategorien/Erstelle?parent=<%= Model.Category.Id%>'; return false; " 
-                data-original-title="Neue untergeordnete Kategorie erstellen"></i>
+                data-original-title="Neues untergeordnetes Thema erstellen"></i>
         </div>
     <%  } %>
 </div>

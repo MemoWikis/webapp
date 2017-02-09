@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Kategorie bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
+﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Register Src="~/Views/Categories/Edit/TypeControls/Book.ascx" TagPrefix="uc1" TagName="Book" %>
@@ -26,9 +26,9 @@
             <h2 class="pull-left">
                 <span class="ColoredUnderline Category">
                     <% if (Model.IsEditing) { %>
-                        Kategorie bearbeiten
+                        Thema bearbeiten
                     <% } else { %>
-                        Kategorie erstellen
+                        Thema erstellen
                     <% } %>
                 </span>
             </h2>
@@ -50,7 +50,7 @@
                 <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                     <h4>Einloggen oder registrieren</h4>
                     <p>
-                        Um Kategorien zu erstellen, <br/>
+                        Um Themen zu erstellen, <br/>
                         musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
                     </p>
                 </div>
@@ -88,14 +88,14 @@
                 <div id="CategoryTypeSelect" class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label">
-                            Kategorietyp
+                            Thementyp
                         </label>
                         <div class="columnControlsFull">
                             <div class="radio">
                                 <label style="font-weight: normal">
                                     <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %> />
-                                    Themenkategorie (Standard)
-                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themenkategorien" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
+                                    Thema (Standard)
+                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themen" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
                                 </label>
                             </div>
                             <div class="radio">
@@ -158,8 +158,8 @@
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
                         <label class="columnLabel control-label">
-                            Übergeordnete Kategorie(n)
-                            <i class="fa fa-question-circle show-tooltip" title="Hilft, Kategorien in Beziehung zueinander zu setzen. Beispiele: Kategorie Wirbeltiere - übergeordnet: Biologie. Kategorie Algebra - übergeordnet: Mathematik" data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            Übergeordnete Themen(n)
+                            <i class="fa fa-question-circle show-tooltip" title="Hilft, Themen in Beziehung zueinander zu setzen. Beispiele: Thema Wirbeltiere - übergeordnet: Biologie. Thema Algebra - übergeordnet: Mathematik" data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                         </label>
                         <div class="JS-RelatedCategories columnControlsFull">
                             <script type="text/javascript">
@@ -173,7 +173,7 @@
                                 });
                             </script>
                             <div class="JS-CatInputContainer ControlInline">
-                                <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle eine Kategorie"  />
+                                <input id="txtNewRelatedCategory" class="form-control .JS-ValidationIgnore" type="text" placeholder="Wähle ein Thema"  />
                             </div>
                         </div>
                     </div>
@@ -197,7 +197,7 @@
                             <label class="columnLabel control-label" for="FeaturedSetIdsString">
                                 Offiziell präsentierte Fragesätze
                                 <i class="fa fa-question-circle show-tooltip" 
-                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Fragesätze tatsächlich mit der Kategorie versehen sind." 
+                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Fragesätze tatsächlich mit dem Thema versehen sind." 
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                             </label>
                             <div class="columnControlsFull">
@@ -218,7 +218,7 @@
                                 <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
                                 <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
                             <% } else { %>
-                                <input type="submit" value="Kategorie erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
+                                <input type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>
                         </div>
                     </div>

@@ -151,7 +151,7 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <% var tooltipLearn = "Lerne personalisiert genau die Fakten, die du am dringendsten wiederholen solltest.";
+                    <% var tooltipLearn = "Lerne personalisiert genau die Fragen, die du am dringendsten wiederholen solltest.";
                     if (Model.QuestionCount == 0)
                        tooltipLearn = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
                     <div class="BoxButton show-tooltip 
