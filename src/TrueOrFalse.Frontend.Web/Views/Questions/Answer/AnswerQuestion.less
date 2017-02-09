@@ -6,25 +6,7 @@
     });
 }
 
-#AnswerInputSection {
-    padding-bottom: 10px;
 
-    
-
-    .radio {
-        margin-top: 0;
-        margin-bottom: 0;
-
-        & +.radio {
-            margin-top: 10px;
-
-            .media-below-sm({
-                margin-top: 15px;
-            });
-        }
-        
-    }
-}
 
 #MarkdownCol {
     .make-sm-column(4);
@@ -82,6 +64,7 @@
     vertical-align: bottom;
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: 10px;
     margin-bottom: 0px;
     width: 100%;
 
@@ -97,31 +80,25 @@
     label {
         position: relative;
     }
+    
+
+    .radio {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        & +.radio {
+            margin-top: 10px;
+
+            .media-below-sm({
+                margin-top: 15px;
+            });
+        }
+        
+    }
 }
 
 #txtAnswer {
     max-width: 450px;
-}
-
-.answerFeedback {
-    position: absolute;
-    bottom: 10px;
-    left: 30%;
-    right: 30%;
-    height: 40px;
-    min-width: 150px;
-    padding: 10px;
-    text-align: center;
-    opacity: 0.7;
-    border-radius: 4px;
-    color: white;
-    font-weight: bold;
- }
-.answerFeedbackCorrect {
-    background-color: #1bbd00;
-}
-.answerFeedbackWrong {
-    background-color: #db0808; //#efc7ce
 }
 
 #Buttons {
@@ -159,6 +136,31 @@
     max-width: 100%;
 }
 
+#AnswerFeedbackAndSolutionDetails {
+    margin-top: 20px;
+}
+
+.answerFeedback {
+    position: absolute;
+    bottom: 10px;
+    left: 30%;
+    right: 30%;
+    height: 40px;
+    min-width: 150px;
+    padding: 10px;
+    text-align: center;
+    opacity: 0.7;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+ }
+.answerFeedbackCorrect {
+    background-color: #1bbd00;
+}
+.answerFeedbackWrong {
+    background-color: #db0808; //#efc7ce
+}
+
 #divAnsweredCorrect {
     margin-bottom: 15px;
 }
@@ -177,6 +179,9 @@
 
 .MarkdownImage {
     img {
+
+        max-height: 500px;
+
         .media-below-sm({
             max-height: 250px;
         });

@@ -93,14 +93,14 @@
                     </div>
 
                     <div id="AnswerFeedbackAndSolutionDetails">
-                        <div class="alert alert-info" id="divWrongAnswerPlay" style="display: none; background-color: white; color:#2E487B;">
+                        <div id="divWrongAnswerPlay" style="display: none; background-color: white; color:#2E487B;">
                             <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
                             <div>Deine Eingabe:</div>
                             <div style="margin-top:7px;" id="divWrongEnteredAnswer">
                             </div>
                         </div>
 
-                        <div class="alert alert-info" id="divWrongAnswer" style="display: none; background-color: white; color:#2E487B;">
+                        <div id="divWrongAnswer" style="display: none; background-color: white; color:#2E487B;">
                             <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsche Antwort </b></span>
                             <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
                 
@@ -116,7 +116,7 @@
                         <div id="SolutionDetailsSpinner" style="display: none;">
                             <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
                         </div>
-                        <div id="SolutionDetails" class="alert alert-info" style="display: none; background-color: white; color:#2E487B;">
+                        <div id="SolutionDetails" style="display: none; background-color: white; color:#2E487B;">
                             <div class="" id="divAnsweredCorrect" style="display: none; margin-top:5px;">
                                 <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                             </div>
