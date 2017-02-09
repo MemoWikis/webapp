@@ -44,7 +44,7 @@
         }
     }
 
-    #Buttons {
+    #ButtonsAndSolutionCol {
         .make-sm-column(6);
 
         #MarkdownCol + & {
@@ -52,10 +52,14 @@
         }
     }
 
-    #AnswerFeedbackAndSolutionDetails {
-        .make-xs-column(12);
+    #ButtonsAndSolution {
+
+        margin-left: 20px;
+        
+        #MarkdownCol + & {
+            margin-left: 0;
+        }
     }
-    
 }
 
 #AnswerInputSection {
@@ -105,13 +109,11 @@
     display: inline-block;
     vertical-align: bottom;
     margin-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
     width: 100%;
 
-    .media-below-md ({
+    /*.media-below-md ({
         width: 100%;
-    });
+    });*/
      
     text-align: right;
 

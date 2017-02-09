@@ -85,28 +85,26 @@
 #MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection {
   width: 100%;
 }
-#AnswerAndSolutionCol #Buttons {
+#AnswerAndSolutionCol #ButtonsAndSolutionCol {
   position: relative;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
 }
 @media (min-width: 768px) {
-  #AnswerAndSolutionCol #Buttons {
+  #AnswerAndSolutionCol #ButtonsAndSolutionCol {
     float: left;
     width: 50%;
   }
 }
-#MarkdownCol + #AnswerAndSolutionCol #Buttons {
+#MarkdownCol + #AnswerAndSolutionCol #ButtonsAndSolutionCol {
   width: 100%;
 }
-#AnswerAndSolutionCol #AnswerFeedbackAndSolutionDetails {
-  position: relative;
-  float: left;
-  width: 100%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
+#AnswerAndSolutionCol #ButtonsAndSolution {
+  margin-left: 20px;
+}
+#MarkdownCol + #AnswerAndSolutionCol #ButtonsAndSolution {
+  margin-left: 0;
 }
 #AnswerInputSection {
   position: relative;
@@ -150,15 +148,11 @@
   display: inline-block;
   vertical-align: bottom;
   margin-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
   width: 100%;
+  /*.media-below-md ({
+        width: 100%;
+    });*/
   text-align: right;
-}
-@media (max-width: 991px) {
-  #Buttons {
-    width: 100%;
-  }
 }
 #Buttons #buttons-first-try {
   float: right;
