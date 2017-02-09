@@ -70,7 +70,9 @@
                     
                 <% } %>
             
+                <div class="MarkdownContent">
                     <%= Model.CustomPageHtml %>
+                </div>
 
             <% } %>
 
