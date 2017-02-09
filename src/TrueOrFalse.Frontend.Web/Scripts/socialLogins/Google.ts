@@ -34,9 +34,10 @@
     static OnLoginSuccess(googleUser : gapi.auth2.GoogleUser) {
 
         var googleId = googleUser.getBasicProfile().getId();
+        var googleIdToken = googleUser.getAuthResponse().id_token;
 
         if (GoogleMemuchoUser.Exists(googleId)) {
-            GoogleMemuchoUser.Login(googleId);
+            GoogleMemuchoUser.Login(googleId, googleIdToken);
             Site.ReloadPage_butNotTo_Logout();
             return;
         }
