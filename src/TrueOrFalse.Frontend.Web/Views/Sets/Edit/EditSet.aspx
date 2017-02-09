@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse.Web" %>
+<%@ Import Namespace="System.Web.Mvc.Html" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
@@ -97,13 +99,13 @@
                 <div class="form-horizontal rowBase">
                     <div class="FormSection">
                         <div class="form-group">
-                            <%= Html.LabelFor(m => m.Title, new { @class = "RequiredField control-label columnLabel" })%>
+                            <%= LabelExtensions.LabelFor(Html, m => m.Title, new { @class = "RequiredField control-label columnLabel" })%>
                             <div class="columnControlsFull">
                                 <%= Html.TextBoxFor(m => m.Title, new { @class="form-control" }) %>
                             </div>
                         </div>
                         <div class="form-group">
-                            <%= Html.LabelFor(m => m.Text, new { @class = "control-label columnLabel" })%>
+                            <%= LabelExtensions.LabelFor(Html, m => m.Text, new { @class = "control-label columnLabel" })%>
                             <div class="columnControlsFull">
                                 <%= Html.TextAreaFor(m => m.Text, new { @class="form-control" }) %>
                             </div>
@@ -176,16 +178,24 @@
                                                     <% } %>
                                                 </div>
 
-                                                <div class="draggable-panel" style="float: left;">&nbsp;</div>
+                                                <div class="draggable-panel" style="float: left;"><i class="fa fa-bars" aria-hidden="true"></i></div>
                                                 <div class="QuestionText">
+                                                    <a href="#" data-action="open-details"><i class="fa fa-chevron-right"></i></a>
+                                                    <a href="#" data-action="close-details" class="hide2"><i class="fa fa-chevron-down"></i></a>
                                                     <%= questionInSet.Question.Text %>
+                                                    <%= MarkdownInit.Run().Transform(questionInSet.Question.TextExtended) %>
+                                                    <div>
+                                                        Richtige Antwort: <b><%= questionInSet.Question.GetSolution().CorrectAnswer() %></b>
+                                                    </div>
                                                 </div>
-                                            
+                                                <div style="display: inline-block; float: right; width: 65px;">
+                                                    <input type="text" class="form-control" value="0:00" />
+                                                </div>
                                             </li>  
                                         <%} %>
                                     </ul>
                                 <% } %>
-                        </div>
+                            </div>
                         </div>
                     </div>
                     <div class="FormSection">

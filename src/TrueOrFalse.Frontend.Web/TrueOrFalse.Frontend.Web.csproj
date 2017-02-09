@@ -603,6 +603,9 @@
     </Content>
     <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
+    <Content Include="Views\Sets\Edit\Js\EditSet.js">
+      <DependentUpon>EditSet.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
@@ -1585,6 +1588,7 @@
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
