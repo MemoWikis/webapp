@@ -23,6 +23,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
     <input type="hidden" id="hhdHasVideo" value="<%= Model.Set.HasVideo %>"/>
+
+    <% if(Model.HasPreviousCategoy) { %>
+        <div style="padding-bottom: 15px;">
+            <div class="btn-group btn-breadcrumb MobileHide">
+                <a href="<%= Model.PreviousCategoryUrl %>" class="btn btn-sm btn-default">
+                    <i class="fa fa-angle-double-left" style="padding-right: 5px;"></i>zurück zum Thema "<span style="text-decoration: underline;"><%= Model.PreviousCategoryName %></span>"
+                </a>
+            </div>
+        </div>
+    <% } %>
+
     <div class="row">
         
         <%--<div class="col-xs-3 col-md-2 xxs-stack col-xs-push-9 col-md-push-10">--%>
