@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice_v2>" %>
 
 
 <%--Impelemtation of the bootstrap-toggle plugin
@@ -18,7 +18,7 @@
 
 <div class="form-group">
     <div class="noLabel columnControlsFull ButtonContainer">
-        <button class="btn" id="addChoice">weitere falsche Antwort hinzufügen</button>
+        <button class="btn" id="addChoice">weitere mögliche Antwort hinzufügen</button>
     </div>
 </div>
 
@@ -45,7 +45,7 @@
             .append($("<div class='form-group'>")
                 .append($("<div class='noLabel columnControlsFull input-group'>")
                     .append($("<div class=''>")
-                                .append($("<select class='form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
+                                .append($("<select class='choice-iscorrect form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
                             $("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />"),
                             actionButton
                     )
@@ -59,7 +59,8 @@
 <% if (Model != null)
        foreach (var choice in Model.Choices){ %>
         $("#addChoice").click();
-        $(".sequence-choice").last().val('<%= choice %>');
+        $(".sequence-choice").last().val('<%= choice.Text %>');
+        $(".choice-iscorrect").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
 <% }else { %>
        $("#addChoice").click();
        $("#addChoice").click();
