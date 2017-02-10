@@ -101,7 +101,7 @@
                     <div class="search-section">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="pull-left form-group">
+                                <div class="form-group">
 <%--                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
                                         <div style="padding-bottom: 10px; font-size: large">
                                             Oder suchst du: 

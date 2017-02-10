@@ -125,7 +125,7 @@
                 <div class="search-section">
                     <div class="SearchQuestionsForm">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="txtSearch" placeholder="Beginne zu tippen, um Fragen zu finden" formUrl="<%:Model.SearchUrl %>" name="SearchTerm" value="<%:Model.SearchTerm %>" />
@@ -143,7 +143,7 @@
                                     <% } %>--%>
                                 </div>                                
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <div class="JS-RelatedCategories">
                                         <script type="text/javascript">
