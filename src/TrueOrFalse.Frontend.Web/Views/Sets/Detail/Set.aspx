@@ -88,8 +88,8 @@
                                 </div>        
                     
                                 <div class="col-md-7" style="margin-top:6px;">                                
-                                    <div class="" style="padding: 10px">
-                                        <% Html.RenderPartial("/Views/Sets/Detail/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
+                                    <div style="padding: 10px" id="knowledgeWheelContainer">
+                                        <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
                                     </div>
                                 </div>
                             </div>

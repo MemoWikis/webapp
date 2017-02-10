@@ -328,6 +328,7 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentReportModel.cs" />
@@ -601,6 +602,7 @@
     <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js">
       <DependentUpon>SetVideoPlayer.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
     <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Sets\Edit\Js\EditSet.js">

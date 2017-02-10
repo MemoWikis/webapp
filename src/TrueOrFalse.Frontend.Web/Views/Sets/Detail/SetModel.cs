@@ -12,7 +12,7 @@ public class SetModel : BaseModel
     public string Name;
     public string Text;
 
-    public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
+    public KnowledgeSummary KnowledgeSummary;
 
     public Set Set;
 
@@ -60,7 +60,7 @@ public class SetModel : BaseModel
 
         Set = set;
 
-        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, set, onlyValuated: false);
+        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, set);
 
         ImageMetaDataCache.WarmupRequestCache(set);
 
