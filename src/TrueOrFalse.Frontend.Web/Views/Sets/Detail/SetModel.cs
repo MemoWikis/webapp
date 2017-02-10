@@ -12,6 +12,8 @@ public class SetModel : BaseModel
     public string Name;
     public string Text;
 
+    public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
+
     public Set Set;
 
     public IList<SetQuestionRowModel> QuestionsInSet;
@@ -57,6 +59,8 @@ public class SetModel : BaseModel
         Text = set.Text;
 
         Set = set;
+
+        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, set, onlyValuated: false);
 
         ImageMetaDataCache.WarmupRequestCache(set);
 

@@ -18,6 +18,60 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Set") %>
     <%= Scripts.Render("~/bundles/js/Set") %>
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script>
+        
+        google.load("visualization", "1", { packages: ["corechart"] });
+
+        google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
+
+        function drawKnowledgeChart(chartElementId) {
+
+            if ($("#" + chartElementId).length === 0) {
+                return;
+            }
+
+            var data = google.visualization.arrayToDataTable([
+                ['Wissenslevel', 'link', 'Anteil in %'],
+                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
+            ]);
+
+            var options = {
+                pieHole: 0.6,
+                tooltip: { isHtml: true },
+                legend: { position: 'labeled' },
+                pieSliceText: 'none',
+                chartArea: { 'width': '100%', height: '100%', top: 10},
+                slices: {
+                    0: { color: '#afd534' },
+                    1: { color: '#fdd648' },
+                    2: { color: 'lightsalmon' },
+                    3: { color: 'silver' },
+                    4: { color: '#dddddd' }
+                },
+                pieStartAngle: 0
+            };
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 2]);
+
+            var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
+            chart.draw(view, options);
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                location.href = urlPart;
+            }
+        }
+
+    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -51,6 +105,8 @@
                 <% } %>
             </div>
         </div>
+        
+
        <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
             <div id="ItemMainInfo" class="Set Box">
@@ -75,27 +131,21 @@
                             <div>
                                 <%= Model.Text %>
                             </div>
-                            <div style="display: inline-block; margin-top: 20px;">
-                                <% foreach (var category in Model.Set.Categories){ %>
-                                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
-                                <% } %>
-                            </div>        
+                            
+                            <div class="row" >
+                                <div class="col-md-5" style="display: inline-block; margin-top: 20px;">
+                                    <% foreach (var category in Model.Set.Categories){ %>
+                                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                                    <% } %>
+                                </div>        
                     
-                            <div style="margin-top:6px;">
-                                <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
-                                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                                    </a>
-                                    <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
-
-                                    <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
-                                        aus diesem Fragesatz <br> sind in deinem aktiven Wissen. <br><br> Im 'aktiven Wissen' ist eine Frage, wenn die<br> Antwortwahrscheinlichkeit über 90% liegt." 
-                                        data-html="true" data-placement="bottom">
-                                        <i class="fa fa-tachometer" style="margin-left: 20px; color: #69D069;"></i> 
-                                        <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
-                                    </span>
-                                </span>
+                                <div class="col-md-7" style="margin-top:6px;">                                
+                                    <div class="" style="padding: 10px">
+                                        <div id="chartKnowledge" style="height: 150px; text-align: left;"></div>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="greyed" style="margin-top: 10px; margin-bottom: 10px; font-size: 11px;">
                                 erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" ><%= Model.CreatorName %></a> 
                                 <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
@@ -105,6 +155,16 @@
                                 <div style="float: left; padding-top: 3px;">
                                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
+                                
+                                <div style="float: right">
+                                    <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
+                                        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                        </a>
+                                        <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
+                                    </span>
+                                </div>
+
                             </div>
                         </div>
                     </div>

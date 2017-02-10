@@ -6,6 +6,9 @@ using NHibernate.Criterion;
 
 public class KnowledgeSummaryLoader
 {
+    public static KnowledgeSummary Run(int userId, Set set, bool onlyValuated = true) 
+        => Run(userId, set.QuestionIds(), onlyValuated);
+
     public static KnowledgeSummary Run(
         int userId, 
         IEnumerable<int> questionIds = null, 
@@ -45,6 +48,10 @@ public class KnowledgeSummaryLoader
             else if ((int)line[0] == (int)KnowledgeStatus.Solid)
                 result.Solid = (int)line[1];
         }
+
+        if (questionIds != null)
+            result.NotInWishknowledge = 
+                questionIds.Count() - result.NotLearned + result.NeedsLearning + result.NeedsConsolidation + result.Solid;
 
         return result;
     }
