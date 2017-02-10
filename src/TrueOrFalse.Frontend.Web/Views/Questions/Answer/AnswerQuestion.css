@@ -23,8 +23,90 @@
     margin-bottom: 10px;
   }
 }
-#InputAndButtons {
-  padding-bottom: 10px;
+#MarkdownCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #MarkdownCol {
+    float: left;
+    width: 33.33333333%;
+  }
+}
+#AnswerAndSolutionCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol {
+    float: left;
+    width: 100%;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #MarkdownCol + #AnswerAndSolutionCol {
+    float: left;
+    width: 66.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  #MarkdownCol + #AnswerAndSolutionCol > div {
+    margin-left: 20px;
+  }
+}
+#AnswerAndSolutionCol #AnswerInputSection {
+  margin-bottom: 15px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol #AnswerInputSection {
+    float: left;
+    width: 50%;
+  }
+}
+@media (max-width: 767px) {
+  #AnswerAndSolutionCol #AnswerInputSection {
+    max-width: 550px;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection {
+  width: 100%;
+}
+#AnswerAndSolutionCol #ButtonsAndSolutionCol {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol #ButtonsAndSolutionCol {
+    float: left;
+    width: 50%;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol #ButtonsAndSolutionCol {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol #ButtonsAndSolution {
+    margin-left: 20px;
+  }
+}
+#MarkdownCol + #AnswerAndSolutionCol #ButtonsAndSolution {
+  margin-left: 0;
 }
 #AnswerInputSection {
   position: relative;
@@ -32,10 +114,11 @@
   vertical-align: bottom;
   padding-left: 10px;
   padding-right: 10px;
+  padding-bottom: 10px;
   margin-bottom: 0px;
-  width: 64%;
+  width: 100%;
 }
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   #AnswerInputSection {
     margin-top: 15px;
     width: 100%;
@@ -48,55 +131,32 @@
 #AnswerInputSection label {
   position: relative;
 }
-.answerFeedback {
-  position: absolute;
-  bottom: 10px;
-  left: 30%;
-  right: 30%;
-  height: 40px;
-  min-width: 150px;
-  padding: 10px;
-  text-align: center;
-  opacity: 0.7;
-  border-radius: 4px;
-  color: white;
-  font-weight: bold;
+#AnswerInputSection .radio {
+  margin-bottom: 0;
 }
-.answerFeedbackCorrect {
-  background-color: #1bbd00;
+#MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection .radio {
+  margin-top: 0;
 }
-.answerFeedbackWrong {
-  background-color: #db0808;
+#AnswerInputSection .radio + .radio {
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  #AnswerInputSection .radio + .radio {
+    margin-top: 15px;
+  }
+}
+#txtAnswer {
+  max-width: 450px;
 }
 #Buttons {
   display: inline-block;
   vertical-align: bottom;
   margin-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  width: 35%;
+  width: 100%;
+  /*.media-below-md ({
+        width: 100%;
+    });*/
   text-align: right;
-}
-@media (max-width: 991px) {
-  #Buttons {
-    margin-top: 15px;
-    width: 100%;
-  }
-}
-#Buttons .buttonSingle .SecAction {
-  padding-right: 0;
-  padding-top: 0;
-}
-@media (max-width: 991px) {
-  #Buttons .buttonSingle .SecAction {
-    padding-right: 12px;
-    padding-top: 6px;
-  }
-}
-@media (max-width: 991px) {
-  #Buttons .buttonSingle {
-    float: left;
-  }
 }
 #Buttons #buttons-first-try {
   float: right;
@@ -113,6 +173,29 @@
 #answerQuestionDetails .label {
   max-width: 100%;
 }
+#AnswerFeedbackAndSolutionDetails {
+  margin-top: 20px;
+}
+.answerFeedback {
+  position: absolute;
+  bottom: 10px;
+  left: 30%;
+  right: 30%;
+  height: 40px;
+  min-width: 150px;
+  padding: 10px;
+  text-align: center;
+  opacity: 0.7;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+}
+.answerFeedbackCorrect {
+  background-color: #AFD534;
+}
+.answerFeedbackWrong {
+  background-color: #B13A48;
+}
 #divAnsweredCorrect {
   margin-bottom: 15px;
 }
@@ -125,4 +208,12 @@
 }
 .commentSettledInfo {
   color: darkgray;
+}
+.MarkdownImage img {
+  max-height: 500px;
+}
+@media (max-width: 767px) {
+  .MarkdownImage img {
+    max-height: 250px;
+  }
 }

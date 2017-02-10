@@ -1,55 +1,75 @@
-﻿#SolutionDetails {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+#ButtonsAndSolution {
   -ms-word-wrap: break-word;
   word-wrap: break-word;
 }
-#SolutionDetails .Detail:before,
-#SolutionDetails .Detail:after {
+#ButtonsAndSolution .Detail {
+  margin-bottom: 10px;
+}
+#ButtonsAndSolution .Detail:before,
+#ButtonsAndSolution .Detail:after {
   content: " ";
   /* 1 */
   display: table;
   /* 2 */
 }
-#SolutionDetails .Detail:after {
+#ButtonsAndSolution .Detail:after {
   clear: both;
 }
-#SolutionDetails .Detail + .Detail {
-  margin-top: 15px;
-}
-#SolutionDetails .Label {
+#ButtonsAndSolution .Label {
   font-weight: bold;
   clear: left;
   padding-right: 5px;
 }
-#SolutionDetails #Solution .Label {
+#ButtonsAndSolution #Solution .Label {
   float: left;
 }
-#SolutionDetails .ReferenceDetails + .ReferenceDetails {
+#ButtonsAndSolution .ReferenceDetails + .ReferenceDetails {
   margin-top: 15px;
 }
-#SolutionDetails #References .Label {
+#ButtonsAndSolution #References .Label {
   margin-bottom: 5px;
 }
-#SolutionDetails #References .Content {
+#ButtonsAndSolution #References .Content {
   font-size: 90%;
 }
-#SolutionDetails .Reference.DailyIssue .PublicationDate {
+#ButtonsAndSolution .Reference.DailyIssue .PublicationDate {
   display: none;
 }
-#SolutionDetails .Reference div:not(.Name):not(.Icon) {
+#ButtonsAndSolution .Reference div:not(.Name):not(.Icon) {
   display: inline;
 }
-#SolutionDetails .Reference .Icon {
+#ButtonsAndSolution .Reference .Icon {
   float: left;
   margin-right: 5px;
 }
-#SolutionDetails .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+#ButtonsAndSolution .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
 }
-#SolutionDetails .Reference div.Author:after {
+#ButtonsAndSolution .Reference div.Author:after {
   content: ".\0000a0";
 }
-#SolutionDetails .Reference .Url,
-#SolutionDetails .Reference .WikiUrl {
+#ButtonsAndSolution .Reference .Url,
+#ButtonsAndSolution .Reference .WikiUrl {
   display: inline-block !important;
   max-width: 100%;
   overflow-x: hidden;
@@ -61,4 +81,3 @@
 #HeartToAdd i {
   padding-right: 1px;
 }
-/*# sourceMappingURL=AnswerQuestionSolution.css.map */

@@ -13,6 +13,7 @@ public class UserSettingsController : BaseController
     }
 
     [HttpGet]
+    [SetMenu(MenuEntry.None)]
     public ViewResult UserSettings()
     {
         UIMessage message = null;
@@ -33,6 +34,7 @@ public class UserSettingsController : BaseController
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.None)]
     public ViewResult UserSettings(UserSettingsModel model)
     {
         if (!ModelState.IsValid)

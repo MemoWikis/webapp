@@ -93,7 +93,7 @@ public class DraftsController : BaseController
 [[{""TemplateName"":""CategoryNetwork""}]]
 [[{""TemplateName"":""ContentLists""}]]
 
-#### Die besten Fragesätze dieser Kategorie
+#### Die besten Fragesätze dieses Themas
 [[{""TemplateName"":""DivStart"", ""CssClasses"":""row CardsPortrait""}]]
 [[{""TemplateName"": ""SingleSet"",
 ""SetId"": 3,

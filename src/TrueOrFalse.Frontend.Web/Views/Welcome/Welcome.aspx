@@ -413,14 +413,14 @@
         </div>
         
         <div class="well">
-            <h4>Top-Kategorien nach Fragen</h4>
+            <h4>Top-Themen nach Fragen</h4>
                 <div class="LabelList">
                     <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
                 </div>
         </div>
         
         <div class="well">
-            <h4>Neueste Kategorien:</h4>
+            <h4>Neueste Themen:</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
             </div>

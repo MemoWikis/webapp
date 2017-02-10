@@ -144,6 +144,3 @@ var fnEditCatValidation = function (categoryType, resetValidator = false, usePar
         }
     }
 }
-
-
-//<span class="help-block">Ups, keine gültige Kategorie ausgewählt. Bitte suchen und aus der Liste auswählen oder <a>Kategorie in neuem Tab anlegen</a>.</span> 

@@ -47,7 +47,7 @@
                     Erstellt am <%= Model.DateCreated %>
                 </span>
                 <div style="float: right;">
-                    <a class="btn btn-primary btn-sm <%= Model.QuestionCount == 0 ? "disabled " : "" %>show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.CategoryName,Model.CategoryId) %>" title="Teste dein Wissen in dieser Kategorie" rel="nofollow">
+                    <a class="btn btn-primary btn-sm <%= Model.QuestionCount == 0 ? "disabled " : "" %>show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.CategoryName,Model.CategoryId) %>" title="Teste dein Wissen in diesem Thema" rel="nofollow">
                         <i class="fa fa-play-circle">&nbsp;</i> Wissen testen
                     </a>
                 </div>

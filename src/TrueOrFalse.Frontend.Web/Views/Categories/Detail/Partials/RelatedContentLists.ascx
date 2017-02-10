@@ -20,7 +20,7 @@
         <% } %>
             
         <% if(Model.TopQuestionsInSubCats.Count > 0){ %>
-            <h5 class="ContentSubheading Question">Fragen in untergeordneten Kategorien</h5>
+            <h5 class="ContentSubheading Question">Fragen in untergeordneten Themen</h5>
             <div class="LabelList">
             <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
                 <div class="LabelItem LabelItem-Question">

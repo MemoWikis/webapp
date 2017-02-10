@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class TestSessionResultModel : BaseModel
@@ -15,12 +14,10 @@ public class TestSessionResultModel : BaseModel
     public int NumberWrongAnswersPercentage;
     public int NumberOnlySolutionViewPercentage;
     public int PercentageAverageRightAnswers;
-    public bool MeBetterThanAverage;
-    public bool TestSessionTypeIsSet;
-    public bool TestSessionTypeIsCategory;
     public IList<TestSessionStep> Steps;
 
     public Set TestedSet;
+    public IList<Set> TestedSets;
     public Category TestedCategory;
     public string LinkForRepeatTest;
 
@@ -30,21 +27,27 @@ public class TestSessionResultModel : BaseModel
     {
         TestSession = testSession;
 
-        TestSessionTypeIsSet = TestSession.TestSessionType == TestSessionType.Set;
-        TestSessionTypeIsCategory = TestSession.TestSessionType == TestSessionType.Category;
-        if (TestSessionTypeIsSet)
+        if (TestSession.IsSetSession)
         {
-            TestedSet = Sl.R<SetRepo>().GetById(TestSession.TestSessionTypeTypeId);
+            TestedSet = Sl.R<SetRepo>().GetById(TestSession.SetToTestId);
             LinkForRepeatTest = Links.TestSessionStartForSet(TestedSet.Name, TestedSet.Id);
             ContentRecommendationResult = ContentRecommendation.GetForSet(TestedSet, 6);
-        } else if (TestSessionTypeIsCategory)
+        }
+        else if (TestSession.IsSetsSession)
         {
-            TestedCategory = Sl.R<CategoryRepository>().GetById(TestSession.TestSessionTypeTypeId);
+            TestedSets = R<SetRepo>().GetByIds(TestSession.SetsToTestIds.ToList());
+            LinkForRepeatTest = Links.TestSessionStartForSets(testSession.SetsToTestIds.ToList(), testSession.SetListTitle);
+            ContentRecommendationResult = ContentRecommendation.GetForSet(TestedSets.FirstOrDefault(), 6);
+        }
+        else if (TestSession.IsCategorySession)
+        {
+            TestedCategory = Sl.R<CategoryRepository>().GetById(TestSession.CategoryToTestId);
             LinkForRepeatTest = Links.TestSessionStartForCategory(TestedCategory.Name, TestedCategory.Id);
             ContentRecommendationResult = ContentRecommendation.GetForCategory(TestedCategory, 6);
-        } else
+        }
+        else
         {
-            throw new Exception("TestSessionType is not defined.");
+            throw new Exception("Type of TestSession is not defined.");
         }
 
         TestSession.FillUpStepProperties();
@@ -59,7 +62,5 @@ public class TestSessionResultModel : BaseModel
         NumberOnlySolutionViewPercentage = (int)Math.Round(NumberOnlySolutionView / (float)NumberQuestions * 100);
 
         PercentageAverageRightAnswers = (int)Math.Round(Steps.Sum(s => s.Question.CorrectnessProbability) / (float)NumberQuestions);
-        MeBetterThanAverage = NumberCorrectPercentage > PercentageAverageRightAnswers;
-
     }
 }

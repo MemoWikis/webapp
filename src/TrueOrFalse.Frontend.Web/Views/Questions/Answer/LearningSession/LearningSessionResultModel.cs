@@ -31,6 +31,9 @@ public class LearningSessionResultModel : BaseModel
     public int KnowledgeNeedsConsolidation;
     public int KnowledgeSolid;
 
+    public int WishCountQuestions;
+    public int WishCountSets;
+
     public LearningSessionResultModel(LearningSession learningSession)
     {
         LearningSession = learningSession;
@@ -50,6 +53,11 @@ public class LearningSessionResultModel : BaseModel
             KnowledgeNeedsLearning = summary.NeedsLearning;
             KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
             KnowledgeSolid = summary.Solid;
+        }
+        else if (learningSession.IsWishSession)
+        {
+            WishCountQuestions = learningSession.User.WishCountQuestions;
+            WishCountSets = learningSession.User.WishCountSets;
         }
 
         if (NumberSteps > 0)

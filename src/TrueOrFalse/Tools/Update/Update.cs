@@ -96,6 +96,8 @@
                 .Add(UpdateToVs163.Run)
                 .Add(UpdateToVs164.Run)
                 .Add(UpdateToVs165.Run)
+                .Add(UpdateToVs166.Run)
+                .Add(UpdateToVs167.Run)
                 .Run();
         }
     }

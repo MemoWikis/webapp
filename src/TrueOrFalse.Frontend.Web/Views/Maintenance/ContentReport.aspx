@@ -29,7 +29,7 @@
         <div class="col-xs-12">
             <h1 class="" style="margin-top: 0;">Erstellte Inhalte</h1>
             <ul>
-                <li><a href="#CategoriesAdded">Kategorien</a></li>
+                <li><a href="#CategoriesAdded">Themen</a></li>
                 <li><a href="#SetsAdded">Fragesätze</a></li>
                 <li><a href="#RecentQuestionsAddedNotMemucho">Fragen erstellt ohne memucho</a></li>
                 <li><a href="#RecentQuestionsAddedMemucho">Fragen erstellt memucho</a></li>
@@ -39,7 +39,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <h4 id="CategoriesAdded">Kategorien, die seit <%= Model.Since %> erstellt wurden: <%= Model.CategoriesAdded.Count %></h4>
+            <h4 id="CategoriesAdded">Themen, die seit <%= Model.Since %> erstellt wurden: <%= Model.CategoriesAdded.Count %></h4>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
 
             <% foreach (var category in Model.CategoriesAdded) {%>
