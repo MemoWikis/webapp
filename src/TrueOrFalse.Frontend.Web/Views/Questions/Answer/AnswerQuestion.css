@@ -153,22 +153,6 @@
   vertical-align: bottom;
   margin-bottom: 10px;
   width: 100%;
-  /*.media-below-md ({
-        width: 100%;
-    });*/
-  text-align: right;
-}
-#Buttons #buttons-first-try {
-  float: right;
-}
-#Buttons #buttons-next-question {
-  float: right;
-}
-#Buttons #buttons-edit-answer {
-  float: right;
-}
-#Buttons #buttons-answer-again {
-  float: right;
 }
 #answerQuestionDetails .label {
   max-width: 100%;

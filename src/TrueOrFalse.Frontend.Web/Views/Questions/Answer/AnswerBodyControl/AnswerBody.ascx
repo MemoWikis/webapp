@@ -66,28 +66,28 @@
                     <div id="ButtonsAndSolutionCol">
                         <div id="ButtonsAndSolution" class="Clearfix">
                             <div id="Buttons" class="" style="">
-                                <div id="buttons-first-try"class="ButtonGroup">
+                                <div id="buttons-first-try" class="ButtonGroup">
+                                    <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                     <% if (Model.IsLearningSession && Model.NextUrl != null){%>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
-                                    <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                 </div>
                     
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                    <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                     <% if(Model.NextUrl != null){ %>
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success" rel="nofollow">Nächste Frage</a>
                                     <% } %>
+                                    <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                 </div>
         
                                 <div id="buttons-edit-answer" class="ButtonGroup" style="display: none;">
-                                    <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
                                     <a href="#" id="btnEditAnswer" class="btn btn-warning" rel="nofollow">Antwort überarbeiten</a>
+                                    <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
                                 </div>
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
-                                    <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
+                                    <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
                                 </div>
                     
                                 <div style="clear: both"></div>
