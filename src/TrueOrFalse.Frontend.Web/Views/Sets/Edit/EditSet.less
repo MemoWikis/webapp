@@ -34,6 +34,15 @@
 
     .QuestionText {
         max-height: 32px;
+        max-width: 450px;
+        @media screen {
+            @media (max-width: 730px) {
+                max-width: 60%;        
+            }
+            @media (max-width: 445px) {
+                max-width: 40%;        
+            }
+        }
         overflow: hidden;
         vertical-align: middle;
         line-height: 34px;

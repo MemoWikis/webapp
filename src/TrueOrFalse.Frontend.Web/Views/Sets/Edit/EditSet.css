@@ -127,10 +127,21 @@ select.form-control {
 }
 #ulQuestions li .QuestionText {
   max-height: 32px;
+  max-width: 450px;
   overflow: hidden;
   vertical-align: middle;
   line-height: 34px;
   display: inline-block;
+}
+@media screen and (max-width: 730px) {
+  #ulQuestions li .QuestionText {
+    max-width: 60%;
+  }
+}
+@media screen and (max-width: 445px) {
+  #ulQuestions li .QuestionText {
+    max-width: 40%;
+  }
 }
 #ulQuestions li .QuestionText .fa-chevron-right {
   padding-left: 5px;
