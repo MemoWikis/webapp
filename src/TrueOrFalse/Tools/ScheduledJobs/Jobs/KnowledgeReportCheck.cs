@@ -20,9 +20,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     if (KnowledgeReportMsg.ShouldSendToUser(user))
                     {
-                        Logg.r().Information("Would now send Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
-                        if (user.IsInstallationAdmin)
-                            KnowledgeReportMsg.SendHtmlMail(user);
+                        Logg.r().Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
+                        KnowledgeReportMsg.SendHtmlMail(user);
                     }
                 }
 
