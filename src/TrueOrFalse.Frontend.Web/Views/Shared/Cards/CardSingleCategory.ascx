@@ -3,39 +3,21 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="CardColumn" style="display: none;">
-    <div class="thumbnail">
-        <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(200, true, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
-        </div>
-
-        <div class="caption">
-            <h6 style="margin-bottom: 5px; color: #a3a3a3;">
-                Thema mit <a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"><%= Model.QCount %> Fragen</a>
-            </h6>
-            <h4 style="margin-top: 5px;"><%: Model.CategoryName %></h4>
-            <p><%: Model.CategoryText %></p>
-            <p style="text-align: center;">
-                <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
-                    <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Wissen testen
-                </a>
-            </p>
-        </div>
-    </div>
-</div>
-
 <div class="CardColumn">
     <div class="Card SingleItem Category">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.Category, linkToItem: Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId), noFollow: true) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.CategoryName,Model.CategoryId), noFollow: true) %>
         </div>
 
         <div class="CardContent">
             <h6 class="ItemInfo">
-                Thema mit <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>"><%= Model.QCount %> Fragen</a>
+                <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>">Thema mit <%= Model.QCount %> Fragen</a>
             </h6>
-            <h4 class="ItemTitle"><%: Model.CategoryName %></h4>
-            <div class="ItemText"><%: Model.CategoryText %></div>
+            <div class="LinkArea">
+                <h4 class="ItemTitle"><%: Model.CategoryName %></h4>
+                <div class="ItemText"><%: Model.CategoryText %></div>
+                <a class="Link" href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>"></a>
+            </div>
         </div>
         <div class="BottomBar">
             <div class="dropdown">
