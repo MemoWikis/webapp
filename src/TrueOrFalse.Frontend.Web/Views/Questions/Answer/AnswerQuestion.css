@@ -100,8 +100,10 @@
 #MarkdownCol + #AnswerAndSolutionCol #ButtonsAndSolutionCol {
   width: 100%;
 }
-#AnswerAndSolutionCol #ButtonsAndSolution {
-  margin-left: 20px;
+@media (min-width: 768px) {
+  #AnswerAndSolutionCol #ButtonsAndSolution {
+    margin-left: 20px;
+  }
 }
 #MarkdownCol + #AnswerAndSolutionCol #ButtonsAndSolution {
   margin-left: 0;
