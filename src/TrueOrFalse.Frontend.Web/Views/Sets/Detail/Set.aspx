@@ -9,18 +9,31 @@
     <link rel="canonical" href="<%= canonicalUrl %>">
     <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(40, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(74, true) %> - Lerne mit memucho!">
     
+    <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= canonicalUrl %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.QuestionSet).Url %>" />
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
-    <%= Scripts.Render("~/bundles/Set") %>
+    <%= Styles.Render("~/bundles/Set") %>
+    <%= Scripts.Render("~/bundles/js/Set") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
+    <input type="hidden" id="hhdHasVideo" value="<%= Model.Set.HasVideo %>"/>
+
+    <% if(Model.HasPreviousCategoy) { %>
+        <div style="padding-bottom: 15px;">
+            <div class="btn-group btn-breadcrumb MobileHide">
+                <a href="<%= Model.PreviousCategoryUrl %>" class="btn btn-sm btn-default">
+                    <i class="fa fa-angle-double-left" style="padding-right: 5px;"></i>zurück zum Thema "<span style="text-decoration: underline;"><%= Model.PreviousCategoryName %></span>"
+                </a>
+            </div>
+        </div>
+    <% } %>
+
     <div class="row">
         
         <%--<div class="col-xs-3 col-md-2 xxs-stack col-xs-push-9 col-md-push-10">--%>
@@ -30,29 +43,13 @@
                 <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
-                
-                <% if (Model.QuestionCount > 0) { %>
-                    <%--<a class="btn btn-primary btn-sm" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
-                        <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
-                    </a>--%>
-                    <%--<a style="font-size: 12px;" data-allowed="logged-in" data-allowed-type="learning-session" href="" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
-                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
-                    </a>--%>
-                    <%--<a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
-                        <i class="fa fa-gamepad">&nbsp;</i>Spiel starten--%>
-                    <%--</a>--%>
-                    <%--<a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
-                        <i class="fa fa-calendar">&nbsp;</i>Termin lernen
-                    </a>--%>
-                <% } %>
-                
+                                
                 <% if(Model.IsInstallationAdmin) { %>
                     <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                         <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
                     </a>    
                 <% } %>
             </div>
-
         </div>
        <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
@@ -250,5 +247,4 @@
         </div>
     
     </div>
-
 </asp:Content>

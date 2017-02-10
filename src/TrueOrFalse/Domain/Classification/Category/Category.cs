@@ -17,29 +17,6 @@ public class Category : DomainEntity, ICreator
     public virtual User Creator { get; set; }
     public virtual IList<Category> ParentCategories { get; set; }
 
-    public virtual IList<Set> FeaturedSets {
-        get
-        {
-            if (string.IsNullOrEmpty(FeaturedSetsIdsString))
-                return new List<Set>();
-
-            var setIds = FeaturedSetsIdsString
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => Convert.ToInt32(x));
-
-            var setRepo = Sl.R<SetRepo>();
-
-            return setIds
-                .Select(setId => setRepo.GetById(setId))
-                .Where(set => set != null)
-                .ToList();
-        }
-        set
-        {
-            FeaturedSetsIdsString = value.Count == 0 ? null : string.Join(",", value.Select(x => x.Id.ToString()));
-        }
-    }
-
     public virtual string FeaturedSetsIdsString { get; set; }
 
     public virtual string TopicMarkdown { get; set; }
@@ -58,8 +35,6 @@ public class Category : DomainEntity, ICreator
     public Category(){
         ParentCategories = new List<Category>();
         Type = CategoryType.Standard;
-        if(FeaturedSets == null)
-            FeaturedSets = new List<Set>();
     }
 
     public Category(string name) : this(){
@@ -71,11 +46,30 @@ public class Category : DomainEntity, ICreator
         return IsSpoilerCategory.Yes(Name, question);
     }
 
+
+    public virtual IList<Set> FeaturedSets()
+    {
+        if (string.IsNullOrEmpty(FeaturedSetsIdsString))
+            return new List<Set>();
+
+        var setIds = FeaturedSetsIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x));
+
+        var setRepo = Sl.R<SetRepo>();
+
+        return setIds
+            .Select(setId => setRepo.GetById(setId))
+            .Where(set => set != null)
+            .ToList();
+    }
+
     public virtual IList<Set> GetSets(bool featuredSetsOnlyIfAny = false)
     {
-        if (FeaturedSets.Count > 0 && featuredSetsOnlyIfAny)
+        var featuredSets = FeaturedSets();
+        if (featuredSets.Count > 0 && featuredSetsOnlyIfAny)
         {
-            return FeaturedSets;
+            return featuredSets;
         }
                     
         return Sl.R<SetRepo>().GetForCategory(Id);

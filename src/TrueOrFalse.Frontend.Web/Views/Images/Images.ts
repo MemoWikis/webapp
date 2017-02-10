@@ -17,7 +17,6 @@ class Images {
     }
 
     private static InitItemImages() {
-
         Images.AddHoverCheckboxArea();
         //Images.AddHoverLicenseArea();
         Images.AddLicenseInfoContainer();
@@ -46,10 +45,18 @@ class Images {
     }
 
     private static AddLicenseInfoContainer() {
+
         $('.LicensedImage.JS-InitImage').each(function () {
-            $(
-                "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='LicenseInfo JS-InitImageDetailModal'></div>")
-                .appendTo($(this).closest('.ImageContainer'));
+
+            if ($(this).data("LicenseContainerAdded")) {
+                return;
+            }
+
+            $("<div data-image-id ='" + $(this).attr('data-image-id') + "' class='LicenseInfo JS-InitImageDetailModal'></div>")
+                .appendTo($(this)
+                .closest('.ImageContainer'));
+
+            $(this).data("LicenseContainerAdded", true);
         });
     }
 

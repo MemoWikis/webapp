@@ -4,10 +4,9 @@ class SolutionTypeSequence
 {
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-        var answerQuestion = new AnswerQuestion(this);
-        $('.sequence-row').keydown(function () {
-            answerQuestion.OnAnswerChange();
-        });
+        this.AnswerQuestion = new AnswerQuestion(this);
+
+        $('.sequence-row').keydown(() => { this.AnswerQuestion.OnAnswerChange(); });
     }
 
     GetAnswerText(): string {

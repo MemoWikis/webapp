@@ -26,6 +26,8 @@ public class LearningSessionResultModel : BaseModel
     public int TrainingDateCount;
     public string RemainingTrainingTime;
 
+    public IList<Set> SetsToLearn { get; set; }
+
     public int KnowledgeNotLearned;
     public int KnowledgeNeedsLearning;
     public int KnowledgeNeedsConsolidation;
@@ -58,6 +60,7 @@ public class LearningSessionResultModel : BaseModel
         {
             WishCountQuestions = learningSession.User.WishCountQuestions;
             WishCountSets = learningSession.User.WishCountSets;
+            SetsToLearn = learningSession.SetsToLearn();
         }
 
         if (NumberSteps > 0)

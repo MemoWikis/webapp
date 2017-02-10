@@ -17,6 +17,7 @@ public class Sl
     public static SetRepo SetRepo => R<SetRepo>();
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
+    public static QuestionRepo QuestionRepo => R<QuestionRepo>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }

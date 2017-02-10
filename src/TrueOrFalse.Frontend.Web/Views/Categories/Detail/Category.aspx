@@ -7,6 +7,8 @@
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
     <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(25, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(89, true) %> - Lerne mit memucho!"/>
     
+
+    <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.Category).Url %>" />
@@ -70,7 +72,9 @@
                     
                 <% } %>
             
+                <div class="MarkdownContent">
                     <%= Model.CustomPageHtml %>
+                </div>
 
             <% } %>
 

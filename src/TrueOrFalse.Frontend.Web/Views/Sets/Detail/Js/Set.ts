@@ -1,4 +1,4 @@
-$(function() {
+$(() => {
     $(".pieTotals").each(function() {
         var me = $(this);
         var values = $(this).attr("data-percentage").split('-');
@@ -8,16 +8,10 @@ $(function() {
         });
     });
 
+    if ($("#hhdHasVideo").val() == "True") {
+        new SetVideo();
+    }
+
     new Pin(PinRowType.SetDetail);
-    //new Pin(PinRowType.SetDetail, () => {
-    //    var setId = $("#hhdSetId").val();
-    //    $.post("/Set/GetRows", {id: setId}, (result) => {
-    //        $("#rowContainer").fadeOut(250, () => {
-    //            $("#rowContainer").html(result.Html);
-    //            $("#rowContainer").fadeIn(250);
-    //            new Pin(PinRowType.Question);
-    //        });
-    //    });
-    //});
     new Pin(PinRowType.Question);
 });

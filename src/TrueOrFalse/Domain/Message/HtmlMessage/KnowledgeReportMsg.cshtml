@@ -135,14 +135,21 @@
                             </table>
                         </center>
 
+                        <table class="spacer">
+                            <tbody>
+                                <tr>
+                                    <td height="30px" style="font-size:30px;line-height:30px;">&#xA0;</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
                         <h4>Neues Wissen bei memucho</h4>
                         <p>
-                            In @Model.ShowStatsForPeriodSinceString wurden bei memucho <strong>@Model.NewQuestions neue Fragen</strong> und
-                            <strong>@Model.NewSets Fragesätze</strong> erstellt.<br/>
+                            In @Model.ShowStatsForPeriodSinceString wurden bei memucho @Model.NewQuestions neue Fragen und
+                            @Model.NewSets Fragesätze erstellt.<br/>
                             Damit kannst du jetzt insgesamt @Model.TotalAvailableQuestions Fragen und
                             @Model.TotalAvailableSets Fragesätze bei memucho lernen.<br/>
-                            Da ist bestimmt etwas dabei, dass du gern wissen möchtest!
+                            Da ist bestimmt etwas dabei, das du gern wissen möchtest!
                         </p>
 
                         <center data-parsed="">
@@ -199,8 +206,7 @@
 
                                     <h5>Deine Übungssitzungen</h5>
                                     <p>
-                                        Du hast in der nächsten Woche @Model.UpcomingTrainingDatesCount Übungssitzungen mit einer
-                                        geschätzten Übungszeit von insgesamt @Model.UpcomingTrainingDatesTrainingTime.
+                                        Du hast in der nächsten Woche @Model.UpcomingTrainingDatesCount Übungssitzungen@(Model.UpcomingTrainingDatesTrainingTime).
                                     </p>
 
                                     <center data-parsed="">

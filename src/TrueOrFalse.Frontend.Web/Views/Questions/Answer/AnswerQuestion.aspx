@@ -6,13 +6,14 @@
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Frage: " + Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession) { %>
-        <meta name="robots" content="noindex">
+        <meta name="robots" content="noindex" />
     <%}else { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <% } %>
     
-    <meta name="description" content="<%= Model.DescriptionForSearchEngines %>">
+    <meta name="description" content="<%= Model.DescriptionForSearchEngines %>"/>
     
+    <meta property="og:title" content="<%: Model.QuestionText %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
@@ -89,8 +90,8 @@
                         <% } %>
 
                     <% } %>
-                    <% if (Model.SourceIsSet)
-                       { %>
+                    
+                    <% if (Model.SourceIsSet) { %>
                         <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                             Fragesatz:
                             <span class="label label-set"><%= Model.Set.Name %></span>

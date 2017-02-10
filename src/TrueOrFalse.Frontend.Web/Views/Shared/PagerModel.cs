@@ -37,9 +37,9 @@ public class PagerModel
         HasNextPage = pager.HasNextPage();
         LastPage = pager.PageCount;
         Start = Math.Max(CurrentPage - Size, 2);
-        SkippedLeft = (Start > 2);
+        SkippedLeft = Start > 2;
         Stop = Math.Min(CurrentPage + Size, LastPage - 1);
-        SkippedRight = (Stop < LastPage - 1);
+        SkippedRight = Stop < LastPage - 1;
         PageCountWithoutLastAndFirst = Stop - Start + 1;
 
         Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();

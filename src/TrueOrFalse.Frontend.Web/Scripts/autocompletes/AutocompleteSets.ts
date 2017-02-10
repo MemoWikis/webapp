@@ -38,11 +38,9 @@ class AutocompleteSets {
                 if (self.GetAlreadyAddedSets(elemContainer, ui.item.Id).length > 0) {
                     var alreadyAddedSets = self.GetAlreadyAddedSets(elemContainer, ui.item.Id);
 
-                    function bounce() { alreadyAddedSets.closest(".added-set").effect('bounce', null, 'fast'); }
-                    bounce();
-                    bounce();
-                    bounce();
-                    bounce();
+                    for (var i = 0; i < 5; i++) {
+                        alreadyAddedSets.closest(".added-set").effect('bounce', null, 'fast');
+                    }
 
                     return false;
                 }
