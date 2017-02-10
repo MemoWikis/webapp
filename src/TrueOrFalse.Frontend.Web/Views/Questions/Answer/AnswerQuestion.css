@@ -132,8 +132,10 @@
   position: relative;
 }
 #AnswerInputSection .radio {
-  margin-top: 0;
   margin-bottom: 0;
+}
+#MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection .radio {
+  margin-top: 0;
 }
 #AnswerInputSection .radio + .radio {
   margin-top: 10px;
@@ -189,10 +191,10 @@
   font-weight: bold;
 }
 .answerFeedbackCorrect {
-  background-color: #1bbd00;
+  background-color: #AFD534;
 }
 .answerFeedbackWrong {
-  background-color: #db0808;
+  background-color: #B13A48;
 }
 #divAnsweredCorrect {
   margin-bottom: 15px;

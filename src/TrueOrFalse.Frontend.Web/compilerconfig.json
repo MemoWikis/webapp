@@ -188,5 +188,9 @@
   {
     "outputFile": "Views/Sets/Edit/EditSet.css",
     "inputFile": "Views/Sets/Edit/EditSet.less"
+  },
+  {
+    "outputFile": "Views/Questions/Answer/AnswerQuestionSolution.css",
+    "inputFile": "Views/Questions/Answer/AnswerQuestionSolution.less"
   }
 ]

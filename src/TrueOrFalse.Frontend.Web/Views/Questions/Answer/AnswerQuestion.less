@@ -89,8 +89,12 @@
     
 
     .radio {
-        margin-top: 0;
+        
         margin-bottom: 0;
+        
+        #MarkdownCol + #AnswerAndSolutionCol & {
+            margin-top: 0;//If image present, align first radio line with it
+        }
 
         & +.radio {
             margin-top: 10px;
@@ -159,10 +163,10 @@
     font-weight: bold;
  }
 .answerFeedbackCorrect {
-    background-color: #1bbd00;
+    background-color: @memo-green;
 }
 .answerFeedbackWrong {
-    background-color: #db0808; //#efc7ce
+    background-color: @dark-red; //#efc7ce
 }
 
 #divAnsweredCorrect {

@@ -66,7 +66,7 @@
                     <div id="ButtonsAndSolutionCol">
                         <div id="ButtonsAndSolution" class="Clearfix">
                             <div id="Buttons" class="" style="">
-                                <div id="buttons-first-try">
+                                <div id="buttons-first-try"class="ButtonGroup">
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
                                     <% if (Model.IsLearningSession && Model.NextUrl != null){%>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
@@ -74,18 +74,18 @@
                                     <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                 </div>
                     
-                                <div id="buttons-next-question" style="display: none;">
+                                <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                     <% if(Model.NextUrl != null){ %>
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success" rel="nofollow">Nächste Frage</a>
                                     <% } %>
                                 </div>
         
-                                <div id="buttons-edit-answer" style="display: none;">
+                                <div id="buttons-edit-answer" class="ButtonGroup" style="display: none;">
                                     <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
                                     <a href="#" id="btnEditAnswer" class="btn btn-warning" rel="nofollow">Antwort überarbeiten</a>
                                 </div>
-                                <div id="buttons-answer-again" style="display: none">
+                                <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                     <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
                                 </div>
@@ -93,30 +93,7 @@
                                 <div style="clear: both"></div>
                             </div>
                             <div id="AnswerFeedbackAndSolutionDetails">
-                                <div id="divWrongAnswerPlay" style="display: none; background-color: white; color:#2E487B;">
-                                    <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
-                                    <div>Deine Eingabe:</div>
-                                    <div style="margin-top:7px;" id="divWrongEnteredAnswer">
-                                    </div>
-                                </div>
-
-                                <div id="divWrongAnswer" style="display: none; background-color: white; color:#2E487B;">
-                                    <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsche Antwort </b></span>
-                                    <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
-                
-                                    <div style="margin-top:5px;" id="answerFeedbackTry">Du könntest es wenigstens probieren!</div>
-                
-                                    <div style="margin-top:7px; display: none;" id="divWrongAnswers" >
-                                        <span class="WrongAnswersHeading">Deine bisherigen Antwortversuche:</span>
-                                        <ul style="padding-top:5px;" id="ulAnswerHistory">
-                                        </ul>
-                                    </div>
-                                </div>
-                
-                                <div id="SolutionDetailsSpinner" style="display: none;">
-                                    <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
-                                </div>
-                                <div id="SolutionDetails" style="display: none; background-color: white; color:#2E487B;">
+                                <div id="AnswerFeedback">
                                     <div class="" id="divAnsweredCorrect" style="display: none; margin-top:5px;">
                                         <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
                                     </div>
@@ -125,6 +102,32 @@
                                         <div class="Label">Richtige Antwort:</div>
                                         <div class="Content"></div>
                                     </div>
+                                    <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
+                                        <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
+                                        <div>Deine Eingabe:</div>
+                                            <div style="margin-top:7px;" id="divWrongEnteredAnswer">
+                                        </div>
+                                    </div>
+
+                                    <div id="divWrongAnswer" class="Detail" style="display: none; background-color: white;">
+                                        <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsch beantwortet </b></span>
+                                        <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br/>
+                
+                                        <div style="margin-top:5px;" id="answerFeedbackTry">Du könntest es wenigstens probieren!</div>
+                
+                                        <div id="divWrongAnswers" style="margin-top:7px; display: none;"  >
+                                            <span class="WrongAnswersHeading">Deine bisherigen Antwortversuche:</span>
+                                            <ul style="padding-top:5px;" id="ulAnswerHistory">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="SolutionDetailsSpinner" style="display: none;">
+                                    <i class="fa fa-spinner fa-spin" style="color:#b13a48;"></i>
+                                </div>
+                                <div id="SolutionDetails" style="display: none; background-color: white;">
+                                    
+
                                     <div id="Description" class="Detail" style="display: none;">
                                         <div class="Label">Ergänzungen zur Antwort:</div>
                                         <div class="Content"></div>
