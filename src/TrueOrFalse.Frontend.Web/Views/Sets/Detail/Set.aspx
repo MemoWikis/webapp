@@ -20,58 +20,6 @@
     <%= Scripts.Render("~/bundles/js/Set") %>
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script>
-        
-        google.load("visualization", "1", { packages: ["corechart"] });
-
-        google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
-
-        function drawKnowledgeChart(chartElementId) {
-
-            if ($("#" + chartElementId).length === 0) {
-                return;
-            }
-
-            var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'link', 'Anteil in %'],
-                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
-                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
-                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
-                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
-            ]);
-
-            var options = {
-                pieHole: 0.6,
-                tooltip: { isHtml: true },
-                legend: { position: 'labeled' },
-                pieSliceText: 'none',
-                chartArea: { 'width': '100%', height: '100%', top: 10},
-                slices: {
-                    0: { color: '#afd534' },
-                    1: { color: '#fdd648' },
-                    2: { color: 'lightsalmon' },
-                    3: { color: 'silver' },
-                    4: { color: '#dddddd' }
-                },
-                pieStartAngle: 0
-            };
-
-            var view = new google.visualization.DataView(data);
-            view.setColumns([0, 2]);
-
-            var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
-            chart.draw(view, options);
-
-            google.visualization.events.addListener(chart, 'select', selectHandler);
-
-            function selectHandler(e) {
-                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
-                location.href = urlPart;
-            }
-        }
-
-    </script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -141,7 +89,7 @@
                     
                                 <div class="col-md-7" style="margin-top:6px;">                                
                                     <div class="" style="padding: 10px">
-                                        <div id="chartKnowledge" style="height: 150px; text-align: left;"></div>
+                                        <% Html.RenderPartial("/Views/Sets/Detail/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
                                     </div>
                                 </div>
                             </div>
@@ -244,7 +192,7 @@
             </div> 
             
             <% if (Model.Set.HasVideo) { 
-                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));     
+                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));
             } %>
 
             <% if(Model.QuestionCount > 0) { %>
