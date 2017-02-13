@@ -1,16 +1,14 @@
 ﻿class SetVideo {
     constructor() {
 
-        var self = this;
-
         $("a[data-video-question-id]").click(function (e) {
-            self.LoadQuestionView(e, $(this));
+            SetVideo.LoadQuestionView(e, $(this));
         });
 
-        this.InitAnswerBody();
+        SetVideo.InitAnswerBody();
     }
 
-    LoadQuestionView(e: JQueryEventObject, menuItem: JQuery) {
+    static LoadQuestionView(e: JQueryEventObject, menuItem: JQuery) {
         e.preventDefault();
 
         $("#video-pager")
@@ -28,10 +26,14 @@
             htmlResult => {
                 AnswerQuestion.LogTimeForQuestionView();
                 this.ChangeAnswerBody(htmlResult);
-            });
+            });        
     }
 
-    ChangeAnswerBody(html: string) {
+    static ClickItem(questionId : number) {
+        $("#video-pager a[data-video-question-id=" + questionId + "]").trigger("click");
+    }
+
+    static ChangeAnswerBody(html: string) {
         $("#divBodyAnswer")
             .empty()
             .animate({ opacity: 0.00 }, 0)
@@ -42,7 +44,7 @@
         this.InitAnswerBody();
     }
 
-    InitAnswerBody() {
+    static InitAnswerBody() {
 
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
@@ -58,19 +60,19 @@
         Images.Init();
     }
 
-    HandleCorrectAnswer() {
+    static HandleCorrectAnswer() {
         this.GetCurrentMenuItem()
             .removeClass("wrongAnswer")
             .addClass("correctAnswer");
     }
 
-    HandleWrongAnswer() {
+    static HandleWrongAnswer() {
         this.GetCurrentMenuItem()
             .removeClass("correctAnswer")
             .addClass("wrongAnswer");
     }
 
-    GetCurrentMenuItem(): JQuery {
+    static GetCurrentMenuItem(): JQuery {
         return $("#video-pager").find("a.current").first();
     }
 }
