@@ -21,3 +21,5 @@
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
     </div>
 </div>
+
+<script src="/Views/Sets/Detail/Js/SetVideoPlayer.js"></script>

@@ -609,6 +609,9 @@
       <DependentUpon>EditSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\AddToWishknowledgeButton.ascx" />
+    <Content Include="Views\Sets\Edit\Js\EditSet.js.map">
+      <DependentUpon>EditSet.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
