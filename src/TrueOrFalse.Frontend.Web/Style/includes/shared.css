@@ -2617,6 +2617,156 @@ fieldset[disabled] .BoxButton.active {
         width: 100%;
     }*/
 }
+/*Heart Button*/
+.HeartToAddButton .iAdded,
+.HeartToAddButton .iAddedNot,
+.HeartToAddButton .iAddSpinner {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 34px;
+}
+.HeartToAddButton .iAdded:focus,
+.HeartToAddButton .iAddedNot:focus,
+.HeartToAddButton .iAddSpinner:focus,
+.HeartToAddButton .iAdded:active:focus,
+.HeartToAddButton .iAddedNot:active:focus,
+.HeartToAddButton .iAddSpinner:active:focus,
+.HeartToAddButton .iAdded.active:focus,
+.HeartToAddButton .iAddedNot.active:focus,
+.HeartToAddButton .iAddSpinner.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.HeartToAddButton .iAdded:hover,
+.HeartToAddButton .iAddedNot:hover,
+.HeartToAddButton .iAddSpinner:hover,
+.HeartToAddButton .iAdded:focus,
+.HeartToAddButton .iAddedNot:focus,
+.HeartToAddButton .iAddSpinner:focus {
+  color: #333;
+  text-decoration: none;
+}
+.HeartToAddButton .iAdded:active,
+.HeartToAddButton .iAddedNot:active,
+.HeartToAddButton .iAddSpinner:active,
+.HeartToAddButton .iAdded.active,
+.HeartToAddButton .iAddedNot.active,
+.HeartToAddButton .iAddSpinner.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.HeartToAddButton .iAdded.disabled,
+.HeartToAddButton .iAddedNot.disabled,
+.HeartToAddButton .iAddSpinner.disabled,
+.HeartToAddButton .iAdded[disabled],
+.HeartToAddButton .iAddedNot[disabled],
+.HeartToAddButton .iAddSpinner[disabled],
+fieldset[disabled] .HeartToAddButton .iAdded,
+fieldset[disabled] .HeartToAddButton .iAddedNot,
+fieldset[disabled] .HeartToAddButton .iAddSpinner {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.HeartToAddButton .iAdded,
+.HeartToAddButton .iAddedNot,
+.HeartToAddButton .iAddSpinner,
+.HeartToAddButton .iAdded i,
+.HeartToAddButton .iAddedNot i,
+.HeartToAddButton .iAddSpinner i {
+  line-height: 20px;
+}
+.HeartToAddButton .iAdded i,
+.HeartToAddButton .iAddedNot i,
+.HeartToAddButton .iAddSpinner i {
+  font-size: 22px;
+  height: 20px;
+}
+.HeartToAddButton .iAdded.hide2,
+.HeartToAddButton .iAddedNot.hide2,
+.HeartToAddButton .iAddSpinner.hide2 {
+  display: none;
+}
+.HeartToAddButton .iAddedNot {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  background-color: #B13A48;
+}
+.HeartToAddButton .iAddedNot:hover,
+.HeartToAddButton .iAddedNot:focus,
+.HeartToAddButton .iAddedNot:active,
+.HeartToAddButton .iAddedNot.active,
+.open .dropdown-toggle.HeartToAddButton .iAddedNot {
+  color: #fff;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+.HeartToAddButton .iAddedNot:active,
+.HeartToAddButton .iAddedNot.active,
+.open .dropdown-toggle.HeartToAddButton .iAddedNot {
+  background-image: none;
+}
+.HeartToAddButton .iAddedNot.disabled,
+.HeartToAddButton .iAddedNot[disabled],
+fieldset[disabled] .HeartToAddButton .iAddedNot,
+.HeartToAddButton .iAddedNot.disabled:hover,
+.HeartToAddButton .iAddedNot[disabled]:hover,
+fieldset[disabled] .HeartToAddButton .iAddedNot:hover,
+.HeartToAddButton .iAddedNot.disabled:focus,
+.HeartToAddButton .iAddedNot[disabled]:focus,
+fieldset[disabled] .HeartToAddButton .iAddedNot:focus,
+.HeartToAddButton .iAddedNot.disabled:active,
+.HeartToAddButton .iAddedNot[disabled]:active,
+fieldset[disabled] .HeartToAddButton .iAddedNot:active,
+.HeartToAddButton .iAddedNot.disabled.active,
+.HeartToAddButton .iAddedNot[disabled].active,
+fieldset[disabled] .HeartToAddButton .iAddedNot.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.HeartToAddButton .iAddedNot .badge {
+  color: #d9534f;
+  background-color: #fff;
+}
+.HeartToAddButton .iAddedNot i {
+  color: white;
+}
+.HeartToAddButton .iAddedNot span {
+  position: relative;
+  bottom: 3px;
+}
+.HeartToAddButton .iAdded,
+.HeartToAddButton .iAdded:focus,
+.HeartToAddButton .iAdded:active,
+.HeartToAddButton .iAdded:hover {
+  box-shadow: none;
+}
+.HeartToAddButton .iAdded i {
+  color: #B13A48;
+  font-size: 22px;
+}
 /*  Boxes
 ----------------------------------------------------------*/
 .Box {

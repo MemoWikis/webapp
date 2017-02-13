@@ -197,6 +197,52 @@
 
 }
 
+/*Heart Button*/
+.HeartToAddButton {
+
+    .iAdded, .iAddedNot, .iAddSpinner {
+    .btn;
+
+        height: 34px;
+
+        &, & i {
+            line-height: 20px;
+        }
+
+        i {
+            font-size: 22px;
+            height: 20px;
+        }
+
+        &.hide2 {
+            display: none;
+        }
+    }
+
+    .iAddedNot {
+        .btn-danger;
+
+        background-color: @dark-red;
+
+        i {color: white;}
+
+        span {
+            position: relative;
+            bottom: 3px;
+        }
+    }
+    .iAdded {
+
+        &, &:focus, &:active, &:hover {
+            box-shadow: none;
+        }
+        i {
+            color: @dark-red;
+            font-size: 22px;
+        }
+    }
+}
+
 /*  Boxes
 ----------------------------------------------------------*/
 

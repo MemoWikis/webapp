@@ -116,7 +116,38 @@
     vertical-align: bottom;
     margin-bottom: 10px;
     width: 100%;
+
+    .btn-link {
+        padding-left: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-left: 0;
+    }
+
+    .btn {
+        margin-right: 10px;
+        .MarginForButtons;
+
+        .media-below-xs({
+            display: table; //Keeps width of element to text length but still inserts break
+        });
+    }
 }
+
+.MarginForButtons() {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.HeartToAddButton {
+    float: right;
+    .MarginForButtons;
+
+    .iAddedNot span {
+        display: none;
+    }
+}
+
 
 #answerQuestionDetails .label {
     max-width: 100%;

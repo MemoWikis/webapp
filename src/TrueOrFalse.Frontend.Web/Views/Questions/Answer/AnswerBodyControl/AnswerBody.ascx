@@ -25,9 +25,7 @@
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
         </span>
                     
-        <a id="HeartToAdd" href="#" data-allowed="logged-in" data-allowed-type="Pin_AnswerQuestion" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-        </a>
+        
     </div>    
     <h1 style="font-size: 22px; padding-bottom: 20px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
         <%= Model.QuestionText %>
@@ -66,6 +64,9 @@
                     <div id="ButtonsAndSolutionCol">
                         <div id="ButtonsAndSolution" class="Clearfix">
                             <div id="Buttons" class="" style="">
+                                
+                                <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+
                                 <div id="buttons-first-try" class="ButtonGroup">
                                     <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
