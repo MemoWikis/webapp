@@ -5,7 +5,7 @@
 <div class="CardColumn">
     <div class="Card SingleItem Set ">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.TestSessionStartForSet(Model.SetName, Model.SetId), noFollow: true) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Url, Model.SetName,Model.SetId), noFollow: true) %>
         </div>
 
         <div>
