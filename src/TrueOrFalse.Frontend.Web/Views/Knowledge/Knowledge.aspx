@@ -242,7 +242,7 @@
                     </div>
 
                     <% if(Model.KnowledgeSummary.Total == 0) { %>
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                             <p>
                                 memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
                             </p>
