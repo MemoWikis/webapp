@@ -170,12 +170,12 @@
     display: table;
   }
 }
-.HeartToAddButton {
+#Buttons .HeartToAddButton {
   float: right;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.HeartToAddButton .iAddedNot span {
+#Buttons .HeartToAddButton .iAddedNot span {
   display: none;
 }
 #answerQuestionDetails .label {
