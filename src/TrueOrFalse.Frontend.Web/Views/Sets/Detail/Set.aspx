@@ -9,18 +9,33 @@
     <link rel="canonical" href="<%= canonicalUrl %>">
     <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(40, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(74, true) %> - Lerne mit memucho!">
     
+    <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= canonicalUrl %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.QuestionSet).Url %>" />
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Sets/Detail/Set.css") %>
-    <%= Scripts.Render("~/bundles/Set") %>
+    <%= Styles.Render("~/bundles/Set") %>
+    <%= Scripts.Render("~/bundles/js/Set") %>
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
+    <input type="hidden" id="hhdHasVideo" value="<%= Model.Set.HasVideo %>"/>
+
+    <% if(Model.HasPreviousCategoy) { %>
+        <div style="padding-bottom: 15px;">
+            <div class="btn-group btn-breadcrumb MobileHide">
+                <a href="<%= Model.PreviousCategoryUrl %>" class="btn btn-sm btn-default">
+                    <i class="fa fa-angle-double-left" style="padding-right: 5px;"></i>zurück zum Thema "<span style="text-decoration: underline;"><%= Model.PreviousCategoryName %></span>"
+                </a>
+            </div>
+        </div>
+    <% } %>
+
     <div class="row">
         
         <%--<div class="col-xs-3 col-md-2 xxs-stack col-xs-push-9 col-md-push-10">--%>
@@ -30,30 +45,16 @@
                 <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                 <% } %>
-                
-                <% if (Model.QuestionCount > 0) { %>
-                    <%--<a class="btn btn-primary btn-sm" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow" style="margin: 4px 0; margin-left: -15px;">
-                        <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
-                    </a>--%>
-                    <%--<a style="font-size: 12px;" data-allowed="logged-in" data-allowed-type="learning-session" href="" rel="nofollow" class="show-tooltip" data-original-title="Übungssitzung zu diesem Fragesatz starten." >
-                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
-                    </a>--%>
-                    <%--<a style="font-size: 12px;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
-                        <i class="fa fa-gamepad">&nbsp;</i>Spiel starten--%>
-                    <%--</a>--%>
-                    <%--<a style="font-size: 12px;" href="<%= Links.DateCreate(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
-                        <i class="fa fa-calendar">&nbsp;</i>Termin lernen
-                    </a>--%>
-                <% } %>
-                
+                                
                 <% if(Model.IsInstallationAdmin) { %>
                     <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                         <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
                     </a>    
                 <% } %>
             </div>
-
         </div>
+        
+
        <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
             <div id="ItemMainInfo" class="Set Box">
@@ -78,36 +79,42 @@
                             <div>
                                 <%= Model.Text %>
                             </div>
-                            <div style="display: inline-block; margin-top: 20px;">
-                                <% foreach (var category in Model.Set.Categories){ %>
-                                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
-                                <% } %>
-                            </div>        
+                            
+                            <div class="row" >
+                                <div class="col-md-5" style="display: inline-block; margin-top: 20px;">
+                                    <% foreach (var category in Model.Set.Categories){ %>
+                                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                                    <% } %>
+                                </div>        
                     
-                            <div style="margin-top:6px;">
-                                <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
-                                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                                    </a>
-                                    <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
-
-                                    <span class="show-tooltip" title="<%= Model.ActiveMemory.TotalInActiveMemory %> von <%= Model.ActiveMemory.TotalQuestions%> Fragen 
-                                        aus diesem Fragesatz <br> sind in deinem aktiven Wissen. <br><br> Im 'aktiven Wissen' ist eine Frage, wenn die<br> Antwortwahrscheinlichkeit über 90% liegt." 
-                                        data-html="true" data-placement="bottom">
-                                        <i class="fa fa-tachometer" style="margin-left: 20px; color: #69D069;"></i> 
-                                        <%= Model.ActiveMemory.TotalInActiveMemory %>/<%= Model.ActiveMemory.TotalQuestions %>
-                                    </span>
-                                </span>
+                                <div class="col-md-7" style="margin-top:6px;">                                
+                                    <div style="padding: 10px" id="knowledgeWheelContainer">
+                                        <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="greyed" style="margin-top: 10px; margin-bottom: 10px; font-size: 11px;">
                                 erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" ><%= Model.CreatorName %></a> 
-                                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
+                                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span>
+                                <div id="WuWiStat" class="show-tooltip" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen" style="float: right;">
+                                    <i class="fa fa-heart"></i>
+                                    <span id="totalPins"><%= Model.TotalPins %>x</span>
+                                </div>
+
                             </div>
                             <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                             <div class="BottomBar">
-                                <div style="float: left; padding-top: 3px;">
+                                <div style="float: left; padding-top: 7px;">
                                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
+                                
+                                <div style="float: right">
+                                    <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
+                                        <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                    </span>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -187,7 +194,7 @@
             </div> 
             
             <% if (Model.Set.HasVideo) { 
-                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));     
+                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));
             } %>
 
             <% if(Model.QuestionCount > 0) { %>
@@ -250,5 +257,4 @@
         </div>
     
     </div>
-
 </asp:Content>

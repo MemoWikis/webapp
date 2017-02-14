@@ -1,5 +1,6 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
+using Seedworks.Lib.ValueObjects;
 
 public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
 {
@@ -19,4 +20,11 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
                 .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
+    public void SaveTimecode(int questionInSetId, string timeCode)
+    {
+        var questionInSet = GetById(questionInSetId);
+        questionInSet.Timecode = Timecode.ToSeconds(timeCode);
+
+        Update(questionInSet);
+    }
 }

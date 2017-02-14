@@ -31,7 +31,7 @@ public class UserSettingsModel : BaseModel
 
     public UserSettingsModel(User user)
     {
-        if (user == null) // for e-mail newsletter changes authorized by token
+        if (user == null) // page is called if user changes notification settings via email; user needs not to be logged in
             return;
 
         Name = user.Name;

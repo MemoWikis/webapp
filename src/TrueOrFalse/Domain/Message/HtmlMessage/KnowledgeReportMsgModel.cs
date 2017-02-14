@@ -177,12 +177,16 @@ public class KnowledgeReportMsgModel
         
         var upcomingTrainingDates = Sl.R<TrainingDateRepo>().GetUpcomingTrainingDates();
         UpcomingTrainingDatesCount = upcomingTrainingDates.Count.ToString();
-        var trainingTimeTimeSpan = new TimeSpan();
-        trainingTimeTimeSpan = upcomingTrainingDates.Aggregate(trainingTimeTimeSpan, (current, upcomingTrainingDate) => current.Add(upcomingTrainingDate.TimeEstimated())); //adds up al TimeEstimated
-        UpcomingTrainingDatesTrainingTime = trainingTimeTimeSpan.ToString("hh'h:'mm'min'");
-        
+        if (upcomingTrainingDates.Count > 0)
+        {
+            var trainingTimeTimeSpan = new TimeSpan();
+            trainingTimeTimeSpan = upcomingTrainingDates.Aggregate(trainingTimeTimeSpan, (current, upcomingTrainingDate) => current.Add(upcomingTrainingDate.TimeEstimated())); //adds up al TimeEstimated
+            UpcomingTrainingDatesTrainingTime = " mit einer geschätzten Übungszeit von insgesamt " + trainingTimeTimeSpan.ToString("hh'h:'mm'min'");
 
-        /* User's add. status & infos */
+        }
+
+
+        /* User's additional status & infos */
 
         UnreadMessagesCount = Sl.R<GetUnreadMessageCount>().Run(user.Id).ToString();
         var followerIAmCount = Sl.R<UserRepo>().GetById(user.Id).Followers.Count; //needs to be reloaded for avoiding lazy-load problems
@@ -193,21 +197,10 @@ public class KnowledgeReportMsgModel
 
         /* Create Links */
 
-        if (ContextUtil.IsWebContext)
-        {
-            LinkToWishQuestions = Settings.CanonicalHost + Links.QuestionsWish();
-            LinkToWishSets = Settings.CanonicalHost + Links.SetsWish();
-            LinkToLearningSession = Settings.CanonicalHost + Links.StartWishLearningSession();
-            LinkToDates = Settings.CanonicalHost + Links.Dates();
-            LinkToTechInfo = Settings.CanonicalHost + Links.AlgoInsightForecast();
-        }
-        else
-        {
-            LinkToWishQuestions = "https://memucho.de/Fragen/Wunschwissen";
-            LinkToWishSets = "https://memucho.de/Fragesaetze/Wunschwissen";
-            LinkToLearningSession = "https://memucho.de/Lernen/Wunschwissen";
-            LinkToDates = "https://memucho.de/Termine";
-            LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
-        }
+        LinkToWishQuestions = "https://memucho.de/Fragen/Wunschwissen";
+        LinkToWishSets = "https://memucho.de/Fragesaetze/Wunschwissen";
+        LinkToLearningSession = "https://memucho.de/Lernen/Wunschwissen";
+        LinkToDates = "https://memucho.de/Termine";
+        LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
     }
 }

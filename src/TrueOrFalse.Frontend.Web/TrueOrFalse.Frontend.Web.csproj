@@ -328,6 +328,7 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentReportModel.cs" />
@@ -342,6 +343,7 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
@@ -594,7 +596,22 @@
     </Content>
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
+    <Content Include="Views\Sets\Detail\Js\SetVideo.js">
+      <DependentUpon>SetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js">
+      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
+    <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
+    <Content Include="Views\Sets\Edit\Js\EditSet.js">
+      <DependentUpon>EditSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\AddToWishknowledgeButton.ascx" />
+    <Content Include="Views\Sets\Edit\Js\EditSet.js.map">
+      <DependentUpon>EditSet.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
@@ -741,6 +758,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
@@ -1574,6 +1592,9 @@
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
@@ -2186,6 +2207,15 @@
     </Content>
     <Content Include="Views\Categories\Detail\Category.js.map">
       <DependentUpon>Category.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
+      <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
+      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
+      <DependentUpon>SetVideo.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

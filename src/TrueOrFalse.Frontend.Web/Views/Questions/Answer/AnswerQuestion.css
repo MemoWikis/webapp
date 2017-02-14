@@ -18,6 +18,12 @@
 }
 @media (min-width: 650px) {
 }
+.navLinks {
+  margin-bottom: 10px;
+}
+.navLinks > div {
+  display: inline-block !important;
+}
 @media (max-width: 479px) {
   #AnswerQuestionPager {
     margin-bottom: 10px;
@@ -153,22 +159,30 @@
   vertical-align: bottom;
   margin-bottom: 10px;
   width: 100%;
-  /*.media-below-md ({
-        width: 100%;
-    });*/
-  text-align: right;
 }
-#Buttons #buttons-first-try {
-  float: right;
+#Buttons .btn-link {
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-left: 0;
 }
-#Buttons #buttons-next-question {
-  float: right;
+#Buttons .btn {
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-#Buttons #buttons-edit-answer {
-  float: right;
+@media (max-width: 479px) {
+  #Buttons .btn {
+    display: table;
+  }
 }
-#Buttons #buttons-answer-again {
+#Buttons .HeartToAddButton {
   float: right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#Buttons .HeartToAddButton .iAddedNot span {
+  display: none;
 }
 #answerQuestionDetails .label {
   max-width: 100%;
@@ -217,3 +231,28 @@
     max-height: 250px;
   }
 }
+/*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
+    background-color: lightgray;
+    margin-bottom: 10px;
+
+    label {
+        padding: 15px;
+        display: block;
+        width: 100%;
+    }
+}*/
+/*#AnswerInputSection .radio { //styles for html with input before label
+    background-color: lightgray;
+    margin-bottom: 10px;
+
+    label {
+        padding: 15px;
+        display: block;
+        width: 100%;
+    }
+
+    input {
+        margin-left: -10px;
+        margin-top: 19px;
+    }
+}*/

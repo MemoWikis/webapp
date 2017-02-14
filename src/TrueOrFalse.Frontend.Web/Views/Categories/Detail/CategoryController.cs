@@ -91,7 +91,7 @@ public class CategoryController : BaseController
 
         var learningSession = new LearningSession
         {
-            SetsToLearn = sets.ToList(),
+            SetsToLearnIdsString = string.Join(",", sets.Select(x => x.Id.ToString())),
             SetListTitle = setListTitle,
             Steps = GetLearningSessionSteps.Run(questions),
             User = _sessionUser.User

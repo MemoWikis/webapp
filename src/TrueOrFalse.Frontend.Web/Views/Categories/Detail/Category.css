@@ -106,8 +106,40 @@ span.CategoryType {
 }
 /*  Markdown Content
 ----------------------------------------------------------*/
-.Box + h4 {
+.MarkdownContent h2 {
+  margin-top: 40px;
+  margin-bottom: 25px;
+}
+.MarkdownContent h3 {
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+.MarkdownContent h4 {
   margin-top: 30px;
+  margin-bottom: 15px;
+}
+.Box + h2,
+.Box + h3,
+.Box + h4 {
+  margin-top: 20px;
+}
+.Box > h2:first-child,
+.Box > h3:first-child,
+.Box > h4:first-child {
+  margin-top: 5px;
+}
+.Box + h2,
+.Box + h3,
+.Box + h4 {
+  margin-top: 50px;
+}
+.MarkdownContent p {
+  /*font-size: 18px;*/
+  line-height: 1.6em;
+  margin-bottom: 20px;
+}
+.Box p:last-child {
+  margin-bottom: 0;
 }
 .Card.ItemList {
   padding: 10px;
@@ -170,6 +202,12 @@ span.CategoryType {
 }
 .Card.ItemList .ItemText {
   margin-bottom: 20px;
+}
+@media (min-width: 650px) {
+  .MarkdownContent .row {
+    margin-top: 20px;
+    margin-bottom: 25px;
+  }
 }
 @media (min-width: 480px) {
   .ItemRow {

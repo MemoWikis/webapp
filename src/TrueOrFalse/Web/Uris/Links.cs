@@ -244,7 +244,7 @@ namespace TrueOrFalse.Frontend.Web.Code
                 return StartLearningSesssionForSet(learningSession.SetToLearn.Id);
 
             if (learningSession.IsSetsSession)
-                return StartLearningSessionForSets(learningSession.SetsToLearn.Select(s => s.Id).ToList(), learningSession.SetListTitle);
+                return StartLearningSessionForSets(learningSession.SetsToLearn().Select(s => s.Id).ToList(), learningSession.SetListTitle);
 
             if (learningSession.IsCategorySession)
                 return StartCategoryLearningSession(learningSession.CategoryToLearn.Id);
@@ -354,7 +354,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string CategoriesAction = "Categories";
         public const string CategoriesController = "Categories";
         public const string CategoryController = "Category";
-        public const string CategoryDetailAction = "Category";
         public const string CategoryEditController = "EditCategory";
         public const string CategoryCreateAction = "Create";
         public static string Categories() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
@@ -363,7 +362,7 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string CategoryDetail(string name, int id)
         {
-            return GetUrlHelper().Action(CategoryDetailAction, CategoryController,
+            return GetUrlHelper().Action("Category", CategoryController,
                 new { text = UriSanitizer.Run(name), id = id }, null);
         }
 

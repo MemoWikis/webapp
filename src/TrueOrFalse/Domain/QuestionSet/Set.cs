@@ -12,6 +12,7 @@ public class Set : DomainEntity, ICreator
     public virtual string Name { get; set; }
     public virtual string Text { get; set; }
     public virtual string VideoUrl { get; set; }
+    public virtual string VideoKey => YoutubeVideo.GetVideoKeyFromUrl(VideoUrl);
 
     public virtual ISet<QuestionInSet> QuestionsInSet{ get; set;}
     public virtual User Creator { get; set; }

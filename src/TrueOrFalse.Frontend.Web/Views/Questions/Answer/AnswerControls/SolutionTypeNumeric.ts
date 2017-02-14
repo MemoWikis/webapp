@@ -1,13 +1,13 @@
 ﻿class SolutionTypeNumeric
     extends AnswerEntryBase
-    implements IAnswerEntry {
-
+    implements IAnswerEntry
+{
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-        this.IsGameMode = answerEntry.IsGameMode;
 
-        var answerQuestion = new AnswerQuestion(this);
-        $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
+        this.AnswerQuestion = new AnswerQuestion(this);
+
+        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });    
     }
 
     GetAnswerText(): string {

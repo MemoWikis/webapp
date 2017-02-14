@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using Seedworks.Lib;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 public class UpdateKnowledgeReportInterval
@@ -10,131 +7,96 @@ public class UpdateKnowledgeReportInterval
     public const string CommandName = "kri";
     public const string ExpirationDateFormat = "yyyy-MM-dd";
 
-
-    public static UIMessage Run(string updateCommand, string token)
+    public static UpdateKnowledgeReportIntervalResult Run(int userId, int val, string expires, string token)
     {
-        var commandParts = Regex.Split(updateCommand, "__");
-
+        var result = new UpdateKnowledgeReportIntervalResult();
         UserSettingNotificationInterval knowledgeReportInterval;
         DateTime expirationDate;
         User user;
 
         try
         {
-            if (commandParts[0] != CommandName)
-                throw new Exception("Command is not \"" + CommandName + "\", but: " + commandParts[0]);
-
-            user = Sl.R<UserRepo>().GetById(commandParts[2].ToInt());
+            user = Sl.R<UserRepo>().GetById(userId);
             if (user == null)
-                throw new Exception("User is not defined, id is " + commandParts[2]);
+                throw new Exception("User is not defined, id is " + userId);
 
-            if (!UpdateSetting.IsValidUpdateCommand(user, updateCommand, token))
-            {
-                Logg.r().Error("UpdateCommand for userId=" + user.Id + " is invalid, might have been manipulated. Command: " + updateCommand + " -- Token: " + token);
-                throw new Exception("UpdateCommand does not fit token, command might have been manipulated");
-            }
+            if (!IsValidCommand(user, val, expires, token))
+                throw new Exception("UpdateCommand not valid, might have been manipulated. UserId=" + user.Id + "; val=" + val + "; expires=" + expires + "; token=" + token);
                 
-            if (!Enum.IsDefined(typeof(UserSettingNotificationInterval), (UserSettingNotificationInterval)commandParts[1].ToInt()))
-                throw new Exception("Undefined int value for KnowledgeReportInterval: " + commandParts[1]);
+            if (!Enum.IsDefined(typeof(UserSettingNotificationInterval), (UserSettingNotificationInterval)val))
+                throw new Exception("Undefined int value for KnowledgeReportInterval: " + val);
 
-            knowledgeReportInterval = (UserSettingNotificationInterval)commandParts[1].ToInt();
+            knowledgeReportInterval = (UserSettingNotificationInterval)val;
 
-            expirationDate = DateTime.ParseExact(commandParts[3], ExpirationDateFormat, System.Globalization.CultureInfo.InvariantCulture);
+            expirationDate = DateTime.ParseExact(expires, ExpirationDateFormat, System.Globalization.CultureInfo.InvariantCulture);
         }
         catch (Exception exception)
         {
-            Logg.r().Information("UpdateKnowledgeReportInterval could not change settings. The exception is: " + exception.Message);
-            return new ErrorMessage("Die Einstellung konnte nicht verändert werden, da der übermittelte Link fehlerhaft war.");
+            Logg.r().Error("UpdateKnowledgeReportInterval could not change settings. The exception is: " + exception.Message);
+            result.ResultMessage = new ErrorMessage("Die Einstellung konnte nicht verändert werden, da der übermittelte Link fehlerhaft war.");
+            return result;
         }
 
         if (expirationDate.Date < DateTime.Now.Date)
-            return new ErrorMessage("Die Einstellung konnte NICHT übernommen werden, da die Gültigkeit des Links abgelaufen ist. <br>" +
-                                    "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.");
+        {
+            Logg.r().Information("UpdateKnowledgeReportInterval could not change settings because link already expired.");
+            result.ResultMessage = new ErrorMessage("Die Einstellung konnte NICHT übernommen werden, da die Gültigkeit des Links abgelaufen ist. <br>" +
+                                                    "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.");
+            return result;
+        }
 
         user.KnowledgeReportInterval = knowledgeReportInterval;
-        if ((Sl.R<SessionUser>().User != null) && (Sl.R<SessionUser>().User.Id == user.Id)) //todo: do it somewhere else
-        {
-            Sl.R<SessionUser>().User.KnowledgeReportInterval = knowledgeReportInterval;
-        }
         Sl.R<UserRepo>().Update(user);
 
-        var intervalWord = "";
-        switch (knowledgeReportInterval)
-        {
-            case UserSettingNotificationInterval.Daily:
-                intervalWord = "täglich";
-                break;
-            case UserSettingNotificationInterval.Weekly:
-                intervalWord = "wöchentlich";
-                break;
-            case UserSettingNotificationInterval.Monthly:
-                intervalWord = "monatlich";
-                break;
-            case UserSettingNotificationInterval.Quarterly:
-                intervalWord = "vierteljährlich";
-                break;
-            case UserSettingNotificationInterval.NotSet:
-                break;
-            case UserSettingNotificationInterval.Never:
-                intervalWord = "nicht mehr";
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(knowledgeReportInterval), knowledgeReportInterval, null);
-        }
-
-
-        return new SuccessMessage("<p><strong>Deine Einstellung wurde aktualisiert!</strong> </p>" +
-                                  "<p>Dein Wissensbericht wird jetzt <strong>" + intervalWord + "</strong> an deine E-Mail-Adresse " + user.EmailAddress + " versendet.<br>" +
-                                    "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.</p>");
+        result.Success = true;
+        result.AffectedUser = user;
+        result.ResultMessage = new SuccessMessage("<p><strong>Deine Einstellung wurde aktualisiert!</strong> </p>" +
+                                                  "<p>Dein Wissensbericht wird jetzt <strong>" + GetIntervalAsString(knowledgeReportInterval, "nicht mehr") + "</strong> " +
+                                                  "an deine E-Mail-Adresse " + user.EmailAddress + " versendet.<br>" +
+                                                  "Du kannst die Einstellung jederzeit hier ändern, wenn du eingeloggt bist.</p>");
+        return result;
     }
 
 
-    public static string GetUpdateCommand(User user, UserSettingNotificationInterval knowledgeReportInterval,
-        DateTime expirationDate)
+    public static string GetHash(User user, int val, string expires)
     {
-        return CommandName + "__" + (int)knowledgeReportInterval + "__" + user.Id + "__" + expirationDate.ToString(ExpirationDateFormat);
-    }
-
-    public static string GetHash(User user, string updateCommand)
-    {
+        var updateCommand = CommandName + val + user.Id + expires;
         return UpdateSetting.HashUpdateCommand(user, updateCommand);
     }
 
-
-    public static string GetFullHtmlLinkForInterval(User user, UserSettingNotificationInterval interval)
+    public static bool IsValidCommand(User user, int val, string expires, string token)
     {
-        var intervalWord = "";
+        var updateCommand = CommandName + val + user.Id + expires;
+        return UpdateSetting.IsValidUpdateCommand(user, updateCommand, token);
+    }
+
+    public static string GetLinkParamsForInterval(User user, UserSettingNotificationInterval interval)
+    {
+        var expires = DateTime.Now.Date.AddMonths(1).ToString(ExpirationDateFormat);
+        var update = "update=" + CommandName + "&val=" + (int)interval + "&userId=" + user.Id + "&expires=" + expires;
+        var token = GetHash(user, (int)interval, expires);
+        return update + "&token=" + token;
+    }
+
+    public static string GetIntervalAsString(UserSettingNotificationInterval interval, string wordForNever = "nie")
+    {
         switch (interval)
         {
+            case UserSettingNotificationInterval.NotSet: 
+                goto case UserSettingNotificationInterval.Weekly;  //defines standard behaviour
             case UserSettingNotificationInterval.Daily:
-                intervalWord = "täglich";
-                break;
+                return "täglich";
             case UserSettingNotificationInterval.Weekly:
-                intervalWord = "wöchentlich";
-                break;
+                return "wöchentlich";
             case UserSettingNotificationInterval.Monthly:
-                intervalWord = "monatlich";
-                break;
+                return "monatlich";
             case UserSettingNotificationInterval.Quarterly:
-                intervalWord = "vierteljährlich";
-                break;
-            case UserSettingNotificationInterval.NotSet:
-                break;
+                return "vierteljährlich";
             case UserSettingNotificationInterval.Never:
-                break;
+                return wordForNever;
             default:
                 throw new ArgumentOutOfRangeException(nameof(interval), interval, null);
         }
 
-        var update = GetUpdateCommand(user, interval, DateTime.Now.AddMonths(1));
-        var token = GetHash(user, update);
-        return "<a href=\"" + Settings.CanonicalHost + Links.UserSettings() + "?update=" + update + "&token=" + token + "\">" + intervalWord + "</a>";
-    }
-
-    public static string GetFullHtmlLinkForSignOut(User user)
-    {
-        var update = GetUpdateCommand(user, UserSettingNotificationInterval.Never, DateTime.Now.AddMonths(1));
-        var token = GetHash(user, update);
-        return "<a href=\"" + Settings.CanonicalHost + Links.UserSettings() + "?update=" + update + "&token=" + token + "\">E-Mails abbestellen</a>";
     }
 }

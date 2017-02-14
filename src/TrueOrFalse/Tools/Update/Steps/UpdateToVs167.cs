@@ -9,7 +9,7 @@ namespace TrueOrFalse.Updates
             Sl.Resolve<ISession>()
               .CreateSQLQuery(
                 @"ALTER TABLE `answer`
-	                CHANGE COLUMN `AnswerText` `AnswerText` VARCHAR(1000) NULL DEFAULT NULL AFTER `InteractionNumber`;; "
+	                CHANGE COLUMN `AnswerText` `AnswerText` VARCHAR(1000) NULL DEFAULT NULL AFTER `InteractionNumber`; "
             ).ExecuteUpdate();
         }
     }

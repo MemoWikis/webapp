@@ -6,13 +6,14 @@
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = "Frage: " + Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession) { %>
-        <meta name="robots" content="noindex">
+        <meta name="robots" content="noindex" />
     <%}else { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>">   
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <% } %>
     
-    <meta name="description" content="<%= Model.DescriptionForSearchEngines %>">
+    <meta name="description" content="<%= Model.DescriptionForSearchEngines %>"/>
     
+    <meta property="og:title" content="<%: Model.QuestionText %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
@@ -60,7 +61,26 @@
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 
     <div class="row">
-        <div class="col-lg-9 col-xs-9 xxs-stack">
+        <div class="col-xs-12 col- xxs-stack">
+            <% if (Model.IsOwner)
+               { %>
+                <div class="navLinks">
+                    <div id="EditQuestion">
+                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
+                            <i class="fa fa-pencil"></i>
+                            <span class="TextSpan">Frage bearbeiten</span>
+                        </a>
+                    </div>
+            
+                    <div id="DeleteQuestion">
+                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
+                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
+                        </a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="col-xs-12 xxs-stack">
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
             <% }else if (Model.IsTestSession) { %>
@@ -89,8 +109,8 @@
                         <% } %>
 
                     <% } %>
-                    <% if (Model.SourceIsSet)
-                       { %>
+                    
+                    <% if (Model.SourceIsSet) { %>
                         <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                             Fragesatz:
                             <span class="label label-set"><%= Model.Set.Name %></span>
@@ -130,25 +150,7 @@
             <% } %>
         </div>
 
-        <div class="col-xs-3 xxs-stack">
-            <% if (Model.IsOwner)
-               { %>
-                <div class="navLinks">
-                    <div id="EditQuestion">
-                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
-                            <i class="fa fa-pencil"></i>
-                            <span class="TextSpan">Frage bearbeiten</span>
-                        </a>
-                    </div>
-            
-                    <div id="DeleteQuestion">
-                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
-                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
-                        </a>
-                    </div>
-                </div>
-            <% } %>
-        </div>
+        
     </div>
 
     <div class="row">

@@ -13,7 +13,7 @@ class Pin {
 
     constructor(pinRowType : PinRowType, onPinChanged : () => void = null) {
 
-        var self = this;
+        var self = this; 
         this._pinRowType = pinRowType;
         this.OnPinChanged = onPinChanged;
 
@@ -115,7 +115,7 @@ class Pin {
 
     Pin(id: number, onPinChanged: () => void = null) {
         if (this.IsQuestionRow()) {
-            QuestionsApi.Pin(id);
+            QuestionsApi.Pin(id, onPinChanged);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
             SetsApi.Pin(id, onPinChanged);
         }
@@ -123,10 +123,10 @@ class Pin {
 
     UnPin(id: number, onPinChanged: () => void = null) {
         if (this.IsQuestionRow()) {
-            QuestionsApi.Unpin(id);
+            QuestionsApi.Unpin(id, onPinChanged);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
 
-            SetsApi.Unpin(id);
+            SetsApi.Unpin(id, onPinChanged);
 
             $("#JS-RemoveQuestions").attr("data-set-id", id);
 

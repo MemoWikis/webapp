@@ -60,9 +60,9 @@ class DateParser{
         if (typeof input != 'string' && !(input instanceof String))
             return new DateR(input);
 
-        if (this.Parse(input).IsValid) return this._lastResult;
+        if (this.Parse(input.toString()).IsValid) return this._lastResult;
 
-        return new DateR(input);
+        return new DateR(input.toString());
     }
 
     private static Parse(input : string): DateR {

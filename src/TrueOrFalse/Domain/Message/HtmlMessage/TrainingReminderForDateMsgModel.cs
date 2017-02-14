@@ -46,17 +46,8 @@ public class TrainingReminderForDateMsgModel
 
         /* Create Links */
 
-        if (ContextUtil.IsWebContext)
-        {
-            LinkToLearningSession = Links.StartDateLearningSession(date.Id);
-            LinkToDates = Links.Dates();
-            LinkToTechInfo = Links.AlgoInsightForecast();
-        }
-        else
-        {
-            LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + date.Id;
-            LinkToDates = "https://memucho.de/Termine";
-            LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
-        }
+        LinkToLearningSession = "https://memucho.de/Termin/Lernen/" + date.Id;
+        LinkToDates = "https://memucho.de/Termine";
+        LinkToTechInfo = "https://memucho.de/AlgoInsight/Forecast";
     }
 }

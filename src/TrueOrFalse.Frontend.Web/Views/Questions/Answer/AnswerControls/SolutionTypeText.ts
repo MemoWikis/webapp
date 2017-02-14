@@ -4,8 +4,10 @@ class SolutionTypeTextEntry
 {
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-        var answerQuestion = new AnswerQuestion(this);
-        $("#txtAnswer").keypress(() => { answerQuestion.OnAnswerChange(); });    
+
+        this.AnswerQuestion = new AnswerQuestion(this);
+
+        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });    
     }
 
     GetAnswerText(): string {

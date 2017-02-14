@@ -38,8 +38,9 @@ class GetRandomQuestions
 
     public static IList<Question> Run(Category category, int amount, List<int> excludeQuestionIds = null, bool ignoreExclusionIfNotEnoughQuestions = true)
     {
-        var questions = category.FeaturedSets.Count > 0 
-            ? category.FeaturedSets.SelectMany(s => s.Questions()).Distinct().ToList()
+        var featuredSets = category.FeaturedSets();
+        var questions = featuredSets.Count > 0 
+            ? featuredSets.SelectMany(s => s.Questions()).Distinct().ToList()
             : Sl.R<QuestionRepo>().GetForCategory(category.Id, category.CountQuestions, Sl.R<SessionUser>().UserId);
 
         return Run(questions.ToList(), amount, excludeQuestionIds, ignoreExclusionIfNotEnoughQuestions);

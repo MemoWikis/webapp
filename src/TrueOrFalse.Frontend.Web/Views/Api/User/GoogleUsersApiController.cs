@@ -11,7 +11,7 @@ public class GoogleUsersApiController : BaseController
         if (user == null)
             throw new Exception($"google user {googleId} not found");
 
-        if (IsGoogleAccessToken.Valid(googleToken))
+        if (!IsGoogleAccessToken.Valid(googleToken))
             throw new Exception("invalid google access token");
 
         R<SessionUser>().Login(user);

@@ -6,15 +6,9 @@ using TrueOrFalse.Web;
 
 public class KnowledgeModel : BaseModel
 {
-    public string UserName
-    {
-        get
-        {
-            return _sessionUser.User == null ? 
-                "Unbekannte(r)" : 
-                _sessionUser.User.Name;
-        }
-    }
+    public string UserName => _sessionUser.User == null
+        ?  "Unbekannte(r)"
+        :  _sessionUser.User.Name;
 
     public IList<GetAnswerStatsInPeriodResult> Last30Days = new List<GetAnswerStatsInPeriodResult>();
     public bool HasLearnedInLast30Days;

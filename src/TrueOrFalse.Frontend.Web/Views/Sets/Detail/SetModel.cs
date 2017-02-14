@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
+using static System.String;
 
 public class SetModel : BaseModel
 {
     public int Id;
     public string Name;
     public string Text;
+
+    public KnowledgeSummary KnowledgeSummary;
 
     public Set Set;
 
@@ -41,14 +46,21 @@ public class SetModel : BaseModel
 
     public ContentRecommendationResult ContentRecommendationResult;
 
+    public bool HasPreviousCategoy => !IsNullOrEmpty(PreviousCategoryName);
+    public string PreviousCategoryUrl;
+    public string PreviousCategoryName;
 
     public SetModel(Set set)
     {
+        FillPreviousCategoryData();
+
         Id = set.Id;
         Name = set.Name;
         Text = set.Text;
 
         Set = set;
+
+        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, set);
 
         ImageMetaDataCache.WarmupRequestCache(set);
 
@@ -107,6 +119,23 @@ public class SetModel : BaseModel
         ActiveMemory = SetActiveMemoryLoader.Run(set, questionValutionsForCurrentUser);
 
         ContentRecommendationResult = ContentRecommendation.GetForSet(Set, 6);
+    }
+
+    private void FillPreviousCategoryData()
+    {
+        if (!IsNullOrEmpty(HttpContext.Current.Request.UrlReferrer?.LocalPath))
+        {
+            if (HttpContext.Current.Request.UrlReferrer.LocalPath.Contains("Kategorien"))
+            {
+                if (new SessionUiData().VisitedCategories.Any())
+                {
+                    var visitedCategory = new SessionUiData().VisitedCategories.First();
+
+                    PreviousCategoryUrl = Links.CategoryDetail(visitedCategory.Name, visitedCategory.Id);
+                    PreviousCategoryName = visitedCategory.Name;
+                }
+            }
+        }
     }
 
     public string GetViews() => Sl.SetViewRepo.GetViewCount(Id).ToString();

@@ -62,6 +62,8 @@
             .animate({ opacity: 1.00 }, 600);
 
         $(".show-tooltip").tooltip();
+
+        Images.Init();
     }
 
     ChangeBody(html : string) {
