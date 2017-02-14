@@ -34,20 +34,19 @@
             label = "falsche Antwort (" + (addingChoiceId) + ")";
 
         var actionButton = $("");
-        if(addingChoiceId != 0) {
+        if (addingChoiceId != 0) {
             actionButton = $("<span class='CloseButton input-group-btn'><a href='#' class='btn'><i class='fa fa-times'></i></a></span>");
-            actionButton.click(function() {
+            actionButton.click(function () {
                 $(this).closest(".form-group").hide(500, function () { $(this).remove(); });
                 return false;
             });
         }
         $("#choices")
             .append($("<div class='form-group'>")
-                .append($("<div class='noLabel columnControlsFull input-group'>")
-                    .append($("<div class=''>")
-                                .append($("<select class='choice-iscorrect form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
-                            $("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />"),
-                            actionButton
+                .append($("<div class='noLabel columnControlsFull row'>")
+                    .append($("<div class='col-md-4'>").append($("<select class='sequence-answertype form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
+                            $("<div class='col-md-7'>").append($("<input type='text' class='col-xs-5 sequence-choice form-control' name='choice-" + addingChoiceId + "' />")),
+                            $("<div class='col-md-1'>").append(actionButton)
                     )
                 )
             );
@@ -57,12 +56,15 @@
 
     });
 <% if (Model != null)
-       foreach (var choice in Model.Choices){ %>
-        $("#addChoice").click();
-        $(".sequence-choice").last().val('<%= choice.Text %>');
-        $(".choice-iscorrect").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
-<% }else { %>
-       $("#addChoice").click();
-       $("#addChoice").click();
-<% } %>
+        foreach (var choice in Model.Choices)
+        { %>
+    $("#addChoice").click();
+    $(".sequence-choice").last().val('<%= choice.Text %>');
+    $(".sequence-answertype").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
+<% }
+    else
+    { %>
+    $("#addChoice").click();
+    $("#addChoice").click();
+    <% } %>
 </script>

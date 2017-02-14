@@ -584,9 +584,6 @@
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js">
-      <DependentUpon>SolutionTypeMultipleChoice_v2.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
@@ -2218,9 +2215,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
-      <DependentUpon>SolutionTypeMultipleChoice_v2.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
       <DependentUpon>SetVideoPlayer.ts</DependentUpon>
