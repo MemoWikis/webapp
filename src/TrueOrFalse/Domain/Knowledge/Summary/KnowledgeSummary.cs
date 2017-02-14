@@ -20,9 +20,11 @@ public class KnowledgeSummary
     public int Solid = 0;
     public int SolidPercentage => Percentage(Solid);
 
+    public int NotInWishknowledge = 0;
+    public int NotInWishknowledgePercentage => Percentage(NotInWishknowledge);
 
     /// <summary>Sum of questions in wish knowledge</summary>
-    public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid;
+    public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid + NotInWishknowledge;
 
     private int Percentage(int amount)
     {

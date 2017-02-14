@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
@@ -71,4 +72,15 @@ public class SetController : BaseController
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
+
+    public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
+    {
+        var sets = Sl.R<SetRepo>().GetByIds(setIds);
+        var testSession = new TestSession(sets, setListTitle);
+
+        R<SessionUser>().AddTestSession(testSession);
+
+        return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
+    }
+
 }

@@ -65,6 +65,11 @@
   margin-left: 0;
   margin-right: 0;
 }
+#video-pager {
+  margin: 0px;
+  padding-top: 7px;
+  padding-bottom: 12px;
+}
 #video-pager a.correctAnswer {
   background-color: #10d410;
   color: white;
@@ -72,4 +77,7 @@
 #video-pager a.wrongAnswer {
   background-color: #ff5a49;
   color: white;
+}
+#video-pager .btn-default {
+  margin-bottom: 10px;
 }

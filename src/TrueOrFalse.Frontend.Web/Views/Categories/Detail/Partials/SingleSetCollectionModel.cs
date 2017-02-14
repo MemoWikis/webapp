@@ -12,7 +12,7 @@ public class SingleSetCollectionModel : BaseModel
     public string Title;
     public string CardOrientation;
 
-   public SingleSetCollectionModel(IList<Set> sets, string title, string cardOrientationLandscapeOrPortrait = null)
+   public SingleSetCollectionModel(IList<Set> sets, string title = "", string cardOrientationLandscapeOrPortrait = null)
     {
         Sets = sets;
         Title = title;
@@ -21,17 +21,7 @@ public class SingleSetCollectionModel : BaseModel
             CardOrientation = cardOrientationLandscapeOrPortrait;
         else
         {
-            if (Sets.Count % 2 == 0)
-            {
-                CardOrientation = "Landscape";
-            } else if (Sets.Count%3 == 0)
-            {
-                CardOrientation = "Portrait";
-            }
-            else
-            {
-                CardOrientation = "Landscape";
-            }
+            CardOrientation = Sets.Count % 3 == 0 ? "Portrait" : "Landscape";
         }
     }
 }

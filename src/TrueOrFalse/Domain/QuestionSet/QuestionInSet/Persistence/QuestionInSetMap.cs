@@ -11,6 +11,7 @@ public class QuestionInSetMap : ClassMap<QuestionInSet>
         References(x => x.Set).Cascade.None();
 
         Map(x => x.Sort);
+        Map(x => x.Timecode);
             
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

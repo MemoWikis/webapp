@@ -167,5 +167,5 @@ public class Question : DomainEntity, ICreator
         }
     }
 
-    public virtual QuestionSolution GetSolution => GetQuestionSolution.Run(this);
+    public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
 }

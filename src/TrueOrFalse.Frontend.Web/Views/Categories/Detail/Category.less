@@ -98,8 +98,48 @@ span.CategoryType {
 /*  Markdown Content
 ----------------------------------------------------------*/
 
-.Box + h4 {
+.MarkdownContent h2 {
+    margin-top: 40px;
+    margin-bottom: 25px;
+}
+
+.MarkdownContent h3 {
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.MarkdownContent h4 {
     margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.Box + h2, .Box + h3, .Box + h4 {
+    margin-top: 20px;
+}
+
+.Box {
+    & > h2, & > h3, & > h4 {
+        &:first-child {
+            margin-top: 5px;
+        }
+    }
+}
+
+
+.Box + h2, .Box + h3, .Box + h4 {
+    margin-top: 50px;
+}
+
+.MarkdownContent p {
+    /*font-size: 18px;*/
+    line-height: 1.6em;
+    margin-bottom: 20px;
+}
+
+.Box p {
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .Card.ItemList {
@@ -166,6 +206,13 @@ span.CategoryType {
     .ItemText {
         margin-bottom: 20px;
         
+    }
+}
+
+.MarkdownContent .row {
+    @media (min-width: @extra-breakpoint-cards){
+        margin-top: 20px;
+        margin-bottom: 25px;
     }
 }
 
@@ -314,4 +361,9 @@ p:empty {
     .btn.btn-default:hover:not(:last-child):before {
       border-left: 10px solid #adadad;
     }
+}
+
+.BreadcrumbsMobile {
+   i.fa-home {font-size: 120%;}
+   i.fa-chevron-right {font-size: 80%;}
 }

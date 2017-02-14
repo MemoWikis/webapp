@@ -17,47 +17,19 @@ public class KnowledgeReportMsg
         );
 
         var messageTitle = "";
-        var intervalWord = "";
-        switch (user.KnowledgeReportInterval)
-        {
-            case UserSettingNotificationInterval.NotSet:
-                goto case UserSettingNotificationInterval.Weekly; //defines the standard behaviour if setting is not set; needs to be the same as in UserSettings.aspx
-            case UserSettingNotificationInterval.Daily:
-                messageTitle = "Dein täglicher Wissensbericht";
-                intervalWord = "täglich";
-                break;
-            case UserSettingNotificationInterval.Weekly:
-                messageTitle = "Dein wöchentlicher Wissensbericht";
-                intervalWord = "wöchentlich";
-                break;
-            case UserSettingNotificationInterval.Monthly:
-                messageTitle = "Dein monatlicher Wissensbericht";
-                intervalWord = "monatlich";
-                break;
-            case UserSettingNotificationInterval.Quarterly:
-                messageTitle = "Dein vierteljährlicher Wissensbericht";
-                intervalWord = "vierteljährlich";
-                break;
-        }
+        var intervalWord = UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval);
 
-        string signOutMessage;
-        if (ContextUtil.IsWebContext)
-        {
-            signOutMessage = "Du erhältst diese E-Mail " + intervalWord + " als Bericht über deinen Wissensstand. " +
-                             "Du kannst diese " + UpdateKnowledgeReportInterval.GetFullHtmlLinkForSignOut(user) + " oder die Empfangshäufigkeit ändern (" +
-                             UpdateKnowledgeReportInterval.GetFullHtmlLinkForInterval(user, UserSettingNotificationInterval.Daily) + ", " + 
-                             UpdateKnowledgeReportInterval.GetFullHtmlLinkForInterval(user, UserSettingNotificationInterval.Weekly) + ", " +
-                             UpdateKnowledgeReportInterval.GetFullHtmlLinkForInterval(user, UserSettingNotificationInterval.Monthly) + " oder " +
-                             UpdateKnowledgeReportInterval.GetFullHtmlLinkForInterval(user, UserSettingNotificationInterval.Quarterly) +
+        string signOutMessage = "Du erhältst diese E-Mail " + intervalWord + " als Bericht über deinen Wissensstand. Du kannst diese " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Never) + "\">E-Mails abbestellen</a> " +
+                             "oder die Empfangshäufigkeit ändern (" +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Daily) + "\">täglich</a>, " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Weekly) + "\">wöchentlich</a>, " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Monthly) + "\">monatlich</a> oder " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Quarterly) + "\">vierteljährlich</a>" +
                              "). " + 
                              "Weitere Einstellungen zu deinen E-Mail-Benachrichtigungen sind in deinen " +
-                             "<a href=\"" + Settings.CanonicalHost + Links.UserSettings() + "?utm_medium=email&utm_source=" + UtmSource + UtmCampaignFullString + "&utm_term=editKnowledgeReportSettings\">Konto-Einstellungen</a> " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?utm_medium=email&utm_source=" + UtmSource + UtmCampaignFullString + "&utm_term=editKnowledgeReportSettings\">Konto-Einstellungen</a> " +
                              "möglich.";
-        }
-        else
-        {
-            signOutMessage = "In WebContext, you'll find a personalized SignOutMessage here.";
-        }
 
 
         HtmlMessage.Send(new MailMessage2(
@@ -81,10 +53,10 @@ public class KnowledgeReportMsg
     public static bool ShouldSendToUser(User user)
     {
 
-        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet) && (DateTime.Now.DayOfWeek != DayOfWeek.Monday)) // defines standard behaviour if setting is not set
+        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)) // defines standard behaviour if setting is not set
             return false;
 
-        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly) && (DateTime.Now.DayOfWeek != DayOfWeek.Monday))
+        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday))
             return false;
 
         if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Monthly) && (DateTime.Now.Day != 1))

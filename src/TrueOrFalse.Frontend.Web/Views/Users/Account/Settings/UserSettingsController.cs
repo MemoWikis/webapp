@@ -1,5 +1,7 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
+using Seedworks.Lib;
 using TrueOrFalse.Web;
 
 public class UserSettingsController : BaseController
@@ -13,26 +15,29 @@ public class UserSettingsController : BaseController
     }
 
     [HttpGet]
+    [SetMenu(MenuEntry.None)]
     public ViewResult UserSettings()
     {
-        UIMessage message = null;
+        var userSettingsModel = new UserSettingsModel(_sessionUser.User);
         if ((Request["update"] != null) && (Request["token"] != null))
         {
-            var update = Request["update"];
-            if (update.Split('_')[0] == UpdateKnowledgeReportInterval.CommandName)
+            if (Request["update"] == UpdateKnowledgeReportInterval.CommandName)
             {
-                message = UpdateKnowledgeReportInterval.Run(update, Request["token"]);
+                var result = UpdateKnowledgeReportInterval.Run(Request["userId"].ToInt(), Request["val"].ToInt(), Request["expires"], Request["token"]);
+                userSettingsModel.Message = result.ResultMessage;
+                if (result.Success && (_sessionUser.User == result.AffectedUser))
+                {
+                    _sessionUser.User.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
+                    userSettingsModel.KnowledgeReportInterval = result.AffectedUser.KnowledgeReportInterval;
+                }
             }
         }
-
-        var userSettingsModel = new UserSettingsModel(_sessionUser.User);
-        if (message != null)
-            userSettingsModel.Message = message;
 
         return View(_viewLocation, userSettingsModel);
     }
 
     [HttpPost]
+    [SetMenu(MenuEntry.None)]
     public ViewResult UserSettings(UserSettingsModel model)
     {
         if (!ModelState.IsValid)

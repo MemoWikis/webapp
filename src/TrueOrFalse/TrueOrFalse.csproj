@@ -330,7 +330,6 @@
     <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />
-    <Compile Include="Domain\Knowledge\TestSession\TestSessionType.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataCache.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Author\ParseAuthor.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\ParseMarkup\Parser\Template\Description\ParseDescription.cs" />
@@ -343,6 +342,7 @@
     <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsg.cs" />
     <Compile Include="Domain\Message\HtmlMessage\KnowledgeReportMsgModel.cs" />
     <Compile Include="Domain\Message\MessageEmailTypes.cs" />
+    <Compile Include="Domain\QuestionSet\Ops\Timecode.cs" />
     <Compile Include="Domain\QuestionSet\SetView\Ops\SaveSetView.cs" />
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewMap.cs" />
     <Compile Include="Domain\QuestionSet\SetView\SetView.cs" />
@@ -351,6 +351,7 @@
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
+    <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
@@ -876,6 +877,9 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs167.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs168.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs166.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs163.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs161.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs160.cs" />

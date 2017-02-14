@@ -95,7 +95,7 @@ public class MaintenanceController : BaseController
     public ActionResult UpdateFieldQuestionCountForCategories()
     {
         Resolve<UpdateQuestionCountForCategory>().All();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Kategorien wurde aktualisiert.") });
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Feld: AnzahlFragen für Themen wurde aktualisiert.") });
     }
 
     [ValidateAntiForgeryToken][HttpPost]
@@ -130,7 +130,7 @@ public class MaintenanceController : BaseController
     public ActionResult ReIndexAllCategories()
     {
         Resolve<ReIndexAllCategories>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Kategorien wurden neu indiziert.") });
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Themen wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken][HttpPost]
@@ -243,7 +243,7 @@ public class MaintenanceController : BaseController
             questionRepo.Update(question);
         }
 
-        toolsModel.Message = new SuccessMessage($"Die Kategorie \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Fragesätzen {setsString} zugewiesen");
+        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Fragesätzen {setsString} zugewiesen");
 
         //ModelState.Clear(); 
 

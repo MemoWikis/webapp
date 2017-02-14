@@ -3,10 +3,12 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <% Title = "Kategorie: " + Model.Name; %>
+    <% Title = "Thema: " + Model.Name; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
     <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(25, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(89, true) %> - Lerne mit memucho!"/>
     
+
+    <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.Category).Url %>" />
@@ -44,7 +46,7 @@
                     <% if (Model.FeaturedSets.Count > 0){
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
-                            new SingleSetCollectionModel(Model.FeaturedSets, "Ausgewählte Fragesätze"));
+                            new SingleSetCollectionModel(Model.FeaturedSets));
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
 
@@ -70,7 +72,9 @@
                     
                 <% } %>
             
+                <div class="MarkdownContent">
                     <%= Model.CustomPageHtml %>
+                </div>
 
             <% } %>
 

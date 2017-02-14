@@ -20,16 +20,16 @@
         <div class=" container">
             <div id="mobilePageHeader" class="">
                 <h3 class="">
-                    Kategorien
+                    Themen
                 </h3>
                 <a href="<%= Url.Action("Create", "EditCategory") %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
-                    Kategorie erstellen
+                    Thema erstellen
                 </a>
             </div>
             <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
                 <h4>
-                    Kategorien
+                    Themen
                 </h4>
             </nav>
         </div>
@@ -82,7 +82,7 @@
                         <li class="active JS-All">
                             <a href="#home" >
                                 <% string von = GetTabText(Model.ActiveTabAll, Model.TotalCategoriesInSystem, Model.TotalCategoriesInResult); %> 
-                                Alle Kategorien  (<span class="JS-Amount"><%= von + Model.TotalCategoriesInSystem %></span>)
+                                Alle Themen (<span class="JS-Amount"><%= von + Model.TotalCategoriesInSystem %></span>)
                             </a>
                         </li>
                         <li class="JS-Mine">
@@ -93,7 +93,7 @@
                     </ul>
                     <div class="" style="float: right; position: absolute; right: 0; top: 5px;">
                         <a href="<%= Url.Action("Create", "EditCategory") %>" class="btn btn-success btn-sm">
-                            <i class="fa fa-plus-circle"></i>  Kategorie erstellen
+                            <i class="fa fa-plus-circle"></i>  Thema erstellen
                         </a>
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                     <div class="search-section">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="pull-left form-group">
+                                <div class="form-group">
 <%--                                <% if(!String.IsNullOrEmpty(Model.Suggestion)){ %> 
                                         <div style="padding-bottom: 10px; font-size: large">
                                             Oder suchst du: 
@@ -113,7 +113,7 @@
 
                                     <div class="input-group">
                                         <%: Html.TextBoxFor(model => model.SearchTerm, 
-                                                new {@class="form-control", id="txtSearch", formurl = "/Kategorien/Suche"}) %>
+                                                new {@class="form-control", placeholder="Beginne zu tippen, um Themen zu finden", id="txtSearch", formurl = "/Kategorien/Suche"}) %>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>

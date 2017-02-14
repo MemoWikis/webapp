@@ -333,7 +333,7 @@ class AnswerQuestion {
             cache: false,
             success: function(result) {
                 self.AnswerCountedAsCorrect = true;
-                $(Utils.UIMessageHtml(successMessage, "success")).insertAfter('#InputAndButtons');
+                $(Utils.UIMessageHtml(successMessage, "success")).insertAfter('#Buttons');
                 self._inputFeedback.AnimateCorrectAnswer();
                 $('#aCountAsCorrect').hide();
                 $("#answerHistory").empty();

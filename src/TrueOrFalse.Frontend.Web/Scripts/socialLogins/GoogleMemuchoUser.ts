@@ -15,11 +15,11 @@
         return doesExist;
     }
 
-    static Login(googleId: string) {
+    static Login(googleId: string, googleIdToken : string) {
 
         $.ajax({
             type: 'POST', async: false, cache: false,
-            data: { googleId: googleId},
+            data: { googleId: googleId, googleToken: googleIdToken},
             url: "/Api/GoogleUsers/Login",
             error(error) { throw error }
         });

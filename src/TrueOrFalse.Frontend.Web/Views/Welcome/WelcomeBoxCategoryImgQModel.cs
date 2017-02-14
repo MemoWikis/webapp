@@ -13,7 +13,7 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
 
     public WelcomeBoxCategoryImgQModel(int categoryId, int[] questionIds, string categoryDescription = null) 
     {
-        var category = R<CategoryRepository>().GetById(categoryId) ?? new Category("Kategorie nicht gefunden");
+        var category = R<CategoryRepository>().GetById(categoryId) ?? new Category("Thema nicht gefunden");
         CategoryId = category.Id;
         CategoryName = category.Name;
         CategoryDescription = categoryDescription ?? category.Description;

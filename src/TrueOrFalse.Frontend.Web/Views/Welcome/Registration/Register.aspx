@@ -27,7 +27,7 @@
                     Wir gehen sorgfältig mit deinen Daten um. 
                 </div>
                 <div class="col-xs-12" >
-                    <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst vollständig memucho nutzen :-)
+                    <i class="fa fa-clock-o"></i> <b>Noch 20 Sekunden</b> und du kannst memucho ohne Einschränkungen nutzen :-)
                 </div>
             </div>
 

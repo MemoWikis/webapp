@@ -26,10 +26,15 @@ public class LearningSessionResultModel : BaseModel
     public int TrainingDateCount;
     public string RemainingTrainingTime;
 
+    public IList<Set> SetsToLearn { get; set; }
+
     public int KnowledgeNotLearned;
     public int KnowledgeNeedsLearning;
     public int KnowledgeNeedsConsolidation;
     public int KnowledgeSolid;
+
+    public int WishCountQuestions;
+    public int WishCountSets;
 
     public LearningSessionResultModel(LearningSession learningSession)
     {
@@ -50,6 +55,12 @@ public class LearningSessionResultModel : BaseModel
             KnowledgeNeedsLearning = summary.NeedsLearning;
             KnowledgeNeedsConsolidation = summary.NeedsConsolidation;
             KnowledgeSolid = summary.Solid;
+        }
+        else if (learningSession.IsWishSession)
+        {
+            WishCountQuestions = learningSession.User.WishCountQuestions;
+            WishCountSets = learningSession.User.WishCountSets;
+            SetsToLearn = learningSession.SetsToLearn();
         }
 
         if (NumberSteps > 0)

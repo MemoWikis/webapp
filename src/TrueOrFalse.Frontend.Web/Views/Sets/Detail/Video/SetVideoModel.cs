@@ -7,17 +7,17 @@ public class SetVideoModel : BaseModel
     public string VideoKey;
 
     public int QuestionCount;
-    public IList<Question> Questions;
+    public ISet<QuestionInSet> QuestionsInSet;
     public int CurrentQuestion => AnswerBodyModel.QuestionId;
 
     public SetVideoModel(Set set)
     {
         var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
 
+        QuestionsInSet = set.QuestionsInSet;
         VideoKey = set.VideoKey;
         AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
 
         QuestionCount = set.Questions().Count;
-        Questions = set.Questions();
     }
 }

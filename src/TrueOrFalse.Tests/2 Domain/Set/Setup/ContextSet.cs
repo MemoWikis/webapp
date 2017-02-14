@@ -104,4 +104,21 @@ public class ContextSet
 
         return this;
     }
+
+    public static Set GetPersistedSampleSet()
+    {
+        var questionContext = ContextQuestion.New()
+            .AddQuestion(questionText: "Q1", solutionText: "A1").AddCategory("A")
+            .AddQuestion(questionText: "Q2", solutionText: "A2").AddCategory("A")
+            .AddQuestion(questionText: "Q3", solutionText: "A3")
+            .AddQuestion(questionText: "Q4", solutionText: "A4").AddCategory("B")
+            .Persist();
+
+        var set = new Set { Creator = ContextUser.GetUser() };
+        set.Add(questionContext.All);
+
+        Sl.SetRepo.Create(set);
+
+        return set;
+    }
 }

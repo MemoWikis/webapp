@@ -13,6 +13,7 @@
     </div>
 </div>
 
+
 <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
 
 <div style="background-color: white;">
@@ -20,3 +21,5 @@
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
     </div>
 </div>
+
+<script src="/Views/Sets/Detail/Js/SetVideoPlayer.js"></script>

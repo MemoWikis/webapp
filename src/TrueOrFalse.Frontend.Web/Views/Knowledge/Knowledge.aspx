@@ -12,23 +12,6 @@
 
     <script>
         $(function () {
-            var titles = ['Sicheres Wissen', 'Sollte gefestigt werden', 'Sollte dringend gelernt werden', 'Noch nie gelernt'];
-            $("#totalKnowledgeSpark")
-                .sparkline(
-                    [<%= Model.KnowledgeSummary.Solid %>, <%= Model.KnowledgeSummary.NeedsConsolidation %>, <%= Model.KnowledgeSummary.NeedsLearning %>, <%= Model.KnowledgeSummary.NotLearned %>],
-                    {
-                        type: 'pie',
-                        sliceColors: ['#3e7700', '#fdd648', '#B13A48', '#EFEFEF'],
-                        tooltipFormat: '{{offset:slice}} {{value}} ({{percent.1}}%)',
-                        tooltipValueLookups: {'slice': titles},
-                    }
-                );
-
-            $("#totalKnowledgeOverTimeSpark").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7, 5, 6, 7, 9, 9, 5], {
-                type: 'line',
-                witdh: '250'
-            });
-
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
             $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });

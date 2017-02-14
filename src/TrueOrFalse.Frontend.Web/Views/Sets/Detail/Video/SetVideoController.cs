@@ -1,4 +1,7 @@
-﻿public class SetVideoController : BaseController
+﻿using System;
+using System.Web.Mvc;
+
+public class SetVideoController : BaseController
 {
     public string RenderAnswerBody(int questionId)
     {
@@ -7,5 +10,12 @@
             new AnswerBodyModel(new AnswerQuestionModel(R<QuestionRepo>().GetById(questionId))),
             ControllerContext
         );
+    }
+
+    public EmptyResult SaveTimeCode(string questionInSetId, string timeCode)
+    {
+        R<QuestionInSetRepo>().SaveTimecode(Convert.ToInt32(questionInSetId), timeCode);
+        
+        return new EmptyResult();
     }
 }

@@ -29,7 +29,7 @@
 @import 'colors.less';
 @import 'extends.less';
 @import (reference) '../bootstrap/bootstrap.less';
-@import '../../fonts/font-awesome-4.4.0/less/font-awesome.less';
+@import '../../fonts/font-awesome-4.7.0/less/font-awesome.less';
 
 /*  Helper classes
 ----------------------------------------------------------*/
@@ -197,6 +197,53 @@
 
 }
 
+/*Heart Button*/
+.HeartToAddButton {
+
+    .iAdded, .iAddedNot, .iAddSpinner {
+    .btn;
+
+        height: 34px;
+
+        &, & i {
+            line-height: 20px;
+        }
+
+        i {
+            font-size: 22px;
+            height: 20px;
+        }
+
+        &.hide2 {
+            display: none;
+        }
+    }
+
+    .iAddedNot {
+        .btn-danger;
+
+        background-color: @dark-red;
+
+        i {color: white;}
+
+        span {
+            padding-left: 2px;
+            position: relative;
+            bottom: 3px;
+        }
+    }
+    .iAdded {
+
+        &, &:focus, &:active, &:hover {
+            box-shadow: none;
+        }
+        i {
+            color: @dark-red;
+            font-size: 22px;
+        }
+    }
+}
+
 /*  Boxes
 ----------------------------------------------------------*/
 
@@ -248,15 +295,9 @@
     .BottomBar {
         padding: 5px;
     }
-
-    .CardsPortrait &, .CardsLandscape & {
-        margin-bottom: 0;
-    }
 }
 
 .CardsLandscape { // Apply to row
-
-    margin-bottom: 20px;
 
     .CardColumn {
 
@@ -278,8 +319,6 @@
 
 .CardsLandscapeNarrow { // Apply to row
 
-    margin-bottom: 20px;
-    
     .CardColumn {
 
         .MakeSingleItemCardLandscape;
@@ -306,8 +345,6 @@
 
 .CardsPortrait{ // Apply to row
     
-    margin-bottom: 20px;
-
     .CardColumn {
         .make-xs-column(4);
         .make-sm-column(4);

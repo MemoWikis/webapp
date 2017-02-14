@@ -6,8 +6,62 @@
     });
 }
 
-#InputAndButtons {
-    padding-bottom: 10px;
+
+
+#MarkdownCol {
+    .make-sm-column(4);
+}
+
+#AnswerAndSolutionCol {
+
+    .make-sm-column(12);
+
+
+    #MarkdownCol + & {
+
+        .make-sm-column(8);
+
+        > div {
+
+            .media-sm-up({
+                margin-left: 20px;
+            });
+        }
+    }
+
+    #AnswerInputSection {
+
+        margin-bottom: 15px;
+
+        .make-sm-column(6);
+
+        .media-below-sm({
+            max-width: 550px;
+        });
+
+        #MarkdownCol + & {
+            width: 100%;
+        }
+    }
+
+    #ButtonsAndSolutionCol {
+        .make-sm-column(6);
+
+        #MarkdownCol + & {
+            width: 100%;
+        }
+    }
+
+    #ButtonsAndSolution {
+
+        .media-sm-up({
+            margin-left: 20px;
+        });
+        
+        #MarkdownCol + & {
+            margin-left: 0;
+        }
+    }
 }
 
 #AnswerInputSection {
@@ -16,9 +70,11 @@
     vertical-align: bottom;
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: 10px;
     margin-bottom: 0px;
-    width: 64%;
-    .media-below-md ({
+    width: 100%;
+
+    .media-below-sm ({
         margin-top: 15px;
         width: 100%;
     });
@@ -30,8 +86,78 @@
     label {
         position: relative;
     }
+    
+
+    .radio {
+        
+        margin-bottom: 0;
+        
+        #MarkdownCol + #AnswerAndSolutionCol & {
+            margin-top: 0;//If image present, align first radio line with it
+        }
+
+        & +.radio {
+            margin-top: 10px;
+
+            .media-below-sm({
+                margin-top: 15px;
+            });
+        }
+        
+    }
 }
 
+#txtAnswer {
+    max-width: 450px;
+}
+
+#Buttons {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 10px;
+    width: 100%;
+
+    .btn-link {
+        padding-left: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-left: 0;
+    }
+
+    .btn {
+        margin-right: 10px;
+        .MarginForButtons;
+
+        .media-below-xs({
+            display: table; //Keeps width of element to text length but still inserts break
+        });
+    }
+    .HeartToAddButton {
+        float: right;
+        .MarginForButtons;
+
+        .iAddedNot span {
+            display: none;
+        }
+    }
+
+}
+
+.MarginForButtons() {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+
+#answerQuestionDetails .label {
+    max-width: 100%;
+}
+
+#AnswerFeedbackAndSolutionDetails {
+    margin-top: 20px;
+}
 
 .answerFeedback {
     position: absolute;
@@ -48,60 +174,10 @@
     font-weight: bold;
  }
 .answerFeedbackCorrect {
-    background-color: #1bbd00;
+    background-color: @memo-green;
 }
 .answerFeedbackWrong {
-    background-color: #db0808; //#efc7ce
-}
-
-#Buttons {
-    display: inline-block;
-    vertical-align: bottom;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 35%;
-
-    .media-below-md ({
-        margin-top: 15px;
-        width: 100%;
-    });
-     
-    .buttonSingle {
-        .SecAction {
-            padding-right: 0;
-            padding-top: 0;
-            .media-below-md ({
-                padding-right: 12px;
-                padding-top: 6px;
-            });
-        }
-        .media-below-md ({
-            float: left;
-        });
-    }
-
-    text-align: right;
-
-    #buttons-first-try {
-        float: right;
-    }
-
-    #buttons-next-question {
-        float: right;
-    }
-
-    #buttons-edit-answer {
-        float: right;
-    }
-
-    #buttons-answer-again {
-        float: right;
-    }
-}
-
-#answerQuestionDetails .label {
-    max-width: 100%;
+    background-color: @dark-red; //#efc7ce
 }
 
 #divAnsweredCorrect {
@@ -118,4 +194,16 @@
 
 .commentSettledInfo {
     color: darkgray;
+}
+
+.MarkdownImage {
+    img {
+
+        max-height: 500px;
+
+        .media-below-sm({
+            max-height: 250px;
+        });
+
+    }
 }

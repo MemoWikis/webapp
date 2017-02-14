@@ -31,6 +31,10 @@ h6 {
   margin-top: 50px;
   margin-bottom: 2px;
 }
+.CardsPortrait + .welcomeContentSectionHeader,
+.CardsLandscape + .welcomeContentSectionHeader {
+  margin-top: 30px;
+}
 .welcomeContentSectionTarget {
   color: #999999;
   margin-bottom: 5px;

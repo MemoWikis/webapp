@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace TrueOrFalse.Tests.Persistence
 {
@@ -6,24 +7,32 @@ namespace TrueOrFalse.Tests.Persistence
     public class Set_persistence : BaseTest
     {
         [Test]
-        public void QuestionSet_should_be_persisted()
+        public void Set_should_be_persisted()
         {
-            var questionContext = ContextQuestion.New()
-                .AddQuestion(questionText: "Q1", solutionText: "A1").AddCategory("A")
-                .AddQuestion(questionText: "Q2", solutionText: "A2").AddCategory("A")
-                .AddQuestion(questionText: "Q3", solutionText: "A3")
-                .AddQuestion(questionText: "Q4", solutionText: "A4").AddCategory("B")
-                .Persist();
-
-            var set = new Set { Creator = ContextUser.GetUser() };
-            set.Add(questionContext.All);
-
-            R<SetRepo>().Create(set);
+            ContextSet.GetPersistedSampleSet();
 
             RecycleContainer();
 
-            var questionSetFromDb = R<SetRepo>().GetAll()[0];
-            Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(4));
+            var setFromDB = R<SetRepo>().GetAll()[0];
+            Assert.That(setFromDB.QuestionsInSet.Count, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void Set_should_persist_timecodes()
+        {
+            var set = ContextSet.GetPersistedSampleSet();
+            set.QuestionsInSet.First().Timecode = 10;
+            set.QuestionsInSet.Skip(1).First().Timecode = 20;
+            set.QuestionsInSet.Skip(2).First().Timecode = 35;
+
+            R<SetRepo>().Update(set);
+
+            RecycleContainer();
+
+            var setFromDB = R<SetRepo>().GetAll()[0];
+            Assert.That(setFromDB.QuestionsInSet.First().Timecode, Is.EqualTo(10));
+            Assert.That(setFromDB.QuestionsInSet.Skip(1).First().Timecode, Is.EqualTo(20));
+            Assert.That(setFromDB.QuestionsInSet.Skip(2).First().Timecode, Is.EqualTo(35));
         }
     }
 }

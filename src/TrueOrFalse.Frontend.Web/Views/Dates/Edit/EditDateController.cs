@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate.Mapping;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -12,7 +14,7 @@ public class EditDateController : BaseController
 
     [HttpGet]
     [SetMenu(MenuEntry.Dates)]
-    public ViewResult Create(int? setId = null, int? categoryId = null)
+    public ViewResult Create(int? setId = null, int? categoryId = null, List<int> setIds = null, string setListTitle = null)
     {
         var model = new EditDateModel();
 
@@ -24,7 +26,13 @@ public class EditDateController : BaseController
                 model.Details = set.Name;
                 model.Sets.Add(set);
             }
-        } else if (categoryId != null)
+        } else if ((setIds != null) && setListTitle != null)
+        {
+            var sets = Sl.R<SetRepo>().GetByIds(setIds);
+            ((List<Set>)model.Sets).AddRange(sets);
+            model.Details = setListTitle;
+        }
+        else if (categoryId != null)
         {
             var category = Sl.R<CategoryRepository>().GetById((int) categoryId);
             var sets = category.GetSets(true);
