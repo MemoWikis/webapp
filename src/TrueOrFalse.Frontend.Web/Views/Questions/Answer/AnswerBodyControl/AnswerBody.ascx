@@ -65,7 +65,7 @@
                         <div id="ButtonsAndSolution" class="Clearfix">
                             <div id="Buttons" class="" style="">
                                 
-                                <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge) {QuestionId = Model.QuestionId}) %>
 
                                 <div id="buttons-first-try" class="ButtonGroup">
                                     <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
