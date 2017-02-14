@@ -61,7 +61,26 @@
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 
     <div class="row">
-        <div class="col-lg-9 col-xs-9 xxs-stack">
+        <div class="col-xs-12 col- xxs-stack">
+            <% if (Model.IsOwner)
+               { %>
+                <div class="navLinks">
+                    <div id="EditQuestion">
+                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
+                            <i class="fa fa-pencil"></i>
+                            <span class="TextSpan">Frage bearbeiten</span>
+                        </a>
+                    </div>
+            
+                    <div id="DeleteQuestion">
+                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
+                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
+                        </a>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="col-xs-12 xxs-stack">
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
             <% }else if (Model.IsTestSession) { %>
@@ -131,25 +150,7 @@
             <% } %>
         </div>
 
-        <div class="col-xs-3 xxs-stack">
-            <% if (Model.IsOwner)
-               { %>
-                <div class="navLinks">
-                    <div id="EditQuestion">
-                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
-                            <i class="fa fa-pencil"></i>
-                            <span class="TextSpan">Frage bearbeiten</span>
-                        </a>
-                    </div>
-            
-                    <div id="DeleteQuestion">
-                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
-                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
-                        </a>
-                    </div>
-                </div>
-            <% } %>
-        </div>
+        
     </div>
 
     <div class="row">

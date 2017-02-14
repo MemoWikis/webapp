@@ -18,6 +18,12 @@
 }
 @media (min-width: 650px) {
 }
+.navLinks {
+  margin-bottom: 10px;
+}
+.navLinks > div {
+  display: inline-block !important;
+}
 @media (max-width: 479px) {
   #AnswerQuestionPager {
     margin-bottom: 10px;
