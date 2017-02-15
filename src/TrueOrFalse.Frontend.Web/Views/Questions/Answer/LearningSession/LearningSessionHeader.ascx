@@ -51,40 +51,29 @@
     </span>
     </h2>
 
-   <%-- <div class="progressBarContainer">
-        <% if (Model.CurrentLearningStepPercentage>0) {%>
-            <div class="progressBar progressBarDone" style="width: <%= Model.CurrentLearningStepPercentage %>%;">
-                &nbsp;
-            </div>
-        <% } %>                
-        <% if (Model.CurrentLearningStepPercentage<100) {%>
-            <div class="progressBar progressBarLeft" style="width: <%= 100-Model.CurrentLearningStepPercentage %>%;">
-                &nbsp; 
-            </div>
-        <% } %>
-        <div class="progressBar progressBarLegend">
-            <%= Model.CurrentLearningStepPercentage %>%
-        </div>
-    </div>--%>
-    
     <div class="SessionBar">
         <div class="QuestionCount" style="float: right;">Abfrage x von y</div>
-        <div class="BarLabel"> 
+        <div class="SessionType">
             <span class="show-tooltip"
-            data-original-title="In diesem Modus hast du drei Antwortversuche, 
-            kannst Fragen überspringen und es werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt." style="float: left;">
-            Lernen 
+            data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
+                    <ul>
+                        <li>kannst du dir die Lösung anzeigen lassen</li>
+                        <li>kannst du Fragen überspringen</li>
+                        <li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt</li>
+                    </ul>
+                </div>"%>" data-html="true" style="float: left;">
+                Lernen 
                 <i class="fa fa-info-circle"></i>
             </span>
         </div>
         <div class="ProgressBarContainer">
-            <div class="progressBar progressBarDone" style="width: <%= Model.CurrentLearningStepPercentage== 0 ? "0" : Model.CurrentLearningStepPercentage + "%" %>;">
-                <div class="progressBar progressBarLegend">
+            <div class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.CurrentLearningStepPercentage== 0 ? "0" : Model.CurrentLearningStepPercentage + "%" %>;">
+                <div class="ProgressBarSegment ProgressBarLegend">
                     <%= Model.CurrentLearningStepPercentage %>%
                 </div>
             </div>
             <% if (Model.CurrentLearningStepPercentage<100) {%>
-                <div class="progressBar progressBarLeft" style="width: <%= 100-Model.CurrentLearningStepPercentage %>%;">
+                <div class="ProgressBarSegment ProgressBarLeft" style="width: <%= 100-Model.CurrentLearningStepPercentage %>%;">
                     &nbsp; 
                 </div>
             <% } %>

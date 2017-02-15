@@ -56,13 +56,6 @@
 .progress {
   height: 30px;
 }
-.PercentageBar {
-  display: table;
-  float: left;
-}
-.BarLabel {
-  float: left;
-}
 #divIndicatorAverage {
   margin-top: -15px;
   color: silver;
@@ -102,25 +95,6 @@
 }
 .chartNotAnswered {
   background-color: lightgray;
-}
-.progressBarContainer {
-  position: relative;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: table;
-  width: 100%;
-}
-.progressBar {
-  display: table-cell;
-  height: 30px;
-  overflow: hidden;
-  text-align: center;
-}
-.progressBarLegend {
-  position: absolute;
-  left: 0px;
-  top: 4px;
-  width: 100%;
 }
 .SummaryText {
   margin: 40px 0;
@@ -252,53 +226,78 @@
 .boxInfoContent p {
   margin: 3px 0;
 }
-.BarLabel,
+/* Session bar/Progress bar
+------------------------------------------------------*/
+.SessionBar {
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 10px;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
 .ProgressBarContainer,
-.QuestionCount {
-  padding-left: 0;
-  padding-right: 0;
+.SessionType,
+.QuestionCount,
+.ProgressBarSegment {
   height: 30px;
 }
-.BarLabel,
+.SessionType,
 .QuestionCount {
   background-color: #AFD534;
   padding-top: 4px;
 }
 @media (max-width: 479px) {
-  .BarLabel,
+  .SessionType,
   .QuestionCount {
     padding-left: 15px;
     padding-right: 15px;
   }
 }
 @media (min-width: 480px) {
-  .BarLabel,
+  .SessionType,
   .QuestionCount,
-  .BarLabel span,
+  .SessionType span,
   .QuestionCount span {
     text-align: center;
   }
 }
-.BarLabel span,
+.SessionType span,
 .QuestionCount span {
   width: 100%;
 }
-.BarLabel span {
+.SessionType {
+  float: left;
+}
+.SessionType span {
   text-transform: uppercase;
   font-weight: bold;
 }
 @media (min-width: 480px) {
-  .BarLabel {
+  .SessionType {
     width: 20%;
   }
 }
 @media (min-width: 768px) {
-  .BarLabel {
+  .SessionType {
     width: 15%;
   }
 }
 @media (min-width: 992px) {
-  .BarLabel {
+  .SessionType {
     width: 10%;
   }
 }
@@ -335,35 +334,23 @@
     width: 20%;
   }
 }
-.progressBarDone {
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+}
+.ProgressBarDone {
   background-color: #c8e273;
   position: relative;
   overflow: visible;
 }
-.progressBarLeft {
+.ProgressBarLeft {
   background-color: #e1efb3;
-}
-.SessionBar {
-  border: solid 2px #AFD534;
-  background-color: #AFD534;
-  margin-bottom: 10px;
-}
-.SessionBar:before,
-.SessionBar:after {
-  content: " ";
-  display: table;
-}
-.SessionBar:after {
-  clear: both;
-}
-.SessionBar:before,
-.SessionBar:after {
-  content: " ";
-  display: table;
-}
-.SessionBar:after {
-  clear: both;
-}
-.progressBarLegend {
-  min-width: 30px;
 }

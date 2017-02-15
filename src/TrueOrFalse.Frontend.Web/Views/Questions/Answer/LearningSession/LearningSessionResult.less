@@ -48,16 +48,6 @@
     height: 30px;
 }
 
-.PercentageBar {
-    //width: 100%;
-    display: table;
-    float: left;
-}
-
-.BarLabel {
-    float: left;
-}
-
 #divIndicatorAverage {
     margin-top: -15px;
     color: silver;
@@ -100,28 +90,6 @@
 }
 .chartNotAnswered {
     background-color: @color-notAnswered;
-}
-
-.progressBarContainer { 
-    position: relative;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: table;
-    width: 100%;
-}
-
-.progressBar {
-    display: table-cell;
-    height: 30px;
-    overflow: hidden;
-    text-align: center;
-}
-
-.progressBarLegend {
-    position: absolute;
-    left: 0px;
-    top: 4px;
-    width: 100%;
 }
 
 .SummaryText {
@@ -274,16 +242,21 @@
     }
 }
 
+/* Session bar/Progress bar
+------------------------------------------------------*/
 
-.BarLabel, .ProgressBarContainer, .QuestionCount {
-    padding-left: 0;
-    padding-right: 0;
+.SessionBar {
+    border: solid 2px @memo-green;
+    background-color: @memo-green;
+    margin-bottom: 10px;
+    .clearfix;
+}
 
-    
+.ProgressBarContainer, .SessionType, .QuestionCount, .ProgressBarSegment {
     height: 30px;
 }
 
-.BarLabel, .QuestionCount {
+.SessionType, .QuestionCount {
 
     background-color: @memo-green;
 
@@ -305,7 +278,9 @@
     padding-top: 4px;
 }
 
-.BarLabel {
+.SessionType {
+
+    float: left;
 
     span {
         text-transform: uppercase;
@@ -358,23 +333,26 @@
     });
 }
 
-.progressBarDone {
+.ProgressBarSegment {
+    display: table-cell;
+    overflow: hidden;
+    text-align: center;
+}
+
+.ProgressBarLegend {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 100%;
+    min-width: 30px;
+}
+
+.ProgressBarDone {
     background-color: lighten(@memo-green, 15);
     position: relative;
     overflow: visible;
 }
 
-.progressBarLeft {
+.ProgressBarLeft {
     background-color: lighten(@memo-green, 30);
-}
-
-.SessionBar {
-    border: solid 2px @memo-green;
-    background-color: @memo-green;
-    margin-bottom: 10px;
-    .clearfix;
-}
-
-.progressBarLegend {
-    min-width: 30px;
 }
