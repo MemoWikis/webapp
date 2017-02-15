@@ -17,11 +17,14 @@ class SetVideoPlayer
     VideoIsPlaying = false;
     VideoCheckIntervalPaused = false;
 
+    IsVideoPausingEnabled = true;
+
     constructor() {
 
         $(() => {
             this.InitVideoStops();
             this.StartTimecodeCheck();
+            new VideoPausingButtons(this);
         });
     }
 
@@ -49,7 +52,7 @@ class SetVideoPlayer
                     +$(this).attr("data-video-question-id"),
                     +$(this).attr("data-video-pause-at")
                 ));
-        });    
+        });
     }
 
     public StartTimecodeCheck() {
@@ -57,7 +60,7 @@ class SetVideoPlayer
         var lastVideoCheck = 0;
         var interval = setInterval(() => {
 
-            if (!this.VideoIsPlaying || this.VideoCheckIntervalPaused)
+            if (!this.VideoIsPlaying || this.VideoCheckIntervalPaused || !this.IsVideoPausingEnabled)
                 return;
 
             this.VideoCheckIntervalPaused = true;
@@ -87,6 +90,52 @@ class SetVideoPlayer
         }, 500);
     }
 
+
+}
+
+class VideoPausingButtons {
+    _stopPausingBtn: JQuery;
+    _startPausingBtn: JQuery;
+
+    _setVideoPlayer: SetVideoPlayer;
+
+    constructor(setVideoPlayer : SetVideoPlayer) {
+        this._setVideoPlayer = setVideoPlayer;
+        this.InitPauseStopActions();
+    }
+
+    InitPauseStopActions() {
+        this._stopPausingBtn = $("#stopPausingVideo");
+        this._startPausingBtn = $("#startPausingVideo");
+
+        if (this._setVideoPlayer.IsVideoPausingEnabled) {
+            this.ShowStopPausingBtn();
+        } else {
+            this.ShowStartPausingBtn();
+        }
+
+        this._stopPausingBtn.click((e) => {
+            e.preventDefault();
+            this._setVideoPlayer.IsVideoPausingEnabled = false;
+            this.ShowStartPausingBtn();
+        });
+
+        this._startPausingBtn.click((e) => {
+            e.preventDefault();
+            this._setVideoPlayer.IsVideoPausingEnabled = true;
+            this.ShowStopPausingBtn();
+        });
+    }
+
+    ShowStartPausingBtn() {
+        this._startPausingBtn.show();
+        this._stopPausingBtn.hide();
+    }
+
+    ShowStopPausingBtn() {
+        this._startPausingBtn.hide();
+        this._stopPausingBtn.show(); 
+    }
 }
 
 

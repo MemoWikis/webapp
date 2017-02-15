@@ -16,13 +16,20 @@
                 <a href="#" class="btn btn-sm <%= classCurrent %>" data-video-question-id="<%= question.Id %>" data-video-pause-at="<%= questionInSet.Timecode %>"><%= i %></a>
             <% } %>
         </div>
-        <div class="col-xs-1">
-<%--            <a href="#">
-                <i class="fa fa-pause-circle show-tooltip" 
-                    data-action=""
-                    data-original-title="Für Fragen automatisch pausieren"
+        <div class="col-xs-1 pause-buttons">
+            <a href="#">
+                <i class="fa fa-pause-circle-o show-tooltip hide2" 
+                    id="stopPausingVideo"
+                    data-original-title="Nicht mehr automatisch pausieren"
                     aria-hidden="true" style="font-size: 22px; padding:13px;"></i>
-            </a>--%>
+            </a>
+            
+            <a href="#">
+                <i class="fa fa-play-circle-o show-tooltip hide2" 
+                    id="startPausingVideo"
+                    data-original-title="Automatisch pausieren"
+                    aria-hidden="true" style="font-size: 22px; padding:13px;"></i>
+            </a>
         </div>
     </div>    
 </div>
