@@ -221,6 +221,10 @@ div.selected-row:hover { background-color: #d6e0f4;}
         z-index: 1;//To have image column clickable
     });
 
+    .media-xs ({
+        padding-right: 0;
+    });
+
     .make-xs-column(2);
 
     .media-sm-up({
@@ -232,7 +236,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
     }
 
     img {
-        width: 105px;
         -moz-border-radius: @border-radius-item-image;
         -webkit-border-radius: @border-radius-item-image;
         border-radius: @border-radius-item-image;
@@ -261,7 +264,7 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
     .media-below-xs ({
         width: 100%;
-        padding-left: 76px;
+        padding-left: (@column-Image-below-xs-width + 1px);
     });
 
     .media-sm-up ({
