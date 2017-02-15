@@ -68,7 +68,15 @@
     </div>--%>
     
     <div class="SessionBar">
-        <div class="BarLabel">Testen</div>
+        <div class="QuestionCount" style="float: right;">Abfrage x von y</div>
+        <div class="BarLabel"> 
+            <span class="show-tooltip"
+            data-original-title="In diesem Modus hast du drei Antwortversuche, 
+            kannst Fragen überspringen und es werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt." style="float: left;">
+            Lernen 
+                <i class="fa fa-info-circle"></i>
+            </span>
+        </div>
         <div class="ProgressBarContainer">
             <div class="progressBar progressBarDone" style="width: <%= Model.CurrentLearningStepPercentage== 0 ? "0" : Model.CurrentLearningStepPercentage + "%" %>;">
                 <div class="progressBar progressBarLegend">
@@ -82,6 +90,6 @@
             <% } %>
             
         </div>
-        <div class="QuestionCount">Abfrage x von y</div>
+        
     </div>
 </div>

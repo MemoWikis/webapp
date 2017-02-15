@@ -102,7 +102,6 @@
     background-color: @color-notAnswered;
 }
 
-
 .progressBarContainer { 
     position: relative;
     margin-top: 5px;
@@ -112,13 +111,10 @@
 }
 
 .progressBar {
-    display: table-cell; /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
+    display: table-cell;
     height: 30px;
-    text-align: center;
-    vertical-align: middle;
     overflow: hidden;
-    font-weight: bold;
-    color: @white;
+    text-align: center;
 }
 
 .progressBarLegend {
@@ -126,15 +122,6 @@
     left: 0px;
     top: 4px;
     width: 100%;
-    color: @memo-blue-lighter;
-}
-
-.progressBarDone {
-    background-color: @memo-green;
-}
-
-.progressBarLeft {
-    background-color: #dddddd;
 }
 
 .SummaryText {
@@ -287,49 +274,86 @@
     }
 }
 
-.BarLabel, .QuestionCount {
-    background-color: @memo-green;
-    text-align: center;
-    padding-top: 4px;
-}
 
 .BarLabel, .ProgressBarContainer, .QuestionCount {
-    .make-xs-column(12);
     padding-left: 0;
     padding-right: 0;
+
+    
     height: 30px;
 }
 
+.BarLabel, .QuestionCount {
+
+    background-color: @memo-green;
+
+    .media-below-xs({
+        padding-left: 15px;
+        padding-right: 15px;
+    });
+
+     &, & span {
+        .media-xs-up({
+            text-align: center;
+        });
+    }
+
+     span {
+         width: 100%;
+     }
+    
+    padding-top: 4px;
+}
 
 .BarLabel {
-    
+
+    span {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
     .media-xs-up({
-        width: 15%;
+        width: 20%;
     });
 
     .media-sm-up({
+        width: 15%;
+    });
+
+    .media-md-up({
         width: 10%;
     });
 
 }
 
 .ProgressBarContainer {
+
     display: table;
+
+    .media-below-xs({
+        width: 100%;
+    });
+
     .media-xs-up({
-        width: 55%;
+        width: 50%;
     });
 
     .media-sm-up({
+        width: 55%;
+    });
+
+    .media-md-up({
         width: 70%;
     });
 }
 
 .QuestionCount {
+
     .media-xs-up({
         width: 30%;
     });
 
-    .media-sm-up({
+    .media-md-up({
         width: 20%;
     });
 }

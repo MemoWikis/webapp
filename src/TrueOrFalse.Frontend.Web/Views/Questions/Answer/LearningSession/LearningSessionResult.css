@@ -112,26 +112,15 @@
 }
 .progressBar {
   display: table-cell;
-  /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
   height: 30px;
-  text-align: center;
-  vertical-align: middle;
   overflow: hidden;
-  font-weight: bold;
-  color: #fff;
+  text-align: center;
 }
 .progressBarLegend {
   position: absolute;
   left: 0px;
   top: 4px;
   width: 100%;
-  color: #1964c8;
-}
-.progressBarDone {
-  background-color: #AFD534;
-}
-.progressBarLeft {
-  background-color: #dddddd;
 }
 .SummaryText {
   margin: 40px 0;
@@ -264,30 +253,51 @@
   margin: 3px 0;
 }
 .BarLabel,
-.QuestionCount {
-  background-color: #AFD534;
-  text-align: center;
-  padding-top: 4px;
-}
-.BarLabel,
 .ProgressBarContainer,
 .QuestionCount {
-  position: relative;
-  float: left;
-  width: 100%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
   padding-left: 0;
   padding-right: 0;
   height: 30px;
 }
+.BarLabel,
+.QuestionCount {
+  background-color: #AFD534;
+  padding-top: 4px;
+}
+@media (max-width: 479px) {
+  .BarLabel,
+  .QuestionCount {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
 @media (min-width: 480px) {
+  .BarLabel,
+  .QuestionCount,
+  .BarLabel span,
+  .QuestionCount span {
+    text-align: center;
+  }
+}
+.BarLabel span,
+.QuestionCount span {
+  width: 100%;
+}
+.BarLabel span {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+@media (min-width: 480px) {
+  .BarLabel {
+    width: 20%;
+  }
+}
+@media (min-width: 768px) {
   .BarLabel {
     width: 15%;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .BarLabel {
     width: 10%;
   }
@@ -295,12 +305,22 @@
 .ProgressBarContainer {
   display: table;
 }
+@media (max-width: 479px) {
+  .ProgressBarContainer {
+    width: 100%;
+  }
+}
 @media (min-width: 480px) {
+  .ProgressBarContainer {
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
   .ProgressBarContainer {
     width: 55%;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .ProgressBarContainer {
     width: 70%;
   }
@@ -310,7 +330,7 @@
     width: 30%;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .QuestionCount {
     width: 20%;
   }
