@@ -226,12 +226,17 @@
 .boxInfoContent p {
   margin: 3px 0;
 }
+.SessionHeading {
+  font-weight: bold;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
 /* Session bar/Progress bar
 ------------------------------------------------------*/
 .SessionBar {
   border: solid 2px #AFD534;
   background-color: #AFD534;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .SessionBar:before,
 .SessionBar:after {
