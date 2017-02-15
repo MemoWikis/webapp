@@ -22,6 +22,8 @@ public class CategoryRowModel : BaseModel
     public int CorrectnesProbability;
     public int AnswersTotal;
 
+    public bool IsInWishknowledge;
+
     public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair)
     {
         Category = category;

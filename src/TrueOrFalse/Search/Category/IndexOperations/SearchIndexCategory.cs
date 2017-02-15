@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SolrNet;
 
 namespace TrueOrFalse.Search
@@ -18,6 +14,14 @@ namespace TrueOrFalse.Search
         public void Update(Category category)
         {
             _solrOperations.Add(ToCategorytSolrMap.Run(category));
+            _solrOperations.Commit();
+        }
+
+        public void Update(IList<Category> categories)
+        {
+            foreach(var category in categories)
+                _solrOperations.Add(ToCategorytSolrMap.Run(category));
+
             _solrOperations.Commit();
         }
 

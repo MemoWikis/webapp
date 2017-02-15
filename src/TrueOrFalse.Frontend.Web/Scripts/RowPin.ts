@@ -1,7 +1,8 @@
 ﻿enum PinRowType {
     Question,
     Set,
-    SetDetail
+    SetDetail,
+    Category
 }
 
 class Pin {
@@ -38,6 +39,8 @@ class Pin {
                 id = parseInt(elemPin.attr("data-question-id"));
             else if (self.IsSetRow() || self.IsSetDetail())
                 id = parseInt(elemPin.attr("data-set-id"));
+            else if (self.IsCategory())
+                id = parseInt(elemPin.attr("category-set-id"));
 
             if (this._changeInProgress)
                 return;
@@ -144,5 +147,9 @@ class Pin {
 
     IsSetDetail(): boolean {
         return this._pinRowType == PinRowType.SetDetail;
+    }
+
+    IsCategory(): boolean {
+        return this._pinRowType == PinRowType.Category;
     }
 }

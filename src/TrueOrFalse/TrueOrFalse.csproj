@@ -244,6 +244,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuation.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationMap.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationRepo.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuationExt.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetBreadCrumb.cs" />
@@ -550,7 +554,7 @@
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\DeleteValuationsForNonExisitingSets.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\SetListExt.cs" />
+    <Compile Include="Domain\QuestionSet\SetListExt.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\SetValuationExt.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\SetInKnowledge.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Persistence\SetValuationRepo.cs" />
@@ -876,6 +880,7 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs167.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs169.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs168.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs166.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs163.cs" />

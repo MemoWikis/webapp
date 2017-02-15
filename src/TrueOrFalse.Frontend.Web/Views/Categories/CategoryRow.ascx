@@ -14,6 +14,12 @@
             <div class="MainContentUpper">
                 <div class="TitleText" style="line-height: 21px; margin-top: 6px;">
                     
+                    <div class="Pin" data-set-id="<%= Model.CategoryId %>">
+                        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                        </a>
+                    </div>
+                    
                     <a href="<%= Model.DetailLink(Url) %>">
                         <% if (Model.HasMarkdownContent) { %>
                             <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% } %><%=Model.CategoryName.Truncate(35) %>

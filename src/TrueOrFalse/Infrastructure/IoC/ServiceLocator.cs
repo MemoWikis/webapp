@@ -5,6 +5,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
 using System.Threading;
+using TrueOrFalse.Search;
 
 public class Sl
 {
@@ -18,6 +19,7 @@ public class Sl
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
+    public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }
