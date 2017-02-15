@@ -51,7 +51,7 @@
     </span>
     </h2>
 
-    <div class="progressBarContainer">
+   <%-- <div class="progressBarContainer">
         <% if (Model.CurrentLearningStepPercentage>0) {%>
             <div class="progressBar progressBarDone" style="width: <%= Model.CurrentLearningStepPercentage %>%;">
                 &nbsp;
@@ -61,10 +61,27 @@
             <div class="progressBar progressBarLeft" style="width: <%= 100-Model.CurrentLearningStepPercentage %>%;">
                 &nbsp; 
             </div>
-        <% } %>   
+        <% } %>
         <div class="progressBar progressBarLegend">
             <%= Model.CurrentLearningStepPercentage %>%
         </div>
+    </div>--%>
+    
+    <div class="SessionBar">
+        <div class="BarLabel">Testen</div>
+        <div class="ProgressBarContainer">
+            <div class="progressBar progressBarDone" style="width: <%= Model.CurrentLearningStepPercentage== 0 ? "0" : Model.CurrentLearningStepPercentage + "%" %>;">
+                <div class="progressBar progressBarLegend">
+                    <%= Model.CurrentLearningStepPercentage %>%
+                </div>
+            </div>
+            <% if (Model.CurrentLearningStepPercentage<100) {%>
+                <div class="progressBar progressBarLeft" style="width: <%= 100-Model.CurrentLearningStepPercentage %>%;">
+                    &nbsp; 
+                </div>
+            <% } %>
+            
+        </div>
+        <div class="QuestionCount">Abfrage x von y</div>
     </div>
-
 </div>

@@ -48,6 +48,16 @@
     height: 30px;
 }
 
+.PercentageBar {
+    //width: 100%;
+    display: table;
+    float: left;
+}
+
+.BarLabel {
+    float: left;
+}
+
 #divIndicatorAverage {
     margin-top: -15px;
     color: silver;
@@ -275,4 +285,72 @@
     p {
         margin: 3px 0;
     }
+}
+
+.BarLabel, .QuestionCount {
+    background-color: @memo-green;
+    text-align: center;
+    padding-top: 4px;
+}
+
+.BarLabel, .ProgressBarContainer, .QuestionCount {
+    .make-xs-column(12);
+    padding-left: 0;
+    padding-right: 0;
+    height: 30px;
+}
+
+
+.BarLabel {
+    
+    .media-xs-up({
+        width: 15%;
+    });
+
+    .media-sm-up({
+        width: 10%;
+    });
+
+}
+
+.ProgressBarContainer {
+    display: table;
+    .media-xs-up({
+        width: 55%;
+    });
+
+    .media-sm-up({
+        width: 70%;
+    });
+}
+
+.QuestionCount {
+    .media-xs-up({
+        width: 30%;
+    });
+
+    .media-sm-up({
+        width: 20%;
+    });
+}
+
+.progressBarDone {
+    background-color: lighten(@memo-green, 15);
+    position: relative;
+    overflow: visible;
+}
+
+.progressBarLeft {
+    background-color: lighten(@memo-green, 30);
+}
+
+.SessionBar {
+    border: solid 2px @memo-green;
+    background-color: @memo-green;
+    margin-bottom: 10px;
+    .clearfix;
+}
+
+.progressBarLegend {
+    min-width: 30px;
 }

@@ -56,6 +56,13 @@
 .progress {
   height: 30px;
 }
+.PercentageBar {
+  display: table;
+  float: left;
+}
+.BarLabel {
+  float: left;
+}
 #divIndicatorAverage {
   margin-top: -15px;
   color: silver;
@@ -255,4 +262,88 @@
 }
 .boxInfoContent p {
   margin: 3px 0;
+}
+.BarLabel,
+.QuestionCount {
+  background-color: #AFD534;
+  text-align: center;
+  padding-top: 4px;
+}
+.BarLabel,
+.ProgressBarContainer,
+.QuestionCount {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-left: 0;
+  padding-right: 0;
+  height: 30px;
+}
+@media (min-width: 480px) {
+  .BarLabel {
+    width: 15%;
+  }
+}
+@media (min-width: 768px) {
+  .BarLabel {
+    width: 10%;
+  }
+}
+.ProgressBarContainer {
+  display: table;
+}
+@media (min-width: 480px) {
+  .ProgressBarContainer {
+    width: 55%;
+  }
+}
+@media (min-width: 768px) {
+  .ProgressBarContainer {
+    width: 70%;
+  }
+}
+@media (min-width: 480px) {
+  .QuestionCount {
+    width: 30%;
+  }
+}
+@media (min-width: 768px) {
+  .QuestionCount {
+    width: 20%;
+  }
+}
+.progressBarDone {
+  background-color: #c8e273;
+  position: relative;
+  overflow: visible;
+}
+.progressBarLeft {
+  background-color: #e1efb3;
+}
+.SessionBar {
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 10px;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+.progressBarLegend {
+  min-width: 30px;
 }
