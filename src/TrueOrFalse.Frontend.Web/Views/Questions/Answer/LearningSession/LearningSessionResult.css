@@ -343,6 +343,7 @@
   display: table-cell;
   overflow: hidden;
   text-align: center;
+  vertical-align: top;
 }
 .ProgressBarLegend {
   position: absolute;
