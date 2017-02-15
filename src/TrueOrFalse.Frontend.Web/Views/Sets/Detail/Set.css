@@ -81,3 +81,10 @@
 #video-pager .btn-default {
   margin-bottom: 10px;
 }
+#video-pager .pause-buttons a {
+  position: relative;
+  top: 12px;
+}
+#video-pager .pause-buttons a:hover {
+  text-decoration: none;
+}
