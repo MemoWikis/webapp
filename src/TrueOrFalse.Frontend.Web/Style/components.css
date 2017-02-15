@@ -275,7 +275,7 @@ div.selected-row:hover {
   padding-top: 5px;
   padding-left: 5px;
   padding-bottom: 5px;
-  min-width: 75.15625px;
+  min-width: 72px;
   position: relative;
   float: left;
   width: 16.66666667%;
@@ -289,6 +289,11 @@ div.selected-row:hover {
     z-index: 1;
   }
 }
+@media (min-width: 480px) and (max-width: 767px) {
+  .column-Image {
+    padding-right: 0;
+  }
+}
 @media (min-width: 768px) {
   .column-Image {
     width: 125px;
@@ -298,7 +303,6 @@ div.selected-row:hover {
   position: relative;
 }
 .column-Image img {
-  width: 105px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -326,7 +330,7 @@ div.selected-row:hover {
 @media (max-width: 479px) {
   .column-MainContent {
     width: 100%;
-    padding-left: 76px;
+    padding-left: 74px;
   }
 }
 @media (min-width: 768px) {
