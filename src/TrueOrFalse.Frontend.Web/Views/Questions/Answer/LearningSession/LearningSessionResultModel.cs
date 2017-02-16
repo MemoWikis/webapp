@@ -60,6 +60,8 @@ public class LearningSessionResultModel : BaseModel
         {
             WishCountQuestions = learningSession.User.WishCountQuestions;
             WishCountSets = learningSession.User.WishCountSets;
+        } else if (learningSession.IsSetsSession)
+        {
             SetsToLearn = learningSession.SetsToLearn();
         }
 
