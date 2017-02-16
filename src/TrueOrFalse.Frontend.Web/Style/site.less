@@ -101,9 +101,14 @@ a {
 
         i {
             vertical-align: middle;
-            /*@media (max-width: @screen-xs-max) {
-                font-size: @icon-size-touch;
-            }*/
+
+            &.MobileLarge {
+                @media (max-width: @screen-xs-max) {
+                    font-size: @icon-size-touch;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+            }
         }
 
         .TextSpan {
@@ -190,12 +195,11 @@ img {
 
         height: 100%;
         
-        @media (max-width: (@screen-xs-min - 1px)) {
-            width: 70%; padding-right: 0;
-        }
+        .media-below-xs({
+            padding-right: 0;
+        });
 
         width: auto;
-        
         float: left;
     }
 
@@ -203,9 +207,11 @@ img {
         width: auto;
         float: right;
 
-        @media (max-width: (@screen-xs-min - 1px)) {
-            width: 30%; padding-left: 0; float: right;
-        }
+        .media-below-xs({
+            padding-right: 0;
+            padding-left: 0;
+            float: right;
+        });
 
         height: @masterHeaderMainRowHeight-xs;
     }
