@@ -28,20 +28,18 @@
 .set-row .label {
   max-width: 300px;
 }
-@media (min-width: 768px) {
-  .column-MainContent {
-    width: 442px;
-  }
-}
-@media (min-width: 992px) {
-  .column-MainContent {
-    width: 422px;
-  }
-}
-@media (min-width: 1200px) {
-  .column-MainContent {
-    width: 572px;
-  }
+.column-MainContent {
+  /*.media-sm-up ({
+        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
+    });
+    
+    .media-md-up ({
+        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);
+    });
+
+    .media-lg ({
+        width: (852px - @column-Image-sm-width - @column-Additional-sm-width);
+    });*/
 }
 .column-MainContent div.TitleText span.label-question {
   font-size: 11px;

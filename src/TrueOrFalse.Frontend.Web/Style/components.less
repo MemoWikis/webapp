@@ -268,15 +268,16 @@ div.selected-row:hover { background-color: #d6e0f4;}
     });
 
     .media-sm-up ({
-        width: (722px - @column-Image-sm-width);
+        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
     });
     
     .media-md-up ({
-        width: (702px - @column-Image-sm-width);
+        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is visible in md
+        width: (942px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is not visible in md
     });
 
     .media-lg ({
-        width: (852px - @column-Image-sm-width);
+        width: (910px - @column-Image-sm-width - @column-Additional-sm-width);
     });
 
      .Pin {
