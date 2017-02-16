@@ -82,6 +82,16 @@ a {
         }
     }
 
+    i {
+        &.MobileLarge {
+            @media (max-width: @screen-xs-max) {
+                font-size: @icon-size-touch;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    }
+
     &.TextLinkWithIcon {
         text-decoration: none;
         display: inline-block;
@@ -101,14 +111,6 @@ a {
 
         i {
             vertical-align: middle;
-
-            &.MobileLarge {
-                @media (max-width: @screen-xs-max) {
-                    font-size: @icon-size-touch;
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
-            }
         }
 
         .TextSpan {
@@ -122,6 +124,12 @@ a {
             text-decoration: none;
             color: @global-text-color;
         }
+    }
+
+    &.DisabledLink {
+       pointer-events: none;
+       cursor: default;
+       color: @global-text-color-grey;
     }
 }
 

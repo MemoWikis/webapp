@@ -355,13 +355,6 @@ div.selected-row:hover {
   padding-left: 10px;
   float: right;
 }
-@media (max-width: 479px) {
-  .column-MainContent .Pin {
-    float: left;
-    padding-left: 0;
-    padding-right: 10px;
-  }
-}
 .column-MainContent .TitleText {
   font-size: large;
 }

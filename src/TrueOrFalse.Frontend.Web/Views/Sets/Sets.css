@@ -28,29 +28,49 @@
 .set-row .label {
   max-width: 300px;
 }
-.column-MainContent {
-  /*.media-sm-up ({
-        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
-    });
-    
-    .media-md-up ({
-        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);
-    });
-
-    .media-lg ({
-        width: (852px - @column-Image-sm-width - @column-Additional-sm-width);
-    });*/
+.column-MainContent div.TitleText {
+  margin-bottom: 5px;
 }
 .column-MainContent div.TitleText span.label-question {
   font-size: 11px;
   position: relative;
   top: -3px;
 }
-.column-Additional div.actions {
-  line-height: 16px;
+.column-Additional {
+  justify-content: flex-start;
 }
-.column-Additional div.actions i {
+.column-Additional .StatsRow {
+  height: 1.5em;
+  margin-left: 0;
+  margin-right: 10px;
+}
+@media (max-width: 767px) {
+  .column-Additional .StatsRow {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+.column-Additional .StatsRow i {
   width: 19px;
+}
+@media (max-width: 767px) {
+  .column-Additional {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .column-Additional .SetInfo {
+    margin-bottom: 10px;
+  }
+}
+.column-Additional .Divider {
+  width: 100%;
+  margin-bottom: 5px;
+}
+@media (min-width: 768px) {
+  .column-Additional .Divider {
+    display: none;
+  }
 }
 .Pin {
   height: 25px;
