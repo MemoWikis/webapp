@@ -227,7 +227,6 @@ img {
 }
 @media (max-width: 479px) {
   #MasterHeader .col-LoginAndHelp {
-    padding-right: 0;
     padding-left: 0;
     float: right;
   }
