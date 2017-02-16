@@ -91,7 +91,7 @@ public class UsersController : BaseController
     {
         var userRepo = R<UserRepo>();
         var userToFollow = userRepo.GetById(userId);
-        userToFollow.AddFollower(UserFresh());
+        userToFollow.AddFollower(User_());
 
         userRepo.Update(userToFollow);
     }

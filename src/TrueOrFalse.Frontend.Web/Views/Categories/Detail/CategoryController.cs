@@ -18,7 +18,7 @@ public class CategoryController : BaseController
 
     private ActionResult Category(Category category)
     {
-        SaveCategoryView.Run(category, MemuchoUser());
+        SaveCategoryView.Run(category, User_());
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
