@@ -9,14 +9,17 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     {
     }
 
-    public IList<CategoryValuation> GetByUser(int userId)
-    {
-        return _session.QueryOver<CategoryValuation>()
-                        .Where(q =>
-                            q.UserId == userId &&
-                            q.RelevancePersonal >= 0)
-                        .List<CategoryValuation>();
-    }
+    internal CategoryValuation GetBy(int categoryId, int userId) => 
+        _session.QueryOver<CategoryValuation>()
+                .Where(q => q.UserId == userId && q.CategoryId == categoryId)
+                .SingleOrDefault();
+
+    public IList<CategoryValuation> GetByUser(int userId) => 
+        _session.QueryOver<CategoryValuation>()
+                .Where(q =>
+                    q.UserId == userId &&
+                    q.RelevancePersonal >= 0)
+                .List<CategoryValuation>();
 
     public override void Create(IList<CategoryValuation> valuations)
     {

@@ -14,7 +14,7 @@
             <div class="MainContentUpper">
                 <div class="TitleText" style="line-height: 21px; margin-top: 6px;">
                     
-                    <div class="Pin" data-set-id="<%= Model.CategoryId %>">
+                    <div class="Pin" data-category-id="<%= Model.CategoryId %>">
                         <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>

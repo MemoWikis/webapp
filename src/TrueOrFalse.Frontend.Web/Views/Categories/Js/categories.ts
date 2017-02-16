@@ -1,5 +1,5 @@
 $(() => {
     new SearchInTabs();
-    new Pin(PinRowType.Category);
+    new Pin(PinType.Category);
     new CategoryDelete();
 });

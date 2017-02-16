@@ -3,15 +3,9 @@ using NHibernate;
 
 public static class SetInKnowledge 
 {
-    public static void Pin(int setId, User user)
-    {
-        UpdateRelevancePersonal(setId, user, 50);
-    }
+    public static void Pin(int setId, User user) => UpdateRelevancePersonal(setId, user, 50);
 
-    public static void Unpin(int setId, User user)
-    {
-        UpdateRelevancePersonal(setId, user, -1);
-    }
+    public static void Unpin(int setId, User user) => UpdateRelevancePersonal(setId, user, -1);
 
     public static void UnpinQuestionsInSet(int setId, User user)
     {
@@ -46,7 +40,7 @@ public static class SetInKnowledge
     private static void UpdateRelevancePersonal(int setId, User user, int relevance = 50)
     {
         
-        Sl.R<CreateOrUpdateSetValue>().Run(setId, user.Id, relevancePeronal: relevance);
+        Sl.R<CreateOrUpdateSetValuation>().Run(setId, user.Id, relevancePeronal: relevance);
 
         var session = Sl.R<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(setId)).ExecuteUpdate();

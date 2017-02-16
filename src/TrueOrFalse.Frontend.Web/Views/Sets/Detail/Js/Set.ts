@@ -9,8 +9,8 @@ class SetPage {
             new SetVideo();
         }
 
-        new Pin(PinRowType.SetDetail, this.ReloadKnowledgeChart);
-        new Pin(PinRowType.Question, this.ReloadKnowledgeChart);
+        new Pin(PinType.SetDetail, this.ReloadKnowledgeChart);
+        new Pin(PinType.Question, this.ReloadKnowledgeChart);
     }
 
     InitPies() {

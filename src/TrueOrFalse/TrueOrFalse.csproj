@@ -244,7 +244,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuation.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\Ops\CreateOrUpdateSetValue.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationMap.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationRepo.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuationExt.cs" />
@@ -550,7 +552,7 @@
     <Compile Include="Domain\QuestionSet\Set.Persistence\SetSearchSpec.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemory.cs" />
     <Compile Include="Domain\QuestionSet\SetActiveMemory\SetActiveMemoryLoader.cs" />
-    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValue.cs" />
+    <Compile Include="Domain\QuestionSet\SetValuation\Ops\CreateOrUpdateSetValuation.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\DeleteValuationsForNonExisitingSets.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotalResult.cs" />
     <Compile Include="Domain\QuestionSet\SetValuation\Ops\GetSetTotal.cs" />
