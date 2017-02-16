@@ -4,9 +4,7 @@ $(() => {
     var answerEntry = new AnswerEntry();
     answerEntry.Init();
 
-    var pinQuestion = new PinQuestion();
-    pinQuestion.Init();
-
+    new Pin(PinRowType.Question);
     new Pin(PinRowType.Set); //only needed if Set-Cards are presented as content
 
     $('#hddTimeRecords').attr('data-time-on-load', $.now());

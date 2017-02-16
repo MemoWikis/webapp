@@ -17,6 +17,7 @@ public class SetVideoModel : BaseModel
         QuestionsInSet = set.QuestionsInSet;
         VideoKey = set.VideoKey;
         AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
+        AnswerBodyModel.DisableCommentLink = true;
 
         QuestionCount = set.Questions().Count;
     }

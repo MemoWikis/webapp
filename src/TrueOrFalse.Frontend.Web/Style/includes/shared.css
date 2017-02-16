@@ -2754,6 +2754,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   color: white;
 }
 .HeartToAddButton .iAddedNot span {
+  padding-left: 2px;
   position: relative;
   bottom: 3px;
 }

@@ -18,6 +18,12 @@
 }
 @media (min-width: 650px) {
 }
+.navLinks {
+  margin-bottom: 10px;
+}
+.navLinks > div {
+  display: inline-block !important;
+}
 @media (max-width: 479px) {
   #AnswerQuestionPager {
     margin-bottom: 10px;
@@ -170,12 +176,12 @@
     display: table;
   }
 }
-.HeartToAddButton {
+#Buttons .HeartToAddButton {
   float: right;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.HeartToAddButton .iAddedNot span {
+#Buttons .HeartToAddButton .iAddedNot span {
   display: none;
 }
 #answerQuestionDetails .label {
@@ -225,3 +231,28 @@
     max-height: 250px;
   }
 }
+/*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
+    background-color: lightgray;
+    margin-bottom: 10px;
+
+    label {
+        padding: 15px;
+        display: block;
+        width: 100%;
+    }
+}*/
+/*#AnswerInputSection .radio { //styles for html with input before label
+    background-color: lightgray;
+    margin-bottom: 10px;
+
+    label {
+        padding: 15px;
+        display: block;
+        width: 100%;
+    }
+
+    input {
+        margin-left: -10px;
+        margin-top: 19px;
+    }
+}*/

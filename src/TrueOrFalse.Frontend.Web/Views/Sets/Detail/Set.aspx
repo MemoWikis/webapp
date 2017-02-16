@@ -96,20 +96,22 @@
 
                             <div class="greyed" style="margin-top: 10px; margin-bottom: 10px; font-size: 11px;">
                                 erstellt von <a href="<%= Links.UserDetail(Model.Creator) %>" ><%= Model.CreatorName %></a> 
-                                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span> <br />
+                                <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>">vor <%= Model.CreationDateNiceText%> <i class="fa fa-info-circle"></i></span>
+                                <div id="WuWiStat" class="show-tooltip" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen" style="float: right;">
+                                    <i class="fa fa-heart"></i>
+                                    <span id="totalPins"><%= Model.TotalPins %>x</span>
+                                </div>
+
                             </div>
                             <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                             <div class="BottomBar">
-                                <div style="float: left; padding-top: 3px;">
+                                <div style="float: left; padding-top: 7px;">
                                     <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
                                 
                                 <div style="float: right">
                                     <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
-                                        <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                                            <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                                        </a>
-                                        <span class="show-tooltip" id="totalPins" title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen"><%= Model.TotalPins %>x</span>
+                                        <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                                     </span>
                                 </div>
 

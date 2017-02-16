@@ -78,6 +78,7 @@
                 }
             </script>
         
+        <div id="set-main">
              <div class="boxtainer-outlined-tabs">       
                 <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs JS-Tabs">

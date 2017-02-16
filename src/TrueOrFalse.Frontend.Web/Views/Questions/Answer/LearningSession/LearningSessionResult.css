@@ -96,36 +96,6 @@
 .chartNotAnswered {
   background-color: lightgray;
 }
-.progressBarContainer {
-  position: relative;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: table;
-  width: 100%;
-}
-.progressBar {
-  display: table-cell;
-  /*inline-block would prevent to show div when 0-width, but vertical-centered only for table-cell. */
-  height: 30px;
-  text-align: center;
-  vertical-align: middle;
-  overflow: hidden;
-  font-weight: bold;
-  color: #fff;
-}
-.progressBarLegend {
-  position: absolute;
-  left: 0px;
-  top: 4px;
-  width: 100%;
-  color: #1964c8;
-}
-.progressBarDone {
-  background-color: #AFD534;
-}
-.progressBarLeft {
-  background-color: #dddddd;
-}
 .SummaryText {
   margin: 40px 0;
 }
@@ -255,4 +225,138 @@
 }
 .boxInfoContent p {
   margin: 3px 0;
+}
+.SessionHeading {
+  font-weight: bold;
+  padding-left: 15px;
+  padding-bottom: 10px;
+}
+/* Session bar/Progress bar
+------------------------------------------------------*/
+.SessionBar {
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 20px;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+.ProgressBarContainer,
+.SessionType,
+.QuestionCount,
+.ProgressBarSegment {
+  height: 30px;
+}
+.SessionType,
+.QuestionCount {
+  background-color: #AFD534;
+  padding-top: 4px;
+}
+@media (max-width: 479px) {
+  .SessionType,
+  .QuestionCount {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media (min-width: 480px) {
+  .SessionType,
+  .QuestionCount,
+  .SessionType span,
+  .QuestionCount span {
+    text-align: center;
+  }
+}
+.SessionType span,
+.QuestionCount span {
+  width: 100%;
+}
+.SessionType {
+  float: left;
+}
+.SessionType span {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+@media (min-width: 480px) {
+  .SessionType {
+    width: 20%;
+  }
+}
+@media (min-width: 768px) {
+  .SessionType {
+    width: 15%;
+  }
+}
+@media (min-width: 992px) {
+  .SessionType {
+    width: 10%;
+  }
+}
+.ProgressBarContainer {
+  display: table;
+}
+@media (max-width: 479px) {
+  .ProgressBarContainer {
+    width: 100%;
+  }
+}
+@media (min-width: 480px) {
+  .ProgressBarContainer {
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .ProgressBarContainer {
+    width: 55%;
+  }
+}
+@media (min-width: 992px) {
+  .ProgressBarContainer {
+    width: 70%;
+  }
+}
+@media (min-width: 480px) {
+  .QuestionCount {
+    width: 30%;
+  }
+}
+@media (min-width: 992px) {
+  .QuestionCount {
+    width: 20%;
+  }
+}
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+}
+.ProgressBarDone {
+  background-color: #c8e273;
+  position: relative;
+  overflow: visible;
+}
+.ProgressBarLeft {
+  background-color: #e1efb3;
 }

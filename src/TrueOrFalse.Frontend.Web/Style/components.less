@@ -221,6 +221,10 @@ div.selected-row:hover { background-color: #d6e0f4;}
         z-index: 1;//To have image column clickable
     });
 
+    .media-xs ({
+        padding-right: 0;
+    });
+
     .make-xs-column(2);
 
     .media-sm-up({
@@ -232,7 +236,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
     }
 
     img {
-        width: 105px;
         -moz-border-radius: @border-radius-item-image;
         -webkit-border-radius: @border-radius-item-image;
         border-radius: @border-radius-item-image;
@@ -261,19 +264,20 @@ div.selected-row:hover { background-color: #d6e0f4;}
 
     .media-below-xs ({
         width: 100%;
-        padding-left: 76px;
+        padding-left: (@column-Image-below-xs-width + 1px);
     });
 
     .media-sm-up ({
-        width: (722px - @column-Image-sm-width);
+        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
     });
     
     .media-md-up ({
-        width: (702px - @column-Image-sm-width);
+        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is visible in md
+        width: (942px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is not visible in md
     });
 
     .media-lg ({
-        width: (852px - @column-Image-sm-width);
+        width: (910px - @column-Image-sm-width - @column-Additional-sm-width);
     });
 
      .Pin {
@@ -281,12 +285,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
         margin-top: -1px;
         padding-left: 10px;
         float: right;
-
-        .media-below-xs ({
-            float: left;
-            padding-left: 0;
-            padding-right: 10px;
-        });
     } 
 
      .TitleText {
