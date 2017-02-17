@@ -192,7 +192,7 @@
                                                     <input type="text" class="form-control show-tooltip" value="<%= Timecode.ToString(questionInSet.Timecode) %>"
                                                         data-in-set-id="<%= questionInSet.Id %>"
                                                         data-input="video-timecode"
-                                                        data-original-title="Zeitpunkt zu dem das Video pausiert und die Frage gezeigt wird." />
+                                                        data-original-title="Falls du oben ein Video angegeben hast: Zeitpunkt zu dem das Video pausiert und die Frage gezeigt wird." />
                                                 </div>
                                             </li>  
                                         <%} %>
