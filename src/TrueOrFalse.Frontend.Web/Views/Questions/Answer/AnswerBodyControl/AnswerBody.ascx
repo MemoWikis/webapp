@@ -80,7 +80,7 @@
                     
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if(Model.NextUrl != null){ %>
-                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success" rel="nofollow">Nächste Frage</a>
+                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% } %>
                                     <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                 </div>
