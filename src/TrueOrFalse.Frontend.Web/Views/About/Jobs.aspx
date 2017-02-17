@@ -5,14 +5,16 @@
 
 <script type="text/javascript" >
 
-    /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
     $(function () {
-        var spt = $('span.mailme');
-        var at = / at /;
-        var dot = / dot /g;
-        var addr = $(spt).text().replace(at, "@").replace(dot, ".");
-        $(spt).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>').hover(function () { window.status = "Schreibe eine E-Mail!"; }, function () { window.status = ""; });
-        $(spt).remove();
+        $("span.mailme")
+            .each(function() {
+                var spt = this.innerHTML;
+                var at = / at /;
+                var dot = / dot /g;
+                var addr = spt.replace(at, "@").replace(dot, ".");
+                $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
+                $(this).remove();
+            });
     });
 </script>    
 </asp:Content>
@@ -26,6 +28,7 @@
         <h1 class="PageHeader" style="margin-bottom: 15px; margin-top: 0px;"><span class="ColoredUnderline GeneralMemucho">Jobs &amp; Praktika bei memucho</span></h1>
     </div>
 </div>
+
 <div class="row">
     <div class="col-xs-12 col-sm-8 rowBase" style="margin-top: 20px;" id="jobUXPraktikum">
         <h2>Praktikum UX-Design & Usability</h2>
@@ -82,6 +85,34 @@
 
     </div>
 </div>
+    
+    
+<div class="row">
+    <div class="col-xs-12 col-sm-8 rowBase" style="margin-top: 20px;" id="jobUXPraktikum">
+        <h2>Du lernst mit Karteikarten? Teste memucho und belohne dich mit Pizza!</h2>
+        <p>
+            Du bist Schüler oder Schülerin in der Sek II, studierst gerade oder machst eine Ausbildung? 
+            Um dich besser auf Prüfungen vorzubereiten erstellst du dir selber Karteikarten (egal ob auf Papier oder digital)? 
+            Das finden wir gut! Wir wollen das Lernen mit Karteikarten noch besser machen und deshalb brauchen wir dich.
+        </p>
+        <p>
+            Du kannst uns nämlich helfen, memucho besser zu machen. Und zwar so: Du kommst für 1-2 Stunden zu uns ins Büro (in Kreuzberg), 
+            testest unsere Anwendung und sagst uns, was du gut findest und was nicht. Dafür bekommst du von uns Pizza und Getränke.
+            Außerdem solltest du deine Karteikarten mitbringen, damit wir sehen, wie du gerade lernst. Vielleicht können wir sie auch übertragen?
+        </p>
+        <h3 style="margin-top: 25px;">Interesse?</h3>
+        <p>
+            Das freut uns! Schicke eine kurze E-Mail an Christof (<span class="mailme">christof at memucho dot de</span>) 
+            und schreibe, wofür du gerade lernst, wofür du demnächst lernen wirst und wann du am besten Zeit hast, 
+            um memucho bei uns zu testen (Welche Tage? Vormittags/nachmittags?). 
+            Bei Fragen kannst du dich gerne bei Christof melden (Tel: +49-1577-6825707). 
+        </p>
+    </div>
+    <div class="col-xs-12 col-sm-4" style="text-align: center;">
+
+    </div>
+</div>
+
 
 
 <div class="row">
