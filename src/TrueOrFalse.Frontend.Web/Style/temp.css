@@ -121,9 +121,6 @@ a.TextLinkWithIcon.active span {
 .flexboxx > div:nth-child(3) {
   background: #CCF;
 }
-/*.StatsRow {
-    .clearfix;
-}*/
 .StatsIcon,
 .StatsValue {
   width: 25px;
