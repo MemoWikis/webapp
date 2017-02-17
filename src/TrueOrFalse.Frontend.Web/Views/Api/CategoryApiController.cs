@@ -133,25 +133,20 @@ public class CategoryApiController : BaseController
     }
 
     [HttpPost]
-    public void Pin(string catgoryId)
+    public void Pin(string categoryId)
     {
         if (_sessionUser.User == null)
             return;
 
-        SetInKnowledge.Pin(Convert.ToInt32(catgoryId), _sessionUser.User);
-
-        //var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(catgoryId)).QuestionsInSet.Select(x => x.Question);
-
-        //foreach (var question in questions)
-        //    QuestionInKnowledge.Pin(question.Id, _sessionUser.User);
+        CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
     }
 
     [HttpPost]
-    public void Unpin(string setId)
+    public void Unpin(string categoryId)
     {
         if (_sessionUser.User == null)
             return;
 
-        SetInKnowledge.Unpin(Convert.ToInt32(setId), _sessionUser.User);
+        CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
     }
 }

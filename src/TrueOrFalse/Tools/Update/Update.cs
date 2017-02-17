@@ -100,6 +100,7 @@
                 .Add(UpdateToVs167.Run)
                 .Add(UpdateToVs168.Run)
                 .Add(UpdateToVs169.Run)
+                .Add(UpdateToVs170.Run)
                 .Run();
         }
     }
