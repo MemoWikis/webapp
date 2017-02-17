@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/VariousPublic/AboutMemucho.css" rel="stylesheet" />
+    <link href="/Views/About/AboutMemucho.css" rel="stylesheet" />
 </asp:Content>
 
 
@@ -289,7 +289,7 @@
         <div class="well partnerLogos">
             <a href="https://www.tutory.de/" target="_blank"><img src="/Images/LogosPartners/Logo_tutory_250px.png"/></a>
             <a href="http://www.lernen-mit-spass.ch/" target="_blank"><img src="/Images/LogosPartners/Logo_lernenmitspass_w200.gif"/></a>
-            <a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>
+            <%--<a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>--%>
         </div>
     </div>
 </div>

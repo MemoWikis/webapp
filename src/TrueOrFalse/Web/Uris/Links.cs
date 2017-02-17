@@ -17,9 +17,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string TermsAndConditions => GetUrlHelper().Action("TermsAndConditions", VariousController);
         public static string Imprint => GetUrlHelper().Action("Imprint", VariousController);
 
-        public const string WelfareCompanyAction = "WelfareCompany";
-        public static string WelfareCompany() => GetUrlHelper().Action(WelfareCompanyAction,VariousController);
-
         public const string KnowledgeController = "Knowledge";
         public const string KnowledgeAction = "Knowledge";
         public static string Knowledge() => GetUrlHelper().Action(KnowledgeAction, KnowledgeController);
@@ -37,10 +34,16 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string MembershipAction = "Membership";
         public static string Membership() => GetUrlHelper().Action(MembershipAction, AccountController);
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
-        public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", VariousController);
-        public static string Jobs() => GetUrlHelper().Action("Jobs", VariousController);
 
         public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
+
+        /* About */
+        public const string AboutController = "About";
+
+        public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", AboutController);
+        public static string WelfareCompany() => GetUrlHelper().Action("WelfareCompany", AboutController);
+        public static string Jobs() => GetUrlHelper().Action("Jobs", AboutController);
+        public static string ForTeachers() => GetUrlHelper().Action("ForTeachers", AboutController);
 
         /* AlgoInsight */
         public const string AlgoInsightController = "AlgoInsight";

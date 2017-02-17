@@ -291,6 +291,7 @@
     <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\About\AboutController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -615,11 +616,11 @@
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\VariousPublic\AboutMemucho.css">
+    <Content Include="Views\About\AboutMemucho.css">
       <DependentUpon>AboutMemucho.less</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\Jobs.aspx" />
-    <Content Include="Views\VariousPublic\AboutMemucho.aspx" />
+    <Content Include="Views\About\Jobs.aspx" />
+    <Content Include="Views\About\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -2196,7 +2197,7 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\AboutMemucho.less" />
+    <Content Include="Views\About\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
@@ -2217,6 +2218,7 @@
     <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
       <DependentUpon>SetVideo.ts</DependentUpon>
     </Content>
+    <Content Include="Views\About\ForTeachers.aspx" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -2249,7 +2251,7 @@
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
+    <Content Include="Views\About\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />

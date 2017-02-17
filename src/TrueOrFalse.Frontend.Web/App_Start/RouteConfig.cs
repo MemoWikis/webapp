@@ -125,13 +125,15 @@ namespace TrueOrFalse
             routes.MapRoute("GamesCreate", "Spiel/Erstellen", new { controller = "Game", action = "Create" });
             routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });
 
+            routes.MapRoute("AboutMemucho", "Ueber-memucho", new { controller = "About", action = "AboutMemucho" });
+            routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "About", action = "WelfareCompany" });
+            routes.MapRoute("Jobs", "Jobs", new { controller = "About", action = "Jobs" });
+            routes.MapRoute("ForTeachers", "Fuer-Lehrer", new { controller = "About", action = "ForTeachers" });
+
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("MemuchoBeta", "Beta-Phase", new { controller = "VariousPublic", action = "MemuchoBeta" });
-            routes.MapRoute("AboutMemucho", "Ueber-memucho", new { controller = "VariousPublic", action = "AboutMemucho" });
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
-            routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "VariousPublic", action = "WelfareCompany" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });
-            routes.MapRoute("Jobs", "Jobs", new {controller = "VariousPublic", action="Jobs" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
 
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
