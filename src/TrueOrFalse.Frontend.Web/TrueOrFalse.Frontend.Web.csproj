@@ -2219,6 +2219,9 @@
       <DependentUpon>SetVideo.ts</DependentUpon>
     </Content>
     <Content Include="Views\About\ForTeachers.aspx" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
