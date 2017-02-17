@@ -123,7 +123,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-2 col-sm-offset-1 sumPctCol"><div class="sumPct sumPctNotAnswered"><span class="sumPctSpan"><%=Model.NumberNotAnsweredPercentage %>%</span></div></div>
-                            <div class="col-xs-10 col-sm-9 sumExpl">übersprungen (<%=Model.NumberNotAnswered %> Fragen)</div>
+                            <div class="col-xs-10 col-sm-9 sumExpl">nicht beantwortet (<%=Model.NumberNotAnswered %> Fragen)</div>
                         </div>
                     </div>
                 </div>
@@ -167,18 +167,7 @@
                 </p>
                 <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped)
                     {
-                        if (uniqueQuestion.First().AnswerState != StepAnswerState.Answered)
-                        { %>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="QuestionLearned Unanswered">
-                                        <a href="#" data-action="showAnswerDetails">
-                                        <i class="fa fa-circle AnswerResultIcon show-tooltip" title="Nicht beantwortet">
-                                            &nbsp;&nbsp;
-                                        </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
-                                        (Details)</a><br/>
-                        <% }
-                        else if ((uniqueQuestion.First().AnswerState == StepAnswerState.Answered) && uniqueQuestion.First().Answer.AnsweredCorrectly())
+                        if ((uniqueQuestion.First().AnswerState == StepAnswerState.Answered) && uniqueQuestion.First().Answer.AnsweredCorrectly())
                         { %> 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -200,6 +189,17 @@
                                         </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
                                         (Details)</a><br/>
 
+                        <% }
+                        else if (uniqueQuestion.All(a => a.AnswerState != StepAnswerState.Answered))
+                        { %>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="QuestionLearned Unanswered">
+                                        <a href="#" data-action="showAnswerDetails">
+                                        <i class="fa fa-circle AnswerResultIcon show-tooltip" title="Nicht beantwortet">
+                                            &nbsp;&nbsp;
+                                        </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                        (Details)</a><br/>
                         <% }
                         else if (((uniqueQuestion.Last().AnswerState == StepAnswerState.Answered) && (uniqueQuestion.Last().Answer.AnswerredCorrectly == AnswerCorrectness.False)) ||
                                  ((uniqueQuestion.Last().AnswerState != StepAnswerState.Answered) && (uniqueQuestion.Count() > 1)))
@@ -237,6 +237,10 @@
                                                         else if (step.AnswerState == StepAnswerState.Uncompleted)
                                                         {
                                                             %> <p class="answerTry">Dein <%= counter %>. Versuch: (noch nicht gesehen)</p><%
+                                                        }
+                                                        else if (step.AnswerState == StepAnswerState.ShowedSolutionOnly)
+                                                        {
+                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: (Lösung angezeigt)</p><%
                                                         }
                                                         else
                                                         {

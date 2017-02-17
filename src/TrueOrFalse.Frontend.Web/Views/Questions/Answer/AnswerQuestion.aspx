@@ -53,6 +53,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
+        data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
+        data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
         data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
         data-is-last-step="<%= Model.IsLastLearningStep %>"/>
     <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 

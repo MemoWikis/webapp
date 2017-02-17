@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
 using Newtonsoft.Json;
-using RabbitMQ.Client.Impl;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Web.Uris;
 
@@ -167,20 +166,20 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public virtual void SkipStep(int stepIdx)
     {
         var stepToSkip = Steps[stepIdx];
-        if (stepToSkip != null && stepToSkip.AnswerState != StepAnswerState.Answered)
+        if (stepToSkip != null && stepToSkip.AnswerState != StepAnswerState.Answered && stepToSkip.AnswerState != StepAnswerState.ShowedSolutionOnly)
         {
             stepToSkip.AnswerState = StepAnswerState.Skipped;
             Sl.R<LearningSessionRepo>().Update(this);
         }
     }
 
-    public virtual void UpdateAfterWrongAnswer(LearningSessionStep affectedStep)
+    public virtual void UpdateAfterWrongAnswerOrShowSolution(LearningSessionStep affectedStep)
     {
         if(LimitForThisQuestionHasBeenReached(affectedStep) 
             || LimitForNumberOfRepetitionsHasBeenReached())
             return;
 
-        var newStepForRepetion = new LearningSessionStep
+        var newStepForRepetition = new LearningSessionStep
         {
             Guid = Guid.NewGuid(),
             Question = affectedStep.Question,
@@ -191,7 +190,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
         Steps = Steps.OrderBy(s => s.Idx).ToList();
 
-        Steps.Insert(idxOfNewStep, newStepForRepetion);
+        Steps.Insert(idxOfNewStep, newStepForRepetition);
 
         ReindexSteps();
 

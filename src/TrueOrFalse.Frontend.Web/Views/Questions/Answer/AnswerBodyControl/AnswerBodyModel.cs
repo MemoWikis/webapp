@@ -44,6 +44,7 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_CountLastAnswerAsCorrect { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_CountUnansweredAsCorrect { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_TestSessionRegisterAnsweredQuestion { get; private set; }
+    public Func<UrlHelper, string> AjaxUrl_LearningSessionAmendAfterShowSolution { get; private set; }
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
@@ -114,6 +115,9 @@ public class AnswerBodyModel : BaseModel
         AjaxUrl_CountUnansweredAsCorrect = url => Links.CountUnansweredAsCorrect(url, question);
         if (IsTestSession)
             AjaxUrl_TestSessionRegisterAnsweredQuestion = Links.TestSessionRegisterQuestionAnswered;
+
+        if (IsLearningSession)
+            AjaxUrl_LearningSessionAmendAfterShowSolution = Links.LearningSessionAmendAfterShowSolution;
 
         QuestionText = question.Text;
         QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);

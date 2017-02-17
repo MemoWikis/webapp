@@ -9,7 +9,7 @@
 
     private _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
                             "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse.", "Schubidu!",
-                            "Wer sagt's denn!", "Exakt.", "So ist es.", "Da kannste nicht meckern.", "Sieht gut aus.", "Oha!"];
+                            "Wer sagt's denn!", "Exakt.", "So ist es.", "Da kannste nicht meckern.", "Sieht gut aus.", "Oha!", "Rrrrrrichtig!"];
 
     private _answerQuestion: AnswerQuestion;
 
@@ -121,6 +121,20 @@
                 if (AnswerQuestion.IsLastTestSessionStep) {
                     $('#btnNext').html('Zum Ergebnis');
                 }
+            }
+
+            if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
+                //if is learningSession and user asked to show solution before answering, then queue this question to be answered again
+                this._answerQuestion.ShowedSolutionOnly = true;
+                $.ajax({
+                    type: 'POST',
+                    url: AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution,
+                    data: {
+                        learningSessionId: $('#hddIsLearningSession').attr('data-learning-session-id'),
+                        stepGuid: $('#hddIsLearningSession').attr('data-current-step-guid')
+                    },
+                    cache: false
+                });
             }
 
             $("#Solution").show().find('.Content').html(result.correctAnswer);

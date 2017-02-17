@@ -303,6 +303,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url) => url.Action("RegisterQuestionAnswered", TestSessionController);
+        public static string LearningSessionAmendAfterShowSolution(UrlHelper url) => url.Action("AmendAfterShowSolution", AnswerQuestionController);
 
         /*Questionsets / Sets*/
         public const string SetsController = "Sets";

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using RazorEngine;
-using Seedworks.Web.State;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeReportMsg
 {

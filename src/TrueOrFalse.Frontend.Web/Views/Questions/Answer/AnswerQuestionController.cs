@@ -279,6 +279,19 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
+    public void AmendAfterShowSolution(int learningSessionId, Guid stepGuid)
+    {
+        var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
+        var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
+
+        learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
+
+        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
+//        answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
+
+    }
+
+    [HttpPost]
     public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int? roundId, int millisecondsSinceQuestionView = -1)
     {
         var question = _questionRepo.GetById(id);
