@@ -51,8 +51,8 @@
         <span class="show-tooltip"
         data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
                 <ul>
-                    <li>kannst du dir die Lösung anzeigen lassen</li>
-                    <li>kannst du Fragen überspringen</li>
+                    <li>wiederholst du personalisiert die Fragen, die du am dringendsten lernen solltest</li>
+                    <li>hast du mehrere Antwortversuche und kannst dir die Lösung anzeigen lassen</li>
                     <li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt</li>
                 </ul>
             </div>"%>" data-html="true" style="float: left;">
