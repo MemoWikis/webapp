@@ -26,13 +26,6 @@
 <script type="text/javascript">
     var addingChoiceId = $("#choices .form-group").length;
     $("#addChoice").click(function () {
-
-        var label = "";
-        if (addingChoiceId == 0)
-            label = "richtige Antwort";
-        else
-            label = "falsche Antwort (" + (addingChoiceId) + ")";
-
         var actionButton = $("");
         if (addingChoiceId != 0) {
             actionButton = $("<span class='CloseButton input-group-btn'><a href='#' class='btn'><i class='fa fa-times'></i></a></span>");
@@ -42,8 +35,8 @@
             });
         }
         $("#choices")
-            .append($("<div class='form-group'>")
-                .append($("<div class='noLabel columnControlsFull row'>")
+            .append($("<div class='form-group row'>")
+                .append($("<div class='noLabel'>")
                     .append($("<div class='col-md-4'>").append($("<select class='sequence-answertype form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
                             $("<div class='col-md-7'>").append($("<input type='text' class='col-xs-5 sequence-choice form-control' name='choice-" + addingChoiceId + "' />")),
                             $("<div class='col-md-1'>").append(actionButton)
@@ -65,6 +58,7 @@
     else
     { %>
     $("#addChoice").click();
+    $("select[name = choice_correct-0]").val("Richtige Antwort");
     $("#addChoice").click();
     <% } %>
 </script>
