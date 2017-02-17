@@ -23,40 +23,42 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px; margin-top: 0px;"><span class="ColoredUnderline GeneralMemucho">Jobs bei memucho</span></h1>
+        <h1 class="PageHeader" style="margin-bottom: 15px; margin-top: 0px;"><span class="ColoredUnderline GeneralMemucho">Jobs &amp; Praktika bei memucho</span></h1>
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-sm-8 rowBase">
-        <h3>Praktikum UX-Design & Usability</h3>
+    <div class="col-xs-12 col-sm-8 rowBase" style="margin-top: 20px;" id="jobUXPraktikum">
+        <h2>Praktikum UX-Design & Usability</h2>
         <p>
             memucho ist ein junges Start-up. Wir wollen es Nutzern erleichern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
             und personalisiert zu lernen. Dabei fördern wir freie Bildungsinhalte, denn unsere Inhalte stehen unter einer offenen Lizenz.
             Die Anwendung, die wir entwickeln, ist zudem Open Source.
         </p>
         <p>
-            Unsere Anwendung ist in der öffentlichen Beta-Phase.  
+            Unsere Anwendung ist in der öffentlichen Beta-Phase. Uns geht es jetzt darum, zu verstehen, wie unsere Zielgruppe mit der Anwendung umgeht, wo die Hindernisse liegen 
+            und wo wir die Funktionalität so anpassen können, dass ein "Suchtpotenzial" entsteht. Es wäre toll, wenn du uns dabei helfen könntest.
         </p>
         <p>
-            Deine Aufgaben sind
+            <strong>Deine Aufgaben sind</strong>
             <ul>
-                <li>Erstellung und Weiterentwicklung von Prototypen zur Verbesserung einzelner Teile einer vorhandenen Anwendung</li>
+                <li>Konzeption, Durchführung und Auswertung von Nutzertests, insbs. mit Schülern und Lehrenden</li>
+                <li>Erstellung und Weiterentwicklung von Prototypen zur Verbesserung einzelner Teile der vorhandenen Web-Anwendung</li>
                 <li>Verbesserung von Navigations- und Interaktionselementen</li>
-                <li>Konzeption, Durchführung und Auswertung von Nutzertests</li>
                 <li>Weiterentwicklung der User Experience und des Designs</li>
             </ul>
-            Dein perfektes Profil wäre:
+            <strong>Dein perfektes Profil wäre:</strong>
             <ul>
-                <li>Du studierst Kommunikationsdesign, Interaktionsdesign, Kommunikationsdesign, Informationsdesign oder ähnliches mindestens im 3. Semester und hast schon 
-                    erste Erfahrungen bei menschen-zentrierten Design-Prozessen gemacht</li>
-                <li>Du kannst mit Programmen zur Erstellung von Prototypen wie Invision umgehen oder bist bereit, dir während des Praktikums die Benutzung selbständig beizubringen</li>
-                <li>Du kannst mit Layout-Frageworks wie Google Material Design umgehen.</li>
+                <li>Du studierst Kommunikationsdesign, Interaktionsdesign, Kommunikationsdesign, Informationsdesign oder ähnliches mindestens im 3. Semester 
+                    (oder hast einen vergleichbaren Hintergrund) und hast schon erste Erfahrungen in den oben genannten Arbeitsfeldern gemacht</li>
+                <li>Du kannst mit Programmen zur Erstellung von Prototypen wie Invision oder Adobe Experience Design umgehen 
+                    oder bist bereit, dir während des Praktikums die Benutzung selbständig beizubringen</li>
+                <li>Du kannst mit Layout-Frameworks wie Google Material Design umgehen</li>
                 <li>Du bist kreativ, hast eigene Ideen und kannst daran selbständig und genau arbeiten</li>
                 <li>Du hast Freude am Lernen</li>
                 <li>Du hast mindestens 3 Monate Zeit (Teilzeitmodelle möglich)</li>
             </ul>
             
-            Wir bieten dir
+            <strong>Wir bieten dir</strong>
             <ul>
                 <li>Du arbeitest in einem jungen kleinen Team ohne Hierarchien und bist stark involviert</li>
                 <li>Orientierung und Feedback von einem erfahrenen Grafiker</li>
@@ -68,11 +70,11 @@
                 <li>Eine monatliche Aufwandsentschädigung</li>
             </ul>
         </p>
-        <h4>Interesse?</h4>
+        <h3 style="margin-top: 25px;">Interesse?</h3>
         <p>
             Das freut uns! Schaue dich auf unserer Seite memucho.de um, damit du einen Eindruck von deinem "Arbeitsgegenstand" gewinnst.
-            Bei Fragen kannst du dich gerne an Christof wenden (Tel: +49-1577-6825707). Schicke dann deine Kurzbewerbung per E-Mail 
-            an Christof (<span class="mailme">christof at memucho dot de</span>) und erzähle uns, 
+            Bei allen Fragen kannst du dich gerne an Christof wenden (Tel: +49-1577-6825707). Schicke dann deine Kurzbewerbung per E-Mail 
+            an Christof (<span class="mailme">christof at memucho dot de</span>), gib uns einen kleinen Eindruck von deinen Erfahrungen und erzähle uns, 
             warum du auf dieses Praktikum wie die perfekte Antwort auf eine Frage passt. 
         </p>
     </div>
@@ -83,7 +85,7 @@
 
 
 <div class="row">
-    <div class="col-xs-12 col-sm-8 rowBase">
+    <div class="col-xs-12 col-sm-8 rowBase" style="margin-top: 20px;" id="jobInhalte">
         <h3>Inhalte erstellen, pflegen und koordinieren (Nebenjob)</h3>
         <p>
             memucho ist ein junges Start-up. Wir wollen Lernen personalisieren, damit alle effizienter und mit mehr Spaß lernen können. 
