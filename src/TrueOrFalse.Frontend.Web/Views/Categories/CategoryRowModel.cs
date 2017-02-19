@@ -24,13 +24,15 @@ public class CategoryRowModel : BaseModel
 
     public bool IsInWishknowledge;
 
-    public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair)
+    public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair, CategoryValuation valution)
     {
         Category = category;
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
         HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
+
+        IsInWishknowledge = valution.IsInWishKnowledge();
 
         QuestionCount = 
             category.CountQuestions + 

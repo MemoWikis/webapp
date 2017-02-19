@@ -57,8 +57,6 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
         }
         sb.Append(")");
 
-        Console.Write(sb.ToString());
-
         return _session.CreateSQLQuery(sb.ToString())
                         .SetResultTransformer(Transformers.AliasToBean(typeof(SetValuation)))
                         .List<SetValuation>();

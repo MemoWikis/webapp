@@ -59,7 +59,6 @@ public class SetsModel : BaseModel
 
         var valuations = R<SetValuationRepo>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
 
-        var counter = 0;
         Rows = questionSets.Select(set => 
             new SetRowModel(
                 set,
