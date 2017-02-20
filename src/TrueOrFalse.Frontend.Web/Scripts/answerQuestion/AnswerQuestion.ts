@@ -372,6 +372,11 @@ class AnswerQuestion {
         }
     }
 
+    public GiveSelectedSolutionClass(event) {
+        var changedButton = $(event.delegateTarget);
+        changedButton.parent().parent().toggleClass("selected");
+    }
+
     static AjaxGetSolution(onSuccessAction) {
 
         var self = this;

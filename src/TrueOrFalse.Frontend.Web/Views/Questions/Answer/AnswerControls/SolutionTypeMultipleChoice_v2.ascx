@@ -10,3 +10,11 @@
         </label>
     </div>
 <% } %>
+<br/>
+<h6 class = "ItemInfo">
+    Es können keine oder mehrere Antworten richtig sein!
+</h6>
+<script type="text/javascript">
+    $
+
+</script>

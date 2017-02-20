@@ -7,8 +7,9 @@ class SolutionTypeMultipleChoice
 
         this.AnswerQuestion = new AnswerQuestion(this);
 
-        $('input:radio[name=answer]').change(() => {
+        $('input:radio[name=answer]').change((event) => {
             this.AnswerQuestion.OnAnswerChange();
+            this.AnswerQuestion.GiveSelectedSolutionClass(event);
         });
     }
 

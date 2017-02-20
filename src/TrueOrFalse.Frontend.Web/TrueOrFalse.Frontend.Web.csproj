@@ -584,6 +584,12 @@
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.js">
+      <DependentUpon>SolutionTypeMultipleChoice_v2.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice_v2.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>

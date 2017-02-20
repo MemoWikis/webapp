@@ -6,8 +6,9 @@ class SolutionTypeMultipleChoice_v2
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
-        $('input:checkbox[name=answer]').change(() => {
+        $('input:checkbox[name=answer]').change((event) => {
             this.AnswerQuestion.OnAnswerChange();
+            this.AnswerQuestion.GiveSelectedSolutionClass(event);
         });
     }
 
