@@ -100,7 +100,7 @@ public class BadgeAwardCheckParams
         return R<QuestionRepo>().Query
             .Where(q =>
                 q.Creator.Id == CurrentUser.Id &&
-                q.SolutionType == SolutionType.MultipleChoice)
+                q.SolutionType == SolutionType.MultipleChoice_SingleSolution)
             .RowCount();
     }
 

@@ -297,7 +297,7 @@ public class AnswerQuestionModel : BaseModel
     {
         var result = "";
 
-        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
             result = $"Antwort: '{SolutionModel.CorrectAnswer()}' {Environment.NewLine}";
 
@@ -311,7 +311,7 @@ public class AnswerQuestionModel : BaseModel
             if (result.Length < 50)
             {
                 result += "Alternativen: ";
-                result += ((QuestionSolutionMultipleChoice)SolutionModel)
+                result += ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
                     .Choices
                     .Skip(1)
                     .Aggregate((a, b) => a + ", " + b) + "?  ";
@@ -330,9 +330,9 @@ public class AnswerQuestionModel : BaseModel
     {
         var result = "";
 
-        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = ((QuestionSolutionMultipleChoice)SolutionModel)
+            result = ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
                 .Choices
                 .Shuffle()
                 .Aggregate((a, b) => $"{a} - oder - {Environment.NewLine} {b}");

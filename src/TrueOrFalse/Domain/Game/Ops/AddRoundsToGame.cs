@@ -14,7 +14,7 @@ public class AddRoundsToGame : IRegisterAsInstancePerLifetime
             .ToList();
 
         if (multipleChoiceOnly)
-            allQuestions = allQuestions.Where(q => q.Question.SolutionType == SolutionType.MultipleChoice).ToList();
+            allQuestions = allQuestions.Where(q => q.Question.SolutionType == SolutionType.MultipleChoice_SingleSolution).ToList();
 
         allQuestions.Shuffle();
 

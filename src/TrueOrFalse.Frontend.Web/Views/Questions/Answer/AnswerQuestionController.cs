@@ -242,8 +242,8 @@ public class AnswerQuestionController : BaseController
             {
                 correct = result.IsCorrect,
                 correctAnswer = result.CorrectAnswer,
-                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? 
-                    ((QuestionSolutionMultipleChoice)solution).Choices
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution) ? 
+                    ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                     : null
             }
         };
@@ -270,8 +270,8 @@ public class AnswerQuestionController : BaseController
             {
                 correct = result.IsCorrect,
                 correctAnswer = result.CorrectAnswer,
-                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ?
-                    ((QuestionSolutionMultipleChoice)solution).Choices
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution) ?
+                    ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                     : null,
                 newStepAdded = result.NewStepAdded
             }
