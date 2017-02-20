@@ -54,7 +54,7 @@
             <% } %>
             
             <span class="StatsRow show-tooltip totalPinsTooltip" style="white-space: nowrap;" data-original-title="Ist bei <%= Model.TotalPins%> Personen im Wunschwissen">
-                <i class="fa fa-heart greyed"  style="display: inline;"></i>
+                <i class="fa fa-heart greyed fa-fw"  style="display: inline;"></i>
                 <span class="totalPins NumberTimes"><%= Model.TotalPins %>x</span>                        
             </span>
         </div>
@@ -65,16 +65,16 @@
             <% if (Model.QuestionCount > 0)
                { %>
                 <a class="StatsRow" style="display: block" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
-                    <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
+                    <i class="fa fa-play-circle fa-fw">&nbsp;</i>Wissen testen
                 </a>
                 <a class="StatsRow" style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
-                    <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
+                    <i class="fa fa-line-chart fa-fw">&nbsp;</i>Jetzt üben
                 </a>
                 <a class="StatsRow" style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
-                    <i class="fa fa-gamepad" style="font-size: 15px;">&nbsp;</i>Spiel starten
+                    <i class="fa fa-gamepad fa-fw" style="font-size: 15px;">&nbsp;</i>Spiel starten
                 </a>
                 <a class="StatsRow" style="display: block;" href="<%= Links.DateCreateForSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
-                    <i class="fa fa-calendar" style="font-size: 13px;">&nbsp;</i>Termin lernen
+                    <i class="fa fa-calendar fa-fw" style="font-size: 13px;">&nbsp;</i>Termin lernen
                 </a>
             <% }
                else { %>
