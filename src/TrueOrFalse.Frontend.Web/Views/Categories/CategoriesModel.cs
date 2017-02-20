@@ -40,8 +40,8 @@ public class CategoriesModel : BaseModel
 
         Suggestion = _sessionUiData.SearchSpecCategory.GetSuggestion();
 
-        TotalCategoriesInSystem = Resolve<GetTotalCategories>().Run(); ;
-        TotalMine = 0;
+        TotalCategoriesInSystem = GetCategoriesCount.All();
+        TotalMine = GetCategoriesCount.Wish(UserId);
 
         SearchTerm = _sessionUiData.SearchSpecCategory.SearchTerm;
 

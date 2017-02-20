@@ -536,7 +536,7 @@
     <Compile Include="Domain\Knowledge\History\Persistence\KnowledgeHistoryRepository.cs" />
     <Compile Include="Domain\QuestionSet\Ops\AddToSetResult.cs" />
     <Compile Include="Domain\QuestionSet\Ops\AddToSet.cs" />
-    <Compile Include="Domain\Classification\Category\Ops\GetTotalCategories.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\GetCategoriesCount.cs" />
     <Compile Include="Domain\QuestionSet\Ops\SetDeleter.cs" />
     <Compile Include="Domain\QuestionSet\Ops\UpdateQuestionOrder\NewQuestionIndex.cs" />
     <Compile Include="Domain\QuestionSet\Ops\UpdateQuestionOrder\UpdateQuestionsOrder.cs" />

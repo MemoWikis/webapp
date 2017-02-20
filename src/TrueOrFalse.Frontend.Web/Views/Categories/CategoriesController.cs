@@ -32,7 +32,7 @@ public class CategoriesController : BaseController
                     new CategoriesSearchResultModel(categoriesModel),
                     ControllerContext),
                 TotalInResult = searchSpec.TotalItems,
-                TotalInSystem = R<GetTotalCategories>().Run(),
+                TotalInSystem = GetCategoriesCount.All(),
                 Tab = "All"
             }
         };
