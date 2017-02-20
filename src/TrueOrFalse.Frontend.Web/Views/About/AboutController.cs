@@ -11,7 +11,7 @@ public class AboutController : Controller
     [SetMenu(MenuEntry.None)]
     public ActionResult ForTeachers()
     {
-        return View(new BaseModel());
+        return View(new ForTeachersModel());
     }
 
     [SetMenu(MenuEntry.None)]

@@ -120,4 +120,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         return GetByIds(categoryIds.ToArray());
     }
+
+    public int TotalCategoryCount()
+    {
+        return _session.QueryOver<Category>()
+            .RowCount();
+    }
 }
