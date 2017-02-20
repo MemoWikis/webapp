@@ -51,6 +51,12 @@ public class EditQuestionModel_to_Question
                 solutionModel2.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel2);
                 break;
+
+            case SolutionType.MultipleChoice_v2:
+                var solutionModel3 = new QuestionSolutionMultipleChoice_v2();
+                solutionModel3.FillFromPostData(postData);
+                question.Solution = serializer.Serialize(solutionModel3);
+                break;
         }
 
         return question;

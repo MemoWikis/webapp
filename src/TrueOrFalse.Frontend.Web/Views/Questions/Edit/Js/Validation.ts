@@ -1,6 +1,6 @@
 ﻿var validationSettings = {
     rules: {
-        Question: {
+        QuestionText: {
             required: true,
         },
         Text: {

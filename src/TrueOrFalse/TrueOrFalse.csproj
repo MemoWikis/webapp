@@ -347,8 +347,10 @@
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewMap.cs" />
     <Compile Include="Domain\QuestionSet\SetView\SetView.cs" />
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice_v2.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
+    <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />

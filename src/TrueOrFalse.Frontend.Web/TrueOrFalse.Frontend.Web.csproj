@@ -541,6 +541,7 @@
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
+    <Content Include="Scripts\vendor\bootstrap2-toggle.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
@@ -556,6 +557,7 @@
     <Content Include="Style\temp.min.css">
       <DependentUpon>temp.css</DependentUpon>
     </Content>
+    <Content Include="Style\vendor\bootstrap2-toggle.css" />
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
@@ -582,6 +584,13 @@
     <Content Include="Views\Maintenance\ContentReport.css">
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.js">
+      <DependentUpon>SolutionTypeMultipleChoice_v2.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice_v2.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
@@ -605,6 +614,7 @@
     </Content>
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
     <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_v2.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Sets\Edit\Js\EditSet.js">
       <DependentUpon>EditSet.ts</DependentUpon>
@@ -1586,6 +1596,7 @@
       <SubType>Code</SubType>
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_v2.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
@@ -2211,6 +2222,12 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
+      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
+      <DependentUpon>SetVideo.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
       <DependentUpon>SetVideoPlayer.ts</DependentUpon>
