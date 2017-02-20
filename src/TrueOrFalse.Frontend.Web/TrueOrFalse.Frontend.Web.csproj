@@ -292,6 +292,7 @@
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
     <Compile Include="Views\About\AboutController.cs" />
+    <Compile Include="Views\About\ForTeachersModel.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -510,7 +511,13 @@
     <Content Include="Images\no-profile-picture-250.png" />
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />
+    <Content Include="Images\Screenshots\blackboard-html-mode-full.png" />
+    <Content Include="Images\Screenshots\blackboard-html-mode-small.png" />
     <Content Include="Images\Screenshots\fragen-zu-fragesatz.png" />
+    <Content Include="Images\Screenshots\fragen-zusammenstellen.png" />
+    <Content Include="Images\Screenshots\moodle-1-mehrFelder-small.png" />
+    <Content Include="Images\Screenshots\moodle-2-HTMLmode-small.png" />
+    <Content Include="Images\Screenshots\wordpress-textmode-small.png" />
     <Content Include="Images\Team\team_christof-rund_160.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
@@ -558,6 +565,9 @@
       <DependentUpon>temp.css</DependentUpon>
     </Content>
     <Content Include="Style\vendor\bootstrap2-toggle.css" />
+    <Content Include="Views\About\ForTeachers.css">
+      <DependentUpon>ForTeachers.less</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
@@ -2233,6 +2243,7 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
+    <Content Include="Views\About\ForTeachers.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

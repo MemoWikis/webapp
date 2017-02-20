@@ -192,5 +192,9 @@
   {
     "outputFile": "Views/Questions/Answer/AnswerQuestionSolution.css",
     "inputFile": "Views/Questions/Answer/AnswerQuestionSolution.less"
+  },
+  {
+    "outputFile": "Views/About/ForTeachers.css",
+    "inputFile": "Views/About/ForTeachers.less"
   }
 ]
