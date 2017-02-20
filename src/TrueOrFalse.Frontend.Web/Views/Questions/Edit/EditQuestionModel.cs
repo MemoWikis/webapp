@@ -82,8 +82,8 @@ public class EditQuestionModel : BaseModel
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
+                            new SelectListItem {Text = "Multiple Choice (Eine Lösung)", Value = TrueOrFalse.SolutionType.MultipleChoice_SingleSolution.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Multiple Choice 2", Value = TrueOrFalse.SolutionType.MultipleChoice_v2.ToString()},
                             new SelectListItem {Text = "Freie Antwort (Text/Zahl/Datum)", Value = TrueOrFalse.SolutionType.Text.ToString()},
                             new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
                         };

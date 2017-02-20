@@ -23,11 +23,11 @@ public class GetQuestionSolution
             case SolutionType.Sequence:
                 return serializer.Deserialize<QuestionSolutionSequence>(question.Solution);
 
+            case SolutionType.MultipleChoice_SingleSolution:
+                return serializer.Deserialize<QuestionSolutionMultipleChoice_SingleSolution>(question.Solution);
+
             case SolutionType.MultipleChoice:
                 return serializer.Deserialize<QuestionSolutionMultipleChoice>(question.Solution);
-
-            case SolutionType.MultipleChoice_v2:
-                return serializer.Deserialize<QuestionSolutionMultipleChoice_v2>(question.Solution);
         }
 
         throw new NotImplementedException($"Solution Type not implemented: {question.SolutionType}");

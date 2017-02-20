@@ -5,8 +5,8 @@
         Text = 1,
         Numeric = 4,
         Date = 6,
-        MultipleChoice = 3,
-        MultipleChoice_v2 = 7,
+        MultipleChoice_SingleSolution = 3,
+        MultipleChoice = 7,
         Sequence = 5
     }    
 }

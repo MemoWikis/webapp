@@ -6,23 +6,32 @@ class SolutionTypeMultipleChoice
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
-
-        $('input:radio[name=answer]').change((event) => {
+        $('input:checkbox[name=answer]').change((event) => {
             this.AnswerQuestion.OnAnswerChange();
             this.AnswerQuestion.GiveSelectedSolutionClass(event);
         });
     }
 
+    static GetChosenAnswers(): string {
+        var selected = $('input:checkbox[name=answer]:checked');
+        var selectedValues = "";
+        for (var i = 0; i < selected.length; i++) {
+            selectedValues += (<any>selected.get(i)).value;
+            if (i < (selected.length - 1))
+                selectedValues += ", ";
+        }
+        return selectedValues;
+    }
+
     GetAnswerText(): string {
-        var selected = $('input:radio[name=answer]:checked');
-        return selected.length ? selected.val() : "";
+        return SolutionTypeMultipleChoice.GetChosenAnswers();
     }
 
     GetAnswerData(): {} {
-        return { answer: $('input:radio[name=answer]:checked').val() };
+        return { answer: SolutionTypeMultipleChoice.GetChosenAnswers()};
     }
 
     OnNewAnswer() {
-        $('input:radio[name=answer]:checked').prop('checked', false);
+        $('input:checkbox[name=answer]:checked').prop('checked', false);
     }
 };
