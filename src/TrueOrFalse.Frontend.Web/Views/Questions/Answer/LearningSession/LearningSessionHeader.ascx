@@ -56,8 +56,11 @@
                     <li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt</li>
                 </ul>
             </div>"%>" data-html="true" style="float: left;">
-            Lernen 
-            <i class="fa fa-info-circle"></i>
+            Lernen
+            <span class="fa-stack fa-1x" style="font-size: 10px;">
+                <i class="fa fa-circle fa-stack-2x" style="color: #e1efb3;"></i>
+                <i class="fa fa-info fa-stack-1x" style=""></i>
+            </span>
         </span>
     </div>
     <div class="ProgressBarContainer">
