@@ -66,7 +66,7 @@
                 <%= Model.TestSessionCurrentStepPercentage %>%
             </div>
         </div>
-        <% if (Model.CurrentLearningStepPercentage<100) {%>
+        <% if (Model.TestSessionCurrentStepPercentage<100) {%>
             <div class="ProgressBarSegment ProgressBarLeft" style="width: <%= 100-Model.TestSessionCurrentStepPercentage %>%;"></div>
         <% } %>
             
