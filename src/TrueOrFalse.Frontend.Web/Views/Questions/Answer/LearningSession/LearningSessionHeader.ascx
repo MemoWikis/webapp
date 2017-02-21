@@ -4,6 +4,7 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
+        
     Du lernst 
     <% if (Model.LearningSession.Questions().Count() == Model.LearningSession.TotalPossibleQuestions){ %>
         alle <%= Model.LearningSession.Questions().Count() %>

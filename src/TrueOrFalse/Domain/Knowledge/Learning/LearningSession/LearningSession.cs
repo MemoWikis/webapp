@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
 using Newtonsoft.Json;
+using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Web.Uris;
 

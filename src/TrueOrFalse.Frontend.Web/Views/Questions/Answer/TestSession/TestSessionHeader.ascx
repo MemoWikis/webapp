@@ -4,44 +4,34 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
-    <%--Du lernst 
-    <% if (Model.LearningSession.Questions().Count() == Model.LearningSession.TotalPossibleQuestions){ %>
-        alle <%= Model.LearningSession.Questions().Count() %>
+    Du machst einen Test mit 
+    <% if (Model.TestSessionNumberOfSteps == Model.TestSession.TotalPossibleQuestions){ %>
+        allen <%= Model.TestSession.TotalPossibleQuestions %>
     <% }else { %>
-        <%= Model.LearningSession.Questions().Count() %> 
+        <%= Model.TestSessionNumberOfSteps %> 
     <% } %>
         
-    <% if(Model.LearningSession.IsSetSession) { %>
+    <% if(Model.TestSession.IsSetSession) { %>
         Fragen aus dem Fragesatz 
-        <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="margin-top: 3px; display: inline-block;">
-            <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
+        <a href="<%= Links.SetDetail(Url, Model.TestSession.SetToTest) %>" style="margin-top: 3px; display: inline-block;">
+            <span class="label label-set"><%: Model.TestSession.SetToTest.Name %></span>
         </a>
     <% } %>
 
-    <% if(Model.LearningSession.IsSetsSession) { %>
-        Fragen aus "<%= Model.LearningSession.SetListTitle %>" (<%= Model.LearningSession.SetsToLearn().Count %> Fragesätze)
+    <% if(Model.TestSession.IsSetsSession) { %>
+        Fragen aus "<%= Model.TestSession.SetListTitle %>" (<%= Model.TestSession.SetsToTest.Count %> Fragesätze)
     <% } %>
 
-    <% if(Model.LearningSession.IsCategorySession) { %>
+    <% if(Model.TestSession.IsCategorySession) { %>
         Fragen zum Thema 
-        <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" style="margin-top: 3px; display: inline-block;">
-            <span class="label label-category"><%: Model.LearningSession.CategoryToLearn.Name %></span>
+        <a href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>" style="margin-top: 3px; display: inline-block;">
+            <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
         </a>
     <% } %>
         
-    <% if(Model.LearningSession.IsDateSession) { %>
-        Fragen aus dem Termin 
-        <a href="<%= Links.Dates() %>"><%= Model.LearningSession.DateToLearn.GetTitle() %></a>
+    <% if (Model.TestSessionNumberOfSteps < Model.TestSession.TotalPossibleQuestions){ %>
+        mit <%= Model.TestSession.TotalPossibleQuestions %> Fragen.
     <% } %>
-
-    <% if(Model.LearningSession.IsWishSession) { %>
-        Fragen aus deinem  
-        <a href="<%= Links.QuestionsWish() %>">Wunschwissen</a>
-    <% } %>
-
-    <% if (Model.LearningSession.Questions().Count() < Model.LearningSession.TotalPossibleQuestions){ %>
-        mit <%= Model.LearningSession.TotalPossibleQuestions %> Fragen.
-    <% } %>--%>
 </div>
 <div class="SessionBar">
     <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>

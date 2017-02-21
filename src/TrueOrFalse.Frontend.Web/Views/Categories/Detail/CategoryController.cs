@@ -51,7 +51,8 @@ public class CategoryController : BaseController
     public ActionResult StartTestSessionForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
     {
         var sets = Sl.R<SetRepo>().GetByIds(setIds);
-        var testSession = new TestSession(sets, setListTitle, categoryId);
+        var category = Sl.R<CategoryRepository>().GetById(categoryId);
+        var testSession = new TestSession(sets, setListTitle, category);
 
         R<SessionUser>().AddTestSession(testSession);
 
