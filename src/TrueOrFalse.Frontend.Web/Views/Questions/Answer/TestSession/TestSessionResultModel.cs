@@ -41,7 +41,7 @@ public class TestSessionResultModel : BaseModel
         }
         else if (TestSession.IsCategorySession)
         {
-            TestedCategory = TestSession.CategoryToTest;
+            TestedCategory = Sl.R<CategoryRepository>().GetById(TestSession.CategoryToTestId);
             LinkForRepeatTest = Links.TestSessionStartForCategory(TestedCategory.Name, TestedCategory.Id);
             ContentRecommendationResult = ContentRecommendation.GetForCategory(TestedCategory, 6);
         }

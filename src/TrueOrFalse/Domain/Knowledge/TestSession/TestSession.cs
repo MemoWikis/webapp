@@ -21,6 +21,8 @@ public class TestSession
     public virtual string SetListTitle { get; set; }
 
     public virtual Category CategoryToTest { get; set; }
+    public virtual int CategoryToTestId { get; set; }
+    public virtual int CategoryQuestionCount { get; set; }
 
     public virtual bool IsSetSession => SetToTestId > 0;
     public virtual bool IsSetsSession => SetsToTestIds != null;
@@ -43,7 +45,7 @@ public class TestSession
             }
 
             if (IsCategorySession)
-                return GetQuestionsForCategory.AllIncludingQuestionsInSet(CategoryToTest.Id).Count;
+                return CategoryQuestionCount;
 
             throw new Exception("unknown session type");
         }
@@ -75,6 +77,9 @@ public class TestSession
     {
         UriName = UriSanitizer.Run(setListTitle);
         CategoryToTest = category;
+        CategoryToTestId = category.Id;
+        CategoryQuestionCount =
+            setsFromCategory.SelectMany(s => s.QuestionsInSet).Select(q => q.Question.Id).Distinct().Count();
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(setsFromCategory, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
@@ -84,6 +89,8 @@ public class TestSession
     {
         UriName = "Thema-" + UriSanitizer.Run(category.Name);
         CategoryToTest = category;
+        CategoryToTestId = category.Id;
+        CategoryQuestionCount = GetQuestionsForCategory.AllIncludingQuestionsInSet(CategoryToTestId).Count;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(category, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
