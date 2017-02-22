@@ -196,5 +196,9 @@
   {
     "outputFile": "Views/About/ForTeachers.css",
     "inputFile": "Views/About/ForTeachers.less"
+  },
+  {
+    "outputFile": "Views/About/Jobs.css",
+    "inputFile": "Views/About/Jobs.less"
   }
 ]
