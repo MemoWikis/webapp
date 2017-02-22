@@ -61,7 +61,9 @@ public class CategoryModel : BaseModel
 
         Id = category.Id;
         Name = category.Name;
-        Description = MarkdownMarkdig.ToHtml(category.Description);
+        Description = string.IsNullOrEmpty(category.Description?.Trim())
+                        ? null 
+                        : MarkdownMarkdig.ToHtml(category.Description);
        
         Type = category.Type.GetShortName();
         BreadCrumb = GetBreadCrumb.For(Category);
