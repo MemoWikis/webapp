@@ -13,13 +13,13 @@
         
     <% if(Model.TestSession.IsSetSession) { %>
         Fragen aus dem Fragesatz 
-        <a href="<%= Links.SetDetail(Url, Model.TestSession.SetToTest) %>" style="margin-top: 3px; display: inline-block;">
-            <span class="label label-set"><%: Model.TestSession.SetToTest.Name %></span>
+        <a href="<%= Model.TestSession.SetLink %>" style="margin-top: 3px; display: inline-block;">
+            <span class="label label-set"><%: Model.TestSession.SetName %></span>
         </a>
     <% } %>
 
     <% if(Model.TestSession.IsSetsSession) { %>
-        Fragen aus "<%= Model.TestSession.SetListTitle %>" (<%= Model.TestSession.SetsToTest.Count %> Fragesätze)
+        Fragen aus "<%= Model.TestSession.SetListTitle %>" (<%= Model.TestSession.SetsToTestIds.Count %> Fragesätze)
     <% } %>
 
     <% if(Model.TestSession.IsCategorySession) { %>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Util;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 [Serializable]
@@ -11,13 +12,18 @@ public class TestSession
     public virtual string UriName { get; set; }
     public virtual IList<TestSessionStep> Steps { get; set; }
 
-    public virtual Set SetToTest { get; set; }
-    public virtual IList<Set> SetsToTest { get; set; }
+    public virtual int SetToTestId { get; set; }
+    public virtual string SetLink { get; set; }
+    public virtual string SetName { get; set; }
+    public virtual int SetQuestionCount { get; set; }
+
+    public virtual IList<int> SetsToTestIds { get; set; }
     public virtual string SetListTitle { get; set; }
+
     public virtual Category CategoryToTest { get; set; }
 
-    public virtual bool IsSetSession => SetToTest != null;
-    public virtual bool IsSetsSession => SetsToTest != null;
+    public virtual bool IsSetSession => SetToTestId > 0;
+    public virtual bool IsSetsSession => SetsToTestIds != null;
     public virtual bool IsCategorySession => CategoryToTest != null;
 
     public virtual int CurrentStep { get; set; }
@@ -28,12 +34,12 @@ public class TestSession
         get
         {
             if (IsSetSession) { 
-                return SetToTest.Questions().Count;
+                return SetQuestionCount;
             }
 
             if (IsSetsSession)
             {
-                return SetsToTest.SelectMany(s => s.QuestionsInSet).Select(x => x.Question).Distinct().Count();
+                return SetsToTestIds.Distinct().Count();
             }
 
             if (IsCategorySession)
@@ -46,7 +52,10 @@ public class TestSession
     public TestSession(Set set)
     {
         UriName = "Fragesatz-" + UriSanitizer.Run(set.Name);
-        SetToTest = set;
+        SetToTestId = set.Id;
+        SetLink = Links.SetDetail(set);
+        SetName = set.Name;
+        SetQuestionCount = set.Questions().Count;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(set, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
@@ -55,7 +64,7 @@ public class TestSession
     public TestSession(IList<Set> sets, string setListTitle)
     {
         UriName = "Fragesaetze-" + UriSanitizer.Run(setListTitle);
-        SetsToTest = sets;
+        SetsToTestIds = sets.Select(s => s.Id).ToList();
         SetListTitle = setListTitle;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();
         var questions = GetRandomQuestions.Run(sets, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();

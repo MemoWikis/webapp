@@ -29,14 +29,14 @@ public class TestSessionResultModel : BaseModel
 
         if (TestSession.IsSetSession)
         {
-            TestedSet = TestSession.SetToTest;
+            TestedSet = Sl.R<SetRepo>().GetById(TestSession.SetToTestId);
             LinkForRepeatTest = Links.TestSessionStartForSet(TestedSet.Name, TestedSet.Id);
             ContentRecommendationResult = ContentRecommendation.GetForSet(TestedSet, 6);
         }
         else if (TestSession.IsSetsSession)
         {
-            TestedSets = TestSession.SetsToTest;
-            LinkForRepeatTest = Links.TestSessionStartForSets(testSession.SetsToTest.Select(s => s.Id).ToList(), testSession.SetListTitle);
+            TestedSets = R<SetRepo>().GetByIds(TestSession.SetsToTestIds.ToList());
+            LinkForRepeatTest = Links.TestSessionStartForSets(testSession.SetsToTestIds.ToList(), testSession.SetListTitle);
             ContentRecommendationResult = ContentRecommendation.GetForSet(TestedSets.FirstOrDefault(), 6);
         }
         else if (TestSession.IsCategorySession)
