@@ -568,6 +568,9 @@
     <Content Include="Views\About\ForTeachers.css">
       <DependentUpon>ForTeachers.less</DependentUpon>
     </Content>
+    <Content Include="Views\About\Jobs.css">
+      <DependentUpon>Jobs.less</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
@@ -2244,6 +2247,7 @@
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
     <Content Include="Views\About\ForTeachers.less" />
+    <Content Include="Views\About\Jobs.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
