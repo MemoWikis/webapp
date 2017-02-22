@@ -75,6 +75,7 @@ public class CategorySearchSpec : SearchSpecificationBase<CategoryFilter, Catego
 [Serializable]
 public class CategoryFilter : ConditionContainer
 {
+    public int ValuatorId = -1;
 }
 
 [Serializable]

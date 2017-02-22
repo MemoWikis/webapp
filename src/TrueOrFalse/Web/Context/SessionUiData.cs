@@ -29,6 +29,8 @@ public class SessionUiData : SessionBase, IRegisterAsInstancePerLifetime
     public SetSearchSpec SearchSpecSetWish => Data.Get("searchSpecSetWish", new SetSearchSpec { PageSize = 10 });
 
     public CategorySearchSpec SearchSpecCategory => Data.Get("searchSpecCategory", new CategorySearchSpec { PageSize = 10 });
+    public CategorySearchSpec SearchSpecCategoryWish => Data.Get("searchSpecCategoryWish", new CategorySearchSpec { PageSize = 10 });
+
     public UserSearchSpec SearchSpecUser => Data.Get("searchSpecUser", new UserSearchSpec { PageSize = 10 });
     public ImageMetaDataSearchSpec ImageMetaDataSearchSpec => Data.Get("searchSpecImageMetaData", new ImageMetaDataSearchSpec { PageSize = 50 });
 

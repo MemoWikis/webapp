@@ -6,7 +6,7 @@
 <div style="padding-bottom: 15px;">
     <div class="btn-group btn-breadcrumb MobileHide">
         <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
-        <a href="<%= Links.Categories() %>" class="btn btn-sm btn-default">
+        <a href="<%= Links.CategoriesAll() %>" class="btn btn-sm btn-default">
             <% if (Model.Type != "Standard"){ %>
                 <%= Model.Type %>
             <% } else { %> 
@@ -24,7 +24,7 @@
     <div class="BreadcrumbsMobile DesktopHide">
         <a href="/" class=""><i class="fa fa-home"></i></a>
         <span> <i class="fa fa-chevron-right"></i> </span>
-        <a href="<%= Links.Categories() %>" class="">
+        <a href="<%= Links.CategoriesAll() %>" class="">
             <% if (Model.Type != "Standard"){ %>
                 <%= Model.Type %>
             <% } else { %> 

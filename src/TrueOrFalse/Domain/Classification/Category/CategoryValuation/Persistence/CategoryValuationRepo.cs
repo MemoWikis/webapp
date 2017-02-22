@@ -12,6 +12,11 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     {
     }
 
+    public IList<CategoryValuation> GetBy(int categoryId) =>
+        _session.QueryOver<CategoryValuation>()
+                .Where(s => s.CategoryId == categoryId)
+                .List<CategoryValuation>();
+
     internal CategoryValuation GetBy(int categoryId, int userId) => 
         _session.QueryOver<CategoryValuation>()
                 .Where(q => q.UserId == userId && q.CategoryId == categoryId)

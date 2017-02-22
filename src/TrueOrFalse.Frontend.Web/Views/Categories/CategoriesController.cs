@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Seedworks.Lib;
-using TrueOrFalse.Web;
+using static System.String;
 
 public class CategoriesController : BaseController
 {
     private readonly CategoryRepository _categoryRepo;
     private readonly CategoriesControllerSearch _categorySearch;
     private const string _viewLocation = "~/Views/Categories/Categories.aspx";
+    private readonly CategoriesControllerUtil _util;
 
     public CategoriesController(CategoryRepository categoryRepo)
     {
         _categoryRepo = categoryRepo;
         _categorySearch = new CategoriesControllerSearch();
+        _util = new CategoriesControllerUtil(_categorySearch);
     }
 
     public ActionResult SearchApi(string searchTerm)
@@ -21,7 +24,7 @@ public class CategoriesController : BaseController
         searchSpec.SearchTerm = searchTerm;
 
         var categoriesModel = new CategoriesModel();
-        categoriesModel.Init(_categorySearch.Run());
+        categoriesModel.Init(_categorySearch.Run(), searchSpec, SearchTabType.All);
 
         return new JsonResult
         {
@@ -47,15 +50,28 @@ public class CategoriesController : BaseController
     [SetMenu(MenuEntry.Categories)]
     public ActionResult Categories(int? page, CategoriesModel model, string orderBy = null)
     {
-        SetCategoriesOrderBy(orderBy);
+        _util.SetSearchSpecVars(_sessionUiData.SearchSpecCategory, page, orderBy);
 
-        _sessionUiData.SearchSpecCategory.PageSize = 30;
-        if (page.HasValue) 
-            _sessionUiData.SearchSpecCategory.CurrentPage = page.Value;
+        var categories = _categorySearch.Run(_sessionUiData.SearchSpecCategory);
+        var categoriesModel = new CategoriesModel(categories, _sessionUiData.SearchSpecCategory, SearchTabType.All);
+        return View(_viewLocation, categoriesModel);
+    }
 
-        model.Init(_categorySearch.Run());
+    [SetMenu(MenuEntry.Categories)]
+    public ActionResult CategoriesWish(int? page, SetsModel model, string orderBy)
+    {
+        var searchSpec = _sessionUiData.SearchSpecCategoryWish;
 
-        return View(_viewLocation, model);
+        if (!_sessionUser.IsLoggedIn)
+            return View(_viewLocation,
+                new CategoriesModel(new List<Category>(), searchSpec, SearchTabType.Wish));
+
+        _util.SetSearchSpecVars(searchSpec, page, orderBy);
+
+        searchSpec.Filter.ValuatorId = _sessionUser.UserId;
+
+        var categories = _categorySearch.Run(searchSpec);
+        return View(_viewLocation, new CategoriesModel(categories, searchSpec, SearchTabType.Wish));
     }
 
     [HttpPost]
@@ -86,19 +102,103 @@ public class CategoriesController : BaseController
         return new EmptyResult();
     }
 
-    public void SetCategoriesOrderBy(string orderByCommand)
+    public class CategoriesControllerUtil : BaseUtil
     {
-        var searchSpec = _sessionUiData.SearchSpecCategory;
+        private readonly CategoriesControllerSearch _categoriesControllerSearch;
 
-        if (searchSpec.OrderBy.Current == null && String.IsNullOrEmpty(orderByCommand))
-            orderByCommand = "byBestMatch";
+        public CategoriesControllerUtil(CategoriesControllerSearch categoriesControllerSearch)
+        {
+            _categoriesControllerSearch = categoriesControllerSearch;
+        }
 
-        if (orderByCommand == "byBestMatch")
-            searchSpec.OrderBy.BestMatch.Asc();
-        else if (orderByCommand == "byQuestions") 
-            searchSpec.OrderBy.QuestionCount.Desc();
-        else if (orderByCommand == "byDate") 
-            searchSpec.OrderBy.CreationDate.Desc();
+        //public SetsModel GetSetsModel(
+        //    int? page,
+        //    SetsModel model,
+        //    string orderBy,
+        //    SetSearchSpec searchSpec,
+        //    SearchTabType searchTab)
+        //{
+        //    SetSearchSpecVars(searchSpec, page, orderBy);
+
+        //    if (searchTab == SearchTabType.Mine)
+        //        searchSpec.Filter.CreatorId = _sessionUser.UserId;
+        //    else if (searchTab == SearchTabType.Wish)
+        //        searchSpec.Filter.ValuatorId = _sessionUser.UserId;
+
+        //    var questionsModel = new SetsModel(_setsControllerSearch.Run(searchSpec), searchSpec, searchTab);
+
+        //    return questionsModel;
+        //}
+
+        //public JsonResult SearchApi(
+        //    string searchTerm,
+        //    SetSearchSpec searchSpec,
+        //    SearchTabType searchTab,
+        //    ControllerContext controllerContext)
+        //{
+        //    var model = new SetsModel();
+        //    GetSearchFilter(searchSpec, model, searchTerm);
+
+        //    var totalInSystem = 0;
+        //    switch (searchTab)
+        //    {
+        //        case SearchTabType.All: totalInSystem = R<GetTotalSetCount>().Run(); break;
+        //        case SearchTabType.Mine: totalInSystem = R<GetTotalSetCount>().Run(_sessionUser.UserId); break;
+        //        case SearchTabType.Wish: totalInSystem = R<GetWishSetCount>().Run(_sessionUser.UserId); break;
+        //    }
+
+        //    return new JsonResult
+        //    {
+        //        Data = new
+        //        {
+        //            Html = ViewRenderer.RenderPartialView(
+        //                "SetsSearchResult",
+        //                new SetsSearchResultModel(
+        //                    GetSetsModel(
+        //                        searchSpec.CurrentPage,
+        //                        model,
+        //                        "",
+        //                        searchSpec,
+        //                        searchTab
+        //                        )),
+        //                controllerContext),
+        //            TotalInResult = searchSpec.TotalItems,
+        //            TotalInSystem = totalInSystem,
+        //            Tab = searchTab.ToString()
+        //        },
+        //    };
+        //}
+
+        public void SetSearchSpecVars(CategorySearchSpec searchSpec, int? page, string orderByCommand)
+        {
+            searchSpec.PageSize = 30;
+
+            if (page.HasValue)
+                searchSpec.CurrentPage = page.Value;
+
+            SetOrderBy(searchSpec, orderByCommand);
+        }
+
+        public void SetOrderBy(CategorySearchSpec searchSpec, string orderByCommand)
+        {
+            if (searchSpec.OrderBy.Current == null && IsNullOrEmpty(orderByCommand))
+                orderByCommand = "byBestMatch";
+
+            if (orderByCommand == "byBestMatch") searchSpec.OrderBy.BestMatch.Asc();
+            else if (orderByCommand == "byQuestions") searchSpec.OrderBy.QuestionCount.Desc();
+            else if (orderByCommand == "byDate") searchSpec.OrderBy.CreationDate.Desc();
+        }
+
+        //public void GetSearchFilter(
+        //    SetSearchSpec searchSpec,
+        //    SetsModel model,
+        //    string searchTerm)
+        //{
+        //    if (searchSpec.SearchTerm != searchTerm)
+        //        searchSpec.CurrentPage = 1;
+
+        //    searchSpec.SearchTerm = model.SearchTerm = searchTerm;
+        //}
     }
 
 }

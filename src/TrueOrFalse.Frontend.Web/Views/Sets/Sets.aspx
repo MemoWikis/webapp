@@ -43,7 +43,7 @@
             <div class="container">
                 <div id="MainFilterBar" class="btn-group btn-group-justified JS-Tabs">
                 
-                    <div class="btn-group  <%= Model.ActiveTabAll ? "active" : "" %> JS-All">
+                    <div class="btn-group <%= Model.ActiveTabAll ? "active" : "" %> JS-All">
                         <a  href="<%= Links.SetsAll() %>" type="button" class="btn btn-default">
                             Alle (<span class="JS-Amount"><%= Model.TotalSetsInSystem %></span>)
                         </a>
@@ -90,7 +90,8 @@
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-Wish">
                             <a href="<%= Links.SetsWish() %>">
                                 <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalSetsInResult); %>
-                                <i class="fa fa-heart" style="color:#b13a48;"></i>&nbsp;Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
+                                <i class="fa fa-heart" style="color:#b13a48;"></i>
+                                Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
                             </a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-Mine">

@@ -21,27 +21,22 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
         _setRepo = setRepo;
     }
 
-    public IList<SetValuation> GetBy(int setId)
-    {
-        return _session.QueryOver<SetValuation>()
-                        .Where(s => s.SetId == setId).List<SetValuation>();
-    }
+    public IList<SetValuation> GetBy(int setId) => 
+        _session.QueryOver<SetValuation>()
+                .Where(s => s.SetId == setId)
+                .List<SetValuation>();
 
-    public SetValuation GetBy(int setId, int userId)
-    {
-        return _session.QueryOver<SetValuation>()
-                        .Where(q => q.UserId == userId && q.SetId == setId)
-                        .SingleOrDefault();
-    }
+    public SetValuation GetBy(int setId, int userId) => 
+        _session.QueryOver<SetValuation>()
+                .Where(q => q.UserId == userId && q.SetId == setId)
+                .SingleOrDefault();
 
-    public IList<SetValuation> GetByUser(int userId)
-    {
-        return _session.QueryOver<SetValuation>()
-                        .Where(q =>
-                            q.UserId == userId &&
-                            q.RelevancePersonal >= 0)
-                        .List<SetValuation>();
-    }
+    public IList<SetValuation> GetByUser(int userId) => 
+        _session.QueryOver<SetValuation>()
+                .Where(q =>
+                    q.UserId == userId &&
+                    q.RelevancePersonal >= 0)
+                .List<SetValuation>();
 
     public IList<SetValuation> GetBy(IList<int> setIds, int userId)
     {

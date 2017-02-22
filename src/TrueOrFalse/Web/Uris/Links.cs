@@ -338,7 +338,6 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string MessageSetRead(UrlHelper url) => url.Action("SetMessageRead", "Messages");
         public static object MessageSetUnread(UrlHelper url) => url.Action("SetMessageUnread", "Messages");
 
-
         /* Games */
         public static string Games() => Games(GetUrlHelper());
         public static string Games(UrlHelper url) => url.Action("Games", "Games");
@@ -352,11 +351,13 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         /*Category*/
         public const string CategoriesAction = "Categories";
+        public const string CategoriesWishAction = "CategoriesWish";
         public const string CategoriesController = "Categories";
         public const string CategoryController = "Category";
         public const string CategoryEditController = "EditCategory";
         public const string CategoryCreateAction = "Create";
-        public static string Categories() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
+        public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
+        public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryDetail(Category category) => CategoryDetail(category.Name, category.Id);
 

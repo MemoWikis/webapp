@@ -6,6 +6,11 @@ namespace TrueOrFalse.Search
     public class SearchIndexCategory : IRegisterAsInstancePerLifetime
     {
         private readonly ISolrOperations<CategorySolrMap> _solrOperations;
+        private CategoryValuationRepo __categoryValuationRepo;
+
+        private CategoryValuationRepo _categoryValuationRepo =>
+            __categoryValuationRepo ??
+            (__categoryValuationRepo = Sl.Resolve<CategoryValuationRepo>());
 
         public SearchIndexCategory(ISolrOperations<CategorySolrMap> solrOperations){
             _solrOperations = solrOperations;
@@ -13,21 +18,21 @@ namespace TrueOrFalse.Search
 
         public void Update(Category category)
         {
-            _solrOperations.Add(ToCategorytSolrMap.Run(category));
+            _solrOperations.Add(ToCategorytSolrMap.Run(category, _categoryValuationRepo.GetBy(category.Id)));
             _solrOperations.Commit();
         }
 
         public void Update(IList<Category> categories)
         {
             foreach(var category in categories)
-                _solrOperations.Add(ToCategorytSolrMap.Run(category));
+                _solrOperations.Add(ToCategorytSolrMap.Run(category, _categoryValuationRepo.GetBy(category.Id)));
 
             _solrOperations.Commit();
         }
 
         public void Delete(Category category)
         {
-            _solrOperations.Delete(ToCategorytSolrMap.Run(category));
+            _solrOperations.Delete(ToCategorytSolrMap.Run(category, _categoryValuationRepo.GetBy(category.Id)));
             _solrOperations.Commit();
         }
     }

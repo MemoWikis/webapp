@@ -1,12 +1,5 @@
 ﻿public class BaseResolve
 {
-    protected T Resolve<T>()
-    {
-        return ServiceLocator.Resolve<T>();
-    }
-
-    protected T R<T>()
-    {
-        return Resolve<T>();
-    }
+    protected T Resolve<T>() => ServiceLocator.Resolve<T>();
+    protected T R<T>() => Resolve<T>();
 }
