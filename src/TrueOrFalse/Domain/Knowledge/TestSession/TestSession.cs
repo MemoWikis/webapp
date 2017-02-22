@@ -12,6 +12,7 @@ public class TestSession
     public virtual string UriName { get; set; }
     public virtual IList<TestSessionStep> Steps { get; set; }
 
+    public virtual Set SetToTest { get; set; }
     public virtual int SetToTestId { get; set; }
     public virtual string SetLink { get; set; }
     public virtual string SetName { get; set; }
@@ -54,6 +55,7 @@ public class TestSession
     public TestSession(Set set)
     {
         UriName = "Fragesatz-" + UriSanitizer.Run(set.Name);
+        SetToTest = set;
         SetToTestId = set.Id;
         SetLink = Links.SetDetail(set);
         SetName = set.Name;
