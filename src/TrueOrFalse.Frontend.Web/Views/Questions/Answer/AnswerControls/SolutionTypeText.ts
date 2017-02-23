@@ -2,6 +2,9 @@ class SolutionTypeTextEntry
     extends AnswerEntryBase
     implements IAnswerEntry
 {
+
+    public SolutionType = SolutionType.Text;
+
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 

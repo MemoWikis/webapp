@@ -23,6 +23,7 @@ class AnswerQuestion {
     static IsLastTestSessionStep = false;
     static TestSessionId: number;
 
+    public SolutionType: SolutionType;
     public IsGameMode: boolean;
     public IsLearningSession = false;
     public IsTestSession = false;
@@ -36,6 +37,7 @@ class AnswerQuestion {
 
     constructor(answerEntry: IAnswerEntry) {
 
+        this.SolutionType = answerEntry.SolutionType;
         this.IsGameMode = answerEntry.IsGameMode;
         if ($('#hddIsLearningSession').length === 1)
             this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
@@ -174,7 +176,7 @@ class AnswerQuestion {
             = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0) {
+        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice) {
             $('#spnWrongAnswer').hide();
             self._inputFeedback
                 .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
@@ -186,14 +188,6 @@ class AnswerQuestion {
             self.AnswersSoFar.push(answerText);
             $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
             $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
-
-            var test = $.extend(self._getAnswerData(),
-            {
-                questionViewGuid: $('#hddQuestionViewGuid').val(),
-                interactionNumber: $('#hddInteractionNumber').val(),
-                millisecondsSinceQuestionView: AnswerQuestion
-                    .TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
-            });
 
             $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
