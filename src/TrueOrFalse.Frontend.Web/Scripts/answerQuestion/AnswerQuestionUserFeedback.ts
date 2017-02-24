@@ -138,7 +138,7 @@
             }
 
             
-            if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && result.correctAnswer === undefined) {
+            if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && !result.correctAnswer) {
                 $("#Solution").show().find('.Label').html("Keine der Antworten wäre richtig gewesen!");
             } else {
                 if(this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
