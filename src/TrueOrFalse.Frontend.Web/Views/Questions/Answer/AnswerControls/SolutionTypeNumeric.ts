@@ -2,6 +2,9 @@
     extends AnswerEntryBase
     implements IAnswerEntry
 {
+
+    public SolutionType = SolutionType.Numeric;
+
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 

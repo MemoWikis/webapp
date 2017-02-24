@@ -2,6 +2,8 @@
     extends AnswerEntryBase
     implements IAnswerEntry  {
 
+    public SolutionType = SolutionType.Date;
+
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 

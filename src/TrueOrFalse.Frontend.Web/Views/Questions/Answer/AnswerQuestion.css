@@ -78,7 +78,6 @@
   }
 }
 #AnswerAndSolutionCol #AnswerInputSection {
-  margin-bottom: 15px;
   position: relative;
   min-height: 1px;
   padding-left: 10px;
@@ -245,6 +244,12 @@
   .MarkdownImage img {
     max-height: 250px;
   }
+}
+#AnswerInputSection .right-answer {
+  color: green;
+}
+#AnswerInputSection .wrong-answer {
+  color: red;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
