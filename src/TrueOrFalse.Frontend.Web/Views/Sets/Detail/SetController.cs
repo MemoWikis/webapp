@@ -22,7 +22,7 @@ public class SetController : BaseController
 
     private ActionResult QuestionSet(Set set)
     {
-        SaveSetView.Run(set, MemuchoUser());
+        SaveSetView.Run(set, User_());
 
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set));
         return View(_viewLocation, new SetModel(set));

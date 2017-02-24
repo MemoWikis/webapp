@@ -335,17 +335,18 @@ div.selected-row:hover {
 }
 @media (min-width: 768px) {
   .column-MainContent {
-    width: 597px;
+    width: 442px;
   }
 }
 @media (min-width: 992px) {
   .column-MainContent {
-    width: 577px;
+    width: 422px;
+    width: 662px;
   }
 }
 @media (min-width: 1200px) {
   .column-MainContent {
-    width: 727px;
+    width: 630px;
   }
 }
 .column-MainContent .Pin {
@@ -353,13 +354,6 @@ div.selected-row:hover {
   margin-top: -1px;
   padding-left: 10px;
   float: right;
-}
-@media (max-width: 479px) {
-  .column-MainContent .Pin {
-    float: left;
-    padding-left: 0;
-    padding-right: 10px;
-  }
 }
 .column-MainContent .TitleText {
   font-size: large;

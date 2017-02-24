@@ -37,32 +37,51 @@
 
 .column-MainContent {
 
-    .media-sm-up ({
-        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
-    });
-    
-    .media-md-up ({
-        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);
-    });
+    div.TitleText{
 
-    .media-lg ({
-        width: (852px - @column-Image-sm-width - @column-Additional-sm-width);
-    });
+        margin-bottom: 5px;
 
-     div.TitleText{
-         span.label-question{
-             font-size: 11px;
-             position: relative; top: -3px;
-         }
-     }
+        span.label-question{
+            font-size: 11px;
+            position: relative; top: -3px;
+        }
+    }
 }
 
 .column-Additional{
-    div.actions{
-        line-height: 16px;
+
+    justify-content: flex-start;
+
+    .StatsRow {
+        height: 1.5em;
+        margin-left: 0;
+        margin-right: 10px;
+
+        .media-below-sm({
+            margin-top: 5px;
+            margin-bottom: 5px;
+        });
 
         i { width:19px; }
     }
+
+    .media-below-sm({
+        width: 100%;
+    });
+
+    .SetInfo {
+        .media-sm-up({
+            margin-bottom: 10px;
+        });
+    }
+
+    .Divider {
+         width: 100%;
+         margin-bottom: 5px;
+         .media-sm-up({
+             display: none;
+         });
+     }
 }
 
 .Pin {

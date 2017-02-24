@@ -53,6 +53,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
+        data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
+        data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
         data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
         data-is-last-step="<%= Model.IsLastLearningStep %>"/>
     <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
@@ -60,8 +62,6 @@
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 
-    <div class="row">
-        <div class="col-xs-12 col- xxs-stack">
             <% if (Model.IsOwner)
                { %>
                 <div class="navLinks">
@@ -79,8 +79,6 @@
                     </div>
                 </div>
             <% } %>
-        </div>
-        <div class="col-xs-12 xxs-stack">
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
             <% }else if (Model.IsTestSession) { %>
@@ -148,10 +146,8 @@
                 </li>
             </ul>
             <% } %>
-        </div>
 
         
-    </div>
 
     <div class="row">
         <div class="col-xs-12">

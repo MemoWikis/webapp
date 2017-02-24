@@ -28,31 +28,49 @@
 .set-row .label {
   max-width: 300px;
 }
-@media (min-width: 768px) {
-  .column-MainContent {
-    width: 442px;
-  }
-}
-@media (min-width: 992px) {
-  .column-MainContent {
-    width: 422px;
-  }
-}
-@media (min-width: 1200px) {
-  .column-MainContent {
-    width: 572px;
-  }
+.column-MainContent div.TitleText {
+  margin-bottom: 5px;
 }
 .column-MainContent div.TitleText span.label-question {
   font-size: 11px;
   position: relative;
   top: -3px;
 }
-.column-Additional div.actions {
-  line-height: 16px;
+.column-Additional {
+  justify-content: flex-start;
 }
-.column-Additional div.actions i {
+.column-Additional .StatsRow {
+  height: 1.5em;
+  margin-left: 0;
+  margin-right: 10px;
+}
+@media (max-width: 767px) {
+  .column-Additional .StatsRow {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+.column-Additional .StatsRow i {
   width: 19px;
+}
+@media (max-width: 767px) {
+  .column-Additional {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .column-Additional .SetInfo {
+    margin-bottom: 10px;
+  }
+}
+.column-Additional .Divider {
+  width: 100%;
+  margin-bottom: 5px;
+}
+@media (min-width: 768px) {
+  .column-Additional .Divider {
+    display: none;
+  }
 }
 .Pin {
   height: 25px;

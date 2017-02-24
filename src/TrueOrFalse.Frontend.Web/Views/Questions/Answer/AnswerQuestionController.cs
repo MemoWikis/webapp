@@ -242,8 +242,8 @@ public class AnswerQuestionController : BaseController
             {
                 correct = result.IsCorrect,
                 correctAnswer = result.CorrectAnswer,
-                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ? 
-                    ((QuestionSolutionMultipleChoice)solution).Choices
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution) ? 
+                    ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                     : null
             }
         };
@@ -270,12 +270,25 @@ public class AnswerQuestionController : BaseController
             {
                 correct = result.IsCorrect,
                 correctAnswer = result.CorrectAnswer,
-                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice) ?
-                    ((QuestionSolutionMultipleChoice)solution).Choices
+                choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution) ?
+                    ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                     : null,
                 newStepAdded = result.NewStepAdded
             }
         };
+    }
+
+    [HttpPost]
+    public void AmendAfterShowSolution(int learningSessionId, Guid stepGuid)
+    {
+        var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
+        var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
+
+        learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
+
+        learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
+//        answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
+
     }
 
     [HttpPost]

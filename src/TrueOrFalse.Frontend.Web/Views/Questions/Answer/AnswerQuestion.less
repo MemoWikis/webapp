@@ -2,10 +2,23 @@
 
 .navLinks {
 
+    float: right;
+
+    .media-below-md({
+        width: 100%;
+        float: none;
+    });
+
+    
+
     margin-bottom: 10px;
+
+
 
     & > div {
        display: inline-block !important;
+
+       
     }
 }
 
@@ -40,7 +53,6 @@
 
     #AnswerInputSection {
 
-        margin-bottom: 15px;
 
         .make-sm-column(6);
 
@@ -203,6 +215,18 @@
 
 .commentSettledInfo {
     color: darkgray;
+}
+
+.MarkdownImage {
+    img {
+
+        max-height: 500px;
+
+        .media-below-sm({
+            max-height: 250px;
+        });
+
+    }
 }
 
 .MarkdownImage {

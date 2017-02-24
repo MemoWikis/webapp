@@ -1,0 +1,47 @@
+﻿@import '../../Style/includes/imports.less';
+
+
+h2 {
+    margin-top: 45px;
+}
+
+.overviewIcon {
+    font-size: 2em;
+    text-align: center;
+}
+
+.overviewHeader {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.overviewSubtext {
+    color: @global-text-color-grey;
+}
+
+p.subheader {
+    color: @global-text-color-grey;
+    font-size: 1.3em;
+    margin-bottom: 20px;
+}
+
+img.screenshot {
+    .media-below-md ({
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 15px 0;
+        height: auto;
+    });
+     .media-md-up ({
+         float: right;
+         margin: 0 0 25px 25px;
+     });
+}
+
+code {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 3px 6px;
+    white-space: normal;
+}

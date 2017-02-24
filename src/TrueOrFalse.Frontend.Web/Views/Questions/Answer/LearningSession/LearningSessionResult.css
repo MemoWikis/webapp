@@ -228,8 +228,23 @@
 }
 .SessionHeading {
   font-weight: bold;
-  padding-left: 15px;
   padding-bottom: 10px;
+}
+.SessionHeading:before,
+.SessionHeading:after {
+  content: " ";
+  display: table;
+}
+.SessionHeading:after {
+  clear: both;
+}
+.SessionHeading:before,
+.SessionHeading:after {
+  content: " ";
+  display: table;
+}
+.SessionHeading:after {
+  clear: both;
 }
 /* Session bar/Progress bar
 ------------------------------------------------------*/
@@ -280,8 +295,8 @@
     text-align: center;
   }
 }
-.SessionType span,
-.QuestionCount span {
+.SessionType > span,
+.QuestionCount > span {
   width: 100%;
 }
 .SessionType {

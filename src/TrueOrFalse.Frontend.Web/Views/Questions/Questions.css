@@ -106,22 +106,6 @@ div.question-row{background-color:silver;}*/
     display: none;
   }
 }
-@media (min-width: 768px) {
-  .column-MainContent {
-    width: 442px;
-  }
-}
-@media (min-width: 992px) {
-  .column-MainContent {
-    width: 422px;
-    width: 662px;
-  }
-}
-@media (min-width: 1200px) {
-  .column-MainContent {
-    width: 630px;
-  }
-}
 .NumberTimes {
   display: inline-block;
   width: 20px;

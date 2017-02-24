@@ -6,7 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Seedworks.Lib;
 using TrueOrFalse.Web;
 
@@ -83,6 +82,7 @@ public class EditQuestionModel : BaseModel
     public IEnumerable<SelectListItem> AnswerTypeData{ get {
             return new List<SelectListItem>
                         {
+                            new SelectListItem {Text = "Multiple Choice (Eine Lösung)", Value = TrueOrFalse.SolutionType.MultipleChoice_SingleSolution.ToString()},
                             new SelectListItem {Text = "Multiple Choice", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
                             new SelectListItem {Text = "Freie Antwort (Text/Zahl/Datum)", Value = TrueOrFalse.SolutionType.Text.ToString()},
                             new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},

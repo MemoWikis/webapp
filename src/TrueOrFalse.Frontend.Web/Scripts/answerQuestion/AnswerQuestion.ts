@@ -17,7 +17,8 @@ class AnswerQuestion {
     static ajaxUrl_GetSolution: string;
     static ajaxUrl_CountLastAnswerAsCorrect: string;
     static ajaxUrl_CountUnansweredAsCorrect: string;
-    static ajaxUrl_TestSessionRegisterAnsweredQuestion : string;
+    static ajaxUrl_TestSessionRegisterAnsweredQuestion: string;
+    static ajaxUrl_LearningSessionAmendAfterShowSolution: string;
     static TestSessionProgessAfterAnswering: number;
     static IsLastTestSessionStep = false;
     static TestSessionId: number;
@@ -31,6 +32,7 @@ class AnswerQuestion {
     public AmountOfTries = 0;
     public AtLeastOneWrongAnswer = false;
     public AnswerCountedAsCorrect = false;
+    public ShowedSolutionOnly = false;
 
     constructor(answerEntry: IAnswerEntry) {
 
@@ -47,7 +49,7 @@ class AnswerQuestion {
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step'))
             AnswerQuestion.IsLastTestSessionStep = $('#hddIsTestSession').attr('data-is-last-step').toLowerCase() === "true";
 
-        if (this.IsTestSession && $('#hddIsTestSession').attr('data-is-last-step'))
+        if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
         this._getAnswerText = answerEntry.GetAnswerText;
@@ -59,6 +61,7 @@ class AnswerQuestion {
         AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect = $("#ajaxUrl_CountLastAnswerAsCorrect").val();
         AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
         AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion = $("#ajaxUrl_TestSessionRegisterAnsweredQuestion").val();
+        AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution = $("#ajaxUrl_LearningSessionAmendAfterShowSolution").val();
         AnswerQuestion.TestSessionProgessAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
@@ -139,7 +142,7 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click(function(e) {
-                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect) {
+                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self.ShowedSolutionOnly) {
                     var href = $(this).attr('href') +
                         "?skipStepIdx=" +
                         $('#hddIsLearningSession').attr('data-current-step-idx');
@@ -167,7 +170,8 @@ class AnswerQuestion {
     }
 
     private ValidateAnswer() {
-        var answerText = this._getAnswerText();
+        var answerText
+            = this._getAnswerText();
         var self = this;
 
         if (answerText.trim().length === 0) {
@@ -183,8 +187,15 @@ class AnswerQuestion {
             $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
             $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
 
-            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+            var test = $.extend(self._getAnswerData(),
+            {
+                questionViewGuid: $('#hddQuestionViewGuid').val(),
+                interactionNumber: $('#hddInteractionNumber').val(),
+                millisecondsSinceQuestionView: AnswerQuestion
+                    .TimeSinceLoad($('#hddTimeRecords').attr('data-time-of-answer'))
+            });
 
+            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
@@ -362,6 +373,11 @@ class AnswerQuestion {
             $("#buttons-answer-again").show();
             this._inputFeedback.AnimateNeutral();
         }
+    }
+
+    public GiveSelectedSolutionClass(event) {
+        var changedButton = $(event.delegateTarget);
+        changedButton.parent().parent().toggleClass("selected");
     }
 
     static AjaxGetSolution(onSuccessAction) {

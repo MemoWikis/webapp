@@ -62,6 +62,14 @@ public class LearningSessionResultModel : BaseModel
             WishCountSets = learningSession.User.WishCountSets;
             SetsToLearn = learningSession.SetsToLearn();
         }
+        else if (learningSession.IsWishSession)
+        {
+            WishCountQuestions = learningSession.User.WishCountQuestions;
+            WishCountSets = learningSession.User.WishCountSets;
+        } else if (learningSession.IsSetsSession)
+        {
+            SetsToLearn = learningSession.SetsToLearn();
+        }
 
         if (NumberSteps > 0)
         {
@@ -70,10 +78,11 @@ public class LearningSessionResultModel : BaseModel
 
             NumberCorrectAnswers = AnsweredStepsGrouped.Count(g => g.First().AnswerState == StepAnswerState.Answered && g.First().Answer.AnsweredCorrectly());
             NumberCorrectAfterRepetitionAnswers = AnsweredStepsGrouped.Count(g => g.Last().AnswerState == StepAnswerState.Answered &&  g.Count() > 1 && g.Last().Answer.AnsweredCorrectly());
-            NumberWrongAnswers = AnsweredStepsGrouped.Count(g => 
-                    (g.Last().AnswerState == StepAnswerState.Answered && g.Last().Answer.AnswerredCorrectly == AnswerCorrectness.False) || 
-                    (g.Last().AnswerState != StepAnswerState.Answered && g.Count() > 1));
-            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.First().AnswerState == StepAnswerState.Skipped || g.First().AnswerState == StepAnswerState.NotViewedOrAborted);
+            NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState != StepAnswerState.Answered));
+            NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
+            
+            if (NumberWrongAnswers < 0)
+                Logg.r().Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession id=" + learningSession.Id);
 
             NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)NumberUniqueQuestions * 100);
             NumberCorrectAfterRepetitionPercentage = (int)Math.Round(NumberCorrectAfterRepetitionAnswers / (float)NumberUniqueQuestions * 100);

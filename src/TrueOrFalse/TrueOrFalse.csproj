@@ -90,8 +90,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Markdig, Version=0.10.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Markdig.0.10.4\lib\net40\Markdig.dll</HintPath>
@@ -353,8 +354,10 @@
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewMap.cs" />
     <Compile Include="Domain\QuestionSet\SetView\SetView.cs" />
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
+    <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
@@ -577,7 +580,7 @@
     <Compile Include="Domain\Question\References\ReferenceType.cs" />
     <Compile Include="Domain\Question\SolutionType\Date\DateAnswer.cs" />
     <Compile Include="Domain\Question\Answer\GetQuestionSolution.cs" />
-    <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice_SingleSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionSequence.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolution.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionExact.cs" />

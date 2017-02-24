@@ -82,6 +82,16 @@ a {
         }
     }
 
+    i {
+        &.MobileLarge {
+            @media (max-width: @screen-xs-max) {
+                font-size: @icon-size-touch;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    }
+
     &.TextLinkWithIcon {
         text-decoration: none;
         display: inline-block;
@@ -101,9 +111,6 @@ a {
 
         i {
             vertical-align: middle;
-            /*@media (max-width: @screen-xs-max) {
-                font-size: @icon-size-touch;
-            }*/
         }
 
         .TextSpan {
@@ -117,6 +124,12 @@ a {
             text-decoration: none;
             color: @global-text-color;
         }
+    }
+
+    &.DisabledLink {
+       pointer-events: none;
+       cursor: default;
+       color: @global-text-color-grey;
     }
 }
 
@@ -190,12 +203,11 @@ img {
 
         height: 100%;
         
-        @media (max-width: (@screen-xs-min - 1px)) {
-            width: 70%; padding-right: 0;
-        }
+        .media-below-xs({
+            padding-right: 0;
+        });
 
         width: auto;
-        
         float: left;
     }
 
@@ -203,9 +215,10 @@ img {
         width: auto;
         float: right;
 
-        @media (max-width: (@screen-xs-min - 1px)) {
-            width: 30%; padding-left: 0; float: right;
-        }
+        .media-below-xs({
+            padding-left: 0;
+            float: right;
+        });
 
         height: @masterHeaderMainRowHeight-xs;
     }

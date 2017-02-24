@@ -19,7 +19,14 @@
 @media (min-width: 650px) {
 }
 .navLinks {
+  float: right;
   margin-bottom: 10px;
+}
+@media (max-width: 991px) {
+  .navLinks {
+    width: 100%;
+    float: none;
+  }
 }
 .navLinks > div {
   display: inline-block !important;
@@ -222,6 +229,14 @@
 }
 .commentSettledInfo {
   color: darkgray;
+}
+.MarkdownImage img {
+  max-height: 500px;
+}
+@media (max-width: 767px) {
+  .MarkdownImage img {
+    max-height: 250px;
+  }
 }
 .MarkdownImage img {
   max-height: 500px;

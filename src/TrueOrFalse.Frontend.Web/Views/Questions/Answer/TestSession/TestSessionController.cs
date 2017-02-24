@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Web.Mvc;
 
 public class TestSessionController : BaseController
 {
+
+    [HttpPost]
     public void RegisterQuestionAnswered(int testSessionId, int questionId, Guid questionViewGuid, bool answeredQuestion)
     {
         _sessionUser.AnsweredQuestionIds.Add(questionId);

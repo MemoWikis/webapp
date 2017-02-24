@@ -268,15 +268,16 @@ div.selected-row:hover { background-color: #d6e0f4;}
     });
 
     .media-sm-up ({
-        width: (722px - @column-Image-sm-width);
+        width: (722px - @column-Image-sm-width - @column-Additional-sm-width);
     });
     
     .media-md-up ({
-        width: (702px - @column-Image-sm-width);
+        width: (702px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is visible in md
+        width: (942px - @column-Image-sm-width - @column-Additional-sm-width);//If menu is not visible in md
     });
 
     .media-lg ({
-        width: (852px - @column-Image-sm-width);
+        width: (910px - @column-Image-sm-width - @column-Additional-sm-width);
     });
 
      .Pin {
@@ -284,12 +285,6 @@ div.selected-row:hover { background-color: #d6e0f4;}
         margin-top: -1px;
         padding-left: 10px;
         float: right;
-
-        .media-below-xs ({
-            float: left;
-            padding-left: 0;
-            padding-right: 10px;
-        });
     } 
 
      .TitleText {

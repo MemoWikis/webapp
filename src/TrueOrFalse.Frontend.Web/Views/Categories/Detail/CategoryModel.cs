@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse.Web;
 
 public class CategoryModel : BaseModel
 {
@@ -60,7 +61,10 @@ public class CategoryModel : BaseModel
 
         Id = category.Id;
         Name = category.Name;
-        Description = category.Description;
+        Description = string.IsNullOrEmpty(category.Description?.Trim())
+                        ? null 
+                        : MarkdownMarkdig.ToHtml(category.Description);
+       
         Type = category.Type.GetShortName();
         BreadCrumb = GetBreadCrumb.For(Category);
 

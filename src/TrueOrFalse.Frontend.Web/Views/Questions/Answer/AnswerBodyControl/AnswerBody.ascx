@@ -16,6 +16,9 @@
         <input type="hidden" id="ajaxUrl_TestSessionRegisterAnsweredQuestion" value="<%= Model.AjaxUrl_TestSessionRegisterAnsweredQuestion(Url) %>" />
         <input type="hidden" id="TestSessionProgessAfterAnswering" value="<%= Model.TestSessionProgessAfterAnswering %>" />
     <% } %>
+    <% if (Model.IsLearningSession) {%>
+        <input type="hidden" id="ajaxUrl_LearningSessionAmendAfterShowSolution" value="<%= Model.AjaxUrl_LearningSessionAmendAfterShowSolution(Url) %>" />
+    <% } %>
     <input type="hidden" id="hddTimeRecords" />
 
     <div style="float: right; margin-left: 10px;">
@@ -77,7 +80,7 @@
                     
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if(Model.NextUrl != null){ %>
-                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-success" rel="nofollow">Nächste Frage</a>
+                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% } %>
                                     <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                 </div>

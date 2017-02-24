@@ -57,7 +57,7 @@ public class GameController : BaseController
         bool hasQuestions = true;
         if (gameModel.OnlyMultipleChoice && 
             sets.SelectMany(x => x.QuestionsInSet)
-                .All(q => q.Question.SolutionType != SolutionType.MultipleChoice))
+                .All(q => q.Question.SolutionType != SolutionType.MultipleChoice_SingleSolution))
         {
             hasQuestions = false;
         }else if (!sets.SelectMany(x => x.QuestionsInSet).Any()){

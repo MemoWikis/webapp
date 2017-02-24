@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using RazorEngine;
-using Seedworks.Web.State;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeReportMsg
 {
@@ -16,7 +14,7 @@ public class KnowledgeReportMsg
             new KnowledgeReportMsgModel(user, UtmSource)
         );
 
-        var messageTitle = "";
+        var messageTitle = "Dein " + (user.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "" : UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval) + "er") + " Wissensbericht";
         var intervalWord = UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval);
 
         string signOutMessage = "Du erhältst diese E-Mail " + intervalWord + " als Bericht über deinen Wissensstand. Du kannst diese " +

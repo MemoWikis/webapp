@@ -103,8 +103,8 @@
       <HintPath>..\libs\HttpWebAdapters.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -291,6 +291,8 @@
     <Compile Include="Code\Hubs\GameHub.cs" />
     <Compile Include="Code\Resources\UserControls.cs" />
     <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\About\AboutController.cs" />
+    <Compile Include="Views\About\ForTeachersModel.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
     <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
     <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
@@ -509,7 +511,13 @@
     <Content Include="Images\no-profile-picture-250.png" />
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />
+    <Content Include="Images\Screenshots\blackboard-html-mode-full.png" />
+    <Content Include="Images\Screenshots\blackboard-html-mode-small.png" />
     <Content Include="Images\Screenshots\fragen-zu-fragesatz.png" />
+    <Content Include="Images\Screenshots\fragen-zusammenstellen.png" />
+    <Content Include="Images\Screenshots\moodle-1-mehrFelder-small.png" />
+    <Content Include="Images\Screenshots\moodle-2-HTMLmode-small.png" />
+    <Content Include="Images\Screenshots\wordpress-textmode-small.png" />
     <Content Include="Images\Team\team_christof-rund_160.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
@@ -540,6 +548,7 @@
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
+    <Content Include="Scripts\vendor\bootstrap2-toggle.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
@@ -554,6 +563,13 @@
     </Content>
     <Content Include="Style\temp.min.css">
       <DependentUpon>temp.css</DependentUpon>
+    </Content>
+    <Content Include="Style\vendor\bootstrap2-toggle.css" />
+    <Content Include="Views\About\ForTeachers.css">
+      <DependentUpon>ForTeachers.less</DependentUpon>
+    </Content>
+    <Content Include="Views\About\Jobs.css">
+      <DependentUpon>Jobs.less</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
@@ -581,6 +597,7 @@
     <Content Include="Views\Maintenance\ContentReport.css">
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
@@ -604,6 +621,7 @@
     </Content>
     <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
     <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
     <Content Include="Views\Sets\Edit\Js\EditSet.js">
       <DependentUpon>EditSet.ts</DependentUpon>
@@ -615,11 +633,11 @@
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
-    <Content Include="Views\VariousPublic\AboutMemucho.css">
+    <Content Include="Views\About\AboutMemucho.css">
       <DependentUpon>AboutMemucho.less</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\Jobs.aspx" />
-    <Content Include="Views\VariousPublic\AboutMemucho.aspx" />
+    <Content Include="Views\About\Jobs.aspx" />
+    <Content Include="Views\About\AboutMemucho.aspx" />
     <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
     <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
       <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
@@ -1585,6 +1603,7 @@
       <SubType>Code</SubType>
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
@@ -1703,7 +1722,7 @@
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">
-      <DependentUpon>SolutionTypeMultipleChoice.ts</DependentUpon>
+      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
@@ -1766,7 +1785,7 @@
     <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
@@ -1797,7 +1816,7 @@
     <Content Include="Views\Sets\SetRow.ascx" />
     <Content Include="Views\Sets\Sets.aspx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
@@ -1971,7 +1990,7 @@
     </Content>
     <Content Include="Style\01_temp.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
-      <DependentUpon>SolutionTypeMultipleChoice.ts</DependentUpon>
+      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
@@ -2196,7 +2215,7 @@
     <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
       <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
     </Content>
-    <Content Include="Views\VariousPublic\AboutMemucho.less" />
+    <Content Include="Views\About\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
     <Content Include="Views\Maintenance\ContentReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
@@ -2220,6 +2239,15 @@
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
+      <DependentUpon>SetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\About\ForTeachers.aspx" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\About\ForTeachers.less" />
+    <Content Include="Views\About\Jobs.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -2232,7 +2260,7 @@
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
     <Content Include="Views\Messages\Messages.aspx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
     <Content Include="Views\Questions\QuestionRow.ascx" />
     <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Scripts\JQueryExtensions.js" />
@@ -2252,7 +2280,7 @@
     <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
-    <Content Include="Views\VariousPublic\WelfareCompany.aspx" />
+    <Content Include="Views\About\WelfareCompany.aspx" />
     <Content Include="Views\Welcome\PasswordReset.aspx" />
     <Content Include="Views\Welcome\PasswordRecovery.aspx" />
     <Content Include="Views\Welcome\Registration\Register.aspx" />

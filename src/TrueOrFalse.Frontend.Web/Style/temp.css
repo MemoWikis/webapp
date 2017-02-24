@@ -121,22 +121,6 @@ a.TextLinkWithIcon.active span {
 .flexboxx > div:nth-child(3) {
   background: #CCF;
 }
-.StatsRow:before,
-.StatsRow:after {
-  content: " ";
-  display: table;
-}
-.StatsRow:after {
-  clear: both;
-}
-.StatsRow:before,
-.StatsRow:after {
-  content: " ";
-  display: table;
-}
-.StatsRow:after {
-  clear: both;
-}
 .StatsIcon,
 .StatsValue {
   width: 25px;

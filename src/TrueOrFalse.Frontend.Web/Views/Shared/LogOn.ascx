@@ -7,7 +7,7 @@
 %>
 
 <a id="SupportUs" class="helpLink TextLinkWithIcon" href="<%= Url.Action(Links.MembershipAction, Links.AccountController) %>">
-    <i class="fa fa-thumbs-up"></i>
+    <i class="fa fa-thumbs-up MobileLarge"></i>
     <span class="TextSpan">
         <% if (userSession.IsLoggedIn && userSession.User.IsMember()){ %>
             Du bist Unterstützer!
@@ -17,7 +17,7 @@
     </span>
 </a>
 <a class="helpLink TextLinkWithIcon" href="<%= Links.HelpFAQ() %>">
-    <i class="fa fa-question-circle"></i>
+    <i class="fa fa-question-circle MobileLarge"></i>
     <span class="TextSpan Help">FAQ</span>
 </a> 
 
@@ -52,7 +52,7 @@
 <%
     }else {
 %> 
-        <a class="TextLinkWithIcon" href="#" data-btn-login="true" title="Einloggen"><i class="fa fa-sign-in"></i> <span class="TextSpan">Einloggen</span></a>
+        <a class="TextLinkWithIcon" href="#" data-btn-login="true" title="Einloggen"><i class="fa fa-sign-in MobileLarge"></i> <span class="TextSpan">Einloggen</span></a>
 <%
     }
 %>    

@@ -95,6 +95,7 @@ public class AnswerQuestionModel : BaseModel
     public int CurrentLearningStepPercentage;
     public bool IsLastLearningStep = false;
 
+    public TestSession TestSession;
     public bool IsTestSession;
     public int TestSessionId;
     public int TestSessionCurrentStep;
@@ -154,6 +155,7 @@ public class AnswerQuestionModel : BaseModel
     public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question)
     {
         QuestionViewGuid = questionViewGuid;
+        TestSession = testSession;
         IsTestSession = true;
         TestSessionId = testSession.Id;
         TestSessionCurrentStep = testSession.CurrentStep;
@@ -297,7 +299,7 @@ public class AnswerQuestionModel : BaseModel
     {
         var result = "";
 
-        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
             result = $"Antwort: '{SolutionModel.CorrectAnswer()}' {Environment.NewLine}";
 
@@ -311,7 +313,7 @@ public class AnswerQuestionModel : BaseModel
             if (result.Length < 50)
             {
                 result += "Alternativen: ";
-                result += ((QuestionSolutionMultipleChoice)SolutionModel)
+                result += ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
                     .Choices
                     .Skip(1)
                     .Aggregate((a, b) => a + ", " + b) + "?  ";
@@ -330,9 +332,9 @@ public class AnswerQuestionModel : BaseModel
     {
         var result = "";
 
-        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice)
+        if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = ((QuestionSolutionMultipleChoice)SolutionModel)
+            result = ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
                 .Choices
                 .Shuffle()
                 .Aggregate((a, b) => $"{a} - oder - {Environment.NewLine} {b}");

@@ -72,7 +72,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
             if (!answerQuestionResult.IsCorrect)
             {
-                learningSession.UpdateAfterWrongAnswer(learningSessionStep);
+                learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
                 answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
             }
         });
