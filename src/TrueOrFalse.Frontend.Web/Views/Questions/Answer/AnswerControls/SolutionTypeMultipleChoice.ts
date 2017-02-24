@@ -2,6 +2,8 @@ class SolutionTypeMultipleChoice
     extends AnswerEntryBase
     implements IAnswerEntry
 {
+    public SolutionType = SolutionType.MultipleChoice;
+
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 

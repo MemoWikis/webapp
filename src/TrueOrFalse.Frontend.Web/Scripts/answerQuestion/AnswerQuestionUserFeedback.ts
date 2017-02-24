@@ -80,7 +80,7 @@
     ShowSolution() {
 
         this.ShowNextQuestionLink();
-
+        //check if Solution Type == multiple Choice and then execute HighlightMultipleChoiceSolution()
         $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
         if (this._answerQuestion.AnswersSoFar.length === 1) {
             $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antwort:');
@@ -137,7 +137,15 @@
                 });
             }
 
-            $("#Solution").show().find('.Content').html(result.correctAnswer);
+            
+            if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && result.correctAnswer === undefined) {
+                $("#Solution").show().find('.Label').html("Keine der Antworten wäre richtig gewesen!");
+            } else {
+                if(this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
+                    this.HighlightMultipleChoiceSolution(result.correctAnswer);
+                $("#Solution").show().find('.Content').html(result.correctAnswer);
+            }
+            
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
             }
@@ -192,6 +200,18 @@
                 this.ShowAnswerDetails();
             }
         });
+    }
+
+    private HighlightMultipleChoiceSolution(correctAnswers: string) {
+        var userAnswers: JQuery = $("[name = 'answer']");
+        for (var i = 0; i < userAnswers.length; i++) {
+            var currentAnswerElement = $(userAnswers.get(i));
+            if (correctAnswers.indexOf(currentAnswerElement.val()) !== -1) {
+                currentAnswerElement.parent().addClass("right-answer");
+            } else {
+                currentAnswerElement.parent().addClass("wrong-answer");
+            }
+        }
     }
 
     ShowAnswerDetails() {

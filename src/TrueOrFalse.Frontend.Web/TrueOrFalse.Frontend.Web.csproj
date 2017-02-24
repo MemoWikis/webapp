@@ -598,6 +598,12 @@
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js">
+      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
@@ -1721,9 +1727,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
       <DependentUpon>SolutionTypeDate.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">
-      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
     </Content>
@@ -1989,9 +1992,6 @@
       <DependentUpon>Message.css</DependentUpon>
     </Content>
     <Content Include="Style\01_temp.less" />
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
-      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
     </Content>
