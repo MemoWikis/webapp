@@ -47,7 +47,7 @@ public class CategoriesModel : BaseModel
         ActiveTabAll = searchTab == SearchTabType.All;
         ActiveTabWish = searchTab == SearchTabType.Wish;
 
-        Pager = new PagerModel(_sessionUiData.SearchSpecCategory){
+        Pager = new PagerModel(searchSpec){
             Controller = Links.CategoriesController
         };
 

@@ -15,37 +15,17 @@ public class CategoriesController : BaseController
     {
         _categoryRepo = categoryRepo;
         _categorySearch = new CategoriesControllerSearch();
-        _util = new CategoriesControllerUtil(_categorySearch);
-    }
-
-    public ActionResult SearchApi(string searchTerm)
-    {
-        var searchSpec = _sessionUiData.SearchSpecCategory;
-        searchSpec.SearchTerm = searchTerm;
-
-        var categoriesModel = new CategoriesModel();
-        categoriesModel.Init(_categorySearch.Run(), searchSpec, SearchTabType.All);
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                Html = ViewRenderer.RenderPartialView(
-                    "CategoriesSearchResult",
-                    new CategoriesSearchResultModel(categoriesModel),
-                    ControllerContext),
-                TotalInResult = searchSpec.TotalItems,
-                TotalInSystem = GetCategoriesCount.All(),
-                Tab = "All"
-            }
-        };
+        _util = new CategoriesControllerUtil(_categorySearch, this);
     }
 
     public ActionResult Search(string searchTerm, CategoriesModel model, string orderBy = null)
     {
-        _sessionUiData.SearchSpecCategory.SearchTerm = model.SearchTerm = searchTerm;
+        _util.SetSearchFilter(_sessionUiData.SearchSpecCategory, model, searchTerm);
         return Categories(null, model, orderBy);
     }
+
+    public ActionResult SearchApi(string searchTerm) =>
+        _util.SearchApi(searchTerm, _sessionUiData.SearchSpecCategory, SearchTabType.All, ControllerContext);
 
     [SetMenu(MenuEntry.Categories)]
     public ActionResult Categories(int? page, CategoriesModel model, string orderBy = null)
@@ -73,6 +53,15 @@ public class CategoriesController : BaseController
         var categories = _categorySearch.Run(searchSpec);
         return View(_viewLocation, new CategoriesModel(categories, searchSpec, SearchTabType.Wish));
     }
+
+    public ActionResult SearchWish(string searchTerm, CategoriesModel model, string orderBy = null)
+    {
+        _util.SetSearchFilter(_sessionUiData.SearchSpecCategoryWish, model, searchTerm);
+        return Categories(null, model, orderBy);
+    }
+
+    public ActionResult SearchApiWish(string searchTerm) =>
+        _util.SearchApi(searchTerm, _sessionUiData.SearchSpecCategoryWish, SearchTabType.Wish, ControllerContext);
 
     [HttpPost]
     [AccessOnlyAsAdmin]
@@ -105,69 +94,56 @@ public class CategoriesController : BaseController
     public class CategoriesControllerUtil : BaseUtil
     {
         private readonly CategoriesControllerSearch _categoriesControllerSearch;
+        private readonly CategoriesController _controller;
+        private ControllerContext _controllerContext => _controller.ControllerContext;
 
-        public CategoriesControllerUtil(CategoriesControllerSearch categoriesControllerSearch)
+        public CategoriesControllerUtil(CategoriesControllerSearch categoriesControllerSearch, CategoriesController controller)
         {
             _categoriesControllerSearch = categoriesControllerSearch;
+            _controller = controller;
         }
 
-        //public SetsModel GetSetsModel(
-        //    int? page,
-        //    SetsModel model,
-        //    string orderBy,
-        //    SetSearchSpec searchSpec,
-        //    SearchTabType searchTab)
-        //{
-        //    SetSearchSpecVars(searchSpec, page, orderBy);
 
-        //    if (searchTab == SearchTabType.Mine)
-        //        searchSpec.Filter.CreatorId = _sessionUser.UserId;
-        //    else if (searchTab == SearchTabType.Wish)
-        //        searchSpec.Filter.ValuatorId = _sessionUser.UserId;
+        public JsonResult SearchApi(
+            string searchTerm,
+            CategorySearchSpec searchSpec,
+            SearchTabType searchTab,
+            ControllerContext controllerContext)
+        {
 
-        //    var questionsModel = new SetsModel(_setsControllerSearch.Run(searchSpec), searchSpec, searchTab);
+            searchSpec.SearchTerm = searchTerm;
 
-        //    return questionsModel;
-        //}
 
-        //public JsonResult SearchApi(
-        //    string searchTerm,
-        //    SetSearchSpec searchSpec,
-        //    SearchTabType searchTab,
-        //    ControllerContext controllerContext)
-        //{
-        //    var model = new SetsModel();
-        //    GetSearchFilter(searchSpec, model, searchTerm);
+            var totalInSystem = 0;
+            switch (searchTab)
+            {
+                case SearchTabType.All:
+                    totalInSystem = GetCategoriesCount.All();
+                    break;
+                case SearchTabType.Wish:
+                    totalInSystem = GetCategoriesCount.Wish(_sessionUser.UserId);
+                    searchSpec.Filter.ValuatorId = _sessionUser.UserId;
+                    break;
+            }
 
-        //    var totalInSystem = 0;
-        //    switch (searchTab)
-        //    {
-        //        case SearchTabType.All: totalInSystem = R<GetTotalSetCount>().Run(); break;
-        //        case SearchTabType.Mine: totalInSystem = R<GetTotalSetCount>().Run(_sessionUser.UserId); break;
-        //        case SearchTabType.Wish: totalInSystem = R<GetWishSetCount>().Run(_sessionUser.UserId); break;
-        //    }
+            var categoriesModel = new CategoriesModel();
+            SetSearchFilter(searchSpec, categoriesModel, searchTerm);
+            categoriesModel.Init(_categoriesControllerSearch.Run(searchSpec), searchSpec, searchTab);
 
-        //    return new JsonResult
-        //    {
-        //        Data = new
-        //        {
-        //            Html = ViewRenderer.RenderPartialView(
-        //                "SetsSearchResult",
-        //                new SetsSearchResultModel(
-        //                    GetSetsModel(
-        //                        searchSpec.CurrentPage,
-        //                        model,
-        //                        "",
-        //                        searchSpec,
-        //                        searchTab
-        //                        )),
-        //                controllerContext),
-        //            TotalInResult = searchSpec.TotalItems,
-        //            TotalInSystem = totalInSystem,
-        //            Tab = searchTab.ToString()
-        //        },
-        //    };
-        //}
+            return new JsonResult
+            {
+                Data = new
+                {
+                    Html = ViewRenderer.RenderPartialView(
+                        "CategoriesSearchResult",
+                        new CategoriesSearchResultModel(categoriesModel),
+                        _controllerContext),
+                    TotalInResult = searchSpec.TotalItems,
+                    TotalInSystem = totalInSystem,
+                    Tab = searchTab.ToString()
+                }
+            };
+        }
 
         public void SetSearchSpecVars(CategorySearchSpec searchSpec, int? page, string orderByCommand)
         {
@@ -189,16 +165,16 @@ public class CategoriesController : BaseController
             else if (orderByCommand == "byDate") searchSpec.OrderBy.CreationDate.Desc();
         }
 
-        //public void GetSearchFilter(
-        //    SetSearchSpec searchSpec,
-        //    SetsModel model,
-        //    string searchTerm)
-        //{
-        //    if (searchSpec.SearchTerm != searchTerm)
-        //        searchSpec.CurrentPage = 1;
+        public void SetSearchFilter(
+            CategorySearchSpec searchSpec,
+            CategoriesModel model,
+            string searchTerm)
+        {
+            if (searchSpec.SearchTerm != searchTerm)
+                searchSpec.CurrentPage = 1;
 
-        //    searchSpec.SearchTerm = model.SearchTerm = searchTerm;
-        //}
+            searchSpec.SearchTerm = model.SearchTerm = searchTerm;
+        }
     }
 
 }
