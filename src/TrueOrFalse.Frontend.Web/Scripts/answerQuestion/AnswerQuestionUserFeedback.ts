@@ -95,15 +95,6 @@
         this.RenderSolutionDetails();
     }
 
-    HighlightMultipleChoiceSolution() {
-        //get correct answer(s) here
-        var answers = $([name = "answer"]);
-        for (var i = 0; i < answers.length; i++) {
-            $(answers.get(i));
-            //compare and give class here
-        }
-    }
-
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
         $('#Buttons').css('visibility', 'hidden');
@@ -146,9 +137,12 @@
                 });
             }
 
-            if (result.correctAnser === undefined && this._answerQuestion.SolutionType === SolutionType.MultipleChoice) {
-                $("#Solution").show().find('.Label').html("Keine der Antworten ist richtig!");
+            
+            if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && result.correctAnswer === undefined) {
+                $("#Solution").show().find('.Label').html("Keine der Antworten wäre richtig gewesen!");
             } else {
+                if(this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
+                    this.HighlightMultipleChoiceSolution(result.correctAnswer);
                 $("#Solution").show().find('.Content').html(result.correctAnswer);
             }
             
@@ -206,6 +200,18 @@
                 this.ShowAnswerDetails();
             }
         });
+    }
+
+    private HighlightMultipleChoiceSolution(correctAnswers: string) {
+        var userAnswers: JQuery = $("[name = 'answer']");
+        for (var i = 0; i < userAnswers.length; i++) {
+            var currentAnswerElement = $(userAnswers.get(i));
+            if (correctAnswers.indexOf(currentAnswerElement.val()) !== -1) {
+                currentAnswerElement.parent().addClass("right-answer");
+            } else {
+                currentAnswerElement.parent().addClass("wrong-answer");
+            }
+        }
     }
 
     ShowAnswerDetails() {
