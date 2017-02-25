@@ -10,5 +10,4 @@
     }
 
     public bool IsWishknowledge;
-    public int QuestionId;
 }
