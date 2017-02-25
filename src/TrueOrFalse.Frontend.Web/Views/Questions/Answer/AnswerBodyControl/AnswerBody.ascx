@@ -66,9 +66,11 @@
                     </div>
                     <div id="ButtonsAndSolutionCol">
                         <div id="ButtonsAndSolution" class="Clearfix">
-                            <div id="Buttons" class="" style="">
+                            <div id="Buttons">
                                 
-                                <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge) {QuestionId = Model.QuestionId}) %>
+                                <span class="Pin" data-question-id="<%= Model.QuestionId%>">
+                                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                </span>
 
                                 <div id="buttons-first-try" class="ButtonGroup">
                                     <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
