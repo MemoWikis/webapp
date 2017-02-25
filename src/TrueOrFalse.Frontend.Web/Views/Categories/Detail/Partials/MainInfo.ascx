@@ -69,7 +69,7 @@
                     <div class="col-md-12">
                         
                     <div  style="float: right; width: 300px;">
-                        <div style="padding-left: 20px; font-weight: lighter; color: darkgrey;">Dein Wissenstand:</div>                                
+                        <div style="padding-left: 20px; font-weight: lighter; color: darkgrey;">Dein Wissensstand:</div>
                         <div style="padding-left: 20px; padding-bottom: 15px; padding-top: 7px;" id="knowledgeWheelContainer">
                             <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
                         </div>
