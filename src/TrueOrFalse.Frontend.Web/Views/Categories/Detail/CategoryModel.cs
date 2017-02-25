@@ -9,6 +9,8 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
+    public KnowledgeSummary KnowledgeSummary;
+
     public IList<Category> BreadCrumb;
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
@@ -51,10 +53,14 @@ public class CategoryModel : BaseModel
     private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepo;
 
+    public bool IsInWishknowledge;
+
     public CategoryModel(Category category)
     {
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
+
+        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
 
         WikiUrl = category.WikipediaURL;
         Category = category;
