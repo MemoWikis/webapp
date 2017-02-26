@@ -17,6 +17,7 @@ public class Sl
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static SetRepo SetRepo => R<SetRepo>();
+    public static SetValuationRepo SetValuationRepo => R<SetValuationRepo>();
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();

@@ -62,6 +62,8 @@ public class CategoryModel : BaseModel
 
         KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
 
+        IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
+
         WikiUrl = category.WikipediaURL;
         Category = category;
 

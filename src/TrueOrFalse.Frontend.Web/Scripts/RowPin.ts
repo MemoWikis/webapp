@@ -2,7 +2,8 @@
     Question,
     Set,
     SetDetail,
-    Category
+    Category,
+    CategoryDetail
 }
 
 class Pin {
@@ -23,7 +24,7 @@ class Pin {
             allPins = $(".Pin[data-question-id]").find(".iAdded, .iAddedNot"); 
         else if (self.IsSetDetail() || self.IsSetRow())
             allPins = $(".Pin[data-set-id]").find(".iAdded, .iAddedNot"); 
-        else if (self.IsCategory())
+        else if (self.IsCategoryRow() || self.IsSetDetail())
             allPins = $(".Pin[data-category-id]").find(".iAdded, .iAddedNot"); 
 
         allPins.click(function (e) {
@@ -41,7 +42,7 @@ class Pin {
                 id = parseInt(elemPin.attr("data-question-id"));
             else if (self.IsSetRow() || self.IsSetDetail())
                 id = parseInt(elemPin.attr("data-set-id"));
-            else if (self.IsCategory())
+            else if (self.IsCategoryRow() || self.IsCategoryDetail())
                 id = parseInt(elemPin.attr("data-category-id"));
 
             if (this._changeInProgress)
@@ -123,7 +124,7 @@ class Pin {
             QuestionsApi.Pin(id, onPinChanged);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
             SetsApi.Pin(id, onPinChanged);
-        } else if (this.IsCategory()) {
+        } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
             CategoryApi.Pin(id, onPinChanged)
         }
     }
@@ -138,6 +139,9 @@ class Pin {
             $("#JS-RemoveQuestions").attr("data-set-id", id);
 
             $("#UnpinSetModal").modal('show');
+
+        }else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
+            CategoryApi.Unpin(id, onPinChanged);
         }
     }
 
@@ -153,7 +157,11 @@ class Pin {
         return this._pinRowType == PinType.SetDetail;
     }
 
-    IsCategory(): boolean {
+    IsCategoryRow(): boolean {
         return this._pinRowType == PinType.Category;
+    }
+
+    IsCategoryDetail(): boolean {
+        return this._pinRowType == PinType.CategoryDetail;
     }
 }

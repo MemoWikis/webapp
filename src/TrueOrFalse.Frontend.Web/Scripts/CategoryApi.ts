@@ -1,15 +1,15 @@
 ﻿class CategoryApi {
 
-    public static Pin(setId, onPinChanged: () => void = null) {
-        $.post("/Api/Category/Pin/", { categoryId: setId }, () => {
+    public static Pin(categoryId, onPinChanged: () => void = null) {
+        $.post("/Api/Category/Pin/", { categoryId: categoryId }, () => {
             if (onPinChanged != null)
                 onPinChanged();
         });
         Utils.SendGaEvent("WuWi", "Pin", "Category");
     }
 
-    public static Unpin(setId, onPinChanged: () => void = null) {
-        $.post("/Api/Category/Unpin/", { categoryId: setId }, () => {
+    public static Unpin(categoryId, onPinChanged: () => void = null) {
+        $.post("/Api/Category/Unpin/", { categoryId: categoryId }, () => {
             if (onPinChanged != null)
                 onPinChanged();
         });

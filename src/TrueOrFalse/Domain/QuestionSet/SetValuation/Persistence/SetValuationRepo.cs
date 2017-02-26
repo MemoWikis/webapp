@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate;
@@ -37,6 +36,9 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
                     q.UserId == userId &&
                     q.RelevancePersonal >= 0)
                 .List<SetValuation>();
+
+    public bool IsInWishKnowledge(int setId, int userId) => 
+        Sl.SetValuationRepo.GetBy(setId, userId)?.IsInWishKnowledge() ?? false;
 
     public IList<SetValuation> GetBy(IList<int> setIds, int userId)
     {

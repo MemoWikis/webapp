@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate;
@@ -17,7 +16,7 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                 .Where(s => s.CategoryId == categoryId)
                 .List<CategoryValuation>();
 
-    internal CategoryValuation GetBy(int categoryId, int userId) => 
+    public CategoryValuation GetBy(int categoryId, int userId) => 
         _session.QueryOver<CategoryValuation>()
                 .Where(q => q.UserId == userId && q.CategoryId == categoryId)
                 .SingleOrDefault();
@@ -29,6 +28,8 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                     q.RelevancePersonal >= 0)
                 .List<CategoryValuation>();
 
+    public bool IsInWishKnowledge(int categoryId, int userId) =>
+        Sl.CategoryValuationRepo.GetBy(categoryId, userId)?.IsInWishKnowledge() ?? false;
 
     public IList<CategoryValuation> GetBy(IList<int> categoryIds, int userId)
     {

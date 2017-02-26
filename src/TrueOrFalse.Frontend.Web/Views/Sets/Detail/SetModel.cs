@@ -106,10 +106,7 @@ public class SetModel : BaseModel
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
-        var setValuation = Resolve<SetValuationRepo>().GetBy(Id, UserId);
-        if (setValuation != null){
-            IsInWishknowledge = setValuation.IsInWishKnowledge();
-        }
+        IsInWishknowledge = Sl.SetValuationRepo.IsInWishKnowledge(Id, UserId);
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
