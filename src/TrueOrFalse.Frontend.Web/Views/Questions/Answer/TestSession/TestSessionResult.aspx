@@ -192,7 +192,7 @@
             </div>
             
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4>Lust auf mehr? Andere Nutzer lernen auch:</h4>
+                <h4>Andere Nutzer lernen auch:</h4>
                 <div class="row CardsLandscape" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {
