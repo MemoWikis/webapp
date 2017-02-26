@@ -55,12 +55,13 @@ public class CategoryModel : BaseModel
 
     public bool IsInWishknowledge;
 
-    public CategoryModel(Category category)
+    public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
 
-        KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
+        if(loadKnowledgeSummary)
+            KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 

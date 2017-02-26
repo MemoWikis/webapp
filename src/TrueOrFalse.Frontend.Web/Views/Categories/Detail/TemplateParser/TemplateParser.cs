@@ -81,7 +81,7 @@ public class TemplateParser
         {
             case "categorynetwork":
             case "contentlists":
-                return new CategoryModel(category);
+                return new CategoryModel(category, loadKnowledgeSummary : false);
             case "singleset":
                 return new SingleSetModel(Sl.R<SetRepo>().GetById(templateJson.SetId), setText: templateJson.SetText);
             case "setlistcard":

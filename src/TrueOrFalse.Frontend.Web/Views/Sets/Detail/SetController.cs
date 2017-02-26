@@ -31,10 +31,9 @@ public class SetController : BaseController
     public JsonResult GetRows(int id)
     {
         var set = Resolve<SetRepo>().GetById(id);
-        var setModel = new SetModel(set);
 
         var sbHtmlRows = new StringBuilder();
-        foreach (var rowModel in setModel.QuestionsInSet)
+        foreach (var rowModel in set.QuestionsInSet)
             sbHtmlRows.Append(
                 ViewRenderer.RenderPartialView(
                     "~/Views/Sets/Detail/SetQuestionRowResult.ascx", 
