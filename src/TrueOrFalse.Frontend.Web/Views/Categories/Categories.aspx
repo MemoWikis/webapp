@@ -50,7 +50,8 @@
                     </div>
                     <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-Mine">
                         <a  href="#" type="button" class="btn btn-default">
-                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount"> ? </span>)
+                            <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalCategoriesInResult); %>
+                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount tabWishKnowledgeCount"><%= von + Model.TotalWish %></span>)
                         </a>
                     </div>
                 </div>
@@ -90,7 +91,7 @@
                             <a href="<%= Links.CategoriesWish() %>">
                                 <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalCategoriesInResult); %>
                                 <i class="fa fa-heart" style="color:#b13a48;"></i>
-                                    Mein Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount" id="tabWishKnowledgeCount"><%= von + Model.TotalWish %></span> )
+                                    Mein Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount tabWishKnowledgeCount"><%= von + Model.TotalWish %></span> )
                                 <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>
