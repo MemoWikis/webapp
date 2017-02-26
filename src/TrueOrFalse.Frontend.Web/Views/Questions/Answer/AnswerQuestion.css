@@ -247,6 +247,7 @@
 }
 #AnswerInputSection .right-answer {
   color: green;
+  font-weight: bold;
 }
 #AnswerInputSection .wrong-answer {
   color: red;

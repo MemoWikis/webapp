@@ -203,14 +203,19 @@
     }
 
     private HighlightMultipleChoiceSolution(correctAnswers: string) {
-        var userAnswers: JQuery = $("[name = 'answer']");
-        for (var i = 0; i < userAnswers.length; i++) {
-            var currentAnswerElement = $(userAnswers.get(i));
-            if (correctAnswers.indexOf(currentAnswerElement.val()) !== -1) {
-                currentAnswerElement.parent().addClass("right-answer");
+        var allAnswerElements = $("input[name = 'answer']");
+
+        for (var i = 0; i < allAnswerElements.length; i++) {
+
+            var currentElement = $(allAnswerElements.get(i));
+
+            if (correctAnswers.indexOf(currentElement.val()) !== -1) {
+                currentElement.parent().addClass("right-answer");
             } else {
-                currentAnswerElement.parent().addClass("wrong-answer");
-            }
+                if (currentElement.prop("checked")) {
+                    currentElement.parent().addClass("wrong-answer");      
+                }
+            } 
         }
     }
 
