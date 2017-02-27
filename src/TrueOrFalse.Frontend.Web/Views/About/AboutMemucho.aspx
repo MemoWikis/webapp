@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px; margin-top: 0px;"><span class="ColoredUnderline Question">memucho: Die schnelle und sichere Art zu lernen</span></h1>
+        <h1 class="PageHeader" style="margin-bottom: 20px;"><span class="ColoredUnderline Question">memucho: Die schnelle und sichere Art zu lernen</span></h1>
     </div>
 </div>
 <div class="row">
@@ -27,13 +27,16 @@
         <div style="text-align: center; margin-bottom: 30px;">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
         </div>
+    </div>
+</div>
         
-        
-        <h1 class="PageHeader" style="margin-bottom: 15px; margin-top: 0px;" id="Vorteile">
-            <span class="ColoredUnderline Question">Deine Vorteile bei memucho</span>
-        </h1>
+<div class="row">
+    <div class="col-xs-12">        
 
         <div class="well">
+            <h1 class="PageHeader" id="Vorteile">
+                <span class="ColoredUnderline Question">Deine Vorteile bei memucho</span>
+            </h1>
             <div class="row aboutRow">
                 <div class="col-xs-3 aboutImg xxs-stack">
                     <div class="aboutImgInner">
@@ -147,23 +150,17 @@
     
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px;" id="Prinzipien">
-            <span class="ColoredUnderline Question">Unsere Prinzipien</span>
-        </h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
         <div class="well">
+            <h1 class="PageHeader" id="Prinzipien">
+                <span class="ColoredUnderline Question">Unsere Prinzipien</span>
+            </h1>
             <p>
                 Wir wollen nicht nur dein Lernen vereinfachen, sondern damit freie Bildungsinhalte und Open-Source fördern und ein gemeinwohlorientiertes und 
                 transparentes Unternehmen aufbauen. Diese Werte leiten unser Handeln. 
                 <a href="<%= Links.FAQItem("Contact") %>">Melde dich bei uns</a>, wenn du Fragen oder Anregungen hast. Wir freuen uns über deine Nachricht!
             </p>
-        </div>
 
-        <div class="well">
-            <div class="row aboutRow">
+            <div class="row aboutRow" style="margin-top: 30px;">
                 <div class="col-xs-3 aboutImg xxs-stack">
                     <div class="aboutImgInner">
                         <i class="fa fa-tree fa-3x"></i>
@@ -232,30 +229,19 @@
 </div>
     
     
-<div class="row">
-    <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px;" id="Team">
-            <span class="ColoredUnderline Question">Das Team</span>
-        </h1>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-xs-12">
         <div class="well">
+            <h1 class="PageHeader" id="Team">
+                <span class="ColoredUnderline Question">Das Team</span>
+            </h1>
             <p>
                 Wir möchten den Zugang zu freien Bildungsinhalten verbessern und mit memucho ein soziales Wissensnetzwerk aufbauen, mit dem
                 Faktenlernen effizienter wird und mehr Spaß macht. Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
             </p>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="well partnerLogos">
-
-            <div class="row">
+            <div class="row" style="margin-top: 30px;">
                 <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_robert-rund_160.png"/>
                         <br/> <b>Robert</b><br/>(Gründer) 
@@ -278,18 +264,15 @@
    
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 15px;" id="Partner">
-            <span class="ColoredUnderline Question">Unsere Partner</span>
-        </h1>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="well partnerLogos">
-            <a href="https://www.tutory.de/" target="_blank"><img src="/Images/LogosPartners/Logo_tutory_250px.png"/></a>
-            <a href="http://www.lernen-mit-spass.ch/" target="_blank"><img src="/Images/LogosPartners/Logo_lernenmitspass_w200.gif"/></a>
-            <%--<a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>--%>
+        <div class="well">
+            <h1 class="PageHeader" id="Partner">
+                <span class="ColoredUnderline Question">Unsere Partner</span>
+            </h1>
+            <p class="partnerLogos">
+                <a href="https://www.tutory.de/" target="_blank"><img src="/Images/LogosPartners/Logo_tutory_250px.png"/></a>
+                <a href="http://www.lernen-mit-spass.ch/" target="_blank"><img src="/Images/LogosPartners/Logo_lernenmitspass_w200.gif"/></a>
+                <%--<a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>--%>
+            </p>
         </div>
     </div>
 </div>
