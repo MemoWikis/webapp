@@ -48,7 +48,7 @@
         <div class="well">
             <h2 class="PageHeader">Praktikum UX-Design & Usability</h2>
             <p>
-                memucho ist ein junges Start-up. Wir wollen es Nutzern erleichern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
+                memucho ist ein junges Start-up. Wir wollen es Nutzern erleichtern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
                 und personalisiert zu lernen. Dabei fördern wir freie Bildungsinhalte, denn unsere Inhalte stehen unter einer offenen Lizenz.
                 Die Anwendung, die wir entwickeln, ist zudem Open Source 
                 (<a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank">Quelltext bei <i class="fa fa-github"></i> Github</a>).
@@ -149,7 +149,7 @@
         <div class="well">
             <h2 class="PageHeader">BWL- & VWL-Studenten: Karteikarten erstellen zu deinen Lerninhalten (Nebenjob)</h2>
             <p>
-                memucho ist ein junges Start-up. Wir wollen es Nutzern erleichern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
+                memucho ist ein junges Start-up. Wir wollen es Nutzern erleichtern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
                 und personalisiert zu lernen. Dabei fördern wir freie Bildungsinhalte, denn unsere Inhalte stehen unter einer offenen Lizenz.
                 Die Anwendung, die wir entwickeln, ist zudem Open Source 
                 (<a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank">Quelltext bei <i class="fa fa-github"></i> Github</a>).
@@ -214,7 +214,7 @@
         <div class="well">
             <h2 class="PageHeader">Inhalte erstellen, pflegen und koordinieren (Nebenjob)</h2>
             <p>
-                memucho ist ein junges Start-up. Wir wollen es Nutzern erleichern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
+                memucho ist ein junges Start-up. Wir wollen es Nutzern erleichtern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
                 und personalisiert zu lernen. Dabei fördern wir freie Bildungsinhalte, denn unsere Inhalte stehen unter einer offenen Lizenz.
                 Die Anwendung, die wir entwickeln, ist zudem Open Source 
                 (<a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank">Quelltext bei <i class="fa fa-github"></i> Github</a>).

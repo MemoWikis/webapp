@@ -37,10 +37,9 @@
         <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">
             <b>Memucho</b><br/>
             <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br/>
-            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
+            <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br/>
             <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
-            <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
-            <a href="<%=Links.Imprint %>">Impressum & Datenschutz</a><br/>
+            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
             <a href="<%=Links.Jobs() %>">Jobs</a><br/>
         </div>
         
@@ -58,6 +57,10 @@
                 <%= Html.Raw(AssemblyLinkerTimestamp.Get(assembly).ToString("dd.MM.yyyy 'um' HH:mm")) %>)
             </span>
             <br/>&nbsp;
+            <br />
+            <b>Rechtliches</b><br />
+            <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
+            <a href="<%=Links.Imprint %>">Impressum & Datenschutz</a><br/>
         </div>
         
         <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">

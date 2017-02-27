@@ -21,6 +21,18 @@
 h2 {
   margin-top: 45px;
 }
+.teaserText {
+  font-size: 1.3em;
+  line-height: 1.4em;
+}
+.overviewBlock {
+  margin-top: 25px;
+}
+@media (min-width: 768px) {
+  .overviewBlock {
+    margin-top: 40px;
+  }
+}
 .overviewIcon {
   font-size: 2em;
   text-align: center;
@@ -32,10 +44,20 @@ h2 {
 .overviewSubtext {
   color: #999999;
 }
+.overviewMore {
+  text-align: center;
+  margin-top: 15px;
+}
 p.subheader {
   color: #999999;
   font-size: 1.3em;
   margin-bottom: 20px;
+}
+ol li {
+  margin-top: 10px;
+}
+img.screenshot {
+  padding-top: 15px;
 }
 @media (max-width: 991px) {
   img.screenshot {
