@@ -1,20 +1,14 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using NHibernate;
-using Seedworks.Web.State;
 using TrueOrFalse;
 
 public static class QuestionInKnowledge
 {
-    public static void Pin(int questionId, User user)
-    {
-        UpdateRelevancePersonal(questionId, user);
-    }
+    public static void Pin(int questionId, User user) 
+        => UpdateRelevancePersonal(questionId, user);
 
-    public static void Unpin(int questionId, User user)
-    {
-        UpdateRelevancePersonal(questionId, user, -1);
-    }
+    public static void Unpin(int questionId, User user) 
+        => UpdateRelevancePersonal(questionId, user, -1);
 
     public static void Run(QuestionValuation questionValuation)
     {

@@ -3,7 +3,19 @@ using NHibernate;
 
 public static class SetInKnowledge 
 {
-    public static void Pin(int setId, User user) => UpdateRelevancePersonal(setId, user, 50);
+    public static void Pin(int setId, User user)
+    {
+        UpdateRelevancePersonal(setId, user, 50);
+        PinQuestionsInSet(setId, user);
+    }
+
+    private static void PinQuestionsInSet(int setId, User user)
+    {
+        var questions = Sl.SetRepo.GetById(setId).QuestionsInSet.Select(x => x.Question);
+
+        foreach (var question in questions)
+            QuestionInKnowledge.Pin(question.Id, user);
+    }
 
     public static void Unpin(int setId, User user) => UpdateRelevancePersonal(setId, user, -1);
 

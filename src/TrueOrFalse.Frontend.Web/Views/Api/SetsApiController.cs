@@ -33,12 +33,10 @@ public class SetsApiController : BaseController
         if (_sessionUser.User == null)
             return;
 
-        SetInKnowledge.Pin(Convert.ToInt32(setId), _sessionUser.User);
+        var setIdInt = Convert.ToInt32(setId);
 
-        var questions = Resolve<SetRepo>().GetById(Convert.ToInt32(setId)).QuestionsInSet.Select(x => x.Question);
-        
-        foreach (var question in questions)
-            QuestionInKnowledge.Pin(question.Id, _sessionUser.User);
+        SetInKnowledge.Pin(setIdInt, _sessionUser.User);
+    
     }
 
     [HttpPost]

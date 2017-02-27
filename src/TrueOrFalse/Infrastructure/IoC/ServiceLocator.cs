@@ -13,6 +13,8 @@ public class Sl
     public static T R<T>() { return ServiceLocator.Resolve<T>(); }
 
     public static ISession Session => R<ISession>();
+    public static SessionUser SessionUser => R<SessionUser>();
+
     public static UserRepo UserRepo => R<UserRepo>();
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
