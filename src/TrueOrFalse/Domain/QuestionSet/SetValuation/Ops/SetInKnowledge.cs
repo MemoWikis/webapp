@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
 
 public static class SetInKnowledge 
@@ -22,31 +24,38 @@ public static class SetInKnowledge
     public static void UnpinQuestionsInSet(int setId, User user)
     {
         var questionsInUnpinnedSet = Sl.Resolve<SetRepo>().GetById(setId).QuestionsInSet.Select(x => x.Question).ToList();
-        var ids = questionsInUnpinnedSet.Select(q => q.Id).ToList();
+        var questionIds = questionsInUnpinnedSet.Select(q => q.Id).ToList();
 
-        if (ids.Count == 0) return;
+        if (questionIds.Count == 0)
+            return;
 
-        var query = $@"
-            select q.Question_id from
-                user u
-                join setvaluation sv
-                on u.Id = sv.UserId
-                join questionset s
-                on sv.SetId = s.Id
-                join questioninset q
-                on s.Id = q.Set_id
-                where u.Id = {user.Id}
-                and sv.SetId != {setId} 
-                and sv.RelevancePersonal >= 0
-                and q.Question_id in ({ids.Select(x => x.ToString())
-            .Aggregate((a, b) => a + ", " + b)})";
-
-        var questionsInOtherPinnedSetsIds = Sl.Resolve<ISession>().CreateSQLQuery(query).List<int>();
+        var questionsInOtherPinnedSetsIds = ValuatedQuestionsInSets(user, questionIds, exceptSetId: setId);
 
         foreach (var question in questionsInUnpinnedSet.Where(question => questionsInOtherPinnedSetsIds.All(id => id != question.Id)))
-        {
             QuestionInKnowledge.Unpin(question.Id, user);
-        }
+    }
+
+    public static IList<int> ValuatedQuestionsInSets(User user, IList<int> questionIds, int exceptSetId = -1)
+    {
+        Func<int, string> getSetFilter = setId => setId == -1 ? "" : $"and sv.SetId != {setId}";
+
+        var query = $@"
+            select 
+                q.Question_id 
+            from user u
+            join setvaluation sv
+            on u.Id = sv.UserId
+            join questionset s
+            on sv.SetId = s.Id
+            join questioninset q
+            on s.Id = q.Set_id
+            where u.Id = {user.Id} 
+            {getSetFilter(exceptSetId)} 
+            and sv.RelevancePersonal >= 0
+            and q.Question_id in ({questionIds.Select(x => x.ToString()).Aggregate((a, b) => a + ", " + b)})";
+
+        var questionsInOtherPinnedSetsIds = Sl.Resolve<ISession>().CreateSQLQuery(query).List<int>();
+        return questionsInOtherPinnedSetsIds;
     }
 
     private static void UpdateRelevancePersonal(int setId, User user, int relevance = 50)
