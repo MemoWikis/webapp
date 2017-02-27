@@ -39,8 +39,7 @@ public static class SetInKnowledge
 
     private static void UpdateRelevancePersonal(int setId, User user, int relevance = 50)
     {
-        
-        Sl.R<CreateOrUpdateSetValuation>().Run(setId, user.Id, relevancePeronal: relevance);
+        CreateOrUpdateSetValuation.Run(setId, user.Id, relevancePeronal: relevance);
 
         var session = Sl.R<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(setId)).ExecuteUpdate();
