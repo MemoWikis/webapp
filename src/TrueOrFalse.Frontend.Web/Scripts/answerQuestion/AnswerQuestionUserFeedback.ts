@@ -116,8 +116,9 @@
                     },
                     cache: false
                 });
-                $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
-                $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
+
+                this._answerQuestion.UpdateProgressBar();
+
                 if (AnswerQuestion.IsLastTestSessionStep) {
                     $('#btnNext').html('Zum Ergebnis');
                 }

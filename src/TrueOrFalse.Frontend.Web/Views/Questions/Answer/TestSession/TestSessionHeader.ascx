@@ -51,13 +51,13 @@
         </span>
     </div>
     <div class="ProgressBarContainer">
-        <div class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.TestSessionCurrentStepPercentage + "%" %>;">
+        <div id="progressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.TestSessionCurrentStepPercentage + "%" %>;">
             <div class="ProgressBarSegment ProgressBarLegend">
-                <%= Model.TestSessionCurrentStepPercentage %>%
+                <span id="spanPercentageDone"><%= Model.TestSessionCurrentStepPercentage %>%</span>
             </div>
         </div>
         <% if (Model.TestSessionCurrentStepPercentage<100) {%>
-            <div class="ProgressBarSegment ProgressBarLeft" style="width: <%= 100-Model.TestSessionCurrentStepPercentage %>%;"></div>
+            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
         <% } %>
             
     </div>

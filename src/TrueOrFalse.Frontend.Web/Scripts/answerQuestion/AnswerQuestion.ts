@@ -19,7 +19,7 @@ class AnswerQuestion {
     static ajaxUrl_CountUnansweredAsCorrect: string;
     static ajaxUrl_TestSessionRegisterAnsweredQuestion: string;
     static ajaxUrl_LearningSessionAmendAfterShowSolution: string;
-    static TestSessionProgessAfterAnswering: number;
+    static TestSessionProgressAfterAnswering: number;
     static IsLastTestSessionStep = false;
     static TestSessionId: number;
 
@@ -64,7 +64,7 @@ class AnswerQuestion {
         AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect = $("#ajaxUrl_CountUnansweredAsCorrect").val();
         AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion = $("#ajaxUrl_TestSessionRegisterAnsweredQuestion").val();
         AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution = $("#ajaxUrl_LearningSessionAmendAfterShowSolution").val();
-        AnswerQuestion.TestSessionProgessAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
+        AnswerQuestion.TestSessionProgressAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
@@ -186,8 +186,8 @@ class AnswerQuestion {
             $('#spnWrongAnswer').show();
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
-            $("#progressPercentageDone").width(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
-            $("#spanPercentageDone").html(AnswerQuestion.TestSessionProgessAfterAnswering + "%");
+
+            self.UpdateProgressBar();
 
             $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
@@ -413,5 +413,25 @@ class AnswerQuestion {
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
             }
         });
+    }
+
+    UpdateProgressBar() {
+        if (!this.IsTestSession) return;
+
+        var raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
+        $("#spanPercentageDone").fadeOut(100);
+        var percentage: number = parseInt($("#spanPercentageDone").html());
+        var id = window.setInterval(IncrementPercentage, 10);
+        function IncrementPercentage() {
+            if (percentage >= raiseTo) {
+                window.clearInterval(id);
+                $("#spanPercentageDone").html(raiseTo + "%");
+                $("#spanPercentageDone").fadeIn();
+
+            } else {
+                percentage++;
+                $("#progressPercentageDone").width(percentage + "%");
+            }
+        }
     }
 }
