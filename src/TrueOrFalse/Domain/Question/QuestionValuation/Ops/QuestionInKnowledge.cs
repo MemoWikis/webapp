@@ -27,18 +27,9 @@ public static class QuestionInKnowledge
         session.Flush();
     }
 
-    public static void UpdateQuality(int questionId, int userId, int quality)
-    {
-        CreateOrUpdateQuestionValue(questionId, userId, quality: quality);
-
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(GenerateQualityQuery(questionId)).ExecuteUpdate();
-        session.Flush();
-    }
-
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
-        CreateOrUpdateQuestionValue(questionId, user.Id, relevancePersonal: relevance);
+        CreateOrUpdateQuestionValue(questionId, user, relevancePersonal: relevance);
 
         SetUserWishCountQuestions(user);
 
@@ -65,15 +56,6 @@ public static class QuestionInKnowledge
                 AND RelevancePersonal > 0) 
             WHERE Id = {user.Id}";
         Sl.Resolve<ISession>().CreateSQLQuery(query).ExecuteUpdate();
-    }
-
-    public static void UpdateRelevanceAll(int questionId, int userId, int relevance)
-    {
-        CreateOrUpdateQuestionValue(questionId, userId, relevanceForAll: relevance);
-
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(GenerateRelevanceAllQuery(questionId)).ExecuteUpdate();
-        session.Flush();            
     }
 
     private static string GenerateQualityQuery(int questionId)
@@ -114,20 +96,20 @@ public static class QuestionInKnowledge
     }
 
     private static void CreateOrUpdateQuestionValue(int questionId,
-                    int userId,
+                    User user,
                     int quality = -2,
                     int relevancePersonal = -2,
                     int relevanceForAll = -2)
     {
         QuestionValuationRepo questionValuationRepo = Sl.R<QuestionValuationRepo>();
-        var questionValuation = questionValuationRepo.GetBy(questionId, userId);
+        var questionValuation = questionValuationRepo.GetBy(questionId, user.Id);
 
         if (questionValuation == null)
         {
             var newQuestionVal = new QuestionValuation
             {
                 Question = Sl.R<QuestionRepo>().GetById(questionId),
-                User = Sl.R<UserRepo>().GetById(userId),
+                User = user,
                 Quality = quality,
                 RelevancePersonal = relevancePersonal,
                 RelevanceForAll = relevanceForAll
