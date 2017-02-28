@@ -32,7 +32,6 @@ public static class QuestionInKnowledge
         session.Flush();
     }
 
-
     private static void UpdateRelevancePersonal(IList<Question> questions, User user, int relevance = 50)
     {
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);

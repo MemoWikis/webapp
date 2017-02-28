@@ -4,10 +4,6 @@
 <div id="UnpinSetModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-           <%-- <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h4>Fragesatz wurde aus Wunschwissen entfernt</h4>
-            </div>--%>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">

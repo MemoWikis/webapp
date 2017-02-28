@@ -57,7 +57,7 @@ public class KnowledgeSummaryLoader
 
         if (questionIds != null)
             result.NotInWishknowledge = 
-                questionIds.Count() - (result.NotLearned + result.NeedsLearning + result.NeedsConsolidation + result.Solid);
+                questionIds.Count - (result.NotLearned + result.NeedsLearning + result.NeedsConsolidation + result.Solid);
 
         return result;
     }
