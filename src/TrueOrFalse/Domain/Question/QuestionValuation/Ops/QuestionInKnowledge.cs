@@ -95,13 +95,9 @@ public static class QuestionInKnowledge
                 "WHERE Id = " + questionId + ";";
     }
 
-    private static void CreateOrUpdateQuestionValue(int questionId,
-                    User user,
-                    int quality = -2,
-                    int relevancePersonal = -2,
-                    int relevanceForAll = -2)
+    private static void CreateOrUpdateQuestionValue(int questionId, User user, int relevancePersonal = -2)
     {
-        QuestionValuationRepo questionValuationRepo = Sl.R<QuestionValuationRepo>();
+        var questionValuationRepo = Sl.QuestionValuationRepo;
         var questionValuation = questionValuationRepo.GetBy(questionId, user.Id);
 
         if (questionValuation == null)
@@ -110,18 +106,15 @@ public static class QuestionInKnowledge
             {
                 Question = Sl.R<QuestionRepo>().GetById(questionId),
                 User = user,
-                Quality = quality,
                 RelevancePersonal = relevancePersonal,
-                RelevanceForAll = relevanceForAll
             };
 
             questionValuationRepo.Create(newQuestionVal);
         }
         else
         {
-            if (quality != -2) questionValuation.Quality = quality;
-            if (relevancePersonal != -2) questionValuation.RelevancePersonal = relevancePersonal;
-            if (relevanceForAll != -2) questionValuation.RelevanceForAll = relevanceForAll;
+            if (relevancePersonal != -2)
+                questionValuation.RelevancePersonal = relevancePersonal;
 
             questionValuationRepo.Update(questionValuation);
         }
