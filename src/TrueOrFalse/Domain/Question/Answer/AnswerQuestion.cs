@@ -153,7 +153,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, userId);
+        ProbabilityUpdate_Valuation.Run(questionId, userId);
 
         return result;
     }

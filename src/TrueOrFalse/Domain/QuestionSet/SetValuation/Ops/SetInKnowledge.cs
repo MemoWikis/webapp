@@ -14,9 +14,7 @@ public static class SetInKnowledge
     private static void PinQuestionsInSet(int setId, User user)
     {
         var questions = Sl.SetRepo.GetById(setId).QuestionsInSet.Select(x => x.Question);
-
-        foreach (var question in questions)
-            QuestionInKnowledge.Pin(question.Id, user);
+        QuestionInKnowledge.Pin(questions, user);
     }
 
     public static void Unpin(int setId, User user) => UpdateRelevancePersonal(setId, user, -1);

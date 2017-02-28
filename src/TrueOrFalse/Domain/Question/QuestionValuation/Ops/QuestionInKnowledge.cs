@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using NHibernate;
 using TrueOrFalse;
 
@@ -6,6 +8,9 @@ public static class QuestionInKnowledge
 {
     public static void Pin(int questionId, User user) 
         => UpdateRelevancePersonal(questionId, user);
+
+    public static void Pin(IEnumerable<Question> questions, User user)
+        => UpdateRelevancePersonal(questions.ToList(), user);
 
     public static void Unpin(int questionId, User user) 
         => UpdateRelevancePersonal(questionId, user, -1);
@@ -27,9 +32,28 @@ public static class QuestionInKnowledge
         session.Flush();
     }
 
+
+    private static void UpdateRelevancePersonal(IList<Question> questions, User user, int relevance = 50)
+    {
+        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);
+
+        foreach (var question in questions)
+        {
+            CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance);
+            Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+        }
+            
+        SetUserWishCountQuestions(user);
+
+        var creatorGroups = questions.Select(q => q.Creator).GroupBy(c => c.Id);
+
+        foreach (var creator in creatorGroups)
+            ReputationUpdate.ForUser(creator.First());
+    }
+
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
-        CreateOrUpdateQuestionValue(questionId, user, relevancePersonal: relevance);
+        CreateOrUpdateValuation(questionId, user, relevancePersonal: relevance);
 
         SetUserWishCountQuestions(user);
 
@@ -40,7 +64,7 @@ public static class QuestionInKnowledge
         ReputationUpdate.ForQuestion(questionId);
     
         if (relevance != -1)
-            Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, user.Id);
+            ProbabilityUpdate_Valuation.Run(questionId, user.Id);
     }
 
     private static void SetUserWishCountQuestions(User user)
@@ -95,18 +119,30 @@ public static class QuestionInKnowledge
                 "WHERE Id = " + questionId + ";";
     }
 
-    private static void CreateOrUpdateQuestionValue(int questionId, User user, int relevancePersonal = -2)
+    private static void CreateOrUpdateValuation(int questionId, User user, int relevancePersonal = -2)
+    {
+        var questionValuation = Sl.QuestionValuationRepo.GetBy(questionId, user.Id);
+        var question = Sl.QuestionRepo.GetById(questionId);
+
+        CreateOrUpdateValuation(question, questionValuation, user, relevancePersonal);
+    }
+
+    private static void CreateOrUpdateValuation(
+        Question question, 
+        QuestionValuation questionValuation, 
+        User user, 
+        int relevancePersonal = -2)
     {
         var questionValuationRepo = Sl.QuestionValuationRepo;
-        var questionValuation = questionValuationRepo.GetBy(questionId, user.Id);
 
         if (questionValuation == null)
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = Sl.R<QuestionRepo>().GetById(questionId),
+                Question = question,
                 User = user,
                 RelevancePersonal = relevancePersonal,
+                CorrectnessProbability = question.CorrectnessProbability
             };
 
             questionValuationRepo.Create(newQuestionVal);

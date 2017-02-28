@@ -130,7 +130,7 @@ namespace TrueOrFalse.Tests
 
             if (valuation == null)
             {
-                Sl.Resolve<ProbabilityUpdate_Valuation>().Run(lastQuestion.Id, learner.Id);
+                ProbabilityUpdate_Valuation.Run(lastQuestion.Id, learner.Id);
                 valuation = questionValutionRepo.GetBy(lastQuestion.Id, learner.Id);
             }
             valuation.CorrectnessProbability = probability;

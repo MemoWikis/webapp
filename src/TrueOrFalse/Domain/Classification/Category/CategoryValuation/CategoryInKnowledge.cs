@@ -14,9 +14,7 @@ public class CategoryInKnowledge
     private static void PinQuestionsInCategory(int categoryId, User user)
     {
         var questions = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
-
-        foreach (var question in questions)
-            QuestionInKnowledge.Pin(question.Id, user);
+        QuestionInKnowledge.Pin(questions, user);
     }
 
     public static void Unpin(int categoryId, User user) => UpdateRelevancePersonal(categoryId, user, -1);

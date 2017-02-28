@@ -5,36 +5,29 @@ using NHibernate.Util;
 
 namespace TrueOrFalse
 {
-    public class ProbabilityUpdate_Valuation : IRegisterAsInstancePerLifetime
+    public class ProbabilityUpdate_Valuation
     {
-        private readonly QuestionValuationRepo _questionValuationRepo;
-
-        public ProbabilityUpdate_Valuation(QuestionValuationRepo questionValuationRepo)
+        public static void Run(int userId)
         {
-            _questionValuationRepo = questionValuationRepo;
-        }
-
-        public void Run(int userId)
-        {
-            _questionValuationRepo
+            Sl.QuestionValuationRepo
                 .GetByUser(userId, onlyActiveKnowledge:false)
                 .ForEach(Run);
         }
 
-        public void Run(IEnumerable<Set> sets, int userId)
+        public static void Run(IEnumerable<Set> sets, int userId)
         {
             sets
                 .SelectMany(s => s.QuestionsInSet.Select(qis => qis.Question.Id))
                 .ForEach(questionId => Run(questionId, userId));
         }
 
-        public void Run(int questionId, int userId)
+        public static void Run(int questionId, int userId)
         {
             if (userId == -1)
                 return;
 
             var questionValuation =
-                _questionValuationRepo.GetBy(questionId, userId) ??
+                Sl.QuestionValuationRepo.GetBy(questionId, userId) ??
                     new QuestionValuation
                     {
                         Question = Sl.R<QuestionRepo>().GetById(questionId), 
@@ -44,7 +37,7 @@ namespace TrueOrFalse
             Run(questionValuation);
         }
 
-        private void Run(QuestionValuation questionValuation)
+        private static void Run(QuestionValuation questionValuation)
         {
             var sp = Stopwatch.StartNew();
 
@@ -56,7 +49,7 @@ namespace TrueOrFalse
             questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
             questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
 
-            _questionValuationRepo.CreateOrUpdate(questionValuation);
+            Sl.QuestionValuationRepo.CreateOrUpdate(questionValuation);
 
             //Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
         }

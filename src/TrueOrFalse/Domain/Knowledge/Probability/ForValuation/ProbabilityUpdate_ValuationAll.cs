@@ -19,7 +19,7 @@ namespace TrueOrFalse
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)
-                Sl.R<ProbabilityUpdate_Valuation>().Run((int) item[0], (int) item[1]);   
+                ProbabilityUpdate_Valuation.Run((int) item[0], (int) item[1]);   
         }
     }
 }
