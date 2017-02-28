@@ -36,18 +36,19 @@
 <div class="SessionBar">
     <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
     <div class="SessionType">
-       <%-- <span class="show-tooltip"
+        <span class="show-tooltip"
             data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
                 <ul>
-                    <li>kannst du dir die Lösung anzeigen lassen</li>
-                    <li>kannst du Fragen überspringen</li>
-                    <li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt</li>
+                    <li>werden die Fragen zufällig ausgewählt</li>
+                    <li>hast du jeweils nur einen Antwortversuch</li>
                 </ul>
             </div>"%>"
-            data-html="true" style="float: left;">--%>
-        <span>
-            Testen 
-            <%--<i class="fa fa-info-circle"></i>--%>
+            data-html="true" style="float: left;">
+            Testen
+            <span class="fa-stack fa-1x" style="font-size: 10px; top: -1px;">
+                <i class="fa fa-circle fa-stack-2x" style="color: #e1efb3;"></i>
+                <i class="fa fa-info fa-stack-1x" style=""></i>
+            </span>
         </span>
     </div>
     <div class="ProgressBarContainer">

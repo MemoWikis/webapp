@@ -278,7 +278,7 @@
 .SessionType,
 .QuestionCount {
   background-color: #AFD534;
-  padding-top: 4px;
+  padding-top: 5px;
 }
 @media (max-width: 479px) {
   .SessionType,

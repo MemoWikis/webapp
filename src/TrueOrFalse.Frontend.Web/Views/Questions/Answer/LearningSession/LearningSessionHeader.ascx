@@ -57,7 +57,7 @@
                 </ul>
             </div>"%>" data-html="true" style="float: left;">
             Lernen
-            <span class="fa-stack fa-1x" style="font-size: 10px;">
+            <span class="fa-stack fa-1x" style="font-size: 10px; top: -1px;">
                 <i class="fa fa-circle fa-stack-2x" style="color: #e1efb3;"></i>
                 <i class="fa fa-info fa-stack-1x" style=""></i>
             </span>
