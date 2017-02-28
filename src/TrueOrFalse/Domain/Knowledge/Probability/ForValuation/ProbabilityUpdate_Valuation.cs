@@ -26,12 +26,17 @@ namespace TrueOrFalse
             if (userId == -1)
                 return;
 
+            Run(Sl.QuestionRepo.GetById(questionId), Sl.UserRepo.GetById(userId));
+        }
+
+        public static void Run(Question question, User user)
+        {
             var questionValuation =
-                Sl.QuestionValuationRepo.GetBy(questionId, userId) ??
+                Sl.QuestionValuationRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
-                        Question = Sl.R<QuestionRepo>().GetById(questionId), 
-                        User = Sl.R<UserRepo>().GetById(userId)
+                        Question = question, 
+                        User = user
                     };
 
             Run(questionValuation);

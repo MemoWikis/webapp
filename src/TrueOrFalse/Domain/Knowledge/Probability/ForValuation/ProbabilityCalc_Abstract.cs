@@ -8,7 +8,7 @@ public abstract class ProbabilityCalc_Abstract
     {
         var answers = Sl.R<AnswerRepo>().GetByQuestion(question.Id, user.Id);
 
-        if(Sl.R<ISession>().Get<Question>(question.Id) == null || Sl.R<ISession>().Get<User>(user.Id) == null)
+        if(Sl.Session.Get<Question>(question.Id) == null || Sl.Session.Get<User>(user.Id) == null)
             return new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned };
 
         return Run(answers, question, user);

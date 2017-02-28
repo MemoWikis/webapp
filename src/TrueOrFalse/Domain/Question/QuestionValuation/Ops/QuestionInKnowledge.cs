@@ -41,6 +41,7 @@ public static class QuestionInKnowledge
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance);
             Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+            ProbabilityUpdate_Valuation.Run(question, user);
         }
             
         SetUserWishCountQuestions(user);
