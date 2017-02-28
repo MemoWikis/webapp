@@ -10,7 +10,7 @@ public static class QuestionInKnowledge
     public static void Unpin(int questionId, User user) 
         => UpdateRelevancePersonal(questionId, user, -1);
 
-    public static void Run(QuestionValuation questionValuation)
+    public static void Create(QuestionValuation questionValuation)
     {
         Sl.Resolve<QuestionValuationRepo>().CreateOrUpdate(questionValuation);
 

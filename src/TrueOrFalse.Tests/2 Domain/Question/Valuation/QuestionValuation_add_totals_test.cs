@@ -29,16 +29,12 @@ namespace TrueOrFalse.Tests
                                        User = contextQuestion.Creator
                                    };
 
-            QuestionInKnowledge.Run(questionVal1);
-            QuestionInKnowledge.Run(questionVal2);
+            QuestionInKnowledge.Create(questionVal1);
+            QuestionInKnowledge.Create(questionVal2);
 
             Resolve<ISession>().Evict(contextQuestion.All.First());
 
             var question = Resolve<QuestionRepo>().GetById(contextQuestion.All.First().Id);
-            Assert.That(question.TotalQualityEntries, Is.EqualTo(0));
-            Assert.That(question.TotalQualityAvg, Is.EqualTo(0));
-            Assert.That(question.TotalRelevanceForAllAvg, Is.EqualTo(30));
-            Assert.That(question.TotalRelevanceForAllEntries, Is.EqualTo(2));
             Assert.That(question.TotalRelevancePersonalAvg, Is.EqualTo(90));
             Assert.That(question.TotalRelevancePersonalEntries, Is.EqualTo(2));
         }
