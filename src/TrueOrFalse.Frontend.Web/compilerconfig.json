@@ -200,5 +200,9 @@
   {
     "outputFile": "Views/About/Jobs.css",
     "inputFile": "Views/About/Jobs.less"
+  },
+  {
+    "outputFile": "Views/Questions/Edit/EditQuestion.css",
+    "inputFile": "Views/Questions/Edit/EditQuestion.less"
   }
 ]
