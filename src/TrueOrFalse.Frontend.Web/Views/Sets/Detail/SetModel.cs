@@ -8,6 +8,9 @@ using static System.String;
 
 public class SetModel : BaseModel
 {
+    public string MetaTitle;
+    public string MetaDescription;
+
     public int Id;
     public string Name;
     public string Text;
@@ -52,6 +55,9 @@ public class SetModel : BaseModel
 
     public SetModel(Set set)
     {
+        MetaTitle = set.Name;
+        MetaDescription = SeoUtils.ReplaceDoubleQuotes(set.Text).Truncate(250, true);
+
         FillPreviousCategoryData();
 
         Id = set.Id;
