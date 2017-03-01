@@ -219,7 +219,3 @@ a.TextLinkWithIcon.active span {
     text-shadow: rgba(255, 255, 255, 0.3) 0px 3px 3px;
   }
 }
-.ItemHeading {
-  text-transform: uppercase;
-  font-size: 80%;
-}
