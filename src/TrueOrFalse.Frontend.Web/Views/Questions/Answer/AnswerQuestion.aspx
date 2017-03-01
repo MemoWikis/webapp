@@ -183,18 +183,20 @@
                         <div class="well" id="answerQuestionDetails" style="background-color: white; padding-bottom: 10px; min-height: 175px;">
                             <div class="row">
                                 <div class="col-xs-6 xxs-stack">
+                                    <div class="ItemHeading">Erstellt</div>
                                     <p>
                                         von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                                         vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
                                     </p>
-        
+                                    <div class="ItemHeading">Kategorien</div>
                                     <% if (Model.Categories.Count > 0)
                                         { %>
                                         <p style="padding-top: 10px;">
                                             <% Html.RenderPartial("Category", Model.Question); %>
                                         </p>
                                     <% } %>
-        
+                                    <div class="ItemHeading">Fragesätze</div>
+                                    
                                     <% if (Model.SetMinis.Count > 0)
                                         { %>
                                         <% foreach (var setMini in Model.SetMinis)
@@ -217,16 +219,20 @@
                                     </div>
         
                                     <p>
+                                        <div class="ItemHeading">Im Wunschwissen</div>
                                         <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalRelevancePersonalEntries %>x zum Wunschwissen hinzugefügt.">
                                             <i class="fa fa-heart greyed"></i> 
                                             <span id="sideWishKnowledgeCount"><%= Model.TotalRelevancePersonalEntries %>x</span><br />
-                                        </span>                
+                                        </span>
+                                        <div class="ItemHeading">Gesehen</div>
                                         <span class="show-tooltip" title="Die Frage wurde <%= Model.TotalViews %>x mal gesehen.">
                                             <i class="fa fa-eye"></i> <%= Model.TotalViews %>x
                                         </span><br />
                                     </p>
 
-                                    <p style="width: 150px;">                    
+                                    <p style="width: 150px;">
+                                        <div class="ItemHeading">Verbreiten</div>
+                                                            
                                         <div class="fb-share-button" style="margin-right: 10px; margin-bottom: 5px; float: left; " data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
                     
                                         <div style="margin-top: 5px">
