@@ -22,6 +22,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
+
     <div class="row" >
         <div class="col-xs-12 col-md-2 col-md-push-10">
             <div class="navLinks">

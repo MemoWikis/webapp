@@ -638,6 +638,7 @@
     </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
+    <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\About\AboutMemucho.css">
       <DependentUpon>AboutMemucho.less</DependentUpon>
@@ -801,6 +802,7 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />

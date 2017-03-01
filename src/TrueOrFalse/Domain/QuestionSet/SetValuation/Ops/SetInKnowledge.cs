@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Conventions;
 using NHibernate;
 
 public static class SetInKnowledge 
@@ -35,6 +36,9 @@ public static class SetInKnowledge
 
     public static IList<int> ValuatedQuestionsInSets(User user, IList<int> questionIds, int exceptSetId = -1)
     {
+        if (questionIds.IsEmpty())
+            return new List<int>();
+
         Func<int, string> getSetFilter = setId => setId == -1 ? "" : $"and sv.SetId != {setId}";
 
         var query = $@"

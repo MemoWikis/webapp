@@ -16,6 +16,14 @@
         Utils.SendGaEvent("WuWi", "Unpin", "Category");
     }
 
+    public static UnpinQuestionsInCategory(categoryId, onPinChanged: () => void = null) {
+        $.post("/Api/Category/UnpinQuestionsInCategory/", { categoryId: categoryId }, () => {
+            if (onPinChanged != null)
+                onPinChanged();
+        });
+        Utils.SendGaEvent("WuWi", "Unpin", "AllQuestionsInCategory");
+    }
+
     static NavigatoTo(categoryName) {
         $.get("/Api/Category/GetUrl?categoryName=" + categoryName,
             function (data) { window.location.href = data; }

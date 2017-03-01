@@ -9,8 +9,8 @@ class SetPage {
             new SetVideo();
         }
 
-        new Pin(PinType.SetDetail, this.ReloadKnowledgeChart);
-        new Pin(PinType.Question, this.ReloadKnowledgeChart);
+        new Pin(PinType.SetDetail, KnowledgeWheel.ReloadSet);
+        new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
     }
 
     InitPies() {
@@ -24,20 +24,7 @@ class SetPage {
         });        
     }
 
-    ReloadKnowledgeChart() {
 
-        $.get("/KnowledgeWheel/Get/?setId=" + $("#hhdSetId").val(), (html) => {
-
-            $("#knowledgeWheelContainer")
-                .empty()
-                .animate({ opacity: 0.00 }, 0)
-                .append(html)
-                .animate({ opacity: 1.00 }, 400);
-
-            drawKnowledgeChart("chartKnowledge");
-        });
-
-    }
 }
 
 $(() => {

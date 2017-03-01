@@ -149,4 +149,12 @@ public class CategoryApiController : BaseController
 
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
     }
+
+    public void UnpinQuestionsInCategory(string categoryId)
+    {
+        if (_sessionUser.User == null)
+            return;
+
+        CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), _sessionUser.User);
+    }
 }

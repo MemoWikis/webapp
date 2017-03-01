@@ -83,7 +83,6 @@ class Pin {
 
                     if (self.IsQuestionRow()) 
                         Utils.MenuPinsMinusOne();
-                    //Update MenuPins after unpinning set is only necessary after user confirms in modal that questions are to be unpinned as well
 
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
                         
@@ -92,13 +91,21 @@ class Pin {
             }
         });
 
-        $("#UnpinSetModal").off("click").on("click", "#JS-RemoveQuestions", function() {
+        $("#UnpinSetModal").off("click").on("click", "#JS-RemoveQuestions", () => {
             $.when(
                 SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged))
-                .then(function () {
-                    Utils.UnpinQuestionsInSetDetail();
-                    Utils.SetMenuPins();
-                });
+             .then(() => {
+                Utils.UnpinQuestionsInSetDetail();
+                Utils.SetMenuPins();
+            });
+        });
+
+        $("#UnpinCategoryModal").off("click").on("click", "#JS-RemoveQuestionsCat", () => {
+            $.when(
+                CategoryApi.UnpinQuestionsInCategory($('#JS-RemoveQuestionsCat').attr('data-category-id'), onPinChanged))
+            .then(() => {
+                Utils.SetMenuPins();
+            });
         });
     }
 
@@ -134,14 +141,17 @@ class Pin {
             QuestionsApi.Unpin(id, onPinChanged);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
 
-            SetsApi.Unpin(id, onPinChanged);
+            SetsApi.Unpin(id);
 
             $("#JS-RemoveQuestions").attr("data-set-id", id);
-
             $("#UnpinSetModal").modal('show');
 
         }else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
+
             CategoryApi.Unpin(id, onPinChanged);
+
+            $("#JS-RemoveQuestionsCat").attr("data-category-id", id);
+            $("#UnpinCategoryModal").modal('show');
         }
     }
 

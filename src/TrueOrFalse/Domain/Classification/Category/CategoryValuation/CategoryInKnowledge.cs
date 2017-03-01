@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Conventions;
 using NHibernate;
 
 public class CategoryInKnowledge
@@ -36,6 +37,9 @@ public class CategoryInKnowledge
 
     private static IList<int> ValuatedQuestionsInCategories(User user, IList<int> questionIds, int exeptCategoryId = -1)
     {
+        if (questionIds.IsEmpty())
+            return new List<int>();
+
         Func<int, string> getCategoryFilter = categoryId => 
             categoryId == -1 ? "" : $"and cv.CategoryId != {categoryId}";
 
