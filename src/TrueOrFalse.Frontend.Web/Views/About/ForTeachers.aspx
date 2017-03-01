@@ -118,7 +118,7 @@
                 <p>
                     Bei memucho gibt es bereits <a href="<%= Links.QuestionsAll()%>"><%= Model.TotalPublicQuestionCount.ToString("N0") %> öffentliche Fragen</a> und
                     <a href="<%= Links.SetsAll()%>"><%= Model.TotalSetCount.ToString("N0") %> zusammengestellte Fragesätze</a> (jeder Fragesatz bündelt mehrere Fragen zu einem Thema),
-                    eingeordnet in <a href="<%= Links.Categories()%>"><%= Model.TotalCategoryCount.ToString("N0") %> Themen und Unterthemen</a>.
+                    eingeordnet in <a href="<%= Links.CategoriesAll()%>"><%= Model.TotalCategoryCount.ToString("N0") %> Themen und Unterthemen</a>.
                     Du kannst die vorhandenen Fragesätze einfach nutzen und zum Beispiel deinen Schülern zum Lernen empfehlen.
                 </p>
                 <p>
