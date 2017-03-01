@@ -1,6 +1,6 @@
 
 $(() => {
     new SetDelete();
-    new Pin(PinRowType.Set);
+    new Pin(PinType.Set);
     new SearchInTabs();
 });

@@ -6,7 +6,7 @@
 <div style="padding-bottom: 15px;">
     <div class="btn-group btn-breadcrumb MobileHide">
         <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
-        <a href="<%= Links.Categories() %>" class="btn btn-sm btn-default">
+        <a href="<%= Links.CategoriesAll() %>" class="btn btn-sm btn-default">
             <% if (Model.Type != "Standard"){ %>
                 <%= Model.Type %>
             <% } else { %> 
@@ -24,7 +24,7 @@
     <div class="BreadcrumbsMobile DesktopHide">
         <a href="/" class=""><i class="fa fa-home"></i></a>
         <span> <i class="fa fa-chevron-right"></i> </span>
-        <a href="<%= Links.Categories() %>" class="">
+        <a href="<%= Links.CategoriesAll() %>" class="">
             <% if (Model.Type != "Standard"){ %>
                 <%= Model.Type %>
             <% } else { %> 
@@ -59,24 +59,37 @@
             </div>
             <div class="xxs-stack col-xs-8 col-sm-9">
                 
-                <div>
-                        <% if (Model.Type != "Standard") {
-                        Html.RenderPartial("Reference", Model.Category);
-                    }
-                    
-                    if (!String.IsNullOrEmpty(Model.Description)) {%>
+                <% if (Model.Type != "Standard") { %>
+                    <div>                    
+                        <% Html.RenderPartial("Reference", Model.Category); %>
+                    </div>
+                <% } %>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div  style="float: right; width: 300px;">
+                            <div style="padding-left: 20px; font-weight: lighter; color: darkgrey;">Dein Wissensstand:</div>
+                            <div style="padding-left: 20px; padding-bottom: 15px; padding-top: 7px;" id="knowledgeWheelContainer">
+                                <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
+                            </div>
+                        </div>
+
                         <div class="Description"><span><%= Model.Description %></span></div>
-                    <% } %>
+                    </div>
                     
-                    <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                </div>
+                
+                <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                    <div>
                         <div class="WikiLink" style="margin-top: 10px;">
                             <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
                                 <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
                             </a>
                         </div>
-                    <% } %>
-                </div>
-                            
+                    </div>
+                <% } %>
+            
                 <% if(Model.AnswersTotal > 0) { %>
                     <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                     <div style="margin-top: 6px; font-size: 11px;">
@@ -91,9 +104,13 @@
                     <div style="float: left; padding-top: 3px;">
                         <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>                
                     </div>
-                   <%-- <a class="btn btn-primary show-tooltip" href="<%= Links.TestSessionStartForCategory(Model.Name,Model.Id) %>" title="Teste dein Wissen zu diesem Thema" rel="nofollow">
-                        <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
-                    </a>--%>
+                   
+                    <div style="float: right">
+                        <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-category-id="<%= Model.Id %>">
+                            <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                        </span>
+                    </div>
+
                 </div>
             </div>
         </div>

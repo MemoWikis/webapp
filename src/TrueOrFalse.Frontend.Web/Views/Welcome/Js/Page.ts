@@ -1,5 +1,5 @@
 ﻿$(function () {
     var tourInit = new TourInit();
-    new Pin(PinRowType.Set);
+    new Pin(PinType.Set);
     new SendRequestNewsletter();
 });

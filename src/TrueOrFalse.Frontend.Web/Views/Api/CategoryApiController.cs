@@ -131,4 +131,30 @@ public class CategoryApiController : BaseController
     {
         return (term != null && result.Any(c => String.Equals(c.name, term, StringComparison.CurrentCultureIgnoreCase)));
     }
+
+    [HttpPost]
+    public void Pin(string categoryId)
+    {
+        if (_sessionUser.User == null)
+            return;
+
+        CategoryInKnowledge.Pin(Convert.ToInt32(categoryId), _sessionUser.User);
+    }
+
+    [HttpPost]
+    public void Unpin(string categoryId)
+    {
+        if (_sessionUser.User == null)
+            return;
+
+        CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
+    }
+
+    public void UnpinQuestionsInCategory(string categoryId)
+    {
+        if (_sessionUser.User == null)
+            return;
+
+        CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), _sessionUser.User);
+    }
 }

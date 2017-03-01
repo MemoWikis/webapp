@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<CategoriesModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
@@ -47,9 +48,10 @@
                             Alle (<span class="JS-Amount"><%= von + Model.TotalCategoriesInSystem %></span>)
                         </a>
                     </div>
-                    <div class="btn-group <%= Model.ActiveTabFollowed ? "active" : "" %> JS-Mine">
+                    <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-Mine">
                         <a  href="#" type="button" class="btn btn-default">
-                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount"> ? </span>)
+                            <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalCategoriesInResult); %>
+                            Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount tabWishKnowledgeCount"><%= von + Model.TotalWish %></span>)
                         </a>
                     </div>
                 </div>
@@ -79,15 +81,18 @@
             <div class="boxtainer-outlined-tabs">
                 <div class="boxtainer-header MobileHide">
                     <ul class="nav nav-tabs JS-Tabs">
-                        <li class="active JS-All">
-                            <a href="#home" >
+                        <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-All">
+                            <a href="<%= Links.CategoriesAll() %>" >
                                 <% string von = GetTabText(Model.ActiveTabAll, Model.TotalCategoriesInSystem, Model.TotalCategoriesInResult); %> 
                                 Alle Themen (<span class="JS-Amount"><%= von + Model.TotalCategoriesInSystem %></span>)
                             </a>
                         </li>
-                        <li class="JS-Mine">
-                            <a href="#profile" class="featureNotImplemented" style="color: #aaa;">
-                                <i class="fa fa-heart" style="color:#aaa;"></i>&nbsp;Mein Wunschwissen <span id="tabWishKnowledgeCount">(<%= Model.TotalMine %>)</span> <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
+                        <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-Wish">
+                            <a href="<%= Links.CategoriesWish() %>">
+                                <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalCategoriesInResult); %>
+                                <i class="fa fa-heart" style="color:#b13a48;"></i>
+                                    Mein Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount tabWishKnowledgeCount"><%= von + Model.TotalWish %></span> )
+                                <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
                             </a>
                         </li>
                     </ul>
@@ -113,7 +118,7 @@
 
                                     <div class="input-group">
                                         <%: Html.TextBoxFor(model => model.SearchTerm, 
-                                                new {@class="form-control", placeholder="Beginne zu tippen, um Themen zu finden", id="txtSearch", formurl = "/Kategorien/Suche"}) %>
+                                                new {@class="form-control", placeholder="Beginne zu tippen, um Themen zu finden", id="txtSearch", formurl = Model.SearchUrl}) %>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>

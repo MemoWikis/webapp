@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NHibernate;
@@ -21,27 +20,25 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
         _setRepo = setRepo;
     }
 
-    public IList<SetValuation> GetBy(int setId)
-    {
-        return _session.QueryOver<SetValuation>()
-                        .Where(s => s.SetId == setId).List<SetValuation>();
-    }
+    public IList<SetValuation> GetBy(int setId) => 
+        _session.QueryOver<SetValuation>()
+                .Where(s => s.SetId == setId)
+                .List<SetValuation>();
 
-    public SetValuation GetBy(int setId, int userId)
-    {
-        return _session.QueryOver<SetValuation>()
-                        .Where(q => q.UserId == userId && q.SetId == setId)
-                        .SingleOrDefault();
-    }
+    public SetValuation GetBy(int setId, int userId) => 
+        _session.QueryOver<SetValuation>()
+                .Where(q => q.UserId == userId && q.SetId == setId)
+                .SingleOrDefault();
 
-    public IList<SetValuation> GetByUser(int userId)
-    {
-        return _session.QueryOver<SetValuation>()
-                        .Where(q =>
-                            q.UserId == userId &&
-                            q.RelevancePersonal >= 0)
-                        .List<SetValuation>();
-    }
+    public IList<SetValuation> GetByUser(int userId) => 
+        _session.QueryOver<SetValuation>()
+                .Where(q =>
+                    q.UserId == userId &&
+                    q.RelevancePersonal >= 0)
+                .List<SetValuation>();
+
+    public bool IsInWishKnowledge(int setId, int userId) => 
+        Sl.SetValuationRepo.GetBy(setId, userId)?.IsInWishKnowledge() ?? false;
 
     public IList<SetValuation> GetBy(IList<int> setIds, int userId)
     {
@@ -56,8 +53,6 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
             sb.Append(" OR SetId = " + setIds[i]);
         }
         sb.Append(")");
-
-        Console.Write(sb.ToString());
 
         return _session.CreateSQLQuery(sb.ToString())
                         .SetResultTransformer(Transformers.AliasToBean(typeof(SetValuation)))

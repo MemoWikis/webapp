@@ -6,14 +6,20 @@ using NHibernate.Criterion;
 
 public class KnowledgeSummaryLoader
 {
+    public static KnowledgeSummary Run(int userId, Category category, bool onlyValuated = true) 
+        => Run(userId, GetQuestionsForCategory.AllIncludingQuestionsInSet(category.Id).GetIds(), onlyValuated);
+
     public static KnowledgeSummary Run(int userId, Set set, bool onlyValuated = true) 
         => Run(userId, set.QuestionIds(), onlyValuated);
 
     public static KnowledgeSummary Run(
         int userId, 
-        IEnumerable<int> questionIds = null, 
+        IList<int> questionIds = null, 
         bool onlyValuated = true)
     {
+        if (userId == -1 && questionIds != null)
+            return new KnowledgeSummary {NotInWishknowledge = questionIds.Count};
+
         var queryOver =
             Sl.R<ISession>() 
                 .QueryOver<QuestionValuation>()
@@ -51,7 +57,7 @@ public class KnowledgeSummaryLoader
 
         if (questionIds != null)
             result.NotInWishknowledge = 
-                questionIds.Count() - (result.NotLearned + result.NeedsLearning + result.NeedsConsolidation + result.Solid);
+                questionIds.Count - (result.NotLearned + result.NeedsLearning + result.NeedsConsolidation + result.Solid);
 
         return result;
     }

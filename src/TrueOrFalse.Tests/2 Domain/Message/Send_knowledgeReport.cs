@@ -15,9 +15,9 @@ public class Send_knowledgeReport : BaseTest
             .AddQuestion(questionText: "q3", solutionText: "a3")
             .Persist();
 
-        QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[0], User = user });
-        QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[1], User = user });
-        QuestionInKnowledge.Run(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[2], User = user });
+        QuestionInKnowledge.Create(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[0], User = user });
+        QuestionInKnowledge.Create(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[1], User = user });
+        QuestionInKnowledge.Create(new QuestionValuation { RelevancePersonal = 50, Question = questions.All[2], User = user });
 
         //add sets to WishKnowledge
 

@@ -32,6 +32,8 @@ public class Category : DomainEntity, ICreator
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
 
+    public virtual int TotalRelevancePersonalEntries { get; set; }
+
     public Category(){
         ParentCategories = new List<Category>();
         Type = CategoryType.Standard;
@@ -41,11 +43,8 @@ public class Category : DomainEntity, ICreator
         Name = name;
     }
 
-    public virtual bool IsSpoiler(Question question)
-    {
-        return IsSpoilerCategory.Yes(Name, question);
-    }
-
+    public virtual bool IsSpoiler(Question question) => 
+        IsSpoilerCategory.Yes(Name, question);
 
     public virtual IList<Set> FeaturedSets()
     {

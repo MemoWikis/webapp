@@ -21,13 +21,13 @@ public class SetsController : BaseController
 
     public ActionResult SetsWishSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.GetSearchFilter(_sessionUiData.SearchSpecSetWish, model, searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, model, searchTerm);
         return SetsWish(page, model, orderBy);
     }
 
     public ActionResult SetsWishSearchApi(string searchTerm)
     {
-        _util.GetSearchFilter(_sessionUiData.SearchSpecSetWish, new SetsModel(), searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetWish, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetWish, SearchTabType.Wish, ControllerContext);
     }
 
@@ -49,13 +49,13 @@ public class SetsController : BaseController
 
     public ActionResult SetsMineSearchApi(string searchTerm)
     {
-        _util.GetSearchFilter(_sessionUiData.SearchSpecSetMine, new SetsModel(), searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetMine, SearchTabType.Mine, ControllerContext);
     }
 
     public ActionResult SetsMineSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.GetSearchFilter(_sessionUiData.SearchSpecSetMine, model, searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetMine, model, searchTerm);
         return SetsMine(page, model, orderBy);
     }
 
@@ -76,13 +76,13 @@ public class SetsController : BaseController
 
     public ActionResult SetsSearch(string searchTerm, SetsModel model, int? page, string orderBy)
     {
-        _util.GetSearchFilter(_sessionUiData.SearchSpecSetsAll, model, searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, model, searchTerm);
         return Sets(page, model, orderBy);
     }
 
     public ActionResult SetsSearchApi(string searchTerm)
     {
-        _util.GetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
+        _util.SetSearchFilter(_sessionUiData.SearchSpecSetsAll, new SetsModel(), searchTerm);
         return _util.SearchApi(searchTerm, _sessionUiData.SearchSpecSetsAll, SearchTabType.All, ControllerContext);
     }
 
@@ -155,7 +155,7 @@ public class SetsController : BaseController
             ControllerContext controllerContext)
         {
             var model = new SetsModel();
-            GetSearchFilter(searchSpec, model, searchTerm);
+            SetSearchFilter(searchSpec, model, searchTerm);
 
             var totalInSystem = 0;
             switch (searchTab)
@@ -206,7 +206,7 @@ public class SetsController : BaseController
             else if (orderByCommand == "byValuationsAvg") searchSpec.OrderBy.ValuationsAvg.Desc();
         }
 
-        public void GetSearchFilter(
+        public void SetSearchFilter(
             SetSearchSpec searchSpec,
             SetsModel model,
             string searchTerm)

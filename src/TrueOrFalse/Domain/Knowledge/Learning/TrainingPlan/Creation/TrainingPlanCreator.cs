@@ -52,12 +52,8 @@ public class TrainingPlanCreator
 
     private static List<AnswerProbability> GetInitialAnswerProbabilities(Date date)
     {
-        var probUpdateValRepo = Sl.R<ProbabilityUpdate_Valuation>();
-
         foreach (var question in date.AllQuestions())
-        {
-            probUpdateValRepo.Run(question.Id, date.User.Id);
-        }
+            ProbabilityUpdate_Valuation.Run(question.Id, date.User.Id);
 
         var answerRepo = Sl.R<AnswerRepo>();
         var questionValuationRepo = Sl.R<QuestionValuationRepo>();

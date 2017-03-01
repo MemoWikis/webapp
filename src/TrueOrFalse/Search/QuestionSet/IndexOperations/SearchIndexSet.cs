@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SolrNet;
 
 namespace TrueOrFalse.Search
@@ -13,14 +9,9 @@ namespace TrueOrFalse.Search
         private readonly ISolrOperations<SetSolrMap> _solrOperations;
         private  SetValuationRepo __setValuationRepo;
 
-        private SetValuationRepo _setValuationRepo{
-            get{
-                if (__setValuationRepo == null)
-                    __setValuationRepo = Sl.Resolve<SetValuationRepo>();
-
-                return __setValuationRepo;
-            }
-        }
+        private SetValuationRepo _setValuationRepo => 
+            __setValuationRepo ?? 
+            (__setValuationRepo = Sl.Resolve<SetValuationRepo>());
 
         public SearchIndexSet(ISolrOperations<SetSolrMap> solrOperations){
             _solrOperations = solrOperations;

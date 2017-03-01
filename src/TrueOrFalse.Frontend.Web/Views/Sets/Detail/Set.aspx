@@ -88,6 +88,7 @@
                                 </div>        
                     
                                 <div class="col-md-7" style="margin-top:6px;">                                
+                                    <div style="font-weight: lighter; color: darkgrey;">Dein Wissensstand:</div>
                                     <div style="padding: 10px" id="knowledgeWheelContainer">
                                         <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
                                     </div>

@@ -1,84 +1,113 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
+using static System.String;
 
 public class CategoriesModel : BaseModel
 {
     public UIMessage Message;
 
-    public bool ActiveTabAll = true;//$temp
-    public bool ActiveTabFollowed;//$temp
+    public bool ActiveTabAll = true;
+    public bool ActiveTabWish;
 
-    public IEnumerable<CategoryRowModel> Rows { get; set; }
+    public IEnumerable<CategoryRowModel> Rows;
 
     public string CanonicalUrl;
     public bool HasFiltersOrChangedOrder;
     public string PageTitle = "Themen";
     public int TotalCategoriesInSystem { get; set; }
-    public int TotalMine  { get; set; }
+    public int TotalWish  { get; set; }
     public string SearchTerm  { get; set; }
 
     public string OrderByLabel { get; set; }
     public CategorytOrderBy OrderBy;
 
-    public int TotalCategoriesInResult { get; set; }
+    public int TotalCategoriesInResult;
 
-    public PagerModel Pager { get; set; }
+    public PagerModel Pager;
+    public string SearchUrl;
 
     public string Suggestion;
     public CategoriesSearchResultModel SearchResultModel;
 
-    public void Init(IList<Category> categories)
+    public CategoriesModel()
+    {
+    }
+
+    public CategoriesModel(IList<Category> categories, CategorySearchSpec searchSpec, SearchTabType searchTab)
+    {
+        Init(categories, searchSpec, searchTab);
+    }
+
+    public void Init(IList<Category> categories, CategorySearchSpec searchSpec, SearchTabType searchTab)
     {
         SetCategories(categories);
-        Pager = new PagerModel(_sessionUiData.SearchSpecCategory){
-            Controller = Links.CategoriesController,
-            Action = Links.CategoriesAction
+
+        ActiveTabAll = searchTab == SearchTabType.All;
+        ActiveTabWish = searchTab == SearchTabType.Wish;
+
+        Pager = new PagerModel(searchSpec){
+            Controller = Links.CategoriesController
         };
 
-        Suggestion = _sessionUiData.SearchSpecCategory.GetSuggestion();
+        if (ActiveTabAll)
+        {
+            Pager.Action = Links.CategoriesAction;
+            SearchUrl = "/Kategorien/Suche";
+        }
+        else if (ActiveTabWish)
+        {
+            Pager.Action = Links.CategoriesWishAction;
+            SearchUrl = "/Kategorien/Wunschwissen/Suche";
+        }
 
-        TotalCategoriesInSystem = Resolve<GetTotalCategories>().Run(); ;
-        TotalMine = 0;
+        Suggestion = searchSpec.GetSuggestion();
 
-        SearchTerm = _sessionUiData.SearchSpecCategory.SearchTerm;
+        TotalCategoriesInSystem = GetCategoriesCount.All();
+        TotalWish = GetCategoriesCount.Wish(UserId);
 
-        TotalCategoriesInResult = _sessionUiData.SearchSpecCategory.TotalItems;
+        SearchTerm = searchSpec.SearchTerm;
+        TotalCategoriesInResult = searchSpec.TotalItems;
 
-        OrderByLabel = _sessionUiData.SearchSpecCategory.OrderBy.ToText();
-        OrderBy = _sessionUiData.SearchSpecCategory.OrderBy;
+        OrderByLabel = searchSpec.OrderBy.ToText();
+        OrderBy = searchSpec.OrderBy;
 
         SearchResultModel = new CategoriesSearchResultModel(this);
-        if (!String.IsNullOrEmpty(_sessionUiData.SearchSpecCategory.SearchTerm) ||
-            !(_sessionUiData.SearchSpecCategory.OrderBy.BestMatch.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
+        if (!IsNullOrEmpty(searchSpec.SearchTerm) ||
+            !(searchSpec.OrderBy.BestMatch.IsCurrent() || IsNullOrEmpty(OrderByLabel)))
             HasFiltersOrChangedOrder = true;
-        CanonicalUrl = Links.Categories();
+
+        if (ActiveTabAll)
+            CanonicalUrl = Links.CategoriesAll();
+        else if (ActiveTabWish)
+            CanonicalUrl = Links.CategoriesWish();
+
         if (Pager.CurrentPage > 1)
         {
-            CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
-            PageTitle += " (Seite " + Pager.CurrentPage.ToString() + ")";
+            CanonicalUrl += "?page=" + Pager.CurrentPage;
+            PageTitle += " (Seite " + Pager.CurrentPage + ")";
         }
     }
 
     public void SetCategories(IList<Category> categories)
     {
+        var valuations = R<CategoryValuationRepo>().GetBy(categories.GetIds(), _sessionUser.UserId);
+
         var referenceCounts = ReferenceCount.GetList(
             categories
                 .Where(c => c.Type != CategoryType.Standard)
                 .Select(c => c.Id).ToList()
         );
 
-        var index = 0;
         Rows = 
             from category 
             in categories
             select 
                 new CategoryRowModel(
                     category, 
-                    referenceCounts.FirstOrDefault(x => x.CategoryId == category.Id)
+                    referenceCounts.FirstOrDefault(x => x.CategoryId == category.Id),
+                    NotNull.Run(valuations.ByCategoryId(category.Id))
                 );
     }
-
 }

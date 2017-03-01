@@ -27,10 +27,7 @@ public class SetRowModel
 
     public bool IsInWishknowledge;
 
-    public SetRowModel(
-        Set set, 
-        SetValuation setValuation,
-        int currentUserid)
+    public SetRowModel(Set set,  SetValuation setValuation, int currentUserid)
     {
         Id = set.Id;
         Name = set.Name;

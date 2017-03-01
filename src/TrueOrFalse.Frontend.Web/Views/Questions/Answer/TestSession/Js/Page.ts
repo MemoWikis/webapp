@@ -4,7 +4,7 @@
     $(document).ready(tsr.PositionIndicatorAverageText);
     $(window).resize(tsr.PositionIndicatorAverageText);
 
-    new Pin(PinRowType.Set);
+    new Pin(PinType.Set);
     $("#divCallForRegistration")
         .delay(3500)
         .fadeIn()

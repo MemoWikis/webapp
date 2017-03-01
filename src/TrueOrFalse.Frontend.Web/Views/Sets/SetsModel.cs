@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
+using static System.String;
 
 public class SetsModel : BaseModel
 {
@@ -59,7 +60,6 @@ public class SetsModel : BaseModel
 
         var valuations = R<SetValuationRepo>().GetBy(questionSets.GetIds(), _sessionUser.UserId);
 
-        var counter = 0;
         Rows = questionSets.Select(set => 
             new SetRowModel(
                 set,
@@ -92,19 +92,21 @@ public class SetsModel : BaseModel
         SearchResultModel = new SetsSearchResultModel(this);
 
         /* Generate Canonical URL: Ignores search specifications and filters */
-        if (!String.IsNullOrEmpty(SearchTerm) ||
-            !(searchSpec.OrderBy.BestMatch.IsCurrent() || String.IsNullOrEmpty(OrderByLabel)))
+        if (!IsNullOrEmpty(SearchTerm) ||
+            !(searchSpec.OrderBy.BestMatch.IsCurrent() || IsNullOrEmpty(OrderByLabel)))
             HasFiltersOrChangedOrder = true;
+
         if (ActiveTabAll)
             CanonicalUrl = Links.SetsAll();
         else if (ActiveTabWish)
             CanonicalUrl = Links.SetsWish();
         else if (ActiveTabMine)
             CanonicalUrl = Links.SetsMine();
+
         if (Pager.CurrentPage > 1)
         {
-            CanonicalUrl += "?page=" + Pager.CurrentPage.ToString();
-            PageTitle += " (Seite " + Pager.CurrentPage.ToString() + ")";
+            CanonicalUrl += "?page=" + Pager.CurrentPage;
+            PageTitle += " (Seite " + Pager.CurrentPage + ")";
         }
     }
 }

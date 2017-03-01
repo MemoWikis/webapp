@@ -23,7 +23,7 @@ class Page
         $('#selectCreatedByMe').click(() => { _page.RowSelector.SelectAllWhereIAmOwner(); });
         $('#selectNotCreatedByMe').click(() => { _page.RowSelector.SelectAllWhereIAmNotOwner(); });
 
-        new Pin(PinRowType.Question);
+        new Pin(PinType.Question);
         new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionRow);
 
         FillSparklineTotals();
