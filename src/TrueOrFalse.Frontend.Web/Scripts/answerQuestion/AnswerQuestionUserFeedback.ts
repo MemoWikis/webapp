@@ -126,6 +126,7 @@
 
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
                 //if is learningSession and user asked to show solution before answering, then queue this question to be answered again
+                var self = this;
                 this._answerQuestion.ShowedSolutionOnly = true;
                 $.ajax({
                     type: 'POST',
@@ -134,7 +135,10 @@
                         learningSessionId: $('#hddIsLearningSession').attr('data-learning-session-id'),
                         stepGuid: $('#hddIsLearningSession').attr('data-current-step-guid')
                     },
-                    cache: false
+                    cache: false,
+                    success(result) {
+                        self._answerQuestion.UpdateProgressBar(result.numberSteps);
+                    }
                 });
             }
 

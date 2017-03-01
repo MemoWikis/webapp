@@ -273,13 +273,14 @@ public class AnswerQuestionController : BaseController
                 choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution) ?
                     ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                     : null,
-                newStepAdded = result.NewStepAdded
+                newStepAdded = result.NewStepAdded,
+                numberSteps = result.NumberSteps,
             }
         };
     }
 
     [HttpPost]
-    public void AmendAfterShowSolution(int learningSessionId, Guid stepGuid)
+    public JsonResult AmendAfterShowSolution(int learningSessionId, Guid stepGuid)
     {
         var learningSessionStep = LearningSession.GetStep(learningSessionId, stepGuid);
         var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
@@ -287,8 +288,14 @@ public class AnswerQuestionController : BaseController
         learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
 
         learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
-//        answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
 
+        return new JsonResult
+        {
+            Data = new
+            {
+                numberSteps = learningSession.Steps.Count
+            }
+        };
     }
 
     [HttpPost]

@@ -10,4 +10,6 @@
     public string CorrectAnswer = "";
 
     public bool NewStepAdded;
+
+    public int NumberSteps;
 }

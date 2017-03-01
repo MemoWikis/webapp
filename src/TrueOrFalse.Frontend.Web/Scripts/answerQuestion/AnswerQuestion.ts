@@ -187,7 +187,6 @@ class AnswerQuestion {
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
 
-            self.UpdateProgressBar();
 
             $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
@@ -204,6 +203,8 @@ class AnswerQuestion {
                 success(result) {
                     answerResult = result;
                     self.IncrementInteractionNumber();
+
+                    self.UpdateProgressBar();
 
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
@@ -415,18 +416,35 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar() {
-        if (!this.IsTestSession) return;
+    UpdateProgressBar(numberSteps : number = -1) {
 
-        var raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
-        $("#spanPercentageDone").fadeOut(100);
+        var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());
+        var stepNumberChanged: boolean;
+        var numberStepsDone: number = parseInt($('#CurrentStepNumber').html());
+        var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
+
+        if (this.IsTestSession) {
+            raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
+        } else if (this.IsLearningSession) {
+            raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
+            stepNumberChanged = parseInt($("#StepCount").html()) < numberStepsUpdated;
+            if (stepNumberChanged) {
+                $("#StepCount").fadeOut(100);
+            }
+        } else {return;}
+
+        $("#spanPercentageDone").fadeOut(100);
         var id = window.setInterval(IncrementPercentage, 10);
         function IncrementPercentage() {
             if (percentage >= raiseTo) {
                 window.clearInterval(id);
                 $("#spanPercentageDone").html(raiseTo + "%");
                 $("#spanPercentageDone").fadeIn();
+                if (stepNumberChanged) {
+                    $("#StepCount").html(numberStepsUpdated);
+                    $("#StepCount").fadeIn();
+                }
 
             } else {
                 percentage++;

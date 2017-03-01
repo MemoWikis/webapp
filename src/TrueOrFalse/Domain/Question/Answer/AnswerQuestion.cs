@@ -74,7 +74,10 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             {
                 learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
                 answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
+                
             }
+
+            answerQuestionResult.NumberSteps = learningSession.Steps.Count;
         });
 
         return result;
