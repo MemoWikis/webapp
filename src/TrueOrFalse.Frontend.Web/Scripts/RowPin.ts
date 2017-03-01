@@ -148,7 +148,7 @@ class Pin {
 
         }else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
 
-            CategoryApi.Unpin(id, onPinChanged);
+            CategoryApi.Unpin(id);
 
             $("#JS-RemoveQuestionsCat").attr("data-category-id", id);
             $("#UnpinCategoryModal").modal('show');
