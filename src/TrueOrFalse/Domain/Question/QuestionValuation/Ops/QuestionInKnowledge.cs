@@ -1,22 +1,21 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NHibernate;
-using Seedworks.Web.State;
 using TrueOrFalse;
 
 public static class QuestionInKnowledge
 {
-    public static void Pin(int questionId, User user)
-    {
-        UpdateRelevancePersonal(questionId, user);
-    }
+    public static void Pin(int questionId, User user) 
+        => UpdateRelevancePersonal(questionId, user);
 
-    public static void Unpin(int questionId, User user)
-    {
-        UpdateRelevancePersonal(questionId, user, -1);
-    }
+    public static void Pin(IEnumerable<Question> questions, User user)
+        => UpdateRelevancePersonal(questions.ToList(), user);
 
-    public static void Run(QuestionValuation questionValuation)
+    public static void Unpin(int questionId, User user) 
+        => UpdateRelevancePersonal(questionId, user, -1);
+
+    public static void Create(QuestionValuation questionValuation)
     {
         Sl.Resolve<QuestionValuationRepo>().CreateOrUpdate(questionValuation);
 
@@ -33,18 +32,28 @@ public static class QuestionInKnowledge
         session.Flush();
     }
 
-    public static void UpdateQuality(int questionId, int userId, int quality)
+    private static void UpdateRelevancePersonal(IList<Question> questions, User user, int relevance = 50)
     {
-        CreateOrUpdateQuestionValue(questionId, userId, quality: quality);
+        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);
 
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(GenerateQualityQuery(questionId)).ExecuteUpdate();
-        session.Flush();
+        foreach (var question in questions)
+        {
+            CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance);
+            Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+            ProbabilityUpdate_Valuation.Run(question, user);
+        }
+            
+        SetUserWishCountQuestions(user);
+
+        var creatorGroups = questions.Select(q => q.Creator).GroupBy(c => c.Id);
+
+        foreach (var creator in creatorGroups)
+            ReputationUpdate.ForUser(creator.First());
     }
 
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
-        CreateOrUpdateQuestionValue(questionId, user.Id, relevancePersonal: relevance);
+        CreateOrUpdateValuation(questionId, user, relevancePersonal: relevance);
 
         SetUserWishCountQuestions(user);
 
@@ -55,7 +64,7 @@ public static class QuestionInKnowledge
         ReputationUpdate.ForQuestion(questionId);
     
         if (relevance != -1)
-            Sl.R<ProbabilityUpdate_Valuation>().Run(questionId, user.Id);
+            ProbabilityUpdate_Valuation.Run(questionId, user.Id);
     }
 
     private static void SetUserWishCountQuestions(User user)
@@ -71,15 +80,6 @@ public static class QuestionInKnowledge
                 AND RelevancePersonal > 0) 
             WHERE Id = {user.Id}";
         Sl.Resolve<ISession>().CreateSQLQuery(query).ExecuteUpdate();
-    }
-
-    public static void UpdateRelevanceAll(int questionId, int userId, int relevance)
-    {
-        CreateOrUpdateQuestionValue(questionId, userId, relevanceForAll: relevance);
-
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(GenerateRelevanceAllQuery(questionId)).ExecuteUpdate();
-        session.Flush();            
     }
 
     private static string GenerateQualityQuery(int questionId)
@@ -119,33 +119,38 @@ public static class QuestionInKnowledge
                 "WHERE Id = " + questionId + ";";
     }
 
-    private static void CreateOrUpdateQuestionValue(int questionId,
-                    int userId,
-                    int quality = -2,
-                    int relevancePersonal = -2,
-                    int relevanceForAll = -2)
+    private static void CreateOrUpdateValuation(int questionId, User user, int relevancePersonal = -2)
     {
-        QuestionValuationRepo questionValuationRepo = Sl.R<QuestionValuationRepo>();
-        var questionValuation = questionValuationRepo.GetBy(questionId, userId);
+        var questionValuation = Sl.QuestionValuationRepo.GetBy(questionId, user.Id);
+        var question = Sl.QuestionRepo.GetById(questionId);
+
+        CreateOrUpdateValuation(question, questionValuation, user, relevancePersonal);
+    }
+
+    private static void CreateOrUpdateValuation(
+        Question question, 
+        QuestionValuation questionValuation, 
+        User user, 
+        int relevancePersonal = -2)
+    {
+        var questionValuationRepo = Sl.QuestionValuationRepo;
 
         if (questionValuation == null)
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = Sl.R<QuestionRepo>().GetById(questionId),
-                User = Sl.R<UserRepo>().GetById(userId),
-                Quality = quality,
+                Question = question,
+                User = user,
                 RelevancePersonal = relevancePersonal,
-                RelevanceForAll = relevanceForAll
+                CorrectnessProbability = question.CorrectnessProbability
             };
 
             questionValuationRepo.Create(newQuestionVal);
         }
         else
         {
-            if (quality != -2) questionValuation.Quality = quality;
-            if (relevancePersonal != -2) questionValuation.RelevancePersonal = relevancePersonal;
-            if (relevanceForAll != -2) questionValuation.RelevanceForAll = relevanceForAll;
+            if (relevancePersonal != -2)
+                questionValuation.RelevancePersonal = relevancePersonal;
 
             questionValuationRepo.Update(questionValuation);
         }

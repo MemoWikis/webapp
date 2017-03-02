@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
@@ -14,25 +13,20 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         _userRepo = userRepo;
     }
 
-    public static void ForQuestion(int questionId)
-    {
-        ScheduleUpdate(Sl.Resolve<QuestionRepo>().GetById(questionId).Creator.Id);
-    }
+    public static void ForQuestion(int questionId) => 
+        ScheduleUpdate(Sl.QuestionRepo.GetById(questionId).Creator.Id);
 
-    public static void ForSet(int setId)
-    {
-        ScheduleUpdate(Sl.Resolve<SetRepo>().GetById(setId).Creator.Id);
-    }
+    public static void ForSet(int setId) => 
+        ScheduleUpdate(Sl.SetRepo.GetById(setId).Creator.Id);
 
-    public static void ForUser(User user)
-    {
+    public static void ForCategory(int categoryId) => 
+        ScheduleUpdate(Sl.CategoryRepo.GetById(categoryId).Creator.Id);
+
+    public static void ForUser(User user) => 
         ScheduleUpdate(user.Id);
-    }
 
-    private static void ScheduleUpdate(int userId)
-    {
+    private static void ScheduleUpdate(int userId) => 
         Sl.R<JobQueueRepo>().Add(JobQueueType.UpdateReputationForUser, userId.ToString());
-    }
 
     public void Run(User userToUpdate)
     {

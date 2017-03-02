@@ -1,13 +1,8 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="UnpinSetModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-           <%-- <div class="modal-header">
-                <button class="close" data-dismiss="modal">×</button>
-                <h4>Fragesatz wurde aus Wunschwissen entfernt</h4>
-            </div>--%>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -17,7 +12,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#" id="JS-DontRemoveQuestions" class="SecAction" data-dismiss="modal">Nein, die Fragen sollen im Wunschwissen bleiben.</a>
+                <a href="#" class="SecAction" data-dismiss="modal">Nein, die Fragen sollen im Wunschwissen bleiben.</a>
                 <a href="#" id="JS-RemoveQuestions" class="btn btn-primary" data-set-id="" data-dismiss="modal" style="width: 80px; max-width: 100%;">Ok</a>
             </div>
         </div>

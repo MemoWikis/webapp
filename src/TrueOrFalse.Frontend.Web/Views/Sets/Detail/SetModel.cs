@@ -8,6 +8,9 @@ using static System.String;
 
 public class SetModel : BaseModel
 {
+    public string MetaTitle;
+    public string MetaDescription;
+
     public int Id;
     public string Name;
     public string Text;
@@ -52,6 +55,9 @@ public class SetModel : BaseModel
 
     public SetModel(Set set)
     {
+        MetaTitle = set.Name;
+        MetaDescription = SeoUtils.ReplaceDoubleQuotes(set.Text).Truncate(250, true);
+
         FillPreviousCategoryData();
 
         Id = set.Id;
@@ -106,11 +112,7 @@ public class SetModel : BaseModel
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
-        var setValuations = Resolve<SetValuationRepo>().GetBy(Id);
-        var setValuation = setValuations.FirstOrDefault(sv => sv.UserId == _sessionUser.UserId);
-        if (setValuation != null){
-            IsInWishknowledge = setValuation.IsInWishKnowledge();
-        }
+        IsInWishknowledge = Sl.SetValuationRepo.IsInWishKnowledge(Id, UserId);
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 

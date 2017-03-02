@@ -22,13 +22,17 @@ public class CategoryRowModel : BaseModel
     public int CorrectnesProbability;
     public int AnswersTotal;
 
-    public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair)
+    public bool IsInWishknowledge;
+
+    public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair, CategoryValuation valution)
     {
         Category = category;
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
         HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
+
+        IsInWishknowledge = valution.IsInWishKnowledge();
 
         QuestionCount = 
             category.CountQuestions + 

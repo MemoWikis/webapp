@@ -3,11 +3,11 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <% Title = "Fragesatz: " + Model.Name; %>
+    <% Title = Model.MetaTitle; %>
 
     <%var canonicalUrl = Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id); %>    
     <link rel="canonical" href="<%= canonicalUrl %>">
-    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(100, true) %> (<%=Model.QuestionCount %> Fragen)<%= String.IsNullOrEmpty(Model.Text) ? "" : ": "+Model.Text.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(200, true) %>">
+    <meta name="description" content="<%= Model.MetaDescription %>">
     
     <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= canonicalUrl %>" />
@@ -88,6 +88,7 @@
                                 </div>        
                     
                                 <div class="col-md-7" style="margin-top:6px;">                                
+                                    <div style="font-weight: lighter; color: darkgrey;">Dein Wissensstand:</div>
                                     <div style="padding: 10px" id="knowledgeWheelContainer">
                                         <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
                                     </div>

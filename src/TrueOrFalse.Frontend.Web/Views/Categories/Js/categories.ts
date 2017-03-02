@@ -1,4 +1,9 @@
+var initCategories = () => {
+    new Pin(PinType.Category);
+    new CategoryDelete();    
+}
+
 $(() => {
-    new SearchInTabs();
-    new CategoryDelete();
+    initCategories();
+    new SearchInTabs(initCategories);
 });

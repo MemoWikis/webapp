@@ -346,22 +346,6 @@ public class AnswerQuestionController : BaseController
         _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
     }
 
-    [HttpPost]
-    public JsonResult SaveQuality(int id, int newValue)
-    {
-        QuestionInKnowledge.UpdateQuality(id, _sessionUser.User.Id, newValue);
-        var totals = Sl.Resolve<GetQuestionTotal>().RunForQuality(id);
-        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
-    }
-
-    [HttpPost]
-    public JsonResult SaveRelevanceForAll(int id, int newValue)
-    {
-        QuestionInKnowledge.UpdateRelevanceAll(id, _sessionUser.User.Id, newValue);
-        var totals = Sl.Resolve<GetQuestionTotal>().RunForRelevanceForAll(id);
-        return new JsonResult { Data = new { totalValuations = totals.Count, totalAverage = Math.Round(totals.Avg / 10d, 1) } };
-    }
-
     public ActionResult PartialAnswerHistory(int questionId)
     {
         var question = _questionRepo.GetById(questionId);

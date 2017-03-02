@@ -37,39 +37,12 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
             .RowCount();
         result.ForSetsCreated = createdSets*PointsPerSetCreated;
 
-        /*Calculate Reputation for Questions and Sets in other user's wish knowledge */
+        /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
-        var countQuestionsInOtherWishknowledge = _session.QueryOver<QuestionValuation>()
-            .Where(qv => qv.User != user)
-            .And(qv => qv.RelevancePersonal != -1)
-            .JoinQueryOver<Question>(qv => qv.Question)
-            .Where(q => q.Creator == user)
-            .RowCount();
+        var countQuestionsInOtherWishknowledge = GetCountOfQuestionsInOtherPeoplesWishknowledge(user);
         result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
-
-        //The following doesn't work, unfortunately (reason: Set is not a property of setValuation)
-        //var countSetsInOtherWishknowledge = _session.QueryOver<SetValuation>()
-        //    .Where(sv => sv.UserId != user.Id)
-        //    .And(qv => qv.RelevancePersonal != -1)
-        //    .Left.JoinAlias()
-        //    .JoinQueryOver<Set>(sv => sv.Set)
-        //    .Where(s => s.Creator == user)
-        //    .RowCount();
-
-        //this is the alternative by writing sql-code (it is working)
-        var query =
-            String.Format(
-                @"SELECT count(*)
-                FROM setvaluation sv
-                LEFT JOIN questionset s
-                ON sv.SetId = s.Id
-                WHERE s.Creator_id = {0}
-                AND sv.UserId <> {0}
-                AND sv.RelevancePersonal <> -1",
-                user.Id);
-        var countSetsInOtherWishknowledge = Convert.ToInt32(_session.CreateSQLQuery(query).UniqueResult());
-
+        var countSetsInOtherWishknowledge = GetCountOfSetsInOtherPeoplesWishknowledge(user);
         result.ForSetsInOtherWishknowledge = countSetsInOtherWishknowledge * PointsPerSetInOtherWishknowledge;
 
 
@@ -91,4 +64,56 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         return result;
     }
+
+    private int GetCountOfQuestionsInOtherPeoplesWishknowledge(User user)
+    {
+        var countQuestionsInOtherWishknowledge = _session.QueryOver<QuestionValuation>()
+            .Where(qv => qv.User != user)
+            .And(qv => qv.RelevancePersonal != -1)
+            .JoinQueryOver<Question>(qv => qv.Question)
+            .Where(q => q.Creator == user)
+            .RowCount();
+        return countQuestionsInOtherWishknowledge;
+    }
+
+    private int GetCountOfSetsInOtherPeoplesWishknowledge(User user)
+    {
+        //The following doesn't work, unfortunately (reason: Set is not a property of setValuation)
+        //var countSetsInOtherWishknowledge = _session.QueryOver<SetValuation>()
+        //    .Where(sv => sv.UserId != user.Id)
+        //    .And(qv => qv.RelevancePersonal != -1)
+        //    .Left.JoinAlias()
+        //    .JoinQueryOver<Set>(sv => sv.Set)
+        //    .Where(s => s.Creator == user)
+        //    .RowCount();
+
+        //this is the alternative by writing sql-code (it is working)
+        var query =
+            $@"SELECT count(*)
+                FROM setvaluation sv
+                LEFT JOIN questionset s
+                ON sv.SetId = s.Id
+                WHERE s.Creator_id = {user.Id}
+                AND sv.UserId <> {user.Id}
+                AND sv.RelevancePersonal <> -1";
+
+        var countSetsInOtherWishknowledge = Convert.ToInt32(_session.CreateSQLQuery(query).UniqueResult());
+        return countSetsInOtherWishknowledge;
+    }
+
+    private int GetCountOfCategoriesInOtherPeoplesWishknowledge(User user)
+    {
+        var query =
+            $@"SELECT count(*)
+                FROM categoryvaluation cv
+                LEFT JOIN questionset s
+                ON cv.CategoryId = s.Id
+                WHERE s.Creator_id = {user.Id}
+                AND sv.UserId <> {user.Id}
+                AND sv.RelevancePersonal <> -1";
+
+        var countSetsInOtherWishknowledge = Convert.ToInt32(_session.CreateSQLQuery(query).UniqueResult());
+        return countSetsInOtherWishknowledge;
+    }
+
 }

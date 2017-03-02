@@ -1,5 +1,4 @@
-﻿using System;
-using NHibernate;
+﻿using NHibernate;
 
 public class GetWishSetCount : IRegisterAsInstancePerLifetime
 {
@@ -15,6 +14,6 @@ public class GetWishSetCount : IRegisterAsInstancePerLifetime
             "SELECT count(distinct sv.Id) FROM SetValuation sv " +
             "WHERE UserId = " + userId +
             "AND RelevancePersonal > -1 ")
-            .UniqueResult<Int64>();
+            .UniqueResult<long>();
     }
 }

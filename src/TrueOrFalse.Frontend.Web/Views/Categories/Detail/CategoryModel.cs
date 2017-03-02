@@ -4,10 +4,15 @@ using TrueOrFalse.Web;
 
 public class CategoryModel : BaseModel
 {
+    public string MetaTitle;
+    public string MetaDescription;
+
     public int Id;
     public string Name;
     public string Description;
     public string Type;
+
+    public KnowledgeSummary KnowledgeSummary;
 
     public IList<Category> BreadCrumb;
 
@@ -51,10 +56,20 @@ public class CategoryModel : BaseModel
     private readonly QuestionRepo _questionRepo;
     private readonly CategoryRepository _categoryRepo;
 
-    public CategoryModel(Category category)
+    public bool IsInWishknowledge;
+
+    public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {
+        MetaTitle = category.Name;
+        MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
+
         _questionRepo = R<QuestionRepo>();
         _categoryRepo = R<CategoryRepository>();
+
+        if(loadKnowledgeSummary)
+            KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
+
+        IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
         WikiUrl = category.WikipediaURL;
         Category = category;

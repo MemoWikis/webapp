@@ -3,9 +3,9 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <% Title = "Thema: " + Model.Name; %>
+    <% Title = Model.MetaTitle; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
-    <meta name="description" content="<%= Model.Name.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(100, true) %> (<%=Model.CountQuestions %> Fragen) <%= String.IsNullOrEmpty(Model.Description) ? "" : ": "+Model.Description.Replace("\"", "'").Replace("„", "'").Replace("“", "'").Truncate(200, true) %>"/>
+    <meta name="description" content="<%= Model.MetaDescription %>"/>
     
 
     <meta property="og:title" content="<%: Model.Name %>" />
@@ -13,6 +13,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= Model.ImageFrontendData.GetImageUrl(350, false, imageTypeForDummy: ImageType.Category).Url %>" />
     
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -21,6 +22,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
+
     <div class="row" >
         <div class="col-xs-12 col-md-2 col-md-push-10">
             <div class="navLinks">

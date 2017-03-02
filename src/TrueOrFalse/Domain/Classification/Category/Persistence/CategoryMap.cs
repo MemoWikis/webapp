@@ -25,6 +25,8 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
 
+        Map(x => x.TotalRelevancePersonalEntries);
+
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
         HasManyToMany(x => x.ParentCategories).

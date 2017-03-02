@@ -60,6 +60,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Detail/Category.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
+                .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .IncludeDirectory("~/Views/Categories/Detail/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Login")
@@ -127,6 +128,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Set")
+                .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Views/Sets/Detail/Js/Set.js")
                 .Include("~/Views/Sets/Detail/Js/SetVideo.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")

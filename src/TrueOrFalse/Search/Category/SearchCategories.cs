@@ -30,24 +30,32 @@ namespace TrueOrFalse.Search
             else if (searchSpec.OrderBy.CreationDate.IsCurrent()) 
                 orderBy = SearchCategoriesOrderBy.DateCreated;
 
-            var result = Run(searchSpec.SearchTerm, searchSpec, orderBy: orderBy);
+            var result = Run(searchSpec.SearchTerm, searchSpec, searchSpec.Filter.ValuatorId, orderBy: orderBy);
             searchSpec.SpellCheck = new SpellCheckResult(result.SpellChecking, searchSpec.SearchTerm);
 
             return result;
         }
 
         public SearchCategoriesResult Run(
-            string searchTerm, 
-            bool searchOnlyWithStartingWith = false, 
+            string searchTerm,
+            int valuatorId = -1,
+            bool searchOnlyWithStartingWith = false,
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None,
             int pageSize = 10)
         {
-            return Run(searchTerm, new Pager { PageSize = pageSize }, searchOnlyWithStartingWith, orderBy);
+            return Run(
+                searchTerm, 
+                new Pager { PageSize = pageSize },
+                valuatorId,
+                searchOnlyWithStartingWith,
+                orderBy
+            );
         }
 
         public SearchCategoriesResult Run(
             string searchTerm,
-            Pager pager, 
+            Pager pager,
+            int valuatorId = -1,
             bool searchOnlyWithStartingWith = false,
             SearchCategoriesOrderBy orderBy = SearchCategoriesOrderBy.None)
         {
@@ -68,6 +76,11 @@ namespace TrueOrFalse.Search
                    .Add("Name", searchTerm, boost:1000)
                    .Add("Name", searchTerm, startsWith: true, boost: 99999);
             }
+
+            sqb.Add("ValuatorIds", 
+                valuatorId != -1 ? valuatorId.ToString() : null, 
+                isAndCondition: true, 
+                exact: true);
 
             var orderby = new List<SortOrder>();
             if (orderBy == SearchCategoriesOrderBy.QuestionCount)

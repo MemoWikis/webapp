@@ -56,6 +56,7 @@
     
     <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
     <% Html.RenderPartial("UnpinSetModal"); %>
+    <% Html.RenderPartial("UnpinCategoryModal"); %>
     <% Html.RenderPartial("FeatureNotImplementedModal"); %>
 </body>
 </html>

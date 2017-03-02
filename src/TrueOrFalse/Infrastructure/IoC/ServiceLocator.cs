@@ -5,6 +5,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using NHibernate;
 using System.Threading;
+using TrueOrFalse.Search;
 
 public class Sl
 {
@@ -12,12 +13,22 @@ public class Sl
     public static T R<T>() { return ServiceLocator.Resolve<T>(); }
 
     public static ISession Session => R<ISession>();
+    public static SessionUser SessionUser => R<SessionUser>();
+
     public static UserRepo UserRepo => R<UserRepo>();
+
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
-    public static SetRepo SetRepo => R<SetRepo>();
-    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
+    public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
+
+    public static SetRepo SetRepo => R<SetRepo>();
+    public static SetValuationRepo SetValuationRepo => R<SetValuationRepo>();
+    public static SetViewRepo SetViewRepo => R<SetViewRepo>();
+
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
+    public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
+
+    public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }

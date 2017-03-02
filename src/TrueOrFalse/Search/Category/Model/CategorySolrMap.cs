@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SolrNet.Attributes;
 
 namespace TrueOrFalse.Search
@@ -10,6 +11,12 @@ namespace TrueOrFalse.Search
 
         [SolrField("CreatorId")]
         public int CreatorId { get; set; }
+
+        [SolrField("ValuatorIds")]
+        public ICollection<int> ValuatorIds { get; set; }
+
+        [SolrField("ValuationsCount")]
+        public int ValuationsCount { get; set; }
 
         [SolrField("Name")]
         public string Name { get; set; }

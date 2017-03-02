@@ -1,17 +1,19 @@
-﻿enum PinRowType {
+﻿enum PinType {
     Question,
     Set,
-    SetDetail
+    SetDetail,
+    Category,
+    CategoryDetail
 }
 
 class Pin {
 
     _changeInProgress: boolean;
-    _pinRowType: PinRowType;
+    _pinRowType: PinType;
 
     OnPinChanged: () => void;
 
-    constructor(pinRowType : PinRowType, onPinChanged : () => void = null) {
+    constructor(pinRowType : PinType, onPinChanged : () => void = null) {
 
         var self = this; 
         this._pinRowType = pinRowType;
@@ -22,12 +24,14 @@ class Pin {
             allPins = $(".Pin[data-question-id]").find(".iAdded, .iAddedNot"); 
         else if (self.IsSetDetail() || self.IsSetRow())
             allPins = $(".Pin[data-set-id]").find(".iAdded, .iAddedNot"); 
+        else if (self.IsCategoryRow() || self.IsSetDetail())
+            allPins = $(".Pin[data-category-id]").find(".iAdded, .iAddedNot"); 
 
         allPins.click(function (e) {
 
             e.preventDefault();
             if (NotLoggedIn.Yes()) {
-                NotLoggedIn.ShowErrorMsg("Pin_" + PinRowType[self._pinRowType]);
+                NotLoggedIn.ShowErrorMsg("Pin_" + PinType[self._pinRowType]);
                 return;
             }
 
@@ -38,6 +42,8 @@ class Pin {
                 id = parseInt(elemPin.attr("data-question-id"));
             else if (self.IsSetRow() || self.IsSetDetail())
                 id = parseInt(elemPin.attr("data-set-id"));
+            else if (self.IsCategoryRow() || self.IsCategoryDetail())
+                id = parseInt(elemPin.attr("data-category-id"));
 
             if (this._changeInProgress)
                 return;
@@ -77,7 +83,6 @@ class Pin {
 
                     if (self.IsQuestionRow()) 
                         Utils.MenuPinsMinusOne();
-                    //Update MenuPins after unpinning set is only necessary after user confirms in modal that questions are to be unpinned as well
 
                     Utils.SetElementValue(".tabWishKnowledgeCount", (parseInt($(".tabWishKnowledgeCount").html()) - 1).toString());
                         
@@ -86,13 +91,21 @@ class Pin {
             }
         });
 
-        $("#UnpinSetModal").off("click").on("click", "#JS-RemoveQuestions", function() {
+        $("#UnpinSetModal").off("click").on("click", "#JS-RemoveQuestions", () => {
             $.when(
                 SetsApi.UnpinQuestionsInSet($('#JS-RemoveQuestions').attr('data-set-id'), onPinChanged))
-                .then(function () {
-                    Utils.UnpinQuestionsInSetDetail();
-                    Utils.SetMenuPins();
-                });
+             .then(() => {
+                Utils.UnpinQuestionsInSetDetail();
+                Utils.SetMenuPins();
+            });
+        });
+
+        $("#UnpinCategoryModal").off("click").on("click", "#JS-RemoveQuestionsCat", () => {
+            $.when(
+                CategoryApi.UnpinQuestionsInCategory($('#JS-RemoveQuestionsCat').attr('data-category-id'), onPinChanged))
+            .then(() => {
+                Utils.SetMenuPins();
+            });
         });
     }
 
@@ -118,6 +131,8 @@ class Pin {
             QuestionsApi.Pin(id, onPinChanged);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
             SetsApi.Pin(id, onPinChanged);
+        } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
+            CategoryApi.Pin(id, onPinChanged)
         }
     }
 
@@ -126,23 +141,37 @@ class Pin {
             QuestionsApi.Unpin(id, onPinChanged);
         } else if (this.IsSetRow() || this.IsSetDetail()) {
 
-            SetsApi.Unpin(id, onPinChanged);
+            SetsApi.Unpin(id);
 
             $("#JS-RemoveQuestions").attr("data-set-id", id);
-
             $("#UnpinSetModal").modal('show');
+
+        }else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
+
+            CategoryApi.Unpin(id);
+
+            $("#JS-RemoveQuestionsCat").attr("data-category-id", id);
+            $("#UnpinCategoryModal").modal('show');
         }
     }
 
     IsQuestionRow(): boolean {
-        return this._pinRowType == PinRowType.Question;
+        return this._pinRowType == PinType.Question;
     }
 
     IsSetRow(): boolean {
-        return this._pinRowType == PinRowType.Set;
+        return this._pinRowType == PinType.Set;
     }
 
     IsSetDetail(): boolean {
-        return this._pinRowType == PinRowType.SetDetail;
+        return this._pinRowType == PinType.SetDetail;
+    }
+
+    IsCategoryRow(): boolean {
+        return this._pinRowType == PinType.Category;
+    }
+
+    IsCategoryDetail(): boolean {
+        return this._pinRowType == PinType.CategoryDetail;
     }
 }

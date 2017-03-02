@@ -1,6 +1,10 @@
 
-$(() => {
+var initSets = () => {
     new SetDelete();
-    new Pin(PinRowType.Set);
-    new SearchInTabs();
+    new Pin(PinType.Set);    
+}
+
+$(() => {
+    initSets();
+    new SearchInTabs(initSets);
 });

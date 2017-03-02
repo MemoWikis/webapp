@@ -4,7 +4,7 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
-    <% Title = "Frage: " + Model.QuestionText; %>
+    <% Title = Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession) { %>
         <meta name="robots" content="noindex" />
     <%}else { %>

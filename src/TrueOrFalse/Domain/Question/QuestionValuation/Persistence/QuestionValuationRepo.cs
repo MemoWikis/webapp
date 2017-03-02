@@ -18,25 +18,19 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         _questionRepo = questionRepo;
     }
 
-    public QuestionValuation GetBy(int questionId, int userId)
-    {
-        return 
-            _session.QueryOver<QuestionValuation>()
-                    .Where(q => 
-                        q.User.Id == userId && 
-                        q.Question.Id == questionId)
-                    .SingleOrDefault();
-    }
+    public QuestionValuation GetBy(int questionId, int userId) => 
+        _session.QueryOver<QuestionValuation>()
+            .Where(q => 
+                q.User.Id == userId && 
+                q.Question.Id == questionId)
+            .SingleOrDefault();
 
-    public IList<QuestionValuation> GetActiveInWishknowledge(int questionId)
-    {
-        return 
-            _session.QueryOver<QuestionValuation>()
-                    .Where(q => 
-                        q.Question.Id == questionId &&
-                        q.RelevancePersonal > -1)
-                    .List<QuestionValuation>();
-    }
+    public IList<QuestionValuation> GetActiveInWishknowledge(int questionId) => 
+        _session.QueryOver<QuestionValuation>()
+            .Where(q => 
+                q.Question.Id == questionId &&
+                q.RelevancePersonal > -1)
+            .List<QuestionValuation>();
 
     public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds, int userId)
     {
@@ -47,10 +41,8 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();        
     }
 
-    public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true)
-    {
-        return GetByUser(user.Id, onlyActiveKnowledge);
-    }
+    public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true) => 
+        GetByUser(user.Id, onlyActiveKnowledge);
 
     public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
