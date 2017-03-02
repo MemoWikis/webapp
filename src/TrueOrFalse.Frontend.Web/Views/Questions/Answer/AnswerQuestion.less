@@ -3,22 +3,15 @@
 .navLinks {
 
     float: right;
+    margin-bottom: 10px;
 
     .media-below-md({
         width: 100%;
         float: none;
     });
 
-    
-
-    margin-bottom: 10px;
-
-
-
     & > div {
        display: inline-block !important;
-
-       
     }
 }
 
@@ -32,6 +25,12 @@
 
 #MarkdownCol {
     .make-sm-column(4);
+
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+
+      -ms-word-break: break-all;
+      word-break: break-word;
 }
 
 #AnswerAndSolutionCol {
@@ -248,7 +247,7 @@
     }
 
     .wrong-answer{
-        color:red;
+        color: @dark-red;
     }
 }
 
