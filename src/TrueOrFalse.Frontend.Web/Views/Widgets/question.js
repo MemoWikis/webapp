@@ -1,16 +1,16 @@
 ﻿var iframeId = "memuchoFrame";
-var senderDomains = ['http://memucho', 'https://memucho.de'];
+var senderDomains = ['http://memucho', 'http://memucho.local', 'https://memucho.de'];
 
 //http://stackoverflow.com/questions/9162933/make-iframe-height-dynamic-based-on-content-inside-jquery-javascript
 function iframeLoaded() {
-    var iframeElement = document.getElementById(iframeId);
-    if (iframeElement) {
-        // here you can make the height, I delete it first, then I make it again
-        iframeElement.height = "";
-        iframeElement.height = iframeElement.contentWindow.document.body.scrollHeight + "px";
+    //var iframeElement = document.getElementById(iframeId);
+    //if (iframeElement) {
+    //    // here you can make the height, I delete it first, then I make it again
+    //    iframeElement.height = "";
+    //    iframeElement.height = iframeElement.contentWindow.document.body.scrollHeight + "px";
 
-        console.log(iframeElement.contentWindow.document.body.scrollHeight);
-    }
+    //    console.log(iframeElement.contentWindow.document.body.scrollHeight);
+    //}
 }
 
 //https://github.com/closingtag/super-awesome-responsive-iframe-solution/blob/master/index.html
@@ -28,6 +28,7 @@ function receiveMessage(event) {
             return -1;
         }
     }
+
     if (senderDomains.indexOf(event.origin) !== -1 && eventName === 'resize') {
         iframes = document.getElementsByTagName('iframe');
         len = iframes.length;
@@ -51,8 +52,16 @@ else if (window.attachEvent) {
 var scripts = document.getElementsByTagName('script');
 var scriptTag = scripts[scripts.length - 1];
 var questionId = scriptTag.getAttribute("questionId");
+var domainForDebug = scriptTag.getAttribute("domainForDebug");
+var width = scriptTag.getAttribute("width");
 
-var filePath = 'https://memucho.de/widget/frage/' + questionId;
+var domain = "https://memucho.de";
+
+if (domainForDebug.length > 0)
+    domain = domainForDebug;
+        
+var filePath = domain + '/widget/frage/' + questionId;
+
 var iframeHtml = '<iframe ' +
     'id="' + iframeId + '" name="widget" ' +
     'src="#" height="1" ' +
@@ -63,8 +72,7 @@ var iframeHtml = '<iframe ' +
 document.write(iframeHtml);
 
 var loadedIframe = parent.document.getElementById(iframeId);
-//loadedIframe.height = 350;
-//loadedIframe.width = 960;
+loadedIframe.width = width;
 
 loadedIframe.src = filePath;
 //loadedIframe.style.border = "1px solid #999";
