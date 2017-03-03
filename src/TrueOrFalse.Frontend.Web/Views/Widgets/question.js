@@ -61,6 +61,7 @@ if (domainForDebug.length > 0)
     domain = domainForDebug;
         
 var filePath = domain + '/widget/frage/' + questionId;
+var iframeId = "iframe" + questionId + Math.floor((Math.random() * 100) + 1);
 
 var iframeHtml = '<iframe ' +
     'id="' + iframeId + '" name="widget" ' +
