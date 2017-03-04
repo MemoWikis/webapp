@@ -598,6 +598,9 @@
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">
+      <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
     </Content>
@@ -2252,6 +2255,9 @@
     <Content Include="Views\About\Jobs.less" />
     <Content Include="Views\Widgets\WidgetQuestion.js.map">
       <DependentUpon>WidgetQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
