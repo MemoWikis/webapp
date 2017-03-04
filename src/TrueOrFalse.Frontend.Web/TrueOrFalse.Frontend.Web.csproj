@@ -2250,6 +2250,9 @@
     </Content>
     <Content Include="Views\About\ForTeachers.less" />
     <Content Include="Views\About\Jobs.less" />
+    <Content Include="Views\Widgets\WidgetQuestion.js.map">
+      <DependentUpon>WidgetQuestion.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

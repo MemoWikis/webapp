@@ -10,5 +10,8 @@
 
 <body>
     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+    
+    <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
+    <% Html.RenderPartial("FeatureNotImplementedModal"); %>
 </body>
 </html>

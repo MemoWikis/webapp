@@ -4,6 +4,9 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <%= Styles.Render("~/bundles/AnswerQuestion") %>
+    <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/Widget") %>
 </asp:Content>
 
