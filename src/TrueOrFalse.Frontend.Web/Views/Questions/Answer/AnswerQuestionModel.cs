@@ -301,7 +301,7 @@ public class AnswerQuestionModel : BaseModel
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = $"Antwort: '{SolutionModel.CorrectAnswer()}' {Environment.NewLine}";
+            result = $"Antwort: '{SolutionModel.CorrectAnswer()}'. {Environment.NewLine}";
 
             if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
             {
