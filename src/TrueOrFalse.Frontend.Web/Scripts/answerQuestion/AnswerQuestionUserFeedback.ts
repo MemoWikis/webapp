@@ -117,7 +117,7 @@
                     cache: false
                 });
 
-                this._answerQuestion.UpdateProgressBar();
+                this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentStep());
 
                 if (AnswerQuestion.IsLastTestSessionStep) {
                     $('#btnNext').html('Zum Ergebnis');

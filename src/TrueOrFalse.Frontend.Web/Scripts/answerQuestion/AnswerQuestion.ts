@@ -1,6 +1,4 @@
-﻿var answerResult;
-
-var choices = [];
+﻿var choices = [];
 
 class AnswerQuestion {
     private _getAnswerText: () => string;
@@ -201,10 +199,10 @@ class AnswerQuestion {
                 }),
                 cache: false,
                 success(result) {
-                    answerResult = result;
+                    var answerResult = result;
                     self.IncrementInteractionNumber();
 
-                    self.UpdateProgressBar();
+                    self.UpdateProgressBar(-1, answerResult);
 
                     $("#buttons-first-try").hide();
                     $("#buttons-answer-again").hide();
@@ -416,7 +414,7 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps : number = -1) {
+    UpdateProgressBar(numberSteps : number = -1, answerResult : any = null) {
 
         var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());
@@ -428,7 +426,7 @@ class AnswerQuestion {
             raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
         } else if (this.IsLearningSession) {
             raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
-            stepNumberChanged = parseInt($("#StepCount").html()) < numberStepsUpdated;
+            stepNumberChanged = this.GetCurrentStep() < numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);
             }
@@ -451,5 +449,9 @@ class AnswerQuestion {
                 $("#progressPercentageDone").width(percentage + "%");
             }
         }
+    }
+
+    GetCurrentStep() : number {
+        return parseInt($("#StepCount").html());
     }
 }
