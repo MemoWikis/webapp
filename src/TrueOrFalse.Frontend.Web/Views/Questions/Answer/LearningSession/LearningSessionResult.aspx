@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Ergebnis Übungssitzung" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<LearningSessionResultModel>" %>
+﻿<%@ Page Title="Ergebnis Lernsitzung" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<LearningSessionResultModel>" %>
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -106,7 +106,7 @@
             </div>
 
             <div class="SummaryText" style="clear: left;">
-                <p>In dieser Übungssitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
+                <p>In dieser Lernsitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
@@ -130,8 +130,8 @@
             </div>
             <div class="buttonRow">
                 <% if (Model.LearningSession.IsDateSession) { %>
-                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Übungssitzung zu diesem Termin/Fragesatz beginnen">
-                        Neue Übungssitzung
+                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin/Fragesatz beginnen">
+                        Neue Lernsitzung
                     </a>
                     <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
                         Zur Wissenszentrale
@@ -139,21 +139,21 @@
                 <% } else if (Model.LearningSession.IsSetSession) { %>
                     <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Übungssitzung
+                        Neue Lernsitzung
                     </a>
                 <% } else if (Model.LearningSession.IsSetsSession) { %>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Übungssitzung
+                        Neue Lernsitzung
                     </a>
                 <% } else if (Model.LearningSession.IsCategorySession) { %>
                     <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zum Thema</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Übungssitzung
+                        Neue Lernsitzung
                     </a>   
                 <% } else if (Model.LearningSession.IsWishSession) { %>
                     <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
                     <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Übungssitzung
+                        Neue Lernsitzung
                     </a>
                 <% } else {
                     throw new Exception("buttons for this type of learning session not specified");
@@ -248,7 +248,7 @@
                                                         }
                                                         counter++;
                                                     } %>
-                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln üben</a></p>
+                                                    <p class="answerLinkToQ"><a href="<%= Links.AnswerQuestion(uniqueQuestion.First().Question) %>"><i class="fa fa-arrow-right">&nbsp;</i>Diese Frage einzeln lernen</a></p>
                                                     
                                                 </div>
                                                 
@@ -391,17 +391,17 @@
                 </div>
                 <div class="boxInfo">
                     <div class="boxInfoHeader">
-                        Dein Übungsplan
+                        Dein Lernplan
                     </div>
                     <div class="boxInfoContent">
                         <% if (Model.TrainingDateCount > 0) { %>
                             <p>
                                 Vor dir liegen noch: <br/>
-                                ca. <%= Model.TrainingDateCount %> Übungssitzung<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "en") %><br />
-                                ca. <%= Model.RemainingTrainingTime%> Übungszeit
+                                ca. <%= Model.TrainingDateCount %> Lernsitzung<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "en") %><br />
+                                ca. <%= Model.RemainingTrainingTime%> Lernzeit
                             </p>
                             <p style="margin-top: 10px;">
-                                Nächste Übungssitzung: <br/><i class="fa fa-bell"></i>&nbsp;
+                                Nächste Lernsitzung: <br/><i class="fa fa-bell"></i>&nbsp;
                                 <% if(Model.TrainingPlan.HasOpenDates) {
                                     var timeSpanLabel = new TimeSpanLabel(Model.TrainingPlan.TimeToNextDate, showTimeUnit: true);
                                     if (timeSpanLabel.TimeSpanIsNegative) { %>
@@ -413,7 +413,7 @@
                                 <% } %>
                             </p>
                         <% } else { %>
-                            <p>Für diesen Termin sind keine weiteren Übungssitzungen geplant.</p>
+                            <p>Für diesen Termin sind keine weiteren Lernsitzungen geplant.</p>
                         <% } %>
                     </div>
                 </div>

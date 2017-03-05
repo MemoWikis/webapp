@@ -68,7 +68,7 @@
                     <i class="fa fa-play-circle fa-fw">&nbsp;</i>Wissen testen
                 </a>
                 <a class="StatsRow" style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
-                    <i class="fa fa-line-chart fa-fw">&nbsp;</i>Jetzt üben
+                    <i class="fa fa-line-chart fa-fw">&nbsp;</i>Jetzt lernen
                 </a>
                 <a class="StatsRow" style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
                     <i class="fa fa-gamepad fa-fw" style="font-size: 15px;">&nbsp;</i>Spiel starten
@@ -82,7 +82,7 @@
                     <i class="fa fa-play-circle">&nbsp;</i>Wissen testen
                 </div>
                 <div class="StatsRow greyed show-tooltip" data-original-title="Nicht möglich, da noch keine Fragen enthalten.">
-                    <i class="fa fa-line-chart">&nbsp;</i>Jetzt üben
+                    <i class="fa fa-line-chart">&nbsp;</i>Jetzt lernen
                 </div>
                 <div class="StatsRow greyed show-tooltip" data-original-title="Nicht möglich, da noch keine Fragen enthalten.">
                     <i class="fa fa-gamepad" style="font-size: 15px;">&nbsp;</i>Spiel starten

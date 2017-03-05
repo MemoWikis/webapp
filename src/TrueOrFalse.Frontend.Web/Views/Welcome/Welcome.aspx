@@ -43,7 +43,7 @@
                         <i class="fa fa-2x fa-lightbulb-o" style="color: #2C5FB2;"></i>
                     </p>
                     <p>
-                        Wir optimieren dein Lernen mit einem persönlichen Übungsplan!<br/>
+                        Wir optimieren dein Lernen mit einem persönlichen Lernplan!<br/>
                     </p>
                 </div>
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -210,7 +210,7 @@
                     <b>Zu einem bestimmten Termin lernen</b>
                     <p>
                         Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in memucho weißt du immer, 
-                        was du schon sicher kannst und wo du weiter üben musst.
+                        was du schon sicher kannst und wo du weiter lernen musst.
                     </p>
                 </div>
                 <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
@@ -363,7 +363,7 @@
         <% if (Model.IsLoggedIn) { %>
             <div class="well" style="padding: 20px; ">
                 <div style="text-align: center; margin-bottom: 15px;">
-                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                         <i class="fa fa-heart">&nbsp;&nbsp;</i>LERNEN
                     </a>
                 </div>
@@ -371,7 +371,7 @@
                     <p style="font-size: 11px; margin-top: 5px;">
                         Du hast noch kein Wunschwissen. Füge Fragesätze oder Fragen zu 
                         deinem <span style="white-space: nowrap"><i class="fa fa-heart show-tooltip" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span> hinzu, 
-                        um eine personalisierte Übungssitzung zu starten. 
+                        um eine personalisierte Lernsitzung zu starten. 
                     </p>
                 <% } else { %>
                     <p style="font-size: 11px; margin-top: 5px;">

@@ -140,7 +140,7 @@
         </div>
     </div>
     <div class="BoxButtonColumn">
-        <% var tooltipDate = "Gib an, bis wann du alle Fragesätze zu diesem Thema lernen musst und erhalte deinen persönlichen Übungsplan.";
+        <% var tooltipDate = "Gib an, bis wann du alle Fragesätze zu diesem Thema lernen musst und erhalte deinen persönlichen Lernplan.";
            if (Model.CountSets == 0)
                tooltipDate = "Noch keine Fragesätze zu diesem Thema vorhanden";%>
         <div class="BoxButton show-tooltip 
@@ -167,7 +167,7 @@
             data-original-title="<%= tooltipLearn%>">
             <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
             <div class="BoxButtonText">
-                <span>Üben</span>
+                <span>Lernen</span>
             </div>
             <% if (Model.CountSets > 0 || Model.CountQuestions > 0) { %>
                 <a href="<%= Links.StartCategoryLearningSession(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"></a>

@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2" style="margin-bottom: 200px">
             <h1 style="margin-top: 30px; margin-bottom: 20px;" class="animated">
-                Video Übungsplan
+                Video Lernplan
             </h1>
                 
             <div class="row">

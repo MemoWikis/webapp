@@ -181,7 +181,7 @@ public class KnowledgeReportMsgModel
         {
             var trainingTimeTimeSpan = new TimeSpan();
             trainingTimeTimeSpan = upcomingTrainingDates.Aggregate(trainingTimeTimeSpan, (current, upcomingTrainingDate) => current.Add(upcomingTrainingDate.TimeEstimated())); //adds up al TimeEstimated
-            UpcomingTrainingDatesTrainingTime = " mit einer geschätzten Übungszeit von insgesamt " + trainingTimeTimeSpan.ToString("hh'h:'mm'min'");
+            UpcomingTrainingDatesTrainingTime = " mit einer geschätzten Lernzeit von insgesamt " + trainingTimeTimeSpan.ToString("hh'h:'mm'min'");
 
         }
 
