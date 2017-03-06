@@ -90,7 +90,7 @@
   background-color: #fdd648;
 }
 .chartWrongAnswer {
-  background-color: #db0808;
+  background-color: #B13A48;
   color: #fff;
 }
 .chartNotAnswered {
@@ -125,7 +125,7 @@
   background-color: #fdd648;
 }
 .sumPctWrong {
-  background-color: #db0808;
+  background-color: #B13A48;
 }
 .sumPctNotAnswered {
   background-color: lightgray;
@@ -172,7 +172,7 @@
   color: #fdd648;
 }
 .QuestionLearned.AnsweredWrong .AnswerResultIcon {
-  color: #db0808;
+  color: #B13A48;
 }
 .QuestionLearned.Unanswered .AnswerResultIcon {
   color: lightgray;
@@ -226,6 +226,8 @@
 .boxInfoContent p {
   margin: 3px 0;
 }
+/* Session heading
+------------------------------------------------------*/
 .SessionHeading {
   font-weight: bold;
   padding-bottom: 10px;
@@ -245,6 +247,77 @@
 }
 .SessionHeading:after {
   clear: both;
+}
+@media (min-width: 480px) {
+  .SessionHeading {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+@media (min-width: 480px) {
+  .QuestionCount,
+  .SponsorWrapper {
+    width: 30%;
+  }
+  .SessionTitle {
+    width: 70%;
+  }
+}
+@media (min-width: 992px) {
+  .QuestionCount,
+  .SponsorWrapper {
+    width: 20%;
+  }
+  .SessionTitle {
+    width: 80%;
+  }
+}
+@media (min-width: 480px) {
+  .SessionTitle {
+    padding-right: 10px;
+  }
+}
+.SponsorWrapper {
+  font-size: 80%;
+  font-weight: normal;
+}
+.SponsorWrapper:before,
+.SponsorWrapper:after {
+  content: " ";
+  display: table;
+}
+.SponsorWrapper:after {
+  clear: both;
+}
+.SponsorWrapper:before,
+.SponsorWrapper:after {
+  content: " ";
+  display: table;
+}
+.SponsorWrapper:after {
+  clear: both;
+}
+@media (min-width: 480px) {
+  .SponsorWrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    justify-content: center;
+  }
+}
+.SponsorWrapper img {
+  width: 100%;
+  height: auto;
+}
+.SponsorLogoWrapper {
+  width: 100px;
+}
+@media (max-width: 479px) {
+  .SponsorLogoWrapper {
+    float: right;
+  }
 }
 /* Session bar/Progress bar
 ------------------------------------------------------*/
@@ -342,16 +415,6 @@
 @media (min-width: 992px) {
   .ProgressBarContainer {
     width: 70%;
-  }
-}
-@media (min-width: 480px) {
-  .QuestionCount {
-    width: 30%;
-  }
-}
-@media (min-width: 992px) {
-  .QuestionCount {
-    width: 20%;
   }
 }
 .ProgressBarSegment {

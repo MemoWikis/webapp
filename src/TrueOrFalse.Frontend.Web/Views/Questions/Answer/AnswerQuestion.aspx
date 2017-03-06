@@ -62,23 +62,6 @@
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 
-            <% if (Model.IsOwner)
-               { %>
-                <div class="navLinks">
-                    <div id="EditQuestion">
-                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
-                            <i class="fa fa-pencil"></i>
-                            <span class="TextSpan">Frage bearbeiten</span>
-                        </a>
-                    </div>
-            
-                    <div id="DeleteQuestion">
-                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
-                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
-                        </a>
-                    </div>
-                </div>
-            <% } %>
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
             <% }else if (Model.IsTestSession) { %>
@@ -187,6 +170,24 @@
                                         von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                                         vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
                                     </p>
+                                    
+                                    <% if (Model.IsOwner)
+                                       { %>
+                                        <%--<div class="navLinks">--%>
+                                            <div id="EditQuestion">
+                                                <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
+                                                    <i class="fa fa-pencil"></i>
+                                                    <span class="TextSpan">Frage bearbeiten</span>
+                                                </a>
+                                            </div>
+            
+                                            <div id="DeleteQuestion">
+                                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
+                                                    <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
+                                                </a>
+                                            </div>
+                                        <%--</div>--%>
+                                    <% } %>
         
                                     <% if (Model.Categories.Count > 0)
                                         { %>
