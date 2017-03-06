@@ -252,7 +252,7 @@
 
     .media-xs-up({
         display: flex;
-        flex-direction: row-reverse;
+        flex-direction: row;
         align-items: center;
         justify-content: space-between;
     });
@@ -289,18 +289,10 @@
     .clearfix;
 
     .media-xs-up({
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: flex-end;
-        justify-content: center;
+        .SponsorText, .SponsorLink {
+            display: block;
+        }
     });
-
-     img {
-         //float: right;
-         //width: 70px;
-         width: 100%;
-         height: auto;
-     }
 }
 
 .SponsorLogoWrapper {

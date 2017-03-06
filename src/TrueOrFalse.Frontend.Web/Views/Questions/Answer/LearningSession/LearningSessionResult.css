@@ -251,7 +251,7 @@
 @media (min-width: 480px) {
   .SessionHeading {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
@@ -300,16 +300,10 @@
   clear: both;
 }
 @media (min-width: 480px) {
-  .SponsorWrapper {
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-end;
-    justify-content: center;
+  .SponsorWrapper .SponsorText,
+  .SponsorWrapper .SponsorLink {
+    display: block;
   }
-}
-.SponsorWrapper img {
-  width: 100%;
-  height: auto;
 }
 .SponsorLogoWrapper {
   width: 100px;
