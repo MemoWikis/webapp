@@ -288,9 +288,13 @@
     font-weight: normal;
     .clearfix;
 
+    .SponsorLink {
+        white-space: nowrap;
+    }
+
     .media-xs-up({
         .SponsorText, .SponsorLink {
-            display: block;
+            //display: block;
         }
     });
 }
@@ -406,4 +410,43 @@
 .ProgressBarLeft {
     background-color: lighten(@memo-green, 30);
 }
+
+.SetType {
+    float: left;
+    padding-right: 10px;
+}
+
+.LabelWrapper {
+    max-width: 70%;
+    float: left;
+    .clearfix;
+
+    a, .label {
+        max-width: 100%;
+        font-size: 100%;
+        margin: 0;
+    }
+}
+
+.SponsorWrapper {
+    clear: left;
+}
+
+/*.SessionTitle {
+    display: table;
+    
+}
+
+.SetType {
+    display: table-cell;
+    width:1%;
+    white-space:nowrap;
+}
+
+.LabelWrapper {
+    display: table-cell;
+    .label {
+        max-width: 100%;
+    }
+}*/
 

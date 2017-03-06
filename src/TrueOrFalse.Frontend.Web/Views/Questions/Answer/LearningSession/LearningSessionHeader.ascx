@@ -8,10 +8,12 @@
     <div class="SessionTitle">
         
         <% if(Model.LearningSession.IsSetSession) { %>
-            Fragesatz 
-            <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="margin-top: 3px; display: inline-block;">
-                <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
-            </a>
+            <div class="SetType">Fragesatz</div>
+            <div class="LabelWrapper">
+                <a class="LabelLink" href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block; overflow: hidden;">
+                    <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
+                </a>
+            </div>
         <% } %>
 
         <%--Du lernst 
@@ -57,7 +59,10 @@
         <%--<div class="SponsorLogoWrapper">
             <img style="display: inline-block" src="/Images/Sponsors/schwanger-in-meiner-stadt-logo.png"/>
         </div>--%>
-        <span class="SponsorText">Mit Unterstützung von </span><a class="SponsorLink">Schwanger in meiner Stadt</a> 
+        <span class="SponsorText">Mit Unterstützung von </span><a class="SponsorLink">
+            <%--Schwanger in meiner Stadt--%>
+            Tutory
+        </a>
     </div>
 </div>
 

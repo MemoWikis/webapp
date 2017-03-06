@@ -299,11 +299,8 @@
 .SponsorWrapper:after {
   clear: both;
 }
-@media (min-width: 480px) {
-  .SponsorWrapper .SponsorText,
-  .SponsorWrapper .SponsorLink {
-    display: block;
-  }
+.SponsorWrapper .SponsorLink {
+  white-space: nowrap;
 }
 .SponsorLogoWrapper {
   width: 100px;
@@ -432,3 +429,53 @@
 .ProgressBarLeft {
   background-color: #e1efb3;
 }
+.SetType {
+  float: left;
+  padding-right: 10px;
+}
+.LabelWrapper {
+  max-width: 70%;
+  float: left;
+}
+.LabelWrapper:before,
+.LabelWrapper:after {
+  content: " ";
+  display: table;
+}
+.LabelWrapper:after {
+  clear: both;
+}
+.LabelWrapper:before,
+.LabelWrapper:after {
+  content: " ";
+  display: table;
+}
+.LabelWrapper:after {
+  clear: both;
+}
+.LabelWrapper a,
+.LabelWrapper .label {
+  max-width: 100%;
+  font-size: 100%;
+  margin: 0;
+}
+.SponsorWrapper {
+  clear: left;
+}
+/*.SessionTitle {
+    display: table;
+    
+}
+
+.SetType {
+    display: table-cell;
+    width:1%;
+    white-space:nowrap;
+}
+
+.LabelWrapper {
+    display: table-cell;
+    .label {
+        max-width: 100%;
+    }
+}*/
