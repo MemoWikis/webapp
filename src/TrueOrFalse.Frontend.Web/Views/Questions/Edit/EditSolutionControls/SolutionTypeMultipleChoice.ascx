@@ -38,7 +38,7 @@
             .append($("<div class='form-group row'>")
                 .append($("<div class='noLabel'>")
                     .append($("<div class='col-md-4'>").append($("<select class='sequence-answertype form-control' name='choice_correct-" + addingChoiceId + "'><option>Richtige Antwort</option><option selected='selected'>Falsche Antwort</option></select>")),
-                            $("<div class='col-md-7'>").append($("<input type='text' class='col-xs-5 sequence-choice form-control' name='choice-" + addingChoiceId + "' />")),
+                            $("<div class='col-md-7'>").append($("<input type='text' class='sequence-choice form-control' name='choice-" + addingChoiceId + "' />")),
                             $("<div class='col-md-1'>").append(actionButton)
                     )
                 )

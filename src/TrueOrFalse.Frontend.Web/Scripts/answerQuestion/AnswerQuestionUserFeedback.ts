@@ -144,12 +144,12 @@
 
             
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && !result.correctAnswer) {
-                $("#Solution").show().find('.Label').html("Keine der Antworten wäre richtig gewesen!");
+                $("#Solution").show().find('.Label').html("Keine der Antworten ist richtig!");
             } else {
-                if(this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
-                    this.HighlightMultipleChoiceSolution(result.correctAnswer);
                 $("#Solution").show().find('.Content').html(result.correctAnswer);
             }
+            if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
+                this.HighlightMultipleChoiceSolution(result.correctAnswer);
             
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
