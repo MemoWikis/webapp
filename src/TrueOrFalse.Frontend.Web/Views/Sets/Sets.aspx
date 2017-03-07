@@ -51,6 +51,7 @@
                     <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-Wish">
                         <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= Model.TotalWish %></span>)
+                            <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die du dir merken möchtest." data-placement="right"></i>
                         </a>
                     </div>
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-Mine">
@@ -93,6 +94,7 @@
                                 <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalSetsInResult); %>
                                 <i class="fa fa-heart" style="color:#b13a48;"></i>
                                 Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
+                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die du dir merken möchtest." data-placement="right"></i>
                             </a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-Mine">
