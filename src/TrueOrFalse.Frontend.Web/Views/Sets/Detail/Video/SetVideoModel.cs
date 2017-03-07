@@ -13,6 +13,7 @@ public class SetVideoModel : BaseModel
     public SetVideoModel(Set set)
     {
         var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
+        answerQuestionModel.DisableCommentLink = true;
 
         QuestionsInSet = set.QuestionsInSet;
         VideoKey = set.VideoKey;
