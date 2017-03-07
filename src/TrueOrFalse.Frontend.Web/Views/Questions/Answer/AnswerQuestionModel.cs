@@ -105,6 +105,8 @@ public class AnswerQuestionModel : BaseModel
     public int TestSessionProgessAfterAnswering;
     public bool ShowErrorExpiredTestSession;
 
+    public bool DisableCommentLink;
+
     public ContentRecommendationResult ContentRecommendationResult;
 
     public AnswerQuestionModel()

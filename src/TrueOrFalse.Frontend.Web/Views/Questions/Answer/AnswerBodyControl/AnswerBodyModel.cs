@@ -33,7 +33,10 @@ public class AnswerBodyModel : BaseModel
 
     public bool IsLastQuestion = false;
 
-    public bool ShowCommentLink => CommentCount != -1 && !IsLearningSession && !IsTestSession && !DisableCommentLink;
+    public bool ShowCommentLink => 
+        CommentCount != -1 && 
+        !IsLearningSession && !IsTestSession && !DisableCommentLink;
+
     public int CommentCount = -1;
     public bool DisableCommentLink; 
 
@@ -102,6 +105,8 @@ public class AnswerBodyModel : BaseModel
         AjaxUrl_GetSolution = url => Links.GetSolution(url, answerQuestionModel.Question);
 
         CommentCount = answerQuestionModel.Comments.GetTotalCount();
+
+        DisableCommentLink = answerQuestionModel.DisableCommentLink;
 
         Init(answerQuestionModel.Question);
     }
