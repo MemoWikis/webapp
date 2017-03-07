@@ -11,6 +11,9 @@
     <div class="column-MainContent">
         <div class="MainContentUpper">
             <div style="font-size:large;">
+                <% if (Model.IsMember) { %>
+                    <i class="fa fa-star show-tooltip" style="color: #afd534;" title="<%= Model.Name %> unterstützt memucho als Fördermitglied. Danke!"></i>
+                <% } %>
                 <a href="<%= Model.UserLink(Url) %>"><%= Model.Name %></a>
                 
                 <div style="float: right;">
