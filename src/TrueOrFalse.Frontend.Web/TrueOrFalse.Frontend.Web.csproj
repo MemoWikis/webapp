@@ -349,6 +349,7 @@
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
+    <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
@@ -639,6 +640,7 @@
     </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
+    <Content Include="Views\Shared\SponsorLeft.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\About\AboutMemucho.css">
