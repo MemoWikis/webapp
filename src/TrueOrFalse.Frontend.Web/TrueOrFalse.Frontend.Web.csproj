@@ -622,6 +622,7 @@
     </Content>
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Sets\Detail\Js\SetVideo.js">
       <DependentUpon>SetVideo.ts</DependentUpon>
     </Content>

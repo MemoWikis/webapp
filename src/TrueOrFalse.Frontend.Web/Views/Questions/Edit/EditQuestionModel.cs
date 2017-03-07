@@ -86,6 +86,7 @@ public class EditQuestionModel : BaseModel
                             new SelectListItem {Text = "Multiple Choice (mehrere richtige Antworten)", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
                             new SelectListItem {Text = "Freie Antwort (Text/Zahl/Datum)", Value = TrueOrFalse.SolutionType.Text.ToString()},
                             new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
+                            new SelectListItem {Text = "Match Liste", Value = TrueOrFalse.SolutionType.MatchList.ToString()},
                         };
         }
     }
