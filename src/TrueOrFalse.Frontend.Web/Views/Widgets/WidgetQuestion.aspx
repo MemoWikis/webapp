@@ -6,6 +6,7 @@
 
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    <% Title = Model.QuestionText; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
 </asp:Content>
 

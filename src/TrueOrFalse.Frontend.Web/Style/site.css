@@ -679,6 +679,26 @@ fieldset[disabled] #MenuButton:hover {
   padding-top: 25px;
   padding-bottom: 20px;
 }
+#MasterMainContent #MasterMainColumn {
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 1200px) {
+  #MasterMainContent #MasterMainColumn {
+    float: left;
+    width: 75%;
+  }
+}
+@media (min-width: 1200px) {
+  #MasterMainContent #MasterMainColumn {
+    width: 80%;
+  }
+}
+#MasterNoContent {
+  background-color: white;
+}
 #MasterLeftColumn {
   position: relative;
   min-height: 1px;
@@ -695,23 +715,6 @@ fieldset[disabled] #MenuButton:hover {
 @media (min-width: 1200px) {
   #MasterLeftColumn {
     width: 20%;
-  }
-}
-#MasterMainColumn {
-  position: relative;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-@media (min-width: 1200px) {
-  #MasterMainColumn {
-    float: left;
-    width: 75%;
-  }
-}
-@media (min-width: 1200px) {
-  #MasterMainColumn {
-    width: 80%;
   }
 }
 /* MASTER FOOTER
