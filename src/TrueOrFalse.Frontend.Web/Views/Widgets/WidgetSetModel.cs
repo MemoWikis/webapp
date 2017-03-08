@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-public class WidgetSetModel : BaseModel
+﻿public class WidgetSetModel : BaseModel
 {
 }

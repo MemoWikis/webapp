@@ -760,7 +760,7 @@
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
-    <Content Include="Views\Widgets\question.js" />
+    <Content Include="Views\Widgets\w.js" />
     <Content Include="Views\Widgets\WidgetQuestion.js">
       <DependentUpon>WidgetQuestion.ts</DependentUpon>
     </Content>

@@ -14,7 +14,7 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
-    <%= Scripts.Render("~/bundles/js/Widget") %>
+    <%= Scripts.Render("~/bundles/js/WidgetQuestion") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Web.Mvc;
 
+[SetMenu(MenuEntry.None)]
 public class WidgetController : BaseController
 {
-    [SetMenu(MenuEntry.None)]
     public ActionResult Question(int questionId)
     {
         var answerQuestionModel = new AnswerQuestionModel(
@@ -16,5 +16,12 @@ public class WidgetController : BaseController
         return View(
             "~/Views/Widgets/WidgetQuestion.aspx",
             new WidgetQuestionModel(answerQuestionModel));
+    }
+
+    public ActionResult Set(int setId)
+    {
+        return View(
+            "~/Views/Widgets/WidgetSet.aspx",
+            new WidgetSetModel());
     }
 }
