@@ -27,9 +27,6 @@
 
 
 <script type="text/javascript">
-    //Notfalllösung---
-   // $("#responseModalButton").click((event) => event.preventDefault());
-    //---
     var addingStemId = $("#stems .form-control").length;
     var addingResponseId = $("#responseModal .form-control").length;
 
@@ -47,27 +44,30 @@
         $("#stems").append($("<div class = 'form-inline form-group'>")
             .append($("<input type='text' name = 'stem-" + addingStemId + "' class='matchlist-stem form-control'>"))
                 .append($("<i class='matchlist-arrow fa fa-arrow-right fa-1x'></i>"))
-                    .append("<select class='matchlist-dropdown form-control' name='dropdown-" + addingStemId + "'>")
-                        .append(getRemoveButton())
+                    .append($("<select class='matchlist-dropdown form-control' name='dropdown-" + addingStemId + "'>")
+                        .append($('<option selected="selected">').val(0).html("no response")))
+                            .append(getRemoveButton())
         );
+        //fill select lists with elements in last select lists
         addingStemId++;
 
     });
     $("#addResponse").click(function () {
+        var matchlistResponseInput = $("<input type='text' name = 'stem-" + addingResponseId + "' class='matchlist-response form-control'>");
         $("#responseModalContent").append($("<div class='form-group form-inline'>")
-            .append($("<input type='text' name = 'stem-" + addingResponseId + "' class='matchlist-response form-control'>"))
+            .append(matchlistResponseInput)
             .append(getRemoveButton()));
+        matchlistResponseInput.change(function () {
+            var responseValue = $(this).val();
+            $(".matchlist-dropdown").each(function(index, element) {
+                $(element).append($('<option>').val(addingResponseId).html(/*something in here*/));
+            });
+        });
         addingResponseId++;
     });
-    $(".matchlist-response").change(function() {
-        alert("hello world");
-        var responseValue = $(this).val();
-        $(".matchlist-dropdown").last().remove();
-        $(".matchlist-dropdown").append($("button")); //$("<option>" + responseValue + "</option>"));
-    });
 
-    <% if (Model != null)
-        foreach (var choice in Model.Choices)
+<%--    <% if (Model != null)
+        foreach (var choice in Model.bla)
         { %>
     $("#addChoice").click();
     $(".sequence-choice").last().val('<%= choice.Text %>');
@@ -77,5 +77,5 @@
     { %>
     $("#addResponse").click();
     $("#addStem").click();
-    <% } %>
+    <% } %>--%>
 </script>
