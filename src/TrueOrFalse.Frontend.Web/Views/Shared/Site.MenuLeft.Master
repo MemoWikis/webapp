@@ -23,7 +23,7 @@
             <div class="row">
                 <section id="MasterLeftColumn" class="">
                     <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
-                    <% Html.RenderPartial("SponsorLeft", new SponsorModel()); %>
+                    <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
                 </section>
                 <section id="MasterMainColumn" class="">
                     
