@@ -3,22 +3,22 @@
 <div class="col-sm-12" id="matchlist">
     <div id="stems"></div>
     <div id="matchlist-button" class="row">
-        <button type="button" class="btn col-sm-6" id="addStem">Add Stem</button>
-        <button type="button" class="btn col-sm-4" id="responseModalButton" data-toggle="modal" data-target="#responseModal">Add Response</button>
+        <button type="button" class="btn col-sm-6" id="addStem">Paar hinzufügen</button>
+        <button type="button" class="btn col-sm-4" id="responseModalButton" data-toggle="modal" data-target="#responseModal">Rechte Elemente hinzufügen</button>
     </div>
     <div id="responseModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Response</h4>
+                    <h4 class="modal-title">Rechte Elemente</h4>
                 </div>
                 <div class="modal-body">
                     <div id="responseModalContent"></div>
-                    <button type="button" id="addResponse">Add Response</button>
+                    <button type="button" id="addResponse">Rechtes Element hinzufügen</button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                 </div>
             </div>
         </div>
@@ -27,8 +27,9 @@
 
 
 <script type="text/javascript">
-    var addingStemId = $("#stems .form-control").length;
-    var addingResponseId = $("#responseModal .form-control").length;
+    var addingElementRightId = $("#responseModal .form-control").length;
+    var removeButton = $("");
+    var defaultRightElement = $("");
 
     function getRemoveButton() {
         var removeButton = $("<a href='#' class='removeButton btn'><i class='fa fa-times'></i></a>");
@@ -38,32 +39,35 @@
         return removeButton;
     }
 
-    $("#addStem").click(function () {
-        if (addingStemId != 0) {
-        }
-        $("#stems").append($("<div class = 'form-inline form-group'>")
-            .append($("<input type='text' name = 'stem-" + addingStemId + "' class='matchlist-stem form-control'>"))
-                .append($("<i class='matchlist-arrow fa fa-arrow-right fa-1x'></i>"))
-                    .append($("<select class='matchlist-dropdown form-control' name='dropdown-" + addingStemId + "'>")
-                        .append($('<option selected="selected">').val(0).html("no response")))
-                            .append(getRemoveButton())
-        );
-        //fill select lists with elements in last select lists
-        addingStemId++;
+    $("#addStem").click(function() {
+        //if (addingStemId != 0) {
+        //    dont enable remove button for first element
+        //}
+        var addingPairElementId = $("#stems .form-control").length;
+        if (addingPairElementId != 0)
+            removeButton = getRemoveButton();
+        else
+            defaultRightElement = $('<option selected="selected">').html("default");
 
-    });
+        $("#stems").append($("<div class = 'form-inline form-group'>")
+            .append($("<input type='text' name = 'LeftElement-" + addingPairElementId + "' class='matchlist-leftelement form-control'>"))
+                .append($("<i class='matchlist-arrow fa fa-arrow-right fa-1x'></i>"))
+                    .append($("<select class='matchlist-rightpairelement form-control' name='RightPairElement-" + addingPairElementId + "'>")
+                        .append(defaultRightElement, $(".matchlist-rightpairelement").last().children().clone()))
+                            .append(removeButton));
+     });
     $("#addResponse").click(function () {
-        var matchlistResponseInput = $("<input type='text' name = 'stem-" + addingResponseId + "' class='matchlist-response form-control'>");
+        var matchlistResponseInput = $("<input type='text' name = 'RightElement-" + addingElementRightId + "' class='matchlist-response form-control'>");
         $("#responseModalContent").append($("<div class='form-group form-inline'>")
             .append(matchlistResponseInput)
             .append(getRemoveButton()));
         matchlistResponseInput.change(function () {
             var responseValue = $(this).val();
             $(".matchlist-dropdown").each(function(index, element) {
-                $(element).append($('<option>').val(addingResponseId).html(/*something in here*/));
+                $(element).append($('<option>').val(addingElementRightId).html(/*something in here*/));
             });
         });
-        addingResponseId++;
+        addingElementRightId++;
     });
 
 <%--    <% if (Model != null)

@@ -358,8 +358,9 @@
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
-    <Compile Include="Domain\Question\SolutionType\MatchList\Answer.cs" />
-    <Compile Include="Domain\Question\SolutionType\MatchList\Stem.cs" />
+    <Compile Include="Domain\Question\SolutionType\MatchList\ElementLeft.cs" />
+    <Compile Include="Domain\Question\SolutionType\MatchList\Pair.cs" />
+    <Compile Include="Domain\Question\SolutionType\MatchList\ElementRight.cs" />
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />

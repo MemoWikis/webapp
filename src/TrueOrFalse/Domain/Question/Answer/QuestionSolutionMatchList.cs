@@ -6,36 +6,48 @@ using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
 public class QuestionSolutionMatchList : QuestionSolution
 {
-    public List<Stem> Stems = new List<Stem>();
-    public List<Answer> Answers = new List<Answer>();
+    public List<Pair> Pairs = new List<Pair>();
+    public List<ElementRight> RightElements = new List<ElementRight>();
 
     public void FillFromPostData(NameValueCollection postData)
     {
-        var postTest = postData;
-        List<string> stemsText =
-        (
-                from key in postData.AllKeys
-                where key.StartsWith("stem-")
-                select postData.Get(key)
-        )
-        .ToList();
-
-        List<string> stemAnswerName =
+        List<string> LeftElementText =
         (
             from key in postData.AllKeys
-            where key.StartsWith("stemAnswer-")
-            select key
+            where key.StartsWith("LeftElement-")
+            select postData.Get(key)
         )
         .ToList();
 
-        //for (int i = 0; i < choices.Count; i++)
-        //{
-        //    Choices.Add(new Choice
-        //    {
-        //        IsCorrect = choicesCorrect[i] == "Richtige Antwort",
-        //        Text = choices[i]
-        //    });
-        //}
+        List<string> RightPairElementText =
+        (
+            from key in postData.AllKeys
+            where key.StartsWith("RightPairElement-")
+            select postData.Get(key)
+        )
+        .ToList();
+
+        List<string> RightElementText =
+        (
+            from key in postData.AllKeys
+            where key.StartsWith("RightElement-")
+            select postData.Get(key)
+        )
+        .ToList();
+
+        for (int i = 0; i < LeftElementText.Count; i++)
+        {
+            Pairs.Add(new Pair()
+            {
+                ElementLeft = new ElementLeft() {Text = LeftElementText[i]},
+                ElementRight = new ElementRight() {Text = RightPairElementText[i]}
+            });
+        }
+
+        foreach (var singleRightElementText in RightElementText)
+        {
+            RightElements.Add(new ElementRight() {Text = singleRightElementText});
+        }
     }
 
     public override bool IsCorrect(string answer)

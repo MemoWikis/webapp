@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Domain.Question.SolutionType.MatchList
 {
-    public class Answer
+    public class ElementRight
     {
         public string Text;
-        public string Name;
     }
 }
