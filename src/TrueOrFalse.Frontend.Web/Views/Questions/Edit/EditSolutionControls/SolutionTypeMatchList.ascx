@@ -1,9 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMatchList>" %>
 
 <div class="col-sm-12" id="matchlist">
-    <div id="stems"></div>
+    <div id="pairs"></div>
     <div id="matchlist-button" class="row">
-        <button type="button" class="btn col-sm-6" id="addStem">Paar hinzufügen</button>
+        <button type="button" class="btn col-sm-6" id="addPair">Paar hinzufügen</button>
         <button type="button" class="btn col-sm-4" id="responseModalButton" data-toggle="modal" data-target="#responseModal">Rechte Elemente hinzufügen</button>
     </div>
     <div id="responseModal" class="modal fade" role="dialog">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="responseModalContent"></div>
-                    <button type="button" id="addResponse">Rechtes Element hinzufügen</button>
+                    <button type="button" id="addRightPairElement">Rechtes Element hinzufügen</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -39,33 +39,42 @@
         return removeButton;
     }
 
-    $("#addStem").click(function() {
+    $("#addPair").click(function() {
         //if (addingStemId != 0) {
         //    dont enable remove button for first element
         //}
-        var addingPairElementId = $("#stems .form-control").length;
-        if (addingPairElementId != 0)
-            removeButton = getRemoveButton();
-        else
-            defaultRightElement = $('<option selected="selected">').html("default");
+        var addingPairElementId = $("#pairs .form-control").length;
+        if (addingPairElementId !== 0)
+            removeButton = $(getRemoveButton());
 
-        $("#stems").append($("<div class = 'form-inline form-group'>")
+        $("#pairs").append($("<div class = 'form-inline form-group'>")
             .append($("<input type='text' name = 'LeftElement-" + addingPairElementId + "' class='matchlist-leftelement form-control'>"))
                 .append($("<i class='matchlist-arrow fa fa-arrow-right fa-1x'></i>"))
                     .append($("<select class='matchlist-rightpairelement form-control' name='RightPairElement-" + addingPairElementId + "'>")
-                        .append(defaultRightElement, $(".matchlist-rightpairelement").last().children().clone()))
+                        .append($(".matchlist-rightpairelement").last().children().clone()))
                             .append(removeButton));
-     });
-    $("#addResponse").click(function () {
-        var matchlistResponseInput = $("<input type='text' name = 'RightElement-" + addingElementRightId + "' class='matchlist-response form-control'>");
+        if (addingPairElementId === 0)
+            $("[name='RightPairElement-0']").append($('<option selected="selected">').html("default"));
+    });
+    $("#addRightPairElement").click(function () {
+        var matchlistRightElementInput = $("<input type='text' id='ElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-response form-control'>");
+        var rightElementRemoveButton = getRemoveButton();
         $("#responseModalContent").append($("<div class='form-group form-inline'>")
-            .append(matchlistResponseInput)
-            .append(getRemoveButton()));
-        matchlistResponseInput.change(function () {
-            var responseValue = $(this).val();
-            $(".matchlist-dropdown").each(function(index, element) {
-                $(element).append($('<option>').val(addingElementRightId).html(/*something in here*/));
+            .append(matchlistRightElementInput)
+            .append(rightElementRemoveButton));
+        matchlistRightElementInput.change(function () {
+            var rightElementValue = $(this).val();
+            var rightElementId = $(this).attr('id');
+            $(".matchlist-rightpairelement").each(function (index, element) {
+                $("[name='" + $(this).attr('name') + "'][name='pair" + rightElementId + "']").remove();
+                $(element).append($('<option>').attr('name', 'pair' + rightElementId).html(rightElementValue));
             });
+        rightElementRemoveButton.click(function() {
+        //$(".matchlist-rightpairelement").each(function (index, element) {
+        //    $('.' + $(element).attr('class') + '#ElementRight-' + addingElementRightId).remove();
+        //    $(element).append($('<option>').attr('id', rightElementId).html(rightElementValue));
+        //});
+        });
         });
         addingElementRightId++;
     });

@@ -249,20 +249,20 @@ select.form-control {
     display: none;
   }
 }
-#matchlist #stems .matchlist-stem {
+#matchlist #pairs .matchlist-leftelement {
   width: 50%;
 }
-#matchlist #stems .matchlist-arrow {
+#matchlist #pairs .matchlist-arrow {
   margin-right: 2%;
   margin-left: 2%;
 }
-#matchlist #stems .matchlist-dropdown {
+#matchlist #pairs .matchlist-rightpairelement {
   width: 40%;
 }
-#matchlist #stems .removeButton {
+#matchlist #pairs .removeButton {
   width: 2%;
 }
-#matchlist #matchlist-button #addStem {
+#matchlist #matchlist-button #addPair {
   width: 50%;
 }
 #matchlist #matchlist-button #responseModalButton {
