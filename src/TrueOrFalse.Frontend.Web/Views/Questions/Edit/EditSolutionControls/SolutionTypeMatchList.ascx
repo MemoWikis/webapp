@@ -15,16 +15,15 @@
                 </div>
                 <div class="modal-body">
                     <div id="responseModalContent"></div>
-                    <button type="button" id="addRightPairElement">Rechtes Element hinzufügen</button>
+                    <button type="button" id="addRightPairElement">Weiteres Element hinzufügen</button>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Speichern</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <script type="text/javascript">
     var addingElementRightId = $("#responseModal .form-control").length;
@@ -57,7 +56,7 @@
             $("[name='RightPairElement-0']").append($('<option selected="selected">').html("default"));
     });
     $("#addRightPairElement").click(function () {
-        var matchlistRightElementInput = $("<input type='text' id='ElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-response form-control'>");
+        var matchlistRightElementInput = $("<input type='text' id='ElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control'>");
         var rightElementRemoveButton = getRemoveButton();
         $("#responseModalContent").append($("<div class='form-group form-inline'>")
             .append(matchlistRightElementInput)
@@ -79,16 +78,31 @@
         addingElementRightId++;
     });
 
-<%--    <% if (Model != null)
-        foreach (var choice in Model.bla)
-        { %>
-    $("#addChoice").click();
-    $(".sequence-choice").last().val('<%= choice.Text %>');
-    $(".sequence-answertype").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
-    <% }
-    else
-    { %>
-    $("#addResponse").click();
-    $("#addStem").click();
-    <% } %>--%>
+    <% if (Model != null)
+       {
+           foreach (var pair in Model.RightElements)
+           { %>
+            $("#addRightPairElement").click();
+            $(".matchlist-rightelement").last().val('<%= pair.Text %>');
+        <% }
+
+           for (int i = 0; i < Model.Pairs.Count; i++)
+           {
+          %>$("#addPair").click();
+            <% if (i == 0)
+               {
+                   foreach (var rightElement in Model.RightElements)
+                   { %>
+                        $(".matchlist-rightpairelement").last().append($('<option>').html('<%= rightElement.Text %>'));
+                <% }
+               } %>
+            $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');
+            $(".matchlist-rightpairelement").last().val('<%= Model.Pairs[i].ElementRight.Text %>');
+        <% }
+       }
+       else
+       { %>
+    $("#addPair").click();
+    $("#addRightPairElement").click();
+    <% } %>
 </script>
