@@ -231,6 +231,7 @@
 .SessionHeading {
   font-weight: bold;
   padding-bottom: 10px;
+  display: flex;
 }
 .SessionHeading:before,
 .SessionHeading:after {
@@ -247,11 +248,15 @@
 }
 .SessionHeading:after {
   clear: both;
+}
+@media (max-width: 479px) {
+  .SessionHeading {
+    flex-direction: column-reverse;
+  }
 }
 @media (min-width: 480px) {
   .SessionHeading {
-    display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: center;
     justify-content: space-between;
   }
@@ -262,6 +267,9 @@
     width: 30%;
   }
   .SessionTitle {
+    width: 100%;
+  }
+  .SponsorWrapper + .SessionTitle {
     width: 70%;
   }
 }
@@ -271,6 +279,9 @@
     width: 20%;
   }
   .SessionTitle {
+    width: 100%;
+  }
+  .SponsorWrapper + .SessionTitle {
     width: 80%;
   }
 }

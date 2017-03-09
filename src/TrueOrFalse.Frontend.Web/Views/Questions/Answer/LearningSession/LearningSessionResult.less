@@ -248,11 +248,17 @@
 .SessionHeading {
     font-weight: bold;
     padding-bottom: 10px;
+    display: flex;
+
     .clearfix;
 
+    .media-below-xs({
+        flex-direction: column-reverse;
+        
+    });
+
     .media-xs-up({
-        display: flex;
-        flex-direction: row;
+        flex-direction: row-reverse;
         align-items: center;
         justify-content: space-between;
     });
@@ -264,6 +270,10 @@
     }
 
     .SessionTitle {
+        width: 100%;
+    }
+
+    .SponsorWrapper + .SessionTitle {
         width: 100% - @rightColWidthPercentage;
     }
 }
