@@ -15,7 +15,7 @@ public class SponsorRepo{
                 SponsorUrl = "http://www.tutory.de",
                 ImageUrl = "/Images/Sponsors/tutory.png",
                 LinkText = "Tutory",
-                PresentationText = "Wir empfehlen "
+                TextBeforeLink = "Lehrern empfehlen wir zum Erstellen von Arbeitsblättern"
             },
 
             new Sponsor
@@ -24,8 +24,8 @@ public class SponsorRepo{
                 ImpressionSharePercentage = 0.5,
                 SponsorUrl = "http://greensoeasy.com/",
                 ImageUrl = "/Images/Sponsors/greensoeasy.png",
-                LinkText = "GreenSoEasy",
-                PresentationText = "Wir empfehlen "
+                LinkText = "greensoeasy",
+                TextBeforeLink = "Selbst etwas für das Klima tun mit der App von "
             },
             
         };

@@ -11,5 +11,6 @@ public class Sponsor
     public string SponsorUrl;
     public string ImageUrl;
     public string LinkText;
-    public string PresentationText;
+    public string TextBeforeLink = "";
+    public string TextAfterLink = "";
 }

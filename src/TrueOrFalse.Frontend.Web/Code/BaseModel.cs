@@ -14,6 +14,8 @@
             _sponsorModel = new SponsorModel();
             return _sponsorModel;
         }
+
+        set { _sponsorModel = value; }
     }
 
     private SponsorModel _sponsorModel; 

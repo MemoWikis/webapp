@@ -4,7 +4,12 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
-    
+    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
+        <div class="SponsorWrapper">
+            <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink"><%= Model.SponsorModel.Sponsor.LinkText %></a>
+        </div>
+    <% } %>
+   
     <div class="SessionTitle">
         
         <% if(Model.LearningSession.IsSetSession) { %>
@@ -55,15 +60,7 @@
             mit <%= Model.LearningSession.TotalPossibleQuestions %> Fragen.
         <% } %>--%>
     </div>
-    <div class="SponsorWrapper">
-        <%--<div class="SponsorLogoWrapper">
-            <img style="display: inline-block" src="/Images/Sponsors/schwanger-in-meiner-stadt-logo.png"/>
-        </div>--%>
-        <span class="SponsorText">Mit Unterstützung von </span><a class="SponsorLink">
-            <%--Schwanger in meiner Stadt--%>
-            Tutory
-        </a>
-    </div>
+    
 </div>
 
 <div class="SessionBar">

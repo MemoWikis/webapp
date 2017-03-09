@@ -14,4 +14,9 @@ public class SponsorModel : BaseResolve
             IsAdFree = userSession.User.IsMember();
         }
     }
+
+    public SponsorModel(Sponsor sponsor) : this()
+    {
+        Sponsor = sponsor;
+    }
 }

@@ -2,11 +2,10 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% if (!Model.IsAdFree){ %>
-    <div class="SponsorLeftWrapper" style="margin-top: 50px; text-align: center;">
-        <div style="margin-bottom: 20px;">
-            <a href="<%= Model.Sponsor.SponsorUrl %>" target="_blank"><img src="<%= Model.Sponsor.ImageUrl %>" style="max-width: 50%; max-height: 100px;"/></a>
+    <div class="SponsorLeftWrapper">
+        <div class="SponsorLeftLogo">
+            <a href="<%= Model.Sponsor.SponsorUrl %>" target="_blank"><img src="<%= Model.Sponsor.ImageUrl %>"/></a>
         </div>
-        <%= Model.Sponsor.PresentationText %>
-        <a href="<%= Model.Sponsor.SponsorUrl%>"><%= Model.Sponsor.LinkText %></a>
+        <%= Model.Sponsor.TextBeforeLink %> <a href="<%= Model.Sponsor.SponsorUrl%>"><%= Model.Sponsor.LinkText %></a> <%= Model.Sponsor.TextAfterLink %>
     </div>
 <% } %>
