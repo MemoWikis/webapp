@@ -1050,9 +1050,6 @@
     <Content Include="Scripts\vendor\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
     <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
-    <Content Include="Style\01_temp.css">
-      <DependentUpon>01_temp.less</DependentUpon>
-    </Content>
     <Content Include="Style\bootstrap\bootstrap.css">
       <DependentUpon>bootstrap.less</DependentUpon>
     </Content>
@@ -1265,9 +1262,6 @@
     <Content Include="Style\temp.less" />
     <Content Include="Style\temp.css.map">
       <DependentUpon>temp.css</DependentUpon>
-    </Content>
-    <Content Include="Style\01_temp.css.map">
-      <DependentUpon>01_temp.css</DependentUpon>
     </Content>
     <Content Include="Style\bootstrap\memucho_overrides.less" />
     <Content Include="Style\bootstrap\memucho_overrides.css.map">
@@ -1996,7 +1990,6 @@
     <Content Include="Views\Messages\Message.css.map">
       <DependentUpon>Message.css</DependentUpon>
     </Content>
-    <Content Include="Style\01_temp.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
     </Content>
