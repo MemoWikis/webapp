@@ -31,6 +31,9 @@
 .navLinks > div {
   display: inline-block !important;
 }
+#AnswerQuestionPager > div {
+  display: inline-block;
+}
 @media (max-width: 479px) {
   #AnswerQuestionPager {
     margin-bottom: 10px;
