@@ -294,29 +294,6 @@
     padding-right: 10px;
   }
 }
-.SponsorWrapper {
-  font-size: 80%;
-  font-weight: normal;
-}
-.SponsorWrapper:before,
-.SponsorWrapper:after {
-  content: " ";
-  display: table;
-}
-.SponsorWrapper:after {
-  clear: both;
-}
-.SponsorWrapper:before,
-.SponsorWrapper:after {
-  content: " ";
-  display: table;
-}
-.SponsorWrapper:after {
-  clear: both;
-}
-.SponsorWrapper .SponsorLink {
-  white-space: nowrap;
-}
 @media (min-width: 480px) {
   .SponsorWrapper {
     text-align: center;

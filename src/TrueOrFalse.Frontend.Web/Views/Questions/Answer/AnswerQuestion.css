@@ -31,6 +31,61 @@
 .navLinks > div {
   display: inline-block !important;
 }
+.SponsorWrapper {
+  font-size: 80%;
+  font-weight: normal;
+}
+.SponsorWrapper:before,
+.SponsorWrapper:after {
+  content: " ";
+  display: table;
+}
+.SponsorWrapper:after {
+  clear: both;
+}
+.SponsorWrapper:before,
+.SponsorWrapper:after {
+  content: " ";
+  display: table;
+}
+.SponsorWrapper:after {
+  clear: both;
+}
+.SponsorWrapper .SponsorLink {
+  white-space: nowrap;
+}
+@media (min-width: 768px) {
+  .AnswerQuestionHeader .SponsorWrapper {
+    float: right;
+  }
+}
+.AnswerQuestionHeader .SponsorWrapper {
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+.SponsorWrapper {
+  font-size: 80%;
+  font-weight: normal;
+}
+.SponsorWrapper:before,
+.SponsorWrapper:after {
+  content: " ";
+  display: table;
+}
+.SponsorWrapper:after {
+  clear: both;
+}
+.SponsorWrapper:before,
+.SponsorWrapper:after {
+  content: " ";
+  display: table;
+}
+.SponsorWrapper:after {
+  clear: both;
+}
+.SponsorWrapper .SponsorLink {
+  white-space: nowrap;
+}
 #AnswerQuestionPager {
   margin-bottom: 10px;
 }
@@ -66,6 +121,7 @@
 }
 @media (min-width: 768px) {
   #AnswerQuestionPager {
+    float: left;
     display: flex;
   }
   #AnswerQuestionPager .Current {
