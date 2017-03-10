@@ -42,7 +42,7 @@
         //if (addingStemId != 0) {
         //    dont enable remove button for first element
         //}
-        var addingPairElementId = $("#pairs .form-control").length;
+        var addingPairElementId = $("#pairs .matchlist-leftelement").length;
         if (addingPairElementId !== 0)
             removeButton = $(getRemoveButton());
 
@@ -53,10 +53,10 @@
                         .append($(".matchlist-rightpairelement").last().children().clone()))
                             .append(removeButton));
         if (addingPairElementId === 0)
-            $("[name='RightPairElement-0']").append($('<option selected="selected">').html("default"));
+            $("[name='RightPairElement-0']").append($('<option selected="selected">').html("keine Zuordnung"));
     });
     $("#addRightPairElement").click(function () {
-        var matchlistRightElementInput = $("<input type='text' id='ElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control'>");
+        var matchlistRightElementInput = $("<input type='text' id='pairElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control'>");
         var rightElementRemoveButton = getRemoveButton();
         $("#responseModalContent").append($("<div class='form-group form-inline'>")
             .append(matchlistRightElementInput)
@@ -64,15 +64,21 @@
         matchlistRightElementInput.change(function () {
             var rightElementValue = $(this).val();
             var rightElementId = $(this).attr('id');
-            $(".matchlist-rightpairelement").each(function (index, element) {
-                $("[name='" + $(this).attr('name') + "'][name='pair" + rightElementId + "']").remove();
-                $(element).append($('<option>').attr('name', 'pair' + rightElementId).html(rightElementValue));
+            $(".matchlist-rightpairelement").each(function (selectElementIndex, selectElement) {
+                $(selectElement).children().each(function(optionElementIndex, optionElement) {
+                    alert(rightElementId);
+                    if ($(optionElement).attr('name') === rightElementId)
+                        $(optionElement).remove();
+                });
+                $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
             });
         rightElementRemoveButton.click(function() {
-        //$(".matchlist-rightpairelement").each(function (index, element) {
-        //    $('.' + $(element).attr('class') + '#ElementRight-' + addingElementRightId).remove();
-        //    $(element).append($('<option>').attr('id', rightElementId).html(rightElementValue));
-        //});
+        $(".matchlist-rightpairelement").each(function (index, selectElement) {
+            $(selectElement).children().each(function (optionElementIndex, optionElement) {
+                if ($(optionElement).attr('name') === rightElementId)
+                    $(optionElement).remove();
+            });
+        });
         });
         });
         addingElementRightId++;
@@ -80,6 +86,7 @@
 
     <% if (Model != null)
        {
+        //TODO: klären ob keine zuordnung als feature
            foreach (var pair in Model.RightElements)
            { %>
             $("#addRightPairElement").click();
