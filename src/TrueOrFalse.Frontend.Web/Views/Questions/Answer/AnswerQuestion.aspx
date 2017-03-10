@@ -67,13 +67,8 @@
             <% }else if (Model.IsTestSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
             <% }else { %>
-                <div id="AnswerQuestionPager" class="" style="margin-top: 0; margin-bottom: 20px;">
-                    <div class="Previous">
-                        <% if (Model.HasPreviousPage)
-                            { %>
-                            <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i> vorherige Frage</a><span> | </span> 
-                        <% } %>
-                    </div>
+                <div id="AnswerQuestionPager">
+                    
                     <div class="Current">
                     <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal)){
 
@@ -113,16 +108,18 @@
                                     </span>
                                 </a>
                             <% }
-
-                        
-
                        } %> 
                     </div>
-                    
+                    <div class="Previous">
+                        <% if (Model.HasPreviousPage)
+                            { %>
+                            <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i> vorherige Frage</a><span class="TextDivider">&nbsp;|&nbsp;</span> 
+                        <% } %>
+                    </div>
                     <div class="Next">
                         <% if (Model.HasNextPage)
                             { %>
-                             | <a href="<%= Model.NextUrl(Url) %>" rel="nofollow">nächste Frage <i class="fa fa-chevron-right"></i></a>
+                            <span class="TextDivider">&nbsp;|&nbsp;</span><a href="<%= Model.NextUrl(Url) %>" rel="nofollow">nächste Frage <i class="fa fa-chevron-right"></i></a>
                         <% } %>
                     </div>
                 </div>

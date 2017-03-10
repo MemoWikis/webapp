@@ -16,11 +16,45 @@
 }
 
 #AnswerQuestionPager {
-    > div {
-        display: inline-block;
-    }
-    .media-below-xs ({
-        margin-bottom: 10px;
+
+    margin-bottom: 10px;
+
+    .media-below-sm({
+
+        .clearfix;
+
+        .Current {
+            margin-bottom: 10px;
+        }
+
+        .Previous {
+            float: left;
+        }
+        
+        .Next {
+            float: right;
+        }
+
+        .TextDivider {
+            display: none;
+        }
+    });
+
+    .media-sm-up({
+
+        display: flex;
+
+        .Current {
+            order: 2;
+        }
+
+        .Previous {
+            order: 1;
+        }
+        
+        .Next {
+            order: 3;
+        }
     });
 }
 

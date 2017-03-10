@@ -31,12 +31,51 @@
 .navLinks > div {
   display: inline-block !important;
 }
-#AnswerQuestionPager > div {
-  display: inline-block;
+#AnswerQuestionPager {
+  margin-bottom: 10px;
 }
-@media (max-width: 479px) {
-  #AnswerQuestionPager {
+@media (max-width: 767px) {
+  #AnswerQuestionPager:before,
+  #AnswerQuestionPager:after {
+    content: " ";
+    display: table;
+  }
+  #AnswerQuestionPager:after {
+    clear: both;
+  }
+  #AnswerQuestionPager:before,
+  #AnswerQuestionPager:after {
+    content: " ";
+    display: table;
+  }
+  #AnswerQuestionPager:after {
+    clear: both;
+  }
+  #AnswerQuestionPager .Current {
     margin-bottom: 10px;
+  }
+  #AnswerQuestionPager .Previous {
+    float: left;
+  }
+  #AnswerQuestionPager .Next {
+    float: right;
+  }
+  #AnswerQuestionPager .TextDivider {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  #AnswerQuestionPager {
+    display: flex;
+  }
+  #AnswerQuestionPager .Current {
+    order: 2;
+  }
+  #AnswerQuestionPager .Previous {
+    order: 1;
+  }
+  #AnswerQuestionPager .Next {
+    order: 3;
   }
 }
 #MarkdownCol {
