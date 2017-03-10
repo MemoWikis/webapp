@@ -4,34 +4,36 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
+    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
+        <div class="SponsorWrapper">
+            <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink"><%= Model.SponsorModel.Sponsor.LinkText %></a>
+        </div>
+    <% } %>
     <div class="SessionTitle">
-        Du machst einen Test mit 
-        <% if (Model.TestSessionNumberOfSteps == Model.TestSession.TotalPossibleQuestions){ %>
-            allen <%= Model.TestSession.TotalPossibleQuestions %>
-        <% }else { %>
-            <%= Model.TestSessionNumberOfSteps %> 
-        <% } %>
-        
         <% if(Model.TestSession.IsSetSession) { %>
-            Fragen aus dem Fragesatz 
-            <a href="<%= Model.TestSession.SetLink %>" style="margin-top: 3px; display: inline-block;">
-                <span class="label label-set"><%: Model.TestSession.SetName %></span>
-            </a>
+            <div class="CollectionType">
+                Fragesatz
+            </div>
+            <div class="LabelWrapper">
+                <a class="LabelLink" href="<%= Model.TestSession.SetLink %>">
+                    <span class="label label-set show-tooltip" data-original-title="Zum Fragesatz <%= Model.TestSession.SetName %> mit <%= Model.TestSession.SetQuestionCount %> Fragen"><%: Model.TestSession.SetName %></span>
+                </a>
+            </div>
         <% } %>
 
         <% if(Model.TestSession.IsSetsSession) { %>
-            Fragen aus "<%= Model.TestSession.SetListTitle %>" (<%= Model.TestSession.SetsToTestIds.Count %> Fragesätze)
+            <%= Model.TestSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.TestSession.SetsToTestIds.Count %> Fragesätze</span>)
         <% } %>
 
         <% if(Model.TestSession.IsCategorySession) { %>
-            Fragen zum Thema 
-            <a href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>" style="margin-top: 3px; display: inline-block;">
-                <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
-            </a>
-        <% } %>
-        
-        <% if (Model.TestSessionNumberOfSteps < Model.TestSession.TotalPossibleQuestions){ %>
-            mit <%= Model.TestSession.TotalPossibleQuestions %> Fragen.
+            <div class="CollectionType">
+                Thema 
+            </div>
+            <div class="LabelWrapper">
+                <a class="LabelLink" href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>">
+                    <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
+                </a>
+            </div>
         <% } %>
     </div>
 </div>

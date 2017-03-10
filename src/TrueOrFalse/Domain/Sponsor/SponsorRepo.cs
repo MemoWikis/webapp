@@ -14,7 +14,7 @@ public class SponsorRepo{
                 ImpressionSharePercentage = 0.5,
                 SponsorUrl = "http://www.tutory.de",
                 ImageUrl = "/Images/Sponsors/tutory.png",
-                LinkText = "Tutory",
+                LinkText = "tutory",
                 TextBeforeLink = "Lehrern empfehlen wir zum Erstellen von Arbeitsblättern"
             },
 

@@ -261,6 +261,10 @@
     justify-content: space-between;
   }
 }
+.LabelLink {
+  display: inline-block;
+  overflow: hidden;
+}
 @media (min-width: 480px) {
   .QuestionCount,
   .SponsorWrapper {
@@ -312,6 +316,11 @@
 }
 .SponsorWrapper .SponsorLink {
   white-space: nowrap;
+}
+@media (min-width: 480px) {
+  .SponsorWrapper {
+    text-align: center;
+  }
 }
 .SponsorLogoWrapper {
   width: 100px;
@@ -440,7 +449,7 @@
 .ProgressBarLeft {
   background-color: #e1efb3;
 }
-.SetType {
+.CollectionType {
   float: left;
   padding-right: 10px;
 }
@@ -478,7 +487,7 @@
     
 }
 
-.SetType {
+.CollectionType {
     display: table-cell;
     width:1%;
     white-space:nowrap;

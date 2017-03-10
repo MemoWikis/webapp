@@ -264,6 +264,11 @@
     });
 }
 
+.LabelLink {
+     display: inline-block;
+     overflow: hidden;
+}
+
 .SessionHeaderColumnWidth(@rightColWidthPercentage) {
     .QuestionCount, .SponsorWrapper {
         width: @rightColWidthPercentage * 1%;
@@ -303,9 +308,7 @@
     }
 
     .media-xs-up({
-        .SponsorText, .SponsorLink {
-            //display: block;
-        }
+        text-align: center;
     });
 }
 
@@ -421,7 +424,7 @@
     background-color: lighten(@memo-green, 30);
 }
 
-.SetType {
+.CollectionType {
     float: left;
     padding-right: 10px;
 }
@@ -447,7 +450,7 @@
     
 }
 
-.SetType {
+.CollectionType {
     display: table-cell;
     width:1%;
     white-space:nowrap;
