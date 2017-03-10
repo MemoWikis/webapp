@@ -80,5 +80,3 @@
     </div>
     <div class="Clearfix"></div>
 </div>
-
-<div id="modalLoginContainer"></div>

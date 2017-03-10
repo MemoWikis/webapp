@@ -138,7 +138,7 @@
         function drawChartUsageStatsPt1() {
             var data = google.visualization.arrayToDataTable([
                 [
-                    'Datum', '# Fragen beantwortet', '# Fragen gesehen', '# Übungssitzungen gestartet', '# Termine angelegt'
+                    'Datum', '# Fragen beantwortet', '# Fragen gesehen', '# Lernsitzungen gestartet', '# Termine angelegt'
                 ],
                 <%  foreach (var day in Model.UsageStats)
                     {
@@ -172,7 +172,7 @@
         function drawChartUsageStatsPt2() {
             var data = google.visualization.arrayToDataTable([
                 [
-                    'Datum', '# Nutzer haben Fragen beantwortet', '# Nutzer haben Fragen gesehen', '# Nutzer haben Übungssitzung gestartet', '# Nutzer haben Termine angelegt'
+                    'Datum', '# Nutzer haben Fragen beantwortet', '# Nutzer haben Fragen gesehen', '# Nutzer haben Lernsitzung gestartet', '# Nutzer haben Termine angelegt'
                 ],
                 <%  foreach (var day in Model.UsageStats)
                     {

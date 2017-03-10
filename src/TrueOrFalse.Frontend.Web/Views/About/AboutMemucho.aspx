@@ -51,7 +51,7 @@
                     </p>
                     <p>
                         Wie wir das machen? Wir analysieren, wie und wofür du lernst und wie andere Nutzer die Inhalte gelernt haben. 
-                        Dadurch können wir vorhersagen, wie gut du etwas (noch) weißt. Nutze dafür unsere Funktion "Jetzt üben". 
+                        Dadurch können wir vorhersagen, wie gut du etwas (noch) weißt. Nutze dafür unsere Lernen-Funktion. 
                         Sie ist nur verfügbar, wenn du <a href="#" data-btn-login="true">angemeldet bist</a>.
                         (<a href="<%= Links.AlgoInsightForecast() %>">Hier erfährst du mehr über unsere Technologie.</a>)
                     </p>
@@ -86,13 +86,13 @@
                 <div class="col-xs-9 xxs-stack aboutText">
                     <h3>Optimiert für eine Prüfung lernen</h3>
                     <p>
-                        memucho erstellt dir einen persönlichen Übungsplan, wenn du dich auf eine Prüfung vorbereitest. 
+                        memucho erstellt dir einen persönlichen Lernplan, wenn du dich auf eine Prüfung vorbereitest. 
                         Intelligente Algorithmen sagen dir, wann du was am besten lernst und ob du deine Lernziele erreichen wirst. 
                         memucho ist dein persönlicher Coach beim Auswendiglernen.
                     </p>
                     <p>
                         Wie das geht? Gehe zu <a href="<%= Links.Dates() %>">Termine</a>, lege einen neuen Termin an und wähle die
-                        zu lernenden Fragesätze aus. memucho erstellt dir dann automatisch einen persönlichen Übungsplan.
+                        zu lernenden Fragesätze aus. memucho erstellt dir dann automatisch einen persönlichen Lernplan.
                     </p>
                 </div>
             </div>

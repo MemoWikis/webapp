@@ -255,7 +255,7 @@ class TrainingSettings {
         data.addColumn('date', 'Datum');
         if (rowsAsArray.length > 0) {
             for (var i = 1; i <= (rowsAsArray[0].length - 1)/2; i++) {
-                data.addColumn('number', 'Übungssitzung ' + i);
+                data.addColumn('number', 'Lernsitzung ' + i);
                 data.addColumn({ type: 'string', role: 'tooltip', p: { html: true } });
             }
 
@@ -274,7 +274,7 @@ class TrainingSettings {
         var view = new google.visualization.DataView(data);
 
         var options = {
-            title: "Übungssitzungen bis zum Termin",
+            title: "Lernsitzungen bis zum Termin",
             tooltip: { isHtml: true },
             hAxis: {
                 title: "", 

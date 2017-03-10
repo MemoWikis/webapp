@@ -1,28 +1,46 @@
 ﻿class Login {
 
     constructor() {
-        $("[data-btn-login=true]").click((e) => this.OpenModal(e));
+        $("[data-btn-login=true]").click(
+            (e) => {
+                Login.HideFeatureInfo();
+                Login.OpenModal(e);
+            }
+        );
+        
     }
 
-    private OpenModal(e) {
+    static OpenModal(e : JQueryEventObject = null, afterLoad : () => void = null) {
 
         Site.CloseAllModals();
 
         var self = this;
 
-        e.preventDefault();
+        if(e != null)
+            e.preventDefault();
 
         $.post("/Login/LoginModal", (modal) => {
             $("#modalLogin").remove();
             $("#modalLoginContainer").append(modal);
             $("#modalLogin").modal('show');
 
+            if (afterLoad != null)
+                afterLoad();
+
             self.InitializeForm();
             self.InitializeFacebook();
         });
     }
 
-    private InitializeFacebook() {
+    static HideFeatureInfo() {
+        $("#needs-to-be-logged-in").hide();
+    }
+
+    static ShowFeatureInfo() {
+        $("#needs-to-be-logged-in").show();
+    }
+
+    private static InitializeFacebook() {
 
         $("#btn-login-with-facebook-modal").click(() => {
             FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false);            
@@ -31,7 +49,7 @@
         Google.AttachClickHandler('btn-login-with-google-modal');
     }
 
-    private InitializeForm() {
+    private static InitializeForm() {
 
         var validationRules = {
             rules: {
@@ -53,7 +71,7 @@
         });
     }
 
-    private SubmitForm() {
+    private static SubmitForm() {
 
         var data = {
             EmailAddress: $("#EmailAddress").val(),
@@ -76,7 +94,7 @@
         });
     } 
 
-    private ShowErrorMsg(message : string) {
+    private static ShowErrorMsg(message : string) {
         $("#rowLoginMessage").show();
         $("#rowLoginMessage div").text(message);
     }

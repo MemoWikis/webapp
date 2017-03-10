@@ -16,7 +16,7 @@
         
         <section id="MasterMainContent" class="container">
             <div class="row">
-                <section id="MasterMainColumn" class="">
+                <section id="MasterMainColumn">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
                 </section>
             </div>
@@ -35,6 +35,8 @@
             </div>
         </div>
     </footer>
+    
+    <div id="modalLoginContainer"></div>
 
 </body>
 </html>

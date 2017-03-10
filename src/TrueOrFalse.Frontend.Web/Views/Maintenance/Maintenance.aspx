@@ -92,9 +92,9 @@
             </a>
         </div>        
         <div class="col-md-6 MaintenanceSection">
-            <h4>Übungspläne</h4>
+            <h4>Lernpläne</h4>
             <a href="<%= Url.Action("CreateTrainingDates", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Übungspläne erstellen
+                <i class="fa fa-retweet"></i> Lernpläne erstellen
             </a>
         </div>
     </div>

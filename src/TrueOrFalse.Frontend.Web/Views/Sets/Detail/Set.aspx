@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <% var tooltipDate = "Gib an, bis wann du alle Fragen in diesem Fragesatz lernen musst und erhalte deinen persönlichen Übungsplan.";
+                    <% var tooltipDate = "Gib an, bis wann du alle Fragen in diesem Fragesatz lernen musst und erhalte deinen persönlichen Lernplan.";
                     if (Model.QuestionCount == 0)
                        tooltipDate = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
                     <div class="BoxButton show-tooltip 
@@ -168,7 +168,7 @@
                         data-original-title="<%= tooltipLearn %>">
                         <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
                         <div class="BoxButtonText">
-                            <span>Üben</span>
+                            <span>Lernen</span>
                         </div>
                         <% if (Model.QuestionCount > 0) { %>
                             <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
@@ -199,9 +199,13 @@
             } %>
 
             <% if(Model.QuestionCount > 0) { %>
-                <h4 style="margin-top: 30px; margin-bottom: 20px;">
-                    Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>:
+                <h4 style="margin-top: 30px; margin-bottom: 8px;">
+                    Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                 </h4>
+                <p class="greyed" style="margin-bottom: 10px;">
+                    Wenn du auf eine Frage klickst kannst du alle Fragen des Fragesatzes durchblättern. 
+                    Um eine begrenzte Zahl an Fragen zu beantworten und eine Auswertung zu erhalten, nutze bitte die Schaltflächen LERNEN oder WISSEN TESTEN oben.
+                </p>
             <% } else { %>
                 <div style="margin-top: 30px; margin-bottom: 20px;">
                     Dieser Fragesatz enthält noch keine Fragen.
@@ -222,7 +226,7 @@
                                 <i class="fa fa-gamepad" style="font-size: 18px;">&nbsp;&nbsp;</i>SPIEL STARTEN
                             </a>
                             <a class="btn <%= Model.IsLoggedIn ? "btn-primary" : "btn-link" %>" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
-                                <i class="fa fa-line-chart">&nbsp;&nbsp;</i>JETZT ÜBEN
+                                <i class="fa fa-line-chart">&nbsp;&nbsp;</i>JETZT LERNEN
                             </a>
                             <a class="btn btn-primary" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                                 <i class="fa fa-play-circle">&nbsp;&nbsp;</i>WISSEN TESTEN

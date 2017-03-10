@@ -639,6 +639,19 @@ img {
     padding-bottom: 20px;
     //position: relative;
    // z-index: @z-Index-mainContainer;
+
+    #MasterMainColumn {
+        .make-lg-column(9);
+
+        .media-lg ({
+            width: 80%;
+        });
+    }
+
+}
+
+#MasterNoContent{
+    background-color: white;
 }
 
 #MasterLeftColumn {
@@ -650,13 +663,7 @@ img {
     });
 }
 
-#MasterMainColumn {
-    .make-lg-column(9);
 
-    .media-lg ({
-        width: 80%;
-    });
-}
 
 /* MASTER FOOTER
 ----------------------------------------------------------*/
@@ -837,12 +844,27 @@ a.button span.ui-icon {
     }
 }
 
+#modalLogin .modal-dialog{
+    div.col-you-have-to-be-logged-in{
+        padding-bottom: 5px;
+        padding-left: 5px;
+        margin-top: -13px; 
+        border-bottom: 1px solid lavender; 
+    }
+}
+
 @media screen and (min-width: 568px){
-    *#modalLogin .modal-dialog { 
+    #modalLogin .modal-dialog { 
         width: 450px; 
         height: 300px;
-    } 
+
+        div.col-you-have-to-be-logged-in{
+            padding-left: 40px; 
+        }
+    }
 }
+
+
 
 
 

@@ -73,7 +73,7 @@
                     <b>Zu einem bestimmten Termin lernen</b>
                     <p>
                         Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in memucho weißt du immer, 
-                        was du schon sicher kannst und wo du noch weiter üben musst.
+                        was du schon sicher kannst und wo du noch weiter lernen musst.
                     </p>
                 </div>
                 <div class="col-xs-6" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">

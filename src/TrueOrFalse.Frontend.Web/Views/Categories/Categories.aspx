@@ -91,8 +91,8 @@
                             <a href="<%= Links.CategoriesWish() %>">
                                 <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalCategoriesInResult); %>
                                 <i class="fa fa-heart" style="color:#b13a48;"></i>
-                                    Mein Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount tabWishKnowledgeCount"><%= von + Model.TotalWish %></span> )
-                                <i class="fa fa-question-circle" id="tabInfoMyKnowledge"></i>
+                                Mein Wunsch<span class="hidden-xxs">wissen</span> (<span class="JS-Amount tabWishKnowledgeCount"><%= von + Model.TotalWish %></span>)
+                                <i class="fa fa-question-circle show-tooltip" id="tabInfoMyKnowledge" title="Themen, die du dir merken möchtest." data-placement="right"></i>
                             </a>
                         </li>
                     </ul>

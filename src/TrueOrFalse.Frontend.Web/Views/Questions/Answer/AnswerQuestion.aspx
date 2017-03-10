@@ -147,9 +147,7 @@
                         <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px; min-height: 175px;">
                             <h6 class="ItemInfo">
                                 <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
-                                    <a href="#" class="noTextdecoration">
-                                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                                    </a>
+                                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                                 </span>&nbsp;
                                 Fragesatz mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
                             </h6>

@@ -69,7 +69,7 @@
                             <div id="Buttons">
                                 
                                 <span class="Pin" data-question-id="<%= Model.QuestionId%>">
-                                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
                                 </span>
 
                                 <div id="buttons-first-try" class="ButtonGroup">

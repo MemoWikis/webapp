@@ -27,5 +27,5 @@
 }
 
 $(() => {
-    new BrainWavesHub();
+    //new BrainWavesHub();
 });

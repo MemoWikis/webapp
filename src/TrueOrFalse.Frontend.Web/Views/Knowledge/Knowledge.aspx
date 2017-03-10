@@ -174,7 +174,7 @@
         <div class="bs-callout bs-callout-danger">
             <h4>Einloggen oder registrieren</h4>
             <p>
-                Um einen Überblick über deine Lernerfolge, deine anstehenden Übungssitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
+                Um einen Überblick über deine Lernerfolge, deine anstehenden Lernsitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
                 musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
             </p>
             <p>
@@ -265,7 +265,7 @@
                     <% }else { %>
                         <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Übungssitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                                 <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                             </a>
                         </div>
@@ -361,7 +361,7 @@
                                     &nbsp;
                                     <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
                                         <i class="fa fa-line-chart"></i> 
-                                        Jetzt üben
+                                        Jetzt lernen
                                     </a>
                                 </div>                                
                             </div>
@@ -409,11 +409,11 @@
             
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0; margin-bottom: 3px;">Übungssitzungen</h3>
+                    <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
                     <% if (Model.TrainingDates.Count ==0) { %>
                         <div class="row" style="margin-bottom: 7px;">
                             <div class="col-md-12">
-                                Du hast in den nächsten <b>7 Tagen</b> keine geplanten Übungssitzungen.
+                                Du hast in den nächsten <b>7 Tagen</b> keine geplanten Lernsitzungen.
                             </div>
                         </div>
                     <% } else { %>
@@ -421,7 +421,7 @@
                             <div class="col-md-12">
                                 in den nächsten <b>7 Tagen</b>
                                 <ul>
-                                    <li>ca. <%= Model.TrainingDates.Count %> Übungssitzungen</li>
+                                    <li>ca. <%= Model.TrainingDates.Count %> Lernsitzungen</li>
                                     <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
                                 </ul>
                             </div>

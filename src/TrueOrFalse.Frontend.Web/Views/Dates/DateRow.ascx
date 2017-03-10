@@ -106,7 +106,7 @@
                             data-btn="startLearningSession" 
                             href="<%= Links.StartDateLearningSession(Model.Date.Id) %>"><i class="fa fa-line-chart"></i> 
 <%--                            href="/Termin/Lernen/<%=Model.Date.Id %>"><i class="fa fa-line-chart"></i> --%>
-                            Jetzt üben
+                            Jetzt lernen
                         </a>
                         <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten."
                             style="display: inline-block;">
@@ -137,14 +137,14 @@
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-calendar"></i></div>
                     <div class="col-md-10">
-                        <b>Übungsplan:</b> <span style="font-size: 9px">(verbleibend)</span>
+                        <b>Lernplan:</b> <span style="font-size: 9px">(verbleibend)</span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <span class="TPTrainingDateCount"><%= Model.TrainingDateCount %></span> Übungssitzungen</div>
+                    <div class="col-md-12">ca. <span class="TPTrainingDateCount"><%= Model.TrainingDateCount %></span> Lernsitzungen</div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">ca. <span class="TPRemainingTrainingTime"><%= Model.RemainingTrainingTime %></span> Übungszeit</div>
+                    <div class="col-md-12">ca. <span class="TPRemainingTrainingTime"><%= Model.RemainingTrainingTime %></span> Lernzeit</div>
                 </div>
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-bell"></i></div>
@@ -152,9 +152,9 @@
                         <% if(trainingPlan.HasOpenDates) {
                             var timeSpanLabel = new TimeSpanLabel(trainingPlan.TimeToNextDate, showTimeUnit: true);
                             if (timeSpanLabel.TimeSpanIsNegative) { %>
-                                <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=Model.Date.Id %>">Jetzt üben!</a>
+                                <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=Model.Date.Id %>">Jetzt lernen!</a>
                             <% } else { %>
-                                nächste Übungssitzung <br/>
+                                nächste Lernsitzung <br/>
                                 in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
                             <% } %>
                             (<span class="TPQuestionsInNextTrainingDate"><%= trainingPlan.QuestionCountInNextDate %></span> Fragen)
@@ -186,11 +186,11 @@
             <% }else if (Model.IsPast){ %>
                 <div class="row">
                     <div class="col-md-1"><i class="fa fa-calendar"></i></div>
-                    <div class="col-md-10"><b>Übungshistorie:</b></div>
+                    <div class="col-md-10"><b>Lernhistorie:</b></div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <%= Model.LearningSessionCount %> Übungssitzung<%= StringUtils.PluralSuffix(Model.LearningSessionCount,"en") %> mit <br/>
+                        <%= Model.LearningSessionCount %> Lernsitzung<%= StringUtils.PluralSuffix(Model.LearningSessionCount,"en") %> mit <br/>
                         <%= Model.LearningSessionQuestionsLearned %> Frage<%= StringUtils.PluralSuffix(Model.LearningSessionQuestionsLearned,"n") %>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
             <% }else if (Model.IsNetworkDate){ %>
                 <div class="row">
                     <div class="col-md-11" style="padding-top: 35px;">
-                        <p style="font-size: 11px; line-height: 11px; padding: 5px 13px;">Übernehme diesen Termin, damit memucho einen persönlichen Übungsplan für dich erstellen kann.</p>
+                        <p style="font-size: 11px; line-height: 11px; padding: 5px 13px;">Übernehme diesen Termin, damit memucho einen persönlichen Lernplan für dich erstellen kann.</p>
                         <p style="text-align: center;">
                             <a data-toggle="modal" data-dateId="<%= date.Id %>" class="btn btn-sm btn-info" href="#modalCopy" data-url="toSecurePost">
                                 <i class="fa fa-files-o"></i> Termin übernehmen

@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-xs-3 explanationDiv">
                             <p><i class="fa fa-3x fa-bar-chart"></i></p>
-                            <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
+                            <p>memucho erstellt deinen <b>persönlichen Lernplan</b></p>
                         </div>
                     </div>
                     <h3>Deine 5 Vorteile:</h3>
@@ -128,7 +128,7 @@
                         <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
                         <li><b>Sicherheit:</b> Optimierte Algorithmen erinnern dich daran zu lernen, bevor du vergisst.</li>
                         <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
-                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
+                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Lernsitzung ansteht.</li>--%>
                     </ul>
                     
                     <h3>Registriere dich und probiere es gleich aus!</h3>
@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-xs-3 explanationDiv">
                             <p><i class="fa fa-3x fa-bar-chart"></i></p>
-                            <p>memucho erstellt deinen <b>persönlichen Übungsplan</b></p>
+                            <p>memucho erstellt deinen <b>persönlichen Lernplan</b></p>
                         </div>
                     </div>
                     <p><b>Deine 5 Vorteile:</b></p>
@@ -179,7 +179,7 @@
                         <li><b>Effizienz:</b> Du lernst immer nur das, was du wirklich lernen musst.</li>
                         <li><b>Sicherheit:</b> Optimierte Algorithmen erinnern dich daran zu lernen, bevor du vergisst.</li>
                         <li><b>Übersicht:</b> Du hast deinen aktuellen Wissensstand immer im Blick.</li>
-                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Übungssitzung ansteht.</li>--%>
+                        <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Lernsitzung ansteht.</li>--%>
                     </ul>
                 </div>
 

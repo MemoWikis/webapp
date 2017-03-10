@@ -20,6 +20,9 @@
             <div class="row">
                 <div class="col-xs-9 xxs-stack" style="margin-bottom: 10px;">
                     <h1 class="pull-left ColoredUnderline User" style="margin-bottom: 10px; margin-top: 0px;  font-size: 30px;">
+                        <% if (Model.IsMember) { %>
+                            <i class="fa fa-star show-tooltip" style="color: #afd534;" title="<%= Model.Name %> unterstützt memucho als Fördermitglied. Danke!"></i>
+                        <% } %>
                         <%= Model.Name %>
                         <span style="display: inline-block; font-size: 20px; font-weight: normal;">
                             &nbsp;(Reputation: <%=Model.ReputationTotal %> - Rang <%= Model.ReputationRank %>)

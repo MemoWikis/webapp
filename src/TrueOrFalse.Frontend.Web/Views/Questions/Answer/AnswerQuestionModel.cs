@@ -105,6 +105,8 @@ public class AnswerQuestionModel : BaseModel
     public int TestSessionProgessAfterAnswering;
     public bool ShowErrorExpiredTestSession;
 
+    public bool DisableCommentLink;
+
     public ContentRecommendationResult ContentRecommendationResult;
 
     public AnswerQuestionModel()
@@ -302,7 +304,7 @@ public class AnswerQuestionModel : BaseModel
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = $"Antwort: '{SolutionModel.CorrectAnswer()}' {Environment.NewLine}";
+            result = $"Antwort: '{SolutionModel.CorrectAnswer()}'. {Environment.NewLine}";
 
             if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
             {

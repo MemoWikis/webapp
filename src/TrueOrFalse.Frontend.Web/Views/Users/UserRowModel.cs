@@ -32,6 +32,7 @@ public class UserRowModel : BaseModel
     public bool IsCurrentUser;
     public bool AllowsSupportiveLogin;
     public bool ShowWishKnowlede;
+    public bool IsMember;
 
     public bool DoIFollow;
     
@@ -56,6 +57,7 @@ public class UserRowModel : BaseModel
         IsInstallationLogin = _sessionUser.IsInstallationAdmin;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowlede = user.ShowWishKnowledge;
+        IsMember = user.IsMember();
 
         DescriptionShort = "";
 

@@ -60,7 +60,7 @@ public class GetTrainingPlanStats : IRegisterAsInstancePerLifetime
                 result.Append(", ")
                     .Append(d.AllQuestionsInTraining.Count)
                     .Append(", \"<p style='margin: 5px; text-align: center;'><b>" + d.AllQuestionsInTraining.Count + " Fragen</b><br/>"+
-                            "<span style='white-space: nowrap'>Übungssitzung " + curTrainingSession + " von "+ orgTrainingDateCount + "</span><br/>"+
+                            "<span style='white-space: nowrap'>Lernsitzung " + curTrainingSession + " von "+ orgTrainingDateCount + "</span><br/>"+
                             "<span style='white-space: nowrap'>am " + d.DateTime.ToString("dd.MM. 'um' HH:mm") + "</span></p>\"");
                 curTrainingSession++;
             });
