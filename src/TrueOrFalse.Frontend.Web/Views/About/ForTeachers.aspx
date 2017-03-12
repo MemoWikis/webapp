@@ -118,7 +118,8 @@
                 <p>
                     Bei memucho gibt es bereits <a href="<%= Links.QuestionsAll()%>"><%= Model.TotalPublicQuestionCount.ToString("N0") %> öffentliche Fragen</a> und
                     <a href="<%= Links.SetsAll()%>"><%= Model.TotalSetCount.ToString("N0") %> zusammengestellte Fragesätze</a> (jeder Fragesatz bündelt mehrere Fragen zu einem Thema),
-                    eingeordnet in <a href="<%= Links.CategoriesAll()%>"><%= Model.TotalCategoryCount.ToString("N0") %> Themen und Unterthemen</a>.
+                    eingeordnet in <a href="<%= Links.CategoriesAll()%>"><%= Model.TotalCategoryCount.ToString("N0") %> Themen und Unterthemen</a>. 
+                    Alle Inhalte bei memucho sind frei und rechtssicher verwendbar, sie stehen unter der Creative-Commons-Lizenz "CC-BY 4.0". 
                     Du kannst die vorhandenen Fragesätze einfach nutzen und zum Beispiel deinen Schülern zum Lernen empfehlen.
                 </p>
                 <p>
@@ -289,6 +290,7 @@
                 <p>
                     Den Klassensieger in der Vererbungslehre oder den EU-Institutionen in einem spannenden Spiel bestimmen?
                     Auf Basis der Lerninhalte können bis zu 30 Spieler in einem Echtzeit-Quiz gegeneinander antreten. 
+                    (Der Echtzeit-Quiz befindet sich zur Zeit noch in der Testphase.) 
                     Für jede Frage gibt es 15 Sekunden Zeit, wer am Ende die meisten Fragen richtig beantwortet hat, hat gewonnen. 
                     Spielen kann jeder auf seinem eigenen Handy oder auf Schulgeräten. Benötigt wird nur Internet und ein aktueller Browser.
                 </p>
