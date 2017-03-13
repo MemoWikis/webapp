@@ -1,3 +1,3 @@
 ﻿$(() => {
-    new SetVideo();
+    new SetVideo(() => { new Pin(PinType.Question) });
 });
