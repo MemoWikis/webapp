@@ -6,11 +6,12 @@ class SetPage {
         this.InitPies();
 
         if ($("#hhdHasVideo").val() == "True") {
-            new SetVideo();
+            new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });
+        } else {
+            new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
         }
 
         new Pin(PinType.SetDetail, KnowledgeWheel.ReloadSet);
-        new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
     }
 
     InitPies() {

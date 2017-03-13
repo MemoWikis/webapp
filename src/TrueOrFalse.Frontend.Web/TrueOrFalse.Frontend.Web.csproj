@@ -769,6 +769,12 @@
     </Content>
     <Content Include="Views\Widgets\WidgetSet.aspx" />
     <Content Include="Views\Widgets\WidgetQuestion.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.js">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\WidgetSetVideo.js.map">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />

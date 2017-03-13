@@ -1,14 +1,21 @@
 ﻿class SetVideo {
-    constructor() {
+
+    private fnOnChangeAnswerBody: () => void;
+
+    constructor(fnOnChangeAnswerBody : () => void) {
+
+        this.fnOnChangeAnswerBody = fnOnChangeAnswerBody;
+
+        var self = this;
 
         $("a[data-video-question-id]").click(function (e) {
-            SetVideo.LoadQuestionView(e, $(this));
+            self.LoadQuestionView(e, $(this));
         });
 
-        SetVideo.InitAnswerBody();
+        this.InitAnswerBody();
     }
 
-    static LoadQuestionView(e: JQueryEventObject, menuItem: JQuery) {
+    LoadQuestionView(e: JQueryEventObject, menuItem: JQuery) {
         e.preventDefault();
 
         $("#video-pager")
@@ -29,11 +36,11 @@
             });        
     }
 
-    static ClickItem(questionId : number) {
+    ClickItem(questionId : number) {
         $("#video-pager a[data-video-question-id=" + questionId + "]").trigger("click");
     }
 
-    static ChangeAnswerBody(html: string) {
+    ChangeAnswerBody(html: string) {
         $("#divBodyAnswer")
             .empty()
             .animate({ opacity: 0.00 }, 0)
@@ -44,7 +51,7 @@
         this.InitAnswerBody();
     }
 
-    static InitAnswerBody() {
+    InitAnswerBody() {
 
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
@@ -54,25 +61,24 @@
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
-        var pinQuestion = new PinQuestion();
-        pinQuestion.Init();
-
         Images.Init();
+
+        this.fnOnChangeAnswerBody();
     }
 
-    static HandleCorrectAnswer() {
+    HandleCorrectAnswer() {
         this.GetCurrentMenuItem()
             .removeClass("wrongAnswer")
             .addClass("correctAnswer");
     }
 
-    static HandleWrongAnswer() {
+    HandleWrongAnswer() {
         this.GetCurrentMenuItem()
             .removeClass("correctAnswer")
             .addClass("wrongAnswer");
     }
 
-    static GetCurrentMenuItem(): JQuery {
+    GetCurrentMenuItem(): JQuery {
         return $("#video-pager").find("a.current").first();
     }
 }
