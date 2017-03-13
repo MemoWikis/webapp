@@ -49,7 +49,7 @@ public class WidgetController : BaseController
                 Links.TestSessionResultController, 
                 new { name = testSession.UriName, testSessionId = testSession.Id });
 
-        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
+        var question = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
 
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
@@ -59,5 +59,14 @@ public class WidgetController : BaseController
         return View(
             "~/Views/Widgets/WidgetSet.aspx",
             new WidgetSetModel(answerModel));
+    }
+
+    public ActionResult SetVideo(int setId)
+    {
+        var set = Sl.SetRepo.GetById(setId);
+
+        return View(
+            "~/Views/Widgets/WidgetSetVideo.aspx",
+            new WidgetSetVideoModel(set));
     }
 }

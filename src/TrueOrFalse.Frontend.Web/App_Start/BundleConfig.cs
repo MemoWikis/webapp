@@ -193,6 +193,15 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetSet")
+                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .Include("~/Views/Widgets/AwesomeIframe.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/WidgetSetVideo")
+                .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .Include("~/Views/Sets/Detail/Js/SetVideo.js")
+                .Include("~/Views/Widgets/WidgetSetVideo.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
 
             //Markdown
