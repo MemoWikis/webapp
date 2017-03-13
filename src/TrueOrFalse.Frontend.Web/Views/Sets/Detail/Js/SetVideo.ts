@@ -36,7 +36,7 @@
             });        
     }
 
-    ClickItem(questionId : number) {
+    static ClickItem(questionId : number) {
         $("#video-pager a[data-video-question-id=" + questionId + "]").trigger("click");
     }
 
