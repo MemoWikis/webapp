@@ -5,6 +5,7 @@
     public WidgetSetResultModel(TestSessionResultModel testSession)
     {
         TestSessionResultModel = testSession;
+        TestSessionResultModel.IsInWidget = true;
 
         ShowUserReportWidget = false;
     }

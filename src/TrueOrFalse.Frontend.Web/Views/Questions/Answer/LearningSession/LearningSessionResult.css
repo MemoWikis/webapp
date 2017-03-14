@@ -188,8 +188,8 @@
 .answerDetails .rightAnswer {
   font-weight: bold;
 }
-.answerDetails .answerTry {
-  margin-left: 15px;
+.answerDetails .averageCorrectness {
+  padding-top: 3px;
 }
 .answerDetails .answerLinkToQ {
   font-size: 11px;

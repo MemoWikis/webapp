@@ -23,6 +23,8 @@ public class TestSessionResultModel : BaseModel
 
     public ContentRecommendationResult ContentRecommendationResult;
 
+    public bool IsInWidget;
+
     public TestSessionResultModel(TestSession testSession)
     {
         TestSession = testSession;
