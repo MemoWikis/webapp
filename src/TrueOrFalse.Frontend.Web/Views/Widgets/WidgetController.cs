@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
 
 [SetMenu(MenuEntry.None)]
 public class WidgetController : BaseController
@@ -40,10 +38,7 @@ public class WidgetController : BaseController
     public ActionResult SetTestStep(int testSessionId)
     {
         return AnswerQuestionController.TestActionShared(testSessionId,
-            testSession => RedirectToAction(
-                Links.TestSessionResultAction,
-                Links.TestSessionResultController,
-                new {name = testSession.UriName, testSessionId = testSessionId}
+            testSession => RedirectToAction("SetTestResult", "Widget", new {testSessionId = testSessionId}
             ),
             (testSession, questionViewGuid, question) => {
                 var answerModel = new AnswerQuestionModel(testSession, questionViewGuid, question);
@@ -51,6 +46,15 @@ public class WidgetController : BaseController
                 return View("~/Views/Widgets/WidgetSet.aspx", new WidgetSetModel(answerModel));
             }
         );
+    }
+
+    public ActionResult SetTestResult(int testSessionId)
+    {
+        var testSession = TestSessionResultController.GetTestSession(testSessionId);
+        var testSessionResultModel = new TestSessionResultModel(testSession);
+        var setModel = new WidgetSetResultModel(testSessionResultModel);
+
+        return View("~/Views/Widgets/WidgetSetResult.aspx", setModel);
     }
 
     public ActionResult SetVideo(int setId)

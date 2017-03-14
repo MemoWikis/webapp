@@ -379,9 +379,13 @@
     <Compile Include="Views\Widgets\WidgetController.cs" />
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Views\Drafts\WidgetSet.html" />
     <Content Include="Views\Drafts\WidgetVideo.html" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
+    <Content Include="Views\Widgets\WidgetSetResult.aspx" />
     <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
