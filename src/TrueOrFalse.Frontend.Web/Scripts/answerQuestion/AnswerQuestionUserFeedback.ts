@@ -142,7 +142,7 @@
                 });
             }
 
-            
+
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && !result.correctAnswer) {
                 $("#Solution").show().find('.Label').html("Keine der Antworten ist richtig!");
             } else {

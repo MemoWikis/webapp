@@ -10,11 +10,15 @@ class SolutionTypeMatchList
         this.AnswerQuestion = new AnswerQuestion(this);
         $('input:checkbox[name=answer]').change((event) => {
             this.AnswerQuestion.OnAnswerChange();
-            this.AnswerQuestion.GiveSelectedSolutionClass(event);
         });
     }
 
     static GetChosenAnswers(): string {
+        var answerCount = $("#matchlist-pairs[id*='leftElementResponse-']").length;
+        for (var i = 0; i < answerCount; i++) {
+            var rightPairValue = $("#leftElementResponse-" + i).attr('name');
+            var leftPairValue = $("#rightElementResponse-" + i).attr('name');
+        }
         var selected = $('input:checkbox[name=answer]:checked');
         var selectedValues = "";
         for (var i = 0; i < selected.length; i++) {

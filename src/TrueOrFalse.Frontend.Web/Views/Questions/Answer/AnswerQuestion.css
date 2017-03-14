@@ -253,6 +253,18 @@
 #AnswerInputSection .wrong-answer {
   color: #B13A48;
 }
+.matchlist-dropable {
+  border: 2px solid;
+  border-radius: 5px;
+  height: 26px;
+}
+.matchlist-hovered {
+  background-color: gainsboro;
+}
+.matchlist-rightelement {
+  border: 2px solid;
+  border-radius: 3px;
+}
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;

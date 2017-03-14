@@ -52,8 +52,8 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        //string[] Answers = answer.Split(new string[] {", "}, StringSplitOptions.RemoveEmptyEntries);
-        //string[] Solutions = this.CorrectAnswer().Split(new string[] {", "}, StringSplitOptions.RemoveEmptyEntries);
+        //string[] Answers = answer.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+        //string[] Solutions = this.CorrectAnswer().Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
         //return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
         return false;
     }
