@@ -13,9 +13,11 @@ public class TestSessionResultController : BaseController
     {
         var sessionUser = Sl.SessionUser;
 
-        if (sessionUser.TestSessions.Count(s => s.Id == testSessionId) != 1)
-            throw new Exception("TestSessionId is not unique, there are " + sessionUser.TestSessions.Count(s => s.Id == testSessionId) +
-                " results (0 means: session is simply not there yet; >1 means: more than 1 TestSession was created simultaneously with same Id)");
+        if (sessionUser.TestSessions.Count(s => s.Id == testSessionId) > 1)
+            throw new Exception($"TestSessionId is not unique, there are {sessionUser.TestSessions.Count(s => s.Id == testSessionId)} test sessions");
+
+        if (sessionUser.TestSessions.Count(s => s.Id == testSessionId) == 0)
+            return new TestSession {SessionNotFound = true};
 
         return sessionUser.TestSessions.Find(s => s.Id == testSessionId);
     }

@@ -27,6 +27,9 @@ public class TestSessionResultModel : BaseModel
     {
         TestSession = testSession;
 
+        if(testSession.SessionNotFound)
+            return;
+
         if (TestSession.IsSetSession)
         {
             TestedSet = Sl.R<SetRepo>().GetById(TestSession.SetToTestId);

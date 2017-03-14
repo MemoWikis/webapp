@@ -13,12 +13,22 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
     
-    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultHead.ascx", Model.TestSessionResultModel);  %>
+    
+    <% if(Model.TestSessionResultModel.TestSession.SessionNotFound) { %>
+    
+        <h2>Uuups...</h2>
+        <p>die Testsitzung ist nicht mehr aktuell.</p>
+
+    <% } else { %>
+
+        <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultHead.ascx", Model.TestSessionResultModel);  %>
         
-    <div class="row">
-        <div class="col-sm-12">
-            <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultDetails.ascx", Model.TestSessionResultModel);  %>
+        <div class="row">
+            <div class="col-sm-12">
+                <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultDetails.ascx", Model.TestSessionResultModel);  %>
+            </div>
         </div>
-    </div>
+    
+    <% } %>
 
 </asp:Content>

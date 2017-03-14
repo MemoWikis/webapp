@@ -32,6 +32,8 @@ public class TestSession
     public virtual int CurrentStep { get; set; }
     public virtual int NumberOfSteps => Steps.Count;
 
+    public bool SessionNotFound = false;
+
     public virtual int TotalPossibleQuestions
     {
         get
@@ -50,6 +52,10 @@ public class TestSession
 
             throw new Exception("unknown session type");
         }
+    }
+
+    public TestSession()
+    {        
     }
 
     public TestSession(Set set)
