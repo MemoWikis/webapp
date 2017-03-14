@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web.Script.Serialization;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
 public class QuestionSolutionMatchList : QuestionSolution
@@ -50,8 +51,16 @@ public class QuestionSolutionMatchList : QuestionSolution
         }
     }
 
+    private MatchListAnswerPairs deserializeAnswer(string answerJSON)
+    {
+        var serilizer = new JavaScriptSerializer();
+        return serilizer.Deserialize<MatchListAnswerPairs>(answerJSON);
+    }
+
     public override bool IsCorrect(string answer)
     {
+        var answerObject = deserializeAnswer(answer);
+        
         //string[] Answers = answer.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
         //string[] Solutions = this.CorrectAnswer().Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
         //return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
@@ -71,6 +80,12 @@ public class QuestionSolutionMatchList : QuestionSolution
         //    }
         //}
         //return CorrectAnswer;
-        return "false";
+        return "Hier gibts noch nichts zu sehen!";
     }
+}
+
+//Ist das noch legal?
+public class MatchListAnswerPairs
+{
+    public List<Pair> answerRows { get; set; }
 }

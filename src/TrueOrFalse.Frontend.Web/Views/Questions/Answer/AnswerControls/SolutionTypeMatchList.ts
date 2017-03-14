@@ -14,30 +14,42 @@ class SolutionTypeMatchList
     }
 
     static GetChosenAnswers(): string {
-        var answerCount = $("#matchlist-pairs[id*='leftElementResponse-']").length;
+        var answerCount = $("#matchlist-pairs [id*='leftElementResponse-']").length;
+        var answerRows: Pair[] = [];
         for (var i = 0; i < answerCount; i++) {
-            var rightPairValue = $("#leftElementResponse-" + i).attr('name');
-            var leftPairValue = $("#rightElementResponse-" + i).attr('name');
+            var rightPairValue = $("#rightElementResponse-" + i).attr('name');
+            var leftPairValue = $("#leftElementResponse-" + i).attr('name');
+            answerRows.push(new Pair());
+            answerRows[i].ElementLeft = new ElementLeft();
+            answerRows[i].ElementLeft.Text = leftPairValue;
+            answerRows[i].ElementRight = new ElementRight();
+            answerRows[i].ElementRight.Text = rightPairValue;
         }
-        var selected = $('input:checkbox[name=answer]:checked');
-        var selectedValues = "";
-        for (var i = 0; i < selected.length; i++) {
-            selectedValues += (<any>selected.get(i)).value;
-            if (i < (selected.length - 1))
-                selectedValues += ", ";
-        }
-        return selectedValues;
+        return JSON.stringify(answerRows);
     }
 
     GetAnswerText(): string {
-        return SolutionTypeMultipleChoice.GetChosenAnswers();
+        return "Note to self: Cannot be empty string. Still have to fix that!";
     }
 
     GetAnswerData(): {} {
-        return { answer: SolutionTypeMultipleChoice.GetChosenAnswers()};
+        return { answer: '{ "Rows": ' + SolutionTypeMatchList.GetChosenAnswers() + '}'};
     }
 
     OnNewAnswer() {
         $('input:checkbox[name=answer]:checked').prop('checked', false);
     }
 };
+
+class Pair {
+    ElementLeft: ElementLeft;
+    ElementRight: ElementRight;
+}
+
+class ElementLeft {
+    Text: string;
+}
+
+class ElementRight {
+    Text: string;
+}

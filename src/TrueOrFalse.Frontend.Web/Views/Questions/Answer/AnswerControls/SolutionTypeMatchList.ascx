@@ -33,7 +33,6 @@
     var answerCount = 0;
 
     function handleElementDrop(event, ui) {
-        answerCount++;
         //ui.draggable.clone();
         ui.draggable.draggable('disable');
         $(this).droppable('disable');
@@ -41,7 +40,6 @@
         ui.draggable.draggable('option', 'revert', false);
         $(this).attr('id', 'leftElementResponse-' + answerCount);
         ui.draggable.attr('id', 'rightElementResponse-' + answerCount);
-        //var answerSelectionName = $(this).attr('name') + "%seperate%" + ui.draggable.attr('name');
-        //$(this).attr('id', 'answerLeftElement-' + answerCount);
+        answerCount++;
     }
 </script>
