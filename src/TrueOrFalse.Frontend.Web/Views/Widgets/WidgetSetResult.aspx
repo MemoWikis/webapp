@@ -2,6 +2,7 @@
     MasterPageFile="~/Views/Shared/Site.PureContent.Master" 
     Inherits="ViewPage<WidgetSetResultModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Head" runat="server">
     <style type="text/css">
@@ -27,6 +28,16 @@
             <div class="col-sm-12">
                 <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultDetails.ascx", Model.TestSessionResultModel);  %>
             </div>
+        </div>
+    
+        <div class="buttonRow">
+            <a href="<%= Model.TestSessionResultModel.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
+                    title="Neue Fragen <% if (Model.TestSessionResultModel.TestSession.IsSetSession) Response.Write("aus dem gleichen Fragesatz");
+                                                else if (Model.TestSessionResultModel.TestSession.IsSetsSession) Response.Write("aus den gleichen Fragesätzen");
+                                                else if (Model.TestSessionResultModel.TestSession.IsCategorySession) Response.Write("zum gleichen Thema");%>
+                " rel="nofollow">
+                <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
+            </a>
         </div>
     
     <% } %>
