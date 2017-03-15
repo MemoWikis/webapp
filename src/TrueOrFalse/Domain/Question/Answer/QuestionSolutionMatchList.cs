@@ -60,11 +60,18 @@ public class QuestionSolutionMatchList : QuestionSolution
     public override bool IsCorrect(string answer)
     {
         var answerObject = deserializeAnswer(answer);
-        
-        //string[] Answers = answer.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-        //string[] Solutions = this.CorrectAnswer().Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-        //return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
-        return false;
+        var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text);
+        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text);
+        bool answerCorrect = true;
+        for (int i = 0; i < questionPairs.Count(); i++)
+        {
+            bool isSameElementLeft = questionPairs.ElementAt(i).ElementLeft.Text == answerPairs.ElementAt(i).ElementLeft.Text;
+            bool isSameElementRight = questionPairs.ElementAt(i).ElementRight.Text == answerPairs.ElementAt(i).ElementRight.Text;
+            if (isSameElementLeft && isSameElementRight)
+                continue;
+            answerCorrect = false;
+        }
+        return answerCorrect;
     }
 
     public override string CorrectAnswer()
@@ -87,5 +94,5 @@ public class QuestionSolutionMatchList : QuestionSolution
 //Ist das noch legal?
 public class MatchListAnswerPairs
 {
-    public List<Pair> answerRows { get; set; }
+    public List<Pair> Pairs { get; set; }
 }

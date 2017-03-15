@@ -33,7 +33,7 @@ class SolutionTypeMatchList
     }
 
     GetAnswerData(): {} {
-        return { answer: '{ "Rows": ' + SolutionTypeMatchList.GetChosenAnswers() + '}'};
+        return { answer: '{ "Pairs": ' + SolutionTypeMatchList.GetChosenAnswers() + '}'};
     }
 
     OnNewAnswer() {
