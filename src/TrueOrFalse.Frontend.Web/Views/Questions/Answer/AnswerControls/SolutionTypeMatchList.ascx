@@ -26,18 +26,21 @@
         stack: '#matchlist-rightElements span',
         cursor: 'move',
         helper: 'clone',
-        revert: 'invalid'
+        revert: 'true'
     });
     $("#matchlist-rightElements").append(rightDragElement);
     <% } %>
 
     var answerCount = 0;
     function handleElementDrop(event, ui) {
+        var helperClone = ui.helper.clone();
+        helperClone.draggable();
+        ui.helper.before(helperClone);
+        helperClone.position({ of: $(this), my: 'center', at: 'center' });
+        helperClone.draggable('disable');
+        helperClone.attr('id', 'rightElementResponse-' + answerCount);
         $(this).droppable('disable');
-        ui.draggable.draggable('disable');
-        ui.draggable.position({ of: $(this), my: 'center', at: 'center' });
         $(this).attr('id', 'leftElementResponse-' + answerCount);
-        ui.draggable.attr('id', 'rightElementResponse-' + answerCount);
         answerCount++;
     }
 </script>
