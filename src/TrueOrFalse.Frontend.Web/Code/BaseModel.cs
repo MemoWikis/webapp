@@ -18,7 +18,7 @@
         set { _sponsorModel = value; }
     }
 
-    private SponsorModel _sponsorModel; 
+    private SponsorModel _sponsorModel;
 
     protected SessionUser _sessionUser => Resolve<SessionUser>();
     protected SessionUiData _sessionUiData => Resolve<SessionUiData>();
