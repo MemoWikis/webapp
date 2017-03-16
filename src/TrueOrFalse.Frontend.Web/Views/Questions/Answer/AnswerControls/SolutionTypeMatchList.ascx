@@ -13,8 +13,8 @@
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop
     } );
-    $("div#matchlist-pairs").append($("<div class = 'col-sm-12 row'>")
-        .append($("<h3 class= 'col-sm-5'><%= pair.ElementLeft.Text %></h3>"))
+    $("div#matchlist-pairs").append($("<div class = 'col-sm-12 row pair-row'>")
+        .append($("<span class= 'col-sm-5'><%= pair.ElementLeft.Text %></span>"))
         .append($("<i class=' matchlist-arrow fa fa-arrow-right fa-1x col-sm-2'>"))
         .append(rightDropElement));
     <% }
@@ -26,18 +26,16 @@
         stack: '#matchlist-rightElements span',
         cursor: 'move',
         helper: 'clone',
-        revert: true
+        revert: 'invalid'
     });
     $("#matchlist-rightElements").append(rightDragElement);
     <% } %>
-    var answerCount = 0;
 
+    var answerCount = 0;
     function handleElementDrop(event, ui) {
-        //ui.draggable.clone();
-        ui.draggable.draggable('disable');
         $(this).droppable('disable');
+        ui.draggable.draggable('disable');
         ui.draggable.position({ of: $(this), my: 'center', at: 'center' });
-        ui.draggable.draggable('option', 'revert', false);
         $(this).attr('id', 'leftElementResponse-' + answerCount);
         ui.draggable.attr('id', 'rightElementResponse-' + answerCount);
         answerCount++;

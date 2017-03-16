@@ -60,13 +60,21 @@ public class QuestionSolutionMatchList : QuestionSolution
     public override bool IsCorrect(string answer)
     {
         var answerObject = deserializeAnswer(answer);
-        var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text);
-        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text);
+        var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
+        for (int i = 0; i < questionPairs.Count; i++)
+        {
+            if (questionPairs[i].ElementRight.Text == "keine Zuordnung")
+            {
+                questionPairs.RemoveAt(i);
+                i--;
+            }
+        }
+        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         bool answerCorrect = true;
         for (int i = 0; i < questionPairs.Count(); i++)
         {
-            bool isSameElementLeft = questionPairs.ElementAt(i).ElementLeft.Text == answerPairs.ElementAt(i).ElementLeft.Text;
-            bool isSameElementRight = questionPairs.ElementAt(i).ElementRight.Text == answerPairs.ElementAt(i).ElementRight.Text;
+            bool isSameElementLeft = questionPairs[i].ElementLeft.Text == answerPairs[i].ElementLeft.Text;
+            bool isSameElementRight = questionPairs[i].ElementRight.Text == answerPairs[i].ElementRight.Text;
             if (isSameElementLeft && isSameElementRight)
                 continue;
             answerCorrect = false;

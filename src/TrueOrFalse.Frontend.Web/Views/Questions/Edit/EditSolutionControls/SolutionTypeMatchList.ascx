@@ -39,9 +39,6 @@
     }
 
     $("#addPair").click(function() {
-        //if (addingStemId != 0) {
-        //    dont enable remove button for first element
-        //}
         var addingPairElementId = $("#pairs .matchlist-leftelement").length;
         if (addingPairElementId !== 0)
             removeButton = $(getRemoveButton());
@@ -66,7 +63,6 @@
             var rightElementId = $(this).attr('id');
             $(".matchlist-rightpairelement").each(function (selectElementIndex, selectElement) {
                 $(selectElement).children().each(function(optionElementIndex, optionElement) {
-                    alert(rightElementId);
                     if ($(optionElement).attr('name') === rightElementId)
                         $(optionElement).remove();
                 });
@@ -86,7 +82,6 @@
 
     <% if (Model != null)
        {
-        //TODO: klären ob keine zuordnung als feature
            foreach (var pair in Model.RightElements)
            { %>
             $("#addRightPairElement").click();
