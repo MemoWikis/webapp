@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMatchList>" %>
 <div class="col-sm-12 row">
-<div id="matchlist-pairs"></div>
-<div id="matchlist-rightElements"></div>
+<div id="matchlist-pairs" class="col-sm-12 row"></div>
+<div id="matchlist-rightelements" class="col-sm-12 row"></div>
 </div>
 
 <script type="text/javascript">
@@ -9,7 +9,7 @@
    foreach (var pair in Model.Pairs.OrderBy(x => random.Next()))
    { %>
     var rightDropElement = $("<div class='matchlist-dropable col-sm-5' name = '<%= pair.ElementLeft.Text %>'>").droppable( {
-        accept: '#matchlist-rightElements span',
+        accept: '#matchlist-rightelements span',
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop
     } );
@@ -23,24 +23,36 @@
     { %>
     var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>").html("<%= elementRight.Text %>").draggable({
         containment: '#AnswerInputSection',
-        stack: '#matchlist-rightElements span',
+        stack: '#matchlist-rightelements span',
         cursor: 'move',
         helper: 'clone',
         revert: 'true'
     });
-    $("#matchlist-rightElements").append(rightDragElement);
+    $("#matchlist-rightelements").append(rightDragElement);
     <% } %>
 
     var answerCount = 0;
     function handleElementDrop(event, ui) {
-        var helperClone = ui.helper.clone();
-        helperClone.draggable();
-        ui.helper.before(helperClone);
-        helperClone.position({ of: $(this), my: 'center', at: 'center' });
-        helperClone.draggable('disable');
-        helperClone.attr('id', 'rightElementResponse-' + answerCount);
-        $(this).droppable('disable');
-        $(this).attr('id', 'leftElementResponse-' + answerCount);
-        answerCount++;
+        if (ui.draggable.hasClass('helper-clone')) {
+            ui.draggable.position({ of: $(this), my: 'center', at: 'center' });
+            var oldIdElementLeft = 'leftElementResponse-' + ui.draggable.attr('id').split("-")[1];
+            $('#' + oldIdElementLeft).removeAttr('id');
+            $(this).attr('id', oldIdElementLeft);
+        } else {
+            var helperClone = ui.helper.clone();
+            helperClone.draggable({
+                containment: '#AnswerInputSection',
+                stack: '#matchlist-rightelements span',
+                cursor: 'move',
+                revert: 'invalid'
+            });
+            helperClone.addClass('helper-clone');
+            ui.helper.before(helperClone);
+            helperClone.position({ of: $(this), my: 'center', at: 'center' });
+            helperClone.attr('id', 'rightElementResponse-' + answerCount);
+            //$(this).droppable('disable');
+            $(this).attr('id', 'leftElementResponse-' + answerCount);
+            answerCount++;
+        }
     }
 </script>

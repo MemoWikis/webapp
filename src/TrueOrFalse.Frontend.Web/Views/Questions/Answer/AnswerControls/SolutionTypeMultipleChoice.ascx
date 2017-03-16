@@ -15,6 +15,6 @@
     Es können keine oder mehrere Antworten richtig sein!
 </h6>
 <script type="text/javascript">
-    $
+   
 
 </script>
