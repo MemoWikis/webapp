@@ -14,17 +14,16 @@ class SolutionTypeMatchList
     }
 
     static GetChosenAnswers(): string {
-        var answerCount = $("#matchlist-pairs [id*='leftElementResponse-']").length;
         var answerRows: Pair[] = [];
-        for (var i = 0; i < answerCount; i++) {
-            var rightPairValue = $("#rightElementResponse-" + i).attr('name');
-            var leftPairValue = $("#leftElementResponse-" + i).attr('name');
+        var answerCount = $("#matchlist-pairs [id*='leftElementResponse-']").each((index, elem) => {
+            var rightPairValue = $("#rightElementResponse-" + $(elem).attr('id').split("-")[1]).attr('name');
+            var leftPairValue = $(elem).attr('name');
             answerRows.push(new Pair());
-            answerRows[i].ElementLeft = new ElementLeft();
-            answerRows[i].ElementLeft.Text = leftPairValue;
-            answerRows[i].ElementRight = new ElementRight();
-            answerRows[i].ElementRight.Text = rightPairValue;
-        }
+            answerRows[index].ElementLeft = new ElementLeft();
+            answerRows[index].ElementLeft.Text = leftPairValue;
+            answerRows[index].ElementRight = new ElementRight();
+            answerRows[index].ElementRight.Text = rightPairValue;
+        });        
         return JSON.stringify(answerRows);
     }
 
