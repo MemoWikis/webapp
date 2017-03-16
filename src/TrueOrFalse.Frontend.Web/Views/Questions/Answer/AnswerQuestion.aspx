@@ -68,7 +68,7 @@
                    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
             <% }else { %>
                 <div class="AnswerQuestionHeader">
-                    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
+                    <% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
                         <div class="SponsorWrapper">
                             <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink"><%= Model.SponsorModel.Sponsor.LinkText %></a>
                         </div>

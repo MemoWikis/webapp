@@ -4,7 +4,7 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
-    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
+    <% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
         <div class="SponsorWrapper">
             <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink"><%= Model.SponsorModel.Sponsor.LinkText %></a>
         </div>
