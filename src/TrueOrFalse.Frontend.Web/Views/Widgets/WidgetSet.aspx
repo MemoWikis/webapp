@@ -8,6 +8,10 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/WidgetSet") %>
+    
+    <style type="text/css">
+        html { height: auto;}
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">

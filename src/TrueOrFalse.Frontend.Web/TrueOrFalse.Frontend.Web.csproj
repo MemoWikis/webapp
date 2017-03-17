@@ -380,6 +380,15 @@
     <Compile Include="Views\Widgets\WidgetController.cs" />
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Views\Drafts\Widget-Debug.html" />
+    <Content Include="Views\Drafts\WidgetSet.html" />
+    <Content Include="Views\Drafts\WidgetVideo.html" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
+    <Content Include="Views\Widgets\WidgetSetResult.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -769,6 +778,12 @@
     </Content>
     <Content Include="Views\Widgets\WidgetSet.aspx" />
     <Content Include="Views\Widgets\WidgetQuestion.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.js">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\WidgetSetVideo.js.map">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -1638,6 +1653,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
+    <TypeScriptCompile Include="Views\Widgets\WidgetSetVideo.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -2255,6 +2271,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
+    <Content Include="Views\Widgets\app.config" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

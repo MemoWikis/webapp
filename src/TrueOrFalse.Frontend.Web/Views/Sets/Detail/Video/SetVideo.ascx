@@ -1,8 +1,8 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SetVideoModel>" %>
 
-<div class="row">
+<div class="row video-header">
     <div class="col-xs-12">
-        <h4 style="margin-top:-10px; margin-bottom: 20px;">Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
+        <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
     </div>
 </div>
 <div>

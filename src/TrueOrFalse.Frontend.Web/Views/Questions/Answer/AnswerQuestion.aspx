@@ -5,7 +5,7 @@
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.QuestionText; %>
-    <% if (Model.IsLearningSession || Model.IsTestSession) { %>
+    <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
     <%}else { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />

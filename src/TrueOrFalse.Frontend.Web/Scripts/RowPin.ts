@@ -27,7 +27,7 @@ class Pin {
         else if (self.IsCategoryRow() || self.IsSetDetail())
             allPins = $(".Pin[data-category-id]").find(".iAdded, .iAddedNot"); 
 
-        allPins.click(function (e) {
+        allPins.off('click.rowPin').on('click.rowPin', function (e) {
 
             e.preventDefault();
             if (NotLoggedIn.Yes()) {
