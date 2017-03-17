@@ -13,8 +13,8 @@ namespace TrueOrFalse
             // das hier später per Konvention, siehe: http://mvccontrib.codeplex.com/SourceControl/changeset/view/351a6de404cb#src%2fMVCContrib%2fSimplyRestful%2fSimplyRestfulRouteHandler.cs
 
             routes.MapRoute("Logout", "Ausloggen", new { controller = "Welcome", action = "Logout" });
-            routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Welcome", action = "IsUserNameAvailable" });
-            routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Welcome", action = "IsEmailAvailable" });
+            routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Login", action = "IsUserNameAvailable" });
+            routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
