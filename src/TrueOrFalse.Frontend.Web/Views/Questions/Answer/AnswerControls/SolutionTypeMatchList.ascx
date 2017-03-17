@@ -33,6 +33,7 @@
 
     var answerCount = 0;
     function handleElementDrop(event, ui) {
+        ui.helper.data('dropped', true);
         if ($(this).attr('id') !== undefined) {
             $('#rightElementResponse-' + $(this).attr('id').split("-")[1]).remove();
         }
@@ -47,9 +48,15 @@
                 containment: '#AnswerInputSection',
                 stack: '#matchlist-rightelements span',
                 cursor: 'move',
+                start: function(event, ui) {
+                    ui.helper.data('dropped', false);
+                },
                 stop: function (event, ui) {
-                    //TODO Continue here
-                    alert($(this).data('dropped', false));
+                    if (!ui.helper.data('dropped')) {
+                        $('#leftElementResponse-' + $(this).attr('id').split("-")[1]).removeAttr('id');
+                        $(this).remove();
+                    }
+
                     //if (ui.draggable.data('dropped', false)) {
                     //    alert('false');
                     //}
