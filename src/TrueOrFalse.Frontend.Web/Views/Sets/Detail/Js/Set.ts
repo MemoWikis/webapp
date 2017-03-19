@@ -7,9 +7,11 @@ class SetPage {
 
         var setId = $("#hhdSetId").val();
         var setShare = new SetShare(setId);
-        setShare.ShowModal(setId);
+        var hasVideo = $("#hhdHasVideo").val() == "True";
 
-        if ($("#hhdHasVideo").val() == "True") {
+        setShare.ShowModal(setId, hasVideo);
+
+        if (hasVideo) {
             new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });
         } else {
             new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
