@@ -52,9 +52,9 @@ class AnswerQuestion {
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
-        this._getAnswerText = answerEntry.GetAnswerText;
-        this._getAnswerData = answerEntry.GetAnswerData;
-        this._onNewAnswer = answerEntry.OnNewAnswer;
+        this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
+        this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
+        this._onNewAnswer = () => { answerEntry.OnNewAnswer(); };
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();

@@ -56,10 +56,6 @@
                         $('#leftElementResponse-' + $(this).attr('id').split("-")[1]).removeAttr('id');
                         $(this).remove();
                     }
-
-                    //if (ui.draggable.data('dropped', false)) {
-                    //    alert('false');
-                    //}
                 }
             });
             helperClone.addClass('helper-clone');

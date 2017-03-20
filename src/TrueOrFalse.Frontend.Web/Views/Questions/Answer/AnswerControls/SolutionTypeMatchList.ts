@@ -6,11 +6,7 @@ class SolutionTypeMatchList
 
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-
         this.AnswerQuestion = new AnswerQuestion(this);
-        $('input:checkbox[name=answer]').change((event) => {
-            this.AnswerQuestion.OnAnswerChange();
-        });
     }
 
     static GetChosenAnswers(): string {
@@ -23,7 +19,7 @@ class SolutionTypeMatchList
             answerRows[index].ElementLeft.Text = leftPairValue;
             answerRows[index].ElementRight = new ElementRight();
             answerRows[index].ElementRight.Text = rightPairValue;
-        });        
+        });
         return JSON.stringify(answerRows);
     }
 
@@ -36,9 +32,13 @@ class SolutionTypeMatchList
     }
 
     OnNewAnswer() {
-        $('input:checkbox[name=answer]:checked').prop('checked', false);
+        $('[id*="rightElementResponse-"]').each((index, element) => {
+            $('#leftElementResponse-' + $(element).attr('id').split("-")[1]).removeAttr('id');
+            $(element).remove();
+        });
+        this.AnswerQuestion.OnAnswerChange();
     }
-};
+}
 
 class Pair {
     ElementLeft: ElementLeft;

@@ -38,7 +38,7 @@
         return removeButton;
     }
 
-    $("#addPair").click(function() {
+    $("#addPair").click(function () {
         var addingPairElementId = $("#pairs .matchlist-leftelement").length;
         if (addingPairElementId !== 0)
             removeButton = $(getRemoveButton());
@@ -62,49 +62,50 @@
             var rightElementValue = $(this).val();
             var rightElementId = $(this).attr('id');
             $(".matchlist-rightpairelement").each(function (selectElementIndex, selectElement) {
-                $(selectElement).children().each(function(optionElementIndex, optionElement) {
+                $(selectElement).children().each(function (optionElementIndex, optionElement) {
                     if ($(optionElement).attr('name') === rightElementId)
                         $(optionElement).remove();
                 });
                 $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
             });
-        rightElementRemoveButton.click(function() {
-        $(".matchlist-rightpairelement").each(function (index, selectElement) {
-            $(selectElement).children().each(function (optionElementIndex, optionElement) {
-                if ($(optionElement).attr('name') === rightElementId)
-                    $(optionElement).remove();
+            rightElementRemoveButton.click(function () {
+                $(".matchlist-rightpairelement").each(function (index, selectElement) {
+                    $(selectElement).children().each(function (optionElementIndex, optionElement) {
+                        if ($(optionElement).attr('name') === rightElementId)
+                            $(optionElement).remove();
+                    });
+                });
             });
-        });
-        });
         });
         addingElementRightId++;
     });
 
     <% if (Model != null)
-       {
-           foreach (var pair in Model.RightElements)
-           { %>
+    {
+        for (int i = 0; i < Model.RightElements.Count; i++)
+        { %>
             $("#addRightPairElement").click();
-            $(".matchlist-rightelement").last().val('<%= pair.Text %>');
+            $(".matchlist-rightelement").last().val('<%= Model.RightElements[i].Text %>');
         <% }
-
-           for (int i = 0; i < Model.Pairs.Count; i++)
-           {
-          %>$("#addPair").click();
-            <% if (i == 0)
-               {
-                   foreach (var rightElement in Model.RightElements)
-                   { %>
-                        $(".matchlist-rightpairelement").last().append($('<option>').html('<%= rightElement.Text %>'));
-                <% }
-               } %>
-            $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');
-            $(".matchlist-rightpairelement").last().val('<%= Model.Pairs[i].ElementRight.Text %>');
-        <% }
-       }
-       else
-       { %>
-    $("#addPair").click();
-    $("#addRightPairElement").click();
+    for (int i = 0; i < Model.Pairs.Count; i++)
+    { %>
+        $("#addPair").click();
+    <% if (i == 0)
+    {
+        foreach (var rightElement in Model.RightElements)
+        { %>
+    alert( $('[id*="pairElementRight-"][value="<%= rightElement.Text %>"]'));
+            var elementLeftId = $('[id*="pairElementRight-"][value="<%= rightElement.Text %>"]').attr('id');
+            $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html('<%= rightElement.Text %>'));
+     <% }   
+    } %>
+        $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');
+        $(".matchlist-rightpairelement").last().val('<%= Model.Pairs[i].ElementRight.Text %>');
+    <% }
+    }
+    else
+    { %>
+        $("#addPair").click();
+        $("#addRightPairElement").click();
     <% } %>
 </script>

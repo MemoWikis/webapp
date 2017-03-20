@@ -71,15 +71,21 @@ public class QuestionSolutionMatchList : QuestionSolution
         }
         var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         bool answerCorrect = true;
-        for (int i = 0; i < questionPairs.Count(); i++)
-        {
-            bool isSameElementLeft = questionPairs[i].ElementLeft.Text == answerPairs[i].ElementLeft.Text;
-            bool isSameElementRight = questionPairs[i].ElementRight.Text == answerPairs[i].ElementRight.Text;
-            if (isSameElementLeft && isSameElementRight)
-                continue;
+        if (questionPairs.Count != answerPairs.Count)
             answerCorrect = false;
+        else
+        {
+            for (int i = 0; i < questionPairs.Count(); i++)
+            {
+                bool isSameElementLeft = questionPairs[i].ElementLeft.Text == answerPairs[i].ElementLeft.Text;
+                bool isSameElementRight = questionPairs[i].ElementRight.Text == answerPairs[i].ElementRight.Text;
+                if (isSameElementLeft && isSameElementRight)
+                    continue;
+                answerCorrect = false;
+            }
         }
         return answerCorrect;
+        
     }
 
     public override string CorrectAnswer()

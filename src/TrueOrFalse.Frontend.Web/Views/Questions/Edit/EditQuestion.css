@@ -250,7 +250,7 @@ select.form-control {
   }
 }
 #matchlist #pairs .matchlist-leftelement {
-  width: 50%;
+  width: 48%;
 }
 #matchlist #pairs .matchlist-arrow {
   margin-right: 2%;
@@ -267,7 +267,7 @@ select.form-control {
 }
 #matchlist #matchlist-button #responseModalButton {
   width: 40%;
-  margin-left: 5.8%;
+  margin-left: 3.8%;
 }
 #matchlist #responseModal .modal-content {
   margin-top: 50%;
