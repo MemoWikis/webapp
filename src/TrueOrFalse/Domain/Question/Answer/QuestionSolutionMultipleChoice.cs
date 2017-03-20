@@ -38,21 +38,21 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        string[] Answers = answer.Split(new string[] {", "}, StringSplitOptions.RemoveEmptyEntries);
-        string[] Solutions = this.CorrectAnswer().Split(new string[] {", "}, StringSplitOptions.RemoveEmptyEntries);
+        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries);
+        string[] Solutions = this.CorrectAnswer().Split(new string[] { "</br>" }, StringSplitOptions.RemoveEmptyEntries);
         return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
     }
 
     public override string CorrectAnswer()
     {
-        string CorrectAnswer = "";
+        string CorrectAnswer = "</br>";
         foreach (var SingleChoice in this.Choices)
         {
             if (SingleChoice.IsCorrect == true)
             {
                 CorrectAnswer += SingleChoice.Text;
                 if (SingleChoice != this.Choices[(this.Choices.Count - 1)])
-                    CorrectAnswer += ", ";
+                    CorrectAnswer += "</br>";
             }
         }
         return CorrectAnswer;

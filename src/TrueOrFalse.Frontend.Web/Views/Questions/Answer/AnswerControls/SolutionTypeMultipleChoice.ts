@@ -20,13 +20,14 @@ class SolutionTypeMultipleChoice
         for (var i = 0; i < selected.length; i++) {
             selectedValues += (<any>selected.get(i)).value;
             if (i < (selected.length - 1))
-                selectedValues += ", ";
+                selectedValues += "%seperate&xyz%";
         }
         return selectedValues;
     }
 
     GetAnswerText(): string {
-        return SolutionTypeMultipleChoice.GetChosenAnswers();
+        var answerText = SolutionTypeMultipleChoice.GetChosenAnswers().split("%seperate&xyz%").join("</br>");
+        return answerText;
     }
 
     GetAnswerData(): {} {

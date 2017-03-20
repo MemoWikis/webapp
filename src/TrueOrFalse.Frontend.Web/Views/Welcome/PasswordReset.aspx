@@ -24,23 +24,23 @@
                     <%: Html.HiddenFor(x => x.Token) %>
 
                     <div class="form-group">
-                        <%: Html.LabelFor(model => model.NewPassword1, new { @class = "col-sm-2 control-label" }) %>
+                        <%: Html.LabelFor(model => model.NewPassword1, new { @class = "col-sm-4 control-label" }) %>
                         <div class="col-sm-3">
-                            <%: Html.PasswordFor(model => model.NewPassword1) %>
+                            <%: Html.PasswordFor(model => model.NewPassword1, new { @class="form-control" }) %>
                             <%: Html.ValidationMessageFor(model => model.NewPassword1) %>
                         </div>
                     </div>
                 
                     <div class="form-group">
-                        <%: Html.LabelFor(model => model.NewPassword2, new { @class = "col-sm-2 control-label" }) %>
+                        <%: Html.LabelFor(model => model.NewPassword2, new { @class = "col-sm-4 control-label" }) %>
                         <div class="col-sm-3">
-                            <%: Html.PasswordFor(model => model.NewPassword2) %>
+                            <%: Html.PasswordFor(model => model.NewPassword2, new { @class="form-control" }) %>
                             <%: Html.ValidationMessageFor(model => model.NewPassword2) %>
                         </div>
                     </div>
                 
                     <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                        <div class="col-sm-offset-4 col-sm-10">
                             <input type="submit" value="Speichern" class="btn btn-primary" />&nbsp;
                     </div>
                 </div>

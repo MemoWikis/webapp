@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class LoginController : BaseController
 {
