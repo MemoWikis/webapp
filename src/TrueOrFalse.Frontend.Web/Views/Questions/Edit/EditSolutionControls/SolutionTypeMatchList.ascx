@@ -32,7 +32,8 @@
 
     function getRemoveButton() {
         var removeButton = $("<a href='#' class='removeButton btn'><i class='fa fa-times'></i></a>");
-        removeButton.click(function () {
+        removeButton.click(function (event) {
+            event.preventDefault();
             $(this).closest(".form-group").hide(500, function () { $(this).remove(); });
         });
         return removeButton;
@@ -58,15 +59,20 @@
         $("#responseModalContent").append($("<div class='form-group form-inline'>")
             .append(matchlistRightElementInput)
             .append(rightElementRemoveButton));
-        matchlistRightElementInput.change(function () {
+        matchlistRightElementInput.focus(function () { PreviousRightElementValue = this.value; }).
+            change(function () {
             var rightElementValue = $(this).val();
             var rightElementId = $(this).attr('id');
             $(".matchlist-rightpairelement").each(function (selectElementIndex, selectElement) {
+                var hasValueChangedElement = ($(selectElement).val() === PreviousRightElementValue);
                 $(selectElement).children().each(function (optionElementIndex, optionElement) {
-                    if ($(optionElement).attr('name') === rightElementId)
+                    if ($(optionElement).attr('name') === rightElementId) {
                         $(optionElement).remove();
+                    }
                 });
                 $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
+                if (hasValueChangedElement)
+                    $(selectElement).val(rightElementValue);
             });
             rightElementRemoveButton.click(function () {
                 $(".matchlist-rightpairelement").each(function (index, selectElement) {
@@ -95,7 +101,7 @@
         foreach (var rightElement in Model.RightElements)
         { %>
     alert( $('[id*="pairElementRight-"][value="<%= rightElement.Text %>"]'));
-            var elementLeftId = $('[id*="pairElementRight-"][value="<%= rightElement.Text %>"]').attr('id');
+    var elementLeftId = $('[id*="pairElementRight-"]').filter(function () { return this.value == '<%= rightElement.Text %>' }).attr('id');
             $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html('<%= rightElement.Text %>'));
      <% }   
     } %>
