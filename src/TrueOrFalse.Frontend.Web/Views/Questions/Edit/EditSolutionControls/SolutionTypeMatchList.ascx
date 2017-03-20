@@ -100,7 +100,6 @@
     {
         foreach (var rightElement in Model.RightElements)
         { %>
-    alert( $('[id*="pairElementRight-"][value="<%= rightElement.Text %>"]'));
     var elementLeftId = $('[id*="pairElementRight-"]').filter(function () { return this.value == '<%= rightElement.Text %>' }).attr('id');
             $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html('<%= rightElement.Text %>'));
      <% }   

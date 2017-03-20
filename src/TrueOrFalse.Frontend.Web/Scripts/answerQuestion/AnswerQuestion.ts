@@ -174,7 +174,7 @@ class AnswerQuestion {
             = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice) {
+        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList) {
             $('#spnWrongAnswer').hide();
             self._inputFeedback
                 .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",

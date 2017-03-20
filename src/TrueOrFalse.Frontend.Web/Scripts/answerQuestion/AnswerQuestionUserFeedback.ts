@@ -80,23 +80,26 @@
     ShowSolution() {
 
         this.ShowNextQuestionLink();
-        //check if Solution Type == multiple Choice and then execute HighlightMultipleChoiceSolution()
         $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
-        if (this._answerQuestion.AnswersSoFar.length === 1) {
-            $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antwort:');
-            if ($("#txtAnswer").val() !== this._answerQuestion.AnswersSoFar[0]) {
+        if (this._answerQuestion.SolutionType !== SolutionType.MatchList &&
+            this._answerQuestion.SolutionType !== SolutionType.MultipleChoice) {
+            if (this._answerQuestion.AnswersSoFar.length === 1) {
+                $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antwort:');
+                if ($("#txtAnswer").val() !== this._answerQuestion.AnswersSoFar[0]) {
+                    $("#divWrongAnswers").show();
+                }
+            }
+            if (this._answerQuestion.AnswersSoFar.length > 1) {
+                $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
                 $("#divWrongAnswers").show();
             }
-        }
-        if (this._answerQuestion.AnswersSoFar.length > 1) {
-            $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antworten:');
-            $("#divWrongAnswers").show();
         }
         this.RenderSolutionDetails();
     }
 
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
+        $('[class*="matchlist-"]').attr('disabled', 'true').addClass('disabled');//TODO Das funtioniert noch nicht!
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 500);
 

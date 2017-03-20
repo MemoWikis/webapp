@@ -24,7 +24,7 @@ class SolutionTypeMatchList
     }
 
     GetAnswerText(): string {
-        return "Note to self: Cannot be empty string. Still have to fix that!";
+        return "falsche Antwort";
     }
 
     GetAnswerData(): {} {

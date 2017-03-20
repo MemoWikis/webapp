@@ -90,18 +90,12 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        //string CorrectAnswer = "";
-        //foreach (var SingleChoice in this.Choices)
-        //{
-        //    if (SingleChoice.IsCorrect == true)
-        //    {
-        //        CorrectAnswer += SingleChoice.Text;
-        //        if (SingleChoice != this.Choices[(this.Choices.Count - 1)])
-        //            CorrectAnswer += ", ";
-        //    }
-        //}
-        //return CorrectAnswer;
-        return "Hier gibts noch nichts zu sehen!";
+        string CorrectAnswerMessage = "</br>";
+        foreach (var pair in this.Pairs)
+        {
+            CorrectAnswerMessage += pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</br>";
+        }
+        return CorrectAnswerMessage;
     }
 }
 
