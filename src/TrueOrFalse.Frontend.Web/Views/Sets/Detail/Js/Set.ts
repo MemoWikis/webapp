@@ -6,10 +6,10 @@ class SetPage {
         this.InitPies();
 
         var setId = $("#hhdSetId").val();
-        var setShare = new SetShare(setId);
         var hasVideo = $("#hhdHasVideo").val() == "True";
 
-        setShare.ShowModal(setId, hasVideo);
+        var setShare = new SetShare(setId, hasVideo);
+        //setShare.ShowModal();
 
         if (hasVideo) {
             new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });

@@ -23,8 +23,47 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input id="inputSetEmbedCode" type="text" class="form-control"/>
+                        <input id="inputSetEmbedCode" type="text" class="form-control" style="width: 100%"/>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;">
+                        <a href="#" data-action="showSettings">Einstellungen zeigen <i class="fa fa-caret-down"></i></a>                        
+                    </div>
+                    <div class="col-md-12 hide2" style="padding-top: 15px;">
+                        <a href="#" data-action="hideSettings">Einstellungen verbergen <i class="fa fa-caret-up"></i></a>                        
+                    </div>
+                </div>
+
+                <div id="divShareSetSettings" class="hide2">
+                    <div class="row form-inline" style="margin-bottom: 10px;">
+                        <div class="col-sm-6" >
+                            <div class="form-group" style="padding-top: 15px;">
+                                <label for="widgetWidth">Breite</label>
+                                <input type="text" class="form-control" id="widgetWidth" style="width: 62px;" value="100">
+                                <select class="form-control" id="widgetWidthUnit">
+                                    <option>%</option>
+                                    <option>px</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group" style="padding-top: 15px;">
+                                <label class="checkbox-inline" for="ckbEnableMaxWidth">
+                                    <input type="checkbox" id="ckbEnableMaxWidth" value="option2" checked="checked"> max Breite
+                                </label>                        
+                                <input type="text" id="widgetMaxWidth" class="form-control" style="width: 62px;" value="600">
+                                <label>px</label>
+                            </div>
+                        </div>
+                    </div>
+<%--                    <div class="row">
+                        <div class="col-md-12" style="padding-top: 10px;">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="inlineCheckbox2" value="option2"> zeige Wunschwissen Button
+                            </label>
+                        </div>
+                    </div>--%>
                 </div>
             </div>
         </div>

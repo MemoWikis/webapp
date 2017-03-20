@@ -25,6 +25,12 @@ function receiveMessage(event) {
         for (; i < len; i++) {
             if ((iframes[i].contentWindow || iframes[i].documentWindow) == event.source) {
                 iframes[i].style.height = message[1] + "px";
+
+                var maxWidth = iframes[i].getAttribute("maxWidth");
+                if (maxWidth && maxWidth.length > 0) {
+                    iframes[i].style.maxWidth = maxWidth;
+                }
+
                 return;
             }
         }
@@ -33,14 +39,21 @@ function receiveMessage(event) {
 
 function writeIframe(iframeId, iframeSource) {
     var width = scriptTag.getAttribute("width");
-    
+
+    var attrMaxWidth = "";
+    var maxWidth = scriptTag.getAttribute("maxWidth");
+    if (maxWidth && maxWidth.length > 0) {
+        attrMaxWidth = "maxWidth=\"" + maxWidth + "\"";
+    }
+
     var iframeHtml = '<iframe ' +
         'id="' + iframeId + '" name="widget" ' +
-        'src="#" height="1" ' +
+        'src="#" height="1" ' + attrMaxWidth + ' ' +
         'marginheight="0" marginwidth="0" ' +
         'frameborder="no" scrolling="no"> ' +
         '</iframe>';
 
+    console.log(iframeHtml);
     document.write(iframeHtml);
 
     var loadedIframe = parent.document.getElementById(iframeId);
