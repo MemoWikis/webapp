@@ -24,7 +24,7 @@ public class CategoryRowModel : BaseModel
 
     public bool IsInWishknowledge;
 
-    public CategoryRowModel(Category category, ReferenceCountPair referenceCountPair, CategoryValuation valution)
+    public CategoryRowModel(Category category, CategoryValuation valution)
     {
         Category = category;
         CategoryId = category.Id;
@@ -34,9 +34,7 @@ public class CategoryRowModel : BaseModel
 
         IsInWishknowledge = valution.IsInWishKnowledge();
 
-        QuestionCount = 
-            category.CountQuestions + 
-            (referenceCountPair == null ? 0 : referenceCountPair.ReferenceCount);
+        QuestionCount = category.CountQuestions;
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 

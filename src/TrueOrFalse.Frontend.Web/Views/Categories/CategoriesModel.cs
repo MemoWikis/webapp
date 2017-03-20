@@ -94,19 +94,12 @@ public class CategoriesModel : BaseModel
     {
         var valuations = R<CategoryValuationRepo>().GetBy(categories.GetIds(), _sessionUser.UserId);
 
-        var referenceCounts = ReferenceCount.GetList(
-            categories
-                .Where(c => c.Type != CategoryType.Standard)
-                .Select(c => c.Id).ToList()
-        );
-
         Rows = 
             from category 
             in categories
             select 
                 new CategoryRowModel(
                     category, 
-                    referenceCounts.FirstOrDefault(x => x.CategoryId == category.Id),
                     NotNull.Run(valuations.ByCategoryId(category.Id))
                 );
     }
