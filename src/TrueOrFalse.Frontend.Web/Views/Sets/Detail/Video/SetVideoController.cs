@@ -3,10 +3,11 @@ using System.Web.Mvc;
 
 public class SetVideoController : BaseController
 {
-    public string RenderAnswerBody(int questionId)
+    public string RenderAnswerBody(int questionId, bool? hideAddToKnowledge)
     {
         var answerBody = new AnswerBodyModel(new AnswerQuestionModel(R<QuestionRepo>().GetById(questionId)));
         answerBody.DisableCommentLink = true;
+        answerBody.DisableCommentLink = hideAddToKnowledge ?? false;
 
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 

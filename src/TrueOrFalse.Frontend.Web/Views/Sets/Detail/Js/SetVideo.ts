@@ -29,11 +29,17 @@
 
         var questionId = menuItem.attr("data-video-question-id");
 
-        $.get("/SetVideo/RenderAnswerBody/?questionId=" + questionId,
+        var hideAddToWishknowledge = $("#hddHideAddToKnowledge").val();
+        var urlSuffix = ""
+        if (hideAddToWishknowledge == "true") {
+            urlSuffix = "&hideAddToKnowledge=true";
+        }
+
+        $.get("/SetVideo/RenderAnswerBody/?questionId=" + questionId + urlSuffix,
             htmlResult => {
                 AnswerQuestion.LogTimeForQuestionView();
                 this.ChangeAnswerBody(htmlResult);
-            });        
+            });
     }
 
     static ClickItem(questionId : number) {
