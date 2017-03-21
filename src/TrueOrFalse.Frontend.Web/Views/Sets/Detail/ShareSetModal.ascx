@@ -50,20 +50,20 @@
                         <div class="col-sm-6">
                             <div class="form-group" style="padding-top: 15px;">
                                 <label class="checkbox-inline" for="ckbEnableMaxWidth">
-                                    <input type="checkbox" id="ckbEnableMaxWidth" value="option2" checked="checked"> max Breite
+                                    <input type="checkbox" id="ckbEnableMaxWidth" checked="checked"> max Breite
                                 </label>                        
                                 <input type="text" id="widgetMaxWidth" class="form-control" style="width: 62px;" value="600">
                                 <label>px</label>
                             </div>
                         </div>
                     </div>
-<%--                    <div class="row">
+                    <div class="row">
                         <div class="col-md-12" style="padding-top: 10px;">
                             <label class="checkbox-inline">
-                                <input type="checkbox" id="inlineCheckbox2" value="option2"> zeige Wunschwissen Button
+                                <input type="checkbox" id="ckbHideKnowledgeBtn"> verberge Wunschwissen Button
                             </label>
                         </div>
-                    </div>--%>
+                    </div>
                 </div>
             </div>
         </div>

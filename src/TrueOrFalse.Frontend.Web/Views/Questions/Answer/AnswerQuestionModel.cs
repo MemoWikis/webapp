@@ -106,6 +106,7 @@ public class AnswerQuestionModel : BaseModel
     public bool ShowErrorExpiredTestSession;
 
     public bool DisableCommentLink;
+    public bool DisableAddKnowledgeButton;
 
     public ContentRecommendationResult ContentRecommendationResult;
 

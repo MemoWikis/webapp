@@ -38,7 +38,9 @@ public class AnswerBodyModel : BaseModel
         !IsLearningSession && !IsTestSession && !DisableCommentLink;
 
     public int CommentCount = -1;
-    public bool DisableCommentLink; 
+
+    public bool DisableCommentLink;
+    public bool DisableAddKnowledgeButton;
 
     public Func<UrlHelper, string> NextUrl;
     
@@ -107,6 +109,7 @@ public class AnswerBodyModel : BaseModel
         CommentCount = answerQuestionModel.Comments.GetTotalCount();
 
         DisableCommentLink = answerQuestionModel.DisableCommentLink;
+        DisableAddKnowledgeButton = answerQuestionModel.DisableAddKnowledgeButton;
 
         Init(answerQuestionModel.Question);
     }

@@ -8,10 +8,12 @@
 
     public readonly Set Set;
 
-    public WidgetSetVideoModel(Set set)
+    public bool HideAddToKnowledge;
+
+    public WidgetSetVideoModel(Set set, bool hideAddToKnowledge = false)
     {
         ShowUserReportWidget = false;
-
+        HideAddToKnowledge = hideAddToKnowledge;
         Set = set;
     }
 }

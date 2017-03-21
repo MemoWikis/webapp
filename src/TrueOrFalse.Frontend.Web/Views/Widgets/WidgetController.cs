@@ -4,7 +4,7 @@ using System.Web.Mvc;
 [SetMenu(MenuEntry.None)]
 public class WidgetController : BaseController
 {
-    public ActionResult Question(int questionId)
+    public ActionResult Question(int questionId, bool? hideAddToKnowledge)
     {
         var questionViewGuid = Guid.NewGuid();
         var question = R<QuestionRepo>().GetById(questionId);
@@ -16,6 +16,10 @@ public class WidgetController : BaseController
         );
 
         answerQuestionModel.DisableCommentLink = true;
+
+        if (hideAddToKnowledge.HasValue)
+            answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
         answerQuestionModel.QuestionViewGuid = questionViewGuid;
 
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
@@ -25,17 +29,21 @@ public class WidgetController : BaseController
             new WidgetQuestionModel(answerQuestionModel));
     }
 
-    public ActionResult Set(int setId)
+    public ActionResult Set(int setId, bool? hideAddToKnowledge)
     {
         var set = Sl.SetRepo.GetById(setId);
         var testSession = new TestSession(set);
 
         Sl.SessionUser.AddTestSession(testSession);
 
-        return RedirectToAction("SetTestStep", "Widget", new {testSessionId = testSession.Id});
+        return RedirectToAction(
+            "SetTestStep", 
+            "Widget", 
+            new {testSessionId = testSession.Id, hideAddToKnowledge = hideAddToKnowledge}
+        );
     }
 
-    public ActionResult SetTestStep(int testSessionId)
+    public ActionResult SetTestStep(int testSessionId, bool? hideAddToKnowledge)
     {
         return AnswerQuestionController.TestActionShared(testSessionId,
             testSession => RedirectToAction("SetTestResult", "Widget", new {testSessionId = testSessionId}
@@ -43,6 +51,10 @@ public class WidgetController : BaseController
             (testSession, questionViewGuid, question) => {
                 var answerModel = new AnswerQuestionModel(testSession, questionViewGuid, question);
                 answerModel.NextUrl = url => url.Action("SetTestStep", "Widget", new { testSessionId = testSession.Id });
+
+                if (hideAddToKnowledge.HasValue)
+                    answerModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
                 return View("~/Views/Widgets/WidgetSet.aspx", new WidgetSetModel(answerModel));
             }
         );
@@ -57,10 +69,10 @@ public class WidgetController : BaseController
         return View("~/Views/Widgets/WidgetSetResult.aspx", setModel);
     }
 
-    public ActionResult SetVideo(int setId)
+    public ActionResult SetVideo(int setId, bool? hideAddToKnowledge)
     {
         var set = Sl.SetRepo.GetById(setId);
 
-        return View("~/Views/Widgets/WidgetSetVideo.aspx", new WidgetSetVideoModel(set));
+        return View("~/Views/Widgets/WidgetSetVideo.aspx", new WidgetSetVideoModel(set, hideAddToKnowledge ?? false));
     }
 }
