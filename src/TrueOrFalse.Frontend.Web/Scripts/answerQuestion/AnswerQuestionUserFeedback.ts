@@ -99,7 +99,14 @@
 
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
-        $('[class*="matchlist-"]').attr('disabled', 'true').addClass('disabled');//TODO Das funtioniert noch nicht!
+        $('#AnswerInputSection .ui-droppable')
+            .each((index, matchlistDropElement) => {
+                $(matchlistDropElement).droppable('disable');
+            });
+        $('#AnswerInputSection .ui-draggable')
+            .each((index, matchlistDragElement) => {
+                $(matchlistDragElement).draggable('disable');
+            });
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 500);
 

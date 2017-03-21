@@ -7,6 +7,11 @@ class SolutionTypeMatchList
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
         this.AnswerQuestion = new AnswerQuestion(this);
+        $('#AnswerInputSection .ui-draggable')
+            .each((index, dragElement) => {
+                $(dragElement)
+                    .on("drag", (event, ui) => { this.AnswerQuestion.OnAnswerChange(); });
+            });
     }
 
     static GetChosenAnswers(): string {
@@ -36,7 +41,6 @@ class SolutionTypeMatchList
             $('#leftElementResponse-' + $(element).attr('id').split("-")[1]).removeAttr('id');
             $(element).remove();
         });
-        this.AnswerQuestion.OnAnswerChange();
     }
 }
 

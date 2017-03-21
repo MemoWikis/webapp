@@ -59,6 +59,8 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
+        if (answer == "")
+            return false;
         var answerObject = deserializeAnswer(answer);
         var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         for (int i = 0; i < questionPairs.Count; i++)
