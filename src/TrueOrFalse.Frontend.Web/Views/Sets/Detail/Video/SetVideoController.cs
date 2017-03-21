@@ -7,7 +7,7 @@ public class SetVideoController : BaseController
     {
         var answerBody = new AnswerBodyModel(new AnswerQuestionModel(R<QuestionRepo>().GetById(questionId)));
         answerBody.DisableCommentLink = true;
-        answerBody.DisableCommentLink = hideAddToKnowledge ?? false;
+        answerBody.DisableAddKnowledgeButton = hideAddToKnowledge ?? false;
 
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", 

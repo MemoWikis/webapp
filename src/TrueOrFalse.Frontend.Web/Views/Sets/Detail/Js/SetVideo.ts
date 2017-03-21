@@ -30,8 +30,8 @@
         var questionId = menuItem.attr("data-video-question-id");
 
         var hideAddToWishknowledge = $("#hddHideAddToKnowledge").val();
-        var urlSuffix = ""
-        if (hideAddToWishknowledge == "true") {
+        var urlSuffix = "";
+        if (hideAddToWishknowledge == "True") {
             urlSuffix = "&hideAddToKnowledge=true";
         }
 
