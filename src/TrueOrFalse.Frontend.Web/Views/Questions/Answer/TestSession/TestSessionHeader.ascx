@@ -6,7 +6,7 @@
 <div class="SessionHeading">
     <% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
         <div class="SponsorWrapper">
-            <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink"><%= Model.SponsorModel.Sponsor.LinkText %></a>
+            <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink" rel="nofollow"><%= Model.SponsorModel.Sponsor.LinkText %></a>
         </div>
     <% } %>
     <div class="SessionTitle">
