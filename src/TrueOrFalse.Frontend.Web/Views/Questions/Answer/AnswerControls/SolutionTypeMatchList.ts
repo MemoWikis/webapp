@@ -19,8 +19,8 @@ class SolutionTypeMatchList
             var answerRowsMobile: Pair[] = [];
             var answerCountMobile = $('#matchlist-mobilepairs .matchlist-mobilepairrow')
                 .each((index, element) => {
-                    var leftPairValueMobile;
-                    var rightPairValueMobile;
+                    var leftPairValueMobile = $('.matchlist-mobilepairrow #matchlist-elementlabel-' + index).html();
+                    var rightPairValueMobile = $('.matchlist-mobilepairrow #matchlist-select-' + index).val();
                     answerRowsMobile.push(new Pair());
                     answerRowsMobile[index].ElementLeft = new ElementLeft();
                     answerRowsMobile[index].ElementLeft.Text = leftPairValueMobile;
