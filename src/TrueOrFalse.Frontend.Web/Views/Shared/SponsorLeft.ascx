@@ -3,6 +3,7 @@
 
 <% if (!Model.IsAdFree){ %>
     <div class="SponsorLeftWrapper">
+        <div class="AdLabel">ANZEIGE</div>
         <div class="SponsorLeftLogo">
             <a href="<%= Model.Sponsor.SponsorUrl %>" target="_blank" rel="nofollow"><img src="<%= Model.Sponsor.ImageUrl %>"/></a>
         </div>

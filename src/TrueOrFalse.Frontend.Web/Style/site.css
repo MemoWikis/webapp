@@ -789,6 +789,12 @@ fieldset[disabled] #MenuButton:hover {
     display: none;
   }
 }
+.SponsorLeftWrapper .AdLabel {
+  font-size: 80%;
+  color: #999999;
+  margin-bottom: 20px;
+  text-align: left;
+}
 .SponsorLeftLogo {
   margin-bottom: 20px;
 }
