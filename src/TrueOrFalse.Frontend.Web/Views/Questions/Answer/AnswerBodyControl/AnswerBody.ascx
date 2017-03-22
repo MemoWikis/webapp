@@ -51,10 +51,13 @@
                         <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" />
                         <%
                             string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+
                             if (Model.SolutionMetadata.IsDate)
                                 userControl = "SolutionTypeDate.ascx";
-                        
-                            Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
+                            if(Request.Browser.IsMobileDevice && Model.SolutionType == "MatchList")
+                                userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
+
+                            Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
                         %>
 
                         <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
