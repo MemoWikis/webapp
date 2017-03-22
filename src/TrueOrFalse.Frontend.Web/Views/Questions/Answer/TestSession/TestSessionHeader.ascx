@@ -4,11 +4,9 @@
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
 <div class="SessionHeading">
-    <% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
-        <div class="SponsorWrapper">
-            <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink" rel="nofollow"><%= Model.SponsorModel.Sponsor.LinkText %></a>
-        </div>
-    <% } %>
+                    
+    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
+
     <div class="SessionTitle">
         <% if(Model.TestSession.IsSetSession) { %>
             <div class="CollectionType">

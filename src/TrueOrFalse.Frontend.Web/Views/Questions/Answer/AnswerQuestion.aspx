@@ -68,13 +68,10 @@
                    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
             <% }else { %>
                 <div class="AnswerQuestionHeader">
-                    <% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
-                        <div class="SponsorWrapper">
-                            <span class="SponsorText">Mit Unterstützung von </span><a href="<%= Model.SponsorModel.Sponsor.SponsorUrl %>" class="SponsorLink" rel="nofollow"><%= Model.SponsorModel.Sponsor.LinkText %></a>
-                        </div>
-                    <% } %>
+                        
+                    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
+
                     <div id="AnswerQuestionPager">
-                    
                         <div class="Current">
                         <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal)){
 

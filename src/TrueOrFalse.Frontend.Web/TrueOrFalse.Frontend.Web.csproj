@@ -385,6 +385,7 @@
     <Content Include="Views\Drafts\Widget-Debug.html" />
     <Content Include="Views\Drafts\WidgetSet.html" />
     <Content Include="Views\Drafts\WidgetVideo.html" />
+    <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
