@@ -119,33 +119,33 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
-        <% currentFaqItem = new FAQAccordeonItem("HowMemuchoWorks"); %>
-        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
-              Wie funktioniert memucho?
-            </a>
-          </h4>
-        </div>
-        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
-          <div class="panel-body">
-              <p>
-                  memucho ist eine vernetzte Lern- und Wissensplattform. Hier wird Wissen in Frage-Antwort-Form gespeichert, organisiert und 
-                  zwischen Nutzern geteilt. Angepasste Lernfunktionen erlauben es dir, schneller und zu bestimmten Terminen 
-                  (z.B. Klassenarbeiten, Prüfungen) zu lernen.
-              </p>
-              <p>
-                  Und das funktioniert so: In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. Du kannst einzelne Fragen oder 
-                  ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
-                  Fragen und Fragesätze.
+    <div class="panel panel-default">
+    <% currentFaqItem = new FAQAccordeonItem("HowMemuchoWorks"); %>
+    <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
+        <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
+            Wie funktioniert memucho?
+        </a>
+        </h4>
+    </div>
+    <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
+        <div class="panel-body">
+            <p>
+                memucho ist eine vernetzte Lern- und Wissensplattform. Hier wird Wissen in Frage-Antwort-Form gespeichert, organisiert und 
+                zwischen Nutzern geteilt. Angepasste Lernfunktionen erlauben es dir, schneller und zu bestimmten Terminen 
+                (z.B. Klassenarbeiten, Prüfungen) zu lernen.
+            </p>
+            <p>
+                Und das funktioniert so: In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. Du kannst einzelne Fragen oder 
+                ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
+                Fragen und Fragesätze.
                   
-                  Jeder kann Fragen (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
-                  (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Fragesatz zusammengefasst werden.
-              </p>
-          </div>
+                Jeder kann Fragen (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
+                (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Fragesatz zusammengefasst werden.
+            </p>
         </div>
-      </div>
+    </div>
+    </div>
 
       <div class="panel panel-default">
         <% currentFaqItem = new FAQAccordeonItem("WhatIsKnowledge"); %>
@@ -219,7 +219,7 @@
               </p>
           </div>
         </div>
-      </div>
+    </div>
     <div class="panel panel-default">
         <% currentFaqItem = new FAQAccordeonItem("QuestionLicense"); %>
         <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
@@ -240,8 +240,41 @@
               Ist bei diesen Fragen die Weiterverwendung eingeschränkt, findest du einen entsprechenden Hinweis darauf bei der Lizenzangabe.
           </div>
         </div>
-      </div>
     </div>
+    <div class="panel panel-default">
+        <% currentFaqItem = new FAQAccordeonItem("RevenueModel"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
+              Wie finanziert sich memucho? 
+            </a>
+          </h4>
+        </div>
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
+          <div class="panel-body">
+              Einnahmen erzielen wir über bezahlte Mitgliedschaften mit Premiumfeatures, die (teilweise) kostenpflichtige Bereitstellung von Widgets zur Einbindung auf anderen Webseiten sowie durch Werbung. 
+              Diese versuchen wir so zu gestalten, dass sie beim Lernen nicht ablenkt.
+          </div>
+        </div>
+    </div>
+        <div class="panel panel-default">
+        <% currentFaqItem = new FAQAccordeonItem("ContentSponsoring"); %>
+        <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
+              Bei Lernmaterialien von memucho werden Sponsoren angezeigt. Was bedeutet das?
+            </a>
+          </h4>
+        </div>
+        <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
+          <div class="panel-body">
+              Wir bieten Werbeflächen und die Möglichkeit zur Präsentation von Inhalten vor allem Bildungsanbietern wie Schulbuchverlagen an. 
+              Daneben gibt es Sponsoren, die die Bereitsstellung von freien Bildungsinhalten unter der offenen Lizenz CC BY 4.0 durch memucho finanziell unterstützen.
+              Sie nehmen dabei aber keinen Einfluss auf die inhaltliche Gestaltung der Bildungsmaterialien.
+          </div>
+        </div>
+    </div>
+</div>
     
 </asp:Content>
 

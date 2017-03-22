@@ -12,6 +12,7 @@
     MOBILE SUBHEADER / #MobileSubHeader
     MASTER MAIN CONTENT / #MasterMainContent
     MASTER FOOTER / #MasterFooter
+    SPONSOR
     VALIDATION
     BUTTONS
     MODALS
@@ -775,6 +776,25 @@ fieldset[disabled] #MenuButton:hover {
   #MasterFooter .FooterCol:last-child > div {
     float: right;
   }
+}
+/* SPONSOR
+----------------------------------------------------------*/
+.SponsorLeftWrapper {
+  font-size: 90%;
+  margin-top: 50px;
+  text-align: center;
+}
+@media (max-width: 1199px) {
+  .SponsorLeftWrapper {
+    display: none;
+  }
+}
+.SponsorLeftLogo {
+  margin-bottom: 20px;
+}
+.SponsorLeftLogo img {
+  max-width: 50%;
+  max-height: 100px;
 }
 /* VALIDATION
 ----------------------------------------------------------*/
