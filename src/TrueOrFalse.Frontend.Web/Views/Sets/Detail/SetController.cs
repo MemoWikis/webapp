@@ -82,4 +82,6 @@ public class SetController : BaseController
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
 
+    public string ShareSetModal(int setId) =>
+        ViewRenderer.RenderPartialView("~/Views/Sets/Detail/ShareSetModal.ascx", new ShareSetModalModel(setId), ControllerContext);
 }

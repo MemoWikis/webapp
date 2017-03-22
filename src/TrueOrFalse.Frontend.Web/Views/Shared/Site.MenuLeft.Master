@@ -63,5 +63,6 @@
     <% Html.RenderPartial("UnpinCategoryModal"); %>
     <% Html.RenderPartial("FeatureNotImplementedModal"); %>
     <div id="modalLoginContainer"></div>
+    <div id="modalContainer"></div>
 </body>
 </html>

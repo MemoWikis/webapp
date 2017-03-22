@@ -424,4 +424,22 @@ public class MaintenanceController : BaseController
 
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
+
+    [HttpPost]
+    public ActionResult CheckForCategoriesWithIncorrectQuestionCount()
+    {
+        var list = new List<Category>();
+
+        var cats = Sl.R<CategoryRepository>().GetAll();
+        var questionRepo = Sl.R<QuestionRepo>();
+
+        foreach (var cat in cats)
+        {
+            if (cat.CountQuestions != questionRepo.GetForCategory(cat.Id).Count)
+                list.Add(cat);
+        }
+
+        return View("Maintenance", new MaintenanceModel { });
+
+    }
 }
