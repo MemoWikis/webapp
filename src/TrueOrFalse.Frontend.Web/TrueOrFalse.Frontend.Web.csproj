@@ -597,6 +597,7 @@
     <Content Include="Views\Maintenance\ContentReport.css">
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList _LayoutMobile.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">

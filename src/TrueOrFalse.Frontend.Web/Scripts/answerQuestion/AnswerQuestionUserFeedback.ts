@@ -160,6 +160,8 @@
             }
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
                 this.HighlightMultipleChoiceSolution(result.correctAnswer);
+            if (this._answerQuestion.SolutionType === SolutionType.MatchList)
+                this.HightlightMatchlistSoluion(result.correctAnswer);
             
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
@@ -230,8 +232,12 @@
                 if (currentElement.prop("checked")) {
                     currentElement.parent().addClass("wrong-answer");      
                 }
-            } 
+            }
         }
+    }
+
+    HightlightMatchlistSoluion(correctAnswers: string) {
+        //simsalabim
     }
 
     ShowAnswerDetails() {

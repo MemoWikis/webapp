@@ -13,7 +13,7 @@
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop
     });
-    $("div#matchlist-pairs").append($("<div class = 'col-sm-12 row pair-row'>")
+    $("div#matchlist-pairs").append($("<div class = 'col-sm-12 row matchlist-pairrow'>")
         .append($("<span class= 'col-sm-5'><%= pair.ElementLeft.Text %></span>"))
         .append($("<i class=' matchlist-arrow fa fa-arrow-right fa-1x col-sm-2'>"))
         .append(rightDropElement));

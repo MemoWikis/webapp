@@ -50,7 +50,7 @@
                         <input type="hidden" id="hddSolutionMetaDataJson" value="<%: Model.SolutionMetaDataJson %>"/>
                         <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" />
                         <%
-                            string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+                            string userControl = "SolutionType" + "MatchList_LayoutMobile.ascx";//Model.SolutionType + ".ascx";
                             if (Model.SolutionMetadata.IsDate)
                                 userControl = "SolutionTypeDate.ascx";
                         
