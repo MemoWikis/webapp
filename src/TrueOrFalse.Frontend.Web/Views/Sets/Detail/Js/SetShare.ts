@@ -41,8 +41,13 @@
             maxWidth = "maxWidth=\"" + $("#widgetMaxWidth").val() + "px\"";
         }
 
+        var hideKnowledgeBtn = "";
+        if ($("#ckbHideKnowledgeBtn:checked").length == 1) {
+            hideKnowledgeBtn = "hideKnowledgeBtn=\"true\"";
+        }
+
         var code =
-            "<script src=\"" + url + "\" t=\"" + type + "\" id=\"" + this._setId + "\" width=\"" + width + "\" " + maxWidth + "></script>";        
+            "<script src=\"" + url + "\" t=\"" + type + "\" id=\"" + this._setId + "\" width=\"" + width + "\" " + maxWidth + " " + hideKnowledgeBtn +"></script>";        
 
         $("#inputSetEmbedCode").val(code );
     }
@@ -58,8 +63,8 @@
 
         $("#widgetMaxWidth").off("change").on("change", () => { this.SetEmbedCode(); });
         $("#ckbEnableMaxWidth").off("change").on("change", () => { this.SetEmbedCode(); });
+        $("#ckbHideKnowledgeBtn").off("change").on("change", () => { this.SetEmbedCode(); });
         
-
         linkShowSettings.off("click").on("click", () => {
             divShareSetSettings.show();
             linkHideSettings.parent().show();

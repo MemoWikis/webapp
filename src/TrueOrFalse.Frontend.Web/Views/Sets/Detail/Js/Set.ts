@@ -9,7 +9,7 @@ class SetPage {
         var hasVideo = $("#hhdHasVideo").val() == "True";
 
         var setShare = new SetShare(setId, hasVideo);
-        //setShare.ShowModal();
+        setShare.ShowModal();
 
         if (hasVideo) {
             new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });

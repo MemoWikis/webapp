@@ -1,5 +1,7 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SetVideoModel>" %>
 
+<input type="hidden" id="hddHideAddToKnowledge" value="<%= Model.HideAddToKnowledge %>"/>
+
 <div class="row video-header">
     <div class="col-xs-12">
         <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>

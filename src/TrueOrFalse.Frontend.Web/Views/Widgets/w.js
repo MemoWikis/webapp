@@ -53,7 +53,6 @@ function writeIframe(iframeId, iframeSource) {
         'frameborder="no" scrolling="no"> ' +
         '</iframe>';
 
-    console.log(iframeHtml);
     document.write(iframeHtml);
 
     var loadedIframe = parent.document.getElementById(iframeId);
@@ -98,21 +97,27 @@ var domainForDebug = scriptTag.getAttribute("domainForDebug");
 if (domainForDebug && domainForDebug.length > 0)
     domain = domainForDebug;
 
+
+var queryKnowledgeBtn = "";
+var hideKnowledgeBtn = scriptTag.getAttribute("hideKnowledgeBtn");
+if (hideKnowledgeBtn && hideKnowledgeBtn.length > 0 && hideKnowledgeBtn == "true") {
+    queryKnowledgeBtn = "?hideAddToKnowledge=true";
+}
+
 if (type_ === "question")
 {
     var questionId = scriptTag.getAttribute("id");
 
-    var filePath = domain + '/widget/frage/' + questionId;
+    var filePath = domain + '/widget/frage/' + questionId + queryKnowledgeBtn;
     var iframeId = "iframe-q" + questionId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
-
 }    
 else if (type_ === "set")
 {
     var setId = scriptTag.getAttribute("id");
 
-    var filePath = domain + '/widget/fragesatz/' + setId;
+    var filePath = domain + '/widget/fragesatz/' + setId + queryKnowledgeBtn;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
@@ -120,10 +125,8 @@ else if (type_ === "set")
 else if (type_ === "setVideo") {
     var setId = scriptTag.getAttribute("id");
 
-    var filePath = domain + '/widget/fragesatz-v/' + setId;
+    var filePath = domain + '/widget/fragesatz-v/' + setId + queryKnowledgeBtn;
     var iframeId = "iframe-sv" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
 }
-    
-

@@ -25,7 +25,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
     <% 
         if (Model.Set.HasVideo){
-            Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));
+            Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set, Model.HideAddToKnowledge));
         }else{
            %><h2 style="padding-bottom: 30px;">Diesem Fragesatz ist kein Video zugeordnet</h2><%
        } 
