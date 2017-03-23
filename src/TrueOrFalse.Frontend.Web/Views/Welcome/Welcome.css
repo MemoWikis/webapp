@@ -73,11 +73,6 @@ a.question-short {
 .well img {
   border-radius: 4px;
 }
-@media (max-width: 479px) {
-  .well img:not(.ItemImage) {
-    width: 100%;
-  }
-}
 .well.Founder .ImageColumn {
   position: relative;
   float: left;

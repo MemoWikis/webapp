@@ -382,9 +382,11 @@
         <% } %>
 
         <div class="well" id="nominationInnopreis" style="padding: 20px; ">
-            <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+            <div style="text-align: center;">
+                <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+            </div>
             <p>
-                memucho ist nominiert für den Innovationspreis Berlin Brandenburg!
+                memucho wurde für den Innovationspreis Berlin Brandenburg nominiert!
             </p>
             <p>
                 <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
