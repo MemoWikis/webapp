@@ -8,7 +8,7 @@
     <% var random = new Random();
     foreach (var pair in Model.Pairs.OrderBy(x => random.Next()))
     { %>
-    var rightDropElement = $("<div class='matchlist-dropable col-sm-5' name = '<%= pair.ElementLeft.Text %>'>").droppable({
+    var rightDropElement = $("<div class='matchlist-droppable col-sm-5' name = '<%= pair.ElementLeft.Text %>'>").droppable({
         accept: '#matchlist-rightelements span',
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop

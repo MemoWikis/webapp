@@ -235,7 +235,6 @@ public class AnswerQuestionController : BaseController
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView);
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
-
         return new JsonResult
         {
             Data = new
@@ -361,6 +360,15 @@ public class AnswerQuestionController : BaseController
                 CorrectnessProbability = new CorrectnessProbabilityModel(question, questionValuationForUser),
                 QuestionValuation = questionValuationForUser
             }
+        );
+    }
+
+    public string RenderAnswerBody(int questionId)
+    {
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+            new AnswerBodyModel(new AnswerQuestionModel(R<QuestionRepo>().GetById(questionId))),
+            ControllerContext
         );
     }
 

@@ -156,7 +156,11 @@
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && !result.correctAnswer) {
                 $("#Solution").show().find('.Label').html("Keine der Antworten ist richtig!");
             } else {
-                $("#Solution").show().find('.Content').html(result.correctAnswer);
+                var shownCorrectAnswer = result.correctAnswer;
+                if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
+                    shownCorrectAnswer = shownCorrectAnswer.split("%pairseperator%").join("</br>").split("%elementseperator%").join(" - ");
+                }
+                $("#Solution").show().find('.Content').html(shownCorrectAnswer);
             }
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
                 this.HighlightMultipleChoiceSolution(result.correctAnswer);
@@ -237,7 +241,17 @@
     }
 
     HightlightMatchlistSoluion(correctAnswers: string) {
-        //simsalabim
+        var correctAnswersArray = correctAnswers.split("</br>");
+        $('.matchlist-droppable').each((index, element) => {
+            if ($(element).attr('id') == null || $(element).attr('id') === "") {
+                if($(element).attr('name'))
+                $(element).parent().addClass("right-answer");
+                $(element).parent().addClass("wrong-answer");
+            } else {
+                $(element).parent().addClass("right-answer");
+                $(element).parent().addClass("wrong-answer");
+            }
+        });
     }
 
     ShowAnswerDetails() {

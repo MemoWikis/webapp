@@ -3,16 +3,26 @@ class SolutionTypeMatchList
     implements IAnswerEntry
 {
     public SolutionType = SolutionType.MatchList;
-
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
         this.AnswerQuestion = new AnswerQuestion(this);
-        $('#AnswerInputSection .ui-draggable')
-            .each((index, dragElement) => {
-                $(dragElement)
-                    .on("drag", (event, ui) => { this.AnswerQuestion.OnAnswerChange(); });
-            });
+        //$.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + questionId,
+        //    htmlResult => {
+        //        AnswerQuestion.LogTimeForQuestionView();
+        //        this.ChangeAnswerBody(htmlResult);
+        //    });
     }
+
+    //static ChangeAnswerBody(html: string) {
+    //    $("#divBodyAnswer")
+    //        .empty()
+    //        .animate({ opacity: 0.00 }, 0)
+    //        .append(html)
+    //        .animate({ opacity: 1.00 }, 400);
+
+    //    $(".show-tooltip").tooltip();
+    //    this.InitAnswerBody();
+    //}
 
     static GetChosenAnswers(): string {
         if ($('#matchlist-mobilepairs').length) {

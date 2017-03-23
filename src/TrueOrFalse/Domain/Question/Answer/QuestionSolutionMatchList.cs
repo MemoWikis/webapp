@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web.Helpers;
 using System.Web.Script.Serialization;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
@@ -92,10 +93,10 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        string CorrectAnswerMessage = "</br>";
+        string CorrectAnswerMessage = "%pairseperator%";
         foreach (var pair in this.Pairs)
         {
-            CorrectAnswerMessage += pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</br>";
+            CorrectAnswerMessage += pair.ElementLeft.Text + "%elementseperator%" + pair.ElementRight.Text + "%pairseperator%";
         }
         return CorrectAnswerMessage;
     }
