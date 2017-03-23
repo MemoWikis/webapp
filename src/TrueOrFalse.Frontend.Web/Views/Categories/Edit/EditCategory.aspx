@@ -158,7 +158,7 @@
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
                     <div class="form-group">
                         <label class="columnLabel control-label">
-                            Übergeordnete Themen(n)
+                            Übergeordnete Themen
                             <i class="fa fa-question-circle show-tooltip" title="Hilft, Themen in Beziehung zueinander zu setzen. Beispiele: Thema Wirbeltiere - übergeordnet: Biologie. Thema Algebra - übergeordnet: Mathematik" data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                         </label>
                         <div class="JS-RelatedCategories columnControlsFull">
