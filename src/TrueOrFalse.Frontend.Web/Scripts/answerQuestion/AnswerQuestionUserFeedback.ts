@@ -266,7 +266,7 @@
                     choosenRightElement.addClass("right-answer");
                 } else {
                     $(element).parent().addClass("wrong-answer");
-                    choosenRightElement.addClass("right-answer");
+                    choosenRightElement.addClass("wrong-answer");
                 }
             }
         });

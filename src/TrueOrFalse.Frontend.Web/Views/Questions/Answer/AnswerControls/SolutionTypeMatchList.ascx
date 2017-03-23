@@ -22,7 +22,7 @@
     foreach (var elementRight in Model.RightElements.OrderBy(x => random.Next()))
     { %>
     var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>").html("<%= elementRight.Text %>").draggable({
-        containment: '#AnswerInputSection',
+        containment: '#AnswerBody',
         stack: '#matchlist-rightelements span',
         cursor: 'move',
         helper: 'clone',
@@ -45,7 +45,7 @@
         } else {
             var helperClone = ui.helper.clone();
             helperClone.draggable({
-                containment: '#AnswerInputSection',
+                containment: '#AnswerBody',
                 stack: '#matchlist-rightelements span',
                 cursor: 'move',
                 start: function(event, ui) {

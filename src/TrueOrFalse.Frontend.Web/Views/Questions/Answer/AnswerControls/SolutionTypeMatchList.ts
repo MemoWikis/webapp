@@ -6,9 +6,10 @@ class SolutionTypeMatchList
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
         this.AnswerQuestion = new AnswerQuestion(this);
-        //$.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + questionId,
+
+        //Check if Site is really Mobile
+        //$.get("/AnswerQuestion/RenderAnswerBody/?questionId=" +  questionId,
         //    htmlResult => {
-        //        AnswerQuestion.LogTimeForQuestionView();
         //        this.ChangeAnswerBody(htmlResult);
         //    });
     }
