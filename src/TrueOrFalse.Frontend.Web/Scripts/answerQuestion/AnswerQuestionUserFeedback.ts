@@ -165,7 +165,7 @@
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
                 this.HighlightMultipleChoiceSolution(result.correctAnswer);
             if (this._answerQuestion.SolutionType === SolutionType.MatchList)
-                this.HightlightMatchlistSoluion(result.correctAnswer);
+                this.HighlightMatchlistSoluion(result.correctAnswer);
             
             if (result.correctAnswerDesc) {
                 $("#Description").show().find('.Content').html(result.correctAnswerDesc);
@@ -240,16 +240,34 @@
         }
     }
 
-    HightlightMatchlistSoluion(correctAnswers: string) {
-        var correctAnswersArray = correctAnswers.split("</br>");
+    HighlightMatchlistSoluion(correctAnswers: string) {
+        var correctAnswersArray = correctAnswers.split("%pairseperator%").join("%elementseperator%").split("%elementseperator%");
+        correctAnswersArray.splice(0, 1).splice(correctAnswersArray.length - 1, 1);
+        var leftElements = [];
+        var rightElements = [];
+        for (var i = 0; i < correctAnswersArray.length; i++) {
+            if (i % 2 !== 0)
+                rightElements.push(correctAnswersArray[i]);
+            else
+                leftElements.push(correctAnswersArray[i]);
+        }
         $('.matchlist-droppable').each((index, element) => {
             if ($(element).attr('id') == null || $(element).attr('id') === "") {
-                if($(element).attr('name'))
-                $(element).parent().addClass("right-answer");
-                $(element).parent().addClass("wrong-answer");
+                var correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
+                if (correctRightElementValue === "keine Zuordnung")
+                    $(element).parent().addClass("right-answer");
+                else
+                    $(element).parent().addClass("wrong-answer");
             } else {
-                $(element).parent().addClass("right-answer");
-                $(element).parent().addClass("wrong-answer");
+                var correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
+                var choosenRightElement = $('#rightElementResponse-' + $(element).attr('id').split("-")[1]);
+                if (choosenRightElement.html() === correctRightElementValue) {
+                    $(element).parent().addClass("right-answer");
+                    choosenRightElement.addClass("right-answer");
+                } else {
+                    $(element).parent().addClass("wrong-answer");
+                    choosenRightElement.addClass("right-answer");
+                }
             }
         });
     }
