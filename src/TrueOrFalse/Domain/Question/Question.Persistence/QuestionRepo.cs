@@ -21,7 +21,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
             .List<int>();
 
-        var query = "SELECT Category_id FROM reference WHERE Question_id =" + question.Id;
+        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id + " AND Category_id is not null";
 
         var categoriesReferences = _session
             .CreateSQLQuery(query)
