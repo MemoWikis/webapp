@@ -7,19 +7,32 @@ class SolutionTypeMatchList
         super(answerEntry);
         this.AnswerQuestion = new AnswerQuestion(this);
 
-        //Check if Site is really Mobile
-        //$.get("/AnswerQuestion/RenderAnswerBody/?questionId=" +  questionId,
-        //    htmlResult => {
-        //        this.ChangeAnswerBody(htmlResult);
-        //    });
+        var isMobile = false;
+        if ($(document).width() < 700)
+            isMobile = true;
+        var isCurrentAnswerBodyMobile = false;
+        if ($('#matchlist-mobilepairs').length)
+            isCurrentAnswerBodyMobile = true;
+        if (isMobile !== isCurrentAnswerBodyMobile) {
+            var newSiteContent;
+            if (isMobile) {
+                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + questionId,
+                    htmlResult => {
+                        newSiteContent = htmlResult;
+                    });
+            } else {
+                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + questionId,
+                    htmlResult => {
+                        newSiteContent = htmlResult;
+                    });
+            }
+            $("#AnswerInputSection")
+                .empty()
+                .append(newSiteContent);
+        }
     }
 
     //static ChangeAnswerBody(html: string) {
-    //    $("#divBodyAnswer")
-    //        .empty()
-    //        .animate({ opacity: 0.00 }, 0)
-    //        .append(html)
-    //        .animate({ opacity: 1.00 }, 400);
 
     //    $(".show-tooltip").tooltip();
     //    this.InitAnswerBody();
@@ -61,13 +74,6 @@ class SolutionTypeMatchList
 
     GetAnswerData(): {} {
         return { answer: '{ "Pairs": ' + SolutionTypeMatchList.GetChosenAnswers() + '}'};
-    }
-
-    OnNewAnswer() {
-        $('[id*="rightElementResponse-"]').each((index, element) => {
-            $('#leftElementResponse-' + $(element).attr('id').split("-")[1]).removeAttr('id');
-            $(element).remove();
-        });
     }
 }
 

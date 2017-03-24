@@ -9,7 +9,7 @@
 
         this.AnswerQuestion = new AnswerQuestion(this);
 
-        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });
+        //TODO: keyup event verstehen
         $("#txtAnswer").keyup(() => { this.SetDateUi(); });
 
         var metaData = this.GetJsonMetaData();
@@ -22,12 +22,6 @@
 
     GetAnswerData(): {} {
         return { answer: $("#txtAnswer").val() };
-    }
-
-    OnNewAnswer() {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
-        $("#txtAnswer").select();
     }
 
     SetDateUi() {

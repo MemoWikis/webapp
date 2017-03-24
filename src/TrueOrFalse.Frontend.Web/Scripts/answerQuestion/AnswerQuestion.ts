@@ -3,7 +3,6 @@
 class AnswerQuestion {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
-    private _onNewAnswer: () => void;
 
     private _onCorrectAnswer: () => void = () => {};
     private _onWrongAnswer: () => void = () => { };
@@ -54,7 +53,6 @@ class AnswerQuestion {
 
         this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
         this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
-        this._onNewAnswer = () => { answerEntry.OnNewAnswer(); };
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
@@ -130,14 +128,6 @@ class AnswerQuestion {
             .click(() => {
                 this._inputFeedback.ShowSolution();
                 return false;
-            });
-
-        $("#buttons-edit-answer")
-            .click((e) => {
-                e.preventDefault();
-                this._onNewAnswer();
-
-                this._inputFeedback.AnimateNeutral();
             });
 
         $("#btnNext, #aSkipStep")
@@ -347,30 +337,10 @@ class AnswerQuestion {
         if ($("#buttons-first-try").is(":visible"))
             return true;
 
-        if ($("#buttons-edit-answer").is(":visible"))
-            return true;
-
         if ($("#buttons-answer-again").is(":visible"))
             return true;
 
         return false;
-    }
-
-    public OnAnswerChange() {
-        this.Renewable_answer_button_if_renewed_answer();
-    }
-
-    public Renewable_answer_button_if_renewed_answer() {
-        if ($("#buttons-edit-answer").is(":visible")) {
-            $("#buttons-edit-answer").hide();
-            $("#buttons-answer-again").show();
-            this._inputFeedback.AnimateNeutral();
-        }
-    }
-
-    public GiveSelectedSolutionClass(event) {
-        var changedButton = $(event.delegateTarget);
-        changedButton.parent().parent().toggleClass("selected");
     }
 
     static AjaxGetSolution(onSuccessAction) {

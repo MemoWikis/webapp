@@ -49,7 +49,7 @@
     }
 
     AnimateWrongAnswer() {
-        $("#buttons-edit-answer").show();
+        $("#buttons-answer-again").show();
         $(".answerFeedbackWrong").fadeIn(1200, function() {
              $(this).fadeOut(800);
         });
@@ -60,16 +60,11 @@
         });
     }
 
-    AnimateNeutral() {
-        //$("#txtAnswer").animate({ backgroundColor: "white" }, 200);
-    }
-
     ShowSuccess() {
         var self = this;
 
         $("#divAnsweredCorrect").show();
         $("#buttons-next-question").show();
-        $("#buttons-edit-answer").hide();
         this.AnimateCorrectAnswer();
         $("#divWrongAnswer").hide();
 
@@ -329,7 +324,6 @@
         $("#answerFeedbackTry").hide();
 
         $("#buttons-first-try").hide();
-        $("#buttons-edit-answer").hide();
         $("#buttons-answer-again").hide();
     }
 } 
