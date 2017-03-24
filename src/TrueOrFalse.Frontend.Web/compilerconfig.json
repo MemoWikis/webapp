@@ -204,5 +204,9 @@
   {
     "outputFile": "Views/Questions/Edit/EditQuestion.css",
     "inputFile": "Views/Questions/Edit/EditQuestion.less"
+  },
+  {
+    "outputFile": "Views/Help/Widget.css",
+    "inputFile": "Views/Help/Widget.less"
   }
 ]

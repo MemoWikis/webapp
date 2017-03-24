@@ -383,10 +383,14 @@
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Views\Help\Widget.aspx" />
     <Content Include="Views\About\Master.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />
     <Content Include="Views\Drafts\WidgetSet.html" />
     <Content Include="Views\Drafts\WidgetVideo.html" />
+    <Content Include="Views\Help\Widget.css">
+      <DependentUpon>Widget.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
@@ -2280,6 +2284,7 @@
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Widgets\app.config" />
+    <Content Include="Views\Help\Widget.less" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
