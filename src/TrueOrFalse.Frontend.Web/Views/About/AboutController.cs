@@ -21,6 +21,12 @@ public class AboutController : Controller
     }
 
     [SetMenu(MenuEntry.None)]
+    public ActionResult Master()
+    {
+        return View(new BaseModel());
+    }
+
+    [SetMenu(MenuEntry.None)]
     public ActionResult WelfareCompany()
     {
         return View(new BaseModel());
