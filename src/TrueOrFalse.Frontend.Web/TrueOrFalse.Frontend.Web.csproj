@@ -816,6 +816,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
+    <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
@@ -2285,6 +2286,9 @@
     </Content>
     <Content Include="Views\Widgets\app.config" />
     <Content Include="Views\Help\Widget.less" />
+    <Content Include="Views\Sets\Detail\Js\SetShare.js.map">
+      <DependentUpon>SetShare.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>

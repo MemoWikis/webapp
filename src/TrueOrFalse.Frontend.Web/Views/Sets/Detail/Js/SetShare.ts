@@ -29,15 +29,17 @@ class SetShare {
         this.SetEmbedCode();
     }
 
-    SetEmbedCode(){
-        var url = "http://memucho.local/views/widgets/w.js";
+    SetEmbedCode() {
+
+        var host = Utils.GetHost();
+        var url = host + "/views/widgets/w.js";
         var type = "set";
 
         if (this._hasVideo)
             type += "Video";
 
         var width = $("#widgetWidth").val() + $("#widgetWidthUnit").val();
-
+        
         var maxWidth = "";
         if ($("#ckbEnableMaxWidth:checked").length == 1) {
             maxWidth = "maxWidth=\"" + $("#widgetMaxWidth").val() + "px\"";
@@ -56,6 +58,10 @@ class SetShare {
 
         var codeElem = $(code);
         codeElem.attr("isPreview", "true");
+
+        if (host == "http://memucho.local") {
+            codeElem.attr("domainForDebug", host);
+        }
 
         /* required for w.js: */ scriptIndex = -1;
 
