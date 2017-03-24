@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h4><i class="fa fa fa-code" style="padding-right: 5px;"></i> Fragesatz einbetten.</h4>
+                <h4><i class="fa fa fa-code" style="padding-right: 5px;"></i> Fragesatz als Widget einbetten.</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -63,6 +63,15 @@
                                 <input type="checkbox" id="ckbHideKnowledgeBtn"> verberge Wunschwissen Button
                             </label>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 18px; margin-bottom: 7px; border-bottom: 1px solid #e5e5e5;">
+                        <h4>Vorschau auf das Fragesatz-Widget:</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 10px;" id="divPreviewSetWidget">
                     </div>
                 </div>
             </div>

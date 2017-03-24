@@ -1,4 +1,6 @@
-﻿class SetShare {
+﻿var scriptIndex;
+
+class SetShare {
 
     private _setId: number;
     private _hasVideo: boolean;
@@ -28,7 +30,7 @@
     }
 
     SetEmbedCode(){
-        var url = "https://memucho.de/views/widgets/w.js";
+        var url = "http://memucho.local/views/widgets/w.js";
         var type = "set";
 
         if (this._hasVideo)
@@ -47,9 +49,18 @@
         }
 
         var code =
-            "<script src=\"" + url + "\" t=\"" + type + "\" id=\"" + this._setId + "\" width=\"" + width + "\" " + maxWidth + " " + hideKnowledgeBtn +"></script>";        
+            "<script src=\"" + url + "\" t=\"" + type + "\" id=\"" + this._setId +
+            "\" width=\"" + width + "\" " + maxWidth + " " + hideKnowledgeBtn + "></script>";
 
-        $("#inputSetEmbedCode").val(code );
+        $("#inputSetEmbedCode").val(code);
+
+        var codeElem = $(code);
+        codeElem.attr("isPreview", "true");
+
+        /* required for w.js: */ scriptIndex = -1;
+
+        $("#divPreviewSetWidget").empty();
+        $("#divPreviewSetWidget").append(codeElem);
     }
 
     InitSettings()

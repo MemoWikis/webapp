@@ -53,11 +53,17 @@ function writeIframe(iframeId, iframeSource) {
         'frameborder="no" scrolling="no"> ' +
         '</iframe>';
 
-    document.write(iframeHtml);
+    if (scriptTag.getAttribute("isPreview")){
+        var newElement = document.createElement('div');
+        newElement.innerHTML = iframeHtml;
+        document.getElementById('divPreviewSetWidget').appendChild(newElement);
+    } else {
+        document.write(iframeHtml);
+    }
 
     var loadedIframe = parent.document.getElementById(iframeId);
     loadedIframe.width = width;
-    loadedIframe.src = filePath;    
+    loadedIframe.src = filePath;
 }
 
 function getScripts() {
@@ -82,10 +88,13 @@ else if (window.attachEvent) {
 var scripts = getScripts();
 var scriptIndex;
 
+
 if(scriptIndex == undefined)
     scriptIndex = -1;
 
 scriptIndex++;
+
+console.log("scriptIndex", scriptIndex);
 
 var scriptTag = scripts[scriptIndex];
 
