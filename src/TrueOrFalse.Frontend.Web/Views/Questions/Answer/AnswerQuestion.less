@@ -15,9 +15,81 @@
     }
 }
 
+.SponsorWrapper {
+    font-size: 80%;
+    font-weight: normal;
+    .clearfix;
+
+    .SponsorLink {
+        white-space: nowrap;
+    }
+}
+
+.AnswerQuestionHeader {
+
+    .media-sm-up({
+        .SponsorWrapper {
+            float: right;
+        }
+    });
+
+    .SponsorWrapper {
+        margin-top: 3px;
+        margin-bottom: 10px;//For mobile
+    }
+}
+
+.SponsorWrapper {
+    font-size: 80%;
+    font-weight: normal;
+    .clearfix;
+
+    .SponsorLink {
+        white-space: nowrap;
+    }
+}
+
 #AnswerQuestionPager {
-    .media-below-xs ({
-        margin-bottom: 10px;
+
+    margin-bottom: 10px;
+
+    .media-below-sm({
+
+        .clearfix;
+
+        .Current {
+            margin-bottom: 10px;
+        }
+
+        .Previous {
+            float: left;
+        }
+        
+        .Next {
+            float: right;
+        }
+
+        .TextDivider {
+            display: none;
+        }
+    });
+
+    .media-sm-up({
+
+        float: left;
+        display: flex;
+
+        .Current {
+            order: 2;
+        }
+
+        .Previous {
+            order: 1;
+        }
+        
+        .Next {
+            order: 3;
+        }
     });
 }
 

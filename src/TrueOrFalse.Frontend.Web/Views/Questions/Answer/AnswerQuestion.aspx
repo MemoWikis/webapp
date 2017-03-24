@@ -62,90 +62,72 @@
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
 
-            <% if (Model.IsOwner)
-               { %>
-                <div class="navLinks">
-                    <div id="EditQuestion">
-                        <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
-                            <i class="fa fa-pencil"></i>
-                            <span class="TextSpan">Frage bearbeiten</span>
-                        </a>
-                    </div>
-            
-                    <div id="DeleteQuestion">
-                        <a data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
-                            <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
-                        </a>
-                    </div>
-                </div>
-            <% } %>
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
             <% }else if (Model.IsTestSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
             <% }else { %>
-            <ul id="AnswerQuestionPager" class="pager" style="margin-top: 0;">
-                <li class="previous">
-                    <% if (Model.HasPreviousPage)
-                       { %>
-                        <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-arrow-left"></i></a>
-                    <% } %>
-                </li>
-                <li>
-                    <% if (Model.SourceIsCategory){ %>
-                    
-                        <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
-                            <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
-                                Thema:
-                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
-                            </a>                    
-                        <% } else { %>
-                            <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
-                                Thema:
-                                <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
-                            </a>
-                        <% } %>
+                <div class="AnswerQuestionHeader">
+                        
+                    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
 
-                    <% } %>
-                    
-                    <% if (Model.SourceIsSet) { %>
-                        <a href="<%= Links.SetDetail(Url, Model.Set) %>">
-                            Fragesatz:
-                            <span class="label label-set"><%= Model.Set.Name %></span>
-                        </a>            
-                    <% } %>
-                    
-                    <% if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll)
-                       { %>
-                        <a href="<%= QuestionSearchSpecSession.GetUrl(Model.SearchTabOverview) %>">                        
-                            <span >
-                                <i class="fa fa-list"></i> 
-                                <% if (Model.SourceIsTabWish)
-                                   { %> mein Wunschwissen <% } %>
-                                <% if (Model.SourceIsTabMine)
-                                   { %> meine Fragen <% } %>
-                                <% if (Model.SourceIsTabAll)
-                                   { %> alle Fragen <% } %>
-                            </span>
-                        </a>
-                    <% } %>                    
-                </li>
-                <li>
-                    <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal))
-                        { %>
-                        <span>
-                            <%= Model.PageCurrent %> von <%= Model.PagesTotal %>
-                        </span>
-                    <% } %>
-                </li>
-                <li class="next">
-                    <% if (Model.HasNextPage)
-                       { %>
-                        <a href="<%= Model.NextUrl(Url) %>" rel="nofollow"><i class="fa fa-arrow-right"></i> </a>
-                    <% } %>
-                </li>
-            </ul>
-            <% } %>
+                    <div id="AnswerQuestionPager">
+                        <div class="Current">
+                        <% if (!String.IsNullOrEmpty(Model.PageCurrent) && !String.IsNullOrEmpty(Model.PagesTotal)){
+
+                                if (Model.SourceIsCategory){ %>
+                                        Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Thema
+                                        <% if(Model.SourceCategory.IsSpoiler(Model.Question)){ %>
+                                            <a href="#" onclick="location.href='<%= Links.CategoryDetail(Model.SourceCategory) %>'" style="height: 30px">
+                                                <span class="label label-category" data-isSpolier="true" style="position: relative; top: -1px;">Spoiler</span>
+                                            </a>                    
+                                        <% } else { %>
+                                            <a href="<%= Links.CategoryDetail(Model.SourceCategory) %>" style="height: 30px">
+                                                <span class="label label-category" style="position: relative; top: -1px;"><%= Model.SourceCategory.Name %></span>
+                                            </a>
+                                        <% } %>
+                                <% }
+
+                                else if (Model.SourceIsSet) { %>
+                                    Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Fragesatz 
+                                
+                                     <a href="<%= Links.SetDetail(Url, Model.Set) %>">
+                                        <span class="label label-set"><%= Model.Set.Name %></span>
+                                    </a>     
+                                  
+                                <% }
+                            
+                                else if (Model.SourceIsTabWish || Model.SourceIsTabMine || Model.SourceIsTabAll){ %>
+                                    Suchtreffer: <%= Model.PageCurrent %> von  
+                                    <a href="<%= QuestionSearchSpecSession.GetUrl(Model.SearchTabOverview) %>">  
+                                        <%= Model.PagesTotal %> in                       
+                                        <span>
+                                            <% if (Model.SourceIsTabWish)
+                                               { %> deinem Wunschwissen <% } %>
+                                            <% if (Model.SourceIsTabMine)
+                                               { %> deinen Fragen <% } %>
+                                            <% if (Model.SourceIsTabAll)
+                                               { %> allen Fragen <% } %>
+                                        </span>
+                                    </a>
+                                <% }
+                           } %> 
+                        </div>
+                        <div class="Previous">
+                            <% if (Model.HasPreviousPage)
+                                { %>
+                                <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i> vorherige Frage</a><span class="TextDivider">&nbsp;|&nbsp;</span> 
+                            <% } %>
+                        </div>
+                        <div class="Next">
+                            <% if (Model.HasNextPage)
+                                { %>
+                                <span class="TextDivider">&nbsp;|&nbsp;</span><a href="<%= Model.NextUrl(Url) %>" rel="nofollow">nächste Frage <i class="fa fa-chevron-right"></i></a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+           <% } %>
 
         
 
@@ -185,6 +167,24 @@
                                         von: <a href="<%= Links.UserDetail(Model.Creator) %>"><%= Model.CreatorName %></a><%= Model.Visibility != QuestionVisibility.All ? " <i class='fa fa-lock show-tooltip' title='Private Frage'></i>" : "" %><br />
                                         vor <span class="show-tooltip" title="erstellt am <%= Model.CreationDate %>" ><%= Model.CreationDateNiceText %></span> <br />
                                     </p>
+                                    
+                                    <% if (Model.IsOwner)
+                                       { %>
+                                        <%--<div class="navLinks">--%>
+                                            <div id="EditQuestion">
+                                                <a href="<%= Links.EditQuestion(Url, Model.QuestionText, Model.QuestionId) %>" class="TextLinkWithIcon">
+                                                    <i class="fa fa-pencil"></i>
+                                                    <span class="TextSpan">Frage bearbeiten</span>
+                                                </a>
+                                            </div>
+            
+                                            <div id="DeleteQuestion">
+                                                <a class="TextLinkWithIcon" data-toggle="modal" data-questionId="<%= Model.QuestionId %>" href="#modalDeleteQuestion">
+                                                    <i class="fa fa-trash-o"></i> <span class="TextSpan">Frage löschen</span>
+                                                </a>
+                                            </div>
+                                        <%--</div>--%>
+                                    <% } %>
         
                                     <% if (Model.Categories.Count > 0)
                                         { %>

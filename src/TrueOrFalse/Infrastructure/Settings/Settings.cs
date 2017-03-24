@@ -15,6 +15,7 @@ public class Settings
     public static string SolrCoresSuffix;
     public static bool GoogleKeyIsSet = false;
     public static string GoogleKey;
+    public static bool AdvertisementTurnedOn;
 
     public static string EmailFrom = "team@memucho.de";
     public static string EmailToMemucho = "team@memucho.de";
@@ -98,5 +99,6 @@ public class Settings
         SolrPath = GetValue(OverwrittenConfig.Value("pathToSolr"), "SolrPath");
         SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
         CanonicalHost = GetValue(OverwrittenConfig.Value("CanonicalHost"), "CanonicalHost");
+        AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
     }
 }

@@ -112,9 +112,10 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel()
     {
+        SponsorModel = new SponsorModel(SponsorRepo.GetSponsorById(1)); //Override sponsor for all answer question pages
     }
 
-    public AnswerQuestionModel(Question question)
+    public AnswerQuestionModel(Question question) : this()
     {
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
@@ -122,7 +123,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession)
+    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession) : this()
     {
         QuestionViewGuid = questionViewGuid;
 
@@ -155,7 +156,7 @@ public class AnswerQuestionModel : BaseModel
         return model;
     }
 
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question)
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question) : this()
     {
         QuestionViewGuid = questionViewGuid;
         TestSession = testSession;
@@ -173,7 +174,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec)
+    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec) : this()
     {
         QuestionViewGuid = questionViewGuid;
 
@@ -201,7 +202,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question)
+    public AnswerQuestionModel(Guid questionViewGuid, Set set, Question question) : this()
     {
         QuestionViewGuid = questionViewGuid;
 
