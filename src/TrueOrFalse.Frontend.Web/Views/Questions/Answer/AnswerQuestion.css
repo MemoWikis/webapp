@@ -31,30 +31,12 @@
 .navLinks > div {
   display: inline-block !important;
 }
-.SponsorWrapper {
-  font-size: 80%;
-  font-weight: normal;
-}
-.SponsorWrapper:before,
-.SponsorWrapper:after {
-  content: " ";
-  display: table;
-}
-.SponsorWrapper:after {
-  clear: both;
-}
-.SponsorWrapper:before,
-.SponsorWrapper:after {
-  content: " ";
-  display: table;
-}
-.SponsorWrapper:after {
-  clear: both;
-}
-.SponsorWrapper .SponsorLink {
-  white-space: nowrap;
-}
 @media (min-width: 768px) {
+  .AnswerQuestionHeader {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
   .AnswerQuestionHeader .SponsorWrapper {
     float: right;
   }
@@ -83,13 +65,39 @@
 .SponsorWrapper:after {
   clear: both;
 }
+@media (min-width: 768px) {
+  .SponsorWrapper {
+    width: 30%;
+    text-align: center;
+  }
+}
+@media (min-width: 992px) {
+  .SponsorWrapper {
+    width: 20%;
+  }
+}
 .SponsorWrapper .SponsorLink {
   white-space: nowrap;
 }
 #AnswerQuestionPager {
   margin-bottom: 10px;
+  flex-grow: 1;
 }
-@media (max-width: 767px) {
+.SponsorWrapper + #AnswerQuestionPager {
+  flex-grow: inherit;
+}
+@media (min-width: 768px) {
+  .SponsorWrapper + #AnswerQuestionPager {
+    width: 70%;
+    padding-right: 15px;
+  }
+}
+@media (min-width: 992px) {
+  .SponsorWrapper + #AnswerQuestionPager {
+    width: 80%;
+  }
+}
+@media (max-width: 991px) {
   #AnswerQuestionPager:before,
   #AnswerQuestionPager:after {
     content: " ";
@@ -119,10 +127,10 @@
     display: none;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   #AnswerQuestionPager {
-    float: left;
     display: flex;
+    justify-content: space-between;
   }
   #AnswerQuestionPager .Current {
     order: 2;
