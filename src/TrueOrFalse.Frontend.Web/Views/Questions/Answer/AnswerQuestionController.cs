@@ -10,22 +10,16 @@ using TrueOrFalse.Web;
 public class AnswerQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;
-
     private readonly AnswerQuestion _answerQuestion;
-    private readonly SaveQuestionView _saveQuestionView;
 
     private const string _viewLocation = "~/Views/Questions/Answer/AnswerQuestion.aspx";
     private const string _viewLocationError = "~/Views/Questions/Answer/AnswerQuestionError.aspx";
 
-    public AnswerQuestionController(QuestionRepo questionRepo,
-                                    AnswerQuestion answerQuestion,
-                                    SaveQuestionView saveQuestionView)
+    public AnswerQuestionController(QuestionRepo questionRepo, AnswerQuestion answerQuestion)
     {
         _questionRepo = questionRepo;
         _answerQuestion = answerQuestion;
-        _saveQuestionView = saveQuestionView;
     }
-
 
     [SetMenu(MenuEntry.QuestionDetail)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
@@ -77,7 +71,7 @@ public class AnswerQuestionController : BaseController
 
         var questionViewGuid = Guid.NewGuid();
 
-        _saveQuestionView.Run(
+        Sl.SaveQuestionView.Run(
             questionViewGuid,
             learningSession.Steps[currentLearningStepIdx].Question,
             _sessionUser.User.Id,
@@ -89,7 +83,27 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult Test(int testSessionId)
     {
-        var sessionCount = _sessionUser.TestSessions.Count(s => s.Id == testSessionId);
+        return TestActionShared(
+            testSessionId,
+            testSession => RedirectToAction(
+                Links.TestSessionResultAction, 
+                Links.TestSessionResultController, 
+                new { name = testSession.UriName, testSessionId = testSessionId }
+            ),
+            (testSession, questionViewGuid, question) => View(
+                _viewLocation, 
+                new AnswerQuestionModel(testSession, questionViewGuid, question))
+            );
+    }
+
+    public static ActionResult TestActionShared(
+        int testSessionId, 
+        Func<TestSession, ActionResult> redirectToFinalStepFunc,
+        Func<TestSession, Guid, Question, ActionResult> resultFunc)
+    {
+        var sessionUser = Sl.SessionUser;
+
+        var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
 
         if (sessionCount == 0)
         {
@@ -99,19 +113,19 @@ public class AnswerQuestionController : BaseController
         }
 
         if (sessionCount > 1)
-            throw new Exception($"SessionCount is {_sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
+            throw new Exception($"SessionCount is {sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
 
-        var testSession = _sessionUser.TestSessions.Find(s => s.Id == testSessionId);
+        var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
 
         if (testSession.CurrentStep > testSession.NumberOfSteps)
-            return RedirectToAction(Links.TestSessionResultAction, Links.TestSessionResultController, new { name = testSession.UriName, testSessionId = testSessionId });
+            return redirectToFinalStepFunc(testSession);
 
         var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep-1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
 
-        _saveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
 
-        return View(_viewLocation, new AnswerQuestionModel(testSession, questionViewGuid, question));
+        return resultFunc(testSession, questionViewGuid, question);
     }
 
     public ActionResult AnswerSet(int setId, int questionId)
@@ -128,7 +142,7 @@ public class AnswerQuestionController : BaseController
             .Add(new QuestionHistoryItem(set, question));
 
         var questionViewGuid = Guid.NewGuid();
-        _saveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, set, question));
     }
 
@@ -147,7 +161,7 @@ public class AnswerQuestionController : BaseController
             _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
 
             var questionViewGuid2 = Guid.NewGuid();
-            _saveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
+            Sl.SaveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
 
             return View(_viewLocation, new AnswerQuestionModel(question2));
         }
@@ -181,7 +195,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
-        _saveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
 
         return View(_viewLocation, new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec));
     }
@@ -330,7 +344,7 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public void LogTimeForQuestionView(Guid questionViewGuid, int millisecondsSinceQuestionView)
     {
-        _saveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
+        Sl.SaveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
     }
 
     [HttpPost]

@@ -90,7 +90,7 @@
   background-color: #fdd648;
 }
 .chartWrongAnswer {
-  background-color: #db0808;
+  background-color: #B13A48;
   color: #fff;
 }
 .chartNotAnswered {
@@ -125,7 +125,7 @@
   background-color: #fdd648;
 }
 .sumPctWrong {
-  background-color: #db0808;
+  background-color: #B13A48;
 }
 .sumPctNotAnswered {
   background-color: lightgray;
@@ -172,7 +172,7 @@
   color: #fdd648;
 }
 .QuestionLearned.AnsweredWrong .AnswerResultIcon {
-  color: #db0808;
+  color: #B13A48;
 }
 .QuestionLearned.Unanswered .AnswerResultIcon {
   color: lightgray;
@@ -188,8 +188,8 @@
 .answerDetails .rightAnswer {
   font-weight: bold;
 }
-.answerDetails .answerTry {
-  margin-left: 15px;
+.answerDetails .averageCorrectness {
+  padding-top: 3px;
 }
 .answerDetails .answerLinkToQ {
   font-size: 11px;
@@ -226,9 +226,12 @@
 .boxInfoContent p {
   margin: 3px 0;
 }
+/* Session heading
+------------------------------------------------------*/
 .SessionHeading {
   font-weight: bold;
   padding-bottom: 10px;
+  display: flex;
 }
 .SessionHeading:before,
 .SessionHeading:after {
@@ -245,6 +248,64 @@
 }
 .SessionHeading:after {
   clear: both;
+}
+@media (max-width: 479px) {
+  .SessionHeading {
+    flex-direction: column-reverse;
+  }
+}
+@media (min-width: 480px) {
+  .SessionHeading {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.LabelLink {
+  display: inline-block;
+  overflow: hidden;
+}
+@media (min-width: 480px) {
+  .QuestionCount,
+  .SponsorWrapper {
+    width: 30%;
+  }
+  .SessionTitle {
+    width: 100%;
+  }
+  .SponsorWrapper + .SessionTitle {
+    width: 70%;
+  }
+}
+@media (min-width: 992px) {
+  .QuestionCount,
+  .SponsorWrapper {
+    width: 20%;
+  }
+  .SessionTitle {
+    width: 100%;
+  }
+  .SponsorWrapper + .SessionTitle {
+    width: 80%;
+  }
+}
+@media (min-width: 480px) {
+  .SessionTitle {
+    padding-right: 10px;
+  }
+}
+@media (min-width: 480px) {
+  .SponsorWrapper {
+    text-align: center;
+  }
+}
+.SponsorLogoWrapper {
+  width: 100px;
+}
+@media (max-width: 479px) {
+  .SponsorLogoWrapper {
+    float: right;
+  }
 }
 /* Session bar/Progress bar
 ------------------------------------------------------*/
@@ -344,16 +405,6 @@
     width: 70%;
   }
 }
-@media (min-width: 480px) {
-  .QuestionCount {
-    width: 30%;
-  }
-}
-@media (min-width: 992px) {
-  .QuestionCount {
-    width: 20%;
-  }
-}
 .ProgressBarSegment {
   display: table-cell;
   overflow: hidden;
@@ -375,3 +426,53 @@
 .ProgressBarLeft {
   background-color: #e1efb3;
 }
+.CollectionType {
+  float: left;
+  padding-right: 10px;
+}
+.LabelWrapper {
+  max-width: 70%;
+  float: left;
+}
+.LabelWrapper:before,
+.LabelWrapper:after {
+  content: " ";
+  display: table;
+}
+.LabelWrapper:after {
+  clear: both;
+}
+.LabelWrapper:before,
+.LabelWrapper:after {
+  content: " ";
+  display: table;
+}
+.LabelWrapper:after {
+  clear: both;
+}
+.LabelWrapper a,
+.LabelWrapper .label {
+  max-width: 100%;
+  font-size: 100%;
+  margin: 0;
+}
+.SponsorWrapper {
+  clear: left;
+}
+/*.SessionTitle {
+    display: table;
+    
+}
+
+.CollectionType {
+    display: table-cell;
+    width:1%;
+    white-space:nowrap;
+}
+
+.LabelWrapper {
+    display: table-cell;
+    .label {
+        max-width: 100%;
+    }
+}*/

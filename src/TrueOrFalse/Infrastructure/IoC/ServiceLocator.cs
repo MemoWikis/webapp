@@ -30,6 +30,8 @@ public class Sl
 
     public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
 
+    public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
+
     public static int CurrentUserId => R<SessionUser>().UserId;
 }
 

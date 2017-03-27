@@ -12,6 +12,7 @@
     MOBILE SUBHEADER / #MobileSubHeader
     MASTER MAIN CONTENT / #MasterMainContent
     MASTER FOOTER / #MasterFooter
+    SPONSOR
     VALIDATION
     BUTTONS
     MODALS
@@ -488,7 +489,7 @@ img {
         .MenuButtonXS;
     }
 
-    @media (min-width: @screen-lg-min) {
+    @media (min-width: @show-menu-from-width) {
         display: none;
     }
 }
@@ -638,6 +639,19 @@ img {
     padding-bottom: 20px;
     //position: relative;
    // z-index: @z-Index-mainContainer;
+
+    #MasterMainColumn {
+        .make-lg-column(9);
+
+        .media-lg ({
+            width: 80%;
+        });
+    }
+
+}
+
+#MasterNoContent{
+    background-color: white;
 }
 
 #MasterLeftColumn {
@@ -649,13 +663,7 @@ img {
     });
 }
 
-#MasterMainColumn {
-    .make-lg-column(9);
 
-    .media-lg ({
-        width: 80%;
-    });
-}
 
 /* MASTER FOOTER
 ----------------------------------------------------------*/
@@ -727,6 +735,34 @@ img {
     } 
 }
 
+/* SPONSOR
+----------------------------------------------------------*/
+
+.SponsorLeftWrapper {
+    font-size: 90%;
+    margin-top: 50px;
+    text-align: center;
+    @media (max-width: (@show-menu-from-width - 1px)){
+        display: none;
+    }
+
+    .AdLabel {
+        font-size: 80%;
+        color: @global-text-color-grey;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+}
+
+.SponsorLeftLogo {
+
+    margin-bottom: 20px;
+
+    img {
+        max-width: 50%;
+        max-height: 100px;
+    }
+}
 
 /* VALIDATION
 ----------------------------------------------------------*/

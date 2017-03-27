@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+
+    <style type="text/css">
+        /*iframe { max-width: 600px; }*/
+
+        h1, h2, h3 {
+            border-bottom: 1px solid silver;
+            background-color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Widget</h1>
+
+<ul>
+    <li>
+        <a href="#localTest">Local testing</a>
+        <ul>
+            <li>
+                <a href="#localQuestion">Question</a>
+            </li>
+            <li>
+                <a href="#localSetTest">Set (Test)</a>
+            </li>
+            <li>
+                <a href="#localSetVideo">Set (Video)</a>
+            </li>
+        </ul>
+        Live
+        <ul>
+            <li>
+                <a href="#liveQuestion">Question</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+
+<h2><a id="localTest"></a>Local testing</h2>
+<h3>
+    <a id="localQuestion">Question</a>
+</h3>
+<script src="http://memucho.local/views/widgets/w.js" t="question" id="374" domainForDebug="http://memucho.local" width="100%" maxWidth="300px" hideKnowledgeBtn="true"></script>
+
+<h3>
+    <a id="localSetTest">Set (Test)</a>
+</h3>
+<script src="http://memucho.local/views/widgets/w.js" t="set" id="22" domainForDebug="http://memucho.local" width="100%" maxWidth="600px" hideKnowledgeBtn="true"></script>
+
+<h3>
+    <a id="localSetVideo">Set (Video)</a>
+</h3>
+<script src="http://memucho.local/views/widgets/w.js" t="setVideo" id="19" domainForDebug="http://memucho.local" width="100%" maxWidth="600px" hideKnowledgeBtn="true"></script>
+
+<h2>
+    <a id="liveQuestion">Live testing</a>
+</h2>
+<h3>Question</h3>
+<script src="https://memucho.de/views/widgets/w.js" questionId="374" width="800"></script>
+
+</body>
+</html>

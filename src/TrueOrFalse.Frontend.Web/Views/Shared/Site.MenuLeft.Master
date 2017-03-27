@@ -23,6 +23,10 @@
             <div class="row">
                 <section id="MasterLeftColumn" class="">
                     <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
+                    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
+                       { %>
+                        <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
+                    <% } %>
                 </section>
                 <section id="MasterMainColumn" class="">
                     
@@ -58,5 +62,7 @@
     <% Html.RenderPartial("UnpinSetModal"); %>
     <% Html.RenderPartial("UnpinCategoryModal"); %>
     <% Html.RenderPartial("FeatureNotImplementedModal"); %>
+    <div id="modalLoginContainer"></div>
+    <div id="modalContainer"></div>
 </body>
 </html>

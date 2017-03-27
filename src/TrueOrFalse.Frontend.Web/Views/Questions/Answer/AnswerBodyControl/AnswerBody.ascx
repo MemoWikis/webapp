@@ -27,7 +27,6 @@
             <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
         </span>
-                    
         
     </div>    
     <h1 style="font-size: 22px; padding-bottom: 20px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
@@ -78,9 +77,11 @@
                         <div id="ButtonsAndSolution" class="Clearfix">
                             <div id="Buttons">
                                 
-                                <span class="Pin" data-question-id="<%= Model.QuestionId%>">
-                                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
-                                </span>
+                                <% if(!Model.DisableAddKnowledgeButton) { %>
+                                    <span class="Pin" data-question-id="<%= Model.QuestionId%>">
+                                        <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge, isShortVersion: true)) %>
+                                    </span>
+                                <% } %>
 
                                 <div id="buttons-first-try" class="ButtonGroup">
                                     <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>

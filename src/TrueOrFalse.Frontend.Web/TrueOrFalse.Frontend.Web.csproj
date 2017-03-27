@@ -345,10 +345,12 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Sets\Detail\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
+    <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
@@ -379,6 +381,25 @@
     <Compile Include="Views\Widgets\WidgetController.cs" />
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Views\Help\Widget.aspx" />
+    <Content Include="Views\About\Master.aspx" />
+    <Content Include="Views\Drafts\Widget-Debug.html" />
+    <Content Include="Views\Drafts\WidgetSet.html" />
+    <Content Include="Views\Drafts\WidgetVideo.html" />
+    <Content Include="Views\Help\Widget.css">
+      <DependentUpon>Widget.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Sponsor.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
+    <Content Include="Views\Sets\Detail\Js\SetShare.js">
+      <DependentUpon>SetShare.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Widgets\WidgetSetResult.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
     <Content Include="android-chrome-144x144.png" />
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-36x36.png" />
@@ -518,6 +539,7 @@
     <Content Include="Images\Screenshots\moodle-1-mehrFelder-small.png" />
     <Content Include="Images\Screenshots\moodle-2-HTMLmode-small.png" />
     <Content Include="Images\Screenshots\wordpress-textmode-small.png" />
+    <Content Include="Images\Sponsors\schwanger-in-meiner-stadt-logo.png" />
     <Content Include="Images\Team\team_christof-rund_160.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
     <Content Include="Images\Team\team_christof201509_600.jpg" />
@@ -645,6 +667,7 @@
     </Content>
     <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
     <Content Include="Views\Shared\AddToWishknowledge.ascx" />
+    <Content Include="Views\Shared\SponsorLeft.ascx" />
     <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
     <Content Include="Views\Shared\WuWiMessage.ascx" />
     <Content Include="Views\About\AboutMemucho.css">
@@ -764,12 +787,18 @@
     <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
     <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
-    <Content Include="Views\Widgets\question.js" />
+    <Content Include="Views\Widgets\w.js" />
     <Content Include="Views\Widgets\WidgetQuestion.js">
       <DependentUpon>WidgetQuestion.ts</DependentUpon>
     </Content>
     <Content Include="Views\Widgets\WidgetSet.aspx" />
     <Content Include="Views\Widgets\WidgetQuestion.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.js">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\WidgetSetVideo.js.map">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
@@ -791,6 +820,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
+    <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
@@ -1054,9 +1084,6 @@
     <Content Include="Scripts\vendor\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
     <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
-    <Content Include="Style\01_temp.css">
-      <DependentUpon>01_temp.less</DependentUpon>
-    </Content>
     <Content Include="Style\bootstrap\bootstrap.css">
       <DependentUpon>bootstrap.less</DependentUpon>
     </Content>
@@ -1269,9 +1296,6 @@
     <Content Include="Style\temp.less" />
     <Content Include="Style\temp.css.map">
       <DependentUpon>temp.css</DependentUpon>
-    </Content>
-    <Content Include="Style\01_temp.css.map">
-      <DependentUpon>01_temp.css</DependentUpon>
     </Content>
     <Content Include="Style\bootstrap\memucho_overrides.less" />
     <Content Include="Style\bootstrap\memucho_overrides.css.map">
@@ -1627,6 +1651,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetShare.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
@@ -1646,6 +1671,7 @@
     <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
     <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
+    <TypeScriptCompile Include="Views\Widgets\WidgetSetVideo.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -2001,7 +2027,6 @@
     <Content Include="Views\Messages\Message.css.map">
       <DependentUpon>Message.css</DependentUpon>
     </Content>
-    <Content Include="Style\01_temp.less" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
       <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
     </Content>
@@ -2263,6 +2288,11 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
       <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\app.config" />
+    <Content Include="Views\Help\Widget.less" />
+    <Content Include="Views\Sets\Detail\Js\SetShare.js.map">
+      <DependentUpon>SetShare.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js.map" />
     <None Include="Web.overwritten.config">

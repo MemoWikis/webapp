@@ -88,3 +88,12 @@
 #video-pager .pause-buttons a:hover {
   text-decoration: none;
 }
+div.video-header h4 {
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+#modalShareSet input,
+#modalShareSet select {
+  display: inline-block;
+  width: auto;
+}

@@ -6,15 +6,20 @@ public class TestSessionResultController : BaseController
 {
     private const string _viewLocation = "~/Views/Questions/Answer/TestSession/TestSessionResult.aspx";
 
-    public ActionResult TestSessionResult(string name, int testSessionId)
+    public ActionResult TestSessionResult(string name, int testSessionId) => 
+        View(_viewLocation, new TestSessionResultModel(GetTestSession(testSessionId)));
+
+    public static TestSession GetTestSession(int testSessionId)
     {
-        if (_sessionUser.TestSessions.Count(s => s.Id == testSessionId) != 1)
-            throw new Exception("TestSessionId is not unique, there are " + _sessionUser.TestSessions.Count(s => s.Id == testSessionId) +
-                " results (0 means: session is simply not there yet; >1 means: more than 1 TestSession was created simultaneously with same Id)");
+        var sessionUser = Sl.SessionUser;
 
-        var testSession = _sessionUser.TestSessions.Find(s => s.Id == testSessionId);
+        if (sessionUser.TestSessions.Count(s => s.Id == testSessionId) > 1)
+            throw new Exception($"TestSessionId is not unique, there are {sessionUser.TestSessions.Count(s => s.Id == testSessionId)} test sessions");
 
-        return View(_viewLocation, new TestSessionResultModel(testSession));
+        if (sessionUser.TestSessions.Count(s => s.Id == testSessionId) == 0)
+            return new TestSession {SessionNotFound = true};
+
+        return sessionUser.TestSessions.Find(s => s.Id == testSessionId);
     }
 
 }

@@ -64,10 +64,10 @@ public class SetController : BaseController
 
     public ActionResult StartTestSession(int setId)
     {
-        var set = Sl.R<SetRepo>().GetById(setId);
+        var set = Sl.SetRepo.GetById(setId);
         var testSession = new TestSession(set);
 
-        R<SessionUser>().AddTestSession(testSession);
+        Sl.SessionUser.AddTestSession(testSession);
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
@@ -82,4 +82,6 @@ public class SetController : BaseController
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
 
+    public string ShareSetModal(int setId) =>
+        ViewRenderer.RenderPartialView("~/Views/Sets/Detail/ShareSetModal.ascx", new ShareSetModalModel(setId), ControllerContext);
 }

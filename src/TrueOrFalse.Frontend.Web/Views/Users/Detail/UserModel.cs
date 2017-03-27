@@ -19,6 +19,7 @@ public class UserModel : BaseModel
     public int ReputationTotal;
     public ReputationCalcResult Reputation;
 
+    public bool IsMember;
     public bool IsCurrentUser;
 
     public bool IsActiveTabKnowledge;
@@ -36,6 +37,7 @@ public class UserModel : BaseModel
         User = user;
         Name = user.Name;
 
+        IsMember = user.IsMember();
         IsCurrentUser = user.Id == UserId && IsLoggedIn;
 
         AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);

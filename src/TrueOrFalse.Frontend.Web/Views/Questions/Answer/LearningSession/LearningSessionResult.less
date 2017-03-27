@@ -2,7 +2,7 @@
 
 @color-correctAnswer: #1bbd00;
 @color-correctAfterRepetitionAnswer: #fdd648;
-@color-wrongAnswer: #db0808;
+@color-wrongAnswer: @dark-red;
 @color-notAnswered: lightgray;
 /*@color-correctAnswer: inherit;
 @color-correctAfterRepetitionAnswer: inherit;
@@ -200,7 +200,10 @@
         font-weight: bold;
     }
     .answerTry {
-        margin-left: +15px;
+        
+    }
+    .averageCorrectness{
+        padding-top: 3px;
     }
     .answerLinkToQ {
         font-size: 11px;
@@ -242,10 +245,73 @@
     }
 }
 
+/* Session heading
+------------------------------------------------------*/
+
 .SessionHeading {
     font-weight: bold;
     padding-bottom: 10px;
+    display: flex;
+
     .clearfix;
+
+    .media-below-xs({
+        flex-direction: column-reverse;
+        
+    });
+
+    .media-xs-up({
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: space-between;
+    });
+}
+
+.LabelLink {
+     display: inline-block;
+     overflow: hidden;
+}
+
+.SessionHeaderColumnWidth(@rightColWidthPercentage) {
+    .QuestionCount, .SponsorWrapper {
+        width: @rightColWidthPercentage * 1%;
+    }
+
+    .SessionTitle {
+        width: 100%;
+    }
+
+    .SponsorWrapper + .SessionTitle {
+        width: 100% - @rightColWidthPercentage;
+    }
+}
+
+.media-xs-up({
+    .SessionHeaderColumnWidth(30%);
+});
+
+.media-md-up({
+    .SessionHeaderColumnWidth(20%);
+});
+
+.SessionTitle {
+    .media-xs-up({
+        padding-right: 10px;
+    });
+}
+
+.SponsorWrapper {
+
+    .media-xs-up({
+        text-align: center;
+    });
+}
+
+.SponsorLogoWrapper {
+    .media-below-xs({
+        float: right;
+    });
+    width: 100px;
 }
 
 /* Session bar/Progress bar
@@ -328,17 +394,6 @@
     });
 }
 
-.QuestionCount {
-
-    .media-xs-up({
-        width: 30%;
-    });
-
-    .media-md-up({
-        width: 20%;
-    });
-}
-
 .ProgressBarSegment {
     display: table-cell;
     overflow: hidden;
@@ -363,3 +418,43 @@
 .ProgressBarLeft {
     background-color: lighten(@memo-green, 30);
 }
+
+.CollectionType {
+    float: left;
+    padding-right: 10px;
+}
+
+.LabelWrapper {
+    max-width: 70%;
+    float: left;
+    .clearfix;
+
+    a, .label {
+        max-width: 100%;
+        font-size: 100%;
+        margin: 0;
+    }
+}
+
+.SponsorWrapper {
+    clear: left;
+}
+
+/*.SessionTitle {
+    display: table;
+    
+}
+
+.CollectionType {
+    display: table-cell;
+    width:1%;
+    white-space:nowrap;
+}
+
+.LabelWrapper {
+    display: table-cell;
+    .label {
+        max-width: 100%;
+    }
+}*/
+

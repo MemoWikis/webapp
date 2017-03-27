@@ -5,12 +5,19 @@ class SetPage {
 
         this.InitPies();
 
-        if ($("#hhdHasVideo").val() == "True") {
-            new SetVideo();
+        var setId = $("#hhdSetId").val();
+        var hasVideo = $("#hhdHasVideo").val() == "True";
+
+        var setShare = new SetShare(setId, hasVideo);
+        //setShare.ShowModal();
+
+        if (hasVideo) {
+            new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });
+        } else {
+            new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
         }
 
         new Pin(PinType.SetDetail, KnowledgeWheel.ReloadSet);
-        new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
     }
 
     InitPies() {
@@ -23,8 +30,6 @@ class SetPage {
             });
         });        
     }
-
-
 }
 
 $(() => {
