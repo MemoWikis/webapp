@@ -22,12 +22,6 @@ class SolutionTypeMatchList
         }
     }
 
-    //static ChangeAnswerBody(html: string) {
-
-    //    $(".show-tooltip").tooltip();
-    //    this.InitAnswerBody();
-    //}
-
     static GetChosenAnswers(): string {
         if ($('#matchlist-mobilepairs').length) {
             var answerRowsMobile: Pair[] = [];
