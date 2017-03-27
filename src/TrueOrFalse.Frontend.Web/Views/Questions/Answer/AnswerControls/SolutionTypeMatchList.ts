@@ -14,21 +14,11 @@ class SolutionTypeMatchList
         if ($('#matchlist-mobilepairs').length)
             isCurrentAnswerBodyMobile = true;
         if (isMobile !== isCurrentAnswerBodyMobile) {
-            var newSiteContent;
-            if (isMobile) {
-                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + questionId,
+                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + 973 + "&isMobileDevice=" + isMobile,
                     htmlResult => {
-                        newSiteContent = htmlResult;
+                        $("#AnswerBody")
+                            .replaceWith(htmlResult);
                     });
-            } else {
-                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + questionId,
-                    htmlResult => {
-                        newSiteContent = htmlResult;
-                    });
-            }
-            $("#AnswerInputSection")
-                .empty()
-                .append(newSiteContent);
         }
     }
 

@@ -54,8 +54,15 @@
 
                             if (Model.SolutionMetadata.IsDate)
                                 userControl = "SolutionTypeDate.ascx";
-                            if(Request.Browser.IsMobileDevice && Model.SolutionType == "MatchList")
-                                userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
+                            if (Model.SolutionType == "MatchList")
+                            {
+                                if(Request.Browser.IsMobileDevice)
+                                    userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
+                                if(Model.isMobileRequest == true)
+                                    userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
+                                if(Model.isMobileRequest == false)
+                                    userControl = "SolutionTypeMatchList.ascx";
+                            }
 
                             Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
                         %>

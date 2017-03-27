@@ -40,6 +40,8 @@ public class AnswerQuestionModel : BaseModel
     public SolutionMetadata SolutionMetadata;
     public string SolutionMetaDataJson;
 
+    public bool? isMobileDevice;
+
     public string ImageUrl_500px;
     public string SoundUrl;
     public int TotalViews;
@@ -111,8 +113,9 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
-    public AnswerQuestionModel(Question question)
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null)
     {
+        this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);

@@ -363,11 +363,11 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    public string RenderAnswerBody(int questionId)
+    public string RenderAnswerBody(int questionId, bool? isMobileDevice)
     {
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(new AnswerQuestionModel(R<QuestionRepo>().GetById(questionId))),
+            new AnswerBodyModel(new AnswerQuestionModel(R<QuestionRepo>().GetById(questionId), isMobileDevice)),
             ControllerContext
         );
     }
