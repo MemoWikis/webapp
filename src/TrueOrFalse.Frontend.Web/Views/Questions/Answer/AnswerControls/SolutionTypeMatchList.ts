@@ -14,7 +14,7 @@ class SolutionTypeMatchList
         if ($('#matchlist-mobilepairs').length)
             isCurrentAnswerBodyMobile = true;
         if (isMobile !== isCurrentAnswerBodyMobile) {
-                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + 973 + "&isMobileDevice=" + isMobile,
+                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&isMobileDevice=" + isMobile,
                     htmlResult => {
                         $("#AnswerBody")
                             .replaceWith(htmlResult);

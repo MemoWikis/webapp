@@ -246,25 +246,40 @@
             else
                 leftElements.push(correctAnswersArray[i]);
         }
-        $('.matchlist-droppable').each((index, element) => {
-            if ($(element).attr('id') == null || $(element).attr('id') === "") {
-                var correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
-                if (correctRightElementValue === "keine Zuordnung")
-                    $(element).parent().addClass("right-answer");
-                else
-                    $(element).parent().addClass("wrong-answer");
-            } else {
-                var correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
-                var choosenRightElement = $('#rightElementResponse-' + $(element).attr('id').split("-")[1]);
-                if (choosenRightElement.html() === correctRightElementValue) {
-                    $(element).parent().addClass("right-answer");
-                    choosenRightElement.addClass("right-answer");
-                } else {
-                    $(element).parent().addClass("wrong-answer");
-                    choosenRightElement.addClass("wrong-answer");
-                }
-            }
-        });
+        if ($("#matchlist-mobilepairs").length) {
+            $(".matchlist-mobilepairrow")
+                .each((index, elem) => {
+                    var correctRightElementValue = rightElements[$.inArray($(elem).find(".matchlist-elementlabel").html(), leftElements)];
+                    if (correctRightElementValue === $(elem).find(".matchlist-mobileselect").val()) {
+                        $(elem).find(".matchlist-mobileselect").addClass("right-answer");
+                    } else {
+                        $(elem).find(".matchlist-mobileselect").addClass("wrong-answer");
+                    }
+                });
+        }
+        if ($("#matchlist-pairs").length) {
+            $('.matchlist-droppable')
+                .each((index, element) => {
+                    var correctRightElementValue;
+                    if ($(element).attr('id') == null || $(element).attr('id') === "") {
+                        correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
+                        if (correctRightElementValue === "keine Zuordnung")
+                            $(element).parent().addClass("right-answer");
+                        else
+                            $(element).parent().addClass("wrong-answer");
+                    } else {
+                        correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
+                        var choosenRightElement = $('#rightElementResponse-' + $(element).attr('id').split("-")[1]);
+                        if (choosenRightElement.html() === correctRightElementValue) {
+                            $(element).parent().addClass("right-answer");
+                            choosenRightElement.addClass("right-answer");
+                        } else {
+                            $(element).parent().addClass("wrong-answer");
+                            choosenRightElement.addClass("wrong-answer");
+                        }
+                    }
+                });
+        }
     }
 
     ShowAnswerDetails() {
