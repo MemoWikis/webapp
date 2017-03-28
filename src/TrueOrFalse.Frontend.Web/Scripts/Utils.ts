@@ -139,5 +139,11 @@ class Utils
         })();        
     }
 
+    static GetHost() {
+        var protocol = location.protocol;
+        var slashes = protocol.concat("//");
+        return slashes.concat(window.location.hostname);        
+    }
+
 }
 

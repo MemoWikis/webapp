@@ -75,10 +75,8 @@
                 <div class="panel-body">
                     <p>
                         In deinem Wunschwissen legst du fest, was du gern langfristig wissen möchtest. So behältst du besser den Überblick. Du kannst jede einzelne 
-                        Frage oder ganze Fragesätze zu deinem Wunschwissen hinzufügen. Klicke dazu einfach auf das Herz-Symbol bei einer Frage oder 
-                        einem Fragesatz. Ist das Herz komplett rot ausgefüllt, ist die Frage bzw. der Fragesatz in deinem  Wunschwissen, ansonsten 
-                        ist das Herz weiß. Du kannst Fragen auch wieder aus deinem Wunschwissen entfernen, indem du wieder auf das Herz bei der 
-                        entsprechenden Frage klickst.
+                        Frage, ganze Fragesätze oder komplette Themengebiete zu deinem Wunschwissen hinzufügen. Klicke dazu einfach auf das Herz-Symbol an der
+                        entsprechenden Stelle.
                     </p>
                 </div>
             </div>
@@ -103,6 +101,9 @@
                     <p>
                         Aber schon jetzt kannst du memucho nutzen - und uns als Beta-Nutzer wichtige Hinweise geben, wo etwas nicht funktioniert und 
                         welche Funktionen dir besonders dringend fehlen. Am besten wirst du schon jetzt <a href="<%= Links.Membership() %>">Fördermitglied</a>!
+                    </p>
+                    <p>
+                        Mehr Infos zur Beta-Phase <a href="<%= Links.BetaInfo() %>">findest du hier</a>.
                     </p>
                 </div>
             </div>
@@ -151,7 +152,7 @@
                     <p>
                         Allerdings sind bei memucho das Wikipedia-Prinzip und der Netzwerk-Gedanke sehr wichtig. Deshalb stehen die öffentlichen 
                         Fragen unter einer Creative Commons-Lizenz (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>).
-                        Jeder andere Nutzer kann die Fragen also (unter bestimmten Bedingungen) für seine Zwecke nutzen. So ist das auch bei Wikipedia, 
+                        Jeder andere Nutzer kann die Fragen also für seine Zwecke nutzen, solange er die Quelle angibt. So ist das auch bei Wikipedia, 
                         deswegen können wir zum Beispiel viele Bilder von Wikipedia verwenden und sie auch weiterhin nutzen, wenn sie bei Wikipedia selbst 
                         nicht mehr zu sehen sein sollten. Die privaten Fragen von dir bleiben aber privat und sind nicht für andere sichtbar.
                     </p>
@@ -203,7 +204,7 @@
                 <div class="panel-body">
                     In der Detailansicht steht bei jeder Frage die Lizenz, unter der sie veröffentlicht wurde.
                     Die nutzererstellten Fragen bei memucho stehen alle unter der Lizenz "Creative Commons - Namensnennung 4.0 International" 
-                    (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>).
+                    (Kenner nennen sie kurz nur "<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>").
                     Diese Fragen können bei angemessener Nennung des Urhebers (gib am besten die Url der Fragedetailseite und den Nutzernamen des Erstellers an) 
                     und der Lizenz frei weiterverwendet und dabei auch verändert werden.
                     Einige von uns eingestellte Fragen stehen unter anderen Lizenzen (zum Beispiel amtliche Fragesammlungen wie Führerscheinfragen). 

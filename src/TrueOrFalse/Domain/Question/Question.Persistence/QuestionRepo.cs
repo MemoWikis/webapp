@@ -17,12 +17,18 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public new void Update(Question question)
     {
-        var categoriesBeforeUpdateIds =
-            _session.CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
-            .List<int>()
-            .Union(_session.CreateSQLQuery("SELECT Category_id FROM reference WHERE Question_id =" + question.Id)
-                .List<int>())
-            .ToList();
+        var categories = _session
+            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
+            .List<int>();
+
+        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id + " AND Category_id is not null";
+
+        var categoriesReferences = _session
+            .CreateSQLQuery(query)
+            .List<int>();
+
+        var categoriesBeforeUpdateIds = categories.Union(categoriesReferences);
+
         _searchIndexQuestion.Update(question);
         base.Update(question);
         Flush();

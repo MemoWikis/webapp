@@ -20,6 +20,7 @@ namespace TrueOrFalse
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
             routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
 
+            routes.MapRoute("Widget", "Hilfe/Widget", new { controller = "Help", action = "Widget" });
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
             routes.MapRoute("UsersSearchApi", "Nutzer/SucheApi", new { controller = "Users", action = "SearchApi", searchTerm = UrlParameter.Optional });
@@ -128,9 +129,10 @@ namespace TrueOrFalse
             routes.MapRoute("GamesPlay", "Spiel/{gameId}", new { controller = "Play", action = "Play" });
 
             routes.MapRoute("AboutMemucho", "Ueber-memucho", new { controller = "About", action = "AboutMemucho" });
+            routes.MapRoute("ForTeachers", "Fuer-Lehrer", new { controller = "About", action = "ForTeachers" });
             routes.MapRoute("WelfareCompany", "Gemeinwohlökonomie", new { controller = "About", action = "WelfareCompany" });
             routes.MapRoute("Jobs", "Jobs", new { controller = "About", action = "Jobs" });
-            routes.MapRoute("ForTeachers", "Fuer-Lehrer", new { controller = "About", action = "ForTeachers" });
+            routes.MapRoute("Master", "Master", new { controller = "About", action = "Master" });
 
             routes.MapRoute("Beta", "Beta", new { controller = "Beta", action = "Beta" });
             routes.MapRoute("MemuchoBeta", "Beta-Phase", new { controller = "VariousPublic", action = "MemuchoBeta" });
