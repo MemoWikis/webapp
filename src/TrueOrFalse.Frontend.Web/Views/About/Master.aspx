@@ -18,6 +18,18 @@
             });
     });
 </script>    
+    
+<style>
+
+    h3 {
+        padding-bottom: 13px;
+    }
+            
+    h4 {
+        padding-top: 13px;
+        padding-bottom: 13px;
+    }
+</style>
 </asp:Content>
 
 
@@ -31,7 +43,7 @@
 </div>
     
 <div class="row">
-    <div class="col-xs-12 col-md-8" style="margin-top: 20px;" id="jobUXPraktikum">
+    <div class="col-xs-12" style="margin-top: 20px;" id="jobUXPraktikum">
         <div class="well">
             <p>
                 memucho ist ein junges Start-up. Wir wollen es Nutzern erleichtern, sich interessante und wissenswerte Dinge zu merken, ihr Wissen zu organisieren
@@ -44,7 +56,7 @@
             <p>
                 memucho bietet personalisiertes Lernen an und prognostiziert dem Nutzer, wann er was am besten lernt - und wieviel Zeit 
                 er benötigt, um eine bestimmte Menge an Informationen zu lernen. Dafür haben wir eine Umgebung entwickelt, 
-                bei der verschiedene Memorierungsmodelle in einem Wettbewerb gegeneinander antreten.
+                bei der verschiedene Vorhersagemodelle in einem Wettbewerb gegeneinander antreten.
                 Jedes Modell leistet eine zentrale Vorhersage: Kann ein bestimmter Nutzer ein bestimmtes Lernobjekt zu
                 einem bestimmten Zeitpunkt korrekt beantworten? Trainiert und bewertet werden die Memorierungsmodelle anhand der vorliegenden historischen Lerndaten,
                 und zwar für jede Lernsituation (= gebildet aus den Features zu den Antworten, den Fragen und perspektivisch den Nutzern) separat.
@@ -54,20 +66,36 @@
                 Die Ergebnisse (inkl. der bereits implementierten Features) sind <a href="<%= Links.AlgoInsightForecast() %>">hier öffentlich sichtbar</a>.
             </p>
 
-            <h3>Gegenstand der Masterarbeit</h3>
+            <h3>Vorschläge für Masterarbeiten</h3>
+            
+            <h4>Masterarbeit 1: "Verbesserung der Vorhersage-Qualität, durch dynamische Selektion des leistungsfähigesten Vorhersage-Modells zur Laufzeit"</h4>
             <p>
-                Gegenstand der Masterarbeit ist die Entwicklung eines weiteren Algorithmus zur Vorhersage von Vergessen. 
-                Zum Trainieren werden die vorhandenen Lerndaten anonymisiert zur Verfügung gestellt. Der entwickelte Algorithmus 
-                soll in die bestehende Umgebung (C# ASP.NET) eingefügt werden und tritt dann gegen die bestehenden Referenz-Algorithmen an.
+                Belegt wird die These, dass typischerweise ein Vorhersage-Modell-Mix zu einem besseren Ergebnis führt, 
+                als ein einzelnes Vorhersage-Modell, da in den meisten Situationen einzelnen Vorhersagen auf sehr unterschiedlichen Datenmengen beruhen.
+                Beschrieben wird die Vorauswahl von Vorhersage-Modellen aufgrund ihrer Eigenschaften und 
+                ein Vorgehen für die dynamische Auswahl zur Laufzeit eines Programmes. 
             </p>
+            <h4>Masterarbeit 2: "Vergleich verschiedener Vorhersage-Modelle (Predective Modells), in unterschiedlichen Datensituationen"</h4>
             <p>
-                Es gibt keine Vorgaben bezüglich der Art des Algorithmus.
+                Gegenstand der Masterarbeit ist der "Vergleich verschiedener Vorhersage-Modelle (Predective Modells), in unterschiedlichen Datensituationen".
+                Hierbei werden die Vorhersageeigenschaften miteinander Verglichen. 
+                Unsere Software bietet bereits eine Plattform, um die Vorhersageeigenschaften 
+                von Algorithmen zu bewerten und zu vergleichen (ähnlich <a href="http://kaggle.com">Kaggle</a>). 
             </p>
+            
+            <h4>Masterarbeit 3: Entwicklung eines Vergessensmodells auf Basis von historischen Daten.</h4>
             <p>
-                Die Vorteile für dich sind:
+                Gegenstand der Masterarbeit ist die Entwicklung eines leistungsfähigen Vergessensmodell, 
+                das im Wettbewerb bisherige Modelle deutlich überbietet.
             </p>
+            <h4>Masterarbeit 4: Deine Idee </h4>
+            <p>
+                Wir treffen uns und überlegen welches Thema zu Dir und zu uns passen kann. 
+            </p>
+            
+            <h4>Die Vorteile für dich sind:</h4>    
             <ul>
-                <li>Du arbeitest bei einem jungen Start-up mit flachen Hierarchien</li>
+                <li>Du arbeitest mit netten Leuten</li>
                 <li>Deine Ergebnisse werden direkt umgesetzt und verbessern die vorhandene Anwendung</li>
                 <li>Du kannst mit einem interessanten Datensatz arbeiten und lernst viel darüber, wie Menschen lernen</li>
                 <li>Du machst die Welt ein bisschen besser, weil du offene Bildungsinhalte und Open Source unterstützt</li>

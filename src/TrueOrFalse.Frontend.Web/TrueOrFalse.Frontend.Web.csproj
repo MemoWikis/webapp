@@ -385,6 +385,9 @@
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\widgets\ShareDialog.js">
+      <DependentUpon>ShareDialog.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Help\Widget.aspx" />
     <Content Include="Views\About\Master.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />
@@ -1450,6 +1453,9 @@
     </Content>
     <Content Include="Scripts\Pollyfills.js.map">
       <DependentUpon>Pollyfills.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\widgets\ShareDialog.js.map">
+      <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
