@@ -32,13 +32,14 @@ class SolutionTypeMatchList
                 .each((index, element) => {
                     var leftPairValueMobile = $('.matchlist-mobilepairrow #matchlist-elementlabel-' + index).html();
                     var rightPairValueMobile = $('.matchlist-mobilepairrow #matchlist-select-' + index).val();
-                    if (rightPairValueMobile !== "Keine Zuordnung") {
-                        answerRowsMobile.push(new Pair());
-                        answerRowsMobile[index].ElementLeft = new ElementLeft();
-                        answerRowsMobile[index].ElementLeft.Text = leftPairValueMobile;
-                        answerRowsMobile[index].ElementRight = new ElementRight();
-                        answerRowsMobile[index].ElementRight.Text = rightPairValueMobile;
+                    if (rightPairValueMobile === "Keine Zuordnung") {
+                        return;
                     }
+                    answerRowsMobile.push(new Pair());
+                        answerRowsMobile[answerRowsMobile.length - 1].ElementLeft = new ElementLeft();
+                        answerRowsMobile[answerRowsMobile.length - 1].ElementLeft.Text = leftPairValueMobile;
+                        answerRowsMobile[answerRowsMobile.length - 1].ElementRight = new ElementRight();
+                        answerRowsMobile[answerRowsMobile.length - 1].ElementRight.Text = rightPairValueMobile;
                 });
             return JSON.stringify(answerRowsMobile);
         } else {

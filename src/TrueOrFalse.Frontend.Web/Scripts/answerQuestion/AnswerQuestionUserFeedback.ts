@@ -94,14 +94,18 @@
 
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
-        $('#AnswerInputSection .ui-droppable')
-            .each((index, matchlistDropElement) => {
-                $(matchlistDropElement).droppable('disable');
-            });
-        $('#AnswerInputSection .ui-draggable')
-            .each((index, matchlistDragElement) => {
-                $(matchlistDragElement).draggable('disable');
-            });
+        if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
+            $('#AnswerInputSection .ui-droppable')
+                .each((index, matchlistDropElement) => {
+                    $(matchlistDropElement).droppable('disable');
+                });
+            $('#AnswerInputSection .ui-draggable')
+                .each((index, matchlistDragElement) => {
+                    $(matchlistDragElement).draggable('disable');
+                });
+            $(".matchlist-mobileselect").addClass('disabled').attr('disabled', 'true');
+        }
+
         $('#Buttons').css('visibility', 'hidden');
         window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 500);
 
