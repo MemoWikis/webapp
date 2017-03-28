@@ -263,7 +263,7 @@
                     var correctRightElementValue;
                     if ($(element).attr('id') == null || $(element).attr('id') === "") {
                         correctRightElementValue = rightElements[$.inArray($(element).attr('name'), leftElements)];
-                        if (correctRightElementValue === "keine Zuordnung")
+                        if (correctRightElementValue === "Keine Zuordnung")
                             $(element).parent().addClass("right-answer");
                         else
                             $(element).parent().addClass("wrong-answer");

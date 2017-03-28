@@ -5,7 +5,6 @@ class SolutionTypeMatchList
     public SolutionType = SolutionType.MatchList;
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
-        this.AnswerQuestion = new AnswerQuestion(this);
 
         var isMobile = false;
         if ($(document).width() < 700)
@@ -14,12 +13,16 @@ class SolutionTypeMatchList
         if ($('#matchlist-mobilepairs').length)
             isCurrentAnswerBodyMobile = true;
         if (isMobile !== isCurrentAnswerBodyMobile) {
-                $.get("/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&isMobileDevice=" + isMobile,
-                    htmlResult => {
-                        $("#AnswerBody")
-                            .replaceWith(htmlResult);
-                    });
+            jQuery.ajax({
+                url: "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&isMobileDevice=" + isMobile,
+                success: htmlResult => {
+                    $("div#LicenseQuestion").remove();
+                    $("#AnswerBody")
+                        .replaceWith(htmlResult);                },
+                async: false
+            });
         }
+        this.AnswerQuestion = new AnswerQuestion(this);
     }
 
     static GetChosenAnswers(): string {
@@ -29,11 +32,13 @@ class SolutionTypeMatchList
                 .each((index, element) => {
                     var leftPairValueMobile = $('.matchlist-mobilepairrow #matchlist-elementlabel-' + index).html();
                     var rightPairValueMobile = $('.matchlist-mobilepairrow #matchlist-select-' + index).val();
-                    answerRowsMobile.push(new Pair());
-                    answerRowsMobile[index].ElementLeft = new ElementLeft();
-                    answerRowsMobile[index].ElementLeft.Text = leftPairValueMobile;
-                    answerRowsMobile[index].ElementRight = new ElementRight();
-                    answerRowsMobile[index].ElementRight.Text = rightPairValueMobile;
+                    if (rightPairValueMobile !== "Keine Zuordnung") {
+                        answerRowsMobile.push(new Pair());
+                        answerRowsMobile[index].ElementLeft = new ElementLeft();
+                        answerRowsMobile[index].ElementLeft.Text = leftPairValueMobile;
+                        answerRowsMobile[index].ElementRight = new ElementRight();
+                        answerRowsMobile[index].ElementRight.Text = rightPairValueMobile;
+                    }
                 });
             return JSON.stringify(answerRowsMobile);
         } else {

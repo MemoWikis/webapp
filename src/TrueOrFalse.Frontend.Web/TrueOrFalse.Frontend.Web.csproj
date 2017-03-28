@@ -383,6 +383,161 @@
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\Autofac.dll" />
+    <Content Include="bin\Autofac.Integration.Mvc.dll" />
+    <Content Include="bin\Autofac.Integration.Mvc.xml" />
+    <Content Include="bin\Autofac.Integration.Owin.dll" />
+    <Content Include="bin\Autofac.Integration.Owin.xml" />
+    <Content Include="bin\Autofac.Integration.SignalR.dll" />
+    <Content Include="bin\Autofac.Integration.SignalR.xml" />
+    <Content Include="bin\Autofac.xml" />
+    <Content Include="bin\AutofacContrib.SolrNet.dll" />
+    <Content Include="bin\Common.Logging.Core.dll" />
+    <Content Include="bin\Common.Logging.Core.pdb" />
+    <Content Include="bin\Common.Logging.Core.xml" />
+    <Content Include="bin\Common.Logging.dll" />
+    <Content Include="bin\Common.Logging.pdb" />
+    <Content Include="bin\Common.Logging.xml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\HtmlMessage.html" />
+    <Content Include="bin\Domain\Message\HtmlMessage\HtmlMessageStylesInlined.html" />
+    <Content Include="bin\EasyNetQ.dll" />
+    <Content Include="bin\EasyNetQ.Management.Client.dll" />
+    <Content Include="bin\EasyNetQ.xml" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\FluentNHibernate.dll" />
+    <Content Include="bin\FluentNHibernate.pdb" />
+    <Content Include="bin\FluentNHibernate.xml" />
+    <Content Include="bin\HibernatingRhinos.Profiler.Appender.dll" />
+    <Content Include="bin\HttpWebAdapters.dll" />
+    <Content Include="bin\Iesi.Collections.dll" />
+    <Content Include="bin\Iesi.Collections.xml" />
+    <Content Include="bin\Images\Categories\include-folder.txt" />
+    <Content Include="bin\Images\Questions\include-folder.txt" />
+    <Content Include="bin\Images\Users\include-folder.txt" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaCategory.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaQuestion.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaSet.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaUser.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solr.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigCategory.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigQuestion.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigSet.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigUser.xml" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\log4net.xml" />
+    <Content Include="bin\Markdig.dll" />
+    <Content Include="bin\Markdig.xml" />
+    <Content Include="bin\MarkdownSharp.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Client.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Client.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.VisualStudio.DebuggerVisualizers.dll" />
+    <Content Include="bin\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MiniProfiler.dll" />
+    <Content Include="bin\MiniProfiler.pdb" />
+    <Content Include="bin\MiniProfiler.xml" />
+    <Content Include="bin\MySql.Data.dll" />
+    <Content Include="bin\MySql.Data.Entity.dll" />
+    <Content Include="bin\MySql.Web.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NHibernate.dll" />
+    <Content Include="bin\NHibernate.xml" />
+    <Content Include="bin\ObjectDumper.dll" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\Quartz.dll" />
+    <Content Include="bin\Quartz.pdb" />
+    <Content Include="bin\Quartz.xml" />
+    <Content Include="bin\RabbitMQ.Client.dll" />
+    <Content Include="bin\RabbitMQ.Client.xml" />
+    <Content Include="bin\RazorEngine.dll" />
+    <Content Include="bin\RazorEngine.xml" />
+    <Content Include="bin\RollbarSharp.dll" />
+    <Content Include="bin\Seedworks.Lib.dll" />
+    <Content Include="bin\Seedworks.Lib.pdb" />
+    <Content Include="bin\Seedworks.Lib.Persistence.dll" />
+    <Content Include="bin\Seedworks.Lib.Persistence.pdb" />
+    <Content Include="bin\Seedworks.Web.Lib.Persistence.dll" />
+    <Content Include="bin\Seedworks.Web.Lib.Persistence.pdb" />
+    <Content Include="bin\Serilog.dll" />
+    <Content Include="bin\Serilog.Formatting.Compact.dll" />
+    <Content Include="bin\Serilog.Formatting.Compact.xml" />
+    <Content Include="bin\Serilog.Sinks.File.dll" />
+    <Content Include="bin\Serilog.Sinks.File.xml" />
+    <Content Include="bin\Serilog.Sinks.PeriodicBatching.dll" />
+    <Content Include="bin\Serilog.Sinks.PeriodicBatching.xml" />
+    <Content Include="bin\Serilog.Sinks.RollingFile.dll" />
+    <Content Include="bin\Serilog.Sinks.RollingFile.xml" />
+    <Content Include="bin\Serilog.Sinks.Seq.dll" />
+    <Content Include="bin\Serilog.xml" />
+    <Content Include="bin\SolrNet.dll" />
+    <Content Include="bin\System.Collections.Concurrent.dll" />
+    <Content Include="bin\System.Collections.dll" />
+    <Content Include="bin\System.ComponentModel.Annotations.dll" />
+    <Content Include="bin\System.ComponentModel.EventBasedAsync.dll" />
+    <Content Include="bin\System.Diagnostics.Debug.dll" />
+    <Content Include="bin\System.Diagnostics.Tracing.dll" />
+    <Content Include="bin\System.Dynamic.Runtime.dll" />
+    <Content Include="bin\System.Globalization.dll" />
+    <Content Include="bin\System.IO.dll" />
+    <Content Include="bin\System.Linq.Expressions.dll" />
+    <Content Include="bin\System.Net.NetworkInformation.dll" />
+    <Content Include="bin\System.Net.Primitives.dll" />
+    <Content Include="bin\System.Net.Requests.dll" />
+    <Content Include="bin\System.ObjectModel.dll" />
+    <Content Include="bin\System.Reflection.dll" />
+    <Content Include="bin\System.Runtime.dll" />
+    <Content Include="bin\System.Runtime.Extensions.dll" />
+    <Content Include="bin\System.Runtime.InteropServices.dll" />
+    <Content Include="bin\System.Runtime.Serialization.Primitives.dll" />
+    <Content Include="bin\System.Runtime.Serialization.Xml.dll" />
+    <Content Include="bin\System.ServiceModel.Http.dll" />
+    <Content Include="bin\System.Text.Encoding.dll" />
+    <Content Include="bin\System.Text.Encoding.Extensions.dll" />
+    <Content Include="bin\System.Text.RegularExpressions.dll" />
+    <Content Include="bin\System.Threading.dll" />
+    <Content Include="bin\System.Threading.Tasks.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\System.Xml.ReaderWriter.dll" />
+    <Content Include="bin\System.Xml.XDocument.dll" />
+    <Content Include="bin\System.Xml.XmlSerializer.dll" />
+    <Content Include="bin\Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql" />
+    <Content Include="bin\Tools\Update\Scripts\015-new-tbl-questionSet.sql" />
+    <Content Include="bin\Tools\Update\Scripts\017-new-tbl-imageMetaData.sql" />
+    <Content Include="bin\Tools\Update\Scripts\025-new-tbl-categories_to_sets.sql" />
+    <Content Include="bin\Tools\Update\Scripts\027-new-tbl-setValuations.sql" />
+    <Content Include="bin\TrueOrFalse.dll" />
+    <Content Include="bin\TrueOrFalse.pdb" />
+    <Content Include="bin\TrueOrFalse.View.Web.dll" />
+    <Content Include="bin\TrueOrFalse.View.Web.pdb" />
+    <Content Include="bin\WebActivator.dll" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="Views\Help\Widget.aspx" />
     <Content Include="Views\About\Master.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />
@@ -390,6 +545,12 @@
     <Content Include="Views\Drafts\WidgetVideo.html" />
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js">
+      <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js.map">
+      <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
@@ -620,7 +781,6 @@
     <Content Include="Views\Maintenance\ContentReport.css">
       <DependentUpon>ContentReport.less</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList_LayoutMobile.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
@@ -1412,6 +1572,14 @@
     <Content Include="Fonts\font-awesome-4.4.0\less\rotated-flipped.less" />
     <Content Include="Fonts\font-awesome-4.4.0\less\stacked.less" />
     <Content Include="Fonts\font-awesome-4.4.0\less\variables.less" />
+    <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsgStylesInlined.cshtml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\TrainingReminderForDateMsgStylesInlined.cshtml" />
+    <Content Include="bin\Domain\User\Membership\Invoice\InvoiceTemplate.cshtml" />
+    <Content Include="bin\nh.cfg" />
+    <None Include="bin\TrueOrFalse.View.Web.dll.config" />
+    <Content Include="bin\Web\Crawlers\list-of-crawlers.json" />
     <None Include="compilerconfig.json" />
     <Content Include="Scripts\answerQuestion\IAnswerEntry.js.map">
       <DependentUpon>IAnswerEntry.ts</DependentUpon>
@@ -2295,7 +2463,6 @@
     <Content Include="Views\Sets\Detail\Js\SetShare.js.map">
       <DependentUpon>SetShare.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js.map" />
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>
     </None>
@@ -2358,6 +2525,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\Domain\Message\Types\" />
+    <Folder Include="bin\Utilities\Update\Scripts\" />
+    <Folder Include="bin\Utilities\Update\SolrSchemas\" />
     <Folder Include="Views\Dates\Details\" />
   </ItemGroup>
   <PropertyGroup>

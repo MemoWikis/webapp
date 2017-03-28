@@ -66,7 +66,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         for (int i = 0; i < questionPairs.Count; i++)
         {
-            if (questionPairs[i].ElementRight.Text == "keine Zuordnung")
+            if (questionPairs[i].ElementRight.Text == "Keine Zuordnung")
             {
                 questionPairs.RemoveAt(i);
                 i--;
