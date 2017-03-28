@@ -394,6 +394,7 @@
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeNoteCard.ascx" />
     <Content Include="Views\Sets\Detail\Js\SetShare.js">
       <DependentUpon>SetShare.ts</DependentUpon>
     </Content>
