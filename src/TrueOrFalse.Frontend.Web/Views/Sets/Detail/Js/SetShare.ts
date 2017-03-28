@@ -1,11 +1,14 @@
 ﻿var scriptIndex;
 
-class SetShare {
+class SetShare extends ShareDialog {
 
     private _setId: number;
     private _hasVideo: boolean;
     
     constructor(setId: number, hasVideo: boolean) {
+
+        super();
+
         this._setId = setId;
         this._hasVideo = hasVideo;
 
@@ -22,11 +25,6 @@ class SetShare {
             this.InitModal();
             $("#modalShareSet").modal('show');
         });
-    }
-
-    InitModal() {
-        this.InitSettings();  
-        this.SetEmbedCode();
     }
 
     SetEmbedCode() {
@@ -54,45 +52,8 @@ class SetShare {
             "<script src=\"" + url + "\" t=\"" + type + "\" id=\"" + this._setId +
             "\" width=\"" + width + "\" " + maxWidth + " " + hideKnowledgeBtn + "></script>";
 
-        $("#inputSetEmbedCode").val(code);
+        this.ShowEmbedCode(code, host);
 
-        var codeElem = $(code);
-        codeElem.attr("isPreview", "true");
-
-        if (host == "http://memucho.local") {
-            codeElem.attr("domainForDebug", host);
-        }
-
-        /* required for w.js: */ scriptIndex = -1;
-
-        $("#divPreviewSetWidget").empty();
-        $("#divPreviewSetWidget").append(codeElem);
-    }
-
-    InitSettings()
-    {
-        var linkShowSettings = $("#modalShareSet [data-action=showSettings]");
-        var linkHideSettings = $("#modalShareSet [data-action=hideSettings]");
-        var divShareSetSettings = $("#divShareSetSettings");
-
-        $("#widgetWidth").off("change").on("change", () => { this.SetEmbedCode(); });
-        $("#widgetWidthUnit").off("change").on("change", () => { this.SetEmbedCode(); });
-
-        $("#widgetMaxWidth").off("change").on("change", () => { this.SetEmbedCode(); });
-        $("#ckbEnableMaxWidth").off("change").on("change", () => { this.SetEmbedCode(); });
-        $("#ckbHideKnowledgeBtn").off("change").on("change", () => { this.SetEmbedCode(); });
-        
-        linkShowSettings.off("click").on("click", () => {
-            divShareSetSettings.show();
-            linkHideSettings.parent().show();
-            linkShowSettings.parent().hide();
-        });
-
-        linkHideSettings.off("click").on("click", () => {
-            divShareSetSettings.hide();
-            linkHideSettings.parent().hide();
-            linkShowSettings.parent().show();
-        });
     }
 
 }

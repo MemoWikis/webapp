@@ -131,6 +131,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
                 .Include("~/Views/Sets/Detail/Js/Set.js")
                 .Include("~/Views/Sets/Detail/Js/SetVideo.js")
+                .Include("~/Scripts/widgets/ShareDialog.js")
                 .Include("~/Views/Sets/Detail/Js/SetShare.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js"));
