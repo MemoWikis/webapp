@@ -1,5 +1,12 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
+#MasterMainContent {
+
+    .media-below-md({
+        padding-top: 10px;
+    });
+}
+
 .navLinks {
 
     float: right;
@@ -17,29 +24,31 @@
 
 .AnswerQuestionHeader {
 
+    margin-bottom: 10px;
+
     .media-sm-up({
 
         display: flex;
-        flex-direction: row-reverse;
         align-items: center;
 
         .SponsorWrapper {
             float: right;
         }
     });
-
-    .SponsorWrapper {
-        margin-top: 3px;
-        margin-bottom: 10px;//For mobile
-    }
 }
 
 .SponsorWrapper {
     font-size: 80%;
     font-weight: normal;
+    order: 2;
     .clearfix;
 
+    .media-below-sm({
+        margin-bottom: 10px;
+    });
+
     .media-sm-up({
+        padding-left: 10px;
         width: 30%;
         text-align: center;
     });
@@ -52,14 +61,14 @@
     }
 }
 
-#AnswerQuestionPager {
+#AnswerQuestionPager, .SessionTitle {
 
-    margin-bottom: 10px;
     flex-grow: 1; //Make it take the whole width if no .SponsorWrapper present
 
     .SponsorWrapper + & {
 
         flex-grow: inherit;//Overwrite if .SponsorWrapper present
+        order: 1;
 
         .media-sm-up({
             width: 70%;
@@ -70,45 +79,29 @@
             width: 80%;
         });
     }
-    
+}
+
+#AnswerQuestionPager {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .Current {
+        order: 2;
+    }
+
+    .Previous {
+        order: 1;
+    }
+        
+    .Next {
+        order: 3;
+    }
 
     .media-below-md({
-
-        .clearfix;
-
-        .Current {
-            margin-bottom: 10px;
-        }
-
-        .Previous {
-            float: left;
-        }
-        
-        .Next {
-            float: right;
-        }
-
-        .TextDivider {
+        .NavButtonText {
             display: none;
-        }
-    });
-
-    .media-md-up({
-
-        display: flex;
-        justify-content: space-between;
-
-
-        .Current {
-            order: 2;
-        }
-
-        .Previous {
-            order: 1;
-        }
-        
-        .Next {
-            order: 3;
         }
     });
 }

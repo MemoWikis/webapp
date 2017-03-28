@@ -113,16 +113,16 @@
                                 <% }
                            } %> 
                         </div>
-                        <div class="Previous">
+                        <div class="Previous" style="padding-right: 5px;">
                             <% if (Model.HasPreviousPage)
                                 { %>
-                                <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i> vorherige Frage</a><span class="TextDivider">&nbsp;|&nbsp;</span> 
+                                <a class="btn btn-sm btn-default" href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i><span class="NavButtonText"> vorherige Frage</span></a>
                             <% } %>
                         </div>
-                        <div class="Next">
+                        <div class="Next" style="padding-left: 5px;">
                             <% if (Model.HasNextPage)
                                 { %>
-                                <span class="TextDivider">&nbsp;|&nbsp;</span><a href="<%= Model.NextUrl(Url) %>" rel="nofollow">nächste Frage <i class="fa fa-chevron-right"></i></a>
+                                <a class="btn btn-sm btn-default" href="<%= Model.NextUrl(Url) %>" rel="nofollow"><span class="NavButtonText">nächste Frage </span><i class="fa fa-chevron-right"></i></a>
                             <% } %>
                         </div>
                     </div>

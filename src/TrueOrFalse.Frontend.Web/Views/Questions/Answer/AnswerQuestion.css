@@ -18,6 +18,11 @@
 }
 @media (min-width: 650px) {
 }
+@media (max-width: 991px) {
+  #MasterMainContent {
+    padding-top: 10px;
+  }
+}
 .navLinks {
   float: right;
   margin-bottom: 10px;
@@ -31,23 +36,22 @@
 .navLinks > div {
   display: inline-block !important;
 }
+.AnswerQuestionHeader {
+  margin-bottom: 10px;
+}
 @media (min-width: 768px) {
   .AnswerQuestionHeader {
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
   }
   .AnswerQuestionHeader .SponsorWrapper {
     float: right;
   }
 }
-.AnswerQuestionHeader .SponsorWrapper {
-  margin-top: 3px;
-  margin-bottom: 10px;
-}
 .SponsorWrapper {
   font-size: 80%;
   font-weight: normal;
+  order: 2;
 }
 .SponsorWrapper:before,
 .SponsorWrapper:after {
@@ -64,9 +68,15 @@
 }
 .SponsorWrapper:after {
   clear: both;
+}
+@media (max-width: 767px) {
+  .SponsorWrapper {
+    margin-bottom: 10px;
+  }
 }
 @media (min-width: 768px) {
   .SponsorWrapper {
+    padding-left: 10px;
     width: 30%;
     text-align: center;
   }
@@ -79,67 +89,45 @@
 .SponsorWrapper .SponsorLink {
   white-space: nowrap;
 }
-#AnswerQuestionPager {
-  margin-bottom: 10px;
+#AnswerQuestionPager,
+.SessionTitle {
   flex-grow: 1;
 }
-.SponsorWrapper + #AnswerQuestionPager {
+.SponsorWrapper + #AnswerQuestionPager,
+.SponsorWrapper + .SessionTitle {
   flex-grow: inherit;
+  order: 1;
 }
 @media (min-width: 768px) {
-  .SponsorWrapper + #AnswerQuestionPager {
+  .SponsorWrapper + #AnswerQuestionPager,
+  .SponsorWrapper + .SessionTitle {
     width: 70%;
     padding-right: 15px;
   }
 }
 @media (min-width: 992px) {
-  .SponsorWrapper + #AnswerQuestionPager {
+  .SponsorWrapper + #AnswerQuestionPager,
+  .SponsorWrapper + .SessionTitle {
     width: 80%;
   }
 }
-@media (max-width: 991px) {
-  #AnswerQuestionPager:before,
-  #AnswerQuestionPager:after {
-    content: " ";
-    display: table;
-  }
-  #AnswerQuestionPager:after {
-    clear: both;
-  }
-  #AnswerQuestionPager:before,
-  #AnswerQuestionPager:after {
-    content: " ";
-    display: table;
-  }
-  #AnswerQuestionPager:after {
-    clear: both;
-  }
-  #AnswerQuestionPager .Current {
-    margin-bottom: 10px;
-  }
-  #AnswerQuestionPager .Previous {
-    float: left;
-  }
-  #AnswerQuestionPager .Next {
-    float: right;
-  }
-  #AnswerQuestionPager .TextDivider {
-    display: none;
-  }
+#AnswerQuestionPager {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-@media (min-width: 992px) {
-  #AnswerQuestionPager {
-    display: flex;
-    justify-content: space-between;
-  }
-  #AnswerQuestionPager .Current {
-    order: 2;
-  }
-  #AnswerQuestionPager .Previous {
-    order: 1;
-  }
-  #AnswerQuestionPager .Next {
-    order: 3;
+#AnswerQuestionPager .Current {
+  order: 2;
+}
+#AnswerQuestionPager .Previous {
+  order: 1;
+}
+#AnswerQuestionPager .Next {
+  order: 3;
+}
+@media (max-width: 991px) {
+  #AnswerQuestionPager .NavButtonText {
+    display: none;
   }
 }
 #MarkdownCol {
