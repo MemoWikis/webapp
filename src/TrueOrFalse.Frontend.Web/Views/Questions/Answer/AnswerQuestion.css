@@ -44,70 +44,70 @@
     display: flex;
     align-items: center;
   }
-  .AnswerQuestionHeader .SponsorWrapper {
+  .AnswerQuestionHeader .EduPartnerWrapper {
     float: right;
   }
 }
-.SponsorWrapper {
+.EduPartnerWrapper {
   font-size: 80%;
   font-weight: normal;
   order: 2;
 }
-.SponsorWrapper:before,
-.SponsorWrapper:after {
+.EduPartnerWrapper:before,
+.EduPartnerWrapper:after {
   content: " ";
   display: table;
 }
-.SponsorWrapper:after {
+.EduPartnerWrapper:after {
   clear: both;
 }
-.SponsorWrapper:before,
-.SponsorWrapper:after {
+.EduPartnerWrapper:before,
+.EduPartnerWrapper:after {
   content: " ";
   display: table;
 }
-.SponsorWrapper:after {
+.EduPartnerWrapper:after {
   clear: both;
 }
 @media (max-width: 767px) {
-  .SponsorWrapper {
+  .EduPartnerWrapper {
     margin-bottom: 10px;
   }
 }
 @media (min-width: 768px) {
-  .SponsorWrapper {
+  .EduPartnerWrapper {
     padding-left: 10px;
     width: 30%;
     text-align: center;
   }
 }
 @media (min-width: 992px) {
-  .SponsorWrapper {
+  .EduPartnerWrapper {
     width: 20%;
   }
 }
-.SponsorWrapper .SponsorLink {
+.EduPartnerWrapper .EduPartnerLink {
   white-space: nowrap;
 }
 #AnswerQuestionPager,
 .SessionTitle {
   flex-grow: 1;
 }
-.SponsorWrapper + #AnswerQuestionPager,
-.SponsorWrapper + .SessionTitle {
+.EduPartnerWrapper + #AnswerQuestionPager,
+.EduPartnerWrapper + .SessionTitle {
   flex-grow: inherit;
   order: 1;
 }
 @media (min-width: 768px) {
-  .SponsorWrapper + #AnswerQuestionPager,
-  .SponsorWrapper + .SessionTitle {
+  .EduPartnerWrapper + #AnswerQuestionPager,
+  .EduPartnerWrapper + .SessionTitle {
     width: 70%;
     padding-right: 15px;
   }
 }
 @media (min-width: 992px) {
-  .SponsorWrapper + #AnswerQuestionPager,
-  .SponsorWrapper + .SessionTitle {
+  .EduPartnerWrapper + #AnswerQuestionPager,
+  .EduPartnerWrapper + .SessionTitle {
     width: 80%;
   }
 }

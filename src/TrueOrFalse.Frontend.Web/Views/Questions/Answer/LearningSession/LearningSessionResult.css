@@ -266,25 +266,25 @@
 }
 @media (min-width: 480px) {
   .QuestionCount,
-  .SponsorWrapper {
+  .EduPartnerWrapper {
     width: 30%;
   }
   .SessionTitle {
     width: 100%;
   }
-  .SponsorWrapper + .SessionTitle {
+  .EduPartnerWrapper + .SessionTitle {
     width: 70%;
   }
 }
 @media (min-width: 992px) {
   .QuestionCount,
-  .SponsorWrapper {
+  .EduPartnerWrapper {
     width: 20%;
   }
   .SessionTitle {
     width: 100%;
   }
-  .SponsorWrapper + .SessionTitle {
+  .EduPartnerWrapper + .SessionTitle {
     width: 80%;
   }
 }
@@ -294,15 +294,15 @@
   }
 }
 @media (min-width: 480px) {
-  .SponsorWrapper {
+  .EduPartnerWrapper {
     text-align: center;
   }
 }
-.SponsorLogoWrapper {
+.EduPartnerLogoWrapper {
   width: 100px;
 }
 @media (max-width: 479px) {
-  .SponsorLogoWrapper {
+  .EduPartnerLogoWrapper {
     float: right;
   }
 }
@@ -455,7 +455,7 @@
   font-size: 100%;
   margin: 0;
 }
-.SponsorWrapper {
+.EduPartnerWrapper {
   clear: left;
 }
 /*.SessionTitle {

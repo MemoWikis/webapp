@@ -779,26 +779,26 @@ fieldset[disabled] #MenuButton:hover {
 }
 /* SPONSOR
 ----------------------------------------------------------*/
-.SponsorLeftWrapper {
+.EduPartnerLeftWrapper {
   font-size: 90%;
   margin-top: 50px;
   text-align: center;
 }
 @media (max-width: 1199px) {
-  .SponsorLeftWrapper {
+  .EduPartnerLeftWrapper {
     display: none;
   }
 }
-.SponsorLeftWrapper .AdLabel {
+.EduPartnerLeftWrapper .EduPartnerAdLabel {
   font-size: 80%;
   color: #999999;
   margin-bottom: 20px;
   text-align: left;
 }
-.SponsorLeftLogo {
+.EduPartnerLeftLogo {
   margin-bottom: 20px;
 }
-.SponsorLeftLogo img {
+.EduPartnerLeftLogo img {
   max-width: 50%;
   max-height: 100px;
 }

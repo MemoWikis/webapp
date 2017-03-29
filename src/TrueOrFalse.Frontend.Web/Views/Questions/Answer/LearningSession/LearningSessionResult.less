@@ -272,7 +272,7 @@
 }
 
 .SessionHeaderColumnWidth(@rightColWidthPercentage) {
-    .QuestionCount, .SponsorWrapper {
+    .QuestionCount, .EduPartnerWrapper {
         width: @rightColWidthPercentage * 1%;
     }
 
@@ -280,7 +280,7 @@
         width: 100%;
     }
 
-    .SponsorWrapper + .SessionTitle {
+    .EduPartnerWrapper + .SessionTitle {
         width: 100% - @rightColWidthPercentage;
     }
 }
@@ -299,14 +299,14 @@
     });
 }
 
-.SponsorWrapper {
+.EduPartnerWrapper {
 
     .media-xs-up({
         text-align: center;
     });
 }
 
-.SponsorLogoWrapper {
+.EduPartnerLogoWrapper {
     .media-below-xs({
         float: right;
     });
@@ -435,7 +435,7 @@
     }
 }
 
-.SponsorWrapper {
+.EduPartnerWrapper {
     clear: left;
 }
 

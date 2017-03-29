@@ -31,13 +31,13 @@
         display: flex;
         align-items: center;
 
-        .SponsorWrapper {
+        .EduPartnerWrapper {
             float: right;
         }
     });
 }
 
-.SponsorWrapper {
+.EduPartnerWrapper {
     font-size: 80%;
     font-weight: normal;
     order: 2;
@@ -56,18 +56,18 @@
         width: 20%;
     });
 
-    .SponsorLink {
+    .EduPartnerLink {
         white-space: nowrap;
     }
 }
 
 #AnswerQuestionPager, .SessionTitle {
 
-    flex-grow: 1; //Make it take the whole width if no .SponsorWrapper present
+    flex-grow: 1; //Make it take the whole width if no .EduPartnerWrapper present
 
-    .SponsorWrapper + & {
+    .EduPartnerWrapper + & {
 
-        flex-grow: inherit;//Overwrite if .SponsorWrapper present
+        flex-grow: inherit;//Overwrite if .EduPartnerWrapper present
         order: 1;
 
         .media-sm-up({
