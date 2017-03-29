@@ -185,6 +185,8 @@ class AnswerQuestion {
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
 
+            $("#buttons-first-try").hide();
+            $("#buttons-answer-again").hide();
 
             $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
@@ -203,9 +205,6 @@ class AnswerQuestion {
                     self.IncrementInteractionNumber();
 
                     self.UpdateProgressBar(-1, answerResult);
-
-                    $("#buttons-first-try").hide();
-                    $("#buttons-answer-again").hide();
 
                     if (self.IsTestSession) {
                         $.ajax({
