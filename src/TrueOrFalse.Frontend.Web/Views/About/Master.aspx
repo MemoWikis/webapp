@@ -68,32 +68,34 @@
 
             <h3>Vorschläge für Masterarbeiten</h3>
             
-            <h4>Masterarbeit 1: "Verbesserung der Vorhersage-Qualität, durch dynamische Selektion des leistungsfähigesten Vorhersage-Modells zur Laufzeit"</h4>
+            <h4>Masterarbeit 1: Verbesserung der Vorhersage-Qualität durch dynamische Selektion des leistungsfähigsten Vorhersage-Modells zur Laufzeit</h4>
             <p>
-                Belegt wird die These, dass typischerweise ein Vorhersage-Modell-Mix zu einem besseren Ergebnis führt, 
-                als ein einzelnes Vorhersage-Modell, da in den meisten Situationen einzelnen Vorhersagen auf sehr unterschiedlichen Datenmengen beruhen.
-                Beschrieben wird die Vorauswahl von Vorhersage-Modellen aufgrund ihrer Eigenschaften und 
-                ein Vorgehen für die dynamische Auswahl zur Laufzeit eines Programmes. 
+                Belegt werden soll die These, dass typischerweise ein Mix verschiedener Vorhersage-Modelle zu einem besseren Ergebnis führt, 
+                als ein einzelnes Vorhersage-Modell, da in den meisten Situationen die konkreten Vorhersagen auf sehr unterschiedlichen Teil-Datenmengen beruhen.
+                Beschrieben werden soll die Vorauswahl von Vorhersage-Modellen aufgrund ihrer Eigenschaften und 
+                ein Vorgehen für die dynamische Auswahl des jeweils optimalen Modells zur Laufzeit eines Programmes. 
             </p>
-            <h4>Masterarbeit 2: "Vergleich verschiedener Vorhersage-Modelle (Predective Modells), in unterschiedlichen Datensituationen"</h4>
+            <h4>Masterarbeit 2: Vergleich verschiedener Vorhersage-Modelle (Predictive Models) in unterschiedlichen Datensituationen</h4>
             <p>
-                Gegenstand der Masterarbeit ist der "Vergleich verschiedener Vorhersage-Modelle (Predective Modells), in unterschiedlichen Datensituationen".
-                Hierbei werden die Vorhersageeigenschaften miteinander Verglichen. 
+                Gegenstand der Masterarbeit ist der Vergleich verschiedener Vorhersage-Modelle (Predictive Models) in unterschiedlichen Datensituationen.
+                Dabei sollen die Vorhersageeigenschaften miteinander verglichen, die Güte beschrieben und Kriterien für die Auswahl des jeweils überlegenen Modells definiert werden.
+                Kernaspekt ist die Berücksichtigung, dass je nach Vorhersage-Situation unterschiedliche Teildatenmengen relevant sind.
                 Unsere Software bietet bereits eine Plattform, um die Vorhersageeigenschaften 
-                von Algorithmen zu bewerten und zu vergleichen (ähnlich <a href="http://kaggle.com">Kaggle</a>). 
+                von Algorithmen zu bewerten und zu vergleichen (ähnlich <a href="http://kaggle.com" target="_blank">Kaggle</a>). 
             </p>
             
-            <h4>Masterarbeit 3: Entwicklung eines Vergessensmodells auf Basis von historischen Daten.</h4>
+            <h4>Masterarbeit 3: Entwicklung eines Vergessensmodells auf Basis von historischen Daten</h4>
             <p>
                 Gegenstand der Masterarbeit ist die Entwicklung eines leistungsfähigen Vergessensmodell, 
-                das im Wettbewerb bisherige Modelle deutlich überbietet.
+                das im Wettbewerb die bisher implementierten Modelle deutlich überbietet. 
+                Über die vorhandene Bewertungsplattform kann die Leistungsfähigkeit eingeschätzt werden.
             </p>
-            <h4>Masterarbeit 4: Deine Idee </h4>
+            <h4>Masterarbeit 4: Deine Idee</h4>
             <p>
                 Wir treffen uns und überlegen welches Thema zu Dir und zu uns passen kann. 
             </p>
             
-            <h4>Die Vorteile für dich sind:</h4>    
+            <h3>Die Vorteile für dich sind:</h3>    
             <ul>
                 <li>Du arbeitest mit netten Leuten</li>
                 <li>Deine Ergebnisse werden direkt umgesetzt und verbessern die vorhandene Anwendung</li>
