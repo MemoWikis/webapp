@@ -22,4 +22,15 @@
             $("#modalShareQuestion").modal('show');
         });
     }
+
+    SetEmbedCode() {
+
+        var settings = this.GetSettings();
+        settings.Id = this._questionId;
+        settings.Type = "question";
+
+        var code = this.GetEmbedCode(settings);
+
+        this.ShowEmbedCode(code, settings.Host);
+    }
 }
