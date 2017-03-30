@@ -1,5 +1,11 @@
 ﻿class ShareDialog {
 
+    _modalElemId: string;
+
+    constructor(modalElemId: string) {
+        this._modalElemId = modalElemId;
+    }
+
     SetEmbedCode() { };
 
     ShowEmbedCode(code : string, host : string) {
@@ -15,7 +21,7 @@
         /* required for w.js: */ scriptIndex = -1;
 
         $("#divPreviewSetWidget").empty();
-        $("#divPreviewSetWidget").append(codeElem);        
+        $("#divPreviewSetWidget").append(codeElem);
     }
 
     InitModal() {
@@ -24,8 +30,8 @@
     }
 
     InitSettings() {
-        var linkShowSettings = $("#modalShareSet [data-action=showSettings]");
-        var linkHideSettings = $("#modalShareSet [data-action=hideSettings]");
+        var linkShowSettings = $(this._modalElemId + " [data-action=showSettings]");
+        var linkHideSettings = $(this._modalElemId + " [data-action=hideSettings]");
         var divShareSetSettings = $("#divShareSetSettings");
 
         $("#widgetWidth").off("change").on("change", () => { this.SetEmbedCode(); });
@@ -47,36 +53,41 @@
             linkShowSettings.parent().show();
         });
     }
-    
+
+    GetSettings(): WidgetSettings {
+
+        var settings = new WidgetSettings();
+        settings.Host = Utils.GetHost();
+        settings.Url = settings.Host + "/views/widgets/w.js";
+
+        settings.Width = $("#widgetWidth").val() + $("#widgetWidthUnit").val();
+
+        settings.MaxWidth = "";
+        if ($("#ckbEnableMaxWidth:checked").length == 1) {
+            settings.MaxWidth = "maxWidth=\"" + $("#widgetMaxWidth").val() + "px\"";
+        }
+
+        settings.HideKnowledgeButton = "";
+        if ($("#ckbHideKnowledgeBtn:checked").length == 1) {
+            settings.HideKnowledgeButton = "hideKnowledgeBtn=\"true\"";
+        }
+
+        return settings;
+    }
+
+    GetEmbedCode(settings: WidgetSettings): string {
+        return "<script src=\"" + settings.Url + "\" t=\"" + settings.Type + "\" id=\"" + settings.Id +
+            "\" width=\"" + settings.Width + "\" " + settings.MaxWidth + " " + settings.HideKnowledgeButton + "></script>";
+    }
 }
 
-class Base {
-    protected prop = null;
+class WidgetSettings {
+    Host: string;
+    Url: string;
+    Width: string;
+    MaxWidth: string;
+    HideKnowledgeButton: string;
 
-    constructor() {
-        this.init();
-        this.initLambda();
-    }
-
-    init() {
-        console.log("Base init");
-    }
-
-    initLambda() {
-        console.log("Base initLambda");
-    }
-}
-
-class Derived extends Base {
-    constructor() {
-        super();
-    }
-
-    init() {
-        console.log("Derived init");
-    }
-
-    initLambda() {
-        console.log("Derived initLambda");
-    }
+    Type: string;
+    Id: number;
 }

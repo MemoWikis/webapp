@@ -343,22 +343,16 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public void LogTimeForQuestionView(Guid questionViewGuid, int millisecondsSinceQuestionView)
-    {
+    public void LogTimeForQuestionView(Guid questionViewGuid, int millisecondsSinceQuestionView) => 
         Sl.SaveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
-    }
 
     [HttpPost]
-    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber)
-    {
+    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber) => 
         _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, countLastAnswerAsCorrect: true);
-    }
 
     [HttpPost]
-    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
-    {
+    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView) => 
         _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
-    }
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
@@ -383,4 +377,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions = new QuestionHistory();
         return new EmptyResult();
     }
+
+    public string ShareQuestionModal(int questionId) =>
+        ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
 }
