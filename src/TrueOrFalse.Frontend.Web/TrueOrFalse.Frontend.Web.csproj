@@ -400,7 +400,7 @@
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
-    <Content Include="Views\Sets\Detail\Js\SetShare.js">
+    <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
@@ -2234,7 +2234,7 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
-    <Content Include="Views\Shared\Site.PureContent.Master" />
+    <Content Include="Views\Shared\Site.Widget.Master" />
     <Content Include="Views\Welcome\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -2295,7 +2295,7 @@
     </Content>
     <Content Include="Views\Widgets\app.config" />
     <Content Include="Views\Help\Widget.less" />
-    <Content Include="Views\Sets\Detail\Js\SetShare.js.map">
+    <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
