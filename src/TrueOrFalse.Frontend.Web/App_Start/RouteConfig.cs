@@ -162,7 +162,8 @@ namespace TrueOrFalse
             routes.MapRoute("Topic", "Thema/{topicName}", new { controller = "Topics", action = "Topic" });
 
             routes.MapRoute("WidgetQuestion", "widget/frage/{questionId}", new { controller = "Widget", action = "Question" });
-            routes.MapRoute("WidgetSet", "widget/fragesatz/{setId}", new { controller = "Widget", action = "Set" });
+            routes.MapRoute("WidgetSetStart", "widget/fragesatz/start/{setId}", new { controller = "Widget", action = "Set" });
+            routes.MapRoute("WidgetSet", "widget/fragesatz/{setId}", new { controller = "Widget", action = "SetStart" });
             routes.MapRoute("WidgetSetVideo", "widget/fragesatz-v/{setId}", new { controller = "Widget", action = "SetVideo" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });

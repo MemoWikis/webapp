@@ -383,6 +383,7 @@
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
@@ -404,6 +405,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
     <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
     <Content Include="android-chrome-144x144.png" />

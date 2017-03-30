@@ -32,6 +32,13 @@ public class WidgetController : BaseController
 
     public ActionResult Set(int setId, bool? hideAddToKnowledge)
     {
+        return View(
+            "~/Views/Widgets/WidgetSetStart.aspx",
+            new WidgetSetStartModel(setId, (bool) hideAddToKnowledge));
+    }
+
+    public ActionResult SetStart(int setId, bool? hideAddToKnowledge)
+    {
         var set = Sl.SetRepo.GetById(setId);
         var testSession = new TestSession(set);
 

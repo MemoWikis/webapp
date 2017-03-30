@@ -48,8 +48,6 @@ function writeIframe(iframeId, iframeSource) {
         styleMaxWidth = "max-width: " + maxWidth + ";";
     }
 
-    console.log(styleMaxWidth, width);
-
     var iframeHtml =
         '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
             '<iframe ' +
@@ -104,8 +102,6 @@ if(scriptIndex == undefined)
 
 scriptIndex++;
 
-console.log("scriptIndex", scriptIndex);
-
 var scriptTag = scripts[scriptIndex];
 
 var type_ = scriptTag.getAttribute("t");
@@ -136,7 +132,7 @@ else if (type_ === "set")
 {
     var setId = scriptTag.getAttribute("id");
 
-    var filePath = domain + '/widget/fragesatz/' + setId + queryKnowledgeBtn;
+    var filePath = domain + '/widget/fragesatz/start/' + setId + queryKnowledgeBtn;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
