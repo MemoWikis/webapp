@@ -112,7 +112,6 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel()
     {
-        SponsorModel = new SponsorModel(SponsorRepo.GetSponsorById(1)); //Override sponsor for all answer question pages
     }
 
     public AnswerQuestionModel(Question question) : this()
