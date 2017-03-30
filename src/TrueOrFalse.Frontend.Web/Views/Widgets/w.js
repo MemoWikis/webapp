@@ -41,17 +41,27 @@ function writeIframe(iframeId, iframeSource) {
     var width = scriptTag.getAttribute("width");
 
     var attrMaxWidth = "";
+    var styleMaxWidth = "";
     var maxWidth = scriptTag.getAttribute("maxWidth");
     if (maxWidth && maxWidth.length > 0) {
         attrMaxWidth = "maxWidth=\"" + maxWidth + "\"";
+        styleMaxWidth = "max-width: " + maxWidth + ";";
     }
 
-    var iframeHtml = '<iframe ' +
-        'id="' + iframeId + '" name="widget" ' +
-        'src="#" height="1" ' + attrMaxWidth + ' ' +
-        'marginheight="0" marginwidth="0" ' +
-        'frameborder="no" scrolling="no"> ' +
-        '</iframe>';
+    console.log(styleMaxWidth, width);
+
+    var iframeHtml =
+        '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
+            '<iframe ' +
+                'id="' + iframeId + '" name="widget" ' +
+                'src="#" height="1" ' + attrMaxWidth + ' ' +
+                'marginheight="0" marginwidth="0" ' +
+                'frameborder="no" scrolling="no"> ' +
+            '</iframe>' + 
+            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 10px; float: right"> ' + 
+                '<a href="https://memucho.de">von memucho</a>' + 
+            '</div>' +
+        '</div>';
 
     if (scriptTag.getAttribute("isPreview")){
         var newElement = document.createElement('div');
