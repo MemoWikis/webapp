@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerQuestionModel>" %>
 
-<% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree){ %>
+<% if (Model.Creator.IsMemuchoUser && Model.SponsorModel != null && !Model.SponsorModel.IsAdFree && !Model.IsInWidget){ %>
     <div class="EduPartnerWrapper">
         <div class="TextBlock">
             <span class="EduPartnerText">Freier Bildungsinhalt – mit Unterstützung von </span>

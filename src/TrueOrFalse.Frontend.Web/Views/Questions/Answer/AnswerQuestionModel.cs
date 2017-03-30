@@ -107,6 +107,7 @@ public class AnswerQuestionModel : BaseModel
 
     public bool DisableCommentLink;
     public bool DisableAddKnowledgeButton;
+    public bool IsInWidget;
 
     public ContentRecommendationResult ContentRecommendationResult;
 

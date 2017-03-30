@@ -16,6 +16,7 @@ public class WidgetController : BaseController
         );
 
         answerQuestionModel.DisableCommentLink = true;
+        answerQuestionModel.IsInWidget = true;
 
         if (hideAddToKnowledge.HasValue)
             answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
@@ -51,6 +52,7 @@ public class WidgetController : BaseController
             (testSession, questionViewGuid, question) => {
                 var answerModel = new AnswerQuestionModel(testSession, questionViewGuid, question);
                 answerModel.NextUrl = url => url.Action("SetTestStep", "Widget", new { testSessionId = testSession.Id });
+                answerModel.IsInWidget = true;
 
                 if (hideAddToKnowledge.HasValue)
                     answerModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
