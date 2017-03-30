@@ -47,21 +47,24 @@
             <% } %>
 
             <ul>
-                <li> Die wertvolle Trophäe "Fördermitglied der 1. Stunde" in Gold in deinem Profil auf Lebenszeit.</li>
-                <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
-                <li>Alle memucho-Funktionen ohne Beschränkungen, insbesondere...
+                <li>Die wertvolle Trophäe "Fördermitglied der 1. Stunde" in Gold in deinem Profil auf Lebenszeit.</li>
+                <li>Die memucho-Seite komplett werbefrei.</li>
+                <li>Alle memucho-Funktionen auch zukünftig ohne Beschränkungen, insbesondere...
                     <ul style="list-style: none;">
-                        <li>...unbegrenzt private Fragen (sonst 20 Fragen)</li>
-                        <li>...unbegrenzt Wunschwissen (sonst 50 Fragen)</li>
-                        <li>...unbegrenzte Nutzung von Lernterminen.</li>        
+                        <li>...unbegrenzt private Fragen</li>
+                        <li>...unbegrenzt Wunschwissen</li>
+                        <li>...unbegrenzte Nutzung von Lernterminen</li>     
                     </ul>
                 </li>
+                <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
+
             </ul>
             <% if (!Model.IsMember) {%>
                 <p>
                     In der Beta-Phase sind die Funktionalitäten für Nichtmitglieder noch nicht beschränkt. 
                     Bis zum offiziellen Start unserer Plattform 
-                    winken für dich als Fördermitglied also "nur" Ruhm, Ehre und die besondere Trophäe 
+                    winken für dich als Fördermitglied also neben der werbefreien Nutzung 
+                    "nur" Ruhm, Ehre und die besondere Trophäe 
                     &#8211 und das gute Gefühl, eine tolle Sache zu unterstützen.
                 </p>
 
