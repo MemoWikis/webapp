@@ -6,6 +6,7 @@ class SolutionTypeMatchList
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 
+        //get pager from url parameters
         var isMobile = false;
         if ($(document).width() < 700)
             isMobile = true;
@@ -13,8 +14,9 @@ class SolutionTypeMatchList
         if ($('#matchlist-mobilepairs').length)
             isCurrentAnswerBodyMobile = true;
         if (isMobile !== isCurrentAnswerBodyMobile) {
+        var urlParams = Utils.GetQueryString();
             jQuery.ajax({
-                url: "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&isMobileDevice=" + isMobile,
+                url: "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&isMobileDevice=" + isMobile,
                 success: htmlResult => {
                     $("div#LicenseQuestion").remove();
                     $("#AnswerBody")
