@@ -117,9 +117,8 @@ public class AnswerQuestionModel : BaseModel
         SponsorModel = new SponsorModel(SponsorRepo.GetSponsorById(1)); //Override sponsor for all answer question pages
     }
 
-    public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
+    public AnswerQuestionModel(Question question): this()
     {
-        this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
@@ -177,8 +176,9 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         PageCurrent = searchSpec.CurrentPage.ToString();

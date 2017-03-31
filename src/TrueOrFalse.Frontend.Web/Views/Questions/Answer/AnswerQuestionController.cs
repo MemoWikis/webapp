@@ -398,13 +398,11 @@ public class AnswerQuestionController : BaseController
     {
         Question question = R<QuestionRepo>().GetById(questionId);
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.PageSize = 1;
-        activeSearchSpec.CurrentPage = (int)1;
         var questionViewGuid = Guid.NewGuid();
-        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        //Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec)),
+            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
             ControllerContext
         );
     }
@@ -413,24 +411,5 @@ public class AnswerQuestionController : BaseController
     {
         _sessionUiData.VisitedQuestions = new QuestionHistory();
         return new EmptyResult();
-    }
-
-    public ActionResult AnswerQuestion2(string text, int? id, int? elementOnPage, string pager, string category)
-    {
-        if (String.IsNullOrEmpty(pager) && ((elementOnPage == null) || (elementOnPage == -1)))
-        {
-
-            var question2 = _questionRepo.GetById((int) id);
-
-            _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
-
-            var questionViewGuid2 = Guid.NewGuid();
-            Sl.SaveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
-
-            return View(_viewLocation, new AnswerQuestionModel(question2));
-        }
-
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        return View(_viewLocation, new AnswerQuestionModel());
     }
 }
