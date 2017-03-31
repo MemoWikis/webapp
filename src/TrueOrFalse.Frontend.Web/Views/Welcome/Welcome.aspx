@@ -314,7 +314,7 @@
                 </div>
             </div>
         </div>
-        <div class="well Founder">
+        <div class="well Team">
             <h3>
                 <a name="teaserWhoWeAre"></a>
                 Team
@@ -335,8 +335,14 @@
                     <img src="/Images/Team/team_christof201509_155.jpg"/>  
                     <br/> <b>Christof</b> (Gründer) <br/> 
                 </div>
-
-
+                <div class="col-xs-4 ImageColumn">
+                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    <br/> <b>Lisa</b> (Vertrieb) <br/> 
+                </div>
+                <div class="col-xs-4 ImageColumn">
+                    <img style="width: 155px; max-width: 100%;" src="/Images/no-profile-picture-250.png"/>  
+                    <br/> <b>Julian</b> (Entwicklung) <br/> 
+                </div>
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
                         Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
