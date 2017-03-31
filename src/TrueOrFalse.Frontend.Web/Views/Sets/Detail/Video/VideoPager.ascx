@@ -1,6 +1,6 @@
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SetVideoModel>" %>
 
-<div class="Box" style="margin-bottom: -7px;" id="video-pager">
+<div class="Box" id="video-pager">
     <div class="row">
         <div class="col-xs-11">
             <div style="margin-top: 13px; margin-right: 7px; display: inline-block; font-size: 18px;">Fragen</div>
@@ -31,5 +31,6 @@
                     aria-hidden="true" style="font-size: 22px; padding:13px;"></i>
             </a>
         </div>
-    </div>    
+    </div>
+    <div class="Divider" style="margin-top: 15px;"></div>
 </div>

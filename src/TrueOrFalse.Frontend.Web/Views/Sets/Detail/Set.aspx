@@ -204,7 +204,7 @@
                     Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                 </h4>
                 <p class="greyed" style="margin-bottom: 10px;">
-                    Wenn du auf eine Frage klickst kannst du alle Fragen des Fragesatzes durchblättern. 
+                    Wenn du auf eine Frage klickst, kannst du alle Fragen des Fragesatzes durchblättern. 
                     Um eine begrenzte Zahl an Fragen zu beantworten und eine Auswertung zu erhalten, nutze bitte die Schaltflächen LERNEN oder WISSEN TESTEN oben.
                 </p>
             <% } else { %>

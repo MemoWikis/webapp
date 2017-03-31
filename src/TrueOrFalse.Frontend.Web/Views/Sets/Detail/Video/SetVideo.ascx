@@ -2,23 +2,24 @@
 
 <input type="hidden" id="hddHideAddToKnowledge" value="<%= Model.HideAddToKnowledge %>"/>
 
-<div class="row video-header">
-    <div class="col-xs-12">
-        <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
-    </div>
-</div>
-<div>
-    <div class="row">
-        <div class="col-md-12">
-            <%= Html.Raw(YoutubeVideo.GetIframe(Model.VideoKey)) %>
+<div class="SetVideo">
+    <div class="row video-header">
+        <div class="col-xs-12">
+            <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
         </div>
     </div>
-</div>
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <%= Html.Raw(YoutubeVideo.GetIframe(Model.VideoKey)) %>
+            </div>
+        </div>
+    </div>
 
 
-<% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
+    <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
+    
 
-<div style="background-color: white;">
     <div id="divBodyAnswer">
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
     </div>
