@@ -385,6 +385,7 @@
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Images\Screenshots\SetEmbedLink.png" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
     <Content Include="Scripts\widgets\ShareDialog.js">
