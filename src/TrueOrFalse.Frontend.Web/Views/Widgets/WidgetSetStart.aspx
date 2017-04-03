@@ -26,7 +26,7 @@
         }
     </style>
     
-    <%= Scripts.Render("~/bundles/js/WidgetSet") %>
+    <%= Scripts.Render("~/bundles/js/AwesomeIframe") %>
 
 </asp:Content>
 

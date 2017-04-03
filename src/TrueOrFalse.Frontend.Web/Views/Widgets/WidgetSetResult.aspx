@@ -9,6 +9,7 @@
         html { height: auto;}
     </style>
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
+    <%= Scripts.Render("~/bundles/js/AwesomeIframe") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 </asp:Content>
 
