@@ -102,7 +102,6 @@ public class QuestionSolutionMatchList : QuestionSolution
     }
 }
 
-//Ist das noch legal?
 public class MatchListAnswerPairs
 {
     public List<Pair> Pairs { get; set; }

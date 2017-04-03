@@ -394,9 +394,26 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice)
+    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, bool isLearningSession = false)
     {
-        Question question = R<QuestionRepo>().GetById(questionId);
+        if (testSessionId != null)
+        {
+            var sessionUser = Sl.SessionUser;
+            var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
+            var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
+            var testSessionQuestionViewGuid = Guid.NewGuid();
+
+            return ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion)),
+                ControllerContext
+            );
+        }
+
+        if (isLearningSession)
+            return "";
+
+        var question = Sl.QuestionRepo.GetById(questionId);
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
         //Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
@@ -405,6 +422,12 @@ public class AnswerQuestionController : BaseController
             new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
             ControllerContext
         );
+        //return ViewRenderer.RenderPartialView(
+        //    "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+        //    new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)))),
+        //    ControllerContext
+        //);
+
     }
 
     public EmptyResult ClearHistory()

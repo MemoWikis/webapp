@@ -14,9 +14,15 @@ class SolutionTypeMatchList
         if ($('#matchlist-mobilepairs').length)
             isCurrentAnswerBodyMobile = true;
         if (isMobile !== isCurrentAnswerBodyMobile) {
-        var urlParams = Utils.GetQueryString();
+            var urlParams = Utils.GetQueryString();
+            var url = "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&isMobileDevice=" + isMobile;
+            alert(answerEntry.AnswerQuestion);
+            if (answerEntry.AnswerQuestion.IsTestSession)
+                url += "&testSessionId=" + AnswerQuestion.TestSessionId;
+            if (answerEntry.AnswerQuestion.IsLearningSession)
+                url += "&isLearningSession=true"; //TODO:Julian argument order could yield unexpected results
             jQuery.ajax({
-                url: "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&isMobileDevice=" + isMobile,
+                url: url,
                 success: htmlResult => {
                     $("div#LicenseQuestion").remove();
                     $("#AnswerBody")
@@ -30,7 +36,7 @@ class SolutionTypeMatchList
     static GetChosenAnswers(): string {
         if ($('#matchlist-mobilepairs').length) {
             var answerRowsMobile: Pair[] = [];
-            var answerCountMobile = $('#matchlist-mobilepairs .matchlist-mobilepairrow')
+            $('#matchlist-mobilepairs .matchlist-mobilepairrow')
                 .each((index, element) => {
                     var leftPairValueMobile = $('.matchlist-mobilepairrow #matchlist-elementlabel-' + index).html();
                     var rightPairValueMobile = $('.matchlist-mobilepairrow #matchlist-select-' + index).val();
