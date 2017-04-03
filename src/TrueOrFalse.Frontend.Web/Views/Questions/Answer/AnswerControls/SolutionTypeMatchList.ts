@@ -16,11 +16,15 @@ class SolutionTypeMatchList
         if (isMobile !== isCurrentAnswerBodyMobile) {
             var urlParams = Utils.GetQueryString();
             var url = "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&isMobileDevice=" + isMobile;
-            alert(answerEntry.AnswerQuestion);
-            if (answerEntry.AnswerQuestion.IsTestSession)
-                url += "&testSessionId=" + AnswerQuestion.TestSessionId;
-            if (answerEntry.AnswerQuestion.IsLearningSession)
-                url += "&isLearningSession=true"; //TODO:Julian argument order could yield unexpected results
+            var isTestSession = $('#hddIsTestSession').val().toLowerCase() === "true";
+            if (isTestSession) {
+                var testSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
+                url += "&testSessionId=" + testSessionId;
+            }
+            var isLarningSession = $("#hddIsLearningSession").val().toLowerCase() === "true";
+            if (isLarningSession)
+                url += "&learningSessionId=" + $("#hddIsLearningSession").attr("data-learning-session-id");
+
             jQuery.ajax({
                 url: url,
                 success: htmlResult => {

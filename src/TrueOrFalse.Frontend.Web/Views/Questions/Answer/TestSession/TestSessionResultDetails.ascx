@@ -51,7 +51,7 @@
                             <a href="#" data-action="showAnswerDetails">
                             <i class="fa fa-circle AnswerResultIcon show-tooltip" title="Nicht beantwortet.">
                                 &nbsp;&nbsp;
-                            </i><%= step.Question.GetShortTitle(150) %> 
+                            </i><%= step.Question.GetShortTitle(150) %>
                             (Details)</a><br/>
             <% }
             else if (step.AnswerState == TestSessionStepAnswerState.AnsweredCorrect)

@@ -125,8 +125,9 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         LearningSession = learningSession;
@@ -158,8 +159,10 @@ public class AnswerQuestionModel : BaseModel
         return model;
     }
 
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question) : this()
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
+
         QuestionViewGuid = questionViewGuid;
         TestSession = testSession;
         IsTestSession = true;

@@ -394,24 +394,37 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, bool isLearningSession = false)
+    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, int? learningSessionId = null)
     {
+        if (learningSessionId != null)
+        {
+            var learningSession = Sl.Resolve<LearningSessionRepo>().GetById((int) learningSessionId);
+            ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
+            ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
+            var learningSessionQuestionViewGuid = Guid.NewGuid();
+            return ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(new AnswerQuestionModel(learningSessionQuestionViewGuid, learningSession, isMobileDevice)),
+                ControllerContext
+            );
+        }
         if (testSessionId != null)
         {
             var sessionUser = Sl.SessionUser;
             var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
             var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
             var testSessionQuestionViewGuid = Guid.NewGuid();
+            var testSessionName = testSession.UriName;
+
+            ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
+            ControllerContext.RouteData.Values.Add("name", testSessionName);
 
             return ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion)),
+                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice)),
                 ControllerContext
             );
         }
-
-        if (isLearningSession)
-            return "";
 
         var question = Sl.QuestionRepo.GetById(questionId);
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
