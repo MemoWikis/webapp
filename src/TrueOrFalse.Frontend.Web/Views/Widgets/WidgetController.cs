@@ -34,7 +34,7 @@ public class WidgetController : BaseController
     {
         return View(
             "~/Views/Widgets/WidgetSetStart.aspx",
-            new WidgetSetStartModel(setId, (bool) hideAddToKnowledge));
+            new WidgetSetStartModel(setId, Convert.ToBoolean(hideAddToKnowledge)));
     }
 
     public ActionResult SetStart(int setId, bool? hideAddToKnowledge)
