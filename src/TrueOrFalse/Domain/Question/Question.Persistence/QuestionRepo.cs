@@ -183,10 +183,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<int>();
     }
 
-    public IEnumerable<Question> GetMostRecent(int amount)
+    public IEnumerable<Question> GetMostRecent(int amount, QuestionVisibility questionVisibility = QuestionVisibility.All)
     {
         return _session
             .QueryOver<Question>()
+            .Where(q => q.Visibility == questionVisibility)
             .OrderBy(q => q.DateCreated).Desc
             .Take(amount)
             .List();
