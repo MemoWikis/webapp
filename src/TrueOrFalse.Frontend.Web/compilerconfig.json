@@ -208,5 +208,9 @@
   {
     "outputFile": "Views/Help/Widget.css",
     "inputFile": "Views/Help/Widget.less"
+  },
+  {
+    "outputFile": "Views/About/AboutMemucho.css",
+    "inputFile": "Views/About/AboutMemucho.less"
   }
 ]
