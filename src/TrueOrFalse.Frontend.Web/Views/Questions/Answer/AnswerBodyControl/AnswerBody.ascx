@@ -29,7 +29,7 @@
         </span>
         
     </div>    
-    <h1 style="font-size: 22px; padding-bottom: 20px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
+    <h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
         <%= Model.QuestionText %>
     </h1>
     <div class="row">
