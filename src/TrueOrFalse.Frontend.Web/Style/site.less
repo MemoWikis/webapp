@@ -30,6 +30,7 @@
         Icons
         Dropdowns
         Google Chart Custom Layout
+        Team Pictures
 
 [Imports:]
 --------------------------------------------------------*/
@@ -650,7 +651,7 @@ img {
 
 }
 
-#MasterNoContent{
+#MasterWidget{
     background-color: white;
 }
 
@@ -738,7 +739,7 @@ img {
 /* SPONSOR
 ----------------------------------------------------------*/
 
-.SponsorLeftWrapper {
+.EduPartnerLeftWrapper {
     font-size: 90%;
     margin-top: 50px;
     text-align: center;
@@ -746,7 +747,7 @@ img {
         display: none;
     }
 
-    .AdLabel {
+    .EduPartnerAdLabel {
         font-size: 80%;
         color: @global-text-color-grey;
         margin-bottom: 20px;
@@ -754,7 +755,7 @@ img {
     }
 }
 
-.SponsorLeftLogo {
+.EduPartnerLeftLogo {
 
     margin-bottom: 20px;
 
@@ -855,7 +856,7 @@ a.button span.ui-icon {
     div.col-you-have-to-be-logged-in{
         padding-bottom: 5px;
         padding-left: 5px;
-        margin-top: -13px; 
+        margin-top: -29px; 
         border-bottom: 1px solid lavender; 
     }
 }
@@ -1282,6 +1283,20 @@ li.google-visualization-tooltip-item {
 
 li.google-visualization-tooltip-item span {
     font-size: 12px !important;
+}
+
+/*Team Pictures*/
+
+.TeamPic {
+    text-align: center;
+    margin-bottom: 20px;
+    .media-below-xs({
+        width: 50%;
+    });
+
+     img {
+        border-radius: @border-radius-item-image;
+     }
 }
 
 

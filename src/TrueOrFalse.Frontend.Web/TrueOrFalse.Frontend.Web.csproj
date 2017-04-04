@@ -341,6 +341,7 @@
     <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
+    <Compile Include="Views\Questions\Answer\ShareQuestionModalModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
@@ -382,6 +383,7 @@
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\Antlr3.Runtime.pdb" />
@@ -396,6 +398,19 @@
     <Content Include="bin\AutofacContrib.SolrNet.dll" />
     <Content Include="bin\Common.Logging.Core.dll" />
     <Content Include="bin\Common.Logging.Core.pdb" />
+    <Content Include="Images\Sponsors\greensoeasy.png" />
+    <Content Include="Images\Sponsors\tutory.png" />
+    <Content Include="Images\Screenshots\SetEmbedLink.png" />
+    <Content Include="Images\Screenshots\SetEmbedModal.png" />
+    <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
+    <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
+    <Content Include="Images\Team\team_julian20170404_P3312327_155.jpg" />
+    <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
+    <Content Include="Images\Team\team_lisa_sq_155.jpg" />
+    <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\widgets\ShareDialog.js">
+      <DependentUpon>ShareDialog.ts</DependentUpon>
+    </Content>
     <Content Include="bin\Common.Logging.Core.xml" />
     <Content Include="bin\Common.Logging.dll" />
     <Content Include="bin\Common.Logging.pdb" />
@@ -556,10 +571,11 @@
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeNoteCard.ascx" />
-    <Content Include="Views\Sets\Detail\Js\SetShare.js">
-      <DependentUpon>SetShare.ts</DependentUpon>
+    <Content Include="Views\Sets\Detail\Js\ShareSet.js">
+      <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
     <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
     <Content Include="android-chrome-144x144.png" />
@@ -799,7 +815,7 @@
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Modal\ShareQuestion.ascx" />
+    <Content Include="Views\Questions\Answer\ShareQuestionModal.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -1622,6 +1638,9 @@
     <Content Include="Scripts\Pollyfills.js.map">
       <DependentUpon>Pollyfills.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\widgets\ShareDialog.js.map">
+      <DependentUpon>ShareDialog.ts</DependentUpon>
+    </Content>
     <None Include="Style\z_mixins_2.3.2.less" />
     <None Include="Style\site.less" />
     <Content Include="Style\menu.css">
@@ -1820,7 +1839,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetShare.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
@@ -2399,7 +2418,7 @@
     <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
     <Content Include="Views\Topics\Topic.aspx" />
     <Content Include="Views\Topics\Docs\Unicode.md" />
-    <Content Include="Views\Shared\Site.PureContent.Master" />
+    <Content Include="Views\Shared\Site.Widget.Master" />
     <Content Include="Views\Welcome\Js\Validation.js.map">
       <DependentUpon>Validation.ts</DependentUpon>
     </Content>
@@ -2460,8 +2479,8 @@
     </Content>
     <Content Include="Views\Widgets\app.config" />
     <Content Include="Views\Help\Widget.less" />
-    <Content Include="Views\Sets\Detail\Js\SetShare.js.map">
-      <DependentUpon>SetShare.ts</DependentUpon>
+    <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
+      <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config">
       <SubType>Designer</SubType>

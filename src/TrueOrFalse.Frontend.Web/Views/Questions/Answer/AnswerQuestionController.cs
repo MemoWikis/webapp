@@ -120,7 +120,7 @@ public class AnswerQuestionController : BaseController
 
         var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
 
-        if (testSession.CurrentStep > testSession.NumberOfSteps)
+        if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
             return redirectToFinalStepFunc(testSession);
 
         var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
@@ -356,24 +356,17 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public void LogTimeForQuestionView(Guid questionViewGuid, int millisecondsSinceQuestionView)
-    {
+    public void LogTimeForQuestionView(Guid questionViewGuid, int millisecondsSinceQuestionView) => 
         Sl.SaveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
-    }
 
     [HttpPost]
-    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber)
-    {
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, countLastAnswerAsCorrect: true);
-    }
+    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId) => 
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, countLastAnswerAsCorrect: true);
 
     [HttpPost]
-    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber,
-        int millisecondsSinceQuestionView)
-    {
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView,
+    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? testSessionId) => 
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
             countUnansweredAsCorrect: true);
-    }
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
@@ -441,4 +434,7 @@ public class AnswerQuestionController : BaseController
         _sessionUiData.VisitedQuestions = new QuestionHistory();
         return new EmptyResult();
     }
+
+    public string ShareQuestionModal(int questionId) =>
+        ViewRenderer.RenderPartialView("~/Views/Questions/Answer/ShareQuestionModal.ascx", new ShareQuestionModalModel(questionId), ControllerContext);
 }

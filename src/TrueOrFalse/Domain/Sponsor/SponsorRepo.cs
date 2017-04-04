@@ -15,7 +15,7 @@ public class SponsorRepo{
                 SponsorUrl = "http://www.tutory.de",
                 ImageUrl = "/Images/Sponsors/tutory.png",
                 LinkText = "tutory",
-                TextBeforeLink = "Lehrern empfehlen wir zum Erstellen von Arbeitsblättern"
+                TextBeforeLink = "Zum Erstellen von Arbeitsblättern empfehlen wir "
             },
 
             new Sponsor

@@ -72,6 +72,7 @@
                 <div class="LabelItem LabelItem-Question">
                     <span class="greyed" style="font-size: 10px;"><%= question.DateCreated %></span> 
                     <a href="<%= Links.UserDetail(question.Creator) %>" class="linkUser"><%= question.Creator.Name %></a>: 
+                    <%= question.IsPrivate()? "<i class='fa fa-lock'></i> " : "" %>
                     <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
                     <% if (question.SetTop5Minis.Any()) { %>
                         (

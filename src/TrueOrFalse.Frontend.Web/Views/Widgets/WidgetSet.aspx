@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Spielen" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.PureContent.Master" 
+    MasterPageFile="~/Views/Shared/Site.Widget.Master" 
     Inherits="ViewPage<WidgetSetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 

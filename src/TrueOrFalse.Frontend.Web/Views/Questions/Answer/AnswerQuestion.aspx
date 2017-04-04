@@ -51,7 +51,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    
+    
     <input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
         data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
         data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
@@ -61,6 +62,7 @@
         data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
+    <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
 
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
@@ -113,16 +115,16 @@
                                 <% }
                            } %> 
                         </div>
-                        <div class="Previous">
+                        <div class="Previous" style="padding-right: 5px;">
                             <% if (Model.HasPreviousPage)
                                 { %>
-                                <a href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i> vorherige Frage</a><span class="TextDivider">&nbsp;|&nbsp;</span> 
+                                <a class="btn btn-sm btn-default" href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i><span class="NavButtonText"> vorherige Frage</span></a>
                             <% } %>
                         </div>
-                        <div class="Next">
+                        <div class="Next" style="padding-left: 5px;">
                             <% if (Model.HasNextPage)
                                 { %>
-                                <span class="TextDivider">&nbsp;|&nbsp;</span><a href="<%= Model.NextUrl(Url) %>" rel="nofollow">nächste Frage <i class="fa fa-chevron-right"></i></a>
+                                <a class="btn btn-sm btn-default" href="<%= Model.NextUrl(Url) %>" rel="nofollow"><span class="NavButtonText">nächste Frage </span><i class="fa fa-chevron-right"></i></a>
                             <% } %>
                         </div>
                     </div>
@@ -228,7 +230,7 @@
                                         <div class="fb-share-button" style="margin-right: 10px; margin-bottom: 5px; float: left; " data-href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>
                     
                                         <div style="margin-top: 5px">
-                                            <a style="white-space: nowrap" data-toggle="modal" href="#modalEmbedQuestion"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
+                                            <a style="white-space: nowrap" href="#" data-action="embed-question"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
                                         </div>
                                     </p>
                                 </div>
@@ -450,6 +452,5 @@
     </div>
     
 <% if (Model.IsOwner) Html.RenderPartial("~/Views/Questions/Modals/ModalDeleteQuestion.ascx"); %>
-<% Html.RenderPartial("~/Views/Questions/Answer/Modal/ShareQuestion.ascx", Model); %>    
 
 </asp:Content>

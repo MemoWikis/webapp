@@ -41,17 +41,25 @@ function writeIframe(iframeId, iframeSource) {
     var width = scriptTag.getAttribute("width");
 
     var attrMaxWidth = "";
+    var styleMaxWidth = "";
     var maxWidth = scriptTag.getAttribute("maxWidth");
     if (maxWidth && maxWidth.length > 0) {
         attrMaxWidth = "maxWidth=\"" + maxWidth + "\"";
+        styleMaxWidth = "max-width: " + maxWidth + ";";
     }
 
-    var iframeHtml = '<iframe ' +
-        'id="' + iframeId + '" name="widget" ' +
-        'src="#" height="1" ' + attrMaxWidth + ' ' +
-        'marginheight="0" marginwidth="0" ' +
-        'frameborder="no" scrolling="no"> ' +
-        '</iframe>';
+    var iframeHtml =
+        '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
+            '<iframe ' +
+                'id="' + iframeId + '" name="widget" ' +
+                'src="#" height="1" ' + attrMaxWidth + ' ' +
+                'marginheight="0" marginwidth="0" ' +
+                'frameborder="no" scrolling="no"> ' +
+            '</iframe>' + 
+            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 10px; float: right"> ' + 
+                '<a href="https://memucho.de">von memucho</a>' + 
+            '</div>' +
+        '</div>';
 
     if (scriptTag.getAttribute("isPreview")){
         var newElement = document.createElement('div');
@@ -94,8 +102,6 @@ if(scriptIndex == undefined)
 
 scriptIndex++;
 
-console.log("scriptIndex", scriptIndex);
-
 var scriptTag = scripts[scriptIndex];
 
 var type_ = scriptTag.getAttribute("t");
@@ -126,7 +132,7 @@ else if (type_ === "set")
 {
     var setId = scriptTag.getAttribute("id");
 
-    var filePath = domain + '/widget/fragesatz/' + setId + queryKnowledgeBtn;
+    var filePath = domain + '/widget/fragesatz/start/' + setId + queryKnowledgeBtn;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);

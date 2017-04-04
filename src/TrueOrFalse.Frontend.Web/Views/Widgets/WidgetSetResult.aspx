@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Spielen" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.PureContent.Master" 
+    MasterPageFile="~/Views/Shared/Site.Widget.Master" 
     Inherits="ViewPage<WidgetSetResultModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
@@ -9,6 +9,7 @@
         html { height: auto;}
     </style>
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
+    <%= Scripts.Render("~/bundles/js/AwesomeIframe") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 </asp:Content>
 

@@ -314,29 +314,35 @@
                 </div>
             </div>
         </div>
-        <div class="well Founder">
+        <div class="well Team">
             <h3>
                 <a name="teaserWhoWeAre"></a>
                 Team
             </h3>
             <div class="row">
                 
-                <div class="col-xs-4 ImageColumn">
+                <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_robert201509_155.jpg"/>
                         <br/> <b>Robert</b> (Gründer) <br/>
                 </div>
                 
-                <div class="col-xs-4 ImageColumn">
+                <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
                     <br/> <b>Jule</b> (Gründerin) <br/> 
                 </div>
 
-                <div class="col-xs-4 ImageColumn">
-                    <img src="/Images/Team/team_christof201509_155.jpg"/>  
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
                     <br/> <b>Christof</b> (Gründer) <br/> 
                 </div>
-
-
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    <br/> <b>Lisa</b> (Kommunikation) <br/> 
+                </div>
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
+                    <br/> <b>Julian</b> (Entwicklung) <br/> 
+                </div>
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
                         Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
@@ -382,9 +388,11 @@
         <% } %>
 
         <div class="well" id="nominationInnopreis" style="padding: 20px; ">
-            <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+            <div style="text-align: center;">
+                <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+            </div>
             <p>
-                memucho ist nominiert für den Innovationspreis Berlin Brandenburg!
+                memucho wurde für den Innovationspreis Berlin Brandenburg nominiert!
             </p>
             <p>
                 <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">

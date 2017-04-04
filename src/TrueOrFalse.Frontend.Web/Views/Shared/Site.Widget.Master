@@ -8,7 +8,7 @@
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
 
-<body id="MasterNoContent">
+<body id="MasterWidget">
     <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
 
     <div id="MasterMainColumn">

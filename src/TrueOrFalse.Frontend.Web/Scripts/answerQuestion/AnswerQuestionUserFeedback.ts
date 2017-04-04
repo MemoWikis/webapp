@@ -334,9 +334,7 @@
         }
 
         if (!this._answerQuestion.AnsweredCorrectly &&
-            !this._answerQuestion.IsGameMode &&
-            !this._answerQuestion.IsLearningSession &&
-            !this._answerQuestion.IsTestSession) {
+            !this._answerQuestion.IsGameMode) {
             $("#aCountAsCorrect").show();
         }
 

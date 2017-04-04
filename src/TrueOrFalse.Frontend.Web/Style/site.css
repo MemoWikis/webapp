@@ -30,6 +30,7 @@
         Icons
         Dropdowns
         Google Chart Custom Layout
+        Team Pictures
 
 [Imports:]
 --------------------------------------------------------*/
@@ -697,7 +698,7 @@ fieldset[disabled] #MenuButton:hover {
     width: 80%;
   }
 }
-#MasterNoContent {
+#MasterWidget {
   background-color: white;
 }
 #MasterLeftColumn {
@@ -779,26 +780,26 @@ fieldset[disabled] #MenuButton:hover {
 }
 /* SPONSOR
 ----------------------------------------------------------*/
-.SponsorLeftWrapper {
+.EduPartnerLeftWrapper {
   font-size: 90%;
   margin-top: 50px;
   text-align: center;
 }
 @media (max-width: 1199px) {
-  .SponsorLeftWrapper {
+  .EduPartnerLeftWrapper {
     display: none;
   }
 }
-.SponsorLeftWrapper .AdLabel {
+.EduPartnerLeftWrapper .EduPartnerAdLabel {
   font-size: 80%;
   color: #999999;
   margin-bottom: 20px;
   text-align: left;
 }
-.SponsorLeftLogo {
+.EduPartnerLeftLogo {
   margin-bottom: 20px;
 }
-.SponsorLeftLogo img {
+.EduPartnerLeftLogo img {
   max-width: 50%;
   max-height: 100px;
 }
@@ -878,7 +879,7 @@ a.button span.ui-icon {
 #modalLogin .modal-dialog div.col-you-have-to-be-logged-in {
   padding-bottom: 5px;
   padding-left: 5px;
-  margin-top: -13px;
+  margin-top: -29px;
   border-bottom: 1px solid lavender;
 }
 @media screen and (min-width: 568px) {
@@ -1271,6 +1272,19 @@ li.google-visualization-tooltip-item {
 }
 li.google-visualization-tooltip-item span {
   font-size: 12px !important;
+}
+/*Team Pictures*/
+.TeamPic {
+  text-align: center;
+  margin-bottom: 20px;
+}
+@media (max-width: 479px) {
+  .TeamPic {
+    width: 50%;
+  }
+}
+.TeamPic img {
+  border-radius: 5px;
 }
 /* $ToDo: Clean up
 ----------------------------------------------------------*/

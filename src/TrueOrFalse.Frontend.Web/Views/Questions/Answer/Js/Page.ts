@@ -1,6 +1,9 @@
 ﻿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 
 $(() => {
+
+    var questionId = $("#hddQuestionId").val();
+
     var answerEntry = new AnswerEntry();
     answerEntry.Init();
 
@@ -14,7 +17,7 @@ $(() => {
     });
 
     new QuestionRowDelete(QuestionRowDeleteSourcePage.QuestionDetail);
-    new ShareQuestion();
+    new ShareQuestion(questionId);
 
     $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 

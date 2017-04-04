@@ -1,12 +1,11 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShareSetModalModel>" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShareQuestionModalModel>" %>
 
-<div id="modalShareSet" class="modal fade">
+<div id="modalShareQuestion" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h4><i class="fa fa fa-code" style="padding-right: 5px;"></i> Fragesatz als Widget einbetten</h4>
+                <h3><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</h3>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -14,13 +13,8 @@
                         <strong>Kopiere die Code-Zeile, um den Fragesatz einzubinden:</strong>
                     </div>
                     <div class="col-md-2">
-<%--                        <a href="#">
-                            <span style="font-size: 10px; float: right; margin-top: 4px;"><i class="fa fa-clipboard" aria-hidden="true"></i> 
-                                In Zwischenablage kopieren
-                            </span>
-                        </a>--%>
                     </div>
-                </div>
+                </div>                
                 <div class="row">
                     <div class="col-md-12">
                         <input id="inputSetEmbedCode" type="text" class="form-control" style="width: 100%"/>
@@ -34,7 +28,6 @@
                         <a href="#" data-action="hideSettings">Einstellungen verbergen <i class="fa fa-caret-up"></i></a>                        
                     </div>
                 </div>
-
                 <div id="divShareSetSettings" class="hide2">
                     <div class="row form-inline" style="margin-bottom: 10px;">
                         <div class="col-sm-6" >
@@ -61,20 +54,23 @@
                         <div class="col-md-12" style="padding-top: 10px;">
                             <label class="checkbox-inline">
                                 <input type="checkbox" id="ckbHideKnowledgeBtn"> Verberge Wunschwissen-Schaltfläche
-                                <i class="fa fa-question-circle show-tooltip" title="Die Schaltfläche 'Zum Wunschwissen hinzufügen' erleichtert es Nutzern, die Inhalte mit memucho zu lernen"></i>
                             </label>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" style="margin-top: 18px; margin-bottom: 7px; border-bottom: 1px solid #e5e5e5;">
-                        <h4>Vorschau auf das Fragesatz-Widget:</h4>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-top: 18px; margin-bottom: 7px; border-bottom: 1px solid #e5e5e5;">
+                            <h4>Vorschau auf das Frage-Widget:</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="padding-top: 10px;" id="divPreviewSetWidget">
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12" style="padding-top: 10px;" id="divPreviewSetWidget">
-                    </div>
-                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
             </div>
         </div>
     </div>

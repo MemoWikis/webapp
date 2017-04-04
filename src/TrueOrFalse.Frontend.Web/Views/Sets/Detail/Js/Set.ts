@@ -8,7 +8,7 @@ class SetPage {
         var setId = $("#hhdSetId").val();
         var hasVideo = $("#hhdHasVideo").val() == "True";
 
-        var setShare = new SetShare(setId, hasVideo);
+        var setShare = new ShareSet(setId, hasVideo);
         //setShare.ShowModal();
 
         if (hasVideo) {

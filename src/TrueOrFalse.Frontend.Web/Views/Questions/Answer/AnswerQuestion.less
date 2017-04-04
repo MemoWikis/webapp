@@ -1,5 +1,12 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
+#MasterMainContent {
+
+    .media-below-md({
+        padding-top: 10px;
+    });
+}
+
 .navLinks {
 
     float: right;
@@ -15,85 +22,96 @@
     }
 }
 
-.SponsorWrapper {
-    font-size: 80%;
-    font-weight: normal;
-    .clearfix;
-
-    .SponsorLink {
-        white-space: nowrap;
-    }
-}
-
 .AnswerQuestionHeader {
 
+    margin-bottom: 10px;
+
     .media-sm-up({
-        .SponsorWrapper {
+
+        display: flex;
+        align-items: center;
+
+        .EduPartnerWrapper {
             float: right;
         }
     });
+}
 
-    .SponsorWrapper {
-        margin-top: 3px;
-        margin-bottom: 10px;//For mobile
+.EduPartnerWrapper {
+    font-size: 80%;
+    font-weight: normal;
+    order: 2;
+    .clearfix;
+
+    .media-below-sm({
+        margin-bottom: 10px;
+    });
+
+    .media-sm-up({
+        width: 30%;
+        text-align: center;
+    });
+     .media-md-up({
+        width: 20%;
+    });
+
+    .EduPartnerLink {
+        white-space: nowrap;
     }
 }
 
-.SponsorWrapper {
-    font-size: 80%;
-    font-weight: normal;
-    .clearfix;
+#AnswerQuestionPager, .SessionTitle {
 
-    .SponsorLink {
-        white-space: nowrap;
+    flex-grow: 1; //Make it take the whole width if no .EduPartnerWrapper present
+
+    .EduPartnerWrapper + & {
+
+        flex-grow: inherit;//Overwrite if .EduPartnerWrapper present
+        order: 1;
+
+        .media-sm-up({
+            width: 70%;
+            padding-right: 15px;
+        });
+
+         .media-md-up({
+            width: 80%;
+        });
     }
 }
 
 #AnswerQuestionPager {
 
-    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .media-below-sm({
+    .Current {
+        order: 2;
+    }
 
-        .clearfix;
-
-        .Current {
-            margin-bottom: 10px;
-        }
-
-        .Previous {
-            float: left;
-        }
+    .Previous {
+        order: 1;
+    }
         
-        .Next {
-            float: right;
-        }
+    .Next {
+        order: 3;
+    }
 
-        .TextDivider {
+    .media-below-md({
+        .NavButtonText {
             display: none;
-        }
-    });
-
-    .media-sm-up({
-
-        float: left;
-        display: flex;
-
-        .Current {
-            order: 2;
-        }
-
-        .Previous {
-            order: 1;
-        }
-        
-        .Next {
-            order: 3;
         }
     });
 }
 
+.QuestionText {
+    padding-bottom: 20px;
 
+    .media-sm-up ({
+        padding-bottom: 30px;
+    });
+}
 
 #MarkdownCol {
     .make-sm-column(4);
@@ -166,11 +184,6 @@
     margin-bottom: 0px;
     width: 100%;
 
-    .media-below-sm ({
-        margin-top: 15px;
-        width: 100%;
-    });
-
     textarea, input {
         margin-bottom: 10px;
     }
@@ -183,13 +196,10 @@
     .radio {
         
         margin-bottom: 0;
+        margin-top: 0;
         
-        #MarkdownCol + #AnswerAndSolutionCol & {
-            margin-top: 0;//If image present, align first radio line with it
-        }
-
         & +.radio {
-            margin-top: 10px;
+            margin-top: 10px ;
 
             .media-below-sm({
                 margin-top: 15px;
