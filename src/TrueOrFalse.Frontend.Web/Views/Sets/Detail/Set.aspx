@@ -160,6 +160,22 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
+                <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.";
+                    if (Model.QuestionCount == 0)
+                        tooltipTest = "Noch keine Fragen zum Testen in diesem Fragesatz vorhanden";%>
+                    <div class="BoxButton show-tooltip
+                        <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>" 
+                        data-original-title="<%= tooltipTest %>">
+                        <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
+                        <div class="BoxButtonText">
+                            <span>Wissen testen</span>
+                        </div>
+                        <% if (Model.QuestionCount > 0) { %>
+                         <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow"></a>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="BoxButtonColumn">
                     <% var tooltipLearn = "Lerne personalisiert genau die Fragen, die du am dringendsten wiederholen solltest.";
                     if (Model.QuestionCount == 0)
                        tooltipLearn = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
@@ -174,22 +190,6 @@
                         <% if (Model.QuestionCount > 0) { %>
                             <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                             </a>
-                        <% } %>
-                    </div>
-                </div>
-                <div class="BoxButtonColumn">
-                <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.";
-                    if (Model.QuestionCount == 0)
-                        tooltipTest = "Noch keine Fragen zum Testen in diesem Fragesatz vorhanden";%>
-                    <div class="BoxButton show-tooltip
-                        <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>" 
-                        data-original-title="<%= tooltipTest %>">
-                        <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
-                        <div class="BoxButtonText">
-                            <span>Wissen testen</span>
-                        </div>
-                        <% if (Model.QuestionCount > 0) { %>
-                         <a href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow"></a>
                         <% } %>
                     </div>
                 </div>
