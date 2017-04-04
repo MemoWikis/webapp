@@ -9,7 +9,7 @@
     foreach (var pair in Model.Pairs.OrderBy(x => random.Next()))
     { %>
     var rightDropElement = $("<div class='matchlist-droppable col-sm-5' name = '<%= pair.ElementLeft.Text %>'>").droppable({
-        accept: '#matchlist-rightelements span',
+        accept: '.matchlist-rightelement',
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop
     });
@@ -23,7 +23,7 @@
     { %>
     var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>").html("<%= elementRight.Text %>").draggable({
         containment: '#AnswerBody',
-        stack: '#matchlist-rightelements span',
+        stack: '.matchlist-rightelement',
         cursor: 'move',
         helper: 'clone',
         revert: 'true'
@@ -38,6 +38,7 @@
             $('#rightElementResponse-' + $(this).attr('id').split("-")[1]).remove();
         }
         if (ui.draggable.hasClass('helper-clone')) {
+            $(this).append(ui.draggable);
             ui.draggable.position({ of: $(this), my: 'center', at: 'center' });
             var oldIdElementLeft = 'leftElementResponse-' + ui.draggable.attr('id').split("-")[1];
             $('#' + oldIdElementLeft).removeAttr('id');
@@ -46,7 +47,7 @@
             var helperClone = ui.helper.clone();
             helperClone.draggable({
                 containment: '#AnswerBody',
-                stack: '#matchlist-rightelements span',
+                stack: '.matchlist-rightelemen',
                 cursor: 'move',
                 start: function(event, ui) {
                     ui.helper.data('dropped', false);
@@ -59,7 +60,7 @@
                 }
             });
             helperClone.addClass('helper-clone');
-            ui.helper.before(helperClone);
+            $(this).append(helperClone);
             helperClone.position({ of: $(this), my: 'center', at: 'center' });
             if ($(this).attr('id') !== undefined) {
                 helperClone.attr('id', 'rightElementResponse-' + $(this).attr('id').split("-")[1]);

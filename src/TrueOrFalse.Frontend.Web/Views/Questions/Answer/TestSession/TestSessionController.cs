@@ -19,38 +19,38 @@ public class TestSessionController : BaseController
         if (answeredQuestion)
         {
             var answers = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).Where(a => !a.IsView()).ToList();
+            var answer = answers.First();
 
-            if (answers.FirstOrDefault().Question.SolutionType == SolutionType.MatchList)
+            if (answer.Question.SolutionType == SolutionType.MatchList)
             {
-                var answerObject = QuestionSolutionMatchList.deserializeMatchListAnswer(answers.FirstOrDefault().AnswerText);
+                var answerObject = QuestionSolutionMatchList.deserializeMatchListAnswer(answer.AnswerText);
                 string newAnswer = "</br><ul>";
                 foreach (var pair in answerObject.Pairs)
                 {
                     newAnswer += "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>";
                 }
                 newAnswer += "</ul>";
+                answer.AnswerText = newAnswer;
             }
 
-            if (answers.FirstOrDefault().Question.SolutionType == SolutionType.MultipleChoice)
+            if (answer.Question.SolutionType == SolutionType.MultipleChoice)
             {
-                //TODO:Julian in Methode auslagern
-                if (answers.FirstOrDefault().AnswerText != "")
+                if (answer.AnswerText != "")
                 {
-                    var builder = new StringBuilder(answers.FirstOrDefault().AnswerText);
-                    answers.FirstOrDefault().AnswerText = "</br> <ul> <li>" +
+                    var builder = new StringBuilder(answer.AnswerText);
+                    answer.AnswerText = "</br> <ul> <li>" +
                                                           builder.Replace("%seperate&xyz%", "</li><li>").ToString() +
                                                           "</li> </ul>";
                 }
                 else
                 {
-                    answers.FirstOrDefault().AnswerText = "(keine Auswahl)";
+                    answer.AnswerText = "(keine Auswahl)";
                 }
             }
 
             if (answers.Count > 1)
                 throw new Exception("Cannot handle multiple answers to one TestSessionStep.");
 
-            var answer = answers.First();
 
             currentStep.AnswerText = answer.AnswerText;
             currentStep.AnswerState = answer.AnsweredCorrectly() ? TestSessionStepAnswerState.AnsweredCorrect : TestSessionStepAnswerState.AnsweredWrong;

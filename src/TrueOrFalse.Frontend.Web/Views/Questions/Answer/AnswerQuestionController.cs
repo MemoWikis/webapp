@@ -123,7 +123,7 @@ public class AnswerQuestionController : BaseController
         if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
             return redirectToFinalStepFunc(testSession);
 
-        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
+        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
 
         Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
@@ -366,7 +366,6 @@ public class AnswerQuestionController : BaseController
     [HttpPost]
     public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? testSessionId) => 
         _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
-            countUnansweredAsCorrect: true);
 
     public ActionResult PartialAnswerHistory(int questionId)
     {
@@ -405,7 +404,7 @@ public class AnswerQuestionController : BaseController
         {
             var sessionUser = Sl.SessionUser;
             var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
-            var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStep - 1).QuestionId);
+            var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
             var testSessionQuestionViewGuid = Guid.NewGuid();
             var testSessionName = testSession.UriName;
 
