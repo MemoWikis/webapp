@@ -314,29 +314,35 @@
                 </div>
             </div>
         </div>
-        <div class="well Founder">
+        <div class="well Team">
             <h3>
                 <a name="teaserWhoWeAre"></a>
                 Team
             </h3>
             <div class="row">
                 
-                <div class="col-xs-4 ImageColumn">
+                <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_robert201509_155.jpg"/>
                         <br/> <b>Robert</b> (Gründer) <br/>
                 </div>
                 
-                <div class="col-xs-4 ImageColumn">
+                <div class="col-xs-4 TeamPic">
                     <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
                     <br/> <b>Jule</b> (Gründerin) <br/> 
                 </div>
 
-                <div class="col-xs-4 ImageColumn">
-                    <img src="/Images/Team/team_christof201509_155.jpg"/>  
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
                     <br/> <b>Christof</b> (Gründer) <br/> 
                 </div>
-
-
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    <br/> <b>Lisa</b> (Kommunikation) <br/> 
+                </div>
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
+                    <br/> <b>Julian</b> (Entwicklung) <br/> 
+                </div>
                 <div class="col-xs-12" style="margin-top: 10px;">
                     <p>
                         Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 

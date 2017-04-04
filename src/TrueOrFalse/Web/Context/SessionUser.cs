@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
@@ -80,6 +81,18 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         get { return Data.Get<List<TestSession>>("testSessions"); }
         set { Data["testSessions"] = value; }
+    }
+
+    public TestSessionStep GetPreviousTestSessionStep(int testSessionId) =>
+        GetCurrentTestSessionStep(testSessionId, offset: -1);
+
+    public TestSessionStep GetCurrentTestSessionStep(int testSessionId, int offset = 0)
+    {
+        var currentStepIndex = TestSessions.Find(s => s.Id == testSessionId).CurrentStepIndex - 1 + offset;
+
+        return TestSessions
+            .Find(s => s.Id == testSessionId)
+            .Steps.ElementAt(currentStepIndex);
     }
 
     private int _currentTestSessionId

@@ -7,24 +7,26 @@
 <div id="modalLogin" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-body">
+            <div class="modal-body">
+                
+                <button class="close" data-dismiss="modal" style="position: relative; top: -8px; z-index: 1000">×</button>
 
-            <div class="row hide2" id="needs-to-be-logged-in">
-                <div class="col-xs-12 col-you-have-to-be-logged-in">
-                    Um diese Funktion zu nutzen, musst du eingeloggt sein. 
-                </div>                
-            </div>
-            
-            <div class="row">
-                <div class="col-sm-offset-1" style="padding-left: 5px; padding-bottom: 10px;">
-                    <h3>Einloggen mit</h3>                
+                <div class="row hide2" id="needs-to-be-logged-in">
+                    <div class="col-xs-12 col-you-have-to-be-logged-in">
+                        Um diese Funktion zu nutzen, musst du eingeloggt sein. 
+                    </div>                
                 </div>
-            </div>
+            
+                <div class="row">
+                    <div class="col-sm-offset-1" style="padding-left: 5px; padding-bottom: 10px;">
+                        <h3>Einloggen mit</h3>                
+                    </div>
+                </div>
                             
 <% using (Html.BeginForm("", "", null, FormMethod.Post, new { id = "LoginForm" })) { %>
 
     <div class="row">
-
+        
         <div class="form-horizontal col-xs-12" role="form">
             
             <fieldset>

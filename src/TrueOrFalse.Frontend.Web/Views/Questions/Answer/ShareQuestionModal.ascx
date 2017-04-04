@@ -9,10 +9,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        Kopiere den Code, um den Fragesatz einzubinden.
+                    <div class="col-md-10">
+                        <strong>Kopiere die Code-Zeile, um den Fragesatz einzubinden:</strong>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                     </div>
                 </div>                
                 <div class="row">
@@ -32,7 +32,7 @@
                     <div class="row form-inline" style="margin-bottom: 10px;">
                         <div class="col-sm-6" >
                             <div class="form-group" style="padding-top: 15px;">
-                                <label for="widgetWidth">Breite</label>
+                                <label for="widgetWidth">Breite&nbsp;&nbsp;</label>
                                 <input type="text" class="form-control" id="widgetWidth" style="width: 62px;" value="100">
                                 <select class="form-control" id="widgetWidthUnit">
                                     <option>%</option>
@@ -43,7 +43,7 @@
                         <div class="col-sm-6">
                             <div class="form-group" style="padding-top: 15px;">
                                 <label class="checkbox-inline" for="ckbEnableMaxWidth">
-                                    <input type="checkbox" id="ckbEnableMaxWidth" checked="checked"> max Breite
+                                    <input type="checkbox" id="ckbEnableMaxWidth" checked="checked"> Max. Breite&nbsp;&nbsp;
                                 </label>                        
                                 <input type="text" id="widgetMaxWidth" class="form-control" style="width: 62px;" value="600">
                                 <label>px</label>
@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-md-12" style="padding-top: 10px;">
                             <label class="checkbox-inline">
-                                <input type="checkbox" id="ckbHideKnowledgeBtn"> verberge Wunschwissen Button
+                                <input type="checkbox" id="ckbHideKnowledgeBtn"> Verberge Wunschwissen-Schaltfläche
                             </label>
                         </div>
                     </div>

@@ -1,8 +1,15 @@
 ﻿@import '../../Style/includes/imports.less';
 
+p {
+    font-size: 16px;
+}
 
 h2 {
     margin-top: 45px;
+}
+
+h4 {
+    margin-top: 30px;
 }
 
 .teaserText {
@@ -11,62 +18,41 @@ h2 {
     line-height: 1.4em;
 }
 
-.overviewBlock {
-    margin-top: 25px;
-    .media-sm-up ({
-        margin-top: 40px;
-     });
-
-}
-
-.overviewIcon {
-    font-size: 2em;
-    text-align: center;
-}
-
-.overviewHeader {
-    font-size: 1.4em;
-    font-weight: bold;
-}
-
-.overviewSubtext {
-    color: @global-text-color-grey;
-}
-
-.overviewMore {
-    text-align: center;
-    margin-top: 15px;
-}
-
-
 p.subheader {
     color: @global-text-color-grey;
     font-size: 1.3em;
     margin-bottom: 20px;
 }
 
-ol li {
-    margin-top: 10px;
-}
 
-img.screenshot {
-    padding-top: 15px;
+p.screenshot {
+    text-align: left;
+}
+p.screenshot img {
+    margin-bottom: 40px;
+    margin-left: 25px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: lightgray;
+    border-radius: 4px;
+    height: 70%;
+    width: 70%;
     .media-below-md ({
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 15px 0;
-        height: auto;
+        height: 100%;
+        width: 100%;
     });
-     .media-md-up ({
-         float: right;
-         margin: 0 0 25px 25px;
-     });
+}
+p.screenshotExplanation {
+    text-align: left;
+    margin-bottom: 5px;
+    padding: 0 25px 5px;
+}
+ul.screenshotExplanation {
+    padding-left: 50px;
 }
 
 code {
     display: inline-block;
-    margin-left: 10px;
-    padding: 3px 6px;
+    padding: 2px 3px;
     white-space: normal;
 }

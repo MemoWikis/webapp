@@ -30,6 +30,7 @@
         Icons
         Dropdowns
         Google Chart Custom Layout
+        Team Pictures
 
 [Imports:]
 --------------------------------------------------------*/
@@ -855,7 +856,7 @@ a.button span.ui-icon {
     div.col-you-have-to-be-logged-in{
         padding-bottom: 5px;
         padding-left: 5px;
-        margin-top: -13px; 
+        margin-top: -29px; 
         border-bottom: 1px solid lavender; 
     }
 }
@@ -1282,6 +1283,20 @@ li.google-visualization-tooltip-item {
 
 li.google-visualization-tooltip-item span {
     font-size: 12px !important;
+}
+
+/*Team Pictures*/
+
+.TeamPic {
+    text-align: center;
+    margin-bottom: 20px;
+    .media-below-xs({
+        width: 50%;
+    });
+
+     img {
+        border-radius: @border-radius-item-image;
+     }
 }
 
 

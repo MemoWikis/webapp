@@ -243,18 +243,26 @@
 
             <div class="row" style="margin-top: 30px;">
                 <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_robert-rund_160.png"/>
+                    <img src="/Images/Team/team_robert201509_155.jpg"/>
                         <br/> <b>Robert</b><br/>(Gründer) 
                 </div>
                 
                 <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_jule-rund_160.png"/>  
+                    <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
                     <br/> <b>Jule</b><br/>(Gründerin)
                 </div>
 
                 <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_christof-rund_160.png"/>  
+                    <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
                     <br/> <b>Christof</b><br/>(Gründer)
+                </div>
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    <br/> <b>Lisa</b><br/>(Kommunikation)
+                </div>
+                <div class="col-xs-4 TeamPic">
+                    <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
+                    <br/> <b>Julian</b><br/>(Entwicklung)
                 </div>
             </div>
         </div>

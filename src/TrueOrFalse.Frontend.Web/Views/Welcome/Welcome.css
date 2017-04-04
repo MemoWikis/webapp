@@ -73,15 +73,16 @@ a.question-short {
 .well img {
   border-radius: 4px;
 }
-.well.Founder .ImageColumn {
+.well.Team .ImageColumn {
   position: relative;
   float: left;
   width: 33.33333333%;
   min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-bottom: 20px;
 }
-.well.Founder .ImageColumn img {
+.well.Team .ImageColumn img {
   width: auto;
   max-width: 100%;
 }

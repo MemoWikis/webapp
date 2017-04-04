@@ -122,23 +122,18 @@ public class QuestionRepo : RepositoryDbBase<Question>
         };
     }
 
-    public IList<Question> GetByIds(List<int> questionIds)
-    {
-        return GetByIds(questionIds.ToArray());
-    }
+    public IList<Question> GetByIds(List<int> questionIds) => 
+        GetByIds(questionIds.ToArray());
 
     public override IList<Question> GetByIds(params int[] questionIds)
     {
-        var tmpResult = base.GetByIds(questionIds);
-
-        var result = new List<Question>();
-        for (int i = 0; i < questionIds.Length; i++)
-        {
-            if (tmpResult.Any(q => q.Id == questionIds[i]))
-                result.Add(tmpResult.First(q => q.Id == questionIds[i]));
-        }
-
-        return result;
+        return _session
+            .QueryOver<Question>()
+            .Fetch(q => q.Categories).Eager
+            .Where(Restrictions.In("Id", questionIds))
+            .List()
+            .Distinct()
+            .ToList();
     }
 
     public IList<int> GetByKnowledge(
@@ -183,10 +178,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<int>();
     }
 
-    public IEnumerable<Question> GetMostRecent(int amount)
+    public IEnumerable<Question> GetMostRecent(int amount, QuestionVisibility questionVisibility = QuestionVisibility.All)
     {
         return _session
             .QueryOver<Question>()
+            .Where(q => q.Visibility == questionVisibility)
             .OrderBy(q => q.DateCreated).Desc
             .Take(amount)
             .List();
