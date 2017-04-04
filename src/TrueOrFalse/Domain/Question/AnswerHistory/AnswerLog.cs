@@ -47,7 +47,11 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
 
     public void CountLastAnswerAsCorrect(Guid questionViewGuid)
     {
-        var correctedAnswer = _answerRepo.GetByQuestionViewGuid(questionViewGuid).OrderBy(a => a.InteractionNumber).LastOrDefault(a => a.AnswerredCorrectly == AnswerCorrectness.False);
+        var correctedAnswer = _answerRepo
+            .GetByQuestionViewGuid(questionViewGuid)
+            .OrderBy(a => a.InteractionNumber)
+            .LastOrDefault(a => a.AnswerredCorrectly == AnswerCorrectness.False);
+
         if (correctedAnswer != null && correctedAnswer.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;

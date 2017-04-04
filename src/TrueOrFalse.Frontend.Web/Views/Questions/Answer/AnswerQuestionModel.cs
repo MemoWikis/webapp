@@ -162,9 +162,9 @@ public class AnswerQuestionModel : BaseModel
         TestSession = testSession;
         IsTestSession = true;
         TestSessionId = testSession.Id;
-        TestSessionCurrentStep = testSession.CurrentStep;
+        TestSessionCurrentStep = testSession.CurrentStepIndex;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
-        TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;
+        TestSessionIsLastStep = testSession.CurrentStepIndex == testSession.NumberOfSteps;
         TestSessionCurrentStepPercentage = TestSessionCurrentStep == 0
             ? 0
             : (int) Math.Round((TestSessionCurrentStep-1)/(float) TestSessionNumberOfSteps*100);

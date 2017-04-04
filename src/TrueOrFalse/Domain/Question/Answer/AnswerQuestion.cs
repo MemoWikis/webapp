@@ -108,6 +108,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         int userId,
         Guid questionViewGuid,
         int interactionNumber,
+        int? testSessionId,
         int millisecondsSinceQuestionView = -1,
         bool countLastAnswerAsCorrect = false,
         bool countUnansweredAsCorrect = false,
@@ -116,7 +117,13 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         
         if(countLastAnswerAsCorrect && countUnansweredAsCorrect)
             throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
-        
+
+        if (testSessionId != null && (countLastAnswerAsCorrect || countUnansweredAsCorrect))
+        {
+            var currentStep = Sl.SessionUser.GetPreviousTestSessionStep(testSessionId.Value);
+            currentStep.AnswerState = TestSessionStepAnswerState.AnsweredCorrect;
+        }
+
         if (countLastAnswerAsCorrect)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true

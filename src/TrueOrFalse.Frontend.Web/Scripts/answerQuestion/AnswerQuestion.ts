@@ -323,7 +323,8 @@ class AnswerQuestion {
             data: {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: interactionNumber,
-                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
+                testSessionId: AnswerQuestion.TestSessionId
             },
             cache: false,
             success: function(result) {

@@ -29,7 +29,7 @@ public class TestSession
     public virtual bool IsSetsSession => SetsToTestIds != null;
     public virtual bool IsCategorySession => CategoryToTest != null;
 
-    public virtual int CurrentStep { get; set; }
+    public virtual int CurrentStepIndex { get; set; }
     public virtual int NumberOfSteps => Steps.Count;
 
     public bool SessionNotFound = false;
@@ -107,7 +107,7 @@ public class TestSession
     private void Populate(List<Question> questions)
     {
         Id = Sl.R<SessionUser>().GetNextTestSessionId();
-        CurrentStep = 1;
+        CurrentStepIndex = 1;
         Steps = new List<TestSessionStep>();
         questions.ForEach(q => Steps.Add(new TestSessionStep { QuestionId = q.Id}));   
     }
