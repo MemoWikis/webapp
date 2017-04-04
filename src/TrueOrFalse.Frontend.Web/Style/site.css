@@ -30,6 +30,7 @@
         Icons
         Dropdowns
         Google Chart Custom Layout
+        Team Pictures
 
 [Imports:]
 --------------------------------------------------------*/
@@ -1271,6 +1272,19 @@ li.google-visualization-tooltip-item {
 }
 li.google-visualization-tooltip-item span {
   font-size: 12px !important;
+}
+/*Team Pictures*/
+.TeamPic {
+  text-align: center;
+  margin-bottom: 20px;
+}
+@media (max-width: 479px) {
+  .TeamPic {
+    width: 50%;
+  }
+}
+.TeamPic img {
+  border-radius: 5px;
 }
 /* $ToDo: Clean up
 ----------------------------------------------------------*/
