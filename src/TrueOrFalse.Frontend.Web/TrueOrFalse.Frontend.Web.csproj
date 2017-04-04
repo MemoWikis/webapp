@@ -387,6 +387,8 @@
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Images\Sponsors\greensoeasy.png" />
     <Content Include="Images\Sponsors\tutory.png" />
+    <Content Include="Images\Screenshots\SetEmbedLink.png" />
+    <Content Include="Images\Screenshots\SetEmbedModal.png" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
     <Content Include="Scripts\widgets\ShareDialog.js">

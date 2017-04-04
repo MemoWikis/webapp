@@ -191,6 +191,9 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/AwesomeIframe")
+                .Include("~/Views/Widgets/AwesomeIframe.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetQuestion")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
