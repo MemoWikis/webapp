@@ -52,7 +52,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         }
     }
 
-    private MatchListAnswerPairs deserializeAnswer(string answerJSON)
+    public static MatchListAnswerPairs deserializeMatchListAnswer(string answerJSON)
     {
         var serilizer = new JavaScriptSerializer();
         return serilizer.Deserialize<MatchListAnswerPairs>(answerJSON);
@@ -62,7 +62,7 @@ public class QuestionSolutionMatchList : QuestionSolution
     {
         if (answer == "")
             return false;
-        var answerObject = deserializeAnswer(answer);
+        var answerObject = deserializeMatchListAnswer(answer);
         var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         for (int i = 0; i < questionPairs.Count; i++)
         {

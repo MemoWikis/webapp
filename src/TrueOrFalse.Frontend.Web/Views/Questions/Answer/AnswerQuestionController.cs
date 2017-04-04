@@ -425,22 +425,15 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
-
+        //for normal questions
         var question = Sl.QuestionRepo.GetById(questionId);
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
-        //Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
             ControllerContext
         );
-        //return ViewRenderer.RenderPartialView(
-        //    "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-        //    new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)))),
-        //    ControllerContext
-        //);
-
     }
 
     public EmptyResult ClearHistory()

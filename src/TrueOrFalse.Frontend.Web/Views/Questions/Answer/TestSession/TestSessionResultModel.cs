@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class TestSessionResultModel : BaseModel
@@ -68,4 +69,10 @@ public class TestSessionResultModel : BaseModel
 
         PercentageAverageRightAnswers = (int)Math.Round(Steps.Sum(s => s.Question.CorrectnessProbability) / (float)NumberQuestions);
     }
+
+    public string FormatCorrectAnswer(QuestionSolution solution)
+    {
+        return "";
+    }
+    
 }
