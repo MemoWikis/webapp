@@ -11,10 +11,12 @@ public class SetVideoModel : BaseModel
     public int CurrentQuestion => AnswerBodyModel.QuestionId;
 
     public bool HideAddToKnowledge;
+    public bool IsInWidget;
 
-    public SetVideoModel(Set set, bool hideAddToKnowledge = false)
+    public SetVideoModel(Set set, bool hideAddToKnowledge = false, bool isInWidget = false)
     {
         HideAddToKnowledge = hideAddToKnowledge;
+        IsInWidget = isInWidget;
 
         var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
         answerQuestionModel.DisableCommentLink = true;
