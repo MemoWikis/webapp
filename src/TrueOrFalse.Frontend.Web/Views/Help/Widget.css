@@ -18,13 +18,29 @@
 }
 @media (min-width: 650px) {
 }
+.explanationBox {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+@media (max-width: 991px) {
+  .explanationBox {
+    margin-top: 20px;
+  }
+}
 p {
   font-size: 16px;
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
 h2 {
   margin-top: 45px;
+  font-size: 25px;
+}
+h3 {
+  margin-top: 45px;
 }
 h4 {
+  font-size: 20px;
   margin-top: 30px;
 }
 .teaserText {
@@ -41,7 +57,7 @@ p.screenshot {
   text-align: left;
 }
 p.screenshot img {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   margin-left: 25px;
   border-width: 2px;
   border-style: solid;

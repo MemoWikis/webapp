@@ -385,6 +385,10 @@
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
+    <Content Include="Images\Screenshots\QuestionEmbedModal.png" />
+    <Content Include="Images\Screenshots\SetVideoEmbedLink.png" />
+    <Content Include="Images\Screenshots\SetVideoEmbedModal.png" />
     <Content Include="Images\Sponsors\greensoeasy.png" />
     <Content Include="Images\Sponsors\tutory.png" />
     <Content Include="Images\Screenshots\SetEmbedLink.png" />
