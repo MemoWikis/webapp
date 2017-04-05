@@ -402,6 +402,7 @@
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="Views\Help\Widget.aspx" />
     <Content Include="Views\About\Master.aspx" />
     <Content Include="Views\Drafts\Widget-Debug.html" />

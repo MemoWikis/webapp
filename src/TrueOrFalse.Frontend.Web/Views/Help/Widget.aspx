@@ -245,7 +245,7 @@
                 </h2>
                 <p>
                     Die Nutzung der memucho-Widgets ist für nicht-kommerzielle Zwecke und Einzelpersonen kostenlos und werbefrei. 
-                    Für Nutzer mit kommerziellen Interessen haben wir verschiedene Angebote (Preisliste).
+                    Für Nutzer mit kommerziellen Interessen <a href="<%= Links.WidgetPricing() %>">haben wir verschiedene Angebote (Preisliste)</a>.
                 </p>
 
             </div>
