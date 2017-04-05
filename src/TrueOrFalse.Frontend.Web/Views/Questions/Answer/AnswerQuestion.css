@@ -369,6 +369,7 @@
   margin-bottom: 0;
 }
 #MasterWidget #LicenseQuestion {
+  margin-top: 10px;
   padding: 0;
 }
 #MasterWidget #video-pager {

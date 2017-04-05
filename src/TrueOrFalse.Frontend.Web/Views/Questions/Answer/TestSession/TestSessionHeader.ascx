@@ -41,13 +41,19 @@
 <div class="SessionBar">
     <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
     <div class="SessionType">
+        <% if (Model.IsInWidget) { %>
+            <span>
+                Testen
+            </span>
+        <% } else { %>
+        
         <span class="show-tooltip"
             data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
                 <ul>
                     <li>werden die Fragen zufällig ausgewählt</li>
                     <li>hast du jeweils nur einen Antwortversuch</li>
                 </ul>
-            </div>"%>"
+            </div>" %>"
             data-html="true" style="float: left;">
             Testen
             <span class="fa-stack fa-1x" style="font-size: 10px; top: -1px;">
@@ -55,6 +61,7 @@
                 <i class="fa fa-info fa-stack-1x" style=""></i>
             </span>
         </span>
+        <% } %>
     </div>
     <div class="ProgressBarContainer">
         <div id="progressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.TestSessionCurrentStepPercentage + "%" %>;">
