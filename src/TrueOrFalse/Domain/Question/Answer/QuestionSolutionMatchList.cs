@@ -111,6 +111,11 @@ public class QuestionSolutionMatchList : QuestionSolution
 
         return $"<ul>{htmlListItems}</ul>";
     }
+
+    public override string GetAnswerForSEO()
+    {
+        return CorrectAnswer().Replace(PairSeperator, ",").Replace(ElementSeperator, " - ");
+    }
 }
 
 public class MatchListAnswerPairs

@@ -68,4 +68,12 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
         return $"<ul>{htmlListItems}</ul>";
     }
+
+    public override string GetAnswerForSEO()
+    {
+        return CorrectAnswer()
+            .Split(new [] {AnswerListDelimiter}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => $"{x}, ")
+            .Aggregate((a, b) => a + b);
+    }
 }
