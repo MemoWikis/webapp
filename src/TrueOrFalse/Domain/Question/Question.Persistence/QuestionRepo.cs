@@ -127,12 +127,16 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public override IList<Question> GetByIds(params int[] questionIds)
     {
-        return _session
+        var questions = _session
             .QueryOver<Question>()
             .Fetch(q => q.Categories).Eager
             .Where(Restrictions.In("Id", questionIds))
             .List()
             .Distinct()
+            .ToList();
+
+        return questionIds
+            .Select(questionId => questions.FirstOrDefault(question => question.Id == questionId))
             .ToList();
     }
 
