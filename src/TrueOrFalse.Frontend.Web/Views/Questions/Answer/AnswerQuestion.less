@@ -142,7 +142,6 @@
 
     #AnswerInputSection {
 
-
         .make-sm-column(6);
 
         .media-below-sm({
@@ -150,6 +149,7 @@
         });
 
         #MarkdownCol + & {
+            margin-bottom: 10px;
             width: 100%;
         }
     }
@@ -184,6 +184,15 @@
     margin-bottom: 0px;
     width: 100%;
 
+    .right-answer{
+        color: green;
+        font-weight: bold;  
+    }
+
+    .wrong-answer{
+        color: @dark-red;
+    }
+
     textarea, input {
         margin-bottom: 10px;
     }
@@ -191,7 +200,6 @@
     label {
         position: relative;
     }
-    
 
     .radio {
         
@@ -205,7 +213,6 @@
                 margin-top: 15px;
             });
         }
-        
     }
 }
 
@@ -228,26 +235,17 @@
 
     .btn {
         margin-right: 10px;
-        .MarginForButtons;
-
+        margin-bottom: 10px;
+        
         .media-below-xs({
             display: table; //Keeps width of element to text length but still inserts break
         });
     }
     .HeartToAddButton {
         float: right;
-        .MarginForButtons;
+        margin-bottom: 10px;
     }
-
 }
-
-.MarginForButtons() {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-
-
 
 #answerQuestionDetails .label {
     max-width: 100%;
@@ -302,30 +300,6 @@
         .media-below-sm({
             max-height: 250px;
         });
-
-    }
-}
-
-.MarkdownImage {
-    img {
-
-        max-height: 500px;
-
-        .media-below-sm({
-            max-height: 250px;
-        });
-
-    }
-}
-
-#AnswerInputSection{
-    .right-answer{
-        color: green;
-        font-weight: bold;  
-    }
-
-    .wrong-answer{
-        color: @dark-red;
     }
 }
 
