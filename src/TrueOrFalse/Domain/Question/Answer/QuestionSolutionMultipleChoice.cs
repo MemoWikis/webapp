@@ -45,16 +45,17 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        string CorrectAnswer = "</br>";
+        string CorrectAnswer = "</br> <ul> <li>";
         foreach (var SingleChoice in this.Choices)
         {
             if (SingleChoice.IsCorrect == true)
             {
                 CorrectAnswer += SingleChoice.Text;
                 if (SingleChoice != this.Choices[(this.Choices.Count - 1)])
-                    CorrectAnswer += "</br>";
+                    CorrectAnswer += "</li><li>";
             }
         }
+        CorrectAnswer += "</li> </ul>";
         return CorrectAnswer;
     }
 }

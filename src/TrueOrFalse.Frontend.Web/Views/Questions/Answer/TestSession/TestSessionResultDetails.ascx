@@ -84,7 +84,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-9 col-sm-10">
-                                        <p class="rightAnswer">Richtige Antwort: <%= Model.FormatCorrectAnswer(GetQuestionSolution.Run(step.Question))%><br/></p>
+                                        <p class="rightAnswer">Richtige Antwort: <%= Model.GetCorrectAnswer(step)%></p>
                                         <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : step.AnswerText %></p>
                                         <p class="averageCorrectness">Wahrscheinlichkeit richtige Antwort (alle Nutzer): <%= step.Question.CorrectnessProbability %>%</p>
                                         

@@ -70,9 +70,17 @@ public class TestSessionResultModel : BaseModel
         PercentageAverageRightAnswers = (int)Math.Round(Steps.Sum(s => s.Question.CorrectnessProbability) / (float)NumberQuestions);
     }
 
-    public string FormatCorrectAnswer(QuestionSolution solution)
+    public string GetCorrectAnswer(TestSessionStep step)
     {
-        return "";
+        string AnswerText = GetQuestionSolution.Run(step.Question).CorrectAnswer();
+
+        if (step.Question.SolutionType == SolutionType.MatchList)
+        {
+            string formattedText = "";
+            //format here
+            return formattedText;
+        }
+        return AnswerText;
     }
     
 }
