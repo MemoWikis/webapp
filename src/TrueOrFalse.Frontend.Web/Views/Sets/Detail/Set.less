@@ -54,28 +54,45 @@
     margin-right: 0;
 }
 
+.SetVideo {
+    #AnswerBody {
+        padding-top: 10px;
+        border-top: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
 #video-pager{
 
     margin: 0px;
-    padding-top: 7px;
-    padding-bottom: 12px;
+    padding: 20px 20px 10px 20px;
+    border-top: none;
+    border-bottom: none;
+    border-radius: 0;
 
     a.correctAnswer{
-        background-color: #10d410;
+        background-color: @memo-green;
         color: white;
     }
 
     a.wrongAnswer{
-        background-color: #ff5a49;
+        background-color: @dark-red;
         color: white;
     }
 
     .btn-default{
         margin-bottom: 10px;
+        margin-left: 0;
+        min-width: 36px;
+        margin-right: 5px;
     }
 
     .pause-buttons{
-        a { position: relative; top: 12px; }
+
+        padding-left: 10px;
+        padding-top: 3px;
+
         a:hover{text-decoration: none;}
     }
 
