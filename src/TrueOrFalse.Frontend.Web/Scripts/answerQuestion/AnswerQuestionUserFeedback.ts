@@ -132,8 +132,8 @@
                     type: 'POST',
                     url: AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution,
                     data: {
-                        learningSessionId: $('#hddIsLearningSession').attr('data-learning-session-id'),
-                        stepGuid: $('#hddIsLearningSession').attr('data-current-step-guid')
+                        learningSessionId: this._answerQuestion.LearningSessionId,
+                        stepGuid: this._answerQuestion.LearningSessionStepGuid
                     },
                     cache: false,
                     success(result) {

@@ -219,13 +219,15 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         return Steps.Count > Steps.Select(s => s.Question).Distinct().Count()*2;
     }
 
-    public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid)
+    public virtual LearningSessionStep GetStep(Guid learningSessionStepGuid)
     {
-        var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
-        var steps = learningSession.Steps.Where(s => s.Guid == learningSessionStepGuid).ToList();
-        if(steps.Count > 1)
+        var steps = Steps.Where(s => s.Guid == learningSessionStepGuid).ToList();
+        if (steps.Count > 1)
             throw new Exception("duplicate Guid");
 
         return steps.FirstOrDefault();
     }
+
+    public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid) => 
+        Sl.LearningSessionRepo.GetById(learningSessionId).GetStep(learningSessionStepGuid);
 }

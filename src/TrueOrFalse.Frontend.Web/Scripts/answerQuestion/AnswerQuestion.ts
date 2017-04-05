@@ -18,8 +18,12 @@ class AnswerQuestion {
     static ajaxUrl_TestSessionRegisterAnsweredQuestion: string;
     static ajaxUrl_LearningSessionAmendAfterShowSolution: string;
     static TestSessionProgressAfterAnswering: number;
+
     static IsLastTestSessionStep = false;
     static TestSessionId: number;
+
+    public LearningSessionId: number;
+    public LearningSessionStepGuid: string;
 
     public SolutionType: SolutionType;
     public IsGameMode: boolean;
@@ -39,6 +43,11 @@ class AnswerQuestion {
         this.IsGameMode = answerEntry.IsGameMode;
         if ($('#hddIsLearningSession').length === 1)
             this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
+
+        if (this.IsLearningSession) {
+            this.LearningSessionId = +$('#hddIsLearningSession').attr('data-learning-session-id');
+            this.LearningSessionStepGuid = $('#hddIsLearningSession').attr('data-current-step-guid');
+        }
 
         if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step'))
             this._isLastLearningStep = $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true";
@@ -324,7 +333,9 @@ class AnswerQuestion {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: interactionNumber,
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
-                testSessionId: AnswerQuestion.TestSessionId
+                testSessionId: AnswerQuestion.TestSessionId,
+                learningSessionId: self.LearningSessionId,
+                learningSessionStepGuid: self.LearningSessionStepGuid
             },
             cache: false,
             success: function(result) {
