@@ -18,7 +18,7 @@ public class GetLearningSessionSteps
                 .ToList());
     }
 
-    public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 3)
+    public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10)
     {
         var auxParams = GetStepSelectionParams(questions);
         var steps = GetSteps(auxParams, numberOfSteps);
