@@ -185,7 +185,7 @@
                                                     <%= questionInSet.Question.Text %>
                                                     <%= MarkdownInit.Run().Transform(questionInSet.Question.TextExtended) %>
                                                     <div>
-                                                        Richtige Antwort: <b><%= questionInSet.Question.GetSolution().CorrectAnswer() %></b>
+                                                        Richtige Antwort: <b><%= questionInSet.Question.GetSolution().GetCorrectAnswerAsHtml() %></b>
                                                     </div>
                                                 </div>
                                                 <div style="display: inline-block; float: right; width: 65px;">

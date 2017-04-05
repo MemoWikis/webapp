@@ -221,7 +221,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
-                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).CorrectAnswer()%><br/></p>
+                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml()%><br/></p>
                                                     <%
                                                     int counter = 1;
                                                     foreach (var step in uniqueQuestion)

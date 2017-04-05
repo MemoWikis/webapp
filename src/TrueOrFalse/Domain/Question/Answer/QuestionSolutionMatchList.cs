@@ -8,6 +8,8 @@ using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
 public class QuestionSolutionMatchList : QuestionSolution
 {
+    private const string PairSeperator = "%pairseperator%";
+    private const string ElementSeperator = "%elementseperator%";
     public List<Pair> Pairs = new List<Pair>();
     public List<ElementRight> RightElements = new List<ElementRight>();
 
@@ -93,12 +95,21 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        string CorrectAnswerMessage = "%pairseperator%";
+        string CorrectAnswerMessage = PairSeperator;
         foreach (var pair in this.Pairs)
-        {
-            CorrectAnswerMessage += pair.ElementLeft.Text + "%elementseperator%" + pair.ElementRight.Text + "%pairseperator%";
-        }
+            CorrectAnswerMessage += pair.ElementLeft.Text + ElementSeperator + pair.ElementRight.Text + PairSeperator;
+
         return CorrectAnswerMessage;
+    }
+
+    public override string GetCorrectAnswerAsHtml()
+    {
+        var htmlListItems = CorrectAnswer()
+            .Split(new[] { PairSeperator }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(a => $"<li>{String.Join(" - ",a.Split(new [] { ElementSeperator }, StringSplitOptions.RemoveEmptyEntries))}</li>")
+            .Aggregate((a, b) => a + b);
+
+        return $"<ul>{htmlListItems}</ul>";
     }
 }
 
