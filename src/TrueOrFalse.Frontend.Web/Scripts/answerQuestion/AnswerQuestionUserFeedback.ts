@@ -171,7 +171,7 @@
                     var fnRenderReference = function (div, ref) {
                         if (ref.referenceText) {
                             if (ref.referenceType == 'UrlReference') {
-                                $('<div class="ReferenceText"><a href="' + ref.referenceText + '">' + ref.referenceText + '</a></div>').appendTo(div);
+                                $('<div class="ReferenceText"><a href="' + ref.referenceText + '" target="_blank">' + ref.referenceText + '</a></div>').appendTo(div);
                             } else
                                 $('<div class="ReferenceText">' + ref.referenceText + '</div>').appendTo(div);
                         }

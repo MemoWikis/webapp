@@ -154,13 +154,13 @@
 </div>
 <div id="LicenseQuestion" class="Clearfix">
     <% if (Model.LicenseQuestion.IsDefault()){ %>
-        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto left"
-            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-        <img src="/Images/Licenses/cc-by 88x31.png" width="60"  style="margin-top: 4px; opacity: 0.6;"/>&nbsp;
-        <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>&nbsp;<i class="fa fa-info-circle"></i>
-    </a>
+        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
+            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' target='_blank'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
+            <img src="/Images/Licenses/cc-by 88x31.png" width="60"  style="margin-top: 4px; opacity: 0.6;"/>&nbsp;
+            <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>
+        </a><%--target blank to open outside the iframe of widget--%>
     <% } else { %>
-        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto left" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
+        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
             <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
         </a>
     <% } %>
