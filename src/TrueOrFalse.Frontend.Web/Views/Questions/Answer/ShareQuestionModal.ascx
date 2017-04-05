@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-10">
-                        <strong>Kopiere die Code-Zeile, um den Fragesatz einzubinden:</strong>
+                        <strong>Kopiere die Code-Zeile, um die Frage einzubinden:</strong>
                     </div>
                     <div class="col-md-2">
                     </div>
