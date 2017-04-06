@@ -244,7 +244,7 @@
                                                         }
                                                         else
                                                         {
-                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= step.Answer.AnswerText %></p><%
+                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHTML(step.Answer.AnswerText, step.Question.SolutionType) %></p><%
                                                         }
                                                         counter++;
                                                     } %>

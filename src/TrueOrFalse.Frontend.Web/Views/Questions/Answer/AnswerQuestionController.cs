@@ -341,6 +341,7 @@ public class AnswerQuestionController : BaseController
         {
             Data = new
             {
+                correctAnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 correctAnswer = solution.GetCorrectAnswerAsHtml(),
                 correctAnswerDesc = MarkdownInit.Run().Transform(question.Description),
                 correctAnswerReferences = question.References.Select(r => new

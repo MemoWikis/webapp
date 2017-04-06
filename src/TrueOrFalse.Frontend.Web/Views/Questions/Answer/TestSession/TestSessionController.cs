@@ -21,36 +21,8 @@ public class TestSessionController : BaseController
             var answers = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).Where(a => !a.IsView()).ToList();
             var answer = answers.First();
 
-            if (answer.Question.SolutionType == SolutionType.MatchList)
-            {
-                var answerObject = QuestionSolutionMatchList.deserializeMatchListAnswer(answer.AnswerText);
-                string newAnswer = "</br><ul>";
-                foreach (var pair in answerObject.Pairs)
-                {
-                    newAnswer += "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>";
-                }
-                newAnswer += "</ul>";
-                answer.AnswerText = newAnswer;
-            }
-
-            if (answer.Question.SolutionType == SolutionType.MultipleChoice)
-            {
-                if (answer.AnswerText != "")
-                {
-                    var builder = new StringBuilder(answer.AnswerText);
-                    answer.AnswerText = "</br> <ul> <li>" +
-                                                          builder.Replace("%seperate&xyz%", "</li><li>").ToString() +
-                                                          "</li> </ul>";
-                }
-                else
-                {
-                    answer.AnswerText = "(keine Auswahl)";
-                }
-            }
-
             if (answers.Count > 1)
                 throw new Exception("Cannot handle multiple answers to one TestSessionStep.");
-
 
             currentStep.AnswerText = answer.AnswerText;
             currentStep.AnswerState = answer.AnsweredCorrectly() ? TestSessionStepAnswerState.AnsweredCorrect : TestSessionStepAnswerState.AnsweredWrong;

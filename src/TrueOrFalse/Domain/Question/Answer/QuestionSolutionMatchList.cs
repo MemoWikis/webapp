@@ -114,7 +114,10 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override string GetAnswerForSEO()
     {
-        return CorrectAnswer().Replace(PairSeperator, ",").Replace(ElementSeperator, " - ");
+        return CorrectAnswer()
+            .Split(new [] {PairSeperator}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => $"{String.Join(" - ", x.Split(new []{ElementSeperator}, StringSplitOptions.RemoveEmptyEntries))}, ")
+            .Aggregate((a, b) => a + b);
     }
 }
 
