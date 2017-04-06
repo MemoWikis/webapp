@@ -33,6 +33,7 @@ public class Sl
     public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
 
     public static AnswerRepo AnswerRepo => R<AnswerRepo>();
+    public static LearningSessionRepo LearningSessionRepo => R<LearningSessionRepo>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }

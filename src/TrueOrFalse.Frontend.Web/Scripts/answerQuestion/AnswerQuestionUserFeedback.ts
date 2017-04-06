@@ -119,9 +119,7 @@
 
                 this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentStep());
 
-                if (AnswerQuestion.IsLastTestSessionStep) {
-                    $('#btnNext').html('Zum Ergebnis');
-                }
+                AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
             }
 
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
@@ -132,8 +130,8 @@
                     type: 'POST',
                     url: AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution,
                     data: {
-                        learningSessionId: $('#hddIsLearningSession').attr('data-learning-session-id'),
-                        stepGuid: $('#hddIsLearningSession').attr('data-current-step-guid')
+                        learningSessionId: this._answerQuestion.LearningSessionId,
+                        stepGuid: this._answerQuestion.LearningSessionStepGuid
                     },
                     cache: false,
                     success(result) {
@@ -205,6 +203,12 @@
                 this.ShowAnswerDetails();
             }
         });
+    }
+
+    static IfLastQuestion_Change_Btn_Text_ToResult() {
+        if (AnswerQuestion.IsLastTestSessionStep) {
+            $('#btnNext').html('Zum Ergebnis');
+        }
     }
 
     private HighlightMultipleChoiceSolution(correctAnswers: string) {

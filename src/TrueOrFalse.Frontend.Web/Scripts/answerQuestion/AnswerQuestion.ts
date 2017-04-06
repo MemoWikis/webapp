@@ -18,8 +18,12 @@ class AnswerQuestion {
     static ajaxUrl_TestSessionRegisterAnsweredQuestion: string;
     static ajaxUrl_LearningSessionAmendAfterShowSolution: string;
     static TestSessionProgressAfterAnswering: number;
+
     static IsLastTestSessionStep = false;
     static TestSessionId: number;
+
+    public LearningSessionId: number;
+    public LearningSessionStepGuid: string;
 
     public SolutionType: SolutionType;
     public IsGameMode: boolean;
@@ -39,6 +43,11 @@ class AnswerQuestion {
         this.IsGameMode = answerEntry.IsGameMode;
         if ($('#hddIsLearningSession').length === 1)
             this.IsLearningSession = $('#hddIsLearningSession').val().toLowerCase() === "true";
+
+        if (this.IsLearningSession) {
+            this.LearningSessionId = +$('#hddIsLearningSession').attr('data-learning-session-id');
+            this.LearningSessionStepGuid = $('#hddIsLearningSession').attr('data-current-step-guid');
+        }
 
         if (this.IsLearningSession && $('#hddIsLearningSession').attr('data-is-last-step'))
             this._isLastLearningStep = $('#hddIsLearningSession').attr('data-is-last-step').toLowerCase() === "true";
@@ -218,9 +227,8 @@ class AnswerQuestion {
                             },
                             cache: false
                         });
-                        if (AnswerQuestion.IsLastTestSessionStep) {
-                            $('#btnNext').html('Zum Ergebnis');
-                        }
+
+                        AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
                     }
 
                     if (result.correct)
@@ -324,7 +332,9 @@ class AnswerQuestion {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: interactionNumber,
                 millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
-                testSessionId: AnswerQuestion.TestSessionId
+                testSessionId: AnswerQuestion.TestSessionId,
+                learningSessionId: self.LearningSessionId,
+                learningSessionStepGuid: self.LearningSessionStepGuid
             },
             cache: false,
             success: function(result) {
@@ -338,6 +348,11 @@ class AnswerQuestion {
                     function(data) {
                         $("#answerHistory").html(data);
                     });
+
+                self.UpdateProgressBar(self.GetCurrentStep() - 1);
+
+                if (self._isLastLearningStep)
+                    $('#btnNext').html('Zum Ergebnis');
             }
         });
     }
@@ -426,16 +441,18 @@ class AnswerQuestion {
             raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
         } else if (this.IsLearningSession) {
             raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
-            stepNumberChanged = this.GetCurrentStep() < numberStepsUpdated;
+            stepNumberChanged = this.GetCurrentStep() != numberStepsUpdated;
             if (stepNumberChanged) {
                 $("#StepCount").fadeOut(100);
             }
         } else {return;}
 
         $("#spanPercentageDone").fadeOut(100);
-        var id = window.setInterval(IncrementPercentage, 10);
-        function IncrementPercentage() {
-            if (percentage >= raiseTo) {
+        var id = window.setInterval(ChangePercentage, 10);
+
+        function ChangePercentage() {
+            
+            if (percentage === raiseTo) {
                 window.clearInterval(id);
                 $("#spanPercentageDone").html(raiseTo + "%");
                 $("#spanPercentageDone").fadeIn();
@@ -445,7 +462,11 @@ class AnswerQuestion {
                 }
 
             } else {
-                percentage++;
+                if(percentage < raiseTo)
+                    percentage++;
+                else 
+                    percentage--;
+                    
                 $("#progressPercentageDone").width(percentage + "%");
             }
         }

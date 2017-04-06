@@ -32,7 +32,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
-        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
 
         if(learningSession.User != _sessionUser.User)
             throw new Exception("not logged in or not possessing user");
@@ -264,13 +264,15 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswerLearningSession(int id,
-                                                int learningSessionId,
-                                                Guid questionViewGuid,
-                                                int interactionNumber,
-                                                Guid stepGuid,
-                                                string answer, 
-                                                int millisecondsSinceQuestionView)
+    public JsonResult SendAnswerLearningSession(
+        int id,
+        int learningSessionId,
+        Guid questionViewGuid,
+        int interactionNumber,
+        Guid stepGuid,
+        string answer, 
+        int millisecondsSinceQuestionView
+    )
     {
         //var timeOfAnswer = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(timeOfAnswerString));
 
@@ -347,12 +349,12 @@ public class AnswerQuestionController : BaseController
         Sl.SaveQuestionView.LogOverallTime(questionViewGuid, millisecondsSinceQuestionView);
 
     [HttpPost]
-    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId) => 
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, countLastAnswerAsCorrect: true);
+    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId, int? learningSessionId, string learningSessionStepGuid) => 
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
 
     [HttpPost]
-    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? testSessionId) => 
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
+    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId, int? learningSessionId) => 
+        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId, learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
 
     public ActionResult PartialAnswerHistory(int questionId)
     {

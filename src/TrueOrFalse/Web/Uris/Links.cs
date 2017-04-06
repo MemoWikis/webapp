@@ -26,6 +26,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string HelpFAQ() => GetUrlHelper().Action(HelpActionFAQ, HelpController);
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
+        public static string HelpWidget() => GetUrlHelper().Action("Widget", HelpController);
+        public static string WidgetPricing() => GetUrlHelper().Action("WidgetPricing", HelpController);
 
         public const string AccountController = "Account";
         public const string RegisterAction = "Register";

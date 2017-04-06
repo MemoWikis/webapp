@@ -238,7 +238,7 @@
             </h1>
             <p>
                 Wir möchten den Zugang zu freien Bildungsinhalten verbessern und mit memucho ein soziales Wissensnetzwerk aufbauen, mit dem
-                Faktenlernen effizienter wird und mehr Spaß macht. Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
+                Faktenlernen effizienter wird und mehr Spaß macht. Wir konzipieren, gestalten und programmieren memucho gemeinsam.
             </p>
 
             <div class="row" style="margin-top: 30px;">
