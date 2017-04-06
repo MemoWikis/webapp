@@ -137,6 +137,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         return questionIds
             .Select(questionId => questions.FirstOrDefault(question => question.Id == questionId))
+            .Where(q => q != null)
             .ToList();
     }
 
