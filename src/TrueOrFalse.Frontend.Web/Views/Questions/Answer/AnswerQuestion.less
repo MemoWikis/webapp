@@ -324,19 +324,23 @@
         font-weight: bold;  
     }
 
-    .wrong-answer{
+    .wrong-answer {
         color: @dark-red;
     }
 }
-    .matchlist-pairrow{
+    .matchlist-pairrow {
         margin-bottom: 6px;
         margin-top: 6px;
     }
-    .matchlist-droppable{
-    border:2px solid;
-    border-radius: 5px;
-    height: 20px;
+
+    .matchlist-droppable {
+        border:1px dashed;
+        border-radius: 5px;
+        height: 30px;
+        position: relative;
+        bottom: 10px;
     }
+
     .matchlist-hovered{
         background-color: gainsboro;
     }
@@ -348,10 +352,13 @@
         padding-left: 4px;
         padding-right: 4px;
         border: 1px solid;
+        padding-top:4px;
+        padding-bottom: 4px;
         border-radius: 3px;
-        margin-left: 8px;
+        margin: 10px;
         cursor: move;
         background-color: white;
+        text-align:center;
     }
 
     //matchlist-mobile

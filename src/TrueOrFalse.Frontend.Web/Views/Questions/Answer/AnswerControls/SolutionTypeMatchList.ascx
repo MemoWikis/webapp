@@ -1,7 +1,13 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMatchList>" %>
-<div class="col-sm-12 row">
-    <div id="matchlist-pairs" class="col-sm-12 row"></div>
-    <div id="matchlist-rightelements" class="col-sm-12 row"></div>
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="matchlist-pairs" class="row"></div>
+        </div>
+        <div class="col-sm-12">
+            <div id="matchlist-rightelements" class="row"></div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -13,10 +19,10 @@
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop
     });
-    $("div#matchlist-pairs").append($("<div class = 'col-sm-12 row matchlist-pairrow'>")
+    $("div#matchlist-pairs").append($("<div class='col-sm-12'>").append($("<div class = 'row matchlist-pairrow'>")
         .append($("<span class= 'col-sm-5'><%= pair.ElementLeft.Text %></span>"))
         .append($("<i class=' matchlist-arrow fa fa-arrow-right fa-1x col-sm-2'>"))
-        .append(rightDropElement));
+        .append(rightDropElement)));
     <% }
 
     foreach (var elementRight in Model.RightElements.OrderBy(x => random.Next()))
@@ -34,9 +40,9 @@
     var answerCount = 0;
     function handleElementDrop(event, ui) {
         ui.helper.data('dropped', true);
-        if ($(this).attr('id') !== undefined) {
-            $('#rightElementResponse-' + $(this).attr('id').split("-")[1]).remove();
-        }
+        if ($(this).attr('id') !== undefined)
+            if ($('#rightElementResponse-' + $(this).attr('id').split("-")[1]).attr("id") !== $(ui.draggable).attr("id"))
+                $('#rightElementResponse-' + $(this).attr('id').split("-")[1]).remove();
         if (ui.draggable.hasClass('helper-clone')) {
             $(this).append(ui.draggable);
             ui.draggable.position({ of: $(this), my: 'center', at: 'center' });
@@ -61,6 +67,7 @@
             });
             helperClone.addClass('helper-clone');
             $(this).append(helperClone);
+            helperClone.css({height: "inherit", width: "105%" });
             helperClone.position({ of: $(this), my: 'center', at: 'center' });
             if ($(this).attr('id') !== undefined) {
                 helperClone.attr('id', 'rightElementResponse-' + $(this).attr('id').split("-")[1]);

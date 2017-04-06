@@ -155,11 +155,8 @@
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice && !result.correctAnswer) {
                 $("#Solution").show().find('.Label').html("Keine der Antworten ist richtig!");
             } else {
-                var shownCorrectAnswer = result.correctAnswer;
-                if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
-                    shownCorrectAnswer = shownCorrectAnswer.split("%pairseperator%").join("</br>").split("%elementseperator%").join(" - ");
-                }
-                $("#Solution").show().find('.Content').html(shownCorrectAnswer);
+                var shownCorrectAnswer = result.correctAnswerAsHTML;
+                $("#Solution").show().find('.Content').html("</br>" + shownCorrectAnswer);
             }
             if (this._answerQuestion.SolutionType === SolutionType.MultipleChoice || this._answerQuestion.SolutionType === SolutionType.MultipleChoice_SingleSolution)
                 this.HighlightMultipleChoiceSolution(result.correctAnswer);
