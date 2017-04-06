@@ -18,9 +18,7 @@
         </div>
     </div>
 
-
     <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
-    
 
     <div id="divBodyAnswer">
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
