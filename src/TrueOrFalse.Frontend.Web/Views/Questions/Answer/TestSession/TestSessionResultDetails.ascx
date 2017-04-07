@@ -51,7 +51,7 @@
                             <a href="#" data-action="showAnswerDetails">
                             <i class="fa fa-circle AnswerResultIcon show-tooltip" title="Nicht beantwortet.">
                                 &nbsp;&nbsp;
-                            </i><%= step.Question.GetShortTitle(150) %> 
+                            </i><%= step.Question.GetShortTitle(150) %>
                             (Details)</a><br/>
             <% }
             else if (step.AnswerState == TestSessionStepAnswerState.AnsweredCorrect)
@@ -84,8 +84,8 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-9 col-sm-10">
-                                        <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).CorrectAnswer()%><br/></p>
-                                        <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : step.AnswerText %></p>
+                                        <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).GetCorrectAnswerAsHtml() %></p>
+                                        <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : Question.AnswersAsHTML(step.AnswerText, step.Question.SolutionType) %></p>
                                         <p class="averageCorrectness">Wahrscheinlichkeit richtige Antwort (alle Nutzer): <%= step.Question.CorrectnessProbability %>%</p>
                                         
                                         <% if(!Model.IsInWidget) { %>

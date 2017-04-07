@@ -40,6 +40,8 @@ public class AnswerQuestionModel : BaseModel
     public SolutionMetadata SolutionMetadata;
     public string SolutionMetaDataJson;
 
+    public bool? isMobileDevice;
+
     public string ImageUrl_500px;
     public string SoundUrl;
     public int TotalViews;
@@ -115,16 +117,18 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
-    public AnswerQuestionModel(Question question) : this()
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
     {
+        this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         LearningSession = learningSession;
@@ -156,8 +160,10 @@ public class AnswerQuestionModel : BaseModel
         return model;
     }
 
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question) : this()
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
+
         QuestionViewGuid = questionViewGuid;
         TestSession = testSession;
         IsTestSession = true;
@@ -174,8 +180,9 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         PageCurrent = searchSpec.CurrentPage.ToString();
@@ -305,7 +312,7 @@ public class AnswerQuestionModel : BaseModel
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = $"Antwort: '{SolutionModel.CorrectAnswer()}'. {Environment.NewLine}";
+            result = $"Antwort: '{SolutionModel.GetAnswerForSEO()}'. {Environment.NewLine}";
 
             if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
             {
