@@ -8,7 +8,7 @@
     Du hast dein Wissen 
     <% if (Model.TestSession.IsSetSession) { %>
         zu dem Fragesatz 
-        <a href="<%= Model.IsInWidget ? "#" : Links.SetDetail(Url, Model.TestedSet) %>" style="display: inline-block;">
+        <a href="<%= Links.SetDetail(Url, Model.TestedSet) %>" <%= Model.IsInWidget ? "target='_blank'" : "" %> style="display: inline-block;">
             <span class="label label-set"><%: Model.TestedSet.Name %></span>
         </a>
         <%--mit insgesamt <%=Model.TestedSet.Questions().Count %> Fragen--%>
@@ -26,6 +26,8 @@
         </a>
         <%--mit insgesamt <%=Model.TestedCategory.CountQuestions %> Fragen--%>
     <% } %>
-    getestet und dabei <%= Model.NumberQuestions %> Fragen beantwortet. 
-    (<a href="#detailedAnswerAnalysis">Zur Auswertung</a>)
+    getestet und dabei <%= Model.NumberQuestions %> Fragen beantwortet.
+    <% if (!Model.IsInWidget){ %>
+        (<a href="#detailedAnswerAnalysis">Zur Auswertung</a>)
+    <% } %>
 </p>
