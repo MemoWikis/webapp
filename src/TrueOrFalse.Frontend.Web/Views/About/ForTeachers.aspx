@@ -209,21 +209,24 @@
                 </p>
                 
                 <p>
-                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Fragesätze auf deinem eigenen Blog oder der Schulwebseite zeigen?
+                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Fragesätze und 
+                    das dazugehörige Video auf deinem eigenen Blog oder der Schulwebseite zeigen?
                     Mit den memucho-Widgets ist das problemlos möglich. Du brauchst keine Programmier-Kenntnisse und in der Regel auch keine besonderen Rechte.
                     Das funktioniert bei eigenen Seiten und bei verschiedenen Plattformen wie Wordpress, Moodle, Blackboard usw.
                 </p>
                 <p>
-                    Wenn du ein memucho-Widget einbindest, erscheint die Frage oder das Lernmodul direkt dort, wo du es einbindest. 
+                    Wenn du ein memucho-Widget einbindest, erscheint der Quiz (Fragesatz-Widget), das Video mit den Lernfragen (Video-Widget) oder die einzelne Lernfrage (Frage-Widget)
+                    direkt dort, wo du es einbindest. 
                     Du musst nur eine Zeile Code von memucho per Copy'n'Paste bei dir einfügen, so wie du zum Beispiel auch youtube-Videos einbetten kannst. 
                     Dann können deine Schüler direkt auf der Kurs- oder Projektwebseite ihr Wissen testen und die Inhalte lernen.
                 </p>
                 <p>
-                    Du willst genauer wissen, wie du memucho-Widgets einbettest?
-                    <button class="btn btn-secondary" data-toggle="collapse" data-target="#WidgetDetails">Schritt-für-Schritt-Anleitung anzeigen</button>
+                    Du willst genauer wissen, wie du memucho-Widgets einbettest? 
+                    <a href="<%= Links.HelpWidget() %>">Hier zeigen wir dir eine Übersicht über die drei Widgets mit einer Anleitung</a>, wie du sie einbetten kannst.
+                    <%--<button class="btn btn-secondary" data-toggle="collapse" data-target="#WidgetDetails">Schritt-für-Schritt-Anleitung anzeigen</button>--%>
                 </p>
 
-                <div id="WidgetDetails" class="collapse">
+<%--                <div id="WidgetDetails" class="collapse">
                     <h4 style="margin-top: 25px;">
                         Schritt-für-Schritt-Anleitung zur Einbettung von Fragen und Fragesätzen (memucho-Widget)
                     </h4>
@@ -251,8 +254,8 @@
                     <p>
                         <strong>Das Widget für die Lernfunktion ganzer Fragesätze folgt in Kürze, wir arbeiten daran!</strong>
                     </p>
+                </div>--%>
 
-                </div>
             </div>
         </div>
     </div>
