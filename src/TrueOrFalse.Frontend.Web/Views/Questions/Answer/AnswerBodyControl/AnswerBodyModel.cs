@@ -25,6 +25,8 @@ public class AnswerBodyModel : BaseModel
     public int SolutionTypeInt;
     public QuestionSolution SolutionModel;
 
+    public bool? isMobileRequest;
+
     public bool IsLearningSession;
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
@@ -79,6 +81,8 @@ public class AnswerBodyModel : BaseModel
         QuestionViewGuid = answerQuestionModel.QuestionViewGuid;
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
+
+        isMobileRequest = answerQuestionModel.isMobileDevice;
 
         IsLearningSession = answerQuestionModel.IsLearningSession;
         LearningSession = answerQuestionModel.LearningSession;

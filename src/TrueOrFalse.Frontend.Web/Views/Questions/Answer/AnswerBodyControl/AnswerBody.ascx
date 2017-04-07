@@ -50,10 +50,20 @@
                         <input type="hidden" id="hddSolutionTypeNum" value="<%: Model.SolutionTypeInt %>" />
                         <%
                             string userControl = "SolutionType" + Model.SolutionType + ".ascx";
+
                             if (Model.SolutionMetadata.IsDate)
                                 userControl = "SolutionTypeDate.ascx";
-                        
-                            Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel); 
+                            if (Model.SolutionType == "MatchList")
+                            {
+                                if(Request.Browser.IsMobileDevice)
+                                    userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
+                                if(Model.isMobileRequest == true)
+                                    userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
+                                if(Model.isMobileRequest == false)
+                                    userControl = "SolutionTypeMatchList.ascx";
+                            }
+
+                            Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
                         %>
 
                         <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
@@ -82,15 +92,10 @@
                                 </div>
                     
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                    <% if(Model.NextUrl != null){ %>
+                                    <% if (Model.NextUrl != null){ %>
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% } %>
                                     <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
-                                </div>
-        
-                                <div id="buttons-edit-answer" class="ButtonGroup" style="display: none;">
-                                    <a href="#" id="btnEditAnswer" class="btn btn-warning" rel="nofollow">Antwort überarbeiten</a>
-                                    <a href="#" class="selectorShowSolution SecAction"><i class="fa fa-lightbulb-o"></i> Lösung anzeigen</a>
                                 </div>
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
