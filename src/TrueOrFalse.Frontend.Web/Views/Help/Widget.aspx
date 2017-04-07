@@ -98,11 +98,6 @@
                     <li>Moodle</li>
                     <li>Blackboard</li>
                 </ul>
-                <h3>Fragen oder Probleme?</h3>
-                <p>
-                    Funktioniert es nicht? Sind noch Fragen offen? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter. Christof erreichst du unter 01577-6825707 
-                    oder per E-Mail an <span class="mailme">christof at memucho dot de</span>.
-                </p>
             </div>
         </div>
     </div>
@@ -167,11 +162,6 @@
                     <li>Moodle</li>
                     <li>Blackboard</li>
                 </ul>
-                <h3>Fragen oder Probleme?</h3>
-                <p>
-                    Funktioniert es nicht? Sind noch Fragen offen? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter. Christof erreichst du unter 01577-6825707 
-                    oder per E-Mail an <span class="mailme">christof at memucho dot de</span>.
-                </p>
                                 
             </div>
         </div>
@@ -228,11 +218,6 @@
                     <li>Moodle</li>
                     <li>Blackboard</li>
                 </ul>
-                <h3>Fragen oder Probleme?</h3>
-                <p>
-                    Funktioniert es nicht? Sind noch Fragen offen? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter. Christof erreichst du unter 01577-6825707 
-                    oder per E-Mail an <span class="mailme">christof at memucho dot de</span>.
-                </p>
             </div>
         </div>
     </div>
@@ -241,12 +226,45 @@
         <div class="col-xs-12">
             <div class="well explanationBox">
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Nutzung für kommerzielle Anbieter</span>
+                    <span class="ColoredUnderline GeneralMemucho">Nutzung für Einzelpersonen und Organisationen</span>
                 </h2>
                 <p>
-                    Die Nutzung der memucho-Widgets ist für nicht-kommerzielle Zwecke und Einzelpersonen kostenlos und werbefrei. 
-                    Für Nutzer mit kommerziellen Interessen <a href="<%= Links.WidgetPricing() %>">haben wir verschiedene Angebote (Preisliste)</a>.
+                    Die Nutzung der memucho-Widgets ist <strong>für Einzelpersonen kostenlos und werbefrei</strong>. 
+                    Für den Einsatz von mehr als fünf Widgets ist ein Pro-Account notwendig (<a href="<%= Links.Membership() %>">Jetzt Pro-Mitglied werden</a>).
                 </p>
+                <p>
+                    Für Organisationen haben wir verschiedene Angebote (<a href="<%= Links.WidgetPricing() %>">zur Preisliste</a>).
+                    
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well" style="margin-top: 25px;">
+
+                <h2 class="PageHeader">
+                    <span class="ColoredUnderline GeneralMemucho">Fragen oder Probleme?</span>
+                </h2>
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 TeamPic">
+                        <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg" alt="Foto Christof"/>
+                    </div>
+                    <div class="col-xs-8 col-md-9">
+                        <p>
+                            Sind noch Fragen offen? Gibt es technische Probleme? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter.
+                            Dein Ansprechpartner für alle Fragen zum Widget ist:<br/>
+                        </p>
+                        <p>
+                            <strong>Christof Mauersberger</strong><br/>
+                            E-Mail: <span class="mailme">christof at memucho dot de</span><br/>
+                            Telefon: 01577-6825707<br/>
+                        </p>
+                        
+                    </div>
+                </div>
 
             </div>
         </div>

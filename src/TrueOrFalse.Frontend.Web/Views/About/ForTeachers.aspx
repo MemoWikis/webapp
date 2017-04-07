@@ -327,8 +327,10 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="well" style="margin-top: 25px;">
+                <h2 class="PageHeader">
+                    <span class="ColoredUnderline GeneralMemucho">Kontakt</span>
+                </h2>
 
-                <h3 class="PageHeader">Kontakt</h3>
                 <div class="row">
                     <div class="col-xs-4 col-md-3 TeamPic">
                         <img src="/Images/Team/team_lisa_sq_155.jpg"/>  

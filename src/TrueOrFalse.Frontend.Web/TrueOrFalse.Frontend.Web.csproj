@@ -856,6 +856,8 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
+    <TypeScriptCompile Include="Views\Help\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
