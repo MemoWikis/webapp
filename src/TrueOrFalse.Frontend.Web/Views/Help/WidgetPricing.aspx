@@ -114,7 +114,7 @@
 				                    <ul class="pricing-content list-unstyled">
 					                    <li>Unbegrenzte Aufrufe</li>
 					                    <li>Werbefrei</li>
-                                        <li>Ungegrenzte Anzahl an Widgets</li>
+                                        <li>Unbegrenzte Anzahl an Widgets</li>
 				                    </ul>
 				                    <div class="pricing-footer">
 					                    <p>
@@ -135,6 +135,33 @@
                                 </p>
                             </div>
                         </div>
+                        
+                        <h2>
+                            <span class="ColoredUnderline GeneralMemucho">Vorteile der memucho-Widgets</span>
+                        </h2>
+                        
+                        <p>
+                            Als <strong>Lehrer oder Dozent</strong> kannst du die Widgets vielfältig einsetzen. Du kannst deinen Schülern oder Studenten selber Lerninhalte zusammenstellen 
+                            und auf deinem Blog oder dem Schul-LMS anbieten. 
+                            Dabei profitierst du von den vielen vorhandenen freien Inhalten, die du rechtssicher verwenden und bei Bedarf ergänzen kannst.
+                            Du kannst die Inhalte auch als Teil des Lernprozesses von deinen Schülern oder Studenten erstellen lassen und dann selber bündeln. 
+                            Das Ergebnis dieser Schüler-Projektarbeit kann als Quiz auf der Schulwebseite präsentiert werden. 
+                            Weitere Ideen zur <a href="<%= Links.ForTeachers() %>">Nutzung von memucho in der Lehre haben wir hier gesammelt</a>.
+                        </p>
+                        <p>
+                            Lernende schätzen die Wissenstests und profitieren direkt davon. Das Wiederholen von Wissen in kleinen Einheiten ist 
+                            nachgewiesenermaßen eine effiziente Lernmethode, die in Quiz-Form noch dazu Spaß macht.
+                        </p>
+                        <p>
+                            Wenn du selber eine <strong>Webseite zu Bildungs- oder Wissensthemen</strong> als Hobby betreibst, 
+                            helfen dir die memucho-Widgets als <strong>wichtiger SEO-Faktor</strong>. 
+                            Quizze und kleine Interaktionsmöglichkeiten wie das Frage-Widget können die 
+                            Verweildauer der Nutzer auf deiner Seite deutlich erhöhen. Dadurch schätzen Suchmaschinen deine
+                            Seite als hilfreicher ein und verbessern dein Ranking.
+                        </p>
+                        <p style="text-align: center; margin-top: 40px;">
+                            <a href="<%= Links.HelpWidget() %>" class="btn btn-default">Zur Vorstellung der Widgets</a>
+                        </p>
                     </div>
                 </div>
                 
@@ -147,7 +174,7 @@
 		                    <div class="col-md-3 col-xs-6 xxs-stack">
 			                    <div class="pricing hover-effect">
 				                    <div class="pricing-head">
-					                    <h3>Basis <%--<span>Der Einstieg</span>--%></h3>
+					                    <h3>Start <%--<span>Der Einstieg</span>--%></h3>
 					                    <h4>
 					                        Kostenlos
                                             <span>für immer</span>
@@ -161,14 +188,14 @@
 				                    </ul>
 				                    <div class="pricing-footer">
 					                    <p>&nbsp;</p>
-					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Basis&body=Hallo Christof, uns gefällt euer Angebot Basis für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
+					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Start&body=Hallo Christof, uns gefällt euer Angebot Start für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
 				                    </div>
 			                    </div>
 		                    </div>
 		                    <div class="col-md-3 col-xs-6 xxs-stack">
 			                    <div class="pricing hover-effect">
 				                    <div class="pricing-head">
-					                    <h3>Basis Plus <%--<span>Für alle Pro-Nutzer</span>--%></h3>
+					                    <h3>Start Plus <%--<span>Für alle Pro-Nutzer</span>--%></h3>
 					                    <h4> 
 					                        <i>€ </i>39
                                             <span>pro Monat</span>
@@ -181,7 +208,7 @@
 				                    </ul>
 				                    <div class="pricing-footer">
 					                    <p>&nbsp;</p>
-					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Basis Plus&body=Hallo Christof, uns gefällt euer Angebot Basis Plus für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
+					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Start Plus&body=Hallo Christof, uns gefällt euer Angebot Start Plus für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
 				                    </div>
 			                    </div>
 		                    </div>
@@ -229,41 +256,45 @@
 		                    </div>
 		                    <!--//End Pricing -->
 	                    </div>
+                        <p>
+                            Deine Organisation oder Unternehmen ist gemeinwohlorientiert? Du förderst offene Bildungsinhalte und/oder Open-Source? 
+                            Das finden wir toll! <a href="#contact">Sprich uns an</a>, wenn du ein individuelles Angebot möchtest.
+                        </p>
+                        
+                        <h2>
+                            <span class="ColoredUnderline GeneralMemucho">Vorteile der memucho-Widgets</span>
+                        </h2>
+                        
+                        <p>
+                            Die memucho-Widgets eignen sich <strong>für alle Content-Anbieter:</strong> Von der lokalen Zeitung, der kleinen Vereins- oder NGO-Seite, 
+                            die ihre Webseite attraktiver gestalten und einen Zusatznutzen anbieten möchten - über die Schule oder Universität, die 
+                            eine Integration personalisierter Lernfunktionen in ihr LMS wünscht - bis hin zum großen Nachhilfeanbieter oder Verlagshaus, 
+                            die ihre eigenen Lerninhalte durch ein niederschwelliges digitales Angebot aufwerten möchten.
+                        </p>
+                        <p>
+                            Wenn du ein <strong>Bildungsanbieter</strong> bist, profitierst du von den vielen bereits verfügbaren hochwertigen 
+                            <strong>freien Inhalten</strong> bei memucho. Du kannst sie rechtssicher verwenden und durch eigene Inhalte leicht ergänzen. 
+                            So erweiterst du schnell und günstig das Angebot an Lerninhalten auf deiner eigenen Seite.
+                        </p>
+                        <p>
+                            Lernende schätzen die Wissenstests und profitieren direkt davon. Das Wiederholen von Wissen in kleinen Einheiten ist 
+                            nachgewiesenermaßen eine effiziente Lernmethode, die in Quiz-Form noch dazu Spaß macht.
+                        </p>
+                        <p>
+                            Als Betreiber einer Webseite helfen dir die memucho-Widgets als <strong>wichtiger SEO-Faktor</strong>. 
+                            Quizze und kleine Interaktionsmöglichkeiten wie das Frage-Widget können die 
+                            Verweildauer der Nutzer auf deiner Seite deutlich erhöhen. Dadurch schätzen Suchmaschinen deine
+                            Seite als hilfreicher ein und verbessern dein Ranking.
+                        </p>
                     </div>                                        
                 </div>
-
-<%--                <h2 class="">
-                    <span class="ColoredUnderline GeneralMemucho">Vorteile der memucho-Widgets</span>
-                </h2>
-                
-                <p>
-                    <strong>Verweildauer:</strong>
-                    Quizzes und kleine Interaktionsmöglichkeiten können die Verweildauer der Nutzer auf deiner Seite deutlich erhöhen. 
-                </p>
-                <p>
-                    <strong>Besseres Lernerlebnis:</strong>
-                    Lerninhalte in kleinen Häppchen zu wiederholen ist lernpsychologisch sehr effizient. Wenn du eine Bildungsseite hast, 
-                </p>
-                <p>
-                    <strong>Zufriedene Nutzer:</strong>
-                    
-                </p>
-                <p>
-                    <strong>SEO:</strong>
-                    Wenn sich die Verweildauer von Nutzer auf deiner Webseite erhöht, schätzen sie Suchmaschinen als hilfreich ein und verbessern dein Ranking. 
-                    Das ist ein wichtiger SEO-Faktor.
-                </p>
-                <p>
-                    <strong>Freie Inhalte:</strong>
-                    Zu vielen Themen findest du bei memucho bereits hochwertige Inhalte, die du frei verwenden und bei Bedarf ergänzen kannst. 
-                </p>--%>
 
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12" id="contact">
             <div class="well" style="margin-top: 25px;">
 
                 <h2 class="PageHeader">

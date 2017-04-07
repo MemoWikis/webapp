@@ -88,7 +88,7 @@ code {
 #switchesPriceType {
   text-align: center;
   margin-top: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 #switchesPriceType .btn {
   min-width: 230px;
@@ -110,7 +110,7 @@ Licensed under MIT
 Content
 ***/
 .content {
-  padding: 30px 0;
+  padding: 10px 0;
 }
 /***
 Pricing table
@@ -166,7 +166,7 @@ Pricing table
   color: #36d7ac;
 }
 .pricing-head h4 i {
-  top: -6px;
+  top: -5px;
   font-size: 20px;
   font-style: normal;
   position: relative;
