@@ -402,6 +402,10 @@
     <Content Include="bin\AutofacContrib.SolrNet.dll" />
     <Content Include="bin\Common.Logging.Core.dll" />
     <Content Include="bin\Common.Logging.Core.pdb" />
+    <Content Include="Images\Screenshots\widget-blackboard-html-mode-full.png" />
+    <Content Include="Images\Screenshots\widget-blackboard-html-mode-small.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-01.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-02.png" />
     <Content Include="Images\Sponsors\greensoeasy.png" />
     <Content Include="Images\Sponsors\tutory.png" />
     <Content Include="Images\Screenshots\SetEmbedLink.png" />
