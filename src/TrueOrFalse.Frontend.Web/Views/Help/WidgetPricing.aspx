@@ -160,7 +160,7 @@
                             Seite als hilfreicher ein und verbessern dein Ranking.
                         </p>
                         <p style="text-align: center; margin-top: 40px;">
-                            <a href="<%= Links.HelpWidget() %>" class="btn btn-default">Zur Vorstellung der Widgets</a>
+                            <a href="<%= Links.HelpWidget() %>" class="btn btn-default">Zur Widget-Übersicht</a>
                         </p>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
 					                    <%--<li>Maximal 5 Widgets</li>--%>
 				                    </ul>
 				                    <div class="pricing-footer">
-					                    <p>&nbsp;</p>
+					                    <%--<p>Geeignet als Start und für kleine Blogs und Projekte</p>--%>
 					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Start&body=Hallo Christof, uns gefällt euer Angebot Start für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
 				                    </div>
 			                    </div>
@@ -207,7 +207,7 @@
 					                    <li>Inkl. 500.000 Aufrufe<br/><small>Je 100.000 weitere: € 3,50</small></li>
 				                    </ul>
 				                    <div class="pricing-footer">
-					                    <p>&nbsp;</p>
+					                    <%--<p>Geeignet für kleinere Content-Anbieter</p>--%>
 					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Start Plus&body=Hallo Christof, uns gefällt euer Angebot Start Plus für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
 				                    </div>
 			                    </div>
@@ -227,7 +227,7 @@
 					                    <li>Inkl. 100.000 Aufrufe<br/><small>Je 100.000 weitere: € 9,00</small></li>
 				                    </ul>
 				                    <div class="pricing-footer">
-					                    <p>&nbsp;</p>
+					                    <%--<p>Geeignet für größere Content-Anbieter und kommerzielle Bildungs-Anbieter</p>--%>
 					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget White-Label&body=Hallo Christof, uns gefällt euer Angebot White-Label für die memucho-Widgets. Bitte schicke uns den Code, damit wir das Widget für unsere Organisation verwenden können.">Bestellen</a>
 				                    </div>
 			                    </div>
@@ -249,7 +249,7 @@
                                         <li>Indiv. Anpassungen, Einbettung in Workflows</li>
 				                    </ul>
 				                    <div class="pricing-footer">
-					                    <p>&nbsp;</p>
+					                    <%--<p>Geeignet für Bildungsverlage und große Content-Anbieter</p>--%>
 					                    <a class="btn btn-primary mailmeMore" href="christof at memucho dot de ?subject=memucho-Widget Strategisch&body=Hallo Christof, uns gefällt euer Angebot Strategisch für die memucho-Widgets. Wir haben folgende Bedürfnisse und bitten um ein genaues Angebot: ...">Anfragen</a>
 				                    </div>
 			                    </div>
@@ -286,6 +286,11 @@
                             Verweildauer der Nutzer auf deiner Seite deutlich erhöhen. Dadurch schätzen Suchmaschinen deine
                             Seite als hilfreicher ein und verbessern dein Ranking.
                         </p>
+                        
+                        <p style="text-align: center; margin-top: 40px;">
+                            <a href="<%= Links.HelpWidget() %>" class="btn btn-default">Zur Widget-Übersicht</a>
+                        </p>
+
                     </div>                                        
                 </div>
 

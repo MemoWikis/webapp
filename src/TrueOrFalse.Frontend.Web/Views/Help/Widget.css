@@ -157,7 +157,7 @@ Pricing table
 .pricing-head h4 {
   color: #666666;
   padding: 10px 0 5px;
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 300;
   background: #e4f0be;
   border-bottom: solid 1px #f5f9e7;
@@ -166,7 +166,7 @@ Pricing table
   color: #36d7ac;
 }
 .pricing-head h4 i {
-  top: -5px;
+  top: -3px;
   font-size: 20px;
   font-style: normal;
   position: relative;
@@ -194,8 +194,11 @@ Pricing table
   font-size: 14px;
   line-height: 17px;
   text-align: center;
-  padding: 0 20px 19px;
+  padding: 19px 20px 19px;
   border-top: solid 2px #f5f9e7;
+}
+.pricing-footer p {
+  margin-top: -4px;
 }
 /*Priceing Active*/
 .price-active,

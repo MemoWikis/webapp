@@ -244,12 +244,12 @@
                         Du musst lediglich beachten, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst. Oft gibt es dafür einen Umschalter. Einige Beispiele:
                     </p>
                     <ul>
-                        <li>Bei Wordpress: "Text" und nicht "Visuell" <img src="/Images/Screenshots/wordpress-textmode-small.png" /></li>
+                        <li>Bei Wordpress: "Text" und nicht "Visuell" <img src="/Images/Screenshots/widget-wordpress-textmode-small.png" /></li>
                         <li>
                             Bei Moodle: Material hinzufügen: Textfeld. Dann im Textfeld das "Mehr Symbole anzeigen" <img src="/Images/Screenshots/moodle-1-mehrFelder-small.png" /> aktivieren
                             und dann den HTML-Modus einschalten <img src="/Images/Screenshots/moodle-2-HTMLmode-small.png" />
                         </li>
-                        <li>Bei Blackboard: Bei Kursmaterial ein Element erstellen, dann im Editierfenster auf den Button "HTML" klicken <img src="/Images/Screenshots/blackboard-html-mode-small.png" /></li>
+                        <li>Bei Blackboard: Bei Kursmaterial ein Element erstellen, dann im Editierfenster auf den Button "HTML" klicken <img src="/Images/Screenshots/widget-blackboard-html-mode-small.png" /></li>
                     </ul>
                     <p>
                         <strong>Das Widget für die Lernfunktion ganzer Fragesätze folgt in Kürze, wir arbeiten daran!</strong>

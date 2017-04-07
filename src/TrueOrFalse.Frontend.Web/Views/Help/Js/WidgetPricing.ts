@@ -1,4 +1,8 @@
-﻿class WidgetPricing {
+﻿$(function () {
+    new WidgetPricing();
+});
+
+class WidgetPricing {
 
     constructor() {
         var self = this;

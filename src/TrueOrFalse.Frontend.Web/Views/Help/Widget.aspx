@@ -91,12 +91,15 @@
                     Die Code-Zeile aus dem Dialog kannst du direkt an die Stelle deiner Webseite kopieren, wo der Quiz erscheinen soll.
                     Achte darauf, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst (als Klartext, ohne Formatierungen). 
                     Oft gibt es dafür einen Umschalter vom Layout- in den HTML-/Text-Modus. 
-                    Wo genau, das zeigen wir dir hier für die folgenden Systeme: 
+                </p>
+                <p class="screenshotExplanation">
+                    Wo genau, das zeigen wir dir hier für die folgenden Systeme mit einer Schritt-für-Schritt-Anleitung: 
                 </p>
                 <ul class="screenshotExplanation">
-                    <li>Wordpress</li>
-                    <li>Moodle</li>
-                    <li>Blackboard</li>
+                    <li><a href="<%= Links.HelpWidgetWordpress() %>">memuchos Quiz-Widget in <strong>Wordpress</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetMoodle() %>">memuchos Quiz-Widget in <strong>Moodle</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetBlackboard() %>">memuchos Quiz-Widget in <strong>Blackboard</strong> einbinden</a></li>
+
                 </ul>
             </div>
         </div>
@@ -155,12 +158,14 @@
                     Die Code-Zeile aus dem Dialog kannst du direkt an die Stelle deiner Webseite kopieren, wo das Video mit dem Quiz erscheinen soll.
                     Achte darauf, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst (als Klartext, ohne Formatierungen). 
                     Oft gibt es dafür einen Umschalter vom Layout- in den HTML-/Text-Modus. 
-                    Wo genau, das zeigen wir dir hier für die folgenden Systeme: 
+                </p>
+                <p class="screenshotExplanation">
+                    Wo genau, das zeigen wir dir hier für die folgenden Systeme mit einer Schritt-für-Schritt-Anleitung: 
                 </p>
                 <ul class="screenshotExplanation">
-                    <li>Wordpress</li>
-                    <li>Moodle</li>
-                    <li>Blackboard</li>
+                    <li><a href="<%= Links.HelpWidgetWordpress() %>">memuchos Video-Quiz-Widget in <strong>Wordpress</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetMoodle() %>">memuchos Video-Quiz-Widget in <strong>Moodle</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetBlackboard() %>">memuchos Video-Quiz-Widget in <strong>Blackboard</strong> einbinden</a></li>
                 </ul>
                                 
             </div>
@@ -211,12 +216,14 @@
                     Die Code-Zeile aus dem Dialog kannst du direkt an die Stelle deiner Webseite kopieren, wo der Quiz erscheinen soll.
                     Achte darauf, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst (als Klartext, ohne Formatierungen). 
                     Oft gibt es dafür einen Umschalter vom Layout- in den HTML-/Text-Modus. 
-                    Wo genau, das zeigen wir dir hier für die folgenden Systeme: 
+                </p>
+                <p class="screenshotExplanation">
+                    Wo genau, das zeigen wir dir hier für die folgenden Systeme mit einer Schritt-für-Schritt-Anleitung: 
                 </p>
                 <ul class="screenshotExplanation">
-                    <li>Wordpress</li>
-                    <li>Moodle</li>
-                    <li>Blackboard</li>
+                    <li><a href="<%= Links.HelpWidgetWordpress() %>">memuchos Frage-Widget in <strong>Wordpress</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetMoodle() %>">memuchos Frage-Widget in <strong>Moodle</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetBlackboard() %>">memuchos Frage-Widget in <strong>Blackboard</strong> einbinden</a></li>
                 </ul>
             </div>
         </div>
@@ -230,10 +237,10 @@
                 </h2>
                 <p>
                     Die Nutzung der memucho-Widgets ist <strong>für Einzelpersonen kostenlos und werbefrei</strong>. 
-                    Für den Einsatz von mehr als fünf Widgets ist ein Pro-Account notwendig (<a href="<%= Links.Membership() %>">Jetzt Pro-Mitglied werden</a>).
+                    Für den Einsatz von mehr als fünf Widgets ist ein Pro-Account notwendig (<a href="<%= Links.Membership() %>">jetzt Pro-Mitglied werden</a>).
                 </p>
                 <p>
-                    Für Organisationen haben wir verschiedene Angebote (<a href="<%= Links.WidgetPricing() %>">zur Preisliste</a>).
+                    Für Organisationen haben wir verschiedene Angebote: &nbsp; <a href="<%= Links.WidgetPricing() %>" class="btn btn-default">Zu den Angeboten und Preisen</a>
                     
                 </p>
 

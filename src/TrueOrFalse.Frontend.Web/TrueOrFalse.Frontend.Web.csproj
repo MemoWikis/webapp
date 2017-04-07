@@ -389,6 +389,10 @@
     <Content Include="Images\Screenshots\QuestionEmbedModal.png" />
     <Content Include="Images\Screenshots\SetVideoEmbedLink.png" />
     <Content Include="Images\Screenshots\SetVideoEmbedModal.png" />
+    <Content Include="Images\Screenshots\widget-blackboard-html-mode-full.png" />
+    <Content Include="Images\Screenshots\widget-blackboard-html-mode-small.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-01.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-02.png" />
     <Content Include="Images\Sponsors\greensoeasy.png" />
     <Content Include="Images\Sponsors\tutory.png" />
     <Content Include="Images\Screenshots\SetEmbedLink.png" />
@@ -402,6 +406,9 @@
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Help\WidgetInMoodle.aspx" />
+    <Content Include="Views\Help\WidgetInBlackboard.aspx" />
+    <Content Include="Views\Help\WidgetInWordpress.aspx" />
     <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="Views\Help\Widget.aspx" />
     <Content Include="Views\About\Master.aspx" />
@@ -553,13 +560,11 @@
     <Content Include="Images\no-profile-picture-250.png" />
     <Content Include="Images\no-profile-picture-30.png" />
     <Content Include="Images\no-profile-picture-350.png" />
-    <Content Include="Images\Screenshots\blackboard-html-mode-full.png" />
-    <Content Include="Images\Screenshots\blackboard-html-mode-small.png" />
     <Content Include="Images\Screenshots\fragen-zu-fragesatz.png" />
     <Content Include="Images\Screenshots\fragen-zusammenstellen.png" />
-    <Content Include="Images\Screenshots\moodle-1-mehrFelder-small.png" />
-    <Content Include="Images\Screenshots\moodle-2-HTMLmode-small.png" />
-    <Content Include="Images\Screenshots\wordpress-textmode-small.png" />
+    <Content Include="Images\Screenshots\widget-moodle-1-mehrFelder-small.png" />
+    <Content Include="Images\Screenshots\widget-moodle-2-HTMLmode-small.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-textmode-small.png" />
     <Content Include="Images\Sponsors\schwanger-in-meiner-stadt-logo.png" />
     <Content Include="Images\Team\team_christof-rund_160.png" />
     <Content Include="Images\Team\team_christof201509_155.jpg" />
@@ -856,7 +861,6 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
-    <TypeScriptCompile Include="Views\Help\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
