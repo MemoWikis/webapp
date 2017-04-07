@@ -20,19 +20,24 @@
         drop: handleElementDrop
     });
     $("div#matchlist-pairs").append($("<div class='col-sm-12'>").append($("<div class = 'row matchlist-pairrow'>")
-        .append($("<span class= 'col-sm-5'><%= pair.ElementLeft.Text %></span>"))
+        .append($("<span class= 'col-sm-5 matchlist-leftelement'><%= pair.ElementLeft.Text %></span>"))
         .append($("<i class=' matchlist-arrow fa fa-arrow-right fa-1x col-sm-2'>"))
         .append(rightDropElement)));
     <% }
 
     foreach (var elementRight in Model.RightElements.OrderBy(x => random.Next()))
     { %>
-    var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>").html("<%= elementRight.Text %>").draggable({
-        containment: '#AnswerBody',
-        stack: '.matchlist-rightelement',
-        cursor: 'move',
-        helper: 'clone',
-        revert: 'true'
+    var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>")
+        .html("<%= elementRight.Text %>")
+        .draggable({
+            containment: '#AnswerBody',
+            stack: ".matchlist-rightelement",
+            cursor: 'move',
+            helper: "clone",
+            start: function (event, ui) {
+                $(ui.helper).css("z-index", 100);
+            },
+            revert: 'true'
     });
     $("#matchlist-rightelements").append(rightDragElement);
     <% } %>
@@ -53,9 +58,9 @@
             var helperClone = ui.helper.clone();
             helperClone.draggable({
                 containment: '#AnswerBody',
-                stack: '.matchlist-rightelemen',
+                stack: ".matchlist-rightelement",
                 cursor: 'move',
-                start: function(event, ui) {
+                start: function (event, ui) {
                     ui.helper.data('dropped', false);
                 },
                 stop: function (event, ui) {
@@ -67,7 +72,7 @@
             });
             helperClone.addClass('helper-clone');
             $(this).append(helperClone);
-            helperClone.css({height: "inherit", width: "105%" });
+            helperClone.css({height: "26px", width: "98%" });
             helperClone.position({ of: $(this), my: 'center', at: 'center' });
             if ($(this).attr('id') !== undefined) {
                 helperClone.attr('id', 'rightElementResponse-' + $(this).attr('id').split("-")[1]);

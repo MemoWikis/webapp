@@ -117,8 +117,9 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
-    public AnswerQuestionModel(Question question): this()
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
     {
+        this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);

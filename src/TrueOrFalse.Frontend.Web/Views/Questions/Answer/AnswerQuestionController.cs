@@ -387,7 +387,7 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, int? learningSessionId = null)
+    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
     {
         if (learningSessionId != null)
         {
@@ -418,8 +418,17 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
-        //for normal questions
+
         var question = Sl.QuestionRepo.GetById(questionId);
+        if (isVideo)
+        {
+            return ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(new AnswerQuestionModel(question , isMobileDevice)),
+                ControllerContext
+            );
+        }
+        //for normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
         return ViewRenderer.RenderPartialView(

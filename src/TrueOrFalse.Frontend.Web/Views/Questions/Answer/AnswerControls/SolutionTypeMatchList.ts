@@ -16,14 +16,22 @@ class SolutionTypeMatchList
         if (isMobile !== isCurrentAnswerBodyMobile) {
             var urlParams = Utils.GetQueryString();
             var url = "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&isMobileDevice=" + isMobile;
-            var isTestSession = $('#hddIsTestSession').val().toLowerCase() === "true";
-            if (isTestSession) {
-                var testSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
-                url += "&testSessionId=" + testSessionId;
-            }
-            var isLarningSession = $("#hddIsLearningSession").val().toLowerCase() === "true";
-            if (isLarningSession)
-                url += "&learningSessionId=" + $("#hddIsLearningSession").attr("data-learning-session-id");
+
+            var isTestSession = $('#hddIsTestSession').val();
+            if(isTestSession !== undefined)
+                if (isTestSession.toLowerCase() === "true")
+                    url += "&testSessionId=" + parseInt($('#hddIsTestSession').attr('data-test-session-id'));
+
+
+            var isLearningSession = $('#hddIsLearningSession').val();
+            if (isLearningSession !== undefined)
+                if (isLearningSession.toLowerCase() === "true")
+                    url += "&learningSessionId=" + $("#hddIsLearningSession").attr("data-learning-session-id");
+
+            var isVideo = $("#hhdHasVideo").val();
+            if (isVideo !== undefined)
+                if (isVideo.toLowerCase() === "true")
+                    url += "&isVideo=true";
 
             jQuery.ajax({
                 url: url,
