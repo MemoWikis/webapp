@@ -22,7 +22,6 @@ class SolutionTypeMatchList
                 if (isTestSession.toLowerCase() === "true")
                     url += "&testSessionId=" + parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
-
             var isLearningSession = $('#hddIsLearningSession').val();
             if (isLearningSession !== undefined)
                 if (isLearningSession.toLowerCase() === "true")

@@ -70,6 +70,18 @@ public class GameController : BaseController
             return View(_viewLocation, gameModel);                                    
         }
 
+        
+        
+        //MatchList Fragen nicht zulassen (temporär)
+        bool containsMatchListQuestions = sets.SelectMany(x => x.QuestionsInSet).Any(q => q.Question.SolutionType == SolutionType.MatchList);
+        if (containsMatchListQuestions)
+        {
+            gameModel.Message = new ErrorMessage("Bitte wählen sie keine Fragen vom Typ Zuordnung (Liste). Diese sind leider noch nicht in den Spielen-Modus integriert.");
+            return View(_viewLocation, gameModel);
+        }
+
+
+
         var game = new Game();
         game.Id = game.Id;
         game.Sets = sets;
