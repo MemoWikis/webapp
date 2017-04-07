@@ -56,8 +56,12 @@ function writeIframe(iframeId, iframeSource) {
                 'marginheight="0" marginwidth="0" ' +
                 'frameborder="no" scrolling="no"> ' +
             '</iframe>' + 
-            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 10px; float: right"> ' + 
-                '<a href="https://memucho.de">von memucho</a>' + 
+            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 10px; float: right; position: relative; width: 100px;"> ' +
+                '<a href="https://memucho.de" style="text-decoration: none; color: #203256;  position: absolute; top: -45px; right: 20px;">' +
+                    //'<span>von memucho</span>' +
+                    '<img src="https://memucho.de/Images/Logo/LogoMediumGrey.png"/ style="display: inline-block; width: 100px; height: auto;">' +
+                    //'<img src="https://memucho.de/Images/Logo/LogoSmall.png"/ style="display: inline-block; width: 30px; height: auto; filter: grayscale(1);">' +
+                '</a>' +
             '</div>' +
         '</div>';
 
