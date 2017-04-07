@@ -3,6 +3,22 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/ForTeachers.css" rel="stylesheet" />
+    
+    <script type="text/javascript" >
+
+        $(function () {
+            $("span.mailme")
+                .each(function() {
+                    var spt = this.innerHTML;
+                    var at = / at /;
+                    var dot = / dot /g;
+                    var addr = spt.replace(at, "@").replace(dot, ".");
+                    $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
+                    $(this).remove();
+                });
+        });
+    </script>    
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -304,6 +320,34 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well" style="margin-top: 25px;">
+
+                <h3 class="PageHeader">Kontakt</h3>
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 TeamPic">
+                        <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    </div>
+                    <div class="col-xs-8 col-md-9">
+                        <p>
+                            Du hast Fragen? Du hast selber tolle Ideen? Du kannst uns von deinen Erfahrungen beim Einsatz digitaler Medien im Unterricht bzw. in der Lehre erzählen?
+                            Sprich uns einfach an, wir freuen uns über deine Nachricht! Dein Ansprechpartner ist:<br/>
+                        </p>
+                        <p>
+                            <strong>Lisa</strong><br/>
+                            E-Mail: <span class="mailme">lisa at memucho dot de</span><br/>
+                            Telefon: 01512-6503370<br/>
+                        </p>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
 </asp:Content>
