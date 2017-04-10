@@ -11,22 +11,14 @@ class SolutionTypeFlashCard
     }
 
     static GetChosenAnswers(): string {
-        var selected = $('input:checkbox[name=answer]:checked');
-        var selectedValues = "";
-        for (var i = 0; i < selected.length; i++) {
-            selectedValues += (<any>selected.get(i)).value;
-            if (i < (selected.length - 1))
-                selectedValues += "%seperate&xyz%";
-        }
-        return selectedValues;
+        return "Work in progress";
     }
 
     GetAnswerText(): string {
-        var answerText = SolutionTypeMultipleChoice.GetChosenAnswers().split("%seperate&xyz%").join("</br>");
-        return answerText;
+        return "Work in progress";
     }
 
     GetAnswerData(): {} {
-        return { answer: SolutionTypeMultipleChoice.GetChosenAnswers()};
+        return "Work in progress";
     }
 };

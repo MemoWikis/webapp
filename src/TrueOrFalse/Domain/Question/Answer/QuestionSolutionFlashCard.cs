@@ -11,8 +11,6 @@ public class QuestionSolutionFlashCard : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        //var values = new JavaScriptSerializer().Deserialize<string[]>(answer);
-        //return values.SequenceEqual(Rows.Values);
         return false;
     }
 
