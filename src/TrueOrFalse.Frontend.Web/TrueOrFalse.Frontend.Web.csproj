@@ -582,7 +582,7 @@
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeNoteCard.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
