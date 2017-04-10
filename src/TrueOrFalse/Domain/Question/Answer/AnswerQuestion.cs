@@ -165,7 +165,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         var result = new AnswerQuestionResult
         {
-            IsCorrect = solution.IsCorrect(answer.Trim()),
+            IsCorrect = solution.IsCorrect(answer),
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer
         };

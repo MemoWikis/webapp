@@ -56,5 +56,6 @@ enum SolutionType {
     MultipleChoice_SingleSolution = 3,
     MultipleChoice = 7,
     Sequence = 5,
-    MatchList = 8
+    MatchList = 8,
+    FlashCard = 9
 }
