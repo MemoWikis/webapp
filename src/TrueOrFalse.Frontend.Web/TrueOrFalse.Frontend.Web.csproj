@@ -1849,6 +1849,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
