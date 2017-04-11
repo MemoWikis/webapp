@@ -293,6 +293,9 @@
     padding-right: 10px;
   }
 }
+.EduPartnerWrapper {
+  clear: left;
+}
 @media (min-width: 480px) {
   .EduPartnerWrapper {
     text-align: center;
@@ -455,23 +458,25 @@
   font-size: 100%;
   margin: 0;
 }
-.EduPartnerWrapper {
-  clear: left;
+#WidgetSetResult {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  background-color: white;
 }
-/*.SessionTitle {
-    display: table;
-    
+#WidgetSetResult blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
 }
-
-.CollectionType {
-    display: table-cell;
-    width:1%;
-    white-space:nowrap;
+#WidgetSetResult .buttonRow {
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
-
-.LabelWrapper {
-    display: table-cell;
-    .label {
-        max-width: 100%;
-    }
-}*/
+#WidgetSetResult #divIndicatorAverageText {
+  margin-bottom: 30px;
+}
