@@ -19,6 +19,8 @@ class SetVideoPlayer
 
     IsVideoPausingEnabled = true;
 
+    Player : YT.Player;
+
     constructor() {
 
         $(() => {
@@ -29,7 +31,7 @@ class SetVideoPlayer
     }
 
     public OnPlayerReady() {
-        //console.log("player ready");
+        this.Player = player;
     }
 
     public OnStateChange(event : YT.EventArgs, setVideoPlayer : SetVideoPlayer) {

@@ -14,40 +14,9 @@
     );
 }
 
-.question-row {
-    /*.col-0{
-        img{
-            border-radius:5px;
-        }
-    }
-
-    .col-1{
-        padding-right: 0px;
-
-        overflow:hidden; 
-        padding-left: -33px;
-    }
-
-    .col-2{
-        height: 100%;
-        @media (max-width: @screen-xs-max) { 
-            padding-top: 15px;
-            font-size: 16px;
-        }
-    }*/
-}
-
 .sparklineTotals, .sparklineTotalsUser {
     font-size: 11px;
 }
-
-/*.Stats {
-    .media-below-md({
-        margin-left: 16.66666667%;
-        margin-left: 20%;
-        float: left;
-    });
-}*/
 
 .StatsRow {
     margin-left: 0;
@@ -76,6 +45,32 @@
 
     div.pager-block{
 
+        #tablePager{
+            max-width: 90%;
+
+            @media screen and (max-width: 900px) {
+                max-width: 87%;
+            }
+
+            @media screen and (max-width: 800px) {
+                max-width: 85%;
+            }
+
+            @media screen and (max-width: 500px) {
+                max-width: 80%;
+            }
+
+            @media screen and (max-width: 400px) {
+                max-width: 70%;
+            }
+
+            a{
+                &:hover{
+                    color: #3f88ff;
+                }
+            }
+        }
+
         display: inline-block;
 
         i.fa-arrow-circle-left, i.fa-arrow-circle-right{
@@ -103,6 +98,7 @@
             cursor: default;
         }
 
+
         a.page {
             margin-bottom: 10px;
             margin-left: 2px;
@@ -110,15 +106,11 @@
             text-decoration: none;
             color: #2C5FB2;
 
-            font-size: 18px;
-
-            /*@media screen and (max-width: 1450px) {
-                font-size: 1.5vw;
+            &:hover{
+                color: #3f88ff;
             }
 
-            @media screen and (max-width: 600px) {
-                font-size: 13px;
-            }*/
+            font-size: 18px;
 
             &.correctAnswer {
                 i { color: @memo-green; }
@@ -142,8 +134,16 @@
 
         a{ color: #c7c7c7; }
 
-        a:hover {
+        a:hover, a:active, a:visited, a:link {
             text-decoration: none;
+        }
+
+        a:hover{ color: #9b9b9b; }
+
+        #syncVideo{
+            font-size: 24px;
+            margin-right: 2px;
+            position: relative; top: -1px; 
         }
     }
 }
