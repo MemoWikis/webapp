@@ -61,8 +61,12 @@
         e.preventDefault();
 
         $("#video-pager")
-            .find("[data-video-question-id]")
-            .removeClass("current");
+            .find(".current")
+            .removeClass("current")
+            .children("i")
+            .first()
+            .removeClass("fa-circle")
+            .addClass("fa-circle-o");
 
         menuItem
             .addClass("current")
