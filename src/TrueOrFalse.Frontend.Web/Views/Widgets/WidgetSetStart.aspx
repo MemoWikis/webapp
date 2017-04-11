@@ -10,7 +10,7 @@
             height: auto;
         }
         #mainDiv {
-            padding: 45px 19px;
+            padding: 45px 19px 55px 19px;
             text-align: center;
             color: #203256;
         }
