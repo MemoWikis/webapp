@@ -6,20 +6,13 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Head" runat="server">
     <style type="text/css">
-        html { height: auto;}
+        html {
+            height: auto;
+        }
         #mainDiv {
             padding: 45px 19px;
             text-align: center;
             color: #203256;
-
-            margin-bottom: 20px;
-            background-color: #f5f5f5;
-            border: 1px solid #e3e3e3;
-            border-radius: 4px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-            background-color: white;
-            margin-bottom: 5px;
         }
         .titleP {
             margin-bottom: 10px;

@@ -652,7 +652,17 @@ img {
 }
 
 #MasterWidget{
-    background-color: white;
+
+    &, & html {
+        background-color: transparent !important;
+    }
+
+    #WidgetContent {
+        .well;
+        margin-bottom: 0;
+        padding-bottom: 10px;
+        background-color: white;
+    }
 }
 
 #MasterLeftColumn {
