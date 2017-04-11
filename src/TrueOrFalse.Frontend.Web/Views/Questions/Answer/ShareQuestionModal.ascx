@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h3><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</h3>
+                <h3><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Frage als Widget Einbetten</h3>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -57,17 +57,17 @@
                             </label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12" style="margin-top: 18px; margin-bottom: 7px; border-bottom: 1px solid #e5e5e5;">
-                            <h4>Vorschau auf das Frage-Widget:</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" style="padding-top: 10px;" id="divPreviewSetWidget">
-                        </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="margin-top: 18px; margin-bottom: 7px; border-bottom: 1px solid #e5e5e5;">
+                        <h4>Vorschau auf das Frage-Widget:</h4>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 10px;" id="divPreviewSetWidget">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>

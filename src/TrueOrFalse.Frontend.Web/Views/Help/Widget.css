@@ -18,13 +18,29 @@
 }
 @media (min-width: 650px) {
 }
+.explanationBox {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+@media (max-width: 991px) {
+  .explanationBox {
+    margin-top: 20px;
+  }
+}
 p {
   font-size: 16px;
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
 h2 {
   margin-top: 45px;
+  font-size: 25px;
+}
+.explanationBox h3 {
+  margin-top: 45px;
 }
 h4 {
+  font-size: 20px;
   margin-top: 30px;
 }
 .teaserText {
@@ -41,7 +57,7 @@ p.screenshot {
   text-align: left;
 }
 p.screenshot img {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   margin-left: 25px;
   border-width: 2px;
   border-style: solid;
@@ -68,4 +84,137 @@ code {
   display: inline-block;
   padding: 2px 3px;
   white-space: normal;
+}
+#switchesPriceType {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+#switchesPriceType .btn {
+  min-width: 230px;
+  margin-top: 10px;
+}
+#switchesPriceType .btn-notSelected {
+  border: 2px solid #357ebd;
+}
+#switchesPriceType .buttonTitle {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+/***
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+***/
+/***
+Content
+***/
+.content {
+  padding: 10px 0;
+}
+/***
+Pricing table
+***/
+.pricing {
+  position: relative;
+  margin-bottom: 15px;
+  border: 3px solid #eee;
+}
+.pricing-active {
+  border: 3px solid #36d7ac;
+  margin-top: -10px;
+  box-shadow: 7px 7px rgba(54, 215, 172, 0.2);
+}
+.pricing:hover {
+  border: 3px solid #AFD534;
+}
+.pricing:hover h4 {
+  color: #003264;
+}
+.pricing-head {
+  text-align: center;
+}
+.pricing-head h3,
+.pricing-head h4 {
+  margin: 0;
+  line-height: normal;
+}
+.pricing-head h3 span,
+.pricing-head h4 span {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px;
+  font-style: italic;
+}
+.pricing-head h3 {
+  font-weight: 300;
+  color: #fafafa;
+  padding: 12px 0;
+  font-size: 27px;
+  background: #AFD534;
+  border-bottom: solid 1px #41b91c;
+}
+.pricing-head h4 {
+  color: #666666;
+  padding: 10px 0 5px;
+  font-size: 30px;
+  font-weight: 300;
+  background: #e4f0be;
+  border-bottom: solid 1px #f5f9e7;
+}
+.pricing-head-active h4 {
+  color: #36d7ac;
+}
+.pricing-head h4 i {
+  top: -3px;
+  font-size: 20px;
+  font-style: normal;
+  position: relative;
+}
+.pricing-head h4 span {
+  top: -10px;
+  font-size: 14px;
+  font-style: normal;
+  position: relative;
+}
+/*Pricing Content*/
+.pricing ul {
+  margin-bottom: 0px;
+}
+.pricing-content li {
+  color: #777;
+  font-size: 14px;
+  padding: 12px 7px 10px;
+  border-bottom: solid 1px #f5f9e7;
+  text-align: center;
+}
+/*Pricing Footer*/
+.pricing-footer {
+  color: #777;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  padding: 19px 20px 19px;
+  border-top: solid 2px #f5f9e7;
+}
+.pricing-footer p {
+  margin-top: -4px;
+}
+/*Priceing Active*/
+.price-active,
+.pricing:hover {
+  z-index: 9;
+}
+.price-active h4 {
+  color: #36d7ac;
+}
+.no-space-pricing .pricing:hover {
+  transition: box-shadow 0.2s ease-in-out;
+}
+.no-space-pricing .price-active .pricing-head h4,
+.no-space-pricing .pricing:hover .pricing-head h4 {
+  color: #36d7ac;
+  padding: 15px 0;
+  font-size: 80px;
+  transition: color 0.5s ease-in-out;
 }

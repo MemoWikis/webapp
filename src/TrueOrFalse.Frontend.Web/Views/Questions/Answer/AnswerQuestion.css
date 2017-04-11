@@ -352,6 +352,51 @@
   padding-left: 0;
   padding-right: 0;
 }
+.matchlist-leftelement {
+  text-align: center;
+}
+.matchlist-arrow {
+  position: relative;
+  top: 3px;
+}
+.matchlist-pairrow {
+  margin-bottom: 6px;
+  margin-top: 6px;
+}
+.matchlist-droppable {
+  border: 1px dashed;
+  border-radius: 5px;
+  height: 30px;
+  position: relative;
+  bottom: 5px;
+}
+.matchlist-hovered {
+  background-color: gainsboro;
+}
+#matchlist-rightelements {
+  padding: 18px;
+  white-space: nowrap;
+}
+.matchlist-rightelement {
+  padding-left: 4px;
+  padding-right: 4px;
+  border: 1px solid;
+  padding-top: 2px;
+  padding-bottom: 3px;
+  border-radius: 3px;
+  margin: 10px;
+  cursor: move;
+  background-color: white;
+  text-align: center;
+}
+.matchlist-mobilepairrow {
+  margin-bottom: 20px;
+}
+.matchlist-elementlabel {
+  text-align: left !important;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;

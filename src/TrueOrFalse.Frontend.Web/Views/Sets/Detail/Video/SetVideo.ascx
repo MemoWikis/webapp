@@ -3,11 +3,13 @@
 <input type="hidden" id="hddHideAddToKnowledge" value="<%= Model.HideAddToKnowledge %>"/>
 
 <div class="SetVideo">
-    <div class="row video-header">
-        <div class="col-xs-12">
-            <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
+    <% if(!Model.IsInWidget) { %>
+        <div class="row video-header">
+            <div class="col-xs-12">
+                <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
+            </div>
         </div>
-    </div>
+    <% } %>
     <div class="">
         <div class="row">
             <div class="col-md-12">
@@ -16,9 +18,7 @@
         </div>
     </div>
 
-
     <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
-    
 
     <div id="divBodyAnswer">
         <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 

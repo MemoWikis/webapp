@@ -78,23 +78,60 @@
   border-bottom: none;
   border-radius: 0;
 }
-#video-pager a.correctAnswer {
-  background-color: #AFD534;
-  color: white;
+#video-pager td {
+  vertical-align: top;
 }
-#video-pager a.wrongAnswer {
-  background-color: #B13A48;
-  color: white;
+#video-pager div.pager-block {
+  display: inline-block;
 }
-#video-pager .btn-default {
+#video-pager div.pager-block i.fa-arrow-circle-left,
+#video-pager div.pager-block i.fa-arrow-circle-right {
+  font-size: 25px;
+}
+#video-pager div.pager-block i.fa-arrow-circle-left {
+  padding-left: 5px;
+  padding-right: 7px;
+}
+#video-pager div.pager-block div.pages {
+  display: inline-block;
+}
+#video-pager div.pager-block a.disabled {
+  color: silver;
+  box-shadow: inset;
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: default;
+}
+#video-pager div.pager-block a.page {
   margin-bottom: 10px;
   margin-left: 0;
-  min-width: 36px;
   margin-right: 5px;
+  text-decoration: none;
+  color: #2C5FB2;
+  font-size: 18px;
+  /*@media screen and (max-width: 1450px) {
+                font-size: 1.5vw;
+            }
+
+            @media screen and (max-width: 600px) {
+                font-size: 13px;
+            }*/
+}
+#video-pager div.pager-block a.page.correctAnswer i {
+  color: #AFD534;
+}
+#video-pager div.pager-block a.page.wrongAnswer i {
+  color: #B13A48;
 }
 #video-pager .pause-buttons {
   padding-left: 10px;
-  padding-top: 3px;
+  padding-top: 0px;
+  vertical-align: top;
+  line-height: 25px;
+  font-size: 25px;
+}
+#video-pager .pause-buttons a {
+  color: #c7c7c7;
 }
 #video-pager .pause-buttons a:hover {
   text-decoration: none;

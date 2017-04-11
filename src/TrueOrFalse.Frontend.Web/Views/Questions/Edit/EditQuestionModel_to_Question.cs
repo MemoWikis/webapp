@@ -57,6 +57,12 @@ public class EditQuestionModel_to_Question
                 solutionModel3.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel3);
                 break;
+
+            case SolutionType.MatchList:
+                var solutionModelMatchList = new QuestionSolutionMatchList();
+                solutionModelMatchList.FillFromPostData(postData);
+                question.Solution = serializer.Serialize(solutionModelMatchList);
+                break;
         }
 
         return question;

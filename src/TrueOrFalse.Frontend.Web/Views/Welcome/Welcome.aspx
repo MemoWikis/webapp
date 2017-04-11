@@ -347,7 +347,7 @@
                     <p>
                         Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
                         Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
-                        Als Gründungsteam konzipieren, gestalten und programmieren wir memucho gemeinsam.
+                        Wir konzipieren, gestalten und programmieren memucho gemeinsam.
                     </p>
                     <p>
                         Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe Christof an: +49-1577-6825707.

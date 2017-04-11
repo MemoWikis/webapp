@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
@@ -165,6 +166,36 @@ public class Question : DomainEntity, ICreator
             reference.AdditionalInfo = existingReferenes[i].AdditionalInfo;
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
+    }
+
+    public static string AnswersAsHTML(string answerText, SolutionType solutionType)
+    {
+        if (solutionType == SolutionType.MatchList)
+        {
+            var answerObject = QuestionSolutionMatchList.deserializeMatchListAnswer(answerText);
+            if (answerObject.Pairs.Count == 0)
+                return "(keine Auswahl)";
+            string formattedMatchListAnswer = "</br><ul>";
+            foreach (var pair in answerObject.Pairs)
+            {
+                formattedMatchListAnswer += "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>";
+            }
+            formattedMatchListAnswer += "</ul>";
+            return formattedMatchListAnswer;
+        }
+
+        if (solutionType == SolutionType.MultipleChoice)
+        {
+            if (answerText == "")
+                return "(keine Auswahl)";
+            var builder = new StringBuilder(answerText);
+                string formattedMultipleChoiceAnswer = "</br> <ul> <li>" +
+                            builder.Replace("%seperate&xyz%", "</li><li>").ToString() +
+                            "</li> </ul>";
+            return formattedMultipleChoiceAnswer;
+        }
+
+        return answerText;
     }
 
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);

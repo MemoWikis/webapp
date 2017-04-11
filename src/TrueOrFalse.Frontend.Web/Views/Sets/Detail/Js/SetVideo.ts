@@ -2,9 +2,13 @@
 
     private fnOnChangeAnswerBody: () => void;
 
+    private _questionCount : number;
+
     constructor(fnOnChangeAnswerBody : () => void) {
 
         this.fnOnChangeAnswerBody = fnOnChangeAnswerBody;
+
+        this._questionCount = +$("#videoPages").attr("data-question-count");
 
         var self = this;
 
@@ -12,7 +16,45 @@
             self.LoadQuestionView(e, $(this));
         });
 
+        $("#videoPreviousQuestion").click(function (e)  {
+            e.preventDefault();
+
+            if ($(this).hasClass("disabled"))
+                return;
+
+            var currentIndex = self.GetCurrentIndex();
+
+            var menuItem = self.GetMenuItemByIndex(currentIndex - 1);;
+            self.LoadQuestionView(e, menuItem);
+
+        });
+
+        $("#videoNextQuestion").click(function(e) {
+            e.preventDefault();
+
+            if ($(this).hasClass("disabled"))
+                return;
+
+            var currentIndex = self.GetCurrentIndex();
+
+            var menuItem = self.GetMenuItemByIndex(currentIndex + 1);;
+            self.LoadQuestionView(e, menuItem);
+            
+        });
+
         this.InitAnswerBody();
+    }
+
+    EnableDisablePagerArrows(currentIndex : number) {
+        if (currentIndex === 1)
+            $("#videoPreviousQuestion").addClass("disabled");
+        else
+            $("#videoPreviousQuestion").removeClass("disabled");
+
+        if (currentIndex == this._questionCount)
+            $("#videoNextQuestion").addClass("disabled");
+        else
+            $("#videoNextQuestion").removeClass("disabled");
     }
 
     LoadQuestionView(e: JQueryEventObject, menuItem: JQuery) {
@@ -20,12 +62,14 @@
 
         $("#video-pager")
             .find("[data-video-question-id]")
-            .removeClass("btn-info")
             .removeClass("current");
 
         menuItem
-            .addClass("btn-info")
-            .addClass("current");
+            .addClass("current")
+            .children("i")
+            .first()
+            .removeClass("fa-circle-thin")
+            .addClass("fa-circle");
 
         var questionId = menuItem.attr("data-video-question-id");
 
@@ -40,6 +84,8 @@
                 AnswerQuestion.LogTimeForQuestionView();
                 this.ChangeAnswerBody(htmlResult);
             });
+
+        this.EnableDisablePagerArrows(+menuItem.attr("data-index"));
     }
 
     static ClickItem(questionId : number) {
@@ -86,5 +132,13 @@
 
     GetCurrentMenuItem(): JQuery {
         return $("#video-pager").find("a.current").first();
+    }
+
+    GetCurrentIndex(): number {
+        return +this.GetCurrentMenuItem().attr("data-index");
+    }
+
+    GetMenuItemByIndex(index : number) : JQuery {
+        return $("#video-pager").find("a[data-index=" + index +"]").first();
     }
 }

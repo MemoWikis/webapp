@@ -27,6 +27,8 @@
                 answerEntry = new SolutionTypeSequence(this); break;
             case SolutionType.MultipleChoice:
                 answerEntry = new SolutionTypeMultipleChoice(this); break;
+            case SolutionType.MatchList:
+                answerEntry = new SolutionTypeMatchList(this); break;
         };
 
         this.AnswerQuestion = answerEntry.AnswerQuestion;
