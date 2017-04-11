@@ -27,6 +27,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
         public static string HelpWidget() => GetUrlHelper().Action("Widget", HelpController);
+        public static string HelpWidgetWordpress() => GetUrlHelper().Action("WidgetInWordpress", HelpController);
+        public static string HelpWidgetMoodle() => GetUrlHelper().Action("WidgetInMoodle", HelpController);
+        public static string HelpWidgetBlackboard() => GetUrlHelper().Action("WidgetInBlackboard", HelpController);
         public static string WidgetPricing() => GetUrlHelper().Action("WidgetPricing", HelpController);
 
         public const string AccountController = "Account";

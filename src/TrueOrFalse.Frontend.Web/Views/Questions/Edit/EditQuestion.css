@@ -244,3 +244,34 @@ select.form-control {
 #AddReferenceControls .Reference {
   margin-bottom: 5px;
 }
+@media (max-width: 479px) {
+  i {
+    display: none;
+  }
+}
+#matchlist #pairs .matchlist-leftelement {
+  width: 48%;
+}
+#matchlist #pairs .matchlist-arrow {
+  margin-right: 2%;
+  margin-left: 2%;
+}
+#matchlist #pairs .matchlist-rightpairelement {
+  width: 40%;
+}
+#matchlist #pairs .removeButton {
+  width: 2%;
+}
+#matchlist #matchlist-button #addPair {
+  width: 48%;
+}
+#matchlist #matchlist-button #responseModalButton {
+  width: 40%;
+  margin-left: 5.8%;
+}
+#matchlist #responseModal .modal-content {
+  margin-top: 50%;
+}
+#matchlist #responseModal .modal-content .matchlist-rightelement {
+  width: 100%;
+}

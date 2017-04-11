@@ -38,6 +38,10 @@
             <b>Memucho</b><br/>
             <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br/>
             <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br/>
+            &nbsp;<br/>
+            <a href="<%= Links.HelpWidget() %>">Übersicht Widgets</a><br/>
+            <a href="<%= Links.WidgetPricing() %>">Angebote und Preise für Widgets</a><br/>
+            &nbsp;<br/>
             <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
             <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
             <a href="<%=Links.Jobs() %>">Jobs</a><br/>

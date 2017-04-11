@@ -13,6 +13,7 @@ public class QuestionSolutionExact : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
+        answer = answer.Trim();
         var solutionMetadata = new SolutionMetadata{Json = MetadataSolutionJson};
         if (solutionMetadata.IsDate)
         {
