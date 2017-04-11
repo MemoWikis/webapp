@@ -573,6 +573,12 @@
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js">
       <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
     </Content>

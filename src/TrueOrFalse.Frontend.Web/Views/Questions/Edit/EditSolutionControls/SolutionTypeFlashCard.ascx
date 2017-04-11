@@ -15,5 +15,6 @@
         <div id="wmd-preview-FlashCard" class="wmd-panel wmd-preview"></div>
     </div>
 </div>
+<br>
 
 <script src="/Views/Questions/Edit/EditSolutionControls/SolutionTypeFlashCard.js" type="text/javascript"></script>
