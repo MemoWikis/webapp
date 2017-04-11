@@ -12,6 +12,7 @@
     MOBILE SUBHEADER / #MobileSubHeader
     MASTER MAIN CONTENT / #MasterMainContent
     MASTER FOOTER / #MasterFooter
+    MASTER WIDGET
     SPONSOR
     VALIDATION
     BUTTONS
@@ -648,21 +649,6 @@ img {
             width: 80%;
         });
     }
-
-}
-
-#MasterWidget{
-
-    &, & html {
-        background-color: transparent !important;
-    }
-
-    #WidgetContent {
-        .well;
-        margin-bottom: 0;
-        padding-bottom: 10px;
-        background-color: white;
-    }
 }
 
 #MasterLeftColumn {
@@ -673,8 +659,6 @@ img {
         width: 20%;
     });
 }
-
-
 
 /* MASTER FOOTER
 ----------------------------------------------------------*/
@@ -746,10 +730,28 @@ img {
     } 
 }
 
+/* MASTER WIDGET
+----------------------------------------------------------*/
+
+#MasterWidget{
+
+    &, & html {
+        background-color: transparent !important;
+    }
+
+    #WidgetContent {
+        .well;
+        margin-bottom: 0;
+        //padding: 30px 30px 10px 30px;
+        padding-bottom: 10px;
+        background-color: white;
+    }
+}
+
 /* SPONSOR
 ----------------------------------------------------------*/
 
-.EduPartnerLeftWrapper {
+.EduPartnerLeftWrapper {//Avoid "sponsor" and the like in css classes because of ad blockers
     font-size: 90%;
     margin-top: 50px;
     text-align: center;
