@@ -28,13 +28,20 @@
 
             <div class="well">
 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Lerninhalte in die eigene Webseite einbinden</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Inhalte in die eigene Webseite einbinden</span></h1>
                 <p class="teaserText">
-                    Die Lerntechnologie und die Lerninhalte von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
+                    Die Inhalte und Technologie von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
                     Egal ob auf dem privaten Blog, der Vereins- oder Unternehmensseite, oder dem Schul- oder Lernmanagementsystem: Nötig ist eine Zeile HTML-Code, 
                     die du einfach von memucho kopieren kannst.
                 </p>
                    
+                
+                <ul class="teaserText">
+                    <li><a href="#quizOnPage">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</a></li>
+                    <li><a href="#video">Video mit passendem Quiz einbinden</a></li>
+                    <li><a href="#single">Einzelne Fragen per Widget einbinden</a></li>
+                    <li><a href="#terms">Nutzung für Einzelpersonen und Organisationen</a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -46,7 +53,7 @@
             <div class="well explanationBox">
 
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</span>
+                    <a name="quizOnPage"></a><span class="ColoredUnderline GeneralMemucho">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</span>
                 </h2>
                 <p>
                     Du kannst einen Quiz zu einem ganzen Fragesatz auf deiner Webseite einbinden. So können deine Webseitenbesucher ihr Wissen testen - und das macht vielen Spaß.
@@ -111,7 +118,7 @@
             <div class="well explanationBox">
 
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Video mit passendem Quiz einbinden</span>
+                    <a name="video"></a><span class="ColoredUnderline GeneralMemucho">Video mit passendem Quiz einbinden</span>
                 </h2>
                 <p>
                     memucho verbindet Videos direkt mit den passenden Fragen. So können Nutzer ein Video sehen, 
@@ -176,7 +183,7 @@
         <div class="col-xs-12">
             <div class="well explanationBox">
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Einzelne Fragen per Widget einbinden</span>
+                    <a name="single"></a><span class="ColoredUnderline GeneralMemucho">Einzelne Fragen per Widget einbinden</span>
                 </h2>
                 <p>
                     Du kannst auch eine einzelne Frage nahtlos auf deiner Webseite einbinden. So kannst du zum Beispiel bei einem Blog-Beitrag den Text auflockern und animierst 
@@ -233,7 +240,7 @@
         <div class="col-xs-12">
             <div class="well explanationBox">
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Nutzung für Einzelpersonen und Organisationen</span>
+                    <a name="terms"></a><span class="ColoredUnderline GeneralMemucho">Für Einzelpersonen und Organisationen</span>
                 </h2>
                 <p>
                     Die Nutzung der memucho-Widgets ist <strong>für Einzelpersonen kostenlos und werbefrei</strong>. 
@@ -241,7 +248,6 @@
                 </p>
                 <p>
                     Für Organisationen haben wir verschiedene Angebote: &nbsp; <a href="<%= Links.WidgetPricing() %>" class="btn btn-default">Zu den Angeboten und Preisen</a>
-                    
                 </p>
 
             </div>

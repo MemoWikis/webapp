@@ -1,4 +1,6 @@
-﻿class SetVideo {
+﻿var player: YT.Player;
+
+class SetVideo {
 
     private fnOnChangeAnswerBody: () => void;
 
@@ -42,6 +44,15 @@
             
         });
 
+        $("#syncVideoWithQuestion").click(function(e) {
+            e.preventDefault();
+
+            var timecode = self.GetTimecodeOffCurrentMenu();
+
+            player.seekTo(timecode + 2, true);
+            player.playVideo();
+        });
+
         this.InitAnswerBody();
     }
 
@@ -61,8 +72,12 @@
         e.preventDefault();
 
         $("#video-pager")
-            .find("[data-video-question-id]")
-            .removeClass("current");
+            .find(".current")
+            .removeClass("current")
+            .children("i")
+            .first()
+            .removeClass("fa-circle")
+            .addClass("fa-circle-o");
 
         menuItem
             .addClass("current")
@@ -140,5 +155,9 @@
 
     GetMenuItemByIndex(index : number) : JQuery {
         return $("#video-pager").find("a[data-index=" + index +"]").first();
+    }
+
+    GetTimecodeOffCurrentMenu() : number{
+        return +$("#video-pager").find("a.current").first().attr("data-video-pause-at");
     }
 }

@@ -3,7 +3,7 @@
 <div class="Box" id="video-pager" style="padding-top: 10px;">
     <div class="row">
         <div class="col-xs-12 pager-block">            
-            <table style="float: left; max-width: 90%">
+            <table style="float: left;" id="tablePager">
                 <tr>
                     <td>
                         <a id="videoPreviousQuestion" href="#"><i class="fa fa-arrow-circle-left" aria-hidden="true" style=""></i></a>
@@ -29,29 +29,27 @@
                     </td>
                     <td><a id="videoNextQuestion" href="#"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></td>
                 </tr>
-                <div class="pause-buttons" style="display: inline-block; float:right">
-                    <a href="#">
-                        <i class="fa fa-pause-circle-o show-tooltip hide2" 
-                            id="stopPausingVideo"
-                            data-original-title="Nicht mehr automatisch pausieren"
-                            aria-hidden="true"></i>
-                    </a>
-            
-                    <a href="#">
-                        <i class="fa fa-play-circle-o show-tooltip hide2" 
-                            id="startPausingVideo"
-                            data-original-title="Automatisch pausieren"
-                            aria-hidden="true"></i>
-                    </a>
-                            
-<%--                    <a href="#">
-                        <i class="fa fa-refresh show-tooltip" 
-                            id="asdfsdf"
-                            data-original-title="Automatisch pausieren"
-                            aria-hidden="true"></i>
-                    </a>--%>
-                </div>
             </table>
+            <div class="pause-buttons" style="display: inline-block; float:right">
+                <a href="#" id="syncVideo">
+                    <i class="fa fa-refresh show-tooltip" 
+                        id="syncVideoWithQuestion"
+                        data-original-title="Automatisch pausieren"
+                        aria-hidden="true"></i>
+                </a>
+                <a href="#">
+                    <i class="fa fa-pause-circle-o show-tooltip hide2" 
+                        id="stopPausingVideo"
+                        data-original-title="Nicht mehr automatisch pausieren"
+                        aria-hidden="true"></i>
+                </a>
+                <a href="#">
+                    <i class="fa fa-play-circle-o show-tooltip hide2" 
+                        id="startPausingVideo"
+                        data-original-title="Automatisch pausieren"
+                        aria-hidden="true"></i>
+                </a>
+            </div>
         </div>
     </div>
     

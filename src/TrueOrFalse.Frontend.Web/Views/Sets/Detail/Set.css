@@ -28,39 +28,10 @@
     margin-right: 10px;
   }
 }
-.question-row {
-  /*.col-0{
-        img{
-            border-radius:5px;
-        }
-    }
-
-    .col-1{
-        padding-right: 0px;
-
-        overflow:hidden; 
-        padding-left: -33px;
-    }
-
-    .col-2{
-        height: 100%;
-        @media (max-width: @screen-xs-max) { 
-            padding-top: 15px;
-            font-size: 16px;
-        }
-    }*/
-}
 .sparklineTotals,
 .sparklineTotalsUser {
   font-size: 11px;
 }
-/*.Stats {
-    .media-below-md({
-        margin-left: 16.66666667%;
-        margin-left: 20%;
-        float: left;
-    });
-}*/
 .StatsRow {
   margin-left: 0;
   margin-right: 0;
@@ -84,6 +55,32 @@
 #video-pager div.pager-block {
   display: inline-block;
 }
+#video-pager div.pager-block #tablePager {
+  max-width: 90%;
+}
+@media screen and (max-width: 900px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 87%;
+  }
+}
+@media screen and (max-width: 800px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 85%;
+  }
+}
+@media screen and (max-width: 500px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 80%;
+  }
+}
+@media screen and (max-width: 400px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 70%;
+  }
+}
+#video-pager div.pager-block #tablePager a:hover {
+  color: #3f88ff;
+}
 #video-pager div.pager-block i.fa-arrow-circle-left,
 #video-pager div.pager-block i.fa-arrow-circle-right {
   font-size: 25px;
@@ -91,6 +88,9 @@
 #video-pager div.pager-block i.fa-arrow-circle-left {
   padding-left: 5px;
   padding-right: 7px;
+}
+#video-pager div.pager-block i.fa-arrow-circle-right {
+  padding-left: 7px;
 }
 #video-pager div.pager-block div.pages {
   display: inline-block;
@@ -104,18 +104,14 @@
 }
 #video-pager div.pager-block a.page {
   margin-bottom: 10px;
-  margin-left: 0;
-  margin-right: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
   text-decoration: none;
   color: #2C5FB2;
   font-size: 18px;
-  /*@media screen and (max-width: 1450px) {
-                font-size: 1.5vw;
-            }
-
-            @media screen and (max-width: 600px) {
-                font-size: 13px;
-            }*/
+}
+#video-pager div.pager-block a.page:hover {
+  color: #3f88ff;
 }
 #video-pager div.pager-block a.page.correctAnswer i {
   color: #AFD534;
@@ -133,8 +129,20 @@
 #video-pager .pause-buttons a {
   color: #c7c7c7;
 }
-#video-pager .pause-buttons a:hover {
+#video-pager .pause-buttons a:hover,
+#video-pager .pause-buttons a:active,
+#video-pager .pause-buttons a:visited,
+#video-pager .pause-buttons a:link {
   text-decoration: none;
+}
+#video-pager .pause-buttons a:hover {
+  color: #9b9b9b;
+}
+#video-pager .pause-buttons #syncVideo {
+  font-size: 24px;
+  margin-right: 2px;
+  position: relative;
+  top: -1px;
 }
 div.video-header h4 {
   margin-top: -10px;

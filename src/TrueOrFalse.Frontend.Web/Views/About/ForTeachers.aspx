@@ -343,7 +343,7 @@
                         <p>
                             <strong>Lisa</strong><br/>
                             E-Mail: <span class="mailme">lisa at memucho dot de</span><br/>
-                            Telefon: 01512-6503370<br/>
+                            Telefon: 0151 - 265 033 70<br/>
                         </p>
                         
                     </div>
