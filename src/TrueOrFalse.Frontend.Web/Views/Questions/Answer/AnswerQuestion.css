@@ -416,16 +416,11 @@
 #flashCardContent {
   height: 250px;
   width: 400px;
-}
-#flashCard-front {
-  background-color: beige;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 250px;
-}
-#flashCard-back {
   display: table-cell;
   vertical-align: middle;
+  background-color: beige;
+}
+#flashCard-front {
   background-color: beige;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
