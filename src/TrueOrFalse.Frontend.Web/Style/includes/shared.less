@@ -73,6 +73,14 @@
     font-weight: bold;
 }
 
+.fontSizeNormal {
+    font-size: @font-size-normal;
+}
+
+.fontSizeSmall {
+    font-size: @font-size-small;
+}
+
 .greyed {
     color: @global-text-color-grey;
 }
@@ -298,9 +306,14 @@
         }
     }
 
-    .ItemInfo .Pin {
-        padding-left: 1px;
-        display: inline-block;
+    .ItemInfo {
+
+        font-size: @font-size-small;
+
+        .Pin {
+            padding-left: 1px;
+            display: inline-block;
+        }
     }
 
     .BottomBar {
@@ -400,10 +413,7 @@
     }
     
     .ItemInfo {
-
         margin-bottom: 8px;
-        
-        
     }
 
     .ItemText {

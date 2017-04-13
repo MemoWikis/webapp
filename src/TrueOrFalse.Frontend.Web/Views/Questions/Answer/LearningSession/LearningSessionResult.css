@@ -97,19 +97,26 @@
   background-color: lightgray;
 }
 .SummaryText {
+  font-size: 16px;
   margin: 40px 0;
 }
 .SummaryText p {
   margin-bottom: 5px;
   font-weight: normal;
 }
+.ResultDescription {
+  font-size: 16px;
+}
+.ResultDescription .label {
+  max-width: 100%;
+}
 .sumPctCol {
   width: auto!important;
   padding-right: 0;
 }
 .sumPct {
-  text-align: right;
-  padding: 5px 8px;
+  text-align: center;
+  padding: 8px;
   border-right-width: 0px;
   border-right-style: solid;
   color: white;
@@ -142,7 +149,7 @@
   margin-bottom: 40px;
 }
 .QuestionLearned {
-  margin-top: 4px;
+  margin-bottom: 7px;
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 5px 10px;
@@ -459,19 +466,7 @@
   margin: 0;
 }
 #WidgetSetResult {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  background-color: white;
-}
-#WidgetSetResult blockquote {
-  border-color: #ddd;
-  border-color: rgba(0, 0, 0, 0.15);
+  margin-bottom: 60px;
 }
 #WidgetSetResult .buttonRow {
   margin-top: 30px;
