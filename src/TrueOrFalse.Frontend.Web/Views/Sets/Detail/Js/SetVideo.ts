@@ -53,7 +53,44 @@ class SetVideo {
             player.playVideo();
         });
 
+        $("#youtubeAnswerQuestion").click(function(e) {
+            e.preventDefault();
+
+            self.ScrollAnswerBodyIntoView();
+        });
+
+        $("#youtubeContinueVideo").click(function (e) {
+            e.preventDefault();
+
+            self.HideYoutubeOverlay();
+
+            player.playVideo();
+        });
+
+
         this.InitAnswerBody();
+    }
+
+    ShowYoutubeOverlay() {
+        $(".youtubeOverlay").attr("display", "block");
+        $(".youtubeOverlay").fadeIn(250);
+    }
+
+    HideYoutubeOverlay() {
+        $(".youtubeOverlay").fadeOut(250);
+    }
+
+    ScrollAnswerBodyIntoView() {
+
+        var offset = $("#video-pager").offset(); 
+
+        offset.left -= 20;
+        offset.top -= 20;
+
+        $('html, body').animate({
+            scrollTop: offset.top,
+            scrollLeft: offset.left
+        });        
     }
 
     EnableDisablePagerArrows(currentIndex : number) {
@@ -123,8 +160,8 @@ class SetVideo {
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
 
-        answerEntry.OnCorrectAnswer(() => { this.HandleCorrectAnswer(); });
-        answerEntry.OnWrongAnswer(() => { this.HandleWrongAnswer(); });
+        answerEntry.OnCorrectAnswer(() => { this.HandleCorrectAnswer(); this.HideYoutubeOverlay(); });
+        answerEntry.OnWrongAnswer(() => { this.HandleWrongAnswer(); this.HideYoutubeOverlay(); });
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
