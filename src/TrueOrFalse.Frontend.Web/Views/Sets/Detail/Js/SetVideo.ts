@@ -49,7 +49,7 @@ class SetVideo {
 
             var timecode = self.GetTimecodeOffCurrentMenu();
 
-            player.seekTo(timecode + 2, true);
+            player.seekTo(timecode - 2, true);
             player.playVideo();
         });
 

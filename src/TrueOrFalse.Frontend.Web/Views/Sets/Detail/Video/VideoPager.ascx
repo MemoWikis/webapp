@@ -6,7 +6,7 @@
             <table style="float: left;" id="tablePager">
                 <tr>
                     <td>
-                        <a id="videoPreviousQuestion" href="#"><i class="fa fa-arrow-circle-left" aria-hidden="true" style=""></i></a>
+                        <a id="videoPreviousQuestion" href="#" data-original-title="Vorherige Frage" class="show-tooltip"><i class="fa fa-arrow-circle-left" aria-hidden="true" style=""></i></a>
                     </td>
                     <td>
                         <div class="pages" id="videoPages" data-question-count="<%= Model.QuestionsInSet.Count %>">
@@ -21,13 +21,15 @@
                                 var classSymbol = isCurrent ? "fa-circle" : "fa-circle-thin";
                             %>
                     
-                                <a href="#" class="page <%= classLink %>" data-index="<%= i %>" data-video-question-id="<%= question.Id %>" data-video-pause-at="<%= questionInSet.Timecode %>">
+                                <a href="#" class="page <%= classLink %> show-tooltip" data-index="<%= i %>" 
+                                   data-original-title="Zeige Frage (bei <%= questionInSet.FormatedTimecode()  %>)"
+                                   data-video-question-id="<%= question.Id %>" data-video-pause-at="<%= questionInSet.Timecode %>" >
                                     <i class="fa <%= classSymbol %>" aria-hidden="true"></i>
                                 </a>
                             <% } %>
                         </div>                                        
                     </td>
-                    <td><a id="videoNextQuestion" href="#"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></td>
+                    <td><a id="videoNextQuestion" href="#" data-original-title="Nächste Frage" class="show-tooltip"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a></td>
                 </tr>
             </table>
             <div class="pause-buttons" style="display: inline-block; float:right">
