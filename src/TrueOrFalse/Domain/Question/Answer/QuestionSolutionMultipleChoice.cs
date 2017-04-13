@@ -39,9 +39,9 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries);
-        string[] Solutions = this.CorrectAnswer().Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries);
-        return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
+        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        string[] Solutions = this.CorrectAnswer().Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        return Answers.OrderBy(t => t).SequenceEqual(Solutions.OrderBy(t => t));
     }
 
     public override string CorrectAnswer()
