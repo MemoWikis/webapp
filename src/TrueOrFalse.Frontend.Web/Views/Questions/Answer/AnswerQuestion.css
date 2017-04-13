@@ -355,45 +355,58 @@
 .matchlist-leftelement {
   text-align: center;
 }
-.matchlist-arrow {
-  position: relative;
-  top: 3px;
-}
 .matchlist-pairrow {
   margin-bottom: 6px;
   margin-top: 6px;
+  display: flex;
+  align-content: center;
+  align-items: center;
 }
 .matchlist-droppable {
   border: 1px dashed;
   border-radius: 5px;
   height: 30px;
-  position: relative;
-  bottom: 5px;
+  padding: unset;
+}
+.matchlist-divider {
+  border-bottom: 1px solid;
+  margin: 20px 25% 0 25%;
 }
 .matchlist-hovered {
   background-color: gainsboro;
 }
 #matchlist-rightelements {
-  padding: 18px;
-  white-space: nowrap;
+  margin-top: 20px;
 }
 .matchlist-rightelement {
+  display: inline-block;
   padding-left: 4px;
   padding-right: 4px;
   border: 1px solid;
   padding-top: 2px;
   padding-bottom: 3px;
   border-radius: 3px;
-  margin: 10px;
+  margin: 10px 0 0 10px;
   cursor: move;
   background-color: white;
   text-align: center;
+  white-space: pre-wrap;
+  float: right;
+}
+.matchlist-droppable-dropped {
+  height: initial;
+  padding: 2px;
+}
+.matchlist-rightelement-dropped {
+  position: static !important;
+  margin: unset;
+  width: 100%;
 }
 .matchlist-mobilepairrow {
   margin-bottom: 20px;
 }
 .matchlist-elementlabel {
-  text-align: left !important;
+  text-align: left;
   margin-bottom: 5px;
   font-size: 16px;
 }

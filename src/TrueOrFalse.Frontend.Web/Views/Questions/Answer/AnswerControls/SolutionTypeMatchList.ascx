@@ -31,29 +31,38 @@
         .html("<%= elementRight.Text %>")
         .draggable({
             containment: '#AnswerBody',
-            stack: ".matchlist-rightelement",
+            stack: '.matchlist-rightelement',
             cursor: 'move',
-            helper: "clone",
+            helper: 'clone',
             start: function (event, ui) {
-                $(ui.helper).css("z-index", 100);
+                $(ui.helper).css('z-index', 100);
             },
             revert: 'true'
-    });
+        });
+    var droppableWidth = $('.matchlist-droppable').first().width();
+    rightDragElement.width(droppableWidth);
     $("#matchlist-rightelements").append(rightDragElement);
     <% } %>
 
     var answerCount = 0;
     function handleElementDrop(event, ui) {
         ui.helper.data('dropped', true);
+
         if ($(this).attr('id') !== undefined)
             if ($('#rightElementResponse-' + $(this).attr('id').split("-")[1]).attr("id") !== $(ui.draggable).attr("id"))
                 $('#rightElementResponse-' + $(this).attr('id').split("-")[1]).remove();
+
         if (ui.draggable.hasClass('helper-clone')) {
             $(this).append(ui.draggable);
-            ui.draggable.position({ of: $(this), my: 'center', at: 'center' });
-            var oldIdElementLeft = 'leftElementResponse-' + ui.draggable.attr('id').split("-")[1];
-            $('#' + oldIdElementLeft).removeAttr('id');
-            $(this).attr('id', oldIdElementLeft);
+            $(ui.draggable).addClass("matchlist-rightelement-dropped");
+            $(this).addClass('matchlist-droppable-dropped');
+
+            $(ui.draggable).width('');
+
+            var oldElementLeftId = 'leftElementResponse-' + ui.draggable.attr('id').split("-")[1];
+            $('#' + oldElementLeftId).removeAttr('id');
+            $(this).attr('id', oldElementLeftId);
+
         } else {
             var helperClone = ui.helper.clone();
             helperClone.draggable({
@@ -62,6 +71,14 @@
                 cursor: 'move',
                 start: function (event, ui) {
                     ui.helper.data('dropped', false);
+                    $(this).removeClass('matchlist-rightelement-dropped');
+
+                    var oldElementLeftId = 'leftElementResponse-' + $(this).attr('id').split('-')[1];
+                    var oldElementLeftWidth = $('#' + oldElementLeftId).width();
+                    $(this).width(oldElementLeftWidth);
+
+                    $('#' + oldElementLeftId).removeClass('matchlist-droppable-dropped');
+
                 },
                 stop: function (event, ui) {
                     if (!ui.helper.data('dropped')) {
@@ -72,14 +89,17 @@
             });
             helperClone.addClass('helper-clone');
             $(this).append(helperClone);
-            helperClone.css({height: "26px", width: "98%" });
-            helperClone.position({ of: $(this), my: 'center', at: 'center' });
+            helperClone.addClass('matchlist-rightelement-dropped');
+            $(this).addClass('matchlist-droppable-dropped');
+            $(helperClone).width('');
+
             if ($(this).attr('id') !== undefined) {
                 helperClone.attr('id', 'rightElementResponse-' + $(this).attr('id').split("-")[1]);
             } else {
                 helperClone.attr('id', 'rightElementResponse-' + answerCount);
                 $(this).attr('id', 'leftElementResponse-' + answerCount);
             }
+
             answerCount++;
         }
     }
