@@ -19,7 +19,7 @@ public class LicenseQuestionRepo
                 LicenseLink = @"https://creativecommons.org/licenses/by/4.0/legalcode",
                 LicenseShortDescriptionLink = @"https://creativecommons.org/licenses/by/4.0/deed.de",
                 DisplayTextShort = "CC BY 4.0", //should/could be the image
-                DisplayTextFull = @"Du kannst diesen Beitrag frei verwenden und verändern, solange du den Autor angibst und die Lizenz verlinkst 
+                DisplayTextFull = @"Dieser Beitrag steht unter der Lizenz 'Creative Commons: Namensnennung 4.0 International'. Du kannst ihn frei verwenden und verändern, solange du den Autor angibst und die Lizenz verlinkst 
                                     (vgl. <a href='https://creativecommons.org/licenses/by/4.0/deed.de' target='_blank'>die Kurzfassung</a>
                                     und <a href='https://creativecommons.org/licenses/by/4.0/legalcode' target='_blank'>den ausführlichen Lizenztext</a>).",
                 AuthorRequired = true,
