@@ -34,9 +34,7 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
     
-    <%
-        var hideAddToKnowledge = Model.HideAddToKnowledge ? "?hideAddToKnowledge=true" : "";
-    %>
+
     <div id="mainDiv">
         <p class="titleP">
             <%= Model.SetName %>
@@ -45,7 +43,7 @@
             <%= Model.SetText %>
         </p>
         <p class="buttonP">
-            <a href="/widget/fragesatz/<%= Model.SetId + hideAddToKnowledge %>" class="btn btn-lg btn-primary">
+            <a href="<%= Model.StartSessionUrl %>" class="btn btn-lg btn-primary">
                 <i class="fa fa-play-circle">&nbsp;&nbsp;</i>Teste Dein Wissen
             </a>
         </p>

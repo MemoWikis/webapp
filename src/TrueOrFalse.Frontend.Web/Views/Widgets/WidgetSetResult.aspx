@@ -32,7 +32,7 @@
             </div>
     
             <div class="buttonRow">
-                <a href="<%= Model.TestSessionResultModel.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
+                <a href="<%= Model.StartSessionUrl %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
                         title="Neue Fragen <% if (Model.TestSessionResultModel.TestSession.IsSetSession) Response.Write("aus demselben Fragesatz");
                                                     else if (Model.TestSessionResultModel.TestSession.IsSetsSession) Response.Write("aus denselben Fragesätzen");
                                                     else if (Model.TestSessionResultModel.TestSession.IsCategorySession) Response.Write("zum selben Thema");%>
