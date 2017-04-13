@@ -1,14 +1,5 @@
 ﻿$(function () {
-
-    //$('#btnSelectionToSet').tooltip();
-    //$('#btnSelectionDelete').tooltip();
     $('#btnExport').tooltip();
-
-    $('.userPopover').popover({ content: getPopupOverContent });
-    function getPopupOverContent() {
-        return "123, <b>456</b>";  
-    }
-
 });
 
 /************************/
