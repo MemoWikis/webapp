@@ -34,7 +34,7 @@
                 <a href="#" id="syncVideo">
                     <i class="fa fa-refresh show-tooltip" 
                         id="syncVideoWithQuestion"
-                        data-original-title="Automatisch pausieren"
+                        data-original-title="Springe zur Stelle im Video"
                         aria-hidden="true"></i>
                 </a>
                 <a href="#">
