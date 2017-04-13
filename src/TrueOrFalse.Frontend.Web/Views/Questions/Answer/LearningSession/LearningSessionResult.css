@@ -97,19 +97,26 @@
   background-color: lightgray;
 }
 .SummaryText {
+  font-size: 16px;
   margin: 40px 0;
 }
 .SummaryText p {
   margin-bottom: 5px;
   font-weight: normal;
 }
+.ResultDescription {
+  font-size: 16px;
+}
+.ResultDescription .label {
+  max-width: 100%;
+}
 .sumPctCol {
   width: auto!important;
   padding-right: 0;
 }
 .sumPct {
-  text-align: right;
-  padding: 5px 8px;
+  text-align: center;
+  padding: 8px;
   border-right-width: 0px;
   border-right-style: solid;
   color: white;
@@ -142,7 +149,7 @@
   margin-bottom: 40px;
 }
 .QuestionLearned {
-  margin-top: 4px;
+  margin-bottom: 7px;
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 5px 10px;
@@ -292,6 +299,9 @@
   .SessionTitle {
     padding-right: 10px;
   }
+}
+.EduPartnerWrapper {
+  clear: left;
 }
 @media (min-width: 480px) {
   .EduPartnerWrapper {
@@ -455,23 +465,13 @@
   font-size: 100%;
   margin: 0;
 }
-.EduPartnerWrapper {
-  clear: left;
+#WidgetSetResult {
+  margin-bottom: 60px;
 }
-/*.SessionTitle {
-    display: table;
-    
+#WidgetSetResult .buttonRow {
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
-
-.CollectionType {
-    display: table-cell;
-    width:1%;
-    white-space:nowrap;
+#WidgetSetResult #divIndicatorAverageText {
+  margin-bottom: 30px;
 }
-
-.LabelWrapper {
-    display: table-cell;
-    .label {
-        max-width: 100%;
-    }
-}*/

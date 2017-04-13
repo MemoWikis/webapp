@@ -26,6 +26,23 @@ public class TestSessionResultModel : BaseModel
 
     public bool IsInWidget;
 
+    public virtual int TotalPossibleQuestions
+    {
+        get
+        {
+            if (TestSession.IsSetSession)
+                return TestedSet.Questions().Count;
+
+            if (TestSession.IsSetsSession)
+                return TestedSets.Sum(s => s.Questions().Count); //DB is accessed
+
+            if (TestSession.IsCategorySession)
+                return GetQuestionsForCategory.AllIncludingQuestionsInSet(TestedCategory.Id).Count;
+
+            throw new Exception("unknown session type");
+        }
+    }
+
     public TestSessionResultModel(TestSession testSession)
     {
         TestSession = testSession;

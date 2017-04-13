@@ -30,15 +30,15 @@
     </div>
     <div id="divIndicatorAverageText">
         <p class="show-tooltip" title="<%= tooltip %>">
-            Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>%)
+            Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>% richtig)
         </p>
     </div>
 </div>
 
 
 <div id="detailedAnswerAnalysis">
-    <h3>Auswertung deiner Antworten</h3>
-    <p class="greyed" style="font-size: 11px;">
+    <h3 style="margin-bottom: 25px">Auswertung deiner Antworten</h3>
+    <p class="greyed fontSizeSmall">
         <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
     </p>
     <% foreach (var step in Model.Steps)

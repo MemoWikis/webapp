@@ -385,6 +385,7 @@
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Images\Logo\LogoSmallBlue.png" />
     <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
     <Content Include="Images\Screenshots\QuestionEmbedModal.png" />
     <Content Include="Images\Screenshots\SetVideoEmbedLink.png" />
@@ -2492,9 +2493,6 @@
     </Content>
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">
       <DependentUpon>CategoryDelete.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
-      <DependentUpon>SetVideo.ts</DependentUpon>
     </Content>
     <Content Include="Views\About\ForTeachers.aspx" />
     <Content Include="Views\Categories\Js\CategoryDelete.js.map">

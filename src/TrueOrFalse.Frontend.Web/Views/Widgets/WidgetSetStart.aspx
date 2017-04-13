@@ -6,9 +6,11 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Head" runat="server">
     <style type="text/css">
-        html { height: auto;}
+        html {
+            height: auto;
+        }
         #mainDiv {
-            padding: 45px 20px;
+            padding: 45px 19px 55px 19px;
             text-align: center;
             color: #203256;
         }

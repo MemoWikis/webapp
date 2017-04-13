@@ -160,8 +160,8 @@
 <div id="LicenseQuestion" class="Clearfix">
     <% if (Model.LicenseQuestion.IsDefault()){ %>
         <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
-            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' target='_blank'><%= Model.Creator.Name %></a><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-            <img src="/Images/Licenses/cc-by 88x31.png" width="60"  style="margin-top: 4px; opacity: 0.6;"/>&nbsp;
+            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
+            <img src="/Images/Licenses/cc-by 88x31.png" width="60"  style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;"/>&nbsp;
             <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>
         </a><%--target blank to open outside the iframe of widget--%>
     <% } else { %>

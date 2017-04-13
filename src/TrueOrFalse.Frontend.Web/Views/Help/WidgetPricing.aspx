@@ -49,7 +49,7 @@
 
                 <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">memucho-Widget: Angebote und Preise</span></h1>
                 <p class="teaserText">
-                    Die Lerntechnologie und die Lerninhalte von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
+                    Die Inhalte und Technologie von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
                     Egal ob auf dem privaten Blog, der Vereins- oder Unternehmensseite, oder dem Schul- oder Lernmanagementsystem: Nötig ist eine Zeile HTML-Code, 
                     die du einfach von memucho kopieren kannst.
                 </p>

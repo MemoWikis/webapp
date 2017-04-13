@@ -1,4 +1,5 @@
 ﻿var player: YT.Player;
+var setVideo: SetVideo;
 
 class StopVideoAt {
 
@@ -19,6 +20,8 @@ class SetVideoPlayer
 
     IsVideoPausingEnabled = true;
 
+    Player : YT.Player;
+
     constructor() {
 
         $(() => {
@@ -29,7 +32,7 @@ class SetVideoPlayer
     }
 
     public OnPlayerReady() {
-        //console.log("player ready");
+        this.Player = player;
     }
 
     public OnStateChange(event : YT.EventArgs, setVideoPlayer : SetVideoPlayer) {
@@ -79,6 +82,9 @@ class SetVideoPlayer
             if (stops.length > 0) {
 
                 player.pauseVideo();
+
+                setVideo.ShowYoutubeOverlay();
+
                 SetVideo.ClickItem(stops[0].QuestionId);
 
                 console.log("Video pausiert, beantworte die Frage");

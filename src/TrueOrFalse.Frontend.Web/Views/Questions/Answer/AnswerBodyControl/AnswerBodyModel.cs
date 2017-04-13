@@ -27,6 +27,7 @@ public class AnswerBodyModel : BaseModel
 
     public bool? isMobileRequest;
 
+    public bool IsInWidget;
     public bool IsLearningSession;
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
@@ -84,6 +85,7 @@ public class AnswerBodyModel : BaseModel
 
         isMobileRequest = answerQuestionModel.isMobileDevice;
 
+        IsInWidget = answerQuestionModel.IsInWidget;
         IsLearningSession = answerQuestionModel.IsLearningSession;
         LearningSession = answerQuestionModel.LearningSession;
         IsTestSession = answerQuestionModel.IsTestSession;

@@ -408,7 +408,7 @@ class AnswerQuestion {
         var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
 
         if (this.IsTestSession) {
-            raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
+            raiseTo = +AnswerQuestion.TestSessionProgressAfterAnswering;
         } else if (this.IsLearningSession) {
             raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
             stepNumberChanged = this.GetCurrentStep() != numberStepsUpdated;
@@ -418,12 +418,14 @@ class AnswerQuestion {
         } else {return;}
 
         $("#spanPercentageDone").fadeOut(100);
-        var id = window.setInterval(ChangePercentage, 10);
+        var intervalId = window.setInterval(ChangePercentage, 10);
 
         function ChangePercentage() {
             
             if (percentage === raiseTo) {
-                window.clearInterval(id);
+
+                window.clearInterval(intervalId);
+
                 $("#spanPercentageDone").html(raiseTo + "%");
                 $("#spanPercentageDone").fadeIn();
                 if (stepNumberChanged) {
@@ -432,6 +434,7 @@ class AnswerQuestion {
                 }
 
             } else {
+
                 if(percentage < raiseTo)
                     percentage++;
                 else 
