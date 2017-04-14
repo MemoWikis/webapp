@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Seedworks.Lib.Persistence;
+using static System.String;
 using SpellCheckResult = TrueOrFalse.Search.SpellCheckResult;
 
 [Serializable]
@@ -97,7 +98,7 @@ public class QuestionFilter : ConditionContainer
         base.Clear();
     }
 
-    public bool HasExactOneCategoryFilter() => Categories.Count == 1 && SearchTerm == "";
+    public bool HasExactOneCategoryFilter() => Categories.Count == 1 && IsNullOrEmpty(SearchTerm);
 
     public void SetKnowledgeFilter(string filter)
     {
