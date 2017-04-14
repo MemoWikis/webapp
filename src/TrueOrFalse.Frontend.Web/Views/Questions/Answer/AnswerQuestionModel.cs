@@ -199,7 +199,7 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabMine = SearchTabType.Mine == searchSpec.SearchTab;
         SourceIsTabWish = SearchTabType.Wish == searchSpec.SearchTab;
 
-        if (searchSpec.Filter.IsOneCategoryFilter()){
+        if (searchSpec.Filter.HasExactOneCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());
             if (SourceCategory != null)
                 SourceIsCategory = true;

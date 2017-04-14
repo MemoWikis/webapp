@@ -97,10 +97,7 @@ public class QuestionFilter : ConditionContainer
         base.Clear();
     }
 
-    public bool IsOneCategoryFilter()
-    {
-        return Categories.Count == 1 && SearchTerm == "";
-    }
+    public bool HasExactOneCategoryFilter() => Categories.Count == 1 && SearchTerm == "";
 
     public void SetKnowledgeFilter(string filter)
     {
