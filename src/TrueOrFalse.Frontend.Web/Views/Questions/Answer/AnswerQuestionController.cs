@@ -26,12 +26,12 @@ public class AnswerQuestionController : BaseController
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (id.HasValue && SeoUtils.HasUnderscores(text))
-            return SeoUtils.RedirectToHyphendVersion(Redirect, id.Value);
+            return SeoUtils.RedirectToHyphendVersion(RedirectPermanent, id.Value);
 
         if (setId != null && questionId != null)
         {
             return SeoUtils.HasUnderscores(text) ? 
-                SeoUtils.RedirectToHyphendVersion(Redirect, setId.Value, questionId.Value) : 
+                SeoUtils.RedirectToHyphendVersion(RedirectPermanent, setId.Value, questionId.Value) : 
                 AnswerSet(setId.Value, questionId.Value);
         }
 

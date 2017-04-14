@@ -13,7 +13,7 @@ public class CategoryController : BaseController
     public ActionResult Category(string text, int id)
     {
         if (SeoUtils.HasUnderscores(text))
-            return SeoUtils.RedirectToHyphendVersion_Category(Redirect, text, id);
+            return SeoUtils.RedirectToHyphendVersion_Category(RedirectPermanent, text, id);
 
         var category = Resolve<CategoryRepository>().GetById(id);
         return Category(category);
