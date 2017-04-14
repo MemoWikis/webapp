@@ -18,5 +18,8 @@ public class SeoUtils
 
     public static ActionResult RedirectToHyphendVersion(Func<string, RedirectResult> redirect, int questionId)
         => redirect(Links.AnswerQuestion(Sl.QuestionRepo.GetById(questionId)));
+
+    public static ActionResult RedirectToHyphendVersion_Set(Func<string, RedirectResult> redirect, string text, int setId)
+        => redirect(Links.SetDetail(text, setId));
 }
 
