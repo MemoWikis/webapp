@@ -65,7 +65,20 @@
                     </div>
                 <% } %>
                 
-                <div class="Description"><span><%= Model.Description %></span></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <div  style="float: right; width: 300px;">
+                            <div style="padding-left: 20px; font-weight: lighter; color: darkgrey;">Dein Wissensstand:</div>
+                            <div style="padding-left: 20px; padding-bottom: 15px; padding-top: 7px;" id="knowledgeWheelContainer">
+                                <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
+                            </div>
+                        </div>
+
+                        <div class="Description"><span><%= Model.Description %></span></div>
+                    </div>
+                    
+                </div>
                 
                 <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
                     <div>
@@ -76,17 +89,6 @@
                         </div>
                     </div>
                 <% } %>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div  style="float: right; width: 300px; margin-top: 10px;">
-                            <div style="padding-left: 20px; font-weight: lighter; color: darkgrey;">Dein Wissensstand:</div>
-                            <div style="padding-left: 20px; padding-bottom: 15px; padding-top: 7px;" id="knowledgeWheelContainer">
-                                <% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary);  %>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             
                 <% if(Model.AnswersTotal > 0) { %>
                     <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
