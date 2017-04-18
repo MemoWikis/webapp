@@ -4,7 +4,7 @@
 <% var random = new Random();
    foreach (var choice in Model.Choices.OrderBy(x => random.Next()))
    { %>
-    <div class="radio">
+    <div class="checkbox">
         <label>
             <input type="checkbox" name="answer" value="<%: choice.Text %>" /> <%: choice.Text %> <br />
         </label>
