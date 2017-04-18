@@ -397,6 +397,7 @@
 .matchlist-mobilepairrow {
     margin-bottom: 20px;
 }
+
 .matchlist-elementlabel {
     text-align: left;
     margin-bottom: 5px;
@@ -408,19 +409,21 @@
     //FlashCard
     #flashCardContent {
         height: 250px;
-        width: 400px;
-        vertical-align: middle;
-        background-color: beige;
-        display: table-cell;
+        line-height: 250px;
+        text-align: center;
     }
+
+    #flashCardContent div {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: normal;
+        background-color: beige;
+    }
+
     #flashCard-front {
-        background-color: beige;
-        vertical-align: middle;
-        display: table-cell;
     }
+
     #flashCard-back {
-        vertical-align: middle;
-        display: table-cell;
     }
 
 //http://jsfiddle.net/YB8UW/8/

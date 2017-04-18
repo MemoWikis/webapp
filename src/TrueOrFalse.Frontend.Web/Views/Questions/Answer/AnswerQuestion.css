@@ -412,19 +412,14 @@
 }
 #flashCardContent {
   height: 250px;
-  width: 400px;
-  vertical-align: middle;
-  background-color: beige;
-  display: table-cell;
+  line-height: 250px;
+  text-align: center;
 }
-#flashCard-front {
+#flashCardContent div {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
   background-color: beige;
-  vertical-align: middle;
-  display: table-cell;
-}
-#flashCard-back {
-  vertical-align: middle;
-  display: table-cell;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
