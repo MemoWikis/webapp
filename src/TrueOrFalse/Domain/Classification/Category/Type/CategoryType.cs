@@ -23,7 +23,7 @@ public enum CategoryType
     TvShowEpisode = 14,
 
     FieldOfStudy = 15,
-    FieldStudyTrade = 16,
+    FieldOfTraining = 16,
     SchoolSubject = 17,
     Course = 18,
     Certification = 19,
@@ -63,7 +63,7 @@ public static class CategoryTypeExts
             case CategoryType.TvShowEpisode: return "Fernsehen: Episode/Ausgabe";
 
             case CategoryType.FieldOfStudy: return "Studienfach";
-            case CategoryType.FieldStudyTrade: return "Ausbildungsberuf";
+            case CategoryType.FieldOfTraining: return "Ausbildungsberuf";
             case CategoryType.SchoolSubject: return "Schulfach";
             case CategoryType.Course: return "Kurs/Seminar";
             case CategoryType.Certification: return "Zertifizierung";
@@ -99,7 +99,7 @@ public static class CategoryTypeExts
         if (e == CategoryType.Certification ||
             e == CategoryType.Course ||
             e == CategoryType.FieldOfStudy ||
-            e == CategoryType.FieldStudyTrade ||
+            e == CategoryType.FieldOfTraining ||
             e == CategoryType.SchoolSubject)
         {
             return CategoryTypeGroup.Education;
