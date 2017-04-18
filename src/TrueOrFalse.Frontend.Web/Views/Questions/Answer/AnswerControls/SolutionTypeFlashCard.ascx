@@ -4,10 +4,14 @@
 
 <div id="flashCardContent">
     <div class="front" id="flashCard-front">
-        <div id="flashCard-frontContnent">Überlege dir die richtige Lösung und decke dann auf!</div>
+        <div class="flashCard-Card">
+            Überlege dir die richtige Lösung und decke dann auf!
+        </div>
     </div>
     <div class="back" id="flashCard-back">
-        <div id="flashCard-backContent"><%= MarkdownInit.Run().Transform(Model.FlashCardContent) %></div>
+        <div class="flashCard-Card">        
+            <%= MarkdownInit.Run().Transform(Model.FlashCardContent) %>
+        </div>
     </div>
 </div>
 <script>

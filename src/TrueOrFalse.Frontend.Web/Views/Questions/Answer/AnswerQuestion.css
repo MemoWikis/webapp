@@ -412,13 +412,13 @@
 }
 #flashCardContent {
   height: 250px;
-  line-height: 250px;
-  text-align: center;
 }
-#flashCardContent div {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
+#flashCardContent > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
   background-color: beige;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)

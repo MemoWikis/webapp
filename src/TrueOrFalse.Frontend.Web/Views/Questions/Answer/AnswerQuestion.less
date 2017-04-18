@@ -409,15 +409,18 @@
     //FlashCard
     #flashCardContent {
         height: 250px;
-        line-height: 250px;
-        text-align: center;
+    }
+
+    #flashCardContent > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        background-color: beige;
     }
 
     #flashCardContent div {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: normal;
-        background-color: beige;
     }
 
     #flashCard-front {
