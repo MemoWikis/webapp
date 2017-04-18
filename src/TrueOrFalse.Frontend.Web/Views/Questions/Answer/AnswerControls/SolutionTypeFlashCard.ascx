@@ -5,7 +5,7 @@
 <div id="flashCardContent">
     <div class="front" id="flashCard-front">
         <div class="flashCard-Card">
-            Überlege dir die richtige Lösung und decke dann auf!
+            <small>Überlege dir die richtige Lösung und decke dann auf!</small>
         </div>
     </div>
     <div class="back" id="flashCard-back">
