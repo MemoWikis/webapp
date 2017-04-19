@@ -98,8 +98,8 @@
 
                 <div class="bs-callout bs-callout-info" style="margin-top: 10px">
                     <h3 style="margin-top: 0px">Optimal auf Prüfungen vorbereiten mit memucho</h3>
-                    <p style="margin-top: 15px;">
-                        <b>Mit memucho kannst du dich optimal auf Prüfungen vorbereiten.</b> Das geht ganz einfach:
+                    <p style="margin-top: 25px;">
+                        Mit memucho kannst du dich optimal auf Prüfungen vorbereiten. Das geht ganz einfach:
                     </p>
                     <div class="row explanationRow">
                         <div class="col-xs-3 explanationDiv" style="margin-left: 2%;">
@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-xs-3 explanationDiv">
                             <p><i class="fa fa-3x fa-bar-chart"></i></p>
-                            <p>memucho erstellt deinen <b>persönlichen Lernplan</b></p>
+                            <p>memucho erstellt deinen persönlichen Lernplan</p>
                         </div>
                     </div>
                     <h3>Deine 5 Vorteile:</h3>
@@ -131,7 +131,7 @@
                         <%--<li><b>Erinnerung:</b> memucho benachrichtigt dich, wenn deine nächste Lernsitzung ansteht.</li>--%>
                     </ul>
                     
-                    <h3>Registriere dich und probiere es gleich aus!</h3>
+                    <h3 style="margin-top: 25px;">Registriere dich und probiere es gleich aus!</h3>
                     <p>Memucho ist kostenlos. Die Registrierung dauert nur 20 Sekunden.</p>
                     <p class="registrationParagraph">                        
                         <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
@@ -154,22 +154,22 @@
                     </p>
                     <div class="row explanationRow">
                         <div class="col-xs-3 explanationDiv" style="margin-left: 2%;">
-                            <p><i class="fa fa-3x fa-calendar-check-o"></i></p>
+                            <p><a href="<%= Links.DateCreate() %>"><i class="fa fa-3x fa-calendar-check-o"></i></a></p>
                             <p>Wähle dein Prüfungsdatum</p>
                         </div>
                         <div class="col-xs-1 arrowDiv">
                             <i class="fa fa-lg fa-arrow-right"></i>
                         </div>
                         <div class="col-xs-3 explanationDiv">
-                            <p><i class="fa fa-3x fa-book"></i></p>
+                            <p><a href="<%= Links.DateCreate() %>"><i class="fa fa-3x fa-book"></i></a></p>
                             <p>Wähle die Lerninhalte</p>
                         </div>
                         <div class="col-xs-1 arrowDiv">
                             <i class="fa fa-lg fa-arrow-right"></i>
                         </div>
                         <div class="col-xs-3 explanationDiv">
-                            <p><i class="fa fa-3x fa-bar-chart"></i></p>
-                            <p>memucho erstellt deinen <b>persönlichen Lernplan</b></p>
+                            <p><a href="<%= Links.DateCreate() %>"><i class="fa fa-3x fa-bar-chart"></i></a></p>
+                            <p>memucho erstellt deinen persönlichen Lernplan</p>
                         </div>
                     </div>
                     <p><b>Deine 5 Vorteile:</b></p>
