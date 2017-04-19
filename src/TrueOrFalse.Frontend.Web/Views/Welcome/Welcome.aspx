@@ -387,21 +387,13 @@
             </div>
         <% } %>
 
-        <div class="well" id="nominationInnopreis" style="padding: 20px; ">
+        <div class="well" id="nominationInnopreis" style="padding: 10px; ">
             <div style="text-align: center;">
-                <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
             </div>
-            <p>
-                memucho wurde für den Innovationspreis Berlin Brandenburg nominiert!
-            </p>
-            <p>
+            <p style="text-align: center; margin-bottom: 0;">
                 <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
                     <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
-                </a>
-            </p>
-            <p>
-                <a href="http://www.inforadio.de/programm/schema/sendungen/wirtschaft_aktuell/201611/81202.html" target="_blank">
-                    Beitrag <span style="white-space: nowrap">rbb Inforadio <i class="fa fa-external-link"></i></span>
                 </a>
             </p>
         </div>
