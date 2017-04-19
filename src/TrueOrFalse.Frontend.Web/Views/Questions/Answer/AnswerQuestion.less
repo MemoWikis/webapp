@@ -204,9 +204,23 @@
     .radio {
         
         margin-bottom: 0;
-        margin-top: 0;
+        margin-top: -2px;
         
         & +.radio {
+            margin-top: 10px ;
+
+            .media-below-sm({
+                margin-top: 15px;
+            });
+        }
+    }
+
+    .checkbox {
+        
+        margin-bottom: 0;
+        margin-top: -2px;
+        
+        & +.checkbox {
             margin-top: 10px ;
 
             .media-below-sm({

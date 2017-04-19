@@ -252,13 +252,25 @@
 }
 #AnswerInputSection .radio {
   margin-bottom: 0;
-  margin-top: 0;
+  margin-top: -2px;
 }
 #AnswerInputSection .radio + .radio {
   margin-top: 10px ;
 }
 @media (max-width: 767px) {
   #AnswerInputSection .radio + .radio {
+    margin-top: 15px;
+  }
+}
+#AnswerInputSection .checkbox {
+  margin-bottom: 0;
+  margin-top: -2px;
+}
+#AnswerInputSection .checkbox + .checkbox {
+  margin-top: 10px ;
+}
+@media (max-width: 767px) {
+  #AnswerInputSection .checkbox + .checkbox {
     margin-top: 15px;
   }
 }
