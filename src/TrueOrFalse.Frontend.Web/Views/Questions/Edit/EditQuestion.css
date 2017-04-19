@@ -151,6 +151,9 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
+#formGroupQuestionText textarea {
+  max-width: none;
+}
 #txtNewRelatedCategory {
   float: left;
   margin-right: 12px;
@@ -207,6 +210,9 @@ select.form-control {
     top: 0;
     border-bottom-right-radius: 0;
   }
+}
+#formGroupDescription textarea {
+  max-width: none;
 }
 #JS-References .LabelInline,
 #AddReferenceControls .LabelInline {
