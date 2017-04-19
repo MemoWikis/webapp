@@ -398,6 +398,17 @@
             </p>
         </div>
 
+        <div class="well" id="oerCamp" style="padding: 10px; ">
+            <div style="text-align: center;">
+                <img src="/Images/LogosPartners/OERCamp-Logo-Text_unten.jpg" alt="" width="170" height="183" style="margin-bottom: 10px;"/>
+            </div>
+            <p style="text-align: center; margin-bottom: 0;">
+                memucho ist beim <a href="/Images/LogosPartners/OERcamp-2017-Flyer.pdf">OERcamp</a> in <a href="http://www.oercamp.de/17/sued/workshops/#suedB4d" target="_blank">München</a> (5./6. Mai) und 
+                <a href="http://www.oercamp.de/17/nord/workshops/#nordB4f" target="_blank">Hamburg</a> (23./24. Juni)
+                <%--<span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>--%>
+            </p>
+        </div>
+
         <div class="well">
             <h4>Neueste Fragesätze</h4>
             <div class="LabelList">
