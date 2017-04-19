@@ -136,7 +136,7 @@
                                     <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
                                         <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
                                         <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
-                                        <option value="FieldStudyTrade"><%= CategoryType.FieldOfTraining.GetName() %></option>
+                                        <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
                                         <option value="Course"><%= CategoryType.Course.GetName() %></option>
                                         <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
                                     </select>
