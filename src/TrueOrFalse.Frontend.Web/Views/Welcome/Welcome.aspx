@@ -34,8 +34,42 @@
 <div class="row">
        
     <div class="col-md-9">
-            
-        <div class="well" style="padding: 13px; padding-bottom: 10px;">
+        <div id="memuchoInfo">
+            <div id="memuchoInfoHeader" style="">
+                Dein Wissens-Assistent
+            </div>            
+            <div id="memuchoInfoMain">
+                <p>
+                    <span class="fa-stack fa-2x numberCircleWrapper">
+                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleOne"></i>
+                        <strong class="fa-stack-1x numberCircleText">1</strong>
+                    </span>
+                    <span class="memuchoInfoBenefit">Sammeln</span> <span class="memuchoInfoBenefitSub"><i class="fa fa-heart-o">&nbsp;</i>Entscheide, was du wissen möchtest.</span>
+                </p>
+                <p>
+                    <span class="fa-stack fa-2x numberCircleWrapper">
+                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleTwo"></i>
+                        <strong class="fa-stack-1x numberCircleText">2</strong>
+                    </span>
+                    <span class="memuchoInfoBenefit">Lernen</span> <span class="memuchoInfoBenefitSub">Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.</span>
+                </p>
+                <p>
+                    <span class="fa-stack fa-2x numberCircleWrapper">
+                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleThree"></i>
+                        <strong class="fa-stack-1x numberCircleText">3</strong>
+                    </span>
+                    <span class="memuchoInfoBenefit">Nicht vergessen</span> <span class="memuchoInfoBenefitSub">Wir erinnern dich, bevor du vergisst.</span>
+                </p>
+            </div>
+            <div id="memuchoInfoFooter">
+                <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
+                    <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
+                </a>
+                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">Erfahre mehr...</a><br />
+            </div>
+        </div>
+
+<%--        <div class="well" style="padding: 13px; padding-bottom: 10px;">
             <h1 style="margin-top: 0; margin-bottom: 15px; font-size: 24px; text-align: center;"><span style="white-space: nowrap;">Schneller lernen,</span> <span style="white-space: nowrap;">länger wissen</span></h1>
             <div class="row">
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -71,7 +105,7 @@
                     <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
-        </div>
+        </div>--%>
         
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
         <p class="welcomeContentSectionTarget">Allgemeinwissen, Abitur Politik, Politikwissenschaft</p>
