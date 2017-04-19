@@ -238,7 +238,7 @@
             </div> 
 
             <% if (Model.ContentRecommendationResult != null) { %>
-                <h4 style="margin-top: 100px;">Andere Nutzer lernen auch:</h4>
+                <h4 style="margin-top: 100px;">Das könnte dich auch interessieren:</h4>
                 <div class="row CardsLandscape" id="contentRecommendation">
                     <% foreach (var set in Model.ContentRecommendationResult.Sets)
                        {

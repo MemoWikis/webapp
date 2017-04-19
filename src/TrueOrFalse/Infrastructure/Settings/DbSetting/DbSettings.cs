@@ -28,6 +28,9 @@ namespace TrueOrFalse.Infrastructure
 
         public virtual List<Set> SuggestedSets()
         {
+            if (string.IsNullOrEmpty(SuggestedSetsIdString))
+                return new List<Set>();
+
             var setIds = SuggestedSetsIdString
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x));

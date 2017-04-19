@@ -80,11 +80,15 @@ public class ContentRecommendation
 
     public static List<Set> GetPopularSets(int amount, IList<int> excludeSetIds = null, IList<int> avoidSetIds = null)
     {
-        //popular sets are by CMS
+        //popular sets are: all those created by memucho user and those set in CMS (settings table: suggested sets)
         if (amount == 0)
             return new List<Set>();
 
         var suggestedSets = Sl.R<DbSettingsRepo>().Get().SuggestedSets();
+        var setsByMemucho = Sl.R<SetRepo>().GetByCreatorId(Settings.MemuchoUserId);
+
+        ((List<Set>)suggestedSets).AddRange(setsByMemucho);
+        suggestedSets = suggestedSets.Distinct().ToList();
 
         if ((excludeSetIds != null) && excludeSetIds.Any())
             suggestedSets.RemoveAll(s => excludeSetIds.Contains(s.Id));
