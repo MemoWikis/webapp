@@ -7,7 +7,7 @@ class AnswerQuestion_FlashCard {
     private _onCorrectAnswer: () => void = () => {};
     private _onWrongAnswer: () => void = () => {};
 
-    private _inputFeedback: AnswerQuestionUserFeedback;
+    private _inputFeedback: AnswerQuestionUserFeedback_FlashCard;
     private _isLastLearningStep = false;
 
     static ajaxUrl_SendAnswer: string;
@@ -30,10 +30,10 @@ class AnswerQuestion_FlashCard {
     public IsTestSession = false;
 
     public AnsweredCorrectly = false;
-    public AnswersSoFar = [];
+    //public AnswersSoFar = [];
     public AmountOfTries = 0;
-    public AtLeastOneWrongAnswer = false;
-    public AnswerCountedAsCorrect = false;
+    //public AtLeastOneWrongAnswer = false;
+    //public AnswerCountedAsCorrect = false;
     public ShowedSolutionOnly = false;
 
     constructor(answerEntry: IAnswerEntry) {
@@ -60,8 +60,10 @@ class AnswerQuestion_FlashCard {
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
+        //SOLLTE EIG AUCH RAUS!
         this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
         this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
+        //ENDE
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
@@ -71,73 +73,9 @@ class AnswerQuestion_FlashCard {
         AnswerQuestion.ajaxUrl_LearningSessionAmendAfterShowSolution = $("#ajaxUrl_LearningSessionAmendAfterShowSolution").val();
         AnswerQuestion.TestSessionProgressAfterAnswering = $("#TestSessionProgessAfterAnswering").val();
 
-        this._inputFeedback = new AnswerQuestionUserFeedback(this);
+        this._inputFeedback = new AnswerQuestionUserFeedback_FlashCard(this);
 
         var self = this;
-
-        $('body').keydown(function(e) {
-            var target = $(e.target);
-            if (e.keyCode == 13 && (target.parents("#AnswerBody").length)) {
-                $("#btnCheck:visible").click();
-                $("#btnEditAnswer:visible").click();
-                $("#btnCheckAgain:visible").click();
-                if ($('#btnNext').is(':visible')) {
-                    window.location.href = $('#btnNext:visible').attr('href');
-                }
-            }
-        });
-
-        $("#txtAnswer")
-            .keypress(e => {
-                if (e.keyCode == 13) {
-                    return false;
-                }
-                return true;
-            });
-
-        $("#btnCheck, #btnCheckAgain")
-            .click(
-                e => {
-                    e.preventDefault();
-                    $('#hddTimeRecords').attr('data-time-of-answer', $.now());
-                });
-
-        $("#btnCheck")
-            .click(
-            e => {
-                    e.preventDefault();
-                    self.ValidateAnswer();
-                });
-
-        $("#btnCheckAgain")
-            .click(
-                e => {
-                    e.preventDefault();
-                    self.ValidateAnswer();
-                });
-
-        $("#aCountAsCorrect")
-            .click(
-                e => {
-                    e.preventDefault();
-                    self.countAnswerAsCorrect();
-                });
-
-        $("#CountWrongAnswers")
-            .click(e => {
-                e.preventDefault();
-                var divWrongAnswers = $("#divWrongAnswers");
-                if (!divWrongAnswers.is(":visible"))
-                    divWrongAnswers.show();
-                else
-                    divWrongAnswers.hide();
-            });
-
-        $(".selectorShowSolution")
-            .click(() => {
-                this._inputFeedback.ShowSolution();
-                return false;
-            });
 
         $("#btnNext, #aSkipStep")
             .click(function(e) {
@@ -163,7 +101,7 @@ class AnswerQuestion_FlashCard {
     static GetQuestionId(): number {
         return +$("#questionId").val();
     }
-
+       
     IsLastQuestion(): boolean {
         return $("#isLastQuestion").val() === "True";
     }
@@ -173,13 +111,6 @@ class AnswerQuestion_FlashCard {
             = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList) {
-            $('#spnWrongAnswer').hide();
-            self._inputFeedback
-                .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
-                    true);
-            return false;
-        } else {
             $('#spnWrongAnswer').show();
             self.AmountOfTries++;
             self.AnswersSoFar.push(answerText);
@@ -190,7 +121,7 @@ class AnswerQuestion_FlashCard {
             $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
                 type: 'POST',
-                url: AnswerQuestion.ajaxUrl_SendAnswer,
+                url: AnswerQuestion_FlashCard.ajaxUrl_SendAnswer,
                 data: $.extend(self._getAnswerData(),
                 {
                     questionViewGuid: $('#hddQuestionViewGuid').val(),
@@ -205,37 +136,29 @@ class AnswerQuestion_FlashCard {
 
                     self.UpdateProgressBar(-1, answerResult);
 
-                    if (self.IsTestSession) {
-                        $.ajax({
-                            type: 'POST',
-                            url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
-                            data: {
-                                testSessionId: AnswerQuestion.TestSessionId,
-                                questionId: AnswerQuestion.GetQuestionId(),
-                                questionViewGuid: $('#hddQuestionViewGuid').val(),
-                                answeredQuestion: true
-                            },
-                            cache: false
-                        });
+                    //if (self.IsTestSession) {
+                    //    $.ajax({
+                    //        type: 'POST',
+                    //        url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
+                    //        data: {
+                    //            testSessionId: AnswerQuestion.TestSessionId,
+                    //            questionId: AnswerQuestion.GetQuestionId(),
+                    //            questionViewGuid: $('#hddQuestionViewGuid').val(),
+                    //            answeredQuestion: true
+                    //        },
+                    //        cache: false
+                    //    });
 
-                        AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
-                    }
+                    //    AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
+                    //}
 
                     if (result.correct)
                         self.HandleCorrectAnswer();
                     else 
                         self.HandleWrongAnswer(result, answerText);
-
-                    $("#answerHistory").empty();
-                    $.post("/AnswerQuestion/PartialAnswerHistory",
-                        { questionId: AnswerQuestion.GetQuestionId() },
-                        function(data) {
-                            $("#answerHistory").html(data);
-                        });
                 }
             });
             return false;
-        }
     }
 
     private HandleCorrectAnswer() {
@@ -279,84 +202,79 @@ class AnswerQuestion_FlashCard {
     
 
     private RegisterWrongAnswer() {
-        if (this.AtLeastOneWrongAnswer) return;
-        this.AtLeastOneWrongAnswer = true;
-        $('#aCountAsCorrect')
-            .attr('data-original-title',
-                'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
     }
 
-    private allWrongAnswersTried(answerText: string) {
-        var differentTriedAnswers = [];
-        for (var i = 0; i < this.AnswersSoFar.length; i++) {
-            if ($.inArray(this.AnswersSoFar[i], choices) !== -1 &&
-                $.inArray(this.AnswersSoFar[i], differentTriedAnswers) === -1) {
-                differentTriedAnswers.push(this.AnswersSoFar[i]);
-            }
-        }
-        if (differentTriedAnswers.length + 1 === choices.length) {
-            return true;
-        }
-        return false;
-    }
+    //private allWrongAnswersTried(answerText: string) {
+    //    var differentTriedAnswers = [];
+    //    for (var i = 0; i < this.AnswersSoFar.length; i++) {
+    //        if ($.inArray(this.AnswersSoFar[i], choices) !== -1 &&
+    //            $.inArray(this.AnswersSoFar[i], differentTriedAnswers) === -1) {
+    //            differentTriedAnswers.push(this.AnswersSoFar[i]);
+    //        }
+    //    }
+    //    if (differentTriedAnswers.length + 1 === choices.length) {
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
-    private countAnswerAsCorrect() {
-        var self = this;
-        var interactionNumber = $('#hddInteractionNumber').val();
-        if (!this.AtLeastOneWrongAnswer) {
-            interactionNumber++; //If no answer was given yet a new anser entry with interactionNumber has to be created
-            this.IncrementInteractionNumber();
-        }
+    //private countAnswerAsCorrect() {
+    //    var self = this;
+    //    var interactionNumber = $('#hddInteractionNumber').val();
+    //    if (!this.AtLeastOneWrongAnswer) {
+    //        interactionNumber++; //If no answer was given yet a new anser entry with interactionNumber has to be created
+    //        this.IncrementInteractionNumber();
+    //    }
 
-        var url = this.AtLeastOneWrongAnswer
-            ? AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect
-            : AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect;
-        var successMessage = this.AtLeastOneWrongAnswer
-            ? "Deine letzte Antwort wurde als richtig gewertet."
-            : "Die Frage wurde als richtig beantwortet gewertet.";
+    //    var url = this.AtLeastOneWrongAnswer
+    //        ? AnswerQuestion.ajaxUrl_CountLastAnswerAsCorrect
+    //        : AnswerQuestion.ajaxUrl_CountUnansweredAsCorrect;
+    //    var successMessage = this.AtLeastOneWrongAnswer
+    //        ? "Deine letzte Antwort wurde als richtig gewertet."
+    //        : "Die Frage wurde als richtig beantwortet gewertet.";
 
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-                questionViewGuid: $('#hddQuestionViewGuid').val(),
-                interactionNumber: interactionNumber,
-                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
-                testSessionId: AnswerQuestion.TestSessionId,
-                learningSessionId: self.LearningSessionId,
-                learningSessionStepGuid: self.LearningSessionStepGuid
-            },
-            cache: false,
-            success: function(result) {
-                self.AnswerCountedAsCorrect = true;
-                $(Utils.UIMessageHtml(successMessage, "success")).insertAfter('#Buttons');
-                self._inputFeedback.AnimateCorrectAnswer();
-                $('#aCountAsCorrect').hide();
-                $("#answerHistory").empty();
-                $.post("/AnswerQuestion/PartialAnswerHistory",
-                    { questionId: AnswerQuestion.GetQuestionId() },
-                    function(data) {
-                        $("#answerHistory").html(data);
-                    });
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: url,
+    //        data: {
+    //            questionViewGuid: $('#hddQuestionViewGuid').val(),
+    //            interactionNumber: interactionNumber,
+    //            millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
+    //            testSessionId: AnswerQuestion.TestSessionId,
+    //            learningSessionId: self.LearningSessionId,
+    //            learningSessionStepGuid: self.LearningSessionStepGuid
+    //        },
+    //        cache: false,
+    //        success: function(result) {
+    //            self.AnswerCountedAsCorrect = true;
+    //            $(Utils.UIMessageHtml(successMessage, "success")).insertAfter('#Buttons');
+    //            self._inputFeedback.AnimateCorrectAnswer();
+    //            $('#aCountAsCorrect').hide();
+    //            $("#answerHistory").empty();
+    //            $.post("/AnswerQuestion/PartialAnswerHistory",
+    //                { questionId: AnswerQuestion.GetQuestionId() },
+    //                function(data) {
+    //                    $("#answerHistory").html(data);
+    //                });
 
-                self.UpdateProgressBar(self.GetCurrentStep() - 1);
+    //            self.UpdateProgressBar(self.GetCurrentStep() - 1);
 
-                if (self._isLastLearningStep)
-                    $('#btnNext').html('Zum Ergebnis');
-            }
-        });
-    }
+    //            if (self._isLastLearningStep)
+    //                $('#btnNext').html('Zum Ergebnis');
+    //        }
+    //    });
+    //}
 
-    private IsAnswerPossible() {
+    //private IsAnswerPossible() {
 
-        if ($("#buttons-first-try").is(":visible"))
-            return true;
+    //    if ($("#buttons-first-try").is(":visible"))
+    //        return true;
 
-        if ($("#buttons-answer-again").is(":visible"))
-            return true;
+    //    if ($("#buttons-answer-again").is(":visible"))
+    //        return true;
 
-        return false;
-    }
+    //    return false;
+    //}
 
     static AjaxGetSolution(onSuccessAction) {
 

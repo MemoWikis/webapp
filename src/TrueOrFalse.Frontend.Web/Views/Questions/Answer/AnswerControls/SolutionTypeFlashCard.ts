@@ -11,14 +11,14 @@ class SolutionTypeFlashCard
     }
 
     static GetChosenAnswers(): string {
-        return "Work in progress";
+        return "";
     }
 
     GetAnswerText(): string {
-        return "Work in progress";
+        return "";
     }
 
     GetAnswerData(): {} {
-        return "Work in progress";
+        return "";
     }
 };

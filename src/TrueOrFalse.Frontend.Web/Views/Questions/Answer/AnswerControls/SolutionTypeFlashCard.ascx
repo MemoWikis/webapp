@@ -10,7 +10,7 @@
     </div>
     <div class="back" id="flashCard-back">
         <div class="flashCard-Card">        
-            <%= MarkdownInit.Run().Transform(Model.FlashCardContent) %>
+            <%= MarkdownInit.Run().Transform(Model.Text) %>
         </div>
     </div>
 </div>

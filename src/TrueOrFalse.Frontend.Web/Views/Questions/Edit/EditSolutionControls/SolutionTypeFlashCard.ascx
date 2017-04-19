@@ -9,7 +9,7 @@
     <div class="columnControlsFull">
         <div class="wmd-panel">
             <div id="wmd-button-bar-FlashCard"></div>   
-            <%= Html.TextAreaFor(m => m.FlashCardContent, new 
+            <%= Html.TextAreaFor(m => m.Text, new 
                 { @class= "form-control wmd-input", id="wmd-input-FlashCard", placeholder = "Inhalt der Karteikarte", rows = 4 })%>
         </div>
         <div id="wmd-preview-FlashCard" class="wmd-panel wmd-preview"></div>

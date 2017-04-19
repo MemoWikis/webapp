@@ -71,7 +71,15 @@
 
                         <% if (Model.SolutionType == SolutionType.FlashCard.ToString())
                             { %>
-                        NEW BUTTONS IN HERE!
+                        <div id="ButtonsAndSolution" class="Clearfix">
+                            <div id="Buttons">
+                                <a href="<%= Model.NextUrl(Url) %>" id="btnRightAnswer" class="btn btn-primary" rel="nofollow">Wusste ich!</a>
+                                <a href="<%= Model.NextUrl(Url) %>" id="btnWrongAnswer" class="btn btn-primary" rel="nofollow">Wusste ich nicht!</a>
+                                <div id="buttons-answer" class="ButtonGroup" style="display: none">
+                                    <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
+                                </div>
+                            </div>
+                        </div>
                            <% }
                         else
                         {

@@ -1,8 +1,8 @@
 ﻿class AnswerQuestionUserFeedback_FlashCard {
 
-    private _answerQuestion: AnswerQuestion;
+    private _answerQuestion: AnswerQuestion_FlashCard;
 
-    constructor(answerQuestion: AnswerQuestion) {
+    constructor(answerQuestion: AnswerQuestion_FlashCard) {
         this._answerQuestion = answerQuestion;
     }
 

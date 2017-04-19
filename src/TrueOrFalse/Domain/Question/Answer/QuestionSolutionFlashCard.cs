@@ -2,11 +2,11 @@
 
 public class QuestionSolutionFlashCard : QuestionSolution
 {
-    public string FlashCardContent;
+    public string Text;
 
     public void FillFromPostData(NameValueCollection postData)
     {
-        FlashCardContent = postData.Get("FlashCardContent");
+        Text = postData.Get("FlashCardContent");
     }
 
     public override bool IsCorrect(string answer)
@@ -16,6 +16,6 @@ public class QuestionSolutionFlashCard : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        return FlashCardContent;
+        return Text;
     }
 }
