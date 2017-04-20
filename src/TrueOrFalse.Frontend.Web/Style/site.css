@@ -215,6 +215,27 @@ img {
     margin-bottom: 6px;
   }
 }
+#MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+  margin-left: 4px;
+  margin-top: 2px;
+  width: 320px;
+  padding-left: 10px;
+}
+@media (max-width: 1199px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 200px;
+  }
+}
+@media (max-width: 767px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    margin-top: 0px;
+  }
+}
+@media (max-width: 690px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 180px;
+  }
+}
 #MasterHeader .col-Logo {
   height: 100%;
   width: auto;
@@ -262,7 +283,7 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 600px) {
+@media (max-width: 630px) {
   #BetaLogo {
     display: none;
   }
@@ -289,8 +310,11 @@ img {
 #Wordmark {
   height: 100%;
   float: left;
+  /*.media-below-xs ({
+        display: none;
+    });*/
 }
-@media (max-width: 479px) {
+@media (max-width: 580px) {
   #Wordmark {
     display: none;
   }
@@ -301,8 +325,11 @@ img {
 }
 #LogoSmall {
   height: 100%;
+  /*.media-xs-up ({
+        display: none;
+    });*/
 }
-@media (min-width: 480px) {
+@media (min-width: 580px) {
   #LogoSmall {
     display: none;
   }
@@ -424,7 +451,7 @@ img {
 #loginAndHelp span {
   display: inline-block;
 }
-@media (max-width: 479px) {
+@media (max-width: 991px) {
   #loginAndHelp .TextSpan,
   #loginAndHelp span {
     display: none;

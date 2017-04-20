@@ -200,6 +200,27 @@ img {
         @media (min-width: @screen-sm-min) {
             height: (@masterHeaderMainRowHeight-md); margin-top: 6px; margin-bottom: 6px;
         }
+
+        #HeaderSearchBoxDiv{
+            margin-left: 4px; 
+            margin-top: 2px; 
+            width: 320px; 
+            padding-left: 10px;
+
+            @media (max-width: @screen-md-max) {
+                width:200px;
+            }
+
+            @media (max-width: @screen-xs-max) {
+                margin-top: 0px;
+            }
+
+            @media (max-width: 690px) {
+                width:180px;
+            }
+        }
+
+
     }
 
     .col-Logo {
@@ -253,7 +274,7 @@ img {
         height: 100%;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 630px) {
         display: none;
     }
 
@@ -284,9 +305,12 @@ img {
     height: 100%;
     float: left;
 
-    .media-below-xs ({
+    /*.media-below-xs ({
         display: none;
-    });
+    });*/
+    @media (max-width: 580px) {
+        display: none;
+    }
 
     img {
         width: auto;
@@ -298,9 +322,13 @@ img {
 
     height: 100%;
 
-   .media-xs-up ({
+   /*.media-xs-up ({
         display: none;
-    });
+    });*/
+
+    @media (min-width: 580px) {
+        display: none;
+    }
 
     img {
         width: auto;
@@ -419,7 +447,7 @@ img {
     .TextSpan, span {
         display: inline-block;
 
-        @media (max-width:(@screen-xs-min - 1px)) {
+        @media (max-width:(@screen-md-min - 1px)) {
             display: none;
         }
 
