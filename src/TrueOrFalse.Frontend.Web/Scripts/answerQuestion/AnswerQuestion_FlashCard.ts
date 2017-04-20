@@ -1,8 +1,6 @@
 ﻿var choices = [];
 
 class AnswerQuestion_FlashCard {
-    private _getAnswerText: () => string;
-    private _getAnswerData: () => {};
 
     private _onCorrectAnswer: () => void = () => {};
     private _onWrongAnswer: () => void = () => {};
@@ -60,10 +58,6 @@ class AnswerQuestion_FlashCard {
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
-        //SOLLTE EIG AUCH RAUS!
-        this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
-        this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
-        //ENDE
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
@@ -90,6 +84,7 @@ class AnswerQuestion_FlashCard {
             });
     }
 
+    //click event on btnRightAnswer and btnWrongAnswer
     public OnCorrectAnswer(func: () => void) {
         this._onCorrectAnswer = func;
     }
@@ -135,22 +130,6 @@ class AnswerQuestion_FlashCard {
                     self.IncrementInteractionNumber();
 
                     self.UpdateProgressBar(-1, answerResult);
-
-                    //if (self.IsTestSession) {
-                    //    $.ajax({
-                    //        type: 'POST',
-                    //        url: AnswerQuestion.ajaxUrl_TestSessionRegisterAnsweredQuestion,
-                    //        data: {
-                    //            testSessionId: AnswerQuestion.TestSessionId,
-                    //            questionId: AnswerQuestion.GetQuestionId(),
-                    //            questionViewGuid: $('#hddQuestionViewGuid').val(),
-                    //            answeredQuestion: true
-                    //        },
-                    //        cache: false
-                    //    });
-
-                    //    AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
-                    //}
 
                     if (result.correct)
                         self.HandleCorrectAnswer();
@@ -198,10 +177,6 @@ class AnswerQuestion_FlashCard {
         }
 
         this._onWrongAnswer();
-    }
-    
-
-    private RegisterWrongAnswer() {
     }
 
     //private allWrongAnswersTried(answerText: string) {

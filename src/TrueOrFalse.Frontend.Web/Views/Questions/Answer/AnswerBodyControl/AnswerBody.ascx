@@ -71,8 +71,9 @@
 
                         <% if (Model.SolutionType == SolutionType.FlashCard.ToString())
                             { %>
-                        <div id="ButtonsAndSolution" class="Clearfix">
-                            <div id="Buttons">
+                        <div id="falshCard-ButtonsAndSolution" class="Clearfix">
+                            <%--new Actions on Server for these Buttons--%>
+                            <div id="flashCard-Buttons">
                                 <a href="<%= Model.NextUrl(Url) %>" id="btnRightAnswer" class="btn btn-primary" rel="nofollow">Wusste ich!</a>
                                 <a href="<%= Model.NextUrl(Url) %>" id="btnWrongAnswer" class="btn btn-primary" rel="nofollow">Wusste ich nicht!</a>
                                 <div id="buttons-answer" class="ButtonGroup" style="display: none">
