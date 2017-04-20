@@ -106,13 +106,11 @@
                 </div>
             </div>
         </div>--%>
-        
-        
 
-        <%--<h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
+        <h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
         
         <div class="EduCategoryRow">
-            <a href="#" class="EduCategory BoxButton">
+            <a href="#" class="EduCategory">
                 <span class="EduCategoryIcon">
                     <span class="fa-stack fa-lg">
                       <i class="fa fa-circle fa-stack-2x"></i>
@@ -123,7 +121,7 @@
                     Schule
                 </span>
             </a>
-            <a href="#" class="EduCategory BoxButton">
+            <a href="#" class="EduCategory">
                 <span class="EduCategoryIcon">
                     <span class="fa-stack fa-lg">
                       <i class="fa fa-circle fa-stack-2x"></i>
@@ -156,7 +154,7 @@
                     Allgemeinwissen
                 </span>
             </a>    
-        </div>--%>
+        </div>
         
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
         <p class="welcomeContentSectionTarget">Allgemeinwissen, Abitur Politik, Politikwissenschaft</p>
