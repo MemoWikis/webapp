@@ -35,9 +35,9 @@
        
     <div class="col-md-9">
         <div id="memuchoInfo">
-            <div id="memuchoInfoHeader" style="">
+            <h1 id="memuchoInfoHeader">
                 Dein Wissens-Assistent
-            </div>            
+            </h1>            
             <div id="memuchoInfoMain">
                 <p>
                     <span class="fa-stack fa-2x numberCircleWrapper">
@@ -331,7 +331,7 @@
                 <div class="clearfix visible-xs"></div>
                 <% if (!Model.IsLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <% } %>
@@ -454,7 +454,7 @@
             if (!Model.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-primary" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>
