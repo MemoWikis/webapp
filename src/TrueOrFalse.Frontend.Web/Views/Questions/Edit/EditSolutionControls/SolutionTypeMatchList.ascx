@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="responseModalContent"></div>
-                    <button type="button" id="addRightPairElement">Weiteres Element hinzufügen</button>
+                    <button type="button" class="btn" id="addRightPairElement">Weiteres Element hinzufügen</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Speichern</button>
@@ -56,7 +56,7 @@
     $("#addRightPairElement").click(function () {
         var matchlistRightElementInput = $("<input type='text' id='pairElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control' maxlength='40'>");
         var rightElementRemoveButton = getRemoveButton();
-        $("#responseModalContent").append($("<div class='form-group form-inline'>")
+        $("#responseModalContent").append($("<div class='form-group form-inline matchlist-modalinput'>")
             .append(matchlistRightElementInput)
             .append(rightElementRemoveButton));
         matchlistRightElementInput.focus(function () { PreviousRightElementValue = this.value; }).

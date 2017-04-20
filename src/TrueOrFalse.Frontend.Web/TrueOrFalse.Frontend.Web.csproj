@@ -309,6 +309,7 @@
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
@@ -385,6 +386,8 @@
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
+    <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
     <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
     <Content Include="Images\Screenshots\QuestionEmbedModal.png" />
@@ -417,9 +420,11 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
     <Content Include="Views\Help\WidgetInMoodle.aspx" />
     <Content Include="Views\Help\WidgetInBlackboard.aspx" />
     <Content Include="Views\Help\WidgetInWordpress.aspx" />
@@ -1633,6 +1638,7 @@
     <Content Include="Scripts\guidedTour\tourWelcome.js.map">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
+    <Content Include="Images\LogosPartners\OERcamp-2017-Flyer.pdf" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
