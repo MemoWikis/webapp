@@ -255,6 +255,9 @@ select.form-control {
     display: none;
   }
 }
+#matchlist #responseModal .matchlist-modalinput {
+  margin-left: unset;
+}
 #matchlist #pairs .matchlist-leftelement {
   width: 48%;
 }
