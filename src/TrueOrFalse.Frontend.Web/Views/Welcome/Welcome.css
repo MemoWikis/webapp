@@ -28,11 +28,11 @@ h6 {
   font-family: 'Lato', sans-serif;
 }
 #memuchoInfo {
-  box-shadow: 2px 3px 2px rgba(0, 0, 0, 0.16), 1px 2px 1px rgba(0, 0, 0, 0.23);
+  box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.16), 1px 2px 1px rgba(0, 0, 0, 0.23);
 }
 #memuchoInfoHeader {
   padding: 10px 20px;
-  background-color: #3c6bb8;
+  background-color: #1964c8;
   color: white;
   font-size: 26px;
   border-top-left-radius: 4px;
@@ -54,10 +54,10 @@ h6 {
   color: #639dff;
 }
 #memuchoInfoMain .numberCircleTwo {
-  color: #508df2;
+  color: #4279d4;
 }
 #memuchoInfoMain .numberCircleThree {
-  color: #4279d4;
+  color: #1964c8;
 }
 #memuchoInfoMain .numberCircleText {
   color: white;
