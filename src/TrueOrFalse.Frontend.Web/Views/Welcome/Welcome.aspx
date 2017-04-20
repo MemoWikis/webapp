@@ -109,51 +109,60 @@
 
         <h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
         
-        <div class="EduCategoryRow">
-            <a href="#" class="EduCategory">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-child fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Schule
-                </span>
-            </a>
-            <a href="#" class="EduCategory">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Studium
-                </span>
-            </a>  
-            <a href="#" class="EduCategory">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-file-text-o fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Zertifikate
-                </span>
-            </a>
-            <a href="#" class="EduCategory">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Allgemeinwissen
-                </span>
-            </a>    
+        <div class="EduCategoryRow row">
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="#" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Schule
+                    </span>
+                </a>
+            </div>
+            
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="#" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Studium
+                    </span>
+                </a>  
+            </div>
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="#" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-file-text-o fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Zertifikate
+                    </span>
+                </a>
+            </div>
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="#" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Allgemeinwissen
+                    </span>
+                </a>    
+            </div>
         </div>
         
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
