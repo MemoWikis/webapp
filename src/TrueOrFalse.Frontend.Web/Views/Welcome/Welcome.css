@@ -345,3 +345,6 @@ a.question-short {
   font-size: 16px;
   font-weight: bold;
 }
+#nominationInnopreis img {
+  border-radius: 0;
+}
