@@ -65,7 +65,7 @@
                 <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
                     <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
                 </a>
-                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">Erfahre mehr...</a><br />
+                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary">Erfahre mehr...</a><br />
             </div>
         </div>
 
