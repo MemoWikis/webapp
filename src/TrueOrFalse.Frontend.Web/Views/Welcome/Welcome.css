@@ -218,11 +218,15 @@ fieldset[disabled] .EduCategory.active {
   top: 0;
   bottom: 0;
 }
-.EduCategory:hover {
+.EduCategory:hover,
+.EduCategory:active,
+.EduCategory:focus {
   text-decoration: none;
   color: #AFD534;
 }
-.EduCategory:hover .IconForeground {
+.EduCategory:hover .IconForeground,
+.EduCategory:active .IconForeground,
+.EduCategory:focus .IconForeground {
   color: #003264;
 }
 .EduCategoryIcon,
