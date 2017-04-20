@@ -309,6 +309,7 @@
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
@@ -423,6 +424,7 @@
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
     <Content Include="Views\Help\WidgetInMoodle.aspx" />
     <Content Include="Views\Help\WidgetInBlackboard.aspx" />
     <Content Include="Views\Help\WidgetInWordpress.aspx" />

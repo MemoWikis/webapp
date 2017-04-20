@@ -6,7 +6,8 @@ public class TemplateParser
 {
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);//Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
+        //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
+        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);
 
         return regex.Replace(stringToParse, match =>
         {
@@ -47,6 +48,7 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "videowidget":
             case "categorynetwork":
             case "contentlists":
             case "singleset":
@@ -57,10 +59,11 @@ public class TemplateParser
         }
     }
 
-    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
-    {
-        var partialModel = GetPartialModel(templateJson, category);
+    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext) => 
+        GetPartialHtml(templateJson, controllerContext, GetPartialModel(templateJson, category));
 
+    private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
+    {
         try
         {
             return ViewRenderer.RenderPartialView(
@@ -68,7 +71,6 @@ public class TemplateParser
                 partialModel,
                 controllerContext);
         }
-
         catch
         {
             return null;
@@ -79,6 +81,8 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "videowidget":
+                return new VideoWidgetModel(templateJson.SetId);
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
