@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class TestSessionResultModel : BaseModel
@@ -24,6 +25,23 @@ public class TestSessionResultModel : BaseModel
     public ContentRecommendationResult ContentRecommendationResult;
 
     public bool IsInWidget;
+
+    public virtual int TotalPossibleQuestions
+    {
+        get
+        {
+            if (TestSession.IsSetSession)
+                return TestedSet.Questions().Count;
+
+            if (TestSession.IsSetsSession)
+                return TestedSets.Sum(s => s.Questions().Count); //DB is accessed
+
+            if (TestSession.IsCategorySession)
+                return GetQuestionsForCategory.AllIncludingQuestionsInSet(TestedCategory.Id).Count;
+
+            throw new Exception("unknown session type");
+        }
+    }
 
     public TestSessionResultModel(TestSession testSession)
     {
@@ -68,4 +86,5 @@ public class TestSessionResultModel : BaseModel
 
         PercentageAverageRightAnswers = (int)Math.Round(Steps.Sum(s => s.Question.CorrectnessProbability) / (float)NumberQuestions);
     }
+
 }

@@ -3,6 +3,22 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/ForTeachers.css" rel="stylesheet" />
+    
+    <script type="text/javascript" >
+
+        $(function () {
+            $("span.mailme")
+                .each(function() {
+                    var spt = this.innerHTML;
+                    var at = / at /;
+                    var dot = / dot /g;
+                    var addr = spt.replace(at, "@").replace(dot, ".");
+                    $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
+                    $(this).remove();
+                });
+        });
+    </script>    
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -193,21 +209,24 @@
                 </p>
                 
                 <p>
-                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Fragesätze auf deinem eigenen Blog oder der Schulwebseite zeigen?
+                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Fragesätze und 
+                    das dazugehörige Video auf deinem eigenen Blog oder der Schulwebseite zeigen?
                     Mit den memucho-Widgets ist das problemlos möglich. Du brauchst keine Programmier-Kenntnisse und in der Regel auch keine besonderen Rechte.
                     Das funktioniert bei eigenen Seiten und bei verschiedenen Plattformen wie Wordpress, Moodle, Blackboard usw.
                 </p>
                 <p>
-                    Wenn du ein memucho-Widget einbindest, erscheint die Frage oder das Lernmodul direkt dort, wo du es einbindest. 
+                    Wenn du ein memucho-Widget einbindest, erscheint der Quiz (Fragesatz-Widget), das Video mit den Lernfragen (Video-Widget) oder die einzelne Lernfrage (Frage-Widget)
+                    direkt dort, wo du es einbindest. 
                     Du musst nur eine Zeile Code von memucho per Copy'n'Paste bei dir einfügen, so wie du zum Beispiel auch youtube-Videos einbetten kannst. 
                     Dann können deine Schüler direkt auf der Kurs- oder Projektwebseite ihr Wissen testen und die Inhalte lernen.
                 </p>
                 <p>
-                    Du willst genauer wissen, wie du memucho-Widgets einbettest?
-                    <button class="btn btn-secondary" data-toggle="collapse" data-target="#WidgetDetails">Schritt-für-Schritt-Anleitung anzeigen</button>
+                    Du willst genauer wissen, wie du memucho-Widgets einbettest? 
+                    <a href="<%= Links.HelpWidget() %>">Hier zeigen wir dir eine Übersicht über die drei Widgets mit einer Anleitung</a>, wie du sie einbetten kannst.
+                    <%--<button class="btn btn-secondary" data-toggle="collapse" data-target="#WidgetDetails">Schritt-für-Schritt-Anleitung anzeigen</button>--%>
                 </p>
 
-                <div id="WidgetDetails" class="collapse">
+<%--                <div id="WidgetDetails" class="collapse">
                     <h4 style="margin-top: 25px;">
                         Schritt-für-Schritt-Anleitung zur Einbettung von Fragen und Fragesätzen (memucho-Widget)
                     </h4>
@@ -225,18 +244,18 @@
                         Du musst lediglich beachten, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst. Oft gibt es dafür einen Umschalter. Einige Beispiele:
                     </p>
                     <ul>
-                        <li>Bei Wordpress: "Text" und nicht "Visuell" <img src="/Images/Screenshots/wordpress-textmode-small.png" /></li>
+                        <li>Bei Wordpress: "Text" und nicht "Visuell" <img src="/Images/Screenshots/widget-wordpress-textmode-small.png" /></li>
                         <li>
                             Bei Moodle: Material hinzufügen: Textfeld. Dann im Textfeld das "Mehr Symbole anzeigen" <img src="/Images/Screenshots/moodle-1-mehrFelder-small.png" /> aktivieren
                             und dann den HTML-Modus einschalten <img src="/Images/Screenshots/moodle-2-HTMLmode-small.png" />
                         </li>
-                        <li>Bei Blackboard: Bei Kursmaterial ein Element erstellen, dann im Editierfenster auf den Button "HTML" klicken <img src="/Images/Screenshots/blackboard-html-mode-small.png" /></li>
+                        <li>Bei Blackboard: Bei Kursmaterial ein Element erstellen, dann im Editierfenster auf den Button "HTML" klicken <img src="/Images/Screenshots/widget-blackboard-html-mode-small.png" /></li>
                     </ul>
                     <p>
                         <strong>Das Widget für die Lernfunktion ganzer Fragesätze folgt in Kürze, wir arbeiten daran!</strong>
                     </p>
+                </div>--%>
 
-                </div>
             </div>
         </div>
     </div>
@@ -304,6 +323,36 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well" style="margin-top: 25px;">
+                <h2 class="PageHeader">
+                    <span class="ColoredUnderline GeneralMemucho">Kontakt</span>
+                </h2>
+
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 TeamPic">
+                        <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    </div>
+                    <div class="col-xs-8 col-md-9">
+                        <p>
+                            Du hast Fragen? Du hast selber tolle Ideen? Du kannst uns von deinen Erfahrungen beim Einsatz digitaler Medien im Unterricht bzw. in der Lehre erzählen?
+                            Sprich uns einfach an, wir freuen uns über deine Nachricht! Dein Ansprechpartner ist:<br/>
+                        </p>
+                        <p>
+                            <strong>Lisa</strong><br/>
+                            E-Mail: <span class="mailme">lisa at memucho dot de</span><br/>
+                            Telefon: 0151 - 265 033 70<br/>
+                        </p>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
 </asp:Content>

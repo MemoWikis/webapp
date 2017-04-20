@@ -34,6 +34,8 @@ public class TestSession
 
     public bool SessionNotFound = false;
 
+    public bool HideAddKnowledge = false;
+
     public virtual int TotalPossibleQuestions
     {
         get

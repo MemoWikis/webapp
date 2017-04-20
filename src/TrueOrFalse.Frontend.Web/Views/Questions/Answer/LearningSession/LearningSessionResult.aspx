@@ -106,7 +106,7 @@
             </div>
 
             <div class="SummaryText" style="clear: left;">
-                <p>In dieser Lernsitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
+                <p style="margin-bottom: 20px;">In dieser Lernsitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
@@ -161,8 +161,8 @@
             </div>
             
             <div id="detailedAnswerAnalysis">
-                <h3>Auswertung deiner Antworten</h3>
-                <p class="greyed" style="font-size: 11px;">
+                <h3 style="margin-bottom: 25px;">Auswertung deiner Antworten</h3>
+                <p class="greyed fontSizeSmall">
                     <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
                 </p>
                 <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped)
@@ -221,7 +221,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
-                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).CorrectAnswer()%><br/></p>
+                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml()%><br/></p>
                                                     <%
                                                     int counter = 1;
                                                     foreach (var step in uniqueQuestion)
@@ -244,7 +244,7 @@
                                                         }
                                                         else
                                                         {
-                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= step.Answer.AnswerText %></p><%
+                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHTML(step.Answer.AnswerText, step.Question.SolutionType) %></p><%
                                                         }
                                                         counter++;
                                                     } %>

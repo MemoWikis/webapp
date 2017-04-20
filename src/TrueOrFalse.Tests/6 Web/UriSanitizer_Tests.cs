@@ -13,8 +13,8 @@ namespace TrueOrFalse.Web
         public void Should_remove_and_replace_invalid_characters()
         {
             Assert.That(UriSanitizer.Run("Question!"), Is.EqualTo("Question"));
-            Assert.That(UriSanitizer.Run("What?-_.,"), Is.EqualTo("What-_"));
-            Assert.That(UriSanitizer.Run("What why who?"), Is.EqualTo("What_why_who"));
+            Assert.That(UriSanitizer.Run("What?-_.,"), Is.EqualTo("What-"));
+            Assert.That(UriSanitizer.Run("What why who?"), Is.EqualTo("What-why-who"));
             Assert.That(UriSanitizer.Run("Ä-Ö-Ü?"), Is.EqualTo("Ae-Oe-Ue"));
         }
     }

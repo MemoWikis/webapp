@@ -3,7 +3,6 @@
 class AnswerQuestion {
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
-    private _onNewAnswer: () => void;
 
     private _onCorrectAnswer: () => void = () => {};
     private _onWrongAnswer: () => void = () => { };
@@ -61,9 +60,8 @@ class AnswerQuestion {
         if (this.IsTestSession && $('#hddIsTestSession').attr('data-test-session-id'))
             AnswerQuestion.TestSessionId = parseInt($('#hddIsTestSession').attr('data-test-session-id'));
 
-        this._getAnswerText = answerEntry.GetAnswerText;
-        this._getAnswerData = answerEntry.GetAnswerData;
-        this._onNewAnswer = answerEntry.OnNewAnswer;
+        this._getAnswerText = () => { return answerEntry.GetAnswerText(); }
+        this._getAnswerData = () => { return answerEntry.GetAnswerData(); }
 
         AnswerQuestion.ajaxUrl_SendAnswer = $("#ajaxUrl_SendAnswer").val();
         AnswerQuestion.ajaxUrl_GetSolution = $("#ajaxUrl_GetSolution").val();
@@ -141,14 +139,6 @@ class AnswerQuestion {
                 return false;
             });
 
-        $("#buttons-edit-answer")
-            .click((e) => {
-                e.preventDefault();
-                this._onNewAnswer();
-
-                this._inputFeedback.AnimateNeutral();
-            });
-
         $("#btnNext, #aSkipStep")
             .click(function(e) {
                 if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self.ShowedSolutionOnly) {
@@ -183,7 +173,7 @@ class AnswerQuestion {
             = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice) {
+        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList) {
             $('#spnWrongAnswer').hide();
             self._inputFeedback
                 .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
@@ -362,30 +352,10 @@ class AnswerQuestion {
         if ($("#buttons-first-try").is(":visible"))
             return true;
 
-        if ($("#buttons-edit-answer").is(":visible"))
-            return true;
-
         if ($("#buttons-answer-again").is(":visible"))
             return true;
 
         return false;
-    }
-
-    public OnAnswerChange() {
-        this.Renewable_answer_button_if_renewed_answer();
-    }
-
-    public Renewable_answer_button_if_renewed_answer() {
-        if ($("#buttons-edit-answer").is(":visible")) {
-            $("#buttons-edit-answer").hide();
-            $("#buttons-answer-again").show();
-            this._inputFeedback.AnimateNeutral();
-        }
-    }
-
-    public GiveSelectedSolutionClass(event) {
-        var changedButton = $(event.delegateTarget);
-        changedButton.parent().parent().toggleClass("selected");
     }
 
     static AjaxGetSolution(onSuccessAction) {
@@ -438,7 +408,7 @@ class AnswerQuestion {
         var numberStepsUpdated = numberSteps !== -1 ? numberSteps : answerResult.numberSteps;
 
         if (this.IsTestSession) {
-            raiseTo = AnswerQuestion.TestSessionProgressAfterAnswering;
+            raiseTo = +AnswerQuestion.TestSessionProgressAfterAnswering;
         } else if (this.IsLearningSession) {
             raiseTo = Math.round(numberStepsDone / numberStepsUpdated * 100);
             stepNumberChanged = this.GetCurrentStep() != numberStepsUpdated;
@@ -448,12 +418,14 @@ class AnswerQuestion {
         } else {return;}
 
         $("#spanPercentageDone").fadeOut(100);
-        var id = window.setInterval(ChangePercentage, 10);
+        var intervalId = window.setInterval(ChangePercentage, 10);
 
         function ChangePercentage() {
             
             if (percentage === raiseTo) {
-                window.clearInterval(id);
+
+                window.clearInterval(intervalId);
+
                 $("#spanPercentageDone").html(raiseTo + "%");
                 $("#spanPercentageDone").fadeIn();
                 if (stepNumberChanged) {
@@ -462,6 +434,7 @@ class AnswerQuestion {
                 }
 
             } else {
+
                 if(percentage < raiseTo)
                     percentage++;
                 else 

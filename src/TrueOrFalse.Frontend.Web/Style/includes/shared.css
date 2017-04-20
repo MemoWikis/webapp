@@ -2412,6 +2412,12 @@
 .bold {
   font-weight: bold;
 }
+.fontSizeNormal {
+  font-size: 14px;
+}
+.fontSizeSmall {
+  font-size: 12px;
+}
 .greyed {
   color: #999999;
 }
@@ -2812,6 +2818,9 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 .Card.Category .ImageContainer {
   border-bottom-color: #45aece !important;
   border-right-color: #45aece !important;
+}
+.Card .ItemInfo {
+  font-size: 12px;
 }
 .Card .ItemInfo .Pin {
   padding-left: 1px;

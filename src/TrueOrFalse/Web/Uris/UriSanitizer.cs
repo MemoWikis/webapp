@@ -1,7 +1,7 @@
-using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using static System.String;
 
 namespace TrueOrFalse.Web
 {
@@ -9,12 +9,15 @@ namespace TrueOrFalse.Web
     {
         public static string Run(string name, int maxLength = 50)
         {
-            if (String.IsNullOrEmpty(name))
+            if (IsNullOrEmpty(name))
                 name = "_";
 
             name = new string(name.Where(IsValidChar)
                                   .SelectMany(Transform)
                                   .Take(maxLength).ToArray());
+
+            name = name.Replace("---", "-").Replace("--", "-");
+
             return HttpUtility.UrlEncode(name); 
         }
 
@@ -37,7 +40,10 @@ namespace TrueOrFalse.Web
             if (chr == 'ß') return new[] { 's', 's' };
 
             if (chr == ' ')
-                return new[] { '_' };
+                return new[] { '-' };
+
+            if (chr == '_')
+                return new[] { '-' };
 
             return new []{chr};
         }

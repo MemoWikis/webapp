@@ -57,6 +57,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Registration")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/Help")
+                .IncludeDirectory("~/Views/Help/Js", "*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/Category")
                 .Include("~/Views/Categories/Detail/Category.css"));
 
@@ -118,7 +121,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
-            );
+                .Include("~/Scrpits/vendor/jquery.ui.touch-punch.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));

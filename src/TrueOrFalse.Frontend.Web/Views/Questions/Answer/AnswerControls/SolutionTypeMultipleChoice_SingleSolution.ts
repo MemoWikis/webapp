@@ -10,10 +10,6 @@ class SolutionTypeMultipleChoice_SingleSolution
 
         this.AnswerQuestion = new AnswerQuestion(this);
 
-        $('input:radio[name=answer]').change((event) => {
-            this.AnswerQuestion.OnAnswerChange();
-            this.AnswerQuestion.GiveSelectedSolutionClass(event);
-        });
     }
 
     GetAnswerText(): string {
@@ -23,9 +19,5 @@ class SolutionTypeMultipleChoice_SingleSolution
 
     GetAnswerData(): {} {
         return { answer: $('input:radio[name=answer]:checked').val() };
-    }
-
-    OnNewAnswer() {
-        $('input:radio[name=answer]:checked').prop('checked', false);
     }
 };

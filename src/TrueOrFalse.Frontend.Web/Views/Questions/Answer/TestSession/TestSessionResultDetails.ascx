@@ -30,15 +30,15 @@
     </div>
     <div id="divIndicatorAverageText">
         <p class="show-tooltip" title="<%= tooltip %>">
-            Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>%)
+            Nutzerdurchschnitt (<span id="avgPercentageCorrect"><%= Model.PercentageAverageRightAnswers %></span>% richtig)
         </p>
     </div>
 </div>
 
 
 <div id="detailedAnswerAnalysis">
-    <h3>Auswertung deiner Antworten</h3>
-    <p class="greyed" style="font-size: 11px;">
+    <h3 style="margin-bottom: 25px">Auswertung deiner Antworten</h3>
+    <p class="greyed fontSizeSmall">
         <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
     </p>
     <% foreach (var step in Model.Steps)
@@ -51,7 +51,7 @@
                             <a href="#" data-action="showAnswerDetails">
                             <i class="fa fa-circle AnswerResultIcon show-tooltip" title="Nicht beantwortet.">
                                 &nbsp;&nbsp;
-                            </i><%= step.Question.GetShortTitle(150) %> 
+                            </i><%= step.Question.GetShortTitle(150) %>
                             (Details)</a><br/>
             <% }
             else if (step.AnswerState == TestSessionStepAnswerState.AnsweredCorrect)
@@ -84,8 +84,8 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-9 col-sm-10">
-                                        <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).CorrectAnswer()%><br/></p>
-                                        <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : step.AnswerText %></p>
+                                        <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).GetCorrectAnswerAsHtml() %></p>
+                                        <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : Question.AnswersAsHTML(step.AnswerText, step.Question.SolutionType) %></p>
                                         <p class="averageCorrectness">Wahrscheinlichkeit richtige Antwort (alle Nutzer): <%= step.Question.CorrectnessProbability %>%</p>
                                         
                                         <% if(!Model.IsInWidget) { %>

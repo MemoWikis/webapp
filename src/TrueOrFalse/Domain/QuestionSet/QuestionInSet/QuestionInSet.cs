@@ -14,4 +14,12 @@ public class QuestionInSet : DomainEntity
 
     /// <summary>Time in seconds</summary>
     public virtual int Timecode { get; set; }
+
+    public virtual string FormatedTimecode()
+    {
+        var timeSpan = new TimeSpan(0, 0, 0, this.Timecode);
+        var dateTime = new DateTime(timeSpan.Ticks);
+
+        return dateTime.ToString(timeSpan.Hours < 1 ? "mm:ss" : "HH:mm:ss");
+    }
 }

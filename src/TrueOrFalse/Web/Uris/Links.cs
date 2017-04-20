@@ -27,6 +27,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
         public static string HelpWidget() => GetUrlHelper().Action("Widget", HelpController);
+        public static string HelpWidgetWordpress() => GetUrlHelper().Action("WidgetInWordpress", HelpController);
+        public static string HelpWidgetMoodle() => GetUrlHelper().Action("WidgetInMoodle", HelpController);
+        public static string HelpWidgetBlackboard() => GetUrlHelper().Action("WidgetInBlackboard", HelpController);
         public static string WidgetPricing() => GetUrlHelper().Action("WidgetPricing", HelpController);
 
         public const string AccountController = "Account";
@@ -119,11 +122,9 @@ namespace TrueOrFalse.Frontend.Web.Code
             return url.Action("Answer", AnswerQuestionController, 
                 new { text = UriSegmentFriendlyQuestion.Run(question.Text), questionId = question.Id, setId = set.Id });
         }
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int setId)
-        {
-            return url.Action("Answer", AnswerQuestionController,
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int setId) => 
+            url.Action("Answer", AnswerQuestionController,
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
-        }
 
         public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
 
@@ -367,11 +368,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
         public static string CategoryDetail(Category category) => CategoryDetail(category.Name, category.Id);
 
-        public static string CategoryDetail(string name, int id)
-        {
-            return GetUrlHelper().Action("Category", CategoryController,
-                new { text = UriSanitizer.Run(name), id = id }, null);
-        }
+        public static string CategoryDetail(string name, int id) => 
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id }, null);
 
         public static string GetUrl(object type)
         {

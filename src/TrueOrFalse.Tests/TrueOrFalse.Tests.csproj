@@ -344,7 +344,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj">
       <Project>{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}</Project>
-      <Name>TrueOrFalse.Frontend.Web</Name>
+      <Name>TrueOrFalse.Frontend.Web.csproj.backup</Name>
     </ProjectReference>
     <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj">
       <Project>{0aa2472f-e001-45c0-ad00-2e49b1566739}</Project>

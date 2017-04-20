@@ -6,6 +6,7 @@ using TrueOrFalse.MultipleChoice;
 
 public class QuestionSolutionMultipleChoice : QuestionSolution
 {
+    private const string AnswerListDelimiter = "</br>";
     public List<Choice> Choices = new List<Choice>();
 
     public void FillFromPostData(NameValueCollection postData)
@@ -38,23 +39,41 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries);
-        string[] Solutions = this.CorrectAnswer().Split(new string[] { "</br>" }, StringSplitOptions.RemoveEmptyEntries);
-        return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
+        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        string[] Solutions = this.CorrectAnswer().Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        return Answers.OrderBy(t => t).SequenceEqual(Solutions.OrderBy(t => t));
     }
 
     public override string CorrectAnswer()
     {
-        string CorrectAnswer = "</br>";
+        string CorrectAnswer = AnswerListDelimiter;
         foreach (var SingleChoice in this.Choices)
         {
             if (SingleChoice.IsCorrect == true)
             {
                 CorrectAnswer += SingleChoice.Text;
                 if (SingleChoice != this.Choices[(this.Choices.Count - 1)])
-                    CorrectAnswer += "</br>";
+                    CorrectAnswer += AnswerListDelimiter;
             }
         }
         return CorrectAnswer;
+    }
+
+    public override string GetCorrectAnswerAsHtml()
+    {
+        var htmlListItems = CorrectAnswer()
+            .Split(new []{AnswerListDelimiter}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(a => $"<li>{a}</li>")
+            .Aggregate((a, b) => a + b);
+
+        return $"<ul>{htmlListItems}</ul>";
+    }
+
+    public override string GetAnswerForSEO()
+    {
+        return CorrectAnswer()
+            .Split(new [] {AnswerListDelimiter}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => $"{x}, ")
+            .Aggregate((a, b) => a + b);
     }
 }

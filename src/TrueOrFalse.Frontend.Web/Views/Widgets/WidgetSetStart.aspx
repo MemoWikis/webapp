@@ -6,9 +6,11 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Head" runat="server">
     <style type="text/css">
-        html { height: auto;}
+        html {
+            height: auto;
+        }
         #mainDiv {
-            padding: 45px 20px;
+            padding: 45px 19px 55px 19px;
             text-align: center;
             color: #203256;
         }
@@ -32,9 +34,7 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
     
-    <%
-        var hideAddToKnowledge = Model.HideAddToKnowledge ? "?hideAddToKnowledge=true" : "";
-    %>
+
     <div id="mainDiv">
         <p class="titleP">
             <%= Model.SetName %>
@@ -43,7 +43,7 @@
             <%= Model.SetText %>
         </p>
         <p class="buttonP">
-            <a href="/widget/fragesatz/<%= Model.SetId + hideAddToKnowledge %>" class="btn btn-lg btn-primary">
+            <a href="<%= Model.StartSessionUrl %>" class="btn btn-lg btn-primary">
                 <i class="fa fa-play-circle">&nbsp;&nbsp;</i>Teste Dein Wissen
             </a>
         </p>

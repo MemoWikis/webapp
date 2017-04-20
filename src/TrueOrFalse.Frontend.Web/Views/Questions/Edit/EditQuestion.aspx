@@ -117,7 +117,7 @@
             <div class="col-md-9 col-md-pull-3">
                 <div class="form-horizontal rowBase" role="form">
                     <div class="FormSection">
-                        <div class="form-group">
+                        <div class="form-group" id="formGroupQuestionText">
                             <%= Html.LabelFor(m => m.QuestionText, new { @class = "RequiredField columnLabel control-label" })%>
                             <div class="columnControlsFull">
                             <%--<div class="columnControls3of4">--%>
@@ -211,7 +211,7 @@
                     </div>
                     <div class="FormSection">
 
-                        <div class="form-group markdown">
+                        <div class="form-group markdown" id="formGroupDescription">
                             <label class="columnLabel control-label" for="Description">
                                 <span class="show-tooltip"  title = "Erscheinen nach dem Beantworten der Frage zusammen mit der richtigen Lösung und sollen beim Einordnen und Merken der abgefragten Fakten helfen. Oft wird eine Frage erst durch informative Zusatzangaben so richtig gut." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Ergänzungen</span>
                             </label>
@@ -219,7 +219,7 @@
                                 <div class="wmd-panel">
                                     <div id="wmd-button-bar-2"></div>
                                     <%= Html.TextAreaFor(m => m.Description, new 
-                                        { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.", rows = 4 })%>
+                                        { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.", rows = 6 })%>
                                 </div>
                                 <div id="wmd-preview-2" class="wmd-panel wmd-preview"></div>
                             </div>
@@ -227,8 +227,6 @@
                     
                         <div class="form-group" style="margin-bottom: 0;">
                             <label class="columnLabel control-label"> 
-                                <%--<br/>
-                                <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten nochbesser!)</div>--%>
                                 <span class="show-tooltip" data-toggle="tooltip" title = "Bitte belege die von dir angeführten Fakten mit Quellen und mache wörtliche und auch indirekte Zitate als solche erkennbar. Bitte gehe sparsam mit wörtlichen Zitaten um und formuliere wenn möglich mit eigenen Worten. Du kannst in Frage, Anwort und Ergänzungen auf die hier eingefügten Quellen verweisen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">
                                     Quellen
                                 </span>

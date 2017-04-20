@@ -54,6 +54,7 @@
                         <li>...unbegrenzt private Fragen</li>
                         <li>...unbegrenzt Wunschwissen</li>
                         <li>...unbegrenzte Nutzung von Lernterminen</li>     
+                        <li>...unbegrenzte Nutzung von Widgets (sonst max. 5)</li>
                     </ul>
                 </li>
                 <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
@@ -61,7 +62,7 @@
             </ul>
             <% if (!Model.IsMember) {%>
                 <p>
-                    In der Beta-Phase sind die Funktionalitäten für Nichtmitglieder noch nicht beschränkt. 
+                    In der Beta-Phase sind die Funktionalitäten für Nichtmitglieder teilweise noch nicht beschränkt. 
                     Bis zum offiziellen Start unserer Plattform 
                     winken für dich als Fördermitglied also neben der werbefreien Nutzung 
                     "nur" Ruhm, Ehre und die besondere Trophäe 

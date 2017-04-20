@@ -74,6 +74,7 @@ public class LearningSessionResultModel : BaseModel
         if (NumberSteps > 0)
         {
             AnsweredStepsGrouped = LearningSession.Steps.Where(s => s.AnswerState != StepAnswerState.NotViewedOrAborted).GroupBy(d => d.QuestionId);
+
             NumberUniqueQuestions = AnsweredStepsGrouped.Count();
 
             NumberCorrectAnswers = AnsweredStepsGrouped.Count(g => g.First().AnswerState == StepAnswerState.Answered && g.First().Answer.AnsweredCorrectly());

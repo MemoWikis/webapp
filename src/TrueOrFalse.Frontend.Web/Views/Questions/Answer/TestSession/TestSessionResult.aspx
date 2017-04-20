@@ -68,29 +68,31 @@
                         Zur Wissenszentrale
                     </a>
                     <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
-                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus dem gleichen Fragesatz");
-                                                      else if (Model.TestSession.IsSetsSession) Response.Write("aus den gleichen Fragesätzen");
-                                                      else if (Model.TestSession.IsCategorySession) Response.Write("zum gleichen Thema");%>
+                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus demselben Fragesatz");
+                                                      else if (Model.TestSession.IsSetsSession) Response.Write("aus denselben Fragesätzen");
+                                                      else if (Model.TestSession.IsCategorySession) Response.Write("zum selben Thema");%>
                         " rel="nofollow">
                         <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
                     </a>
                 </div>
             
                 <% if (Model.ContentRecommendationResult != null) { %>
-                    <h4>Andere Nutzer lernen auch:</h4>
-                    <div class="row CardsLandscape" id="contentRecommendation">
-                        <% foreach (var set in Model.ContentRecommendationResult.Sets)
-                           {
-                                Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                           } %>
-                        <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                           {
-                                Html.RenderPartial("~/Views/Shared/Cards/CardSingleCategory.ascx", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
-                           } %>
-                        <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
-                           { 
-                                Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                           } %>
+                    <div style="margin-top: 80px;">
+                        <h4>Das könnte dich auch interessieren:</h4>
+                        <div class="row CardsLandscape" id="contentRecommendation">
+                            <% foreach (var set in Model.ContentRecommendationResult.Sets)
+                               {
+                                    Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                               } %>
+                            <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                               {
+                                    Html.RenderPartial("~/Views/Shared/Cards/CardSingleCategory.ascx", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                               } %>
+                            <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
+                               { 
+                                    Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                               } %>
+                        </div>
                     </div>
                 <% } %>
             </div>

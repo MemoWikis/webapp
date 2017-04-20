@@ -1,4 +1,6 @@
-﻿class SetVideo {
+﻿var player: YT.Player;
+
+class SetVideo {
 
     private fnOnChangeAnswerBody: () => void;
 
@@ -42,7 +44,55 @@
             
         });
 
+        $("#syncVideoWithQuestion").click(function(e) {
+            e.preventDefault();
+
+            var timecode = self.GetTimecodeOffCurrentMenu();
+
+            player.seekTo(timecode - 2, true);
+            player.playVideo();
+
+            self.HideYoutubeOverlay();
+        });
+
+        $("#youtubeAnswerQuestion").click(function(e) {
+            e.preventDefault();
+
+            self.ScrollAnswerBodyIntoView();
+        });
+
+        $("#youtubeContinueVideo").click(function (e) {
+            e.preventDefault();
+
+            self.HideYoutubeOverlay();
+
+            player.playVideo();
+        });
+
+
         this.InitAnswerBody();
+    }
+
+    ShowYoutubeOverlay() {
+        $(".youtubeOverlay").attr("display", "block");
+        $(".youtubeOverlay").fadeIn(250);
+    }
+
+    HideYoutubeOverlay() {
+        $(".youtubeOverlay").fadeOut(250);
+    }
+
+    ScrollAnswerBodyIntoView() {
+
+        var offset = $("#video-pager").offset(); 
+
+        offset.left -= 20;
+        offset.top -= 20;
+
+        $('html, body').animate({
+            scrollTop: offset.top,
+            scrollLeft: offset.left
+        });        
     }
 
     EnableDisablePagerArrows(currentIndex : number) {
@@ -61,8 +111,12 @@
         e.preventDefault();
 
         $("#video-pager")
-            .find("[data-video-question-id]")
-            .removeClass("current");
+            .find(".current")
+            .removeClass("current")
+            .children("i")
+            .first()
+            .removeClass("fa-circle")
+            .addClass("fa-circle-o");
 
         menuItem
             .addClass("current")
@@ -93,13 +147,13 @@
     }
 
     ChangeAnswerBody(html: string) {
+
         $("#divBodyAnswer")
             .empty()
             .animate({ opacity: 0.00 }, 0)
             .append(html)
             .animate({ opacity: 1.00 }, 400);
 
-        $(".show-tooltip").tooltip();
         this.InitAnswerBody();
     }
 
@@ -108,12 +162,18 @@
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
 
-        answerEntry.OnCorrectAnswer(() => { this.HandleCorrectAnswer(); });
-        answerEntry.OnWrongAnswer(() => { this.HandleWrongAnswer(); });
+        answerEntry.OnCorrectAnswer(() => { this.HandleCorrectAnswer(); this.HideYoutubeOverlay(); });
+        answerEntry.OnWrongAnswer(() => { this.HandleWrongAnswer(); this.HideYoutubeOverlay(); });
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
         Images.Init();
+
+        $("#divBodyAnswer .show-tooltip").tooltip();
+
+        $('#divBodyAnswer [data-toggle=popover]')
+            .popover({ html: true })
+            .click(e => { e.preventDefault(); });
 
         this.fnOnChangeAnswerBody();
     }
@@ -140,5 +200,9 @@
 
     GetMenuItemByIndex(index : number) : JQuery {
         return $("#video-pager").find("a[data-index=" + index +"]").first();
+    }
+
+    GetTimecodeOffCurrentMenu() : number{
+        return +$("#video-pager").find("a.current").first().attr("data-video-pause-at");
     }
 }

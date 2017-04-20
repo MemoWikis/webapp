@@ -28,13 +28,20 @@
 
             <div class="well">
 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Lerninhalte in die eigene Webseite einbinden</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Inhalte in die eigene Webseite einbinden</span></h1>
                 <p class="teaserText">
-                    Die Lerntechnologie und die Lerninhalte von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
+                    Die Inhalte und Technologie von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
                     Egal ob auf dem privaten Blog, der Vereins- oder Unternehmensseite, oder dem Schul- oder Lernmanagementsystem: Nötig ist eine Zeile HTML-Code, 
                     die du einfach von memucho kopieren kannst.
                 </p>
                    
+                
+                <ul class="teaserText">
+                    <li><a href="#quizOnPage">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</a></li>
+                    <li><a href="#video">Video mit passendem Quiz einbinden</a></li>
+                    <li><a href="#single">Einzelne Fragen per Widget einbinden</a></li>
+                    <li><a href="#terms">Nutzung für Einzelpersonen und Organisationen</a></li>
+                </ul>
             </div>
         </div>
     </div>
@@ -46,7 +53,7 @@
             <div class="well explanationBox">
 
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</span>
+                    <a name="quizOnPage"></a><span class="ColoredUnderline GeneralMemucho">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</span>
                 </h2>
                 <p>
                     Du kannst einen Quiz zu einem ganzen Fragesatz auf deiner Webseite einbinden. So können deine Webseitenbesucher ihr Wissen testen - und das macht vielen Spaß.
@@ -91,18 +98,16 @@
                     Die Code-Zeile aus dem Dialog kannst du direkt an die Stelle deiner Webseite kopieren, wo der Quiz erscheinen soll.
                     Achte darauf, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst (als Klartext, ohne Formatierungen). 
                     Oft gibt es dafür einen Umschalter vom Layout- in den HTML-/Text-Modus. 
-                    Wo genau, das zeigen wir dir hier für die folgenden Systeme: 
+                </p>
+                <p class="screenshotExplanation">
+                    Wo genau, das zeigen wir dir hier für die folgenden Systeme mit einer Schritt-für-Schritt-Anleitung: 
                 </p>
                 <ul class="screenshotExplanation">
-                    <li>Wordpress</li>
-                    <li>Moodle</li>
-                    <li>Blackboard</li>
+                    <li><a href="<%= Links.HelpWidgetWordpress() %>">memuchos Quiz-Widget in <strong>Wordpress</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetMoodle() %>">memuchos Quiz-Widget in <strong>Moodle</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetBlackboard() %>">memuchos Quiz-Widget in <strong>Blackboard</strong> einbinden</a></li>
+
                 </ul>
-                <h3>Fragen oder Probleme?</h3>
-                <p>
-                    Funktioniert es nicht? Sind noch Fragen offen? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter. Christof erreichst du unter 01577-6825707 
-                    oder per E-Mail an <span class="mailme">christof at memucho dot de</span>.
-                </p>
             </div>
         </div>
     </div>
@@ -113,7 +118,7 @@
             <div class="well explanationBox">
 
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Video mit passendem Quiz einbinden</span>
+                    <a name="video"></a><span class="ColoredUnderline GeneralMemucho">Video mit passendem Quiz einbinden</span>
                 </h2>
                 <p>
                     memucho verbindet Videos direkt mit den passenden Fragen. So können Nutzer ein Video sehen, 
@@ -160,18 +165,15 @@
                     Die Code-Zeile aus dem Dialog kannst du direkt an die Stelle deiner Webseite kopieren, wo das Video mit dem Quiz erscheinen soll.
                     Achte darauf, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst (als Klartext, ohne Formatierungen). 
                     Oft gibt es dafür einen Umschalter vom Layout- in den HTML-/Text-Modus. 
-                    Wo genau, das zeigen wir dir hier für die folgenden Systeme: 
+                </p>
+                <p class="screenshotExplanation">
+                    Wo genau, das zeigen wir dir hier für die folgenden Systeme mit einer Schritt-für-Schritt-Anleitung: 
                 </p>
                 <ul class="screenshotExplanation">
-                    <li>Wordpress</li>
-                    <li>Moodle</li>
-                    <li>Blackboard</li>
+                    <li><a href="<%= Links.HelpWidgetWordpress() %>">memuchos Video-Quiz-Widget in <strong>Wordpress</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetMoodle() %>">memuchos Video-Quiz-Widget in <strong>Moodle</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetBlackboard() %>">memuchos Video-Quiz-Widget in <strong>Blackboard</strong> einbinden</a></li>
                 </ul>
-                <h3>Fragen oder Probleme?</h3>
-                <p>
-                    Funktioniert es nicht? Sind noch Fragen offen? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter. Christof erreichst du unter 01577-6825707 
-                    oder per E-Mail an <span class="mailme">christof at memucho dot de</span>.
-                </p>
                                 
             </div>
         </div>
@@ -181,7 +183,7 @@
         <div class="col-xs-12">
             <div class="well explanationBox">
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Einzelne Fragen per Widget einbinden</span>
+                    <a name="single"></a><span class="ColoredUnderline GeneralMemucho">Einzelne Fragen per Widget einbinden</span>
                 </h2>
                 <p>
                     Du kannst auch eine einzelne Frage nahtlos auf deiner Webseite einbinden. So kannst du zum Beispiel bei einem Blog-Beitrag den Text auflockern und animierst 
@@ -221,18 +223,15 @@
                     Die Code-Zeile aus dem Dialog kannst du direkt an die Stelle deiner Webseite kopieren, wo der Quiz erscheinen soll.
                     Achte darauf, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst (als Klartext, ohne Formatierungen). 
                     Oft gibt es dafür einen Umschalter vom Layout- in den HTML-/Text-Modus. 
-                    Wo genau, das zeigen wir dir hier für die folgenden Systeme: 
+                </p>
+                <p class="screenshotExplanation">
+                    Wo genau, das zeigen wir dir hier für die folgenden Systeme mit einer Schritt-für-Schritt-Anleitung: 
                 </p>
                 <ul class="screenshotExplanation">
-                    <li>Wordpress</li>
-                    <li>Moodle</li>
-                    <li>Blackboard</li>
+                    <li><a href="<%= Links.HelpWidgetWordpress() %>">memuchos Frage-Widget in <strong>Wordpress</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetMoodle() %>">memuchos Frage-Widget in <strong>Moodle</strong> einbinden</a></li>
+                    <li><a href="<%= Links.HelpWidgetBlackboard() %>">memuchos Frage-Widget in <strong>Blackboard</strong> einbinden</a></li>
                 </ul>
-                <h3>Fragen oder Probleme?</h3>
-                <p>
-                    Funktioniert es nicht? Sind noch Fragen offen? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter. Christof erreichst du unter 01577-6825707 
-                    oder per E-Mail an <span class="mailme">christof at memucho dot de</span>.
-                </p>
             </div>
         </div>
     </div>
@@ -241,12 +240,44 @@
         <div class="col-xs-12">
             <div class="well explanationBox">
                 <h2 class="PageHeader">
-                    <span class="ColoredUnderline GeneralMemucho">Nutzung für kommerzielle Anbieter</span>
+                    <a name="terms"></a><span class="ColoredUnderline GeneralMemucho">Für Einzelpersonen und Organisationen</span>
                 </h2>
                 <p>
-                    Die Nutzung der memucho-Widgets ist für nicht-kommerzielle Zwecke und Einzelpersonen kostenlos und werbefrei. 
-                    Für Nutzer mit kommerziellen Interessen <a href="<%= Links.WidgetPricing() %>">haben wir verschiedene Angebote (Preisliste)</a>.
+                    Die Nutzung der memucho-Widgets ist <strong>für Einzelpersonen kostenlos und werbefrei</strong>. 
+                    Für den Einsatz von mehr als fünf Widgets ist ein Pro-Account notwendig (<a href="<%= Links.Membership() %>">jetzt Pro-Mitglied werden</a>).
                 </p>
+                <p>
+                    Für Organisationen haben wir verschiedene Angebote: &nbsp; <a href="<%= Links.WidgetPricing() %>" class="btn btn-default">Zu den Angeboten und Preisen</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well" style="margin-top: 25px;">
+
+                <h2 class="PageHeader">
+                    <span class="ColoredUnderline GeneralMemucho">Fragen oder Probleme?</span>
+                </h2>
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 TeamPic">
+                        <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg" alt="Foto Christof"/>
+                    </div>
+                    <div class="col-xs-8 col-md-9">
+                        <p>
+                            Sind noch Fragen offen? Gibt es technische Probleme? Kein Problem, melde dich einfach bei uns, wir helfen dir gerne weiter.
+                            Dein Ansprechpartner für alle Fragen zum Widget ist:<br/>
+                        </p>
+                        <p>
+                            <strong>Christof Mauersberger</strong><br/>
+                            E-Mail: <span class="mailme">christof at memucho dot de</span><br/>
+                            Telefon: 01577-6825707<br/>
+                        </p>
+                        
+                    </div>
+                </div>
 
             </div>
         </div>

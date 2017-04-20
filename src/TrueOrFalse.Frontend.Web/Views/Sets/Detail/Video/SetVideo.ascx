@@ -13,7 +13,13 @@
     <div class="">
         <div class="row">
             <div class="col-md-12">
-                <%= Html.Raw(YoutubeVideo.GetIframe(Model.VideoKey)) %>
+                <div class="youtubeContainer">
+                    <div class="youtubeOverlay hide2">
+                        <h2><a href="#" id="youtubeAnswerQuestion">Jetzt Frage beantworten</a></h2>
+                        <p><a href="#" id="youtubeContinueVideo">(oder Video fortsetzen)</a></p>
+                    </div>                
+                    <%= Html.Raw(YoutubeVideo.GetIframe(Model.VideoKey)) %>
+                </div>
             </div>
         </div>
     </div>

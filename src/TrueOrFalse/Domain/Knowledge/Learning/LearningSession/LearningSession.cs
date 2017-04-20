@@ -216,7 +216,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
     {
-        return Steps.Count > Steps.Select(s => s.Question).Distinct().Count()*2;
+        return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count()*2;
     }
 
     public virtual LearningSessionStep GetStep(Guid learningSessionStepGuid)

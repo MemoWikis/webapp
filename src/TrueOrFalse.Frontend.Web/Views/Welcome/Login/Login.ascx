@@ -99,7 +99,7 @@
                         <a href="<%= Url.Action("PasswordRecovery", "Welcome") %>">Passwort vergessen?</a><br/>
                         
                         <div style="padding-top: 5px;">
-                            Noch kein Benutzer?&nbsp; <%: Html.ActionLink("Jetzt registrieren!", Links.RegisterAction, Links.RegisterController) %><br/><br />
+                            <strong>Noch kein Benutzer?</strong>&nbsp; <%: Html.ActionLink("Jetzt registrieren!", Links.RegisterAction, Links.RegisterController) %><br/><br />
                         </div>
                     </div>
                 </div>

@@ -56,8 +56,12 @@ function writeIframe(iframeId, iframeSource) {
                 'marginheight="0" marginwidth="0" ' +
                 'frameborder="no" scrolling="no"> ' +
             '</iframe>' + 
-            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 10px; float: right"> ' + 
-                '<a href="https://memucho.de">von memucho</a>' + 
+            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 12px; position: relative; width: 100%; visibility: hidden;" id="memuchoLogo' + iframeId + '"> ' +
+                '<a href="https://memucho.de" target="_blank" style="text-decoration: none; color: #AFD534;  position: absolute; top: -40px; right: 15px; width: 150px; text-align: right; filter: grayscale(1); "' +
+                    'onmouseover = "this.style.filter = \'grayscale(0)\'" onmouseout  = "this.style.filter = \'grayscale(1)\'">' +
+                    '<span style="font-weight: bold;"> memucho </span>' +
+                    '<img src="https://memucho.de/Images/Logo/LogoSmall.png"/ style="width: 23px; height: auto; vertical-align: middle; padding-bottom: 4px; border: none; box-shadow: none;">' +
+                '</a>' +
             '</div>' +
         '</div>';
 
@@ -68,6 +72,10 @@ function writeIframe(iframeId, iframeSource) {
     } else {
         document.write(iframeHtml);
     }
+
+    setTimeout(function () {
+        document.getElementById('memuchoLogo' + iframeId).style.visibility = "visible";
+    }, 3000);
 
     var loadedIframe = parent.document.getElementById(iframeId);
     loadedIframe.width = width;
