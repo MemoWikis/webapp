@@ -45,7 +45,7 @@
             removeButton = $(getRemoveButton());
 
         $("#pairs").append($("<div class = 'form-inline form-group'>")
-            .append($("<input type='text' name = 'LeftElement-" + addingPairElementId + "' class='matchlist-leftelement form-control' maxlength='40'>"))
+            .append($("<input type='text' name = 'LeftElement-" + addingPairElementId + "' class='matchlist-leftelement form-control'>"))
                 .append($("<i class='matchlist-arrow fa fa-arrow-right fa-1x'></i>"))
                     .append($("<select class='matchlist-rightpairelement form-control' name='RightPairElement-" + addingPairElementId + "'>")
                         .append($(".matchlist-rightpairelement").last().children().clone()))
@@ -54,7 +54,7 @@
             $("[name='RightPairElement-0']").append($('<option selected="selected">').html("Keine Zuordnung"));
     });
     $("#addRightPairElement").click(function () {
-        var matchlistRightElementInput = $("<input type='text' id='pairElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control' maxlength='40'>");
+        var matchlistRightElementInput = $("<input type='text' id='pairElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control'>");
         var rightElementRemoveButton = getRemoveButton();
         $("#responseModalContent").append($("<div class='form-group form-inline matchlist-modalinput'>")
             .append(matchlistRightElementInput)
