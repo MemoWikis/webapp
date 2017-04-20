@@ -83,6 +83,43 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.EduCategoryRow {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.EduCategory {
+    display: block;
+    text-align: center;
+    color: @memo-blue;
+    .BoxButton;
+    height: auto;
+    padding: 25px 0;
+
+    &:hover {
+        text-decoration: none;
+        color: @memo-green;
+        
+        .IconForeground {
+            color: @memo-blue;
+        }
+    }
+}
+
+.EduCategoryIcon, .EduCategoryText {
+    display: block;
+}
+
+.EduCategoryIcon {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.EduCategoryText {
+    font-size: @font-size-bigger;
+    font-weight: bold;
+}
+
 .welcomeContentSectionHeader {
     margin-top: 50px;
     margin-bottom: 2px;
@@ -218,42 +255,4 @@ a.question-short {
         }
     });
     
-}
-
-
-.EduCategoryRow {
-    margin-top: 20px;
-    margin-bottom: 40px;
-}
-
-.EduCategory {
-    display: block;
-    text-align: center;
-    color: @memo-blue;
-    .BoxButton;
-    height: auto;
-    padding: 25px 0;
-
-    &:hover {
-        text-decoration: none;
-        color: @memo-green;
-        
-        .IconForeground {
-            color: @memo-blue;
-        }
-    }
-}
-
-.EduCategoryIcon, .EduCategoryText {
-    display: block;
-}
-
-.EduCategoryIcon {
-    font-size: 25px;
-    margin-bottom: 5px;
-}
-
-.EduCategoryText {
-    font-size: @font-size-bigger;
-    font-weight: bold;
 }
