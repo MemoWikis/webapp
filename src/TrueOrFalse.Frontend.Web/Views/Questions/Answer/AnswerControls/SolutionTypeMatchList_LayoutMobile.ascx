@@ -1,21 +1,12 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMatchList>" %>
-<div id="matchlist-mobilepairs" class="col-sm-12"></div>   
-
-<style>
-#AnswerAndSolutionCol {
-    padding-left: 0px;
-}
-#AnswerAndSolutionCol #AnswerInputSection {
-    padding-left: 0px;
-}
-</style>
+<div id="matchlist-mobilepairs"></div>   
 
 <script type="text/javascript">
     <% var random = new Random();
    int i = 0;
     foreach (var pair in Model.Pairs.OrderBy(x => random.Next()))
     { %>
-    $('#matchlist-mobilepairs').append($('<div class="matchlist-mobilepairrow col-sm-12 row form-group" id="matchlist-mobilepairrow-<%= i %>">')
+    $('#matchlist-mobilepairs').append($('<div class="matchlist-mobilepairrow form-group" id="matchlist-mobilepairrow-<%= i %>">')
         .append($('<div class="matchlist-elementlabel" id="matchlist-elementlabel-<%= i %>"><%= pair.ElementLeft.Text %></div>'))
         .append($('<select class="form-control matchlist-mobileselect" id="matchlist-select-<%= i %>">').append($('<option>Keine Zuordnung</option>')))
     );
