@@ -138,7 +138,7 @@
                 </a>  
             </div>
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="#" class="EduCategory">
+                <a href="#" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
