@@ -17,6 +17,8 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
+    public bool DisableLearningFunctions { get; set; }
+
     public string TopicMarkdown { get; set; }
 
     public string FeaturedSetIdsString { get; set; }
@@ -70,6 +72,7 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
+        DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
@@ -80,6 +83,7 @@ public class EditCategoryModel : BaseModel
         var category = new Category(Name);
         category.Description = Description;
         category.ParentCategories = ParentCategories;
+        category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
@@ -105,6 +109,7 @@ public class EditCategoryModel : BaseModel
         category.Name = Name;
         category.Description = Description;
         category.ParentCategories = ParentCategories;
+        category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 

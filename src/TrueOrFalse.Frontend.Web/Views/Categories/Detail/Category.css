@@ -118,6 +118,14 @@ span.CategoryType {
   margin-top: 30px;
   margin-bottom: 15px;
 }
+.MarkdownContent p {
+  /*font-size: 18px;*/
+  line-height: 1.6em;
+  margin-bottom: 20px;
+}
+.MarkdownContent ul {
+  margin-bottom: 20px;
+}
 .Box + h2,
 .Box + h3,
 .Box + h4 {
@@ -132,11 +140,6 @@ span.CategoryType {
 .Box + h3,
 .Box + h4 {
   margin-top: 50px;
-}
-.MarkdownContent p {
-  /*font-size: 18px;*/
-  line-height: 1.6em;
-  margin-bottom: 20px;
 }
 .Box p:last-child {
   margin-bottom: 0;

@@ -66,6 +66,11 @@ h6 {
   width: auto;
   max-width: 100%;
 }
+@media (max-width: 479px) {
+  #memuchoInfo {
+    text-align: center;
+  }
+}
 #memuchoInfoHeader {
   font-weight: bold;
 }
@@ -76,6 +81,11 @@ h6 {
 }
 #memuchoInfoMain .numberCircleWrapper {
   font-size: 24px;
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  #memuchoInfoMain .numberCircleWrapper {
+    padding-top: 7px;
+  }
 }
 #memuchoInfoMain .numberCircle {
   margin-top: -0.1em;
@@ -99,6 +109,12 @@ h6 {
   margin-left: 8px;
   font-weight: 600;
 }
+@media (max-width: 479px) {
+  #memuchoInfoMain .memuchoInfoBenefit {
+    display: block;
+    margin-top: -5px;
+  }
+}
 #memuchoInfoMain .memuchoInfoBenefitSub {
   font-size: 16px;
   color: #999999;
@@ -107,9 +123,15 @@ h6 {
 }
 @media (max-width: 767px) {
   #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 50px;
-    margin-top: -3px;
+    margin-left: 60px;
+    margin-top: -10px;
     display: block;
+  }
+}
+@media (max-width: 479px) {
+  #memuchoInfoMain .memuchoInfoBenefitSub {
+    margin-left: 0;
+    margin-top: 0px;
   }
 }
 #memuchoInfoFooter {
@@ -435,3 +457,6 @@ a.question-short {
     height: 180px;
   }
 }
+}
+#nominationInnopreis img {
+  border-radius: 0;
