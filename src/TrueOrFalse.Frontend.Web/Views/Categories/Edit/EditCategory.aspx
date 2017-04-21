@@ -180,6 +180,15 @@
                     <% if (Model.IsInstallationAdmin)
                     { %>
                         <div class="form-group">
+                            <div class="noLabel columnControlsFull" style="font-size: 100%;">
+                                 <div class="checkbox">
+                                    <label>
+                                        <%= Html.CheckBoxFor(m => Model.DisableLearningFunctions) %>Keine Lernoptionen anzeigen (nur für Admins) 
+                                    </label>
+                                </div>
+                            </div>      
+                        </div>
+                        <div class="form-group">
                             <label class="columnLabel control-label" for="TopicMarkdown">
                                 Freie Seitengestaltung für Themenseite
                                 <i class="fa fa-question-circle show-tooltip" 
