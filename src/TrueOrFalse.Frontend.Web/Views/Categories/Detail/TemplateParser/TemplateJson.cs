@@ -10,7 +10,7 @@ public class TemplateJson
 {
     public string TemplateName;
 
-    public int CategoryId;//Doesn't have to be included in Json, is passed internally
+    public int ContainingCategoryId;//Doesn't have to be included in Json, is passed internally
 
     public string Title;
 
@@ -48,6 +48,8 @@ public class TemplateJson
     }
 
     public int SetRowCount;
+
+    public int CategoryId;
 
     public string CssClasses;
 }
