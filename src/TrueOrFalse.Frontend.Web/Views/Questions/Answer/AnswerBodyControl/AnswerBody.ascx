@@ -73,14 +73,21 @@
                             { %>
                         <div id="falshCard-ButtonsAndSolution" class="Clearfix">
                             <%--new Actions on Server for these Buttons--%>
-                            <div id="flashCard-Buttons">
-                                <a href="<%= Model.NextUrl(Url) %>" id="btnRightAnswer" class="btn btn-primary" rel="nofollow">Wusste ich!</a>
-                                <a href="<%= Model.NextUrl(Url) %>" id="btnWrongAnswer" class="btn btn-primary" rel="nofollow">Wusste ich nicht!</a>
-                                <div id="buttons-answer" class="ButtonGroup" style="display: none">
-                                    <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
-                                </div>
+                            <a href="#" id="btnFlipCard" class="btn btn-warning" rel="nofollow">Umdrehen</a>
+
+                            <div id="buttons-answer" class="ButtonGroup" style="display: none">
+                                <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
+                                <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
+                                <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
+                            </div>
+                            <div id="falshcard-ButtonsNextQuestion" class="ButtonGroup" style="display: none;">
+                                <% if (Model.NextUrl != null)
+                                    { %>
+                                <a href="<%= Model.NextUrl(Url) %>" id="flashcard-btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                <% } %>
                             </div>
                         </div>
+
                            <% }
                         else
                         {

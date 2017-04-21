@@ -82,9 +82,22 @@ class AnswerQuestion_FlashCard {
                 }
                 return true;
             });
+
+        $("#btnRightAnswer")
+            .click(
+            e => {
+                e.preventDefault();
+                //do sth here
+            });
+
+        $("#btnWrongAnswer")
+            .click(
+            e => {
+                e.preventDefault();
+                //do sth here
+            });
     }
 
-    //click event on btnRightAnswer and btnWrongAnswer
     public OnCorrectAnswer(func: () => void) {
         this._onCorrectAnswer = func;
     }
@@ -101,19 +114,19 @@ class AnswerQuestion_FlashCard {
         return $("#isLastQuestion").val() === "True";
     }
 
+    private RightAnswer() {
+        //do here on right answer
+    }
+
+    private WrongAnswer() {
+        //do here on wrong answer
+    }
+
     private ValidateAnswer() {
-        var answerText
-            = this._getAnswerText();
         var self = this;
 
-            $('#spnWrongAnswer').show();
+        $('#flashcard-btnNext').show();
             self.AmountOfTries++;
-            self.AnswersSoFar.push(answerText);
-
-            $("#buttons-first-try").hide();
-            $("#buttons-answer-again").hide();
-
-            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion_FlashCard.ajaxUrl_SendAnswer,
