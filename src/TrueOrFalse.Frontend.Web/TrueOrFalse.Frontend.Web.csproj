@@ -331,6 +331,7 @@
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
+    <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -427,9 +428,11 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
+    <Content Include="Views\Help\WidgetMenu.ascx" />
     <Content Include="Views\Help\WidgetInMoodle.aspx" />
     <Content Include="Views\Help\WidgetInBlackboard.aspx" />
     <Content Include="Views\Help\WidgetInWordpress.aspx" />
+    <Content Include="Views\Help\WidgetExamples.aspx" />
     <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="bin\Common.Logging.Core.xml" />
     <Content Include="bin\Common.Logging.dll" />
@@ -2499,9 +2502,7 @@
     <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
-    <None Include="Web.overwritten.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />

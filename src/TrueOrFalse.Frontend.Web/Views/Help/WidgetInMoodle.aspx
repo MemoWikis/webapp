@@ -22,13 +22,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
+    <% Html.RenderPartial("~/Views/Help/WidgetMenu.ascx", new WidgetMenuModel());  %>
 
     <div class="row">
         <div class="col-xs-12">
 
             <div class="well">
 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">memuchos Quiz-Widget in Moodle einbinden</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">In Moodle einbinden</span></h1>
                 <p class="teaserText">
                     Die Lerntechnologie und die Lerninhalte von memucho können als Widget leicht in Moodle integriert werden. 
                     Sie erscheinen dann zum Beispiel direkt bei den Kursunterlagen für die Schüler oder Studenten.
