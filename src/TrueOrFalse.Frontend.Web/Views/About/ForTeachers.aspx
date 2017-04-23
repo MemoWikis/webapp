@@ -1,24 +1,10 @@
 ﻿<%@ Page Title="memucho für Lehrende" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<ForTeachersModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/ForTeachers.css" rel="stylesheet" />
-    
-    <script type="text/javascript" >
-
-        $(function () {
-            $("span.mailme")
-                .each(function() {
-                    var spt = this.innerHTML;
-                    var at = / at /;
-                    var dot = / dot /g;
-                    var addr = spt.replace(at, "@").replace(dot, ".");
-                    $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
-                    $(this).remove();
-                });
-        });
-    </script>    
-
+    <%= Scripts.Render("~/bundles/mailto") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
