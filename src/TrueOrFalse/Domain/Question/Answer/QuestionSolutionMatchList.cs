@@ -12,8 +12,9 @@ public class QuestionSolutionMatchList : QuestionSolution
     private const string ElementSeperator = "%elementseperator%";
     public List<Pair> Pairs = new List<Pair>();
     public List<ElementRight> RightElements = new List<ElementRight>();
+    public bool isSolutionOrdered;
 
-    public void FillFromPostData(NameValueCollection postData)
+    public void  FillFromPostData(NameValueCollection postData)
     {
         List<string> LeftElementText =
         (

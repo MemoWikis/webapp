@@ -5,6 +5,7 @@ using System.Linq;
 public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
 {
     public List<string> Choices;
+    public bool isSolutionOrdered;
 
     public void FillFromPostData(NameValueCollection postData)
     {

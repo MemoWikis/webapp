@@ -3,7 +3,7 @@
 
 <% var localChoices = Model.Choices;
 
-    if (false/*Check if in Order or not*/)
+    if (!Model.isSolutionOrdered)
     {
         var random = new Random();
         localChoices = Model.Choices.OrderBy(x => random.Next()).ToList();

@@ -21,6 +21,12 @@
         <button class="btn" id="addChoice">weitere mögliche Antwort hinzufügen</button>
     </div>
 </div>
+<div class="form-group">
+    <div class="checkbox">
+        <label>
+            <input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Lösung zufällig anordnen</label>
+    </div>
+</div>
 
 
 <script type="text/javascript">
@@ -48,17 +54,17 @@
         return false;
 
     });
-<% if (Model != null)
+    <% if (Model != null)
         foreach (var choice in Model.Choices)
         { %>
-    $("#addChoice").click();
-    $(".sequence-choice").last().val('<%= choice.Text %>');
-    $(".sequence-answertype").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
-<% }
-    else
-    { %>
-    $("#addChoice").click();
-    $("select[name = choice_correct-0]").val("Richtige Antwort");
-    $("#addChoice").click();
-    <% } %>
+            $("#addChoice").click();
+            $(".sequence-choice").last().val('<%= choice.Text %>');
+            $(".sequence-answertype").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
+        <% }
+        else
+        { %>
+            $("#addChoice").click();
+            $("select[name = choice_correct-0]").val("Richtige Antwort");
+            $("#addChoice").click();
+        <% } %>
 </script>

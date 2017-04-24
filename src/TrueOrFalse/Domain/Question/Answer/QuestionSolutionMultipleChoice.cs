@@ -8,6 +8,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 {
     private const string AnswerListDelimiter = "</br>";
     public List<Choice> Choices = new List<Choice>();
+    public bool isSolutionOrdered;
 
     public void FillFromPostData(NameValueCollection postData)
     {
@@ -35,6 +36,8 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
                 Text = choices[i]
             });
         }
+
+        isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
     }
 
     public override bool IsCorrect(string answer)
