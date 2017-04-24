@@ -16,16 +16,14 @@
 <div id="choices">
 </div>
 
+
 <div class="form-group">
     <div class="noLabel columnControlsFull ButtonContainer">
         <button class="btn" id="addChoice">weitere mögliche Antwort hinzufügen</button>
     </div>
 </div>
-<div class="form-group">
-    <div class="checkbox">
-        <label>
-            <input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Lösung zufällig anordnen</label>
-    </div>
+<div class="checkbox" id="solutionOrderCheck">
+    <label><input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Antwortmöglichkeiten zufällig anordnen</label>
 </div>
 
 

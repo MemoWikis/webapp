@@ -255,6 +255,9 @@ select.form-control {
     display: none;
   }
 }
+#solutionOrderCheck {
+  margin-bottom: 25px;
+}
 #matchlist #responseModal .matchlist-modalinput {
   margin-left: unset;
 }

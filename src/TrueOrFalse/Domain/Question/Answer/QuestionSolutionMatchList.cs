@@ -53,6 +53,8 @@ public class QuestionSolutionMatchList : QuestionSolution
         {
             RightElements.Add(new ElementRight() {Text = singleRightElementText});
         }
+
+        isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
     }
 
     public static MatchListAnswerPairs deserializeMatchListAnswer(string answerJSON)

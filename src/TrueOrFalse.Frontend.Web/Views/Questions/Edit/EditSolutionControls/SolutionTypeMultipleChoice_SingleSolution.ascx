@@ -9,6 +9,9 @@
         <button class="btn" id="addChoice">weitere falsche Antwort hinzufügen</button>
     </div>
 </div>
+<div class="checkbox" id="solutionOrderCheck">
+    <label><input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Antwortmöglichkeiten zufällig anordnen</label>
+</div>
 
 
 <script type="text/javascript">

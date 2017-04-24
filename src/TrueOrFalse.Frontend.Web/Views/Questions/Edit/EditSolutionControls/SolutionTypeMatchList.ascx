@@ -24,6 +24,12 @@
         </div>
     </div>
 </div>
+<div class="col-sm-12">
+    <div class="checkbox" id="solutionOrderCheck">
+        <label>
+            <input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Paare zufällig anordnen</label>
+    </div>
+</div>
 
 <script type="text/javascript">
     var addingElementRightId = $("#responseModal .form-control").length;

@@ -31,7 +31,6 @@ public class Question : DomainEntity, ICreator
     public virtual string Solution { get; set; }
     public virtual SolutionType SolutionType { get; set; }
     public virtual string SolutionMetadataJson { get; set; }
-    public virtual bool IsDisplayedOrdered { get; set; }
 
     public virtual IList<Category> Categories { get; set; }
     public virtual IList<Reference> References { get; set; }

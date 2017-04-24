@@ -17,7 +17,7 @@
 <script type="text/javascript">
     <% var localChoices = Model.Pairs;
 
-    if (false/*Check if in Order or not*/)
+    if (!Model.isSolutionOrdered)
     {
         var random = new Random();
         localChoices = Model.Pairs.OrderBy(x => random.Next()).ToList();
