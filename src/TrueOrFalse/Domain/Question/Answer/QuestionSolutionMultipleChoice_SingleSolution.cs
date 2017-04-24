@@ -5,6 +5,7 @@ using System.Linq;
 public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
 {
     public List<string> Choices;
+    public bool isSolutionOrdered;
 
     public void FillFromPostData(NameValueCollection postData)
     {
@@ -15,6 +16,8 @@ public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
                select postData.Get(x)
              )
              .ToList();
+
+        isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
     }
 
     public override bool IsCorrect(string answer)

@@ -12,6 +12,7 @@ public class QuestionSolutionMatchList : QuestionSolution
     private const string ElementSeperator = "%elementseperator%";
     public List<Pair> Pairs = new List<Pair>();
     public List<ElementRight> RightElements = new List<ElementRight>();
+    public bool isSolutionOrdered;
 
     public void FillFromPostData(NameValueCollection postData)
     {
@@ -52,6 +53,8 @@ public class QuestionSolutionMatchList : QuestionSolution
         {
             RightElements.Add(new ElementRight() {Text = singleRightElementText});
         }
+
+        isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
     }
 
     public static MatchListAnswerPairs deserializeMatchListAnswer(string answerJSON)
