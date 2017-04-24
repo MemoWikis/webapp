@@ -218,3 +218,64 @@ Pricing table
   font-size: 80px;
   transition: color 0.5s ease-in-out;
 }
+.navbar {
+  padding-left: 0;
+  border-radius: 0;
+  background-color: white;
+  border-top: 0px;
+  border-left: 0px;
+}
+.navbar .navbar-brand {
+  float: left;
+  max-width: none;
+  margin-left: 0px !important;
+}
+.navbar .container {
+  position: relative;
+}
+.navbar a {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.navbar a:hover {
+  color: #fff;
+}
+.navbar .nav {
+  margin-left: 40px;
+  margin-top: 8px;
+  position: absolute;
+  right: 0;
+}
+.navbar .nav > li {
+  float: left;
+  list-style: none;
+}
+.navbar .nav > li a {
+  padding-top: 7px;
+  padding-bottom: 6px;
+  margin: 0 15px;
+  display: inline-block;
+}
+.navbar .nav > li > .li.sep {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  width: 1px;
+  margin: 14px 20px;
+  height: 16px;
+}
+.navbar .btn.signup-link {
+  margin-left: 30px;
+  padding: 11px 22px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 2px;
+  background: none;
+  color: #fff;
+  line-height: 1;
+  border: 2px solid #fff;
+}
+.navbar .btn.signup-link:hover {
+  background: none;
+  color: #fff;
+}
