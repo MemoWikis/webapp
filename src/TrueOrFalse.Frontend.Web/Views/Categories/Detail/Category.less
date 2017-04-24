@@ -371,3 +371,51 @@ p:empty {
    i.fa-home {font-size: 120%;}
    i.fa-chevron-right {font-size: 80%;}
 }
+
+
+html.flexbox {
+    .CardsLandscape {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+
+        .CardColumn {
+            display: flex;
+        }
+
+        .Card {
+            display: flex;
+            width: 100%;
+        }
+
+        .ImageContainer {
+            flex: 0 0 100px;
+            flex-grow: 0%; //sic!
+            flex-shrink: 0%; //sic!
+            flex-basis: 100px;
+            align-self: flex-start
+        }
+
+        .ContentContainer {
+            margin-left: 0 !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: auto;
+        }
+
+        .CardContent {
+            margin-left: 0;
+            height: auto;
+            max-height: 243px;
+            border-bottom: none !important;
+        }
+
+        .BottomBar {
+            border-top: 1px solid @ruler-grey;
+            margin-left: 0 !important;
+            margin-right: 15px !important;
+        }
+    }
+}
+
