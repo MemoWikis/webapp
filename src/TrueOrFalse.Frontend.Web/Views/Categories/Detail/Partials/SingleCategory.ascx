@@ -8,7 +8,7 @@
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.CategoryName,Model.CategoryId), noFollow: true) %>
         </div>
-        <div class="CardMain">
+        <div class="ContentContainer">
             <div class="CardContent">
                 <h6 class="ItemInfo">
                     <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>">Thema mit <%= Model.QCount %> Fragen</a>
