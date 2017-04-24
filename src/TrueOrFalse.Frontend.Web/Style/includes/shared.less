@@ -318,6 +318,8 @@
 
     .BottomBar {
         padding: 5px;
+        margin-left: 15px;
+        margin-right: 15px;
     }
 }
 
@@ -397,7 +399,6 @@
     margin-left: @margin-card;
     margin-right: @margin-card;
     overflow: hidden;
-    border-bottom: 1px solid @ruler-grey;
 
     .SingleItem & {
         .media-below-md({
@@ -435,6 +436,12 @@
         margin-left: @margin-card;
         margin-right: @margin-card;
     }
+}
+
+.Card .BottomBar {
+    border-top: 1px solid @ruler-grey;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .ButtonEllipsis {
@@ -515,8 +522,6 @@
                 height: 180px;
             }
         }
-
-        
     }
 }
 
@@ -563,7 +568,7 @@
         }
 
         .CardContent {
-            border-bottom: 1px solid @ruler-grey;
+            //border-bottom: 1px solid @ruler-grey;
             padding-bottom: 10px;
         }
 
@@ -575,9 +580,7 @@
 
 
         .BottomBar {
-            //border-top: 1px solid @ruler-grey;
             padding: 5px 0;
-            margin: 0 10px 0 0;
         }
     }
 }
@@ -644,6 +647,8 @@
         height: auto !important;
     }
 }
+
+
 
 
 /*  Images
