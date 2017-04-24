@@ -2,12 +2,8 @@
 
 
 <% var localChoices = Model.Choices;
-
     if (!Model.isSolutionOrdered)
-    {
-        var random = new Random();
-        localChoices = Model.Choices.OrderBy(x => random.Next()).ToList();
-    }
+        localChoices = Model.Choices.OrderBy(x => new Random().Next()).ToList();
 
     foreach (var choice in localChoices)
     { %>

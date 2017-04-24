@@ -15,14 +15,11 @@
 </div>
 
 <script type="text/javascript">
-    <% var localChoices = Model.Pairs;
-
+    <% var localPairs = Model.Pairs;
     if (!Model.isSolutionOrdered)
-    {
-        var random = new Random();
-        localChoices = Model.Pairs.OrderBy(x => random.Next()).ToList();
-    }
-    foreach (var pair in localChoices)
+        localPairs = Model.Pairs.OrderBy(x => new Random().Next()).ToList();
+
+    foreach (var pair in localPairs)
     { %>
     var rightDropElement = $("<div class='col-sm-6'>").append($("<div class='matchlist-droppable' name = '<%= pair.ElementLeft.Text %>'>").droppable({
         accept: '.matchlist-rightelement',
@@ -35,7 +32,11 @@
         .append(rightDropElement)));
     <% }
 
-    foreach (var elementRight in Model.RightElements.OrderBy(x => random.Next()))
+    var localRightElements = Model.RightElements;
+    if (!Model.isSolutionOrdered)
+        localRightElements = Model.RightElements.OrderBy(x => new Random().Next()).ToList();
+
+    foreach (var elementRight in localRightElements)
     { %>
     var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>")
         .html("<%= elementRight.Text %>")
