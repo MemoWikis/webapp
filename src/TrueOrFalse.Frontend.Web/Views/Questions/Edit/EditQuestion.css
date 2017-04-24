@@ -255,8 +255,12 @@ select.form-control {
     display: none;
   }
 }
-#solutionOrderCheck {
+#matchlist-solutionOrderCheck {
   margin-bottom: 25px;
+}
+#multiplechoice-solutionOrderCheck {
+  margin-bottom: 25px;
+  margin-top: -10px;
 }
 #matchlist #responseModal .matchlist-modalinput {
   margin-left: unset;

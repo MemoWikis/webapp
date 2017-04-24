@@ -16,8 +16,9 @@
 
 <script type="text/javascript">
     <% var localPairs = Model.Pairs;
+    var random = new Random();
     if (!Model.isSolutionOrdered)
-        localPairs = Model.Pairs.OrderBy(x => new Random().Next()).ToList();
+        localPairs = Model.Pairs.OrderBy(x => random.Next()).ToList();
 
     foreach (var pair in localPairs)
     { %>
@@ -32,11 +33,7 @@
         .append(rightDropElement)));
     <% }
 
-    var localRightElements = Model.RightElements;
-    if (!Model.isSolutionOrdered)
-        localRightElements = Model.RightElements.OrderBy(x => new Random().Next()).ToList();
-
-    foreach (var elementRight in localRightElements)
+    foreach (var elementRight in Model.RightElements.OrderBy(x => random.Next()))
     { %>
     var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>")
         .html("<%= elementRight.Text %>")

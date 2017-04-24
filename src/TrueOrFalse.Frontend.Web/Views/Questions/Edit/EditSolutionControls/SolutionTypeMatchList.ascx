@@ -23,11 +23,11 @@
             </div>
         </div>
     </div>
-</div>
-<div class="col-sm-12">
-    <div class="checkbox" id="solutionOrderCheck">
-        <label>
-            <input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Paare zufällig anordnen</label>
+    <div class="row">
+        <div class="checkbox" id="matchlist-solutionOrderCheck">
+            <label>
+                <input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Paare zufällig anordnen</label>
+        </div>
     </div>
 </div>
 
@@ -136,6 +136,12 @@
         $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');
         $(".matchlist-rightpairelement").last().val('<%= Model.Pairs[i].ElementRight.Text %>');
     <% }
+
+    if (Model.isSolutionOrdered)
+    { %>
+        $('[name="isSolutionRandomlyOrdered"]').prop("checked", false);
+    <% }
+
     }
     else
     { %>
