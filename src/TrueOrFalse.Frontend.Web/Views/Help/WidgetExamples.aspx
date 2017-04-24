@@ -35,13 +35,109 @@
 
     <div class="row">
         <div class="col-xs-12">
-
             <div class="well">
 
                 <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Beispiele</span></h1>
-                <p class="teaserText">
-                    lorem ipsum
-                </p>
+                
+                <div class="row" style="margin-top: -40px;">
+                    <div class="col-lg-4">
+                        <h2>Einzelfrage</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#singleChoice">Single Choice</a></li>
+                            <li><a href="#multipleChoice">Multiple Choice</a></li>
+                            <li><a href="#dragAndDrop">Drag and Drop</a></li>
+                            <li><a href="#flip">Flip</a></li>
+                            <li><a href="#text">Text-Antwort</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h2>Fragesatz</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#setDefault">Default</a></li>
+                            <li><a href="#setVideo"><i class="fa fa-youtube-play" aria-hidden="true"></i> Video</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h2>Lehrer & Lerntools</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#">PDF-Export Fragesatz</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">mehr auf Anfrage</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <hr style="margin-bottom: -10px;"/>
+
+                <div class="row features" style="margin-bottom: 30px;">
+                    <div class="col-lg-4">
+                        <h2>Konfiguration</h2>
+                        <ul class="">
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Breite flexibel einstellbar</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> optionales Branding</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> optionaler Wunschwissenbutton</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h2>Eigenschaften</h2>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Resonsive Design</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Kleiner Payload (async geladen)</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> optionaler Wunschwissenbutton</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well">
+                
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Einzelfragen</span></h1>
+                    
+                <h3><a name="singleChoice">Single Choice</a></h3>
+                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3629" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                    
+                <h3><a name="multipleChoice">Multiple Choice</a></h3>
+                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3485" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                    
+                <h3><a name="dragAndDrop">Drag and Drop</a></h3>
+                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3623" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                    
+                <h3><a name="flip">Flip</a></h3>
+                <p>In Arbeit</p>
+                    
+                <h3><a name="text">Text</a></h3>
+                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3638" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well">
+                
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Fragesatz</span></h1>
+                
+                <h3><a name="setDefault">Default</a></h3>
+                <script src="https://memucho.de/views/widgets/w.js" t="set" id="22" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                
+                <h3><a name="setVideo">Video</a></h3>
+                <script src="https://memucho.de/views/widgets/w.js" t="setVideo" id="95" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well">
+                
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Lehrer & Lerntools</span></h1>
+                <p>Dokumentation folgt.</p>
             </div>
         </div>
     </div>

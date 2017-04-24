@@ -279,3 +279,20 @@ Pricing table
   background: none;
   color: #fff;
 }
+.nav-pills li > a {
+  padding: 0px 2px;
+  font-size: 16px;
+}
+.features ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.features ul li {
+  font-size: 16px;
+}
+h3 a {
+  color: black;
+}
+h3 a:hover {
+  text-decoration: none;
+}
