@@ -4,10 +4,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
+    
+    <%= Scripts.Render("~/bundles/mailto") %>
     <script type="text/javascript" >
-
-        <%= Scripts.Render("~/bundles/mailto") %>
-
         $(function () {
             $("a.mailmeMore")
                 .each(function () {
