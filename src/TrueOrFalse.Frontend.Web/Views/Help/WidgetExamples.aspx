@@ -4,10 +4,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
+    
+    <%= Scripts.Render("~/bundles/mailto") %>
     <script type="text/javascript" >
-
-        <%= Scripts.Render("~/bundles/mailto") %>
-
         $(function () {
             $("a.mailmeMore")
                 .each(function () {
@@ -109,14 +108,12 @@
                     Bei diesem Aufgabentyp gibt es genau eine richtige Antwort. Das Bild ist optional. <br />
                     Nach einem Bericht über den Pilz-Fund beim letzten Waldausflug fragen wir dich also:
                 </p>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3629" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                     
                 <h3 id="multipleChoice">Multiple Choice</h3>
                 <p>
                     Beim "echten" Multiple Choice können keine oder mehrere Antworten richtig sein. 
                     Das erhöht den Schwierigkeitsgrad, macht aber auch die Fragen oft interessanter.
                 </p>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3485" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                     
                 <h3 id="dragAndDrop">Zuordnen (Drag and Drop)</h3>
                 <p>
@@ -124,7 +121,6 @@
                     zum Beispiel auch dazu, Arbeitsschritte in die richtige Reihenfolge zu bringen. <br/>
                     Bei einer Kursseite zur Prozentrechnung, direkt hinter dem Absatz zu Grundwert/Prozentwert fragen wir dich also:
                 </p>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3623" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                     
                 <h3 id="flip">Flip</h3>
                 <p>
@@ -137,7 +133,6 @@
                     Zur Prüfung von aktivem Wissen eignet sich dieser Typ besonders gut. Möglich ist auch die Eingabe einer Zahl oder eines Datums. <br/>
                     Am Ende unseres kleinen Kurses zur Prozentrechnung sollst du also nochmal Kopfrechnen:
                 </p>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3638" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
 
             </div>
         </div>
@@ -154,10 +149,9 @@
                 </p>
                 
                 <h3 id="setDefault">Standard-Fragesatz (Quiz)</h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="set" id="22" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                 
                 <h3 id="setVideo">Video-Fragesatz</h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="setVideo" id="95" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="setVideo" data-id="95" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
             </div>
         </div>
     </div>
