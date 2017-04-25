@@ -122,7 +122,7 @@ if (domainForDebug && domainForDebug.length > 0)
 
 
 var queryKnowledgeBtn = "";
-var hideKnowledgeBtn = scriptTag.getAttribute("data-ideKnowledgeBtn");
+var hideKnowledgeBtn = scriptTag.getAttribute("data-hideKnowledgeBtn");
 if (hideKnowledgeBtn && hideKnowledgeBtn.length > 0 && hideKnowledgeBtn == "true") {
     queryKnowledgeBtn = "?hideAddToKnowledge=true";
 }
