@@ -101,6 +101,9 @@ code {
   font-size: 1.3em;
   font-weight: bold;
 }
+.widgetExamples h3 {
+  margin-top: 50px;
+}
 /***
 User Profile Sidebar by @keenthemes
 A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
@@ -200,7 +203,7 @@ Pricing table
 .pricing-footer p {
   margin-top: -4px;
 }
-/*Priceing Active*/
+/*Pricing Active*/
 .price-active,
 .pricing:hover {
   z-index: 9;
@@ -289,10 +292,4 @@ Pricing table
 }
 .features ul li {
   font-size: 16px;
-}
-h3 a {
-  color: black;
-}
-h3 a:hover {
-  text-decoration: none;
 }

@@ -45,16 +45,16 @@
                         <ul class="nav nav-pills nav-stacked">
                             <li><a href="#singleChoice">Single Choice</a></li>
                             <li><a href="#multipleChoice">Multiple Choice</a></li>
-                            <li><a href="#dragAndDrop">Drag and Drop</a></li>
+                            <li><a href="#dragAndDrop">Zuordnen (Drag and Drop)</a></li>
                             <li><a href="#flip">Flip</a></li>
                             <li><a href="#text">Text-Antwort</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
-                        <h2>Fragesatz</h2>
+                        <h2>Fragesatz (Quiz)</h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#setDefault">Default</a></li>
-                            <li><a href="#setVideo"><i class="fa fa-youtube-play" aria-hidden="true"></i> Video</a></li>
+                            <li><a href="#setDefault">Standard-Fragesatz (Quiz)</a></li>
+                            <li><a href="#setVideo"><i class="fa fa-youtube-play" aria-hidden="true"></i> Video-Fragesatz</a></li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
@@ -70,20 +70,20 @@
                 <hr style="margin-bottom: -10px;"/>
 
                 <div class="row features" style="margin-bottom: 30px;">
-                    <div class="col-lg-4">
-                        <h2>Konfiguration</h2>
-                        <ul class="">
+                    <div class="col-md-6 col-xs-12">
+                        <h3>Konfiguration</h3>
+                        <ul class="nav nav-pills nav-stacked">
                             <li><i class="fa fa-check" aria-hidden="true"></i> Breite flexibel einstellbar</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> optionales Branding</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> optionaler Wunschwissenbutton</li>
                         </ul>
                     </div>
-                    <div class="col-lg-4">
-                        <h2>Eigenschaften</h2>
+                    <div class="col-md-6 col-xs-12">
+                        <h3>Eigenschaften</h3>
                         <ul class="nav nav-pills nav-stacked">
                             <li><i class="fa fa-check" aria-hidden="true"></i> Resonsive Design</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Kleiner Payload (async geladen)</li>
-                            <li><i class="fa fa-check" aria-hidden="true"></i> optionaler Wunschwissenbutton</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Vielfältige Fragetypen und Video-Unterstützung</li>
                         </ul>
                     </div>
                 </div>
@@ -94,23 +94,49 @@
     
     <div class="row">
         <div class="col-xs-12">
-            <div class="well">
+            <div class="well widgetExamples">
                 
                 <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Einzelfragen</span></h1>
+
+                <p>
+                    Einzelne Fragen können eingebettet werden, um andere Inhalte wie längere Texte aufzulockern. Sie animieren die Leser zur Interaktion.
+                    Das erhöht die Konzentration und den Spaß mit deinen Inhalten. Zur Auswahl stehen verschiedene Frage-Antwort-Typen, die für 
+                    unterschiedliche Inhalte geeignet sein können.
+                </p>
                     
-                <h3><a name="singleChoice">Single Choice</a></h3>
+                <h3 id="singleChoice">Eine richtige Antwort (Single Choice)</h3>
+                <p>
+                    Bei diesem Aufgabentyp gibt es genau eine richtige Antwort. Das Bild ist optional. <br />
+                    Nach einem Bericht über den Pilz-Fund beim letzten Waldausflug fragen wir dich also:
+                </p>
                 <script src="https://memucho.de/views/widgets/w.js" t="question" id="3629" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                     
-                <h3><a name="multipleChoice">Multiple Choice</a></h3>
+                <h3 id="multipleChoice">Multiple Choice</h3>
+                <p>
+                    Beim "echten" Multiple Choice können keine oder mehrere Antworten richtig sein. 
+                    Das erhöht den Schwierigkeitsgrad, macht aber auch die Fragen oft interessanter.
+                </p>
                 <script src="https://memucho.de/views/widgets/w.js" t="question" id="3485" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                     
-                <h3><a name="dragAndDrop">Drag and Drop</a></h3>
+                <h3 id="dragAndDrop">Zuordnen (Drag and Drop)</h3>
+                <p>
+                    Hier müssen Elemente zugeordnet werden, die zueinander passen. Der Einsatz ist sehr flexibel und eignet sich 
+                    zum Beispiel auch dazu, Arbeitsschritte in die richtige Reihenfolge zu bringen. <br/>
+                    Bei einer Kursseite zur Prozentrechnung, direkt hinter dem Absatz zu Grundwert/Prozentwert fragen wir dich also:
+                </p>
                 <script src="https://memucho.de/views/widgets/w.js" t="question" id="3623" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                     
-                <h3><a name="flip">Flip</a></h3>
-                <p>In Arbeit</p>
+                <h3 id="flip">Flip</h3>
+                <p>
+                    In Anlehnung an die klassische Karteikarte können hier Antworten durch Umdrehen einer Karte aufgedeckt werden. 
+                    Dieser Frage-Antwort-Typ ist in Arbeit und folgt demnächst.
+                </p>
                     
-                <h3><a name="text">Text</a></h3>
+                <h3 id="text">Freie Textantwort</h3>
+                <p>
+                    Zur Prüfung von aktivem Wissen eignet sich dieser Typ besonders gut. Möglich ist auch die Eingabe einer Zahl oder eines Datums. <br/>
+                    Am Ende unseres kleinen Kurses zur Prozentrechnung sollst du also nochmal Kopfrechnen:
+                </p>
                 <script src="https://memucho.de/views/widgets/w.js" t="question" id="3638" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
 
             </div>
@@ -123,10 +149,14 @@
                 
                 <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Fragesatz</span></h1>
                 
-                <h3><a name="setDefault">Default</a></h3>
+                <p>
+                    
+                </p>
+                
+                <h3 id="setDefault">Standard-Fragesatz (Quiz)</h3>
                 <script src="https://memucho.de/views/widgets/w.js" t="set" id="22" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
                 
-                <h3><a name="setVideo">Video</a></h3>
+                <h3 id="setVideo">Video-Fragesatz</h3>
                 <script src="https://memucho.de/views/widgets/w.js" t="setVideo" id="95" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
             </div>
         </div>
