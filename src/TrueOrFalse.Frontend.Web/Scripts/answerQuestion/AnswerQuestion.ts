@@ -223,9 +223,16 @@ class AnswerQuestion {
                         AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
                     }
 
-                    if (result.correct)
+                    if (this.SolutionType === SolutionType.FlashCard) {
+
+                        if (self.AnsweredCorrectly)
+                            self.HandleCorrectAnswer();
+                        else
+                            self.HandleWrongAnswer(result, answerText);
+
+                    } else if (result.correct)
                         self.HandleCorrectAnswer();
-                    else 
+                    else
                         self.HandleWrongAnswer(result, answerText);
 
                     $("#answerHistory").empty();
@@ -241,9 +248,11 @@ class AnswerQuestion {
     }
 
     private HandleCorrectAnswer() {
-        this.AnsweredCorrectly = true;
-        this._inputFeedback.ShowSuccess();
-        this._inputFeedback.ShowSolution();
+        if (this.SolutionType !== SolutionType.FlashCard) {
+            this.AnsweredCorrectly = true;
+            this._inputFeedback.ShowSuccess();
+            this._inputFeedback.ShowSolution();
+        }
         if (this._isLastLearningStep)
             $('#btnNext').html('Zum Ergebnis');
 
@@ -255,23 +264,35 @@ class AnswerQuestion {
             $('#btnNext').html('Zum Ergebnis');
 
         if (this.IsGameMode) {
-            this._inputFeedback.ShowErrorGame();
-            this._inputFeedback.ShowSolution();
-        } else {
-            this._inputFeedback.UpdateAnswersSoFar();
+            if (this.SolutionType === SolutionType.FlashCard)
 
-            this.RegisterWrongAnswer();
-            this._inputFeedback.ShowError();
+                alert("do sth here");//FlashCard
 
-            if (this.IsLearningSession || this.IsTestSession) {
-
+            else {
+                this._inputFeedback.ShowErrorGame();
                 this._inputFeedback.ShowSolution();
-                $('#CountWrongAnswers, #divWrongAnswers').hide();
+            }
+        } else {
+            if (this.SolutionType === SolutionType.FlashCard) {
 
-            } else if (result.choices != null) { //if multiple choice
-                choices = result.choices;
-                if (this.allWrongAnswersTried(answerText)) {
+                alert("do sth here");//FlashCard
+
+            } else {
+                this._inputFeedback.UpdateAnswersSoFar();
+
+                this.RegisterWrongAnswer();
+                this._inputFeedback.ShowError();
+
+                if (this.IsLearningSession || this.IsTestSession) {
+
                     this._inputFeedback.ShowSolution();
+                    $('#CountWrongAnswers, #divWrongAnswers').hide();
+
+                } else if (result.choices != null) { //if multiple choice
+                    choices = result.choices;
+                    if (this.allWrongAnswersTried(answerText)) {
+                        this._inputFeedback.ShowSolution();
+                    }
                 }
             }
         }

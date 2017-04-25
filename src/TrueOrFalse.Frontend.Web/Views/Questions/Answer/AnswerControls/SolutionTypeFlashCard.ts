@@ -13,12 +13,14 @@ class SolutionTypeFlashCard
         $("#btnRightAnswer").click(
             e => {
                 e.preventDefault();
+                this.AnswerQuestion.AnsweredCorrectly = true;
                 this.AnswerQuestion.ValidateAnswer();
             });
 
         $("#btnWrongAnswer").click(
             e => {
                 e.preventDefault();
+                this.AnswerQuestion.AnsweredCorrectly = false;
                 this.AnswerQuestion.ValidateAnswer();
             });
     }
