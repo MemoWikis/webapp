@@ -74,6 +74,36 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return query.List<Category>();            
     }
 
+    public IList<Category> GetDescendants(
+        CategoryType parentType,
+        CategoryType descendantType,
+        int parentId,
+        String searchTerm = "")
+    {
+        var currentGeneration  = GetChildren(parentType, descendantType, parentId, searchTerm).ToList();
+        var nextGeneration = new List<Category>();
+        var descendants = new List<Category>();
+
+        while (currentGeneration.Count > 0)
+        {
+            descendants.AddRange(currentGeneration);
+
+            foreach (var category in currentGeneration)
+            {
+                var children = GetChildren(parentType, descendantType, category.Id, searchTerm).ToList();
+                if (children.Count > 0)
+                {
+                    nextGeneration.AddRange(children);
+                }
+            }
+
+            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
+            nextGeneration = new List<Category>();
+        } 
+
+        return descendants;
+    }
+
     public override IList<Category> GetByIds(params int[] categoryIds)
     {
         var resultTmp = base.GetByIds(categoryIds);
