@@ -428,6 +428,12 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
+    <Content Include="Views\Help\Js\WidgetPricing.js">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\Js\WidgetPricing.js.map">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Help\WidgetMenu.ascx" />
     <Content Include="Views\Help\WidgetInMoodle.aspx" />
     <Content Include="Views\Help\WidgetInBlackboard.aspx" />
