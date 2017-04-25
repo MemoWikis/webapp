@@ -98,19 +98,19 @@
                 <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Einzelfragen</span></h1>
                     
                 <h3><a name="singleChoice">Single Choice</a></h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3629" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3629" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
                     
                 <h3><a name="multipleChoice">Multiple Choice</a></h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3485" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3485" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
                     
                 <h3><a name="dragAndDrop">Drag and Drop</a></h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3623" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3623" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
                     
                 <h3><a name="flip">Flip</a></h3>
                 <p>In Arbeit</p>
                     
                 <h3><a name="text">Text</a></h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="question" id="3638" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3638" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
 
             </div>
         </div>
@@ -123,10 +123,10 @@
                 <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Fragesatz</span></h1>
                 
                 <h3><a name="setDefault">Default</a></h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="set" id="22" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="22" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
                 
                 <h3><a name="setVideo">Video</a></h3>
-                <script src="https://memucho.de/views/widgets/w.js" t="setVideo" id="95" width="100%" maxWidth="100%" hideKnowledgeBtn="true"></script>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="setVideo" data-id="95" data-width="100%" data-maxdata-width="100%" data-hideKnowledgeBtn="true"></script>
             </div>
         </div>
     </div>

@@ -12,10 +12,10 @@
         $("#inputSetEmbedCode").val(code);
 
         var codeElem = $(code);
-        codeElem.attr("isPreview", "true");
+        codeElem.attr("data-isPreview", "true");
 
         if (host == "http://memucho.local") {
-            codeElem.attr("domainForDebug", host);
+            codeElem.attr("data-domainForDebug", host);
         }
 
         /* required for w.js: */ scriptIndex = -1;
@@ -64,20 +64,20 @@
 
         settings.MaxWidth = "";
         if ($("#ckbEnableMaxWidth:checked").length == 1) {
-            settings.MaxWidth = "maxWidth=\"" + $("#widgetMaxWidth").val() + "px\"";
+            settings.MaxWidth = "data-maxWidth=\"" + $("#widgetMaxWidth").val() + "px\"";
         }
 
         settings.HideKnowledgeButton = "";
         if ($("#ckbHideKnowledgeBtn:checked").length == 1) {
-            settings.HideKnowledgeButton = "hideKnowledgeBtn=\"true\"";
+            settings.HideKnowledgeButton = "data-hideKnowledgeBtn=\"true\"";
         }
 
         return settings;
     }
 
     GetEmbedCode(settings: WidgetSettings): string {
-        return "<script src=\"" + settings.Url + "\" t=\"" + settings.Type + "\" id=\"" + settings.Id +
-            "\" width=\"" + settings.Width + "\" " + settings.MaxWidth + " " + settings.HideKnowledgeButton + "></script>";
+        return "<script src=\"" + settings.Url + "\" data-t=\"" + settings.Type + "\" data-id=\"" + settings.Id +
+            "\" data-width=\"" + settings.Width + "\" " + settings.MaxWidth + " " + settings.HideKnowledgeButton + "></script>";
     }
 }
 
