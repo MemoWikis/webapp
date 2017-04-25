@@ -72,10 +72,6 @@
                 </p>
 
 
-                <p style="margin-top: 30px;">
-                    <strong>Achtung:</strong> Bei einigen Wordpress-Versionen gehen Einstellungen des Widgets verloren, wenn zwischendurch wieder im "Visuell"-Modus gearbeitet wird. 
-                    Dann musst du die Code-Zeile für das Widget am besten noch einmal vollständig einfügen.
-                </p>
             </div>
         </div>
     </div>
