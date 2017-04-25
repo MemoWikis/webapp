@@ -8,6 +8,19 @@ class SolutionTypeFlashCard
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
+        //special code for FlashCard
+
+        $("#btnRightAnswer").click(
+            e => {
+                e.preventDefault();
+                this.AnswerQuestion.ValidateAnswer();
+            });
+
+        $("#btnWrongAnswer").click(
+            e => {
+                e.preventDefault();
+                this.AnswerQuestion.ValidateAnswer();
+            });
     }
 
     static GetChosenAnswers(): string {

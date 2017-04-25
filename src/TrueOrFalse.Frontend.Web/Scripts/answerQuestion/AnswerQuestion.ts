@@ -168,26 +168,28 @@ class AnswerQuestion {
         return $("#isLastQuestion").val() === "True";
     }
 
-    private ValidateAnswer() {
+    public ValidateAnswer() {
         var answerText
             = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList) {
+        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList && this.SolutionType !== SolutionType.FlashCard) {
             $('#spnWrongAnswer').hide();
             self._inputFeedback
                 .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
                     true);
             return false;
         } else {
-            $('#spnWrongAnswer').show();
-            self.AmountOfTries++;
-            self.AnswersSoFar.push(answerText);
+            if (this.SolutionType !== SolutionType.FlashCard) {
+                $('#spnWrongAnswer').show();
+                self.AmountOfTries++;
+                self.AnswersSoFar.push(answerText);
 
-            $("#buttons-first-try").hide();
-            $("#buttons-answer-again").hide();
+                $("#buttons-first-try").hide();
+                $("#buttons-answer-again").hide();
 
-            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+                $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+            }
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
