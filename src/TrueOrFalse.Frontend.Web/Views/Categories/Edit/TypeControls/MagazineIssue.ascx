@@ -81,12 +81,12 @@
     <div class="columnControlsFull JS-ValidationGroup">
         <label class="control-label LabelInline" for="PublicationDateDay">Tag</label>
         <div class="ControlInline">
-            <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay.PadLeft(2, '0') %>">
+            <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateDay) ? null : model.PublicationDateDay.PadLeft(2, '0') %>">
         </div>
         <div class="ControlGroupInline">
             <label class="control-label LabelInline" for="PublicationDateMonth">Monat</label>
             <div class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth.PadLeft(2, '0') %>">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateMonth" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateMonth) ? null : model.PublicationDateMonth.PadLeft(2, '0') %>">
             </div>
         </div>
     </div>
