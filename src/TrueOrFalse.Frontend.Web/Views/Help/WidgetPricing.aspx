@@ -12,13 +12,10 @@
                 .each(function () {
                     var hrefOrg = this.getAttribute('href');
                     var spt = hrefOrg.substr(0, hrefOrg.indexOf("?") - 1);
-                    //console.log("hrefOrg: " + hrefOrg);
-                    //console.log("spt: " + spt);
                     var at = / at /;
                     var dot = / dot /g;
                     var addr = spt.replace(at, "@").replace(dot, ".");
                     var hrefNew = "mailto:" + addr + hrefOrg.substr(hrefOrg.indexOf("?"));
-                    //console.log("hrefNew: " + hrefNew)
                     this.setAttribute('href', hrefNew);
                 });
         });
