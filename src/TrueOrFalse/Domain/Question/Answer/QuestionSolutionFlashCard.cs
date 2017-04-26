@@ -10,7 +10,7 @@ public class QuestionSolutionFlashCard : QuestionSolution
     }
 
     public override bool IsCorrect(string answer)
-    {
+    {   
         return answer == "true";
     }
 

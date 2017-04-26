@@ -223,14 +223,7 @@ class AnswerQuestion {
                         AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
                     }
 
-                    if (self.SolutionType === SolutionType.FlashCard) {
-
-                        if (self.AnsweredCorrectly)
-                            self.HandleCorrectAnswer();
-                        else
-                            self.HandleWrongAnswer(result, answerText);
-
-                    } else if (result.correct)
+                    if (result.correct)
                         self.HandleCorrectAnswer();
                     else
                         self.HandleWrongAnswer(result, answerText);
@@ -248,11 +241,11 @@ class AnswerQuestion {
     }
 
     private HandleCorrectAnswer() {
+        this.AnsweredCorrectly = true;
         if (this.SolutionType !== SolutionType.FlashCard) {
-            this.AnsweredCorrectly = true;
             this._inputFeedback.ShowSuccess();
-            this._inputFeedback.ShowSolution();
         }
+        this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep)
             $('#btnNext').html('Zum Ergebnis');
 

@@ -16,6 +16,8 @@ class SolutionTypeFlashCard
                 this.cardFlippedOnce = true;
                 $('#btnFlipCard').hide();
                 $('#buttons-answer').show();
+                if ($(e.delegateTarget).attr('id') === "btnFlipCard")
+                    $('#flashCardContent').click();
             }
         });
 
@@ -29,14 +31,14 @@ class SolutionTypeFlashCard
         $("#btnRightAnswer").click(
             e => {
                 e.preventDefault();
-                this.AnswerQuestion.AnsweredCorrectly = true;
+                this.answerRight = true;
                 this.AnswerQuestion.ValidateAnswer();
             });
 
         $("#btnWrongAnswer").click(
             e => {
                 e.preventDefault();
-                this.AnswerQuestion.AnsweredCorrectly = false;
+                this.answerRight = false;
                 this.AnswerQuestion.ValidateAnswer();
             });
     }

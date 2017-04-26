@@ -85,11 +85,25 @@
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
                                 </div>
-                                <div id="falshcard-ButtonsNextQuestion" class="ButtonGroup" style="display: none;">
+                                <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null)
-                                        { %>
-                                    <a href="<%= Model.NextUrl(Url) %>" id="flashcard-btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                       { %>
+                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% } %>
+                                    <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
+                                </div>
+                                <div id="SolutionDetailsSpinner" style="display: none;">
+                                    <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
+                                </div>
+                                <div id="SolutionDetails" style="display: none; background-color: white;">
+                                    <div id="Description" class="Detail" style="display: none;">
+                                        <div class="Label">Ergänzungen zur Antwort:</div>
+                                        <div class="Content"></div>
+                                    </div>
+                                    <div id="References" class="Detail" style="display: none;">
+                                        <div class="Label">Quellen:</div>
+                                        <div class="Content"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

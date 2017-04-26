@@ -75,9 +75,10 @@
     ShowSolution() {
 
         this.ShowNextQuestionLink();
-        $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
         if (this._answerQuestion.SolutionType !== SolutionType.MatchList &&
-            this._answerQuestion.SolutionType !== SolutionType.MultipleChoice) {
+            this._answerQuestion.SolutionType !== SolutionType.MultipleChoice &&
+            this._answerQuestion.SolutionType !== SolutionType.FlashCard) {
+            $("#txtAnswer").attr('disabled', 'true').addClass('disabled');
             if (this._answerQuestion.AnswersSoFar.length === 1) {
                 $("#divWrongAnswers .WrongAnswersHeading").html('Deine Antwort:');
                 if ($("#txtAnswer").val() !== this._answerQuestion.AnswersSoFar[0]) {
