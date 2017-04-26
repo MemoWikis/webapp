@@ -56,7 +56,7 @@
                 </div>
                 <div class="column" >
                     <h4 style="margin-top: 0px;">Erstellte Inhalte</h4>
-                    <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User) %>"><%= Model.AmountCreatedQuestions %> Fragen erstellt</a></div>
+                    <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User) %>"><%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt</a></div>
                     <div><%= Model.AmountCreatedSets %> Fragesätze erstellt</div>
                     <div><%= Model.AmountCreatedCategories %>  Themen erstellt</div>
                 </div>
