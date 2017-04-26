@@ -223,7 +223,7 @@ class AnswerQuestion {
                         AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
                     }
 
-                    if (this.SolutionType === SolutionType.FlashCard) {
+                    if (self.SolutionType === SolutionType.FlashCard) {
 
                         if (self.AnsweredCorrectly)
                             self.HandleCorrectAnswer();

@@ -3,12 +3,28 @@ class SolutionTypeFlashCard
     implements IAnswerEntry
 {
     public SolutionType = SolutionType.FlashCard;
+    private answerRight: boolean;
+    private cardFlippedOnce: boolean;
 
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
         //special code for FlashCard
+        $("#flashCardContent, #btnFlipCard").click(e => {
+            if (!this.cardFlippedOnce) {
+                this.cardFlippedOnce = true;
+                $('#btnFlipCard').hide();
+                $('#buttons-answer').show();
+            }
+        });
+
+        $("#btnRightAnswer, #btnWrongAnswer")
+            .click(
+            e => {
+                e.preventDefault();
+                $('#hddTimeRecords').attr('data-time-of-answer', $.now());
+            });
 
         $("#btnRightAnswer").click(
             e => {
@@ -25,7 +41,7 @@ class SolutionTypeFlashCard
             });
     }
 
-    static GetChosenAnswers(): string {
+     GetChosenAnswers(): string {
         return "";
     }
 
@@ -34,6 +50,6 @@ class SolutionTypeFlashCard
     }
 
     GetAnswerData(): {} {
-        return "";
+        return { answer: this.answerRight ? "true" : "false" };
     }
 };
