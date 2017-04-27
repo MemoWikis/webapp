@@ -189,6 +189,8 @@ class AnswerQuestion {
                 $("#buttons-answer-again").hide();
 
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+            } else {
+                $('#buttons-answer').hide();
             }
             $.ajax({
                 type: 'POST',
@@ -257,35 +259,27 @@ class AnswerQuestion {
             $('#btnNext').html('Zum Ergebnis');
 
         if (this.IsGameMode) {
-            if (this.SolutionType === SolutionType.FlashCard)
-
-                alert("do sth here");//FlashCard
-
-            else {
+            if (this.SolutionType !== SolutionType.FlashCard) {
                 this._inputFeedback.ShowErrorGame();
                 this._inputFeedback.ShowSolution();
             }
         } else {
             if (this.SolutionType === SolutionType.FlashCard) {
+                this._inputFeedback.ShowSolution();
+            }
+            this._inputFeedback.UpdateAnswersSoFar();
+            this.RegisterWrongAnswer();//need only this
+            this._inputFeedback.ShowError();
 
-                alert("do sth here");//FlashCard
+            if (this.IsLearningSession || this.IsTestSession) {
 
-            } else {
-                this._inputFeedback.UpdateAnswersSoFar();
+                this._inputFeedback.ShowSolution();
+                $('#CountWrongAnswers, #divWrongAnswers').hide();
 
-                this.RegisterWrongAnswer();
-                this._inputFeedback.ShowError();
-
-                if (this.IsLearningSession || this.IsTestSession) {
-
+            } else if (result.choices != null) { //if multiple choice
+                choices = result.choices;
+                if (this.allWrongAnswersTried(answerText)) {
                     this._inputFeedback.ShowSolution();
-                    $('#CountWrongAnswers, #divWrongAnswers').hide();
-
-                } else if (result.choices != null) { //if multiple choice
-                    choices = result.choices;
-                    if (this.allWrongAnswersTried(answerText)) {
-                        this._inputFeedback.ShowSolution();
-                    }
                 }
             }
         }

@@ -35,9 +35,13 @@
 
         this.UpdateAnswersSoFar();
 
-        $("#divWrongAnswer").show();
-        $("#buttons-first-try").hide();
-        $("#buttons-answer-again").hide();
+        if (this._answerQuestion.SolutionType === SolutionType.FlashCard) {
+            //MARK:Julian
+        } else {
+            $("#divWrongAnswer").show();
+            $("#buttons-first-try").hide();
+            $("#buttons-answer-again").hide();
+        }
 
         if (forceShow || Utils.Random(1, 10) % 4 === 0) {
             $("#answerFeedbackTry").html(text).show();
