@@ -66,8 +66,11 @@ class AutocompleteSets {
             } else {
                 html =
                     "<div class='SetListItem'>" +
-                        "<img src=" + item.ImageUrl + "/>"
-                        + item.Name +
+                        "<img src=" + item.ImageUrl + "/>" +
+                        "<div class='SetDescription'>" +
+                            "<span class='set-name'>" + item.Name + "</span>" +
+                            "<span class='NumberQuestions'>(" + item.NumberOfQuestions + " Fragen)</span>" +
+                        "</div>" +
                     "</div>";
             }
 
