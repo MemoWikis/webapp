@@ -151,6 +151,9 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
+#formGroupQuestionText textarea {
+  max-width: none;
+}
 #txtNewRelatedCategory {
   float: left;
   margin-right: 12px;
@@ -208,6 +211,9 @@ select.form-control {
     border-bottom-right-radius: 0;
   }
 }
+#formGroupDescription textarea {
+  max-width: none;
+}
 #JS-References .LabelInline,
 #AddReferenceControls .LabelInline {
   font-size: 111.11111111%;
@@ -248,6 +254,16 @@ select.form-control {
   i {
     display: none;
   }
+}
+#matchlist-solutionOrderCheck {
+  margin-bottom: 25px;
+}
+#multiplechoice-solutionOrderCheck {
+  margin-bottom: 25px;
+  margin-top: -10px;
+}
+#matchlist #responseModal .matchlist-modalinput {
+  margin-left: unset;
 }
 #matchlist #pairs .matchlist-leftelement {
   width: 48%;

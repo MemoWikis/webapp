@@ -58,7 +58,7 @@
             <% Html.RenderPartial("HistoryAndProbability", Model.HistoryAndProbability); %>
         </div>
         <div class="StatsGroup QuestionAuthor">
-            <a href="<%= Model.UserLink(Url)  %>" class="userPopover show-tooltip" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
+            <a href="<%= Model.UserLink(Url)  %>" class="show-tooltip" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
                 data-original-title="Erstellt von <%=Model.CreatorName %> am <%= Model.DateCreated.ToString("D") %>">
                 <%=Model.CreatorName %>
             </a>

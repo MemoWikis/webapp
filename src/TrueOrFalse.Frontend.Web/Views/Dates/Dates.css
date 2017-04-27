@@ -35,16 +35,17 @@
   text-align: center;
 }
 .explanationDiv i {
-  color: #1964c8;
+  color: #AFD534;
 }
 .arrowDiv {
   margin-top: 13px;
   text-align: center;
 }
 .arrowDiv i {
-  color: #1964c8;
+  color: #AFD534;
 }
 p.registrationParagraph {
+  margin-top: 20px;
   padding-top: 3px;
   padding-bottom: 25px;
 }

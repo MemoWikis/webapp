@@ -1,34 +1,22 @@
 ﻿<%@ Page Title="memucho-Quiz in Wordpress einbetten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
-    <script type="text/javascript" >
-
-        $(function () {
-            $("span.mailme")
-                .each(function() {
-                    var spt = this.innerHTML;
-                    var at = / at /;
-                    var dot = / dot /g;
-                    var addr = spt.replace(at, "@").replace(dot, ".");
-                    $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
-                    $(this).remove();
-                });
-        });
-    </script>    
-
+    <%= Scripts.Render("~/bundles/mailto") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    
+    <% Html.RenderPartial("~/Views/Help/WidgetMenu.ascx", new WidgetMenuModel());  %>
 
     <div class="row">
         <div class="col-xs-12">
 
             <div class="well">
 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">memuchos Quiz-Widget in Wordpress einbinden</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">In Wordpress einbinden</span></h1>
                 <p class="teaserText">
                     Die Lerntechnologie und die Lerninhalte von memucho können als Widget leicht in bestehende Wordpress-Webseiten und Blogs integriert werden. 
                     Nötig ist eine Zeile HTML-Code, die du einfach von memucho kopieren kannst. memucho hat verschiedene Widgets zur Auswahl 
@@ -84,10 +72,6 @@
                 </p>
 
 
-                <p style="margin-top: 30px;">
-                    <strong>Achtung:</strong> Bei einigen Wordpress-Versionen gehen Einstellungen des Widgets verloren, wenn zwischendurch wieder im "Visuell"-Modus gearbeitet wird. 
-                    Dann musst du die Code-Zeile für das Widget am besten noch einmal vollständig einfügen.
-                </p>
             </div>
         </div>
     </div>

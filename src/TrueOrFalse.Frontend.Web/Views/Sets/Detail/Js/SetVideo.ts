@@ -51,6 +51,8 @@ class SetVideo {
 
             player.seekTo(timecode - 2, true);
             player.playVideo();
+
+            self.HideYoutubeOverlay();
         });
 
         $("#youtubeAnswerQuestion").click(function(e) {
@@ -145,13 +147,13 @@ class SetVideo {
     }
 
     ChangeAnswerBody(html: string) {
+
         $("#divBodyAnswer")
             .empty()
             .animate({ opacity: 0.00 }, 0)
             .append(html)
             .animate({ opacity: 1.00 }, 400);
 
-        $(".show-tooltip").tooltip();
         this.InitAnswerBody();
     }
 
@@ -166,6 +168,12 @@ class SetVideo {
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 
         Images.Init();
+
+        $("#divBodyAnswer .show-tooltip").tooltip();
+
+        $('#divBodyAnswer [data-toggle=popover]')
+            .popover({ html: true })
+            .click(e => { e.preventDefault(); });
 
         this.fnOnChangeAnswerBody();
     }

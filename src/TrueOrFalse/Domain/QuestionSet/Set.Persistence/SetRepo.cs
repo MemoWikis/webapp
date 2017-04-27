@@ -63,6 +63,13 @@ public class SetRepo : RepositoryDbBase<Set>
         return result;
     }
 
+    public IList<Set> GetByCreatorId(int creatorId)
+    {
+        return _session.QueryOver<Set>()
+            .Where(c => c.Creator.Id == creatorId)
+            .List<Set>();
+    }
+
     public IList<Set> GetForCategory(int categoryId)
     {
         return _session.QueryOver<Set>()

@@ -34,8 +34,42 @@
 <div class="row">
        
     <div class="col-md-9">
-            
-        <div class="well" style="padding: 13px; padding-bottom: 10px;">
+        <div id="memuchoInfo">
+            <h1 id="memuchoInfoHeader">
+                Dein Wissens-Assistent
+            </h1>            
+            <div id="memuchoInfoMain">
+                <p>
+                    <span class="fa-stack fa-2x numberCircleWrapper">
+                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleOne"></i>
+                        <strong class="fa-stack-1x numberCircleText">1</strong>
+                    </span>
+                    <span class="memuchoInfoBenefit">Sammeln</span> <span class="memuchoInfoBenefitSub"><i class="fa fa-heart-o">&nbsp;</i>Entscheide, was du wissen möchtest.</span>
+                </p>
+                <p>
+                    <span class="fa-stack fa-2x numberCircleWrapper">
+                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleTwo"></i>
+                        <strong class="fa-stack-1x numberCircleText">2</strong>
+                    </span>
+                    <span class="memuchoInfoBenefit">Lernen</span> <span class="memuchoInfoBenefitSub">Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.</span>
+                </p>
+                <p>
+                    <span class="fa-stack fa-2x numberCircleWrapper">
+                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleThree"></i>
+                        <strong class="fa-stack-1x numberCircleText">3</strong>
+                    </span>
+                    <span class="memuchoInfoBenefit">Nicht vergessen</span> <span class="memuchoInfoBenefitSub">Wir erinnern dich, bevor du vergisst.</span>
+                </p>
+            </div>
+            <div id="memuchoInfoFooter">
+                <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
+                    <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
+                </a>
+                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary">Erfahre mehr...</a><br />
+            </div>
+        </div>
+
+<%--        <div class="well" style="padding: 13px; padding-bottom: 10px;">
             <h1 style="margin-top: 0; margin-bottom: 15px; font-size: 24px; text-align: center;"><span style="white-space: nowrap;">Schneller lernen,</span> <span style="white-space: nowrap;">länger wissen</span></h1>
             <div class="row">
                 <div class="col-xs-4 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px;">
@@ -71,7 +105,58 @@
                     <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
-        </div>
+        </div>--%>
+        
+        
+
+        <%--<h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
+        
+        <div class="EduCategoryRow">
+            <a href="#" class="EduCategory BoxButton">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-child fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Schule
+                </span>
+            </a>
+            <a href="#" class="EduCategory BoxButton">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Studium
+                </span>
+            </a>  
+            <a href="#" class="EduCategory">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-file-text-o fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Zertifikate
+                </span>
+            </a>
+            <a href="#" class="EduCategory">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Allgemeinwissen
+                </span>
+            </a>    
+        </div>--%>
         
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
         <p class="welcomeContentSectionTarget">Allgemeinwissen, Abitur Politik, Politikwissenschaft</p>
@@ -239,7 +324,7 @@
                 <div class="clearfix visible-xs"></div>
                 <% if (!Model.IsLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <% } %>
@@ -362,7 +447,7 @@
             if (!Model.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-primary" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>
@@ -387,22 +472,25 @@
             </div>
         <% } %>
 
-        <div class="well" id="nominationInnopreis" style="padding: 20px; ">
+        <div class="well" id="nominationInnopreis" style="padding: 10px; ">
             <div style="text-align: center;">
-                <img src="/Images/LogosPartners/innovationspreis-Logo-quer-positiv-web-HGw.png" height="44" width="159" style="margin-bottom: 10px;"/>
+                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
             </div>
-            <p>
-                memucho wurde für den Innovationspreis Berlin Brandenburg nominiert!
-            </p>
-            <p>
+            <p style="text-align: center; margin-bottom: 0;">
                 <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
                     <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
                 </a>
             </p>
-            <p>
-                <a href="http://www.inforadio.de/programm/schema/sendungen/wirtschaft_aktuell/201611/81202.html" target="_blank">
-                    Beitrag <span style="white-space: nowrap">rbb Inforadio <i class="fa fa-external-link"></i></span>
-                </a>
+        </div>
+
+        <div class="well" id="oerCamp" style="padding: 10px; ">
+            <div style="text-align: center;">
+                <img src="/Images/LogosPartners/OERCamp-Logo-Text_unten.jpg" alt="" width="170" height="183" style="margin-bottom: 10px;"/>
+            </div>
+            <p style="text-align: center; margin-bottom: 0;">
+                memucho ist beim <a href="/Images/LogosPartners/OERcamp-2017-Flyer.pdf">OERcamp</a> in <a href="http://www.oercamp.de/17/sued/workshops/#suedB4d" target="_blank">München</a> (5./6. Mai) und 
+                <a href="http://www.oercamp.de/17/nord/workshops/#nordB4f" target="_blank">Hamburg</a> (23./24. Juni)
+                <%--<span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>--%>
             </p>
         </div>
 

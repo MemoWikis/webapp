@@ -37,23 +37,24 @@
             <h1 class="PageHeader" id="Vorteile">
                 <span class="ColoredUnderline Question">Deine Vorteile bei memucho</span>
             </h1>
+            
             <div class="row aboutRow">
-                <div class="col-xs-3 aboutImg xxs-stack">
+                <div class="col-xs-3 xxs-stack aboutImg <%--col-xs-push-9--%>">
                     <div class="aboutImgInner">
-                        <i class="fa fa-clock-o fa-3x"></i>
+                        <i class="fa fa-heart fa-3x" style="/*color:#b13a48*/"></i>
                     </div>
                 </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Zeit sparen</h3>
+                <div class="col-xs-9 xxs-stack aboutText <%--col-xs-pull-3--%>">
+                    <h3>Wunschwissen sammeln und nie vergessen</h3>
                     <p>
-                        memucho weiß, welche Fragen du am dringendsten lernen musst und welche (noch) nicht.
-                        So lernst du immer das Richtige und musst nie wieder umsonst lernen. Dadurch sparst du Zeit.
+                        Bei memucho kannst du dein <i class="fa fa-heart" style="color:#b13a48;"></i> Wunschwissen zusammenstellen. 
+                        Entscheide, was du dir merken möchtest und memucho erinnert dich rechtzeitig daran, 
+                        wenn du es wieder lernen musst, um es nicht zu vergessen.
                     </p>
                     <p>
-                        Wie wir das machen? Wir analysieren, wie und wofür du lernst und wie andere Nutzer die Inhalte gelernt haben. 
-                        Dadurch können wir vorhersagen, wie gut du etwas (noch) weißt. Nutze dafür unsere Lernen-Funktion. 
-                        Sie ist nur verfügbar, wenn du <a href="#" data-btn-login="true">angemeldet bist</a>.
-                        (<a href="<%= Links.AlgoInsightForecast() %>">Hier erfährst du mehr über unsere Technologie.</a>)
+                        Wo? Überall, wo du ein kleines <i class="fa fa-heart-o" style="color:#b13a48;"></i> findest, kannst du draufklicken, 
+                        um die Frage oder den Fragesatz zu deinem Wunschwissen hinzuzufügen.
+                        In deiner <a href="<%= Links.Knowledge() %>">Wissenszentrale</a> bekommst du jederzeit einen Überblick zu deinem Wunschwissen.
                     </p>
                 </div>
             </div>
@@ -96,24 +97,24 @@
                     </p>
                 </div>
             </div>
-
+            
             <div class="row aboutRow">
-                <div class="col-xs-3 xxs-stack aboutImg <%--col-xs-push-9--%>">
+                <div class="col-xs-3 aboutImg xxs-stack">
                     <div class="aboutImgInner">
-                        <i class="fa fa-heart fa-3x" style="/*color:#b13a48*/"></i>
+                        <i class="fa fa-clock-o fa-3x"></i>
                     </div>
                 </div>
-                <div class="col-xs-9 xxs-stack aboutText <%--col-xs-pull-3--%>">
-                    <h3>Wunschwissen sammeln und nie vergessen</h3>
+                <div class="col-xs-9 xxs-stack aboutText">
+                    <h3>Zeit sparen</h3>
                     <p>
-                        Bei memucho kannst du dein <i class="fa fa-heart" style="color:#b13a48;"></i> Wunschwissen zusammenstellen. 
-                        Entscheide, was du dir merken möchtest und memucho erinnert dich rechtzeitig daran, 
-                        wenn du es wieder lernen musst, um es nicht zu vergessen.
+                        memucho weiß, welche Fragen du am dringendsten lernen musst und welche (noch) nicht.
+                        So lernst du immer das Richtige und musst nie wieder umsonst lernen. Dadurch sparst du Zeit.
                     </p>
                     <p>
-                        Wo? Überall, wo du ein kleines <i class="fa fa-heart-o" style="color:#b13a48;"></i> findest, kannst du draufklicken, 
-                        um die Frage oder den Fragesatz zu deinem Wunschwissen hinzuzufügen.
-                        In deiner <a href="<%= Links.Knowledge() %>">Wissenszentrale</a> bekommst du jederzeit einen Überblick zu deinem Wunschwissen.
+                        Wie wir das machen? Wir analysieren, wie und wofür du lernst und wie andere Nutzer die Inhalte gelernt haben. 
+                        Dadurch können wir vorhersagen, wie gut du etwas (noch) weißt. Nutze dafür unsere Lernen-Funktion. 
+                        Sie ist nur verfügbar, wenn du <a href="#" data-btn-login="true">angemeldet bist</a>.
+                        (<a href="<%= Links.AlgoInsightForecast() %>">Hier erfährst du mehr über unsere Technologie.</a>)
                     </p>
                 </div>
             </div>

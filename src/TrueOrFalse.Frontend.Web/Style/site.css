@@ -195,10 +195,7 @@ img {
   margin: 0;
   width: 100%;
   max-height: 50px;
-  background-image: -webkit-linear-gradient(top, #003264 0%, #1964c8 100%);
-  background-image: linear-gradient(to bottom, #003264 0%, #1964c8 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff003264', endColorstr='#ff1964c8', GradientType=0);
+  background-color: #003264;
 }
 #MasterHeader .HeaderMainRow {
   height: 34px;

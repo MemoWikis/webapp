@@ -87,8 +87,6 @@ class SetVideoPlayer
 
                 SetVideo.ClickItem(stops[0].QuestionId);
 
-                console.log("Video pausiert, beantworte die Frage");
-
             } else {
                 this.VideoCheckIntervalPaused = false;
             }

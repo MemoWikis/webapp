@@ -252,13 +252,25 @@
 }
 #AnswerInputSection .radio {
   margin-bottom: 0;
-  margin-top: 0;
+  margin-top: -2px;
 }
 #AnswerInputSection .radio + .radio {
-  margin-top: 10px ;
+  margin-top: 10px;
 }
 @media (max-width: 767px) {
   #AnswerInputSection .radio + .radio {
+    margin-top: 15px;
+  }
+}
+#AnswerInputSection .checkbox {
+  margin-bottom: 0;
+  margin-top: -2px;
+}
+#AnswerInputSection .checkbox + .checkbox {
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  #AnswerInputSection .checkbox + .checkbox {
     margin-top: 15px;
   }
 }
@@ -352,12 +364,12 @@
   padding-left: 0;
   padding-right: 0;
 }
-.matchlist-leftelement {
+.matchlist-leftelementwrapper {
   text-align: center;
 }
 .matchlist-pairrow {
-  margin-bottom: 6px;
-  margin-top: 6px;
+  margin-bottom: 10px;
+  margin-top: 2px;
   display: flex;
   align-content: center;
   align-items: center;
@@ -365,8 +377,7 @@
 .matchlist-droppable {
   border: 1px dashed;
   border-radius: 5px;
-  height: 30px;
-  padding: unset;
+  height: 33px;
 }
 .matchlist-divider {
   border-bottom: 1px solid;
@@ -377,25 +388,30 @@
 }
 #matchlist-rightelements {
   margin-top: 20px;
+  padding: 0 13px 0 10px;
+  display: flex;
+  align-items: flex-start;
+  align-content: space-around;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }
 .matchlist-rightelement {
   display: inline-block;
-  padding-left: 4px;
-  padding-right: 4px;
+  word-wrap: break-word;
   border: 1px solid;
-  padding-top: 2px;
-  padding-bottom: 3px;
+  padding: 2px 0 3px 0;
   border-radius: 3px;
-  margin: 10px 0 0 10px;
+  margin: 10px 0 0 0;
   cursor: move;
   background-color: white;
   text-align: center;
   white-space: pre-wrap;
-  float: right;
 }
 .matchlist-droppable-dropped {
   height: initial;
   padding: 2px;
+  display: inline-block;
+  width: 100%;
 }
 .matchlist-rightelement-dropped {
   position: static !important;

@@ -6,7 +6,8 @@ public class TemplateParser
 {
     public static string Run(string stringToParse, Category category, ControllerContext controllerContext)
     {
-        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);//Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
+        //Matches "[[something]]" (optionally with surrounding p tag) non-greedily across multiple lines and only if not nested
+        var regex = new Regex(@"(<p>)?\[\[(.*?)\]\](<\/p>)?", RegexOptions.Singleline);
 
         return regex.Replace(stringToParse, match =>
         {
@@ -33,7 +34,7 @@ public class TemplateParser
         try
         {
             var templateJson = JsonConvert.DeserializeObject<TemplateJson>(template);
-            templateJson.CategoryId = categoryId;
+            templateJson.ContainingCategoryId = categoryId;
             return templateJson;
         }
 
@@ -47,20 +48,23 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "videowidget":
             case "categorynetwork":
             case "contentlists":
             case "singleset":
             case "setlistcard":
+            case "singlecategory":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
                 return GetElementHtml(templateJson);
         }
     }
 
-    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
-    {
-        var partialModel = GetPartialModel(templateJson, category);
+    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext) => 
+        GetPartialHtml(templateJson, controllerContext, GetPartialModel(templateJson, category));
 
+    private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
+    {
         try
         {
             return ViewRenderer.RenderPartialView(
@@ -68,7 +72,6 @@ public class TemplateParser
                 partialModel,
                 controllerContext);
         }
-
         catch
         {
             return null;
@@ -79,6 +82,8 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "videowidget":
+                return new VideoWidgetModel(templateJson.SetId);
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
@@ -93,6 +98,10 @@ public class TemplateParser
                     templateJson.TitleRowCount,
                     templateJson.DescriptionRowCount,
                     templateJson.SetRowCount);
+            case "singlecategory":
+                return new SingleCategoryModel(
+                    templateJson.CategoryId,
+                    templateJson.Description);
             default:
                 return null;
         }

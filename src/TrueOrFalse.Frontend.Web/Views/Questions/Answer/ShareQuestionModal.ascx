@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<ShareQuestionModalModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="modalShareQuestion" class="modal fade">
     <div class="modal-dialog">
@@ -9,10 +10,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-10">
-                        <strong>Kopiere die Code-Zeile, um die Frage einzubinden:</strong>
-                    </div>
-                    <div class="col-md-2">
+                    <div class="col-xs-12">
+                        <strong>Kopiere die Code-Zeile, um die Frage einzubinden:</strong> <span class="pull-right"><a href="<%= Links.HelpWidget() %>">Hilfe <i class="fa fa-question-circle">&nbsp;</i></a></span>
                     </div>
                 </div>                
                 <div class="row">

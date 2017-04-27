@@ -6,6 +6,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
 using TrueOrFalse.Web;
+using static System.String;
 
 public class AnswerQuestionController : BaseController
 {
@@ -22,11 +23,17 @@ public class AnswerQuestionController : BaseController
     }
 
     [SetMenu(MenuEntry.QuestionDetail)]
-    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId,
-        string category)
+    public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
+        if (id.HasValue && SeoUtils.HasUnderscores(text))
+            return SeoUtils.RedirectToHyphendVersion(RedirectPermanent, id.Value);
+
         if (setId != null && questionId != null)
-            return AnswerSet((int) setId, (int) questionId);
+        {
+            return SeoUtils.HasUnderscores(text) ? 
+                SeoUtils.RedirectToHyphendVersion(RedirectPermanent, setId.Value, questionId.Value) : 
+                AnswerSet(setId.Value, questionId.Value);
+        }
 
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
@@ -151,7 +158,7 @@ public class AnswerQuestionController : BaseController
 
     public ActionResult AnswerQuestion(string text, int? id, int? elementOnPage, string pager, string category)
     {
-        if (String.IsNullOrEmpty(pager) && ((elementOnPage == null) || (elementOnPage == -1)))
+        if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))
         {
             if (id == null)
                 throw new Exception("AnswerQuestionController: No id for question provided.");
@@ -171,7 +178,7 @@ public class AnswerQuestionController : BaseController
 
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
 
-        if (!String.IsNullOrEmpty(category))
+        if (!IsNullOrEmpty(category))
         {
             var categoryDb = R<CategoryRepository>().GetByName(category).FirstOrDefault();
             if (categoryDb != null)

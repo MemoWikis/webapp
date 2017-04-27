@@ -307,8 +307,10 @@
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
@@ -329,6 +331,7 @@
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
+    <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -385,6 +388,8 @@
     <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
+    <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
     <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
     <Content Include="Images\Screenshots\QuestionEmbedModal.png" />
@@ -418,13 +423,24 @@
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
+    <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
+    <Content Include="Views\Help\Js\WidgetPricing.js">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\Js\WidgetPricing.js.map">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\WidgetMenu.ascx" />
     <Content Include="Views\Help\WidgetInMoodle.aspx" />
     <Content Include="Views\Help\WidgetInBlackboard.aspx" />
     <Content Include="Views\Help\WidgetInWordpress.aspx" />
+    <Content Include="Views\Help\WidgetExamples.aspx" />
     <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="bin\Common.Logging.Core.xml" />
     <Content Include="bin\Common.Logging.dll" />
@@ -1651,6 +1667,7 @@
     <Content Include="Scripts\guidedTour\tourWelcome.js.map">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
+    <Content Include="Images\LogosPartners\OERcamp-2017-Flyer.pdf" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2514,9 +2531,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
-    <None Include="Web.overwritten.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -2612,7 +2627,7 @@
     <Error Condition="Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />-->
   <PropertyGroup>
     <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
   </PropertyGroup>

@@ -76,6 +76,8 @@ public class User : DomainEntity
     public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
 
     public virtual bool IsFacebookUser() => !IsNullOrEmpty(FacebookId);
+
+    public virtual bool IsGoogleUser() => !IsNullOrEmpty(GoogleId);
 }
 
 public class FacebookUserCreateParameter

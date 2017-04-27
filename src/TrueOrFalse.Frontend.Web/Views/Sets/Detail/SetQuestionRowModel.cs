@@ -7,6 +7,7 @@ public class SetQuestionRowModel
     public virtual int Sort { get; set; }
 
     public bool IsInWishknowledge;
+    public bool UserIsInstallationAdmin;
 
     public HistoryAndProbabilityModel HistoryAndProbability;
 
@@ -22,6 +23,7 @@ public class SetQuestionRowModel
         questionValuation = questionValuation ?? new QuestionValuation();
 
         IsInWishknowledge = questionValuation.IsInWishKnowledge();
+        UserIsInstallationAdmin = Sl.SessionUser.IsInstallationAdmin;
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

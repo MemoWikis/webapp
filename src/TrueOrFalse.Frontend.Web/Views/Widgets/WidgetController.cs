@@ -42,16 +42,19 @@ public class WidgetController : BaseController
         var set = Sl.SetRepo.GetById(setId);
         var testSession = new TestSession(set);
 
+        if(hideAddToKnowledge.HasValue)
+            testSession.HideAddKnowledge = hideAddToKnowledge.Value;
+
         Sl.SessionUser.AddTestSession(testSession);
 
         return RedirectToAction(
             "SetTestStep", 
             "Widget", 
-            new {testSessionId = testSession.Id, hideAddToKnowledge = hideAddToKnowledge}
+            new {testSessionId = testSession.Id}
         );
     }
 
-    public ActionResult SetTestStep(int testSessionId, bool? hideAddToKnowledge)
+    public ActionResult SetTestStep(int testSessionId)
     {
         return AnswerQuestionController.TestActionShared(testSessionId,
             testSession => RedirectToAction("SetTestResult", "Widget", new {testSessionId = testSessionId}
@@ -60,9 +63,7 @@ public class WidgetController : BaseController
                 var answerModel = new AnswerQuestionModel(testSession, questionViewGuid, question);
                 answerModel.NextUrl = url => url.Action("SetTestStep", "Widget", new { testSessionId = testSession.Id });
                 answerModel.IsInWidget = true;
-
-                if (hideAddToKnowledge.HasValue)
-                    answerModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+                answerModel.DisableAddKnowledgeButton = testSession.HideAddKnowledge;
 
                 return View("~/Views/Widgets/WidgetSet.aspx", new WidgetSetModel(answerModel));
             }
@@ -77,6 +78,7 @@ public class WidgetController : BaseController
 
         return View("~/Views/Widgets/WidgetSetResult.aspx", setModel);
     }
+
 
     public ActionResult SetVideo(int setId, bool? hideAddToKnowledge)
     {

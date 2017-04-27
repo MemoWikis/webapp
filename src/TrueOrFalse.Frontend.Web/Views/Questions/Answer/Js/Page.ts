@@ -22,11 +22,14 @@ $(() => {
     $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 
     //set focus to first possible answer element
-    if (document.getElementsByName("answer").length > 0)
-        $("[name=answer]")[0].focus();
+    if (!Utils.IsInWidget()) {
 
-    $("#txtAnswer:visible").focus();
-    $("#row-1:visible").focus();
-    window.scrollTo(0, 0);
+        if (document.getElementsByName("answer").length > 0)
+            $("[name=answer]")[0].focus();
 
+        $("#txtAnswer:visible").focus();
+
+        $("#row-1:visible").focus();
+        window.scrollTo(0, 0);
+    }
 });

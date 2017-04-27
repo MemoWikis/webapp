@@ -42,7 +42,7 @@
     <div class="column-Additional">
         
         <div class="StatsGroup SetInfo">
-            <a href="<%= Model.UserLink(Url)  %>" class="StatsRow userPopover show-tooltip" style="padding-right: 5px;" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
+            <a href="<%= Model.UserLink(Url)  %>" class="StatsRow show-tooltip" style="padding-right: 5px;" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
                data-original-title="Erstellt von <%=Model.CreatorName %>">
                 <%= Model.CreatorName %></a>
             
