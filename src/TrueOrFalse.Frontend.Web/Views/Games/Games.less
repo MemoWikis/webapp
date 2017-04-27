@@ -1,13 +1,17 @@
 ﻿@import (reference) '../../Style/includes/imports.less';
 
-.game-row:hover{ background-color: #f3f5f8; }
-.game-row:not(:last-child){
-    padding-bottom: 10px;
-    margin-bottom: 5px;
-    border-bottom: 7px solid lighten(@color-play, 70%);
+.game-row {
+    padding: 10px;
 }
 
+.game-row:hover{ 
+    background-color: #f3f5f8; 
+}
 
+.game-row:not(:last-child){
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
 
 @media screen and (max-width: @screen-md){
     .margin-bottom-sm{ margin-bottom: 10px;}

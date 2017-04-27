@@ -16,7 +16,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
     <input type="hidden" id="hddCurrentUserId" value="<%= Model.UserId %>"/>
-
+    
     <div class="row">
         <div class="PageHeader col-md-9">
             <h3 style="margin-bottom: 20px; margin-top: 0px;" class="pull-left">
@@ -26,7 +26,7 @@
         <div class="col-md-3">
             <div class="headerControls pull-right">
                 <div style="padding-top: 5px;">
-                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm pull-right">
+                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm btn-primary pull-right">
                         <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
                     </a>
                 </div>
@@ -36,12 +36,14 @@
     
     <div class="row">
         <div class="col-lg-9">
-            
             <div class="bs-callout bs-callout-info" id="divGamesInProgressNone"
                  style="margin-top: 0; <%= Html.CssHide(Model.GamesInProgress.Any()) %>">
                 <h4>Keine laufenden Spiele</h4>
+                <p style="margin-top: 14px;">
+                    Im Moment spielt niemand. Kein Problem, erstelle einfach selbst ein Spiel:
+                </p>
                 <p>
-                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
+                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-primary">
                         <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
                     </a>
                 </p>
@@ -60,8 +62,11 @@
             <div id="divGamesReadyNone" class="bs-callout bs-callout-info" 
                  style="margin-top: 0; <%= Html.CssHide(Model.GamesReady.Any()) %>">
                 <h4>Keine kommenden Spiele</h4>
+                <p style="margin-top: 14px;">
+                    Im Moment wartet niemand auf Mitspieler. Das macht nichts, erstelle einfach selbst ein Spiel:
+                </p>
                 <p>
-                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-sm" style="margin-top: 10px;">
+                    <a href="<%= Url.Action("Create", "Game") %>" class="btn btn-primary">
                         <i class="fa fa-plus-circle"></i> &nbsp; Spiel erstellen
                     </a>
                 </p>
@@ -79,7 +84,7 @@
                 <h4 style="margin-bottom: 20px; margin-top: 0px;">Spiel-Empfehlungen</h4>
                 <div class="row">
                     <% foreach(var set in Model.SuggestedGames) { %>
-                    <div class="xxs-stack col-xs-6 col-lg-12">
+                    <div class="xxs-stack col-xs-6 col-sm-4 col-lg-12">
 
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-3" style="padding-right: 0; max-width: 100px;">
@@ -94,6 +99,12 @@
                     </div>
                     <% } %>
                 </div>  
+            </div>
+            <div class="alert alert-warning">
+                <p>
+                    <strong>Spiele im Test-Betrieb:</strong> Der Echtzeit-Quiz-Modus befindet sich noch im Testbetrieb. Das heißt, es kann manchmal zu unerwarteten Fehlern kommen. 
+                    Spaß macht es aber trotzdem - also probiere es ruhig aus!
+                </p>
             </div>
         </div>
     </div>
