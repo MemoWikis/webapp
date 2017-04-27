@@ -19,7 +19,7 @@
         <div class="col-xs-12">
             <div class="well">
 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Beispiele für memucho-Widgets</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Beispiele für Widgets</span></h1>
                 
                 <p>
                     Die Inhalte und Lernfunktionen von memucho können als Widget nahtlos in bestehende Seiten eingebettet werden. 
