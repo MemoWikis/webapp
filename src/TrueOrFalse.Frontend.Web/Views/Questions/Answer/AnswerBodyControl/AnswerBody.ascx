@@ -67,60 +67,24 @@
                             }
 
                             Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
-                        %>
 
-                        <% if (Model.SolutionType == SolutionType.FlashCard.ToString())
-                            { %>                        
-                    </div>
-                        <div id="ButtonsAndSolutionCol">
-                            <div id="ButtonsAndSolution" class="Clearfix">
-                                <%--new Actions on Server for these Buttons--%>
-                                <a href="#" id="btnFlipCard" class="btn btn-warning" rel="nofollow">Umdrehen</a>
-
-                                <div id="buttons-answer" class="ButtonGroup" style="display: none">
-                                    <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
-                                    <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
-                                    <% if (Model.IsLearningSession && Model.NextUrl != null)
-                                       { %>
-                                        <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
-                                    <% } %>
+                        if (Model.SolutionType != SolutionType.FlashCard.ToString())
+                            { %>
+                                <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
+                                    <i class="fa fa-check-circle">&nbsp;</i>Richtig!
                                 </div>
-                                <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                    <% if (Model.NextUrl != null)
-                                       { %>
-                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
-                                    <% } %>
-                                    <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
+                                <div class="answerFeedback answerFeedbackWrong" style="display: none;">
+                                    <i class="fa fa-minus-circle">&nbsp;</i>Leider falsch
                                 </div>
-                                <div id="SolutionDetailsSpinner" style="display: none;">
-                                    <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
-                                </div>
-                                <div id="SolutionDetails" style="display: none; background-color: white;">
-                                    <div id="Description" class="Detail" style="display: none;">
-                                        <div class="Label">Ergänzungen zur Antwort:</div>
-                                        <div class="Content"></div>
-                                    </div>
-                                    <div id="References" class="Detail" style="display: none;">
-                                        <div class="Label">Quellen:</div>
-                                        <div class="Content"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                           <% }
-                        else
-                        { %>
-                        <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
-                            <i class="fa fa-check-circle">&nbsp;</i>Richtig!
-                        </div>
-                        <div class="answerFeedback answerFeedbackWrong" style="display: none;">
-                            <i class="fa fa-minus-circle">&nbsp;</i>Leider falsch
-                        </div>
+                            <% } %>
                     </div>
                     <div id="ButtonsAndSolutionCol">
                         <div id="ButtonsAndSolution" class="Clearfix">
                             <div id="Buttons">
+                                <% if (Model.SolutionType == SolutionType.FlashCard.ToString())
+                                    { %>
+                                <a href="#" id="btnFlipCard" class="btn btn-warning" rel="nofollow">Umdrehen</a>
+                                <% } %>
 
                                 <% if (!Model.DisableAddKnowledgeButton)
                                     { %>
@@ -129,78 +93,99 @@
                                 </span>
                                 <% } %>
 
+                                <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
+                                    { %>
                                 <div id="buttons-first-try" class="ButtonGroup">
                                     <a href="#" id="btnCheck" class="btn btn-primary" rel="nofollow" style="padding-right: 10px">Antworten</a>
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link"><i class="fa fa-lightbulb-o">&nbsp;</i>Lösung anzeigen</a>
-                                    <% if (Model.IsLearningSession && Model.NextUrl != null)
+                                    <% }
+                                        else
                                         { %>
-                                    <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
-                                    <% } %>
-                                </div>
+                                    <div id="buttons-answer" class="ButtonGroup" style="display: none">
+                                        <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
+                                        <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
 
-                                <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                    <% if (Model.NextUrl != null)
-                                        { %>
-                                    <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
-                                    <% } %>
-                                    <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
-                                </div>
-                                <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
-                                    <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
-                                    <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
-                                </div>
-
-                                <div style="clear: both"></div>
-                            </div>
-                            <div id="AnswerFeedbackAndSolutionDetails">
-                                <div id="AnswerFeedback">
-                                    <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
-                                        <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
+                                        <% } %>
+                                        <% if (Model.IsLearningSession && Model.NextUrl != null)
+                                            { %>
+                                        <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
+                                        <% } %>
                                     </div>
 
-                                    <div id="Solution" class="Detail" style="display: none;">
-                                        <div class="Label">Richtige Antwort:</div>
-                                        <div class="Content"></div>
+                                    <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
+                                        <% if (Model.NextUrl != null)
+                                            { %>
+                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                        <% } %>
+                                        <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
+                                            { %>
+                                        <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
+                                        <% } %>
                                     </div>
-                                    <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
-                                        <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
-                                        <div>Deine Eingabe:</div>
-                                        <div style="margin-top: 7px;" id="divWrongEnteredAnswer">
+
+                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
+                                        { %>
+                                    <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
+                                        <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
+                                        <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
+                                    </div>
+                                    <% } %>
+
+                                    <div style="clear: both"></div>
+                                </div>
+                                <div id="AnswerFeedbackAndSolutionDetails">
+                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
+                                        { %>
+                                    <div id="AnswerFeedback">
+                                        <div class="" id="divAnsweredCorrect" style="display: none; margin-top: 5px;">
+                                            <b style="color: green;">Richtig!</b> <span id="wellDoneMsg"></span>
+                                        </div>
+
+                                        <div id="Solution" class="Detail" style="display: none;">
+                                            <div class="Label">Richtige Antwort:</div>
+                                            <div class="Content"></div>
+                                        </div>
+                                        <div id="divWrongAnswerPlay" class="Detail" style="display: none; background-color: white;">
+                                            <span style="color: #B13A48"><b>Deine Antwort war falsch</b></span>
+                                            <div>Deine Eingabe:</div>
+                                            <div style="margin-top: 7px;" id="divWrongEnteredAnswer">
+                                            </div>
+                                        </div>
+
+                                        <div id="divWrongAnswer" class="Detail" style="display: none; background-color: white;">
+                                            <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsch beantwortet </b></span>
+                                            <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br />
+
+                                            <div style="margin-top: 5px;" id="answerFeedbackTry">Du könntest es wenigstens probieren!</div>
+
+                                            <div id="divWrongAnswers" style="margin-top: 7px; display: none;">
+                                                <span class="WrongAnswersHeading">Deine bisherigen Antwortversuche:</span>
+                                                <ul style="padding-top: 5px;" id="ulAnswerHistory">
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
+                                    <% } %>
 
-                                    <div id="divWrongAnswer" class="Detail" style="display: none; background-color: white;">
-                                        <span id="spnWrongAnswer" style="color: #B13A48"><b>Falsch beantwortet </b></span>
-                                        <a href="#" id="CountWrongAnswers" style="float: right; margin-right: -5px;">(zwei Versuche)</a><br />
+                                    <div id="SolutionDetailsSpinner" style="display: none;">
+                                        <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
+                                    </div>
+                                    <div id="SolutionDetails" style="display: none; background-color: white;">
 
-                                        <div style="margin-top: 5px;" id="answerFeedbackTry">Du könntest es wenigstens probieren!</div>
 
-                                        <div id="divWrongAnswers" style="margin-top: 7px; display: none;">
-                                            <span class="WrongAnswersHeading">Deine bisherigen Antwortversuche:</span>
-                                            <ul style="padding-top: 5px;" id="ulAnswerHistory">
-                                            </ul>
+                                        <div id="Description" class="Detail" style="display: none;">
+                                            <div class="Label">Ergänzungen zur Antwort:</div>
+                                            <div class="Content"></div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div id="SolutionDetailsSpinner" style="display: none;">
-                                    <i class="fa fa-spinner fa-spin" style="color: #b13a48;"></i>
-                                </div>
-                                <div id="SolutionDetails" style="display: none; background-color: white;">
-
-
-                                    <div id="Description" class="Detail" style="display: none;">
-                                        <div class="Label">Ergänzungen zur Antwort:</div>
-                                        <div class="Content"></div>
-                                    </div>
-                                    <div id="References" class="Detail" style="display: none;">
-                                        <div class="Label">Quellen:</div>
-                                        <div class="Content"></div>
+                                        <div id="References" class="Detail" style="display: none;">
+                                            <div class="Label">Quellen:</div>
+                                            <div class="Content"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <% } %>
                 </div>
             </div>
         </div>

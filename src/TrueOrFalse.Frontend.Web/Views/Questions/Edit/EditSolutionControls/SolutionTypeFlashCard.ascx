@@ -5,7 +5,7 @@
         <div class="wmd-panel">
             <div id="wmd-button-bar-FlashCard"></div>   
             <%= Html.TextAreaFor(m => m.Text, new 
-                { @class= "form-control wmd-input", id="wmd-input-FlashCard", Name = "FlashCardContent", placeholder = "Inhalt der Karteikarte", rows = 4 })%>
+                { @class= "form-control wmd-input", id="wmd-input-FlashCard", Name = "FlashCardContent", placeholder = "Rückseite der Karteikarte", rows = 4 })%>
         </div>
         <div id="wmd-preview-FlashCard" class="wmd-panel wmd-preview"></div>
     </div>
