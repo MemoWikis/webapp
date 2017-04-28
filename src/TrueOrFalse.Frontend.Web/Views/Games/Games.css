@@ -1,10 +1,32 @@
-﻿.game-row:hover {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+.game-row {
+  padding: 10px;
+}
+.game-row:hover {
   background-color: #f3f5f8;
 }
 .game-row:not(:last-child) {
   padding-bottom: 10px;
-  margin-bottom: 5px;
-  border-bottom: 7px solid #efffdd;
+  margin-bottom: 15px;
 }
 @media screen and (max-width: 992px) {
   .margin-bottom-sm {
@@ -25,4 +47,3 @@
 div.players a {
   margin-right: 9px;
 }
-/*# sourceMappingURL=Games.css.map */

@@ -11,6 +11,7 @@
 <body id="MasterWidget">
     <div id="WidgetContent">
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
+        <input type="hidden" id="IsWidget" value="true" />
 
         <div id="MasterMainColumn">
             <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
