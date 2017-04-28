@@ -31,6 +31,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string HelpWidgetMoodle() => GetUrlHelper().Action("WidgetInMoodle", HelpController);
         public static string HelpWidgetBlackboard() => GetUrlHelper().Action("WidgetInBlackboard", HelpController);
         public static string WidgetPricing() => GetUrlHelper().Action("WidgetPricing", HelpController);
+        public static string WidgetExamples() => GetUrlHelper().Action("WidgetExamples", HelpController);
 
         public const string AccountController = "Account";
         public const string RegisterAction = "Register";

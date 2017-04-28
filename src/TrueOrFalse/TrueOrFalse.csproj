@@ -815,6 +815,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs172.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs124.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs123.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs122.cs" />
@@ -890,6 +891,7 @@
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs150.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs149.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs148.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs171.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs167.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs170.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs169.cs" />

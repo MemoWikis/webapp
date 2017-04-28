@@ -34,7 +34,7 @@ public class TemplateParser
         try
         {
             var templateJson = JsonConvert.DeserializeObject<TemplateJson>(template);
-            templateJson.CategoryId = categoryId;
+            templateJson.ContainingCategoryId = categoryId;
             return templateJson;
         }
 
@@ -53,6 +53,7 @@ public class TemplateParser
             case "contentlists":
             case "singleset":
             case "setlistcard":
+            case "singlecategory":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
                 return GetElementHtml(templateJson);
@@ -97,6 +98,10 @@ public class TemplateParser
                     templateJson.TitleRowCount,
                     templateJson.DescriptionRowCount,
                     templateJson.SetRowCount);
+            case "singlecategory":
+                return new SingleCategoryModel(
+                    templateJson.CategoryId,
+                    templateJson.Description);
             default:
                 return null;
         }

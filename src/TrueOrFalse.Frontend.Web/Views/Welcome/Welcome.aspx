@@ -35,9 +35,9 @@
        
     <div class="col-md-9">
         <div id="memuchoInfo">
-            <div id="memuchoInfoHeader" style="">
+            <h1 id="memuchoInfoHeader">
                 Dein Wissens-Assistent
-            </div>            
+            </h1>            
             <div id="memuchoInfoMain">
                 <p>
                     <span class="fa-stack fa-2x numberCircleWrapper">
@@ -65,7 +65,7 @@
                 <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
                     <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
                 </a>
-                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">Erfahre mehr...</a><br />
+                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary">Erfahre mehr...</a><br />
             </div>
         </div>
 
@@ -105,6 +105,57 @@
                     <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary pull-right">ERFAHRE MEHR...</a><br />
                 </div>
             </div>
+        </div>--%>
+        
+        
+
+        <%--<h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
+        
+        <div class="EduCategoryRow">
+            <a href="#" class="EduCategory BoxButton">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-child fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Schule
+                </span>
+            </a>
+            <a href="#" class="EduCategory BoxButton">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Studium
+                </span>
+            </a>  
+            <a href="#" class="EduCategory">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-file-text-o fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Zertifikate
+                </span>
+            </a>
+            <a href="#" class="EduCategory">
+                <span class="EduCategoryIcon">
+                    <span class="fa-stack fa-lg">
+                      <i class="fa fa-circle fa-stack-2x"></i>
+                      <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
+                    </span>    
+                </span>
+                <span class="EduCategoryText">
+                    Allgemeinwissen
+                </span>
+            </a>    
         </div>--%>
         
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
@@ -273,7 +324,7 @@
                 <div class="clearfix visible-xs"></div>
                 <% if (!Model.IsLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <% } %>
@@ -396,7 +447,7 @@
             if (!Model.IsLoggedIn){
         %>
             <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-success" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-primary" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
                 <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
             </div>
         <% } %>

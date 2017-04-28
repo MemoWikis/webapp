@@ -23,10 +23,17 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="checkbox" id="matchlist-solutionOrderCheck">
+            <label>
+                <input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Paare zufällig anordnen</label>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
     var addingElementRightId = $("#responseModal .form-control").length;
+    var rightElementsExisting;
     var removeButton = $("");
     var defaultRightElement = $("");
 
@@ -39,13 +46,31 @@
         return removeButton;
     }
 
+    function checkForHint() {
+        if (rightElementsExisting === true) {
+            $(".matchlist-rightpairelement")
+                .each(function(selectElementIndex, selectElement) {
+                    $(selectElement)
+                        .children()
+                        .each(function(optionElementIndex, optionElement) {
+                            if ($(optionElement).val() === "Erst rechte Elemente erstellen") {
+                                $(optionElement).html("Keine Zuordnung");
+                            }
+                        });
+                    rightElementsExisting = false;
+                });
+        }
+    }
+
     $("#addPair").click(function () {
+
         var addingPairElementId = $("#pairs .matchlist-leftelement").length;
+
         if (addingPairElementId !== 0)
             removeButton = $(getRemoveButton());
 
         $("#pairs").append($("<div class = 'form-inline form-group'>")
-            .append($("<input type='text' name = 'LeftElement-" + addingPairElementId + "' class='matchlist-leftelement form-control' maxlength='40'>"))
+            .append($("<input type='text' name = 'LeftElement-" + addingPairElementId + "' class='matchlist-leftelement form-control'>"))
                 .append($("<i class='matchlist-arrow fa fa-arrow-right fa-1x'></i>"))
                     .append($("<select class='matchlist-rightpairelement form-control' name='RightPairElement-" + addingPairElementId + "'>")
                         .append($(".matchlist-rightpairelement").last().children().clone()))
@@ -53,36 +78,40 @@
         if (addingPairElementId === 0)
             $("[name='RightPairElement-0']").append($('<option selected="selected">').html("Keine Zuordnung"));
     });
+
+
     $("#addRightPairElement").click(function () {
-        var matchlistRightElementInput = $("<input type='text' id='pairElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control' maxlength='40'>");
+        var matchlistRightElementInput = $("<input type='text' id='pairElementRight-" + addingElementRightId + "'name = 'RightElement-" + addingElementRightId + "' class='matchlist-rightelement form-control'>");
         var rightElementRemoveButton = getRemoveButton();
         $("#responseModalContent").append($("<div class='form-group form-inline matchlist-modalinput'>")
             .append(matchlistRightElementInput)
             .append(rightElementRemoveButton));
+
         matchlistRightElementInput.focus(function () { PreviousRightElementValue = this.value; }).
             change(function () {
-            var rightElementValue = $(this).val();
-            var rightElementId = $(this).attr('id');
-            $(".matchlist-rightpairelement").each(function (selectElementIndex, selectElement) {
-                var hasValueChangedElement = ($(selectElement).val() === PreviousRightElementValue);
-                $(selectElement).children().each(function (optionElementIndex, optionElement) {
-                    if ($(optionElement).attr('name') === rightElementId) {
-                        $(optionElement).remove();
-                    }
-                });
-                $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
-                if (hasValueChangedElement)
-                    $(selectElement).val(rightElementValue);
-            });
-            rightElementRemoveButton.click(function () {
-                $(".matchlist-rightpairelement").each(function (index, selectElement) {
+                checkForHint();
+                var rightElementValue = $(this).val();
+                var rightElementId = $(this).attr('id');
+                $(".matchlist-rightpairelement").each(function (selectElementIndex, selectElement) {
+                    var hasValueChangedElement = ($(selectElement).val() === PreviousRightElementValue);
                     $(selectElement).children().each(function (optionElementIndex, optionElement) {
-                        if ($(optionElement).attr('name') === rightElementId)
+                        if ($(optionElement).attr('name') === rightElementId) {
                             $(optionElement).remove();
+                        }
+                    });
+                    $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
+                    if (hasValueChangedElement)
+                        $(selectElement).val(rightElementValue);
+                });
+                rightElementRemoveButton.click(function () {
+                    $(".matchlist-rightpairelement").each(function (index, selectElement) {
+                        $(selectElement).children().each(function (optionElementIndex, optionElement) {
+                            if ($(optionElement).attr('name') === rightElementId)
+                                $(optionElement).remove();
+                        });
                     });
                 });
             });
-        });
         addingElementRightId++;
     });
 
@@ -107,10 +136,20 @@
         $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');
         $(".matchlist-rightpairelement").last().val('<%= Model.Pairs[i].ElementRight.Text %>');
     <% }
+
+    if (Model.isSolutionOrdered)
+    { %>
+        $('[name="isSolutionRandomlyOrdered"]').prop("checked", false);
+    <% }
+
     }
     else
     { %>
-        $("#addPair").click();
         $("#addRightPairElement").click();
+
+        $("#addPair").click();
+    $("[name='RightPairElement-0']").children().first().remove();
+        $("[name='RightPairElement-0']").append($('<option selected="selected">').html("Erst rechte Elemente erstellen"));
+        rightElementsExisting = true;
     <% } %>
 </script>

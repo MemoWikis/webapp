@@ -40,7 +40,7 @@ public class UserModel : BaseModel
         IsMember = user.IsMember();
         IsCurrentUser = user.Id == UserId && IsLoggedIn;
 
-        AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id);
+        AmountCreatedQuestions = Resolve<UserSummary>().AmountCreatedQuestions(user.Id, false);
         AmountCreatedSets = Resolve<UserSummary>().AmountCreatedSets(user.Id);
         AmountCreatedCategories = Resolve<UserSummary>().AmountCreatedCategories(user.Id);
 

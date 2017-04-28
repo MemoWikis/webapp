@@ -101,6 +101,9 @@ code {
   font-size: 1.3em;
   font-weight: bold;
 }
+.widgetExamples h3 {
+  margin-top: 50px;
+}
 /***
 User Profile Sidebar by @keenthemes
 A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
@@ -200,7 +203,7 @@ Pricing table
 .pricing-footer p {
   margin-top: -4px;
 }
-/*Priceing Active*/
+/*Pricing Active*/
 .price-active,
 .pricing:hover {
   z-index: 9;
@@ -217,4 +220,83 @@ Pricing table
   padding: 15px 0;
   font-size: 80px;
   transition: color 0.5s ease-in-out;
+}
+.navbar {
+  padding-left: 0;
+  border-radius: 0;
+  background-color: white;
+  border-top: 0px;
+  border-left: 0px;
+}
+.navbar .navbar-brand {
+  float: left;
+  max-width: none;
+  margin-left: 0px !important;
+}
+.navbar .container {
+  position: relative;
+}
+.navbar a {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.navbar a:hover {
+  color: #fff;
+}
+.navbar .nav {
+  margin-left: 40px;
+  margin-top: 8px;
+  position: absolute;
+  right: 0;
+}
+.navbar .nav > li {
+  float: left;
+  list-style: none;
+}
+.navbar .nav > li a {
+  padding-top: 7px;
+  padding-bottom: 6px;
+  margin: 0 15px;
+  display: inline-block;
+}
+.navbar .nav > li > .li.sep {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  width: 1px;
+  margin: 14px 20px;
+  height: 16px;
+}
+.navbar .btn.signup-link {
+  margin-left: 30px;
+  padding: 11px 22px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 2px;
+  background: none;
+  color: #fff;
+  line-height: 1;
+  border: 2px solid #fff;
+}
+.navbar .btn.signup-link:hover {
+  background: none;
+  color: #fff;
+}
+.nav-pills {
+  margin-left: 10px;
+}
+.nav-pills li {
+  line-height: normal;
+  margin-bottom: 6px;
+}
+.nav-pills li > a {
+  padding: 0px 2px;
+  font-size: 16px;
+}
+.features ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.features ul li {
+  font-size: 16px;
 }

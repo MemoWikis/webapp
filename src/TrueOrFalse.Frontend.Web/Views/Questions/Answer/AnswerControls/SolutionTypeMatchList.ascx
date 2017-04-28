@@ -1,27 +1,35 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMatchList>" %>
-<div class="col-sm-12">
-    <div class="row">
-        <div class="col-sm-12">
-            <div id="matchlist-pairs" class="row"></div>
-        </div>
-        <div class="col-sm-12">
-            <div id="matchlist-rightelements" class="row"></div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="matchlist-pairs" class="row"></div>
+            </div>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div id="matchlist-rightelements"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    <% var random = new Random();
-    foreach (var pair in Model.Pairs.OrderBy(x => random.Next()))
+    <% var localPairs = Model.Pairs;
+    var random = new Random();
+    if (!Model.isSolutionOrdered)
+        localPairs = Model.Pairs.OrderBy(x => random.Next()).ToList();
+
+    foreach (var pair in localPairs)
     { %>
-    var rightDropElement = $("<div class='matchlist-droppable col-sm-5' name = '<%= pair.ElementLeft.Text %>'>").droppable({
+    var rightDropElement = $("<div class='col-sm-6'>").append($("<div class='matchlist-droppable' name = '<%= pair.ElementLeft.Text %>'>").droppable({
         accept: '.matchlist-rightelement',
         hoverClass: 'matchlist-hovered',
         drop: handleElementDrop
-    });
+    }));
     $("div#matchlist-pairs").append($("<div class='col-sm-12'>").append($("<div class = 'row matchlist-pairrow'>")
-        .append($("<span class= 'col-sm-5 matchlist-leftelement'><%= pair.ElementLeft.Text %></span>"))
-        .append($("<i class=' matchlist-arrow fa fa-arrow-right fa-1x col-sm-2'>"))
+        .append($("<div class='col-sm-5 matchlist-leftelementwrapper'>").append($("<span class= 'matchlist-leftelement'><%= pair.ElementLeft.Text %></span>")))
+        .append($("<div class='col-sm-1'>").append($("<i class=' matchlist-arrow fa fa-arrow-right fa-1x'>")))
         .append(rightDropElement)));
     <% }
 
@@ -39,7 +47,7 @@
             },
             revert: 'true'
         });
-    var droppableWidth = $('.matchlist-droppable').first().width();
+    var droppableWidth = $('.matchlist-droppable').first().width() - 4;
     rightDragElement.width(droppableWidth);
     $("#matchlist-rightelements").append(rightDragElement);
     <% } %>

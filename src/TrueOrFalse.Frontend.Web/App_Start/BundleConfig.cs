@@ -237,8 +237,11 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/mailto")
+                .Include("~/Scripts/various/mailto.js"));
+
 #if RELEASE
-                BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = true;
 #endif
         }
     }

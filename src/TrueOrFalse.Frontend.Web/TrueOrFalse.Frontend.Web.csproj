@@ -24,7 +24,7 @@
     <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -307,6 +307,7 @@
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
@@ -330,6 +331,7 @@
     <Compile Include="Views\Games\Play\PlayController.cs" />
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
+    <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -420,14 +422,24 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
+    <Content Include="Views\Help\Js\WidgetPricing.js">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\Js\WidgetPricing.js.map">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\WidgetMenu.ascx" />
     <Content Include="Views\Help\WidgetInMoodle.aspx" />
     <Content Include="Views\Help\WidgetInBlackboard.aspx" />
     <Content Include="Views\Help\WidgetInWordpress.aspx" />
+    <Content Include="Views\Help\WidgetExamples.aspx" />
     <Content Include="Views\Help\WidgetPricing.aspx" />
     <Content Include="bin\Common.Logging.Core.xml" />
     <Content Include="bin\Common.Logging.dll" />
@@ -2498,9 +2510,7 @@
     <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
-    <None Include="Web.overwritten.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
     <Content Include="Views\Api\Export.aspx" />
@@ -2596,7 +2606,7 @@
     <Error Condition="Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />-->
   <PropertyGroup>
     <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
   </PropertyGroup>
