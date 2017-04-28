@@ -27,8 +27,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public User User
     {
-        get => Data.Get<User>("user");
-        private set => Data["user"] = value;
+        get { return Data.Get<User>("user"); }
+        private set { Data["user"] = value; }
     }
 
     public bool IsLoggedInUser(int userId)

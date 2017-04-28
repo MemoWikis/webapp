@@ -38,12 +38,12 @@
         <div class="JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay.PadLeft(2, '0') %>" placeholder="TT">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateDay) ? null : model.PublicationDateDay.PadLeft(2, '0') %>" placeholder="TT">
             </div>
             <label class="control-label LabelInline">.</label>
             <label class="sr-only" for="PublicationDateMonth">Monat</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth.PadLeft(2, '0') %>" placeholder="MM">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateMonth) ? null : model.PublicationDateMonth.PadLeft(2, '0') %>" placeholder="MM">
             </div>
             <label class="control-label LabelInline">.</label>
             <label class="sr-only" for="PublicationDateYear">Jahr</label>

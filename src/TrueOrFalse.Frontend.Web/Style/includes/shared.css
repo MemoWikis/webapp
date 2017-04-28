@@ -2828,6 +2828,8 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .Card .BottomBar {
   padding: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 .CardsLandscape .CardColumn {
   position: relative;
@@ -2876,7 +2878,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 110px;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .CardContent {
-  border-bottom: 1px solid #dfdfdf;
   padding-bottom: 10px;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .ItemTitle {
@@ -2886,7 +2887,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .CardsLandscape .CardColumn .Card.SingleItem .BottomBar {
   padding: 5px 0;
-  margin: 0 10px 0 0;
 }
 @media (max-width: 649px) {
   .CardsLandscape .CardColumn {
@@ -2960,7 +2960,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 110px;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .CardContent {
-  border-bottom: 1px solid #dfdfdf;
   padding-bottom: 10px;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .ItemTitle {
@@ -2970,7 +2969,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .BottomBar {
   padding: 5px 0;
-  margin: 0 10px 0 0;
 }
 @media (min-width: 768px) {
   .CardsLandscapeNarrow .CardColumn {
@@ -3077,7 +3075,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
     margin-left: 110px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
-    border-bottom: 1px solid #dfdfdf;
     padding-bottom: 10px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ItemTitle {
@@ -3087,7 +3084,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   }
   .CardsPortrait .CardColumn .Card.SingleItem .BottomBar {
     padding: 5px 0;
-    margin: 0 10px 0 0;
   }
   .CardsPortrait .CardColumn .Card {
     margin-bottom: 10px;
@@ -3177,7 +3173,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 15px;
   margin-right: 15px;
   overflow: hidden;
-  border-bottom: 1px solid #dfdfdf;
 }
 @media (max-width: 991px) {
   .SingleItem .CardContent {
@@ -3205,6 +3200,11 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   line-height: 15px;
 }
 .Card .ImageLicenseCaption a {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.Card .BottomBar {
+  border-top: 1px solid #dfdfdf;
   margin-left: 15px;
   margin-right: 15px;
 }

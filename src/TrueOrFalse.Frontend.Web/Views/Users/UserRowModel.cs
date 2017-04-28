@@ -50,7 +50,7 @@ public class UserRowModel : BaseModel
         WishCountQuestions = user.WishCountQuestions;
         WishCountSets = user.WishCountSets;
 
-        CreatedQuestions = Sl.R<UserSummary>().AmountCreatedQuestions(user.Id);
+        CreatedQuestions = Sl.R<UserSummary>().AmountCreatedQuestions(user.Id, false);
         CreatedSets = Sl.R<UserSummary>().AmountCreatedSets(user.Id);
 
         IsCurrentUser = Id == _sessionUser.UserId;

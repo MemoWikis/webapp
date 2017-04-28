@@ -4,32 +4,18 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/Help/Widget.css" rel="stylesheet" />
+    
+    <%= Scripts.Render("~/bundles/mailto") %>
     <script type="text/javascript" >
-
-        $(function () {
-            $("span.mailme")
-                .each(function () {
-                    var spt = this.innerHTML;
-                    var at = / at /;
-                    var dot = / dot /g;
-                    var addr = spt.replace(at, "@").replace(dot, ".");
-                    $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
-                    $(this).remove();
-                });
-        });
-
         $(function () {
             $("a.mailmeMore")
                 .each(function () {
                     var hrefOrg = this.getAttribute('href');
                     var spt = hrefOrg.substr(0, hrefOrg.indexOf("?") - 1);
-                    //console.log("hrefOrg: " + hrefOrg);
-                    //console.log("spt: " + spt);
                     var at = / at /;
                     var dot = / dot /g;
                     var addr = spt.replace(at, "@").replace(dot, ".");
                     var hrefNew = "mailto:" + addr + hrefOrg.substr(hrefOrg.indexOf("?"));
-                    //console.log("hrefNew: " + hrefNew)
                     this.setAttribute('href', hrefNew);
                 });
         });
@@ -40,7 +26,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    
+    <% Html.RenderPartial("~/Views/Help/WidgetMenu.ascx", new WidgetMenuModel{CurrentIsPricing = true});  %>
 
     <div class="row">
         <div class="col-xs-12">

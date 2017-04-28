@@ -283,9 +283,16 @@
     color: white;
     font-weight: bold;
  }
+
+
+.answerFeedbackCorrect, .answerFeedbackWrong {
+    z-index: 999;
+}
+
 .answerFeedbackCorrect {
     background-color: @memo-green;
 }
+
 .answerFeedbackWrong {
     background-color: @dark-red; //#efc7ce
 }
@@ -371,7 +378,7 @@
 
 #matchlist-rightelements {
     margin-top: 20px;
-    padding: 0 10px 0 10px;
+    padding: 0 13px 0 10px;
     display: flex;
     align-items: flex-start;
     align-content: space-around;

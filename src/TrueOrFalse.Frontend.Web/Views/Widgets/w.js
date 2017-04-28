@@ -26,7 +26,7 @@ function receiveMessage(event) {
             if ((iframes[i].contentWindow || iframes[i].documentWindow) == event.source) {
                 iframes[i].style.height = message[1] + "px";
 
-                var maxWidth = iframes[i].getAttribute("maxWidth");
+                var maxWidth = iframes[i].getAttribute("data-maxWidth");
                 if (maxWidth && maxWidth.length > 0) {
                     iframes[i].style.maxWidth = maxWidth;
                 }
@@ -38,11 +38,11 @@ function receiveMessage(event) {
 }
 
 function writeIframe(iframeId, iframeSource) {
-    var width = scriptTag.getAttribute("width");
+    var width = scriptTag.getAttribute("data-width");
 
     var attrMaxWidth = "";
     var styleMaxWidth = "";
-    var maxWidth = scriptTag.getAttribute("maxWidth");
+    var maxWidth = scriptTag.getAttribute("data-maxWidth");
     if (maxWidth && maxWidth.length > 0) {
         attrMaxWidth = "maxWidth=\"" + maxWidth + "\"";
         styleMaxWidth = "max-width: " + maxWidth + ";";
@@ -65,7 +65,7 @@ function writeIframe(iframeId, iframeSource) {
             '</div>' +
         '</div>';
 
-    if (scriptTag.getAttribute("isPreview")){
+    if (scriptTag.getAttribute("data-isPreview")){
         var newElement = document.createElement('div');
         newElement.innerHTML = iframeHtml;
         document.getElementById('divPreviewSetWidget').appendChild(newElement);
@@ -87,7 +87,7 @@ function getScripts() {
 
     var scripts = [];
     for (var i = 0; i < scripts_.length; i++) {
-        if (scripts_[i].getAttribute("t"))
+        if (scripts_[i].getAttribute("data-t"))
             scripts.push(scripts_[i]);
     }
 
@@ -112,24 +112,24 @@ scriptIndex++;
 
 var scriptTag = scripts[scriptIndex];
 
-var type_ = scriptTag.getAttribute("t");
+var type_ = scriptTag.getAttribute("data-t");
 
 var domain = "https://memucho.de";
-var domainForDebug = scriptTag.getAttribute("domainForDebug");
+var domainForDebug = scriptTag.getAttribute("data-domainForDebug");
 
 if (domainForDebug && domainForDebug.length > 0)
     domain = domainForDebug;
 
 
 var queryKnowledgeBtn = "";
-var hideKnowledgeBtn = scriptTag.getAttribute("hideKnowledgeBtn");
+var hideKnowledgeBtn = scriptTag.getAttribute("data-hideKnowledgeBtn");
 if (hideKnowledgeBtn && hideKnowledgeBtn.length > 0 && hideKnowledgeBtn == "true") {
     queryKnowledgeBtn = "?hideAddToKnowledge=true";
 }
 
 if (type_ === "question")
 {
-    var questionId = scriptTag.getAttribute("id");
+    var questionId = scriptTag.getAttribute("data-id");
 
     var filePath = domain + '/widget/frage/' + questionId + queryKnowledgeBtn;
     var iframeId = "iframe-q" + questionId + Math.floor((Math.random() * 10000) + 1);
@@ -138,7 +138,7 @@ if (type_ === "question")
 }    
 else if (type_ === "set")
 {
-    var setId = scriptTag.getAttribute("id");
+    var setId = scriptTag.getAttribute("data-id");
 
     var filePath = domain + '/widget/fragesatz/start/' + setId + queryKnowledgeBtn;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
@@ -146,7 +146,7 @@ else if (type_ === "set")
     writeIframe(iframeId, filePath);
 }
 else if (type_ === "setVideo") {
-    var setId = scriptTag.getAttribute("id");
+    var setId = scriptTag.getAttribute("data-id");
 
     var filePath = domain + '/widget/fragesatz-v/' + setId + queryKnowledgeBtn;
     var iframeId = "iframe-sv" + setId + Math.floor((Math.random() * 10000) + 1);
