@@ -67,16 +67,20 @@
                             }
 
                             Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
+                            if (Model.SolutionType == SolutionType.FlashCard.ToString())
+                            {
+                                //append Frontpage of FlashCard here
+                            }
 
-                        if (Model.SolutionType != SolutionType.FlashCard.ToString())
+                            if (Model.SolutionType != SolutionType.FlashCard.ToString())
                             { %>
-                                <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
-                                    <i class="fa fa-check-circle">&nbsp;</i>Richtig!
-                                </div>
-                                <div class="answerFeedback answerFeedbackWrong" style="display: none;">
-                                    <i class="fa fa-minus-circle">&nbsp;</i>Leider falsch
-                                </div>
-                            <% } %>
+                        <div class="answerFeedback answerFeedbackCorrect" style="display: none;">
+                            <i class="fa fa-check-circle">&nbsp;</i>Richtig!
+                        </div>
+                        <div class="answerFeedback answerFeedbackWrong" style="display: none;">
+                            <i class="fa fa-minus-circle">&nbsp;</i>Leider falsch
+                        </div>
+                        <% } %>
                     </div>
                     <div id="ButtonsAndSolutionCol">
                         <div id="ButtonsAndSolution" class="Clearfix">
@@ -190,28 +194,28 @@
             </div>
         </div>
     </div>
-<div id="LicenseQuestion" class="Clearfix">
-    <% if (Model.LicenseQuestion.IsDefault())
-        { %>
-    <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
-        data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
-        <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;
+    <div id="LicenseQuestion" class="Clearfix">
+        <% if (Model.LicenseQuestion.IsDefault())
+            { %>
+        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
+            data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
+            <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;
             <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>
-    </a><%--target blank to open outside the iframe of widget--%>
-    <% }
-        else
-        { %>
-    <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
-        <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
-    </a>
-    <% } %>
+        </a><%--target blank to open outside the iframe of widget--%>
+        <% }
+            else
+            { %>
+        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz" data-placement="auto top" data-content="<%= Model.LicenseQuestion.DisplayTextFull %>">
+            <span class="TextSpan"><%= Model.LicenseQuestion.DisplayTextShort %></span>&nbsp;&nbsp;<i class="fa fa-info-circle">&nbsp;</i>
+        </a>
+        <% } %>
 
-    <%if (Model.ShowCommentLink)
-        { %>
-    <div style="float: right; position: relative; top: 4px;">
-        <a href="#comments"><i class="fa fa-comment-o"></i>
-            <% if (Model.CommentCount == 0)
-                { %>
+        <%if (Model.ShowCommentLink)
+            { %>
+        <div style="float: right; position: relative; top: 4px;">
+            <a href="#comments"><i class="fa fa-comment-o"></i>
+                <% if (Model.CommentCount == 0)
+                    { %>
                     Jetzt kommentieren
                 <% }
                     else if (Model.CommentCount == 1)
@@ -220,9 +224,10 @@
                 <% }
                     else if (Model.CommentCount > 1)
                     { %>
-            <%= Model.CommentCount %> Kommentare
+                <%= Model.CommentCount %> Kommentare
                 <% } %>
-        </a>
+            </a>
+        </div>
+        <% } %>
     </div>
-    <% } %>
 </div>
