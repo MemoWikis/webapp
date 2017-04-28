@@ -17,7 +17,32 @@ public class Category : DomainEntity, ICreator
     public virtual bool DisableLearningFunctions { get; set; }
 
     public virtual User Creator { get; set; }
+
+    public virtual IList<CategoryRelation> RelatedCategories { get; set; }
+
     public virtual IList<Category> ParentCategories { get; set; }
+
+    //get { return RelatedCategories?.Where(r => r.Category == this)
+    //            .Select(x => x.RelatedCategory)
+    //            .ToList();
+    //    }
+
+    //    set
+    //    {
+    //        var newParentCategories = value.ToList()
+    //            .Except(RelatedCategories?.Where(r => r.RelationType == CategoryRelationType.IsChildCategoryOf)
+    //                .Select(x => x.RelatedCategory));
+    //        var relatedCategories = RelatedCategories;
+    //        foreach (var category in value)
+    //        {
+    //            relatedCategories.Add(new);
+    //        }
+    //        RelatedCategories = RelatedCategories.Add();
+    //    }
+    //}
+    //=> 
+
+    public virtual IList<Category> CategoriesToInclude { get; set; }
 
     public virtual string FeaturedSetsIdsString { get; set; }
 

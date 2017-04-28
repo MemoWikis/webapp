@@ -31,8 +31,13 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
+
         HasManyToMany(x => x.ParentCategories).
             Table("relatedcategoriestorelatedcategories")
             .ChildKeyColumn("Related_Id");
+
+        //HasManyToMany(x => x.RelatedCategories).
+        //    Table("relatedcategoriestorelatedcategories")
+        //    .ChildKeyColumn("Related_Id");
     }
 }
