@@ -81,6 +81,7 @@ ul.ui-autocomplete .CatListItem img,
 ul.ui-autocomplete .SetListItem img {
   float: left;
   border-radius: 4px;
+  margin-right: 7px;
 }
 ul.ui-autocomplete .CatListItem .CatDescription,
 ul.ui-autocomplete .SetListItem .CatDescription {

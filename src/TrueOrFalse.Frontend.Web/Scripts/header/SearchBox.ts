@@ -3,7 +3,6 @@
     _elemInput: JQuery;
 
     constructor() {
-        console.log("hui search box");
 
         var self = this;
         this._elemInput = $("#headerSearchBox");
@@ -30,6 +29,8 @@
         });
 
         autocomplete.data("ui-autocomplete")._renderItem = <any>function (ul, item: SetItem): any {
+
+            ul.addClass("AutocompleteHeader");
 
             var html = "";
 

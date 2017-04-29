@@ -624,6 +624,9 @@ fieldset[disabled] #MenuButton:hover {
     display: none;
   }
 }
+ul.AutocompleteHeader {
+  max-width: 550px;
+}
 /* MASTER SECTION
 ----------------------------------------------------------*/
 #MasterSection {
