@@ -66,7 +66,7 @@ ul.ui-autocomplete li.ui-menu-item {
 }
 ul.ui-autocomplete li.ui-menu-item.ui-state-focus,
 ul.ui-autocomplete li.ui-menu-item.ui-state-hover {
-  background: none !important;
+  background: #f5f8ff !important;
 }
 ul.ui-autocomplete .CatListItem,
 ul.ui-autocomplete .SetListItem {
