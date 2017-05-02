@@ -111,8 +111,7 @@
         
         <div class="EduCategoryRow row">
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <%--<a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(682)) %>" class="EduCategory">--%>
-                <a href="#" class="EduCategory">
+                <a href="https://memucho.de/Kategorien/Unterrichtsfaecher/682" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -126,8 +125,7 @@
             </div>
             
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <%--<a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(687)) %>" class="EduCategory">--%>
-                <a href="#" class="EduCategory">
+                <a href="https://memucho.de/Kategorien/Studienfaecher/687" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -140,8 +138,7 @@
                 </a>  
             </div>
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <%--<a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(689)) %>" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">--%>
-                <a href="#" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
+                <a href="https://memucho.de/Kategorien/Zertifikate/689" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -154,8 +151,7 @@
                 </a>
             </div>
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <%--<a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(709)) %>" class="EduCategory">--%>
-                <a href="#" class="EduCategory">
+                <a href="https://memucho.de/Kategorien/Allgemeinwissen/709" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
