@@ -42,6 +42,11 @@ class SolutionTypeFlashCard
                 this.answerRight = false;
                 this.AnswerQuestion.ValidateAnswer();
             });
+
+        $("#flashCard-dontCountAnswer").click(
+            e => {
+                $('#buttons-answer').hide();
+            });
     }
 
      GetChosenAnswers(): string {
