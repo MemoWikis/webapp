@@ -82,6 +82,8 @@ public class UserRepo : RepositoryDbBase<User>
         base.Delete(id);
     }
 
+    public IList<User> GetByIds(List<int> userIds) => GetByIds(userIds.ToArray());
+
     public override IList<User> GetByIds(params int[] userIds)
     {
         var questions = base.GetByIds(userIds);

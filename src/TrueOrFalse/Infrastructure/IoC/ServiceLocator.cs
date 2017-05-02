@@ -30,6 +30,11 @@ public class Sl
 
     public static SearchIndexCategory SearchIndexCategory => R<SearchIndexCategory>();
 
+    public static SearchCategories SearchCategories => R<SearchCategories>();
+    public static SearchSets SearchSets => R<SearchSets>();
+    public static SearchQuestions SearchQuestions => R<SearchQuestions>();
+    public static SearchUsers SearchUsers => R<SearchUsers>();
+
     public static SaveQuestionView SaveQuestionView => R<SaveQuestionView>();
 
     public static AnswerRepo AnswerRepo => R<AnswerRepo>();

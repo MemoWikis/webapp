@@ -20,6 +20,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
         Id = questionId; //$temp: wenn id = questionId, was ist dann bei mehreren Bildern
     }
 
+    public ImageUrl GetUrl_50px_square() { return GetUrl(50, isSquare: true); }
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
     public ImageUrl GetUrl_128px() { return GetUrl(128); }
     public ImageUrl GetUrl_435px() { return GetUrl(435); }
