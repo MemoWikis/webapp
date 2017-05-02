@@ -16,25 +16,25 @@ public class SearchApiController : BaseController
         if (elements.Categories.Any())
         {
             AddHeader(items, ResultItemType.SetsHeader);
-            AddCategoryItems(items, elements.CategoriesResult);
+            AddCategoryItems(items, elements);
         }
 
         if (elements.Sets.Any())
         {
             AddHeader(items, ResultItemType.CategoriesHeader);
-            AddSetItems(items, elements.SetsResult);
+            AddSetItems(items, elements);
         }
 
         if (elements.Questions.Any())
         {
             AddHeader(items, ResultItemType.QuestionsHeader);
-            AddQuestionItems(items, elements.QuestionsResult);
+            AddQuestionItems(items, elements);
         }
 
         if (elements.Questions.Any())
         {
             AddHeader(items, ResultItemType.UsersHeader);
-            AddUsersItems(items, elements.UsersResult);
+            AddUsersItems(items, elements);
         }
         
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
@@ -52,12 +52,12 @@ public class SearchApiController : BaseController
         });
     }
 
-    private static void AddCategoryItems(List<ResultItem> items, SearchCategoriesResult categoriesResult)
+    private static void AddCategoryItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            categoriesResult.GetCategories().Select(category => new ResultItem
+            elements.Categories.Select(category => new ResultItem
             {
-                ResultCount = categoriesResult.Count,
+                ResultCount = elements.CategoriesResult.Count,
                 Type = ResultItemType.Categories.ToString(),
                 Item = new ResultItemJson
                 {
@@ -69,12 +69,12 @@ public class SearchApiController : BaseController
         );
     }
 
-    private static void AddSetItems(List<ResultItem> items, SearchSetsResult setsResult)
+    private static void AddSetItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            setsResult.GetSets().Select(set => new ResultItem
+            elements.Sets.Select(set => new ResultItem
             {
-                ResultCount = setsResult.Count,
+                ResultCount = elements.SetsResult.Count,
                 Type = ResultItemType.Sets.ToString(),
                 Item = new ResultItemJson
                 {
@@ -86,12 +86,12 @@ public class SearchApiController : BaseController
         );
     }
 
-    private static void AddQuestionItems(List<ResultItem> items, SearchQuestionsResult questionsResult)
+    private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            questionsResult.GetQuestions().Select(question => new ResultItem
+            elements.Questions.Select(question => new ResultItem
             {
-                ResultCount = questionsResult.Count,
+                ResultCount = elements.QuestionsResult.Count,
                 Type = ResultItemType.Questions.ToString(),
                 Item = new ResultItemJson
                 {
@@ -103,12 +103,12 @@ public class SearchApiController : BaseController
         );
     }
 
-    private static void AddUsersItems(List<ResultItem> items, SearchUsersResult usersResult)
+    private static void AddUsersItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            usersResult.GetUsers().Select(user => new ResultItem
+            elements.Users.Select(user => new ResultItem
             {
-                ResultCount = usersResult.Count,
+                ResultCount = elements.UsersResult.Count,
                 Type = ResultItemType.Users.ToString(),
                 Item = new ResultItemJson
                 {
