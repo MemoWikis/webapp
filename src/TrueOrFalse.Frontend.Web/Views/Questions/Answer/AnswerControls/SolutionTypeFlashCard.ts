@@ -15,6 +15,7 @@ class SolutionTypeFlashCard
             if (!this.cardFlippedOnce) {
                 this.cardFlippedOnce = true;
                 $('#btnFlipCard').hide();
+                $('#aSkipStep').hide();
                 $('#buttons-answer').show();
                 if ($(e.delegateTarget).attr('id') === "btnFlipCard")
                     $('#flashCardContent').click();
@@ -52,6 +53,6 @@ class SolutionTypeFlashCard
     }
 
     GetAnswerData(): {} {
-        return { answer: this.answerRight ? "true" : "false" };
+        return { answer: this.answerRight ? "(Antwort gewusst)" : "(Antwort nicht gewusst)" };
     }
 };

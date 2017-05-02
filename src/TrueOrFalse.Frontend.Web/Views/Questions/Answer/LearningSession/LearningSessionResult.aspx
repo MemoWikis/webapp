@@ -2,6 +2,7 @@
 <%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
@@ -221,9 +222,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
-                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml()%><br/></p>
-                                                    <%
-                                                    int counter = 1;
+                                                    <% if (uniqueQuestion.First().Question.SolutionType != SolutionType.FlashCard)
+                                                       { %>
+                                                            <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml() %><br/></p>
+                                                    <% }
+                                                       int counter = 1;
                                                     foreach (var step in uniqueQuestion)
                                                     {
                                                         if (step.AnswerState == StepAnswerState.NotViewedOrAborted)

@@ -9,4 +9,5 @@
     </div>
 </div>
 <script>
+    $('#flashCardContent').flip();
 </script>

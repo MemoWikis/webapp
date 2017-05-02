@@ -11,7 +11,7 @@ public class QuestionSolutionFlashCard : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {   
-        return answer == "true";
+        return answer == "(Antwort gewusst)";
     }
 
     public override string CorrectAnswer()

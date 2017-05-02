@@ -79,7 +79,7 @@
                                     var questionText = '<h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
                                     var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown.Replace("\n", String.Empty)%>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
-                                    //$('#flashCardContent').flip();
+                                    $('#flashCardContent').height($('#flashCard-frontContent').height()); //TODO:Julian
                                 </script>
                             <% }
 
@@ -119,7 +119,7 @@
                                     <div id="buttons-answer" class="ButtonGroup" style="display: none">
                                         <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
                                         <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
-
+                                        </div><div>
                                         <% } %>
                                         <% if (Model.IsLearningSession && Model.NextUrl != null)
                                             { %>

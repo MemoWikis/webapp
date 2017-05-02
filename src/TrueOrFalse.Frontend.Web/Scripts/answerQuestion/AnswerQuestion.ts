@@ -180,11 +180,11 @@ class AnswerQuestion {
                     true);
             return false;
         } else {
-            if (this.SolutionType !== SolutionType.FlashCard) {
-                $('#spnWrongAnswer').show();
                 self.AmountOfTries++;
                 self.AnswersSoFar.push(answerText);
 
+                if (this.SolutionType !== SolutionType.FlashCard) {
+                $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
 
