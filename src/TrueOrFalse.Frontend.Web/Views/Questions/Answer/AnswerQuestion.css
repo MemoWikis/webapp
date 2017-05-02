@@ -429,7 +429,8 @@
 #flashCardContent {
   min-height: 250px;
 }
-#flashCardContent > div {
+#flashCardContent > div,
+#flashCard-frontContent > p {
   min-height: inherit;
   display: flex;
   flex-direction: column;
@@ -437,6 +438,12 @@
   align-content: center;
   justify-content: center;
   background-color: beige;
+}
+#flashCard-frontContent {
+  padding: 15px;
+}
+#flashCard-frontContent img {
+  max-width: 60%;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;

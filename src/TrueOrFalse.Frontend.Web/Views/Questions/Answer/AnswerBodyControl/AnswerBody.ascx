@@ -32,16 +32,22 @@
         </span>
 
     </div>
+    <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
+       { %>
     <h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
         <%= Model.QuestionText %>
     </h1>
+    <% } %>
     <div class="row">
-        <% if (!string.IsNullOrEmpty(Model.QuestionTextMarkdown))
-            { %>
-        <div id="MarkdownCol">
-            <div class="RenderedMarkdown"><%= Model.QuestionTextMarkdown %></div>
-        </div>
-        <% } %>
+        <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
+           {
+               if (!string.IsNullOrEmpty(Model.QuestionTextMarkdown))
+               { %>
+                    <div id="MarkdownCol">
+                        <div class="RenderedMarkdown"><%= Model.QuestionTextMarkdown %></div>
+                    </div>
+                <% }
+           } %>
         <div id="AnswerAndSolutionCol">
             <div id="AnswerAndSolution">
 
@@ -68,9 +74,14 @@
 
                             Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
                             if (Model.SolutionType == SolutionType.FlashCard.ToString())
-                            {
-                                //append Frontpage of FlashCard here
-                            }
+                            { %>
+                                <script type="text/javascript">
+                                    var questionText = '<h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
+                                    var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown.Replace("\n", String.Empty)%>';
+                                    $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
+                                    //$('#flashCardContent').flip();
+                                </script>
+                            <% }
 
                             if (Model.SolutionType != SolutionType.FlashCard.ToString())
                             { %>
