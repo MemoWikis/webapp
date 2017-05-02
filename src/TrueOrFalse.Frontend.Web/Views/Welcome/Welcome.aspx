@@ -106,57 +106,64 @@
                 </div>
             </div>
         </div>--%>
-        
-        
 
-        <%--<h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
+        <h3 style="margin-top: 40px;">Finde deine Lerninhalte</h3>
         
-        <div class="EduCategoryRow">
-            <a href="#" class="EduCategory BoxButton">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-child fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Schule
-                </span>
-            </a>
-            <a href="#" class="EduCategory BoxButton">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Studium
-                </span>
-            </a>  
-            <a href="#" class="EduCategory">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-file-text-o fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Zertifikate
-                </span>
-            </a>
-            <a href="#" class="EduCategory">
-                <span class="EduCategoryIcon">
-                    <span class="fa-stack fa-lg">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
-                    </span>    
-                </span>
-                <span class="EduCategoryText">
-                    Allgemeinwissen
-                </span>
-            </a>    
-        </div>--%>
+        <div class="EduCategoryRow row">
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(682)) %>" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Schule
+                    </span>
+                </a>
+            </div>
+            
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(687)) %>" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Studium
+                    </span>
+                </a>  
+            </div>
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(689)) %>" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-file-text-o fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Zertifikate
+                    </span>
+                </a>
+            </div>
+            <div class="xxs-stack col-xs-6 col-sm-3">
+                <a href="<%= Links.CategoryDetail(Sl.R<CategoryRepository>().GetById(709)) %>" class="EduCategory">
+                    <span class="EduCategoryIcon">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
+                        </span>    
+                    </span>
+                    <span class="EduCategoryText">
+                        Allgemeinwissen
+                    </span>
+                </a>    
+            </div>
+        </div>
         
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
         <p class="welcomeContentSectionTarget">Allgemeinwissen, Abitur Politik, Politikwissenschaft</p>
