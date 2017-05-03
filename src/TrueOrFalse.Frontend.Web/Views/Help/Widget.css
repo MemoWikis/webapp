@@ -88,11 +88,12 @@ code {
 #switchesPriceType {
   text-align: center;
   margin-top: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 16px;
 }
 #switchesPriceType .btn {
   min-width: 230px;
   margin-top: 10px;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
 #switchesPriceType .btn-notSelected {
   border: 2px solid #357ebd;
