@@ -22,7 +22,16 @@
                     
                     <a href="<%= Model.DetailLink(Url) %>">
                         <% if (Model.HasMarkdownContent) { %>
-                            <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% } %><%=Model.CategoryName.TruncateAtWord(55) %>
+                            <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% 
+                        }
+                        if (Model.IsMediaCategory)
+                        {%>
+                            <i class="fa fa-book show-tooltip" data-original-title="Medium: <%= Model.CategoryTypeName %>")>&nbsp;</i><%}
+                        if (Model.IsEducationCategory)
+                        {%>
+                            <i class="fa fa-graduation-cap show-tooltip" data-original-title="Bildungsstufe: <%= Model.CategoryTypeName %>")>&nbsp;</i><%
+                        }
+                        %><%=Model.CategoryName.TruncateAtWord(55) %>
                     </a> 
                 </div>
             

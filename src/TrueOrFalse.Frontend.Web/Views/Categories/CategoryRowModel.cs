@@ -9,6 +9,9 @@ public class CategoryRowModel : BaseModel
     public int CategoryId;
     public string CategoryName;
     public object DescriptionShort;
+    public bool IsMediaCategory;
+    public bool IsEducationCategory;
+    public string CategoryTypeName;
     public bool HasMarkdownContent;
 
     public Func<UrlHelper, string> DetailLink;
@@ -30,6 +33,10 @@ public class CategoryRowModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
+        var catTypeGroup = Category.Type.GetCategoryTypeGroup();
+        IsMediaCategory = catTypeGroup == CategoryTypeGroup.Media;
+        IsEducationCategory = catTypeGroup == CategoryTypeGroup.Education;
+        CategoryTypeName = Category.Type.GetName();
         HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
 
         IsInWishknowledge = valution.IsInWishKnowledge();
