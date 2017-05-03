@@ -29,12 +29,6 @@
                 <div style="margin-top: 1px;">
                     <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>
                 </div>
-                <% if(Model.AnswersTotal > 0) { %>
-                    <div style="margin-top: 2px; font-size: small;">
-                        <%= Model.AnswersTotal  %>x beantwortet, 
-                        davon <%= Model.CorrectnesProbability %>% richtig.
-                    </div>
-                <% } %>
             </div>
 
             <div class="MainContentLower">
