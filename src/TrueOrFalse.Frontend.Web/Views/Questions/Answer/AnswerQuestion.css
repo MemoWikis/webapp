@@ -322,6 +322,10 @@
   color: white;
   font-weight: bold;
 }
+.answerFeedbackCorrect,
+.answerFeedbackWrong {
+  z-index: 999;
+}
 .answerFeedbackCorrect {
   background-color: #AFD534;
 }

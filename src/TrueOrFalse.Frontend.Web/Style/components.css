@@ -86,6 +86,10 @@ ul.ui-autocomplete .CatListItem .CatDescription,
 ul.ui-autocomplete .SetListItem .CatDescription {
   margin-left: 55px;
 }
+ul.ui-autocomplete .CatListItem .SetDescription,
+ul.ui-autocomplete .SetListItem .SetDescription {
+  margin-left: 55px;
+}
 ul.ui-autocomplete .CatListItem span,
 ul.ui-autocomplete .SetListItem span {
   display: block;

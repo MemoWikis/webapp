@@ -99,6 +99,7 @@
 
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
+        $('#AnswerInputSection').find('.checkbox').addClass('disabled').find('input').attr('disabled', 'true');
         if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
             $('#AnswerInputSection .ui-droppable')
                 .each((index, matchlistDropElement) => {
@@ -230,12 +231,12 @@
 
     private HighlightMultipleChoiceSolution(correctAnswers: string) {
         var allAnswerElements = $("input[name = 'answer']");
+        var correctAnswerArray = correctAnswers.split('</br>');
 
         for (var i = 0; i < allAnswerElements.length; i++) {
-
             var currentElement = $(allAnswerElements.get(i));
 
-            if (correctAnswers.indexOf(currentElement.val()) !== -1) {
+            if(correctAnswerArray.indexOf(currentElement.val()) !== -1) {
                 currentElement.parent().addClass("right-answer");
             } else {
                 if (currentElement.prop("checked")) {
