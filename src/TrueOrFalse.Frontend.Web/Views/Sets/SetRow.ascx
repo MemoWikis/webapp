@@ -25,6 +25,9 @@
                         <span style="color: darkgray">(0)</span>
                     <% } %>            
                     <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>
+                    <% if(Model.HasVideo) { %>
+                        <i class="fa fa-lg fa-youtube-play show-tooltip greyed" data-original-title="Fragesatz mit Video und den dazu passenden Fragen">&nbsp;</i>
+                    <% } %>
                 </div>
             </div>
             <div style="margin-bottom: 5px;">
