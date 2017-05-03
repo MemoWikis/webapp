@@ -9,5 +9,5 @@
     </div>
 </div>
 <script>
-    $('#flashCardContent').flip();
+    //$('#flashCardContent').flip();
 </script>
