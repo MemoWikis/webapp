@@ -9,10 +9,6 @@
         <button class="btn" id="addChoice">weitere falsche Antwort hinzufügen</button>
     </div>
 </div>
-<div class="checkbox" id="multiplechoice-solutionOrderCheck">
-    <label><input name="isSolutionRandomlyOrdered" type="checkbox" value="" checked>Antwortmöglichkeiten zufällig anordnen</label>
-</div>
-
 
 <script type="text/javascript">
     var addingChoiceId = $("#choices .form-group").length;
@@ -54,10 +50,6 @@
        { %>
         $("#addChoice").click();
         $(".sequence-choice").last().val('<%= choice %>');
-        <% }
-       if (Model.isSolutionOrdered)
-       { %>
-            $('[name="isSolutionRandomlyOrdered"]').prop("checked", false);
         <% }
    }
    else
