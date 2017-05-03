@@ -85,10 +85,10 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-9 col-sm-10">
+                                        <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).GetCorrectAnswerAsHtml() %></p>
                                         <% if (step.Question.SolutionType != SolutionType.FlashCard)
                                            { %>
-                                        <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).GetCorrectAnswerAsHtml() %></p>
-                                        <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : Question.AnswersAsHTML(step.AnswerText, step.Question.SolutionType) %></p>
+                                                <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : Question.AnswersAsHTML(step.AnswerText, step.Question.SolutionType) %></p>
                                         <% } %>
                                         <p class="averageCorrectness">Wahrscheinlichkeit richtige Antwort (alle Nutzer): <%= step.Question.CorrectnessProbability %>%</p>
                                         

@@ -222,11 +222,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
-                                                    <% if (uniqueQuestion.First().Question.SolutionType != SolutionType.FlashCard)
-                                                       { %>
-                                                            <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml() %><br/></p>
-                                                    <% }
-                                                       int counter = 1;
+                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml() %><br/></p>
+                                                    <% int counter = 1;
                                                     foreach (var step in uniqueQuestion)
                                                     {
                                                         if (step.AnswerState == StepAnswerState.NotViewedOrAborted)

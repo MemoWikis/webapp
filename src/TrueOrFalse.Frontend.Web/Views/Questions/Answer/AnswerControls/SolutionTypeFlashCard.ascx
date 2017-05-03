@@ -3,8 +3,8 @@
 
 
 <div id="flashCardContent">
-    <div class="front" id="flashCard-front"></div>
-    <div class="back" id="flashCard-back">
+    <div class="front flashCardContentSite" id="flashCard-front"></div>
+    <div class="back flashCardContentSite" id="flashCard-back">
             <%= MarkdownInit.Run().Transform(Model.Text) %>
     </div>
 </div>

@@ -608,6 +608,9 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
+      <DependentUpon>AnswerQuestion.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
@@ -853,9 +856,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
-      <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
