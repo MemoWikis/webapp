@@ -8,6 +8,6 @@
             <%= MarkdownInit.Run().Transform(Model.Text) %>
     </div>
 </div>
-<script>
-    //$('#flashCardContent').flip();
+<script type="text/javascript">
+    $('#flashCardContent').flip();
 </script>

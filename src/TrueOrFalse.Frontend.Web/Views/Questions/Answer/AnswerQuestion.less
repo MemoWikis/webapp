@@ -422,9 +422,14 @@
 
 
 //FlashCard
-#flashCardContent {
-        min-height: 250px;
 
+#flashCardContent {
+    min-height: 250px;
+
+    @media (max-width: 768px){
+        margin-bottom: 25px;
+    }
+    
     > div, #flashCard-frontContent > p {
         min-height: inherit;
         display: flex;
@@ -444,15 +449,22 @@
         padding-bottom: 20px;
     }
 }
-    #flashCard-frontContent {
-        padding: 15px;
-    }
 
-    #flashCard-frontContent img {
-        max-width: 60%;
-    }
-    //http://jsfiddle.net/YB8UW/8/
-    /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
+#flashCard-frontContent {
+    padding: 15px;
+}
+
+#flashCard-frontContent img {
+    max-width: 60%;
+}
+
+.flashCardAnswerButtons > .btn{
+    margin-left: unset;
+}
+
+
+//http://jsfiddle.net/YB8UW/8/
+/*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;
 
@@ -462,7 +474,7 @@
         width: 100%;
     }
 }*/
-    /*#AnswerInputSection .radio { //styles for html with input before label
+/*#AnswerInputSection .radio { //styles for html with input before label
     background-color: lightgray;
     margin-bottom: 10px;
 

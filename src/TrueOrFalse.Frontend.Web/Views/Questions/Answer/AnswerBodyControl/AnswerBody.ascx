@@ -76,7 +76,7 @@
                             if (Model.SolutionType == SolutionType.FlashCard.ToString())
                             { %>
                                 <script type="text/javascript">
-                                    var questionText = '<h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
+                                    var questionText = '<h1 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
                                     var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown.Replace("\n", String.Empty)%>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
                                     $('#flashCard-frontContent img').load(function () { $('#flashCardContent').height($('#flashCard-frontContent').outerHeight()); });
@@ -116,7 +116,7 @@
                                     <% }
                                         else
                                         { %>
-                                    <div id="buttons-answer" class="ButtonGroup" style="display: none">
+                                    <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" style="display: none">
                                         <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
                                         <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
                                         <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link">Nicht werten!</a>
@@ -206,6 +206,7 @@
             </div>
         </div>
     </div>
+</div>
     <div id="LicenseQuestion" class="Clearfix">
         <% if (Model.LicenseQuestion.IsDefault())
             { %>
@@ -242,4 +243,3 @@
         </div>
         <% } %>
     </div>
-</div>
