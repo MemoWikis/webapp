@@ -105,6 +105,204 @@
     });
 }
 
+
+/* Session heading
+------------------------------------------------------*/
+
+.SessionHeading {
+    font-weight: bold;
+    padding-bottom: 10px;
+    display: flex;
+    .clearfix;
+
+    .media-below-xs({
+        flex-direction: column-reverse;
+    });
+
+    .media-xs-up({
+        align-items: center;
+        justify-content: space-between;
+    });
+}
+
+.LabelLink {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.SessionHeaderColumnWidth(@rightColWidthPercentage) {
+    .QuestionCount, .EduPartnerWrapper {
+        width: @rightColWidthPercentage * 1%;
+    }
+
+    .SessionTitle {
+        width: 100%;
+    }
+
+    .EduPartnerWrapper + .SessionTitle {
+        width: 100% - @rightColWidthPercentage;
+    }
+}
+
+.media-xs-up({
+    .SessionHeaderColumnWidth(30%);
+});
+ 
+.media-md-up({
+    .SessionHeaderColumnWidth(20%);
+});
+ 
+.SessionTitle {
+    .media-xs-up({
+        padding-right: 10px;
+    });
+}
+
+.EduPartnerWrapper {
+    clear: left;
+
+    .media-xs-up({
+        text-align: center;
+    });
+}
+
+.EduPartnerLogoWrapper {
+    .media-below-xs({
+        float: right;
+    });
+    width: 100px;
+}
+
+/* Session bar/Progress bar
+------------------------------------------------------*/
+
+.SessionBar {
+    border: solid 2px @memo-green;
+    background-color: @memo-green;
+    margin-bottom: 20px;
+    .clearfix;
+    .media-below-sm ({
+        margin-bottom:  0;
+
+        & + .row #AnswerBody {
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    });
+}
+
+.ProgressBarContainer, .SessionType, .QuestionCount, .ProgressBarSegment {
+    height: 30px;
+}
+
+.SessionType, .QuestionCount {
+    background-color: @memo-green;
+
+    .media-below-xs({
+        padding-left: 15px;
+        padding-right: 15px;
+    });
+
+    &, & span {
+        .media-xs-up({
+            text-align: center;
+        });
+    }
+
+    > span {
+        width: 100%;
+    }
+
+    padding-top: 5px;
+}
+
+.SessionType {
+    float: left;
+
+    span {
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .media-xs-up({
+        width: 20%;
+    });
+
+    .media-sm-up({
+        width: 15%;
+    });
+
+    .media-md-up({
+        width: 10%;
+    });
+}
+
+.ProgressBarContainer {
+    display: table;
+
+    .media-below-xs({
+        width: 100%;
+    });
+
+    .media-xs-up({
+        width: 50%;
+    });
+
+    .media-sm-up({
+        width: 55%;
+    });
+
+    .media-md-up({
+        width: 70%;
+    });
+}
+
+.ProgressBarSegment {
+    display: table-cell;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: top; //Fix Firefox height bug
+}
+
+.ProgressBarLegend {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 100%;
+    min-width: 30px;
+}
+
+.ProgressBarDone {
+    background-color: lighten(@memo-green, 15);
+    position: relative;
+    overflow: visible;
+}
+
+.ProgressBarLeft {
+    background-color: lighten(@memo-green, 30);
+}
+
+.CollectionType {
+    float: left;
+    padding-right: 10px;
+}
+
+.LabelWrapper {
+    max-width: 70%;
+    float: left;
+    .clearfix;
+
+    a, .label {
+        max-width: 100%;
+        font-size: 100%;
+        margin: 0;
+    }
+}
+
+/* Answer Section
+------------------------------------------------------*/
+
 .QuestionText {
     padding-bottom: 20px;
 
@@ -180,7 +378,7 @@
     vertical-align: bottom;
     padding-left: 10px;
     padding-right: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     margin-bottom: 0px;
     width: 100%;
 
@@ -237,7 +435,7 @@
 #Buttons {
     display: inline-block;
     vertical-align: bottom;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     width: 100%;
 
     .btn-link {
@@ -249,12 +447,9 @@
 
     .btn {
         margin-right: 10px;
-        margin-bottom: 10px;
-        
-        .media-below-xs({
-            display: table; //Keeps width of element to text length but still inserts break
-        });
+        margin-bottom: 15px;
     }
+
     .HeartToAddButton {
         float: right;
         margin-bottom: 10px;
@@ -265,8 +460,14 @@
     max-width: 100%;
 }
 
-#AnswerFeedbackAndSolutionDetails {
+/*#AnswerFeedbackAndSolutionDetails {
     margin-top: 20px;
+}*/
+
+#SolutionDetails {
+    .media-below-sm({
+        padding-bottom:20px;
+    });
 }
 
 .answerFeedback {

@@ -135,7 +135,7 @@
                                         <% } %>
                                         <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
                                             { %>
-                                        <a href="#" id="aCountAsCorrect" class="SecAction show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
+                                        <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                         <% } %>
                                     </div>
 
@@ -143,7 +143,7 @@
                                         { %>
                                     <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                         <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
-                                        <a href="#" class="selectorShowSolution SecAction">Lösung anzeigen</a>
+                                    	<a href="#" class="selectorShowSolution SecAction btn btn-link">Lösung anzeigen</a>
                                     </div>
                                     <% } %>
 
