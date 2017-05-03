@@ -2,26 +2,23 @@
 using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib;
-using TrueOrFalse.Search;
 
 public class SearchApiController : BaseController
 {
     public JsonResult ByName(string term)
     {
         var items = new List<ResultItem>();
-
-
         var elements = SearchBoxElementsGet.Go(term);
 
         if (elements.Categories.Any())
         {
-            AddHeader(items, ResultItemType.SetsHeader);
+            AddHeader(items, ResultItemType.CategoriesHeader);
             AddCategoryItems(items, elements);
         }
 
         if (elements.Sets.Any())
         {
-            AddHeader(items, ResultItemType.CategoriesHeader);
+            AddHeader(items, ResultItemType.SetsHeader);
             AddSetItems(items, elements);
         }
 
