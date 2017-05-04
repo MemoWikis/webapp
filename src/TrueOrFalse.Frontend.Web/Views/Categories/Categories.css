@@ -71,6 +71,8 @@
     width: 250px;
   }
 }
-.category-row .fa-star {
+.category-row .fa-star,
+.category-row .fa-book,
+.category-row .fa-graduation-cap {
   color: #b3c6e4 !important;
 }
