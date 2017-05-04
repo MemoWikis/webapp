@@ -422,6 +422,7 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
@@ -591,16 +592,35 @@
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js">
       <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js.map">
       <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js">
+      <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
+      <DependentUpon>AnswerQuestion.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeNoteCard.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
@@ -836,9 +856,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
-      <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
@@ -1861,6 +1878,7 @@
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
@@ -1868,6 +1886,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
@@ -2508,6 +2527,9 @@
     <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
       <DependentUpon>ShareSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />

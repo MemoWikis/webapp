@@ -87,6 +87,7 @@ public class EditQuestionModel : BaseModel
                             new SelectListItem {Text = "Freie Antwort (Text/Zahl/Datum)", Value = TrueOrFalse.SolutionType.Text.ToString()},
                             //new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
                             new SelectListItem {Text = "Zuordnung (Liste)", Value = TrueOrFalse.SolutionType.MatchList.ToString()},
+                            new SelectListItem {Text = "Karteikarte", Value = TrueOrFalse.SolutionType.FlashCard.ToString()}
                         };
         }
     }

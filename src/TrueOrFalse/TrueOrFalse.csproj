@@ -359,6 +359,7 @@
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMatchList.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionFlashCard.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Question\SolutionType\MatchList\ElementLeft.cs" />

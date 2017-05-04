@@ -168,26 +168,30 @@ class AnswerQuestion {
         return $("#isLastQuestion").val() === "True";
     }
 
-    private ValidateAnswer() {
+    public ValidateAnswer() {
         var answerText
             = this._getAnswerText();
         var self = this;
 
-        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList) {
+        if (answerText.trim().length === 0 && this.SolutionType !== SolutionType.MultipleChoice && this.SolutionType !== SolutionType.MatchList && this.SolutionType !== SolutionType.FlashCard) {
             $('#spnWrongAnswer').hide();
             self._inputFeedback
                 .ShowError("Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)",
                     true);
             return false;
         } else {
-            $('#spnWrongAnswer').show();
-            self.AmountOfTries++;
-            self.AnswersSoFar.push(answerText);
+                self.AmountOfTries++;
+                self.AnswersSoFar.push(answerText);
 
-            $("#buttons-first-try").hide();
-            $("#buttons-answer-again").hide();
+                if (this.SolutionType !== SolutionType.FlashCard) {
+                $('#spnWrongAnswer').show();
+                $("#buttons-first-try").hide();
+                $("#buttons-answer-again").hide();
 
-            $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+                $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
+            } else {
+                $('#buttons-answer').hide();
+            }
             $.ajax({
                 type: 'POST',
                 url: AnswerQuestion.ajaxUrl_SendAnswer,
@@ -223,7 +227,7 @@ class AnswerQuestion {
 
                     if (result.correct)
                         self.HandleCorrectAnswer();
-                    else 
+                    else
                         self.HandleWrongAnswer(result, answerText);
 
                     $("#answerHistory").empty();
@@ -240,7 +244,9 @@ class AnswerQuestion {
 
     private HandleCorrectAnswer() {
         this.AnsweredCorrectly = true;
-        this._inputFeedback.ShowSuccess();
+        if (this.SolutionType !== SolutionType.FlashCard) {
+            this._inputFeedback.ShowSuccess();
+        }
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep)
             $('#btnNext').html('Zum Ergebnis');
@@ -253,12 +259,16 @@ class AnswerQuestion {
             $('#btnNext').html('Zum Ergebnis');
 
         if (this.IsGameMode) {
-            this._inputFeedback.ShowErrorGame();
-            this._inputFeedback.ShowSolution();
+            if (this.SolutionType !== SolutionType.FlashCard) {
+                this._inputFeedback.ShowErrorGame();
+                this._inputFeedback.ShowSolution();
+            }
         } else {
+            if (this.SolutionType === SolutionType.FlashCard) {
+                this._inputFeedback.ShowSolution();
+            }
             this._inputFeedback.UpdateAnswersSoFar();
-
-            this.RegisterWrongAnswer();
+            this.RegisterWrongAnswer();//need only this
             this._inputFeedback.ShowError();
 
             if (this.IsLearningSession || this.IsTestSession) {

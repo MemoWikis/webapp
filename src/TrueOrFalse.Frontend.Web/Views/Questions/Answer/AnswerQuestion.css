@@ -674,6 +674,40 @@
   margin-bottom: 5px;
   font-size: 16px;
 }
+#flashCardContent {
+  min-height: 250px;
+}
+@media (max-width: 768px) {
+  #flashCardContent {
+    margin-bottom: 25px;
+  }
+}
+#flashCardContent > div,
+#flashCardContent #flashCard-frontContent > p {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+#flashCardContent > div {
+  background-color: white;
+  border: 1px solid #c9c9c9;
+  box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.2);
+}
+#flashCardContent img {
+  padding-bottom: 20px;
+}
+#flashCard-frontContent {
+  padding: 15px;
+}
+#flashCard-frontContent img {
+  max-width: 60%;
+}
+.flashCardAnswerButtons > .btn {
+  margin-left: unset;
+}
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;

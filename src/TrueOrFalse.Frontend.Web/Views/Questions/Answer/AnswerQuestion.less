@@ -483,7 +483,7 @@
     border-radius: 4px;
     color: white;
     font-weight: bold;
- }
+}
 
 
 .answerFeedbackCorrect, .answerFeedbackWrong {
@@ -546,7 +546,8 @@
 }
 
 
-//matchlist
+
+//MatchList
 
 .matchlist-leftelementwrapper {
     text-align:center;
@@ -617,14 +618,58 @@
 .matchlist-mobilepairrow {
     margin-bottom: 20px;
 }
+
 .matchlist-elementlabel {
     text-align: left;
     margin-bottom: 5px;
     font-size: 16px;
 }
 
-//http://jsfiddle.net/YB8UW/8/
 
+
+//FlashCard
+
+#flashCardContent {
+    min-height: 250px;
+
+    @media (max-width: 768px){
+        margin-bottom: 25px;
+    }
+    
+    > div, #flashCard-frontContent > p {
+        min-height: inherit;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
+
+    > div {
+        background-color: white;
+        border: 1px solid darken(@border-grey, 5);
+        box-shadow: 10px 10px 5px -5px rgba(0,0,0,0.20);
+    }
+
+    img {
+        padding-bottom: 20px;
+    }
+}
+
+#flashCard-frontContent {
+    padding: 15px;
+}
+
+#flashCard-frontContent img {
+    max-width: 60%;
+}
+
+.flashCardAnswerButtons > .btn{
+    margin-left: unset;
+}
+
+
+//http://jsfiddle.net/YB8UW/8/
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;
@@ -635,7 +680,6 @@
         width: 100%;
     }
 }*/
-
 /*#AnswerInputSection .radio { //styles for html with input before label
     background-color: lightgray;
     margin-bottom: 10px;
