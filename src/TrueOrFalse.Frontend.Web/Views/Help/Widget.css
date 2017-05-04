@@ -229,6 +229,9 @@ Pricing table
   border-top: 0px;
   border-left: 0px;
 }
+.navbar .navbar-header {
+  float: left;
+}
 .navbar .navbar-brand {
   float: left;
   max-width: none;
