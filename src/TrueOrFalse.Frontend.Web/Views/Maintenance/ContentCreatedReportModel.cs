@@ -5,7 +5,7 @@ using NHibernate;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Web;
 
-public class ContentReportModel : BaseModel
+public class ContentCreatedReportModel : BaseModel
 {
     private ISession _session;
 
@@ -18,7 +18,7 @@ public class ContentReportModel : BaseModel
     public IList<Category> CategoriesAdded;
     public IList<Set> SetsAdded;
 
-    public ContentReportModel()
+    public ContentCreatedReportModel()
     {
         _session = Sl.R<ISession>();
 

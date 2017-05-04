@@ -1,10 +1,10 @@
-﻿<%@ Page Title="Maintenance: ContentReport" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ContentReportModel>" %>
+﻿<%@ Page Title="Maintenance: ContentCreatedReport" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ContentCreatedReportModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
     <link href="/Style/site.css" rel="stylesheet" />
-    <link href="/Views/Maintenance/ContentReport.css" rel="stylesheet" />
+    <link href="/Views/Maintenance/ContentCreatedReport.css" rel="stylesheet" />
 </asp:Content>
 
 
