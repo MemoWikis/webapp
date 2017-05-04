@@ -1702,7 +1702,7 @@
     <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Certification.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Course.ascx" />
-    <Content Include="Views\Categories\Edit\TypeControls\FieldStudyTrade.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\FieldOfTraining.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\SchoolSubject.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\Magazine.ascx" />
     <Content Include="Views\Categories\Edit\TypeControls\MagazineArticle.ascx" />

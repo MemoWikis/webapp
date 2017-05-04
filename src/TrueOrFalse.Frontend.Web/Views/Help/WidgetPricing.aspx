@@ -59,6 +59,11 @@
                 <div id="pricingIndividuals">
                     
                     <div class="content">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-2" style="padding-bottom: 10px;">
+                                Preise für Einzelpersonen:
+                            </div>
+                        </div>
 	                    <div class="row">
 		                    <!-- Pricing -->
 		                    <div class="col-md-4 col-xs-6 xxs-stack col-md-offset-2">
@@ -92,7 +97,7 @@
 		                    <div class="col-md-4 col-xs-6 xxs-stack">
 			                    <div class="pricing hover-effect">
 				                    <div class="pricing-head">
-					                    <h3>Pro<%-- <span>Für alle Pro-Nutzer inklusive</span>--%></h3>
+					                    <h3>Förderer<%-- <span>Für alle Pro-Nutzer inklusive</span>--%></h3>
 					                    <h4 class="show-tooltip" data-placement="bottom" title="Entsprechend deiner finanziellen Möglichkeiten kannst du den Preis selbst festlegen."> 
 					                        <i>ca. € </i>3
                                             <span>pro Monat *</span>
@@ -105,9 +110,9 @@
 				                    </ul>
 				                    <div class="pricing-footer">
 					                    <p>
-						                     Alle Pro-Nutzer bei memucho können Widgets unbeschränkt und werbefrei nutzen.
+						                     Alle Förderer bei memucho können Widgets unbeschränkt und werbefrei nutzen.
 					                    </p>
-					                    <a href="<%= Links.Membership() %>" class="btn btn-primary">Pro-Nutzer werden</a>
+					                    <a href="<%= Links.Membership() %>" class="btn btn-primary">Förderer werden</a>
 				                    </div>
 			                    </div>
                                 <p style="line-height: 12px;padding: 0 15px;margin-top: -8px;text-align: center;"><small>* Entsprechend deiner finanziellen Möglichkeiten kannst du den Preis selbst festlegen.</small></p>
@@ -156,6 +161,13 @@
                 <div id="pricingOrgs" style="display: none;">
                     
                     <div class="content">
+                        
+                        <div class="row">
+                            <div class="col-md-12" style="padding-bottom: 10px;">
+                                Preise für Organisationen:
+                            </div>
+                        </div>
+
 	                    <div class="row">
 		                    <!-- Pricing -->
 		                    <div class="col-md-3 col-xs-6 xxs-stack">
@@ -230,10 +242,8 @@
 				                    </div>
 				                    <ul class="pricing-content list-unstyled">
 					                    <li>Werbefrei, kein Branding</li>
-					                    <li>Inkl. 100.000 Aufrufe<br/><small>Je 100.000 weitere: € 9,00</small></li>
-					                    <li>Mehr-Nutzer-Anmeldung</li>
-                                        <li>SLA (Verfügbarkeit)</li>
-                                        <li>Indiv. Anpassungen, Einbettung in Workflows</li>
+				                        <li>SLAs (Lifetime)</li>
+					                    <li>Workflows/<br/><small>Individualisierung</small></li>
 				                    </ul>
 				                    <div class="pricing-footer">
 					                    <%--<p>Geeignet für Bildungsverlage und große Content-Anbieter</p>--%>
@@ -243,9 +253,11 @@
 		                    </div>
 		                    <!--//End Pricing -->
 	                    </div>
-                        <p>
-                            Deine Organisation oder Unternehmen ist gemeinwohlorientiert? Du förderst offene Bildungsinhalte und/oder Open-Source? 
-                            Das finden wir toll! <a href="#contact">Sprich uns an</a>, wenn du ein individuelles Angebot möchtest.
+                        
+                        <p class="pricing" style="padding: 10px; color: #777; font-size: 14px;">
+                            <b>Gemeinnützig? Gemeinwohlorientiert?</b><br />
+                            Deine Organisation oder Unternehmen ist gemeinnützig oder gemeinwohlorientiert? Du förderst offene Bildungsinhalte und/oder Open-Source? 
+                            Du kannst die Widgets vermutlich <b>kostenlos und uneingeschränkt</b> nutzen. <a href="#contact">Sprich uns an :-)</a>
                         </p>
                         
                         <h2>

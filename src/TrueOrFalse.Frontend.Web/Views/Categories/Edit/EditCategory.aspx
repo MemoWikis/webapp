@@ -129,21 +129,18 @@
                                 </label>
                             </div>
                             <div class="radio">
-<%--                                <label style="font-weight: normal">
+                                <label style="font-weight: normal">
                                     <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
-                                    Aus- und Weiterbildung--%>
-                                    <a href="#" class="featureNotImplemented">
-                                        <span style="color: lightgrey">Aus- und Weiterbildung
-                                        <br/>(Studiengänge, Schulfächer, Klassenstufen etc.)</span>
-                                    </a>
+                                    Aus- und Weiterbildung
+                                    <br/>(Universitäten, Kurse, Professoren/Dozenten etc.)
                                     <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
                                         <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
                                         <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
-                                        <option value="FieldStudyTrade"><%= CategoryType.FieldStudyTrade.GetName() %></option>
+                                        <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
                                         <option value="Course"><%= CategoryType.Course.GetName() %></option>
                                         <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
                                     </select>
-                                <%--</label>--%>
+                                </label>
                             </div>
                         </div>
                     </div>

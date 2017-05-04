@@ -10,6 +10,7 @@ public class SetRowModel
     public string Name;
     public string DescriptionShort;
 
+    public bool HasVideo;
     public int QuestionCount;
     public IList<Category> Categories; 
 
@@ -34,7 +35,8 @@ public class SetRowModel
         CreatorId = set.Creator.Id;
 
         DescriptionShort = !String.IsNullOrEmpty(set.Text) ? (set.Text.Wrap(150)) : "";
-        
+
+        HasVideo = set.HasVideo;
         QuestionCount = set.QuestionsInSet.Count;
         CreatorName = set.Creator.Name;
         IsOwner = currentUserid == set.Creator.Id;

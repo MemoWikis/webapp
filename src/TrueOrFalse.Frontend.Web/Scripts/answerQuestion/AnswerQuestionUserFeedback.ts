@@ -94,6 +94,7 @@
 
     RenderSolutionDetails() {
         $('#AnswerInputSection').find('.radio').addClass('disabled').find('input').attr('disabled', 'true');
+        $('#AnswerInputSection').find('.checkbox').addClass('disabled').find('input').attr('disabled', 'true');
         if (this._answerQuestion.SolutionType === SolutionType.MatchList) {
             $('#AnswerInputSection .ui-droppable')
                 .each((index, matchlistDropElement) => {

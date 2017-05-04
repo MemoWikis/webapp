@@ -131,7 +131,7 @@
             <div class="buttonRow">
                 <% if (Model.LearningSession.IsDateSession) { %>
                     <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin/Fragesatz beginnen">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>
                     <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
                         Zur Wissenszentrale
@@ -139,16 +139,16 @@
                 <% } else if (Model.LearningSession.IsSetSession) { %>
                     <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>
                 <% } else if (Model.LearningSession.IsSetsSession) { %>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>
                 <% } else if (Model.LearningSession.IsCategorySession) { %>
                     <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zum Thema</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>   
                 <% } else if (Model.LearningSession.IsWishSession) { %>
                     <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>

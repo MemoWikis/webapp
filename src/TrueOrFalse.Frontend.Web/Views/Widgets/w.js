@@ -50,6 +50,20 @@ function writeIframe(iframeId, iframeSource) {
 
     var iframeHtml =
         '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
+            '<style>' +
+        '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
+            '<style>' +
+                'div#memuchoLogo' + iframeId + ' a{' +
+                    'border-bottom: none !important; ' +
+                    'font-family: "Open Sans", Arial, sans-serif !important; ' +
+                    'font-size: 12px !important; ' +
+                    'text-decoration: none !important; ' +
+                    'color: rgb(175, 213, 52) !important; ' +
+                    'position: absolute; top: -40px; ' +
+                    'right: 15px; width: 150px !important; ' +
+                    'text-align: right; filter: grayscale(1);' +
+                '}' +
+            '</style > ' +
             '<iframe ' +
                 'id="' + iframeId + '" name="widget" ' +
                 'src="#" height="1" ' + attrMaxWidth + ' ' +
@@ -57,7 +71,7 @@ function writeIframe(iframeId, iframeSource) {
                 'frameborder="no" scrolling="no"> ' +
             '</iframe>' + 
             '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 12px; position: relative; width: 100%; visibility: hidden;" id="memuchoLogo' + iframeId + '"> ' +
-                '<a href="https://memucho.de" target="_blank" style="text-decoration: none; color: #AFD534;  position: absolute; top: -40px; right: 15px; width: 150px; text-align: right; filter: grayscale(1); "' +
+                '<a href="https://memucho.de" target="_blank"' +
                     'onmouseover = "this.style.filter = \'grayscale(0)\'" onmouseout  = "this.style.filter = \'grayscale(1)\'">' +
                     '<span style="font-weight: bold;"> memucho </span>' +
                     '<img src="https://memucho.de/Images/Logo/LogoSmall.png"/ style="width: 23px; height: auto; vertical-align: middle; padding-bottom: 4px; border: none; box-shadow: none;">' +

@@ -90,15 +90,6 @@
                     </div>
                 <% } %>
             
-                <% if(Model.AnswersTotal > 0) { %>
-                    <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
-                    <div style="margin-top: 6px; font-size: 11px;">
-                        Zu diesem Thema wurden
-                        <%= Model.AnswersTotal + "x Frage" + StringUtils.PluralSuffix(Model.AnswersTotal, "n") %> beantwortet, 
-                        davon <%= Model.CorrectnesProbability %>% richtig.
-                    </div>
-                <% } %>                
-
                 <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                 <div class="BottomBar">
                     <div style="float: left; padding-top: 3px;">

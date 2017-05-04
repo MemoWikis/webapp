@@ -139,6 +139,15 @@ public class Category : DomainEntity, ICreator
         if (Type == CategoryType.WebsiteVideo)
             return CategoryTypeWebsiteVideo.FromJson(this);
 
+        if (Type == CategoryType.SchoolSubject)
+            return CategoryTypeSchoolSubject.FromJson(this);
+
+        if (Type == CategoryType.FieldOfStudy)
+            return CategoryTypeFieldOfStudy.FromJson(this);
+
+        if (Type == CategoryType.FieldOfTraining)
+            return CategoryTypeFieldOfTraining.FromJson(this);
+
         throw new Exception("Invalid type.");
     }
 }
