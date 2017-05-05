@@ -594,6 +594,10 @@
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
+    <Content Include="Views\Maintenance\ContentStats.aspx" />
+    <Content Include="Views\Maintenance\ContentStats.css">
+      <DependentUpon>ContentStats.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
