@@ -120,7 +120,8 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
-                .Include("~/Scrpits/vendor/jquery.ui.touch-punch.js"));
+                .Include("~/Scrpits/vendor/jquery.ui.touch-punch.js")
+                .Include("~/Scrpits/vendor/jquery.flip.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));

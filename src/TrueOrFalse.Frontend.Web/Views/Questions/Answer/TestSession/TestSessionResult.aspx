@@ -54,7 +54,7 @@
                         <a href="<%= Url.Action("Register", "Register") %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                     </div>
                 </div>
-            </div> 
+            </div>
         <% } %>
 
 

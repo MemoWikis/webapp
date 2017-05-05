@@ -145,6 +145,11 @@ h6 {
   margin-top: 5px;
   text-transform: uppercase;
 }
+@media (min-width: 480px) {
+  #memuchoInfoFooter #btnMoreAboutMemucho {
+    float: right;
+  }
+}
 .EduCategoryRow {
   margin-top: 20px;
   margin-bottom: 40px;
@@ -274,6 +279,7 @@ fieldset[disabled] .EduCategory.active {
 .EduCategory:focus {
   text-decoration: none;
   color: #AFD534;
+  background-color: #f3f2f2;
 }
 .EduCategory:hover .IconForeground,
 .EduCategory:active .IconForeground,
@@ -457,6 +463,6 @@ a.question-short {
     height: 180px;
   }
 }
-}
 #nominationInnopreis img {
   border-radius: 0;
+}

@@ -31,6 +31,9 @@ public class GetQuestionSolution
 
             case SolutionType.MatchList:
                 return serializer.Deserialize<QuestionSolutionMatchList>(question.Solution);
+
+            case SolutionType.FlashCard:
+                return serializer.Deserialize<QuestionSolutionFlashCard>(question.Solution);
         }
 
         throw new NotImplementedException($"Solution Type not implemented: {question.SolutionType}");

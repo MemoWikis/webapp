@@ -51,8 +51,6 @@ function writeIframe(iframeId, iframeSource) {
     var iframeHtml =
         '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
             '<style>' +
-        '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
-            '<style>' +
                 'div#memuchoLogo' + iframeId + ' a{' +
                     'border-bottom: none !important; ' +
                     'font-family: "Open Sans", Arial, sans-serif !important; ' +
