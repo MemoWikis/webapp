@@ -18,7 +18,7 @@ namespace TrueOrFalse.Tests
             var questionSet = new Set {Name = "QS1", Creator = ContextUser.New().Add("some user").Persist().All.Last()};
             questionSetRepo.Create(questionSet);
 
-            Resolve<AddToSet>().Run(context.All.GetIds().ToArray(), questionSet.Id);
+            AddToSet.Run(context.All.GetIds().ToArray(), questionSet.Id);
 
             base.RecycleContainer();
             var questionSetFromDb = Resolve<SetRepo>().GetById(questionSet.Id);
@@ -26,7 +26,7 @@ namespace TrueOrFalse.Tests
 
             Assert.That(questionSetFromDb2.QuestionsInSet.Count, Is.EqualTo(2));
             Assert.That(questionSetFromDb.QuestionsInSet.Count, Is.EqualTo(2));
-            Assert.That(Resolve<QuestionInSetRepo>().GetAll().Count(), Is.EqualTo(2));
+            Assert.That(Resolve<QuestionInSetRepo>().GetAll().Count, Is.EqualTo(2));
             Assert.That(Resolve<QuestionInSetRepo>().GetAll().First().Set.Id, Is.EqualTo(1));
 
             var allQuestions = Resolve<QuestionRepo>().GetAll();

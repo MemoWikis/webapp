@@ -168,7 +168,7 @@ namespace TrueOrFalse
             var questionIds = parts[0].Split(',').Select(id => Convert.ToInt32(id)).ToArray();
             var questionSetId = Convert.ToInt32(parts[1]);
         
-            var result = Resolve<AddToSet>().Run(questionIds, questionSetId);
+            var result = AddToSet.Run(questionIds, questionSetId);
         
             return new JsonResult{ Data = new{
                 QuestionsAddedCount = result.AmountAddedQuestions,

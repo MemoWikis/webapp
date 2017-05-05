@@ -3,30 +3,17 @@ using System.Linq;
 
 public class AddToSet : IRegisterAsInstancePerLifetime
 {
-    private readonly SetRepo _setRepo;
-    private readonly QuestionRepo _questionRepo;
-    private readonly QuestionInSetRepo _questionInSetRepo;
-    private readonly UpdateSetDataForQuestion _updateSetData;
-
-    public AddToSet(
-            SetRepo setRepo, 
-            QuestionRepo questionRepo,
-            QuestionInSetRepo questionInSetRepo,
-            UpdateSetDataForQuestion updateSetData){
-        _setRepo = setRepo;
-        _questionRepo = questionRepo;
-        _questionInSetRepo = questionInSetRepo;
-        _updateSetData = updateSetData;
-            }
-
-    public AddToSetResult Run(int[] questionIds, int questionSet)
+    public static AddToSetResult Run(int[] questionIds, int questionSet)
     {
         return Run(
-            _questionRepo.GetByIds(questionIds), 
-            _setRepo.GetById(questionSet));
+            Sl.QuestionRepo.GetByIds(questionIds), 
+            Sl.SetRepo.GetById(questionSet));
     }
 
-    public AddToSetResult Run(IList<Question> questions, Set set)
+    public static AddToSetResult Run(Question question, Set set) 
+        => Run(new List<Question> {question}, set);
+
+    public static AddToSetResult Run(IList<Question> questions, Set set)
     {
         var nonAddedQuestions = new List<Question>();
         foreach (var question in questions)
@@ -38,8 +25,8 @@ public class AddToSet : IRegisterAsInstancePerLifetime
                 var questionInSet = new QuestionInSet();
                 questionInSet.Question = question;
                 questionInSet.Set = set;
-                _questionInSetRepo.Create(questionInSet);
-                _updateSetData.Run(question);
+                Sl.QuestionInSetRepo.Create(questionInSet);
+                Sl.UpdateSetDataForQuestion.Run(question);
             }
         }
 
@@ -47,8 +34,8 @@ public class AddToSet : IRegisterAsInstancePerLifetime
 
         return new AddToSetResult
         {
-            AmountAddedQuestions = questions.Count() - nonAddedQuestions.Count(),
-            AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count(),
+            AmountAddedQuestions = questions.Count - nonAddedQuestions.Count,
+            AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count,
             Set = set
         };
     }

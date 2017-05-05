@@ -21,6 +21,11 @@ class EditQuestionForm
         $(window).trigger('referencesChanged');
 
         $("#ConfirmContentRights").prop("checked", false);
+
+        $("#RemoveSet").click(() => {
+            $("#RowAssignSet").hide();
+            $("#hddSetId").remove();
+        });
     }
 
     public InitUpdateType() {

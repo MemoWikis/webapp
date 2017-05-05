@@ -94,6 +94,8 @@ public class EditQuestionModel : BaseModel
         new SelectListItem {Text = "Unterhaltsam", Value = QuestionCharacter.Entertaining.ToString()}
     };
 
+    public Set Set { get; set; }
+
     public EditQuestionModel()
     {
         ImageUrl_128 = "";

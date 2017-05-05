@@ -31,8 +31,10 @@ public class EditQuestionController : BaseController
 
         if (setId != null)
         {
-            var set = Sl.CategoryRepo.GetById((int) setId);
-            foreach (var category in set.ParentCategories)
+            var set = Sl.SetRepo.GetById((int) setId);
+            model.Set = set;
+
+            foreach (var category in set.Categories)
             {
                 model.Categories.Add(category);
             }
@@ -128,20 +130,32 @@ public class EditQuestionController : BaseController
 
         UpdateSound(soundfile, question.Id);
 
+        var setLink = (WasInSet: false, SetId: -1);
+
+        if (Request["hddSetId"] != null)
+        {
+            setLink.WasInSet = true;
+            setLink.SetId = Convert.ToInt32(Request["hddSetId"]);
+
+            AddToSet.Run(question, Sl.SetRepo.GetById(setLink.SetId));
+        }
+
         if (Request["btnSave"] == "saveAndNew")
         {
             model.Reset();
             model.SetToCreateModel();
+
             TempData["createQuestionsMsg"] = new SuccessMessage(
-                string.Format("Die Frage <i>'{0}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.",
-                                question.Text.TruncateAtWord(30)));
+                $"Die Frage <i>'{question.Text.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst nun eine <b>neue</b> Frage erstellen.");
+
+            if(setLink.WasInSet)
+                return Redirect(Links.CreateQuestion(setId: setLink.SetId));
 
             return Redirect(Links.CreateQuestion());
         }
         
         TempData["createQuestionsMsg"] = new SuccessMessage(
-            string.Format("Die Frage <i>'{0}'</i> wurde erstellt. Du kannst sie nun weiter bearbeiten.",
-                          question.Text.TruncateAtWord(30)));
+            $"Die Frage <i>'{question.Text.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst sie nun weiter bearbeiten.");
 
         return Redirect(Links.EditQuestion(question));
     }

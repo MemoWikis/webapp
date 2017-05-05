@@ -24,6 +24,9 @@ public class Sl
     public static SetRepo SetRepo => R<SetRepo>();
     public static SetValuationRepo SetValuationRepo => R<SetValuationRepo>();
     public static SetViewRepo SetViewRepo => R<SetViewRepo>();
+    public static UpdateSetDataForQuestion UpdateSetDataForQuestion => R<UpdateSetDataForQuestion>();
+
+    public static QuestionInSetRepo QuestionInSetRepo => R<QuestionInSetRepo>();
 
     public static QuestionRepo QuestionRepo => R<QuestionRepo>();
     public static QuestionValuationRepo QuestionValuationRepo => R<QuestionValuationRepo>();
