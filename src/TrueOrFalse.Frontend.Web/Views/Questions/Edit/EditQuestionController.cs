@@ -18,7 +18,7 @@ public class EditQuestionController : BaseController
     }
 
     [SetMenu(MenuEntry.Questions)]
-    public ActionResult Create(int? categoryId)
+    public ActionResult Create(int? categoryId, int? setId)
     {
         var model = new EditQuestionModel();
         
@@ -27,7 +27,16 @@ public class EditQuestionController : BaseController
 
         model.SetToCreateModel();
         if(categoryId != null)
-            model.Categories.Add(Resolve<CategoryRepository>().GetById((int)categoryId));
+            model.Categories.Add(Sl.CategoryRepo.GetById((int)categoryId));
+
+        if (setId != null)
+        {
+            var set = Sl.CategoryRepo.GetById((int) setId);
+            foreach (var category in set.ParentCategories)
+            {
+                model.Categories.Add(category);
+            }
+        }
 
         return View(_viewLocation, model);
     }

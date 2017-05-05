@@ -44,6 +44,7 @@
                 <a href="<%= Links.SetsAll() %>"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
                 <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
+                    <a href="<%= Links.CreateQuestion(Model.Id) %>"><i class="fa fa-plus-circle">&nbsp;</i>Frage hinzufügen</a> 
                 <% } %>
                                 
                 <% if(Model.IsInstallationAdmin) { %>

@@ -156,12 +156,15 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string CreateQuestion() => CreateQuestion(GetUrlHelper());
-
-        public static string CreateQuestion(UrlHelper url, int categoryId = -1)
+        public static string CreateQuestion(int categoryId = -1, int setId = -1)
         {
+            var url = GetUrlHelper();
+
             if (categoryId != -1)
                 return url.Action("Create", EditQuestionController, new { categoryId = categoryId });
+
+            if (setId != -1)
+                return url.Action("Create", EditQuestionController, new { setId = setId });
 
             return url.Action("Create", EditQuestionController);
         }

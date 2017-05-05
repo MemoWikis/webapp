@@ -7,7 +7,7 @@
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.EditQuestion(Model.QuestionText, Model.Id) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion(Url) %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>">
     <% } %>
 </asp:Content>
 
@@ -40,7 +40,7 @@
                 </div>
                 <% if (!Model.ShowSaveAndNewButton){ %>
                     <div style="line-height: 12px">
-                        <a href="<%= Links.CreateQuestion(Url) %>" style="font-size: 12px;
+                        <a href="<%= Links.CreateQuestion() %>" style="font-size: 12px;
                             margin: 0;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
                     </div>
                 <%} %>

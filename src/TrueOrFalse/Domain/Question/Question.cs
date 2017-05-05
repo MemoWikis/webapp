@@ -18,7 +18,7 @@ public class Question : DomainEntity, ICreator
     public virtual int LicenseId { get; set; }
     public virtual LicenseQuestion License
     {
-        get { return LicenseQuestionRepo.GetById(LicenseId); }
+        get => LicenseQuestionRepo.GetById(LicenseId);
         set
         {
             if (value == null)

@@ -802,7 +802,6 @@
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
-    <Content Include="Scripts\vendor\bootstrap2-toggle.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
