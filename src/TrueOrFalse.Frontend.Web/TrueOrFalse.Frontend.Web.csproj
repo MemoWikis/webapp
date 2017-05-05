@@ -334,6 +334,8 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <None Include="Views\Maintenance\ContentStats.less" />
+    <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
     <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
@@ -590,6 +592,10 @@
     <Content Include="Views\Drafts\WidgetVideo.html" />
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ContentStats.aspx" />
+    <Content Include="Views\Maintenance\ContentStats.css">
+      <DependentUpon>ContentStats.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js">
       <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>

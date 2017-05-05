@@ -374,6 +374,8 @@
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
+    <Compile Include="Tools\Analytics\SetViewStats.cs" />
+    <Compile Include="Tools\Analytics\SetViewStatsResult.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />

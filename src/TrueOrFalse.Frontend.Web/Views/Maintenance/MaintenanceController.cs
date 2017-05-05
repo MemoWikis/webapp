@@ -50,6 +50,12 @@ public class MaintenanceController : BaseController
     }
 
     [SetMenu(MenuEntry.Maintenance)]
+    public ActionResult ContentStats()
+    {
+        return View(new ContentStatsModel());
+    }
+
+    [SetMenu(MenuEntry.Maintenance)]
     public ActionResult Statistics()
     {
         return View(new StatisticsModel());
