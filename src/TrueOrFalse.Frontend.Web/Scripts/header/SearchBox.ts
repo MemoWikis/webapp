@@ -43,7 +43,7 @@ class SearchBox
 
             if (resultItem.NoResults) {
                 html =
-                    "<div class='SetListItem'>" +
+                    "<div class='SearchResultItem'>" +
                         "Keine Treffer. Bitte weitertippen <br> oder anderen Suchbegriff verwenden." +
                     "</div>";
             } else {
@@ -53,56 +53,56 @@ class SearchBox
                 switch (resultItem.Type) {
 
                     case "CategoriesHeader":
-                        html = "<div class='SetListItem'>Header Categories</div>";
+                        html = "<div class='SearchResultItem'>Header Categories</div>";
                         break;
 
                     case "Categories":
                         var item = <SetItem>resultItem.Item;
 
                         html =
-                            "<div class='SetListItem'>" +
+                            "<div class='SearchResultItem'>" +
                                 "<img src=" + item.ImageUrl + "/>" +
                                 item.Name +
                             "</div>";
                         break;
 
                     case "SetsHeader":
-                        html = "<div class='SetListItem'>Header Sets</div>";
+                        html = "<div class='SearchResultItem'>Header Sets</div>";
                         break;
 
                     case "Sets":
                         item = <SetItem>resultItem.Item;
 
                         html =
-                            "<div class='SetListItem'>" +
+                            "<div class='SearchResultItem'>" +
                                 "<img src=" + item.ImageUrl + "/>" +
                                 item.Name +
                             "</div>";
                         break;
 
                     case "QuestionsHeader":
-                        html = "<div class='SetListItem'>Header Questions</div>";
+                        html = "<div class='SearchResultItem'>Header Questions</div>";
                         break;
 
                     case "Questions":
                         item = <SetItem>resultItem.Item;
 
                         html =
-                            "<div class='SetListItem'>" +
+                            "<div class='SearchResultItem'>" +
                                 "<img src=" + item.ImageUrl + "/>" +
                                 item.Name +
                             "</div>";
                         break;
 
                     case "UsersHeader":
-                        html = "<div class='SetListItem'>Header Users</div>";
+                        html = "<div class='SearchResultItem'>Header Users</div>";
                         break;
 
                     case "Users":
                         item = <SetItem>resultItem.Item;
 
                         html =
-                            "<div class='SetListItem'>" +
+                            "<div class='SearchResultItem'>" +
                                 "<img src=" + item.ImageUrl + "/>" +
                                 item.Name +
                             "</div>";

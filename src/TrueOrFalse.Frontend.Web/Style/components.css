@@ -69,7 +69,8 @@ ul.ui-autocomplete li.ui-menu-item.ui-state-hover {
   background: #f5f8ff !important;
 }
 ul.ui-autocomplete .CatListItem,
-ul.ui-autocomplete .SetListItem {
+ul.ui-autocomplete .SetListItem,
+ul.ui-autocomplete .SearchResultItem {
   border: 1px transparent solid;
   padding: 5px !important;
   margin: 2px;
@@ -78,36 +79,43 @@ ul.ui-autocomplete .SetListItem {
   overflow: hidden;
 }
 ul.ui-autocomplete .CatListItem img,
-ul.ui-autocomplete .SetListItem img {
+ul.ui-autocomplete .SetListItem img,
+ul.ui-autocomplete .SearchResultItem img {
   float: left;
   border-radius: 4px;
   margin-right: 7px;
 }
 ul.ui-autocomplete .CatListItem .CatDescription,
-ul.ui-autocomplete .SetListItem .CatDescription {
+ul.ui-autocomplete .SetListItem .CatDescription,
+ul.ui-autocomplete .SearchResultItem .CatDescription {
   margin-left: 55px;
 }
 ul.ui-autocomplete .CatListItem .SetDescription,
-ul.ui-autocomplete .SetListItem .SetDescription {
+ul.ui-autocomplete .SetListItem .SetDescription,
+ul.ui-autocomplete .SearchResultItem .SetDescription {
   margin-left: 55px;
 }
 ul.ui-autocomplete .CatListItem span,
-ul.ui-autocomplete .SetListItem span {
+ul.ui-autocomplete .SetListItem span,
+ul.ui-autocomplete .SearchResultItem span {
   display: block;
 }
 ul.ui-autocomplete .CatListItem span.NumberQuestions,
-ul.ui-autocomplete .SetListItem span.NumberQuestions {
+ul.ui-autocomplete .SetListItem span.NumberQuestions,
+ul.ui-autocomplete .SearchResultItem span.NumberQuestions {
   font-style: italic;
   font-size: 80%;
 }
 ul.ui-autocomplete .CatListItem a.TextLink,
-ul.ui-autocomplete .SetListItem a.TextLink {
+ul.ui-autocomplete .SetListItem a.TextLink,
+ul.ui-autocomplete .SearchResultItem a.TextLink {
   color: #2C5FB2;
   padding: 0;
   display: inline;
 }
 ul.ui-autocomplete .CatListItem a.TextLink:hover,
-ul.ui-autocomplete .SetListItem a.TextLink:hover {
+ul.ui-autocomplete .SetListItem a.TextLink:hover,
+ul.ui-autocomplete .SearchResultItem a.TextLink:hover {
   color: #2C5FB2;
 }
 ul.ui-autocomplete a.CatListItem:hover,

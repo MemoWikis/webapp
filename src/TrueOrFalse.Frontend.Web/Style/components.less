@@ -35,7 +35,6 @@
 }
 
 ul.ui-autocomplete {
-
     border-radius: 4px;
 
     li.ui-menu-item {
@@ -45,22 +44,18 @@ ul.ui-autocomplete {
         margin: 0 !important;
         padding: 0;
 
-        &.ui-state-focus, &.ui-state-hover{
-            background: #f5f8ff !important;//to override jquery-ui styles
-
+        &.ui-state-focus, &.ui-state-hover {
+            background: #f5f8ff !important; //to override jquery-ui styles
         }
     }
 
-    .CatListItem, .SetListItem {
-        
+    .CatListItem, .SetListItem, .SearchResultItem {
         border: 1px transparent solid;
         padding: 5px !important;
         margin: 2px;
         border-radius: 4px;
-
         display: block;
-        overflow: hidden;//replaces clearfix which causes layout bug
-
+        overflow: hidden; //replaces clearfix which causes layout bug
         img {
             float: left;
             border-radius: 4px;
@@ -91,7 +86,7 @@ ul.ui-autocomplete {
         }
     }
 
-    a.CatListItem{//"a" is needed to exclude div.CatListItem
+    a.CatListItem { //"a" is needed to exclude div.CatListItem
         &:hover, &:focus {
             background-color: @background-grey;
         }
@@ -105,12 +100,18 @@ ul.ui-autocomplete {
 
     .Reference {
         max-width: 300px;
+
         div:not(.Name):not(.Icon) {
             font-size: 80%;
         }
+
         .Url {
             display: inline-block !important;
         }
+    }
+
+    .SearchResultItem{
+
     }
 }
 
