@@ -715,6 +715,9 @@
   bottom: 1rem;
   right: 1rem;
 }
+#flashCardContent .flipClickHint span {
+  color: silver;
+}
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;
     margin-bottom: 10px;
