@@ -631,6 +631,7 @@
 
 #flashCardContent {
     min-height: 250px;
+    cursor: pointer;
 
     @media (max-width: 768px){
         margin-bottom: 25px;
@@ -656,8 +657,8 @@
     }
 }
 
-#flashCard-frontContent {
-    padding: 15px;
+#flashCard-frontContent, #flashCard-back {
+    padding: 15px 15px 40px 15px;
 }
 
 #flashCard-frontContent img {
@@ -666,6 +667,12 @@
 
 .flashCardAnswerButtons > .btn{
     margin-left: unset;
+}
+
+#flashCardContent .flipClickHint {
+    position:absolute;
+    bottom:1rem;
+    right:1rem;
 }
 
 
