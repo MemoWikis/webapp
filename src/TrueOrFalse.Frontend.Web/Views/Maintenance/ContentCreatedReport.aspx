@@ -19,7 +19,8 @@
                 <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li><a href="/Maintenance/CMS">CMS</a></li>
-                <li class="active"><a href="/Maintenance/ContentReport">Content</a></li>
+                <li class="active"><a href="/Maintenance/ContentCreatedReport">Content</a></li>
+                <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                 <li><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
@@ -91,7 +92,9 @@
 
             <% foreach (var question in Model.RecentQuestionsAddedMemucho) {%>
                 <div class="LabelItem LabelItem-Question">
-                    <span class="greyed" style="font-size: 10px;"><%= question.DateCreated %></span> <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
+                    <span class="greyed" style="font-size: 10px;"><%= question.DateCreated %></span> 
+                    <%= question.IsPrivate()? "<i class='fa fa-lock'></i> " : "" %>
+                    <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a> 
                     <% if (question.SetTop5Minis.Any()) { %>
                         (
                         <% foreach (var set in question.SetTop5Minis) { %>

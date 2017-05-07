@@ -19,7 +19,7 @@
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                     <li><a href="/Maintenance/Tools">Tools</a></li>
                     <li><a href="/Maintenance/CMS">CMS</a></li>
-                    <li><a href="/Maintenance/ContentReport">Content</a></li>
+                    <li><a href="/Maintenance/ContentCreatedReport">Content</a></li>
                     <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                     <li><a href="/Maintenance/Statistics">Stats</a></li>
                 </ul>
