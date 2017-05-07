@@ -3,6 +3,7 @@
     Name : string;
     NumberOfQuestions : number;
     ImageUrl: string;
+    ItemUrl: string;
 
     NoResults : boolean;
 }

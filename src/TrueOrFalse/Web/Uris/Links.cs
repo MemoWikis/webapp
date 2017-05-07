@@ -127,26 +127,27 @@ namespace TrueOrFalse.Frontend.Web.Code
             url.Action("Answer", AnswerQuestionController,
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
 
-        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
+        public static string AnswerQuestion(QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
-            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
+        public static string AnswerQuestion(Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+            return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
-        public static string AnswerQuestion(Question question) => AnswerQuestion(GetUrlHelper(), question, -1);
+        public static string AnswerQuestion(Question question) => AnswerQuestion(question, -1);
 
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
+        public static string AnswerQuestion(string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
         {
             if (paramElementOnPage == -1)
             {
-                return url.Action("Answer", AnswerQuestionController,
+                return GetUrlHelper().Action("Answer", AnswerQuestionController,
                     new
                     {
                         text = UriSegmentFriendlyQuestion.Run(questionText),
                         id = questionId
                     }, null);
             }
-            return url.Action("Answer", AnswerQuestionController,
+
+            return GetUrlHelper().Action("Answer", AnswerQuestionController,
                 new {
                     text = UriSegmentFriendlyQuestion.Run(questionText), 
                     id = questionId, 

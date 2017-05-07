@@ -110,8 +110,33 @@ ul.ui-autocomplete {
         }
     }
 
-    .SearchResultItem{
+    .SearchResultItem {
+        img {
+            height: 40px;
+            width: 40px;
+        }
 
+        padding: 3px !important;
+    }
+
+    div.SearchResultHeader {
+        cursor: default;
+        background-color: #003264;
+        color: white;
+        padding: 3px !important;
+        padding-left: 8px !important;
+        font-weight: bold;
+        
+        div.ResultCount{
+            float: right;
+            font-weight: normal;
+            font-size: 12px;
+            margin-top: 4px;
+
+            a{
+                color: white;
+            }
+        }
     }
 }
 

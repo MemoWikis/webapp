@@ -160,6 +160,30 @@ ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
 ul.ui-autocomplete .Reference .Url {
   display: inline-block !important;
 }
+ul.ui-autocomplete .SearchResultItem {
+  padding: 3px !important;
+}
+ul.ui-autocomplete .SearchResultItem img {
+  height: 40px;
+  width: 40px;
+}
+ul.ui-autocomplete div.SearchResultHeader {
+  cursor: default;
+  background-color: #003264;
+  color: white;
+  padding: 3px !important;
+  padding-left: 8px !important;
+  font-weight: bold;
+}
+ul.ui-autocomplete div.SearchResultHeader div.ResultCount {
+  float: right;
+  font-weight: normal;
+  font-size: 12px;
+  margin-top: 4px;
+}
+ul.ui-autocomplete div.SearchResultHeader div.ResultCount a {
+  color: white;
+}
 #JS-References .Reference.DailyIssue .PublicationDate {
   display: none;
 }

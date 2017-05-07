@@ -1,4 +1,5 @@
 ﻿interface SearchResultItem {
+    ResultCount: number;
     Type: string;
     Item: any;
 
@@ -48,12 +49,10 @@ class SearchBox
                     "</div>";
             } else {
 
-                console.log(resultItem);
-
                 switch (resultItem.Type) {
 
                     case "CategoriesHeader":
-                        html = "<div class='SearchResultItem'>Header Categories</div>";
+                        html = "<div class='SearchResultHeader'>Themen <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Categories":
@@ -61,13 +60,15 @@ class SearchBox
 
                         html =
                             "<div class='SearchResultItem'>" +
-                                "<img src=" + item.ImageUrl + "/>" +
-                                item.Name +
+                                "<a href='" + item.ItemUrl + "'>" +
+                                    "<img src=" + item.ImageUrl + "/>" +
+                                    item.Name +
+                                "</a>" +
                             "</div>";
                         break;
 
                     case "SetsHeader":
-                        html = "<div class='SearchResultItem'>Header Sets</div>";
+                        html = "<div class='SearchResultHeader'>Fragesätze <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Sets":
@@ -75,13 +76,15 @@ class SearchBox
 
                         html =
                             "<div class='SearchResultItem'>" +
-                                "<img src=" + item.ImageUrl + "/>" +
-                                item.Name +
+                                "<a href='" + item.ItemUrl + "'>" +
+                                    "<img src=" + item.ImageUrl + "/>" +
+                                    item.Name +
+                                "</a>" +
                             "</div>";
                         break;
 
                     case "QuestionsHeader":
-                        html = "<div class='SearchResultItem'>Header Questions</div>";
+                        html = "<div class='SearchResultHeader'>Fragen <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Questions":
@@ -89,13 +92,15 @@ class SearchBox
 
                         html =
                             "<div class='SearchResultItem'>" +
-                                "<img src=" + item.ImageUrl + "/>" +
-                                item.Name +
+                                "<a href='" + item.ItemUrl + "'>" +
+                                    "<img src=" + item.ImageUrl + "/>" +
+                                    item.Name +
+                                "</a>" +
                             "</div>";
                         break;
 
                     case "UsersHeader":
-                        html = "<div class='SearchResultItem'>Header Users</div>";
+                        html = "<div class='SearchResultHeader'>Nutzer <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Users":
@@ -103,8 +108,10 @@ class SearchBox
 
                         html =
                             "<div class='SearchResultItem'>" +
-                                "<img src=" + item.ImageUrl + "/>" +
-                                item.Name +
+                                "<a href='" + item.ItemUrl + "'>" +
+                                    "<img src=" + item.ImageUrl + "/>" +
+                                    item.Name +
+                                "</a>" +
                             "</div>";
                         break;
                 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Seedworks.Lib;
+using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchApiController : BaseController
 {
@@ -12,35 +13,36 @@ public class SearchApiController : BaseController
 
         if (elements.Categories.Any())
         {
-            AddHeader(items, ResultItemType.CategoriesHeader);
+            AddHeader(items, ResultItemType.CategoriesHeader, elements.CategoriesResultCount);
             AddCategoryItems(items, elements);
         }
 
         if (elements.Sets.Any())
         {
-            AddHeader(items, ResultItemType.SetsHeader);
+            AddHeader(items, ResultItemType.SetsHeader, elements.SetsResultCount);
             AddSetItems(items, elements);
         }
 
         if (elements.Questions.Any())
         {
-            AddHeader(items, ResultItemType.QuestionsHeader);
+            AddHeader(items, ResultItemType.QuestionsHeader, elements.QuestionsResultCount);
             AddQuestionItems(items, elements);
         }
 
-        if (elements.Questions.Any())
+        if (elements.Users.Any())
         {
-            AddHeader(items, ResultItemType.UsersHeader);
+            AddHeader(items, ResultItemType.UsersHeader, elements.UsersResultCount);
             AddUsersItems(items, elements);
         }
         
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
-    private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType)
+    private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount)
     {
         items.Add(new ResultItem
         {
+            ResultCount = resultCount,
             Type = resultItemType.ToString(),
             Item = new ResultSplitter
             {
@@ -54,13 +56,13 @@ public class SearchApiController : BaseController
         items.AddRange(
             elements.Categories.Select(category => new ResultItem
             {
-                ResultCount = elements.CategoriesResult.Count,
                 Type = ResultItemType.Categories.ToString(),
                 Item = new ResultItemJson
                 {
                     Id = category.Id,
                     Name = category.Name,
                     ImageUrl = new CategoryImageSettings(category.Id).GetUrl_50px(asSquare:true).Url,
+                    ItemUrl = Links.CategoryDetail(category.Name, category.Id)
                 }
             })
         );
@@ -78,6 +80,7 @@ public class SearchApiController : BaseController
                     Id = set.Id,
                     Name = set.Name,
                     ImageUrl = new SetImageSettings(set.Id).GetUrl_50px_square().Url,
+                    ItemUrl = Links.SetDetail(set)
                 }
             })
         );
@@ -86,7 +89,7 @@ public class SearchApiController : BaseController
     private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)
     {
         items.AddRange(
-            elements.Questions.Select(question => new ResultItem
+            elements.Questions.Select((question, index) => new ResultItem
             {
                 ResultCount = elements.QuestionsResult.Count,
                 Type = ResultItemType.Questions.ToString(),
@@ -94,7 +97,8 @@ public class SearchApiController : BaseController
                 {
                     Id = question.Id,
                     Name = question.Text.Wrap(200),
-                    ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url
+                    ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
+                    ItemUrl = Links.AnswerQuestion(question, index, SearchTabType.All.ToString())
                 }
             })
         );
@@ -111,7 +115,8 @@ public class SearchApiController : BaseController
                 {
                     Id = user.Id,
                     Name = user.Name,
-                    ImageUrl = new UserImageSettings(user.Id).GetUrl_50px_square(user).Url
+                    ImageUrl = new UserImageSettings(user.Id).GetUrl_50px_square(user).Url,
+                    ItemUrl = Links.UserDetail(user)
                 }
             })
         );
@@ -126,7 +131,7 @@ public class SearchApiController : BaseController
         QuestionsHeader,
         Questions,
         UsersHeader,
-        Users,
+        Users
     }
 
     private class ResultItem
@@ -146,5 +151,6 @@ public class SearchApiController : BaseController
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImageUrl { get; set; }
+        public string ItemUrl { get; set; }
     }
 }
