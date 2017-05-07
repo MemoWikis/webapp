@@ -2,7 +2,8 @@
 
 public class SetViewStatsResult
 {
-    //public DateTime LastUpdated; //needed when results are stored in table
+    private DateTime _goLive = new DateTime(2016, 10, 11);
+    private DateTime _recordedSetViews = new DateTime(2017,2,17);
     public int SetId;
     public string SetName;
     public DateTime Created;
@@ -21,5 +22,7 @@ public class SetViewStatsResult
     public int QuestionsViewsLast30Days;
     public int QuestionsViewsPrec30Days;
 
-    public double SetDetailViewsWeeklyAvg => SetDetailViewsTotal / (DateTime.Now - Created).TotalDays / 7;
+    public double SetDetailViewsDailyAvg => SetDetailViewsTotal / (DateTime.Now - (Created < _recordedSetViews ? _goLive : Created)).TotalDays
+    public double QuestionViewsDailyAvg => QuestionsViewsTotal / (DateTime.Now - (Created < _goLive ? _goLive : Created)).TotalDays;
+    
 }
