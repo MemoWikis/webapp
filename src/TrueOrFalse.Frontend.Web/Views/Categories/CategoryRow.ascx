@@ -36,7 +36,8 @@
                 </div>
             
                 <div style="margin-top: 1px;">
-                    <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>
+                    <%--<a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>--%>
+                    <%= Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %> und <%= Model.SetCount %> Frage<%= StringUtils.PluralSuffix(Model.SetCount, "sätze", "satz") %>
                 </div>
             </div>
 

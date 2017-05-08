@@ -22,7 +22,7 @@ public class SetViewStatsResult
     public int QuestionsViewsLast30Days;
     public int QuestionsViewsPrec30Days;
 
-    public double SetDetailViewsDailyAvg => SetDetailViewsTotal / (DateTime.Now - (Created < _recordedSetViews ? _goLive : Created)).TotalDays
+    public double SetDetailViewsDailyAvg => SetDetailViewsTotal / (DateTime.Now - (Created < _recordedSetViews ? _goLive : Created)).TotalDays;
     public double QuestionViewsDailyAvg => QuestionsViewsTotal / (DateTime.Now - (Created < _goLive ? _goLive : Created)).TotalDays;
     
 }

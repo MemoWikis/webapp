@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <header>
-                                <div>
+                                <div class="greyed">
                                     Fragesatz mit <%= Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                                 </div>
                                 <h1 style="margin-top: 5px; font-size: 26px;">
