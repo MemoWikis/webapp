@@ -21,7 +21,7 @@
                     Die Lerntechnologie und die Lerninhalte von memucho können als Widget leicht in Moodle integriert werden. 
                     Sie erscheinen dann zum Beispiel direkt bei den Kursunterlagen für die Schüler oder Studenten.
                     Nötig ist eine Zeile HTML-Code, die du einfach von memucho kopieren kannst. memucho hat verschiedene Widgets zur Auswahl 
-                    (<a href="<%= Links.HelpWidget() %>" class="">zur Widget-Übersicht</a>).
+                    (<a href="<%= Links.WidgetExamples() %>">zur Widget-Übersicht</a>).
                 </p>
                    
             </div>
@@ -39,8 +39,8 @@
                 </h2>
                 <p>
                     Auf der Seite des Fragesatzes, Video-Fragesatzes oder der einzelnen Frage findest du einen Link <code><i class="fa fa-code">&nbsp;</i>Einbetten</code>. 
-                    Dort kannst das Widget, wenn du möchtest, konfigurieren und erhältst die Code-Zeile zur Einbettung des Widgets. Die Widgets werden ausführlich in der 
-                    <a href="<%= Links.HelpWidget() %>">Widget-Übersicht</a> beschrieben.
+                    Dort kannst das Widget, wenn du möchtest, konfigurieren und erhältst die Code-Zeile zur Einbettung des Widgets (<a href="<%= Links.HelpWidget() %>">mehr dazu</a>).
+                    Beispiele für die Widgets zeigen wir in der <a href="<%= Links.WidgetExamples() %>">Widget-Übersicht</a>.
                 </p>
                 <p>
                     Diese Code-Zeile kannst du in Moodle einfach an die Stelle einfügen, wo der Quiz erscheinen soll.
