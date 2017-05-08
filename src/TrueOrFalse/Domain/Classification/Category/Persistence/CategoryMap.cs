@@ -32,11 +32,9 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
 
-        //HasManyToMany(x => x.ParentCategories).
-        //    Table("relatedcategoriestorelatedcategories")
-        //    .ChildKeyColumn("Related_Id");
-
-        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories").Cascade.All();
+        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories")
+            .Cascade.AllDeleteOrphan()
+            .Inverse();
 
     }
 }

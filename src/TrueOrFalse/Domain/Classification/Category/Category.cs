@@ -28,7 +28,6 @@ public class Category : DomainEntity, ICreator
                     .ToList() 
                 : new List<Category>();
         }
-//        set => ModifyRelationsForCategory.UpdateCategoryRelationsOfType(this, value, CategoryRelationType.IsChildCategoryOf);
     }
 
     public virtual IList<Category> CategoriesToInclude { get; set; }
