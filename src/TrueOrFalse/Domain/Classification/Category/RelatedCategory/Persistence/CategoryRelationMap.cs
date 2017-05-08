@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
-//public class CategoryRelationMap : ClassMap<CategoryRelation>
-//{
-//    public CategoryRelationMap()
-//    {
-//        Table("relatedcategoriestorelatedcategories");
+public class CategoryRelationMap : ClassMap<CategoryRelation>
+{
+    public CategoryRelationMap()
+    {
+        Table("relatedcategoriestorelatedcategories");
+        Id(x => x.Id);
 
-//        References(x => x.Category).Cascade.None();
-//        References(x => x.RelatedCategory).Cascade.None();
+        References(x => x.Category).Cascade.None();
+        References(x => x.RelatedCategory).Column("Related_id").Cascade.None();
 
-//        Map(x => x.RelationType);
-
-//        Map(x => x.DateCreated);
-//        Map(x => x.DateModified);
-//    }
-//}
+        Map(x => x.CategoryRelationType);
+    }
+}

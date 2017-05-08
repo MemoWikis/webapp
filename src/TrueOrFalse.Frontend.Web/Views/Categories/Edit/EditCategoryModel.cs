@@ -82,10 +82,10 @@ public class EditCategoryModel : BaseModel
     {
         var category = new Category(Name);
         category.Description = Description;
-        category.ParentCategories = ParentCategories;
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -108,10 +108,11 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.ParentCategories = ParentCategories;
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
+        category.CategoryRelations = ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+
 
         FillFromRequest(category);
     }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Seedworks.Lib.Persistence;
 
-[DebuggerDisplay("Category={Category.Name}({Category.Id}) [{RelationType.ToString()}] RelatedCategory={RelatedCategory.Name}(RelatedCategory.Id)")]
+[DebuggerDisplay("{Category.Name}({Category.Id}) [{CategoryRelationType.ToString()}] {RelatedCategory.Name}({RelatedCategory.Id})")]
 [Serializable]
 public class CategoryRelation : DomainEntity
 {
@@ -14,5 +14,5 @@ public class CategoryRelation : DomainEntity
 
     public virtual Category RelatedCategory { get; set; }
 
-    public virtual CategoryRelationType RelationType { get; set; }
+    public virtual CategoryRelationType CategoryRelationType { get; set; }
 }

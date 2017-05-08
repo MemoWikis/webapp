@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 public enum CategoryRelationType
 {
+    None = 0,
     IsChildCategoryOf = 1,
     IncludeContentOf = 2
 }
