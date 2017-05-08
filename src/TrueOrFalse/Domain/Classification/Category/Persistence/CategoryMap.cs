@@ -36,7 +36,7 @@ public class CategoryMap : ClassMap<Category>
         //    Table("relatedcategoriestorelatedcategories")
         //    .ChildKeyColumn("Related_Id");
 
-        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories").Cascade.None();
+        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories").Cascade.All();
 
     }
 }
