@@ -415,6 +415,11 @@
     <Content Include="bin\Common.Logging.Core.pdb" />
     <Content Include="Images\Screenshots\widget-blackboard-html-mode-full.png" />
     <Content Include="Images\Screenshots\widget-blackboard-html-mode-small.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f01_add.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f02_addTextField.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f03_texfield_options.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f04_textfield-with-embedcode.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f05_doneview.png" />
     <Content Include="Images\Screenshots\widget-wordpress-01.png" />
     <Content Include="Images\Screenshots\widget-wordpress-02.png" />
     <Content Include="Images\Sponsors\greensoeasy.png" />

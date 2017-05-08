@@ -44,44 +44,71 @@
                 </p>
                 <p>
                     Diese Code-Zeile kannst du in Moodle einfach an die Stelle einfügen, wo der Quiz erscheinen soll.
-                    Dafür musst du dich aber im HTML bzw. Text-Modus befinden. Das geht ganz leicht:
+                    Dafür musst du dich aber im HTML-Modus befinden. Das geht ganz leicht. 
                 </p>
-                <p class="screenshotExplanation">
-                    Material hinzufügen: Textfeld. Dann im Textfeld das "Mehr Symbole anzeigen" <img src="/Images/Screenshots/widget-moodle-1-mehrFelder-small.png" /> aktivieren
-                    und dann den HTML-Modus einschalten <img src="/Images/Screenshots/widget-moodle-2-HTMLmode-small.png" />.
+                <p>
+                    Zunächst die <strong>Kurzfassung</strong>:
                 </p>
-                <p class="screenshotExplanation">
-                    Jetzt kannst du die Code-Zeile einfügen.
-                </p>
-                                            
-                <% //todo: add detailed description %>
-                <p style="margin-top: 30px;">
-                    <i><strong>Hinweis:</strong> Wir zeigen hier in Kürze eine ausführlichere Anleitung mit Screenshots.</i>
-                </p>
-
-                <%--<h4>1. Material "Textfeld" hinzufügen</h4>
-                <p class="screenshotExplanation">
-                    Erstelle ein neues Element oder öffne ein vorhandenes, wo das Widget erscheinen soll. Du kannst zum Beispiel ein Element in einem Kursordner erstellen.
-                    In Texteditor-Fenster gehst du mit dem Cursor an die Stelle, wo das Widget erscheinen soll.
-                </p>
-                <p class="screenshot">
-                    <img src="/Images/Screenshots/widget-blackboard-html-mode-full.png" />
-                </p>
-
-                <h4>2. In den Text-Modus gehen</h4>
-                <p class="screenshotExplanation">
-                    In der Button-Leiste findest du unten rechts einen Schalter "HTML", um die HTML-Codeansicht zu aktivieren: 
-                    <img src="/Images/Screenshots/widget-blackboard-html-mode-small.png"/>
-                    Klicke darauf.
-                </p>
-                <p class="screenshotExplanation">
-                    Genau dort, wo der Cursor ist, kannst du nun die Code-Zeile des Widgets einfügen.
+                <ul>
+                    <li class="screenshotExplanation">
+                        An die gewünschte Stelle "Material oder Aktivität hinzufügen", als Material "Textfeld" auswählen.
+                    </li>
+                    <li>
+                        Im Textfeld auf "Mehr Symbole anzeigen" <img src="/Images/Screenshots/widget-moodle-1-mehrFelder-small.png" /> klicken und anschließend
+                        den HTML-Modus einschalten <img src="/Images/Screenshots/widget-moodle-2-HTMLmode-small.png" />.
+                    </li>
+                    <li class="screenshotExplanation">
+                        Jetzt kannst du die Code-Zeile einfügen, speichern, fertig
+                    </li>
+                </ul>
+                
+                <p style="margin-top: 20px;">
+                    Und nun die <strong>ausführliche Schritt-für-Schritt-Anleitung</strong>:
                 </p>
                 
-                <h4>3. Fertig!</h4>
+                <h4>1. Material hinzufügen</h4>
                 <p class="screenshotExplanation">
-                    Jetzt kannst du deine Seite anschauen und sehen, dass alles geklappt hat. Viel Spaß!
-                </p>--%>
+                    Gehe an die gewünschte Stelle im Kurs, wo das Widget erscheinen soll und klicke dort auf "+ Material oder Aktivität hinzufügen".
+                </p>
+                <p class="screenshot">
+                    <img src="/Images/Screenshots/widget-moodle_f01_add.png" />
+                </p>
+
+                <h4>2. Textfeld auswählen und hinzufügen</h4>
+                <p class="screenshotExplanation">
+                    Wähle in der Liste unten das Arbeitsmaterial "Textfeld" aus und klicke auf "Hinzufügen".
+                </p>
+                <p class="screenshot">
+                    <img src="/Images/Screenshots/widget-moodle_f02_addTextField.png" />
+                </p>
+
+                <h4>3. HTML-Modus aktivieren</h4>
+                <p class="screenshotExplanation">
+                    Jetzt kannst du das Textfeld mit Inhalt füllen. Du kannst zum Beispiel einen Einführungssatz hinzufügen. 
+                    Klicke dann bei den Symbolen zuerst auf "Mehr Symbole anzeigen" (ganz links) und dann in der sich öffnenden zweiten Zeile auf die Schaltfläche ganz rechts, 
+                    um in den HTML-Modus zu wechseln.
+                </p>
+                <p class="screenshot">
+                    <img src="/Images/Screenshots/widget-moodle_f03_texfield_options.png" />
+                </p>
+
+                <h4>4. Einbettungs-Code einfügen</h4>
+                <p class="screenshotExplanation">
+                    Im Textfeld siehst du jetzt auch die HTML-Tags (hier das &lt;p&gt; zur Markierung eines Textabsatzes). Gehe mit dem Cursor zu der Stelle, 
+                    wo das Widget erscheinen soll und kopiere die Code-Zeile von memucho über die Zwischenablage in das Textfeld. Jetzt speichern.
+                </p>
+                <p class="screenshot">
+                    <img src="/Images/Screenshots/widget-moodle_f04_textfield-with-embedcode.png" />
+                </p>
+
+                <h4>5. Fertig!</h4>
+                <p class="screenshotExplanation">
+                    Schon fertig! Auf der Kursseite siehst du nun, wie das Widget eingebettet ist. 
+                    Deine Schüler oder Studenten können direkt loslernen oder ihr Wissen testen.
+                </p>
+                <p class="screenshot">
+                    <img src="/Images/Screenshots/widget-moodle_f05_doneview.png" />
+                </p>
 
             </div>
         </div>
