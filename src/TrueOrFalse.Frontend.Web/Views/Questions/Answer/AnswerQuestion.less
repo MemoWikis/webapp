@@ -633,10 +633,10 @@
     min-height: 250px;
     cursor: pointer;
 
-    @media (max-width: 768px){
+    @media (max-width: 768px) {
         margin-bottom: 25px;
     }
-    
+
     > div, #flashCard-frontContent > p {
         min-height: inherit;
         display: flex;
@@ -644,6 +644,19 @@
         align-items: center;
         align-content: center;
         justify-content: center;
+    }
+
+    #flashCard-back > p {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        
+        img {
+            max-width: 60%;
+        }
     }
 
     > div {
@@ -655,28 +668,28 @@
     img {
         padding-bottom: 20px;
     }
-}
 
-#flashCard-frontContent, #flashCard-back {
-    padding: 15px 15px 40px 15px;
-}
+    .flipClickHint {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
 
-#flashCard-frontContent img {
-    max-width: 60%;
+        span {
+            color: silver;
+        }
+    }
+
+    #flashCard-frontContent, #flashCard-back {
+        padding: 15px 15px 40px 15px;
+    }
+
+    #flashCard-frontContent img {
+        max-width: 60%;
+    }
 }
 
 .flashCardAnswerButtons > .btn{
     margin-left: unset;
-}
-
-#flashCardContent .flipClickHint {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-
-    span {
-        color: silver;
-    }
 }
 
 
