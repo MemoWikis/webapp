@@ -87,7 +87,7 @@
                         if(question.Set != null)
                             url = Links.AnswerQuestion(Url, question.Question, question.Set);
                         else if (question.SearchSpec != null)
-                            url = Links.AnswerQuestion(Url, question.SearchSpec);
+                            url = Links.AnswerQuestion(question.SearchSpec);
                         else
                             url = Links.AnswerQuestion(question.Question);
 

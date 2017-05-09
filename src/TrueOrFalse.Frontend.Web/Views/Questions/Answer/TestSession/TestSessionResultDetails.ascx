@@ -81,7 +81,7 @@
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-2 answerDetailImage">
                                         <div class="ImageContainer ShortLicenseLinkText">
-                                        <%= GetQuestionImageFrontendData.Run(step.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, step.Question)) %> 
+                                        <%= GetQuestionImageFrontendData.Run(step.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(step.Question)) %> 
                                         </div>
                                     </div>
                                     <div class="col-xs-9 col-sm-10">

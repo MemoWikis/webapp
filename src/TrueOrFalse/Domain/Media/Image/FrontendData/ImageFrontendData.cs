@@ -203,10 +203,7 @@ public class ImageFrontendData
         if (ImageMetaDataExists && imageUrl.HasUploadedImage)
         {
             if (!ImageCanBeDisplayed)
-            {
                 additionalCssClasses += " JS-CantBeDisplayed";
-                //return "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' class='ItemImage JS-InitImage CantBeDisplayed" + additionalCssClasses + "' />";
-            }
 
             var altDescription = IsNullOrEmpty(this.Description) ?
                 "" : 
@@ -215,6 +212,7 @@ public class ImageFrontendData
                     .Replace("“", "'")
                     .StripHTMLTags()
                     .Truncate(120, true);
+
             return AddLink(
                     "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
                     + "' class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses

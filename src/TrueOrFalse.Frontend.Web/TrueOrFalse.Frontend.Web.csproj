@@ -305,6 +305,8 @@
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\Search\SearchApiController.cs" />
+    <Compile Include="Views\Api\Search\PrepareSearch.cs" />
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
@@ -1039,6 +1041,7 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
+    <TypeScriptCompile Include="Scripts\header\SearchBox.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
