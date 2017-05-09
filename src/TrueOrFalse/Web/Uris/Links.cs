@@ -117,6 +117,12 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
 
+        public static string QuestionSearch(string searchTerm) => "/Fragen/Suche/" + searchTerm;
+        public static string CategoriesSearch(string searchTerm) => "/Kategorien/Suche/" + searchTerm;
+        public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
+        public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
+
+
         public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){

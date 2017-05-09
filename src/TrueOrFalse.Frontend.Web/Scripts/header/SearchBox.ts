@@ -4,6 +4,7 @@
     Item: any;
 
     NoResults: boolean;
+    SearchUrl: string;
 }
 
 class SearchBox
@@ -52,7 +53,7 @@ class SearchBox
                 switch (resultItem.Type) {
 
                     case "CategoriesHeader":
-                        html = "<div class='SearchResultHeader'>Themen <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
+                        html = "<div class='SearchResultHeader'>Themen <div class='ResultCount'><a href='" + resultItem.Item.SearchUrl + "'>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Categories":
@@ -68,7 +69,7 @@ class SearchBox
                         break;
 
                     case "SetsHeader":
-                        html = "<div class='SearchResultHeader'>Fragesätze <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
+                        html = "<div class='SearchResultHeader'>Fragesätze <div class='ResultCount'><a href='" + resultItem.Item.SearchUrl + "'>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Sets":
@@ -84,7 +85,7 @@ class SearchBox
                         break;
 
                     case "QuestionsHeader":
-                        html = "<div class='SearchResultHeader'>Fragen <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
+                        html = "<div class='SearchResultHeader'>Fragen <div class='ResultCount'><a href='" + resultItem.Item.SearchUrl + "'>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Questions":
@@ -100,7 +101,7 @@ class SearchBox
                         break;
 
                     case "UsersHeader":
-                        html = "<div class='SearchResultHeader'>Nutzer <div class='ResultCount'><a href=''>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
+                        html = "<div class='SearchResultHeader'>Nutzer <div class='ResultCount'><a href='" + resultItem.Item.SearchUrl + "'>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Users":

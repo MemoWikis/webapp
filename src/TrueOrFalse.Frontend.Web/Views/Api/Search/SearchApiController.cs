@@ -13,41 +13,57 @@ public class SearchApiController : BaseController
 
         if (elements.Categories.Any())
         {
-            AddHeader(items, ResultItemType.CategoriesHeader, elements.CategoriesResultCount);
+            AddHeader(items, ResultItemType.CategoriesHeader, elements.CategoriesResultCount, term);
             AddCategoryItems(items, elements);
         }
 
         if (elements.Sets.Any())
         {
-            AddHeader(items, ResultItemType.SetsHeader, elements.SetsResultCount);
+            AddHeader(items, ResultItemType.SetsHeader, elements.SetsResultCount, term);
             AddSetItems(items, elements);
         }
 
         if (elements.Questions.Any())
         {
-            AddHeader(items, ResultItemType.QuestionsHeader, elements.QuestionsResultCount);
+            AddHeader(items, ResultItemType.QuestionsHeader, elements.QuestionsResultCount, term);
             AddQuestionItems(items, elements);
         }
 
         if (elements.Users.Any())
         {
-            AddHeader(items, ResultItemType.UsersHeader, elements.UsersResultCount);
+            AddHeader(items, ResultItemType.UsersHeader, elements.UsersResultCount, term);
             AddUsersItems(items, elements);
         }
         
         return Json( new{ Items = items }, JsonRequestBehavior.AllowGet);
     }
 
-    private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount)
+    private static void AddHeader(List<ResultItem> items, ResultItemType resultItemType, int resultCount, string term)
     {
+        string searchUrl = "";
+
+        switch (resultItemType)
+        {
+            case ResultItemType.QuestionsHeader:
+                searchUrl = Links.QuestionSearch(term);
+                break;
+            case ResultItemType.CategoriesHeader:
+                searchUrl = Links.CategoriesSearch(term);
+                break;
+            case ResultItemType.SetsHeader:
+                searchUrl = Links.SetsSearch(term);
+                break;
+            case ResultItemType.UsersHeader:
+                searchUrl = Links.UsersSearch(term);
+                break;
+        }
+
+
         items.Add(new ResultItem
         {
             ResultCount = resultCount,
             Type = resultItemType.ToString(),
-            Item = new ResultSplitter
-            {
-                SearchUrl = "Some Text"
-            }
+            Item = new ResultSplitter{ SearchUrl = searchUrl }
         });
     }
 
