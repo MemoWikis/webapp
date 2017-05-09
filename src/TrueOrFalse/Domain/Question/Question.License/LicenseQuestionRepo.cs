@@ -52,6 +52,23 @@ public class LicenseQuestionRepo
                 AuthorRequired = true,
                 LicenseLinkRequired = false,
                 ChangesNotAllowed = true
+            },
+
+            new LicenseQuestion
+            {
+                Id = 4,
+                NameLong = "Bund/Länder-Arbeitsgemeinschaft Chemikaliensicherheit (BLAC)",
+                NameShort = "BLAC",
+                DisplayTextShort = "Quelle: BLAC",
+                DisplayTextFull = "Die Frage, Antwortmöglichkeiten und die Referenz auf Fundstellen entstammen dem " +
+                                  "Gemeinsamen Fragenkatalog der Länder (GFK) für die Sachkundeprüfung nach § 5 der Chemikalien-Verbotsverordnung " +
+                                  "und sind gesammelt in <a href='http://blak-uis.server.de/servlet/is/2146/P-4a.pdf/' target='_blank'>diesem PDF</a> verfügbar. " +
+                                  "Die Nutzung des Fragenkatalogs ist nach Maßgabe von § 62 Abs. 1 bis 3 (Änderungsverbot) und § 63 Abs. 1 und 2 (Quellenangabe) UrhG zulässig. " +
+                                  "Autor ist die <a href='http://www.blac.de/servlet/is/2146/' target='_blank'>BLAC</a>.",
+                LicenseLink = "http://blak-uis.server.de/servlet/is/2146/P-4a.pdf",
+                AuthorRequired = true,
+                LicenseLinkRequired = false,
+                ChangesNotAllowed = true
             }
         };
 

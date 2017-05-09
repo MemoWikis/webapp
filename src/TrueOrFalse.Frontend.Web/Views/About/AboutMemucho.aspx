@@ -278,6 +278,7 @@
                 <span class="ColoredUnderline Question">Unsere Partner</span>
             </h1>
             <p class="partnerLogos">
+                <a href="https://learning-levelup.de/" target="_blank"><img src="/Images/LogosPartners/Logo_LearningLevelUp_transparent.png"/></a>
                 <a href="https://www.tutory.de/" target="_blank"><img src="/Images/LogosPartners/Logo_tutory_250px.png"/></a>
                 <a href="http://www.lernen-mit-spass.ch/" target="_blank"><img src="/Images/LogosPartners/Logo_lernenmitspass_w200.gif"/></a>
                 <%--<a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>--%>
