@@ -14,9 +14,6 @@ namespace TrueOrFalse.Updates
 	                ADD COLUMN `CategoryRelationType` INT(10) NULL DEFAULT '1' AFTER `Related_Id`;"
             ).ExecuteUpdate();
 
-            //ADD COLUMN `DateCreated` TIMESTAMP NULL DEFAULT '0001-01-01 00:00:00' AFTER `CategoryRelationType`,
-            //ADD COLUMN `DateModified` TIMESTAMP NULL DEFAULT '0001-01-01 00:00:00' AFTER `DateCreated`
-
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
                 @"ALTER TABLE `relatedcategoriestorelatedcategories`
