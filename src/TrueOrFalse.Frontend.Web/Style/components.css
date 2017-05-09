@@ -168,6 +168,11 @@ ul.ui-autocomplete .SearchResultItem img {
   height: 40px;
   width: 40px;
 }
+ul.ui-autocomplete .SearchResultItem a {
+  width: 100%;
+  display: block;
+  height: 40px;
+}
 ul.ui-autocomplete div.SearchResultHeader {
   cursor: default;
   background-color: #003264;
