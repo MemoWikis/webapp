@@ -46,7 +46,7 @@ public class SearchApiController : BaseController
             Type = resultItemType.ToString(),
             Item = new ResultSplitter
             {
-                Text = "Some Text"
+                SearchUrl = "Some Text"
             }
         });
     }
@@ -143,7 +143,7 @@ public class SearchApiController : BaseController
 
     private class ResultSplitter
     {
-        public string Text;
+        public string SearchUrl;
     }
 
     public class ResultItemJson
