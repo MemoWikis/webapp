@@ -603,6 +603,9 @@
   padding: 0;
   margin-bottom: 0;
 }
+#MasterWidget .SessionBar {
+  margin-bottom: 15px;
+}
 #MasterWidget #LicenseQuestion {
   margin-top: 10px;
   padding: 0;
