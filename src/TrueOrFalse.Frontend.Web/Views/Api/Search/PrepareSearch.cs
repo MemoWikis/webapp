@@ -10,8 +10,8 @@ public class SearchBoxElementsGet
         var result = new SearchBoxElements();
 
         var pageSize = 5;   
-        result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize }, searchOnlyWithStartingWith: true);
-        result.SetsResult = Sl.SearchSets.Run(term, new Pager { PageSize = pageSize }, searchOnlyWithStartingWith: true);
+        result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
+        result.SetsResult = Sl.SearchSets.Run(term, new Pager { PageSize = pageSize });
         result.QuestionsResult = Sl.SearchQuestions.Run(term, new Pager { PageSize = pageSize });
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
 

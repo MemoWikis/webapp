@@ -236,6 +236,21 @@ img {
     width: 180px;
   }
 }
+@media (max-width: 390px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 160px;
+  }
+}
+@media (max-width: 370px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 120px;
+  }
+}
+@media (max-width: 320px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 120px;
+  }
+}
 #MasterHeader .col-Logo {
   height: 100%;
   width: auto;
@@ -408,6 +423,11 @@ img {
 #loginAndHelp #SupportUs {
   color: #FFD700;
 }
+@media (max-width: 420px) {
+  #loginAndHelp #SupportUs {
+    display: none;
+  }
+}
 #loginAndHelp #SupportUs:hover,
 #loginAndHelp #SupportUs:active,
 #loginAndHelp #SupportUs:focus {
@@ -426,6 +446,11 @@ img {
 @media (min-width: 768px) {
   #loginAndHelp a.helpLink {
     margin-right: 10px;
+  }
+}
+@media (max-width: 370px) {
+  #loginAndHelp a.helpLink {
+    display: none;
   }
 }
 @media (min-width: 768px) {
