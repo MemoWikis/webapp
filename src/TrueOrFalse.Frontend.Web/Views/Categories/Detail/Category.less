@@ -114,15 +114,36 @@ span.CategoryType {
         margin-top: 30px;
         margin-bottom: 15px;
     }
+
     p {
         /*font-size: 18px;*/
         line-height: 1.6em;
         margin-bottom: 20px;
     }
+
     ul {
         margin-bottom: 20px;
     }
 }
+
+.MarkdownContent {
+
+    .Card {
+
+        h2 {
+            .h2;
+        }
+
+        h3 {
+           .h3;
+        }
+
+        h4 {
+            .h4;
+        }
+    }
+}
+
 
 .Box + h2, .Box + h3, .Box + h4 {
     margin-top: 20px;
@@ -147,7 +168,11 @@ span.CategoryType {
 }
 
 .Card.ItemList {
-    padding: 10px;
+    padding: 10px 0 0 15px;
+
+    .CardContent {
+        max-height: none !important;
+    }
 
     .ItemTitle, .ItemText {
         line-height: 20px;
@@ -223,7 +248,8 @@ span.CategoryType {
 .ItemRow {
 
     .media-xs-up ({
-        height: 85px;
+        max-height: 76px;
+        margin-bottom: 18px;
         overflow: hidden;
     });
 
@@ -383,8 +409,8 @@ html.flexbox {
             display: flex;
         }
 
-        .Card:not(.ItemList) {
-            //.Card {
+        .Card {
+
             display: flex;
             width: 100%;
 
@@ -416,20 +442,6 @@ html.flexbox {
                 margin-left: 0 !important;
                 margin-right: 15px !important;
             }
-        }
-    }
-}
-
-.Card.ItemList {
-    display: block;
-
-    .BottomBar {
-        border: none;
-        margin-right: 0;
-        margin-left: 0;
-
-        .dropdown {
-            margin-left: 5px;
         }
     }
 }
