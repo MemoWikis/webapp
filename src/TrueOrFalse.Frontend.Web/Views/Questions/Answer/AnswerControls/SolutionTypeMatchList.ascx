@@ -15,7 +15,9 @@
 </div>
 
 <script type="text/javascript">
-    <% var localPairs = Model.Pairs;
+    <% Model.escapeSolutionChars();
+
+    var localPairs = Model.Pairs;
     var random = new Random();
     if (!Model.isSolutionOrdered)
         localPairs = Model.Pairs.OrderBy(x => random.Next()).ToList();
