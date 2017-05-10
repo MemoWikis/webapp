@@ -396,6 +396,7 @@ public class AnswerQuestionController : BaseController
         );
     }
 
+    //For MatchList Questions
     public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
     {
         if (learningSessionId != null)
@@ -445,6 +446,98 @@ public class AnswerQuestionController : BaseController
             new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
             ControllerContext
         );
+    }
+
+
+    public string RenderAnswerBody()
+    {
+        if (learningSessionId != null)
+        {
+            var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+
+            if (learningSession.User != _sessionUser.User)
+                throw new Exception("not logged in or not possessing user");
+
+            if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
+            {
+                learningSession.SkipStep(skipStepIdx);
+                return RedirectToAction("Learn", Links.AnswerQuestionController,
+                    new { learningSessionId, learningSessionName = learningSessionName });
+            }
+
+            var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
+
+            if (currentLearningStepIdx == -1) //None of the steps is uncompleted
+                return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
+                    new { learningSessionId, learningSessionName = learningSessionName });
+
+            if (learningSession.IsDateSession)
+            {
+                var trainingDateRepo = Sl.R<TrainingDateRepo>();
+                var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
+
+                if (trainingDate != null)
+                {
+                    if (trainingDate.IsExpired())
+                    {
+                        return RedirectToAction("StartLearningSession", Links.DatesController,
+                            new { dateId = trainingDate.TrainingPlan.Date.Id });
+                    }
+
+                    trainingDate.ExpiresAt =
+                        DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
+                    trainingDateRepo.Update(trainingDate);
+                }
+            }
+
+            var questionViewGuid = Guid.NewGuid();
+
+            Sl.SaveQuestionView.Run(
+                questionViewGuid,
+                learningSession.Steps[currentLearningStepIdx].Question,
+                _sessionUser.User.Id,
+                learningSession: learningSession,
+                learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
+
+            return View(_viewLocation,
+                new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
+        }
+        if (testSessionId != null)
+        {
+            var sessionUser = Sl.SessionUser;
+            var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
+            var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
+            var testSessionQuestionViewGuid = Guid.NewGuid();
+            var testSessionName = testSession.UriName;
+
+            ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
+            ControllerContext.RouteData.Values.Add("name", testSessionName);
+
+            return ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice)),
+                ControllerContext
+            );
+        }
+
+        var question = Sl.QuestionRepo.GetById(questionId);
+        if (isVideo)
+        {
+            return ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(new AnswerQuestionModel(question, isMobileDevice)),
+                ControllerContext
+            );
+        }
+        //for normal questions
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        var questionViewGuid = Guid.NewGuid();
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
+            ControllerContext
+        );
+        return "";
     }
 
     public EmptyResult ClearHistory()
