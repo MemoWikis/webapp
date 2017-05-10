@@ -27,6 +27,7 @@ function InitLabelTooltips() {
                 else
                     $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
             }
+            $(this).tooltip();
         }
     });
 
@@ -42,6 +43,7 @@ function InitLabelTooltips() {
                 $(this).attr('title', 'Zum Fragesatz "' + $(this).html() + '"').attr('data-placement', 'top');
             else
                 $(this).attr('title', 'Zum Fragesatz').attr('data-placement', 'top');
+            $(this).tooltip();
 
             //console.log("clientWidth: " + $(this)[0].clientWidth + " -scrollWidth: " + $(this)[0].scrollWidth + " -offsetWidth: " + $(this)[0].offsetWidth + " -innerWidth: " + $(this).innerWidth() + " -maxWidth:" + $(this).css('maxWidth'));
         }

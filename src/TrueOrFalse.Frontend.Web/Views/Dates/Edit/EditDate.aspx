@@ -145,6 +145,7 @@
                                             .data('set-id', '<%=set.Id %>')
                                             .trigger("initSetFromTxt");
                                         <% } %>
+                                        InitLabelTooltips();
                                     });
                                 </script>
                                 <div class="JS-SetInputContainer ControlInline ">
