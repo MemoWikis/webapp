@@ -31,7 +31,7 @@
                 <% if(Model.IsOwnerOrAdmin){ %>
                     <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
                 <% } %>
-                <a href="<%= Links.CreateQuestion(Url, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
+                <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
                 <% if(Model.IsInstallationAdmin) { %>
                     <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                         <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views

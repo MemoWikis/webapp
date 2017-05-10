@@ -202,18 +202,30 @@
                         </div>
                     </div>
                     <div class="FormSection">
-                    
-                    <div class="form-group">
-                        <div class="noLabel columnControlsFull">
-                            <% if (Model.IsEditing){ %>
-                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                            <% } else { %>
-                                <input type="submit" value="Fragesatz erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
-                            <% } %>
+                        <div class="form-group">
+                            <div class="noLabel columnControlsFull">
+                                <% if (Model.IsEditing){ %>
+                                    <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
+                                <% } else { %>
+                                    <input type="submit" value="Fragesatz erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
+                                <% } %>
+                                
+                                <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default pull-right">
+                                    <i class="fa fa-plus show-tooltip" title="" data-placement="top" data-original-title="Bearbeiten"></i>
+                                    Neue Frage hinzufügen
+                                </a>
+                            </div>
+
                         </div>
+
                     </div>
+                
                 </div>
+            
+                <div class="row">
+                    
                 </div>
+
             </div>
         </div>
     

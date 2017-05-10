@@ -47,6 +47,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <header>
+                    <div class="greyed">
+                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> und <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets, "sätzen","satz") %>
+                    </div>
                     <h1 style="margin-top: 5px; font-size: 26px;">
                        <%= Model.Name %>
                     </h1>

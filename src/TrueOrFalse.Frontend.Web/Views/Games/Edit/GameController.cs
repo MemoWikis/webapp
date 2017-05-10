@@ -79,8 +79,14 @@ public class GameController : BaseController
             gameModel.Message = new ErrorMessage("Bitte wählen sie keine Fragen vom Typ Zuordnung (Liste). Diese sind leider noch nicht in den Spielen-Modus integriert.");
             return View(_viewLocation, gameModel);
         }
-
-
+        
+        //FlashCard Fragen nicht zulassen
+        bool containsFlashCardQuestions= sets.SelectMany(x => x.QuestionsInSet).Any(q => q.Question.SolutionType == SolutionType.FlashCard);
+        if (containsFlashCardQuestions)
+        {
+            gameModel.Message = new ErrorMessage("Bitte wählen sie keine Fragen vom Typ Karteikarte. Diese sind für Spiele ungeeignet!");
+            return View(_viewLocation, gameModel);
+        }
 
         var game = new Game();
         game.Id = game.Id;

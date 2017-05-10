@@ -28,7 +28,7 @@ public class ImageUrl
                 return GetResult(imageSettings, requestedWidth, isSquare);
 
             //we guess the biggest file has a width of 512
-            var image512 = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
+            var image512 = $"{imageSettings.ServerPathAndId()}_512.jpg";
             if (File.Exists(image512))
             {
                 using (var image = Image.FromFile(image512))

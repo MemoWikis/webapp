@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TestSessionResultModel>" %>
+<%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
@@ -80,12 +81,15 @@
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-2 answerDetailImage">
                                         <div class="ImageContainer ShortLicenseLinkText">
-                                        <%= GetQuestionImageFrontendData.Run(step.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, step.Question)) %> 
+                                        <%= GetQuestionImageFrontendData.Run(step.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(step.Question)) %> 
                                         </div>
                                     </div>
                                     <div class="col-xs-9 col-sm-10">
                                         <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(step.Question).GetCorrectAnswerAsHtml() %></p>
-                                        <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : Question.AnswersAsHTML(step.AnswerText, step.Question.SolutionType) %></p>
+                                        <% if (step.Question.SolutionType != SolutionType.FlashCard)
+                                           { %>
+                                                <p class="answerTry">Deine Antwort: <%= (step.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution) ? "(unbeantwortet)" : Question.AnswersAsHTML(step.AnswerText, step.Question.SolutionType) %></p>
+                                        <% } %>
                                         <p class="averageCorrectness">Wahrscheinlichkeit richtige Antwort (alle Nutzer): <%= step.Question.CorrectnessProbability %>%</p>
                                         
                                         <% if(!Model.IsInWidget) { %>

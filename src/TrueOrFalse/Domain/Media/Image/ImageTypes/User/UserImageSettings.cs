@@ -31,6 +31,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_30px_square(User user) { return GetUrl(user, 30, isSquare: true); }
     public ImageUrl GetUrl_128px_square(User user) { return GetUrl(user, 128, isSquare: true);}
     public ImageUrl GetUrl_85px_square(User user) { return GetUrl(user, 85, isSquare: true); }
+    public ImageUrl GetUrl_50px_square(User user) { return GetUrl(user, 50, isSquare: true); }
     public ImageUrl GetUrl_50px(User user) { return GetUrl(user, 50);}
     public ImageUrl GetUrl_200px(User user) { return GetUrl(user, 200); }
     public ImageUrl GetUrl_250px(User user) { return GetUrl(user, 250); }

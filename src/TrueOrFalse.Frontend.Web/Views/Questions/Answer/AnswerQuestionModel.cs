@@ -119,6 +119,8 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
     {
+        if(this.QuestionViewGuid == Guid.Empty)
+            QuestionViewGuid = Guid.NewGuid();
         this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;

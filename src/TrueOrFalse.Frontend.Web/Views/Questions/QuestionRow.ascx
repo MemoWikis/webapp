@@ -5,7 +5,7 @@
 <div class="rowBase question-row" data-questionid="<%= Model.QuestionId %>" data-userisowner="<%= Model.IsCreator? "true" : "false" %>">
     <div class="column-Image">
         <div class="ImageContainer">
-            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Model.AnswerQuestionLink(Url)) %>
+            <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, /*asSquare*/ true, ImageType.Question, linkToItem: Model.AnswerQuestionLink(Url)) %>
         </div>
     </div>
 

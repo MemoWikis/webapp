@@ -23,7 +23,7 @@
                 <h3 class="">
                     Fragen
                 </h3>
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btnCreateItem btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion() %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
@@ -84,7 +84,7 @@
      <div class="boxtainer-outlined-tabs">
          
         <div class="boxtainer-header MobileHide">
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btnCreateItem btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion() %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>

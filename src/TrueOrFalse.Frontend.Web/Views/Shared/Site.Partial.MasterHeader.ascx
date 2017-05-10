@@ -20,9 +20,16 @@
                             </div>
                         </a>
                         <a id="BetaLogo" href="<%= Links.BetaInfo() %>">
-                            <%--<img src="/Images/Logo/beta-logo.png" width="22" height="56">--%>
                             [beta]
                         </a>
+
+                        <div class="input-group" id="HeaderSearchBoxDiv">
+                            <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-xs-6 col-LoginAndHelp">
             	        <div id="loginAndHelp" >

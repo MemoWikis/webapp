@@ -29,6 +29,8 @@
                 answerEntry = new SolutionTypeMultipleChoice(this); break;
             case SolutionType.MatchList:
                 answerEntry = new SolutionTypeMatchList(this); break;
+            case SolutionType.FlashCard:
+                answerEntry = new SolutionTypeFlashCard(this); break;
         };
 
         this.AnswerQuestion = answerEntry.AnswerQuestion;

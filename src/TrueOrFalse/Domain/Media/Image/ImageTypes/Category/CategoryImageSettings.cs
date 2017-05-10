@@ -28,7 +28,7 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
 
     public ImageUrl GetUrl_350px_square() { return GetUrl(350, isSquare: true); }
 
-    private ImageUrl GetUrl(int width, bool isSquare = false)
+    public ImageUrl GetUrl(int width, bool isSquare = false)
     {
         return ImageUrl.Get(this, width, isSquare, GetFallbackImage);
     }

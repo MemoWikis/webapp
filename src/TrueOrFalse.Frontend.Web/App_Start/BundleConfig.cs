@@ -23,6 +23,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/shared")
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js")
+                .IncludeDirectory("~/Scripts/header", "*.js")
                 .IncludeDirectory("~/Scripts/hubs", "*.js")
                 .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                 .IncludeDirectory("~/Views/Images", "*.js")
@@ -120,7 +121,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
-                .Include("~/Scrpits/vendor/jquery.ui.touch-punch.js"));
+                .Include("~/Scrpits/vendor/jquery.ui.touch-punch.js")
+                .Include("~/Scrpits/vendor/jquery.flip.js")
+                .Include("~/Scrpits/vendor/hammer.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));

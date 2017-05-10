@@ -4,19 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Search;
 
-public class CategoryJsonResult
-{
-    public int id { get; set; }
-    public string name { get; set; }
-    public int numberOfQuestions { get; set; }
-    public string imageUrl { get; set; }
-    public string type { get; set; }
-    public string typeGroup { get; set; }
-    public string html { get; set; }
-
-    public bool isOnlyResult = false;
-}
-
 public class CategoryApiController : BaseController
 {
     private readonly SearchCategories _searchCategories;
@@ -157,4 +144,17 @@ public class CategoryApiController : BaseController
 
         CategoryInKnowledge.UnpinQuestionsInCategory(Convert.ToInt32(categoryId), _sessionUser.User);
     }
+}
+
+public class CategoryJsonResult
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public int numberOfQuestions { get; set; }
+    public string imageUrl { get; set; }
+    public string type { get; set; }
+    public string typeGroup { get; set; }
+    public string html { get; set; }
+
+    public bool isOnlyResult = false;
 }

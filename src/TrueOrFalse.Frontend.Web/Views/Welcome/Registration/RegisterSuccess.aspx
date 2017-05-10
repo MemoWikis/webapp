@@ -30,7 +30,7 @@
                       <i class="fa fa-pencil fa-2x" style="color: #2C5FB2"></i><br/>
                         <p><b>Wissen erstellen</b></p>
                         <p>
-                            <a href="<%= Links.CreateQuestion(Url) %>">Erstelle eigene Fragen</a>, die du gerne lernen möchtest und füge sie zu eigenen Fragesätzen zusammen.
+                            <a href="<%= Links.CreateQuestion() %>">Erstelle eigene Fragen</a>, die du gerne lernen möchtest und füge sie zu eigenen Fragesätzen zusammen.
                         </p>
                     </div>
                     <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">

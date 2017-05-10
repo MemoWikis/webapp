@@ -227,6 +227,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -302,6 +305,8 @@
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\Search\SearchApiController.cs" />
+    <Compile Include="Views\Api\Search\PrepareSearch.cs" />
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
@@ -334,9 +339,11 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <None Include="Views\Maintenance\ContentStats.less" />
+    <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
     <Compile Include="Views\Maintenance\StatisticsModel.cs" />
-    <Compile Include="Views\Maintenance\ContentReportModel.cs" />
+    <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
     <Compile Include="Views\Maintenance\CMSModel.cs" />
     <Compile Include="Views\Maintenance\ToolsModel.cs" />
     <Compile Include="Views\Games\GamesController.cs" />
@@ -389,6 +396,7 @@
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
+    <Content Include="Images\LogosPartners\Logo_LearningLevelUp_transparent.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
     <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
@@ -410,6 +418,11 @@
     <Content Include="bin\Common.Logging.Core.pdb" />
     <Content Include="Images\Screenshots\widget-blackboard-html-mode-full.png" />
     <Content Include="Images\Screenshots\widget-blackboard-html-mode-small.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f01_add.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f02_addTextField.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f03_texfield_options.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f04_textfield-with-embedcode.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f05_doneview.png" />
     <Content Include="Images\Screenshots\widget-wordpress-01.png" />
     <Content Include="Images\Screenshots\widget-wordpress-02.png" />
     <Content Include="Images\Sponsors\greensoeasy.png" />
@@ -422,6 +435,8 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\vendor\hammer.js" />
+    <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
@@ -591,16 +606,39 @@
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
+    <Content Include="Views\Maintenance\ContentStats.aspx" />
+    <Content Include="Views\Maintenance\ContentStats.css">
+      <DependentUpon>ContentStats.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js">
       <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js.map">
       <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js">
+      <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
+      <DependentUpon>AnswerQuestion.less</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
-    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeNoteCard.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
@@ -776,7 +814,6 @@
       <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\userreport\userreport-plugin.js" />
-    <Content Include="Scripts\vendor\bootstrap2-toggle.js" />
     <Content Include="Style\bootstrap\bootstrap.min.css">
       <DependentUpon>bootstrap.css</DependentUpon>
     </Content>
@@ -821,9 +858,9 @@
       <DependentUpon>FAQ.less</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\Statistics.aspx" />
-    <Content Include="Views\Maintenance\ContentReport.aspx" />
-    <Content Include="Views\Maintenance\ContentReport.css">
-      <DependentUpon>ContentReport.less</DependentUpon>
+    <Content Include="Views\Maintenance\ContentCreatedReport.aspx" />
+    <Content Include="Views\Maintenance\ContentCreatedReport.css">
+      <DependentUpon>ContentCreatedReport.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList_LayoutMobile.ascx" />
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
@@ -836,9 +873,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
       <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
-      <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
@@ -1008,6 +1042,7 @@
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
     <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
+    <TypeScriptCompile Include="Scripts\header\SearchBox.ts" />
     <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
     <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
     <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
@@ -1861,6 +1896,7 @@
     </Compile>
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
@@ -1868,6 +1904,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
@@ -2470,7 +2507,7 @@
     </Content>
     <Content Include="Views\About\AboutMemucho.less" />
     <Content Include="Views\Help\FAQ.less" />
-    <Content Include="Views\Maintenance\ContentReport.less" />
+    <Content Include="Views\Maintenance\ContentCreatedReport.less" />
     <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
       <DependentUpon>FacebookRegistration.ts</DependentUpon>
     </Content>
@@ -2508,6 +2545,9 @@
     <Content Include="Views\Help\Widget.less" />
     <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
       <DependentUpon>ShareSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />

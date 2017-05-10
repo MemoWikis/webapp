@@ -291,3 +291,6 @@ select.form-control {
 #matchlist #responseModal .modal-content .matchlist-rightelement {
   width: 100%;
 }
+#EditQuestionForm a > span {
+  max-width: 220px;
+}
