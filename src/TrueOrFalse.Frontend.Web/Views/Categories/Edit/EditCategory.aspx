@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Register Src="~/Views/Categories/Edit/TypeControls/Book.ascx" TagPrefix="uc1" TagName="Book" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% if (Model.IsEditing) { %>
@@ -12,12 +11,14 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/Categories/Edit/EditCategory.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
-    <%= Scripts.Render("~/bundles/CategoryEdit") %>
+    <%= Styles.Render("~/bundles/CategoryEdit") %>
+    <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+<input type="hidden" id="hhdCategoryId" value="<%= Model.Id %>"/>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
     FormMethod.Post, new { enctype = "multipart/form-data", id="EditCategoryForm", data_is_editing=Model.IsEditing })){%>
@@ -193,7 +194,7 @@
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                             </label>
                             <div class="columnControlsFull">
-                                <textarea class="form-control" name="TopicMarkdown" type="text" 
+                                <textarea class="form-control" name="TopicMarkdown" id="TopicMarkdown" 
                                     <% var x = Model.TopicMarkdown; %>
                                     rows="<%= string.IsNullOrEmpty(Model.TopicMarkdown) ? "4" : "16" %>" 
                                     style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>

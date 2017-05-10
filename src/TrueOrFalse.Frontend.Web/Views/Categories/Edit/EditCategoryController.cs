@@ -153,4 +153,13 @@ public class EditCategoryController : BaseController
             }
         }
     }
+
+    [HttpPost]
+    public JsonResult GetMarkdownPreview(int categoryId, string text)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        category.TopicMarkdown = text;
+
+        return Json(MarkdownToHtml.Run(category, ControllerContext));
+    }
 }
