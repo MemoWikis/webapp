@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Markdig;
+﻿using Markdig;
 
 namespace TrueOrFalse.Web
 {
@@ -12,7 +7,7 @@ namespace TrueOrFalse.Web
         public static string ToHtml(string markdown)
         {
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-            return Markdig.Markdown.ToHtml(markdown, pipeline);
+            return Markdown.ToHtml(markdown, pipeline);
         }
     }
 }
