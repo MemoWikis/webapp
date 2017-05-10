@@ -7,7 +7,7 @@
 <h4>Alle Inhalte</h4>
 <div id="Content" class="Box">
     <h5 class="ContentSubheading Set">
-        <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets,"sätze","satz") %> zu diesem Thema
+        <%= Model.CountSets %> Lernset<%= StringUtils.PluralSuffix(Model.CountSets,"s") %> zu diesem Thema
     </h5>
     <% if (Model.CountSets > 0)
        { %>    
@@ -28,7 +28,7 @@
         
     <% }
     else { %>
-        Bisher gibt es keine Fragesätze in dieser Kategorie.
+        Bisher gibt es keine Lernsets in dieser Kategorie.
     <% } %>
         
    <%-- <% if (Model.SingleQuestions.Count > 0) { %>

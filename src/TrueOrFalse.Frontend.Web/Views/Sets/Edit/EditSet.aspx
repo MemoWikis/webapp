@@ -51,9 +51,9 @@
                 <h2 class="pull-left">
                     <span class="ColoredUnderline Set">
                     <% if (Model.IsEditing) { %>
-                        Fragesatz bearbeiten
+                        Lernset bearbeiten
                     <% } else { %>
-                        Fragesatz erstellen
+                        Lernset erstellen
                     <% } %>
                     </span>
                 </h2>
@@ -75,7 +75,7 @@
                         <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                             <h4>Einloggen oder registrieren</h4>
                             <p>
-                                Um Fragesätze zu erstellen, <br/>
+                                Um Lernsets zu erstellen, <br/>
                                 musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
                             </p>
                         </div>
@@ -124,7 +124,7 @@
 
                         <div class="form-group">
                             <label class="columnLabel control-label">
-                                <span class="show-tooltip" title="Themen helfen bei der Einordnung des Fragesatzes und ermöglichen dir und anderen, Fragesätze wiederzufinden.">
+                                <span class="show-tooltip" title="Themen helfen bei der Einordnung des Lernsets und ermöglichen dir und anderen, Lernsets wiederzufinden.">
                                     Themen
                                 </span>
                             </label>        
@@ -155,7 +155,7 @@
                             
                                 <%  if(Model.QuestionsInSet.Count == 0) { %>
                                     <div class="info">
-                                        <b>Keine Fragen im Fragesatz.</b> Um Fragen hinzuzufügen, wähle 
+                                        <b>Keine Fragen im Lernset.</b> Um Fragen hinzuzufügen, wähle 
                                         <% if(!Model.IsEditing) {  %> nach dem Erstellen <% } %>
                                          Fragen auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions", null, new { target = "_blank" }) %> aus. 
                                     </div>
@@ -170,7 +170,7 @@
                                         <%foreach(var questionInSet in Model.QuestionsInSet){%>
                                             <li class="questionItem ui-state-default Clearfix" data-id="<%=questionInSet.Id %>">
                                                 <div class="QuestionTools">
-                                                    <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Fragesatz entfernen"></i><br/>
+                                                    <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen"></i><br/>
                                                     <% if (Model.IsOwner(questionInSet.Question.Creator.Id)){%>
                                                         <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Text, questionInSet.Question.Id) %>">
                                                             <i class="fa fa-pencil"></i> 
@@ -207,7 +207,7 @@
                                 <% if (Model.IsEditing){ %>
                                     <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
                                 <% } else { %>
-                                    <input type="submit" value="Fragesatz erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
+                                    <input type="submit" value="Lernset erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                                 <% } %>
                                 
                                 <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default pull-right">

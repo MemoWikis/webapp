@@ -293,7 +293,7 @@
                     <b>Wissen erweitern</b>
                     <p>
                         Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? 
-                        Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!
+                        Finde die passenden Lernsets und stelle dir dein Wunschwissen zusammen!
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -467,7 +467,7 @@
                 </div>
                 <% if (!Model.UserHasWishknowledge) { %>
                     <p style="font-size: 11px; margin-top: 5px;">
-                        Du hast noch kein Wunschwissen. Füge Fragesätze oder Fragen zu 
+                        Du hast noch kein Wunschwissen. Füge Lernsets oder Fragen zu 
                         deinem <span style="white-space: nowrap"><i class="fa fa-heart show-tooltip" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span> hinzu, 
                         um eine personalisierte Lernsitzung zu starten. 
                     </p>
@@ -502,7 +502,7 @@
         </div>
 
         <div class="well">
-            <h4>Neueste Fragesätze</h4>
+            <h4>Neueste Lernsets</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
@@ -530,7 +530,7 @@
         </div>
 
         <div class="well">
-            <h4>Umfangreichste Fragesätze</h4>
+            <h4>Umfangreichste Lernsets</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>

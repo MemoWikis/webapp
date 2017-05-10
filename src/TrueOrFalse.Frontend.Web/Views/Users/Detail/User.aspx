@@ -46,9 +46,9 @@
                 <div class="column">
                     <h4 style="margin-top: 0px;">Reputation</h4>
                     <div>- <%= Model.Reputation.ForQuestionsCreated %> für erstellte Fragen</div>
-                    <div>- <%= Model.Reputation.ForSetsCreated %> für erstellte Fragesätze</div>
+                    <div>- <%= Model.Reputation.ForSetsCreated %> für erstellte Lernsets</div>
                     <div>- <%= Model.Reputation.ForQuestionsInOtherWishknowledge %> für eigene Fragen im Wunschwissen anderer </div>
-                    <div>- <%= Model.Reputation.ForSetsInOtherWishknowledge %> für eigene Fragesätze im Wunschwissen anderer</div>
+                    <div>- <%= Model.Reputation.ForSetsInOtherWishknowledge %> für eigene Lernsets im Wunschwissen anderer</div>
                     <div>- <%= Model.Reputation.ForDatesCreatedVisible %> für erstellte Termine (sichtbar im Netzwerk)</div>
                     <div>- <%= Model.Reputation.ForDatesCopied %> für eigene Termine, die von anderen übernommen wurden</div>
                     <div>- <%= Model.Reputation.ForPublicWishknowledge %> für die Veröffentlichung des eigenen Wunschwissens</div>
@@ -57,14 +57,14 @@
                 <div class="column" >
                     <h4 style="margin-top: 0px;">Erstellte Inhalte</h4>
                     <div><a href="<%= Links.QuestionWithCreatorFilter(Url, Model.User) %>"><%= Model.AmountCreatedQuestions %> öffentliche Fragen erstellt</a></div>
-                    <div><%= Model.AmountCreatedSets %> Fragesätze erstellt</div>
+                    <div><%= Model.AmountCreatedSets %> Lernsets erstellt</div>
                     <div><%= Model.AmountCreatedCategories %>  Themen erstellt</div>
                 </div>
             
                 <div class="column">
                     <h4 style="margin-top: 0px;">Wunschwissen</h4>
                     <div><%= Model.AmountWishCountQuestions %> Fragen gemerkt</div>
-                    <div><%= Model.AmountWishCountSets %> Fragesätze gemerkt</div>
+                    <div><%= Model.AmountWishCountSets %> Lernsets gemerkt</div>
                     <div></div>
                 </div>
 

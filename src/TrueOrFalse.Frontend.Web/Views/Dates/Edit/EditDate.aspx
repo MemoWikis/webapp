@@ -134,7 +134,7 @@
 
                         <div class="form-group" style="margin-bottom: 5px;">
                             <label class="columnLabel control-label">
-                                Fragesätze, die du zu diesem Termin lernen möchtest:
+                                Lernsets, die du zu diesem Termin lernen möchtest:
                             </label>
                             <div class="JS-Sets columnControlsFull">
                                 <script type="text/javascript">

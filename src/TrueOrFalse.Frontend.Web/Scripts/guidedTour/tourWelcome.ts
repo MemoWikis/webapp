@@ -27,14 +27,14 @@ var tourWelcome = new Tour({
             backdropPadding: 10,
             placement: "auto top",
             title: "Fülle dein <i class='fa fa-heart' style='color:#b13a48;'></i> Wunschwissen",
-            content: "Alles, was du gerne lernen oder wissen möchtest, kannst du zu deinem Wunschwissen hinzufügen. Klicke dazu auf das Herz-Symbol neben einer Frage oder einem Fragesatz."
+            content: "Alles, was du gerne lernen oder wissen möchtest, kannst du zu deinem Wunschwissen hinzufügen. Klicke dazu auf das Herz-Symbol neben einer Frage, einem Lernset oder bei einem ganzen Thema."
         },
         {
             element: "#mainMenuQuestionsSetsCategories",
             backdrop: true,
             backdropPadding: 10,
             title: "Inhalte suchen oder neu erstellen",
-            content: "Hier findest du alle Inhalte zum Lernen. Wenn du etwas nicht findest, kannst du die passenden Fragen und Fragesätze einfach selbst erstellen. Fragesätze beinhalten mehrere Fragen zu einem Thema."
+            content: "Hier findest du alle Inhalte zum Lernen. Wenn du etwas nicht findest, kannst du die passenden Fragen und Lernsets einfach selbst erstellen. Lernsets beinhalten mehrere zusammengehörige Fragen."
         },
         {
             element: "#mainMenuBtnDates",

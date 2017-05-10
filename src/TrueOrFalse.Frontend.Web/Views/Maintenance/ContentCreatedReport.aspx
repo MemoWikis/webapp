@@ -31,7 +31,7 @@
             <h1 class="" style="margin-top: 0;">Erstellte Inhalte</h1>
             <ul>
                 <li><a href="#CategoriesAdded">Themen</a></li>
-                <li><a href="#SetsAdded">Fragesätze</a></li>
+                <li><a href="#SetsAdded">Lernsets</a></li>
                 <li><a href="#RecentQuestionsAddedNotMemucho">Fragen erstellt ohne memucho</a></li>
                 <li><a href="#RecentQuestionsAddedMemucho">Fragen erstellt memucho</a></li>
             </ul>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="col-xs-12">
-            <h4 id="SetsAdded">Fragesätze, die seit <%= Model.Since %> erstellt wurden: <%= Model.SetsAdded.Count %></h4>
+            <h4 id="SetsAdded">Lernsets, die seit <%= Model.Since %> erstellt wurden: <%= Model.SetsAdded.Count %></h4>
             <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
 
             <% foreach (var set in Model.SetsAdded) {%>

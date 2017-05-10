@@ -42,7 +42,7 @@
                     <a name="quizOnPage"></a><span class="ColoredUnderline GeneralMemucho">Quiz auf deiner Webseite: Wissenstest mit Auswertung einbinden</span>
                 </h2>
                 <p>
-                    Du kannst einen Quiz zu einem ganzen Fragesatz auf deiner Webseite einbinden. So können deine Webseitenbesucher ihr Wissen testen - und das macht vielen Spaß.
+                    Du kannst einen Quiz zu einem ganzen Lernset auf deiner Webseite einbinden. So können deine Webseitenbesucher ihr Wissen testen - und das macht vielen Spaß.
                     Und du hast eine einfache Möglichkeit, schnell gute Inhalte auf deine Seite zu bringen.
                 </p>
                 <p>
@@ -51,15 +51,15 @@
                 </p>
                 <p>
                     Alle Inhalte bei memucho sind für das Widget nutzbar. <strong>Du kannst vorhandene Inhalte frei verwenden, neu zusammenstellen und bei Bedarf mit eigenen ergänzen.</strong>
-                    Wenn du keinen perfekt passenden Fragesatz findest, erstelle einfach selbst einen und füge vorhandene oder neue Fragen von dir hinzu.
+                    Wenn du kein perfekt passendes Lernset findest, erstelle einfach selbst eines und füge vorhandene oder neue Fragen von dir hinzu.
                 </p>
                 <p>
                     So geht's:
                 </p>
-                <h4>1. Fragesatz finden und Einbetten-Dialog öffnen</h4>
+                <h4>1. Lernset finden und Einbetten-Dialog öffnen</h4>
                 <p class="screenshotExplanation">
-                    Suche dir den passenden <a href="<%= Links.SetsAll() %>">Fragesatz</a> aus oder <a href="<%= Links.SetCreate() %>">erstelle dir selbst einen</a>.
-                    Auf der Fragesatzseite findest du den Link <code><i class="fa fa-code fa-code">&nbsp;</i>Einbetten</code> (vgl. Bild).
+                    Suche dir das passende <a href="<%= Links.SetsAll() %>">Lernset</a> aus oder <a href="<%= Links.SetCreate() %>">erstelle dir selbst eines</a>.
+                    Auf der Lernset-Seite findest du den Link <code><i class="fa fa-code fa-code">&nbsp;</i>Einbetten</code> (vgl. Bild).
                     Klicke darauf.
                 </p>
                 <p class="screenshot">
@@ -118,15 +118,15 @@
                 <p>
                     Alle Inhalte bei memucho sind für das Widget nutzbar. Videos kannst du von youtube direkt integrieren. 
                     <strong>Du kannst vorhandene Inhalte frei verwenden, neu zusammenstellen und bei Bedarf mit eigenen ergänzen.</strong>
-                    Wenn du keinen perfekt passenden Fragesatz findest, suche dir das Video bei youtube und erstelle einfach selbst einen Fragesatz.
+                    Wenn du kein perfekt passendes Lernset findest, suche dir das Video bei youtube und erstelle einfach selbst ein Lernset.
                 </p>
                 <p>
                     So geht's:
                 </p>
-                <h4>1. Video-Fragesatz finden und Einbetten-Dialog öffnen</h4>
+                <h4>1. Video-Lernset finden und Einbetten-Dialog öffnen</h4>
                 <p class="screenshotExplanation">
-                    Suche dir den passenden <a href="<%= Links.SetsAll() %>">Fragesatz</a> mit einem Video aus oder <a href="<%= Links.SetCreate() %>">erstelle dir selbst einen</a>.
-                    Auf der Fragesatzseite findest du den Link <code><i class="fa fa-code fa-code">&nbsp;</i>Einbetten</code> (vgl. Bild).
+                    Suche dir das passende <a href="<%= Links.SetsAll() %>">Lernset</a> mit einem Video aus oder <a href="<%= Links.SetCreate() %>">erstelle dir selbst eines</a>.
+                    Auf der Lernset-Seite findest du den Link <code><i class="fa fa-code fa-code">&nbsp;</i>Einbetten</code> (vgl. Bild).
                     Klicke darauf.
                 </p>
                 <p class="screenshot">

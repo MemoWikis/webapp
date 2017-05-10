@@ -63,7 +63,7 @@
                         <div class="col-xs-12">
                             <header>
                                 <div class="greyed">
-                                    Fragesatz mit <%= Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
+                                    Lernset mit <%= Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                                 </div>
                                 <h1 style="margin-top: 5px; font-size: 26px;">
                                     <%= Model.Name %>
@@ -126,7 +126,7 @@
                 <div class="BoxButtonColumn">
                     <% var tooltipGame = "Tritt gegen andere Nutzer im Echtzeit-Quizspiel an.";
                     if (Model.QuestionCount == 0)
-                        tooltipGame = "Noch keine Fragen zum Spielen in diesem Fragesatz vorhanden";%>
+                        tooltipGame = "Noch keine Fragen zum Spielen in diesem Lernset vorhanden";%>
                     <div class="BoxButton show-tooltip 
                         <%= !Model.IsLoggedIn ? "LookDisabled" : ""%> 
                         <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>"
@@ -142,9 +142,9 @@
                     </div>
                 </div>
                 <div class="BoxButtonColumn">
-                    <% var tooltipDate = "Gib an, bis wann du alle Fragen in diesem Fragesatz lernen musst und erhalte deinen persönlichen Lernplan.";
+                    <% var tooltipDate = "Gib an, bis wann du alle Fragen in diesem Lernset lernen musst und erhalte deinen persönlichen Lernplan.";
                     if (Model.QuestionCount == 0)
-                       tooltipDate = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
+                       tooltipDate = "Noch keine Fragen zum Lernen in diesem Lernset vorhanden";%>
                     <div class="BoxButton show-tooltip 
                         <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
                         <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>"
@@ -162,7 +162,7 @@
                 <div class="BoxButtonColumn">
                 <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen und jeweils nur einem Antwortversuch.";
                     if (Model.QuestionCount == 0)
-                        tooltipTest = "Noch keine Fragen zum Testen in diesem Fragesatz vorhanden";%>
+                        tooltipTest = "Noch keine Fragen zum Testen in diesem Lernset vorhanden";%>
                     <div class="BoxButton show-tooltip
                         <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>" 
                         data-original-title="<%= tooltipTest %>">
@@ -178,7 +178,7 @@
                 <div class="BoxButtonColumn">
                     <% var tooltipLearn = "Lerne personalisiert genau die Fragen, die du am dringendsten wiederholen solltest.";
                     if (Model.QuestionCount == 0)
-                       tooltipLearn = "Noch keine Fragen zum Lernen in diesem Fragesatz vorhanden";%>
+                       tooltipLearn = "Noch keine Fragen zum Lernen in diesem Lernset vorhanden";%>
                     <div class="BoxButton show-tooltip 
                         <%= !Model.IsLoggedIn ? "LookDisabled" : ""%>
                         <%= Model.QuestionCount == 0 ? "LookNotClickable" : ""%>" 
@@ -201,15 +201,15 @@
 
             <% if(Model.QuestionCount > 0) { %>
                 <h4 style="margin-top: 30px; margin-bottom: 8px;">
-                    Dieser Fragesatz enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
+                    Dieses Lernset enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                 </h4>
                 <p class="greyed" style="margin-bottom: 10px;">
-                    Wenn du auf eine Frage klickst, kannst du alle Fragen des Fragesatzes durchblättern. 
+                    Wenn du auf eine Frage klickst, kannst du alle Fragen des Lernsets durchblättern. 
                     Um eine begrenzte Zahl an Fragen zu beantworten und eine Auswertung zu erhalten, nutze bitte die Schaltflächen LERNEN oder WISSEN TESTEN oben.
                 </p>
             <% } else { %>
                 <div style="margin-top: 30px; margin-bottom: 20px;">
-                    Dieser Fragesatz enthält noch keine Fragen.
+                    Dieses Lernset enthält noch keine Fragen.
                 </div>
             <% } %>
 

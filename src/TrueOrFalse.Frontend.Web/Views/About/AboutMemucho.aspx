@@ -53,7 +53,7 @@
                     </p>
                     <p>
                         Wo? Überall, wo du ein kleines <i class="fa fa-heart-o" style="color:#b13a48;"></i> findest, kannst du draufklicken, 
-                        um die Frage oder den Fragesatz zu deinem Wunschwissen hinzuzufügen.
+                        um ein Lernset, ein ganzes Thema oder eine einzelne Frage zu deinem Wunschwissen hinzuzufügen.
                         In deiner <a href="<%= Links.Knowledge() %>">Wissenszentrale</a> bekommst du jederzeit einen Überblick zu deinem Wunschwissen.
                     </p>
                 </div>
@@ -93,7 +93,7 @@
                     </p>
                     <p>
                         Wie das geht? Gehe zu <a href="<%= Links.Dates() %>">Termine</a>, lege einen neuen Termin an und wähle die
-                        zu lernenden Fragesätze aus. memucho erstellt dir dann automatisch einen persönlichen Lernplan.
+                        zu lernenden Lernsets aus. memucho erstellt dir dann automatisch einen persönlichen Lernplan.
                     </p>
                 </div>
             </div>

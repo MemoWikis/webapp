@@ -36,8 +36,8 @@ public class TrainingReminderForDateMsgModel
         LearningContentFullString = date.CountQuestions().ToString() + " Frage" + StringUtils.PluralSuffix(date.CountQuestions(),"n");
         if (date.Sets.Any())
         {
-            LearningContentFullString += " aus " + date.Sets.Count.ToString() + " Frage" +
-                                         StringUtils.PluralSuffix(date.Sets.Count, "sätzen", "satz");
+            LearningContentFullString += " aus " + date.Sets.Count.ToString() + " Lernset" +
+                                         StringUtils.PluralSuffix(date.Sets.Count, "s");
         }
 
         RemainingTrainingSessionTime = new TimeSpanLabel(trainingDate.TrainingPlan.TimeRemaining).Full;

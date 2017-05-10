@@ -131,14 +131,14 @@
             </div>
             <div class="buttonRow">
                 <% if (Model.LearningSession.IsDateSession) { %>
-                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin/Fragesatz beginnen">
+                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin beginnen">
                         Weiterlernen
                     </a>
                     <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
                         Zur Wissenszentrale
                     </a>
                 <% } else if (Model.LearningSession.IsSetSession) { %>
-                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
+                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Lernset (Übersicht)</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
                         Weiterlernen
                     </a>
@@ -266,11 +266,11 @@
             <% if(Model.LearningSession.IsSetSession) { %>
                 <div class="boxInfo">
                     <div class="boxInfoHeader">
-                        Fragesatz-Info
+                        Lernset-Info
                     </div>
                     <div class="boxInfoContent">
                         <p>
-                            Du hast diesen Fragesatz gelernt:<br />
+                            Du hast dieses Lernset gelernt:<br />
                             <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">
                                 <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
                             </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions %> Fragen)
@@ -286,7 +286,7 @@
                     </div>
                     <div class="boxInfoContent">
                         <p>
-                            Du hast diese Fragesätze gelernt:
+                            Du hast dieses Lernset gelernt:
                         </p>
                         <div class="LabelList">
                             <% foreach (var set in Model.SetsToLearn) { %>
@@ -312,7 +312,7 @@
                         </p>
                         <ul>
                             <li><a href="<%= Links.QuestionsWish() %>"><%= Model.WishCountQuestions %> Fragen</a></li>
-                            <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Frage<%= StringUtils.PluralSuffix(Model.WishCountSets,"sätze","satz") %></a></li>
+                            <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Lernset<%= StringUtils.PluralSuffix(Model.WishCountSets,"s") %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -364,7 +364,7 @@
                                 </a>
                                     
                                 <div class="dateSets" style="display: inline; position: relative; display: none;" >
-                                    aus <%= Model.DateToLearn.Sets.Count %> <%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "Fragesätzen","Fragesatz") %>
+                                    aus <%= Model.DateToLearn.Sets.Count %> Lernset<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "s") %>
                                     <%  foreach(var set in Model.DateToLearn.Sets){ %>
                                         <a href="<%= Links.SetDetail(Url, set) %>">
                                             <span class="label label-set"><%= set.Name %></span>

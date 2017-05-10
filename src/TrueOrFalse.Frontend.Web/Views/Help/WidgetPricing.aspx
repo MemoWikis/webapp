@@ -41,7 +41,7 @@
                     die du einfach von memucho kopieren kannst.
                 </p>
                 <p class="teaserText">
-                    memucho bietet die Einbettung von Fragesätzen als Quiz-Modul, von Video-Fragesätzen und von einzelnen Fragen an. 
+                    memucho bietet die Einbettung von Lernsets als Quiz-Modul, von Video-Lernsets und von einzelnen Fragen an. 
                     Die Inhalte und Lernfunktion sind dann nahtlos in deine Seite integriert.
                     Mehr Infos zur Einbettung von Widgets <a href="<%= Links.HelpWidget() %>">erhältst du hier</a>.
                     Wir haben unterschiedliche Angebote für Einzelpersonen und für Organisationen.

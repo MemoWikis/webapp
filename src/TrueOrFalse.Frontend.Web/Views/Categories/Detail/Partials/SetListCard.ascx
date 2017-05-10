@@ -25,7 +25,7 @@
                                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(singleSetModel.IsInWishknowledge)) %>
                                         </a>
                                     </span>&nbsp;
-                                    <a href="<%= Links.SetDetail(Url,singleSetModel.SetName,singleSetModel.SetId) %>">Fragesatz mit <%= singleSetModel.QCount %> Fragen</a>
+                                    <a href="<%= Links.SetDetail(Url,singleSetModel.SetName,singleSetModel.SetId) %>">Lernset mit <%= singleSetModel.QCount %> Fragen</a>
                                 </h6>
                                 <div class="SetTitle">
                                     <a class="PlainTextLook" href="<%= Links.SetDetail(Url,singleSetModel.SetName,singleSetModel.SetId) %>"><%= set.Name %></a>
@@ -48,7 +48,7 @@
                     </ul>
                 </div>
 
-                <a class="btn btn-sm ButtonOnHover show-tooltip" href="<%= Links.TestSessionStartForSets(Model.Sets.Select(s => s.Id).ToList(), Model.Title) %>" title="Teste dein Wissen für diese Fragesätze" rel="nofollow">
+                <a class="btn btn-sm ButtonOnHover show-tooltip" href="<%= Links.TestSessionStartForSets(Model.Sets.Select(s => s.Id).ToList(), Model.Title) %>" title="Teste dein Wissen für diese Lernsets" rel="nofollow">
                     <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                 </a>
             </div>

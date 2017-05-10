@@ -202,9 +202,9 @@
                         </div>
                         <div class="form-group">
                             <label class="columnLabel control-label" for="FeaturedSetIdsString">
-                                Offiziell präsentierte Fragesätze
+                                Offiziell präsentierte Lernsets
                                 <i class="fa fa-question-circle show-tooltip" 
-                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Fragesätze tatsächlich mit dem Thema versehen sind." 
+                                    title="Bitte Ids der Lernsets in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Lernsets tatsächlich mit dem Thema versehen sind." 
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                             </label>
                             <div class="columnControlsFull">

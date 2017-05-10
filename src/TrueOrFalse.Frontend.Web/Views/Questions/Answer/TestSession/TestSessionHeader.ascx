@@ -11,17 +11,17 @@
         <div class="SessionTitle">
             <% if(Model.TestSession.IsSetSession) { %>
                 <div class="CollectionType">
-                    Fragesatz
+                    Lernset
                 </div>
                 <div class="LabelWrapper">
                     <a class="LabelLink" href="<%= Model.TestSession.SetLink %>">
-                        <span class="label label-set show-tooltip" data-original-title="Zum Fragesatz <%= Model.TestSession.SetName %> mit <%= Model.TestSession.SetQuestionCount %> Fragen"><%: Model.TestSession.SetName %></span>
+                        <span class="label label-set show-tooltip" data-original-title="Zum Lernset <%= Model.TestSession.SetName %> mit <%= Model.TestSession.SetQuestionCount %> Fragen"><%: Model.TestSession.SetName %></span>
                     </a>
                 </div>
             <% } %>
 
             <% if(Model.TestSession.IsSetsSession) { %>
-                <%= Model.TestSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.TestSession.SetsToTestIds.Count %> Fragesätze</span>)
+                <%= Model.TestSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.TestSession.SetsToTestIds.Count %> Lernsets</span>)
             <% } %>
 
             <% if(Model.TestSession.IsCategorySession) { %>

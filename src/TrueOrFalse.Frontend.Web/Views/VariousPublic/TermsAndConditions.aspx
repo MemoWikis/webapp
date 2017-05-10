@@ -70,7 +70,7 @@
         <p>
             Wenn du Texte oder Bilder bei memucho einstellst, musst du sicher sein, dass diese nicht urheberrechtlich geschützt sind. 
             Dies bestätigst du jedesmal, wenn du eine Frage erstellst oder änderst, es gilt aber auch bei allen anderen Bereichen 
-            (Themen, Fragesätzen etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative Commons-Lizenz “CC BY 4.0” stehen. 
+            (Themen, Lernsets etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative Commons-Lizenz “CC BY 4.0” stehen. 
             Wenn du sie einmal eingestellt hast, können sie von allen anderen (unter bestimmten Bedingungen) frei verwendet werden. Besondere 
             Vorsicht ist z.B. bei Schulbüchern geboten, hier darfst du nicht abschreiben. Wenn du dir nicht sicher bist, verzichte im Zweifelsfall 
             lieber auf eine bestimmte Frage oder ein Bild. Für Verstöße bist du verantwortlich. Erfahren wir von solchen Verstöße gegen das 

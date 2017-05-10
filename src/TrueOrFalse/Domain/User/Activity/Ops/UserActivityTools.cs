@@ -29,7 +29,7 @@ public class UserActivityTools
             case UserActivityType.CopiedDate:
                 return "übernahm den Termin";
             case UserActivityType.CreatedSet:
-                return "erstellte den Fragesatz";
+                return "erstellte das Lernset";
             case UserActivityType.CreatedGame:
                 return "erstellte ein Spiel."; //Game has no title
             case UserActivityType.GamePlayed:

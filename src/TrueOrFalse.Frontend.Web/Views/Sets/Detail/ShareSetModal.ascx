@@ -6,12 +6,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal">×</button>
-                <h4><i class="fa fa fa-code" style="padding-right: 5px;"></i> Fragesatz als Widget einbetten</h4>
+                <h4><i class="fa fa fa-code" style="padding-right: 5px;"></i> Lernset als Widget einbetten</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <strong>Kopiere die Code-Zeile, um den Fragesatz einzubinden:</strong> <span class="pull-right"><a href="<%= Links.HelpWidget() %>">Hilfe <i class="fa fa-question-circle">&nbsp;</i></a></span>
+                        <strong>Kopiere die Code-Zeile, um das Lernset einzubinden:</strong> <span class="pull-right"><a href="<%= Links.HelpWidget() %>">Hilfe <i class="fa fa-question-circle">&nbsp;</i></a></span>
                     </div>
                 </div>
                 <div class="row">
@@ -61,7 +61,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12" style="margin-top: 18px; margin-bottom: 7px; border-bottom: 1px solid #e5e5e5;">
-                        <h4>Vorschau auf das Fragesatz-Widget:</h4>
+                        <h4>Vorschau auf das Lernset-Widget:</h4>
                     </div>
                 </div>
                 <div class="row">

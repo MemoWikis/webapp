@@ -30,8 +30,8 @@
         
             <%= Html.AntiForgeryToken() %>
             <div class="form-group">
-                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Fragesätze</span> (Set-Ids kommasepariert)</label>
-                <i class="fa fa-info-circle show-tooltip" title="Diese Fragesätze werden bei den Inhalteempfehlungen zusätzlich zu allen Fragesätzen von memucho berücksichtigt.">&nbsp;</i>
+                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Lernsets</span> (Set-Ids kommasepariert)</label>
+                <i class="fa fa-info-circle show-tooltip" title="Diese Lernsets werden bei den Inhalteempfehlungen zusätzlich zu allen Lernsets von memucho berücksichtigt.">&nbsp;</i>
                 <%= Html.TextBoxFor(m => m.SuggestedSetsIdString, new {@class="form-control"} ) %>
                 <% foreach(var set in Model.SuggestedSets) { %>
                     <a href="<%= Links.SetDetail(Url, set) %>"><span class="label label-set"><%: set.Id %>-<%: set.Name %></span></a>
