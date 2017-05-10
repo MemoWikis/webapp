@@ -17,8 +17,8 @@
 
         ShowUserReportWidget = false;
 
-        StartSessionUrl = GetStartTestSessionUrl(setId);
+        StartSessionUrl = GetStartTestSessionUrl(setId, hideAddToKnowledge);
     }
 
-    public static string GetStartTestSessionUrl(int setId) => $"/widget/fragesatz/{setId}";
+    public static string GetStartTestSessionUrl(int setId, bool hideAddToKnowledge) => $"/widget/fragesatz/{setId}?hideAddToKnowledge={hideAddToKnowledge}";
 }
