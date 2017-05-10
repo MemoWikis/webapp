@@ -257,6 +257,11 @@
     <Compile Include="Domain\Classification\Category\Ops\GetQuestionsForCategory.cs" />
     <Compile Include="Domain\Classification\Category\Ops\IsSpoilerCategory.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelation.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelationType.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeBase.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeFieldOfTraining.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeFieldOfStudy.cs" />
@@ -821,6 +826,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs173.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs172.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs124.cs" />
     <Compile Include="Tools\Update\Steps.Archive\UpdateToVs123.cs" />
