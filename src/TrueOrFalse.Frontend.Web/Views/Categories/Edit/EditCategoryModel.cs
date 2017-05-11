@@ -56,7 +56,7 @@ public class EditCategoryModel : BaseModel
 
     public void Init(Category category)
     {
-        var parentCategories = category.ParentCategories;
+        var parentCategories = category.ParentCategories();
         if (category.Type == CategoryType.DailyIssue)
             parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily).ToList();
         if (category.Type == CategoryType.DailyArticle)
@@ -85,7 +85,7 @@ public class EditCategoryModel : BaseModel
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -112,7 +112,7 @@ public class EditCategoryModel : BaseModel
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 
         FillFromRequest(category);
     }
@@ -472,7 +472,7 @@ public class EditCategoryModel : BaseModel
                 }
             }
 
-            category.ParentCategories.Add(parentFromDb);            
+            ModifyRelationsForCategory.AddParentCategory(category, parentFromDb);            
         }
     }
 

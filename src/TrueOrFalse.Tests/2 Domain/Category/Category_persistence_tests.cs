@@ -56,8 +56,10 @@ namespace TrueOrFalse.Tests.Persistence
             context.All
                 .Where(c => c.Name.StartsWith("DailyIssue"))
                 .ForEach(c =>{
-                    c.ParentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
-                    c.ParentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
+                    var parentCategories = new List<Category>();
+                    parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
+                    parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
+                    ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c, parentCategories, CategoryRelationType.IsChildCategoryOf);
                 });
 
             context.Update();

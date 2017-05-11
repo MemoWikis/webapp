@@ -25,7 +25,7 @@ public class CategoryTypeMagazineArticle : CategoryTypeBase<CategoryTypeMagazine
             if (Category == null)
                 return null;
 
-            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.Magazine);
+            return Category.ParentCategories().FirstOrDefault(c => c.Type == CategoryType.Magazine);
         }
     }
 
@@ -38,7 +38,7 @@ public class CategoryTypeMagazineArticle : CategoryTypeBase<CategoryTypeMagazine
             if (Category == null)
                 return null;
 
-            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.MagazineIssue);
+            return Category.ParentCategories().FirstOrDefault(c => c.Type == CategoryType.MagazineIssue);
         }
     }
 

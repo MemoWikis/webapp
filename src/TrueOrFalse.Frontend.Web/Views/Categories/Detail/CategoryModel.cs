@@ -87,7 +87,7 @@ public class CategoryModel : BaseModel
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
-        CategoriesParent = category.ParentCategories;
+        CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;

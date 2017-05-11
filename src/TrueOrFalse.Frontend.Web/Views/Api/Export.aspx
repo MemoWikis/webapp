@@ -8,7 +8,7 @@
         <id><%=category.Id %></id>
         <name><%=category.Name %></name>
         <relatedCategories>
-        <% foreach (var related in category.ParentCategories)
+        <% foreach (var related in category.ParentCategories())
            { %>
             <id><%=related.Id %></id>
         <% } %>

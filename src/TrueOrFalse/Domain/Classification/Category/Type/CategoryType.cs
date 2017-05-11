@@ -2,6 +2,7 @@
 
 public enum CategoryType
 {
+    None = 0,
     Standard = 1,
     
     Book = 5,
