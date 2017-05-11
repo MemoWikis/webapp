@@ -339,6 +339,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\LogosPartners\Logo_LearningLevelUp.png" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
