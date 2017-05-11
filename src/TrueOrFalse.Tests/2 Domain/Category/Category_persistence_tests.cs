@@ -42,7 +42,6 @@ namespace TrueOrFalse.Tests.Persistence
         }
 
         [Test]
-        [Ignore("temporary")]
         public void Category_should_load_children_of_type()
         {
             var context = ContextCategory.New()
