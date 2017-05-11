@@ -26,7 +26,7 @@ public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIs
             if (Category == null)
                 return null;
 
-            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.Magazine);
+            return Category.ParentCategories().FirstOrDefault(c => c.Type == CategoryType.Magazine);
         }
     }
 
