@@ -369,35 +369,10 @@ img {
   line-height: 34px;
 }
 #loginAndHelp .dropdown .userName {
-  max-width: 115px;
+  max-width: 145px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-@media (min-width: 500px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 135px;
-  }
-}
-@media (min-width: 520px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 155px;
-  }
-}
-@media (min-width: 540px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 175px;
-  }
-}
-@media (min-width: 560px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 195px;
-  }
-}
-@media (min-width: 992px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 400px;
-  }
 }
 #loginAndHelp a,
 #loginAndHelp span {
@@ -433,7 +408,7 @@ img {
 #loginAndHelp #SupportUs:focus {
   color: #AFD534;
 }
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   #loginAndHelp #SupportUs .TextSpan {
     display: none;
   }
