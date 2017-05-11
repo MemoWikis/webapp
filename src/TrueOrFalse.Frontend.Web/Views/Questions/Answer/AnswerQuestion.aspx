@@ -104,27 +104,25 @@
                                     <a href="<%= QuestionSearchSpecSession.GetUrl(Model.SearchTabOverview) %>">  
                                         <%= Model.PagesTotal %> in                       
                                         <span>
-                                            <% if (Model.SourceIsTabWish)
-                                               { %> deinem Wunschwissen <% } %>
-                                            <% if (Model.SourceIsTabMine)
-                                               { %> deinen Fragen <% } %>
-                                            <% if (Model.SourceIsTabAll)
-                                               { %> allen Fragen <% } %>
+                                            <% if (Model.SourceIsTabWish) { %> 
+                                                deinem Wunschwissen <% } %>
+                                            <% if (Model.SourceIsTabMine) { %> 
+                                                deinen Fragen <% } %>
+                                            <% if (Model.SourceIsTabAll) { %> 
+                                                allen Fragen <% } %>
                                         </span>
                                     </a>
                                 <% }
                            } %> 
                         </div>
                         <div class="Previous" style="padding-right: 5px;">
-                            <% if (Model.HasPreviousPage)
-                                { %>
+                            <% if (Model.HasPreviousPage) { %>
                                 <a class="btn btn-sm btn-default" href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i><span class="NavButtonText"> vorherige Frage</span></a>
                             <% } %>
                         </div>
                         <div class="Next" style="padding-left: 5px;">
-                            <% if (Model.HasNextPage)
-                                { %>
-                                <a class="btn btn-sm btn-default" href="<%= Model.NextUrl(Url) %>" rel="nofollow"><span class="NavButtonText">nächste Frage </span><i class="fa fa-chevron-right"></i></a>
+                            <% if (Model.HasNextPage) { %>
+                                <a id="NextQuestionLink" class="btn btn-sm btn-default" href="<%= Model.NextUrl(Url) %>" rel="nofollow"><span class="NavButtonText" id="NextQuestion">nächste Frage </span><i class="fa fa-chevron-right"></i></a>
                             <% } %>
                         </div>
                     </div>

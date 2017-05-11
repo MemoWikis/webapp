@@ -1899,6 +1899,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />

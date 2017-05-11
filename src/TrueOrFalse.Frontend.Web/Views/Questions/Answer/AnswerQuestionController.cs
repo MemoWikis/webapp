@@ -397,7 +397,7 @@ public class AnswerQuestionController : BaseController
     }
 
     //For MatchList Questions
-    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
+    public string RenderAnswerBody(int questionId, string pager, Guid questionViewGuid = default(Guid), bool? isMobileDevice = null, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
     {
         if (learningSessionId != null)
         {
@@ -440,7 +440,8 @@ public class AnswerQuestionController : BaseController
         }
         //for normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        var questionViewGuid = Guid.NewGuid();
+        if(questionViewGuid == Guid.Empty)
+            questionViewGuid = Guid.NewGuid();
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
@@ -448,96 +449,58 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-
-    public string RenderAnswerBody()
+    public string RenderAnswerBody(int questionId, string pager, int elementOnPage)
     {
-        if (learningSessionId != null)
-        {
-            var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+        //if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))
+        //{
+        //    if (id == null)
+        //        throw new Exception("AnswerQuestionController: No id for question provided.");
 
-            if (learningSession.User != _sessionUser.User)
-                throw new Exception("not logged in or not possessing user");
+        //    var question2 = _questionRepo.GetById((int)id);
 
-            if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
-            {
-                learningSession.SkipStep(skipStepIdx);
-                return RedirectToAction("Learn", Links.AnswerQuestionController,
-                    new { learningSessionId, learningSessionName = learningSessionName });
-            }
+        //    if (question2 == null)
+        //        throw new Exception("question not found");
 
-            var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
+        //    _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
 
-            if (currentLearningStepIdx == -1) //None of the steps is uncompleted
-                return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
-                    new { learningSessionId, learningSessionName = learningSessionName });
+        //    var questionViewGuid2 = Guid.NewGuid();
+        //    Sl.SaveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
 
-            if (learningSession.IsDateSession)
-            {
-                var trainingDateRepo = Sl.R<TrainingDateRepo>();
-                var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
+        //    return View(_viewLocation, new AnswerQuestionModel(question2));
+        //}
 
-                if (trainingDate != null)
-                {
-                    if (trainingDate.IsExpired())
-                    {
-                        return RedirectToAction("StartLearningSession", Links.DatesController,
-                            new { dateId = trainingDate.TrainingPlan.Date.Id });
-                    }
-
-                    trainingDate.ExpiresAt =
-                        DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
-                    trainingDateRepo.Update(trainingDate);
-                }
-            }
-
-            var questionViewGuid = Guid.NewGuid();
-
-            Sl.SaveQuestionView.Run(
-                questionViewGuid,
-                learningSession.Steps[currentLearningStepIdx].Question,
-                _sessionUser.User.Id,
-                learningSession: learningSession,
-                learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
-
-            return View(_viewLocation,
-                new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
-        }
-        if (testSessionId != null)
-        {
-            var sessionUser = Sl.SessionUser;
-            var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
-            var testSessionQuestion = Sl.QuestionRepo.GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
-            var testSessionQuestionViewGuid = Guid.NewGuid();
-            var testSessionName = testSession.UriName;
-
-            ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
-            ControllerContext.RouteData.Values.Add("name", testSessionName);
-
-            return ViewRenderer.RenderPartialView(
-                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice)),
-                ControllerContext
-            );
-        }
-
-        var question = Sl.QuestionRepo.GetById(questionId);
-        if (isVideo)
-        {
-            return ViewRenderer.RenderPartialView(
-                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(question, isMobileDevice)),
-                ControllerContext
-            );
-        }
-        //for normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+
+        //if (!IsNullOrEmpty(category))
+        //{
+        //    var categoryDb = R<CategoryRepository>().GetByName(category).FirstOrDefault();
+        //    if (categoryDb != null)
+        //    {
+        //        activeSearchSpec.Filter.Categories.Clear();
+        //        activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
+        //        activeSearchSpec.OrderBy.PersonalRelevance.Desc();
+        //        activeSearchSpec.PageSize = 1;
+
+        //        //set total count
+        //        Sl.R<SearchQuestions>().Run(activeSearchSpec);
+        //    }
+        //}
+
+        //if (text == null && id == null && elementOnPage == null)
+        //    return GetViewBySearchSpec(activeSearchSpec);
+
+        var question = _questionRepo.GetById((int)questionId);
+
+        activeSearchSpec.PageSize = 1;
+        if ((int)elementOnPage != -1)
+            activeSearchSpec.CurrentPage = (int)elementOnPage;
+
+        _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
+
         var questionViewGuid = Guid.NewGuid();
-        return ViewRenderer.RenderPartialView(
-            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
-            ControllerContext
-        );
-        return "";
+        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+
+        return RenderAnswerBody(questionId, pager, questionViewGuid);
     }
 
     public EmptyResult ClearHistory()

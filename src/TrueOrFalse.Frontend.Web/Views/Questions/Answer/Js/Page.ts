@@ -10,6 +10,8 @@ $(() => {
     new Pin(PinType.Question);
     new Pin(PinType.Set); //only needed if Set-Cards are presented as content
 
+    new AsyncLoading();
+
     $('#hddTimeRecords').attr('data-time-on-load', $.now());
     
     $(window).unload( function () {
