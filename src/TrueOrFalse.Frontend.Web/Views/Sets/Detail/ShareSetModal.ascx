@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-md-12" style="padding-top: 10px;">
                             <label class="checkbox-inline">
-                                <input type="checkbox" id="ckbHideKnowledgeBtn"> Verberge Wunschwissen-Schaltfläche
+                                <input type="checkbox" id="ckbHideKnowledgeBtn" checked="checked"> Verberge Wunschwissen-Schaltfläche
                                 <i class="fa fa-question-circle show-tooltip" title="Die Schaltfläche 'Zum Wunschwissen hinzufügen' erleichtert es Nutzern, die Inhalte mit memucho zu lernen"></i>
                             </label>
                         </div>

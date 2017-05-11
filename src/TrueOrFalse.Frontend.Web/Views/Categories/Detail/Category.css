@@ -126,6 +126,63 @@ span.CategoryType {
 .MarkdownContent ul {
   margin-bottom: 20px;
 }
+.MarkdownContent .Card h2 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 30px;
+}
+.MarkdownContent .Card h2 small,
+.MarkdownContent .Card h2 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #999999;
+}
+.MarkdownContent .Card h2 small,
+.MarkdownContent .Card h2 .small {
+  font-size: 65%;
+}
+.MarkdownContent .Card h3 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+.MarkdownContent .Card h3 small,
+.MarkdownContent .Card h3 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #999999;
+}
+.MarkdownContent .Card h3 small,
+.MarkdownContent .Card h3 .small {
+  font-size: 65%;
+}
+.MarkdownContent .Card h4 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.MarkdownContent .Card h4 small,
+.MarkdownContent .Card h4 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #999999;
+}
+.MarkdownContent .Card h4 small,
+.MarkdownContent .Card h4 .small {
+  font-size: 75%;
+}
 .Box + h2,
 .Box + h3,
 .Box + h4 {
@@ -145,7 +202,10 @@ span.CategoryType {
   margin-bottom: 0;
 }
 .Card.ItemList {
-  padding: 10px;
+  padding: 10px 0 0 15px;
+}
+.Card.ItemList .CardContent {
+  max-height: none !important;
 }
 .Card.ItemList .ItemTitle,
 .Card.ItemList .ItemText {
@@ -214,7 +274,8 @@ span.CategoryType {
 }
 @media (min-width: 480px) {
   .ItemRow {
-    height: 85px;
+    max-height: 76px;
+    margin-bottom: 18px;
     overflow: hidden;
   }
 }
@@ -360,27 +421,27 @@ html.flexbox .CardsLandscape .Card {
   display: flex;
   width: 100%;
 }
-html.flexbox .CardsLandscape .ImageContainer {
+html.flexbox .CardsLandscape .Card .ImageContainer {
   flex: 0 0 100px;
   flex-grow: 0%;
   flex-shrink: 0%;
   flex-basis: 100px;
   align-self: flex-start;
 }
-html.flexbox .CardsLandscape .ContentContainer {
+html.flexbox .CardsLandscape .Card .ContentContainer {
   margin-left: 0 !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: auto;
 }
-html.flexbox .CardsLandscape .CardContent {
+html.flexbox .CardsLandscape .Card .CardContent {
   margin-left: 0;
   height: auto;
   max-height: 243px;
   border-bottom: none !important;
 }
-html.flexbox .CardsLandscape .BottomBar {
+html.flexbox .CardsLandscape .Card .BottomBar {
   border-top: 1px solid #dfdfdf;
   margin-left: 0 !important;
   margin-right: 15px !important;

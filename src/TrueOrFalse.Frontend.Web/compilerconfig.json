@@ -216,5 +216,21 @@
   {
     "outputFile": "Views/Games/Games.css",
     "inputFile": "Views/Games/Games.less"
+  },
+  {
+    "outputFile": "Style/grid.css",
+    "inputFile": "Style/grid.less"
+  },
+  {
+    "outputFile": "Views/Maintenance/ContentStats.css",
+    "inputFile": "Views/Maintenance/ContentStats.less"
+  },
+  {
+    "outputFile": "Views/Games/Edit/Game.css",
+    "inputFile": "Views/Games/Edit/Game.less"
+  },
+  {
+    "outputFile": "Views/Dates/Edit/EditDate.css",
+    "inputFile": "Views/Dates/Edit/EditDate.less"
   }
 ]

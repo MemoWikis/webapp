@@ -117,6 +117,12 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
 
+        public static string QuestionSearch(string searchTerm) => "/Fragen/Suche/" + searchTerm;
+        public static string CategoriesSearch(string searchTerm) => "/Kategorien/Suche/" + searchTerm;
+        public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
+        public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
+
+
         public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
@@ -127,26 +133,27 @@ namespace TrueOrFalse.Frontend.Web.Code
             url.Action("Answer", AnswerQuestionController,
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
 
-        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
+        public static string AnswerQuestion(QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
-            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
+        public static string AnswerQuestion(Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+            return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
-        public static string AnswerQuestion(Question question) => AnswerQuestion(GetUrlHelper(), question, -1);
+        public static string AnswerQuestion(Question question) => AnswerQuestion(question, -1);
 
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
+        public static string AnswerQuestion(string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
         {
             if (paramElementOnPage == -1)
             {
-                return url.Action("Answer", AnswerQuestionController,
+                return GetUrlHelper().Action("Answer", AnswerQuestionController,
                     new
                     {
                         text = UriSegmentFriendlyQuestion.Run(questionText),
                         id = questionId
                     }, null);
             }
-            return url.Action("Answer", AnswerQuestionController,
+
+            return GetUrlHelper().Action("Answer", AnswerQuestionController,
                 new {
                     text = UriSegmentFriendlyQuestion.Run(questionText), 
                     id = questionId, 
@@ -156,12 +163,15 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string CreateQuestion() => CreateQuestion(GetUrlHelper());
-
-        public static string CreateQuestion(UrlHelper url, int categoryId = -1)
+        public static string CreateQuestion(int categoryId = -1, int setId = -1)
         {
+            var url = GetUrlHelper();
+
             if (categoryId != -1)
                 return url.Action("Create", EditQuestionController, new { categoryId = categoryId });
+
+            if (setId != -1)
+                return url.Action("Create", EditQuestionController, new { setId = setId });
 
             return url.Action("Create", EditQuestionController);
         }

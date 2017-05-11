@@ -151,6 +151,11 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
+.input-group input.form-control,
+.input-group textarea.form-control,
+.input-group select.form-control {
+  max-width: none;
+}
 #formGroupQuestionText textarea {
   max-width: none;
 }
@@ -290,4 +295,7 @@ select.form-control {
 }
 #matchlist #responseModal .modal-content .matchlist-rightelement {
   width: 100%;
+}
+#EditQuestionForm a > span {
+  max-width: 220px;
 }

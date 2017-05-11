@@ -9,7 +9,6 @@
 
         this.AnswerQuestion = new AnswerQuestion(this);
 
-        //TODO:JULIAN keyup event verstehen
         $("#txtAnswer").keyup(() => { this.SetDateUi(); });
 
         var metaData = this.GetJsonMetaData();

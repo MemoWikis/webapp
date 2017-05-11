@@ -122,6 +122,24 @@ public class QuestionSolutionMatchList : QuestionSolution
             .Select(x => $"{String.Join(" - ", x.Split(new []{ElementSeperator}, StringSplitOptions.RemoveEmptyEntries))}, ")
             .Aggregate((a, b) => a + b);
     }
+
+    public void escapeSolutionChars()
+    {
+        foreach (var rightElement in RightElements)
+        {
+            rightElement.Text = escapeSolutionChars(rightElement.Text);
+        }
+        foreach (var pair in Pairs)
+        {
+            pair.ElementLeft.Text = escapeSolutionChars(pair.ElementLeft.Text);
+            pair.ElementRight.Text = escapeSolutionChars(pair.ElementRight.Text);
+        }
+    }
+
+    private string escapeSolutionChars(string textInput)
+    {
+        return textInput.Replace("'", "\\'").Replace("\"", "\\\"");
+    }
 }
 
 public class MatchListAnswerPairs

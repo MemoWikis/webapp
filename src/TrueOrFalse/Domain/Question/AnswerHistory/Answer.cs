@@ -12,7 +12,7 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual string QuestionViewGuidString
     {
-        get { return QuestionViewGuid == Guid.Empty ? null : QuestionViewGuid.ToString(); }
+        get => QuestionViewGuid == Guid.Empty ? null : QuestionViewGuid.ToString();
         set
         {
             if (value == null)
@@ -38,7 +38,7 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual string LearningSessionStepGuidString
     {
-        get { return LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString(); }
+        get => LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString();
         set
         {
             if (value == null)

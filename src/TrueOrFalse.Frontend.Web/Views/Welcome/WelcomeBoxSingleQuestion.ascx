@@ -2,7 +2,7 @@
     Inherits="System.Web.Mvc.ViewUserControl<WelcomeBoxSingleQuestionModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<% var linkAnswerQuestion = Links.AnswerQuestion(Url, Model.QuestionText, Model.QuestionId, paramElementOnPage: 1, categoryFilter: Model.ContextCategoryName); %>
+<% var linkAnswerQuestion = Links.AnswerQuestion(Model.QuestionText, Model.QuestionId, paramElementOnPage: 1, categoryFilter: Model.ContextCategoryName); %>
 
 <div class="CardColumn">
     <div class="thumbnail">

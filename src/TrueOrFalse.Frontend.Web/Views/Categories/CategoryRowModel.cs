@@ -6,6 +6,7 @@ public class CategoryRowModel : BaseModel
 {
     public Category Category;
     public int QuestionCount;
+    public int SetCount;
     public int CategoryId;
     public string CategoryName;
     public object DescriptionShort;
@@ -42,6 +43,7 @@ public class CategoryRowModel : BaseModel
         IsInWishknowledge = valution.IsInWishKnowledge();
 
         QuestionCount = category.CountQuestions;
+        SetCount = category.CountSets;
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 

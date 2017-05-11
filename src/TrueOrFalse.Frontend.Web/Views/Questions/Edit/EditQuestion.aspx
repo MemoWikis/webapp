@@ -7,7 +7,7 @@
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.EditQuestion(Model.QuestionText, Model.Id) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion(Url) %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>">
     <% } %>
 </asp:Content>
 
@@ -28,6 +28,10 @@
     <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
     <input type="hidden" id="isEditing" name="isEditing" value="<%= Model.IsEditing %>"/>
     <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
+    
+    <% if(Model.Set != null){ %>
+        <input type="hidden" id="hddSetId" name="hddSetId" value="<%= Model.Set.Id %>"/>
+    <% } %>
 
     <div class="row">
         <div class="PageHeader col-xs-12">
@@ -40,7 +44,7 @@
                 </div>
                 <% if (!Model.ShowSaveAndNewButton){ %>
                     <div style="line-height: 12px">
-                        <a href="<%= Links.CreateQuestion(Url) %>" style="font-size: 12px;
+                        <a href="<%= Links.CreateQuestion() %>" style="font-size: 12px;
                             margin: 0;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
                     </div>
                 <%} %>
@@ -161,7 +165,17 @@
                             <label for="soundfile" class="control-label">Ton:</label>
                             &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
                         </div>--%>
-                        <div class="form-group">    
+
+                        <% if(Model.Set != null){ %>
+                            <div class="row" id="RowAssignSet">
+                                <div class="col-lg-12" style="padding-bottom: 10px">
+                                    Im Fragesatz: <a href="<%= Links.SetDetail(Url, Model.Set) %>"><span class="label label-set show-tooltip" data-placement="top" data-original-title="Zum Fragesatz"><%= Model.Set.Name %></span></a> 
+                                    <a href="#" id="RemoveSet" style="margin-left: 2px;" class="show-tooltip" data-placement="top" data-original-title="Fragesatz nicht zuordnen"><img alt="" src="/Images/Buttons/cross.png"></a>
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <div class="form-group">
                             <label class="columnLabel control-label">
                                 <span class="show-tooltip" data-toggle="tooltip" title="Themen helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du ein gesuchtes Thema nicht findest, kannst du es in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Themen</span>
                             </label>

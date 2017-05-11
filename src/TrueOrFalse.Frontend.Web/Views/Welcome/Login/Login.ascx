@@ -13,12 +13,12 @@
 
                 <div class="row hide2" id="needs-to-be-logged-in">
                     <div class="col-xs-12 col-you-have-to-be-logged-in">
-                        Um diese Funktion zu nutzen, musst du eingeloggt sein. 
+                                Um diese Funktion zu nutzen, musst du eingeloggt sein. 
                     </div>                
                 </div>
             
                 <div class="row">
-                    <div class="col-sm-offset-1" style="padding-left: 5px; padding-bottom: 10px;">
+                    <div class="col-xs-10 col-xs-offset-1 xxs-stack" style="padding-bottom: 10px;">
                         <h3>Einloggen mit</h3>                
                     </div>
                 </div>
@@ -33,33 +33,37 @@
                 <% Html.Message(Model.Message); %>
 
                 <div class="form-group omb_login">
-                    <div class="row omb_socialButtons">
-   	                    <div class="col-sm-offset-1 col-xs-12 col-sm-5" style="padding-top: 7px;">
+                    <div class="omb_socialButtons">
+   	                    <div class="col-xs-offset-1 col-xs-5 xxs-stack" style="padding-top: 7px;">
 	                           
                             <div class="g-signin2" data-onsuccess="onSignIn"></div>
 		                    <a href="#" class="btn btn-block omb_btn-facebook" id="btn-login-with-facebook-modal" style="width: 100%">
 			                    <span>Facebook</span>
 		                    </a>
 	                    </div>
-        	            <div class="col-xs-12 col-sm-5" style="padding-top: 7px;">
+        	            <div class="col-xs-5 xxs-stack" style="padding-top: 7px;">
 		                    <a href="#" class="btn btn-block omb_btn-google" id="btn-login-with-google-modal" >
 			                    <span>Google+</span>
 		                    </a>
 	                    </div>	
                     </div>
-                    
-                    <div class="form-group">
-                        <div class="col-sm-offset-1 col-sm-10 col-xs-12" style="font-size: 12px; padding-top: 7px;">
-                            *Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
-                            und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-offset-1 col-xs-10 xxs-stack" style="font-size: 12px; padding-top: 7px;">
+                        *Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen</a>
+                        und unserer <a href="<%=Links.Imprint %>">Datenschutzrichtlinie</a> einverstanden. 
                     </div>
                 </div>
                                 
                 <div class="row" style="margin-top: 20px; margin-bottom: 5px;">
-                    <div class="col-sm-offset-1 col-sm-4 col-xs-5" style="border-bottom: 1px solid silver"></div>
-                    <div class="col-sm-2 col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
-                    <div class="col-sm-4 col-xs-5" style="border-bottom: 1px solid silver"></div>
+                    <div class="col-xs-10 col-xs-offset-1 xxs-stack">
+                        <div class="row">
+                            <div class="col-xs-5"><div class="Divider" style="margin-right: -10px;"></div></div>
+                            <div class="col-xs-2" style="text-align: center"><span style="position: relative; top: -9px;">oder</span></div>
+                            <div class="col-xs-5"><div class="Divider" style="margin-left: -10px;"></div></div>
+                        </div>
+                    </div>
+                    
                 </div>
                 
                 <div class="row" id="rowLoginMessage" style="display: none">
@@ -69,22 +73,22 @@
                 </div>
 
                 <div class="form-group">
-                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-sm-offset-1 col-sm-3 control-label" })%>
-                    <div class="col-sm-6">
+                    <%: Html.LabelFor(model => model.EmailAddress, new { @class = "col-xs-offset-1 col-xs-3 xxs-stack control-label" })%>
+                    <div class="col-xs-6 xxs-stack">
                         <%= Html.TextBoxFor(m => m.EmailAddress, new { @class="form-control" })%> 
                     </div>
                     <%: Html.ValidationMessageFor(m => m.EmailAddress)%>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-offset-1 col-sm-3 control-label" for="Password">Passwort</label>
-                    <div class="col-sm-6">
+                    <label class="col-xs-offset-1 col-xs-3 xxs-stack control-label" for="Password">Passwort</label>
+                    <div class="col-xs-6 xxs-stack">
                         <%: Html.PasswordFor(m => m.Password, new { @class="form-control" }) %>
                     </div>
                  </div>
                                  
                 <div class="form-group">
-                    <div class="col-sm-offset-4 col-sm-8">
+                    <div class="col-xs-offset-4 col-xs-8 xxs-stack">
                         <input type="submit" value="Einloggen" class="btn btn-primary" id="btnModalLogin" /> 
 
                         <label class="checkbox" style="white-space:nowrap;">
@@ -95,7 +99,7 @@
                 </div>
                 
                 <div class="form-group"> 
-                    <div class="col-sm-offset-1 col-sm-10" style="padding-top: 30px;">
+                    <div class="col-xs-offset-1 col-xs-10 xxs-stack" style="padding-top: 30px;">
                         <a href="<%= Url.Action("PasswordRecovery", "Welcome") %>">Passwort vergessen?</a><br/>
                         
                         <div style="padding-top: 5px;">

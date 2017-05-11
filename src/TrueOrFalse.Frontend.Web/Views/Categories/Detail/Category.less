@@ -114,15 +114,36 @@ span.CategoryType {
         margin-top: 30px;
         margin-bottom: 15px;
     }
+
     p {
         /*font-size: 18px;*/
         line-height: 1.6em;
         margin-bottom: 20px;
     }
+
     ul {
         margin-bottom: 20px;
     }
 }
+
+.MarkdownContent {
+
+    .Card {
+
+        h2 {
+            .h2;
+        }
+
+        h3 {
+           .h3;
+        }
+
+        h4 {
+            .h4;
+        }
+    }
+}
+
 
 .Box + h2, .Box + h3, .Box + h4 {
     margin-top: 20px;
@@ -147,7 +168,11 @@ span.CategoryType {
 }
 
 .Card.ItemList {
-    padding: 10px;
+    padding: 10px 0 0 15px;
+
+    .CardContent {
+        max-height: none !important;
+    }
 
     .ItemTitle, .ItemText {
         line-height: 20px;
@@ -223,7 +248,8 @@ span.CategoryType {
 .ItemRow {
 
     .media-xs-up ({
-        height: 85px;
+        max-height: 76px;
+        margin-bottom: 18px;
         overflow: hidden;
     });
 
@@ -384,37 +410,38 @@ html.flexbox {
         }
 
         .Card {
+
             display: flex;
             width: 100%;
-        }
 
-        .ImageContainer {
-            flex: 0 0 100px;
-            flex-grow: 0%; //sic!
-            flex-shrink: 0%; //sic!
-            flex-basis: 100px;
-            align-self: flex-start
-        }
+            .ImageContainer {
+                flex: 0 0 100px;
+                flex-grow: 0%; //sic!
+                flex-shrink: 0%; //sic!
+                flex-basis: 100px;
+                align-self: flex-start
+            }
 
-        .ContentContainer {
-            margin-left: 0 !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex: auto;
-        }
+            .ContentContainer {
+                margin-left: 0 !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                flex: auto;
+            }
 
-        .CardContent {
-            margin-left: 0;
-            height: auto;
-            max-height: 243px;
-            border-bottom: none !important;
-        }
+            .CardContent {
+                margin-left: 0;
+                height: auto;
+                max-height: 243px;
+                border-bottom: none !important;
+            }
 
-        .BottomBar {
-            border-top: 1px solid @ruler-grey;
-            margin-left: 0 !important;
-            margin-right: 15px !important;
+            .BottomBar {
+                border-top: 1px solid @ruler-grey;
+                margin-left: 0 !important;
+                margin-right: 15px !important;
+            }
         }
     }
 }

@@ -16,6 +16,6 @@ public class WidgetSetResultModel : BaseModel
 
         ShowUserReportWidget = false;
 
-        StartSessionUrl = WidgetSetStartModel.GetStartTestSessionUrl(TestSessionResultModel.TestedSet.Id);
+        StartSessionUrl = WidgetSetStartModel.GetStartTestSessionUrl(TestSessionResultModel.TestedSet.Id, testSessionResultModel.TestSession.HideAddKnowledge);
     }
 }

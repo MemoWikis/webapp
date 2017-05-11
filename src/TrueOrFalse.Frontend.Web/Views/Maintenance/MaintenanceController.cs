@@ -44,9 +44,15 @@ public class MaintenanceController : BaseController
     }
 
     [SetMenu(MenuEntry.Maintenance)]
-    public ActionResult ContentReport()
+    public ActionResult ContentCreatedReport()
     {
-        return View(new ContentReportModel());
+        return View(new ContentCreatedReportModel());
+    }
+
+    [SetMenu(MenuEntry.Maintenance)]
+    public ActionResult ContentStats()
+    {
+        return View(new ContentStatsModel());
     }
 
     [SetMenu(MenuEntry.Maintenance)]

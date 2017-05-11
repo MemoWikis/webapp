@@ -17,5 +17,7 @@ namespace TrueOrFalse.Search
         public List<int> CategoryIds = new List<int>();
 
         public IPager Pager;
+
+        public IList<Category> GetCategories() => Sl.CategoryRepo.GetByIds(CategoryIds);
     }
 }

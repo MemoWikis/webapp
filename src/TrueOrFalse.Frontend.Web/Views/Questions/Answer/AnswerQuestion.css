@@ -603,6 +603,9 @@
   padding: 0;
   margin-bottom: 0;
 }
+#MasterWidget .SessionBar {
+  margin-bottom: 15px;
+}
 #MasterWidget #LicenseQuestion {
   margin-top: 10px;
   padding: 0;
@@ -673,6 +676,61 @@
   text-align: left;
   margin-bottom: 5px;
   font-size: 16px;
+}
+#flashCardContent {
+  min-height: 250px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  #flashCardContent {
+    margin-bottom: 25px;
+  }
+}
+#flashCardContent > div,
+#flashCardContent #flashCard-frontContent > p {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+#flashCardContent #flashCard-back > p {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+#flashCardContent #flashCard-back > p img {
+  max-width: 60%;
+}
+#flashCardContent > div {
+  background-color: white;
+  border: 1px solid #c9c9c9;
+  box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.2);
+}
+#flashCardContent img {
+  padding-bottom: 20px;
+}
+#flashCardContent .flipClickHint {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+#flashCardContent .flipClickHint span {
+  color: silver;
+}
+#flashCardContent #flashCard-frontContent,
+#flashCardContent #flashCard-back {
+  padding: 15px 15px 40px 15px;
+}
+#flashCardContent #flashCard-frontContent img {
+  max-width: 60%;
+}
+.flashCardAnswerButtons > .btn {
+  margin-left: unset;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;

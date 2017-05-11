@@ -364,6 +364,7 @@
     <Compile Include="Domain\QuestionSet\SetView\Persistence\SetViewRepo.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMatchList.cs" />
     <Compile Include="Domain\Question\Answer\QuestionSolutionMultipleChoice.cs" />
+    <Compile Include="Domain\Question\Answer\QuestionSolutionFlashCard.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestionRepo.cs" />
     <Compile Include="Domain\Question\Question.License\LicenseQuestion.cs" />
     <Compile Include="Domain\Question\SolutionType\MatchList\ElementLeft.cs" />
@@ -379,6 +380,8 @@
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
+    <Compile Include="Tools\Analytics\SetViewStats.cs" />
+    <Compile Include="Tools\Analytics\SetViewStatsResult.cs" />
     <Compile Include="Tools\Analytics\UsageStatisticsOfLoggedInUsersResult.cs" />
     <Compile Include="Domain\User\Activity\Ops\GetSampleUserActivities.cs" />
     <Compile Include="Domain\User\Ops\IsFacebookAccessToken.cs" />

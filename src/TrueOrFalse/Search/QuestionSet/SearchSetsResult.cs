@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Seedworks.Lib.Persistence;
 using SolrNet.Impl;
 
@@ -20,5 +17,7 @@ namespace TrueOrFalse.Search
         public List<int> SetIds = new List<int>();
 
         public IPager Pager;
+
+        public IList<Set> GetSets() => Sl.SetRepo.GetByIds(SetIds);
     }
 }

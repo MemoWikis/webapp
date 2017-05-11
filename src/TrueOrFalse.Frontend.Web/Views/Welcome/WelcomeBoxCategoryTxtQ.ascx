@@ -50,14 +50,14 @@
         <% foreach (var question in Model.Questions){ %>
             <div class="col-xs-4">
                 <p style="margin-top: 5px; text-align: center;">
-                    <a href="<%= Links.AnswerQuestion(Url, question.Text, question.Id, paramElementOnPage:1, categoryFilter:Model.CategoryName) %>" class="btn btn-xs btn-primary" role="button">Beantworten</a>
+                    <a href="<%= Links.AnswerQuestion(question.Text, question.Id, paramElementOnPage:1, categoryFilter:Model.CategoryName) %>" class="btn btn-xs btn-primary" role="button">Beantworten</a>
                 </p>
             </div>
         <% } %>
     </div>--%>
 
     <div class="BottomBar">
-<%--            <a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
+<%--            <a href="<%= Links.AnswerQuestion(Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             <div class="dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
                 <a href="" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

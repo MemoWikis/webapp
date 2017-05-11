@@ -66,47 +66,57 @@ ul.ui-autocomplete li.ui-menu-item {
 }
 ul.ui-autocomplete li.ui-menu-item.ui-state-focus,
 ul.ui-autocomplete li.ui-menu-item.ui-state-hover {
-  background: none !important;
+  background: #f5f8ff !important;
 }
 ul.ui-autocomplete .CatListItem,
-ul.ui-autocomplete .SetListItem {
+ul.ui-autocomplete .SetListItem,
+ul.ui-autocomplete .SearchResultItem {
   border: 1px transparent solid;
   padding: 5px !important;
   margin: 2px;
   border-radius: 4px;
   display: block;
   overflow: hidden;
+  z-index: 100;
 }
 ul.ui-autocomplete .CatListItem img,
-ul.ui-autocomplete .SetListItem img {
+ul.ui-autocomplete .SetListItem img,
+ul.ui-autocomplete .SearchResultItem img {
   float: left;
   border-radius: 4px;
+  margin-right: 7px;
 }
 ul.ui-autocomplete .CatListItem .CatDescription,
-ul.ui-autocomplete .SetListItem .CatDescription {
+ul.ui-autocomplete .SetListItem .CatDescription,
+ul.ui-autocomplete .SearchResultItem .CatDescription {
   margin-left: 55px;
 }
 ul.ui-autocomplete .CatListItem .SetDescription,
-ul.ui-autocomplete .SetListItem .SetDescription {
+ul.ui-autocomplete .SetListItem .SetDescription,
+ul.ui-autocomplete .SearchResultItem .SetDescription {
   margin-left: 55px;
 }
 ul.ui-autocomplete .CatListItem span,
-ul.ui-autocomplete .SetListItem span {
+ul.ui-autocomplete .SetListItem span,
+ul.ui-autocomplete .SearchResultItem span {
   display: block;
 }
 ul.ui-autocomplete .CatListItem span.NumberQuestions,
-ul.ui-autocomplete .SetListItem span.NumberQuestions {
+ul.ui-autocomplete .SetListItem span.NumberQuestions,
+ul.ui-autocomplete .SearchResultItem span.NumberQuestions {
   font-style: italic;
   font-size: 80%;
 }
 ul.ui-autocomplete .CatListItem a.TextLink,
-ul.ui-autocomplete .SetListItem a.TextLink {
+ul.ui-autocomplete .SetListItem a.TextLink,
+ul.ui-autocomplete .SearchResultItem a.TextLink {
   color: #2C5FB2;
   padding: 0;
   display: inline;
 }
 ul.ui-autocomplete .CatListItem a.TextLink:hover,
-ul.ui-autocomplete .SetListItem a.TextLink:hover {
+ul.ui-autocomplete .SetListItem a.TextLink:hover,
+ul.ui-autocomplete .SearchResultItem a.TextLink:hover {
   color: #2C5FB2;
 }
 ul.ui-autocomplete a.CatListItem:hover,
@@ -150,6 +160,36 @@ ul.ui-autocomplete .Reference div:not(.Name):not(.Icon) {
 }
 ul.ui-autocomplete .Reference .Url {
   display: inline-block !important;
+}
+ul.ui-autocomplete .SearchResultItem {
+  padding: 3px !important;
+}
+ul.ui-autocomplete .SearchResultItem img {
+  height: 40px;
+  width: 40px;
+}
+ul.ui-autocomplete .SearchResultItem a {
+  width: 100%;
+  display: block;
+  height: 40px;
+}
+ul.ui-autocomplete div.SearchResultHeader {
+  cursor: default;
+  background-color: #003264;
+  color: white;
+  padding: 3px !important;
+  padding-left: 8px !important;
+  font-weight: bold;
+}
+ul.ui-autocomplete div.SearchResultHeader div.ResultCount {
+  float: right;
+  font-weight: normal;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-right: 6px;
+}
+ul.ui-autocomplete div.SearchResultHeader div.ResultCount a {
+  color: white;
 }
 #JS-References .Reference.DailyIssue .PublicationDate {
   display: none;

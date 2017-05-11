@@ -117,6 +117,8 @@
 
     <% if (Model != null)
     {
+        Model.escapeSolutionChars();
+
         for (int i = 0; i < Model.RightElements.Count; i++)
         { %>
             $("#addRightPairElement").click();

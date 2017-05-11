@@ -50,7 +50,15 @@
     </div>
         
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-3 col-md-push-9">
+            <div class="alert alert-warning">
+                <p>
+                    <strong>Spiele im Test-Betrieb:</strong> Der Echtzeit-Quiz-Modus befindet sich noch im Testbetrieb. Das heißt, es kann manchmal zu unerwarteten Fehlern kommen. 
+                    Spaß macht es aber trotzdem - also probiere es ruhig aus!
+                </p>
+            </div>
+        </div>
+        <div class="col-md-9 col-md-pull-3">
             <div>
                 <% Html.Message(Model.Message); %>
             </div>
@@ -71,6 +79,7 @@
                                         .data('set-id', '<%=set.Id %>')
                                         .trigger("initSetFromTxt");
                                     <% } %>
+                                    InitLabelTooltips();
                                 });
                             </script>
                             <div class="JS-SetInputContainer ControlInline ">
@@ -123,7 +132,7 @@
                                     <div class="input-group">
                                         <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
                                         <span class="input-group-addon" style="height: 30px;">
-                                            (max. 100) &nbsp;&nbsp;&nbsp;&nbsp; 
+                                            (max. 100)
                                         </span>
                                     </div>
                                 </div>
@@ -185,14 +194,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="alert alert-warning">
-                <p>
-                    <strong>Spiele im Test-Betrieb:</strong> Der Echtzeit-Quiz-Modus befindet sich noch im Testbetrieb. Das heißt, es kann manchmal zu unerwarteten Fehlern kommen. 
-                    Spaß macht es aber trotzdem - also probiere es ruhig aus!
-                </p>
-            </div>
-        </div>
+        
     </div>
 <% } %>
 </asp:Content>
