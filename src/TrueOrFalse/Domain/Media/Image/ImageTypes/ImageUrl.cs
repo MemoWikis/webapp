@@ -99,7 +99,7 @@ public class ImageUrl
     public ImageUrl SetSuffix(ImageMetaData imageMeta)
     {
         var urlSuffix = "";
-        if (imageMeta != null)
+        if (imageMeta != null && !imageMeta.IsYoutubePreviewImage)
             urlSuffix = "?" + imageMeta.DateModified.ToString("yyyyMMdd-HHMMss");
 
         Url += urlSuffix ;
