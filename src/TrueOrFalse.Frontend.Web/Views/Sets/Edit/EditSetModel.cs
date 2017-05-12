@@ -86,13 +86,13 @@ public class EditSetModel : BaseModel
     public void SetToCreateModel()
     {
         IsEditing = false;
-        PageTitle = FormTitle = "Fragesatz erstellen";
+        PageTitle = FormTitle = "Lernset erstellen";
     }
 
     public void SetToUpdateModel()
     {
-        PageTitle = "Fragesatz bearbeiten (" + Title.Truncate(30, "...") +")";
-        FormTitle = string.Format("Fragesatz '{0}' bearbeiten", Title.TruncateAtWord(30)); ;
+        PageTitle = "Lernset bearbeiten (" + Title.Truncate(30, "...") +")";
+        FormTitle = string.Format("Lernset '{0}' bearbeiten", Title.TruncateAtWord(30)); ;
         IsEditing = true;
     }
 

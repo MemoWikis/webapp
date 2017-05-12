@@ -52,11 +52,11 @@
                     </p>
                     <p>
                         Und das funktioniert so: In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. Du kannst einzelne Fragen oder 
-                        ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
-                        Fragen und Fragesätze.
+                        ganze Lernsets zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
+                        Fragen und Lernsets.
                   
                         Jeder kann Fragen (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
-                        (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Fragesatz zusammengefasst werden.
+                        (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Lernset zusammengefasst werden.
                     </p>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <div class="panel-body">
                     <p>
                         In deinem Wunschwissen legst du fest, was du gern langfristig wissen möchtest. So behältst du besser den Überblick. Du kannst jede einzelne 
-                        Frage, ganze Fragesätze oder komplette Themengebiete zu deinem Wunschwissen hinzufügen. Klicke dazu einfach auf das Herz-Symbol an der
+                        Frage, ganze Lernsets oder komplette Themengebiete zu deinem Wunschwissen hinzufügen. Klicke dazu einfach auf das Herz-Symbol an der
                         entsprechenden Stelle.
                     </p>
                 </div>

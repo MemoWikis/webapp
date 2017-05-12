@@ -66,8 +66,8 @@
                 <div class="FormSection">
                     <div class="form-group">
                         <label class="columnLabel control-label">
-                            <span class="show-tooltip" title="Wähle hier die Fragesätze, zu denen zu spielen möchtest">
-                                <strong>Fragesätze, mit denen gespielt wird:</strong> <i class="fa fa-question-circle"></i>
+                            <span class="show-tooltip" title="Wähle hier die Lernsets, zu denen zu spielen möchtest">
+                                <strong>Lernsets, mit denen gespielt wird:</strong> <i class="fa fa-question-circle"></i>
                             </span>
                         </label>
                         <div class="JS-Sets columnControlsFull">

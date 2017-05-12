@@ -36,7 +36,7 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
 
         TempData["createSetMsg"] = new SuccessMessage(
-            string.Format("Der Fragesatz <i>'{0}'</i> wurde erstellt. Du kannst ihn nun weiter bearbeiten.",
+            string.Format("Das Lernset <i>'{0}'</i> wurde erstellt. Du kannst es nun weiter bearbeiten.",
                           set.Name.TruncateAtWord(30)));
 
         return Redirect(Links.QuestionSetEdit(set.Name, set.Id));
@@ -75,7 +75,7 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
         setRepo.Update(set);
 
-        model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert");
+        model.Message = new SuccessMessage("Das Lernset wurde gespeichert");
         
         return View(_viewLocation, model);
     }

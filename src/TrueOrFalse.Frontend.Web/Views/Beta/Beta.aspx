@@ -64,7 +64,7 @@
                     <b>Allgemein- und Spezialwissen erweitern</b>
                     <p>
                         Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? 
-                        Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!
+                        Finde die passenden Lernsets und stelle dir dein Wunschwissen zusammen!
                     </p>
                 </div>
                 <div class="clearfix"></div>

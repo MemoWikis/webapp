@@ -91,7 +91,7 @@
                                 <% }
 
                                 else if (Model.SourceIsSet) { %>
-                                    Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Fragesatz 
+                                    Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Lernset 
                                 
                                      <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                                         <span class="label label-set"><%= Model.Set.Name %></span>
@@ -148,7 +148,7 @@
                                 <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
                                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                                 </span>&nbsp;
-                                Fragesatz mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
+                                Lernset mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
                             </h6>
                             <h4 class="ItemTitle"><%: primarySet.Name %></h4>
                             <div class="ItemText"><%: primarySet.Text %></div>

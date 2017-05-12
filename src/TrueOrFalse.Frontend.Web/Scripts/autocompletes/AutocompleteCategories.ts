@@ -263,6 +263,10 @@ class AutocompleteCategories {
                     jqueryReference.find('.PublicationDate').remove();
                     
                 jqueryReference.find('.WikiUrl').remove();
+                jqueryReference.find('a').each((i, e) => {//Prevent nested 'a', replace inner anchor elements with divs
+                    var content = $(e).html();
+                    $(e).replaceWith($('<div></div>').append(content));
+                });
                 
                 var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html();
 

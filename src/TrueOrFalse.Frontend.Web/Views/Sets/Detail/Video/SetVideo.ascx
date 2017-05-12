@@ -6,7 +6,7 @@
     <% if(!Model.IsInWidget) { %>
         <div class="row video-header">
             <div class="col-xs-12">
-                <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
+                <h4>Video zum Lernset mit <%= Model.QuestionCount %> Fragen.</h4>
             </div>
         </div>
     <% } %>

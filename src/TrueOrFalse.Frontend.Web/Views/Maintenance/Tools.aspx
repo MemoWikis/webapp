@@ -50,7 +50,7 @@
         Start 100 test jobs
     </a><br/>
     
-    <h4 style="margin-top: 20px;">Fragen in Fragesätzen nachkategorisieren</h4>
+    <h4 style="margin-top: 20px;">Fragen in Lernsets nachkategorisieren</h4>
     <div class="form-horizontal">
 
         <% using (Html.BeginForm("AssignCategoryToQuestionsInSet", "Maintenance")){%>
@@ -58,7 +58,7 @@
             <%= Html.AntiForgeryToken() %>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Fragesätze (Set-Ids kommasepariert)</label>
+                <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
                 <div class="col-xs-2">
                     <%= Html.TextBoxFor(m => m.SetsToUpdateIds, new {@class="form-control"} ) %>    
                 </div>

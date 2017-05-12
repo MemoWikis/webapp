@@ -27,7 +27,7 @@
         if (Model.Set.HasVideo){
             Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set, Model.HideAddToKnowledge, isInWidget: true));
         }else{
-           %><h2 style="padding-bottom: 30px;">Diesem Fragesatz ist kein Video zugeordnet</h2><%
+           %><h2 style="padding-bottom: 30px;">Diesem Lernset ist kein Video zugeordnet</h2><%
        } 
     %>
 </asp:Content>

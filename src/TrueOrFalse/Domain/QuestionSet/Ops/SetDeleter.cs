@@ -35,9 +35,9 @@ public class SetDeleter
             {
                 Yes = false,
                 IfNot_Reason =
-                    "Der Fragesatz kann nicht gelöscht werden, " +
+                    "Das Lernset kann nicht gelöscht werden, " +
                     "er ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer. " +
-                    "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
+                    "Bitte melde dich bei uns, wenn du meinst, das Lernset sollte dennoch gelöscht werden."
             };
         }
         var howOftenInFutureDate = Sl.R<SetRepo>().HowOftenInDate(setId);
@@ -47,10 +47,10 @@ public class SetDeleter
             {
                 Yes = false,
                 IfNot_Reason =
-                    "Der Fragesatz kann nicht gelöscht werden, da in " +
+                    "Das Lernset kann nicht gelöscht werden, da in " +
                     howOftenInFutureDate + " Termin" + StringUtils.PluralSuffix(howOftenInFutureDate, "en") +
                     " (vielleicht auch bei dir) damit gelernt wurde oder wird. " +
-                    "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
+                    "Bitte melde dich bei uns, wenn du meinst, das Lernset sollte dennoch gelöscht werden."
             };
 
         }

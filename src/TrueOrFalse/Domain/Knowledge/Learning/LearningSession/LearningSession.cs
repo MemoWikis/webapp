@@ -40,10 +40,10 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         get
         {
             if (IsSetSession)
-                return "Fragesatz-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
+                return "Lernset-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
 
             if (IsSetsSession)
-                return "Fragesaetze-" + UriSegmentFriendlyUser.Run(SetListTitle);
+                return "Lernsets-" + UriSegmentFriendlyUser.Run(SetListTitle);
 
             if (IsCategorySession)
                 return "Thema-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);

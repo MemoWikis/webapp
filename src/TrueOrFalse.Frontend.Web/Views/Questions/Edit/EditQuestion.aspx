@@ -169,8 +169,8 @@
                         <% if(Model.Set != null){ %>
                             <div class="row" id="RowAssignSet">
                                 <div class="col-lg-12" style="padding-bottom: 10px">
-                                    Im Fragesatz: <a href="<%= Links.SetDetail(Url, Model.Set) %>"><span class="label label-set show-tooltip" data-placement="top" data-original-title="Zum Fragesatz"><%= Model.Set.Name %></span></a> 
-                                    <a href="#" id="RemoveSet" style="margin-left: 2px;" class="show-tooltip" data-placement="top" data-original-title="Fragesatz nicht zuordnen"><img alt="" src="/Images/Buttons/cross.png"></a>
+                                    Im Lernsets: <a href="<%= Links.SetDetail(Url, Model.Set) %>"><span class="label label-set show-tooltip" data-placement="top" data-original-title="Zum Lernset"><%= Model.Set.Name %></span></a> 
+                                    <a href="#" id="RemoveSet" style="margin-left: 2px;" class="show-tooltip" data-placement="top" data-original-title="Lernset nicht zuordnen"><img alt="" src="/Images/Buttons/cross.png"></a>
                                 </div>
                             </div>
                         <% } %>

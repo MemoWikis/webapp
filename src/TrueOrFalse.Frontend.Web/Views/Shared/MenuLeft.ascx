@@ -52,11 +52,11 @@
 
             
                 <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
-                    <i class="fa fa-caret-right"></i> Fragesätze
+                    <i class="fa fa-caret-right"></i> Lernsets
                 
                     <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
                         onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
-                        title="Neuen Fragesatz erstellen"></i>
+                        title="Neues Lernset erstellen"></i>
                 </a>    
                 <%
                     var visitedS = new SessionUiData().VisitedSets;
@@ -64,7 +64,7 @@
                     foreach (var set in visitedS){ index++; %>
                         <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
             
-                        <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                        <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Lernset: <%=set.Name%>" data-placement="right">
                             <i class="fa fa-caret-right"></i> <%=set.Name%>
                         </a>
                 <% } %>

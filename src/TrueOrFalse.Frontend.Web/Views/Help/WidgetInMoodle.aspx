@@ -38,7 +38,7 @@
                     <span class="ColoredUnderline GeneralMemucho">Einbindung memucho-Widget in Moodle: Anleitung</span>
                 </h2>
                 <p>
-                    Auf der Seite des Fragesatzes, Video-Fragesatzes oder der einzelnen Frage findest du einen Link <code><i class="fa fa-code">&nbsp;</i>Einbetten</code>. 
+                    Auf der Seite des Lernsets, Video-Lernsets oder der einzelnen Frage findest du einen Link <code><i class="fa fa-code">&nbsp;</i>Einbetten</code>. 
                     Dort kannst das Widget, wenn du möchtest, konfigurieren und erhältst die Code-Zeile zur Einbettung des Widgets (<a href="<%= Links.HelpWidget() %>">mehr dazu</a>).
                     Beispiele für die Widgets zeigen wir in der <a href="<%= Links.WidgetExamples() %>">Widget-Übersicht</a>.
                 </p>

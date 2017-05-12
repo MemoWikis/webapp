@@ -42,4 +42,11 @@ public class LearningSessionRepo : RepositoryDbBase<LearningSession>
         return result?.DateCreated;
     }
 
+    //public int GetNumberOfSessionsForSet(int setId)
+    //{
+    //    return Session.QueryOver<LearningSession>()
+    //        .Where(x => (x.SetToLearn.Id == setId) || (x.SetsToLearnIdsString.Contains(setId.ToString())))
+    //        .RowCount();
+    //}
+
 }

@@ -68,8 +68,8 @@
                         Zur Wissenszentrale
                     </a>
                     <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
-                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus demselben Fragesatz");
-                                                      else if (Model.TestSession.IsSetsSession) Response.Write("aus denselben Fragesätzen");
+                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus demselben Lernset");
+                                                      else if (Model.TestSession.IsSetsSession) Response.Write("aus denselben Lernsets");
                                                       else if (Model.TestSession.IsCategorySession) Response.Write("zum selben Thema");%>
                         " rel="nofollow">
                         <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
