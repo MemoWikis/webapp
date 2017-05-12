@@ -155,7 +155,7 @@
                             
                                 <%  if(Model.QuestionsInSet.Count == 0) { %>
                                     <div class="info">
-                                        <b>Keine Fragen im Lernset.</b> Um Fragen hinzuzufügen, wähle 
+                                        <b>Keine Fragen im Lernset.</b> Um bestehende Fragen hinzuzufügen, wähle 
                                         <% if(!Model.IsEditing) {  %> nach dem Erstellen <% } %>
                                          Fragen auf der <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions", null, new { target = "_blank" }) %> aus. 
                                     </div>
@@ -200,7 +200,22 @@
                                 <% } %>
                             </div>
                         </div>
-                    </div>
+
+                        <% if (Model.IsEditing){ %>
+                            <div class="row">
+                                <div class="col-xs-12" style="padding-bottom: 20px">
+                                
+                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default">
+                                        <i class="fa fa-plus show-tooltip" title="" data-placement="top" data-original-title="Bearbeiten"></i>
+                                        Neue Frage hinzufügen
+                                    </a>
+
+                                </div>
+                            </div>
+                        <% } %>
+
+                    </div>                   
+
                     <div class="FormSection">
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
@@ -210,10 +225,7 @@
                                     <input type="submit" value="Lernset erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                                 <% } %>
                                 
-                                <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default pull-right">
-                                    <i class="fa fa-plus show-tooltip" title="" data-placement="top" data-original-title="Bearbeiten"></i>
-                                    Neue Frage hinzufügen
-                                </a>
+
                             </div>
 
                         </div>
