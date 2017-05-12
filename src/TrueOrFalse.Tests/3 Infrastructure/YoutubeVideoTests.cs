@@ -10,5 +10,6 @@ public class YoutubeVideoTests
         Assert.That(YoutubeVideo.GetVideoKeyFromUrl("https://www.youtube.com/"), Is.EqualTo(""));
         Assert.That(YoutubeVideo.GetVideoKeyFromUrl(null), Is.EqualTo(""));
         Assert.That(YoutubeVideo.GetVideoKeyFromUrl(""), Is.EqualTo(""));
+        Assert.That(YoutubeVideo.GetVideoKeyFromUrl("https://www.youtube.com/watch?v=BKZsXZDH438&feature=youtu.be"), Is.EqualTo("BKZsXZDH438"));
     }
 }
