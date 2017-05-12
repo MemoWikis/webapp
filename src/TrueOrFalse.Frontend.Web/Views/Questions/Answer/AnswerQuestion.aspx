@@ -117,7 +117,7 @@
                         </div>
                         <div class="Previous" style="padding-right: 5px;">
                             <% if (Model.HasPreviousPage) { %>
-                                <a class="btn btn-sm btn-default" href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i><span class="NavButtonText"> vorherige Frage</span></a>
+                                <a id="PreviousQuestionLink" class="btn btn-sm btn-default" href="<%= Model.PreviousUrl(Url) %>" rel="nofollow"><i class="fa fa-chevron-left"></i><span class="NavButtonText"> vorherige Frage</span></a>
                             <% } %>
                         </div>
                         <div class="Next" style="padding-left: 5px;">

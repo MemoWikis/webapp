@@ -449,57 +449,46 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    public string RenderAnswerBodyRedirector(string pager, int? questionId = null, int? elementOnPage = null)
+    public string RenderNextQuestionAnswerBody(string pager)
     {
-        Question question;
-        QuestionSearchSpec activeSearchSpec;
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec.NextPage(1);
+        return getAnswerBodyBySearchSpec(activeSearchSpec);
+    }
 
-        if (questionId == null && elementOnPage == null)
+    public string RenderPreviousQuestionAnswerBody(string pager)
+    {
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec.PreviousPage(1);
+        return getAnswerBodyBySearchSpec(activeSearchSpec);
+    }
+
+    private string getAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
+    {
+        using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
-            activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-            activeSearchSpec.NextPage(1);
-            using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
+            var question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
+
+            if (activeSearchSpec.HistoryItem != null)
             {
-                question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
-
-                if (activeSearchSpec.HistoryItem != null)
+                if (activeSearchSpec.HistoryItem.Question != null)
                 {
-                    if (activeSearchSpec.HistoryItem.Question != null)
+                    if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
                     {
-                        if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
-                        {
-                            question = Resolve<QuestionRepo>().GetById(activeSearchSpec.HistoryItem.Question.Id);
-                        }
+                        question = Resolve<QuestionRepo>().GetById(activeSearchSpec.HistoryItem.Question.Id);
                     }
-
-                    activeSearchSpec.HistoryItem = null;
                 }
-                        //text = UriSegmentFriendlyQuestion.Run(question.Text),
-                questionId = question.Id;
-                elementOnPage = activeSearchSpec.CurrentPage;
-                pager = activeSearchSpec.Key;
+
+                activeSearchSpec.HistoryItem = null;
             }
+            //text = UriSegmentFriendlyQuestion.Run(question.Text),
+            return registerQuestionData(activeSearchSpec.Key, question.Id, activeSearchSpec.CurrentPage);
         }
+    }
 
-        //if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))
-        //{
-        //    if (id == null)
-        //        throw new Exception("AnswerQuestionController: No id for question provided.");
-
-        //    var question2 = _questionRepo.GetById((int)id);
-
-        //    if (question2 == null)
-        //        throw new Exception("question not found");
-
-        //    _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question2, HistoryItemType.Any));
-
-        //    var questionViewGuid2 = Guid.NewGuid();
-        //    Sl.SaveQuestionView.Run(questionViewGuid2, question2, _sessionUser.User);
-
-        //    return View(_viewLocation, new AnswerQuestionModel(question2));
-        //}
-
-        activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+    private string registerQuestionData(string pager, int questionId, int elementOnPage)
+    {
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
 
         //if (!IsNullOrEmpty(category))
         //{
@@ -520,18 +509,35 @@ public class AnswerQuestionController : BaseController
         //    return GetViewBySearchSpec(activeSearchSpec);
 
         //get View by SearchSpec
-        question = _questionRepo.GetById((int)questionId);
 
+        var question = _questionRepo.GetById((int)questionId);
         activeSearchSpec.PageSize = 1;
         if (elementOnPage != -1)
             activeSearchSpec.CurrentPage = (int)elementOnPage;
-
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
 
         var questionViewGuid = Guid.NewGuid();
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
 
         return RenderAnswerBody((int)questionId, pager, questionViewGuid);
+    }
+
+    public string RenderQuestionBySetAnswerBody(int questionId, int setId)
+    {
+        var set = Resolve<SetRepo>().GetById(setId);
+        var question = _questionRepo.GetById(questionId);
+        _sessionUiData
+            .VisitedQuestions
+            .Add(new QuestionHistoryItem(set, question));
+
+        var questionViewGuid = Guid.NewGuid();
+        Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, set, question)),
+            ControllerContext
+        );
     }
 
     public EmptyResult ClearHistory()

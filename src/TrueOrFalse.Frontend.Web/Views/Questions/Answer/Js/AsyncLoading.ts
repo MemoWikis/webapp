@@ -1,33 +1,83 @@
 ﻿class AsyncLoading {
     constructor() {
-        $("#NextQuestion, #btnNext").click((e) => {
-            e.preventDefault();
-            //check for learnign, test, game
-            //alert(elementOnPage);
-            //var urlParams = Utils.GetQueryString();
-            //var url = "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&elementOnPage=" + elementOnPage;
+        if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
+            $("#AnswerQuestion").ready(() => {
+                $("#NextQuestionLink, #btnNext").click((e) => {
+                    e.preventDefault();
+                    var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
+                    var setId = NextQuestionLinkArgs[5];
+                    var questionId = NextQuestionLinkArgs[3];
+                    var url = "/AnswerQuestion/RenderQuestionBySetAnswerBody/?questionId=" + questionId + "&setId=" + setId;
+                    this.loadAnswerBody(url);
 
-            var pager = $(".Next #NextQuestionLink").attr("href").split("?")[1].split("=")[1];
-            var url = "/AnswerQuestion/RenderAnswerBodyRedirector/?pager=" + pager;
-            $.post(url, (htmlResult) => {
-                $("div#LicenseQuestion").remove();
-                $("#AnswerBody")
-                    .replaceWith(htmlResult); 
+                    // - change url
+                    // -- pager
+                    // - sync server side
+
+                    //header changes
+
+                    //set menu history  (client and server)
+
+                    //load answer details
+
+                    //care about comments
+                    //care about suggestion
+
+                });
+
+                $("#PreviousQuestionLink").click((e) => {
+                    e.preventDefault();
+                    var NextQuestionLinkArgs = $("#PreviousQuestionLink").attr("href").split("/");
+                    var setId = NextQuestionLinkArgs[5];
+                    var questionId = NextQuestionLinkArgs[3];
+                    var url = "/AnswerQuestion/RenderQuestionBySetAnswerBody/?questionId=" + questionId + "&setId=" + setId;
+                    this.loadAnswerBody(url);
+                });
             });
-            //load answer body
-            // - change url
-            // -- pager
-            // - sync server side
+        } else {
+            $("#AnswerQuestion").ready(() => {
+                $("#NextQuestionLink, #btnNext").click((e) => {
+                    e.preventDefault();
+                    var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
+                    var url = "/AnswerQuestion/RenderNextQuestionAnswerBody/?pager=" + pager;
+                    this.loadAnswerBody(url);
 
-            //header changes
+                    // - change url
+                    // -- pager
+                    // - sync server side
 
-            //set menu history  (client and server)
+                    //header changes
 
-            //load answer details
+                    //set menu history  (client and server)
 
-            //care about comments
-            //care about suggestion
+                    //load answer details
 
-        });
+                    //care about comments
+                    //care about suggestion
+
+                });
+
+                $("#PreviousQuestionLink").click((e) => {
+                    e.preventDefault();
+                    var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
+                    var url = "/AnswerQuestion/RenderPreviousQuestionAnswerBody/?pager=" + pager;
+                    this.loadAnswerBody(url);
+                });
+            });
+        }
+    }
+
+    private loadAnswerBody(url: string) {
+                $.ajax({
+                    url: url,
+                    success: htmlResult => {
+                        $("div#LicenseQuestion").remove();
+                        $("#AnswerBody")
+                            .replaceWith(htmlResult);
+                        //TODO:Julian fix multiple question skip bug
+                        new PageInit();
+                    }
+                });
+
     }
 }
