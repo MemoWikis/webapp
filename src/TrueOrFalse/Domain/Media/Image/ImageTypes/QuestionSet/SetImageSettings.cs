@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static System.String;
 
 public class SetImageSettings : ImageSettings, IImageSettings
 {
@@ -33,7 +34,19 @@ public class SetImageSettings : ImageSettings, IImageSettings
             this,
             width, 
             isSquare,
-            arg => BaseDummyUrl + width + ".png"
+            arg =>
+            {
+                var youtubUrl = Sl.SetRepo.GetYoutbeUrl(Id);
+
+                if (!IsNullOrEmpty(youtubUrl))
+                {
+                    var key = YoutubeVideo.GetVideoKeyFromUrl(youtubUrl);
+                    if(!IsNullOrEmpty(key))
+                        return $"https://img.youtube.com/vi/{key}/0.jpg";
+                }
+
+                return BaseDummyUrl + width + ".png";
+            }
         ).SetSuffix(imageMeta);
     }
 }
