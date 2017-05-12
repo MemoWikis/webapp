@@ -9,26 +9,26 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
     public bool HasBetaAccess
     {
-        get { return Data.Get("isBetaLogin", false); }
-        set { Data["isBetaLogin"] = value; }
+        get => Data.Get("isBetaLogin", false);
+        set => Data["isBetaLogin"] = value;
     }
 
     public bool IsLoggedIn
     {
-        get { return Data.Get("isLoggedIn", false); }
-        private set { Data["isLoggedIn"] = value; }
+        get => Data.Get("isLoggedIn", false);
+        private set => Data["isLoggedIn"] = value;
     }
 
     public bool IsInstallationAdmin
     {
-        get { return Data.Get("isAdministrativeLogin", false); }
-        set { Data["isAdministrativeLogin"] = value; }
+        get => Data.Get("isAdministrativeLogin", false);
+        set => Data["isAdministrativeLogin"] = value;
     } 
 
     public User User
     {
-        get { return Data.Get<User>("user"); }
-        private set { Data["user"] = value; }
+        get => Data.Get<User>("user");
+        private set => Data["user"] = value;
     }
 
     public bool IsLoggedInUser(int userId)

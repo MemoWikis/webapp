@@ -8,7 +8,7 @@ public class SetVideoModel : BaseModel
     public string VideoKey;
 
     public int QuestionCount;
-    public ISet<QuestionInSet> QuestionsInSet;
+    public IList<QuestionInSet> QuestionsInSet;
     public int CurrentQuestion => AnswerBodyModel.QuestionId;
 
     public bool HideAddToKnowledge;
@@ -23,19 +23,19 @@ public class SetVideoModel : BaseModel
 
         VideoKey = set.VideoKey;
 
-        if (set.Questions().Any())
+        if (set.QuestionsPublic().Any())
         {
             HasQuestion = true;
 
-            var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
+            var answerQuestionModel = new AnswerQuestionModel(set.QuestionsPublic().First());
             answerQuestionModel.DisableCommentLink = true;
             answerQuestionModel.DisableAddKnowledgeButton = HideAddToKnowledge;
 
-            QuestionsInSet = set.QuestionsInSet;
+            QuestionsInSet = set.QuestionsInSetPublic;
             AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
             AnswerBodyModel.DisableCommentLink = true;
         }
 
-        QuestionCount = set.Questions().Count;
+        QuestionCount = set.QuestionsPublic().Count;
     }
 }
