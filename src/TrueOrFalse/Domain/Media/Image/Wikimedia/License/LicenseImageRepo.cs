@@ -361,6 +361,21 @@ public class LicenseImageRepo
                 LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
                 LicenseRequirementsType = LicenseRequirementsType.PD,
                 LicenseLongName = "Public domain - by user",
+            },
+            new LicenseImage
+            {
+                Id = 209,
+                WikiSearchString = "PD-user-w",
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Public domain - by user",
+            },
+            new LicenseImage
+            {
+                Id = 555,
+                LicenseApplicability = LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
+                LicenseRequirementsType = LicenseRequirementsType.PD,
+                LicenseLongName = "Youtube Preview Image",
             }
 
             //Template for CC-BY-SA licenses:

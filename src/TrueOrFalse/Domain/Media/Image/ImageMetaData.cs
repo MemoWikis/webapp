@@ -25,4 +25,7 @@ public class ImageMetaData : DomainEntity
     public virtual ImageParsingNotifications NotificationsFromJson() => ImageParsingNotifications.FromJson(Notifications);
 
     public virtual IImageSettings GetSettings() => ImageSettings.InitByType(this);
+
+    public virtual bool IsYoutubePreviewImage { get; set; }
+    public virtual string YoutubeKey { get; set; }
 }

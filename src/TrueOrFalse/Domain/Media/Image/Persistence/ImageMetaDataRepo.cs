@@ -16,7 +16,27 @@ public class ImageMetaDataRepo : RepositoryDbBase<ImageMetaData>
         if (ImageMetaDataCache.IsInCache(typeId, imageType))
             return ImageMetaDataCache.FromCache(typeId, imageType);
 
-        return GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
+        var metaData = GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
+
+        if (metaData == null && imageType == ImageType.QuestionSet)
+        {
+            var youtubeUrl = Sl.SetRepo.GetYoutbeUrl(typeId);
+            if (!String.IsNullOrEmpty(youtubeUrl))
+            {
+                metaData = new ImageMetaData();
+                metaData.TypeId = typeId;
+                metaData.Type = imageType;
+                metaData.IsYoutubePreviewImage = true;
+                metaData.YoutubeKey = YoutubeVideo.GetVideoKeyFromUrl(youtubeUrl);
+                metaData.MainLicenseInfo = new MainLicenseInfo
+                {
+                    MainLicenseId = 555,
+                    Author = $"Youtube Vorschaubild: <a href='{youtubeUrl}'>gehe zu Youtube</a>"
+                }.ToJson();
+            }
+        }
+
+        return metaData;
     }
 
     public IList<ImageMetaData> GetBy(IList<int> typeIds, ImageType imageType)

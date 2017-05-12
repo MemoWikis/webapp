@@ -79,7 +79,7 @@ public class SetModel : BaseModel
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(set.DateCreated);
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;

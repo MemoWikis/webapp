@@ -52,7 +52,7 @@ public class CategoryRowModel : BaseModel
         DateCreated = category.DateCreated.ToString("dd.MM.yyyy");
         DateCreatedLong = category.DateCreated.ToString("U");//Change to "g" format?
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         CorrectnesProbability = category.CorrectnessProbability;
