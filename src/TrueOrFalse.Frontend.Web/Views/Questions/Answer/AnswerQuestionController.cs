@@ -449,8 +449,38 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    public string RenderAnswerBody(int questionId, string pager, int elementOnPage)
+    public string RenderAnswerBodyRedirector(string pager, int? questionId = null, int? elementOnPage = null)
     {
+        Question question;
+        QuestionSearchSpec activeSearchSpec;
+
+        if (questionId == null && elementOnPage == null)
+        {
+            activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+            activeSearchSpec.NextPage(1);
+            using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
+            {
+                question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
+
+                if (activeSearchSpec.HistoryItem != null)
+                {
+                    if (activeSearchSpec.HistoryItem.Question != null)
+                    {
+                        if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
+                        {
+                            question = Resolve<QuestionRepo>().GetById(activeSearchSpec.HistoryItem.Question.Id);
+                        }
+                    }
+
+                    activeSearchSpec.HistoryItem = null;
+                }
+                        //text = UriSegmentFriendlyQuestion.Run(question.Text),
+                questionId = question.Id;
+                elementOnPage = activeSearchSpec.CurrentPage;
+                pager = activeSearchSpec.Key;
+            }
+        }
+
         //if (IsNullOrEmpty(pager) && (elementOnPage == null || elementOnPage == -1))
         //{
         //    if (id == null)
@@ -469,7 +499,7 @@ public class AnswerQuestionController : BaseController
         //    return View(_viewLocation, new AnswerQuestionModel(question2));
         //}
 
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
 
         //if (!IsNullOrEmpty(category))
         //{
@@ -489,10 +519,11 @@ public class AnswerQuestionController : BaseController
         //if (text == null && id == null && elementOnPage == null)
         //    return GetViewBySearchSpec(activeSearchSpec);
 
-        var question = _questionRepo.GetById((int)questionId);
+        //get View by SearchSpec
+        question = _questionRepo.GetById((int)questionId);
 
         activeSearchSpec.PageSize = 1;
-        if ((int)elementOnPage != -1)
+        if (elementOnPage != -1)
             activeSearchSpec.CurrentPage = (int)elementOnPage;
 
         _sessionUiData.VisitedQuestions.Add(new QuestionHistoryItem(question, activeSearchSpec));
@@ -500,7 +531,7 @@ public class AnswerQuestionController : BaseController
         var questionViewGuid = Guid.NewGuid();
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
 
-        return RenderAnswerBody(questionId, pager, questionViewGuid);
+        return RenderAnswerBody((int)questionId, pager, questionViewGuid);
     }
 
     public EmptyResult ClearHistory()

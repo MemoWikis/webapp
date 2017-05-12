@@ -3,11 +3,12 @@
         $("#NextQuestion, #btnNext").click((e) => {
             e.preventDefault();
             //check for learnign, test, game
-            var splitUrl = $(".Next #NextQuestionLink").attr("href").split("?")[0].split("/");
-            var elementOnPage = splitUrl[splitUrl.length - 1];
-            alert(elementOnPage);
-            var urlParams = Utils.GetQueryString();
-            var url = "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&elementOnPage=" + elementOnPage;
+            //alert(elementOnPage);
+            //var urlParams = Utils.GetQueryString();
+            //var url = "/AnswerQuestion/RenderAnswerBody/?questionId=" + $("#questionId").val() + "&pager=" + urlParams.pager + "&elementOnPage=" + elementOnPage;
+
+            var pager = $(".Next #NextQuestionLink").attr("href").split("?")[1].split("=")[1];
+            var url = "/AnswerQuestion/RenderAnswerBodyRedirector/?pager=" + pager;
             $.post(url, (htmlResult) => {
                 $("div#LicenseQuestion").remove();
                 $("#AnswerBody")
