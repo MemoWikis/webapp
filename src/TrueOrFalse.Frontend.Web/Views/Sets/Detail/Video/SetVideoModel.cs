@@ -14,19 +14,27 @@ public class SetVideoModel : BaseModel
     public bool HideAddToKnowledge;
     public bool IsInWidget;
 
+    public bool HasQuestion = false;
+
     public SetVideoModel(Set set, bool hideAddToKnowledge = false, bool isInWidget = false)
     {
         HideAddToKnowledge = hideAddToKnowledge;
         IsInWidget = isInWidget;
 
-        var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
-        answerQuestionModel.DisableCommentLink = true;
-        answerQuestionModel.DisableAddKnowledgeButton = HideAddToKnowledge;
-
-        QuestionsInSet = set.QuestionsInSet;
         VideoKey = set.VideoKey;
-        AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
-        AnswerBodyModel.DisableCommentLink = true;
+
+        if (set.Questions().Any())
+        {
+            HasQuestion = true;
+
+            var answerQuestionModel = new AnswerQuestionModel(set.Questions().First());
+            answerQuestionModel.DisableCommentLink = true;
+            answerQuestionModel.DisableAddKnowledgeButton = HideAddToKnowledge;
+
+            QuestionsInSet = set.QuestionsInSet;
+            AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
+            AnswerBodyModel.DisableCommentLink = true;
+        }
 
         QuestionCount = set.Questions().Count;
     }
