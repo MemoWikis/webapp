@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -489,7 +490,7 @@ public class AnswerQuestionController : BaseController
     private string registerQuestionData(string pager, int questionId, int elementOnPage)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-
+        
         //if (!IsNullOrEmpty(category))
         //{
         //    var categoryDb = R<CategoryRepository>().GetByName(category).FirstOrDefault();
@@ -518,8 +519,20 @@ public class AnswerQuestionController : BaseController
 
         var questionViewGuid = Guid.NewGuid();
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
+        var serializer = new JavaScriptSerializer();
 
-        return RenderAnswerBody((int)questionId, pager, questionViewGuid);
+        return serializer.Serialize(new {
+            answerBodyAsHtml = ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(model),
+                ControllerContext
+            ),
+            navBarData = new {
+                previousUrl = model.PreviousUrl(Url),
+                nextUrl = model.NextUrl(Url)
+            }
+        });
     }
 
     public string RenderQuestionBySetAnswerBody(int questionId, int setId)

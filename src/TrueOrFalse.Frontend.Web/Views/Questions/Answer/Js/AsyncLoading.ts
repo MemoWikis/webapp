@@ -36,6 +36,7 @@
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     history.pushState({}, "QUESTION AS TEXT", "GET URL IN HERE");
+
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var url = "/AnswerQuestion/RenderNextQuestionAnswerBody/?pager=" + pager;
@@ -69,10 +70,12 @@
     private loadAnswerBody(url: string) {
                 $.ajax({
                     url: url,
-                    success: htmlResult => {
+                    success: result => {
+                        result = JSON.parse(result);
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
-                            .replaceWith(htmlResult);
+                            .replaceWith(result.answerBodyAsHtml);
+                        //alert(result.navBarData.nextUrl);
                         //TODO:Julian Update Answer Question Header
                         new PageInit();
                     }
