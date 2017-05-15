@@ -1,7 +1,7 @@
 ﻿class AsyncLoading {
     constructor() {
-        if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
-            $("#AnswerQuestion").ready(() => {
+        $("#AnswerQuestion").ready(() => {
+            if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
                     var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
@@ -33,10 +33,9 @@
                     var url = "/AnswerQuestion/RenderQuestionBySetAnswerBody/?questionId=" + questionId + "&setId=" + setId;
                     this.loadAnswerBody(url);
                 });
-            });
-        } else {
-            $("#AnswerQuestion").ready(() => {
+            } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
+                    history.pushState({}, "QUESTION AS TEXT", "GET URL IN HERE");
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var url = "/AnswerQuestion/RenderNextQuestionAnswerBody/?pager=" + pager;
@@ -63,8 +62,8 @@
                     var url = "/AnswerQuestion/RenderPreviousQuestionAnswerBody/?pager=" + pager;
                     this.loadAnswerBody(url);
                 });
-            });
-        }
+            }
+        });
     }
 
     private loadAnswerBody(url: string) {
@@ -74,7 +73,7 @@
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
                             .replaceWith(htmlResult);
-                        //TODO:Julian fix multiple question skip bug
+                        //TODO:Julian Update Answer Question Header
                         new PageInit();
                     }
                 });
