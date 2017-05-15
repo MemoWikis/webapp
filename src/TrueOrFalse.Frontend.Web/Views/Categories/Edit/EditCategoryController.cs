@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
@@ -40,6 +41,7 @@ public class EditCategoryController : BaseController
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
         var model = new EditCategoryModel(category){IsEditing = true};
+        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
 
         if (TempData["createCategoryMsg"] != null)
             model.Message = (SuccessMessage)TempData["createCategoryMsg"];
@@ -73,6 +75,7 @@ public class EditCategoryController : BaseController
         
         model.Init(category);
         model.IsEditing = true;
+        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
 
         return View(_viewPath, model);
     }

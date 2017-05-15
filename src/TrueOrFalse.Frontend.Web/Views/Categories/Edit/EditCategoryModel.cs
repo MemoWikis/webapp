@@ -17,9 +17,15 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
+    public List<Category> DescendantCategories = new List<Category>();
+
+    public string CategoriesToExcludeIdsString { get; set; }
+
+    public string CategoriesToIncludeIdsString { get; set; }
+
     public bool DisableLearningFunctions { get; set; }
 
-    public string TopicMarkdown { get; set; }
+    public string TopicMarkdown { get; set; } 
 
     public string FeaturedSetIdsString { get; set; }
 
@@ -75,7 +81,10 @@ public class EditCategoryModel : BaseModel
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
+        CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString();
+        CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString();
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
+
     }
 
     public ConvertToCategoryResult ConvertToCategory()
@@ -86,6 +95,12 @@ public class EditCategoryModel : BaseModel
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
+
+        var categoriesToInclude = GetCategoriesFromIdsString(CategoriesToIncludeIdsString);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, categoriesToInclude, CategoryRelationType.IncludeContentOf);
+
+        var categoriesToExclude = GetCategoriesFromIdsString(CategoriesToIncludeIdsString);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, categoriesToExclude, CategoryRelationType.ExcludeContentOf);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -113,6 +128,12 @@ public class EditCategoryModel : BaseModel
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
+
+        if(!string.IsNullOrEmpty(CategoriesToIncludeIdsString))
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, GetCategoriesFromIdsString(CategoriesToIncludeIdsString), CategoryRelationType.IncludeContentOf);
+
+        if(!string.IsNullOrEmpty(CategoriesToExcludeIdsString))
+            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, GetCategoriesFromIdsString(CategoriesToExcludeIdsString), CategoryRelationType.ExcludeContentOf);
 
         FillFromRequest(category);
     }
@@ -479,6 +500,37 @@ public class EditCategoryModel : BaseModel
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
         ParentCategories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
+    }
+
+    public IList<Category> GetCategoriesFromIdsString(string idsString)
+    {
+        var categoriesIds =
+            idsString
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x));
+
+        var catRepo = Sl.R<CategoryRepository>();
+
+        return categoriesIds
+            .Select(setId => catRepo.GetById(setId))
+            .Where(set => set != null)
+            .ToList();
+    }
+
+    public bool IsInCategoriesToInclude(int categoryId)
+    {
+        return CategoriesToIncludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x))
+            .Any(c => c == categoryId);
+    }
+
+    public bool IsInCategoriesToExclude(int categoryId)
+    {
+        return CategoriesToExcludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x))
+            .Any(c => c == categoryId);
     }
 }
 

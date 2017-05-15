@@ -175,8 +175,44 @@
                             </div>
                         </div>
                     </div>
+                    <h4>Untergeordnete Themen (Nachfahren)</h4>
                     <% if (Model.IsInstallationAdmin)
-                    { %>
+                    {
+                        foreach (var category in Model.DescendantCategories)
+                        { %>
+                            <div>
+                                <a href="<%= Links.CategoryDetail(category) %>">
+                                    <span class="label label-category" style="max-width: none;">
+                                        <%= Model.IsInCategoriesToInclude(category.Id) ? "<i class='fa fa-check' style='color: green;'></i>" : "" %>
+                                        <%= Model.IsInCategoriesToExclude(category.Id) ? "<i class='fa fa-remove' style='color: red'></i>" : "" %>
+                                        <%= category.Name %> (Id=<%= category.Id %>)
+                                    </span>
+                                </a>
+                            </div>
+                        <% } %>
+                        <div class="form-group">
+                            <label class="columnLabel control-label" for="CategoriesToExcludeIdsString">
+                                <span class="bold" style="color: red;">Themen ausschließen</span>
+                                <i class="fa fa-question-circle show-tooltip" 
+                                   title="Bitte Ids der Kategorien in der Form '1,2,3' angeben. Untergeordnete Themen werden mit ausgeschlossen und müssen ggf. explizit wieder eingeschlossen werden." 
+                                   data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            </label>
+                            <div class="columnControlsFull">
+                                <input class="form-control" name="CategoriesToExcludeIdsString" type="text" value="<%= Model.CategoriesToExcludeIdsString %>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="columnLabel control-label" for="CategoriesToIncludeIdsString">
+                                <span class="bold" style="color: green;">Themen einschließen</span>
+                                <i class="fa fa-question-circle show-tooltip" 
+                                   title="Bitte Ids der Kategorien in der Form '1,2,3' angeben." 
+                                   data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                            </label>
+                            <div class="columnControlsFull">
+                                <input class="form-control" name="CategoriesToIncludeIdsString" type="text" value="<%= Model.CategoriesToIncludeIdsString %>">
+                            </div>
+                        </div>
+                        
                         <div class="form-group">
                             <div class="noLabel columnControlsFull" style="font-size: 100%;">
                                  <div class="checkbox">
