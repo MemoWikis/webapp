@@ -340,6 +340,14 @@
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\Logo_LearningLevelUp.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_button-html.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_button-more.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f01_add.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f02_edit-element.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f02_edit-element_short.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -422,8 +430,6 @@
     <Content Include="bin\AutofacContrib.SolrNet.dll" />
     <Content Include="bin\Common.Logging.Core.dll" />
     <Content Include="bin\Common.Logging.Core.pdb" />
-    <Content Include="Images\Screenshots\widget-blackboard-html-mode-full.png" />
-    <Content Include="Images\Screenshots\widget-blackboard-html-mode-small.png" />
     <Content Include="Images\Screenshots\widget-moodle_f01_add.png" />
     <Content Include="Images\Screenshots\widget-moodle_f02_addTextField.png" />
     <Content Include="Images\Screenshots\widget-moodle_f03_texfield_options.png" />

@@ -23,6 +23,12 @@
                     Nötig ist eine Zeile HTML-Code, die du einfach von memucho kopieren kannst. memucho hat verschiedene Widgets zur Auswahl 
                     (<a href="<%= Links.WidgetExamples() %>">zur Widget-Übersicht</a>).
                 </p>
+                <p class="teaserText">
+                    So sieht das aus:
+                </p>
+                <p class="screenshot" style="text-align: center;">
+                    <img src="/Images/Screenshots/widget-moodle_f05_doneview.png" />
+                </p>
                    
             </div>
         </div>
