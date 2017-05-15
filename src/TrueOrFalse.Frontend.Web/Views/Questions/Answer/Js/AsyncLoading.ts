@@ -75,11 +75,16 @@
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
-                        //alert(result.navBarData.nextUrl);
-                        //TODO:Julian Update Answer Question Header
+                        this.updateNavigationBar(result.navBarData);
                         new PageInit();
                     }
                 });
 
+    }
+
+    private updateNavigationBar(navBarData: any) {
+        $("#AnswerQuestionPager .Current").replaceWith($(navBarData.currentHtml).find(".Current"));
+        $("#NextQuestionLink").attr("href", navBarData.nextUrl);
+        $("#PreviousQuestionLink").attr("href", navBarData.previousUrl);
     }
 }

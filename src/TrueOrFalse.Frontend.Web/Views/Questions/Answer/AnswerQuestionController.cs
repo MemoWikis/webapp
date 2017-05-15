@@ -530,7 +530,12 @@ public class AnswerQuestionController : BaseController
             ),
             navBarData = new {
                 previousUrl = model.PreviousUrl(Url),
-                nextUrl = model.NextUrl(Url)
+                nextUrl = model.NextUrl(Url),
+                currentHtml = ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
+                model,
+                ControllerContext
+                )
             }
         });
     }
