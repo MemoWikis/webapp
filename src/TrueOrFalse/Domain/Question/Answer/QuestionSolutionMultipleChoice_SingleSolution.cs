@@ -24,6 +24,9 @@ public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
 
     public override string CorrectAnswer()
     {
+        if (!Choices.Any())
+            return "";
+
         return Choices.First();
     }
 }
