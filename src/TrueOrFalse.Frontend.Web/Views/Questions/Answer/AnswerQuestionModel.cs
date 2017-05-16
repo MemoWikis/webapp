@@ -347,7 +347,12 @@ public class AnswerQuestionModel : BaseModel
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
+            var solutionModel = (QuestionSolutionMultipleChoice_SingleSolution) SolutionModel;
+
+            if (!solutionModel.Choices.Any())
+                return "";
+
+            result = solutionModel
                 .Choices
                 .Shuffle()
                 .Aggregate((a, b) => $"{a} - oder - {Environment.NewLine} {b}");

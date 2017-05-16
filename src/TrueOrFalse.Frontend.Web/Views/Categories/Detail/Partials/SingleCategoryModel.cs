@@ -17,7 +17,7 @@ public class SingleCategoryModel : BaseModel
     {
         var category = Resolve<CategoryRepository>().GetById(categoryId) ?? new Category();
         
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         CategoryId = category.Id;

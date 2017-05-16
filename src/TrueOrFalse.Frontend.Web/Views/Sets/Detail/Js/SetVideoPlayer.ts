@@ -50,10 +50,15 @@ class SetVideoPlayer
 
         $("#video-pager a[data-video-question-id]").each(function () {
 
+            var pauseAt = +$(this).attr("data-video-pause-at");
+
+            if (pauseAt == 0)
+                return;
+
             self.VideoStops.push(
                 new StopVideoAt(
                     +$(this).attr("data-video-question-id"),
-                    +$(this).attr("data-video-pause-at")
+                    pauseAt
                 ));
         });
     }

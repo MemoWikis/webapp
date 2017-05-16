@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using NHibernate.Transform;
 using TrueOrFalse.Search;
 
@@ -157,9 +158,6 @@ public class SetRepo : RepositoryDbBase<Set>
         Flush();
     }
 
-    
-
-
     public int HowManyNewSetsCreatedSince(DateTime since)
     {
         return _session.QueryOver<Set>()
@@ -173,4 +171,9 @@ public class SetRepo : RepositoryDbBase<Set>
             .RowCount();
     }
 
+    public string GetYoutbeUrl(int setId) => 
+        _session.Query<Set>()
+            .Where(s => s.Id == setId)
+            .Select(s => s.VideoUrl)
+            .FirstOrDefault();
 }

@@ -43,6 +43,8 @@ public class Sl
     public static AnswerRepo AnswerRepo => R<AnswerRepo>();
     public static LearningSessionRepo LearningSessionRepo => R<LearningSessionRepo>();
 
+    public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
+
     public static int CurrentUserId => R<SessionUser>().UserId;
 }
 

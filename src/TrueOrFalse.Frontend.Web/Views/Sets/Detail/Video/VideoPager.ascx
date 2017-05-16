@@ -9,7 +9,7 @@
                         <a id="videoPreviousQuestion" href="#" data-original-title="Vorherige Frage" class="show-tooltip"><i class="fa fa-arrow-circle-left" aria-hidden="true" style=""></i></a>
                     </td>
                     <td>
-                        <div class="pages" id="videoPages" data-question-count="<%= Model.QuestionsInSet.Count %>">
+                        <div class="pages" id="videoPages" data-question-count="<%= Model.QuestionCount %>">
                             <% 
                             var i = 0;
                             foreach (var questionInSet in Model.QuestionsInSet)

@@ -208,9 +208,36 @@
                     Um eine begrenzte Zahl an Fragen zu beantworten und eine Auswertung zu erhalten, nutze bitte die Schaltflächen LERNEN oder WISSEN TESTEN oben.
                 </p>
             <% } else { %>
-                <div style="margin-top: 30px; margin-bottom: 20px;">
-                    Dieses Lernset enthält noch keine Fragen.
-                </div>
+                <% if (Model.IsOwner) { %>
+                    <div class="alert alert-info">
+                        <p>
+                            <b>Dein Lernset enthält noch keine Fragen</b>
+                        </p>
+                        <p>
+                            Du kannst <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" target="_blank">eine neue Frage erstellen</a> für dieses Lernset.
+                            Oder du fügst vorhandene Fragen hinzu, indem du sie auf der 
+                            <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions", null, new {target = "_blank"}) %> auswählst und 
+                            auf "Zum Lernset hinzufügen" klickst.
+                        </p>
+                        <p style="margin-top: 15px;">
+                            <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default" target="_blank">
+                                <i class="fa fa-plus"></i>
+                                Neue Frage hinzufügen
+                            </a>
+                            <a href="<%= Links.QuestionsAll() %>" class="btn btn-default" target="_blank">
+                                <i class="fa fa-check"></i>
+                                Zur Auswahl vorhandener Fragen
+                            </a>
+                        </p>
+
+
+                    </div>
+            
+                <% } else { %>
+                    <div style="margin-top: 30px; margin-bottom: 20px;">
+                        Dieses Lernset enthält noch keine Fragen.
+                    </div>
+                <% } %>
             <% } %>
 
             <div id="rowContainer">

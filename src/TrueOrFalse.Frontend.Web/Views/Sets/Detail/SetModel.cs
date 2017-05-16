@@ -79,7 +79,7 @@ public class SetModel : BaseModel
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(set.DateCreated);
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(set.Id, ImageType.QuestionSet);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
@@ -87,10 +87,10 @@ public class SetModel : BaseModel
         var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>()
             .GetActiveInWishknowledge(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
 
-        var questions = set.QuestionsInSet.Select(x => x.Question).ToList();
+        var questions = set.QuestionsInSetPublic.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
 
-        QuestionsInSet = set.QuestionsInSet.OrderBy(q => q.Sort).ThenBy(q => q.Id).Select(
+        QuestionsInSet = set.QuestionsInSetPublic.OrderBy(q => q.Sort).ThenBy(q => q.Id).Select(
             x => new SetQuestionRowModel(
                 x.Question, 
                 x.Set,

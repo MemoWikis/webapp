@@ -38,12 +38,17 @@ public class ImageUrl
                 return GetResult(imageSettings, requestedWidth, isSquare);
             }
 
+            if (HttpContext.Current == null)
+            {
+                return new ImageUrl {Url = getFallBackImage(requestedWidth), HasUploadedImage = false};
+            }
+
             //we search for the biggest file
-            var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
+            var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), $"{imageSettings.Id}_*.jpg");
             if (fileNames.Any()){
                 var maxFileWidth = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
 
-                using (var biggestAvailableImage = Image.FromFile(string.Format("{0}_{1}.jpg", imageSettings.ServerPathAndId(), maxFileWidth)))
+                using (var biggestAvailableImage = Image.FromFile($"{imageSettings.ServerPathAndId()}_{maxFileWidth}.jpg"))
                 {
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
@@ -94,7 +99,7 @@ public class ImageUrl
     public ImageUrl SetSuffix(ImageMetaData imageMeta)
     {
         var urlSuffix = "";
-        if (imageMeta != null)
+        if (imageMeta != null && !imageMeta.IsYoutubePreviewImage)
             urlSuffix = "?" + imageMeta.DateModified.ToString("yyyyMMdd-HHMMss");
 
         Url += urlSuffix ;

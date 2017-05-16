@@ -104,6 +104,7 @@
                 .Add(UpdateToVs171.Run)
                 .Add(UpdateToVs172.Run)
                 .Add(UpdateToVs173.Run)
+                .Add(UpdateToVs174.Run)
                 .Run();
         }
     }
