@@ -522,6 +522,12 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
         var serializer = new JavaScriptSerializer();
 
+        string nextPageLink = "", previousPageLink = "";
+        if (model.HasNextPage)
+            nextPageLink = model.NextUrl(Url);
+        if (model.HasPreviousPage)
+            previousPageLink = model.PreviousUrl(Url);
+
         return serializer.Serialize(new {
             answerBodyAsHtml = ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
@@ -529,8 +535,8 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             ),
             navBarData = new {
-                previousUrl = model.PreviousUrl(Url),
-                nextUrl = model.NextUrl(Url),
+                nextUrl = nextPageLink,
+                previousUrl = previousPageLink,
                 currentHtml = ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
                 model,

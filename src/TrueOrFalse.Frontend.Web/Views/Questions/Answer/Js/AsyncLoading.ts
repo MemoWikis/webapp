@@ -57,11 +57,16 @@
 
                 $("#PreviousQuestionLink").click((e) => {
                     e.preventDefault();
-                    var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
+                    var pager = $("#PreviousQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var url = "/AnswerQuestion/RenderPreviousQuestionAnswerBody/?pager=" + pager;
                     this.loadAnswerBody(url);
                 });
             }
+
+            $(window).off("popstate");
+            $(window).on("popstate", () => {
+                location.reload();
+            });
         });
     }
 
@@ -74,7 +79,9 @@
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
                         this.updateNavigationBar(result.navBarData);
-                        history.pushState({}, $(".QuestionText").html(), result.url);
+                        //TODO:Julian Check here with Modernizr
+                        document.title = $(".QuestionText").html();
+                        this.updateUrl(result.url);
                         new PageInit();
                     }
                 });
@@ -82,8 +89,29 @@
 
     private updateNavigationBar(navBarData: any) {
         $("#AnswerQuestionPager .Current").replaceWith($(navBarData.currentHtml).find(".Current"));
-        $("#NextQuestionLink").attr("href", navBarData.nextUrl);
-        $("#PreviousQuestionLink").attr("href", navBarData.previousUrl);
+
+        if (navBarData.nextUrl) {
+            if($("#NextQuestionLink").length === 0)
+                $("#AnswerQuestionPager .Next").append($(navBarData.currentHtml).find("#NextQuestionLink"));
+            else
+                $("#NextQuestionLink").attr("href", navBarData.nextUrl);
+        } else {
+            $("#NextQuestionLink").remove();
+        }
+
+        if (navBarData.previousUrl) {
+            if ($("#PreviousQuestionLink").length === 0)
+                $("#AnswerQuestionPager .Previous").append($(navBarData.currentHtml).find("#PreviousQuestionLink"));
+            else
+                $("#PreviousQuestionLink").attr("href", navBarData.previousUrl);
+        } else {
+            $("#PreviousQuestionLink").remove();
+        }
+
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
+    }
+
+    private updateUrl(url: string) {
+        history.pushState({}, $(".QuestionText").html(), url);
     }
 }
