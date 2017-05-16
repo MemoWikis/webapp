@@ -51,6 +51,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return GetByIds(questionIds.ToArray());
     }
 
+    public IList<Category> GetByIdsFromString(string idsString)
+    {
+        return idsString
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x))
+                .Select(GetById)
+                .Where(set => set != null)
+                .ToList();
+    }
+
     public IList<Category> GetChildren(
         CategoryType parentType,
         CategoryType childrenType,

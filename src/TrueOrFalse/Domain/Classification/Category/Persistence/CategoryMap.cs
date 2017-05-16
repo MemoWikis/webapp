@@ -10,6 +10,9 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.Description);
         Map(x => x.WikipediaURL);
 
+        Map(x => x.CategoriesToExcludeIdsString);
+        Map(x => x.CategoriesToIncludeIdsString);
+
         Map(x => x.DisableLearningFunctions);
 
         References(x => x.Creator);

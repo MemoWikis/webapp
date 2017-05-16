@@ -19,6 +19,10 @@ public class EditCategoryModel : BaseModel
 
     public List<Category> DescendantCategories = new List<Category>();
 
+    //public List<Category> CategoriesToIncludeContentOf = new List<Category>();
+
+    //public List<Category> CategoriesToExcludeContentOf = new List<Category>();
+
     public string CategoriesToExcludeIdsString { get; set; }
 
     public string CategoriesToIncludeIdsString { get; set; }
@@ -81,8 +85,8 @@ public class EditCategoryModel : BaseModel
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
-        CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString();
-        CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString();
+        CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString;
+        CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
 
     }
@@ -91,16 +95,12 @@ public class EditCategoryModel : BaseModel
     {
         var category = new Category(Name);
         category.Description = Description;
+        category.CategoriesToExcludeIdsString = CategoriesToExcludeIdsString;
+        category.CategoriesToIncludeIdsString = CategoriesToIncludeIdsString;
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
-
-        var categoriesToInclude = GetCategoriesFromIdsString(CategoriesToIncludeIdsString);
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, categoriesToInclude, CategoryRelationType.IncludeContentOf);
-
-        var categoriesToExclude = GetCategoriesFromIdsString(CategoriesToIncludeIdsString);
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, categoriesToExclude, CategoryRelationType.ExcludeContentOf);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -123,20 +123,16 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
+        category.CategoriesToExcludeIdsString = CategoriesToExcludeIdsString;
+        category.CategoriesToIncludeIdsString = CategoriesToIncludeIdsString;
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 
-        if(!string.IsNullOrEmpty(CategoriesToIncludeIdsString))
-            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, GetCategoriesFromIdsString(CategoriesToIncludeIdsString), CategoryRelationType.IncludeContentOf);
-
-        if(!string.IsNullOrEmpty(CategoriesToExcludeIdsString))
-            ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, GetCategoriesFromIdsString(CategoriesToExcludeIdsString), CategoryRelationType.ExcludeContentOf);
-
         FillFromRequest(category);
-    }
+}
 
     private static string ToNumericalString(string input)
     {
@@ -502,24 +498,10 @@ public class EditCategoryModel : BaseModel
         ParentCategories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
     }
 
-    public IList<Category> GetCategoriesFromIdsString(string idsString)
-    {
-        var categoriesIds =
-            idsString
-                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => Convert.ToInt32(x));
-
-        var catRepo = Sl.R<CategoryRepository>();
-
-        return categoriesIds
-            .Select(setId => catRepo.GetById(setId))
-            .Where(set => set != null)
-            .ToList();
-    }
-
     public bool IsInCategoriesToInclude(int categoryId)
     {
-        return CategoriesToIncludeIdsString
+        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString) 
+            && CategoriesToIncludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x))
             .Any(c => c == categoryId);
@@ -527,7 +509,8 @@ public class EditCategoryModel : BaseModel
 
     public bool IsInCategoriesToExclude(int categoryId)
     {
-        return CategoriesToExcludeIdsString
+        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
+               && CategoriesToExcludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x))
             .Any(c => c == categoryId);

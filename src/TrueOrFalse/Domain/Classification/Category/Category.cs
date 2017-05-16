@@ -30,34 +30,22 @@ public class Category : DomainEntity, ICreator
             : new List<Category>();
     }
 
+    public virtual string CategoriesToExcludeIdsString { get; set; }
+
+    public virtual string CategoriesToIncludeIdsString { get; set; }
+
     public virtual IList<Category> CategoriesToInclude()
     {
-        return CategoryRelations.Any()
-            ? CategoryRelations
-                .Where(r => r.CategoryRelationType == CategoryRelationType.IncludeContentOf)
-                .Select(x => x.RelatedCategory)
-                .ToList()
+        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString)
+            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)
             : new List<Category>();
     }
 
     public virtual IList<Category> CategoriesToExclude()
     {
-        return CategoryRelations.Any()
-            ? CategoryRelations
-                .Where(r => r.CategoryRelationType == CategoryRelationType.ExcludeContentOf)
-                .Select(x => x.RelatedCategory)
-                .ToList()
+        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
+            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)
             : new List<Category>();
-    }
-
-    public virtual string CategoriesToIncludeIdsString()
-    {
-        return string.Join(",", CategoriesToInclude().Select(c => c.Id));
-    }
-
-    public virtual string CategoriesToExcludeIdsString()
-    {
-        return string.Join(",", CategoriesToExclude() .Select(c => c.Id));
     }
 
     public virtual string FeaturedSetsIdsString { get; set; }
