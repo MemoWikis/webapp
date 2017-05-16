@@ -557,12 +557,37 @@ public class AnswerQuestionController : BaseController
 
         var questionViewGuid = Guid.NewGuid();
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
+        var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
-        return ViewRenderer.RenderPartialView(
-            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, set, question)),
-            ControllerContext
-        );
+
+        string nextPageLink = "", previousPageLink = "";
+        if (model.HasNextPage)
+            nextPageLink = model.NextUrl(Url);
+        if (model.HasPreviousPage)
+            previousPageLink = model.PreviousUrl(Url);
+
+        var serializer = new JavaScriptSerializer();
+
+
+        return serializer.Serialize(new
+        {
+            answerBodyAsHtml = ViewRenderer.RenderPartialView(
+                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+                new AnswerBodyModel(model),
+                ControllerContext
+            ),
+            navBarData = new
+            {
+                nextUrl = nextPageLink,
+                previousUrl = previousPageLink,
+                currentHtml = ViewRenderer.RenderPartialView(
+                    "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
+                    model,
+                    ControllerContext
+                )
+            },
+            url = Links.AnswerQuestion(question, set)
+        });
     }
 
     public EmptyResult ClearHistory()
