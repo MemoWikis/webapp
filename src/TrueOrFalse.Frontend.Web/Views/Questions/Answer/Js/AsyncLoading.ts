@@ -79,12 +79,12 @@
                         new PageInit();
                     }
                 });
-
     }
 
     private updateNavigationBar(navBarData: any) {
         $("#AnswerQuestionPager .Current").replaceWith($(navBarData.currentHtml).find(".Current"));
         $("#NextQuestionLink").attr("href", navBarData.nextUrl);
         $("#PreviousQuestionLink").attr("href", navBarData.previousUrl);
+        $("#NextQuestionLink, #PreviousQuestionLink").unbind();
     }
 }
