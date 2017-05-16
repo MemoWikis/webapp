@@ -536,7 +536,8 @@ public class AnswerQuestionController : BaseController
                 model,
                 ControllerContext
                 )
-            }
+            },
+            url = Links.AnswerQuestion(question, elementOnPage, pager)
         });
     }
 

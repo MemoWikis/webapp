@@ -12,7 +12,7 @@
 
                     // - change url
                     // -- pager
-                    // - sync server side
+                    // (- sync server side)
 
                     //header changes
 
@@ -35,20 +35,18 @@
                 });
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
-                    history.pushState({}, "QUESTION AS TEXT", "GET URL IN HERE");
-
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var url = "/AnswerQuestion/RenderNextQuestionAnswerBody/?pager=" + pager;
                     this.loadAnswerBody(url);
 
-                    // - change url
+                    //( - change url
                     // -- pager
-                    // - sync server side
+                    // - sync server side)
 
                     //header changes
 
-                    //set menu history  (client and server)
+                    //set menu history  (client and server) - done just have to reload menu
 
                     //load answer details
 
@@ -76,6 +74,7 @@
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
                         this.updateNavigationBar(result.navBarData);
+                        history.pushState({}, $(".QuestionText").html(), result.url);
                         new PageInit();
                     }
                 });
