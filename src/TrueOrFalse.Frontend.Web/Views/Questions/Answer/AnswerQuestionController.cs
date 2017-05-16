@@ -490,28 +490,8 @@ public class AnswerQuestionController : BaseController
     private string registerQuestionData(string pager, int questionId, int elementOnPage)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        
-        //if (!IsNullOrEmpty(category))
-        //{
-        //    var categoryDb = R<CategoryRepository>().GetByName(category).FirstOrDefault();
-        //    if (categoryDb != null)
-        //    {
-        //        activeSearchSpec.Filter.Categories.Clear();
-        //        activeSearchSpec.Filter.Categories.Add(categoryDb.Id);
-        //        activeSearchSpec.OrderBy.PersonalRelevance.Desc();
-        //        activeSearchSpec.PageSize = 1;
-
-        //        //set total count
-        //        Sl.R<SearchQuestions>().Run(activeSearchSpec);
-        //    }
-        //}
-
-        //if (text == null && id == null && elementOnPage == null)
-        //    return GetViewBySearchSpec(activeSearchSpec);
-
-        //get View by SearchSpec
-
         var question = _questionRepo.GetById((int)questionId);
+
         activeSearchSpec.PageSize = 1;
         if (elementOnPage != -1)
             activeSearchSpec.CurrentPage = (int)elementOnPage;
