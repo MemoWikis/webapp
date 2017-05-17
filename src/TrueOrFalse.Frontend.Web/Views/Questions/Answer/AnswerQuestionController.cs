@@ -450,6 +450,7 @@ public class AnswerQuestionController : BaseController
         );
     }
 
+    //AsyncLoading: AnswerBody + NavBar + PageUrl
     public string RenderNextQuestionAnswerBody(string pager)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
@@ -466,9 +467,11 @@ public class AnswerQuestionController : BaseController
 
     private string getAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
     {
+        Question question;
+
         using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
         {
-            var question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
+            question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
 
             if (activeSearchSpec.HistoryItem != null)
             {
@@ -482,16 +485,9 @@ public class AnswerQuestionController : BaseController
 
                 activeSearchSpec.HistoryItem = null;
             }
-            //text = UriSegmentFriendlyQuestion.Run(question.Text),
-            return registerQuestionData(activeSearchSpec.Key, question.Id, activeSearchSpec.CurrentPage);
         }
-    }
 
-    private string registerQuestionData(string pager, int questionId, int elementOnPage)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        var question = _questionRepo.GetById((int)questionId);
-
+        var elementOnPage = activeSearchSpec.CurrentPage;
         activeSearchSpec.PageSize = 1;
         if (elementOnPage != -1)
             activeSearchSpec.CurrentPage = (int)elementOnPage;
@@ -500,31 +496,9 @@ public class AnswerQuestionController : BaseController
         var questionViewGuid = Guid.NewGuid();
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
-        var serializer = new JavaScriptSerializer();
 
-        string nextPageLink = "", previousPageLink = "";
-        if (model.HasNextPage)
-            nextPageLink = model.NextUrl(Url);
-        if (model.HasPreviousPage)
-            previousPageLink = model.PreviousUrl(Url);
-
-        return serializer.Serialize(new {
-            answerBodyAsHtml = ViewRenderer.RenderPartialView(
-                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(model),
-                ControllerContext
-            ),
-            navBarData = new {
-                nextUrl = nextPageLink,
-                previousUrl = previousPageLink,
-                currentHtml = ViewRenderer.RenderPartialView(
-                "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
-                model,
-                ControllerContext
-                )
-            },
-            url = Links.AnswerQuestion(question, elementOnPage, pager)
-        });
+        var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
+        return getPrimaryQuestionData(model, currentUrl);
     }
 
     public string RenderQuestionBySetAnswerBody(int questionId, int setId)
@@ -539,7 +513,12 @@ public class AnswerQuestionController : BaseController
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
+        var currenUrl = Links.AnswerQuestion(question, set);
+        return getPrimaryQuestionData(model, currenUrl);
+    }
 
+    private string getPrimaryQuestionData(AnswerQuestionModel model, string currentUrl)
+    {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
             nextPageLink = model.NextUrl(Url);
@@ -547,8 +526,6 @@ public class AnswerQuestionController : BaseController
             previousPageLink = model.PreviousUrl(Url);
 
         var serializer = new JavaScriptSerializer();
-
-
         return serializer.Serialize(new
         {
             answerBodyAsHtml = ViewRenderer.RenderPartialView(
@@ -566,9 +543,11 @@ public class AnswerQuestionController : BaseController
                     ControllerContext
                 )
             },
-            url = Links.AnswerQuestion(question, set)
+            url = currentUrl
         });
     }
+
+    //AsyncLoading: Comments +  
 
     public EmptyResult ClearHistory()
     {

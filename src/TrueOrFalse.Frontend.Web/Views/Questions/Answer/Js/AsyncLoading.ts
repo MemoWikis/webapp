@@ -10,18 +10,9 @@
                     var url = "/AnswerQuestion/RenderQuestionBySetAnswerBody/?questionId=" + questionId + "&setId=" + setId;
                     this.loadAnswerBody(url);
 
-                    // - change url
-                    // -- pager
-                    // (- sync server side)
-
-                    //header changes
-
-                    //set menu history  (client and server)
-
                     //load answer details
 
                     //care about comments
-                    //care about suggestion
 
                 });
 
@@ -40,18 +31,9 @@
                     var url = "/AnswerQuestion/RenderNextQuestionAnswerBody/?pager=" + pager;
                     this.loadAnswerBody(url);
 
-                    //( - change url
-                    // -- pager
-                    // - sync server side)
-
-                    //header changes
-
-                    //set menu history  (client and server) - done just have to reload menu
-
                     //load answer details
 
                     //care about comments
-                    //care about suggestion
 
                 });
 
