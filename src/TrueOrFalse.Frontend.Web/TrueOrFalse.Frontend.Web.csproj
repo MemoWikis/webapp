@@ -629,6 +629,7 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
