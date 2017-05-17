@@ -21,13 +21,23 @@ public class SponsorRepo{
             new Sponsor
             {
                 Id = 2,
-                ImpressionSharePercentage = 0.5,
+                ImpressionSharePercentage = 0.1,
                 SponsorUrl = "http://greensoeasy.com/",
                 ImageUrl = "/Images/Sponsors/greensoeasy.png",
                 LinkText = "greensoeasy",
                 TextBeforeLink = "Selbst etwas für das Klima tun mit der App von "
             },
-            
+
+            new Sponsor {
+                Id = 3,
+                ImpressionSharePercentage = 0.4,
+                SponsorUrl = "https://learning-levelup.de/",
+                ImageUrl = "/Images/LogosPartners/Logo_LearningLevelUp.png",
+                LinkText = "Learning Level Up",
+                TextBeforeLink = "Für anpassbare digitale Lehr- und Lerninhalte als Animation, Grafik und Video empfehlen wir Learning Level Up!",
+                ImageStyleOverwrite = "max-width: 70%"
+            },
+
         };
 
         if (allSponsors.Sum(s => s.ImpressionSharePercentage) > 1)
