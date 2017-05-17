@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 
 public class ModifyRelationsForCategory
 {
@@ -50,7 +51,7 @@ public class ModifyRelationsForCategory
             {
                 Category = category,
                 RelatedCategory = relatedCategory,
-                CategoryRelationType = relationType
+                CategoryRelationType = relationType 
             });
 
     }
@@ -58,5 +59,37 @@ public class ModifyRelationsForCategory
     public static void AddParentCategory(Category category, Category relatedCategory)
     {
         AddCategoryRelationOfType(category, relatedCategory, CategoryRelationType.IsChildCategoryOf);
+    }
+
+    public static void UpdateImplicitDescendantRelations(Category category)
+    {
+        var catRepo = Sl.R<CategoryRepository>();
+
+        var categoriesToExclude = new List<Category>();
+        foreach (var categoryToExclude in category.CategoriesToExclude())
+        {
+            categoriesToExclude.Add(categoryToExclude);
+            categoriesToExclude.AddRange(catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, categoryToExclude.Id));
+        }
+
+        var categoriesToInclude = new List<Category>();
+        foreach (var categoryToInclude in category.CategoriesToInclude())
+        {
+            categoriesToInclude.Add(categoryToInclude);
+            categoriesToInclude.AddRange(catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, categoryToInclude.Id));
+        }
+
+        var descendants = catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, category.Id)
+            .Except(catRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, category.Id))
+            .Except(categoriesToExclude)
+            .Union(categoriesToInclude)
+            .ToList();
+
+        UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IsImplicitDescendantOf);
+
+        foreach (var descendant in catRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, category.Id))
+        {
+            UpdateImplicitDescendantRelations(descendant);
+        }
     }
 }

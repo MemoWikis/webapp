@@ -101,6 +101,7 @@ public class EditCategoryModel : BaseModel
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
+        ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -130,6 +131,7 @@ public class EditCategoryModel : BaseModel
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
+        ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
 
         FillFromRequest(category);
 }
