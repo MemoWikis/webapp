@@ -621,6 +621,7 @@
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
+    <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
     <Content Include="Views\Maintenance\ContentStats.aspx" />
     <Content Include="Views\Maintenance\ContentStats.css">
       <DependentUpon>ContentStats.less</DependentUpon>

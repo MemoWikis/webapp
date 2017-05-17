@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using static System.String;
 
 public class YoutubeVideo
@@ -19,8 +17,13 @@ public class YoutubeVideo
         return "";
     }
 
-
     public static string GetIframe(string key) => 
         $@"<iframe width='100%' class='video' id='player' src='https://www.youtube.com/embed/{key}?enablejsapi=1&origin={HttpContext.Current.Request.Url.Scheme}://{HttpContext.Current.Request.Url.Host}'>
             </iframe> ";
+
+    public static string GetPreviewImage(string youtubeKey)
+        => $"https://img.youtube.com/vi/{youtubeKey}/0.jpg";
+
+    public static string GetUrl(string youtubeKey)
+        => $"https://www.youtube.com/watch?v={youtubeKey}";
 }

@@ -9,6 +9,9 @@ public class ImagesController : BaseController
         return ViewRenderer.RenderPartialView("ImageDetailModal", imageFrontendData, ControllerContext);
     }
 
+    public string ImageDetailYoutubeModal(string youtubeKey) => 
+        ViewRenderer.RenderPartialView("ImageDetailYoutubeModal", youtubeKey, ControllerContext);
+
     public int GetQuestionImageId(string encodedPath)
     {
         var imagePath = HttpUtility.HtmlDecode(encodedPath);
