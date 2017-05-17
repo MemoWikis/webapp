@@ -7,7 +7,7 @@
                     var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
-                    var url = "/AnswerQuestion/RenderQuestionBySetAnswerBody/?questionId=" + questionId + "&setId=" + setId;
+                    var url = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
                     this.loadAnswerBody(url);
 
                     //load answer details
@@ -21,14 +21,14 @@
                     var NextQuestionLinkArgs = $("#PreviousQuestionLink").attr("href").split("/");
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
-                    var url = "/AnswerQuestion/RenderQuestionBySetAnswerBody/?questionId=" + questionId + "&setId=" + setId;
+                    var url = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
                     this.loadAnswerBody(url);
                 });
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
-                    var url = "/AnswerQuestion/RenderNextQuestionAnswerBody/?pager=" + pager;
+                    var url = "/AnswerQuestion/RenderAnswerBodyByNextQuestion/?pager=" + pager;
                     this.loadAnswerBody(url);
 
                     //load answer details
@@ -40,7 +40,7 @@
                 $("#PreviousQuestionLink").click((e) => {
                     e.preventDefault();
                     var pager = $("#PreviousQuestionLink").attr("href").split("?")[1].split("=")[1];
-                    var url = "/AnswerQuestion/RenderPreviousQuestionAnswerBody/?pager=" + pager;
+                    var url = "/AnswerQuestion/RenderAnswerBodyByPreviousQuestion/?pager=" + pager;
                     this.loadAnswerBody(url);
                 });
             }
