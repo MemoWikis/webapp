@@ -547,7 +547,7 @@ public class AnswerQuestionController : BaseController
         });
     }
 
-    //AsyncLoading: Comments +  
+    //AsyncLoading: Details + Comments
 
     public EmptyResult ClearHistory()
     {
