@@ -7,13 +7,11 @@
                     var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
-                    var url = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
-                    this.loadAnswerBody(url);
+                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
+                    this.loadAnswerBody(primaryDataUrl);
 
-                    //load answer details
-
-                    //care about comments
-
+                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationBySet/?questionId=" + questionId + "&setId=" + setId;
+                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
                 });
 
                 $("#PreviousQuestionLink").click((e) => {
@@ -21,27 +19,31 @@
                     var NextQuestionLinkArgs = $("#PreviousQuestionLink").attr("href").split("/");
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
-                    var url = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
-                    this.loadAnswerBody(url);
+                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
+                    this.loadAnswerBody(primaryDataUrl);
+
+                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationBySet/?questionId=" + questionId + "&setId=" + setId;
+                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
                 });
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
-                    var url = "/AnswerQuestion/RenderAnswerBodyByNextQuestion/?pager=" + pager;
-                    this.loadAnswerBody(url);
+                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByNextQuestion/?pager=" + pager;
+                    this.loadAnswerBody(primaryDataUrl);
 
-                    //load answer details
-
-                    //care about comments
-
+                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationByNextQuestion/?pager=" + pager;
+                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
                 });
 
                 $("#PreviousQuestionLink").click((e) => {
                     e.preventDefault();
                     var pager = $("#PreviousQuestionLink").attr("href").split("?")[1].split("=")[1];
-                    var url = "/AnswerQuestion/RenderAnswerBodyByPreviousQuestion/?pager=" + pager;
-                    this.loadAnswerBody(url);
+                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByPreviousQuestion/?pager=" + pager;
+                    this.loadAnswerBody(primaryDataUrl);
+
+                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationByPreviousQuestion/?pager=" + pager;
+                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
                 });
             }
 
@@ -64,7 +66,7 @@
                         //TODO:Julian Check here with Modernizr
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
-                        new PageInit();
+                        //new PageInit();
                     }
                 });
     }
@@ -95,5 +97,17 @@
 
     private updateUrl(url: string) {
         history.pushState({}, $(".QuestionText").html(), url);
+    }
+
+    private loadSecondaryQuestionInformation(url: string) {
+        $.ajax({
+            url: url,
+            success: result => {
+                result = JSON.parse(result);
+                $("div#AnswerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
+                $("div#Comments").replaceWith(result.commentsAsHtml);
+                new PageInit();
+            }
+        });
     }
 }

@@ -548,15 +548,18 @@ public class AnswerQuestionController : BaseController
     }
 
     //AsyncLoading: Details + Comments
-
-    public string RenderSecondaryQuestionInformationNextQuestion(string pager)
+    public string RenderSecondaryQuestionInformationByNextQuestion(string pager)
     {
-        return "";
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec.NextPage(1);
+        return getSecondaryQuestionInformationBySearchSpec(activeSearchSpec);
     }
 
-    public string RenderSecondaryQuestionInformationPreviousQuestion(string pager)
+    public string RenderSecondaryQuestionInformationByPreviousQuestion(string pager)
     {
-        return "";
+        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
+        activeSearchSpec.PreviousPage(1);
+        return getSecondaryQuestionInformationBySearchSpec(activeSearchSpec);
     }
 
     private string getSecondaryQuestionInformationBySearchSpec(QuestionSearchSpec activeSearchSpec)
@@ -608,8 +611,8 @@ public class AnswerQuestionController : BaseController
         var serializer = new JavaScriptSerializer();
         return serializer.Serialize(new
         {
-            questionDetailsAsHtml = ViewRenderer.RenderPartialView("", model, ControllerContext),
-            commentsAsHtml = ViewRenderer.RenderPartialView("", model, ControllerContext)
+            questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
+            commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext)
         });
     }
 
