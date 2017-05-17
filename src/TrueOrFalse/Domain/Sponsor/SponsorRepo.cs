@@ -34,7 +34,7 @@ public class SponsorRepo{
                 SponsorUrl = "https://learning-levelup.de/",
                 ImageUrl = "/Images/LogosPartners/Logo_LearningLevelUp.png",
                 LinkText = "Learning Level Up",
-                TextBeforeLink = "Für anpassbare digitale Lehr- und Lerninhalte als Animation, Grafik und Video empfehlen wir Learning Level Up!",
+                TextBeforeLink = "Für anpassbare digitale Lehr- und Lerninhalte als Animation, Grafik und Video empfehlen wir ",
                 ImageStyleOverwrite = "max-width: 70%"
             },
 
