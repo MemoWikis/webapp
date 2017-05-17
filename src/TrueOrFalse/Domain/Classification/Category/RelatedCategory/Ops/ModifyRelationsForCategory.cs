@@ -80,16 +80,11 @@ public class ModifyRelationsForCategory
         }
 
         var descendants = catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, category.Id)
-            .Except(catRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, category.Id))
             .Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();
 
-        UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IsImplicitDescendantOf);
+        UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
 
-        foreach (var descendant in catRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, category.Id))
-        {
-            UpdateImplicitDescendantRelations(descendant);
-        }
     }
 }

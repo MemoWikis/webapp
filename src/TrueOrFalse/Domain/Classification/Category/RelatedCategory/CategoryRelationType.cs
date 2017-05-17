@@ -8,5 +8,5 @@ public enum CategoryRelationType
 {
     None = 0,
     IsChildCategoryOf = 1,
-    IsImplicitDescendantOf = 2,
+    IncludesContentOf = 2,
 }
