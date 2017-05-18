@@ -7,10 +7,12 @@ using TrueOrFalse.Search;
 public class CategoryRepository : RepositoryDbBase<Category>
 {
     private readonly SearchIndexCategory _searchIndexCategory;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
+    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory, CategoryRelationRepo categoryRelationRepo)
         : base(session){
         _searchIndexCategory = searchIndexCategory;
+        _categoryRelationRepo = categoryRelationRepo;
     }
 
     public override void Create(Category category)
@@ -59,6 +61,15 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .Select(GetById)
                 .Where(set => set != null)
                 .ToList();
+    }
+
+    internal IList<Category> GetAggregatedCategories(Category category)
+    {
+        return _categoryRelationRepo
+            .GetAll()
+            .Where(r => r.Category == category && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => r.RelatedCategory)
+            .ToList();
     }
 
     public IList<Category> GetChildren(

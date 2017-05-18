@@ -41,7 +41,7 @@ public class EditCategoryController : BaseController
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
         var model = new EditCategoryModel(category){IsEditing = true};
-        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
+        //model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
 
         if (TempData["createCategoryMsg"] != null)
             model.Message = (SuccessMessage)TempData["createCategoryMsg"];
@@ -164,5 +164,25 @@ public class EditCategoryController : BaseController
         category.TopicMarkdown = text;
 
         return Json(MarkdownToHtml.Run(category, ControllerContext));
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public void EditAggregation(int categoryId, string categoriesToExcludeIdsString, string categoriesToIncludeIdsString)
+    {
+        var category = _categoryRepository.GetById(categoryId);
+
+        category.CategoriesToExcludeIdsString = categoriesToExcludeIdsString;
+        category.CategoriesToIncludeIdsString = categoriesToIncludeIdsString;
+
+        ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
+
+        _categoryRepository.Update(category);
+    }
+
+    public ActionResult AggregationModalContent(int catId)
+    {
+        var category = R<CategoryRepository>().GetById(catId);
+        return View("~/Views/Categories/Modals/EditAggregationModal.ascx", new EditCategoryModel(category));
     }
 }

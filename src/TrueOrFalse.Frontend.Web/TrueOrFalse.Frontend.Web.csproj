@@ -348,11 +348,17 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
+      <DependentUpon>EditAggregation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\EditAggregation.js.map">
+      <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -459,6 +465,7 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
+    <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
     </Content>
@@ -1080,6 +1087,7 @@
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />

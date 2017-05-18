@@ -48,6 +48,11 @@ public class Category : DomainEntity, ICreator
             : new List<Category>();
     }
 
+    public virtual IList<Category> AggregatedCategories()
+    {
+        return Sl.R<CategoryRepository>().GetAggregatedCategories(this);
+    }
+
     public virtual string FeaturedSetsIdsString { get; set; }
 
     public virtual string TopicMarkdown { get; set; }

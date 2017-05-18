@@ -19,9 +19,7 @@ public class EditCategoryModel : BaseModel
 
     public List<Category> DescendantCategories = new List<Category>();
 
-    //public List<Category> CategoriesToIncludeContentOf = new List<Category>();
-
-    //public List<Category> CategoriesToExcludeContentOf = new List<Category>();
+    public IList<Category> AggregatedCategories = new List<Category>();
 
     public string CategoriesToExcludeIdsString { get; set; }
 
@@ -82,26 +80,25 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
+        AggregatedCategories = category.AggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
         CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString;
         CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
-
+        DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
     }
 
     public ConvertToCategoryResult ConvertToCategory()
     {
         var category = new Category(Name);
         category.Description = Description;
-        category.CategoriesToExcludeIdsString = CategoriesToExcludeIdsString;
-        category.CategoriesToIncludeIdsString = CategoriesToIncludeIdsString;
+        
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
-        ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -124,14 +121,11 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.CategoriesToExcludeIdsString = CategoriesToExcludeIdsString;
-        category.CategoriesToIncludeIdsString = CategoriesToIncludeIdsString;
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
-        ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
 
         FillFromRequest(category);
 }
