@@ -232,3 +232,39 @@ div.column-Additional div.row {
   position: relative;
   top: 2px;
 }
+@media (min-width: 768px) {
+  .column-Additional {
+    width: 200px;
+  }
+  .column-Additional div.row div.col-AnswerChance {
+    font-size: 13px;
+    color: grey;
+    padding-bottom: 18px;
+  }
+  .column-Additional div.row div.col-AnswerProbability {
+    font-size: 38px;
+    color: #828282;
+    padding-bottom: 18px;
+  }
+  .column-Additional div.row div.col-Wishknowledge {
+    padding-bottom: 18px;
+  }
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAdded,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddedNot,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddSpinner,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAdded i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddedNot i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddSpinner i {
+    font-size: 13px;
+    height: 26px;
+  }
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAdded i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddedNot i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddSpinner i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAdded i i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddedNot i i,
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddSpinner i i {
+    position: relative;
+    top: -4px;
+  }
+}
