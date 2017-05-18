@@ -64,10 +64,24 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override string GetCorrectAnswerAsHtml()
     {
-        var htmlListItems = CorrectAnswer()
-            .Split(new []{AnswerListDelimiter}, StringSplitOptions.RemoveEmptyEntries)
-            .Select(a => $"<li>{a}</li>")
-            .Aggregate((a, b) => a + b);
+        string htmlListItems;
+
+        var correctAnswer = CorrectAnswer();
+
+        if (correctAnswer == AnswerListDelimiter)
+            return "";
+
+        if (!correctAnswer.Contains(AnswerListDelimiter))
+        {
+            htmlListItems = $"<li>{correctAnswer}</li>";
+        }
+        else
+        {
+            htmlListItems = correctAnswer
+                .Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(a => $"<li>{a}</li>")
+                .Aggregate((a, b) => a + b);
+        }
 
         return $"<ul>{htmlListItems}</ul>";
     }

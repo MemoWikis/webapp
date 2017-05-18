@@ -28,52 +28,56 @@
         <div class="col-xs-12">
             <h4 class="">Content Usage Statistics</h4>
             
-<%--            <p>
-                Fragen-Ids für Set 14: 339,340,341,342,343,344,345,346,347,348 <br />
-                select Id, QuestionId, UserId, DateCreated  from questionview where QuestionId IN (339,340,341,342,343,344,345,346,347,348); <br/>
-                select count(*), Date(DateCreated) from questionview where QuestionId IN (339,340,341,342,343,344,345,346,347,348) GROUP BY DATE(DateCreated);
-            </p>--%>
             <p>
                 Berücksichtigt werden nur Daten seit GoLive (11.10.2016) und ohne Admins.
             </p>
             
-            <table style="border: 1px solid darkblue; text-align: center;">
-                <tr>
-                    <th>Id</th>
-                    <td>Created</td>
-                    <th>SetViews<br/>Total</th>
-                    <td>SetViews<br/>Last 7d</td>
-                    <td>SetViews<br/>Last 30d</td>
-                    <td>SetViews<br/>Pre 30d</td>
-                    <th>QuestionView<br/>Total</th>
-                    <td><span class="show-tooltip" data-original-title="# of questions of this set seen daily (average)">QuestionV<br/>DailyAvg</span></td>
-                    <td>QuestionView<br/>Last 7d</td>
-                    <td>QuestionView<br/>Last 30d</td>
-                    <td>QuestionView<br/>Preced. 30d</td>
-                    <th>Answers<br/>Total</th>
-                    <th>Lrnng</th>
-                    <th>Dts</th>
-                </tr>
-                <% foreach (var setStat in Model.SetStats)
-                   { %>
+            <table style="border: 1px solid darkblue; text-align: center; font-size: small;">
+                <% var idx = 0;
+                    foreach (var setStat in Model.SetStats)
+                    {
+                        if (idx == 0)
+                        { %>
+                        <tr style="color: green;">
+                            <th style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Views der Set-Detail-Seite">SetViews<br/>Total</span></th>
+                            <td style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Views der Set-Detail-Seite in den letzten 7 Tagen">SetViews<br/>Last 7d</span></td>
+                            <td style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Views der Set-Detail-Seite in den letzten 30 Tagen">SetViews<br/>Last 30d</span></td>
+                            <td style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Views der Set-Detail-Seite in den vorvergangenen 30 Tagen">SetViews<br/>Pre 30d</span></td>
+                            <th style="padding-top: 15px;"><span class="show-tooltip" data-original-title="QuestionViews aller Fragen des Sets">QstnView<br/>Total</span></th>
+                            <td style="padding-top: 15px;"><span class="show-tooltip" data-original-title="QuestionViews aller Fragen des Sets in den letzten 7 Tagen">QstnView<br/>Last 7d</span></td>
+                            <td style="padding-top: 15px;"><span class="show-tooltip" data-original-title="QuestionViews aller Fragen des Sets in den letzten 30 Tagen">QstnView<br/>Last 30d</span></td>
+                            <td style="padding-top: 15px;"><span class="show-tooltip" data-original-title="QuestionViews aller Fragen des Sets in den vorvergangenen 30 Tagen">QstnView<br/>Preced. 30d</span></td>
+                            <th style="padding-top: 15px;"><span class="show-tooltip" data-original-title="QuestionViews aller Fragen des Sets: Durchschnitt pro Tag seit Fragesatzerstellung">*QstnView<br/>DailyAvg</span></th>
+                            <th style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Anzahl an Antworten zu Fragen in diesem Set">Answers<br/>Total</span></th>
+                            <th style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Anzahl an Learning-Sessions mit diesem Set">Lrnng</span></th>
+                            <th style="padding-top: 15px;"><span class="show-tooltip" data-original-title="Anzahl an Terminen mit diesem Set">Dts</span></th>
+                        </tr>
+
+                    <% } 
+                    if (idx == 15)
+                        idx = 0;
+                    else
+                        idx += 1;
+                    %>
+                    <tr>
+                        <td colspan="12" style="text-align: left; padding-top: 10px; color: black;"><%= setStat.SetId %>: <b><%= setStat.SetName %></b> (seit <%= new TimeSpanLabel(DateTime.Now - setStat.Created, true).Full %>)</td>
+                    </tr>
                         <tr>
-                            <th><span class="show-tooltip" data-original-title="<%= setStat.SetName %>"><%= setStat.SetId %></span></th>
-                            <td><%= new TimeSpanLabel(DateTime.Now - setStat.Created).Full %> </td>
-                            <th><%= setStat.SetDetailViewsTotal %> </th>
-                            <td><%= setStat.SetDetailViewsLast7Days %> </td>
-                            <td><%= setStat.SetDetailViewsLast30Days %> </td>
-                            <td><%= setStat.SetDetailViewsPrec30Days %> </td>
-                            <th><%= setStat.QuestionsViewsTotal.ToString("D") %> </th>
-                            <td><%= setStat.QuestionViewsDailyAvg.ToString("n2") %> </td>
-                            <td><%= setStat.QuestionsViewsLast7Days %> </td>
-                            <td><%= setStat.QuestionsViewsLast30Days %> </td>
-                            <td><%= setStat.QuestionsViewsPrec30Days %> </td>
-                            <th><%= setStat.QuestionsAnswersTotal %> </th>
-                            <th><%= setStat.LearningSessionsTotal %> </th>
-                            <th><%= setStat.DatesTotal %> </th>
+                            <th style="text-align: right;"><%= setStat.SetDetailViewsTotal.ToString("N0") %> </th>
+                            <td style="text-align: right;"><%= setStat.SetDetailViewsLast7Days.ToString("N0") %> </td>
+                            <td style="text-align: right;"><%= setStat.SetDetailViewsLast30Days.ToString("N0") %> </td>
+                            <td style="text-align: right;"><%= setStat.SetDetailViewsPrec30Days.ToString("N0") %> </td>
+                            <th style="text-align: right;"><%= setStat.QuestionsViewsTotal.ToString("N0") %> </th>
+                            <td style="text-align: right;"><%= setStat.QuestionsViewsLast7Days.ToString("N0") %> </td>
+                            <td style="text-align: right;"><%= setStat.QuestionsViewsLast30Days.ToString("N0") %> </td>
+                            <td style="text-align: right;"><%= setStat.QuestionsViewsPrec30Days.ToString("N0") %> </td>
+                            <th style="text-align: right;"><%= setStat.QuestionViewsDailyAvg.ToString("N2") %> </th>
+                            <th style="text-align: right;"><%= setStat.QuestionsAnswersTotal.ToString("N0") %> </th>
+                            <th style="text-align: right;"><%= setStat.LearningSessionsTotal.ToString("N0") %> </th>
+                            <th style="text-align: right;"><%= setStat.DatesTotal.ToString("N0") %> </th>
                         </tr>
                        
-                   <%} %>
+                <%} %>
             </table>
         </div>
     </div>

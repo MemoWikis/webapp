@@ -457,7 +457,7 @@
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\GetLearningSessionSteps\GetLearningSessionSteps.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\LearningSessionStep.cs" />
     <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionMap.cs" />
-    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository .cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSession\Persistence\LearningSessionRepository.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\GetQuestionImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\FrontendData\ImageFrontendData.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\ImageSettings.cs" />
