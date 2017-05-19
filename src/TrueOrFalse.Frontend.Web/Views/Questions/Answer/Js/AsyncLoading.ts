@@ -7,7 +7,10 @@
                     var NextQuestionLinkArgs = $("#NextQuestionLink").attr("href").split("/");
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
-                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
+                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" +
+                        questionId +
+                        "&setId=" +
+                        setId;
                     this.loadNewQuestion(primaryDataUrl);
                 });
 
@@ -16,9 +19,16 @@
                     var NextQuestionLinkArgs = $("#PreviousQuestionLink").attr("href").split("/");
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
-                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
+                    var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" +
+                        questionId +
+                        "&setId=" +
+                        setId;
                     this.loadNewQuestion(primaryDataUrl);
                 });
+            } else if ($("#hddIslearningSession").val() === "True") {
+                //do the LearningSession stuff
+            } else if ($("#hddIsTestSession").val() === "True") {
+                //do the TestSession stuff
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
