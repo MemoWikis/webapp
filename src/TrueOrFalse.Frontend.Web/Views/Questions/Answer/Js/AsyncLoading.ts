@@ -46,9 +46,10 @@
             }
 
             $(window).off("popstate");
-            $(window).on("popstate", () => {
-                location.reload();
-            });
+            window.onpopstate = (event) => {
+                if (event.state.stateType === "BrowserNavigation")
+                    location.reload();
+            };
         });
     }
 
@@ -106,6 +107,6 @@
     }
 
     private updateUrl(url: string) {
-        history.pushState({}, $(".QuestionText").html(), url);
+        history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
     }
 }
