@@ -339,6 +339,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Scripts\vendor\modernizr-config.json" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -439,6 +440,7 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
+    <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
@@ -1798,7 +1800,6 @@
     <Content Include="Scripts\vendor\Markdown.Converter.js" />
     <Content Include="Scripts\vendor\Markdown.Editor.js" />
     <Content Include="Scripts\vendor\Markdown.Sanitizer.js" />
-    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\typescript.defs\markdown.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
