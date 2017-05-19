@@ -104,8 +104,8 @@
             url: url,
             success: result => {
                 result = JSON.parse(result);
-                $("div#AnswerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
-                $("div#Comments").replaceWith(result.commentsAsHtml);
+                $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
+                $("div#comments").replaceWith(result.commentsAsHtml);
                 new PageInit();
             }
         });
