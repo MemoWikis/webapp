@@ -45,11 +45,13 @@
                 });
             }
 
-            $(window).off("popstate");
-            window.onpopstate = (event) => {
-                if (event.state.stateType === "BrowserNavigation")
-                    location.reload();
-            };
+            if (Modernizr.history) {
+                $(window).off("popstate");
+                window.onpopstate = (event) => {
+                    if (event.state.stateType === "BrowserNavigation")
+                        location.reload();
+                };
+            }
         });
     }
 
@@ -62,7 +64,6 @@
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
                         this.updateNavigationBar(result.navBarData);
-                        //TODO:Julian Check here with Modernizr
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
                         $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
@@ -107,6 +108,7 @@
     }
 
     private updateUrl(url: string) {
-        history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
+        if(Modernizr.history)
+            history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
     }
 }
