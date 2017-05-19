@@ -339,8 +339,10 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
-    <Content Include="Images\Error\memo+404_german.png" />
-    <Content Include="Images\Error\memo+500_german.png" />
+    <Content Include="Images\Error\memo-404_german.png" />
+    <Content Include="Images\Error\memo-404_german_600.png" />
+    <Content Include="Images\Error\memo-500_german.png" />
+    <Content Include="Images\Error\memo-500_german_600.png" />
     <Content Include="Images\LogosPartners\Logo_LearningLevelUp.png" />
     <Content Include="Images\no-category-picture-533.png" />
     <Content Include="Images\no-profile-picture-533.png" />
@@ -362,6 +364,10 @@
     <Content Include="Views\Categories\Edit\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Error\Error.css">
+      <DependentUpon>Error.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Error\Error.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

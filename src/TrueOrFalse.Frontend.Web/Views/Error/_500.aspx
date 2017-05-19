@@ -1,6 +1,10 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" 
-        Title="Fehler"
-%>
+        Title="Fehler" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+    <%= Styles.Render("~/Views/Error/Error.css") %>
+</asp:Content>
 
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
 <script type="text/javascript" >
@@ -16,7 +20,7 @@
     });
 </script>    
         
-    <h1 style="margin-top: 0px;">Autsch! Ein Fehler ist aufgetreten.</h1>
+    <img src="/Images/Error/memo-500_german_600.png" class="ErrorImage" />
     
     <p>
         Wir kümmern uns um das Problem. 
@@ -26,7 +30,5 @@
             <li>Oder schicke eine E-Mail an <span class="mailme">team at memucho dot de</span>.</li>
         </ul>
     </p>
-    
-    <img src="/Images/Logo/memucho_MEMO_angry_blau_w220.png" width="220" height="231" style="margin: 20px 0 50px 20px" />
 
 </asp:Content>
