@@ -21,6 +21,8 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> AggregatedCategories = new List<Category>();
 
+    public IList<Category> NonAggregatedCategories = new List<Category>();
+
     public string CategoriesToExcludeIdsString { get; set; }
 
     public string CategoriesToIncludeIdsString { get; set; }
@@ -81,6 +83,7 @@ public class EditCategoryModel : BaseModel
         Description = category.Description;
         ParentCategories = parentCategories;
         AggregatedCategories = category.AggregatedCategories();
+        NonAggregatedCategories = category.NonAggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;

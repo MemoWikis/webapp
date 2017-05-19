@@ -14,9 +14,10 @@
     </div>
 <% } %>
 
-<h4>Alle untergeordneten Themen (<%= Model.DescendantCategories.Count %>)</h4>
+<h4>Noch nicht bearbeitete untergeordnete Themen (<%= Model.NonAggregatedCategories.Count %>)</h4>
+Werden bei Klick auf "Bearbeiten" automatisch hinzugefügt (wenn nicht ausgeschlossen)
 
-<% foreach (var category in Model.DescendantCategories)
+<% foreach (var category in Model.NonAggregatedCategories)
     { %>
     <div>
         <a href="<%= Links.CategoryDetail(category) %>">

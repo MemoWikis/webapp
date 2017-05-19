@@ -23,6 +23,7 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> Sets;
+    public IList<Set> AggregatedSets;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
@@ -122,6 +123,8 @@ public class CategoryModel : BaseModel
         Sets = Resolve<SetRepo>().GetForCategory(category.Id);
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
+
+        AggregatedSets = Category.GetAggregatedSets();
     }
 
     private List<Question> GetTopQuestionsInSubCats()

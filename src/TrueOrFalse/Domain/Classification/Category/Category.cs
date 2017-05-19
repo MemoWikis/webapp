@@ -53,6 +53,26 @@ public class Category : DomainEntity, ICreator
         return Sl.R<CategoryRepository>().GetAggregatedCategories(this);
     }
 
+    public virtual IList<Category> NonAggregatedCategories()
+    {
+        var x = Sl.R<CategoryRepository>()
+            .GetDescendants(CategoryType.Standard, CategoryType.Standard, Id)
+            ;
+        var y = AggregatedCategories();
+
+        x =x
+            .Except(AggregatedCategories())
+            .ToList();
+        x= x
+            .Except(CategoriesToExclude())
+            .ToList();
+        x= x
+            .Distinct()
+            .ToList();
+
+        return x;
+    }
+
     public virtual string FeaturedSetsIdsString { get; set; }
 
     public virtual string TopicMarkdown { get; set; }
@@ -108,6 +128,19 @@ public class Category : DomainEntity, ICreator
         }
                     
         return Sl.R<SetRepo>().GetForCategory(Id);
+    }
+
+    public virtual IList<Set> GetAggregatedSets()
+    {
+        var aggregatedCategories = Sl.R<CategoryRepository>().GetAggregatedCategories(this);
+        var aggregatedSets = new List<Set>();
+
+        foreach (var category in aggregatedCategories)
+        {
+            aggregatedSets.AddRange(category.GetSets());
+        }
+
+        return aggregatedSets.Distinct().ToList();
     }
 
     public virtual object GetTypeModel()
