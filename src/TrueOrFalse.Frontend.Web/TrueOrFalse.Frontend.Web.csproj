@@ -339,7 +339,15 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\Error\memo+404_german.png" />
+    <Content Include="Images\Error\memo+500_german.png" />
     <Content Include="Images\LogosPartners\Logo_LearningLevelUp.png" />
+    <Content Include="Images\no-category-picture-533.png" />
+    <Content Include="Images\no-profile-picture-533.png" />
+    <Content Include="Images\no-question-50.png" />
+    <Content Include="Images\no-question-533.png" />
+    <Content Include="Images\no-set-350.png" />
+    <Content Include="Images\no-set-533.png" />
     <Content Include="Images\Screenshots\widget-blackboard_button-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_button-more.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f01_add.png" />
