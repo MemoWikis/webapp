@@ -8,10 +8,7 @@
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
-                    this.loadAnswerBody(primaryDataUrl);
-
-                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationBySet/?questionId=" + questionId + "&setId=" + setId;
-                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
+                    this.loadNewQuestion(primaryDataUrl);
                 });
 
                 $("#PreviousQuestionLink").click((e) => {
@@ -20,30 +17,21 @@
                     var setId = NextQuestionLinkArgs[5];
                     var questionId = NextQuestionLinkArgs[3];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyBySet/?questionId=" + questionId + "&setId=" + setId;
-                    this.loadAnswerBody(primaryDataUrl);
-
-                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationBySet/?questionId=" + questionId + "&setId=" + setId;
-                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
+                    this.loadNewQuestion(primaryDataUrl);
                 });
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
                     var pager = $("#NextQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByNextQuestion/?pager=" + pager;
-                    this.loadAnswerBody(primaryDataUrl);
-
-                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationByNextQuestion/?pager=" + pager;
-                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
+                    this.loadNewQuestion(primaryDataUrl);
                 });
 
                 $("#PreviousQuestionLink").click((e) => {
                     e.preventDefault();
                     var pager = $("#PreviousQuestionLink").attr("href").split("?")[1].split("=")[1];
                     var primaryDataUrl = "/AnswerQuestion/RenderAnswerBodyByPreviousQuestion/?pager=" + pager;
-                    this.loadAnswerBody(primaryDataUrl);
-
-                    var secondaryDataUrl = "/AnswerQuestion/RenderSecondaryQuestionInformationByPreviousQuestion/?pager=" + pager;
-                    this.loadSecondaryQuestionInformation(secondaryDataUrl);
+                    this.loadNewQuestion(primaryDataUrl);
                 });
             }
 
@@ -54,7 +42,7 @@
         });
     }
 
-    private loadAnswerBody(url: string) {
+    private loadNewQuestion(url: string) {
                 $.ajax({
                     url: url,
                     success: result => {
@@ -66,7 +54,19 @@
                         //TODO:Julian Check here with Modernizr
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
-                        //new PageInit();
+                        $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
+                        $("div#comments").replaceWith(result.commentsAsHtml);
+                        new PageInit();
+
+                        FillSparklineTotals();
+                        InitTooltips();
+                        Images.Init();
+                        InitClickLog("div#LicenseQuestion");
+                        InitClickLog("div#AnswerBody");
+                        InitClickLog("div#AnswerQuestionPager");
+                        InitClickLog("div#answerQuestionDetails");
+                        InitClickLog("div#comments");
+                        PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
                     }
                 });
     }
@@ -97,17 +97,5 @@
 
     private updateUrl(url: string) {
         history.pushState({}, $(".QuestionText").html(), url);
-    }
-
-    private loadSecondaryQuestionInformation(url: string) {
-        $.ajax({
-            url: url,
-            success: result => {
-                result = JSON.parse(result);
-                $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
-                $("div#comments").replaceWith(result.commentsAsHtml);
-                new PageInit();
-            }
-        });
     }
 }

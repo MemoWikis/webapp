@@ -543,74 +543,7 @@ public class AnswerQuestionController : BaseController
                     ControllerContext
                 )
             },
-            url = currentUrl
-        });
-    }
-
-    //AsyncLoading: Details + Comments
-    public string RenderSecondaryQuestionInformationByNextQuestion(string pager)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.NextPage(1);
-        return getSecondaryQuestionInformationBySearchSpec(activeSearchSpec);
-    }
-
-    public string RenderSecondaryQuestionInformationByPreviousQuestion(string pager)
-    {
-        var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        activeSearchSpec.PreviousPage(1);
-        return getSecondaryQuestionInformationBySearchSpec(activeSearchSpec);
-    }
-
-    private string getSecondaryQuestionInformationBySearchSpec(QuestionSearchSpec activeSearchSpec)
-    {
-        Question question;
-
-        using (MiniProfiler.Current.Step("GetViewBySearchSpec"))
-        {
-            question = AnswerQuestionControllerSearch.Run(activeSearchSpec);
-
-            if (activeSearchSpec.HistoryItem != null)
-            {
-                if (activeSearchSpec.HistoryItem.Question != null)
-                {
-                    if (activeSearchSpec.HistoryItem.Question.Id != question.Id)
-                    {
-                        question = Resolve<QuestionRepo>().GetById(activeSearchSpec.HistoryItem.Question.Id);
-                    }
-                }
-
-                activeSearchSpec.HistoryItem = null;
-            }
-        }
-
-        var elementOnPage = activeSearchSpec.CurrentPage;
-        activeSearchSpec.PageSize = 1;
-        if (elementOnPage != -1)
-            activeSearchSpec.CurrentPage = (int)elementOnPage;
-
-        var questionViewGuid = Guid.NewGuid();
-        var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
-
-        return getSecondaryQuestionData(model);
-    }
-
-    public string RenderSecondaryQuestionInformationBySet(int questionId, int setId)
-    {
-        var set = Resolve<SetRepo>().GetById(setId);
-        var question = _questionRepo.GetById(questionId);
-
-        var questionViewGuid = Guid.NewGuid();
-        var model = new AnswerQuestionModel(questionViewGuid, set, question);
-
-        return getSecondaryQuestionData(model);
-    }
-
-    private string getSecondaryQuestionData(AnswerQuestionModel model)
-    {
-        var serializer = new JavaScriptSerializer();
-        return serializer.Serialize(new
-        {
+            url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext)
         });
