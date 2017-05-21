@@ -38,9 +38,7 @@
             <div class="col-sm-12 col-xs-3 col-AnswerProbability"><%= Model.HistoryAndProbability.CorrectnessProbability.CPPersonal %>%</div>
             <div class="col-sm-12 col-xs-3 col-Wishknowledge">
                 <div class="Pin" data-question-id="<%= Model.QuestionId %>">
-                    <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
-                        <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                    </a>
+                    <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                 </div>                
             </div>
         </div>

@@ -239,7 +239,7 @@ div.column-Additional div.row {
   .column-Additional div.row div.col-AnswerChance {
     font-size: 13px;
     color: grey;
-    padding-bottom: 18px;
+    padding-bottom: 15px;
   }
   .column-Additional div.row div.col-AnswerProbability {
     font-size: 38px;
@@ -265,6 +265,17 @@ div.column-Additional div.row {
   .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddedNot i i,
   .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddSpinner i i {
     position: relative;
-    top: -4px;
+    top: -5px;
+  }
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAdded {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAdded i {
+    font-size: 17px;
+  }
+  .column-Additional div.row div.col-Wishknowledge .HeartToAddButton .iAddedNot span {
+    position: relative;
+    bottom: 4px;
   }
 }

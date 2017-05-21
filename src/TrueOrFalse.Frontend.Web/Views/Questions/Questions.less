@@ -182,7 +182,7 @@ div.column-Additional div.row {
             div.col-AnswerChance {
                 font-size: 13px;
                 color: grey;
-                padding-bottom: 18px;
+                padding-bottom: 15px;
             }
 
             div.col-AnswerProbability {
@@ -194,14 +194,30 @@ div.column-Additional div.row {
             div.col-Wishknowledge {
                 padding-bottom: 18px;
 
-                .HeartToAddButton {
+                .HeartToAddButton 
+                {
                     .iAdded, .iAddedNot, .iAddSpinner, .iAdded i, .iAddedNot i, .iAddSpinner i {
                         font-size: 13px;
                         height: 26px;
 
-                        i{
-                            position: relative; top: -4px;
+                        i {
+                            position: relative;
+                            top: -5px;
                         }
+                    }
+
+                    .iAdded {
+                        padding-right: 0px;
+                        padding-left: 0px;
+
+                        i {
+                            font-size: 17px;
+                        }
+                    }
+
+                    .iAddedNot span {
+                        position: relative;
+                        bottom: 4px;
                     }
                 }
             }
