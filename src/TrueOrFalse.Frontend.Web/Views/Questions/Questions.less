@@ -33,9 +33,11 @@ div.question-row{background-color:silver;}*/
     .xxs-stack;
 }
 
-.question-row .label {
-    max-width: 300px;
-}
+.question-row {
+    .label {
+        max-width: 300px;
+    }
+} 
 
 #menu1 {
     ul.dropdown-menu {
@@ -193,33 +195,55 @@ div.column-Additional div.row {
 
             div.col-Wishknowledge {
                 padding-bottom: 18px;
+            }
+        }
+    }
 
-                .HeartToAddButton 
-                {
-                    .iAdded, .iAddedNot, .iAddSpinner, .iAdded i, .iAddedNot i, .iAddSpinner i {
-                        font-size: 13px;
-                        height: 26px;
+    );
 
-                        i {
-                            position: relative;
-                            top: -5px;
-                        }
-                    }
+    div.col-Wishknowledge {
+        .HeartToAddButton {
+            .iAdded, .iAddedNot, .iAddSpinner, .iAdded i, .iAddedNot i, .iAddSpinner i {
+                font-size: 13px;
+                height: 26px;
 
-                    .iAdded {
-                        padding-right: 0px;
-                        padding-left: 0px;
-
-                        i {
-                            font-size: 17px;
-                        }
-                    }
-
-                    .iAddedNot span {
-                        position: relative;
-                        bottom: 4px;
-                    }
+                i {
+                    position: relative;
+                    top: -5px;
                 }
+            }
+
+            .iAdded {
+                padding-right: 0px;
+                padding-left: 0px;
+
+                i {
+                    font-size: 17px;
+                }
+            }
+
+            .iAddedNot span {
+                position: relative;
+                bottom: 4px;
+            }
+        }
+    }
+
+
+    .media-below-sm ( {
+        div.row {
+            width: 100%;
+
+            .col-AnswerChance, .col-AnswerProbability, .col-Wishknowledge {
+                width: auto;
+                display: inline-block;
+                padding-left: 0px;
+                padding-right: 3px;
+                font-size: 14px;
+            }
+
+            .col-Wishknowledge {
+                float: right;
             }
         }
     }
