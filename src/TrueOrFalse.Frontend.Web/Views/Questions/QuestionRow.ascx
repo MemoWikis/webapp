@@ -39,6 +39,16 @@
             <div class="col-sm-12 col-Wishknowledge">
                 <div class="Pin" data-question-id="<%= Model.QuestionId %>">
                     <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                    
+                    <% if(Model.IsInWishknowledge){ %>
+                        <% var status = Model.HistoryAndProbability.QuestionValuation.KnowledgeStatus; %>
+                        <div style="margin-bottom: 4px; display: inline;">
+                            <div style="background-color: <%= status.GetColor() %>; display: inline-block; font-size: 13px;  padding: 2px 4px; -ms-border-radius: 5px; border-radius: 5px;">
+                                <%= status.GetText() %>
+                            </div>
+                        </div>
+                    <% } %>
+
                 </div>                
             </div>
         </div>
