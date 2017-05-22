@@ -526,18 +526,9 @@ public class AnswerQuestionController : BaseController
     {
                     //var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
 
-                    //    if (sessionCount == 0)
-                    //    {
-                    //        //Logg.r().Error("SessionCount 0");
-                    //        //return View(_viewLocation, AnswerQuestionModel.CreateExpiredTestSession());
-                    //        throw new Exception("SessionCount is 0. Shoult be 1");
-                    //    }
-
                     //    if (sessionCount > 1)
                     //        throw new Exception(
                     //            $"SessionCount is {sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
-
-
                     //    if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
                     //        return redirectToFinalStepFunc(testSession);
 
@@ -580,6 +571,7 @@ public class AnswerQuestionController : BaseController
                     ControllerContext
                 ) : ""
             },
+            currentSessionHeader = hasNavBar ? "" : "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps,
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),

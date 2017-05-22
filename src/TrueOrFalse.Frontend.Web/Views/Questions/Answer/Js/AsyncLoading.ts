@@ -80,6 +80,8 @@
                             .replaceWith(result.answerBodyAsHtml);
                         if (result.navBarData.currentHtml !== "")
                             this.updateNavigationBar(result.navBarData);
+                        else
+                            this.updateSessionHeader(result.currentSessionHeader);
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
                         $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
@@ -125,13 +127,17 @@
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
     }
 
+    private updateSessionHeader(currentSessionHeaderText) {
+        $(".SessionBar .QuestionCount").html(currentSessionHeaderText);
+    }
+
     private updateUrl(url: string) {
         if(Modernizr.history)
             history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
     }
 
     private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {
-        if(offlineDevelopment)
+        if(!offlineDevelopment)
             ga('send', 'pageview');
     }
 }
