@@ -188,10 +188,19 @@ div.column-Additional div.row {
             }
 
             div.col-AnswerProbability {
-                font-size: 38px;
+                font-size: 28px;
                 color: #828282;
-                padding-bottom: 18px;
+                padding-bottom: 16px;
+
+                i.fa-tachometer {
+                    display: none;
+                }
+
+                span.derivation {
+                    display: none;
+                }
             }
+
 
             div.col-Wishknowledge {
                 padding-bottom: 18px;
@@ -200,6 +209,12 @@ div.column-Additional div.row {
     }
 
     );
+
+    &:hover {
+        div.row div.col-AnswerProbability span.derivation {
+            display: inline;
+        }
+    }
 
     div.col-Wishknowledge {
         .HeartToAddButton {

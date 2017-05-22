@@ -242,13 +242,22 @@ div.column-Additional div.row {
     padding-bottom: 15px;
   }
   .column-Additional div.row div.col-AnswerProbability {
-    font-size: 38px;
+    font-size: 28px;
     color: #828282;
-    padding-bottom: 18px;
+    padding-bottom: 16px;
+  }
+  .column-Additional div.row div.col-AnswerProbability i.fa-tachometer {
+    display: none;
+  }
+  .column-Additional div.row div.col-AnswerProbability span.derivation {
+    display: none;
   }
   .column-Additional div.row div.col-Wishknowledge {
     padding-bottom: 18px;
   }
+}
+.column-Additional:hover div.row div.col-AnswerProbability span.derivation {
+  display: inline;
 }
 .column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded,
 .column-Additional div.col-Wishknowledge .HeartToAddButton .iAddedNot,
