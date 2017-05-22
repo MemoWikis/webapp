@@ -79,6 +79,8 @@
                         InitClickLog("div#answerQuestionDetails");
                         InitClickLog("div#comments");
                         PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
+
+                        this.sendGoogleAnalyticsPageView();
                     }
                 });
     }
@@ -110,5 +112,9 @@
     private updateUrl(url: string) {
         if(Modernizr.history)
             history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
+    }
+
+    private sendGoogleAnalyticsPageView() {
+        ga('send', 'pageview');
     }
 }
