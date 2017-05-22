@@ -498,7 +498,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return getQuestionPageData(model, currentUrl);
+        return getQuestionPageData(model, currentUrl, true);
     }
 
     public string RenderAnswerBodyBySet(int questionId, int setId)
@@ -514,7 +514,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
         var currenUrl = Links.AnswerQuestion(question, set);
-        return getQuestionPageData(model, currenUrl);
+        return getQuestionPageData(model, currenUrl, true);
     }
 
     //public string RenderAnswerBodyByLearningSession(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
@@ -551,10 +551,10 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(testSession, questionViewGuid, question);
 
         var currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return getQuestionPageData(model, currentUrl);
+        return getQuestionPageData(model, currentUrl, false);
     }
 
-    private string getQuestionPageData(AnswerQuestionModel model, string currentUrl)
+    private string getQuestionPageData(AnswerQuestionModel model, string currentUrl, bool hasNavBar)
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
@@ -574,15 +574,16 @@ public class AnswerQuestionController : BaseController
             {
                 nextUrl = nextPageLink,
                 previousUrl = previousPageLink,
-                currentHtml = ViewRenderer.RenderPartialView(
+                currentHtml = hasNavBar ? ViewRenderer.RenderPartialView(
                     "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
                     model,
                     ControllerContext
-                )
+                ) : ""
             },
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
-            commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext)
+            commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
+            offlineDevelopment = Settings.DevelopOffline()
         });
     }
 

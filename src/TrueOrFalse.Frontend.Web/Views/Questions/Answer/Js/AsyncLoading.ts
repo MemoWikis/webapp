@@ -78,7 +78,8 @@
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
-                        this.updateNavigationBar(result.navBarData);
+                        if (result.navBarData.currentHtml !== "")
+                            this.updateNavigationBar(result.navBarData);
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
                         $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
@@ -95,7 +96,7 @@
                         InitClickLog("div#comments");
                         PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
 
-                        this.sendGoogleAnalyticsPageView();
+                        this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                     }
                 });
     }
@@ -129,7 +130,8 @@
             history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
     }
 
-    private sendGoogleAnalyticsPageView() {
-        //ga('send', 'pageview');
+    private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {
+        if(offlineDevelopment)
+            ga('send', 'pageview');
     }
 }
