@@ -498,7 +498,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return getPrimaryQuestionData(model, currentUrl);
+        return getQuestionPageData(model, currentUrl);
     }
 
     public string RenderAnswerBodyBySet(int questionId, int setId)
@@ -514,10 +514,47 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
         var currenUrl = Links.AnswerQuestion(question, set);
-        return getPrimaryQuestionData(model, currenUrl);
+        return getQuestionPageData(model, currenUrl);
     }
 
-    private string getPrimaryQuestionData(AnswerQuestionModel model, string currentUrl)
+    //public string RenderAnswerBodyByLearningSession(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
+    //{
+    //    return getQuestionPageData()
+    //}
+
+    public string RenderAnswerBodyByTestSession(int testSessionId)
+    {
+                    //var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
+
+                    //    if (sessionCount == 0)
+                    //    {
+                    //        //Logg.r().Error("SessionCount 0");
+                    //        //return View(_viewLocation, AnswerQuestionModel.CreateExpiredTestSession());
+                    //        throw new Exception("SessionCount is 0. Shoult be 1");
+                    //    }
+
+                    //    if (sessionCount > 1)
+                    //        throw new Exception(
+                    //            $"SessionCount is {sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
+
+
+                    //    if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
+                    //        return redirectToFinalStepFunc(testSession);
+
+        var sessionUser = Sl.SessionUser;
+        var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
+
+        var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
+        var questionViewGuid = Guid.NewGuid();
+
+        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
+        var model = new AnswerQuestionModel(testSession, questionViewGuid, question);
+
+        var currentUrl = Links.TestSession(testSession.UriName, testSessionId);
+        return getQuestionPageData(model, currentUrl);
+    }
+
+    private string getQuestionPageData(AnswerQuestionModel model, string currentUrl)
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
