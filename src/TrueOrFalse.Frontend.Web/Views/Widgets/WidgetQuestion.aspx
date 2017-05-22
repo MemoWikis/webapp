@@ -11,11 +11,18 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/WidgetQuestion") %>
     
+    <%= Model.CustomCss %>
+
+    <% if(Model.IncludeCustomCss){ %>
+        <link href="<%= Model.CustomCss %>" rel="stylesheet" />
+    <% } %>
+
     <style type="text/css">
         html { height: auto;}
     </style>

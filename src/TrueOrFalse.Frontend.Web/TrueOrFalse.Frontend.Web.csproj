@@ -673,6 +673,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
     <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
