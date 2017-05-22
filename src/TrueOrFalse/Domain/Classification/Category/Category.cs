@@ -55,22 +55,12 @@ public class Category : DomainEntity, ICreator
 
     public virtual IList<Category> NonAggregatedCategories()
     {
-        var x = Sl.R<CategoryRepository>()
+        return Sl.R<CategoryRepository>()
             .GetDescendants(CategoryType.Standard, CategoryType.Standard, Id)
-            ;
-        var y = AggregatedCategories();
-
-        x =x
             .Except(AggregatedCategories())
-            .ToList();
-        x= x
             .Except(CategoriesToExclude())
-            .ToList();
-        x= x
             .Distinct()
             .ToList();
-
-        return x;
     }
 
     public virtual string FeaturedSetsIdsString { get; set; }

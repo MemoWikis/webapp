@@ -5,29 +5,25 @@
 
 <% foreach (var category in Model.AggregatedCategories)
     { %>
-    <div>
-        <a href="<%= Links.CategoryDetail(category) %>">
-            <span class="label label-category" style="max-width: none;">
-                <%= category.Name %> (Id=<%= category.Id %>)
-            </span>
-        </a>
-    </div>
+    <a href="<%= Links.CategoryDetail(category) %>">
+        <span class="label label-category" style="max-width: none;">
+            <%= category.Name %> (Id=<%= category.Id %>)
+        </span>
+    </a>
 <% } %>
 
 <h4>Noch nicht bearbeitete untergeordnete Themen (<%= Model.NonAggregatedCategories.Count %>)</h4>
-Werden bei Klick auf "Bearbeiten" automatisch hinzugefügt (wenn nicht ausgeschlossen)
+<div class="greyed">Werden bei Klick auf "Bearbeiten" automatisch hinzugefügt (wenn nicht ausgeschlossen)</div>
 
 <% foreach (var category in Model.NonAggregatedCategories)
     { %>
-    <div>
-        <a href="<%= Links.CategoryDetail(category) %>">
-            <span class="label label-category" style="max-width: none;">
-                <%= Model.IsInCategoriesToInclude(category.Id) ? "<i class='fa fa-check' style='color: green;'></i>" : "" %>
-                <%= Model.IsInCategoriesToExclude(category.Id) ? "<i class='fa fa-remove' style='color: red'></i>" : "" %>
-                <%= category.Name %> (Id=<%= category.Id %>)
-            </span>
-        </a>
-    </div>
+    <a href="<%= Links.CategoryDetail(category) %>">
+        <span class="label label-category" style="max-width: none;">
+            <%= Model.IsInCategoriesToInclude(category.Id) ? "<i class='fa fa-check' style='color: green;'></i>" : "" %>
+            <%= Model.IsInCategoriesToExclude(category.Id) ? "<i class='fa fa-remove' style='color: red'></i>" : "" %>
+            <%= category.Name %> (Id=<%= category.Id %>)
+        </span>
+    </a>
     <% } %>
 <div class="form-horizontal">
     <div class="form-group">
