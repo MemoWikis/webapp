@@ -53,10 +53,10 @@ class Pin {
             if ($(this).hasClass("iAddedNot")) /* pin */ {
 
                 self.Pin(id, onPinChanged);
-                elemPin.find(".iAddedNot, .iAddSpinner").toggle();
+                elemPin.find(".iAddedNot, .iAddSpinner").toggleClass("hide2");
 
                 window.setTimeout(() => {
-                    elemPin.find(".iAdded, .iAddSpinner").toggle();
+                    elemPin.find(".iAdded, .iAddSpinner").toggleClass("hide2");
                     self._changeInProgress = false;
 
                     if (self.IsQuestionRow())
@@ -75,10 +75,10 @@ class Pin {
             } else /* unpin */ {
 
                 self.UnPin(id, onPinChanged);
-                elemPin.find(".iAdded, .iAddSpinner").toggle();
+                elemPin.find(".iAdded, .iAddSpinner").toggleClass("hide2");
 
                 window.setTimeout(() => {
-                    elemPin.find(".iAddedNot, .iAddSpinner").toggle();
+                    elemPin.find(".iAddedNot, .iAddSpinner").toggleClass("hide2");
                     self._changeInProgress = false;
 
                     if (self.IsQuestionRow()) 

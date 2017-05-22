@@ -38,12 +38,12 @@
                 <p class="teaserText">
                     Die Inhalte und Technologie von memucho können als Widget leicht in bestehende Webseiten integriert werden. 
                     Egal ob auf dem privaten Blog, der Vereins- oder Unternehmensseite, oder dem Schul- oder Lernmanagementsystem: Nötig ist eine Zeile HTML-Code, 
-                    die du einfach von memucho kopieren kannst.
+                    die du einfach von memucho kopieren kannst (<a href="<%= Links.HelpWidget() %>">eine genaue Anleitung findest du hier</a>).
                 </p>
                 <p class="teaserText">
                     memucho bietet die Einbettung von Lernsets als Quiz-Modul, von Video-Lernsets und von einzelnen Fragen an. 
                     Die Inhalte und Lernfunktion sind dann nahtlos in deine Seite integriert.
-                    Mehr Infos zur Einbettung von Widgets <a href="<%= Links.HelpWidget() %>">erhältst du hier</a>.
+                    Beispiele für unsere Widgets kannst <a href="<%= Links.WidgetExamples() %>">du in dieser Übersicht</a> sehen.
                     Wir haben unterschiedliche Angebote für Einzelpersonen und für Organisationen.
                 </p>
                 
@@ -152,7 +152,7 @@
                             Seite als hilfreicher ein und verbessern dein Ranking.
                         </p>
                         <p style="text-align: center; margin-top: 40px;">
-                            <a href="<%= Links.HelpWidget() %>" class="btn btn-default">Zur Widget-Übersicht</a>
+                            <a href="<%= Links.WidgetExamples() %>" class="btn btn-default">Zur Widget-Übersicht</a>
                         </p>
                     </div>
                 </div>

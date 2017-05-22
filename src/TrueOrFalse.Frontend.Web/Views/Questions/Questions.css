@@ -232,3 +232,67 @@ div.column-Additional div.row {
   position: relative;
   top: 2px;
 }
+@media (min-width: 768px) {
+  .column-Additional {
+    width: 200px;
+  }
+  .column-Additional div.row div.col-AnswerChance {
+    font-size: 13px;
+    color: grey;
+    padding-bottom: 15px;
+  }
+  .column-Additional div.row div.col-AnswerProbability {
+    font-size: 38px;
+    color: #828282;
+    padding-bottom: 18px;
+  }
+  .column-Additional div.row div.col-Wishknowledge {
+    padding-bottom: 18px;
+  }
+}
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddedNot,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddSpinner,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddedNot i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddSpinner i {
+  font-size: 13px;
+  height: 26px;
+}
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddedNot i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddSpinner i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded i i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddedNot i i,
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddSpinner i i {
+  position: relative;
+  top: -5px;
+}
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAdded i {
+  font-size: 17px;
+}
+.column-Additional div.col-Wishknowledge .HeartToAddButton .iAddedNot span {
+  position: relative;
+  bottom: 4px;
+}
+@media (max-width: 767px) {
+  .column-Additional div.row {
+    width: 100%;
+  }
+  .column-Additional div.row .col-AnswerChance,
+  .column-Additional div.row .col-AnswerProbability,
+  .column-Additional div.row .col-Wishknowledge {
+    width: auto;
+    display: inline-block;
+    padding-left: 0px;
+    padding-right: 3px;
+    font-size: 14px;
+  }
+  .column-Additional div.row .col-Wishknowledge {
+    float: right;
+  }
+}

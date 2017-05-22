@@ -40,9 +40,9 @@ public class SetImageSettings : ImageSettings, IImageSettings
 
                 if (!IsNullOrEmpty(youtubUrl))
                 {
-                    var key = YoutubeVideo.GetVideoKeyFromUrl(youtubUrl);
-                    if(!IsNullOrEmpty(key))
-                        return $"https://img.youtube.com/vi/{key}/0.jpg";
+                    var youtubeKey = YoutubeVideo.GetVideoKeyFromUrl(youtubUrl);
+                    if(!IsNullOrEmpty(youtubeKey))
+                        return YoutubeVideo.GetPreviewImage(youtubeKey);
                 }
 
                 return BaseDummyUrl + width + ".png";
