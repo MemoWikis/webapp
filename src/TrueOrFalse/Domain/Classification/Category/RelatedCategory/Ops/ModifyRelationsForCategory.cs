@@ -69,17 +69,17 @@ public class ModifyRelationsForCategory
         foreach (var categoryToExclude in category.CategoriesToExclude())
         {
             categoriesToExclude.Add(categoryToExclude);
-            categoriesToExclude.AddRange(catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, categoryToExclude.Id));
+            categoriesToExclude.AddRange(catRepo.GetDescendants(categoryToExclude.Id));
         }
 
         var categoriesToInclude = new List<Category>();
         foreach (var categoryToInclude in category.CategoriesToInclude())
         {
             categoriesToInclude.Add(categoryToInclude);
-            categoriesToInclude.AddRange(catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, categoryToInclude.Id));
+            categoriesToInclude.AddRange(catRepo.GetDescendants(categoryToInclude.Id));
         }
 
-        var descendants = catRepo.GetDescendants(CategoryType.Standard, CategoryType.Standard, category.Id)
+        var descendants = catRepo.GetDescendants(category.Id)
             .Except(categoriesToExclude)
             .Union(categoriesToInclude)
             .ToList();

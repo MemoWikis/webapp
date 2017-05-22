@@ -38,7 +38,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Delete(category);
     }
 
-
     public IList<Category> GetByName(string categoryName)
     {
         categoryName = categoryName ?? "";
@@ -72,6 +71,18 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ToList();
     }
 
+    public IList<Category> GetChildren(int categoryId)
+    {
+
+        var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
+            FROM relatedcategoriestorelatedcategories
+            WHERE  Related_id = {categoryId} 
+            AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
+
+        return GetByIds(categoryIds.ToArray());
+    }
+
+
     public IList<Category> GetChildren(
         CategoryType parentType,
         CategoryType childrenType,
@@ -99,13 +110,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return query.Select(r => r.Category).List<Category>();
     }
 
-    public IList<Category> GetDescendants(
-        CategoryType parentType,
-        CategoryType descendantType,
-        int parentId,
-        String searchTerm = "")
+    public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration  = GetChildren(parentType, descendantType, parentId, searchTerm).ToList();
+        var currentGeneration  = GetChildren(parentId).ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -115,7 +122,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(parentType, descendantType, category.Id, searchTerm).ToList();
+                var children = GetChildren(category.Id).ToList();
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
@@ -167,16 +174,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
     }
 
-    public IList<Category> GetChildren(int categoryId)
-    {
-        var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
-            FROM relatedcategoriestorelatedcategories
-            WHERE  Related_id = {categoryId} 
-            AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
-
-        return GetByIds(categoryIds.ToArray());
-    }
-
+    
     public int TotalCategoryCount()
     {
         return _session.QueryOver<Category>()

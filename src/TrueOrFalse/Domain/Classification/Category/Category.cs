@@ -56,7 +56,7 @@ public class Category : DomainEntity, ICreator
     public virtual IList<Category> NonAggregatedCategories()
     {
         return Sl.R<CategoryRepository>()
-            .GetDescendants(CategoryType.Standard, CategoryType.Standard, Id)
+            .GetDescendants(Id)
             .Except(AggregatedCategories())
             .Except(CategoriesToExclude())
             .Distinct()

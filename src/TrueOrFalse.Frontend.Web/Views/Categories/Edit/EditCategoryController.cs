@@ -75,7 +75,7 @@ public class EditCategoryController : BaseController
         
         model.Init(category);
         model.IsEditing = true;
-        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
+        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
 
         return View(_viewPath, model);
     }

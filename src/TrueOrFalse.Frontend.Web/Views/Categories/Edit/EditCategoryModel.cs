@@ -90,7 +90,7 @@ public class EditCategoryModel : BaseModel
         CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString;
         CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
-        DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
+        DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
     }
 
     public ConvertToCategoryResult ConvertToCategory()
