@@ -181,7 +181,7 @@
                            if (Model.IsEditing)
                            { %>
                             <div style="margin-bottom: 20px;">
-                                <a href="#EditAggregationModal" id="OpenEditAggregationModal" class="btn btn-default" data-toggle="modal">Aggregierung bearbeiten</a>
+                                <a href="#EditAggregationModal" id="OpenEditAggregationModal" class="btn btn-default" data-toggle="modal">Unterthemen einschließen</a>
                             </div>
 
                             <% } %>
@@ -272,7 +272,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal">×</button>
-                    <h3>Aggregierung bearbeiten</h3>
+                    <h3>Unterthemen einschließen</h3>
                 </div>
                 <div class="modal-body clearfix">
                     <div style="text-align: center">

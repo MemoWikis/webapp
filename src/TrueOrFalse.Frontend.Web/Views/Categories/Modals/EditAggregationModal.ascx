@@ -1,7 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<EditCategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<h4>Umfasst Inhalte von (<%= Model.AggregatedCategories.Count %>)</h4>
+<h4>Eingeschlossene Inhalte (<%= Model.AggregatedCategories.Count %>)</h4>
+<div class="greyed">Die Inhalte dieser Themen werden für die übergeordnete Kategorie "<%= Model.Category.Name %>" mit angezeigt</div>
+
 
 <% foreach (var category in Model.AggregatedCategories)
     { %>
@@ -10,22 +12,24 @@
             <%= category.Name %> (Id=<%= category.Id %>)
         </span>
     </a>
-<% } %>
+<% }
 
-<h4>Noch nicht bearbeitete untergeordnete Themen (<%= Model.NonAggregatedCategories.Count %>)</h4>
-<div class="greyed">Werden bei Klick auf "Bearbeiten" automatisch hinzugefügt (wenn nicht ausgeschlossen)</div>
+if (Model.NonAggregatedCategories.Count > 0)
+{ %>
 
-<% foreach (var category in Model.NonAggregatedCategories)
+    <h4 style="margin-top: 20px;">Noch nicht bearbeitete untergeordnete Themen (<%= Model.NonAggregatedCategories.Count %>)</h4>
+    <div class="greyed">Werden bei Klick auf "Bearbeiten" automatisch hinzugefügt (wenn nicht ausgeschlossen)</div>
+
+    <% foreach (var category in Model.NonAggregatedCategories)
     { %>
     <a href="<%= Links.CategoryDetail(category) %>">
         <span class="label label-category" style="max-width: none;">
-            <%= Model.IsInCategoriesToInclude(category.Id) ? "<i class='fa fa-check' style='color: green;'></i>" : "" %>
-            <%= Model.IsInCategoriesToExclude(category.Id) ? "<i class='fa fa-remove' style='color: red'></i>" : "" %>
             <%= category.Name %> (Id=<%= category.Id %>)
         </span>
     </a>
-    <% } %>
-<div class="form-horizontal">
+<% }
+} %>
+<div class="form-horizontal" style="margin-top: 20px;">
     <div class="form-group">
         <label class="columnLabel control-label" for="CategoriesToExcludeIdsString">
             <span class="bold" style="color: red;">Themen ausschließen</span>
