@@ -248,15 +248,19 @@ class AnswerQuestion {
             this._inputFeedback.ShowSuccess();
         }
         this._inputFeedback.ShowSolution();
-        if (this._isLastLearningStep)
+        if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
+            $('#btnNext').unbind();
+        }
 
         this._onCorrectAnswer();
     }
 
     private HandleWrongAnswer(result: any, answerText : string) {
-        if (this._isLastLearningStep && !result.newStepAdded)
+        if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
+            $('#btnNext').unbind();
+        }
 
         if (this.IsGameMode) {
             if (this.SolutionType !== SolutionType.FlashCard) {

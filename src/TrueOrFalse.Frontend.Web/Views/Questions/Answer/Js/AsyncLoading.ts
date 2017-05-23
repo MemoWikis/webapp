@@ -78,10 +78,10 @@
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
-                        if (result.navBarData.currentHtml !== "")
+                        if (result.navBarData.currentHtml != null)
                             this.updateNavigationBar(result.navBarData);
                         else
-                            this.updateSessionHeader(result.currentSessionHeader);
+                            this.updateSessionHeader(result.currentSessionHeader, result.sessionData);
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
                         $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
@@ -127,7 +127,9 @@
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
     }
 
-    private updateSessionHeader(currentSessionHeaderText) {
+    private updateSessionHeader(currentSessionHeaderText, sessionStepData) {
+        $("#hddIsTestSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
+        $("#hddIsTestSession").attr("data-is-last-step", sessionStepData.isLastStep);
         $(".SessionBar .QuestionCount").html(currentSessionHeaderText);
     }
 

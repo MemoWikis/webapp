@@ -545,7 +545,7 @@ public class AnswerQuestionController : BaseController
         return getQuestionPageData(model, currentUrl, false);
     }
 
-    private string getQuestionPageData(AnswerQuestionModel model, string currentUrl, bool hasNavBar)
+    private string getQuestionPageData(AnswerQuestionModel model, string currentUrl, bool isNotInSet)
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
@@ -565,13 +565,18 @@ public class AnswerQuestionController : BaseController
             {
                 nextUrl = nextPageLink,
                 previousUrl = previousPageLink,
-                currentHtml = hasNavBar ? ViewRenderer.RenderPartialView(
+                currentHtml = isNotInSet ? ViewRenderer.RenderPartialView(
                     "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
                     model,
                     ControllerContext
-                ) : ""
+                ) : null
             },
-            currentSessionHeader = hasNavBar ? "" : "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps,
+            sessionData = isNotInSet ? null : new
+            {
+                currentStepIdx = model.TestSessionCurrentStep,
+                isLastStep = model.TestSessionIsLastStep
+            },
+            currentSessionHeader = isNotInSet ? "" : "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps,
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
