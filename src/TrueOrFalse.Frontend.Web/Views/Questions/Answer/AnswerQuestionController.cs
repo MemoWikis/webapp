@@ -519,6 +519,8 @@ public class AnswerQuestionController : BaseController
 
     //public string RenderAnswerBodyByLearningSession(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     //{
+    //      ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
+    //      ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
     //    return getQuestionPageData()
     //}
 
@@ -540,6 +542,9 @@ public class AnswerQuestionController : BaseController
 
         Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
         var model = new AnswerQuestionModel(testSession, questionViewGuid, question);
+
+        ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
+        ControllerContext.RouteData.Values.Add("name", testSession.UriName);
 
         var currentUrl = Links.TestSession(testSession.UriName, testSessionId);
         return getQuestionPageData(model, currentUrl, false);

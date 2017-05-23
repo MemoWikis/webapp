@@ -226,6 +226,7 @@
     static IfLastQuestion_Change_Btn_Text_ToResult() {
         if (AnswerQuestion.IsLastTestSessionStep) {
             $('#btnNext').html('Zum Ergebnis');
+            $("#btnNext").unbind();
         }
     }
 
