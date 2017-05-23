@@ -136,6 +136,69 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return descendants;
     }
 
+    public int CountAggregatedSets(int categoryId)
+    {
+        var count = 
+           _session.CreateSQLQuery($@"
+
+            SELECT COUNT(DISTINCT cs.Set_id) FROM categories_to_sets cs
+            WHERE cs.Category_id = {categoryId}
+
+            UNION
+
+            SELECT COUNT(DISTINCT cs.Set_id) FROM relatedcategoriestorelatedcategories rc
+            INNER JOIN category c
+            ON rc.Related_Id = c.Id
+            INNER JOIN categories_to_sets cs
+            ON c.Id = cs.Category_id
+            WHERE rc.Category_id = {categoryId}
+            AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
+
+        ").UniqueResult<long>();
+
+        return (int)count;
+    }
+
+    public int CountAggregatedQuestions(int categoryId)
+    {
+        var count = _session.CreateSQLQuery($@"SELECT COUNT(DISTINCT(questionId)) FROM 
+        (
+	        SELECT DISTINCT(cq.Question_id) questionId
+            FROM categories_to_questions cq
+            WHERE cq.Category_id = {categoryId}
+
+            UNION
+
+            SELECT DISTINCT(qs.Question_id) questionId
+	        FROM relatedcategoriestorelatedcategories rc
+	        INNER JOIN category c
+	        ON rc.Related_Id = c.Id
+	        INNER JOIN categories_to_sets cs
+	        ON c.Id = cs.Category_id
+	        INNER JOIN questioninset qs
+	        ON cs.Set_id = qs.Set_id
+	        WHERE rc.Category_id = {categoryId}
+	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf} 
+	
+	        UNION
+	
+	        SELECT DISTINCT(cq.Question_id) questionId 
+	        FROM relatedcategoriestorelatedcategories rc
+	        INNER JOIN category c
+	        ON rc.Related_Id = c.Id
+	        INNER JOIN categories_to_sets cs
+	        ON c.Id = cs.Category_id
+	        INNER JOIN categories_to_questions cq
+	        ON c.Id = cq.Category_id
+	        WHERE rc.Category_id = {categoryId}
+	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
+        ) c
+        ").UniqueResult<long>();//Union is distinct by default
+
+        return (int)count;
+        
+    }
+
     public override IList<Category> GetByIds(params int[] categoryIds)
     {
         var resultTmp = base.GetByIds(categoryIds);
