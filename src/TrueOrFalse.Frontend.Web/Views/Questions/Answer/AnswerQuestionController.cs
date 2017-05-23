@@ -517,12 +517,60 @@ public class AnswerQuestionController : BaseController
         return getQuestionPageData(model, currenUrl, true);
     }
 
-    //public string RenderAnswerBodyByLearningSession(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
-    //{
-    //      ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
-    //      ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
-    //    return getQuestionPageData()
-    //}
+    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
+    {
+        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+        var learningSessionName = learningSession.UrlName;
+
+        //if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
+        //{
+        //    learningSession.SkipStep(skipStepIdx);
+        //    return RedirectToAction("Learn", Links.AnswerQuestionController,
+        //        new { learningSessionId, learningSessionName = learningSessionName });
+        //}
+
+        var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
+
+        //if (currentLearningStepIdx == -1) //None of the steps is uncompleted
+        //    return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
+        //        new { learningSessionId, learningSessionName = learningSessionName });
+
+        //if (learningSession.IsDateSession)
+        //{
+        //    var trainingDateRepo = Sl.R<TrainingDateRepo>();
+        //    var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
+
+        //    if (trainingDate != null)
+        //    {
+        //        if (trainingDate.IsExpired())
+        //        {
+        //            return RedirectToAction("StartLearningSession", Links.DatesController,
+        //                new { dateId = trainingDate.TrainingPlan.Date.Id });
+        //        }
+
+        //        trainingDate.ExpiresAt =
+        //            DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
+        //        trainingDateRepo.Update(trainingDate);
+        //    }
+        //}
+
+        var questionViewGuid = Guid.NewGuid();
+
+        Sl.SaveQuestionView.Run(
+            questionViewGuid,
+            learningSession.Steps[currentLearningStepIdx].Question,
+            _sessionUser.User.Id,
+            learningSession: learningSession,
+            learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
+
+        var model = new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId));
+
+        ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
+        ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
+
+        var currentUrl = Links.LearningSession(learningSession);
+        return getQuestionPageData(model, currentUrl, false);
+    }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
     {
