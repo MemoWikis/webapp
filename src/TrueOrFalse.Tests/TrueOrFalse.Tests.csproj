@@ -316,7 +316,7 @@
     <Compile Include="4 Search\QuestionSearchTests.cs" />
     <Compile Include="4 Search\SetSearchTests.cs" />
     <Compile Include="4 Search\Support\UserInputToSearchExpressionTest.cs" />
-    <Compile Include="5 Utiltities\Forms\UrlTest.cs" />
+    <Compile Include="5 Utiltities\UrlTest.cs" />
     <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />
     <Compile Include="6 Web\Crawler_tests.cs" />
     <Compile Include="6 Web\UriSanitizer_Tests.cs" />

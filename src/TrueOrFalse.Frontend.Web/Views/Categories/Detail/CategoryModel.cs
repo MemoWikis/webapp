@@ -40,7 +40,7 @@ public class CategoryModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public string WikiUrl;
+    public string InfoUrl;
 
     public bool IsOwnerOrAdmin;
 
@@ -71,7 +71,7 @@ public class CategoryModel : BaseModel
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
-        WikiUrl = category.WikipediaURL;
+        InfoUrl = category.WikipediaURL;
         Category = category;
 
         Id = category.Id;

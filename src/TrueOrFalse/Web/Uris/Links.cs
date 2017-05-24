@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
+using static System.String;
 
 namespace TrueOrFalse.Frontend.Web.Code
 {
@@ -236,7 +238,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("Create", DateEditController, new { setListTitle })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
 
         public static object DateCreateForCategory(int categoryId) => GetUrlHelper().Action("Create", "EditDate", new { categoryId = categoryId });
@@ -289,7 +291,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("StartLearningSessionForSets", CategoryController, new { setListTitle })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
 
         /* Testing / TestSession*/
@@ -310,13 +312,13 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("StartTestSessionForSets", SetController, new { setListTitle })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
         public static string TestSessionStartForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
         {
             return GetUrlHelper().Action("StartTestSessionForSetsInCategory", CategoryController, new { setListTitle, categoryId })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url) => url.Action("RegisterQuestionAnswered", TestSessionController);
@@ -362,7 +364,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string GameCreateFromDate(int dateId) => GetUrlHelper().Action("Create", "Game", new {dateId = dateId});
         public static string GameCreateFromSet(int setId) => GetUrlHelper().Action("Create", "Game", new { setId = setId});
         public static string GameCreateFromSets(List<int> setIds) => GetUrlHelper().Action("Create", "Game") + "?setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
 
         public static string GameCreate() => GetUrlHelper().Action("Create", "Game", null);
         public static string GamePlay(UrlHelper url, int gameId) => GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
@@ -405,6 +407,14 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
 
         public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
+
+        public static bool IsLinkToWikipedia(string url)
+        {
+            if (IsNullOrEmpty(url))
+                return false;
+
+            return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
+        }
     }
 }
  
