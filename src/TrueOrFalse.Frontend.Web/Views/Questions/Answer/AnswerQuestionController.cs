@@ -455,17 +455,17 @@ public class AnswerQuestionController : BaseController
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.NextPage(1);
-        return getAnswerBodyBySearchSpec(activeSearchSpec);
+        return GetAnswerBodyBySearchSpec(activeSearchSpec);
     }
 
     public string RenderAnswerBodyByPreviousQuestion(string pager)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         activeSearchSpec.PreviousPage(1);
-        return getAnswerBodyBySearchSpec(activeSearchSpec);
+        return GetAnswerBodyBySearchSpec(activeSearchSpec);
     }
 
-    private string getAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
+    private string GetAnswerBodyBySearchSpec(QuestionSearchSpec activeSearchSpec)
     {
         Question question;
 
@@ -498,7 +498,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return getQuestionPageData(model, currentUrl, true);
+        return GetQuestionPageData(model, currentUrl, true);
     }
 
     public string RenderAnswerBodyBySet(int questionId, int setId)
@@ -514,7 +514,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
         var currenUrl = Links.AnswerQuestion(question, set);
-        return getQuestionPageData(model, currenUrl, true);
+        return GetQuestionPageData(model, currenUrl, true);
     }
 
     public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
@@ -560,8 +560,9 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
         ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
-        var currentUrl = Links.LearningSession(learningSession);
-        return getQuestionPageData(model, currentUrl, false);
+        string currentSessionHeader = "Abfrage " + (model.CurrentLearningStepIdx + 1) + " von " + model.LearningSession.Steps.Count;
+        string currentUrl = Links.LearningSession(learningSession);
+        return GetQuestionPageData(model, currentUrl, false, currentSessionHeader);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -586,11 +587,12 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
         ControllerContext.RouteData.Values.Add("name", testSession.UriName);
 
-        var currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return getQuestionPageData(model, currentUrl, false);
+        string currentSessionHeader = "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps;
+        string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
+        return GetQuestionPageData(model, currentUrl, false, currentSessionHeader);
     }
 
-    private string getQuestionPageData(AnswerQuestionModel model, string currentUrl, bool isNotInSet)
+    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, bool isNotInSet, string currentSessionHeader = "")
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
@@ -621,7 +623,7 @@ public class AnswerQuestionController : BaseController
                 currentStepIdx = model.TestSessionCurrentStep,
                 isLastStep = model.TestSessionIsLastStep
             },
-            currentSessionHeader = isNotInSet ? "" : "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps,
+            currentSessionHeader = isNotInSet ? "" : currentSessionHeader,
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),

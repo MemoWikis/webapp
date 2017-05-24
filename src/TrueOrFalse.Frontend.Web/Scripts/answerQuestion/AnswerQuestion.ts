@@ -140,8 +140,8 @@ class AnswerQuestion {
             });
 
         $("#btnNext, #aSkipStep")
-            .click(function(e) {
-                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self.ShowedSolutionOnly)
+            .click((e) => {
+                if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly)
                     $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
                 else
                     $("#hddIsLearningSession").attr("data-skip-step-index", -1);

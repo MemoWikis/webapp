@@ -25,11 +25,18 @@
                         setId;
                     this.loadNewQuestion(primaryDataUrl);
                 });
+
             } else if ($("#hddIsLearningSession").val() === "True") {
-                var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
-                var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
-                var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" + learningSessionId + "&skipStepIdx=" + skipStepIdx;
-                this.loadNewQuestion(url);
+                $("#btnNext").click((e) => {
+                    e.preventDefault();
+                    var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
+                    var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
+                    var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
+                        learningSessionId +
+                        "&skipStepIdx=" +
+                        skipStepIdx;
+                    this.loadNewQuestion(url);
+                });
 
             } else if ($("#hddIsTestSession").val() === "True") {
                 $("#btnNext").click((e) => {
@@ -38,6 +45,7 @@
                     var url = "/AnswerQuestion/RenderAnswerBodyByTestSession/?testSessionId=" + testSessionId;
                     this.loadNewQuestion(url);
                 });
+
             } else {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();

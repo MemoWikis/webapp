@@ -15,7 +15,7 @@
 </div>
 
 <script type="text/javascript">
-    <% Model.escapeSolutionChars();
+    <% Model.EscapeSolutionChars();
 
     var localPairs = Model.Pairs;
     var random = new Random();
