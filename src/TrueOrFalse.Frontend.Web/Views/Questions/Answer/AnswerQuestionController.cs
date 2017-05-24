@@ -531,10 +531,6 @@ public class AnswerQuestionController : BaseController
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
-        //if (currentLearningStepIdx == -1) //None of the steps is uncompleted
-        //    return RedirectToAction("LearningSessionResult", Links.LearningSessionResultController,
-        //        new { learningSessionId, learningSessionName = learningSessionName });
-
         //if (learningSession.IsDateSession)
         //{
         //    var trainingDateRepo = Sl.R<TrainingDateRepo>();

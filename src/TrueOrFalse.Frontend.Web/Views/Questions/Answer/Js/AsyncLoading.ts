@@ -27,14 +27,8 @@
                 });
             } else if ($("#hddIsLearningSession").val() === "True") {
                 var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
-                var learningSessionName;
-                var skipStepIndx;
                 var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
-                    learningSessionId +
-                    "&learningSessionName=" +
-                    learningSessionName +
-                    "&skipStepIdx=" +
-                    skipStepIndx;
+                    learningSessionId;
                 this.loadNewQuestion(url);
 
             } else if ($("#hddIsTestSession").val() === "True") {
