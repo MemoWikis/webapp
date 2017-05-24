@@ -69,7 +69,7 @@
                     <div class="col-md-6 col-xs-12">
                         <h3>Eigenschaften</h3>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><i class="fa fa-check" aria-hidden="true"></i> Resonsive Design</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Responsive Design</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Kleiner Payload (async geladen)</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Vielfältige Fragetypen und Video-Unterstützung</li>
                         </ul>
