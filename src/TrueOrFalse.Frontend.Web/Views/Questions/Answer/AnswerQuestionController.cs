@@ -522,12 +522,8 @@ public class AnswerQuestionController : BaseController
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
         var learningSessionName = learningSession.UrlName;
 
-        //if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
-        //{
-        //    learningSession.SkipStep(skipStepIdx);
-        //    return RedirectToAction("Learn", Links.AnswerQuestionController,
-        //        new { learningSessionId, learningSessionName = learningSessionName });
-        //}
+        if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
+            learningSession.SkipStep(skipStepIdx);
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 

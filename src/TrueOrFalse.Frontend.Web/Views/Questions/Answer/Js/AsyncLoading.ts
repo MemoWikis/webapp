@@ -27,8 +27,8 @@
                 });
             } else if ($("#hddIsLearningSession").val() === "True") {
                 var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
-                var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" +
-                    learningSessionId;
+                var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
+                var url = "/AnswerQuestion/RenderAnswerBodyByLearningSession/?learningSessionId=" + learningSessionId + "&skipStepIdx=" + skipStepIdx;
                 this.loadNewQuestion(url);
 
             } else if ($("#hddIsTestSession").val() === "True") {

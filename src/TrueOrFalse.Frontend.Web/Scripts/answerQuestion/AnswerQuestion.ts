@@ -141,14 +141,10 @@ class AnswerQuestion {
 
         $("#btnNext, #aSkipStep")
             .click(function(e) {
-                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self.ShowedSolutionOnly) {
-                    var href = $(this).attr('href') +
-                        "?skipStepIdx=" +
-                        $('#hddIsLearningSession').attr('data-current-step-idx');
-                    window.location.href = href;
-                    return false;
-                }
-                return true;
+                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self.ShowedSolutionOnly)
+                    $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
+                else
+                    $("#hddIsLearningSession").attr("data-skip-step-index", -1);
             });
     }
 
