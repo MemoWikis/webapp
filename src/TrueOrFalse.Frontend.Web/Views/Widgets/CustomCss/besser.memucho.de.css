@@ -1,4 +1,19 @@
-﻿body {
-    color: darkblue !important;
-    font-size: 16px !important;
+﻿@import url('https://fonts.googleapis.com/css?family=Alegreya+SC:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|Alegreya+Sans:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic|IM+Fell+DW+Pica+SC:100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic');
+
+body, span {
+    color: black !important;
+    font-size: 17.6px !important;
+    font-weight: 500;
+    font-family: "Alegreya Sans", Sans-serif;
+    letter-spacing: -0.3px;
+    line-height: 26.4px;
+}
+
+div#AnswerAndSolution {
+    margin-top: 20px;
+}
+
+#LicenseQuestion span {
+    color: darkgray !important;
+    font-size: 13px !important;
 }
