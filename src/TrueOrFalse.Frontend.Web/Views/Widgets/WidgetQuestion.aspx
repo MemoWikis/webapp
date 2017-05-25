@@ -16,8 +16,6 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/WidgetQuestion") %>
-    
-    <%= Model.CustomCss %>
 
     <% if(Model.IncludeCustomCss){ %>
         <link href="<%= Model.CustomCss %>" rel="stylesheet" />
