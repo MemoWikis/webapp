@@ -19,7 +19,7 @@
             <% }
 
                                 else if (Model.SourceIsSet) { %>
-                Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Fragesatz 
+                Frage <%= Model.PageCurrent %> von <%= Model.PagesTotal %> im Lernset
                                 
                 <a href="<%= Links.SetDetail(Url, Model.Set) %>">
                     <span class="label label-set"><%= Model.Set.Name %></span>

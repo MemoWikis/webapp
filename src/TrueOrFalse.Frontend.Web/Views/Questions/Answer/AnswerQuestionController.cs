@@ -498,7 +498,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return GetQuestionPageData(model, currentUrl, true);
+        return GetQuestionPageData(model, currentUrl);
     }
 
     public string RenderAnswerBodyBySet(int questionId, int setId)
@@ -514,7 +514,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
         var currenUrl = Links.AnswerQuestion(question, set);
-        return GetQuestionPageData(model, currenUrl, true);
+        return GetQuestionPageData(model, currenUrl);
     }
 
     public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
@@ -527,24 +527,24 @@ public class AnswerQuestionController : BaseController
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
 
-        //if (learningSession.IsDateSession)
-        //{
-        //    var trainingDateRepo = Sl.R<TrainingDateRepo>();
-        //    var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
+        if (learningSession.IsDateSession)
+        {
+            var trainingDateRepo = Sl.R<TrainingDateRepo>();
+            var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
 
-        //    if (trainingDate != null)
-        //    {
-        //        if (trainingDate.IsExpired())
-        //        {
-        //            return RedirectToAction("StartLearningSession", Links.DatesController,
-        //                new { dateId = trainingDate.TrainingPlan.Date.Id });
-        //        }
+            if (trainingDate != null)
+            {
+                if (trainingDate.IsExpired())
+                {
+                    //TODO:Julian still have to do the js for this
+                    return Links.StartLearningSession(learningSession);
+                }
 
-        //        trainingDate.ExpiresAt =
-        //            DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
-        //        trainingDateRepo.Update(trainingDate);
-        //    }
-        //}
+                trainingDate.ExpiresAt =
+                    DateTime.Now.AddMinutes(TrainingDate.DateStaysOpenAfterNewBegunLearningStepInMinutes);
+                trainingDateRepo.Update(trainingDate);
+            }
+        }
 
         var questionViewGuid = Guid.NewGuid();
 
@@ -560,9 +560,9 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
         ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
-        string currentSessionHeader = "Abfrage " + (model.CurrentLearningStepIdx + 1) + " von " + model.LearningSession.Steps.Count;
+        string currentSessionHeader = "Abfrage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, false, currentSessionHeader);
+        return GetQuestionPageData(model, currentUrl, true, currentSessionHeader);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -589,10 +589,10 @@ public class AnswerQuestionController : BaseController
 
         string currentSessionHeader = "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, false, currentSessionHeader);
+        return GetQuestionPageData(model, currentUrl, true, currentSessionHeader);
     }
 
-    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, bool isNotInSet, string currentSessionHeader = "")
+    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, bool isSession = false, string currentSessionHeader = "", int currentStepIndx = -1, int skipStepIdx = -1, bool isLastStep = false, Guid currentStepGuid = default(Guid))
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
@@ -612,18 +612,18 @@ public class AnswerQuestionController : BaseController
             {
                 nextUrl = nextPageLink,
                 previousUrl = previousPageLink,
-                currentHtml = isNotInSet ? ViewRenderer.RenderPartialView(
+                currentHtml = isSession ? null : ViewRenderer.RenderPartialView(
                     "~/Views/Questions/Answer/AnswerQuestionPager.ascx",
                     model,
                     ControllerContext
-                ) : null
+                )
             },
-            sessionData = isNotInSet ? null : new
+            sessionData = isSession ? new
             {
                 currentStepIdx = model.TestSessionCurrentStep,
                 isLastStep = model.TestSessionIsLastStep
-            },
-            currentSessionHeader = isNotInSet ? "" : currentSessionHeader,
+            } : null,
+            currentSessionHeader = isSession ? currentSessionHeader : "",
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
