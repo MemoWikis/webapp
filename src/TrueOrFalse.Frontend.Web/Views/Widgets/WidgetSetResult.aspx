@@ -10,6 +10,10 @@
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
     <%= Scripts.Render("~/bundles/js/AwesomeIframe") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+
+    <% if(Model.IncludeCustomCss){ %>
+        <link href="<%= Model.CustomCss %>" rel="stylesheet" />
+    <% } %>    
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">

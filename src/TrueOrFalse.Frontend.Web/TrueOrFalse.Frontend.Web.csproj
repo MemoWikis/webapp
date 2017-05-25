@@ -418,6 +418,7 @@
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
+    <Compile Include="Views\Widgets\WidgetBaseModel.cs" />
     <Compile Include="Views\Widgets\WidgetController.cs" />
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />

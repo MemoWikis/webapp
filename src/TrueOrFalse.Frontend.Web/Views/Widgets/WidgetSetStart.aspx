@@ -28,6 +28,10 @@
         }
     </style>
     
+    <% if(Model.IncludeCustomCss){ %>
+        <link href="<%= Model.CustomCss %>" rel="stylesheet" />
+    <% } %>
+    
     <%= Scripts.Render("~/bundles/js/AwesomeIframe") %>
 
 </asp:Content>
