@@ -340,6 +340,34 @@
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
+    <Content Include="Images\Error\memo-404_german_600.png" />
+    <Content Include="Images\Error\memo-500_german.png" />
+    <Content Include="Images\Error\memo-500_german_600.png" />
+    <Content Include="Images\LogosPartners\Logo_LearningLevelUp.png" />
+    <Content Include="Images\no-category-picture-533.png" />
+    <Content Include="Images\no-profile-picture-533.png" />
+    <Content Include="Images\no-question-50.png" />
+    <Content Include="Images\no-question-533.png" />
+    <Content Include="Images\no-set-350.png" />
+    <Content Include="Images\no-set-533.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_button-html.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_button-more.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f01_add.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f02_edit-element.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f02_edit-element_short.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Views\Categories\Edit\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Error\Error.css">
+      <DependentUpon>Error.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Error\Error.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -397,7 +425,6 @@
     <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
     <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
     <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
-    <Content Include="Images\LogosPartners\Logo_LearningLevelUp_transparent.png" />
     <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
     <Content Include="Images\Logo\LogoSmallBlue.png" />
     <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
@@ -417,8 +444,6 @@
     <Content Include="bin\AutofacContrib.SolrNet.dll" />
     <Content Include="bin\Common.Logging.Core.dll" />
     <Content Include="bin\Common.Logging.Core.pdb" />
-    <Content Include="Images\Screenshots\widget-blackboard-html-mode-full.png" />
-    <Content Include="Images\Screenshots\widget-blackboard-html-mode-small.png" />
     <Content Include="Images\Screenshots\widget-moodle_f01_add.png" />
     <Content Include="Images\Screenshots\widget-moodle_f02_addTextField.png" />
     <Content Include="Images\Screenshots\widget-moodle_f03_texfield_options.png" />
@@ -436,6 +461,9 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\vendor.some-where\readme.txt" />
+    <Content Include="Scripts\vendor.some-where\simplemde.css" />
+    <Content Include="Scripts\vendor.some-where\simplemde.js" />
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
@@ -608,6 +636,7 @@
     <Content Include="Views\Help\Widget.css">
       <DependentUpon>Widget.less</DependentUpon>
     </Content>
+    <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
     <Content Include="Views\Maintenance\ContentStats.aspx" />
     <Content Include="Views\Maintenance\ContentStats.css">
       <DependentUpon>ContentStats.less</DependentUpon>
@@ -649,6 +678,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
     <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
@@ -1067,6 +1097,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
     <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />

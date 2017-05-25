@@ -69,7 +69,7 @@ class SearchBox
                         break;
 
                     case "SetsHeader":
-                        html = "<div class='SearchResultHeader'>Fragesätze <div class='ResultCount'><a href='" + resultItem.Item.SearchUrl + "'>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
+                        html = "<div class='SearchResultHeader'>Lernsets <div class='ResultCount'><a href='" + resultItem.Item.SearchUrl + "'>zeige " + resultItem.ResultCount + " Treffer</a></div></div>";
                         break;
 
                     case "Sets":

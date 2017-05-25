@@ -24,9 +24,9 @@
 
     foreach (var pair in localPairs)
     { %>
-    var rightDropElement = $("<div class='col-sm-6'>").append($("<div class='matchlist-droppable' name = '<%= pair.ElementLeft.Text %>'>").droppable({
+    var rightDropElement = $("<div class='col-sm-6'>").append($("<div class='matchlist-droppable'>").attr("name", "<%= pair.ElementLeft.Text %>").droppable({
         accept: '.matchlist-rightelement',
-        hoverClass: 'matchlist-hovered',
+        hoverClass: 'matchlist-hovered',    
         drop: handleElementDrop
     }));
     $("div#matchlist-pairs").append($("<div class='col-sm-12'>").append($("<div class = 'row matchlist-pairrow'>")
@@ -37,7 +37,7 @@
 
     foreach (var elementRight in Model.RightElements.OrderBy(x => random.Next()))
     { %>
-    var rightDragElement = $("<span class='matchlist-rightelement' name='<%= elementRight.Text %>'>")
+    var rightDragElement = $("<span class='matchlist-rightelement'>").attr("name", "<%= elementRight.Text %>")
         .html("<%= elementRight.Text %>")
         .draggable({
             containment: '#AnswerBody',

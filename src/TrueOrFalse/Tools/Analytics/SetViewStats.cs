@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NHibernate;
 using NHibernate.Criterion;
 
 public class SetViewStats
@@ -40,25 +41,11 @@ public class SetViewStats
             .And(a => a.DateCreated >= _goLive)
             .RowCount();
 
+        result.LearningSessionsTotal = Sl.R<LearningSessionRepo>().GetNumberOfSessionsForSet(setId);
 
-        //result.LearningSessionsTotal = Sl.R<LearningSessionRepo>()
-        //.GetNumberOfSessionsForSet(setId);
-
-        //result.LearningSessionsTotal = Sl.R<LearningSessionRepo>()
-        //    .Query
-        //    .Where(x => !string.IsNullOrEmpty(x.SetsToLearnIdsString) && x.SetsToLearnIdsString.Contains(setId.ToString()))
-        //    .RowCount();
-
-        //result.LearningSessionsTotal = Sl.R<LearningSessionRepo>()
-        //    .Query
-        //    .Where(x => (x.SetToLearn.Id == setId) || (x.SetsToLearnIdsString.Contains(setId.ToString())))
-        //    .RowCount();
-
-        //result.DatesTotal = Sl.R<DateRepo>()
-        //    .Query
-        //    .Where(d => d.Sets.Select(s => s.Id).ToString().Contains(setId.ToString()))
-        //    .RowCount();
-        //shorter: select count(*) from date_to_sets where Set_id = 14;
+        result.DatesTotal = (int)Sl.Resolve<ISession>()
+            .CreateSQLQuery("SELECT count(*) FROM date_to_sets WHERE Set_id =" + setId)
+            .UniqueResult<long>();
 
         return result;
     }

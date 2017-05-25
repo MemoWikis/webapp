@@ -40,7 +40,7 @@ public class CategoryModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public string WikiUrl;
+    public string InfoUrl;
 
     public bool IsOwnerOrAdmin;
 
@@ -71,7 +71,7 @@ public class CategoryModel : BaseModel
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
-        WikiUrl = category.WikipediaURL;
+        InfoUrl = category.WikipediaURL;
         Category = category;
 
         Id = category.Id;
@@ -87,13 +87,13 @@ public class CategoryModel : BaseModel
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
-        CategoriesParent = category.ParentCategories;
+        CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);

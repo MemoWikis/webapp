@@ -12,10 +12,10 @@ public class GetBreadCrumb
 
     private static List<Category> GetParent(Category category, List<Category> result)
     {
-        if (!category.ParentCategories.Any())
+        if (!category.ParentCategories().Any())
             return result;
 
-        var categoryToAdd = category.ParentCategories.First();
+        var categoryToAdd = category.ParentCategories().First();
         result.Add(categoryToAdd);
 
         return GetParent(categoryToAdd, result);

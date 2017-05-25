@@ -1,4 +1,4 @@
-fnAddRegExMethod("VideoUrlRegex", /youtube.com\/watch\?v=/, "Mmmmh, das scheint keine gültige Youtube-URL zu sein.");
+fnAddRegExMethod("VideoUrlRegex", /youtube.com\/watch.*[\?\&]v=/, "Mmmmh, das scheint keine gültige Youtube-URL zu sein.");
 var validationSettings_EditSet = {
     rules: {
         Title: {

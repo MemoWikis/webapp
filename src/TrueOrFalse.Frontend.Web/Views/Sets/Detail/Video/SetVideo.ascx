@@ -6,7 +6,7 @@
     <% if(!Model.IsInWidget) { %>
         <div class="row video-header">
             <div class="col-xs-12">
-                <h4>Video zum Fragesatz mit <%= Model.QuestionCount %> Fragen.</h4>
+                <h4>Video zum Lernset mit <%= Model.QuestionCount %> Fragen.</h4>
             </div>
         </div>
     <% } %>
@@ -23,12 +23,16 @@
             </div>
         </div>
     </div>
+    
+    <% if(Model.HasQuestion){ %>
 
-    <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
+        <% Html.RenderPartial("~/Views/Sets/Detail/Video/VideoPager.ascx", Model); %>
 
-    <div id="divBodyAnswer">
-        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
-    </div>
+        <div id="divBodyAnswer">
+            <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", Model.AnswerBodyModel); %>                 
+        </div>
+    
+    <% } %>
 </div>
 
 <script src="/Views/Sets/Detail/Js/SetVideoPlayer.js"></script>

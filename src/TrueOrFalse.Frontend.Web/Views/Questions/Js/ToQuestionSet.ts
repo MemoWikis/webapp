@@ -38,7 +38,7 @@ class ToQuestionSetModal {
             $("#tqsNoQuestionsSelectedFooter").show();
         } else {
             
-            $('#tqsTitle').html(questionCount + " Fragen zu Fragesatz hinzuf&uuml;gen");
+            $('#tqsTitle').html(questionCount + " Fragen zu Lernset hinzuf&uuml;gen");
 
             var setResult = GetSetsForUser.Run($("#txtTqsSetFilter").val());
             this.Sets = setResult.Sets;
@@ -82,7 +82,7 @@ class ToQuestionSetModal {
 
         var msgNonAdded = "";
         if (result.QuestionAlreadyInSet > 0)
-            msgNonAdded = "<br/>" + result.QuestionAlreadyInSet + " Fragen waren bereits Teil des Fragesatzes.";
+            msgNonAdded = "<br/>" + result.QuestionAlreadyInSet + " Fragen waren bereits Teil des Lernsets.";
 
         $("#tqsSuccessMsg").html(this._templateSuccessMsg
             .replace('{Amount}', result.QuestionsAddedCount.toString())

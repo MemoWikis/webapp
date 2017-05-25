@@ -293,7 +293,7 @@
                     <b>Wissen erweitern</b>
                     <p>
                         Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? 
-                        Finde die passenden Fragesätze und stelle dir dein Wunschwissen zusammen!
+                        Finde die passenden Lernsets und stelle dir dein Wunschwissen zusammen!
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -467,7 +467,7 @@
                 </div>
                 <% if (!Model.UserHasWishknowledge) { %>
                     <p style="font-size: 11px; margin-top: 5px;">
-                        Du hast noch kein Wunschwissen. Füge Fragesätze oder Fragen zu 
+                        Du hast noch kein Wunschwissen. Füge Lernsets oder Fragen zu 
                         deinem <span style="white-space: nowrap"><i class="fa fa-heart show-tooltip" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span> hinzu, 
                         um eine personalisierte Lernsitzung zu starten. 
                     </p>
@@ -480,29 +480,32 @@
         <% } %>
 
         <div class="well" id="nominationInnopreis" style="padding: 10px; ">
+            
             <div style="text-align: center;">
-                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
+                <img src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und Memucho kooperieren!" style="margin-bottom: 10px;"/>
             </div>
             <p style="text-align: center; margin-bottom: 0;">
-                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
-                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
-                </a>
+                
+                Wir freuen uns über die Kooperation mit Learning Level Up!
+                
+                <a href="/Kategorien/Learning-Level-Up/722" >
+                    <span style="white-space: nowrap">Zur Themenseite.</span>
+                </a> 
             </p>
-        </div>
+        </div>        
 
         <div class="well" id="oerCamp" style="padding: 10px; ">
             <div style="text-align: center;">
                 <img src="/Images/LogosPartners/OERCamp-Logo-Text_unten.jpg" alt="" width="170" height="183" style="margin-bottom: 10px;"/>
             </div>
             <p style="text-align: center; margin-bottom: 0;">
-                memucho ist beim <a href="/Images/LogosPartners/OERcamp-2017-Flyer.pdf">OERcamp</a> in <a href="http://www.oercamp.de/17/sued/workshops/#suedB4d" target="_blank">München</a> (5./6. Mai) und 
+                memucho ist beim <a href="http://www.oercamp.de">OERcamp</a> in 
                 <a href="http://www.oercamp.de/17/nord/workshops/#nordB4f" target="_blank">Hamburg</a> (23./24. Juni)
-                <%--<span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>--%>
             </p>
         </div>
 
         <div class="well">
-            <h4>Neueste Fragesätze</h4>
+            <h4>Neueste Lernsets</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
@@ -530,7 +533,7 @@
         </div>
 
         <div class="well">
-            <h4>Umfangreichste Fragesätze</h4>
+            <h4>Umfangreichste Lernsets</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
             </div>
@@ -561,6 +564,17 @@
                 </form> 
             </div>
         <% } %>
+        
+        <div class="well" id="nominationInnopreis" style="padding: 10px; ">
+            <div style="text-align: center;">
+                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
+            </div>
+            <p style="text-align: center; margin-bottom: 0;">
+                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
+                </a>
+            </p>
+        </div>        
         <%--<div class="row" style="padding-top: 10px;">
             <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
         </div>

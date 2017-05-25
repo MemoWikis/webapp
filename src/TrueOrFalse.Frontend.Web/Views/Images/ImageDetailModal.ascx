@@ -12,12 +12,10 @@
                 <div class="ImageContainer">
                     <%= Model.RenderHtmlImageBasis(1000, false, Model.ImageMetaData.Type) %>
                     <div class="ImageInfo">
-                        <% if (!String.IsNullOrEmpty(Model.AttributionHtmlString))
-                        {%>
+                        <% if (!String.IsNullOrEmpty(Model.AttributionHtmlString)){ %>
                            <div><%= Model.AttributionHtmlString %></div>
                         <% } %>
-                        <% if (!String.IsNullOrEmpty(Model.Description))
-                        {%>
+                        <% if (!String.IsNullOrEmpty(Model.Description)){ %>
                            <div style="margin-top: 10px;"><span class="InfoLabel">Beschreibung:</span> <%= Model.Description %></div>
                         <% } %>
                     </div>

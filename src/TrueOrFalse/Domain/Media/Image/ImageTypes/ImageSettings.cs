@@ -9,11 +9,17 @@ public abstract class ImageSettings
 
     public string ServerPathAndId()
     {
+        if (HttpContext.Current == null)
+            return "";
+
         return HttpContext.Current.Server.MapPath(BasePath + Id);
     }
 
     public string ServerPath()
     {
+        if (HttpContext.Current == null)
+            return "";
+
         return HttpContext.Current.Server.MapPath(BasePath);
     }
 

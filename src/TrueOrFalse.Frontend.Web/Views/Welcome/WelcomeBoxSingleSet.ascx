@@ -19,7 +19,7 @@
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    <a href="<%= Links.SetDetail(Url, Model.SetName,Model.SetId) %>">Fragesatz mit <%= Model.QCount %> Fragen</a>
+                    <a href="<%= Links.SetDetail(Url, Model.SetName,Model.SetId) %>">Lernset mit <%= Model.QCount %> Fragen</a>
                 </h6>
                 <div class="LinkArea">
                     <h4 class="ItemTitle"><%: Model.SetName %></h4>
@@ -37,7 +37,7 @@
                         <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
                         <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
                         <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Termin anlegen</a></li>
-                        <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Fragesatz-Detailseite</a></li>
+                        <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Lernset-Detailseite</a></li>
                     </ul>
                 </div>
                 <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

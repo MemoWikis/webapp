@@ -39,44 +39,59 @@
             <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
-                        Wie funktioniert memucho?
+                        Was ist memucho?
                     </a>
                 </h4>
             </div>
             <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
                 <div class="panel-body">
                     <p>
-                        memucho ist eine vernetzte Lern- und Wissensplattform. Hier wird Wissen in Frage-Antwort-Form gespeichert, organisiert und 
-                        zwischen Nutzern geteilt. Angepasste Lernfunktionen erlauben es dir, schneller und zu bestimmten Terminen 
-                        (z.B. Klassenarbeiten, Prüfungen) zu lernen.
+                        memucho ist dein Wissens-Assistent und intelligentes Lern-Tool. memucho erleichtert es dir, dir interessante und wissenswerte Dinge zu merken, 
+                        dein Wissen zu organisieren und personalisiert zu lernen. Du kannst vorhandene Lerninhalte nutzen, sie neu zusammenstellen und/oder mit eigenen 
+                        Lerninhalten ergänzen.
+                        Die Lerninhalte sind in Frage-Antwort-Form (zum Beispiel mit Multiple Choice oder Zuordnen) oder als freie Karteikarten gespeichert. 
+                        Einzelne Fragen werden dabei zu Lernsets gebündelt und sind auch über die zugeordneten Themen auffindbar. 
                     </p>
                     <p>
-                        Und das funktioniert so: In deinem Wunschwissen legst du fest, was du gerne wissen möchtest. Du kannst einzelne Fragen oder 
-                        ganze Fragesätze zu deinem Wunschwissen hinzufügen. Nutze das Wissen, was andere Nutzer erstellt haben und erstelle selbst neue
-                        Fragen und Fragesätze.
-                  
-                        Jeder kann Fragen (Zum Beispiel: "Wie heißt der höchste Berg der Erde?") mit der richtigen Antwort 
-                        (im Beispiel: "Mount Everest") erstellen. Mehrere Fragen können zu einem Fragesatz zusammengefasst werden.
+                        Was du dir (langfristig) merken möchtest kannst du einfach in dein persönliches Wunschwissen aufnehmen. Klicke dazu auf das Herz-Symbol 
+                        bei einer Frage, einem Lernset oder einem ganzen Themengebiet. 
+                        Du kannst auch einzelne Lernsets oder ganze Themen für eine Prüfung lernen und dir von memucho einen persönlichen Übungsplan erstellen lassen. 
+                        Wir erinnern dich dann rechtzeitig ans Lernen.
+                        Oder du testest einfach dein Wissen in einem Themengebiet. Oder du trittst im Echtzeit-Quiz gegen deine Freunde (oder memucho) an. 
+                        Deinen Wissensstand und deine Lernerfolge hast du in deiner Wissenszentrale immer im Blick.
                     </p>
                 </div>
             </div>
         </div>
 
         <div class="panel panel-default">
-            <% currentFaqItem = new FAQAccordeonItem("WhatIsKnowledge"); %>
+            <% currentFaqItem = new FAQAccordeonItem("WhatIsWidget"); %>
             <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
-                        Was ist "Wunschwissen"?
+                        Wie kann ich die Lerninhalte und die Quizzes in meine Webseite einfügen? Was sind die "Widgets"?
                     </a>
                 </h4>
             </div>
             <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
                 <div class="panel-body">
                     <p>
-                        In deinem Wunschwissen legst du fest, was du gern langfristig wissen möchtest. So behältst du besser den Überblick. Du kannst jede einzelne 
-                        Frage, ganze Fragesätze oder komplette Themengebiete zu deinem Wunschwissen hinzufügen. Klicke dazu einfach auf das Herz-Symbol an der
-                        entsprechenden Stelle.
+                        Du kannst die Lerninhalte von memucho - also einzelne Fragen oder ganze Lernsets - ganz leicht in deine Webseite einbinden. 
+                        Das funktioniert für alle Arten von Webseiten, egal ob selbstgemacht, mit Wordpress oder in einem Learning-Management-System wie moodle.
+                        Bei jeder Frage und jedem Lernset findest du einen Link "Einbetten". Dort erhältst du eine Zeile HTML-Code, die du bei deiner Seite einfügst.
+                        Fertig! Das klappt auch mit Video-Fragesätzen!
+                    </p>
+                    <p>
+                        Wir haben für dich <a href="<%= Links.HelpWidget() %>">hier eine Schritt-für-Schritt-Anleitung</a> zusammengestellt, 
+                        auch speziell für <a href="<%= Links.HelpWidgetWordpress() %>">Wordpress</a>, <a href="<%= Links.HelpWidgetMoodle() %>">moodle</a> 
+                        und <a href="<%= Links.HelpWidgetBlackboard() %>">Blackboard</a>. 
+                    </p>
+                    <p>
+                        Wenn du erstmal sehen möchtest, wie die Einbettung von Fragen oder Lernsets per Widget aussieht, 
+                        dann ist unsere <a href="<%= Links.WidgetExamples() %>">Widget-Übersicht</a> das richtige für dich.
+                    </p>
+                    <p>
+                        <a href="<%= Links.WidgetExamples() %>" class="btn btn-primary">Zur Widget-Übersicht</a>
                     </p>
                 </div>
             </div>
@@ -108,6 +123,7 @@
                 </div>
             </div>
         </div>
+
         <div class="panel panel-default">
             <% currentFaqItem = new FAQAccordeonItem("WhyNameMemucho"); %>
           
@@ -127,6 +143,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel panel-default">
+            <% currentFaqItem = new FAQAccordeonItem("QuestionLicense"); %>
+            <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
+                        Unter welcher Lizenz stehen die Fragen bei memucho und (wie) können sie weiterverwendet werden?
+                    </a>
+                </h4>
+            </div>
+            <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
+                <div class="panel-body">
+                    In der Detailansicht steht bei jeder Frage die Lizenz, unter der sie veröffentlicht wurde.
+                    Die nutzererstellten Fragen bei memucho stehen alle unter der Lizenz "Creative Commons - Namensnennung 4.0 International" 
+                    (Kenner nennen sie kurz nur "<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>").
+                    Diese Fragen können bei angemessener Nennung des Urhebers (gib am besten die Url der Fragedetailseite und den Nutzernamen des Erstellers an) 
+                    und der Lizenz frei weiterverwendet und dabei auch verändert werden.
+                    Einige von uns eingestellte Fragen stehen unter anderen Lizenzen (zum Beispiel amtliche Fragesammlungen wie Führerscheinfragen). 
+                    Ist bei diesen Fragen die Weiterverwendung eingeschränkt, findest du einen entsprechenden Hinweis darauf bei der Lizenzangabe.
+                </div>
+            </div>
+        </div>
+
         <div class="panel panel-default">
             <% currentFaqItem = new FAQAccordeonItem("DataPrivacy"); %>
             <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
@@ -191,27 +230,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
-            <% currentFaqItem = new FAQAccordeonItem("QuestionLicense"); %>
-            <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#FaqAccordion" href="#<%= currentFaqItem.ItemHtmlIdText %>" aria-expanded="true" aria-controls="<%= currentFaqItem.ItemHtmlIdText %>">
-                        Unter welcher Lizenz stehen die Fragen bei memucho und (wie) können sie weiterverwendet werden?
-                    </a>
-                </h4>
-            </div>
-            <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
-                <div class="panel-body">
-                    In der Detailansicht steht bei jeder Frage die Lizenz, unter der sie veröffentlicht wurde.
-                    Die nutzererstellten Fragen bei memucho stehen alle unter der Lizenz "Creative Commons - Namensnennung 4.0 International" 
-                    (Kenner nennen sie kurz nur "<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0.</a>").
-                    Diese Fragen können bei angemessener Nennung des Urhebers (gib am besten die Url der Fragedetailseite und den Nutzernamen des Erstellers an) 
-                    und der Lizenz frei weiterverwendet und dabei auch verändert werden.
-                    Einige von uns eingestellte Fragen stehen unter anderen Lizenzen (zum Beispiel amtliche Fragesammlungen wie Führerscheinfragen). 
-                    Ist bei diesen Fragen die Weiterverwendung eingeschränkt, findest du einen entsprechenden Hinweis darauf bei der Lizenzangabe.
-                </div>
-            </div>
-        </div>
+
         <div class="panel panel-default">
             <% currentFaqItem = new FAQAccordeonItem("RevenueModel"); %>
             <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
@@ -223,9 +242,19 @@
             </div>
             <div id="<%= currentFaqItem.ItemHtmlIdText %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%= currentFaqItem.ItemHtmlIdHeading %>">
                 <div class="panel-body">
-                    Einnahmen erzielen wir über bezahlte Mitgliedschaften mit Premiumfeatures, die (teilweise) kostenpflichtige Bereitstellung von Widgets zur Einbindung auf anderen Webseiten sowie durch Werbung. 
-                    Diese versuchen wir so zu gestalten, dass sie beim Lernen nicht ablenkt.
+                    <p>
+                        Natürlich kostet die Entwicklung von memucho neben viel Liebe auch Zeit und Geld. Deswegen erzielen wir Einnahmen über bezahlte Mitgliedschaften 
+                        mit Premiumfeatures ("Unterstützer"), die teilweise kostenpflichtige Bereitstellung von Widgets zur Einbindung auf anderen Webseiten sowie durch Werbung. 
+                        Diese versuchen wir so zu gestalten, dass sie beim Lernen nicht ablenkt. 
+                    </p>
+                    <p>
+                        Wenn du uns unterstützen möchtest, dann freuen wir uns sehr, dich als Unterstützer begrüßen zu dürfen!
+                    </p>
+                    <p>
+                        <a href="<%= Links.Membership() %>" class="btn btn-primary">Jetzt Unterstützer werden</a>
+                    </p>
                 </div>
+                    
             </div>
         </div>
         <div class="panel panel-default">

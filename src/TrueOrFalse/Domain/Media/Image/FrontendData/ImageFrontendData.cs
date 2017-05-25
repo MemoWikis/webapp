@@ -54,7 +54,7 @@ public class ImageFrontendData
         }
         else //Image can be displayed
         {
-        Fill_Author();
+            Fill_Author();
 
             if (IsAuthorizedLicense())
                 FillFor_Authorized_License();
@@ -164,24 +164,24 @@ public class ImageFrontendData
         var typeId = getDummy ? -1 : (ImageMetaDataExists ? ImageMetaData.TypeId : -1);
         var imageType = ImageMetaDataExists ? ImageMetaData.Type : imageTypeForDummy;
 
-        if (imageType == ImageType.Category)
+        switch (imageType)
         {
-            imageSettings = new CategoryImageSettings(typeId);
-        }
+            case ImageType.Category:
+                imageSettings = new CategoryImageSettings(typeId);
+                break;
+            case ImageType.User:
+                imageSettings = new UserImageSettings(typeId);
+                break;
+            case ImageType.QuestionSet:
 
-        else if (imageType == ImageType.User)
-        {
-            imageSettings = new UserImageSettings(typeId);
-        }
+                if(ImageMetaDataExists && ImageMetaData.IsYoutubePreviewImage)
+                    return new SetImageSettings(typeId).GetUrl(width, asSquare);
 
-        else if (imageType == ImageType.QuestionSet)
-        {
-            imageSettings = new SetImageSettings(typeId);
-        }
-
-        else //Default: question
-        {
-            imageSettings = new QuestionImageSettings(typeId);
+                imageSettings = new SetImageSettings(typeId);
+                break;
+            default:
+                imageSettings = new QuestionImageSettings(typeId);
+                break;
         }
 
         return ImageUrl.Get(imageSettings, width, asSquare, arg => ImageUrl.GetFallbackImageUrl(imageSettings, width));
@@ -197,13 +197,18 @@ public class ImageFrontendData
         bool noFollow = false)
     {
         var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
+
         if(additionalCssClasses != "")
             additionalCssClasses = " " + additionalCssClasses;
 
-        if (ImageMetaDataExists && imageUrl.HasUploadedImage)
+        if (ImageMetaDataExists && imageUrl.HasUploadedImage || ImageMetaData != null && ImageMetaData.IsYoutubePreviewImage)
         {
             if (!ImageCanBeDisplayed)
                 additionalCssClasses += " JS-CantBeDisplayed";
+
+            var dataIsYoutubeVide = "";
+            if (ImageMetaData.IsYoutubePreviewImage)
+                dataIsYoutubeVide = $" data-is-youtube-video='{ImageMetaData.YoutubeKey}' ";
 
             var altDescription = IsNullOrEmpty(this.Description) ?
                 "" : 
@@ -214,16 +219,16 @@ public class ImageFrontendData
                     .Truncate(120, true);
 
             return AddLink(
-                    "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
-                    + "' class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses
-                    + "' data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url
-                    + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
-                    + "' alt='" + altDescription + "'/>",
+                    "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' " + //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
+                    "class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses + "' " + 
+                    "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' " + dataIsYoutubeVide + 
+                    "data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' " +
+                    "alt='" + altDescription + "'/>",
                     linkToItem, noFollow);
         }
         
         return AddLink( //if no image, then display dummy picture
-            "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url 
+            "<img src='" + imageUrl.Url 
             + "' class='ItemImage JS-InitImage" + additionalCssClasses
             + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass 
             + "' alt=''/>",
@@ -242,6 +247,6 @@ public class ImageFrontendData
 
     private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)
     {
-        return ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType);
+        return Sl.ImageMetaDataRepo.GetBy(typeId, imageType);
     }
 }

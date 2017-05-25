@@ -62,7 +62,7 @@ public class TestSession
 
     public TestSession(Set set)
     {
-        UriName = "Fragesatz-" + UriSanitizer.Run(set.Name);
+        UriName = "Lernset-" + UriSanitizer.Run(set.Name);
         SetToTest = set;
         SetToTestId = set.Id;
         SetLink = Links.SetDetail(set);
@@ -75,7 +75,7 @@ public class TestSession
 
     public TestSession(IList<Set> sets, string setListTitle)
     {
-        UriName = "Fragesaetze-" + UriSanitizer.Run(setListTitle);
+        UriName = "Lernsets-" + UriSanitizer.Run(setListTitle);
         SetsToTestIds = sets.Select(s => s.Id).ToList();
         SetListTitle = setListTitle;
         var excludeQuestionIds = Sl.R<SessionUser>().AnsweredQuestionIds.ToList();

@@ -15,9 +15,12 @@ namespace TrueOrFalse
         {
             UserHasAnswerHistory = questionValuationForUser.CorrectnessProbabilityAnswerCount > 0;
             QuestionHasAnswerHistory = question.TotalAnswers() > 0;
-            CPPersonal = (questionValuationForUser.CorrectnessProbabilityAnswerCount == 0 || questionValuationForUser == null || questionValuationForUser.CorrectnessProbability == -1)
+
+            CPPersonal = (questionValuationForUser.CorrectnessProbabilityAnswerCount == 0 || questionValuationForUser.CorrectnessProbability == -1)
                 ? question.CorrectnessProbability
-                : questionValuationForUser.CorrectnessProbability; //instead of question.CorrectnessProbability, value should be set to average probability derived from first (!) answer of all users, once this value is saved in table
+                : questionValuationForUser.CorrectnessProbability;  // instead of question.CorrectnessProbability, value should be set to average 
+                                                                    // probability derived from first (!) answer of all users, once this value is saved in table
+
             CPAll = question.CorrectnessProbability;
             CPDerivation = Math.Abs(CPPersonal - CPAll);
             if (CPPersonal == CPAll)

@@ -48,7 +48,7 @@
             <div class="col-xs-12">
                 <header>
                     <div class="greyed">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> und <%= Model.CountSets %> Frage<%= StringUtils.PluralSuffix(Model.CountSets, "sätzen","satz") %>
+                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> und <%= Model.CountSets %> Lernset<%= StringUtils.PluralSuffix(Model.CountSets, "s") %>
                     </div>
                     <h1 style="margin-top: 5px; font-size: 26px;">
                        <%= Model.Name %>
@@ -83,11 +83,14 @@
                     
                 </div>
                 
-                <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                <% if (!String.IsNullOrEmpty(Model.InfoUrl)){ %>
                     <div>
                         <div class="WikiLink" style="margin-top: 10px;">
-                            <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
-                                <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
+                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.InfoUrl %></div>" data-placement="left" data-html="true">
+                                <% if(Links.IsLinkToWikipedia(Model.InfoUrl)){ %>
+                                    <img src="/Images/wiki-24.png" style="margin-top: -1px;" />
+                                <% } %>
+                                <%= Model.InfoUrl %>
                             </a>
                         </div>
                     </div>
@@ -117,7 +120,7 @@
         <div class="BoxButtonColumn">
             <% var tooltipGame = "Tritt zu diesem Thema gegen andere Nutzer im Echtzeit-Quizspiel an.";
                if (Model.CountSets == 0)
-                   tooltipGame = "Noch keine Fragesätze zum Spielen zu diesem Thema vorhanden"; %>
+                   tooltipGame = "Noch keine Lernsets zum Spielen zu diesem Thema vorhanden"; %>
 
             <div class="BoxButton show-tooltip 
                 <%= !Model.IsLoggedIn ? "LookDisabled" : "" %> 
@@ -136,9 +139,9 @@
             </div>
         </div>
         <div class="BoxButtonColumn">
-            <% var tooltipDate = "Gib an, bis wann du alle Fragesätze zu diesem Thema lernen musst und erhalte deinen persönlichen Lernplan.";
+            <% var tooltipDate = "Gib an, bis wann du alle Lernsets zu diesem Thema lernen musst und erhalte deinen persönlichen Lernplan.";
                if (Model.CountSets == 0)
-                   tooltipDate = "Noch keine Fragesätze zu diesem Thema vorhanden"; %>
+                   tooltipDate = "Noch keine Lernsets zu diesem Thema vorhanden"; %>
             <div class="BoxButton show-tooltip 
                 <%= !Model.IsLoggedIn ? "LookDisabled" : "" %>
                 <%= Model.CountSets == 0 ? "LookNotClickable" : "" %>"
@@ -156,7 +159,7 @@
         <div class="BoxButtonColumn">
             <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen zu diesem Thema und jeweils nur einem Antwortversuch.";
                if (Model.CountSets == 0 && Model.CountQuestions == 0)
-                   tooltipTest = "Noch keine Fragesätze oder Fragen zum Testen zu diesem Thema vorhanden"; %>
+                   tooltipTest = "Noch keine Lernsets oder Fragen zum Testen zu diesem Thema vorhanden"; %>
             <div class="BoxButton show-tooltip 
                 <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : "" %>"
                 data-original-title="<%= tooltipTest %>">
@@ -173,7 +176,7 @@
         <div class="BoxButtonColumn">
             <% var tooltipLearn = "Lerne zu diesem Thema genau die Fragen, die du am dringendsten wiederholen solltest.";
                if (Model.CountSets == 0 && Model.CountQuestions == 0)
-                   tooltipLearn = "Noch keine Fragesätze oder Fragen zum Lernen zu diesem Thema vorhanden"; %>
+                   tooltipLearn = "Noch keine Lernsets oder Fragen zum Lernen zu diesem Thema vorhanden"; %>
              <div class="BoxButton show-tooltip 
                 <%= !Model.IsLoggedIn ? "LookDisabled" : "" %>
                 <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : "" %>"

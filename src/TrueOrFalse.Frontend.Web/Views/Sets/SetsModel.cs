@@ -11,7 +11,7 @@ public class SetsModel : BaseModel
 
     public string CanonicalUrl;
     public bool HasFiltersOrChangedOrder;
-    public string PageTitle = "Fragesätze";
+    public string PageTitle = "Lernsets";
 
     public bool ActiveTabAll;
     public bool ActiveTabMine;

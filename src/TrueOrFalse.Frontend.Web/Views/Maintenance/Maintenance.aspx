@@ -42,7 +42,7 @@
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">
-            <h4 style="margin-top: 10px;">Fragesätze</h4>
+            <h4 style="margin-top: 10px;">Lernsets</h4>
             <a href="<%= Url.Action("CalcAggregatedValuesSets", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
                 Aggregierte Zahlen aktualisieren
@@ -83,7 +83,7 @@
                 <i class="fa fa-retweet"></i> Fragen 
             </a> /
             <a href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Fragesätze
+                <i class="fa fa-retweet"></i> Lernsets
             </a> /
             <a href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Themen

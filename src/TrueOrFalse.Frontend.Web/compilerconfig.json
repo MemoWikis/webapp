@@ -232,5 +232,9 @@
   {
     "outputFile": "Views/Dates/Edit/EditDate.css",
     "inputFile": "Views/Dates/Edit/EditDate.less"
+  },
+  {
+    "outputFile": "Views/Error/Error.css",
+    "inputFile": "Views/Error/Error.less"
   }
 ]

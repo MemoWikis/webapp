@@ -4,7 +4,7 @@ using System.Web.Mvc;
 [SetMenu(MenuEntry.None)]
 public class WidgetController : BaseController
 {
-    public ActionResult Question(int questionId, bool? hideAddToKnowledge)
+    public ActionResult Question(int questionId, bool? hideAddToKnowledge, string host)
     {
         var questionViewGuid = Guid.NewGuid();
         var question = R<QuestionRepo>().GetById(questionId);
@@ -27,7 +27,7 @@ public class WidgetController : BaseController
 
         return View(
             "~/Views/Widgets/WidgetQuestion.aspx",
-            new WidgetQuestionModel(answerQuestionModel));
+            new WidgetQuestionModel(answerQuestionModel, host));
     }
 
     public ActionResult Set(int setId, bool? hideAddToKnowledge)

@@ -23,6 +23,12 @@
                     Nötig ist eine Zeile HTML-Code, die du einfach von memucho kopieren kannst. memucho hat verschiedene Widgets zur Auswahl 
                     (<a href="<%= Links.WidgetExamples() %>">zur Widget-Übersicht</a>).
                 </p>
+                <p class="teaserText">
+                    So sieht das aus:
+                </p>
+                <p class="screenshot" style="text-align: center;">
+                    <img src="/Images/Screenshots/widget-moodle_f05_doneview.png" />
+                </p>
                    
             </div>
         </div>
@@ -38,7 +44,7 @@
                     <span class="ColoredUnderline GeneralMemucho">Einbindung memucho-Widget in Moodle: Anleitung</span>
                 </h2>
                 <p>
-                    Auf der Seite des Fragesatzes, Video-Fragesatzes oder der einzelnen Frage findest du einen Link <code><i class="fa fa-code">&nbsp;</i>Einbetten</code>. 
+                    Auf der Seite des Lernsets, Video-Lernsets oder der einzelnen Frage findest du einen Link <code><i class="fa fa-code">&nbsp;</i>Einbetten</code>. 
                     Dort kannst das Widget, wenn du möchtest, konfigurieren und erhältst die Code-Zeile zur Einbettung des Widgets (<a href="<%= Links.HelpWidget() %>">mehr dazu</a>).
                     Beispiele für die Widgets zeigen wir in der <a href="<%= Links.WidgetExamples() %>">Widget-Übersicht</a>.
                 </p>

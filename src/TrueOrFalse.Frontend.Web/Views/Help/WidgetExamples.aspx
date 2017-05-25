@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Widget: Beispiele für Fragen und Fragesätze (Quiz)" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Widget: Beispiele für Fragen und Lernsets (Quiz)" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
@@ -23,7 +23,7 @@
                 
                 <p>
                     Die Inhalte und Lernfunktionen von memucho können als Widget nahtlos in bestehende Seiten eingebettet werden. 
-                    Möglich ist die Einbettung einzelner Fragen unterschiedlichen Typs, ganzer Fragesätze als Quiz (mit oder ohne Video) 
+                    Möglich ist die Einbettung einzelner Fragen unterschiedlichen Typs, ganzer Lernsets als Quiz (mit oder ohne Video) 
                     und perspektivisch weiterer Lerntools. Hier zeigen wir dir Beispiele, damit du siehst, wie das bei dir aussehen würde.
                 </p>
 
@@ -39,16 +39,16 @@
                         </ul>
                     </div>
                     <div class="col-sm-4">
-                        <h2>Fragesatz (Quiz)</h2>
+                        <h2>Lernset (Quiz)</h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#setDefault">Standard-Fragesatz (Quiz)</a></li>
-                            <li><a href="#setVideo"><i class="fa fa-youtube-play" aria-hidden="true"></i> Video-Fragesatz</a></li>
+                            <li><a href="#setDefault">Standard-Lernset (Quiz)</a></li>
+                            <li><a href="#setVideo"><i class="fa fa-youtube-play" aria-hidden="true"></i> Video-Lernset</a></li>
                         </ul>
                     </div>
                     <div class="col-sm-4">
                         <h2>Lehrer & Lerntools</h2>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><a href="#pdfExport">PDF-Export Fragesatz</a></li>
+                            <li><a href="#pdfExport">PDF-Export Lernset</a></li>
                             <li><a href="#dashboard">Wissenszentrale (Dashboard)</a></li>
                             <li><a href="#moreTools">Weitere auf Anfrage</a></li>
                         </ul>
@@ -69,7 +69,7 @@
                     <div class="col-md-6 col-xs-12">
                         <h3>Eigenschaften</h3>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><i class="fa fa-check" aria-hidden="true"></i> Resonsive Design</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Responsive Design</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Kleiner Payload (async geladen)</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Vielfältige Fragetypen und Video-Unterstützung</li>
                         </ul>
@@ -146,17 +146,17 @@
         <div class="col-xs-12">
             <div class="well widgetExamples">
                 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Fragesatz (Quiz)</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Lernset (Quiz)</span></h1>
                 <p>
-                    Eine Sammlung an Fragen zu einem Thema kann als Fragesatz-Widget eingebunden werden. 
+                    Eine Sammlung an Fragen zu einem Thema kann als Lernset-Widget eingebunden werden. 
                     Die oben vorgestellten Fragetypen sind dabei alle verwend- und kombinierbar.
                     Der Nutzer erhält bei jeder Frage wieder eine Rückmeldung mit Erklärung. 
                     Nach einer bestimmten Anzahl an Fragen wird eine Auswertung als Rückmeldung zum Wissensstand angezeigt. 
                 </p>
 
-                <h3 id="setDefault">Standard-Fragesatz (Quiz)</h3>
+                <h3 id="setDefault">Standard-Lernset (Quiz)</h3>
                 <p>
-                    Für ein klassisches Quiz kann das Fragesatz-Widget eingebunden werden. 
+                    Für ein klassisches Quiz kann das Lernset-Widget eingebunden werden. 
                 </p>
                 <p>
                     Hier haben unsere Schüler*innen auf dem Schulblog einen Bericht über ihre letzte Klassenfahrt nach Italien geschrieben - 
@@ -165,9 +165,9 @@
                 </p>
                 <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="22" data-width="100%" data-hideKnowledgeBtn="true"></script>
 
-                <h3 id="setVideo">Video-Fragesatz</h3>
+                <h3 id="setVideo">Video-Lernset</h3>
                 <p>
-                    Fragesätze können auch auch mit youtube-Videos verknüpft werden. Im Video-Widget erscheint dann beides auf deiner Seite. 
+                    Lernsets können auch auch mit youtube-Videos verknüpft werden. Im Video-Widget erscheint dann beides auf deiner Seite. 
                     Wird das Video abgespielt, hält es immer, sobald eine Frage beantwortet werden kann. 
                     Umgedreht kann zur Stelle im Video gesprungen werden, wo die Frage beantwortet wird.
                     Die Fragen können aber auch ohne das Video beantwortet werden.
@@ -191,9 +191,9 @@
                     Wir stellen diese Funktionen bei Interesse gerne vor, schicken Sie uns einfach eine kurze <a href="#contact">Nachricht</a>.
                 </p>
                 
-                <h3 id="pdfExport">PDF-Export Fragesatz</h3>
+                <h3 id="pdfExport">PDF-Export Lernset</h3>
                 <p>
-                    Ein Fragesatz kann als PDF exportiert werden, um die Lernfragen in verschiedenen Formen in der Klasse einzusetzen: 
+                    Ein Lernset kann als PDF exportiert werden, um die Lernfragen in verschiedenen Formen in der Klasse einzusetzen: 
                     Als klassisches Arbeitsblatt (oder Teil davon), als kleiner Test, als Grundlage für ein interaktives Quiz in Gruppenarbeit etc.
                 </p>
                 

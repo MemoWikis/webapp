@@ -86,7 +86,7 @@ public class KnowledgeReportMsgModel
 
 
         QuestionCountWish = user.WishCountQuestions + " Frage" + StringUtils.PluralSuffix(user.WishCountQuestions, "n");
-        SetCountWish = user.WishCountSets + " Frage" + StringUtils.PluralSuffix(user.WishCountSets, "sätze", "satz");
+        SetCountWish = user.WishCountSets + " Lernset" + StringUtils.PluralSuffix(user.WishCountSets, "s");
 
         var knowledgeSummary = KnowledgeSummaryLoader.Run(user.Id);
         KnowledgeSolid = knowledgeSummary.Solid.ToString();

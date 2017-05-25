@@ -148,8 +148,8 @@
                 Deine Aufgaben sind:
             </p>
             <ul>
-                <li>Erstellen von hochwertigen Lerninhalten bei memucho v.a. zu Einführungsthemen der BWL und VWL (<a href="<%= Links.SetsAll() %>">Beispiele für Fragesätze</a>)</li>
-                <li>Entwickeln eigener guter Ideen zu Fragesätzen</li>
+                <li>Erstellen von hochwertigen Lerninhalten bei memucho v.a. zu Einführungsthemen der BWL und VWL (<a href="<%= Links.SetsAll() %>">Beispiele für Lernsets</a>)</li>
+                <li>Entwickeln eigener guter Ideen zu Lernsets</li>
                 <li>Inhaltspflege vorhandener Inhalte (Rechtschreibung, Ergänzung von Themen, Quellen hinzufügen...)</li>
             </ul>
             <p class="listTitle">
@@ -214,7 +214,7 @@
             </p>
             <ul>
                 <li>Erstellen von hochwertigen Lerninhalten bei memucho (<a href="<%= Links.SetsAll() %>">Beispiele</a>)</li>
-                <li>Entwickeln eigener guter Ideen zu Fragesätzen</li>
+                <li>Entwickeln eigener guter Ideen zu Lernsets</li>
                 <li>Inhaltspflege vorhandener Inhalte (Rechtschreibung, Ergänzung von Themen, Quellen hinzufügen...)</li>
             </ul>
             <p class="listTitle">

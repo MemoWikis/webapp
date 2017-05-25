@@ -6,7 +6,6 @@ using System.Text;
 using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
-using TrueOrFalse.MultipleChoice;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
@@ -134,10 +133,10 @@ public class Question : DomainEntity, ICreator
         return Text.TruncateAtWord(length);
     }
 
-    public virtual bool IsPrivate()
-    {
-        return Visibility != QuestionVisibility.All;
-    }
+    public virtual bool IsPrivate() => Visibility != QuestionVisibility.All;
+
+    public virtual bool IsVisibleToCurrentUser () 
+        => Visibility == QuestionVisibility.All || Sl.SessionUser.IsLoggedInUser(Creator.Id);
 
     public virtual void UpdateReferences(IList<Reference> references)
     {

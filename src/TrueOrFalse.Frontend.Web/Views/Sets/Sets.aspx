@@ -21,16 +21,16 @@
         <div class=" container">
             <div id="mobilePageHeader" class="">
                 <h3 class="">
-                    Fragesätze
+                    Lernsets
                 </h3>
                 <a href="<%= Url.Action("Create", "EditSet") %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
-                    Fragesatz erstellen
+                    Lernset erstellen
                 </a>
             </div>
             <nav id="mobilePageHeader2" class="navbar navbar-default" style="display: none;">
                 <h4>
-                    Fragesätze
+                    Lernsets
                 </h4>
             </nav>
         </div>
@@ -51,13 +51,13 @@
                     <div class="btn-group <%= Model.ActiveTabWish ? "active" : "" %> JS-Wish">
                         <a  href="<%= Links.SetsWish() %>" type="button" class="btn btn-default">
                             Wunsch<span class="hidden-xxs">wissen</span> (<span class="tabWishKnowledgeCount JS-Amount"><%= Model.TotalWish %></span>)
-                            <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die du dir merken möchtest." data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" title="Lernsets, die du dir merken möchtest." data-placement="right"></i>
                         </a>
                     </div>
                     <div id="MyQuestions" class="btn-group <%= Model.ActiveTabMine ? "active" : "" %> JS-Mine">
                         <a href="<%= Links.SetsMine() %>" type="button" class="btn btn-default">
                             Meine (<span class="JS-Amount"><%= Model.TotalMine %></span>)
-                            <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden" data-placement="right"></i>
+                            <i class="fa fa-question-circle show-tooltip" title="Lernsets, die von dir zusammengestellt wurden" data-placement="right"></i>
                         </a>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                         <li class="<%= Model.ActiveTabAll ? "active" : ""  %> JS-All">
                             <a href="<%= Links.SetsAll() %>">
                                 <% string von = GetTabText(Model.ActiveTabAll, Model.TotalSetsInSystem, Model.TotalSetsInResult); %> 
-                                Alle Fragesätze (<span class="JS-Amount"><%= von + Model.TotalSetsInSystem %></span>)
+                                Alle Lernsets (<span class="JS-Amount"><%= von + Model.TotalSetsInSystem %></span>)
                             </a>
                         </li>
                         <li class="<%= Model.ActiveTabWish ? "active" : ""  %> JS-Wish">
@@ -94,20 +94,20 @@
                                 <% von = GetTabText(Model.ActiveTabWish, Model.TotalWish, Model.TotalSetsInResult); %>
                                 <i class="fa fa-heart" style="color:#b13a48;"></i>
                                 Mein Wunschwissen (<span class="tabWishKnowledgeCount JS-Amount"><%= von + Model.TotalWish %></span>)
-                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die du dir merken möchtest." data-placement="right"></i>
+                                <i class="fa fa-question-circle show-tooltip" title="Lernsets, die du dir merken möchtest." data-placement="right"></i>
                             </a>
                         </li>
                         <li class="<%= Model.ActiveTabMine ? "active" : ""  %> JS-Mine">
                             <a href="<%= Links.SetsMine() %>">
                                 <% von = GetTabText(Model.ActiveTabMine, Model.TotalMine, Model.TotalSetsInResult); %>
-                                Meine Fragesätze (<span class="JS-Amount"><%= von + Model.TotalMine %></span>)
-                                <i class="fa fa-question-circle show-tooltip" title="Fragesätze, die von dir erstellt wurden"></i>
+                                Meine Lernsets (<span class="JS-Amount"><%= von + Model.TotalMine %></span>)
+                                <i class="fa fa-question-circle show-tooltip" title="Lernsets, die von dir zusammengestellt wurden"></i>
                             </a>
                         </li>
                     </ul>
                     <div style="float: right; position: absolute; right: 0; top: 5px;">
                         <a href="<%= Url.Action("Create", "EditSet") %>" class="btn btn-success btn-sm">
-                            <i class="fa fa-plus-circle"></i> Fragesatz erstellen
+                            <i class="fa fa-plus-circle"></i> Lernset erstellen
                         </a>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                                     <% } %>--%>
                                 
                                     <div class="input-group">
-                                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", placeholder="Beginne zu tippen, um Fragesätze zu finden", id="txtSearch", formUrl=Model.SearchUrl }) %>
+                                        <%: Html.TextBoxFor(model => model.SearchTerm, new {@class="form-control", placeholder="Beginne zu tippen, um Lernsets zu finden", id="txtSearch", formUrl=Model.SearchUrl }) %>
                                         <span class="input-group-btn">
                                             <button class="btn btn-default" id="btnSearch"><i class="fa fa-search"></i></button>
                                         </span>

@@ -17,7 +17,7 @@
 <% }else{ %>
 <div class="row">
     <div class="col-lg-10 col-xs-9 xxs-stack">                
-        <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Fragesätze (<%= Model.WishSets.Count %>):</div>
+        <div style="clear: both; padding-top: 14px; margin-bottom: 3px; border-bottom: 1px solid #ffd700;">Lernsets (<%= Model.WishSets.Count %>):</div>
         <% if (Model.WishSets.Count > 0){ %>
             <% foreach(var set in Model.WishSets){ %>
                 <div><a href="<%: Links.SetDetail(Url, set) %>"><%: set.Name %></a></div>
@@ -25,8 +25,8 @@
         <% } else { %>
             <div style="padding-top: 10px; padding-bottom: 10px;">--
                 <%= Model.IsCurrentUser ?  
-                    "Du hast keine Fragesätze zu deinem Wunschwissen hinzugefügt" : 
-                        Model.User.Name + " hat keine Fragesätze zum Wunschwissen hinzugefügt." %> --
+                    "Du hast keine Lernsets zu deinem Wunschwissen hinzugefügt" : 
+                        Model.User.Name + " hat keine Lernsets zum Wunschwissen hinzugefügt." %> --
             </div>
         <% } %>
 

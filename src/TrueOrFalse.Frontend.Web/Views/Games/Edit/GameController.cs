@@ -50,7 +50,7 @@ public class GameController : BaseController
         var sets = AutocompleteUtils.GetSetsFromPostData(Request.Form);
         if (sets.Count == 0)
         {
-            gameModel.Message = new ErrorMessage("Bitte gib mindestens einen Fragesatz ein.");
+            gameModel.Message = new ErrorMessage("Bitte gib mindestens ein Lernset ein.");
             return View(_viewLocation, gameModel);            
         }
 
@@ -66,7 +66,7 @@ public class GameController : BaseController
 
         if (!hasQuestions)
         {
-            gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Multiple-Choice-Fragen.");
+            gameModel.Message = new ErrorMessage("Die gewählten Lernsets beinhalten keine Multiple-Choice-Fragen.");
             return View(_viewLocation, gameModel);
         }
 

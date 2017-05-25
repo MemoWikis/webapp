@@ -10,7 +10,9 @@
         
     }
 
-    static OpenModal(e : JQueryEventObject = null, afterLoad : () => void = null) {
+    static OpenModal(e: JQueryEventObject = null, afterLoad: () => void = null) {
+
+       
 
         Site.CloseAllModals();
 
@@ -22,6 +24,11 @@
         $.post("/Login/LoginModal", (modal) => {
             $("#modalLogin").remove();
             $("#modalLoginContainer").append(modal);
+            $('#modalLogin').on('shown.bs.modal',
+                e => {
+                    $("#EmailAddress").focus();
+                });
+
             $("#modalLogin").modal('show');
 
             if (afterLoad != null)

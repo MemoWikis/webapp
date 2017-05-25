@@ -20,14 +20,14 @@ public class Category : DomainEntity, ICreator
 
     public virtual IList<CategoryRelation> CategoryRelations { get; set; }
 
-    public virtual IList<Category> ParentCategories { 
-        get { return CategoryRelations.Any() 
-                ? CategoryRelations
-                    .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
-                    .Select(x => x.RelatedCategory)
-                    .ToList() 
-                : new List<Category>();
-        }
+    public virtual IList<Category> ParentCategories()
+    {
+        return CategoryRelations.Any()
+            ? CategoryRelations
+                .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
+                .Select(x => x.RelatedCategory)
+                .ToList()
+            : new List<Category>();
     }
 
     public virtual IList<Category> CategoriesToInclude { get; set; }

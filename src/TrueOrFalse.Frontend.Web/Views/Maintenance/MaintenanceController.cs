@@ -129,7 +129,7 @@ public class MaintenanceController : BaseController
     public ActionResult ReIndexAllSets()
     {
         Resolve<ReIndexAllSets>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragesätze wurden neu indiziert.") });
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken][HttpPost]
@@ -249,7 +249,7 @@ public class MaintenanceController : BaseController
             questionRepo.Update(question);
         }
 
-        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Fragesätzen {setsString} zugewiesen");
+        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Lernsets {setsString} zugewiesen");
 
         //ModelState.Clear(); 
 

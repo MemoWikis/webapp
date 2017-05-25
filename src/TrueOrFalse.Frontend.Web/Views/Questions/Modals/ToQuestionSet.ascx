@@ -9,7 +9,7 @@
 
             <div class="modal-body hide2" id="tqsBody">
                 <div id="tqsTextSelectSet" class="">
-                  <strong>Bitte wähle einen deiner Fragesätze:</strong> 
+                  <strong>Bitte wähle eines deiner Lernsets:</strong> 
                 </div>
                 <div style="margin-top: 11px;">
                     Filter:&nbsp;<input type="text" style="width: 210px;" id="txtTqsSetFilter" />
@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-md-8">
                         &nbsp;<br/>
-                        <p>Bitte wähle zuerst die Fragen aus, die du zu einem Fragesatz hinzufügen möchtest.</p>
+                        <p>Bitte wähle zuerst die Fragen aus, die du zu einem Lernset hinzufügen möchtest.</p>
                         <p>Gehe dazu mit der Maus über die obere Hälfte des Bildes neben der Frage und aktiviere die Checkbox oder benutze die Auswahl-Schaltfläche.</p>
                     </div>       
                 </div>                     
@@ -42,7 +42,7 @@
             <div class="modal-body hide2" id="tqsSuccess">
                 <div class="alert-success" style="padding: 5px;">
                     <strong id="tqsSuccessMsg">
-                        {Amount} Fragen wurden zum Fragesatz "{SetName}" hinzugefügt. {NonAdded}
+                        {Amount} Fragen wurden zum Lernset "{SetName}" hinzugefügt. {NonAdded}
                     </strong>
                 </div>
             </div> 
@@ -52,13 +52,13 @@
 
             <div class="modal-body hide2" id="tqsNoSetsBody">
                 <div class="">
-                  <strong>Du hast noch keine Fragesätze angelegt.</strong> 
-                    Um Fragen zu Fragesätzen hinzufügen zu können, musst du zuerst einen eigenen Fragesatz erstellen. 
+                  <strong>Du hast noch keine Lernsets angelegt.</strong> 
+                    Um Fragen zu Lernsets hinzufügen zu können, musst du zuerst ein eigenes Lernset erstellen. 
                 </div>        
             </div>
             <div class="modal-footer hide2" id="tqsNoSetsFooter">
                 <a href="#" class="btn btn-default" data-dismiss="modal">Schließen</a>
-                <a href="/Fragesaetze/Erstelle" class="btn btn-primary">Jetzt Fragesatz erstellen</a>
+                <a href="/Fragesaetze/Erstelle" class="btn btn-primary">Jetzt Lernset erstellen</a>
             </div>
 
         </div>

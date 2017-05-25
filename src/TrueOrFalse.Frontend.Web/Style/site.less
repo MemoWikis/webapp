@@ -364,29 +364,7 @@ img {
         line-height: @masterHeaderMainRowHeight-xs;
 
         .userName {
-            //$ToDo: relative max-width
-            max-width: 115px;
-
-            @media (min-width: 500px) {
-                max-width: 135px;
-            }
-
-            @media (min-width: 520px) {
-                max-width: 155px;
-            }
-
-            @media (min-width: 540px) {
-                max-width: 175px;
-            }
-
-            @media (min-width: 560px) {
-                max-width: 195px;
-            }
-
-            @media (min-width: @screen-md-min) {
-                max-width: 400px;
-            }
-
+            max-width: 145px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
@@ -426,11 +404,9 @@ img {
         }
 
         .TextSpan {
-            .media-below-md ( {
+            @media (max-width: 1200px) {
                 display: none;
             }
-
-            );
         }
     }
 
