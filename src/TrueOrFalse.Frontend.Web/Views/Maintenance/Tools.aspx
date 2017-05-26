@@ -60,20 +60,50 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
                 <div class="col-xs-2">
-                    <%= Html.TextBoxFor(m => m.SetsToUpdateIds, new {@class="form-control"} ) %>    
+                    <%= Html.TextBoxFor(m => m.SetsToAddCategoryToIds, new {@class="form-control"} ) %>    
                 </div>
             </div>
         
             <div class="form-group">
                 <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
                 <div class="col-xs-2">
-                    <%= Html.TextBoxFor(m => m.CategoryId, new {@class="form-control"} ) %>    
+                    <%= Html.TextBoxFor(m => m.CategoryToAddId, new {@class="form-control"} ) %>    
                 </div>
             </div>
 
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
                     <input type="submit" value="Thema zuweisen" class="btn btn-primary" />
+                </div>
+            </div>
+
+        <% } %>
+    </div>
+    
+    <h4 style="margin-top: 20px;">Kategorie von Fragen in Lernsets entfernen</h4>
+    <div class="form-horizontal">
+
+        <% using (Html.BeginForm("RemoveCategoryFromQuestionsInSet", "Maintenance")){%>
+        
+            <%= Html.AntiForgeryToken() %>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.SetsToRemoveCategoryFromIds, new {@class="form-control"} ) %>    
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.CategoryToRemoveId, new {@class="form-control"} ) %>    
+                </div>
+            </div>
+
+            <div class="form-group" style="">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <input type="submit" value="Thema entfernen" class="btn btn-primary" />
                 </div>
             </div>
 
