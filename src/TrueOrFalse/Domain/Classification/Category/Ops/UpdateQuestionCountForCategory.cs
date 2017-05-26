@@ -4,7 +4,14 @@ using NHibernate;
 
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
-    public void All() => Run(Sl.R<CategoryRepository>().GetAll());
+    private readonly CategoryRepository _categoryRepository;
+
+    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+    }
+
+    public void All() => Run(_categoryRepository.GetAll());
 
     public void Run(IList<Category> categories) => Run(categories.Select(c => c.Id));
 
@@ -37,6 +44,52 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 			                AND q.Visibility = 0
 		                )
 	                )I_was_here
+                ) WHERE c.Id = {categoryId}";
+
+            Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();
+        }
+    }
+
+    public void RunAggregated(IEnumerable<int> categoryIds)
+    {
+        foreach (var categoryId in categoryIds)
+        {
+            var query = $@"
+
+                UPDATE category c SET CountQuestions =  
+                (
+	                SELECT COUNT(DISTINCT(questionId)) FROM 
+                    (
+	                    SELECT DISTINCT(cq.Question_id) questionId
+                        FROM categories_to_questions cq
+                        WHERE cq.Category_id = {categoryId}
+
+                        UNION
+
+                        SELECT DISTINCT(qs.Question_id) questionId
+	                    FROM relatedcategoriestorelatedcategories rc
+	                    INNER JOIN category c
+	                    ON rc.Related_Id = c.Id
+	                    INNER JOIN categories_to_sets cs
+	                    ON c.Id = cs.Category_id
+	                    INNER JOIN questioninset qs
+	                    ON cs.Set_id = qs.Set_id
+	                    WHERE rc.Category_id = {categoryId}
+	                    AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf} 
+	
+	                    UNION
+	
+	                    SELECT DISTINCT(cq.Question_id) questionId 
+	                    FROM relatedcategoriestorelatedcategories rc
+	                    INNER JOIN category c
+	                    ON rc.Related_Id = c.Id
+	                    INNER JOIN categories_to_sets cs
+	                    ON c.Id = cs.Category_id
+	                    INNER JOIN categories_to_questions cq
+	                    ON c.Id = cq.Category_id
+	                    WHERE rc.Category_id = {categoryId}
+	                    AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
+                    ) c
                 ) WHERE c.Id = {categoryId}";
 
             Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();

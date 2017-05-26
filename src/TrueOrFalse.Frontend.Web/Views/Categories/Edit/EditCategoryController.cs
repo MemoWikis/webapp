@@ -178,6 +178,10 @@ public class EditCategoryController : BaseController
         ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
 
         _categoryRepository.Update(category);
+
+        category.UpdateAggregatedContent();
+
+        _categoryRepository.Update(category);
     }
 
     public ActionResult AggregationModalContent(int catId)

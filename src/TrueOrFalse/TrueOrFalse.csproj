@@ -244,6 +244,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Classification\Category\AggregatedContent.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuation.cs" />

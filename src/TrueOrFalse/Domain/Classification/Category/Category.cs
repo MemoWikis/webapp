@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -48,9 +49,9 @@ public class Category : DomainEntity, ICreator
             : new List<Category>();
     }
 
-    public virtual IList<Category> AggregatedCategories()
+    public virtual IList<Category> AggregatedCategories(bool includingSelf = false)
     {
-        return Sl.R<CategoryRepository>().GetAggregatedCategories(this);
+        return Sl.R<CategoryRepository>().GetAggregatedCategories(this, includingSelf);
     }
 
     public virtual IList<Category> NonAggregatedCategories()
@@ -63,13 +64,59 @@ public class Category : DomainEntity, ICreator
             .ToList();
     }
 
+    public virtual string AggregatedContentJson { get; set; }
+
+    public virtual AggregatedContent GetAggregatedContent()
+    {
+        return AggregatedContent.FromJson(AggregatedContentJson);
+    }
+
+    public virtual void UpdateAggregatedContent()
+    {
+        UpdateAggregatedSets();
+        UpdateAggregatedQuestions();
+    }
+
+    public virtual void UpdateAggregatedSets()
+    {
+        var aggregatedSets = new List<Set>();
+
+        foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
+        {
+            aggregatedSets.AddRange(aggregatedCategory.GetSets());
+        }
+
+        var aggregatedContent = GetAggregatedContent();
+
+        aggregatedContent.AggregatedSets = aggregatedSets.Distinct().ToList();
+
+        AggregatedContentJson = aggregatedContent.ToJson();
+    }
+
+    public virtual void UpdateAggregatedQuestions()
+    {
+        var aggregatedQuestions = new List<Question>();
+
+        var questionRepo = Sl.R<QuestionRepo>();
+
+        foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
+        {
+            aggregatedQuestions.AddRange(questionRepo.GetForCategory(aggregatedCategory.Id));
+        }
+
+        var aggregatedContent = GetAggregatedContent();
+
+        aggregatedContent.AggregatedQuestions = aggregatedQuestions.Distinct().ToList();
+
+        AggregatedContentJson = aggregatedContent.ToJson();
+    }
+
     public virtual string FeaturedSetsIdsString { get; set; }
 
     public virtual string TopicMarkdown { get; set; }
         
     public virtual int CountQuestions { get; set; }
     public virtual int CountSets { get; set; }
-    public virtual int CountCreators { get; set; }
 
     public virtual CategoryType Type { get; set; }
 
@@ -118,19 +165,6 @@ public class Category : DomainEntity, ICreator
         }
                     
         return Sl.R<SetRepo>().GetForCategory(Id);
-    }
-
-    public virtual IList<Set> GetAggregatedSets()
-    {
-        var aggregatedCategories = Sl.R<CategoryRepository>().GetAggregatedCategories(this);
-        var aggregatedSets = new List<Set>();
-
-        foreach (var category in aggregatedCategories)
-        {
-            aggregatedSets.AddRange(category.GetSets());
-        }
-
-        return aggregatedSets.Distinct().ToList();
     }
 
     public virtual object GetTypeModel()
