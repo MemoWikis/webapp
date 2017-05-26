@@ -482,7 +482,7 @@
         <div class="well" id="nominationInnopreis" style="padding: 10px; ">
             
             <div style="text-align: center;">
-                <img src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und Memucho kooperieren!" style="margin-bottom: 10px;"/>
+                <img src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" style="margin-bottom: 10px;"/>
             </div>
             <p style="text-align: center; margin-bottom: 0;">
                 
