@@ -241,6 +241,15 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
+                .Include("~/Scripts/vendor.some-where/dataTables.bootstrap.css")
+                .Include("~/Views/Maintenance/ContentStats.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceContentStats")
+                .Include("~/Scripts/vendor.some-where/dataTables.bootstrap.js")
+                .Include("~/Scripts/vendor.some-where/jquery.dataTables.js")
+                .Include("~/Views/Maintenance/Js/ContentStats.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
 

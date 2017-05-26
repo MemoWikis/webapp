@@ -358,6 +358,9 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Scripts\vendor.some-where\dataTables.bootstrap.css" />
+    <Content Include="Scripts\vendor.some-where\dataTables.bootstrap.js" />
+    <Content Include="Scripts\vendor.some-where\jquery.dataTables.js" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -1114,6 +1117,7 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
