@@ -121,10 +121,12 @@ public class AnswerQuestionModel : BaseModel
     {
         if(this.QuestionViewGuid == Guid.Empty)
             QuestionViewGuid = Guid.NewGuid();
+
         this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
+
         Populate(question);
     }
 

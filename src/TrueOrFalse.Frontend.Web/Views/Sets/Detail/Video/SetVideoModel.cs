@@ -27,11 +27,13 @@ public class SetVideoModel : BaseModel
         {
             HasQuestion = true;
 
-            var answerQuestionModel = new AnswerQuestionModel(set.QuestionsPublic().First());
+            var questionsInSet = set.QuestionsInSetPublic.OrderBy(x => x.Timecode).ToList();
+
+            var answerQuestionModel = new AnswerQuestionModel(questionsInSet.First().Question);
             answerQuestionModel.DisableCommentLink = true;
             answerQuestionModel.DisableAddKnowledgeButton = HideAddToKnowledge;
 
-            QuestionsInSet = set.QuestionsInSetPublic;
+            QuestionsInSet = questionsInSet;
             AnswerBodyModel = new AnswerBodyModel(answerQuestionModel);
             AnswerBodyModel.DisableCommentLink = true;
         }
