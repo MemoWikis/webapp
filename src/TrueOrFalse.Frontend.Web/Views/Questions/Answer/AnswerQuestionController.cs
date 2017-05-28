@@ -319,13 +319,15 @@ public class AnswerQuestionController : BaseController
 
         learningSessionStep.AnswerState = StepAnswerState.ShowedSolutionOnly;
 
+        bool newStepAdded = !(learningSession.LimitForThisQuestionHasBeenReached(learningSessionStep) || learningSession.LimitForNumberOfRepetitionsHasBeenReached());
         learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
 
         return new JsonResult
         {
             Data = new
             {
-                numberSteps = learningSession.Steps.Count
+                numberSteps = learningSession.Steps.Count,
+                newStepAdded = newStepAdded
             }
         };
     }

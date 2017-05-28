@@ -150,6 +150,10 @@
                     },
                     cache: false,
                     success(result) {
+                        if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
+                            $('#btnNext').html('Zum Ergebnis');
+                            $('#btnNext').unbind();
+                        }
                         self._answerQuestion.UpdateProgressBar(result.numberSteps);
                     }
                 });

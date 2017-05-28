@@ -8,7 +8,7 @@ class AnswerQuestion {
     private _onWrongAnswer: () => void = () => { };
 
     private _inputFeedback: AnswerQuestionUserFeedback;
-    private _isLastLearningStep = false;
+    public _isLastLearningStep = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
