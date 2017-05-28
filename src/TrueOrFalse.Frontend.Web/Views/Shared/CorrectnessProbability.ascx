@@ -25,6 +25,7 @@
             Wir wissen daher noch nicht die Wahrscheinlichkeit einer korrekten Antwort.
         </div>">
         <i class="fa fa-tachometer greyed"></i> 
+        <span class="greyed">?</span>
 <% }%>
 
 </span>
