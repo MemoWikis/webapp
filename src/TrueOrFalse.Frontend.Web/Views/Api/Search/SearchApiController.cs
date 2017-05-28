@@ -104,10 +104,21 @@ public class SearchApiController : BaseController
 
     private static void AddQuestionItems(List<ResultItem> items, SearchBoxElements elements)
     {
+        var questions = elements.Questions.Where(q => q.IsVisibleToCurrentUser()).ToList();
+
+        var removedQuestionCount = elements.Questions.Count - questions.Count;
+
+        //change header question count
+        if (removedQuestionCount > 0)
+        {
+            var headerItem = items.First(i => i.Type == ResultItemType.QuestionsHeader.ToString());
+            headerItem.ResultCount = headerItem.ResultCount - removedQuestionCount;
+        }
+
         items.AddRange(
-            elements.Questions.Select((question, index) => new ResultItem
+            questions.Select((question, index) => new ResultItem
             {
-                ResultCount = elements.QuestionsResult.Count,
+                ResultCount = elements.QuestionsResult.Count - removedQuestionCount,
                 Type = ResultItemType.Questions.ToString(),
                 Item = new ResultItemJson
                 {
