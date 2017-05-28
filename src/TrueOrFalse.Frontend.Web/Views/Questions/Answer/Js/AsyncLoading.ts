@@ -80,10 +80,10 @@
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);
-                        if (result.navBarData.currentHtml != null)
-                            this.updateNavigationBar(result.navBarData);
+                        if ($("#hddIsLearningSession").val() === "True" || $("#hddIsTestSession").val() === "True")
+                            this.updateSessionHeader(result.sessionData);
                         else
-                            this.updateSessionHeader(result.currentSessionHeader, result.sessionData);
+                            this.updateNavigationBar(result.navBarData);
                         document.title = $(".QuestionText").html();
                         this.updateUrl(result.url);
                         $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
@@ -129,10 +129,19 @@
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
     }
 
-    private updateSessionHeader(currentSessionHeaderText, sessionStepData) {
-        $("#hddIsTestSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
-        $("#hddIsTestSession").attr("data-is-last-step", sessionStepData.isLastStep);
-        $(".SessionBar .QuestionCount").html(currentSessionHeaderText);
+    private updateSessionHeader(sessionStepData) {
+        if ($("#hddIsTestSession").val() === "True") {
+            $("#hddIsTestSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
+            $("#hddIsTestSession").attr("data-is-last-step", sessionStepData.isLastStep);
+            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
+        }
+        else if ($("#hddIsLearningSession").val() === "True") {
+            $("#hddIsLearningSession").attr("data-current-step-guid", sessionStepData.currentStepGuid);
+            $("#hddIsLearningSession").attr("data-current-step-idx", sessionStepData.currentStepIdx);
+            $("#hddIsLearningSession").attr("data-skip-step-index", sessionStepData.skipStepIdx);
+            $("#hddIsLearningSession").attr("data-is-last-step", sessionStepData.isLastStep);
+            $(".SessionBar .QuestionCount").html(sessionStepData.currentSessionHeader);
+        }   
     }
 
     private updateUrl(url: string) {

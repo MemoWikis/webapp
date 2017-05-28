@@ -498,7 +498,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return GetQuestionPageData(model, currentUrl);
+        return GetQuestionPageData(model, currentUrl, new sessionData());
     }
 
     public string RenderAnswerBodyBySet(int questionId, int setId)
@@ -514,7 +514,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
         var currenUrl = Links.AnswerQuestion(question, set);
-        return GetQuestionPageData(model, currenUrl);
+        return GetQuestionPageData(model, currenUrl, new sessionData());
     }
 
     public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
@@ -561,8 +561,11 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
         string currentSessionHeader = "Abfrage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
+        int currentStepIdx = model.LearningSessionStep.Idx;
+        bool isLastStep = model.IsLastLearningStep;
+        Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, true, currentSessionHeader);
+        return GetQuestionPageData(model, currentUrl, new sessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), true);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -588,11 +591,13 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("name", testSession.UriName);
 
         string currentSessionHeader = "Abfrage " + model.TestSessionCurrentStep + " von " + model.TestSessionNumberOfSteps;
+        int currentStepIdx = model.TestSessionCurrentStep;
+        bool isLastStep = model.TestSessionIsLastStep;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, true, currentSessionHeader);
+        return GetQuestionPageData(model, currentUrl, new sessionData(currentSessionHeader, currentStepIdx, isLastStep), true);
     }
 
-    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, bool isSession = false, string currentSessionHeader = "", int currentStepIndx = -1, int skipStepIdx = -1, bool isLastStep = false, Guid currentStepGuid = default(Guid))
+    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, sessionData sessionData, bool isSession = false)
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
@@ -620,16 +625,37 @@ public class AnswerQuestionController : BaseController
             },
             sessionData = isSession ? new
             {
-                currentStepIdx = model.TestSessionCurrentStep,
-                isLastStep = model.TestSessionIsLastStep
+                currentStepIdx = sessionData.CurrentStepIdx,
+                skipStepIdx = sessionData.SkipStepIdx,
+                isLastStep = sessionData.IsLastStep,
+                currentStepGuid = sessionData.CurrentStepGuid,
+                currentSessionHeader = sessionData.CurrentSessionHeader
             } : null,
-            currentSessionHeader = isSession ? currentSessionHeader : "",
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
             offlineDevelopment = Settings.DevelopOffline()
         });
     }
+
+    private class sessionData
+    {
+        public sessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, Guid currentStepGuid = new Guid())
+        {
+            CurrentSessionHeader = currentSessionHeader;
+            CurrentStepIdx = currentStepIdx;
+            SkipStepIdx = skipStepIdx;
+            IsLastStep = isLastStep;
+            CurrentStepGuid = currentStepGuid;
+        }
+
+        public string CurrentSessionHeader { get; private set; }
+        public int CurrentStepIdx { get; private set; }
+        public int SkipStepIdx { get; private set; }
+        public bool IsLastStep { get; private set; }
+        public Guid CurrentStepGuid { get; private set; }
+    }
+
 
     public EmptyResult ClearHistory()
     {

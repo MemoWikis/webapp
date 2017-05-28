@@ -246,6 +246,7 @@ class AnswerQuestion {
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
+            alert();
             $('#btnNext').unbind();
         }
 
@@ -255,6 +256,7 @@ class AnswerQuestion {
     private HandleWrongAnswer(result: any, answerText : string) {
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
+            alert();
             $('#btnNext').unbind();
         }
 
