@@ -95,7 +95,13 @@ public class StatisticsModel : BaseModel
 
 
         QuestionsCreatedPerDayResults = QuestionsCreatedPerDayResult.FillUpListWithZeros(QuestionsCreatedPerDayResults.Where(d => d.DateTime.Date >= Since.Date).ToList(), Since, DateTime.Now);
-
+        if (QuestionsExistingPerDayResults.Last().DateTime.Date < DateTime.Now.Date) //add entry for current day at the end so that statistic doesn't stop at last day
+            QuestionsExistingPerDayResults.Add(new QuestionsCreatedPerDayResult
+            {
+                DateTime = DateTime.Now.Date,
+                CountByMemucho = QuestionsExistingPerDayResults.Last().CountByMemucho,
+                CountByOthers = QuestionsExistingPerDayResults.Last().CountByOthers
+            });
 
         /* Usage Stats */
         FillUsageStatistics();
