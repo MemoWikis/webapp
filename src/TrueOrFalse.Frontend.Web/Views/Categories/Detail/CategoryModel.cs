@@ -23,7 +23,9 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> Sets;
-    public IList<Set> AggregatedSets;
+    public AggregatedContent AggregatedContent;
+    public int AggregatedSetCount;
+    public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
@@ -49,7 +51,6 @@ public class CategoryModel : BaseModel
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
-    public int CountCreators;
 
     public int CorrectnesProbability;
     public int AnswersTotal;
@@ -108,7 +109,6 @@ public class CategoryModel : BaseModel
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
         CountSets = category.CountSets;
-        CountCreators = category.CountCreators;
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = category.Type == CategoryType.Standard ? 
@@ -124,7 +124,10 @@ public class CategoryModel : BaseModel
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
-        AggregatedSets = Category.GetAggregatedSets();
+        AggregatedContent = Category.GetAggregatedContent();
+
+        AggregatedSetCount = _categoryRepo.CountAggregatedSets(Category.Id);
+        AggregatedQuestionCount = _categoryRepo.CountAggregatedQuestions(Category.Id);
     }
 
     private List<Question> GetTopQuestionsInSubCats()
