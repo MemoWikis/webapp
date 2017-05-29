@@ -35,7 +35,7 @@ public class EditDateController : BaseController
         else if (categoryId != null)
         {
             var category = Sl.R<CategoryRepository>().GetById((int) categoryId);
-            var sets = category.GetSets(true);
+            var sets = category.GetSetsNonAggregated(true);
             if (sets != null)
             {
                 model.Details = category.Name;

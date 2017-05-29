@@ -68,11 +68,20 @@ public class Category : DomainEntity, ICreator
 
     public virtual AggregatedContent GetAggregatedContent()
     {
+        if (AggregatedContentJson == null)
+        {
+            UpdateAggregatedContent();
+            Sl.CategoryRepo.Update(this);
+        }
+
         return AggregatedContent.FromJson(AggregatedContentJson);
     }
 
     public virtual void UpdateAggregatedContent()
     {
+        if(AggregatedContentJson == null)
+            AggregatedContentJson = new AggregatedContent().ToJson();
+
         UpdateAggregatedSets();
         UpdateAggregatedQuestions();
     }
@@ -83,7 +92,7 @@ public class Category : DomainEntity, ICreator
 
         foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
         {
-            aggregatedSets.AddRange(aggregatedCategory.GetSets());
+            aggregatedSets.AddRange(aggregatedCategory.GetSetsNonAggregated());
         }
 
         var aggregatedContent = GetAggregatedContent();
@@ -109,6 +118,39 @@ public class Category : DomainEntity, ICreator
         aggregatedContent.AggregatedQuestions = aggregatedQuestions.Distinct().ToList();
 
         AggregatedContentJson = aggregatedContent.ToJson();
+    }
+
+    public virtual IList<Set> GetAggregatedSets()
+    {
+        return GetAggregatedContent().AggregatedSets;
+    }
+
+    public virtual IList<Set> FeaturedSets()
+    {
+        if (string.IsNullOrEmpty(FeaturedSetsIdsString))
+            return new List<Set>();
+
+        var setIds = FeaturedSetsIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x));
+
+        var setRepo = Sl.R<SetRepo>();
+
+        return setIds
+            .Select(setId => setRepo.GetById(setId))
+            .Where(set => set != null)
+            .ToList();
+    }
+
+    public virtual IList<Set> GetSetsNonAggregated(bool featuredSetsOnlyIfAny = false)
+    {
+        var featuredSets = FeaturedSets();
+        if (featuredSets.Count > 0 && featuredSetsOnlyIfAny)
+        {
+            return featuredSets;
+        }
+
+        return Sl.R<SetRepo>().GetForCategory(Id);
     }
 
     public virtual string FeaturedSetsIdsString { get; set; }
@@ -138,34 +180,6 @@ public class Category : DomainEntity, ICreator
 
     public virtual bool IsSpoiler(Question question) => 
         IsSpoilerCategory.Yes(Name, question);
-
-    public virtual IList<Set> FeaturedSets()
-    {
-        if (string.IsNullOrEmpty(FeaturedSetsIdsString))
-            return new List<Set>();
-
-        var setIds = FeaturedSetsIdsString
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x));
-
-        var setRepo = Sl.R<SetRepo>();
-
-        return setIds
-            .Select(setId => setRepo.GetById(setId))
-            .Where(set => set != null)
-            .ToList();
-    }
-
-    public virtual IList<Set> GetSets(bool featuredSetsOnlyIfAny = false)
-    {
-        var featuredSets = FeaturedSets();
-        if (featuredSets.Count > 0 && featuredSetsOnlyIfAny)
-        {
-            return featuredSets;
-        }
-                    
-        return Sl.R<SetRepo>().GetForCategory(Id);
-    }
 
     public virtual object GetTypeModel()
     {

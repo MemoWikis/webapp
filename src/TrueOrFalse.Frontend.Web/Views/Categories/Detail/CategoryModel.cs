@@ -126,8 +126,8 @@ public class CategoryModel : BaseModel
 
         AggregatedContent = Category.GetAggregatedContent();
 
-        AggregatedSetCount = _categoryRepo.CountAggregatedSets(Category.Id);
-        AggregatedQuestionCount = _categoryRepo.CountAggregatedQuestions(Category.Id);
+        AggregatedSetCount = AggregatedContent.AggregatedSetsIds.Count;
+        AggregatedQuestionCount = AggregatedContent.AggregatedQuestionIds.Count;
     }
 
     private List<Question> GetTopQuestionsInSubCats()
