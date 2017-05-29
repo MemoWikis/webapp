@@ -188,7 +188,7 @@
                                                { %>
                                                 <li class="questionItem ui-state-default Clearfix" data-id="<%= questionInSet.Id %>">
                                                     <div class="QuestionTools">
-                                                        <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen"></i><br/>
+                                                        <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen (die Frage wird nicht gelöscht)"></i><br/>
                                                         <% if (Model.IsOwner(questionInSet.Question.Creator.Id))
                                                            { %>
                                                             <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Text, questionInSet.Question.Id) %>">
