@@ -8,6 +8,12 @@ class PageInit {
 
         new AsyncLoading();
 
+        if (answerEntry.AnswerQuestion._isLastLearningStep) {
+            $("#aSkipStep").html("Zum Ergebnis");
+            $("#aSkipStep").off();
+            //make getAnswerBody call and do nothing with response
+        }
+
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content
 

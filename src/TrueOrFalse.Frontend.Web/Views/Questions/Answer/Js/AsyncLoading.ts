@@ -27,7 +27,7 @@
                 });
 
             } else if ($("#hddIsLearningSession").val() === "True") {
-                $("#btnNext").click((e) => {
+                $("#btnNext, #aSkipStep").click((e) => {
                     e.preventDefault();
                     var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
                     var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");

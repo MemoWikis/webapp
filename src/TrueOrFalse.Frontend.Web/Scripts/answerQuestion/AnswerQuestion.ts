@@ -146,6 +146,11 @@ class AnswerQuestion {
                 else
                     $("#hddIsLearningSession").attr("data-skip-step-index", -1);
             });
+
+        $("#aSkipStep").click(e => {
+            this.UpdateProgressBar(parseInt($("#hddIsLearningSession").attr("data-current-step-idx")));
+        });
+
     }
 
     public OnCorrectAnswer(func: () => void) {
