@@ -1,3 +1,8 @@
 ﻿$(document).ready(function () {
-    (<any>$('#tableSetStats')).DataTable();
+    (<any>$('#tableSetStats')).DataTable({
+        "language": {
+            "decimal": ",",
+            "thousands": "."
+        }
+    });
 });
