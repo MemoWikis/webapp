@@ -10,8 +10,9 @@ class PageInit {
 
         if (answerEntry.AnswerQuestion._isLastLearningStep) {
             $("#aSkipStep").html("Zum Ergebnis");
-            $("#aSkipStep").off();
-            //make getAnswerBody call and do nothing with response
+            $("#aSkipStep").click(e => {
+                window.location.href = $("#aSkipStep").attr("href");
+            });
         }
 
         new Pin(PinType.Question);

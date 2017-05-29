@@ -148,7 +148,7 @@ class AnswerQuestion {
             });
 
         $("#aSkipStep").click(e => {
-            this.UpdateProgressBar(parseInt($("#hddIsLearningSession").attr("data-current-step-idx")));
+            this.UpdateProgressBar(this.GetCurrentStep());
         });
 
     }
