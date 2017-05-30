@@ -21,6 +21,8 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.FeaturedSetsIdsString);
 
         Map(x => x.AggregatedContentJson);
+        Map(x => x.CountQuestionsAggregated);
+        Map(x => x.CountSetsAggregated);
 
         Map(x => x.CountQuestions);
         Map(x => x.CountSets);

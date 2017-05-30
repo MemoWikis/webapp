@@ -77,6 +77,10 @@ public class Category : DomainEntity, ICreator
         return AggregatedContent.FromJson(AggregatedContentJson);
     }
 
+    public virtual int CountQuestionsAggregated { get; set; }
+
+    public virtual int CountSetsAggregated { get; set; }
+
     public virtual void UpdateAggregatedContent()
     {
         if(AggregatedContentJson == null)
@@ -98,6 +102,7 @@ public class Category : DomainEntity, ICreator
         var aggregatedContent = GetAggregatedContent();
 
         aggregatedContent.AggregatedSets = aggregatedSets.Distinct().ToList();
+        CountSetsAggregated = aggregatedContent.AggregatedSets.Count;
 
         AggregatedContentJson = aggregatedContent.ToJson();
     }
@@ -116,6 +121,7 @@ public class Category : DomainEntity, ICreator
         var aggregatedContent = GetAggregatedContent();
 
         aggregatedContent.AggregatedQuestions = aggregatedQuestions.Distinct().ToList();
+        CountQuestionsAggregated = aggregatedContent.AggregatedQuestions.Count;
 
         AggregatedContentJson = aggregatedContent.ToJson();
     }
