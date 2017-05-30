@@ -73,6 +73,8 @@ class AnswerQuestion {
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
+        ActivityPoints.updatePointsDisplay();
+
         var self = this;
 
         $('body').keydown(function(e) {
@@ -136,6 +138,7 @@ class AnswerQuestion {
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
+                ActivityPoints.addPoitsFromShowSolutionAnswer();
                 return false;
             });
 
@@ -245,6 +248,9 @@ class AnswerQuestion {
 
     private HandleCorrectAnswer() {
         this.AnsweredCorrectly = true;
+
+        ActivityPoints.addPoitsFromRightAnswer();
+
         if (this.SolutionType !== SolutionType.FlashCard) {
             this._inputFeedback.ShowSuccess();
         }
@@ -257,7 +263,9 @@ class AnswerQuestion {
         this._onCorrectAnswer();
     }
 
-    private HandleWrongAnswer(result: any, answerText : string) {
+    private HandleWrongAnswer(result: any, answerText: string) {
+        ActivityPoints.addPoitsFromWrongAnswer();
+
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
             $('#btnNext').unbind();
