@@ -251,7 +251,6 @@ class AnswerQuestion {
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
-            alert();
             $('#btnNext').unbind();
         }
 
@@ -261,7 +260,6 @@ class AnswerQuestion {
     private HandleWrongAnswer(result: any, answerText : string) {
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
-            alert();
             $('#btnNext').unbind();
         }
 
@@ -379,13 +377,22 @@ class AnswerQuestion {
 
         var self = this;
 
+        var LearningSessionStepGuid = "";
+        var LearningSessionId = -1;
+        if ($("#hddIsLearningSession").val() === "True") {
+            LearningSessionStepGuid = $("#hddIsLearningSession").attr("data-current-step-guid");
+            LearningSessionId = parseInt($("#hddIsLearningSession").attr("data-learning-session-id"));
+        }
+
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
             data: {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: $('#hddInteractionNumber').val(),
-                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
+                LearningSessionId: LearningSessionId,
+                LearningSessionStepGuidString: LearningSessionStepGuid
             },
             cache: false,
             success: result => {

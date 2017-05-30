@@ -77,6 +77,10 @@
                     url: url,
                     success: result => {
                         result = JSON.parse(result);
+                        if (result.DateRedirectionLink) {
+                            window.location.href = result.DateRedirectionLink;
+                            return;
+                        }
                         $("div#LicenseQuestion").remove();
                         $("#AnswerBody")
                             .replaceWith(result.answerBodyAsHtml);

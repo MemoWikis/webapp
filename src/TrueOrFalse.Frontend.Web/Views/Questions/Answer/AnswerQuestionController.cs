@@ -334,16 +334,26 @@ public class AnswerQuestionController : BaseController
 
     [HttpPost]
     public JsonResult GetSolution(int id, string answer, Guid questionViewGuid, int interactionNumber, int? roundId,
-        int millisecondsSinceQuestionView = -1)
+        int millisecondsSinceQuestionView = -1, int LearningSessionId = -1, string LearningSessionStepGuidString = "")
     {
         var question = _questionRepo.GetById(id);
         var solution = GetQuestionSolution.Run(question);
 
         if (IsLoggedIn)
             if (roundId == null)
-                R<AnswerLog>()
-                    .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
-                        millisecondsSinceQuestionView);
+                if (LearningSessionStepGuidString != "" && LearningSessionId != -1)
+                {
+                    var LearningSessionStepGuid = new Guid(LearningSessionStepGuidString);
+                    R<AnswerLog>()
+                        .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
+                            millisecondsSinceQuestionView, null, LearningSessionId, LearningSessionStepGuid);
+                }
+                else
+                {
+                    R<AnswerLog>()
+                        .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
+                            millisecondsSinceQuestionView);
+                }
             else
                 R<AnswerLog>()
                     .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
@@ -538,8 +548,8 @@ public class AnswerQuestionController : BaseController
             {
                 if (trainingDate.IsExpired())
                 {
-                    //TODO:Julian still have to do the js for this
-                    return Links.StartLearningSession(learningSession);
+                    var serializer = new JavaScriptSerializer();
+                    return serializer.Serialize(new { RedirectionLink = Links.StartDateLearningSession(trainingDate.TrainingPlan.Date.Id) });
                 }
 
                 trainingDate.ExpiresAt =
@@ -572,14 +582,6 @@ public class AnswerQuestionController : BaseController
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
     {
-                    //var sessionCount = sessionUser.TestSessions.Count(s => s.Id == testSessionId);
-
-                    //    if (sessionCount > 1)
-                    //        throw new Exception(
-                    //            $"SessionCount is {sessionUser.TestSessions.Count(s => s.Id == testSessionId)}. Should be not more then more than 1.");
-                    //    if (testSession.CurrentStepIndex > testSession.NumberOfSteps)
-                    //        return redirectToFinalStepFunc(testSession);
-
         var sessionUser = Sl.SessionUser;
         var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
 

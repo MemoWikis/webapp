@@ -131,7 +131,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId.Value);
             var learningSessionStep = learningSession.GetStep(new Guid(learningSessionStepGuid));
             learningSessionStep.AnswerState = StepAnswerState.Answered;
-            learningSessionStep.Answer.AnswerredCorrectly = AnswerCorrectness.True;
+            //learningSessionStep.Answer.AnswerredCorrectly = AnswerCorrectness.IsView;
 
             learningSession.Steps.Remove(learningSession.Steps.Last());
 

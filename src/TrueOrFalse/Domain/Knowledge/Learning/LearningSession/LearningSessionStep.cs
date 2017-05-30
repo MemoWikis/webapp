@@ -43,12 +43,9 @@ public class LearningSessionStep
             if (_answer != null)
                 return _answer;
 
-            return Sl.R<AnswerRepo>().GetByLearningSessionStepGuid(Guid);
+            return Sl.AnswerRepo.GetByLearningSessionStepGuid(Guid);
         }
-        set
-        {
-            _answer = value;
-        }
+        set => _answer = value;
     }
 
     [JsonProperty]
