@@ -337,8 +337,8 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
-    <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
-    <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Compile Include="Views\Maintenance\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Maintenance\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />
@@ -666,8 +666,13 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
@@ -933,7 +938,7 @@
     <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js">
       <DependentUpon>SetVideoPlayer.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
+    <Content Include="Views\Maintenance\Knowledge\Wheel\KnowledgeWheel.ascx" />
     <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
     <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
@@ -1006,7 +1011,7 @@
     <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
     <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
     <Content Include="Views\Drafts\Widget.html" />
-    <Content Include="Views\Knowledge\TrainingDate.ascx" />
+    <Content Include="Views\Maintenance\Knowledge\TrainingDate.ascx" />
     <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
     <Content Include="Views\Maintenance\CMS.aspx" />
     <Content Include="Views\Sets\Edit\Js\Validation.js">
@@ -1122,7 +1127,7 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Knowledge\Wheel\KnowledgeWheel.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
@@ -1295,7 +1300,7 @@
       <DependentUpon>Play.ts</DependentUpon>
     </Content>
     <Content Include="Views\Games\Play\Play.aspx" />
-    <Content Include="Views\Knowledge\Knowledge.css">
+    <Content Include="Views\Maintenance\Knowledge\Knowledge.css">
       <DependentUpon>Knowledge.less</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
@@ -1893,8 +1898,8 @@
     <Compile Include="Views\Questions\QuestionsControllerSearch.cs" />
     <Compile Include="Views\Questions\QuestionsModel.cs" />
     <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
-    <Compile Include="Views\Knowledge\KnowledgeController.cs" />
-    <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
+    <Compile Include="Views\Maintenance\Knowledge\KnowledgeController.cs" />
+    <Compile Include="Views\Maintenance\Knowledge\KnowledgeModel.cs" />
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
@@ -1949,6 +1954,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
+    <TypeScriptCompile Include="Views\Questions\ActivityPoints\ActivityPoints.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
@@ -2449,8 +2455,8 @@
     <Content Include="Views\Beta\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Knowledge.less" />
-    <Content Include="Views\Knowledge\Knowledge.css.map">
+    <Content Include="Views\Maintenance\Knowledge\Knowledge.less" />
+    <Content Include="Views\Maintenance\Knowledge\Knowledge.css.map">
       <DependentUpon>Knowledge.css</DependentUpon>
     </Content>
     <Content Include="Views\Dates\Edit\EditDate.less" />
@@ -2592,7 +2598,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
@@ -2608,7 +2613,7 @@
     <Content Include="Views\Questions\Questions.aspx" />
     <Content Include="Scripts\JQueryExtensions.js" />
     <Content Include="Views\Shared\Message.ascx" />
-    <Content Include="Views\Knowledge\Knowledge.aspx" />
+    <Content Include="Views\Maintenance\Knowledge\Knowledge.aspx" />
     <Content Include="Views\Shared\Pager.ascx" />
     <Content Include="Views\Users\Detail\User.aspx" />
     <TypeScriptCompile Include="Views\Users\Js\Page.ts" />

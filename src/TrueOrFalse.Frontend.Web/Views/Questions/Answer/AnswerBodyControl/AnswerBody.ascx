@@ -30,7 +30,7 @@
             <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
         </span>
-        <span id="memoryPointsDispaly">Memory Points: <span id="memoryPoints"></span></span>
+        <span id="activityPointsDispaly">Merk-Punkte: <span id="activityPoints"></span></span>
 
     </div>
     
