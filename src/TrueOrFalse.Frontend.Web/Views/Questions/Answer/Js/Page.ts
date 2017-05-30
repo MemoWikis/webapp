@@ -9,7 +9,6 @@ class PageInit {
         new AsyncLoading();
 
         if (answerEntry.AnswerQuestion._isLastLearningStep) {
-            $("#aSkipStep").html("Zum Ergebnis");
             $("#aSkipStep").click(e => {
                 window.location.href = $("#aSkipStep").attr("href");
             });
