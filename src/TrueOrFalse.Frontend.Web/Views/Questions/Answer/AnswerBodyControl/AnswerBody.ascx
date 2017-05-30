@@ -122,13 +122,17 @@
                                 </div>
 
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
-                                    <% if (Model.NextUrl != null)
-                                        { %>
-                                    <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                    <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
+                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                    <% } else if (Model.PrimarySetMini != null) { %>
+                                        <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
+                                            <i class="fa fa-play-circle"></i>&nbsp;&nbsp;<b>Weitermachen</b><br/>
+                                            <small>Wissen testen: <%= Model.PrimarySetMini.Name.TruncateAtWordWithEllipsisText(30,"...") %></small>
+                                        </a>
                                     <% } %>
-                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString())
-                                        { %>
-                                    <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
+
+                                    <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
+                                        <a href="#" id="aCountAsCorrect" class="SecAction btn btn-link show-tooltip" title="Drücke hier und die Frage wird als richtig beantwortet gewertet" rel="nofollow" style="display: none;">Hab ich gewusst!</a>
                                     <% } %>
                                 </div>
 

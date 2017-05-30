@@ -339,11 +339,7 @@
 
     private ShowNextQuestionLink() {
 
-        if (!this._answerQuestion.IsLastQuestion()) {
-            $("#buttons-next-question").show();
-        } else {
-            $("#buttons-next-question").hide();
-        }
+        $("#buttons-next-question").show();
 
         if (!this._answerQuestion.AnsweredCorrectly &&
             !this._answerQuestion.IsGameMode) {
