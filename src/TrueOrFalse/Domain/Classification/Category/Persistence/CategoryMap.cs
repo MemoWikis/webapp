@@ -19,7 +19,6 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.CountQuestions);
         Map(x => x.CountSets);
-        Map(x => x.CountCreators);
 
         Map(x => x.Type);
         Map(x => x.TypeJson);
