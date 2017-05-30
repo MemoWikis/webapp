@@ -150,6 +150,10 @@
                     },
                     cache: false,
                     success(result) {
+                        if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
+                            $('#btnNext').html('Zum Ergebnis');
+                            $('#btnNext').unbind();
+                        }
                         self._answerQuestion.UpdateProgressBar(result.numberSteps);
                     }
                 });
@@ -226,6 +230,7 @@
     static IfLastQuestion_Change_Btn_Text_ToResult() {
         if (AnswerQuestion.IsLastTestSessionStep) {
             $('#btnNext').html('Zum Ergebnis');
+            $("#btnNext").unbind();
         }
     }
 

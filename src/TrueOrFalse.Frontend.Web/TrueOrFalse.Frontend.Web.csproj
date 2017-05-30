@@ -339,7 +339,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
-    <Content Include="Images\Error\memo-404_german.png" />
+    <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />
     <Content Include="Images\Error\memo-500_german_600.png" />
@@ -472,6 +472,7 @@
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
+    <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
@@ -663,6 +664,10 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
@@ -1095,6 +1100,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
     <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
@@ -1830,7 +1836,6 @@
     <Content Include="Scripts\vendor\Markdown.Converter.js" />
     <Content Include="Scripts\vendor\Markdown.Editor.js" />
     <Content Include="Scripts\vendor\Markdown.Sanitizer.js" />
-    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\typescript.defs\markdown.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
@@ -1936,6 +1941,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
@@ -2586,6 +2592,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

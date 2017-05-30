@@ -57,7 +57,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
     }
 
-    public static MatchListAnswerPairs deserializeMatchListAnswer(string answerJSON)
+    public static MatchListAnswerPairs DeserializeMatchListAnswer(string answerJSON)
     {
         var serilizer = new JavaScriptSerializer();
         return serilizer.Deserialize<MatchListAnswerPairs>(answerJSON);
@@ -67,7 +67,7 @@ public class QuestionSolutionMatchList : QuestionSolution
     {
         if (answer == "")
             return false;
-        var answerObject = deserializeMatchListAnswer(answer);
+        var answerObject = DeserializeMatchListAnswer(answer);
         var questionPairs = this.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         for (int i = 0; i < questionPairs.Count; i++)
         {
@@ -123,20 +123,20 @@ public class QuestionSolutionMatchList : QuestionSolution
             .Aggregate((a, b) => a + b);
     }
 
-    public void escapeSolutionChars()
+    public void EscapeSolutionChars()
     {
         foreach (var rightElement in RightElements)
         {
-            rightElement.Text = escapeSolutionChars(rightElement.Text);
+            rightElement.Text = EscapeSolutionChars(rightElement.Text);
         }
         foreach (var pair in Pairs)
         {
-            pair.ElementLeft.Text = escapeSolutionChars(pair.ElementLeft.Text);
-            pair.ElementRight.Text = escapeSolutionChars(pair.ElementRight.Text);
+            pair.ElementLeft.Text = EscapeSolutionChars(pair.ElementLeft.Text);
+            pair.ElementRight.Text = EscapeSolutionChars(pair.ElementRight.Text);
         }
     }
 
-    private string escapeSolutionChars(string textInput)
+    private string EscapeSolutionChars(string textInput)
     {
         return textInput.Replace("'", "\\'").Replace("\"", "\\\"");
     }

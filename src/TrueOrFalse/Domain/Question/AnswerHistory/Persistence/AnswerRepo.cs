@@ -176,7 +176,9 @@ public class AnswerRepo : RepositoryDb<Answer>
             ? null 
             : _session.QueryOver<Answer>()
                 .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
-                .SingleOrDefault();
+                .List()
+                .OrderByDescending(a => a.Id)
+                .Last();
     }
 
     public override void Create(Answer answer)

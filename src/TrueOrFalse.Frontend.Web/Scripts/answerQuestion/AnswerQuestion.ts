@@ -8,7 +8,7 @@ class AnswerQuestion {
     private _onWrongAnswer: () => void = () => { };
 
     private _inputFeedback: AnswerQuestionUserFeedback;
-    private _isLastLearningStep = false;
+    public _isLastLearningStep = false;
 
     static ajaxUrl_SendAnswer: string;
     static ajaxUrl_GetSolution: string;
@@ -140,16 +140,17 @@ class AnswerQuestion {
             });
 
         $("#btnNext, #aSkipStep")
-            .click(function(e) {
-                if (self.IsLearningSession && self.AmountOfTries === 0 && !self.AnswerCountedAsCorrect && !self.ShowedSolutionOnly) {
-                    var href = $(this).attr('href') +
-                        "?skipStepIdx=" +
-                        $('#hddIsLearningSession').attr('data-current-step-idx');
-                    window.location.href = href;
-                    return false;
-                }
-                return true;
+            .click((e) => {
+                if (this.IsLearningSession && this.AmountOfTries === 0 && !this.AnswerCountedAsCorrect && !this.ShowedSolutionOnly)
+                    $("#hddIsLearningSession").attr("data-skip-step-index", $('#hddIsLearningSession').attr('data-current-step-idx'));
+                else
+                    $("#hddIsLearningSession").attr("data-skip-step-index", -1);
             });
+
+        $("#aSkipStep").click(e => {
+            this.UpdateProgressBar(this.GetCurrentStep());
+        });
+
     }
 
     public OnCorrectAnswer(func: () => void) {
@@ -248,15 +249,19 @@ class AnswerQuestion {
             this._inputFeedback.ShowSuccess();
         }
         this._inputFeedback.ShowSolution();
-        if (this._isLastLearningStep)
+        if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
+            $('#btnNext').unbind();
+        }
 
         this._onCorrectAnswer();
     }
 
     private HandleWrongAnswer(result: any, answerText : string) {
-        if (this._isLastLearningStep && !result.newStepAdded)
+        if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
+            $('#btnNext').unbind();
+        }
 
         if (this.IsGameMode) {
             if (this.SolutionType !== SolutionType.FlashCard) {
@@ -372,13 +377,22 @@ class AnswerQuestion {
 
         var self = this;
 
+        var LearningSessionStepGuid = "";
+        var LearningSessionId = -1;
+        if ($("#hddIsLearningSession").val() === "True") {
+            LearningSessionStepGuid = $("#hddIsLearningSession").attr("data-current-step-guid");
+            LearningSessionId = parseInt($("#hddIsLearningSession").attr("data-learning-session-id"));
+        }
+
         $.ajax({
             type: 'POST',
             url: AnswerQuestion.ajaxUrl_GetSolution,
             data: {
                 questionViewGuid: $('#hddQuestionViewGuid').val(),
                 interactionNumber: $('#hddInteractionNumber').val(),
-                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now())
+                millisecondsSinceQuestionView: AnswerQuestion.TimeSinceLoad($.now()),
+                LearningSessionId: LearningSessionId,
+                LearningSessionStepGuidString: LearningSessionStepGuid
             },
             cache: false,
             success: result => {

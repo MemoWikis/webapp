@@ -1,0 +1,16 @@
+{
+  "minify": false,
+  "options": [
+    "setClasses"
+  ],
+  "feature-detects": [
+    "test/forcetouch",
+    "test/hashchange",
+    "test/history",
+    "test/touchevents",
+    "test/css/flexbox",
+    "test/css/flexboxlegacy",
+    "test/css/flexboxtweener",
+    "test/css/flexwrap"
+  ]
+}

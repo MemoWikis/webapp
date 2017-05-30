@@ -76,8 +76,9 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
         _answerRepo.Create(answer);
     }
 
-    public void LogAnswerView(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId = null)
+    public void LogAnswerView(Question question, int userId, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView, int? roundId = null, int LearningSessionId = -1, Guid LearningSessionStepGuid = default(Guid))
     {
+
         var answer = new Answer
         {
             Question = question,
@@ -87,7 +88,9 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
             MillisecondsSinceQuestionView = millisecondsSinceQuestionView,
             AnswerText = "",
             AnswerredCorrectly = AnswerCorrectness.IsView,
-            DateCreated = DateTime.Now
+            DateCreated = DateTime.Now,
+            LearningSession = LearningSessionId != -1 ? Sl.R<LearningSessionRepo>().GetById(LearningSessionId) : null,
+            LearningSessionStepGuid = LearningSessionStepGuid
         };
 
         if (roundId != null)

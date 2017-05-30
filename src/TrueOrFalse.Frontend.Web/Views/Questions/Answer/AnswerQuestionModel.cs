@@ -157,10 +157,11 @@ public class AnswerQuestionModel : BaseModel
 
     public static AnswerQuestionModel CreateExpiredTestSession()
     {
-        var model = new AnswerQuestionModel();
-        model.IsTestSession = true;
-        model.ShowErrorExpiredTestSession = true;
-
+        var model = new AnswerQuestionModel()
+        {
+            IsTestSession = true,
+            ShowErrorExpiredTestSession = true
+        };
         return model;
     }
 
