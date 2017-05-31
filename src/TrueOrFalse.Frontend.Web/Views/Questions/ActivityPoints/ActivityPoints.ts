@@ -1,27 +1,27 @@
 ﻿class ActivityPoints {
 
-    public static updatePointsDisplay() {
-        $("#activityPointsDispaly #activityPoints").html(/*write Points from session in here*/);
+    public static AddPoitsFromRightAnswer() {
+        ActivityPoints.addPoints(15, "RightAnswer");
     }
 
-    public static addPoitsFromRightAnswer() {
-        ActivityPoints.addPoints(15);
+    public static  AddPoitsFromWrongAnswer() {
+        ActivityPoints.addPoints(1, "WrongAnswer");
     }
 
-    public static  addPoitsFromWrongAnswer() {
-        ActivityPoints.addPoints(1);
+    public static AddPoitsFromShowSolutionAnswer() {
+        ActivityPoints.addPoints(3, "ShowSolution");
     }
 
-    public static addPoitsFromShowSolutionAnswer() {
-        ActivityPoints.addPoints(3);
+    public static AddPointsFromCountAsCorrect() {
+        ActivityPoints.addPoints(12, "CountAsCorrect");
     }
 
-    public static addPointsFromCountAsCorrect() {
-        var amount; //evtl. abhängig von vorheriger Antwort
-        ActivityPoints.addPoints(amount);
+    private static addPoints(amount: number, actionTypeString: string) {
+        var url = "/Api/ActivityPoints/Add/?points=" + amount + "&activityTypeString=" + actionTypeString;
+        $.get(url, (result) => this.updatePointsDisplay(result.totalPoints));
     }
 
-    private static addPoints(amount: number) {
-        //add points to session here
+    private static updatePointsDisplay(totalPoints: number) {
+        $("#activityPointsDispaly #activityPoints").html(totalPoints.toString());
     }
 }

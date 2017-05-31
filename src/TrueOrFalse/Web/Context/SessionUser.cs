@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
+using TrueOrFalse.Domain.User.Activity.ActivityPoints;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -133,6 +134,18 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if (TestSessions == null)
             TestSessions = new List<TestSession>();
+    }
+
+    public List<PointActivity> ActivityPoints => Data.Get("pointActivitys", new List<PointActivity>());
+
+    public void AddPointActivity(int amountPoints, PointAction action)
+    {
+        this.ActivityPoints.Add(new PointActivity
+        {
+            Points = amountPoints,
+            Action = action,
+            Time = DateTime.Now
+        });
     }
 
 }
