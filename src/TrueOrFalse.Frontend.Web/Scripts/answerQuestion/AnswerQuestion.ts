@@ -73,8 +73,6 @@ class AnswerQuestion {
 
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
-        ActivityPoints.updatePointsDisplay();
-
         var self = this;
 
         $('body').keydown(function(e) {
