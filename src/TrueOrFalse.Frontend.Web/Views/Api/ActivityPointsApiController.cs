@@ -7,10 +7,16 @@ using TrueOrFalse.Search;
 
 public class ActivityPointsApiController : BaseController
 {
-    public int AddActivityPoints(int points, string activityTypeString)
+    public JsonResult AddActivityPoints(int points, string activityTypeString)
     {
         var activityType = (PointAction)Enum.Parse(typeof(PointAction), activityTypeString);
         Sl.R<SessionUser>().AddPointActivity(points, activityType);
-        return (int) Session["TotalActivityPoints"];
+
+        int totalActivityPoints = 0;
+        foreach (var activity in R<SessionUser>().ActivityPoints)
+        {
+            totalActivityPoints += activity.Points;
+        }
+        return new JsonResult {Data = new { totalPoints = totalActivityPoints }};
     }
 }
