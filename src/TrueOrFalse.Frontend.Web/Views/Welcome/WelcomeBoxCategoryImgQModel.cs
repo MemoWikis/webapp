@@ -17,7 +17,7 @@ public class WelcomeBoxCategoryImgQModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         CategoryDescription = categoryDescription ?? category.Description;
-        QuestionCount = category.CountQuestions;
+        QuestionCount = category.GetCountQuestions();
 
         Questions = R<QuestionRepo>().GetByIds(questionIds); //not checked if questionIds are part of category!
         QuestionImageFrontendDatas = Questions.Select(x => new Tuple<int, ImageFrontendData>(

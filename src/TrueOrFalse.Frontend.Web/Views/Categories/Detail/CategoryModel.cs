@@ -100,7 +100,7 @@ public class CategoryModel : BaseModel
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.CountQuestions +
+        CountQuestions = category.GetCountQuestions() +
             R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
 
         CountReferences = ReferenceCount.Get(category.Id);

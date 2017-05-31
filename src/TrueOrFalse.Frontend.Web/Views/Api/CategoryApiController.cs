@@ -94,13 +94,13 @@ public class CategoryApiController : BaseController
                 new CategoryJsonResult {
                     id = c.Id, 
                     name = c.Name, 
-                    numberOfQuestions = c.CountQuestions, 
+                    numberOfQuestions = c.GetCountQuestions(),
                     imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                     type = c.Type.ToString(),
                     typeGroup = c.Type.GetCategoryTypeGroup().ToString(),
-                    html =  c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media ?
-                            ViewRenderer.RenderPartialView("Reference",c, ControllerContext) : 
-                            ""
+                    html =  c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Media 
+                            ? ViewRenderer.RenderPartialView("Reference",c, ControllerContext) 
+                            : ""
                 }
             ).ToList();
 

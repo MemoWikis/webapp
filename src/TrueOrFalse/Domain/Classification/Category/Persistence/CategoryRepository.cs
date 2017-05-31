@@ -226,7 +226,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session
             .QueryOver<Category>()
-            .OrderBy(c => c.CountQuestions).Desc
+            .OrderBy(c => Math.Max(c.CountQuestions, c.CountQuestionsAggregated)).Desc
             .Take(amount)
             .List();
     }
@@ -235,7 +235,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session
             .QueryOver<Category>()
-            .Where(c => c.CountQuestions > 3)
+            .Where(c => c.CountQuestionsAggregated > 3 || c.CountQuestions > 3)
             .OrderBy(c => c.DateCreated)
             .Desc
             .Take(amount)

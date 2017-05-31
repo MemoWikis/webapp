@@ -519,7 +519,7 @@
         </div>
         
         <div class="well">
-            <h4>Top-Themen nach Fragen</h4>
+            <h4>Top-Themen nach Anzahl Fragen</h4>
                 <div class="LabelList">
                     <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
                 </div>

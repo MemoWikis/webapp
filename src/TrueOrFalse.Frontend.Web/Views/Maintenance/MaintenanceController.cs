@@ -478,7 +478,7 @@ public class MaintenanceController : BaseController
 
         foreach (var cat in cats)
         {
-            if (cat.CountQuestions != questionRepo.GetForCategory(cat.Id).Count)
+            if (cat.GetCountQuestions() != questionRepo.GetForCategory(cat.Id).Count)
                 list.Add(cat);
         }
 
