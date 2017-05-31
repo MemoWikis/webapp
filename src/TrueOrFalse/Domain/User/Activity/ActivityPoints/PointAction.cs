@@ -1,6 +1,6 @@
 ﻿namespace TrueOrFalse.Domain.User.Activity.ActivityPoints
 {
-    public enum PointActions
+    public enum PointAction
     {
         RightAnswer = 0,
         WrongAnswer = 1,

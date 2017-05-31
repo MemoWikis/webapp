@@ -32,12 +32,6 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         private set => Data["user"] = value;
     }
 
-    public PointActivity ActivityPoints
-    {
-        get => Data.Get<PointActivity>("totalPoints");
-        private set => Data["totalPoints"] = value;
-    }
-
     public bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
@@ -140,6 +134,18 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if (TestSessions == null)
             TestSessions = new List<TestSession>();
+    }
+
+    public List<PointActivity> ActivityPoints => Data.Get("pointActivitys", new List<PointActivity>());
+
+    public void AddPointActivity(int amountPoints, PointAction action)
+    {
+        this.ActivityPoints.Add(new PointActivity
+        {
+            Points = amountPoints,
+            Action = action,
+            Time = DateTime.Now
+        });
     }
 
 }

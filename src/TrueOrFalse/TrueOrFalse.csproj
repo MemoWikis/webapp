@@ -373,6 +373,8 @@
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
     <Compile Include="Domain\Sponsor\Sponsor.cs" />
     <Compile Include="Domain\Sponsor\SponsorRepo.cs" />
+    <Compile Include="Domain\User\Activity\ActivityPoints\PointAction.cs" />
+    <Compile Include="Domain\User\Activity\ActivityPoints\PointActivity.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
