@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
+using TrueOrFalse.Domain.User.Activity.ActivityPoints;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -29,6 +30,12 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
     {
         get => Data.Get<User>("user");
         private set => Data["user"] = value;
+    }
+
+    public PointActivity ActivityPoints
+    {
+        get => Data.Get<PointActivity>("totalPoints");
+        private set => Data["totalPoints"] = value;
     }
 
     public bool IsLoggedInUser(int userId)

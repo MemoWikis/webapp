@@ -305,6 +305,7 @@
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\ActivityPointsApiController.cs" />
     <Compile Include="Views\Api\Search\SearchApiController.cs" />
     <Compile Include="Views\Api\Search\PrepareSearch.cs" />
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
@@ -644,6 +645,12 @@
     <Content Include="Views\Maintenance\ContentStats.aspx" />
     <Content Include="Views\Maintenance\ContentStats.css">
       <DependentUpon>ContentStats.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js">
+      <DependentUpon>ActivityPoints.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js.map">
+      <DependentUpon>ActivityPoints.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
