@@ -79,6 +79,11 @@ public class Category : DomainEntity, ICreator
 
     public virtual int CountQuestionsAggregated { get; set; }
 
+    public virtual int GetCountQuestions()
+    {
+        return CountQuestionsAggregated > 0 ? CountQuestionsAggregated : CountQuestions;
+    }
+
     public virtual int CountSetsAggregated { get; set; }
 
     public virtual void UpdateAggregatedContent()
@@ -88,6 +93,11 @@ public class Category : DomainEntity, ICreator
 
         UpdateAggregatedSets();
         UpdateAggregatedQuestions();
+    }
+
+    public virtual int GetCountSets()
+    {
+        return CountSetsAggregated > 0 ? CountSetsAggregated : CountSets;
     }
 
     public virtual void UpdateAggregatedSets()
@@ -159,12 +169,12 @@ public class Category : DomainEntity, ICreator
         return Sl.R<SetRepo>().GetForCategory(Id);
     }
 
+    public virtual int CountQuestions { get; set; }
+    public virtual int CountSets { get; set; }
+
     public virtual string FeaturedSetsIdsString { get; set; }
 
     public virtual string TopicMarkdown { get; set; }
-        
-    public virtual int CountQuestions { get; set; }
-    public virtual int CountSets { get; set; }
 
     public virtual CategoryType Type { get; set; }
 
