@@ -125,7 +125,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/ShareQuestion.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));

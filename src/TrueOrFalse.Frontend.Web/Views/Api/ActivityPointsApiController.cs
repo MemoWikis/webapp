@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using TrueOrFalse.Domain.User.Activity.ActivityPoints;
-using TrueOrFalse.Search;
-
+             
 public class ActivityPointsApiController : BaseController
 {
-    public JsonResult AddActivityPoints(int points, string activityTypeString)
+    public JsonResult Add(string activityTypeString, int points)
     {
         var activityType = (PointAction)Enum.Parse(typeof(PointAction), activityTypeString);
         Sl.R<SessionUser>().AddPointActivity(points, activityType);
@@ -17,6 +13,6 @@ public class ActivityPointsApiController : BaseController
         {
             totalActivityPoints += activity.Points;
         }
-        return new JsonResult {Data = new { totalPoints = totalActivityPoints }};
+        return new JsonResult { Data = new { totalPoints = totalActivityPoints } };
     }
 }

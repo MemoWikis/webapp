@@ -1,11 +1,9 @@
 ﻿using System;
 
-namespace TrueOrFalse.Domain.User.Activity.ActivityPoints
+[Serializable]
+public class PointActivity
 {
-    public class PointActivity
-    {
-        public int Points;
-        public PointAction Action;
-        public DateTime Time;
-    }
+    public int Points;
+    public PointAction Action;
+    public DateTime Time;
 }

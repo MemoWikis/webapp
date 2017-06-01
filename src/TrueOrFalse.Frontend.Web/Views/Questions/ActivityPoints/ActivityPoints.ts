@@ -1,14 +1,13 @@
 ﻿class ActivityPoints {
-
-    public static AddPoitsFromRightAnswer() {
+    public static AddPointsFromRightAnswer() {
         ActivityPoints.addPoints(15, "RightAnswer");
     }
 
-    public static  AddPoitsFromWrongAnswer() {
+    public static  AddPointsFromWrongAnswer() {
         ActivityPoints.addPoints(1, "WrongAnswer");
     }
 
-    public static AddPoitsFromShowSolutionAnswer() {
+    public static AddPointsFromShowSolutionAnswer() {
         ActivityPoints.addPoints(3, "ShowSolution");
     }
 
@@ -17,8 +16,8 @@
     }
 
     private static addPoints(amount: number, actionTypeString: string) {
-        var url = "/Api/ActivityPoints/Add/?points=" + amount + "&activityTypeString=" + actionTypeString;
-        $.get(url, (result) => this.updatePointsDisplay(result.totalPoints));
+        var url = "/Api/ActivitPoints/Add";
+        $.post(url, { activityTypeString: actionTypeString, points: amount} ,(result) => this.updatePointsDisplay(result.totalPoints));
     }
 
     private static updatePointsDisplay(totalPoints: number) {
