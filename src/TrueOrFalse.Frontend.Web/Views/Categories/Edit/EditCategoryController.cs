@@ -175,13 +175,7 @@ public class EditCategoryController : BaseController
         category.CategoriesToExcludeIdsString = categoriesToExcludeIdsString;
         category.CategoriesToIncludeIdsString = categoriesToIncludeIdsString;
 
-        ModifyRelationsForCategory.UpdateImplicitDescendantRelations(category);
-
-        _categoryRepository.Update(category);
-
-        category.UpdateAggregatedContent();
-
-        _categoryRepository.Update(category);
+        ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
     }
 
     public ActionResult AggregationModalContent(int catId)

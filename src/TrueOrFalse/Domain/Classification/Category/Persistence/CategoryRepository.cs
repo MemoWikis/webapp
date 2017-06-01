@@ -62,7 +62,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .ToList();
     }
 
-    internal IList<Category> GetAggregatedCategories(Category category, bool includeSelf = false)
+    public IList<Category> GetAggregatedCategories(Category category, bool includeSelf = false)
     {
         var aggregatedCategories = _categoryRelationRepo
             .GetAll()
@@ -74,6 +74,34 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
          return aggregatedCategories.ToList();
     }
+
+    public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
+    {
+        var includingCategories = GetCategoriesForRelatedCategory(category, CategoryRelationType.IncludesContentOf);
+
+        if(includingSelf)
+            includingCategories = includingCategories.Union(new List<Category>{category}).ToList();
+
+        return includingCategories;
+
+    }
+
+    public IList<Category> GetCategoriesForRelatedCategory(Category relatedCategory, CategoryRelationType relationType = CategoryRelationType.None)
+    {
+        var query = _session.QueryOver<CategoryRelation>()
+            .Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf
+                        && r.RelatedCategory == relatedCategory);
+
+        if (relationType != CategoryRelationType.None)
+        {
+            query.Where(r => r.CategoryRelationType == relationType);
+        }
+
+        return query.List()
+            .Select(r => r.Category)
+            .ToList();
+    }
+
 
     public IList<Category> GetChildren(int categoryId)
     {

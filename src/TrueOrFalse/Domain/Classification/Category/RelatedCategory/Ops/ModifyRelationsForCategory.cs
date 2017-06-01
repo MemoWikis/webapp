@@ -61,7 +61,7 @@ public class ModifyRelationsForCategory
         AddCategoryRelationOfType(category, relatedCategory, CategoryRelationType.IsChildCategoryOf);
     }
 
-    public static void UpdateImplicitDescendantRelations(Category category)
+    public static void UpdateRelationsOfTypeIncludesContentOf(Category category, bool persist = true)
     {
         var catRepo = Sl.R<CategoryRepository>();
 
@@ -85,6 +85,14 @@ public class ModifyRelationsForCategory
             .ToList();
 
         UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
+
+        if(!persist) return;
+
+        catRepo.Update(category);
+
+        category.UpdateAggregatedContent();
+
+        catRepo.Update(category);
 
     }
 }

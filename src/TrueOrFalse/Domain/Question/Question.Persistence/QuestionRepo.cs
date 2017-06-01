@@ -17,7 +17,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public new void Update(Question question)
     {
-        var categories = _session
+        var categoriesIds = _session
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
             .List<int>();
 
@@ -27,7 +27,10 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .CreateSQLQuery(query)
             .List<int>();
 
-        var categoriesBeforeUpdateIds = categories.Union(categoriesReferences);
+        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
+
+        var aggregatedCategoriesBeforeUpdate = categoriesBeforeUpdateIds
+            .SelectMany(id => Sl.CategoryRepo.GetIncludingCategories(Sl.CategoryRepo.GetById(id))).ToList();
 
         _searchIndexQuestion.Update(question);
         base.Update(question);
@@ -38,6 +41,15 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
+
+        var aggregatedCategoriesToUpdate = aggregatedCategoriesBeforeUpdate
+            .Union(question.Categories.SelectMany(c => Sl.CategoryRepo.GetIncludingCategories(c)));
+
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+           category.UpdateAggregatedQuestions();
+            Sl.CategoryRepo.Update(category);
+        }
     }
 
     public override void Create(Question question)
