@@ -29,9 +29,6 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
 
-        var aggregatedCategoriesBeforeUpdate = categoriesBeforeUpdateIds
-            .SelectMany(id => Sl.CategoryRepo.GetIncludingCategories(Sl.CategoryRepo.GetById(id))).ToList();
-
         _searchIndexQuestion.Update(question);
         base.Update(question);
         Flush();
@@ -42,8 +39,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .ToList(); //All categories added or removed have to be updated
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
 
-        var aggregatedCategoriesToUpdate = aggregatedCategoriesBeforeUpdate
-            .Union(question.Categories.SelectMany(c => Sl.CategoryRepo.GetIncludingCategories(c)));
+        var aggregatedCategoriesToUpdate = categoriesToUpdateIds.SelectMany(id => Sl.CategoryRepo.GetIncludingCategories(Sl.CategoryRepo.GetById(id))).ToList();
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
