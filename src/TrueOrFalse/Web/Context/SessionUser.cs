@@ -147,4 +147,14 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         });
     }
 
+    public int getTotalActivityPoints()
+    {
+        int totalPoints = 0;
+        foreach (var activity in ActivityPoints)
+        {
+            totalPoints += activity.Points;
+        }
+
+        return totalPoints;
+    }
 }

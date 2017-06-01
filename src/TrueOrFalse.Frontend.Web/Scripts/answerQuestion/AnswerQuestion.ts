@@ -121,6 +121,7 @@ class AnswerQuestion {
                 e => {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
+                    ActivityPoints.AddPointsFromCountAsCorrect();
                 });
 
         $("#CountWrongAnswers")

@@ -30,7 +30,7 @@
             <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
         </span>
-        <span id="activityPointsDispaly">Merk-Punkte: <span id="activityPoints"></span></span>
+        <span id="activityPointsDispaly">Merk-Punkte: <span id="activityPoints"><%= Sl.R<SessionUser>().getTotalActivityPoints() %></span></span>
 
     </div>
     
