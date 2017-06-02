@@ -376,6 +376,7 @@
     <Compile Include="Domain\User\ActivityPoints\PointAction.cs" />
     <Compile Include="Domain\User\ActivityPoints\PointActivity.cs" />
     <Compile Include="Domain\User\ActivityPoints\UserLevel.cs" />
+    <Compile Include="Domain\User\ActivityPoints\UserLevelCalculator.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
