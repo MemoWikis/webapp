@@ -1,4 +1,4 @@
-﻿public enum PointAction
+﻿public enum ActivityPointsType
 {
     RightAnswer = 0,
     WrongAnswer = 1,

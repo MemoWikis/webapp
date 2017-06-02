@@ -16,6 +16,7 @@ public class Sl
     public static SessionUser SessionUser => R<SessionUser>();
 
     public static UserRepo UserRepo => R<UserRepo>();
+    public static ActivityRewardRepo ActivityRewardRepo => R<ActivityRewardRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();

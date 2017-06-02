@@ -135,16 +135,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             TestSessions = new List<TestSession>();
     }
 
-    public List<PointActivity> ActivityPoints => Data.Get("pointActivitys", new List<PointActivity>());
+    public List<ActivityReward> ActivityPoints => Data.Get("pointActivitys", new List<ActivityReward>());
 
-    public void AddPointActivity(int amountPoints, PointAction action)
+    public void AddPointActivity(ActivityReward activityReward)
     {
-        ActivityPoints.Add(new PointActivity
-        {
-            Points = amountPoints,
-            Action = action,
-            Time = DateTime.Now
-        });
+        ActivityPoints.Add(activityReward);
     }
 
     public int getTotalActivityPoints()
