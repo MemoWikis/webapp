@@ -16,7 +16,7 @@
     }
 
     private static addPoints(amount: number, actionTypeString: string) {
-        var url = "/Api/ActivitPoints/Add";
+        var url = "/Api/ActivityPoints/Add";
         $.post(url, { activityTypeString: actionTypeString, points: amount} ,(result) => this.updatePointsDisplay(result.totalPoints));
     }
 
