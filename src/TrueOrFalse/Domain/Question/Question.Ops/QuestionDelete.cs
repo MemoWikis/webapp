@@ -38,6 +38,14 @@ public class QuestionDelete
 
         questionRepo.Delete(question);
         Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
+
+        var aggregatedCategoriesToUpdate = categoriesToUpdate.SelectMany(c => Sl.CategoryRepo.GetIncludingCategories(c)).ToList();
+
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+            category.UpdateAggregatedQuestions();
+            Sl.CategoryRepo.Update(category);
+        }
     }
 
     public static CanBeDeletedResult CanBeDeleted(int currentUserId, int questionId)

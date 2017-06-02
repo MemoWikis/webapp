@@ -75,6 +75,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int resultCount, int currentUser)
     {
+        //Update for aggregated questions
         return _session.QueryOver<Question>()
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
