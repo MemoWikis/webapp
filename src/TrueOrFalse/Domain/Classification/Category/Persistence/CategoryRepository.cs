@@ -30,6 +30,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Update(category);
         base.Update(category);
         Flush();
+        Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
     }
 
     public override void Delete(Category category)
@@ -254,7 +255,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session
             .QueryOver<Category>()
-            .OrderBy(c => Math.Max(c.CountQuestions, c.CountQuestionsAggregated)).Desc
+            .OrderBy(c => c.CountQuestionsAggregated).Desc
             .Take(amount)
             .List();
     }
