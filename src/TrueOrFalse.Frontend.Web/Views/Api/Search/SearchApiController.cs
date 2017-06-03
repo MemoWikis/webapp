@@ -125,7 +125,7 @@ public class SearchApiController : BaseController
                     Id = question.Id,
                     Name = question.Text.Wrap(200),
                     ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
-                    ItemUrl = Links.AnswerQuestion(question, index, SearchTabType.All.ToString())
+                    ItemUrl = Links.AnswerQuestion(question, index, "searchbox")
                 }
             })
         );
