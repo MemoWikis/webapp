@@ -7,6 +7,7 @@ $(() => {
     var simplemde = new SimpleMDE({
         element: $("#TopicMarkdown")[0],
         spellChecker: false,
+        syncSideBySidePreviewScroll : false,
         previewRender: (plainText, preview) => {
 
             if (previewTimeOut)
