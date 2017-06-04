@@ -13,6 +13,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory = searchIndexCategory;
     }
 
+    public Category GetByIdEager(int categoryId) => 
+        _session.QueryOver<Category>()
+            .Where(set => set.Id == categoryId)
+            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+            .SingleOrDefault();
+
     public override void Create(Category category)
     {
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
