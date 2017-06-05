@@ -104,7 +104,7 @@ namespace TrueOrFalse.Tests
             Assert.That(category2.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(2));
             Assert.That(category2.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
 
-            Assert.That(category2.CountSets, Is.EqualTo(1));
+            Assert.That(category3.CountSets, Is.EqualTo(1));
             Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
             Assert.That(category3.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
             Assert.That(category3.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
@@ -144,6 +144,24 @@ namespace TrueOrFalse.Tests
             Assert.That(category2.CountSetsAggregated, Is.EqualTo(0));
             Assert.That(category2.CountSets, Is.EqualTo(0));
 
+            set3.Categories.Add(category3);
+
+            Sl.SetRepo.Update(set3);
+
+            Assert.That(category1.CountSets, Is.EqualTo(1));
+            Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
+            Assert.That(category1.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(2));
+            Assert.That(category1.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+
+            Assert.That(category2.CountSets, Is.EqualTo(0));
+            Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
+            Assert.That(category2.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category2.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+
+            Assert.That(category3.CountSets, Is.EqualTo(1));
+            Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
+            Assert.That(category3.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category3.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
 
         }
     }

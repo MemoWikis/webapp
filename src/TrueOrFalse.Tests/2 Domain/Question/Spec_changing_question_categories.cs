@@ -86,7 +86,7 @@ namespace TrueOrFalse.Tests
             Assert.That(category2.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(2));
             Assert.That(category2.GetAggregatedContent().AggregatedQuestions.Any(q => q.Text == "Question3"));
 
-            Assert.That(category2.CountQuestions, Is.EqualTo(1));
+            Assert.That(category3.CountQuestions, Is.EqualTo(1));
             Assert.That(Sl.QuestionRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
             Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(1));
             Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Any(q => q.Text == "Question3"));
@@ -123,6 +123,26 @@ namespace TrueOrFalse.Tests
             Assert.That(category2.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(0));
             Assert.That(category2.CountQuestionsAggregated, Is.EqualTo(0));
             Assert.That(category2.CountQuestions, Is.EqualTo(0));
+
+
+            question3.Categories.Add(category3);
+
+            Sl.QuestionRepo.Update(question3);
+
+            Assert.That(category1.CountQuestions, Is.EqualTo(1));
+            Assert.That(Sl.QuestionRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
+            Assert.That(category1.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(2));
+            Assert.That(category1.GetAggregatedContent().AggregatedQuestions.Any(q => q.Text == "Question3"));
+
+            Assert.That(category2.CountQuestions, Is.EqualTo(0));
+            Assert.That(Sl.QuestionRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
+            Assert.That(category2.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(1));
+            Assert.That(category2.GetAggregatedContent().AggregatedQuestions.Any(q => q.Text == "Question3"));
+
+            Assert.That(category3.CountQuestions, Is.EqualTo(1));
+            Assert.That(Sl.QuestionRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
+            Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(1));
+            Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Any(q => q.Text == "Question3"));
 
         }
     }
