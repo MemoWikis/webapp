@@ -38,11 +38,11 @@ namespace TrueOrFalse.Tests
         }
 
         [Test]
-        public void Should_update_aggregated_categories()
+        public void Should_update_affected_categories()
         {
             ContextCategory.New().Add("1").Add("2").Add("3").Persist();
 
-            var category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that direct db update of CountQuestion is considered
+            var category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();
             var category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
             var category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
 
@@ -56,31 +56,20 @@ namespace TrueOrFalse.Tests
             var question2Id = questionContext.All.First(q => q.Text== "Question2").Id;
             var question3Id = questionContext.All.First(q => q.Text== "Question3").Id;
 
-            RecycleContainer();
-
-            category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that direct db update of CountQuestion is considered
-            category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
-            category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
-            var categories = new List<Category> { category1, category2, category3 };
-
             Assert.That(category1.CountQuestions, Is.EqualTo(1));
+            Assert.That(category2.CountQuestions, Is.EqualTo(1));
+            Assert.That(category3.CountQuestions, Is.EqualTo(1));
 
 
             ModifyRelationsForCategory.AddParentCategory(category2, category1);
             ModifyRelationsForCategory.AddParentCategory(category3, category2);
 
-            foreach (var category in categories)
-            {
-                Sl.CategoryRepo.Update(category);
-            }
 
-            RecycleContainer();
+            RecycleContainer();//Relations need to be persisted to be considered by ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf()
 
-            category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that direct db update of CountQuestion is considered
+            category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();
             category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
             category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
-
-            Assert.That(category1.CountQuestions, Is.EqualTo(1));
 
 
             ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category1);
@@ -102,17 +91,12 @@ namespace TrueOrFalse.Tests
             Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(1));
             Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Any(q => q.Text == "Question3"));
 
+
             var question3 = Sl.R<QuestionRepo>().GetById(question3Id);
 
             question3.Categories.Remove(category3);
 
             Sl.QuestionRepo.Update(question3);
-
-            RecycleContainer();
-
-            category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that direct db update of CountQuestion is considered
-            category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
-            category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
 
             Assert.That(Sl.QuestionRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
             Assert.That(category1.CountQuestions, Is.EqualTo(1));
@@ -126,13 +110,9 @@ namespace TrueOrFalse.Tests
             Assert.That(Sl.QuestionRepo.GetForCategory(category3.Id).Count, Is.EqualTo(0));
             Assert.That(category3.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(0));
 
+
             QuestionDelete.Run(question2Id);
 
-            RecycleContainer();
-
-            category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that direct db update of CountQuestion is considered
-            category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
-
             Assert.That(Sl.QuestionRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
             Assert.That(Sl.QuestionRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
 
@@ -145,45 +125,5 @@ namespace TrueOrFalse.Tests
             Assert.That(category2.CountQuestions, Is.EqualTo(0));
 
         }
-
-        [Test]
-        public void Should_update_aggregated_categories_for_deleted_question()
-        {
-            var categoryContext = ContextCategory.New().Add("1").Add("2").Persist();
-            var categories = categoryContext.All;
-
-            var category1 = categories[0];
-            var category2 = categories[1];
-
-            var questionContext =
-                ContextQuestion.New()
-                    .AddQuestion(questionText: "Question1", solutionText: "Answer", categories: new List<Category> { category1 })
-                    .AddQuestion(questionText: "Question2", solutionText: "Answer", categories: new List<Category> { category2 })
-                    .Persist();
-
-            var question2 = questionContext.All.FirstOrDefault(q => q.Text == "Question2");
-
-            ModifyRelationsForCategory.AddParentCategory(category2, category1);
-
-            categoryContext.Update();
-
-
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category1);
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category2);
-
-            QuestionDelete.Run(question2.Id);
-
-            Assert.That(Sl.QuestionRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(Sl.QuestionRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
-
-            Assert.That(category1.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(1));
-            Assert.That(category1.CountQuestionsAggregated, Is.EqualTo(1));
-            Assert.That(category1.CountQuestions, Is.EqualTo(1));
-
-            Assert.That(category2.GetAggregatedContent().AggregatedQuestions.Count, Is.EqualTo(0));
-            Assert.That(category2.CountQuestionsAggregated, Is.EqualTo(0));
-            Assert.That(category2.CountQuestions, Is.EqualTo(0));
-        }
-
     }
 }

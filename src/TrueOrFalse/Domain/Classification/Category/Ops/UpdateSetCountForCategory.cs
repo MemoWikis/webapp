@@ -20,6 +20,19 @@ public class UpdateSetCountForCategory : IRegisterAsInstancePerLifetime
     {
         foreach (var categoryId in categoryIds)
         {
+            Sl.CategoryRepo.GetById(categoryId).CountSets = Sl.SetRepo.GetForCategory(categoryId).Count;
+        }
+    }
+
+    public void RunWithSql(IList<Category> categories)
+    {
+        RunWithSql(categories.Select(c => c.Id));
+    }
+
+    public void RunWithSql(IEnumerable<int> categoryIds)
+    {
+        foreach (var categoryId in categoryIds)
+        {
             var query =
                 "UPDATE category SET CountSets = " +
                 "(SELECT COUNT(*) FROM categories_to_sets WHERE Category_id = category.Id )" +

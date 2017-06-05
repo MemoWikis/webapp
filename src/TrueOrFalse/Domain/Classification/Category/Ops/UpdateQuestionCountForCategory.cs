@@ -5,17 +5,40 @@ using NHibernate;
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
+    private readonly QuestionRepo _questionRepository;
 
-    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository)
+    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository, QuestionRepo questionRepo)
     {
         _categoryRepository = categoryRepository;
+        _questionRepository = questionRepo;
     }
 
-    public void All() => Run(_categoryRepository.GetAll());
+    public void Run(Category category)
+    {
+        category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
+    }
 
-    public void Run(IList<Category> categories) => Run(categories.Select(c => c.Id));
+    public void Run(IList<Category> categories)
+    {
+        foreach (var category in categories)
+        {
+            Run(category);
+        }
+    }
 
-    public void Run(IEnumerable<int> categoryIds)
+    public void Run(IList<int> categoryIds)
+    {
+        foreach (var categoryId in categoryIds)
+        {
+            Run(_categoryRepository.GetById(categoryId));
+        }
+    }
+
+    public void All() => RunWithSql(_categoryRepository.GetAll());
+
+    public void RunWithSql(IList<Category> categories) => RunWithSql(categories.Select(c => c.Id));
+
+    public void RunWithSql(IEnumerable<int> categoryIds)
     {
         foreach (var categoryId in categoryIds)
         {

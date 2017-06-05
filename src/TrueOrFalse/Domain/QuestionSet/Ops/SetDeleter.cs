@@ -28,7 +28,6 @@ public class SetDeleter
         foreach (var category in aggregatedCategoriesToUpdate)
         {
             category.UpdateAggregatedSets();
-            Sl.CategoryRepo.Update(category);
         }
     }
 
