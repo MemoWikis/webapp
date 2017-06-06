@@ -66,6 +66,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             FormsAuthentication.SignOut();
     }
 
+    public void UpdateUser()
+    {
+        User = Sl.Resolve<UserRepo>().GetById(Sl.SessionUser.UserId);
+    }
+
     public int UserId
     {
         get

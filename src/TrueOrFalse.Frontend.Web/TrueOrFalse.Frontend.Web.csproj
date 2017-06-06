@@ -305,6 +305,7 @@
     <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
     <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
     <Compile Include="Views\Api\ActivityPointsApiController.cs" />
+    <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
     <Compile Include="Views\Api\Search\SearchApiController.cs" />
     <Compile Include="Views\Api\Search\PrepareSearch.cs" />
@@ -362,6 +363,7 @@
     <Content Include="Scripts\vendor.some-where\dataTables.bootstrap.css" />
     <Content Include="Scripts\vendor.some-where\dataTables.bootstrap.js" />
     <Content Include="Scripts\vendor.some-where\jquery.dataTables.js" />
+    <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>

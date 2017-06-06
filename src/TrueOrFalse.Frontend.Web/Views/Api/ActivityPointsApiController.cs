@@ -27,11 +27,16 @@ public class ActivityPointsApiController : BaseController
 
         if (isLoggedIn)
         {
+            var oldUserLevel = Sl.SessionUser.User.ActivityLevel;
             activityPoints.User = Sl.SessionUser.User;
             Sl.ActivityPointsRepo.Create(activityPoints);
-            //TODO:Julian alternatively make more efficient update function (current points + new ones)
-            ActivityPointsUserData.Update();
-            return new JsonResult { Data = new { totalPoints = Sl.SessionUser.User.ActivityPoints } };
+            Sl.UserRepo.UpdateActivityPointsData(); //TODO:Julian alternatively make more efficient update function (current points + new ones)
+            Sl.SessionUser.UpdateUser();
+
+            var levelPopupAsHtml = "";
+            if(oldUserLevel < Sl.SessionUser.User.ActivityLevel)
+                levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(Sl.SessionUser.User.ActivityLevel), ControllerContext);
+            return new JsonResult { Data = new { totalPoints = Sl.SessionUser.User.ActivityPoints, levelPopup = levelPopupAsHtml} };
         }
 
         return new JsonResult();

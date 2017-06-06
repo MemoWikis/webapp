@@ -8,7 +8,7 @@
     }
 
     public static AddPointsFromShowSolutionAnswer() {
-        ActivityPoints.addPoints(3, "ShowSolution");
+        ActivityPoints.addPoints(3, "ShowedSolution");
     }
 
     public static AddPointsFromCountAsCorrect() {
@@ -17,10 +17,20 @@
 
     private static addPoints(amount: number, actionTypeString: string) {
         var url = "/Api/ActivityPoints/Add";
-        $.post(url, { activityTypeString: actionTypeString, points: amount} ,(result) => this.updatePointsDisplay(result.totalPoints));
+        $.post(url, { activityTypeString: actionTypeString, points: amount} , result => {
+            this.updatePointsDisplay(result.totalPoints);
+            this.showLevelPopup(result.levelPopup);
+        });
     }
 
     private static updatePointsDisplay(totalPoints: number) {
         $("#activityPointsDispaly #activityPoints").html(totalPoints.toString());
+    }
+
+    private static showLevelPopup(levelPopup: string) {
+        if (levelPopup != "") {
+            $("#AnswerBody").append($(levelPopup));
+            $(levelPopup).modal();
+        }
     }
 }

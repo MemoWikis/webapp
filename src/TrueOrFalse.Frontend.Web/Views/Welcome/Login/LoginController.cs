@@ -28,7 +28,7 @@ public class LoginController : BaseController
             _sessionUser.Login(credentialsAreValid.User);
 
             TransferActivityPoints.FromSessionToUser();
-            ActivityPointsUserData.Update();
+            Sl.UserRepo.UpdateActivityPointsData();
 
             return Json(new
             {
