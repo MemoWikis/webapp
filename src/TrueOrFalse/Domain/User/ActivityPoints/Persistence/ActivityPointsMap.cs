@@ -1,11 +1,11 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class ActivityRewardMap : ClassMap<ActivityReward>
+public class ActivityPointsMap : ClassMap<ActivityPoints>
 {
-    public ActivityRewardMap()
+    public ActivityPointsMap()
     {
         Id(x => x.Id);
-        Map(x => x.Points);
+        Map(x => x.Amount);
         Map(x => x.DateEarned);
         References(x => x.User);
 

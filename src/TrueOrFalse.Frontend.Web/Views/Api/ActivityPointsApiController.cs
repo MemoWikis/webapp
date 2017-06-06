@@ -7,27 +7,34 @@ public class ActivityPointsApiController : BaseController
     {
         var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityTypeString);
         var isLoggedIn = Sl.SessionUser.IsLoggedInUser(Sl.SessionUser.UserId);
-        var activityReward = new ActivityReward
+        var activityPoints = new ActivityPoints
         {
-            Points = points,
+            Amount = points,
             ActionType = activityType,
-            DateEarned = DateTime.Now,
+            DateEarned = DateTime.Now
         };
 
-        if(!isLoggedIn)
-            Sl.SessionUser.AddPointActivity(activityReward);
+        if (!isLoggedIn)
+        {
+            Sl.SessionUser.AddPointActivity(activityPoints);
+            int totalActivityPoints = 0;
+            foreach (var activity in R<SessionUser>().ActivityPoints)
+            {
+                totalActivityPoints += activity.Amount;
+            }
+            return new JsonResult { Data = new { totalPoints = totalActivityPoints } };
+        }
 
         if (isLoggedIn)
         {
-            activityReward.User = Sl.SessionUser.User;
-            Sl.ActivityRewardRepo.Create(activityReward);
+            activityPoints.User = Sl.SessionUser.User;
+            Sl.ActivityPointsRepo.Create(activityPoints);
+            //TODO:Julian alternatively make more efficient update function (current points + new ones)
+            ActivityPointsUserData.Update();
+            return new JsonResult { Data = new { totalPoints = Sl.SessionUser.User.ActivityPoints } };
         }
 
-        int totalActivityPoints = 0;
-        foreach (var activity in R<SessionUser>().ActivityPoints)
-        {
-            totalActivityPoints += activity.Points;
-        }
-        return new JsonResult { Data = new { totalPoints = totalActivityPoints } };
+        return new JsonResult();
     }
+
 }

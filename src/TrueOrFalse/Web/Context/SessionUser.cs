@@ -135,11 +135,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             TestSessions = new List<TestSession>();
     }
 
-    public List<ActivityReward> ActivityPoints => Data.Get("pointActivitys", new List<ActivityReward>());
+    public List<ActivityPoints> ActivityPoints => Data.Get("pointActivitys", new List<ActivityPoints>());
 
-    public void AddPointActivity(ActivityReward activityReward)
+    public void AddPointActivity(ActivityPoints activityPoints)
     {
-        ActivityPoints.Add(activityReward);
+        ActivityPoints.Add(activityPoints);
     }
 
     public int getTotalActivityPoints()
@@ -147,7 +147,7 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         int totalPoints = 0;
         foreach (var activity in ActivityPoints)
         {
-            totalPoints += activity.Points;
+            totalPoints += activity.Amount;
         }
 
         return totalPoints;

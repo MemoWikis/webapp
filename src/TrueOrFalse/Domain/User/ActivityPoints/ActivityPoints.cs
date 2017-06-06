@@ -2,9 +2,9 @@
 using Seedworks.Lib.Persistence;
 
 [Serializable]
-public class ActivityReward : DomainEntity
+public class ActivityPoints : DomainEntity
 {
-    public virtual int Points { get; set; }
+    public virtual int Amount { get; set; }
     public virtual ActivityPointsType ActionType { get; set; }
     public virtual DateTime DateEarned { get; set; }
     public virtual User User { get; set; }

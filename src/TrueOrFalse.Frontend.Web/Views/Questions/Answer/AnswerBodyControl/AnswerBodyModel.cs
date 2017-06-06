@@ -54,6 +54,8 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_TestSessionRegisterAnsweredQuestion { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_LearningSessionAmendAfterShowSolution { get; private set; }
 
+    public int TotalActivityPoints;
+
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
         QuestionViewGuid = Guid.NewGuid();
@@ -144,5 +146,7 @@ public class AnswerBodyModel : BaseModel
         SolutionType = question.SolutionType.ToString();
         SolutionTypeInt = (int)question.SolutionType;
         SolutionModel = GetQuestionSolution.Run(question);
+
+        TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
     }
 }
