@@ -16,13 +16,15 @@ public class ActivityPointsApiController : BaseController
 
         if (!isLoggedIn)
         {
+            var oldUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints());
             Sl.SessionUser.AddPointActivity(activityPoints);
-            int totalActivityPoints = 0;
-            foreach (var activity in R<SessionUser>().ActivityPoints)
-            {
-                totalActivityPoints += activity.Amount;
-            }
-            return new JsonResult { Data = new { totalPoints = totalActivityPoints } };
+            var newUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints());
+
+            var levelPopupAsHtml = "";
+            if(oldUserLevel < newUserLevel)
+                levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(newUserLevel, false), ControllerContext);
+
+            return new JsonResult { Data = new { totalPoints = Sl.SessionUser.getTotalActivityPoints(), levelPopup = levelPopupAsHtml} };
         }
 
         if (isLoggedIn)
@@ -35,7 +37,8 @@ public class ActivityPointsApiController : BaseController
 
             var levelPopupAsHtml = "";
             if(oldUserLevel < Sl.SessionUser.User.ActivityLevel)
-                levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(Sl.SessionUser.User.ActivityLevel), ControllerContext);
+                levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(Sl.SessionUser.User.ActivityLevel, true), ControllerContext);
+            
             return new JsonResult { Data = new { totalPoints = Sl.SessionUser.User.ActivityPoints, levelPopup = levelPopupAsHtml} };
         }
 

@@ -8,9 +8,16 @@
                 <h4 class="modal-title">Yaay Level errungen: <b><%= Model.UserLevel %></b></h4>
             </div>
             <div class="modal-body">
+                <% if (Model.IsLoggedIn)
+                   { %>
+                Super! Du wirst immer schlauer!
+                <% }
+                   else
+                   { %>
                 Hi ich bin Robert und ich wünsche mir, dass du noch auf dieser Seite bleibst und dich anmeldest. <br/>
                 Wenn du das nicht tust verlierst du deine ActivityPoints und das eben errungene Level. <br/>
-                Außerdem verliere ich dann jegliche Achtung vor dir und du deine menschliche Würde!
+                Außerdem verliere ich dann jegliche Achtung vor dir und du deine menschliche Würde!                  
+                 <% } %>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>

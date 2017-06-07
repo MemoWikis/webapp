@@ -1,8 +1,11 @@
 ﻿public class LevelPopupModel
 {
     public int UserLevel;
-    public LevelPopupModel(int userLevel)
+    public bool IsLoggedIn;
+
+    public LevelPopupModel(int level, bool isLoggedIn)
     {
-        UserLevel = userLevel;
+        UserLevel = level;
+        IsLoggedIn = isLoggedIn;
     }
 }
