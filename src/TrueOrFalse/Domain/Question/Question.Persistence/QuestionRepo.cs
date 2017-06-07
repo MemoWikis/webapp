@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Utils;
+using Microsoft.Owin.Security.Provider;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
@@ -70,20 +71,37 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Delete(question);
     }
 
-    public IList<Question> GetForCategory(int categoryId, int resultCount, int currentUser) => 
-        GetForCategory(new List<int> {categoryId}, resultCount, currentUser);
-
-    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int resultCount, int currentUser)
+    public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
     {
-        //Update for aggregated questions
-        return _session.QueryOver<Question>()
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        var aggregatedQuestions = category.GetAggregatedQuestions();
+
+        var userSpecificQuestions = GetAll()
+            .Where(q => q.Creator.Id == currentUser
+                        && q.Visibility != QuestionVisibility.All
+                        && q.Categories.Any(c => Sl.CategoryRepo.GetAggregatedCategories(category, true).Any(aggrC => aggrC == c))).ToList();
+
+        return aggregatedQuestions.Union(userSpecificQuestions).ToList();
+
+    }
+
+    public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount= -1) => 
+        GetForCategory(new List<int> {categoryId}, currentUser, resultCount);
+
+    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int currentUser, int resultCount = -1)
+    {
+        var query = _session.QueryOver<Question>()
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
             .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
             .JoinQueryOver<Category>(q => q.Categories)
-            .Where(Restrictions.In("Id", categoryIds.ToArray()))
-            .Take(resultCount)
-            .List<Question>();
+            .Where(Restrictions.In("Id", categoryIds.ToArray()));
+
+        if (resultCount > -1)
+            query.Take(resultCount);
+
+        return query.List<Question>();
     }
 
     public IList<Question> GetForCategory(int categoryId)
@@ -95,16 +113,21 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<Question>();
     }
 
-    public IList<Question> GetForReference(int categoryId, int resultCount, int currentUser)
+    public IList<Question> GetForReference(int categoryId, int currentUser, int resultCount = -1)
     {
-        return _session.QueryOver<Question>()
-            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
-            .ThenBy(q => q.DateCreated).Desc
+        var query = _session.QueryOver<Question>()
+            .OrderBy(q => q.TotalRelevancePersonalEntries)
+            .Desc
+            .ThenBy(q => q.DateCreated)
+            .Desc
             .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
             .JoinQueryOver<Reference>(q => q.References)
-            .Where(q => q.Category.Id == categoryId)
-            .Take(resultCount)
-            .List<Question>();
+            .Where(q => q.Category.Id == categoryId);
+
+        if (resultCount > -1)
+            query.Take(resultCount);
+
+        return query.List<Question>();
     }
 
     public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)

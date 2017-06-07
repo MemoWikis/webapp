@@ -41,7 +41,7 @@ class GetRandomQuestions
         var featuredSets = category.FeaturedSets();
         var questions = featuredSets.Count > 0 
             ? featuredSets.SelectMany(s => s.Questions()).Distinct().ToList()
-            : Sl.R<QuestionRepo>().GetForCategory(category.Id, category.CountQuestions, Sl.R<SessionUser>().UserId);
+            : Sl.R<QuestionRepo>().GetForCategoryAggregated(category.Id, Sl.R<SessionUser>().UserId);
 
         return Run(questions.ToList(), amount, excludeQuestionIds, ignoreExclusionIfNotEnoughQuestions);
     }

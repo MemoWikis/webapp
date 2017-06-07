@@ -22,7 +22,7 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
 
-    public IList<Set> Sets;
+    public IList<Set> AggregatedSets;
     public AggregatedContent AggregatedContent;
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
@@ -112,15 +112,15 @@ public class CategoryModel : BaseModel
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = category.Type == CategoryType.Standard ? 
-            _questionRepo.GetForCategory(category.Id, 5, UserId) : 
-            _questionRepo.GetForReference(category.Id, 5, UserId);
+            _questionRepo.GetForCategory(category.Id, UserId, 5) : 
+            _questionRepo.GetForReference(category.Id, UserId, 5);
 
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
         TopWishQuestions = wishQuestions.Items;
 
-        Sets = Resolve<SetRepo>().GetForCategory(category.Id);
+        AggregatedSets = category.GetAggregatedSets();
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
@@ -150,7 +150,7 @@ public class CategoryModel : BaseModel
         foreach (var childCat in CategoriesChildren)
             foreach (var childOfChild in _categoryRepo.GetChildren(childCat.Id))
                 if (topQuestions.Count < 6)
-                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, 5, UserId));
+                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, UserId, 5));
     }
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();

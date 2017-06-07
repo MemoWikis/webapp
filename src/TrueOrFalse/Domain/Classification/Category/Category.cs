@@ -141,6 +141,11 @@ public class Category : DomainEntity, ICreator
         return GetAggregatedContent().AggregatedSets;
     }
 
+    public virtual IList<Question> GetAggregatedQuestions()
+    {
+        return GetAggregatedContent().AggregatedQuestions;
+    }
+
     public virtual IList<Set> FeaturedSets()
     {
         if (string.IsNullOrEmpty(FeaturedSetsIdsString))
