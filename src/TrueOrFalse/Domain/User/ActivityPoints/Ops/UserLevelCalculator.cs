@@ -4,23 +4,7 @@ public class UserLevelCalculator
 {
     public static int GetLevel(int points)
     {
-
-        if (points < 65)
-            return 0;
-        if (points >= 65 && points < 200)
-            return 1;
-        if (points >= 200 && points < 500)
-            return 2;
-        if (points >= 500 && points < 1000)
-            return 3;
-        if (points >= 1000 && points < 2000)
-            return 4;
-        if (points >= 2000 && points < 4000)
-            return 5;
-        if (points >= 4000 && points < CalculateUpperLevelBound(6))
-            return 6;
-
-        for (int level = 7; level <= 100; level++)
+        for (int level = 0; level <= 100; level++)
         {
             if(points >= CalculateLowerLevelBound(level) && points < CalculateUpperLevelBound(level))
                 return level;
@@ -29,7 +13,48 @@ public class UserLevelCalculator
         return 100;
     }
 
-    private static int CalculateUpperLevelBound(int level) => (int)Math.Round(Math.Pow((level + 1) - 5, 1.9) * 2000);
-    private static int CalculateLowerLevelBound(int level) => (int)Math.Round(Math.Pow(level - 5, 1.9) * 2000);
+    public static int GetPointsToNextLevel(int level, int actualPoints) => CalculateUpperLevelBound(level) - actualPoints;
+    public static int GetUpperLevelBound(int level) => CalculateUpperLevelBound(level);
+
+    private static int CalculateUpperLevelBound(int level)
+    {
+        return CalculateLowerLevelBound(level + 1);
+    }
+
+    private static int CalculateLowerLevelBound(int level)
+    {
+        switch (level)
+        {
+            case 1:
+                return 65;
+
+            case 2:
+                return 200;
+
+            case 3:
+                return 500;
+
+            case 4:
+                return 1000;
+
+            case 5:
+                return 2000;
+
+            case 6:
+                return 4000;
+        }
+        return (int)Math.Round(Math.Pow(level - 5, 1.9) * 2000);
+    }
+
+    //public static int GetlevelProgressPercentage(int totalPoints)
+    //{
+    //    var level = GetLevel(totalPoints);
+    //    var lowerLevelBound = CalculateLowerLevelBound(level);
+    //    var pointsInLevel = totalPoints - (lowerLevelBound - 1);
+
+    //    var totalInLevel = CalculateUpperLevelBound(level) - (lowerLevelBound - 1);
+
+    //    return (pointsInLevel/totalInLevel) * 100;
+    //}
 
 }
