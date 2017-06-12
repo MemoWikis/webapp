@@ -9,8 +9,7 @@
 
     public string GetForCategory(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
-        var knowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
+        var knowledgeSummary = KnowledgeSummaryLoader.Run(UserId, categoryId);
         return RenderPartialView(knowledgeSummary);
     }
 

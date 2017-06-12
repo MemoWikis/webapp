@@ -115,6 +115,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
         public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }
+        public static void StartImmediately_RecalcKnowledgeStati() { StartImmediately<RecalcKnowledgeStati>(); }
 
         public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
         {

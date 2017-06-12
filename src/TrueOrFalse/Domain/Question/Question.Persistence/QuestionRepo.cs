@@ -44,8 +44,9 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-           category.UpdateAggregatedQuestions();
+            category.UpdateAggregatedQuestions();
             Sl.CategoryRepo.Update(category);
+            Sl.CategoryValuationRepo.UpdateKnowledgeStatiForCategory(category.Id);
         }
     }
 

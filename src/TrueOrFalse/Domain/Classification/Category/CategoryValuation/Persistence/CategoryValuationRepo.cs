@@ -28,6 +28,13 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                     q.RelevancePersonal >= 0)
                 .List<CategoryValuation>();
 
+    public IList<CategoryValuation> GetByCategory(int categoryId) =>
+        _session.QueryOver<CategoryValuation>()
+            .Where(q =>
+                q.CategoryId == categoryId &&
+                q.RelevancePersonal >= 0)
+            .List<CategoryValuation>();
+
     public bool IsInWishKnowledge(int categoryId, int userId) =>
         Sl.CategoryValuationRepo.GetBy(categoryId, userId)?.IsInWishKnowledge() ?? false;
 
@@ -48,6 +55,29 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
         return _session.CreateSQLQuery(sb.ToString())
                         .SetResultTransformer(Transformers.AliasToBean(typeof(CategoryValuation)))
                         .List<CategoryValuation>();
+    }
+
+    public void UpdateKnowledgeStatiForUser(int userId)
+    {
+        foreach (var categoryValuation in GetByUser(userId))
+        {
+            UpdateKnowledgeStati(categoryValuation);
+        }
+    }
+
+    public void UpdateKnowledgeStatiForCategory(int catgoryId)
+    {
+        foreach (var categoryValuation in GetByCategory(catgoryId))
+        {
+            UpdateKnowledgeStati(categoryValuation);
+        }
+    }
+
+    public void UpdateKnowledgeStati(CategoryValuation categoryValuation)
+    {
+        categoryValuation.UpdateKnowledgeStati();
+
+        Update(categoryValuation);
     }
 
     public override void Create(IList<CategoryValuation> valuations)

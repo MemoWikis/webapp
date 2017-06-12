@@ -69,7 +69,7 @@ public class CategoryModel : BaseModel
         _categoryRepo = R<CategoryRepository>();
 
         if(loadKnowledgeSummary)
-            KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
+            KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category.Id);
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 

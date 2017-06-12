@@ -94,5 +94,7 @@ public class ModifyRelationsForCategory
 
         catRepo.Update(category);
 
+        Sl.CategoryValuationRepo.UpdateKnowledgeStatiForCategory(category.Id);
+
     }
 }
