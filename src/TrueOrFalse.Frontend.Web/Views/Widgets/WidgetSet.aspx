@@ -9,6 +9,10 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/WidgetSet") %>
     
+    <% if(Model.IncludeCustomCss){ %>
+        <link href="<%= Model.CustomCss %>" rel="stylesheet" />
+    <% } %>
+    
     <style type="text/css">
         html { height: auto;}
     </style>

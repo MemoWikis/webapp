@@ -20,6 +20,10 @@
         div.video-header h4 { margin-top:0px; }
         html { height: auto;}
     </style>
+    
+    <% if(Model.IncludeCustomCss){ %>
+        <link href="<%= Model.CustomCss %>" rel="stylesheet" />
+    <% } %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    

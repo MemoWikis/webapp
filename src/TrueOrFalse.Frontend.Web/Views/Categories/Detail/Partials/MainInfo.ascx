@@ -83,11 +83,14 @@
                     
                 </div>
                 
-                <% if (!String.IsNullOrEmpty(Model.WikiUrl)){ %>
+                <% if (!String.IsNullOrEmpty(Model.InfoUrl)){ %>
                     <div>
                         <div class="WikiLink" style="margin-top: 10px;">
-                            <a href="<%= Model.WikiUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.WikiUrl %></div>" data-placement="left" data-html="true">
-                                <img src="/Images/wiki-24.png" style="margin-top: -1px;" /><%= Model.WikiUrl %>
+                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.InfoUrl %></div>" data-placement="left" data-html="true">
+                                <% if(Links.IsLinkToWikipedia(Model.InfoUrl)){ %>
+                                    <img src="/Images/wiki-24.png" style="margin-top: -1px;" />
+                                <% } %>
+                                <%= Model.InfoUrl %>
                             </a>
                         </div>
                     </div>

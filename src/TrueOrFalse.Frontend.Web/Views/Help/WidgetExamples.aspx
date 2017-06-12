@@ -69,7 +69,7 @@
                     <div class="col-md-6 col-xs-12">
                         <h3>Eigenschaften</h3>
                         <ul class="nav nav-pills nav-stacked">
-                            <li><i class="fa fa-check" aria-hidden="true"></i> Resonsive Design</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Responsive Design</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Kleiner Payload (async geladen)</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Vielfältige Fragetypen und Video-Unterstützung</li>
                         </ul>
@@ -126,8 +126,8 @@
                 <h3 id="flip">Umdrehen (Flip)</h3>
                 <p>
                     In Anlehnung an die klassische Karteikarte können hier Antworten durch Umdrehen einer Karte aufgedeckt werden. 
-                    Dieser Frage-Antwort-Typ ist in Arbeit und folgt demnächst.
                 </p>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="4261" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
                     
                 <h3 id="text">Freie Textantwort</h3>
                 <p>

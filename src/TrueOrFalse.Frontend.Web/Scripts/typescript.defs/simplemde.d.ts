@@ -85,6 +85,7 @@ declare namespace SimpleMDE {
         shortcuts?: ShortcutsArray;
         showIcons?: string[];
         spellChecker?: boolean;
+        syncSideBySidePreviewScroll?: boolean;
         status?: boolean|Array<string|StatusBarItem>;
         styleSelectedText?: boolean;
         tabSize?: number;

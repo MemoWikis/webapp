@@ -14,6 +14,7 @@ public class Sl
 
     public static ISession Session => R<ISession>();
     public static SessionUser SessionUser => R<SessionUser>();
+    public static SessionUiData SessionUiData => R<SessionUiData>();
 
     public static UserRepo UserRepo => R<UserRepo>();
 

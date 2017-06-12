@@ -8,15 +8,22 @@ public class ContentStatsModel : BaseModel
 
     public IList<SetViewStatsResult> SetStats;
 
-    public ContentStatsModel()
+    public ContentStatsModel(bool recalcStats = false)
     {
-        SetStats = Sl.R<SetRepo>()
-            .Query
-            .List()
-            .Select(s => SetViewStats.GetForId(s.Id))
-            .OrderByDescending(s => s.QuestionViewsDailyAvg)
-            .ToList();
-        
+        if (recalcStats)
+        {
+            SetStats = Sl.R<SetRepo>()
+                .Query
+                .List()
+                .Select(s => SetViewStats.GetForId(s.Id))
+                .OrderByDescending(s => s.QuestionViewsDailyAvg)
+                .ToList();
+        }
+        else
+        {
+            SetStats = new List<SetViewStatsResult>();
+        }
+
     }
 
 

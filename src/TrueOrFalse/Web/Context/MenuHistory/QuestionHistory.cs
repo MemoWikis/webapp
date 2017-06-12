@@ -46,7 +46,7 @@ public class QuestionHistoryItem : HistoryItemBase
         Type = type;
         FillQuestionFields(question);
             
-        SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec, this);
+        SearchSpec = QuestionSearchSpecSession.AddCloneToSession(seachSpec, this);
     }
 
     public QuestionHistoryItem(Question question, HistoryItemType type)

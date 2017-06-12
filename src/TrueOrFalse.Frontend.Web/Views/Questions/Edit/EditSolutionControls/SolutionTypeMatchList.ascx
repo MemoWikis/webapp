@@ -117,7 +117,7 @@
 
     <% if (Model != null)
     {
-        Model.escapeSolutionChars();
+        Model.EscapeSolutionChars();
 
         for (int i = 0; i < Model.RightElements.Count; i++)
         { %>

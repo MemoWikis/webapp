@@ -339,7 +339,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
-    <Content Include="Images\Error\memo-404_german.png" />
+    <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />
     <Content Include="Images\Error\memo-500_german_600.png" />
@@ -361,6 +361,9 @@
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
+    <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.css" />
+    <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.js" />
+    <Content Include="Scripts\vendor.somewhere\jquery.dataTables.js" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -424,6 +427,7 @@
     <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
+    <Compile Include="Views\Widgets\WidgetBaseModel.cs" />
     <Compile Include="Views\Widgets\WidgetController.cs" />
     <Compile Include="Views\Widgets\WidgetSetModel.cs" />
     <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
@@ -467,13 +471,14 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
-    <Content Include="Scripts\vendor.some-where\readme.txt" />
-    <Content Include="Scripts\vendor.some-where\simplemde.css" />
-    <Content Include="Scripts\vendor.some-where\simplemde.js" />
+    <Content Include="Scripts\vendor.somewhere\readme.txt" />
+    <Content Include="Scripts\vendor.somewhere\simplemde.css" />
+    <Content Include="Scripts\vendor.somewhere\simplemde.js" />
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />
     <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
+    <Content Include="Scripts\vendor\modernizr-custom.js" />
     <Content Include="Scripts\widgets\ShareDialog.js">
       <DependentUpon>ShareDialog.ts</DependentUpon>
     </Content>
@@ -666,6 +671,10 @@
     <Content Include="Views\Questions\Answer\AnswerQuestion.css">
       <DependentUpon>AnswerQuestion.less</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
@@ -680,6 +689,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
     <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
@@ -1097,6 +1107,7 @@
     <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
     <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
@@ -1120,6 +1131,7 @@
     <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
     <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
     <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
     <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
@@ -1832,7 +1844,6 @@
     <Content Include="Scripts\vendor\Markdown.Converter.js" />
     <Content Include="Scripts\vendor\Markdown.Editor.js" />
     <Content Include="Scripts\vendor\Markdown.Sanitizer.js" />
-    <Content Include="Scripts\vendor\modernizr-2.6.2.js" />
     <Content Include="Scripts\typescript.defs\markdown.d.ts" />
     <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
     <Content Include="Scripts\typescript.defs\lib.d.ts" />
@@ -1938,6 +1949,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
@@ -2588,6 +2600,7 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

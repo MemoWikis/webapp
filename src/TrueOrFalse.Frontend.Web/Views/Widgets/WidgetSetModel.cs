@@ -1,4 +1,4 @@
-﻿public class WidgetSetModel : BaseModel
+﻿public class WidgetSetModel : WidgetBaseModel
 {
     public AnswerQuestionModel AnswerQuestionModel;
 
@@ -10,7 +10,7 @@
     public string QuestionText => AnswerQuestionModel.QuestionText;
     public Question Question => AnswerQuestionModel.Question;
 
-    public WidgetSetModel(AnswerQuestionModel answerQuestionModel)
+    public WidgetSetModel(AnswerQuestionModel answerQuestionModel, string host) : base(host)
     {
         ShowUserReportWidget = false;
         AnswerQuestionModel = answerQuestionModel;

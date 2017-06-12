@@ -2,7 +2,6 @@
     MasterPageFile="~/Views/Shared/Site.Widget.Master" 
     Inherits="ViewPage<WidgetSetResultModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Head" runat="server">
     <style type="text/css">
@@ -11,6 +10,10 @@
     <%= Scripts.Render("~/bundles/js/TestSessionResult") %>
     <%= Scripts.Render("~/bundles/js/AwesomeIframe") %>
     <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+
+    <% if(Model.IncludeCustomCss){ %>
+        <link href="<%= Model.CustomCss %>" rel="stylesheet" />
+    <% } %>    
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">

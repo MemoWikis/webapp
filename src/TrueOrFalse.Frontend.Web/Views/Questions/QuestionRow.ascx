@@ -35,7 +35,7 @@
         
         <div class="row">
             <div class="col-sm-12 col-AnswerChance">Antwortchance:</div>
-            <div class="col-sm-12 col-AnswerProbability"><%= Model.HistoryAndProbability.CorrectnessProbability.CPPersonal %>%</div>
+            <div class="col-sm-12 col-AnswerProbability"><% Html.RenderPartial("CorrectnessProbability", Model.HistoryAndProbability.CorrectnessProbability); %></div>
             <div class="col-sm-12 col-Wishknowledge">
                 <div class="Pin" data-question-id="<%= Model.QuestionId %>">
                     <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>

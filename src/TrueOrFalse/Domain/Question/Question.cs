@@ -171,7 +171,7 @@ public class Question : DomainEntity, ICreator
     {
         if (solutionType == SolutionType.MatchList)
         {
-            var answerObject = QuestionSolutionMatchList.deserializeMatchListAnswer(answerText);
+            var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
             if (answerObject.Pairs.Count == 0)
                 return "(keine Auswahl)";
             string formattedMatchListAnswer = "</br><ul>";
