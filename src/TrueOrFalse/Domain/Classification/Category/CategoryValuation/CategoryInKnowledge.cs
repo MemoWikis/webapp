@@ -8,8 +8,8 @@ public class CategoryInKnowledge
 {
     public static void Pin(int categoryId, User user)
     {
-        UpdateCategoryValuation(categoryId, user, 50);
         PinQuestionsInCategory(categoryId, user);
+        UpdateCategoryValuation(categoryId, user, 50);
     }
 
     private static void PinQuestionsInCategory(int categoryId, User user)

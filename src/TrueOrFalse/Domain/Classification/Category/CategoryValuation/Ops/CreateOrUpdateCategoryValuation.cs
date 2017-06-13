@@ -2,23 +2,25 @@
 {
     public static void Run(int categoryId, int userId, int relevancePeronal = -2)
     {
-        var categoryRepo = Sl.CategoryValuationRepo;
+        var categoryValuationRepo = Sl.CategoryValuationRepo;
 
-        var categoryValuation = categoryRepo.GetBy(categoryId, userId);
+        var categoryValuation = categoryValuationRepo.GetBy(categoryId, userId);
 
-        if (categoryValuation == null){
-            var newQuestionVal = 
-                new CategoryValuation{ CategoryId = categoryId, UserId = userId, RelevancePersonal = relevancePeronal};
+        if (categoryValuation == null)
+        {
+            var newQuestionVal =
+                new CategoryValuation { CategoryId = categoryId, UserId = userId, RelevancePersonal = relevancePeronal };
 
-            categoryRepo.Create(newQuestionVal);
+            categoryValuationRepo.Create(newQuestionVal);
         }
         else
         {
             if (relevancePeronal != -2)
                 categoryValuation.RelevancePersonal = relevancePeronal;
 
-            categoryRepo.Update(categoryValuation);                
+            categoryValuationRepo.Update(categoryValuation);
         }
-        categoryRepo.Flush();
+
+        categoryValuationRepo.Flush();
     }
-} 
+}

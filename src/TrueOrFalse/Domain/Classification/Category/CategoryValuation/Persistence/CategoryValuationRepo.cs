@@ -89,18 +89,21 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
 
     public override void Create(CategoryValuation categoryValuation)
     {
+        categoryValuation.UpdateKnowledgeStati();
         base.Create(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
     public override void CreateOrUpdate(CategoryValuation categoryValuation)
     {
+        categoryValuation.UpdateKnowledgeStati();
         base.CreateOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
     public override void Update(CategoryValuation categoryValuation)
     {
+        categoryValuation.UpdateKnowledgeStati();
         base.Update(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
