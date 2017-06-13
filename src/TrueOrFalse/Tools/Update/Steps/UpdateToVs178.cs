@@ -8,10 +8,10 @@ namespace TrueOrFalse.Updates
         {
             Sl.Resolve<ISession>()
                 .CreateSQLQuery(
-                    @"CREATE TABLE `ActivityReward` (
+                    @"CREATE TABLE `ActivityPoints` (
 	                    `Id` INT(11) NOT NULL AUTO_INCREMENT,
 	                    `DateEarned` DATETIME NULL DEFAULT NULL,	
-	                    `Points` int(11) null default null,
+	                    `Amount` int(11) null default null,
 	                    `User_id` INT(11) NULL DEFAULT NULL,
 	                    `ActionType` INT(11) NULL DEFAULT NULL,
 	                    `DateCreated` DATETIME NULL DEFAULT NULL,
