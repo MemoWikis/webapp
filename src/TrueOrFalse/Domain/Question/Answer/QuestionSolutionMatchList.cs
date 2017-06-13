@@ -54,6 +54,8 @@ public class QuestionSolutionMatchList : QuestionSolution
         }
 
         isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
+
+        TrimElementTexts();
     }
 
     public static MatchListAnswerPairs DeserializeMatchListAnswer(string answerJSON)
@@ -76,7 +78,9 @@ public class QuestionSolutionMatchList : QuestionSolution
                 i--;
             }
         }
+        
         var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
+
         bool answerCorrect = true;
         if (questionPairs.Count != answerPairs.Count)
             answerCorrect = false;
@@ -92,7 +96,6 @@ public class QuestionSolutionMatchList : QuestionSolution
             }
         }
         return answerCorrect;
-        
     }
 
     public override string CorrectAnswer()
@@ -120,6 +123,20 @@ public class QuestionSolutionMatchList : QuestionSolution
             .Split(new [] {PairSeperator}, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => $"{String.Join(" - ", x.Split(new []{ElementSeperator}, StringSplitOptions.RemoveEmptyEntries))}, ")
             .Aggregate((a, b) => a + b);
+    }
+
+    public void TrimElementTexts()
+    {
+        foreach (var pair in Pairs)
+        {
+            pair.ElementLeft.Text = pair.ElementLeft.Text.Trim();
+            pair.ElementRight.Text = pair.ElementRight.Text.Trim();
+        }
+
+        foreach (var rightElement in RightElements)
+        {
+            rightElement.Text = rightElement.Text.Trim();
+        }
     }
 
     public void EscapeSolutionChars()
