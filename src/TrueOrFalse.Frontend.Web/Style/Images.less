@@ -35,17 +35,17 @@
     vertical-align: middle;
 
     .CheckboxText {
-        padding-right: 10px;
-        padding-top: 5px;
-        font-size: 10px;
+        padding-right: 5px;
+        padding-top: 10px;
+        font-size: 9px;
         float: right;
-        width: 60%;
+        width: 58%;
         text-align: center;
         .media-below-sm ({
             display: none;
         });
 
-        .SelectAreaCheckbox:hover & {
+        .SelectAreaCheckbox:hover &, .rowBase:not(.selected-row):hover .SelectAreaCheckbox & {
             color: @global-text-color;
         }
     }
@@ -53,7 +53,7 @@
 
 .Checked-Icon,
 .Unchecked-Icon {
-    font-size: 36px;
+    font-size: 35px;
     color: @global-text-color;
     padding-top: 3px;
     padding-right: 1px;
@@ -90,7 +90,7 @@ display: none;
     border-top-right-radius: @border-radius-item-image;
     cursor: pointer;
 
-    &:hover {
+    &:hover, .rowBase:not(.selected-row):hover & {
         .Unchecked-Icon {
             visibility: visible;
         }
@@ -123,11 +123,10 @@ display: none;
     cursor: pointer;
 }
 
-.SelectAreaCheckbox,
-.SelectAreaImageInfo {
-    &:hover {
-        background-color: rgba(255,255,255,0.65);
-    }
+.SelectAreaCheckbox:hover,
+.rowBase:not(.selected-row):hover .SelectAreaCheckbox,
+.SelectAreaImageInfo:hover {
+    background-color: rgba(255,255,255,0.65);
 }
 
 .HoverMessage {

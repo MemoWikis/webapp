@@ -361,9 +361,9 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
-    <Content Include="Scripts\vendor.some-where\dataTables.bootstrap.css" />
-    <Content Include="Scripts\vendor.some-where\dataTables.bootstrap.js" />
-    <Content Include="Scripts\vendor.some-where\jquery.dataTables.js" />
+    <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.css" />
+    <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.js" />
+    <Content Include="Scripts\vendor.somewhere\jquery.dataTables.js" />
     <Content Include="Views\Api\ActivityPoints\ActivityLevelProgress.aspx" />
     <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
@@ -470,9 +470,9 @@
     <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
-    <Content Include="Scripts\vendor.some-where\readme.txt" />
-    <Content Include="Scripts\vendor.some-where\simplemde.css" />
-    <Content Include="Scripts\vendor.some-where\simplemde.js" />
+    <Content Include="Scripts\vendor.somewhere\readme.txt" />
+    <Content Include="Scripts\vendor.somewhere\simplemde.css" />
+    <Content Include="Scripts\vendor.somewhere\simplemde.js" />
     <Content Include="Scripts\vendor\hammer.js" />
     <Content Include="Scripts\vendor\jquery.flip.js" />
     <Content Include="Scripts\various\mailto.js" />

@@ -833,6 +833,8 @@
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs178.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs177.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs176.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs175.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs174.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs173.cs" />

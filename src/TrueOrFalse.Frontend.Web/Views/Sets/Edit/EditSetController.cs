@@ -28,7 +28,7 @@ public class EditSetController : BaseController
 
         var set = model.ToQuestionSet();
         set.Creator = _sessionUser.User;
-        Resolve<SetRepo>().Create(set);
+        Sl.SetRepo.Create(set);
 
         StoreImage(set.Id);
 
@@ -36,8 +36,7 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
 
         TempData["createSetMsg"] = new SuccessMessage(
-            string.Format("Das Lernset <i>'{0}'</i> wurde erstellt. Du kannst es nun weiter bearbeiten.",
-                          set.Name.TruncateAtWord(30)));
+            $"Das Lernset <i>'{set.Name.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst es nun weiter bearbeiten.");
 
         return Redirect(Links.QuestionSetEdit(set.Name, set.Id));
     }
@@ -45,7 +44,7 @@ public class EditSetController : BaseController
     [SetMenu(MenuEntry.QuestionSet)]
     public ViewResult Edit(int id)
     {
-        var set = Resolve<SetRepo>().GetById(id);
+        var set = Sl.SetRepo.GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         var model = new EditSetModel(set);
         model.SetToUpdateModel();

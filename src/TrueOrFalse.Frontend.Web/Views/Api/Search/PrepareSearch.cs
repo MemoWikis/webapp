@@ -12,8 +12,15 @@ public class SearchBoxElementsGet
         var pageSize = 5;   
         result.CategoriesResult = Sl.SearchCategories.Run(term, new Pager { PageSize = pageSize });
         result.SetsResult = Sl.SearchSets.Run(term, new Pager { PageSize = pageSize });
-        result.QuestionsResult = Sl.SearchQuestions.Run(term, new Pager { PageSize = pageSize }, ignorePrivates: false);
         result.UsersResult = Sl.SearchUsers.Run(term, new Pager { PageSize = pageSize }, SearchUsersOrderBy.None);
+
+        var searchSpec = Sl.SessionUiData.SearchSpecQuestionSearchBox;
+        searchSpec.OrderBy.BestMatch.Desc();
+        searchSpec.Filter.SearchTerm = term;
+        searchSpec.Filter.IgnorePrivates = false;
+        searchSpec.PageSize = pageSize;
+
+        result.QuestionsResult = Sl.SearchQuestions.Run(term, searchSpec);
 
         result.Ensure_max_element_count_of_12();
 

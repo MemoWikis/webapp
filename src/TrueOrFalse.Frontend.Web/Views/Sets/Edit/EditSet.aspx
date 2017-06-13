@@ -169,8 +169,8 @@
                                         </span>
                                     </h4>
 
-                                    <% if (Model.QuestionsInSet.Count == 0)
-                                       { %>
+                                    <% if (Model.QuestionsInSet.Count == 0) { %>
+
                                         <div class="alert alert-info" style="margin-top: 15px; margin-bottom: 5px;">
                                             <p>
                                                 <b>Dein Lernset enthält noch keine Fragen.</b>
@@ -180,9 +180,9 @@
                                                 auf "Zum Lernset hinzufügen" klickst.
                                             </p>
                                         </div>
-                                    <% }
-                                       else
-                                       { %>
+                                    
+                                    <% } else { %>
+
                                         <ul id="ulQuestions">
                                             <% foreach (var questionInSet in Model.QuestionsInSet)
                                                { %>
@@ -244,14 +244,11 @@
                     <div class="FormSection">
                         <div class="form-group">
                             <div class="noLabel columnControlsFull <%= Model.IsEditing ? "separationBorderTop" : "" %>">
-                                <% if (Model.IsEditing)
-                                   { %>
+                                <% if (Model.IsEditing) { %>
                                     <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                                <% }
-                                   else
-                                   { %>
-                                    <input type="submit" value="Lernset erstellen" class="btn btn-primary" name="btnSave" <% if (!Model.IsLoggedIn)
-                                                                                                                             { %> disabled="disabled" <% } %>/>
+                                <% } else { %>
+                                    <input type="submit" value="Lernset erstellen" class="btn btn-primary" 
+                                        name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
                                 <% } %>
                             </div>
                         </div>

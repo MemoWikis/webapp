@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
@@ -6,6 +7,8 @@ using TrueOrFalse.Web;
 public class AnswerBodyModel : BaseModel
 {
     public Guid QuestionViewGuid;
+
+    public SetMini PrimarySetMini;
 
     public int QuestionId;
     public User Creator;
@@ -124,6 +127,7 @@ public class AnswerBodyModel : BaseModel
 
     private void Init(Question question)
     {
+        PrimarySetMini = question.SetTop5Minis.FirstOrDefault();
         QuestionId = question.Id;
         Creator = question.Creator;
 

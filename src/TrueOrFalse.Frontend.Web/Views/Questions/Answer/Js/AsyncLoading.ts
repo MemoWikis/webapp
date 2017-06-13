@@ -154,7 +154,9 @@
     }
 
     private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {
-        if(!offlineDevelopment)
-            ga('send', 'pageview');
+        if (!offlineDevelopment)
+            if (typeof ga !== 'undefined')
+                ga('send', 'pageview');    
+            
     }
 }

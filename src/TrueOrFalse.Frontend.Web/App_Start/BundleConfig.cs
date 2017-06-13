@@ -97,14 +97,14 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/CategoryEdit")
                 .Include("~/Views/Categories/Edit/EditCategory.css")
-                .Include("~/Scripts/vendor.some-where/simplemde.css"));
+                .Include("~/Scripts/vendor.somewhere/simplemde.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
-                .Include("~/Scripts/vendor.some-where/simplemde.js"));
+                .Include("~/Scripts/vendor.somewhere/simplemde.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -243,12 +243,12 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
             bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
-                .Include("~/Scripts/vendor.some-where/dataTables.bootstrap.css")
+                .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")
                 .Include("~/Views/Maintenance/ContentStats.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceContentStats")
-                .Include("~/Scripts/vendor.some-where/dataTables.bootstrap.js")
-                .Include("~/Scripts/vendor.some-where/jquery.dataTables.js")
+                .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.js")
+                .Include("~/Scripts/vendor.somewhere/jquery.dataTables.js")
                 .Include("~/Views/Maintenance/Js/ContentStats.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/mailto")
