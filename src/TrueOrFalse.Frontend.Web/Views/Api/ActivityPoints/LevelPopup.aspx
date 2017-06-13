@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Yaay Level errungen: <b><%= Model.UserLevel %></b></h4>
+                <h4 class="modal-title">Fortschritt: Du bist jetzt Level <b><%= Model.UserLevel %></b></h4>
             </div>
             <div class="modal-body">
                 <% if (Model.IsLoggedIn)
@@ -14,9 +14,8 @@
                 <% }
                    else
                    { %>
-                Hi ich bin Robert und ich wünsche mir, dass du noch auf dieser Seite bleibst und dich anmeldest. <br/>
-                Wenn du das nicht tust verlierst du deine ActivityPoints und das eben errungene Level. <br/>
-                Außerdem verliere ich dann jegliche Achtung vor dir und du deine menschliche Würde!                  
+                Wenn du jetzt einfach die Seite, verlässt verlierst du deine ActivityPoints und das eben errungene Level. <br/>
+                Melde dich jetzt an und werde immer schlauer mit memucho.de!
                  <% } %>
             </div>
             <div class="modal-footer">
