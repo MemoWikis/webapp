@@ -14,7 +14,7 @@
                 <% }
                    else
                    { %>
-                Wenn du jetzt einfach die Seite, verlässt verlierst du deine ActivityPoints und das eben errungene Level. <br/>
+                Wenn du jetzt einfach die Seite verlässt, verlierst du deine ActivityPoints und das eben errungene Level. <br/>
                 Melde dich jetzt an und werde immer schlauer mit memucho.de!
                  <% } %>
             </div>
