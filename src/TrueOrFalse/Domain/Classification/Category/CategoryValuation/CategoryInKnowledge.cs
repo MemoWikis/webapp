@@ -8,7 +8,7 @@ public class CategoryInKnowledge
 {
     public static void Pin(int categoryId, User user)
     {
-        UpdateRelevancePersonal(categoryId, user, 50);
+        UpdateCategoryValuation(categoryId, user, 50);
         PinQuestionsInCategory(categoryId, user);
     }
 
@@ -18,7 +18,7 @@ public class CategoryInKnowledge
         QuestionInKnowledge.Pin(questions, user);
     }
 
-    public static void Unpin(int categoryId, User user) => UpdateRelevancePersonal(categoryId, user, -1);
+    public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
 
     public static void UnpinQuestionsInCategory(int categoryId, User user)
     {
@@ -62,7 +62,7 @@ public class CategoryInKnowledge
         return questionsInOtherPinnedSetsIds;
     }
 
-    private static void UpdateRelevancePersonal(int categoryId, User user, int relevance = 50)
+    private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
     {
         CreateOrUpdateCategoryValuation.Run(categoryId, user.Id, relevancePeronal: relevance);
 
