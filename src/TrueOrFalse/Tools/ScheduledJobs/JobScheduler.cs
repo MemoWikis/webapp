@@ -65,7 +65,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private static void Schedule_RecalcKnowledgeSummariesForCategory()
         {
-            _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummaryForCategory>().Build(),
+            _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForCategory>().Build(),
                 TriggerBuilder.Create()
                     .WithSimpleSchedule(x => x.WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
                         .RepeatForever()).Build());

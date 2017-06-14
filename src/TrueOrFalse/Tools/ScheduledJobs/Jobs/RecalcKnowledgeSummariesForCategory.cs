@@ -7,7 +7,7 @@ using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class RecalcKnowledgeSummaryForCategory : IJob
+    public class RecalcKnowledgeSummariesForCategory : IJob
     {
         public const int IntervalInSeconds = 120;
 
@@ -16,7 +16,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope => 
             {
                 List<int> successfullJobIds = new List<int>();
-                var jobs = scope.R<JobQueueRepo>().GetKnowledgeSummaryForCategory();
+                var jobs = scope.R<JobQueueRepo>().GetRecalcKnowledgeSummariesForCategory();
                 var jobsByCategoryId = jobs.GroupBy(j => j.JobContent);
                 foreach (var grouping in jobsByCategoryId)
                 {
