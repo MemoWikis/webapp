@@ -57,22 +57,6 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                         .List<CategoryValuation>();
     }
 
-    public void UpdateKnowledgeSummariesForUser(int userId)
-    {
-        foreach (var categoryValuation in GetByUser(userId))
-        {
-            UpdateKnowledgeSummary(categoryValuation);
-        }
-    }
-
-    public void UpdateKnowledgeSummariesForCategory(int catgoryId)
-    {
-        foreach (var categoryValuation in GetByCategory(catgoryId))
-        {
-            UpdateKnowledgeSummary(categoryValuation);
-        }
-    }
-
     public void UpdateKnowledgeSummary(CategoryValuation categoryValuation)
     {
         categoryValuation.UpdateKnowledgeSummary();
@@ -82,6 +66,10 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
 
     public override void Create(IList<CategoryValuation> valuations)
     {
+        foreach (var categoryValuation in valuations)
+        {
+            KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
+        }
         base.Create(valuations);
         var categories = Sl.CategoryRepo.GetByIds(valuations.GetCategoryIds().ToArray());
         Sl.SearchIndexCategory.Update(categories);
@@ -89,14 +77,14 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
 
     public override void Create(CategoryValuation categoryValuation)
     {
-        categoryValuation.UpdateKnowledgeSummary();
+        KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
         base.Create(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
 
     public override void CreateOrUpdate(CategoryValuation categoryValuation)
     {
-        categoryValuation.UpdateKnowledgeSummary();
+        KnowledgeSummaryUpdate.Run(categoryValuation, persist: false);
         base.CreateOrUpdate(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }
@@ -104,6 +92,8 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     public override void Update(CategoryValuation categoryValuation)
     {
         categoryValuation.UpdateKnowledgeSummary();
+
+
         base.Update(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));
     }

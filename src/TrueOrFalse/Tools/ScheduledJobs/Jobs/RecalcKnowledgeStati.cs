@@ -12,7 +12,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var user in scope.Resolve<UserRepo>().GetAll())
                 {
                     ProbabilityUpdate_Valuation.Run(user.Id);
-                    scope.Resolve<CategoryValuationRepo>().UpdateKnowledgeSummariesForUser(user.Id);
+                    KnowledgeSummaryUpdate.RunForUser(user.Id);
                 }
             }, "RecalcKnowledgeStati");
         }

@@ -46,7 +46,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         {
             category.UpdateAggregatedQuestions();
             Sl.CategoryRepo.Update(category);
-            Sl.CategoryValuationRepo.UpdateKnowledgeSummariesForCategory(category.Id);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
     }
 

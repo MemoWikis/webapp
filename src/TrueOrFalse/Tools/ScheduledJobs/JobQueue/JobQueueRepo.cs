@@ -38,5 +38,11 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
         return 
             _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.UpdateReputationForUser).List();
     }
+
+    public IList<JobQueue> GetKnowledgeSummaryForCategory()
+    {
+        return
+            _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory).List();
+    }
 }
     

@@ -45,7 +45,7 @@ public class QuestionDelete
         {
             category.UpdateAggregatedQuestions();
             Sl.CategoryRepo.Update(category);
-            Sl.CategoryValuationRepo.UpdateKnowledgeSummariesForCategory(category.Id);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
     }
 

@@ -9,6 +9,15 @@ public class KnowledgeSummaryLoader
     public static KnowledgeSummary RunFromCache(Category category, int userId)
     {
         var categoryValuation = Sl.CategoryValuationRepo.GetBy(category.Id, userId);
+
+        if (categoryValuation == null)
+        {
+            return new KnowledgeSummary
+            {
+                NotInWishknowledge = category.CountQuestionsAggregated
+            };
+        }
+
         return new KnowledgeSummary
         {
             NotLearned = categoryValuation.CountNotLearned,
