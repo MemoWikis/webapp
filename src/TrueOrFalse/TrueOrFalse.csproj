@@ -260,6 +260,7 @@
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelationType.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\GetCategoryGraphData.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 
 public class ModifyRelationsForCategory
 {
@@ -63,26 +62,9 @@ public class ModifyRelationsForCategory
 
     public static void UpdateRelationsOfTypeIncludesContentOf(Category category, bool persist = true)
     {
-        var catRepo = Sl.R<CategoryRepository>();
+        var catRepo = Sl.CategoryRepo;
 
-        var categoriesToExclude = new List<Category>();
-        foreach (var categoryToExclude in category.CategoriesToExclude())
-        {
-            categoriesToExclude.Add(categoryToExclude);
-            categoriesToExclude.AddRange(catRepo.GetDescendants(categoryToExclude.Id));
-        }
-
-        var categoriesToInclude = new List<Category>();
-        foreach (var categoryToInclude in category.CategoriesToInclude())
-        {
-            categoriesToInclude.Add(categoryToInclude);
-            categoriesToInclude.AddRange(catRepo.GetDescendants(categoryToInclude.Id));
-        }
-
-        var descendants = catRepo.GetDescendants(category.Id)
-            .Except(categoriesToExclude)
-            .Union(categoriesToInclude)
-            .ToList();
+        var descendants = GetCategoriesDescendantsWithAppliedRules(category);
 
         UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
 
@@ -96,5 +78,27 @@ public class ModifyRelationsForCategory
 
         Sl.CategoryValuationRepo.UpdateKnowledgeSummariesForCategory(category.Id);
 
+    }
+
+    public static List<Category> GetCategoriesDescendantsWithAppliedRules(Category category)
+    {
+        var categoriesToExclude = new List<Category>();
+        foreach (var categoryToExclude in category.CategoriesToExclude())
+        {
+            categoriesToExclude.Add(categoryToExclude);
+            categoriesToExclude.AddRange(Sl.CategoryRepo.GetDescendants(categoryToExclude.Id));
+        }
+
+        var categoriesToInclude = new List<Category>();
+        foreach (var categoryToInclude in category.CategoriesToInclude())
+        {
+            categoriesToInclude.Add(categoryToInclude);
+            categoriesToInclude.AddRange(Sl.CategoryRepo.GetDescendants(categoryToInclude.Id));
+        }
+
+        return Sl.CategoryRepo.GetDescendants(category.Id)
+            .Except(categoriesToExclude)
+            .Union(categoriesToInclude)
+            .ToList();
     }
 }
