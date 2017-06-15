@@ -40,7 +40,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .ToList(); //All categories added or removed have to be updated
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
 
-        var aggregatedCategoriesToUpdate = categoriesToUpdateIds.SelectMany(id => Sl.CategoryRepo.GetIncludingCategories(Sl.CategoryRepo.GetById(id))).ToList();
+        var aggregatedCategoriesToUpdate =
+            CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {

@@ -36,8 +36,8 @@ public class SetRepo : RepositoryDbBase<Set>
 
         Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
-        var aggregatedCategoriesToUpdate = categoriesToUpdateIds
-            .SelectMany(id => Sl.CategoryRepo.GetIncludingCategories(Sl.CategoryRepo.GetById(id))).ToList();
+        var aggregatedCategoriesToUpdate =
+            CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {

@@ -9,7 +9,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcKnowledgeSummariesForCategory : IJob
     {
-        public const int IntervalInSeconds = 120;
+        public const int IntervalInSeconds = 5;
 
         public void Execute(IJobExecutionContext context)
         {
