@@ -126,6 +126,7 @@ public class Category : DomainEntity, ICreator
         foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
         {
             aggregatedQuestions.AddRange(questionRepo.GetForCategory(aggregatedCategory.Id));
+            aggregatedQuestions.AddRange(Sl.SetRepo.GetForCategory(aggregatedCategory.Id).SelectMany(s => s.Questions()));
         }
 
         var aggregatedContent = GetAggregatedContent();
