@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
+using NHibernate.Mapping;
 using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -106,4 +108,8 @@ public class CategoryController : BaseController
         return Redirect(Links.LearningSession(learningSession));
     }
 
+    public JsonResult GetCategoryGraphDataAsJson(int categoryId)
+    {
+        return GetCategoryGraphData.GetAsJson(Sl.CategoryRepo.GetById(categoryId));
+    }
 }
