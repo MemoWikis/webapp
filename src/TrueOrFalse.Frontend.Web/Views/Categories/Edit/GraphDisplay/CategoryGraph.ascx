@@ -3,4 +3,57 @@
 <%= Scripts.Render("~bundles/CategoryGraph") %>
 
 <div id="category-graph"></div>
-<script src="/Views/Categories/Edit/GraphDisplay/CategoryGraph.ts" type="text/javascript"></script>
+<script type="text/javascript">
+    var width = 960,
+        height = 500;
+
+    var svg = d3.select("#category-graph").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("border", "1px solid black");
+
+    var force = d3.layout.force()
+        .gravity(0.05)
+        .distance(100)
+        .charge(-100)
+        .size([width, height]);
+
+    $.post("/Category/GetCategoryGraphDataAsJson", { categoryId: <%= Model.Category.Id %> }, (graphData) => {
+        d3.json(graphData, (error, json) => {
+            if (error) throw error;
+
+            force
+                .nodes(json.Nodes)
+                .links(json.Links)
+                .start();
+
+            var link = svg.selectAll(".link")
+                .data(json.Links)
+                .enter().append("line")
+                .attr("class", "link");
+
+            var node = svg.selectAll(".node")
+                .data(json.Nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .call(force.drag);
+
+            node.append("circle")
+                .attr("r", 5);
+
+            node.append("text")
+                .attr("dx", 12)
+                .attr("dy", ".35em")
+                .text(d => d.name);
+
+            force.on("tick", () => {
+                link.attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
+            });
+        });
+    });
+</script>

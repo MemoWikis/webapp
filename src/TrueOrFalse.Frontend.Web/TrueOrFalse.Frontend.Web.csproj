@@ -360,7 +360,6 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
-    <TypeScriptCompile Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ts" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
       <DependentUpon>EditAggregation.ts</DependentUpon>

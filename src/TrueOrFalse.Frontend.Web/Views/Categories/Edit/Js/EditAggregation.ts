@@ -37,12 +37,12 @@
 });
 
 function loadModalBody() {
-    $('#EditAggregationModal .modal-body').html('<div style="text-align: center"><i class="fa fa-spinner fa-spin"></i></div>');
+    $('#EditAggregationModal .tab-body').html('<div style="text-align: center"><i class="fa fa-spinner fa-spin"></i></div>');
     $.ajax({
         url: '/EditCategory/AggregationModalContent?catId=' + $('#hhdCategoryId').val(),
         type: 'GET',
         success: function (data) {
-            $('#EditAggregationModal .modal-body')
+            $('#EditAggregationModal .tab-body')
                 .html(data);
             $('.show-tooltip').tooltip();
         }
