@@ -253,6 +253,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
 
+            bundles.Add(new ScriptBundle("bundles/CategoryGraph")
+                .Include("~/Scripts/vendor.somewhere/d3.js"));
+
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
