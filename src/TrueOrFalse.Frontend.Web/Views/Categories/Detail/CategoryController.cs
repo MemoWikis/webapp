@@ -108,6 +108,6 @@ public class CategoryController : BaseController
     [HttpPost]
     public JsonResult GetCategoryGraphDataAsJson(int categoryId)
     {
-        return GetCategoryGraphData.GetAsJson(Sl.CategoryRepo.GetById(categoryId));
+        return GetCategoryGraph.AsJson(Sl.CategoryRepo.GetById(categoryId));
     }
 }

@@ -252,6 +252,10 @@
     <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationMap.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationRepo.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuationExt.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\CategoryGraph.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\CategoryLink.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\CategoryNode.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\GraphJsonDtos.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetBreadCrumb.cs" />
@@ -261,7 +265,8 @@
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelationType.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
-    <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\GetCategoryGraphData.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\GetCategoriesDescendants.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\GetCategoryGraph.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />
