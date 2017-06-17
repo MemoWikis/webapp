@@ -54,7 +54,9 @@
             <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs">&nbsp;</i>Teamcity
             </a><br/>
-            <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %><br/>
+            <% if(Request.IsLocal){ %>
+                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %><br/>
+            <% } %>
             <% var assembly = Assembly.Load("TrueOrFalse"); %>
             <span style="color:darkgray">
                 (Build: <%= assembly.GetName().Version.Major %> am
