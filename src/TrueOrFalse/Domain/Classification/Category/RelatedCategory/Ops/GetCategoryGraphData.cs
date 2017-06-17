@@ -35,7 +35,7 @@ public class GetCategoryGraphData
 
     public static CategoryGraphDataResult Get(Category category)
     {
-        var descendants = ModifyRelationsForCategory.GetCategoriesDescendantsWithAppliedRules(category);
+        var descendants = GetCategoriesDescendants.WithAppliedRules(category);
 
         var nodes = new List<CategoryNode>
         {
