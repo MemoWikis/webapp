@@ -49,6 +49,9 @@
                 <% } %>
             </ul>
         </div>
+        <span>
+            Level: <b id="userLevelDisplay"><%= userSession.User.ActivityLevel %></b>
+        </span>
 <%
     }else {
 %> 
