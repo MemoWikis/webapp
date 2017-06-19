@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using Seedworks.Web.State;
 
-
-public class UserValuationCacheItem
-{
-    public int UserId;
-    public IList<CategoryValuation> CategoryValuations;
-
-    public bool IsBeingRefreshed;
-}
 
 public class UserValuationCache
 {
