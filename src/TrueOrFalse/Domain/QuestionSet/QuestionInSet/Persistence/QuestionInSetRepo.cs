@@ -1,6 +1,5 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
-using Seedworks.Lib.ValueObjects;
 
 public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
 {
