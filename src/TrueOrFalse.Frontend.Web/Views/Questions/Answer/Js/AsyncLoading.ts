@@ -1,6 +1,11 @@
 ﻿class AsyncLoading {
     constructor() {
+
+        if (Utils.IsInWidget())
+            return;
+
         $("#AnswerQuestion").ready(() => {
+
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
