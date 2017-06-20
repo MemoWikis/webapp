@@ -7,7 +7,7 @@ namespace Seedworks.Web.State
     {
         private static readonly ICache _cache;
         
-        public static int Count{ get { return _cache.Count; } }
+        public static int Count => _cache.Count;
 
         static Cache()
         {

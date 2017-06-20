@@ -8,7 +8,7 @@ public class UserValuationCache
 {
     public const int ExpirationSpanInMinutes = 60;
 
-    private static string GetCacheKey(int userId) => "UserValuationCashItem_" + userId;
+    public static string GetCacheKey(int userId) => "UserValuationCashItem_" + userId;
 
     public static UserValuationCacheItem GetItem(int userId)
     {
