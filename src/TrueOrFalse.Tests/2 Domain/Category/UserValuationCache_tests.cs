@@ -33,6 +33,7 @@ namespace TrueOrFalse.Tests
             RecycleContainer();
 
             Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));
+            Assert.That(Seedworks.Web.State.Cache.Count, Is.EqualTo(0));
 
             var cacheItem = UserValuationCache.GetItem(user.Id);
 

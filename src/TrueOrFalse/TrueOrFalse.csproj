@@ -161,17 +161,6 @@
     <Reference Include="RollbarSharp">
       <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.Persistence.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Web.Lib.Persistence">
-      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
-    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.2.1\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -381,6 +370,100 @@
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\ISessionManager.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\NHibernateHelper.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\RepositoryDb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\SessionExtensions.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\SessionFactoryContainer.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\CategoryAttributes.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Condition.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\ConditionComparisonType.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\ConditionContainer.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\ConditionNumericAbstract.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\FilterAttributes.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\FilterCodeGenerator.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\IConditionNumeric.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionAvgAggregate.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionBoolean.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionConjunction.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionDateTime.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionDecimal.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionDisjunction.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionDouble.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionHasAffiliateLink.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionInteger.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionList.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionObject.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionSingle.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionString.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionSubquery.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\ConditionTextSearch.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Condition\Types\CondtionEnum.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\ISearchDesc.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\OrderBy\OrderBy.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\OrderBy\OrderByCriteria.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\OrderBy\OrderDirection.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Pager\IPager.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Pager\Pager.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\Projections.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\QueryBatcher.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Query\SearchSpecificationBase.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.Setup\BaseSetup.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\BaseTypes\DomainEntity.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\BaseTypes\Entity.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IDataService.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IPersistable.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\IUser.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithCreatedBy.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithDateCreated.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithDateModified.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\Interfaces\WithVersion.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence\TypeExtensions.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\SettingType.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Types\SettingBoolean.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Types\SettingInteger.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Model\Types\SettingString.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\ISettingRepository.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingRepository.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingSearchDesc.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingSearchFilter.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\Persistence\SettingStorage.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib.Settings\SettingBag.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib\ExtensionMethods\CollectionExtensions.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib\ExtensionMethods\StringExtensions.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\BinarySize.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\MediaSize\MediaLength.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib\ValueObjects\MediaSize\TimeCode.cs" />
+    <Compile Include="Infrastructure\Seedworks\Lib\Web\UriUtils.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Application\AppData.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Application\BaseAppState.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Cache.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheAnalyzer.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemTypeSummary.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemTypeSummaryList.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\CacheAnalyzer\CacheItemWrapper.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\CacheAspNet.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Cache\Impl\ICache.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\ContextUtil.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\HttpCurrent.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\HttpCurrentNoWeb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\HttpCurrentWeb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\HttpExtensionMethods.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Request\IRequest.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Request\RequestNoWeb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Request\RequestWeb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\IResponse.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\Response.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\ResponseActionFilter.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\ResponseNoWeb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\HttpCurrent\Response\ResponseWeb.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandler.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandlerList.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Parameters\ParameterHandlerService.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\RequestData.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionBase.cs" />
+    <Compile Include="Infrastructure\Seedworks\Web.Lib.State\Session\SessionData.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
@@ -1004,6 +1087,7 @@
     <None Include="Domain\User\Membership\Invoice\InvoiceTemplate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Infrastructure\Seedworks\Lib.Settings\Model\Setting.hbm.xml" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
