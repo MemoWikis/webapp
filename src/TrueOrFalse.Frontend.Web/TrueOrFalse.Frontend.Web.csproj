@@ -342,6 +342,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />

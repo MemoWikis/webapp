@@ -627,14 +627,14 @@ fieldset[disabled] #MenuButton:hover {
 ul.AutocompleteHeader {
   max-width: 550px;
 }
-#level-display svg {
+.level-display svg {
   width: 32px;
-  height: 90%;
+  height: 32px;
 }
-#level-display circle {
-  fill: white;
+.level-display circle {
+  fill: #b9db4f;
 }
-#level-display #level-count {
+.level-display .level-count {
   fill: darkblue;
   font-weight: bolder;
   font-size: 1.3em;
