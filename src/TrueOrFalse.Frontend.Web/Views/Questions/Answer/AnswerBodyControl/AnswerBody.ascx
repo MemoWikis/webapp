@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
+<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -26,11 +27,15 @@
 
     <div style="float: right; margin-left: 10px;">
 
-        <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
+<%--    <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
             <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
+        </span>--%>
+        <span id="activityPointsDispaly">
+            <small>Punkte</small>
+            <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
+            <span class="info-tooltip"><i class="fa fa-info-circle"></i></span>
         </span>
-        <span id="activityPointsDispaly">Merk-Punkte: <span id="activityPoints"><%= Model.TotalActivityPoints %></span></span>
 
     </div>
     

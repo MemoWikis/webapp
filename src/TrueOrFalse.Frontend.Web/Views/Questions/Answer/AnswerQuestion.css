@@ -381,6 +381,16 @@
     padding-bottom: 30px;
   }
 }
+#activityPointsDispaly {
+  font-size: 22px;
+  font-family: sans-serif;
+  line-height: normal;
+  color: #b9db4f;
+}
+#activityPointsDispaly small {
+  font-size: 10px;
+  display: block;
+}
 #MarkdownCol {
   position: relative;
   min-height: 1px;
