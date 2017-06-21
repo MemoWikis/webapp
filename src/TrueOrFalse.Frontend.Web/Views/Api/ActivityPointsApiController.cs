@@ -21,7 +21,7 @@ public class ActivityPointsApiController : BaseController
             var newUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints());
 
             var levelPopupAsHtml = "";
-            if(oldUserLevel < newUserLevel)
+            //if(oldUserLevel < newUserLevel)
                 levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(newUserLevel, Sl.SessionUser.getTotalActivityPoints(), false), ControllerContext);
 
             return new JsonResult { Data = new { totalPoints = Sl.SessionUser.getTotalActivityPoints(), levelPopup = levelPopupAsHtml} };

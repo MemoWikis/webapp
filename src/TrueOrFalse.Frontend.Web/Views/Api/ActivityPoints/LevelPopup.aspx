@@ -1,5 +1,8 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<LevelPopupModel>" ContentType="text/xml" %>
 
+<%--<script type="text/javascript">
+    //$("#modalLogin").modal("show");
+</script>--%>
 
 <div id="levelPopupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -20,25 +23,25 @@
                 <% } %>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-xs-8">
                 <% if (Model.IsLoggedIn)
                    { %>
+                <div class="row">
+                    <div class="col-xs-8">
                         Das Nächste Level erreichst du bei <b><%= Model.PointsToNextLevel %></b> Punkten.
+                    </div>
+                    <div class="col-xs-4">
+                        <object data="/Images/memucho_MEMO_happy_blau.svg" type="image/svg+xml">
+                            Ihr Browser kann leider kein svg darstellen!
+                        </object>
+                    </div>
+                </div>
                 <% }
                    else
                    { %>
                     Wenn Du jetzt die Seite verlässt, verlierst du deine ActivityPoints und
-                    das eben errungene Level. <br/>
+                    das eben errungene Level. <br/> <br/>
                     <b>Melde dich jetzt an und werde immer schlauer mit memucho.de!</b>
                  <% } %>
-                        </div>
-                    <div class="col-xs-4">
-                        <object data="~/Images/memucho_MEMO_happy_blau.svg" type="image/svg+xml">
-                            Ihr Browser kann leider kein svg darstellen!
-                        </object>
-                    </div>
-                        </div>
             </div>
             <div class="modal-footer">
                 <% if (Model.IsLoggedIn)
@@ -48,7 +51,7 @@
                    else
                    { %>
                         <button type="button" class="btn" data-dismiss="modal">WEITER TESTEN</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">REGISTRIEREN</button>
+                        <button type="button" class="btn btn-primary redirect-to-register" data-dismiss="modal">REGISTRIEREN</button>
                 <% } %>
             </div>
         </div>
