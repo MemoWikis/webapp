@@ -22,7 +22,7 @@
     
         <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultHead.ascx", Model);  %>
     
-        <% if (Model.IsLoggedIn)
+<%--        <% if (Model.IsLoggedIn)
                 Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User));
             else
                 Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx",
@@ -31,7 +31,7 @@
                             ActivityPoints = Sl.SessionUser.getTotalActivityPoints(),
                             ActivityLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints())
                         }));
-           %>
+           %>--%>
 
         <% if (!Model.IsLoggedIn) { %>
             <div class="bs-callout bs-callout-info" id="divCallForRegistration" style="width: 100%; margin-top: 0; text-align: left; opacity: 0; display: none;">
