@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Owin.Security.Provider;
 using NHibernate;
 using NHibernate.Transform;
 using Seedworks.Lib.Persistence;
@@ -21,12 +22,23 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
                 .Where(q => q.UserId == userId && q.CategoryId == categoryId)
                 .SingleOrDefault();
 
-    public IList<CategoryValuation> GetByUser(int userId) => 
-        _session.QueryOver<CategoryValuation>()
-                .Where(q =>
-                    q.UserId == userId &&
-                    q.RelevancePersonal >= 0)
-                .List<CategoryValuation>();
+    public IList<CategoryValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
+    {
+        var cacheItem = UserValuationCache.GetItem(userId);
+        return cacheItem != null ? cacheItem.CategoryValuations : GetByUser(userId, onlyActiveKnowledge);
+    }
+
+
+    public IList<CategoryValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
+    {
+        var query = _session.QueryOver<CategoryValuation>()
+            .Where(q => q.UserId == userId);
+
+        if (onlyActiveKnowledge)
+            query.Where(q => q.RelevancePersonal >= -1);
+            
+        return query.List<CategoryValuation>();
+    } 
 
     public IList<CategoryValuation> GetByCategory(int categoryId) =>
         _session.QueryOver<CategoryValuation>()

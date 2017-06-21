@@ -44,6 +44,13 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true) => 
         GetByUser(user.Id, onlyActiveKnowledge);
 
+    public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
+    {
+        var cacheItem = UserValuationCache.GetItem(userId);
+        return cacheItem.QuestionValuations;
+    }
+
+
     public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
         var query = _session

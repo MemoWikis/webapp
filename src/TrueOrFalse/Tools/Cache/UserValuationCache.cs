@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
+using System.Threading;
 using Seedworks.Web.State;
 
 
@@ -15,31 +14,43 @@ public class UserValuationCache
         var cacheItem = Cache.Get<UserValuationCacheItem>(GetCacheKey(userId));
         if (cacheItem == null)
         {
-            cacheItem = GetItemFromDatabase(userId);
-            UpdateCacheItem(cacheItem, userId);
+           return CreateItemFromDatabase(userId);
         }
+
+        if (!cacheItem.IsBeingRefreshed) return cacheItem;
+        
+        while (true)
+        {
+            if (!cacheItem.IsBeingRefreshed)
+                return cacheItem;
+
+            Thread.Sleep(10);
+        }
+
+    }
+
+    private static UserValuationCacheItem CreateItemFromDatabase(int userId)
+    {
+        var cacheItem = new UserValuationCacheItem { UserId = userId, IsBeingRefreshed = true };
+        AddToCache(cacheItem, userId);
+        FillItemFromDatabase(cacheItem);
+        cacheItem.IsBeingRefreshed = false;
 
         return cacheItem;
     }
 
-    private static UserValuationCacheItem GetItemFromDatabase(int userId)
+    private static void AddToCache(UserValuationCacheItem cacheItem, int userId, bool setIsBeingRefreshedToFalse = true)
     {
-        return new UserValuationCacheItem
-        {
-            UserId = userId,
-            CategoryValuations = Sl.CategoryValuationRepo.GetByUser(userId)
-        };
+        Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes), slidingExpiration: true);
+
+        if (setIsBeingRefreshedToFalse)
+            cacheItem.IsBeingRefreshed = false;
     }
 
-    public static void UpdateValuations(IList<CategoryValuation> categoryValuations, int userId)
+    private static void FillItemFromDatabase(UserValuationCacheItem cacheItem)
     {
-        var cacheItem = Cache.Get<UserValuationCacheItem>(GetCacheKey(userId));
-        cacheItem.CategoryValuations = categoryValuations;
-        UpdateCacheItem(cacheItem, userId);
+        cacheItem.CategoryValuations = Sl.CategoryValuationRepo.GetByUser(cacheItem.UserId, onlyActiveKnowledge: false);
+        cacheItem.QuestionValuations = Sl.QuestionValuationRepo.GetByUser(cacheItem.UserId, onlyActiveKnowledge: false);
     }
-
-    public static void UpdateCacheItem(UserValuationCacheItem cacheItem, int userId)
-    {
-        Cache.Add(GetCacheKey(userId), cacheItem, new TimeSpan(0, ExpirationSpanInMinutes, 0));
-    }
+    
 }

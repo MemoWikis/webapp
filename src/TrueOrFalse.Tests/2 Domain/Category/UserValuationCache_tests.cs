@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web;
 using NUnit.Framework;
+using Seedworks.Web.State;
 
 namespace TrueOrFalse.Tests
 {
@@ -33,9 +34,21 @@ namespace TrueOrFalse.Tests
             RecycleContainer();
 
             Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(0));
-            Assert.That(Seedworks.Web.State.Cache.Count, Is.EqualTo(0));
+            Assert.That(Cache.Count, Is.EqualTo(0));
+
+            var cache = HttpRuntime.Cache;
 
             var cacheItem = UserValuationCache.GetItem(user.Id);
+
+            Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
+
+            cacheItem.CategoryValuations.RemoveAt(0);
+
+            var cacheItem2 = UserValuationCache.GetItem(user.Id);
+
+            //var cacheItem2 = Cache.Get<UserValuationCacheItem>(UserValuationCache.GetCacheKey(user.Id));
+
+            Assert.That(cacheItem2.CategoryValuations.Count, Is.EqualTo(2));
 
             Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));
 

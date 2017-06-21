@@ -24,13 +24,19 @@ namespace Seedworks.Web.State
         /// <param name="key"></param>
         /// <param name="obj"></param>
         /// <param name="expiration"></param>
-        public void Add(string key, object obj, TimeSpan expiration)
+        /// <param name="slidingExpiration"></param>
+        public void Add(string key, object obj, TimeSpan expiration, bool slidingExpiration = false)
         {
-            // The first approach removes an item from the cache if it has not been accessed for the given TimeSpan.
-            // HttpRuntime.Cache.Insert(key, obj, null, System.Web.Caching.Cache.NoAbsoluteExpiration, expiration);
 
+            if (slidingExpiration)
+            {
+                // The first approach removes an item from the cache if it has not been accessed for the given TimeSpan.
+                HttpRuntime.Cache.Insert(key, obj, null, System.Web.Caching.Cache.NoAbsoluteExpiration, expiration, CacheItemPriority.NotRemovable, null);
+                return;
+            }
+               
             // The second approach removes an item from the cache at a given point in time, here after <expiration> has elapsed.
-            HttpRuntime.Cache.Insert(key, obj, null, DateTime.Now + expiration, System.Web.Caching.Cache.NoSlidingExpiration);
+            HttpRuntime.Cache.Insert(key, obj, null, DateTime.Now + expiration, System.Web.Caching.Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
         }
 
         /// <summary>
