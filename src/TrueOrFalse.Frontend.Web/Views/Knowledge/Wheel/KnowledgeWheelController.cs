@@ -9,7 +9,7 @@
 
     public string GetForCategory(int categoryId)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromCache(UserId, categoryId);
+        var knowledgeSummary = KnowledgeSummaryLoader.RunFromDbCache(UserId, categoryId);
         return RenderPartialView(knowledgeSummary);
     }
 

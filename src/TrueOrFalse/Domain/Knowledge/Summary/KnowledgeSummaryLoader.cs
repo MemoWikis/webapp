@@ -6,7 +6,7 @@ using NHibernate.Criterion;
 
 public class KnowledgeSummaryLoader
 {
-    public static KnowledgeSummary RunFromCache(Category category, int userId)
+    public static KnowledgeSummary RunFromDbCache(Category category, int userId)
     {
         var categoryValuation = Sl.CategoryValuationRepo.GetBy(category.Id, userId);
 
@@ -31,9 +31,9 @@ public class KnowledgeSummaryLoader
         };
     }
 
-    public static KnowledgeSummary RunFromCache(int categoryId, int userId)
+    public static KnowledgeSummary RunFromDbCache(int categoryId, int userId)
     {
-        return RunFromCache(Sl.CategoryRepo.GetById(categoryId), userId);
+        return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
     }
 
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
