@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Seedworks.Web.State;
 
@@ -52,5 +53,9 @@ public class UserValuationCache
         cacheItem.CategoryValuations = Sl.CategoryValuationRepo.GetByUser(cacheItem.UserId, onlyActiveKnowledge: false);
         cacheItem.QuestionValuations = Sl.QuestionValuationRepo.GetByUser(cacheItem.UserId, onlyActiveKnowledge: false);
     }
-    
+
+    public static IList<QuestionValuation> GetQuestionValuations(int userId)
+    {
+        return GetItem(userId).QuestionValuations;
+    }
 }

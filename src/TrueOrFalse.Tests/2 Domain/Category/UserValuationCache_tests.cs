@@ -53,5 +53,11 @@ namespace TrueOrFalse.Tests
             Assert.That(HttpRuntime.Cache.Count, Is.EqualTo(1));
 
         }
+
+        [Test]
+        public void Foo()
+        {
+            var knowledgeSummary = KnowledgeSummaryLoader.RunFromDbCache(-1, -1);
+        }
     }
 }

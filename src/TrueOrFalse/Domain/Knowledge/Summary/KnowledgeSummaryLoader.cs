@@ -36,6 +36,22 @@ public class KnowledgeSummaryLoader
         return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
     }
 
+    public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    {
+        var questionValuation = UserValuationCache.GetQuestionValuations(userId);
+
+        //get all categories Id
+        //get all sets from all categories
+
+        //get all questions from categories and sets
+
+        //get all questionValuations 
+
+        //log time in serilog
+
+        return null;
+    }
+
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
         => Run(userId, 
             Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestions().GetIds(),
