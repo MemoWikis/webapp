@@ -323,12 +323,22 @@
     }
 }
 
+.apply-open-sans-font() {
+    font-family: 'Open Sans' !important;
+}
+
 #levelPopupModal {
+    &, & .modal-title, & .title-text {
+        .apply-open-sans-font;
+    }
+
     .title-text {
         font-size: 22px;
     }
 
     .level-display {
+        position: relative;
+        top: 7px;
         .level-count {
             fill: white;
         }
@@ -341,6 +351,10 @@
     .modal-footer {
         border-top: none;
         margin-top: unset;
+    }
+
+    .happy-memo-svg {
+        margin: 30px 45px 30px 30px;
     }
 }
 

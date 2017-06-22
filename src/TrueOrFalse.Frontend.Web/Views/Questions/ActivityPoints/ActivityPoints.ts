@@ -30,8 +30,13 @@
 
     private static showLevelPopup(levelPopup: string) {
         if (levelPopup != "") {
-            $("#AnswerBody").append($(levelPopup));
-            $(levelPopup).modal();
+            $("#levelPopupModal").remove();
+            var levelPopupObject = $(levelPopup);
+            levelPopupObject.find(".redirect-to-register").click(e => {
+                $(".TextLinkWithIcon").click();
+            });
+
+            levelPopupObject.modal();
         }
     }
 }

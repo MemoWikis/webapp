@@ -1,15 +1,12 @@
 ﻿<%@ Page Language="C#" Inherits="System.Web.Mvc.ViewPage<LevelPopupModel>" ContentType="text/xml" %>
 
-<%--<script type="text/javascript">
-    //$("#modalLogin").modal("show");
-</script>--%>
-
 <div id="levelPopupModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">
+                        <img class="happy-memo-svg" width="120" src="/Images/memucho_MEMO_happy_blau.svg" style="float: right">
                         <span class="title-text"><b>Fortschritt:</b> Du bist jetzt Level </span>
                         <span class="level-display">
                             <svg>
@@ -25,16 +22,7 @@
             <div class="modal-body">
                 <% if (Model.IsLoggedIn)
                    { %>
-                <div class="row">
-                    <div class="col-xs-8">
                         Das Nächste Level erreichst du bei <b><%= Model.PointsToNextLevel %></b> Punkten.
-                    </div>
-                    <div class="col-xs-4">
-                        <object data="/Images/memucho_MEMO_happy_blau.svg" type="image/svg+xml">
-                            Ihr Browser kann leider kein svg darstellen!
-                        </object>
-                    </div>
-                </div>
                 <% }
                    else
                    { %>
