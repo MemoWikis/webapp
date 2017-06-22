@@ -38,14 +38,21 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
     {
+        //Other Todos:
+        // - update category cache, on category changes (in repo)
+        // - update category relations cache, on relation changes (in repo)
+
         var questionValuation = UserValuationCache.GetQuestionValuations(userId);
 
-        //get all categories Id
-        //get all sets from all categories
+        //var aggregatedCategories = get all [from cache] categories by aggregated relations
+        //var aggregatedCategories = UserValuationCache.
 
-        //get all questions from categories and sets
 
-        //get all questionValuations 
+        //var aggregatedSets = get all [from cache] sets from all aggregatedCategories
+
+        //var allQuestionsInCategoryAggregated = in get all [from cache] questions in aggregatedCategories and aggregatedSets
+
+        //var allQuestionsValuated = get all questionValuated from allQuestionsInCategoryAggregated
 
         //log time in serilog
 

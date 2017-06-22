@@ -69,19 +69,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .ToList();
     }
 
-    public IList<Category> GetAggregatedCategories(Category category, bool includeSelf = false)
-    {
-        var aggregatedCategories = _categoryRelationRepo
-            .GetAll()
-            .Where(r => r.Category == category && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => r.RelatedCategory);
-
-        if(includeSelf)
-            aggregatedCategories = aggregatedCategories.Union(new List<Category>{category});
-
-         return aggregatedCategories.ToList();
-    }
-
     public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
     {
         var includingCategories = GetCategoriesForRelatedCategory(category, CategoryRelationType.IncludesContentOf);

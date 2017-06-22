@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Seedworks.Web.State;
 
-
 public class UserValuationCache
 {
     public const int ExpirationSpanInMinutes = 60;

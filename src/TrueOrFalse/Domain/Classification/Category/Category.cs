@@ -24,6 +24,7 @@ public class Category : DomainEntity, ICreator
     public virtual IList<Category> ParentCategories()
     {
         return CategoryRelations.Any()
+       
             ? CategoryRelations
                 .Where(r => r.CategoryRelationType == CategoryRelationType.IsChildCategoryOf)
                 .Select(x => x.RelatedCategory)
@@ -51,7 +52,7 @@ public class Category : DomainEntity, ICreator
 
     public virtual IList<Category> AggregatedCategories(bool includingSelf = false)
     {
-        return Sl.R<CategoryRepository>().GetAggregatedCategories(this, includingSelf);
+        return AggregatedCategoryLoader.FromDb(this, includingSelf);
     }
 
     public virtual IList<Category> NonAggregatedCategories()

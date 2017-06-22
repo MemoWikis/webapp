@@ -19,6 +19,7 @@ public class Sl
     public static UserRepo UserRepo => R<UserRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
+    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 

@@ -38,6 +38,8 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
+
+            CategoryCache.Init();
             
             if(!Settings.DisableAllJobs())
                 JobScheduler.Start();

@@ -247,6 +247,7 @@
     <Compile Include="Domain\Classification\Category\Ops\GetQuestionsForCategory.cs" />
     <Compile Include="Domain\Classification\Category\Ops\IsSpoilerCategory.cs" />
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\AggregatedCategoryLoader.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelationType.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
