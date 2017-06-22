@@ -6,16 +6,18 @@ public class AggregatedCategoryLoader
 {    
     public static IList<Category> FromDb(Category category, bool includeSelf = true)
     {
-        var categoryRelations = Sl.CategoryRelationRepo.GetAll();
+        var categoryRelations = Sl.CategoryRelationRepo
+            .GetAll()
+            .ToDictionary(r => r.Id, r => r);
 
         return FilterCategories(category, categoryRelations, includeSelf);
     }
 
-    private static IList<Category> FilterCategories(Category category, IList<CategoryRelation> categoryRelations, bool includeSelf)
+    private static IList<Category> FilterCategories(Category category, Dictionary<int, CategoryRelation> categoryRelations, bool includeSelf)
     {
         var aggregatedCategories = categoryRelations
-            .Where(r => r.Category == category && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => r.RelatedCategory);
+            .Where(r => r.Value.Category == category && r.Value.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => r.Value.RelatedCategory);
 
         if (includeSelf)
             aggregatedCategories = aggregatedCategories.Union(new List<Category> {category});
@@ -24,10 +26,9 @@ public class AggregatedCategoryLoader
     }
 
 
-    public static IList<Category> FromMemory(Category category, bool includeSelf = true)
+    public static IList<Category> FromCache(Category category, bool includeSelf = true)
     {
-        return FilterCategories(category, CategoryCache.CategoryRelations, includeSelf);
-
+        return FilterCategories(category, EntityCache.CategoryRelations, includeSelf);
     }
 
 

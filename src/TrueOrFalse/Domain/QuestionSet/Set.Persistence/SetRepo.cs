@@ -89,16 +89,25 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public Set GetByIdEager(int setId)
     {
-        Question creatorAlias = null;
+        //Question creatorAlias = null;
 
         return _session.QueryOver<Set>()
             .Where(set => set.Id == setId)
             //.Fetch(s => s.Creator).Eager
             //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
             .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
-            .Left.JoinQueryOver<Question>(s => s.Question)
+            .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .SingleOrDefault();
+    }
+
+    public override IList<Set> GetAll()
+    {
+        return _session.QueryOver<Set>()
+            .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+            .Left.JoinQueryOver(s => s.Question)
+            .Left.JoinQueryOver<Category>(s => s.Categories)
+            .List();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)

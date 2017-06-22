@@ -39,7 +39,7 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
-            CategoryCache.Init();
+            EntityCache.Init();
             
             if(!Settings.DisableAllJobs())
                 JobScheduler.Start();

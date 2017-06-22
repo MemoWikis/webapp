@@ -42,21 +42,50 @@ public class KnowledgeSummaryLoader
         // - update category cache, on category changes (in repo)
         // - update category relations cache, on relation changes (in repo)
 
-        var questionValuation = UserValuationCache.GetQuestionValuations(userId);
+        var aggregatedQuestions = new List<Question>();
 
-        //var aggregatedCategories = get all [from cache] categories by aggregated relations
-        var aggregatedCategories = AggregatedCategoryLoader.FromMemory(category);
-
-
-        //var aggregatedSets = get all [from cache] sets from all aggregatedCategories
+        var aggregatedCategories = AggregatedCategoryLoader.FromCache(category);
 
         //var allQuestionsInCategoryAggregated = in get all [from cache] questions in aggregatedCategories and aggregatedSets
 
-        //var allQuestionsValuated = get all questionValuated from allQuestionsInCategoryAggregated
+
+        foreach (var currentCategory in aggregatedCategories)
+        {
+            aggregatedQuestions.AddRange(EntityCache.CategoryQuestionsList[currentCategory.Id]);
+        }
+
+        var aggregatedSets = GetAllSetsWithAssociatedCategories(aggregatedCategories);
+
+        foreach (var set in aggregatedSets)
+        {
+            aggregatedQuestions.AddRange(set.Value.Questions());
+        }
+
+        aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
+
+        var aggregatedQuestionValuations = UserValuationCache.GetQuestionValuations(userId)
+            .Where(v => aggregatedQuestions.Any(q => q == v.Question)).ToList();
+
+        var aggregatedQuestionValuationsInWishKnowledge =
+            aggregatedQuestionValuations.Where(v => v.IsInWishKnowledge()).ToList();
+
+        var knowledgeSummary = new KnowledgeSummary
+        {
+            NotInWishknowledge = aggregatedQuestionValuations.Count(v => !v.IsInWishKnowledge()),
+            NotLearned = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned),
+            NeedsLearning = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
+            NeedsConsolidation = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
+            Solid = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid),
+        };
 
         //log time in serilog
 
-        return null;
+        return knowledgeSummary;
+    }
+
+    private static IEnumerable<KeyValuePair<int, Set>> GetAllSetsWithAssociatedCategories(IList<Category> aggregatedCategories)
+    {
+        return EntityCache.Sets.Where(s => s.Value.Categories.Any(c => aggregatedCategories.Any(ac => c == ac)));
     }
 
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 

@@ -814,7 +814,7 @@
     <Compile Include="Search\User\SearchUsers.cs" />
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
-    <Compile Include="Tools\Cache\CategoryCache.cs" />
+    <Compile Include="Tools\Cache\EntityCache.cs" />
     <Compile Include="Tools\Cache\UserValuationCache.cs" />
     <Compile Include="Tools\Cache\UserValuationCacheItem.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
