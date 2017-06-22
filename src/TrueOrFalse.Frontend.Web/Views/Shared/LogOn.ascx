@@ -50,10 +50,12 @@
             </ul>
         </div>
         <span class="level-display">
-            <svg>
-                <circle cx="50%" cy="50%" r="50%" />
-                <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= userSession.User.ActivityLevel %></text>
-            </svg>
+            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Dein Level">
+                <svg>
+                    <circle cx="50%" cy="50%" r="50%" />
+                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= userSession.User.ActivityLevel %></text>
+                </svg>
+            </span>
         </span>
 <%
     }else {

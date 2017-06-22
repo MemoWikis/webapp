@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<AnswerBodyModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="TrueOrFalse" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -34,7 +33,9 @@
         <span id="activityPointsDispaly">
             <small>Punkte</small>
             <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
-            <span class="info-tooltip"><i class="fa fa-info-circle"></i></span>
+            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Punkte für das beantworten von Fragen">
+                <i class="fa fa-info-circle"></i>
+            </span>
         </span>
 
     </div>
