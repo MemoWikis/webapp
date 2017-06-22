@@ -36,7 +36,7 @@ public class KnowledgeSummaryLoader
         return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
     }
 
-    public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
     {
         //Other Todos:
         // - update category cache, on category changes (in repo)
@@ -45,7 +45,7 @@ public class KnowledgeSummaryLoader
         var questionValuation = UserValuationCache.GetQuestionValuations(userId);
 
         //var aggregatedCategories = get all [from cache] categories by aggregated relations
-        //var aggregatedCategories = UserValuationCache.
+        var aggregatedCategories = AggregatedCategoryLoader.FromMemory(category);
 
 
         //var aggregatedSets = get all [from cache] sets from all aggregatedCategories
