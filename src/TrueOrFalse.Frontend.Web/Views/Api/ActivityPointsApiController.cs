@@ -21,7 +21,7 @@ public class ActivityPointsApiController : BaseController
             var newUserLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints());
 
             var levelPopupAsHtml = "";
-            //if(oldUserLevel < newUserLevel)
+            if (oldUserLevel < newUserLevel)
                 levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(newUserLevel, Sl.SessionUser.getTotalActivityPoints(), false), ControllerContext);
 
             return new JsonResult { Data = new { totalPoints = Sl.SessionUser.getTotalActivityPoints(), levelPopup = levelPopupAsHtml} };
@@ -32,11 +32,11 @@ public class ActivityPointsApiController : BaseController
             var oldUserLevel = Sl.SessionUser.User.ActivityLevel;
             activityPoints.User = Sl.SessionUser.User;
             Sl.ActivityPointsRepo.Create(activityPoints);
-            Sl.UserRepo.UpdateActivityPointsData(); //TODO:Julian alternatively make more efficient update function (current points + new ones)
+            Sl.UserRepo.UpdateActivityPointsData();
             Sl.SessionUser.UpdateUser();
 
             var levelPopupAsHtml = "";
-            //if(oldUserLevel < Sl.SessionUser.User.ActivityLevel)
+            if (oldUserLevel < Sl.SessionUser.User.ActivityLevel)
                 levelPopupAsHtml = ViewRenderer.RenderPartialView("~/Views/Api/ActivityPoints/LevelPopup.aspx", new LevelPopupModel(Sl.SessionUser.User.ActivityLevel, Sl.SessionUser.User.ActivityPoints, true), ControllerContext);
             
             return new JsonResult { Data = new { totalPoints = Sl.SessionUser.User.ActivityPoints, userLevel = Sl.SessionUser.User.ActivityLevel, levelPopup = levelPopupAsHtml} };
