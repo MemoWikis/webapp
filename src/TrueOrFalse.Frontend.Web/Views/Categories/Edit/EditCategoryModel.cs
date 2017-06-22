@@ -82,7 +82,7 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
-        AggregatedCategories = category.AggregatedCategories();
+        AggregatedCategories = category.AggregatedCategories(includingSelf: false);
         NonAggregatedCategories = category.NonAggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;

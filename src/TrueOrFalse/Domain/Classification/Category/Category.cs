@@ -50,7 +50,7 @@ public class Category : DomainEntity, ICreator
             : new List<Category>();
     }
 
-    public virtual IList<Category> AggregatedCategories(bool includingSelf = false)
+    public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
         return AggregatedCategoryLoader.FromDb(this, includingSelf);
     }
@@ -59,7 +59,7 @@ public class Category : DomainEntity, ICreator
     {
         return Sl.R<CategoryRepository>()
             .GetDescendants(Id)
-            .Except(AggregatedCategories())
+            .Except(AggregatedCategories(includingSelf: false))
             .Except(CategoriesToExclude())
             .Distinct()
             .ToList();

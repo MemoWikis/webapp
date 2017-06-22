@@ -4,7 +4,7 @@ using System.Linq;
 
 public class AggregatedCategoryLoader
 {    
-    public static IList<Category> FromDb(Category category, bool includeSelf = false)
+    public static IList<Category> FromDb(Category category, bool includeSelf = true)
     {
         var categoryRelations = Sl.CategoryRelationRepo.GetAll();
 
@@ -24,9 +24,9 @@ public class AggregatedCategoryLoader
     }
 
 
-    public static IList<Category> FromMemory(Category category)
+    public static IList<Category> FromMemory(Category category, bool includeSelf = true)
     {
-        return FilterCategories(category, CategoryCache.CategoryRelations, true);
+        return FilterCategories(category, CategoryCache.CategoryRelations, includeSelf);
 
     }
 
