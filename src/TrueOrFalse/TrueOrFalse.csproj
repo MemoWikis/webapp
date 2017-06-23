@@ -382,6 +382,12 @@
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
     <Compile Include="Domain\Sponsor\Sponsor.cs" />
     <Compile Include="Domain\Sponsor\SponsorRepo.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Ops\TransferActivityPoints.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Persistence\ActivityPointsMap.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Persistence\ActivityPointsRepo.cs" />
+    <Compile Include="Domain\User\ActivityPoints\ActivityPointsType.cs" />
+    <Compile Include="Domain\User\ActivityPoints\ActivityPoints.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Ops\UserLevelCalculator.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
@@ -838,6 +844,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs178.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs177.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs176.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs175.cs" />
@@ -937,6 +944,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs164.cs" />
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
+    <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
     <Compile Include="Web\Attributes\Validation\MustBeTrueAttribute.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />

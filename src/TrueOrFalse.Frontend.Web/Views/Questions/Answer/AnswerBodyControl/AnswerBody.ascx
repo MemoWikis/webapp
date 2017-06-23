@@ -26,9 +26,16 @@
 
     <div style="float: right; margin-left: 10px;">
 
-        <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
+<%--    <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
             <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
+        </span>--%>
+        <span id="activityPointsDispaly">
+            <small>Punkte</small>
+            <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
+            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Punkte für das beantworten von Fragen">
+                <i class="fa fa-info-circle"></i>
+            </span>
         </span>
 
     </div>
