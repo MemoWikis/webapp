@@ -276,8 +276,8 @@
                 </div>
                 <div class="modal-body clearfix">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#">Unterthemen einschließen</a></li>
-                        <li><a href="#">Graphen Ansicht</a></li>
+                        <li class="tab-unterthemen active"><a href="#">Unterthemen einschließen</a></li>
+                        <li class="tab-categories-graph"><a href="#">Graphen Ansicht</a></li>
                     </ul>
                     <div class="tab-body">
                         <div style="text-align: center">

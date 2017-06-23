@@ -26,5 +26,7 @@ $(() => {
         }
     });
 
+    new EditCategoryNavBar();
+
     new CategoryDelete();
 });
