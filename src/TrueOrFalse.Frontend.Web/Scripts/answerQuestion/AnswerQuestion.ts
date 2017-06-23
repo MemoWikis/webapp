@@ -121,6 +121,7 @@ class AnswerQuestion {
                 e => {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
+                    ActivityPoints.AddPointsFromCountAsCorrect();
                 });
 
         $("#CountWrongAnswers")
@@ -136,6 +137,7 @@ class AnswerQuestion {
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
+                ActivityPoints.AddPointsFromShowSolutionAnswer();
                 return false;
             });
 
@@ -245,6 +247,9 @@ class AnswerQuestion {
 
     private HandleCorrectAnswer() {
         this.AnsweredCorrectly = true;
+
+        ActivityPoints.AddPointsFromRightAnswer();
+
         if (this.SolutionType !== SolutionType.FlashCard) {
             this._inputFeedback.ShowSuccess();
         }
@@ -257,7 +262,9 @@ class AnswerQuestion {
         this._onCorrectAnswer();
     }
 
-    private HandleWrongAnswer(result: any, answerText : string) {
+    private HandleWrongAnswer(result: any, answerText: string) {
+        ActivityPoints.AddPointsFromWrongAnswer();
+
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
             $('#btnNext').unbind();

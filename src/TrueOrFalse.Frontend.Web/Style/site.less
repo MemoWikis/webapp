@@ -170,7 +170,6 @@ a {
     &.Category {color: @color-category;}
 }
 
-
 /*Images*/
 
 img {
@@ -531,6 +530,24 @@ img {
 
 ul.AutocompleteHeader{
     max-width: 550px;
+}
+
+.level-display {
+    svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    circle {
+        fill: RGB(185,219,79);
+    }
+
+    .level-count {
+        fill: darkblue;
+        font-weight: bolder;
+        font-size: 1.3em;
+        text-anchor: middle;
+    }
 }
 
 /* MASTER SECTION
@@ -1356,6 +1373,7 @@ li.google-visualization-tooltip-item span {
 /*Fonts*/
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
+    //font-family: "Times New Roman", Times, serif;
 }
 
 h1 {

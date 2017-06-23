@@ -627,6 +627,19 @@ fieldset[disabled] #MenuButton:hover {
 ul.AutocompleteHeader {
   max-width: 550px;
 }
+.level-display svg {
+  width: 32px;
+  height: 32px;
+}
+.level-display circle {
+  fill: #b9db4f;
+}
+.level-display .level-count {
+  fill: darkblue;
+  font-weight: bolder;
+  font-size: 1.3em;
+  text-anchor: middle;
+}
 /* MASTER SECTION
 ----------------------------------------------------------*/
 #MasterSection {

@@ -373,6 +373,12 @@
     <Compile Include="Domain\Question\SolutionType\MultipleChoice\Choice.cs" />
     <Compile Include="Domain\Sponsor\Sponsor.cs" />
     <Compile Include="Domain\Sponsor\SponsorRepo.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Ops\TransferActivityPoints.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Persistence\ActivityPointsMap.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Persistence\ActivityPointsRepo.cs" />
+    <Compile Include="Domain\User\ActivityPoints\ActivityPointsType.cs" />
+    <Compile Include="Domain\User\ActivityPoints\ActivityPoints.cs" />
+    <Compile Include="Domain\User\ActivityPoints\Ops\UserLevelCalculator.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportIntervalResult.cs" />
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
