@@ -101,13 +101,16 @@ public class SetRepo : RepositoryDbBase<Set>
             .SingleOrDefault();
     }
 
-    public override IList<Set> GetAll()
+    public IList<Set> GetAllEager()
     {
         return _session.QueryOver<Set>()
             .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
             .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
-            .List();
+            .List()
+            .GroupBy(s => s.Id)
+            .Select(s => s.First())
+            .ToList();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
