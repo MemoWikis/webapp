@@ -106,7 +106,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
                 .Include("~/Scripts/vendor.somewhere/simplemde.js")
                 .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
-                .Include("~/Scripts/vendor.somewhere/d3-force.js"));
+                .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -255,9 +255,6 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/CategoryGraph")
-                .Include("~/Scripts/vendor.somewhere/d3.js"));
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;
