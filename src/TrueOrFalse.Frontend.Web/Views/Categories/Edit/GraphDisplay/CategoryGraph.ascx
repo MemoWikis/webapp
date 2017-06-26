@@ -10,19 +10,16 @@
         .attr("height", height);
 
     var force = d3.layout.force()
-        .gravity(0.05)
-        .distance(100)
-        .charge(-100)
+        .distance(200)
+        .linkStrength(0.1)
+        .charge(-1000)
         .size([width, height]);
 
-    var json = $.parseJSON('<%= Model.GraphDataString %>');
-
-    console.log(json);
+    var json = $.parseJSON('<%= @Model.GraphDataString %>');
 
             force
                 .nodes(json.Nodes)
                 .links(json.Links)
-                .linkDistance(250)
                 .start();
 
             var link = svg.selectAll(".link")
@@ -53,5 +50,5 @@
                 node.attr("transform", d => "translate(" + d.x + "," + d.y + ")");
             });
 
-    $("#category-graph text").first().css("font-weight", "bold");
+    $("#category-graph text").first().css({ "font-weight": "bold", "fill": "red"});
 </script>

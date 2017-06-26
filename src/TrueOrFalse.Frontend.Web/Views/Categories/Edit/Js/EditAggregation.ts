@@ -2,7 +2,7 @@
 
     $('#EditAggregationModal').on('show.bs.modal', () => {
         initilizeNavBar();
-        loadEditAggreationTab();
+        $("#EditAggregationModal .nav .tab-unterthemen").click();
     });
 
     $('#btnEditAggregation').click(e => {
