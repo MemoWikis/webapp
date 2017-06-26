@@ -343,7 +343,6 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
-    <Content Include="Scripts\vendor.somewhere\d3-force.js" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
@@ -366,6 +365,12 @@
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
+    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
+      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
+      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
@@ -374,9 +379,6 @@
     <Content Include="Scripts\vendor.somewhere\jquery.dataTables.js" />
     <Content Include="Views\Api\ActivityPoints\ActivityLevelProgress.aspx" />
     <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
-    <Content Include="Views\Categories\Edit\Js\Page - Copy.js">
-      <DependentUpon>EditCategoryNavBar.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -390,9 +392,6 @@
       <DependentUpon>Error.less</DependentUpon>
     </Content>
     <Content Include="Views\Error\Error.less" />
-    <Content Include="Views\Categories\Edit\Js\Page - Copy.js.map">
-      <DependentUpon>EditCategoryNavBar.ts</DependentUpon>
-    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -1136,7 +1135,6 @@
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
-    <TypeScriptCompile Include="Views\Categories\Edit\Js\EditCategoryNavBar.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
@@ -1794,9 +1792,6 @@
     <Content Include="Views\Categories\Edit\EditCategory.css">
       <DependentUpon>EditCategory.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
-      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
       <DependentUpon>ImageUpload.ts</DependentUpon>
     </Content>
@@ -2362,9 +2357,6 @@
     </Content>
     <Content Include="Views\Questions\Edit\Js\References.js.map">
       <DependentUpon>References.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
-      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\answerQuestion\PinQuestion.js.map">
       <DependentUpon>PinQuestion.ts</DependentUpon>

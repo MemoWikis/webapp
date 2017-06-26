@@ -104,10 +104,4 @@ public class CategoryController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
-
-    [HttpPost]
-    public JsonResult GetCategoryGraphDataAsJson(int categoryId)
-    {
-        return GetCategoryGraph.AsJson(Sl.CategoryRepo.GetById(categoryId));
-    }
 }
