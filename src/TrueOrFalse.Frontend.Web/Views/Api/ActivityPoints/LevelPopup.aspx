@@ -28,9 +28,9 @@
                 <% }
                    else
                    { %>
-                    Wenn Du jetzt die Seite verlässt, verlierst du deine ActivityPoints und
+                    Wenn du dich jetzt registrierst, behältst du deine Punkte und
                     das eben errungene Level. <br/> <br/>
-                    <b>Melde dich jetzt an und werde immer schlauer mit memucho.de!</b>
+                    <b>Registriere dich jetzt an und werde immer schlauer mit memucho.de!</b>
                  <% } %>
             </div>
             <div class="modal-footer">
