@@ -8,7 +8,7 @@
 
     public class Link
     {
-        public int SourceIndex;
-        public int TargetIndex;
+        public int source;
+        public int target;
     }
 }

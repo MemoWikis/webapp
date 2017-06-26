@@ -14,7 +14,7 @@ public class GetCategoryGraph
         {
             var parentIndex = graphData.Nodes.FindIndex(node => node.Category == link.Parent);
             var childIndex = graphData.Nodes.FindIndex(node => node.Category == link.Child);
-            links.Add(new Link { SourceIndex = parentIndex, TargetIndex = childIndex });
+            links.Add(new Link { source = parentIndex, target = childIndex });
         }
 
         var nodes = graphData.Nodes.Select(node => 

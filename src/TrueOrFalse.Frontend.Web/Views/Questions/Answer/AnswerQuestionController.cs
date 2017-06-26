@@ -510,7 +510,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec);
 
         var currentUrl = Links.AnswerQuestion(question, elementOnPage, activeSearchSpec.Key);
-        return GetQuestionPageData(model, currentUrl, new sessionData());
+        return GetQuestionPageData(model, currentUrl, new SessionData());
     }
 
     public string RenderAnswerBodyBySet(int questionId, int setId)
@@ -526,7 +526,7 @@ public class AnswerQuestionController : BaseController
         var model = new AnswerQuestionModel(questionViewGuid, set, question);
 
         var currenUrl = Links.AnswerQuestion(question, set);
-        return GetQuestionPageData(model, currenUrl, new sessionData());
+        return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
     public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
@@ -577,7 +577,7 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new sessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), true);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -598,10 +598,10 @@ public class AnswerQuestionController : BaseController
         int currentStepIdx = model.TestSessionCurrentStep;
         bool isLastStep = model.TestSessionIsLastStep;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, new sessionData(currentSessionHeader, currentStepIdx, isLastStep), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), true);
     }
 
-    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, sessionData sessionData, bool isSession = false)
+    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, SessionData sessionData, bool isSession = false)
     {
         string nextPageLink = "", previousPageLink = "";
         if (model.HasNextPage)
@@ -642,9 +642,9 @@ public class AnswerQuestionController : BaseController
         });
     }
 
-    private class sessionData
+    private class SessionData
     {
-        public sessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, Guid currentStepGuid = new Guid())
+        public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, Guid currentStepGuid = new Guid())
         {
             CurrentSessionHeader = currentSessionHeader;
             CurrentStepIdx = currentStepIdx;
