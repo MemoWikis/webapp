@@ -37,8 +37,8 @@
 });
 
 
-function initilizeNavBar()
-{
+function initilizeNavBar() {
+    $("#EditAggregationModal .nav .tab-unterthemen").unbind();
     $("#EditAggregationModal .nav .tab-unterthemen").click(e => {
         e.preventDefault();
         $("#EditAggregationModal .nav .tab-unterthemen").addClass("active");
@@ -48,6 +48,7 @@ function initilizeNavBar()
         loadEditAggreationTab();
     });
 
+    $("#EditAggregationModal .nav .tab-categories-graph").unbind();
     $("#EditAggregationModal .nav .tab-categories-graph").click(e => {
         e.preventDefault();
         $("#EditAggregationModal .nav .tab-categories-graph").addClass("active");
