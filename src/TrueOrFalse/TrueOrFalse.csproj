@@ -244,13 +244,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Classification\Category\AggregatedContent.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuation.cs" />
-    <Compile Include="Domain\Classification\Category\CategoryValuation\Ops\CreateOrUpdateSetValue.cs" />
+    <Compile Include="Domain\Classification\Category\CategoryValuation\Ops\CreateOrUpdateCategoryValuation.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationMap.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\Persistence\CategoryValuationRepo.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryValuationExt.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\CategoryGraph.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\CategoryLink.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\CategoryNode.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\GraphJsonDtos.cs" />
+    <Compile Include="Domain\Classification\Category\Graph\Ops\GetCategoryGraph.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetBreadCrumb.cs" />
@@ -259,6 +265,8 @@
     <Compile Include="Domain\Classification\Category\Ops\UpdateSetCountForCategory.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelation.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\CategoryRelationType.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\CategoryAggregation.cs" />
+    <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\GetCategoriesDescendants.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Ops\ModifyRelationsForCategory.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationMap.cs" />
     <Compile Include="Domain\Classification\Category\RelatedCategory\Persistence\CategoryRelationRepo.cs" />
@@ -341,6 +349,7 @@
     <Compile Include="Domain\Knowledge\Learning\TrainingPlan\TrainingQuestion.cs" />
     <Compile Include="Domain\Knowledge\Probability\AlgoInsight\Features_Question\QuestionFeatureGroups.cs" />
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
+    <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
     <Compile Include="Domain\Knowledge\TestSession\GetRandomQuestions.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
@@ -732,6 +741,8 @@
     <Compile Include="Search\User\SearchUsers.cs" />
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
+    <Compile Include="Tools\Cache\CategoryCache.cs" />
+    <Compile Include="Tools\Cache\UserValuationCache.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />
     <Compile Include="Domain\Question\AnswerHistory\Answer.cs" />
@@ -816,6 +827,7 @@
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueRepo.cs" />
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueType.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeSummariesForCategory.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeStati.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />

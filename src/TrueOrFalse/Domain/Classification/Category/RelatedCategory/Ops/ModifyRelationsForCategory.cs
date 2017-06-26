@@ -50,7 +50,7 @@ public class ModifyRelationsForCategory
             {
                 Category = category,
                 RelatedCategory = relatedCategory,
-                CategoryRelationType = relationType
+                CategoryRelationType = relationType 
             });
 
     }
@@ -58,5 +58,25 @@ public class ModifyRelationsForCategory
     public static void AddParentCategory(Category category, Category relatedCategory)
     {
         AddCategoryRelationOfType(category, relatedCategory, CategoryRelationType.IsChildCategoryOf);
+    }
+
+    public static void UpdateRelationsOfTypeIncludesContentOf(Category category, bool persist = true)
+    {
+        var catRepo = Sl.CategoryRepo;
+
+        var descendants = GetCategoriesDescendants.WithAppliedRules(category);
+
+        UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
+
+        if(!persist)
+            return;
+
+        catRepo.Update(category);
+
+        category.UpdateAggregatedContent();
+
+        catRepo.Update(category);
+
+        KnowledgeSummaryUpdate.RunForCategory(category.Id);
     }
 }

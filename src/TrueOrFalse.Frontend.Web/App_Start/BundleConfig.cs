@@ -104,7 +104,9 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
-                .Include("~/Scripts/vendor.somewhere/simplemde.js"));
+                .Include("~/Scripts/vendor.somewhere/simplemde.js")
+                .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
+                .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));

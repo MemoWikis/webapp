@@ -41,6 +41,13 @@ public class GameController : BaseController
                 gameModel.Sets = date.Sets;
         }
 
+        if (Request["categoryId"] != null)
+        {
+            var category = Sl.R<CategoryRepository>().GetById(Convert.ToInt32(Request["categoryId"]));
+            if (category != null)
+                gameModel.Sets = category.GetSetsNonAggregated();
+        }
+
         return View(_viewLocation, gameModel);
     }
 

@@ -9,7 +9,7 @@ public class CardSingleCategoryModel : BaseModel
     public int CategoryId;
     public string CategoryName;
     public string CategoryText;
-    public int QCount; //Number of questions
+    public int QuestionCount;
 
     public ImageFrontendData ImageFrontendData;
 
@@ -24,7 +24,7 @@ public class CardSingleCategoryModel : BaseModel
         CategoryName = category.Name;
         CategoryText = categoryText ?? category.Description;
 
-        QCount = category.CountQuestions;
+        QuestionCount = category.GetCountQuestions();
     }
 
     public static CardSingleCategoryModel GetCardSingleCategoryModel(int categoryId, string categoryText = null)

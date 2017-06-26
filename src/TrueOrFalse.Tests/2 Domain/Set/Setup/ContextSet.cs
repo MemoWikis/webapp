@@ -30,23 +30,25 @@ public class ContextSet
         User creator = null, 
         int numberOfQuestions = 0,
         int amountCategoriesPerQuestion = 0,
-        IList<Question> questions = null)
+        IList<Question> questions = null,
+        List<Category> categories = null)
     {
         var set = new Set{
             Name = name, 
             Text = text, 
-            Creator =  creator ?? Creator
+            Creator =  creator ?? Creator,
+            Categories = categories ?? new List<Category>()
         };
             
         All.Add(set);
 
-        var categories = ContextCategory.New().Add(amountCategoriesPerQuestion).Persist().All;
+        var categoriesForQuestions = ContextCategory.New().Add(amountCategoriesPerQuestion).Persist().All;
 
         if (questions != null)
-            AddQuestions(questions, categories);
+            AddQuestions(questions, categoriesForQuestions);
 
         for (var i = 0; i < numberOfQuestions; i++)
-            AddQuestion("question_" + i, "answer_" + i, categories);
+            AddQuestion("question_" + i, "answer_" + i, categoriesForQuestions);
 
         return this;
     }

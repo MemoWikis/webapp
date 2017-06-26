@@ -10,12 +10,20 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.Description);
         Map(x => x.WikipediaURL);
 
+        Map(x => x.CategoriesToExcludeIdsString);
+        Map(x => x.CategoriesToIncludeIdsString);
+
         Map(x => x.DisableLearningFunctions);
 
         References(x => x.Creator);
 
         Map(x => x.TopicMarkdown);
         Map(x => x.FeaturedSetsIdsString);
+
+        Map(x => x.AggregatedContentJson);
+
+        Map(x => x.CountQuestionsAggregated);
+        Map(x => x.CountSetsAggregated);
 
         Map(x => x.CountQuestions);
         Map(x => x.CountSets);

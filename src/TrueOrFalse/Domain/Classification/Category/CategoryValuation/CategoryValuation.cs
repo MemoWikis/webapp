@@ -18,4 +18,13 @@ public class CategoryValuation : DomainEntity
     }
 
     public virtual bool IsInWishKnowledge() { return RelevancePersonal > 0; }
+
+    public virtual void UpdateKnowledgeSummary()
+    {
+        var knowledgeSummary = KnowledgeSummaryLoader.Run(UserId, CategoryId, false);
+        CountNotLearned = knowledgeSummary.NotLearned;
+        CountNeedsLearning = knowledgeSummary.NeedsLearning;
+        CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
+        CountSolid = knowledgeSummary.Solid;
+    }
 }
