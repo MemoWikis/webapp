@@ -434,6 +434,11 @@
   border-top: none;
   margin-top: unset;
 }
+@media (min-width: 767px) {
+  #levelPopupModal .modal-footer {
+    margin-bottom: 20px;
+  }
+}
 #MarkdownCol {
   position: relative;
   min-height: 1px;
