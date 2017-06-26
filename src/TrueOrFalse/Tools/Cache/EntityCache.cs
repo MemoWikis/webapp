@@ -21,16 +21,16 @@ public class EntityCache
      
     public static void Init()
     {
-        var stopWach = Stopwatch.StartNew();
+        var stopWatch = Stopwatch.StartNew();
 
-        Logg.r().Information("EntityCache Start {Elapsed}", stopWach.Elapsed);
+        Logg.r().Information("EntityCache Start {Elapsed}", stopWatch.Elapsed);
         
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAll();
         var aggregatedCategoryRelations = Sl.CategoryRelationRepo.GetAll();
         var sets = Sl.SetRepo.GetAllEager();
 
-        Logg.r().Information("EntityCache LoadAllEntities {Elapsed}", stopWach.Elapsed);
+        Logg.r().Information("EntityCache LoadAllEntities {Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToDictionary(q => q.Id, q => q));
         IntoForeverCache(_cacheKeyCategories, categories.ToDictionary(c => c.Id, c => c));
@@ -38,7 +38,7 @@ public class EntityCache
         IntoForeverCache(_cacheKeySets, sets.ToDictionary(s => s.Id, s => s));
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
 
-        Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWach.Elapsed);
+        Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
     }
 
     private static Dictionary<int, IList<Question>> GetCategoryQuestionsList(IList<Question> questions)

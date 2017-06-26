@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
@@ -36,18 +37,22 @@ public class KnowledgeSummaryLoader
         return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
     }
 
+    public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    {
+        return RunFromMemoryCache(EntityCache.Categories[categoryId], userId);
+    }
+
     public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
     {
         //Other Todos:
         // - update category cache, on category changes (in repo)
         // - update category relations cache, on relation changes (in repo)
 
+        var stopWatch = Stopwatch.StartNew();
+
         var aggregatedQuestions = new List<Question>();
 
         var aggregatedCategories = AggregatedCategoryLoader.FromCache(category);
-
-        //var allQuestionsInCategoryAggregated = in get all [from cache] questions in aggregatedCategories and aggregatedSets
-
 
         foreach (var currentCategory in aggregatedCategories)
         {
@@ -78,7 +83,7 @@ public class KnowledgeSummaryLoader
             Solid = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid),
         };
 
-        //log time in serilog
+        Logg.r().Information("Loaded KnowledgeSummary in {Elapsed}", stopWatch.Elapsed);
 
         return knowledgeSummary;
     }
