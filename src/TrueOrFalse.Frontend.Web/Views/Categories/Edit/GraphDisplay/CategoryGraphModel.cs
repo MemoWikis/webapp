@@ -11,6 +11,11 @@ public class CategoryGraphModel : BaseModel
     {
         Category = category;
         GraphData = GetCategoryGraph.AsJson(category);
-        GraphDataString = new JavaScriptSerializer().Serialize(GraphData.Data);
+        GraphDataString = EscapeChars(new JavaScriptSerializer().Serialize(GraphData.Data));
+    }
+
+    private string EscapeChars(string objectString)
+    {
+        return objectString.Replace(@"\r", "").Replace(@"\n", "").Replace("\'", @"\'");
     }
 }
