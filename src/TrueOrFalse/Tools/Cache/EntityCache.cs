@@ -17,7 +17,7 @@ public class EntityCache
     public static Dictionary<int, CategoryRelation> CategoryRelations => (Dictionary<int, CategoryRelation>)HttpRuntime.Cache[_cacheKeyCategoryRelations];
     public static Dictionary<int, Set> Sets => (Dictionary<int, Set>)HttpRuntime.Cache[_cacheKeySets];
 
-    public static Dictionary<int, IList<Question>> CategoryQuestionsList = (Dictionary<int, IList<Question>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionsList];
+    public static Dictionary<int, IList<Question>> CategoryQuestionsList => (Dictionary<int, IList<Question>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionsList];
      
     public static void Init()
     {
