@@ -24,23 +24,23 @@
             <div class="modal-body">
                 <% if (Model.IsLoggedIn)
                    { %>
-                        Das Nächste Level erreichst du bei <b><%= Model.PointsToNextLevel %></b> Punkten.
+                        Das nächste Level erreichst du bei <b><%= Model.PointsToNextLevel %></b> Punkten.
                 <% }
                    else
                    { %>
                     Wenn du dich jetzt registrierst, behältst du deine Punkte und
-                    das eben errungene Level. <br/> <br/>
-                    <b>Registriere dich jetzt an und werde immer schlauer mit memucho.de!</b>
+                    dein erreichtes Level. <br/> <br/>
+                    <b>Registriere dich jetzt und werde immer schlauer mit memucho!</b>
                  <% } %>
             </div>
             <div class="modal-footer">
                 <% if (Model.IsLoggedIn)
                    { %>
-                        <button type="button" class="btn" data-dismiss="modal">WEITER LERNEN</button>
+                        <button type="button" class="btn" data-dismiss="modal">WEITERLERNEN</button>
                 <% }
                    else
                    { %>
-                        <button type="button" class="btn" data-dismiss="modal">WEITER TESTEN</button>
+                        <button type="button" class="btn" data-dismiss="modal">WEITERMACHEN</button>
                         <button type="button" class="btn btn-primary redirect-to-register" data-dismiss="modal">REGISTRIEREN</button>
                 <% } %>
             </div>

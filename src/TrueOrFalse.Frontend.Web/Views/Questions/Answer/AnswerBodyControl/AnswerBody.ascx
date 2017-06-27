@@ -33,7 +33,7 @@
         <span id="activityPointsDispaly">
             <small>Punkte</small>
             <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
-            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Punkte für das beantworten von Fragen">
+            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">
                 <i class="fa fa-info-circle"></i>
             </span>
         </span>

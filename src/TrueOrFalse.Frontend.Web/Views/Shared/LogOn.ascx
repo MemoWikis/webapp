@@ -50,7 +50,7 @@
             </ul>
         </div>
         <span class="level-display">
-            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Level">
+            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Dein erreichtes Level. Lernpunkte erhältst du beim Beantworten von Fragen.">
                 <svg>
                     <circle cx="50%" cy="50%" r="50%" />
                     <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= userSession.User.ActivityLevel %></text>
