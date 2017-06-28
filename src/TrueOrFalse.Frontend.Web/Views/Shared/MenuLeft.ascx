@@ -9,22 +9,9 @@
             <a id="mainMenuBtnKnowledge" class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
                 <i class="fa fa-caret-right"></i> 
                 Wissenszentrale <span style="float:right"><i class="fa fa-heart" style="color:#b13a48;"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
-            </a>       
-<%--            <%
-                var visitedD = new SessionUiData().VisitedDatePages;
-                index = 0;
-                foreach (var date in visitedD){
-                    index++;
-                    var activeClass = "";
-                    if (index == 1) { activeClass = Model.Active(MenuEntry.DateDetail); 
-                    } %>
-                    <a href="<%= Links.DateEdit(date.Id) %>" class="list-group-item dues sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
-                        <i class="fa fa-caret-right"></i> <%=date.Name%>
-                        <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
-                    </a>
-            <% } %>--%>
+            </a>
             
-            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx"); %>
+            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(Sl.CategoryRepo.GetById(453))); %>
 
             <div id="mainMenuQuestionsSetsCategories">
                 <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="margin-top: 15px;">
