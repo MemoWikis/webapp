@@ -49,7 +49,7 @@
                 <% } %>
             </ul>
         </div>
-        <span class="level-display">
+        <span id="header-level-display" class="level-display">
             <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Dein erreichtes Level. Lernpunkte erhältst du beim Beantworten von Fragen.">
                 <svg>
                     <circle cx="50%" cy="50%" r="50%" />
