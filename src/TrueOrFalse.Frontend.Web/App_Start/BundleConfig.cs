@@ -148,7 +148,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/widgets/ShareDialog.js")
                 .Include("~/Views/Sets/Detail/Js/ShareSet.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js"));
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Set")
                 .Include("~/Views/Sets/Detail/Set.css")
