@@ -90,17 +90,25 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         base.Create(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public override void CreateOrUpdate(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+
+        UserValuationCache.AddOrUpdate(questionValuation);
+
     }
 
     public override void Update(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+
+        UserValuationCache.AddOrUpdate(questionValuation);
+
     }
 }

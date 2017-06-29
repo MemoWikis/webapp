@@ -23,10 +23,6 @@ namespace TrueOrFalse.Frontend.Web
         protected void Application_Start()
         {
             InitializeAutofac();
-#if DEBUG
-            if(Settings.DebugUserNHProfiler())
-                NHibernateProfiler.Initialize();
-#endif
             
             Sl.Resolve<Update>().Run();
 
@@ -40,8 +36,13 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
             EntityCache.Init();
-            
-            if(!Settings.DisableAllJobs())
+
+#if DEBUG
+            if (Settings.DebugUserNHProfiler())
+                NHibernateProfiler.Initialize();
+#endif            
+
+            if (!Settings.DisableAllJobs())
                 JobScheduler.Start();
 
             Logg.r().Information("=== Application Start ===============================");
