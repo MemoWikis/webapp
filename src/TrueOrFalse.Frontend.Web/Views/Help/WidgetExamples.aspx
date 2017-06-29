@@ -97,28 +97,28 @@
                 </div>
 
                 <div class="row widgetExample" id="dragAndDrop">
-                    <div class="col-sm-12 col-md-2">
+                    <div class="col-sm-12 col-md-12">
                         <h3 class="PageHeader">Zuordnen (Drag'n'Drop)</h3>
-                    </div>
-                    <div class="col-sm-12 col-md-10">
                         <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3623" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
                     </div>
                 </div>
                     
                 <div class="row widgetExample" id="flip">
-                    <div class="col-sm-12 col-md-2">
+<%--                    <div class="col-sm-12 col-md-2">
                         <h3 class="PageHeader">Umdrehen (Flip-Card, Karteikarte)</h3>
-                    </div>
-                    <div class="col-sm-12 col-md-10">
+                    </div>--%>
+                    <div class="col-sm-12 col-md-12">
+                        <h3 class="PageHeader">Umdrehen (Flip-Card, Karteikarte)</h3>
                         <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="4261" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
                     </div>
                 </div>
                     
                 <div class="row widgetExample" id="text">
-                    <div class="col-sm-12 col-md-2">
+<%--                    <div class="col-sm-12 col-md-2">
                         <h3 class="PageHeader">Text, Zahl, Datum</h3>
-                    </div>
+                    </div>--%>
                     <div class="col-sm-12 col-md-10">
+                        <h3 class="PageHeader">Text, Zahl, Datum</h3>
                         <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3638" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
                     </div>
                 </div>
