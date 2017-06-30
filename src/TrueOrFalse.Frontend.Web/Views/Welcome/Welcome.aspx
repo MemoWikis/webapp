@@ -495,11 +495,11 @@
         </div>        
 
         <div class="well" id="awardLandDerIdeen" style="padding: 10px; ">
-<%--            <div style="text-align: center;">
+            <div style="text-align: center;">
                 <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
                     <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017" style="margin-bottom: 10px; margin-left: -10px; margin-right: -10px;"/>
                 </a>
-            </div>--%>
+            </div>
             <p style="text-align: center; margin-bottom: 5px;">
                 memucho: Ausgezeichneter Ort im Land der Ideen 2017.
             </p>
