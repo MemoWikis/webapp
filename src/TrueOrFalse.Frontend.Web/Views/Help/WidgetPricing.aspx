@@ -152,7 +152,7 @@
                             Seite als hilfreicher ein und verbessern dein Ranking.
                         </p>
                         <p style="text-align: center; margin-top: 40px;">
-                            <a href="<%= Links.WidgetExamples() %>" class="btn btn-default">Zur Widget-Übersicht</a>
+                            <a href="<%= Links.WidgetExamples() %>" class="btn btn-default">Widgets: Beispiele & Übersicht</a>
                         </p>
                     </div>
                 </div>

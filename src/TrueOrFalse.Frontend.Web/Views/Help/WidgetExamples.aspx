@@ -19,7 +19,7 @@
         <div class="col-xs-12">
             <div class="well">
 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Beispiele für Widgets</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Widgets: Beispiele & Übersicht</span></h1>
                 
                 <p>
                     Die Inhalte und Lernfunktionen von memucho können als Widget nahtlos in bestehende Seiten eingebettet werden -  
@@ -30,7 +30,7 @@
                     <li><a href="#widgetsQuestion"><i class="fa fa-caret-right">&nbsp;</i>Interaktive Fragen</a></li>
                     <li><a href="#widgetQuiz"><i class="fa fa-caret-right">&nbsp;</i>Interaktiver Quiz</a></li>
                     <li><a href="#widgetVideoQuiz"><i class="fa fa-caret-right">&nbsp;</i>Interaktiver Video-Quiz</a></li>
-                    <li><a href="#moreInfos" style="margin-top: 25px;"><i class="fa fa-caret-right">&nbsp;</i>Weitere Informationen</a></li>
+                    <li><a href="#moreWidgets" style="margin-top: 25px;"><i class="fa fa-caret-right">&nbsp;</i>Wissensmanagement und personalisiertes Lernen</a></li>
                     <li><a href="#contact"><i class="fa fa-caret-right">&nbsp;</i>Kontakt</a></li>
                 </ul>
 
@@ -117,7 +117,7 @@
 <%--                    <div class="col-sm-12 col-md-2">
                         <h3 class="PageHeader">Text, Zahl, Datum</h3>
                     </div>--%>
-                    <div class="col-sm-12 col-md-10">
+                    <div class="col-sm-12 col-md-12">
                         <h3 class="PageHeader">Text, Zahl, Datum</h3>
                         <script src="https://memucho.de/views/widgets/w.js" data-t="question" data-id="3638" data-width="100%" data-maxWidth="100%" data-hideKnowledgeBtn="true"></script>
                     </div>
@@ -164,7 +164,7 @@
                     <li><i class="fa fa-check" aria-hidden="true"></i> Springe von einer Frage zur Stelle im Video</li>
                     <li><i class="fa fa-check" aria-hidden="true"></i> Rückmeldung für Nutzer bei jeder Frage</li>
                     <li><i class="fa fa-check" aria-hidden="true"></i> Übersicht über Fortschritt durch farbige Symbole</li>
-                    <li><i class="fa fa-check" aria-hidden="true"></i> Alle youtube-Videos verwendbar <i class="fa fa-info-circle show-tooltip" data-original-title="Nutze ein vorhandenes Lernset oder erstelle ein eigenes und füge dort die youtube-URL hinzu.">&nbsp;</i></li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> Alle youtube-Videos verwendbar <i class="fa fa-info-circle show-tooltip" style="margin-left: 10px;" data-original-title="Nutze ein vorhandenes Lernset oder erstelle ein eigenes und füge dort die youtube-URL hinzu.">&nbsp;</i></li>
                     <li><i class="fa fa-check" aria-hidden="true"></i> Alle interaktiven Frage-Typen frei kombinierbar</li>
                 </ul>
             </div>
@@ -172,20 +172,39 @@
         </div>
     </div>
     
-    <div class="row" id="moreInfos">
+    <div class="row" id="moreWidgets">
         <div class="col-xs-12">
             <div class="well widgetExamples">
                 
-                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Weitere Informationen</span></h1>
+                <h1 class="PageHeader"><span class="ColoredUnderline GeneralMemucho">Wissensmanagement und personalisiertes Lernen</span></h1>
 
-                <div id="features" class="row">
+                <p style="margin-bottom: 5px;">
+                    Gerne stellen wir dir weitere Funktionen als Widget zur Verfügung. Dazu gehören insbesondere
+                </p>
+                <ul class="nav nav-pills nav-stacked feature-list">
+                    <li><i class="fa fa-check" aria-hidden="true"></i> <b>Personalisiertes Lernen:</b> Deine Nutzer lernen individuell und nachhaltig</li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> <b>Wissens- und Lernstandsanzeige</b> für ein Thema und ggf. dessen Teilbereiche</li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> <b>Wissensmanagement:</b> Verwaltung von Wunschwissen aus verschiedenen Themen/Kapiteln</li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> <b>Terminlernen:</b> Deine Nutzer erhalten für die Prüfungsvorbereitung einen individuellen Lernplan</li>
+                </ul>
+                <p>
+                    Für personalisierte Angebote kann eine Nutzerschnittstelle erforderlich sein, die wir gerne nach Absprache einrichten. 
+                    Dabei integrieren wir uns auch in vorhandene Single Sign On-Systeme.
+                </p>
+                <p>
+                    Wenn du zum Beispiel zu einer Bildungseinrichtung, einem Bildungsanbieter oder einem Bildungsverlag gehörst, dann können wir
+                    dich mit angepassten Lösungen unterstützen. So kannst du mit sehr geringem technischen Aufwand einen echten Zusatznutzen für Lernende schaffen.
+                    Alle Widgets können flexibel in bestehende LMS, CMS oder andere Webseiten integriert werden.
+                </p>
+
+                <div class="row">
                     <div class="col-md-6 col-xs-12">
-                        <h3>Eigenschaften & Vorteile</h3>
+                        <h3>Eigenschaften & Vorteile aller Widgets</h3>
                         <ul class="nav nav-pills nav-stacked feature-list">
                             <li><i class="fa fa-check" aria-hidden="true"></i> Responsive Design: Ideal auf allen Bildschirmen</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Kleiner Payload (Inhalt asynchron geladen)</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Vielfältige Fragetypen und Video-Unterstützung</li>
-                            <li><i class="fa fa-check" aria-hidden="true"></i> Alle vorhandenen Inhalte und eigene frei nutzbar</li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Alle vorhandenen Inhalte sowie eigene Inhalte frei nutz- und kombinierbar</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Flexibel einbindbar bei allen Seiten/Systemen</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i> Kein technischer Wartungsaufwand</li>
                         </ul>
@@ -194,8 +213,8 @@
                         <h3>Konfiguration</h3>
                         <ul class="nav nav-pills nav-stacked feature-list">
                             <li><i class="fa fa-check" aria-hidden="true"></i> Breite flexibel einstellbar</li>
-                            <li><i class="fa fa-check" aria-hidden="true"></i> Optionaler Wunschwissen-Button <i class="fa fa-info-circle show-tooltip" data-original-title="Die Schaltfläche 'Zum Wunschwissen hinzufügen' kann ausgeblendet werden. Sie erleichtert Nutzern das Weiterlernen auf memucho."></i></li>
-                            <li><i class="fa fa-check" aria-hidden="true"></i> Optionales Branding <i class="fa fa-info-circle show-tooltip" data-original-title="Für Organisationen: Das memucho-Logo kann entfernt werden und das Layout an das Corporate Design angepasst werden."></i></li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Optionaler Wunschwissen-Button <i class="fa fa-info-circle show-tooltip" style="margin-left: 10px;" data-original-title="Die Schaltfläche 'Zum Wunschwissen hinzufügen' kann ausgeblendet werden. Sie erleichtert Nutzern das Weiterlernen auf memucho."></i></li>
+                            <li><i class="fa fa-check" aria-hidden="true"></i> Optionales Branding <i class="fa fa-info-circle show-tooltip" style="margin-left: 10px;" data-original-title="Für Organisationen: Das memucho-Logo kann entfernt und das Layout an das Corporate Design angepasst werden."></i></li>
                         </ul>
                     </div>
                 </div>
@@ -203,20 +222,6 @@
                     Technische Hilfe zur Einbettung der Widgets findest du <a href="<%= Links.HelpWidget()%>">hier</a>, auch speziell für die Systeme 
                     <a href="<%= Links.HelpWidgetWordpress() %>">Wordpress</a>, <a href="<%= Links.HelpWidgetMoodle() %>">Moodle</a> und 
                     <a href="<%= Links.HelpWidgetBlackboard() %>">Blackboard</a>.
-                </p>
-
-
-                <h3 id="moreWidgets">Widgets auf Anfrage</h3>
-
-                <p>
-                    Gerne stellen wir dir weitere Funktionen als Widget zur Verfügung. Dazu gehören insbesondere Funktionen für 
-                    personalisiertes Lernen oder einer Wissens- und Lernstandsanzeige für ein Thema und dessen Teilbereiche.
-                    Für personalisierte Angebote ist eine Nutzerschnittstelle erforderlich, die wir gerne nach Absprache einrichten.
-                </p>
-                <p>
-                    Wenn du zum Beispiel Lehrende(r) bist oder zu einem Bildungsanbieter oder Bildungsverlag gehörst, dann können wir
-                    dich mit angepassten Lösungen unterstützen. So kannst du mit sehr geringem technischen Aufwand einen echten Zusatznutzen für Lernende schaffen.
-                    Alle Widgets können flexibel in bestehende LMS, CMS oder andere Webseiten integriert werden.
                 </p>
 
             </div>
