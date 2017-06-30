@@ -63,7 +63,10 @@ public class UserValuationCache
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {
             if (cacheItem.QuestionValuations.Any(q => q.Question.Id == questionValuation.Question.Id))
-                cacheItem.QuestionValuations.Remove(questionValuation);
+            {
+                var indexToRemove = cacheItem.QuestionValuations.IndexOf(x => x.Id == questionValuation.Id);
+                cacheItem.QuestionValuations.RemoveAt(indexToRemove);
+            }
 
             cacheItem.QuestionValuations.Add(questionValuation);
         }
