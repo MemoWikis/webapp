@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Caching;
+using NHibernate.Util;
+using Seedworks.Lib.Persistence;
 
 public class EntityCache
 {
@@ -46,17 +48,23 @@ public class EntityCache
         var categoryQuestionList = new Dictionary<int, IList<Question>>();
         foreach (var question in questions)
         {
-            foreach (var category in question.Categories)
-            {
-                if (!categoryQuestionList.ContainsKey(category.Id))
-                    categoryQuestionList.Add(category.Id, new List<Question>());
-
-                categoryQuestionList[category.Id].Add(question);
-            }
+            AddQuestionTo(categoryQuestionList, question);
         }
 
         return categoryQuestionList;
     }
+
+    private static void AddQuestionTo(Dictionary<int, IList<Question>> categoryQuestionList, Question question)
+    {
+        foreach (var category in question.Categories)
+        {
+            if (!categoryQuestionList.ContainsKey(category.Id))
+                categoryQuestionList.Add(category.Id, new List<Question>());
+
+            categoryQuestionList[category.Id].Add(question);
+        }
+    }
+
 
     private static void IntoForeverCache<T>(string key, Dictionary<int, T> objectToCache)
     {
@@ -68,5 +76,48 @@ public class EntityCache
             Cache.NoSlidingExpiration,
             CacheItemPriority.NotRemovable, 
             null);
+    }
+
+    public static void AddOrUpdate(Question question)
+    {
+        lock ("ebbe6d4a-70f0-46f8-9aaf-60b1a8ebb1bf")
+        {
+            AddOrUpdate(Questions, question);
+            AddQuestionTo(CategoryQuestionsList, question);
+        }
+
+    }
+
+    public static void AddOrUpdate(Category category)
+    {
+        lock ("5345455b-ab89-4ba2-87ad-a34ae43cdd06")
+        {
+            AddOrUpdate(Categories, category);
+        }
+    }
+
+    public static void AddOrUpdate(CategoryRelation categoryRelation)
+    {
+        lock ("c2c68be5-97fa-4d0a-b9dc-c6b77f18f974")
+        {
+            AddOrUpdate(CategoryRelations, categoryRelation);
+        }
+    }
+
+    public static void AddOrUpdate(Set set)
+    {
+        lock ("deb61dfa-9279-41d5-98d0-e8b9b221a685")
+        {
+            AddOrUpdate(Sets, set);
+        }
+    }
+
+    private static void AddOrUpdate<T>(Dictionary<int, T> objectToCache, T obj) where T : DomainEntity
+    {
+        FIX ADD LOCK
+        if (objectToCache.ContainsKey(obj.Id))
+            objectToCache.Remove(obj.Id);
+
+        objectToCache.Add(obj.Id, obj);
     }
 }

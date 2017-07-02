@@ -16,7 +16,7 @@ public class AggregatedCategoryLoader
     private static IList<Category> FilterCategories(Category category, Dictionary<int, CategoryRelation> categoryRelations, bool includeSelf)
     {
         var aggregatedCategories = categoryRelations
-            .Where(r => r.Value.Category == category && r.Value.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Where(r => r.Value.Category.Id == category.Id && r.Value.CategoryRelationType == CategoryRelationType.IncludesContentOf)
             .Select(r => r.Value.RelatedCategory);
 
         if (includeSelf)

@@ -56,7 +56,8 @@ public class KnowledgeSummaryLoader
 
         foreach (var currentCategory in aggregatedCategories)
         {
-            aggregatedQuestions.AddRange(EntityCache.CategoryQuestionsList[currentCategory.Id]);
+            if(EntityCache.CategoryQuestionsList.ContainsKey(currentCategory.Id))
+                aggregatedQuestions.AddRange(EntityCache.CategoryQuestionsList[currentCategory.Id]);
         }
 
         var aggregatedSets = GetAllSetsWithAssociatedCategories(aggregatedCategories);
