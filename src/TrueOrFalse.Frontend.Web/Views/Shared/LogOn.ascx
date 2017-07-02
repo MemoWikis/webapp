@@ -16,7 +16,7 @@
         <% } %>
     </span>
 </a>
-<a class="helpLink TextLinkWithIcon" href="<%= Links.HelpFAQ() %>">
+<a class="helpLink helpLinkFaq TextLinkWithIcon" href="<%= Links.HelpFAQ() %>">
     <i class="fa fa-question-circle MobileLarge"></i>
 </a> 
 
