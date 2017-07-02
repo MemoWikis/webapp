@@ -18,7 +18,6 @@
 </a>
 <a class="helpLink TextLinkWithIcon" href="<%= Links.HelpFAQ() %>">
     <i class="fa fa-question-circle MobileLarge"></i>
-    <span class="TextSpan Help">FAQ</span>
 </a> 
 
 <%--<a href="#" class="helpLink TextLinkWithIcon" id="startWelcomeTour">

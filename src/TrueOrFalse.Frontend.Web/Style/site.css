@@ -457,12 +457,6 @@ img {
     display: none;
   }
 }
-@media (max-width: 767px) {
-  #loginAndHelp .TextSpan.Help,
-  #loginAndHelp span.Help {
-    display: none;
-  }
-}
 #loginAndHelp .dropdown-menu {
   text-align: left;
 }
