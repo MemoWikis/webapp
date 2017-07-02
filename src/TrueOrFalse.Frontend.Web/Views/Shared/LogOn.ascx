@@ -31,7 +31,6 @@
         var imageSetttings = new UserImageSettings(userSession.User.Id);
 %>
         <div class="dropdown" style="display: inline-block;">
-            <span>Hallo</span>
             <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
                 <span class="userName TextSpan"><b><%= userSession.User.Name%></b></span>
                 <b class="caret"></b>
