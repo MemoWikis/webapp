@@ -40,7 +40,7 @@
     border: solid 4px @link-blue;
     border-top: none;
     border-bottom: 1px solid #e3e3e3;
-    border-right: 1px solid #e3e3e3!important;
+    border-right: 1px solid #e3e3e3 !important;
     font-size: 15px;
     padding-top: 6px;
     padding-bottom: 6px;
@@ -80,14 +80,22 @@
         border-bottom-left-radius: 0;
     }
 
-    .add-new{
+    .add-new {
         margin-top: 2px;
         .pull-right();
     }
 
-    .set-color { color:@color-set; }
-    .quest-color { color: @color-question; }
-    .cat-color{ color: @color-category; }
+    .set-color {
+        color: @color-set;
+    }
+
+    .quest-color {
+        color: @color-question;
+    }
+
+    .cat-color {
+        color: @color-category;
+    }
 
     &.set {
         border-left-color: @color-set;
@@ -192,7 +200,6 @@
     }
 
     &.users {
-
         border-left-color: @color-user;
 
         i.fa-caret-right {
