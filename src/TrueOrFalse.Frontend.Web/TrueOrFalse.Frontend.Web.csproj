@@ -715,7 +715,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
-    <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
@@ -2651,7 +2651,7 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\MenuLeft - Old Version.ascx" />
+    <Content Include="Views\Shared\MenuLeft.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\About\WelfareCompany.aspx" />

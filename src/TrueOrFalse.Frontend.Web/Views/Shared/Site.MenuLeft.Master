@@ -6,7 +6,7 @@
 <head runat="server">
     <%--<title><%= Page.Title %></title>--%>
     <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
-    <% Html.RenderPartial("Site.Partial.Head", Model); %> 
+    <% Html.RenderPartial("Site.Partial.Head", Model); %>
     <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
@@ -22,7 +22,11 @@
         <section id="MasterMainContent" class="container">
             <div class="row">
                 <section id="MasterLeftColumn" class="">
-                    <% Html.RenderPartial(UserControls.MenuLeft, Model.MenuLeftModel); %>
+                    <% Html.RenderPartial(
+                           Model.IsThemeNavigationPage 
+                           ? UserControls.MenuLeftThemeCentered 
+                           : UserControls.MenuLeft, Model.MenuLeftModel); %>
+
                     <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
                        { %>
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>

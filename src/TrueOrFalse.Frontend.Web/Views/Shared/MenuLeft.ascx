@@ -10,8 +10,26 @@
                 <i class="fa fa-caret-right"></i> 
                 Wissenszentrale <span style="float:right"><i class="fa fa-heart" style="color:#b13a48;"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
+            <a id="mainMenuBtnDates" class="list-group-item dues <%= Model.Active(MenuEntry.Dates) %>" href="<%= Links.Dates() %>">
+                <i class="fa fa-caret-right"></i> Termine
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 date-color add-new" 
+                    onclick="window.location = '<%= Url.Action("Create", "EditDate") %>'; return false; "
+                    title="Neuen Termin erstellen"></i>
+            </a>            
+            <%
+                var visitedD = new SessionUiData().VisitedDatePages;
+                index = 0;
+                foreach (var date in visitedD){
+                    index++;
+                    var activeClass = "";
+                    if (index == 1) { activeClass = Model.Active(MenuEntry.DateDetail); 
+                    } %>
+                    <a href="<%= Links.DateEdit(date.Id) %>" class="list-group-item dues sub <%= activeClass + visitedD.CssFirst(index) + visitedD.CssLast(index) %>">
+                        <i class="fa fa-caret-right"></i> <%=date.Name%>
+                        <i class="fa fa-pencil" style="position: relative; left: 3px; top: -1px;"></i>
+                    </a>
+            <% } %>
             
-            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(Sl.CategoryRepo.GetById(453))); %>
 
             <div id="mainMenuQuestionsSetsCategories">
                 <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="margin-top: 15px;">
@@ -87,14 +105,6 @@
                 <% } %>
 
             </div>
-            
-            <a id="mainMenuBtnGames" class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>" style="margin-top: 15px;">
-                <i class="fa fa-caret-right"></i> Spielen
-                
-                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
-                   onclick="window.location = '<%= Links.GameCreate() %>'; return false; "
-                   title="Spiel erstellen"></i>
-            </a>
 
             <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Links.Users() %>" style="margin-top: 15px;">
                 <i class="fa fa-caret-right"></i> Nutzer
@@ -112,6 +122,14 @@
             <a id="mainMenuBtnMessages" class="list-group-item messages <%= Model.Active(MenuEntry.Messages) %>" href="<%= Links.Messages(Url) %>">
                 <i class="fa fa-caret-right"></i> Nachrichten
                 <span id="badgeNewMessages" class="badge show-tooltip" title="Ungelesene Nachrichten" style="display:inline-block; position: relative; top: 1px;"><%= Model.UnreadMessageCount %></span>
+            </a>
+
+            <a id="mainMenuBtnGames" class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>" style="margin-top: 15px;">
+                <i class="fa fa-caret-right"></i> Spielen
+                
+                <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
+                    onclick="window.location = '<%= Links.GameCreate() %>'; return false; "
+                    title="Spiel erstellen"></i>
             </a>
                             
             <% if (Model.IsInstallationAdmin){ %>

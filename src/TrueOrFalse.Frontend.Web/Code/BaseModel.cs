@@ -34,6 +34,8 @@
 
     public bool IsCreatorOfGame;
 
+    public bool IsThemeNavigationPage = true;
+
     public bool ShowUserReportWidget = true;
 
     public BaseModel()
@@ -50,5 +52,8 @@
             else
                 UpcomingGame = new Game();
         }
+
+        if (IsThemeNavigationPage)
+            MenuLeftModel.ActualCategory = Sl.CategoryRepo.GetById(2 /*CATEGORY ID*/);
     }
 }

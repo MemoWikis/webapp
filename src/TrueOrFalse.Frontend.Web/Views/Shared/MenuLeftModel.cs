@@ -6,6 +6,8 @@ public class MenuLeftModel : BaseResolve
     public bool IsInstallationAdmin;
     public Menu Menu;
 
+    public Category ActualCategory;
+
     public int UnreadMessageCount = 0;
 
     public MenuLeftModel()
