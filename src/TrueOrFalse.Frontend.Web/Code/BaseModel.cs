@@ -54,6 +54,6 @@
         }
 
         if (IsThemeNavigationPage)
-            MenuLeftModel.ActualCategory = Sl.CategoryRepo.GetById(2 /*CATEGORY ID*/);
+            MenuLeftModel.ActualCategory = Sl.CategoryRepo.GetById(640 /*CATEGORY ID*/);
     }
 }
