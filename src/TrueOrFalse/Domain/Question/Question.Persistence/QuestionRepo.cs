@@ -49,6 +49,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
+
+        EntityCache.AddOrUpdate(question);
     }
 
     public override void Create(Question question)
@@ -65,12 +67,14 @@ public class QuestionRepo : RepositoryDbBase<Question>
             ReputationUpdate.ForUser(question.Creator);
         }
         _searchIndexQuestion.Update(question);
+        EntityCache.AddOrUpdate(question);
     }
 
     public override void Delete(Question question)
     {
         _searchIndexQuestion.Delete(question);
         base.Delete(question);
+        EntityCache.Remove(question);
     }
 
     public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)

@@ -109,8 +109,8 @@ public class EntityCache
         lock ("5345455b-ab89-4ba2-87ad-a34ae43cdd06")
         {
             AddOrUpdate(Categories, category);
+            
         }
-        Remove(Categories, category);
     }
 
     public static void Remove(Category category)
@@ -152,11 +152,6 @@ public class EntityCache
     /// <param name="obj"></param>
     private static void AddOrUpdate<T>(ConcurrentDictionary<int, T> objectToCache, T obj) where T : DomainEntity
     {
-        //if (objectToCache.ContainsKey(obj.Id))
-        //    objectToCache.TryRemove(obj.Id, out var outObj);
-
-        //objectToCache.TryAdd(obj.Id, obj);
-
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => v);
     }
 

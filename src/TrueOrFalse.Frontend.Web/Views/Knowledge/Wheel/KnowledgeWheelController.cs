@@ -10,7 +10,6 @@
     public string GetForCategory(int categoryId)
     {
         var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(categoryId, UserId);
-        //var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(categoryId, UserId);
         return RenderPartialView(knowledgeSummary);
     }
 

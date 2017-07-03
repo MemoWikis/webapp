@@ -7,12 +7,10 @@ using TrueOrFalse.Search;
 public class CategoryRepository : RepositoryDbBase<Category>
 {
     private readonly SearchIndexCategory _searchIndexCategory;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory, CategoryRelationRepo categoryRelationRepo)
+    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
         : base(session){
         _searchIndexCategory = searchIndexCategory;
-        _categoryRelationRepo = categoryRelationRepo;
     }
 
     public Category GetByIdEager(int categoryId) => 
@@ -29,6 +27,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
         UserActivityAdd.CreatedCategory(category);
         _searchIndexCategory.Update(category);
+        EntityCache.AddOrUpdate(category);
     }
 
     public override void Update(Category category)
@@ -37,12 +36,14 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Update(category);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
+        EntityCache.AddOrUpdate(category);
     }
 
     public override void Delete(Category category)
     {
         _searchIndexCategory.Delete(category);
         base.Delete(category);
+        EntityCache.Remove(category);
     }
 
     public IList<Category> GetByName(string categoryName)
