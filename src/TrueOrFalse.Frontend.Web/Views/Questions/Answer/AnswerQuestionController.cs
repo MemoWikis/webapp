@@ -410,7 +410,7 @@ public class AnswerQuestionController : BaseController
     }
 
     //For MatchList Questions
-    public string RenderAnswerBody(int questionId, string pager, Guid questionViewGuid = default(Guid), bool? isMobileDevice = null, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
+    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice = null, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
     {
         if (learningSessionId != null)
         {
@@ -453,8 +453,7 @@ public class AnswerQuestionController : BaseController
         }
         //for normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
-        if(questionViewGuid == Guid.Empty)
-            questionViewGuid = Guid.NewGuid();
+        var questionViewGuid = Guid.NewGuid();
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
             new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),

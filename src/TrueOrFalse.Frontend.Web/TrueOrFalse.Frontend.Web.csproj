@@ -345,6 +345,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -715,6 +716,7 @@
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />

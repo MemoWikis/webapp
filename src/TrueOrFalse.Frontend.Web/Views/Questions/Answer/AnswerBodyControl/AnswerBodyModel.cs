@@ -31,6 +31,7 @@ public class AnswerBodyModel : BaseModel
     public bool? isMobileRequest;
 
     public bool IsInWidget;
+    public bool IsForVideo;
     public bool IsLearningSession;
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;

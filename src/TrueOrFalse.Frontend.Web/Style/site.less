@@ -87,7 +87,7 @@ a {
 
     i {
         &.MobileLarge {
-            @media (max-width: @screen-xs-max) {
+            @media (max-width: @screen-md-max) {
                 font-size: @icon-size-touch;
                 padding-left: 5px;
                 padding-right: 5px;
@@ -423,9 +423,9 @@ img {
             display: none;
         }
 
-        i {
-            @media (min-width: @screen-sm-min) {
-                font-size: 16px;
+        &.helpLinkFaq {
+            @media (max-width: 700px) {
+                display: none;
             }
         }
     }
@@ -448,17 +448,11 @@ img {
         }
     }
 
-    .TextSpan, span {
+    .TextSpan, span:not(.level-display) {
         display: inline-block;
 
         @media (max-width:(@screen-md-min - 1px)) {
             display: none;
-        }
-
-        &.Help {
-            @media (max-width:(@screen-xs-max)) {
-                display: none;
-            }
         }
     }
 
@@ -533,9 +527,20 @@ ul.AutocompleteHeader{
 }
 
 .level-display {
+    margin-left: 3px;
+
     svg {
         width: 32px;
         height: 32px;
+    }
+
+    @media (max-width: 767px) {
+
+        svg {
+            margin-top: 4px;
+            width: 25px;
+            height: 25px;
+        }
     }
 
     circle {
