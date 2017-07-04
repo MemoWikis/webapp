@@ -11,14 +11,11 @@ public class EntityCache
 {
     private const string _cacheKeyQuestions = "allQuestions _EntityCache";
     private const string _cacheKeyCategories = "allCategories_EntityCache";
-    private const string _cacheKeyCategoryRelationsList = "allCategoryRelations_EntityCache";
     private const string _cacheKeySets = "allSets_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
     public static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
-    public static ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryRelation>> CategoryRelations =>
-        (ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryRelation>>)HttpRuntime.Cache[_cacheKeyCategoryRelationsList];
     public static ConcurrentDictionary<int, Set> Sets => (ConcurrentDictionary<int, Set>)HttpRuntime.Cache[_cacheKeySets];
 
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> CategoryQuestionsList => 
@@ -39,7 +36,6 @@ public class EntityCache
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategories, categories);
-        IntoForeverCache(_cacheKeyCategoryRelationsList, GetInitial_CategoryRelationsList(categories, categoryRelations.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions.ToConcurrentDictionary()));
 
@@ -67,21 +63,6 @@ public class EntityCache
         }
 
         return categoryQuestionList;
-    }
-
-    public static ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryRelation>> GetInitial_CategoryRelationsList(
-        ConcurrentDictionary<int, Category> categories,
-        ConcurrentDictionary<int, CategoryRelation> relations)
-    {
-        var result = new ConcurrentDictionary<int, ConcurrentDictionary<int, CategoryRelation>>();
-
-        foreach (var category in categories.Values)
-            result.TryAdd(category.Id, new ConcurrentDictionary<int, CategoryRelation>());
-
-        foreach (var categoryRelation in relations)
-            result[categoryRelation.Value.Category.Id].TryAdd(categoryRelation.Value.Id, categoryRelation.Value);
-
-        return result;
     }
 
     private static void UpdateCategoryQuestionList(
@@ -151,11 +132,6 @@ public class EntityCache
         lock ("5345455b-ab89-4ba2-87ad-a34ae43cdd06")
         {
             AddOrUpdate(Categories, category);
-
-
-
-            //var newList = category.CategoryRelations;
-            //var oldList = CategoryRelations.Where(cr => cr.)
         }
     }
 
@@ -163,19 +139,6 @@ public class EntityCache
     {
         Remove(Categories, category);
     }
-
-    //public static void AddOrUpdate(CategoryRelation categoryRelation)
-    //{
-    //    lock ("c2c68be5-97fa-4d0a-b9dc-c6b77f18f974")
-    //    {
-    //        AddOrUpdate(CategoryRelations, categoryRelation);
-    //    }
-    //}
-
-    //public static void Remove(CategoryRelation categoryRelation)
-    //{
-    //    Remove(CategoryRelations, categoryRelation);
-    //}
 
     public static void AddOrUpdate(Set set)
     {

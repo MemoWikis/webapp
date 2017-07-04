@@ -86,7 +86,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         var userSpecificQuestions = GetAll()
             .Where(q => q.Creator.Id == currentUser
                         && q.Visibility != QuestionVisibility.All
-                        && q.Categories.Any(c => AggregatedCategoryLoader.FromDb(category, includeSelf: true).Any(aggrC => aggrC == c))).ToList();
+                        && q.Categories.Any(c => category.AggregatedCategories(includingSelf: true).Any(aggrC => aggrC == c))).ToList();
 
         return aggregatedQuestions.Union(userSpecificQuestions).ToList();
 

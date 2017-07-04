@@ -52,7 +52,6 @@ public class KnowledgeSummaryLoader
 
         var aggregatedQuestions = new List<Question>();
 
-        //var aggregatedCategories = AggregatedCategoryLoader.FromCache(category);
         var aggregatedCategories = category.AggregatedCategories(includingSelf: true);
 
         foreach (var currentCategory in aggregatedCategories)
@@ -86,8 +85,6 @@ public class KnowledgeSummaryLoader
         };
 
         Logg.r().Information("Loaded KnowledgeSummary in {Elapsed}", stopWatch.Elapsed);
-
-        var elapsed = stopWatch.Elapsed;
 
         return knowledgeSummary;
     }
