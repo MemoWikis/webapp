@@ -15,7 +15,7 @@
 
     private string RenderPartialView(KnowledgeSummary knowledgeSummary) => 
         ViewRenderer.RenderPartialView(
-            "/Views/Knowledge/Wheel/KnowledgeWheel.ascx", 
+            "/Views/Knowledge/Wheel/KnowledgeWheel.ascx",
             knowledgeSummary,
             ControllerContext
         );

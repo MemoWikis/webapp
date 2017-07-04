@@ -24,11 +24,17 @@ public class AggregatedCategoryLoader
         return aggregatedCategories.ToList();
     }
 
-
     public static IList<Category> FromCache(Category category, bool includeSelf = true)
     {
-        return FilterCategories(category, EntityCache.CategoryRelations, includeSelf);
+        //return FilterCategories(category, EntityCache.CategoryRelations, includeSelf);
+
+        //var list =
+
+        // category.CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+        //    .Select(r => r.RelatedCategory).ToList();
+
+        //return list;
+
+        return null;
     }
-
-
 }

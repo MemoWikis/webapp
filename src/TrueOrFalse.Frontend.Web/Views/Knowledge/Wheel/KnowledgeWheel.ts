@@ -11,6 +11,7 @@
     private static Reload(url: string) {
         $.get(url, (html) => {
 
+            debugger;
             $("#knowledgeWheelContainer")
                 .empty()
                 .animate({ opacity: 0.00 }, 0)
