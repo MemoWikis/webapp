@@ -50,22 +50,50 @@ public class EntityCache
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, Question>>();
         foreach (var question in questions)
         {
-            AddQuestionTo(categoryQuestionList, question.Value);
+            UpdateCategoryQuestionList(categoryQuestionList, question.Value);
         }
 
         return categoryQuestionList;
     }
 
-    private static void AddQuestionTo(ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionList, Question question)
+    private static void UpdateCategoryQuestionList(
+        ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionsList, 
+        Question question, 
+        List<int> affectedCategoryIds = null)
+    {
+        DeleteQuestionFromRemovedCategories(question, categoryQuestionsList, affectedCategoryIds);
+
+        AddQuestionToCategories(question, categoryQuestionsList);
+    }
+
+    private static void DeleteQuestionFromRemovedCategories(
+        Question question, 
+        ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionsList,
+        List<int> affectedCategoryIds = null)
+    {
+        if (affectedCategoryIds != null)
+        {
+            foreach (var categoryId in affectedCategoryIds.Except(question.Categories.GetIds()))
+            {
+                if (categoryQuestionsList.ContainsKey(categoryId))
+                    categoryQuestionsList[categoryId]?.TryRemove(question.Id, out var questionOut);
+            }
+        }
+    }
+
+    private static void AddQuestionToCategories(
+        Question question,
+        ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionsList)
     {
         foreach (var category in question.Categories)
         {
-            if (!categoryQuestionList.ContainsKey(category.Id))
-                categoryQuestionList.TryAdd(category.Id, new ConcurrentDictionary<int, Question>());
+            if (!categoryQuestionsList.ContainsKey(category.Id))
+                categoryQuestionsList.TryAdd(category.Id, new ConcurrentDictionary<int, Question>());
 
-            categoryQuestionList[category.Id].TryAdd(question.Id, question);
+            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, question, (k, v) => v);
         }
     }
+
 
     private static void RemoveQuestionFrom(ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionList, Question question)
     {
@@ -75,7 +103,6 @@ public class EntityCache
             questionsInCategory.TryRemove(question.Id, out var questionOut);
         }
     }
-
 
     private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
     {
@@ -89,12 +116,12 @@ public class EntityCache
             null);
     }
 
-    public static void AddOrUpdate(Question question)
+    public static void AddOrUpdate(Question question, List<int> affectedCategoriesIds = null)
     {
         lock ("ebbe6d4a-70f0-46f8-9aaf-60b1a8ebb1bf")
         {
             AddOrUpdate(Questions, question);
-            AddQuestionTo(CategoryQuestionsList, question);
+            UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoriesIds);
         }
     }
 
@@ -109,7 +136,9 @@ public class EntityCache
         lock ("5345455b-ab89-4ba2-87ad-a34ae43cdd06")
         {
             AddOrUpdate(Categories, category);
-            
+
+            //var newList = category.CategoryRelations;
+            //var oldList = CategoryRelations.Where(cr => cr.)
         }
     }
 

@@ -50,7 +50,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
 
-        EntityCache.AddOrUpdate(question);
+        EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
     }
 
     public override void Create(Question question)
