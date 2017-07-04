@@ -65,6 +65,7 @@ public class BaseModel : BaseResolve
                                  (string)httpContextData["action"] == "Category";
         var isMainPageRequest = (string)httpContextData["controller"] == "Welcome" &&
                                 (string)httpContextData["action"] == "Welcome";
+
         if (isThemePageRequest || isMainPageRequest)
             IsThemeNavigationPage = true;
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class MenuLeftModel : BaseResolve
+﻿public class MenuLeftModel : BaseResolve
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
