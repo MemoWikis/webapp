@@ -1,7 +1,8 @@
-﻿public class BaseModel : BaseResolve
-{
-    public MenuLeftModel MenuLeftModel = new MenuLeftModel();
+﻿using System;
+using System.Web;
 
+public class BaseModel : BaseResolve
+{
     public SponsorModel SponsorModel
     {
         get
@@ -34,7 +35,9 @@
 
     public bool IsCreatorOfGame;
 
-    public bool IsThemeNavigationPage = true;
+    public MenuLeftModel MenuLeftModel = new MenuLeftModel();
+
+    public bool IsThemeNavigationPage;
 
     public bool ShowUserReportWidget = true;
 
@@ -52,8 +55,20 @@
             else
                 UpcomingGame = new Game();
         }
+        SetLeftMenuData();
+    }
 
-        if (IsThemeNavigationPage)
-            MenuLeftModel.ActualCategory = Sl.CategoryRepo.GetById(640 /*CATEGORY ID*/);
+    private void SetLeftMenuData()
+    {
+        var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
+        var isThemePageRequest = (string)httpContextData["controller"] == "Category" &&
+                                 (string)httpContextData["action"] == "Category";
+        var isMainPageRequest = (string)httpContextData["controller"] == "Welcome" &&
+                                (string)httpContextData["action"] == "Welcome";
+        if (isThemePageRequest || isMainPageRequest)
+            IsThemeNavigationPage = true;
+
+        if (isThemePageRequest)
+            MenuLeftModel.ActualCategory = Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"]));
     }
 }

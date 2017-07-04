@@ -23,8 +23,8 @@
             <div class="row">
                 <section id="MasterLeftColumn" class="">
                     <% Html.RenderPartial(
-                           Model.IsThemeNavigationPage 
-                           ? UserControls.MenuLeftThemeCentered 
+                           Model.IsThemeNavigationPage
+                           ? UserControls.MenuLeftThemeCentered
                            : UserControls.MenuLeft, Model.MenuLeftModel); %>
 
                     <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)

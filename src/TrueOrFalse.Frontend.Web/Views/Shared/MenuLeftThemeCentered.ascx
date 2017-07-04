@@ -11,7 +11,8 @@
                 Wissenszentrale <span style="float:right"><i class="fa fa-heart" style="color:#b13a48;"></i> <span id="menuWishKnowledgeCount"><%= Model.WishKnowledgeCount %></span></span>
             </a>
             
-            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(Model.ActualCategory)); %>
+            <% if(Model.ActualCategory != null)
+                Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(Model.ActualCategory)); %>
 
             <div id="mainMenuQuestionsSetsCategories">
                 <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="margin-top: 15px;">

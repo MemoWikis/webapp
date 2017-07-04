@@ -8,6 +8,8 @@ public class CategoryNavigationModel : BaseModel
     public CategoryNavigationModel(Category actuallCategory)
     {
         ActuallCategory = actuallCategory;
-        CategoryTrail = GetBreadCrumb.For(actuallCategory);
+
+        if (actuallCategory != default(Category))
+            CategoryTrail = GetBreadCrumb.For(actuallCategory);
     }
 }
