@@ -24,7 +24,7 @@ public class SingleCategoryModel : BaseModel
         CategoryName = category.Name;
         CategoryText = categoryText ?? category.Description;
 
-        QCount = category.CountQuestions;
+        QCount = category.GetCountQuestions();
     }
 
     public static CardSingleCategoryModel GetCardSingleCategoryModel(int categoryId, string categoryText = null)

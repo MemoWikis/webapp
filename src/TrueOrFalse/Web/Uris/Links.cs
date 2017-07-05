@@ -365,6 +365,9 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string GameCreateFromSet(int setId) => GetUrlHelper().Action("Create", "Game", new { setId = setId});
         public static string GameCreateFromSets(List<int> setIds) => GetUrlHelper().Action("Create", "Game") + "?setIds="
                 + Join("&setIds=", setIds);
+        public static string GameCreateFromCategory(int categoryId) => GetUrlHelper().Action("Create", "Game", new { categoryId = categoryId });
+
+
 
         public static string GameCreate() => GetUrlHelper().Action("Create", "Game", null);
         public static string GamePlay(UrlHelper url, int gameId) => GetUrlHelper().Action("Play", "Play", new { gameId = gameId });

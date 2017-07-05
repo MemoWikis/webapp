@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
@@ -40,6 +41,7 @@ public class EditCategoryController : BaseController
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
         var model = new EditCategoryModel(category){IsEditing = true};
+        //model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
 
         if (TempData["createCategoryMsg"] != null)
             model.Message = (SuccessMessage)TempData["createCategoryMsg"];
@@ -73,6 +75,7 @@ public class EditCategoryController : BaseController
         
         model.Init(category);
         model.IsEditing = true;
+        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
 
         return View(_viewPath, model);
     }
@@ -163,5 +166,29 @@ public class EditCategoryController : BaseController
         Sl.Session.Evict(category); //prevent change tracking and updates
 
         return Json(MarkdownToHtml.Run(category, ControllerContext));
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public void EditAggregation(int categoryId, string categoriesToExcludeIdsString, string categoriesToIncludeIdsString)
+    {
+        var category = _categoryRepository.GetById(categoryId);
+
+        category.CategoriesToExcludeIdsString = categoriesToExcludeIdsString;
+        category.CategoriesToIncludeIdsString = categoriesToIncludeIdsString;
+
+        ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
+    }
+
+    public ActionResult GetEditCategoryAggregationModalContent(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        return View("~/Views/Categories/Modals/EditAggregationModal.ascx", new EditCategoryModel(category));
+    }
+
+    public string GetCategoryGraphDisplay(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
     }
 }

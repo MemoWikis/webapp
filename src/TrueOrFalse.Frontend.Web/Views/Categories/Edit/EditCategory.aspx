@@ -175,8 +175,16 @@
                             </div>
                         </div>
                     </div>
-                    <% if (Model.IsInstallationAdmin)
-                    { %>
+
+                    <% if (Model.IsInstallationAdmin){
+
+                           if (Model.IsEditing)
+                           { %>
+                            <div style="margin-bottom: 20px;">
+                                <a href="#EditAggregationModal" id="OpenEditAggregationModal" class="btn btn-default" data-toggle="modal">Unterthemen einschließen</a>
+                            </div>
+
+                            <% } %>
                         <div class="form-group">
                             <div class="noLabel columnControlsFull" style="font-size: 100%;">
                                  <div class="checkbox">
@@ -253,10 +261,39 @@
             });
         <% } %>
     </script>
-<% } 
+<% }
     Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx");
     Html.RenderPartial("~/Views/Categories/Modals/ModalDeleteCategory.ascx");
-%>
+
+    if (Model.IsEditing)
+    { %>
+    <div id="EditAggregationModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Unterthemen einschließen</h3>
+                </div>
+                <div class="modal-body clearfix">
+                    <ul class="nav nav-tabs">
+                        <li class="tab-unterthemen active"><a href="#">Unterthemen einschließen</a></li>
+                        <li class="tab-categories-graph"><a href="#">Graphen Ansicht</a></li>
+                    </ul>
+                    <div class="tab-body">
+                        <div style="text-align: center">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" id="btnCloseAggregation">Schließen</a>
+                    <a href="#" id="btnEditAggregation" class="btn btn-primary">Bearbeiten</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   <% } %>
+
 
 
 </asp:Content>

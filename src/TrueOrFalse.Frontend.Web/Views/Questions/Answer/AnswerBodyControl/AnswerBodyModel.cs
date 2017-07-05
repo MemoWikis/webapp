@@ -31,6 +31,7 @@ public class AnswerBodyModel : BaseModel
     public bool? isMobileRequest;
 
     public bool IsInWidget;
+    public bool IsForVideo;
     public bool IsLearningSession;
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
@@ -56,6 +57,8 @@ public class AnswerBodyModel : BaseModel
     public Func<UrlHelper, string> AjaxUrl_CountUnansweredAsCorrect { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_TestSessionRegisterAnsweredQuestion { get; private set; }
     public Func<UrlHelper, string> AjaxUrl_LearningSessionAmendAfterShowSolution { get; private set; }
+
+    public int TotalActivityPoints;
 
     public AnswerBodyModel(Question question, Game game, Player player, Round round)
     {
@@ -148,5 +151,7 @@ public class AnswerBodyModel : BaseModel
         SolutionType = question.SolutionType.ToString();
         SolutionTypeInt = (int)question.SolutionType;
         SolutionModel = GetQuestionSolution.Run(question);
+
+        TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
     }
 }

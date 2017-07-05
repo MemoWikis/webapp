@@ -26,11 +26,20 @@
 
     <div style="float: right; margin-left: 10px;">
 
-        <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
+<%--    <span id="brainWaveConnected" style="margin-right: 5px; position: relative; top: -6px;">
             <span class="label label-primary" id="concentrationLevel" title="Konzentration"></span>
             <span class="label label-info" id="mellowLevel" title="Entspanntheit"></span>
-        </span>
-
+        </span>--%>
+        <% if (!Model.IsInWidget)
+           { %>
+                <span id="activityPointsDispaly">
+                    <small>Punkte</small>
+                    <span id="activityPoints"><%= Model.TotalActivityPoints %></span>
+                    <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Du bekommst Lernpunkte für das Beantworten von Fragen">
+                        <i class="fa fa-info-circle"></i>
+                    </span>
+                </span>
+        <% } %>
     </div>
     
     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
@@ -124,7 +133,7 @@
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
-                                    <% } else if (Model.PrimarySetMini != null && !Model.IsInWidget) { %>
+                                    <% } else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo /*&& !Model.IsInGame*/) { %>
                                         <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
                                             <i class="fa fa-play-circle"></i>&nbsp;&nbsp;<b>Weitermachen</b><br/>
                                             <small>Wissen testen: <%= Model.PrimarySetMini.Name.TruncateAtWordWithEllipsisText(30,"...") %></small>

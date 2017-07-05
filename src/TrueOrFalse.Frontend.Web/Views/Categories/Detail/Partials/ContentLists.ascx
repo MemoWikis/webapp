@@ -12,7 +12,7 @@
     <% if (Model.CountSets > 0)
        { %>    
         <div class="LabelList">
-        <% foreach (var set in Model.Sets)
+        <% foreach (var set in Model.AggregatedSets)
            { %>
             <div class="LabelItem LabelItem-Set">
                 <div class="EllipsWrapper">

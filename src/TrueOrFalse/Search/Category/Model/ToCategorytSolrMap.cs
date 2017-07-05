@@ -17,7 +17,7 @@ namespace TrueOrFalse.Search
             result.ValuatorIds = valuations.Where(v => v.RelevancePersonal != -1).Select(x => x.UserId).ToList();
             result.ValuationsCount = category.TotalRelevancePersonalEntries;
 
-            result.QuestionCount = category.CountQuestions;
+            result.QuestionCount = category.GetCountQuestions();
             result.DateCreated = category.DateCreated;
 
             return result;
