@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class CategoryNavigationModel : BaseModel
 {
     public Category ActuallCategory;
+    public Category RootCategory;
 
-    public IList<Category> CategoryTrail;
+    public List<Category> CategoryTrail;
 
     public List<Category> DefaultCategoriesList;
 
@@ -14,8 +16,12 @@ public class CategoryNavigationModel : BaseModel
 
         FillDefaultCategoriesList();
 
-        if (actuallCategory != default(Category))
-            CategoryTrail = GetBreadCrumb.For(actuallCategory);
+        if (actuallCategory != null)
+        {
+            CategoryTrail = GetBreadCrumb.For(actuallCategory).ToList();
+            SetRootCategory();
+            CategoryTrail.Reverse();
+        }
     }
 
     private void FillDefaultCategoriesList()
@@ -28,5 +34,21 @@ public class CategoryNavigationModel : BaseModel
             Sl.CategoryRepo.GetById(689),
             Sl.CategoryRepo.GetById(709)
         };
+    }
+
+    private void SetRootCategory()
+    {
+        if (CategoryTrail.Count > 0)
+        {
+            RootCategory = CategoryTrail.First();
+            CategoryTrail.RemoveAt(0);
+        }
+        else
+        {
+            RootCategory = 
+                DefaultCategoriesList.Contains(ActuallCategory)
+                ? ActuallCategory
+                : Sl.CategoryRepo.GetById(709);
+        }
     }
 }
