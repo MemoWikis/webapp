@@ -84,6 +84,11 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         base.Create(questionValuations);
         _searchIndexQuestion.Update(_questionRepo.GetByIds(questionValuations.QuestionIds().ToArray()));
+
+        foreach (var questionValuation in questionValuations)
+        {
+            UserValuationCache.AddOrUpdate(questionValuation);
+        }
     }
 
     public override void Create(QuestionValuation questionValuation)

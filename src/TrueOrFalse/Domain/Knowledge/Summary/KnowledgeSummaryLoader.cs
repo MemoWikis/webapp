@@ -44,10 +44,6 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
     {
-        //Other Todos:
-        // - update category cache, on category changes (in repo)
-        // - update category relations cache, on relation changes (in repo)
-
         var stopWatch = Stopwatch.StartNew();
 
         var aggregatedQuestions = new List<Question>();
