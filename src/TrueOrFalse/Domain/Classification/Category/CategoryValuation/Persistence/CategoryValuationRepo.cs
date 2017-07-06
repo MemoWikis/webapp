@@ -25,9 +25,8 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     public IList<CategoryValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
     {
         var cacheItem = UserValuationCache.GetItem(userId);
-        return cacheItem != null ? cacheItem.CategoryValuations : GetByUser(userId, onlyActiveKnowledge);
+        return cacheItem.CategoryValuations.Values.ToList();
     }
-
 
     public IList<CategoryValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
@@ -104,7 +103,6 @@ public class CategoryValuationRepo : RepositoryDb<CategoryValuation>
     public override void Update(CategoryValuation categoryValuation)
     {
         categoryValuation.UpdateKnowledgeSummary();
-
 
         base.Update(categoryValuation);
         Sl.SearchIndexCategory.Update(Sl.CategoryRepo.GetById(categoryValuation.CategoryId));

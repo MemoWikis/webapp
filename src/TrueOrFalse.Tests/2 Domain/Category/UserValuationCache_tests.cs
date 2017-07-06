@@ -42,7 +42,7 @@ namespace TrueOrFalse.Tests
 
             Assert.That(cacheItem.CategoryValuations.Count, Is.EqualTo(3));
 
-            cacheItem.CategoryValuations.RemoveAt(0);
+            cacheItem.CategoryValuations.TryRemove(cacheItem.CategoryValuations.Keys.First(), out var catValout);
 
             var cacheItem2 = UserValuationCache.GetItem(user.Id);
 

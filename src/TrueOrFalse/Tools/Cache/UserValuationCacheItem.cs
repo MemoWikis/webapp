@@ -1,10 +1,10 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 public class UserValuationCacheItem
 {
     public int UserId;
-    public IList<CategoryValuation> CategoryValuations;
-    public IList<QuestionValuation> QuestionValuations;
-
-    public bool IsBeingRefreshed;
+    
+    public ConcurrentDictionary<int, CategoryValuation> CategoryValuations;
+    public ConcurrentDictionary<int, QuestionValuation> QuestionValuations;
 }
