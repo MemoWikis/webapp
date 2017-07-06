@@ -2,7 +2,6 @@
 
     public static Pin(categoryId, onPinChanged: () => void = null) {
         $.post("/Api/Category/Pin/", { categoryId: categoryId }, () => {
-            debugger;
             if (onPinChanged != null)
                 onPinChanged();
         });

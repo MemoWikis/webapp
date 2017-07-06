@@ -52,7 +52,6 @@ public class Category : DomainEntity, ICreator
 
     public virtual IList<Category> AggregatedCategories(bool includingSelf = true)
     {
-        //return AggregatedCategoryLoader.FromDb(this, includingSelf);
         var list = CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
             .Select(r => r.RelatedCategory).ToList();
         

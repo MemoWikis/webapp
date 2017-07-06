@@ -132,7 +132,6 @@ class Pin {
         } else if (this.IsSetRow() || this.IsSetDetail()) {
             SetsApi.Pin(id, onPinChanged);
         } else if (this.IsCategoryRow() || this.IsCategoryDetail()) {
-            debugger;
             CategoryApi.Pin(id, onPinChanged)
         }
     }
