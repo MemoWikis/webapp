@@ -51,6 +51,13 @@ public class UserValuationCache
         }
     }
 
+    public static void Remove(QuestionValuation questionValuation)
+    {
+        var cacheItem = GetItem(questionValuation.User.Id);
+
+        cacheItem.QuestionValuations.TryRemove(questionValuation.Question.Id, out var questionValOut);
+    }
+
     public static void AddOrUpdate(CategoryValuation categoryValuation)
     {
         var cacheItem = GetItem(categoryValuation.UserId);
@@ -59,5 +66,24 @@ public class UserValuationCache
         {
             cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation, (k, v) => v);
         }
+    }
+
+    public static void RemoveAllForQuestion(int questionId)
+    {
+        foreach (var userId in Sl.UserRepo.GetAllIds())
+        {
+            var cacheItem = GetItem(userId);
+            cacheItem.QuestionValuations.TryRemove(questionId, out var questValOut);
+        }
+    }
+
+    public static void RemoveAllForCategory(int categoryId)
+    {
+        foreach (var userId in Sl.UserRepo.GetAllIds())
+        {
+            var cacheItem = GetItem(userId);
+            cacheItem.CategoryValuations.TryRemove(categoryId, out var catValOut);
+        }
+        
     }
 }

@@ -44,6 +44,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Delete(category);
         base.Delete(category);
         EntityCache.Remove(category);
+        UserValuationCache.RemoveAllForCategory(category.Id); 
     }
 
     public IList<Category> GetByName(string categoryName)

@@ -1,4 +1,4 @@
 ﻿$(() => {
     new Pin(PinType.Category, KnowledgeWheel.ReloadCategory);
-    new Pin(PinType.Set, KnowledgeWheel.ReloadCategory);//Fehler?
+    new Pin(PinType.Set, KnowledgeWheel.ReloadCategory);
 });
