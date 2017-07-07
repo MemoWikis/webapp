@@ -50,21 +50,13 @@ public class KnowledgeSummaryLoader
 
         var aggregatedCategories = category.AggregatedCategories(includingSelf: true);
 
-        var abs1 = stopWatch.Elapsed;
-
         foreach (var currentCategory in aggregatedCategories)
         {
             if(EntityCache.CategoryQuestionsList.ContainsKey(currentCategory.Id))
                 aggregatedQuestions.AddRange(EntityCache.CategoryQuestionsList[currentCategory.Id].Select(c => c.Value));
         }
 
-        var abs2 = stopWatch.Elapsed;
-        var diff1 = abs2 - abs1;
-
         var aggregatedSets = GetAllSetsWithAssociatedCategories(aggregatedCategories);
-
-        var abs3 = stopWatch.Elapsed;
-        var diff2 = abs3 - abs2;
 
         foreach (var set in aggregatedSets)
         {
@@ -73,13 +65,7 @@ public class KnowledgeSummaryLoader
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
 
-        var abs4 = stopWatch.Elapsed;
-        var diff3 = abs4 - abs3;
-
         var userValuations = UserValuationCache.GetItem(userId).QuestionValuations;
-
-        var abs5 = stopWatch.Elapsed;
-        var diff4 = abs5 - abs4;
 
         var aggregatedQuestionValuations = new List<QuestionValuation>();
 
@@ -114,8 +100,6 @@ public class KnowledgeSummaryLoader
         };
 
         Logg.r().Information("Loaded KnowledgeSummary in {Elapsed}", stopWatch.Elapsed);
-
-        var abs7 = stopWatch.Elapsed;
 
         return knowledgeSummary;
     }
