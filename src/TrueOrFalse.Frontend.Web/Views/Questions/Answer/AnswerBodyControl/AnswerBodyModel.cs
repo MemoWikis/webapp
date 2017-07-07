@@ -15,9 +15,10 @@ public class AnswerBodyModel : BaseModel
     public bool IsInWishknowledge;
 
     public string QuestionText;
+
     public string QuestionTextMarkdown;
 
-    public LicenseQuestion LicenseQuestion;
+public LicenseQuestion LicenseQuestion;
 
     public bool HasSound => !string.IsNullOrEmpty(SoundUrl);
     public string SoundUrl;
@@ -140,8 +141,8 @@ public class AnswerBodyModel : BaseModel
         if (IsLearningSession)
             AjaxUrl_LearningSessionAmendAfterShowSolution = Links.LearningSessionAmendAfterShowSolution;
 
-        QuestionText = question.Text;
-        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
+        QuestionText = EscapeFlashCardText(question.Text);
+        QuestionTextMarkdown = EscapeFlashCardText(MarkdownInit.Run().Transform(question.TextExtended));
         LicenseQuestion = question.License;
                           
         SoundUrl = new GetQuestionSoundUrl().Run(question);
@@ -153,5 +154,14 @@ public class AnswerBodyModel : BaseModel
         SolutionModel = GetQuestionSolution.Run(question);
 
         TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
+    }
+
+    private string EscapeFlashCardText(string text)
+    {
+        return text
+            .Replace("'", "\\'")
+            .Replace("\"", "\\\"")
+            .Replace(Environment.NewLine, String.Empty)
+            .Replace("\n", String.Empty);
     }
 }
