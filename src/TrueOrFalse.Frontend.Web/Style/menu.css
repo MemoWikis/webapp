@@ -241,6 +241,201 @@
   left: 14px;
   top: 2px;
 }
+#mainMenuThemeCentered {
+  /*$ToDo: enable with js functions*/
+}
+#mainMenuThemeCentered .menu-section {
+  margin-bottom: 3px;
+}
+#mainMenuThemeCentered .tooltip > .tooltip-inner {
+  min-width: 200px;
+  text-align: left;
+}
+@media (max-width: 1199px) {
+  #mainMenuThemeCentered {
+    padding: 15px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    top: 0;
+    background-color: #F6F8FA;
+    width: 90%;
+    max-width: 270px;
+    opacity: 1;
+    z-index: 100;
+    box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+  }
+  #mainMenuThemeCentered .list-group {
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 767px) {
+  #mainMenuThemeCentered {
+    left: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+@media (min-width: 1200px) {
+  #mainMenuThemeCentered {
+    display: block !important;
+  }
+}
+#mainMenuThemeCentered .default-category {
+  text-transform: uppercase;
+}
+#mainMenuThemeCentered .list-group-item {
+  background-color: #f6f8fc;
+  background-color: white;
+  border-top: none;
+  border-bottom: 1px solid #e3e3e3;
+  border-right: 1px solid #e3e3e3 !important;
+  font-size: 15px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  /*&.set {
+            i.fa-caret-right {
+                color: @color-set;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.quest {
+            i.fa-caret-right {
+                color: @color-question;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.cat {
+            i.fa-caret-right {
+                color: @color-category;
+            }
+
+            &:hover {
+                color: black;
+            }
+        }
+
+        &.know {
+            i.fa-caret-right {
+                color: @dark-red;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.messages {
+            i.fa-caret-right {
+                color: @middle-orange;
+            }
+
+            &:hover {
+                color: black;
+            }
+        }
+        &.dues {
+            i.fa-caret-right {
+                color: @middle-turquoise;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.users {
+            i.fa-caret-right {
+                color: @color-user;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: @color-user;
+                }
+            }
+        }
+
+        &.play {
+            i.fa-caret-right {
+                color: @color-play;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: @color-play;
+                }
+            }
+        }*/
+}
+#mainMenuThemeCentered .list-group-item.sub:not(.last) {
+  border-bottom: none;
+}
+#mainMenuThemeCentered .list-group-item.active,
+#mainMenuThemeCentered .list-group-item.active:focus {
+  color: #555555;
+  background-color: #ebeff7;
+}
+#mainMenuThemeCentered .list-group-item:hover {
+  background-color: #bee3ee;
+  color: black;
+}
+#mainMenuThemeCentered .list-group-item.active i.fa-caret-right {
+  visibility: visible;
+}
+#mainMenuThemeCentered .list-group-item:first-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+#mainMenuThemeCentered .list-group-item:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#mainMenuThemeCentered .list-group-item .add-new {
+  margin-top: 2px;
+  float: right !important;
+  float: right;
+}
+#mainMenuThemeCentered .list-group-item.sub {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-top: 1px;
+  padding-left: 26px;
+  padding-bottom: 0;
+  font-size: 12px;
+  margin-top: 0px;
+  line-height: 22px;
+}
+#mainMenuThemeCentered .list-group-item.sub.first {
+  z-index: 5;
+}
+#mainMenuThemeCentered .list-group-item.sub.last {
+  padding-bottom: 0px;
+}
+#mainMenuThemeCentered .list-group-item.sub i.fa-caret-right {
+  font-size: 17px;
+  position: absolute;
+  left: 14px;
+  top: 2px;
+}
 div.box-menu {
   background-color: transparent;
   border: 1px solid silver;

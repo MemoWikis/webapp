@@ -1,13 +1,31 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryNavigationModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="mainMenuThemeNavigation" style="margin-top: 15px">
+<div id="mainMenuThemeNavigation" class="menu-section">
+<% var defaultCategories = Model.DefaultCategoriesList;
+    for (int i = 0; i < defaultCategories.Count; i++)
+    { %>
+       <a class="list-group-item cat default-category" id="default-category-<%= defaultCategories[i].Name %>" href="<%= Links.CategoryDetail(defaultCategories[i].Name, defaultCategories[i].Id) %>">
+    <% switch (i)
+           {
+               case 0: 
+        %> <i class="fa fa-child"></i> <%
+                break;
 
-<% foreach (var defaultCategory in Model.DefaultCategoriesList)
-   { %>
-    <a class="list-group-item cat" id="default-category-<%= defaultCategory.Name %>" href="<%= Links.CategoryDetail(defaultCategory.Name, defaultCategory.Id) %>">
-        <i class="fa fa-caret-right"></i> <%= defaultCategory.Name %>
-    </a>
+            case 1:
+                %> <i class="fa fa-graduation-cap"></i> <%
+                break;
+
+            case 2:
+                %> <i class="fa fa-file-text-o"></i> <%
+                break;
+
+            case 3:
+                %> <i class="fa fa-lightbulb-o"></i> <%
+                break;
+        } %>
+            <%= defaultCategories[i].Name %>
+       </a>
 <% } %>
 </div>
 
@@ -25,7 +43,8 @@
     if (rootCategory.length === 0)
         var rootCategory = $("#default-category-Allgemeinwissen");
 
-    var actualCategory = $('<a class= "cat sub list-group-item" style="font-weight: bold" href="<%= Links.CategoryDetail(Model.ActuallCategory.Name, Model.ActuallCategory.Id) %>"><%= Model.ActuallCategory.Name %></a>');
+    var actualCategory = $('<a class= "cat sub list-group-item" href="<%= Links.CategoryDetail(Model.ActuallCategory.Name, Model.ActuallCategory.Id) %>"><%= Model.ActuallCategory.Name %></a>')
+        .append($('<i class="fa fa-caret-right"></i>'));
     rootCategory.after(actualCategory);
 
     <% if (Model.CategoryTrail.Count > 0)
@@ -38,6 +57,6 @@
     rootCategory.after(upperCategory);
     <% } %>
     <% } %>
-    <% }  %>
-    <% }  %>
+    <% } %>
+    <% } %>
 </script>
