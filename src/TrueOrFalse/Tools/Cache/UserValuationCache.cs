@@ -51,13 +51,6 @@ public class UserValuationCache
         }
     }
 
-    public static void Remove(QuestionValuation questionValuation)
-    {
-        var cacheItem = GetItem(questionValuation.User.Id);
-
-        cacheItem.QuestionValuations.TryRemove(questionValuation.Question.Id, out var questionValOut);
-    }
-
     public static void AddOrUpdate(CategoryValuation categoryValuation)
     {
         var cacheItem = GetItem(categoryValuation.UserId);
@@ -84,6 +77,5 @@ public class UserValuationCache
             var cacheItem = GetItem(userId);
             cacheItem.CategoryValuations.TryRemove(categoryId, out var catValOut);
         }
-        
     }
 }
