@@ -61,6 +61,12 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+        foreach (var category in question.Categories)
+        {
+            category.UpdateAggregatedQuestions();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
         if (question.Visibility != QuestionVisibility.Owner)
         {
             UserActivityAdd.CreatedQuestion(question);
