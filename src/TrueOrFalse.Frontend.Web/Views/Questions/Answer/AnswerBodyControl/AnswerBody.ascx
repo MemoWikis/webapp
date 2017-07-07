@@ -82,12 +82,21 @@
                             }
 
                             Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
+
                             if (Model.SolutionType == SolutionType.FlashCard.ToString()){ %>
                                 <script type="text/javascript">
                                     var questionText = '<h1 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
                                     var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown %>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
-                                    $('#flashCard-frontContent img').load(function () { $('#flashCardContent').height($('#flashCard-frontContent').outerHeight()); });
+                                    $('#flashCard-frontContent img').load(function() {
+                                        var frontHeight = $('#flashCard-frontContent').outerHeight();
+                                        var backHeight = $('.back.flashCardContentSite').outerHeight();
+                                        $('#flashCardContent').height(
+                                            frontHeight > backHeight
+                                                ? frontHeight
+                                                : backHeight
+                                        );
+                                    });
                                 </script>
                             <% }
 
