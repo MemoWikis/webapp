@@ -905,6 +905,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\CleanUpWorkInProgressQuestions.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\GameLoop.cs" />
     <Compile Include="Infrastructure\Time\TimeElapsedAsText.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\InitUserValuationCache.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputation.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\KnowledgeReportCheck.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcReputationForAll.cs" />

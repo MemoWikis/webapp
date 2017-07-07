@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -55,6 +57,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if(HttpContext.Current != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+
+        JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
     }
 
     public void Logout()

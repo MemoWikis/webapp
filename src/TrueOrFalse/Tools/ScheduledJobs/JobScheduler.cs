@@ -132,6 +132,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 JobBuilder.Create<TypeToStart>().Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
+
+        public static void StartImmediately_InitUserValuationCache(int userId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<InitUserValuationCache>()
+                .UsingJobData("userId", userId)
+                .Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
     }
 }
 
