@@ -196,7 +196,8 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/GamePlay")
                 .Include("~/Views/Games/Play/*.css")

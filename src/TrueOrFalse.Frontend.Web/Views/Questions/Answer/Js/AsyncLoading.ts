@@ -80,6 +80,8 @@
     private loadNewQuestion(url: string) {
         $.ajax({
             url: url,
+            type: 'POST',
+            headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
                 if (result.DateRedirectionLink) {
