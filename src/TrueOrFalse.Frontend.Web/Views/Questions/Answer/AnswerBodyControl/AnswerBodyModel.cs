@@ -141,8 +141,15 @@ public LicenseQuestion LicenseQuestion;
         if (IsLearningSession)
             AjaxUrl_LearningSessionAmendAfterShowSolution = Links.LearningSessionAmendAfterShowSolution;
 
-        QuestionText = EscapeFlashCardText(question.Text);
-        QuestionTextMarkdown = EscapeFlashCardText(MarkdownInit.Run().Transform(question.TextExtended));
+        QuestionText = question.Text;
+        QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
+
+        if (question.SolutionType == TrueOrFalse.SolutionType.FlashCard)
+        {
+            QuestionText = EscapeFlashCardText(QuestionText);
+            QuestionTextMarkdown = EscapeFlashCardText(QuestionTextMarkdown);
+        }
+
         LicenseQuestion = question.License;
                           
         SoundUrl = new GetQuestionSoundUrl().Run(question);
