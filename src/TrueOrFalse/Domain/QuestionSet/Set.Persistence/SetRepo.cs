@@ -43,6 +43,8 @@ public class SetRepo : RepositoryDbBase<Set>
         {
             category.UpdateAggregatedSetsJson();
         }
+
+        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
     }
 
     public override void Create(Set set)
@@ -53,6 +55,7 @@ public class SetRepo : RepositoryDbBase<Set>
         UserActivityAdd.CreatedSet(set);
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
+        EntityCache.AddOrUpdate(set);
     }
 
     public IList<Set> GetByIds(List<int> setIds)
