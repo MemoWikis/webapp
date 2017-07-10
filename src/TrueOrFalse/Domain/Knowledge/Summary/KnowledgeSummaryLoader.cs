@@ -111,7 +111,7 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
         => Run(userId, 
-            Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestions().GetIds(),
+            Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromJson().GetIds(),
             onlyValuated);
 
     public static KnowledgeSummary Run(int userId, Set set, bool onlyValuated = true) 

@@ -41,7 +41,7 @@ public class SetRepo : RepositoryDbBase<Set>
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedSets();
+            category.UpdateAggregatedSetsJson();
         }
     }
 

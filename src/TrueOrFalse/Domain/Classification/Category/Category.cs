@@ -73,15 +73,15 @@ public class Category : DomainEntity, ICreator
 
     public virtual string AggregatedContentJson { get; set; }
 
-    public virtual AggregatedContent GetAggregatedContent()
+    public virtual AggregatedContentFromJson GetAggregatedContentFromJson()
     {
         if (AggregatedContentJson == null)
         {
-            UpdateAggregatedContent();
+            UpdateAggregatedContentJson();
             Sl.CategoryRepo.Update(this);
         }
 
-        return AggregatedContent.FromJson(AggregatedContentJson);
+        return AggregatedContentFromJson.FromJson(AggregatedContentJson);
     }
 
     public virtual int CountQuestionsAggregated { get; set; }
@@ -93,21 +93,21 @@ public class Category : DomainEntity, ICreator
 
     public virtual int CountSetsAggregated { get; set; }
 
-    public virtual void UpdateAggregatedContent()
+    public virtual void UpdateAggregatedContentJson()
     {
         if(AggregatedContentJson == null)
-            AggregatedContentJson = new AggregatedContent().ToJson();
+            AggregatedContentJson = new AggregatedContentFromJson().ToJson();
 
-        UpdateAggregatedSets();
-        UpdateAggregatedQuestions();
+        UpdateAggregatedSetsJson();
+        UpdateAggregatedQuestionsJson();
     }
 
-    public virtual int GetCountSets()
+    public virtual int GetCountSetsFromJson()
     {
         return CountSetsAggregated > 0 ? CountSetsAggregated : CountSets;
     }
 
-    public virtual void UpdateAggregatedSets()
+    public virtual void UpdateAggregatedSetsJson()
     {
         var aggregatedSets = new List<Set>();
 
@@ -116,7 +116,7 @@ public class Category : DomainEntity, ICreator
             aggregatedSets.AddRange(aggregatedCategory.GetSetsNonAggregated());
         }
 
-        var aggregatedContent = GetAggregatedContent();
+        var aggregatedContent = GetAggregatedContentFromJson();
 
         aggregatedContent.AggregatedSets = aggregatedSets.Distinct().ToList();
         CountSetsAggregated = aggregatedContent.AggregatedSets.Count;
@@ -124,7 +124,7 @@ public class Category : DomainEntity, ICreator
         AggregatedContentJson = aggregatedContent.ToJson();
     }
 
-    public virtual void UpdateAggregatedQuestions()
+    public virtual void UpdateAggregatedQuestionsJson()
     {
         var aggregatedQuestions = new List<Question>();
 
@@ -136,7 +136,7 @@ public class Category : DomainEntity, ICreator
             aggregatedQuestions.AddRange(Sl.SetRepo.GetForCategory(aggregatedCategory.Id).SelectMany(s => s.Questions()));
         }
 
-        var aggregatedContent = GetAggregatedContent();
+        var aggregatedContent = GetAggregatedContentFromJson();
 
         aggregatedContent.AggregatedQuestions = aggregatedQuestions.Distinct().ToList();
         CountQuestionsAggregated = aggregatedContent.AggregatedQuestions.Count;
@@ -146,12 +146,13 @@ public class Category : DomainEntity, ICreator
 
     public virtual IList<Set> GetAggregatedSets()
     {
-        return GetAggregatedContent().AggregatedSets;
+        return GetAggregatedContentFromJson().AggregatedSets;
     }
 
-    public virtual IList<Question> GetAggregatedQuestions()
+    public virtual IList<Question> GetAggregatedQuestionsFromJson()
     {
-        return GetAggregatedContent().AggregatedQuestions;
+        return GetAggregatedContentFromJson().AggregatedQuestions;
+    }
     }
 
     public virtual IList<Set> FeaturedSets()

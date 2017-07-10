@@ -45,7 +45,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedQuestions();
+            category.UpdateAggregatedQuestionsJson();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
@@ -63,7 +63,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
         foreach (var category in question.Categories)
         {
-            category.UpdateAggregatedQuestions();
+            category.UpdateAggregatedQuestionsJson();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
@@ -88,7 +88,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        var aggregatedQuestions = category.GetAggregatedQuestions();
+        var aggregatedQuestions = category.GetAggregatedQuestionsFromJson();
 
         var userSpecificQuestions = GetAll()
             .Where(q => q.Creator.Id == currentUser

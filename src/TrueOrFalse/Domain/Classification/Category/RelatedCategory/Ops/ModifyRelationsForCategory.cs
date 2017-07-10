@@ -52,7 +52,6 @@ public class ModifyRelationsForCategory
                 RelatedCategory = relatedCategory,
                 CategoryRelationType = relationType 
             });
-
     }
 
     public static void AddParentCategory(Category category, Category relatedCategory)
@@ -72,7 +71,7 @@ public class ModifyRelationsForCategory
 
         catRepo.Update(category);
 
-        category.UpdateAggregatedContent();
+        category.UpdateAggregatedContentJson();
 
         catRepo.Update(category);
 
