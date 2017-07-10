@@ -82,12 +82,21 @@
                             }
 
                             Html.RenderPartial("~/Views/Questions/Answer/AnswerControls/" + userControl, Model.SolutionModel);
+
                             if (Model.SolutionType == SolutionType.FlashCard.ToString()){ %>
                                 <script type="text/javascript">
                                     var questionText = '<h1 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
-                                    var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown.Replace("\n", String.Empty)%>';
+                                    var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown %>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
-                                    $('#flashCard-frontContent img').load(function () { $('#flashCardContent').height($('#flashCard-frontContent').outerHeight()); });
+                                    $('#flashCard-frontContent img').load(function() {
+                                        var frontHeight = $('#flashCard-frontContent').outerHeight();
+                                        var backHeight = $('.back.flashCardContentSite').outerHeight();
+                                        $('#flashCardContent').height(
+                                            frontHeight > backHeight
+                                                ? frontHeight
+                                                : backHeight
+                                        );
+                                    });
                                 </script>
                             <% }
 
@@ -133,7 +142,7 @@
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
-                                    <% } else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo /*&& !Model.IsInGame*/) { %>
+                                    <% } else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame) { %>
                                         <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
                                             <i class="fa fa-play-circle"></i>&nbsp;&nbsp;<b>Weitermachen</b><br/>
                                             <small>Wissen testen: <%= Model.PrimarySetMini.Name.TruncateAtWordWithEllipsisText(30,"...") %></small>
