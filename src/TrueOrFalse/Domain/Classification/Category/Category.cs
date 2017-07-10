@@ -153,6 +153,19 @@ public class Category : DomainEntity, ICreator
     {
         return GetAggregatedContentFromJson().AggregatedQuestions;
     }
+
+    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache()
+    {
+        var questionRepo = Sl.QuestionRepo;
+
+        return AggregatedCategories().SelectMany(c => questionRepo.GetForCategoryFromMemoryCache(c.Id)).Distinct().ToList();
+    }
+
+    public virtual IList<Set> GetAggregatedSetsFromMemoryCache()
+    {
+        var setRepo = Sl.SetRepo;
+
+        return AggregatedCategories().SelectMany(c => setRepo.GetForCategoryFromMemoryCache(c.Id)).Distinct().ToList();
     }
 
     public virtual IList<Set> FeaturedSets()

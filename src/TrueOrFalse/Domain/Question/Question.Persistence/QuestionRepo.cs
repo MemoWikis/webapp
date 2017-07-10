@@ -99,6 +99,14 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
     }
 
+    public IList<Question> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        if (EntityCache.CategoryQuestionsList.ContainsKey(categoryId))
+            return EntityCache.CategoryQuestionsList[categoryId].Values.ToList();
+
+        return new List<Question>();
+    }
+
     public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount= -1) => 
         GetForCategory(new List<int> {categoryId}, currentUser, resultCount);
 

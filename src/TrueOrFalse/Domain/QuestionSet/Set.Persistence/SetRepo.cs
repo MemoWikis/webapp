@@ -116,6 +116,13 @@ public class SetRepo : RepositoryDbBase<Set>
             .ToList();
     }
 
+    public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        return EntityCache.CategorySetsList.ContainsKey(categoryId) 
+            ? EntityCache.CategorySetsList[categoryId].Values.ToList() 
+            : new List<Set>();
+    }
+
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
     {
         string query = $@"SELECT s.* FROM questionset s
