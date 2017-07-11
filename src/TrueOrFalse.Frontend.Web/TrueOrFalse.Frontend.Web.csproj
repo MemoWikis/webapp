@@ -24,7 +24,7 @@
     <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -339,6 +339,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\vendor\modernizr-config.json" />
     <Content Include="Images\Error\memo-404_german_600.png" />
     <Content Include="Images\Error\memo-500_german.png" />
@@ -682,6 +683,10 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Welcome\Drive.aspx" />
+    <Content Include="Views\Welcome\Drive.css">
+      <DependentUpon>Drive.less</DependentUpon>
+    </Content>
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
@@ -2593,6 +2598,7 @@
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
+    <Content Include="Views\Welcome\Drive.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
