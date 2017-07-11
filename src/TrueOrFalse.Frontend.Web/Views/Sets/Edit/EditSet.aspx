@@ -29,6 +29,9 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<script type="text/javascript" src="/Views/Sets/Edit/Questions.js"></script>
+  
+
     
 <style type="text/css">
 
@@ -156,11 +159,24 @@
                                 <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
                             </div>
                         </div>
+                        
+                        <div class="FormSection">
+                            <div class="form-group">
+                                <div class="noLabel columnControlsFull <%= Model.IsEditing ? "separationBorderTop" : "" %>">
+                                    <% if (Model.IsEditing) { %>
+                                        <input type="submit"  value="Speichern" class="btn btn-primary" name="btnSave" id="btnSave"  />
+                                    <% } else { %>
+                                        <input type="submit" value="Lernset erstellen" class="btn btn-primary" 
+                                               name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <% if (Model.IsEditing) { %>
                             <div class="form-group">
-                                <div class="noLabel noControls separationBorderTop">
+                                <div class="noLabel noControls">
                             
                                     <h4 style="margin-top: 0px;">Reihenfolge der Fragen
                                         <span style="font-size: 11px;">(per Drag'n'Drop)</span>
@@ -220,40 +236,48 @@
                                 </div>
                             </div>
                         <% } %>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Füge vorhanden Fragen zum Lernset hinzu</h3>
+                            </div>
+                        </div>
 
-                        <% if (Model.IsEditing)
-                           { %>
+                        <div class="row">
+                            <div class="col-md-12" id="questionSearch">
+                                <input id="frageId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
+                            </div>
+                        </div>    
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Ergebnis</h5>
+                            </div>                            
+                        </div>
+                        
+                        <div id="question" class=""></div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button id="learnSetSave" class="btn btn-primary" type="submit">zum Lernset hnzufügen</button>
+                            </div>                            
+                        </div>
+                        
+                        <% if (Model.IsEditing){ %>
                             <div class="row">
-                                <div class="col-xs-12" style="padding-bottom: 10px">
+                                <div class="col-xs-12" style="padding-bottom: 10px" id="createNewQuestionInLearnSet">
                                 
-                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default" target="_blank">
+                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-primary" target="_blank" id="btnCreateNewQuestionInLearnSet">
                                         <i class="fa fa-plus"></i>
-                                        Neue Frage hinzufügen
-                                    </a>
-                                    <a href="<%= Links.QuestionsAll() %>" class="btn btn-default" target="_blank">
-                                        <i class="fa fa-check"></i>
-                                        Zur Auswahl vorhandener Fragen
+                                        Neue Frage im Lernset erstellen
                                     </a>
 
                                 </div>
                             </div>
                         <% } %>
 
-                    </div>                   
-                    
-                    <div class="FormSection">
-                        <div class="form-group">
-                            <div class="noLabel columnControlsFull <%= Model.IsEditing ? "separationBorderTop" : "" %>">
-                                <% if (Model.IsEditing) { %>
-                                    <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                                <% } else { %>
-                                    <input type="submit" value="Lernset erstellen" class="btn btn-primary" 
-                                        name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
-                                <% } %>
-                            </div>
-                        </div>
-                    </div>
-                    
+                    </div>     
+                                        
                     <% if (!Model.IsEditing) { %>
                         <div class="FormSection">
                             <div class="form-group">
@@ -269,19 +293,14 @@
                         </div>
                     <% } %>
 
-                
                 </div>
             
-                <div class="row">
-                    
-                </div>
-
             </div>
         </div>
     
     <% } %>
 </div>
-    
+
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
     
 <div id="modalRevertAction" class="modal">

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -109,6 +111,40 @@ public class EditSetController : BaseController
     public EmptyResult RemoveQuestionFromSet(int questionInSetId)
     {
         Resolve<QuestionInSetRepo>().Delete(questionInSetId);
+        return new EmptyResult();
+    }
+    
+    public JsonResult Search(string term)
+    {
+        var searchSpec = new QuestionSearchSpec();
+        searchSpec.Filter.SearchTerm = term;
+        searchSpec.PageSize = 5;
+
+        var searchResult = Sl.SearchQuestions.Run(searchSpec);
+
+        var questions = searchResult.GetQuestions();
+
+        return Json(new
+        {
+            Questions = questions.Select(q => new
+            {
+                Id = q.Id,
+                question = q.Text,
+                correctAnswer= q.Solution,
+                ImageUrl = new QuestionImageSettings(q.Id).GetUrl_50px_square().Url
+
+            })
+        },JsonRequestBehavior.AllowGet);
+    }
+
+    public JsonResult SaveToLearningSet(Array id)
+    {
+        var answer = id;
+        return Json( answer, JsonRequestBehavior.AllowGet);
+    }
+
+    public EmptyResult AddToSet(int setId, IList<int> questionIds)
+    {
         return new EmptyResult();
     }
 }
