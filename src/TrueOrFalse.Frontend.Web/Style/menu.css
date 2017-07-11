@@ -280,18 +280,23 @@
     display: block !important;
   }
 }
-#mainMenuThemeCentered .default-category {
+#mainMenuThemeCentered .primary-point {
+  display: flex;
+  align-items: center;
   text-transform: uppercase;
+  font-weight: bold;
+}
+#mainMenuThemeCentered .primary-point .primary-point-text {
+  display: inline-block;
+  margin-left: 5px;
 }
 #mainMenuThemeCentered .list-group-item {
   background-color: #f6f8fc;
   background-color: white;
-  border-top: none;
-  border-bottom: 1px solid #e3e3e3;
-  border-right: 1px solid #e3e3e3 !important;
+  border: none;
   font-size: 15px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   /*&.set {
             i.fa-caret-right {
                 color: @color-set;
@@ -383,58 +388,53 @@
             }
         }*/
 }
-#mainMenuThemeCentered .list-group-item.sub:not(.last) {
-  border-bottom: none;
-}
 #mainMenuThemeCentered .list-group-item.active,
 #mainMenuThemeCentered .list-group-item.active:focus {
   color: #555555;
-  background-color: #ebeff7;
+  background-color: #bee3ee;
 }
 #mainMenuThemeCentered .list-group-item:hover {
   background-color: #bee3ee;
   color: black;
-}
-#mainMenuThemeCentered .list-group-item.active i.fa-caret-right {
-  visibility: visible;
-}
-#mainMenuThemeCentered .list-group-item:first-child {
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-}
-#mainMenuThemeCentered .list-group-item:last-child {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
 }
 #mainMenuThemeCentered .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
   float: right;
 }
+#mainMenuThemeCentered .list-group-item .fa-stack .default-category-icon {
+  color: #003264;
+}
 #mainMenuThemeCentered .list-group-item.sub {
   overflow: hidden;
   -ms-text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
+  font-weight: bold;
   white-space: nowrap;
-  padding-top: 1px;
+  padding-top: 5px;
   padding-left: 26px;
-  padding-bottom: 0;
+  padding-bottom: 5px;
   font-size: 12px;
   margin-top: 0px;
   line-height: 22px;
 }
-#mainMenuThemeCentered .list-group-item.sub.first {
-  z-index: 5;
+#mainMenuThemeCentered .list-group-item.sub .sub-category {
+  margin-left: 30px;
 }
-#mainMenuThemeCentered .list-group-item.sub.last {
-  padding-bottom: 0px;
+#mainMenuThemeCentered .list-group-item.sub .actual-sub-category {
+  margin-left: 45px;
 }
 #mainMenuThemeCentered .list-group-item.sub i.fa-caret-right {
   font-size: 17px;
   position: absolute;
-  left: 14px;
-  top: 2px;
+  left: 59px;
+  top: 8px;
+}
+#mainMenuThemeCentered .list-group-item #mainMenuKnowledgeHeart {
+  font-size: 24px;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 div.box-menu {
   background-color: transparent;
