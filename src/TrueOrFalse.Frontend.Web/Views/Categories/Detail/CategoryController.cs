@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryController : BaseController
@@ -105,5 +104,4 @@ public class CategoryController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
-
 }

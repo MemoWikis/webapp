@@ -29,6 +29,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
+            Schedule_RecalcKnowledgeSummariesForCategory();
             Schedule_RecalcReputation();
             Schedule_RecalcReputationForAll();
             Schedule_TrainingReminderCheck();
@@ -60,6 +61,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         x.StartingDailyAt(new TimeOfDay(2, 00))
                          .OnEveryDay()
                          .EndingDailyAfterCount(1)).Build());
+        }
+
+        private static void Schedule_RecalcKnowledgeSummariesForCategory()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForCategory>().Build(),
+                TriggerBuilder.Create()
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
+                        .RepeatForever()).Build());
         }
 
         private static void Schedule_RecalcReputation()
@@ -115,6 +124,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
         public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }
+        public static void StartImmediately_RecalcKnowledgeStati() { StartImmediately<RecalcKnowledgeStati>(); }
 
         public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
         {

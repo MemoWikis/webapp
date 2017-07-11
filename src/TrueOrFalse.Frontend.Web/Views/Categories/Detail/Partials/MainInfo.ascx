@@ -48,7 +48,7 @@
             <div class="col-xs-12">
                 <header>
                     <div class="greyed">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.CountQuestions %> Frage<%= StringUtils.PluralSuffix(Model.CountQuestions, "n") %> und <%= Model.CountSets %> Lernset<%= StringUtils.PluralSuffix(Model.CountSets, "s") %>
+                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> und <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %>
                     </div>
                     <h1 style="margin-top: 5px; font-size: 26px;">
                        <%= Model.Name %>
@@ -132,7 +132,7 @@
                 </div>
                 <% if (Model.CountSets > 0)
                    { %>
-                    <a href="<%= Links.GameCreateFromSets(Model.Category.GetSets().Select(s => s.Id).ToList()) %>" rel="nofollow"
+                    <a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow"
                     data-allowed="logged-in" data-allowed-type="game">
                     </a>
                 <% } %>
