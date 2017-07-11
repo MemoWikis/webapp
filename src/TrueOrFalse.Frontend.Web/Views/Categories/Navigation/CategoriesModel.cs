@@ -8,47 +8,45 @@ public class CategoryNavigationModel : BaseModel
 
     public List<Category> CategoryTrail;
 
-    public List<Category> DefaultCategoriesList;
+    public List<Category> DefaultCategoriesList = Sl.CategoryRepo.GetDefaultCategoriesList();
+    public Category Allgemeinwissen = Sl.CategoryRepo.GetDefaultCategoriesList().First(c => c.Id == 709);
 
     public CategoryNavigationModel(Category actuallCategory)
     {
         ActuallCategory = actuallCategory;
 
-        FillDefaultCategoriesList();
-
         if (actuallCategory != null)
         {
             CategoryTrail = GetBreadCrumb.For(actuallCategory).ToList();
-            SetRootCategory();
             CategoryTrail.Reverse();
+            SetRootCategory();
         }
-    }
-
-    private void FillDefaultCategoriesList()
-    {
-        DefaultCategoriesList = new List<Category>
-        {
-            //Sl.CategoryRepo.GetByName("Schule").First(),
-            Sl.CategoryRepo.GetById(640),
-            Sl.CategoryRepo.GetById(151),
-            Sl.CategoryRepo.GetById(689),
-            Sl.CategoryRepo.GetById(709)
-        };
     }
 
     private void SetRootCategory()
     {
+        if (DefaultCategoriesList.Contains(ActuallCategory))
+        {
+            RootCategory = ActuallCategory;
+            return;
+        }
+
         if (CategoryTrail.Count > 0)
         {
-            RootCategory = CategoryTrail.First();
-            CategoryTrail.RemoveAt(0);
+            foreach (var category in CategoryTrail)
+            {
+                if (DefaultCategoriesList.Any(d => category.Id == d.Id))
+                {
+                    RootCategory = category;
+
+                    var rootCategoryIndex = CategoryTrail.FindIndex(c => c == category);
+                    CategoryTrail.RemoveRange(rootCategoryIndex, CategoryTrail.Count - rootCategoryIndex);
+
+                    return;
+                }
+            }
         }
-        else
-        {
-            RootCategory = 
-                DefaultCategoriesList.Contains(ActuallCategory)
-                ? ActuallCategory
-                : Sl.CategoryRepo.GetById(709);
-        }
+
+        RootCategory = Allgemeinwissen;
     }
 }

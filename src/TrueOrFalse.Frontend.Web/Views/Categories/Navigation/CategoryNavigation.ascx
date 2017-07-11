@@ -52,33 +52,25 @@
 </div>
 
 <script>
-    <% if (Model.ActuallCategory != null)
-       { %>
+<% if (Model.ActuallCategory != null)
+   { %>
     var rootCategory = $("#default-category-<%= Model.RootCategory.Id %>");
     rootCategory.addClass("active");
 
-    <% if(Model.ActuallCategory != Model.RootCategory) { %>
-        if (rootCategory.length === 0)
-            var rootCategory = $("#default-category-Allgemeinwissen");
+    <% if(Model.ActuallCategory != Model.RootCategory)
+        { %>
 
-        var actualCategory = $('<a class= "cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.ActuallCategory.Name, Model.ActuallCategory.Id) %>">')
-                            .append($('<i class="fa fa-caret-right"></i>'))
-                            .append($('<span class="actual-sub-category"><%: Model.ActuallCategory.Name %></span>'));
+            var actualCategory = $('<a class= "cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.ActuallCategory.Name, Model.ActuallCategory.Id) %>">')
+                                .append($('<i class="fa fa-caret-right"></i>'))
+                                .append($('<span class="actual-sub-category"><%: Model.ActuallCategory.Name %></span>'));
+            rootCategory.after(actualCategory);
 
-        rootCategory.after(actualCategory);
-
-        <% if (Model.CategoryTrail.Count > 0)
-           {
-               //for (int i = 0; i < 1; i++)
-               //{
-               //    if (i > Model.CategoryTrail.Count - 1)
-               //        break;
-        %>
+            <% if (Model.CategoryTrail.Count > 0)
+               { %>
                     var upperCategory = $('<a class="cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.CategoryTrail.Last().Name, Model.CategoryTrail.Last().Id) %>">')
                                         .append('<span class="sub-category"><%: Model.CategoryTrail.Last().Name %></span>');
                     rootCategory.after(upperCategory);
-            <%--<% } %>--%>
-        <% } %>
+            <% } %>
     <% } %>
-        <% } %>
+<% } %>
 </script>

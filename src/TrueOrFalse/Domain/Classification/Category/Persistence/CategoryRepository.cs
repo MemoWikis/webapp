@@ -9,7 +9,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly SearchIndexCategory _searchIndexCategory;
     private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory, CategoryRelationRepo categoryRelationRepo)
+public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory, CategoryRelationRepo categoryRelationRepo)
         : base(session){
         _searchIndexCategory = searchIndexCategory;
         _categoryRelationRepo = categoryRelationRepo;
@@ -287,5 +287,16 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session.QueryOver<Category>()
             .RowCount();
+    }
+
+    public List<Category> GetDefaultCategoriesList()
+    {
+        return new List<Category>
+        {
+            Sl.CategoryRepo.GetById(640), //Schule
+            Sl.CategoryRepo.GetById(151), //Studium
+            Sl.CategoryRepo.GetById(689), //Zertifikate
+            Sl.CategoryRepo.GetById(709) //Allgemeinwissen
+        };
     }
 }
