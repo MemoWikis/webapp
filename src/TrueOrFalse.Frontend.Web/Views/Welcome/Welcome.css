@@ -71,7 +71,8 @@ h6 {
     text-align: center;
   }
 }
-#memuchoInfoHeader {
+#memuchoInfoHeader,
+.WelcomeBoxHeader {
   font-weight: bold;
 }
 #memuchoInfoMain {
@@ -135,21 +136,107 @@ h6 {
   }
 }
 #memuchoInfoFooter {
+  text-align: center;
   padding-top: 20px;
   background-color: white;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   border-top: 1px solid #d6d6d6;
 }
-#memuchoInfoFooter #btnMoreAboutMemucho {
-  margin-top: 5px;
-  text-transform: uppercase;
+#memuchoInfoFooter a {
+  margin: 2px;
 }
-@media (min-width: 480px) {
-  #memuchoInfoFooter #btnMoreAboutMemucho {
-    float: right;
-  }
+#WelcomeDashboard {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  background-color: #F6F8FC;
+  background-color: white;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
+#WelcomeDashboard blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+#WelcomeDashboard > h1:first-child,
+#WelcomeDashboard > h2:first-child,
+#WelcomeDashboard > h3:first-child,
+#WelcomeDashboard > h4:first-child {
+  margin-top: 0;
+}
+#WelcomeDashboard img {
+  border-radius: 4px;
+}
+#WelcomeDashboard.Team .ImageColumn {
+  position: relative;
+  float: left;
+  width: 33.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
+#WelcomeDashboard.Team .ImageColumn img {
+  width: auto;
+  max-width: 100%;
+}
+/* Progress bar Next Level 
+------------------------------------------------------*/
+.ProgressBarContainer,
+.ProgressBarSegment {
+  height: 30px;
+}
+.ProgressBarContainer {
+  display: table;
+  width: 100%;
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 5px;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+.ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+}
+.ProgressBarLeft {
+  background-color: #e1efb3;
+}
+/*------------------------------------------------------*/
 .EduCategoryRow {
   margin-top: 20px;
   margin-bottom: 40px;

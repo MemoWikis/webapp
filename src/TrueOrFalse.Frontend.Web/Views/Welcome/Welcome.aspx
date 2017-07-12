@@ -9,6 +9,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     
     <script type="text/javascript" >
@@ -24,6 +25,95 @@
         });
     </script>
 
+    <script>
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(function () { drawKnowledgeChart("chartWishKnowledge") });
+        google.setOnLoadCallback(drawActivityChart);
+
+        function drawKnowledgeChart(chartElementId) {
+            if ($("#" + chartElementId).length === 0) {
+                return;
+            }
+
+            var data = google.visualization.arrayToDataTable([
+                    ['Wissenslevel', 'link', 'Anteil in %'],
+                    ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+                    ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                    ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                    ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+                ]);
+
+            var options = {
+                pieHole: 0.6,
+                tooltip: { isHtml: true },
+                legend: { position: 'labeled' },
+                pieSliceText: 'none',
+                chartArea: { 'width': '100%', height: '100%', top: 10 },
+                slices: {
+                    0: { color: '#afd534' },
+                    1: { color: '#fdd648' },
+                    2: { color: 'lightsalmon' },
+                    3: { color: 'silver' }
+                },
+                pieStartAngle: 0
+            };
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 2]);
+
+            var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
+            chart.draw(view, options);
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                location.href = urlPart;
+            }
+        }
+
+        function drawActivityChart() {
+            var data = google.visualization.arrayToDataTable([
+                [
+                    'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
+                ],
+                    <% foreach (var stats in Model.Last30Days){ %>
+                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
+                    <% } %>
+                    ]);
+
+                    var view = new google.visualization.DataView(data);
+                    view.setColumns([0, 1,
+                        {
+                            calc: "stringify",
+                            sourceColumn: 1,
+                            type: "string",
+                            role: "annotation"
+                        },
+                        2]);
+
+                    var options = {
+                        legend: { position: 'top', maxLines: 30 },
+                        tooltip: { isHtml: true },
+                        bar: { groupWidth: '89%' },
+                        chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
+                        colors: ['#afd534', 'lightsalmon'],
+                        isStacked: true,
+                    };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+                    chart.draw(view, options);
+            <% if (!Model.HasLearnedInLast30Days) { %>
+            var infoDivNotLearned = document.createElement('div');
+            infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
+            infoDivNotLearned.setAttribute('class', 'alert alert-info');
+            infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
+            document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
+            <% } %>
+
+        }
+    </script>
+
     <%= Scripts.Render("~/bundles/guidedTourScript") %>
     <%= Styles.Render("~/bundles/guidedTourStyle") %>
     <%= Scripts.Render("~/bundles/Welcome") %>
@@ -33,9 +123,9 @@
     
 <div class="row">
        
-    <div class="col-md-9">
+    <div class="col-md-12">
 
-        <h3 class="PageHeader">Finde deine Lerninhalte</h3>
+        <h1 class="PageHeader"><span class="ColoredUnderline MemuchoGeneral">Finde deine Lerninhalte</span></h1>
         
         <div class="EduCategoryRow row">
             <div class="xxs-stack col-xs-6 col-sm-3">
@@ -93,10 +183,146 @@
             </div>
         </div>
 
+        <div id="WelcomeDashboard">
+            <h2 class="WelcomeBoxHeader" style="margin-bottom: 25px;">Deine Wissenszentrale (Übersicht)</h2>
+            <%--<a href="<%= Links.Knowledge() %>">Zur Wissenszentrale</a>--%>
+            <div class="row">
+                <div class="col-md-4">
+                    <% if(Model.KnowledgeSummary.Total == 0) { %>
+                        <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
+                            <p>
+                                memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                            </p>
+                            <p>
+                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
+                                oder <a href="<%= Links.SetsAll() %>">Lernsets</a> aus und klicke dort auf das Herzsymbol:
+                                <ul style="list-style-type: none">
+                                    <li>
+                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        In deinem Wunschwissen
+                                    </li>                                
+                                    <li>
+                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i>Nicht</i> in deinem Wunschwissen.
+                                    </li>
+                                </ul>
+                            
+                            </p>
+                        </div>
+                    <% }else { %>
+                        <div id="chartWishKnowledge" style="height: 150px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
+                            </a>
+                        </div>
+                    <% } %>
+                </div>
+                <div class="col-md-4">
+                    <div id="chartActivityLastDays" style="height: 200px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
+                
+                    <div class="row" style="font-size: 12px">
+                        <div class="col-md-12">
+                            <% var streak = Model.StreakDays; %>
+                            <!-- -->
+                            Lerntage gesamt: <b><%= streak.TotalLearningDays %></b>
+                            <%--<span class="greyed" style="font-weight: bold;">
+                                seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
+                            </span>--%>
+                            <br />
+
+                            <!-- LongestStreak -->
+                            Längste Folge: <b><%= streak.LongestLength %></b>
+<%--                            <% if (streak.LongestLength == 0){ %>
+                                <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
+                            <% } else { %>
+                                <span class="greyed" style="font-weight: bold;">
+                                    <%= streak.LongestStart.ToString("dd.MM.") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                                </span>
+                            <% } %>--%>
+                            <br />
+
+                            <!-- CurrentStreak -->
+                            Aktuelle Folge: <b><%= streak.LastLength %></b>
+<%--                            <% if (streak.LastLength == 0){ %>
+                                <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
+                            <% } else { %>
+                                <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
+                            <% } %>--%>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div style="text-align: center; margin-bottom: 25px; margin-top: 15px;">
+                        <span class="level-display">
+                            <span style="display: inline-block; white-space: nowrap;">
+                                <svg>
+                                    <circle cx="50%" cy="50%" r="50%" />
+                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                                </svg>
+                            </span>
+                        </span>
+                        <p style="margin-top: 10px;">
+                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in Level <%= Model.ActivityLevel %>.
+                        </p>
+
+                    </div>
+                    
+
+<%--                    <span style="display: inline-block; width: 150px; font-size: 1.1em;">Deine Lernpunkte:</span>
+                    <span style="display: inline-block; width: 80px; font-size: 1.1em; font-weight: bold; text-align:center;"><%= Model.ActivityPoints.ToString("N0") %></span>
+                    <br />&nbsp;<br />
+
+                    <span style="display: inline-block; width: 150px; font-size: 1.1em; height: 40px; vertical-align: middle;">Dein Level:</span>
+                    <span style="display: inline-block; width: 80px; text-align:center;">
+                        <span class="level-display">
+                            <span style="display: inline-block; white-space: nowrap;">
+                                <svg>
+                                    <circle cx="50%" cy="50%" r="50%" />
+                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                                </svg>
+                            </span>
+                        </span>
+                    </span>
+                    <br />--%>
+
+                    <div class="NextLevelContainer">
+                        <div class="ProgressBarContainer">
+                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                                <div class="ProgressBarSegment ProgressBarLegend">
+                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                                </div>
+                            </div>
+                            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
+            
+                        </div>
+                    </div>     
+                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
+
+<%--                    <span style="display: inline-block; height: 40px; vertical-align: middle;">3.243 Lernpunkte <i class="fa fa-arrow-right"></i> Level</span>
+                    <span class="level-display">
+                        <span style="display: inline-block; white-space: nowrap;">
+                            <svg>
+                                <circle cx="50%" cy="50%" r="50%" />
+                                <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                            </svg>
+                        </span>
+                    </span>
+                    <br />
+--%>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
         <div id="memuchoInfo">
-            <h1 id="memuchoInfoHeader">
+            <h2 id="memuchoInfoHeader">
                 Dein Wissens-Assistent
-            </h1>            
+            </h2>            
             <div id="memuchoInfoMain">
                 <p>
                     <span class="fa-stack fa-2x numberCircleWrapper">
@@ -121,10 +347,62 @@
                 </p>
             </div>
             <div id="memuchoInfoFooter">
-                <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
+<%--                <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
                     <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
-                </a>
-                <a id="btnMoreAboutMemucho" href="<%= Links.AboutMemucho() %>" class="btn btn-primary">Erfahre mehr...</a><br />
+                </a>--%>
+                <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr...</a>
+                <a href="<%= Links.Register() %>" class="btn btn-primary">Jetzt registrieren</a>
+            </div>
+        </div>
+
+
+        
+        <div id="Awards">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="well" id="" style="padding: 10px; ">
+                        <div style="text-align: center;">
+                            <a href="/Kategorien/Learning-Level-Up/722">
+                                <img src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" style="margin-bottom: 10px;"/>
+                            </a>
+                        </div>
+                        <p style="text-align: center; margin-bottom: 0;">
+                            Wir freuen uns über die Kooperation mit Learning Level Up!
+                            <a href="/Kategorien/Learning-Level-Up/722" >
+                                <span style="white-space: nowrap">Zur Themenseite.</span>
+                            </a> 
+                        </p>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="well" id="awardLandDerIdeen" style="padding: 10px; ">
+                        <div style="text-align: center;">
+                            <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
+                                <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017" style="margin-bottom: 10px; margin-left: -10px; margin-right: -10px;"/>
+                            </a>
+                        </div>
+                        <p style="text-align: center; margin-bottom: 5px;">
+                            memucho: Ausgezeichneter Ort im Land der Ideen 2017.
+                        </p>
+                        <p style="text-align: center; margin-bottom: 0;">
+                            <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
+                                <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>        
+                </div>
+                <div class="col-md-4">
+                    <div class="well" id="nominationInnopreis" style="padding: 10px; ">
+                        <div style="text-align: center;">
+                            <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
+                        </div>
+                        <p style="text-align: center; margin-bottom: 0;">
+                            <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                                <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>    
+                </div>
             </div>
         </div>
 
@@ -413,7 +691,7 @@
         </div>  
     </div>
             
-    <div class="col-md-3">
+    <div class="col-md-12">
         <%
             if (!Model.IsLoggedIn){
         %>
@@ -443,47 +721,7 @@
             </div>
         <% } %>
 
-        <div class="well" id="" style="padding: 10px; ">
-            
-            <div style="text-align: center;">
-                <a href="/Kategorien/Learning-Level-Up/722">
-                    <img src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" style="margin-bottom: 10px;"/>
-                </a>
-            </div>
-            <p style="text-align: center; margin-bottom: 0;">
-                Wir freuen uns über die Kooperation mit Learning Level Up!
-                <a href="/Kategorien/Learning-Level-Up/722" >
-                    <span style="white-space: nowrap">Zur Themenseite.</span>
-                </a> 
-            </p>
-        </div>        
-
-        <div class="well" id="awardLandDerIdeen" style="padding: 10px; ">
-            <div style="text-align: center;">
-                <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
-                    <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017" style="margin-bottom: 10px; margin-left: -10px; margin-right: -10px;"/>
-                </a>
-            </div>
-            <p style="text-align: center; margin-bottom: 5px;">
-                memucho: Ausgezeichneter Ort im Land der Ideen 2017.
-            </p>
-            <p style="text-align: center; margin-bottom: 0;">
-                <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
-                    <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
-                </a>
-            </p>
-        </div>        
-
-        <div class="well" id="nominationInnopreis" style="padding: 10px; ">
-            <div style="text-align: center;">
-                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
-            </div>
-            <p style="text-align: center; margin-bottom: 0;">
-                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
-                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
-                </a>
-            </p>
-        </div>        
+    
 
 <%--        <div class="well" id="oerCamp" style="padding: 10px; ">
             <div style="text-align: center;">
