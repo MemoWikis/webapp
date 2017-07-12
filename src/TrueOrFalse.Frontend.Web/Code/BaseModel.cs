@@ -61,15 +61,25 @@ public class BaseModel : BaseResolve
     private void SetLeftMenuData()
     {
         var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
-        var isThemePageRequest = (string)httpContextData["controller"] == "Category" &&
-                                 (string)httpContextData["action"] == "Category";
         var isMainPageRequest = (string)httpContextData["controller"] == "Welcome" &&
                                 (string)httpContextData["action"] == "Welcome";
+        var isCategoryPageRequest = (string)httpContextData["controller"] == "Category" &&
+                                 (string)httpContextData["action"] == "Category";
+        var isCategoriesPageRequest = (string)httpContextData["controller"] == "Categories" &&
+                                    (string)httpContextData["action"] == "Categories";
+        var isEditCategoryPageRequest = (string)httpContextData["controller"] == "EditCategory" &&
+                                        (string)httpContextData["action"] == "Edit";
+        var isSetPageRequest = (string)httpContextData["controller"] == "EditSet" &&
+                                        (string)httpContextData["action"] == "QuestionSet";
+        var isSetsPageRequest = (string)httpContextData["controller"] == "Sets" &&
+                                        (string)httpContextData["action"] == "Sets";
+        var isEditSetsPageRequest = (string)httpContextData["controller"] == "EditSet" &&
+                                        (string)httpContextData["action"] == "Edit";
 
-        if (isThemePageRequest || isMainPageRequest)
+        if (isCategoryPageRequest || isMainPageRequest || isCategoriesPageRequest || isEditCategoryPageRequest || isSetPageRequest || isSetsPageRequest || isEditSetsPageRequest)
             IsThemeNavigationPage = true;
 
-        if (isThemePageRequest)
+        if (isCategoryPageRequest || isEditCategoryPageRequest)
             MenuLeftModel.ActualCategory = Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"]));
     }
 }

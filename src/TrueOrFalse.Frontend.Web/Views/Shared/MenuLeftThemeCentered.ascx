@@ -23,33 +23,33 @@
                         <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>">
                             Themen
                 
-                            <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
+<%--                            <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
                                 onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; "
-                                title="Neues Thema erstellen"></i>             
+                                title="Neues Thema erstellen"></i>--%>
                         </a>
        
                         <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
                             Lernsets
                 
-                            <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
+<%--                            <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
                                 onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
-                                title="Neues Lernset erstellen"></i>
+                                title="Neues Lernset erstellen"></i>--%>
                         </a>    
 
                         <a id="mainMenuBtnQuestions" class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
                             Fragen
-                            <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
+<%--                            <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
                                 onclick="window.location = '<%= Links.CreateQuestion() %>'; return false; "
-                                title="Frage erstellen"></i>
+                                title="Frage erstellen"></i>--%>
                         </a>
                     </div>
 
                     <div id="mainMenuGamesUsersMessages" class="menu-section secondary-section">
                         <a id="mainMenuBtnGames" class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>">
                             Spielen
-                        <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new"
+<%--                        <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new"
                             onclick="window.location = '<%= Links.GameCreate() %>'; return false; "
-                            title="Spiel erstellen"></i>
+                            title="Spiel erstellen"></i>--%>
                         </a>
 
                         <a id="mainMenuBtnUsers" class="list-group-item users <%= Model.Active(MenuEntry.Users) %>" href="<%= Links.Users() %>">
