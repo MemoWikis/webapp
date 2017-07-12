@@ -47,7 +47,12 @@ public class UserValuationCache
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {
-            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation, (k, v) => v);
+            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation, (k, v) => questionValuation);
+        }
+
+        if (questionValuation.IsInWishKnowledge() != cacheItem.QuestionValuations[questionValuation.Question.Id].IsInWishKnowledge())
+        {
+            var x = cacheItem.QuestionValuations[questionValuation.Question.Id];
         }
     }
 
@@ -57,7 +62,7 @@ public class UserValuationCache
 
         lock ("82f573db-40a7-43d9-9e68-6cd78b626e8d")
         {
-            cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation, (k, v) => v);
+            cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation, (k, v) => categoryValuation);
         }
     }
 
