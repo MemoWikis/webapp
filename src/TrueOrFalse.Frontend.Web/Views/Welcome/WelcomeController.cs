@@ -10,7 +10,7 @@ public class WelcomeController : BaseController
     public ActionResult Welcome(){
         return View(new WelcomeModel());
     }
-    public ActionResult Drive()
+    public ActionResult Directions()
     {
         return View(new BaseModel());
     }

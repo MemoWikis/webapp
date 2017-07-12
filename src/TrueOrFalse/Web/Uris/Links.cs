@@ -408,7 +408,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
-        public static string Drive => GetUrlHelper().Action("Drive", "Welcome");
+        public static string Drive => GetUrlHelper().Action("Direction", "Welcome");
 
         public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
 

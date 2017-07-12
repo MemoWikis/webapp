@@ -713,9 +713,12 @@
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
-    <Content Include="Views\Welcome\Drive.aspx" />
+    <Content Include="Views\Welcome\Directions.aspx" />
+    <Content Include="Views\Welcome\Directions.css">
+      <DependentUpon>Directions.less</DependentUpon>
+    </Content>
     <Content Include="Views\Welcome\Drive.css">
-      <DependentUpon>Drive.less</DependentUpon>
+      <DependentUpon>Directions.less</DependentUpon>
     </Content>
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
@@ -2624,7 +2627,7 @@
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
-    <Content Include="Views\Welcome\Drive.less" />
+    <Content Include="Views\Welcome\Directions.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
