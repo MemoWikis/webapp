@@ -17,9 +17,19 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
+    public List<Category> DescendantCategories = new List<Category>();
+
+    public IList<Category> AggregatedCategories = new List<Category>();
+
+    public IList<Category> NonAggregatedCategories = new List<Category>();
+
+    public string CategoriesToExcludeIdsString { get; set; }
+
+    public string CategoriesToIncludeIdsString { get; set; }
+
     public bool DisableLearningFunctions { get; set; }
 
-    public string TopicMarkdown { get; set; }
+    public string TopicMarkdown { get; set; } 
 
     public string FeaturedSetIdsString { get; set; }
 
@@ -72,16 +82,22 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
+        AggregatedCategories = category.AggregatedCategories();
+        NonAggregatedCategories = category.NonAggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
+        CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString;
+        CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
+        DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
     }
 
     public ConvertToCategoryResult ConvertToCategory()
     {
         var category = new Category(Name);
         category.Description = Description;
+        
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
@@ -115,7 +131,7 @@ public class EditCategoryModel : BaseModel
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 
         FillFromRequest(category);
-    }
+}
 
     private static string ToNumericalString(string input)
     {
@@ -479,6 +495,24 @@ public class EditCategoryModel : BaseModel
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
         ParentCategories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
+    }
+
+    public bool IsInCategoriesToInclude(int categoryId)
+    {
+        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString) 
+            && CategoriesToIncludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x))
+            .Any(c => c == categoryId);
+    }
+
+    public bool IsInCategoriesToExclude(int categoryId)
+    {
+        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
+               && CategoriesToExcludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x))
+            .Any(c => c == categoryId);
     }
 }
 

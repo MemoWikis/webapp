@@ -6,8 +6,40 @@ using NHibernate.Criterion;
 
 public class KnowledgeSummaryLoader
 {
-    public static KnowledgeSummary Run(int userId, Category category, bool onlyValuated = true) 
-        => Run(userId, GetQuestionsForCategory.AllIncludingQuestionsInSet(category.Id).GetIds(), onlyValuated);
+    public static KnowledgeSummary RunFromCache(Category category, int userId)
+    {
+        var categoryValuation = Sl.CategoryValuationRepo.GetBy(category.Id, userId);
+
+        if (categoryValuation == null)
+        {
+            return new KnowledgeSummary
+            {
+                NotInWishknowledge = category.CountQuestionsAggregated
+            };
+        }
+
+        return new KnowledgeSummary
+        {
+            NotLearned = categoryValuation.CountNotLearned,
+            NeedsLearning = categoryValuation.CountNeedsLearning,
+            NeedsConsolidation = categoryValuation.CountNeedsConsolidation,
+            Solid = categoryValuation.CountSolid,
+            NotInWishknowledge = Math.Max(0,
+                category.CountQuestionsAggregated - categoryValuation.CountNotLearned -
+                categoryValuation.CountNeedsLearning - categoryValuation.CountNeedsConsolidation -
+                categoryValuation.CountSolid)
+        };
+    }
+
+    public static KnowledgeSummary RunFromCache(int categoryId, int userId)
+    {
+        return RunFromCache(Sl.CategoryRepo.GetById(categoryId), userId);
+    }
+
+    public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
+        => Run(userId, 
+            Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestions().GetIds(),
+            onlyValuated);
 
     public static KnowledgeSummary Run(int userId, Set set, bool onlyValuated = true) 
         => Run(userId, set.QuestionIds(), onlyValuated);

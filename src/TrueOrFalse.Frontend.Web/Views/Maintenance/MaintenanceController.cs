@@ -226,9 +226,9 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult AssignCategoryToQuestionsInSet(ToolsModel toolsModel)
     {
-        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryId);
+        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToAddId);
 
-        var setIds = toolsModel.SetsToUpdateIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x)).ToList();
 
         var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
@@ -261,7 +261,44 @@ public class MaintenanceController : BaseController
 
         return View("Tools", toolsModel );
     }
-    
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult RemoveCategoryFromQuestionsInSet(ToolsModel toolsModel)
+    {
+        var categoryToRemove = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToRemoveId);
+
+        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)).ToList();
+
+        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
+
+        if (sets.Count == 0)
+        {
+            throw new Exception("no sets found");
+        }
+
+        var setsString = "";
+
+        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
+
+        setsString = setsString.Substring(2); //Remove superfluous characters
+
+        var questionRepo = Sl.R<QuestionRepo>();
+
+        var questions = sets.SelectMany(s => s.Questions());
+
+        foreach (var question in questions)
+        {
+            question.Categories.Remove(categoryToRemove);
+            question.Categories = question.Categories.Distinct().ToList();
+            questionRepo.Update(question);
+        }
+
+        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToRemove.Name}\" (Id {categoryToRemove.Id}) wurde von den Fragen in den Lernsets {setsString} entfernt");
+
+        return View("Tools", toolsModel);
+    }
 
     [HttpPost]
     public ActionResult MigrateAnswerData()
@@ -447,7 +484,7 @@ public class MaintenanceController : BaseController
 
         foreach (var cat in cats)
         {
-            if (cat.CountQuestions != questionRepo.GetForCategory(cat.Id).Count)
+            if (cat.GetCountQuestions() != questionRepo.GetForCategory(cat.Id).Count)
                 list.Add(cat);
         }
 

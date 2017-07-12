@@ -7,10 +7,12 @@ using TrueOrFalse.Search;
 public class CategoryRepository : RepositoryDbBase<Category>
 {
     private readonly SearchIndexCategory _searchIndexCategory;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
+    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory, CategoryRelationRepo categoryRelationRepo)
         : base(session){
         _searchIndexCategory = searchIndexCategory;
+        _categoryRelationRepo = categoryRelationRepo;
     }
 
     public Category GetByIdEager(int categoryId) => 
@@ -34,6 +36,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Update(category);
         base.Update(category);
         Flush();
+        Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
     }
 
     public override void Delete(Category category)
@@ -41,7 +44,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory.Delete(category);
         base.Delete(category);
     }
-
 
     public IList<Category> GetByName(string categoryName)
     {
@@ -56,6 +58,69 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return GetByIds(questionIds.ToArray());
     }
+
+    public IList<Category> GetByIdsFromString(string idsString)
+    {
+        return idsString
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x))
+                .Select(GetById)
+                .Where(set => set != null)
+                .ToList();
+    }
+
+    public IList<Category> GetAggregatedCategories(Category category, bool includeSelf = false)
+    {
+        var aggregatedCategories = _categoryRelationRepo
+            .GetAll()
+            .Where(r => r.Category == category && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
+            .Select(r => r.RelatedCategory);
+
+        if(includeSelf)
+            aggregatedCategories = aggregatedCategories.Union(new List<Category>{category});
+
+         return aggregatedCategories.ToList();
+    }
+
+    public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
+    {
+        var includingCategories = GetCategoriesForRelatedCategory(category, CategoryRelationType.IncludesContentOf);
+
+        if(includingSelf)
+            includingCategories = includingCategories.Union(new List<Category>{category}).ToList();
+
+        return includingCategories;
+
+    }
+
+    public IList<Category> GetCategoriesForRelatedCategory(Category relatedCategory, CategoryRelationType relationType = CategoryRelationType.None)
+    {
+        var query = _session.QueryOver<CategoryRelation>()
+            .Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf
+                        && r.RelatedCategory == relatedCategory);
+
+        if (relationType != CategoryRelationType.None)
+        {
+            query.Where(r => r.CategoryRelationType == relationType);
+        }
+
+        return query.List()
+            .Select(r => r.Category)
+            .ToList();
+    }
+
+
+    public IList<Category> GetChildren(int categoryId)
+    {
+
+        var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
+            FROM relatedcategoriestorelatedcategories
+            WHERE  Related_id = {categoryId} 
+            AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
+
+        return GetByIds(categoryIds.ToArray());
+    }
+
 
     public IList<Category> GetChildren(
         CategoryType parentType,
@@ -84,13 +149,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return query.Select(r => r.Category).List<Category>();
     }
 
-    public IList<Category> GetDescendants(
-        CategoryType parentType,
-        CategoryType descendantType,
-        int parentId,
-        String searchTerm = "")
+    public IList<Category> GetDescendants(int parentId)
     {
-        var currentGeneration  = GetChildren(parentType, descendantType, parentId, searchTerm).ToList();
+        var currentGeneration  = GetChildren(parentId).ToList();
         var nextGeneration = new List<Category>();
         var descendants = new List<Category>();
 
@@ -100,7 +161,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
             foreach (var category in currentGeneration)
             {
-                var children = GetChildren(parentType, descendantType, category.Id, searchTerm).ToList();
+                var children = GetChildren(category.Id).ToList();
                 if (children.Count > 0)
                 {
                     nextGeneration.AddRange(children);
@@ -112,6 +173,75 @@ public class CategoryRepository : RepositoryDbBase<Category>
         } 
 
         return descendants;
+    }
+
+    public int CountAggregatedSets(int categoryId)
+    {
+        var count = 
+           _session.CreateSQLQuery($@"
+
+            SELECT COUNT(DISTINCT(setId)) FROM
+            (
+
+                SELECT DISTINCT(cs.Set_id) setId
+                FROM categories_to_sets cs
+                WHERE cs.Category_id = {categoryId}
+
+                UNION
+
+                SELECT DISTINCT(cs.Set_id) setId
+                FROM relatedcategoriestorelatedcategories rc
+                INNER JOIN category c
+                ON rc.Related_Id = c.Id
+                INNER JOIN categories_to_sets cs
+                ON c.Id = cs.Category_id
+                WHERE rc.Category_id = {categoryId}
+                AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
+            ) c
+        ").UniqueResult<long>();
+
+        return (int)count;
+    }
+
+    public int CountAggregatedQuestions(int categoryId)
+    {
+        var count = _session.CreateSQLQuery($@"
+        SELECT COUNT(DISTINCT(questionId)) FROM 
+        (
+	        SELECT DISTINCT(cq.Question_id) questionId
+            FROM categories_to_questions cq
+            WHERE cq.Category_id = {categoryId}
+
+            UNION
+
+            SELECT DISTINCT(qs.Question_id) questionId
+	        FROM relatedcategoriestorelatedcategories rc
+	        INNER JOIN category c
+	        ON rc.Related_Id = c.Id
+	        INNER JOIN categories_to_sets cs
+	        ON c.Id = cs.Category_id
+	        INNER JOIN questioninset qs
+	        ON cs.Set_id = qs.Set_id
+	        WHERE rc.Category_id = {categoryId}
+	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf} 
+	
+	        UNION
+	
+	        SELECT DISTINCT(cq.Question_id) questionId 
+	        FROM relatedcategoriestorelatedcategories rc
+	        INNER JOIN category c
+	        ON rc.Related_Id = c.Id
+	        INNER JOIN categories_to_sets cs
+	        ON c.Id = cs.Category_id
+	        INNER JOIN categories_to_questions cq
+	        ON c.Id = cq.Category_id
+	        WHERE rc.Category_id = {categoryId}
+	        AND rc.CategoryRelationType = {(int)CategoryRelationType.IncludesContentOf}
+        ) c
+        ").UniqueResult<long>();//Union is distinct by default
+
+        return (int)count;
+        
     }
 
     public override IList<Category> GetByIds(params int[] categoryIds)
@@ -131,7 +261,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session
             .QueryOver<Category>()
-            .OrderBy(c => c.CountQuestions).Desc
+            .OrderBy(c => c.CountQuestionsAggregated).Desc
             .Take(amount)
             .List();
     }
@@ -140,7 +270,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session
             .QueryOver<Category>()
-            .Where(c => c.CountQuestions > 3)
+            .Where(c => c.CountQuestionsAggregated > 3 || c.CountQuestions > 3)
             .OrderBy(c => c.DateCreated)
             .Desc
             .Take(amount)
@@ -152,16 +282,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
     }
 
-    public IList<Category> GetChildren(int categoryId)
-    {
-        var categoryIds = _session.CreateSQLQuery($@"SELECT Category_id
-            FROM relatedcategoriestorelatedcategories
-            WHERE  Related_id = {categoryId} 
-            AND CategoryRelationType = {(int)CategoryRelationType.IsChildCategoryOf}").List<int>();
-
-        return GetByIds(categoryIds.ToArray());
-    }
-
+    
     public int TotalCategoryCount()
     {
         return _session.QueryOver<Category>()

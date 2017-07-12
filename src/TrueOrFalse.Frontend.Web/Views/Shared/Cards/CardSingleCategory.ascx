@@ -11,7 +11,7 @@
 
         <div class="CardContent">
             <h6 class="ItemInfo">
-                <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>">Thema mit <%= Model.QCount %> Fragen</a>
+                <a href="<%= Links.CategoryDetail(Model.CategoryName,Model.CategoryId) %>">Thema mit <%= Model.QuestionCount %> Fragen</a>
             </h6>
             <div class="LinkArea">
                 <h4 class="ItemTitle"><%: Model.CategoryName %></h4>

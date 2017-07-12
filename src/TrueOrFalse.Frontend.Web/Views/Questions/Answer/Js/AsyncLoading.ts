@@ -1,6 +1,11 @@
 ﻿class AsyncLoading {
     constructor() {
+
+        if (Utils.IsInWidget())
+            return;
+
         $("#AnswerQuestion").ready(() => {
+
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
@@ -75,6 +80,8 @@
     private loadNewQuestion(url: string) {
         $.ajax({
             url: url,
+            type: 'POST',
+            headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
                 if (result.DateRedirectionLink) {

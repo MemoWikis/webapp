@@ -12,12 +12,23 @@ public class SetDeleter
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(set.Creator.Id);
 
+        var categoriesToUpdate = set.Categories.ToList();
+
         Sl.R<UserActivityRepo>().DeleteForSet(setId);
         Sl.R<LearningSessionRepo>().UpdateForDeletedSet(setId);
         setRepo.Delete(set);
 
         Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
+
+        Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
+
+        var aggregatedCategoriesToUpdate = CategoryAggregation.GetInterrelatedCategories(categoriesToUpdate);
+
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+            category.UpdateAggregatedSets();
+        }
     }
 
     public class CanBeDeletedResult
