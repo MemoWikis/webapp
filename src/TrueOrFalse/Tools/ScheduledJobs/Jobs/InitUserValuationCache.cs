@@ -19,8 +19,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                 UserValuationCache.GetItem(dataMap.GetInt("userId"));
 
-                Thread.Sleep(3000);
-
             }, "InitUserValuationCache");
         }
 
