@@ -10,6 +10,7 @@ public class EditSetController : BaseController
     private const string _viewLocation = "~/Views/Sets/Edit/EditSet.aspx";
 
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult Create()
     {
         var model = new EditSetModel();
@@ -19,6 +20,7 @@ public class EditSetController : BaseController
 
     [HttpPost]
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult Create(EditSetModel model)
     {
         if (!ModelState.IsValid){
@@ -42,6 +44,7 @@ public class EditSetController : BaseController
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ViewResult Edit(int id)
     {
         var set = Sl.SetRepo.GetById(id);
@@ -60,6 +63,7 @@ public class EditSetController : BaseController
 
     [HttpPost]
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ViewResult Edit(int id, EditSetModel model)
     {
         var setRepo = Resolve<SetRepo>();

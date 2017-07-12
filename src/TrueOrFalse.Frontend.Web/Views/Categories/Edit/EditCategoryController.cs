@@ -20,6 +20,7 @@ public class EditCategoryController : BaseController
     }
 
     [SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu]
     public ViewResult Create(string name, string parent, string type)
     {
         var model = new EditCategoryModel {Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
@@ -31,6 +32,7 @@ public class EditCategoryController : BaseController
     }
 
     //[SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu(true)]
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
@@ -83,6 +85,7 @@ public class EditCategoryController : BaseController
 
     [HttpPost]
     [SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {                
         model.FillReleatedCategoriesFromPostData(Request.Form);

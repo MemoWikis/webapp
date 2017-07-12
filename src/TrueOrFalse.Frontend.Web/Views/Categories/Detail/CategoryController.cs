@@ -9,6 +9,7 @@ public class CategoryController : BaseController
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
     [SetMenu(MenuEntry.CategoryDetail)]
+    [SetThemeMenu(true)]
     public ActionResult Category(string text, int id)
     {
         if (SeoUtils.HasUnderscores(text))
