@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
@@ -69,7 +70,7 @@ public class CategoryController : BaseController
     {
         var category = Resolve<CategoryRepository>().GetById(categoryId);
 
-        var questions = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
+        var questions = category.GetAggregatedQuestionsFromMemoryCache();
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
@@ -90,7 +91,7 @@ public class CategoryController : BaseController
     public ActionResult StartLearningSessionForSets(List<int> setIds, string setListTitle)
     {
         var sets = R<SetRepo>().GetByIds(setIds);
-        var questions = sets.SelectMany(s => s.Questions()).ToList();
+        var questions = sets.SelectMany(s => s.Questions()).Distinct().ToList();
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");

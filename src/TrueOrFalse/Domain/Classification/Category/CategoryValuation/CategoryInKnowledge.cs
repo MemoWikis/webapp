@@ -14,7 +14,7 @@ public class CategoryInKnowledge
 
     private static void PinQuestionsInCategory(int categoryId, User user)
     {
-        var questions = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
+        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         QuestionInKnowledge.Pin(questions, user);
     }
 
