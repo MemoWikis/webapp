@@ -945,6 +945,7 @@
     <Compile Include="Tools\Update\UpdateStepExecuter.cs" />
     <Compile Include="Tools\Update\Update.cs" />
     <Compile Include="Web\Attributes\Filters\AccessOnlyLocalAttribute.cs" />
+    <Compile Include="Web\Attributes\Filters\SetThemeMenuVisibilty.cs" />
     <Compile Include="Web\Attributes\Validation\MustBeTrueAttribute.cs" />
     <Compile Include="Web\Context\MenuHistory\DateHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\CategoryHistory.cs" />
@@ -955,6 +956,7 @@
     <Compile Include="Web\Context\MenuHistory\QuestionSetHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
+    <Compile Include="Web\Context\Menu\ThemeMenu.cs" />
     <Compile Include="Web\Context\Menu\Menu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
