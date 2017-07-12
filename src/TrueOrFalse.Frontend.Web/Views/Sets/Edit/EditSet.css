@@ -188,7 +188,7 @@ textarea.form-control {
     border: solid;
    
 }*/
-.result {
+.questionsSearch {
   margin: 5px 5px 5px 13px;
   padding: 5px 5px 5px 5px;
   font-size: 1.3em;
@@ -196,6 +196,10 @@ textarea.form-control {
   background: none;
   background-color: white;
   border: 1px solid gainsboro;
+}
+.questionsSearch .previewImage {
+  height: 50px;
+  width: 70px;
 }
 .FormSection {
   box-shadow: none;
