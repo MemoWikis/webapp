@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System;
+using NHibernate;
 using NUnit.Framework;
 
 namespace TrueOrFalse.Tests
@@ -29,6 +30,27 @@ namespace TrueOrFalse.Tests
             var summary = KnowledgeSummaryLoader.Run(context.Creator.Id);
             Assert.That(summary.Total, Is.EqualTo(2));
             Assert.That(summary.NotLearned, Is.EqualTo(2));
+        }
+
+        [Test]
+        [Ignore("")]
+        public void NumberOfKnowledgewheelCombinations()
+        {
+            var count = 0;
+
+            for (var i = 0; i <= 100; i++)
+            {
+                for (var j = 0; j < (100 - i); j++)
+                {
+                    for (var k = 0; k < (100 - i - j); k++)
+                    {
+                        count++;
+
+                        if (i + k + j > 100)
+                            throw new Exception();
+                    }
+                }
+            }
         }
     }
 }
