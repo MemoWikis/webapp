@@ -2,26 +2,35 @@
 {
     public class SetThemeMenu : ActionFilterAttribute
     {
-        private readonly bool _isVisible;
-        private readonly Category _currentCategory;
+        private bool _hasBelongingCategory;
 
-        public SetThemeMenu(bool hasBelongingCategory){
-            _isVisible = true;
-
-            if (hasBelongingCategory)
-            {
-                var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
-                _currentCategory = Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"]));
-            }
+        public SetThemeMenu(bool hasBelongingCategory = false)
+        {
+            _hasBelongingCategory = hasBelongingCategory;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var userSession = new SessionUiData();
-            userSession.ThemeMenu.IsVisible = _isVisible;
-            userSession.ThemeMenu.ActualCategory = _currentCategory;
+            userSession.ThemeMenu.IsActive = true;
+
+            if (_hasBelongingCategory)
+            {
+                var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
+                var currentCategory = Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"]));
+                userSession.ThemeMenu.ActualCategory = currentCategory;
+            }
 
             base.OnActionExecuting(filterContext);
+        }
+
+        public override void OnResultExecuted(ResultExecutedContext filterContext)
+        {
+            var userSession = new SessionUiData();
+            userSession.ThemeMenu.IsActive = false;
+            userSession.ThemeMenu.ActualCategory = null;
+
+            base.OnResultExecuted(filterContext);
         }
     }
 }

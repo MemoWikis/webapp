@@ -3,6 +3,6 @@
 [Serializable]
 public class ThemeMenu
 {
-    public bool IsVisible = false;
+    public bool IsActive = false;
     public Category ActualCategory;
 }

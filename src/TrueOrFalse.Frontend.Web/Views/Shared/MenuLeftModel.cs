@@ -4,8 +4,6 @@
     public bool IsInstallationAdmin;
     public Menu Menu;
 
-    public Category ActualCategory;
-
     public int UnreadMessageCount = 0;
 
     public MenuLeftModel()
@@ -14,6 +12,7 @@
         var sessionUiData= Resolve<SessionUiData>();
 
         Menu = sessionUiData.Menu;
+
         if (userSession.User != null)
         {
             IsInstallationAdmin = userSession.IsInstallationAdmin;

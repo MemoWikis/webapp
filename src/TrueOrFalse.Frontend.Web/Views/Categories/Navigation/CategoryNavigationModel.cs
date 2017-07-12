@@ -3,7 +3,7 @@ using System.Linq;
 
 public class CategoryNavigationModel : BaseModel
 {
-    public Category ActuallCategory;
+    public Category ActualCategory;
     public Category RootCategory;
 
     public List<Category> CategoryTrail;
@@ -11,13 +11,12 @@ public class CategoryNavigationModel : BaseModel
     public List<Category> DefaultCategoriesList = Sl.CategoryRepo.GetDefaultCategoriesList();
     public Category Allgemeinwissen = Sl.CategoryRepo.GetDefaultCategoriesList().First(c => c.Id == 709);
 
-    public CategoryNavigationModel(Category actuallCategory)
+    public CategoryNavigationModel()
     {
-        ActuallCategory = actuallCategory;
-
-        if (actuallCategory != null)
+        ActualCategory = ThemeMenu.ActualCategory;
+        if (ActualCategory != null)
         {
-            CategoryTrail = GetBreadCrumb.For(actuallCategory).ToList();
+            CategoryTrail = GetBreadCrumb.For(ActualCategory).ToList();
             CategoryTrail.Reverse();
             SetRootCategory();
         }
@@ -25,9 +24,9 @@ public class CategoryNavigationModel : BaseModel
 
     private void SetRootCategory()
     {
-        if (DefaultCategoriesList.Contains(ActuallCategory))
+        if (DefaultCategoriesList.Contains(ActualCategory))
         {
-            RootCategory = ActuallCategory;
+            RootCategory = ActualCategory;
             return;
         }
 

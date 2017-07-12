@@ -52,17 +52,17 @@
 </div>
 
 <script>
-<% if (Model.ActuallCategory != null)
+<% if (Model.ActualCategory != null)
    { %>
     var rootCategory = $("#default-category-<%= Model.RootCategory.Id %>");
     rootCategory.addClass("active");
 
-    <% if(Model.ActuallCategory != Model.RootCategory)
+    <% if(Model.ActualCategory != Model.RootCategory)
         { %>
 
-            var actualCategory = $('<a class= "cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.ActuallCategory.Name, Model.ActuallCategory.Id) %>">')
+            var actualCategory = $('<a class= "cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.ActualCategory.Name, Model.ActualCategory.Id) %>">')
                                 .append($('<i class="fa fa-caret-right"></i>'))
-                                .append($('<span class="actual-sub-category"><%: Model.ActuallCategory.Name %></span>'));
+                                .append($('<span class="actual-sub-category"><%: Model.ActualCategory.Name %></span>'));
             rootCategory.after(actualCategory);
 
             <% if (Model.CategoryTrail.Count > 0)

@@ -15,7 +15,7 @@
                 </a>
             </div>
             
-            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(Model.ActualCategory)); %>
+            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
             
             <% if (isLongMenu)
                { %>
