@@ -60,7 +60,7 @@
     <% if(Model.ActualCategory != Model.RootCategory)
         { %>
 
-            var actualCategory = $('<a class= "cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.ActualCategory.Name, Model.ActualCategory.Id) %>">')
+            var actualCategory = $('<a class= "cat sub list-group-item actual-category active" href="<%= Links.CategoryDetail(Model.ActualCategory.Name, Model.ActualCategory.Id) %>">')
                                 .append($('<i class="fa fa-caret-right"></i>'))
                                 .append($('<span class="actual-sub-category"><%: Model.ActualCategory.Name %></span>'));
             rootCategory.after(actualCategory);
