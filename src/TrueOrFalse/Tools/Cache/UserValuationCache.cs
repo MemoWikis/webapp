@@ -41,6 +41,8 @@ public class UserValuationCache
 
     public static IList<QuestionValuation> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
 
+    public static IList<CategoryValuation> GetCategoryValuations(int userId) => GetItem(userId).CategoryValuations.Values.ToList();
+
     public static void AddOrUpdate(QuestionValuation questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);

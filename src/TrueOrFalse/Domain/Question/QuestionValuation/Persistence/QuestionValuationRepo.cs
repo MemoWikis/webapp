@@ -104,7 +104,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
         UserValuationCache.AddOrUpdate(questionValuation);
-
     }
 
     public override void Update(QuestionValuation questionValuation)
@@ -113,6 +112,5 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
         UserValuationCache.AddOrUpdate(questionValuation);
-
     }
 }

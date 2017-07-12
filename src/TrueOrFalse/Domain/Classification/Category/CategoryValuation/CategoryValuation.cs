@@ -1,5 +1,7 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using System.Diagnostics;
+using Seedworks.Lib.Persistence;
 
+[DebuggerDisplay("CategoryId={CategoryId} IsInWuwi: {IsInWishKnowledge()}")]
 public class CategoryValuation : DomainEntity
 {
     public virtual int UserId { get; set; }
