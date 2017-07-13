@@ -316,26 +316,27 @@
 
         .primary-point-text {
             display: inline-block;
-            margin-left: 5px;
+            margin-left: 8px;
         }
     }
 
     .list-group-item {
+        color: @global-text-color;
         background-color: white;
         border: none;
-        font-size: 15px;
-        padding-top: 10px;
-        padding-bottom: 9px;
+        font-size: 14px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        padding-left: 8px;
         margin-bottom: unset;
 
         &.active, &.active:focus {
-            color: @global-text-color;
             background-color: @menu-light-blue;
         }
 
         &:hover {
             color: @global-text-color;
-            background-color: @menu-light-blue;
+            background-color: @menu-darker-blue;
         }
 
         .add-new {
@@ -344,6 +345,8 @@
         }
 
         .fa-stack {
+            font-size: 15px;
+
             .default-category-icon {
                 color: @memo-blue;
             }
@@ -355,7 +358,7 @@
             }
 
             &:hover {
-                background-color: @menu-light-blue;
+                background-color: @menu-darker-blue;
             }
         }
 
@@ -364,28 +367,25 @@
             -ms-text-overflow: ellipsis;
             -o-text-overflow: ellipsis;
             text-overflow: ellipsis;
-            font-weight: bold;
+            font-weight: 600;
             white-space: nowrap;
-            padding-top: 5px;
-            padding-left: 26px;
-            padding-bottom: 5px;
-            font-size: 12px;
+            padding-top: 6px;
+            padding-left: 40px;
+            padding-bottom: 7px;
+            font-size: 14px;
             margin-top: 0px;
             line-height: 22px;
 
-            .sub-category {
-                margin-left: 30px;
-            }
+            &.actual-category, &.under-sub-category {
+                padding-left: 50px;
 
-            .actual-sub-category {
-                margin-left: 45px;
+                .actual-sub-category {
+                    margin-left: 6px;
+                }
             }
 
             i.fa-caret-right {
-                font-size: 17px;
-                position: absolute;
-                left: 59px;
-                top: 8px;
+                font-size: 16px;
             }
         }
 
@@ -394,7 +394,6 @@
             padding-right: 3px;
             padding-left: 3px;
         }
-
         /*&.set {
             i.fa-caret-right {
                 color: @color-set;

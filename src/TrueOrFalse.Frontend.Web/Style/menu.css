@@ -288,14 +288,16 @@
 }
 #mainMenuThemeCentered .primary-point .primary-point-text {
   display: inline-block;
-  margin-left: 5px;
+  margin-left: 8px;
 }
 #mainMenuThemeCentered .list-group-item {
+  color: #203256;
   background-color: white;
   border: none;
-  font-size: 15px;
-  padding-top: 10px;
-  padding-bottom: 9px;
+  font-size: 14px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 8px;
   margin-bottom: unset;
   /*&.set {
             i.fa-caret-right {
@@ -390,17 +392,19 @@
 }
 #mainMenuThemeCentered .list-group-item.active,
 #mainMenuThemeCentered .list-group-item.active:focus {
-  color: #203256;
   background-color: rgba(210, 236, 243, 0.8);
 }
 #mainMenuThemeCentered .list-group-item:hover {
   color: #203256;
-  background-color: rgba(210, 236, 243, 0.8);
+  background-color: rgba(165, 209, 221, 0.8);
 }
 #mainMenuThemeCentered .list-group-item .add-new {
   margin-top: 2px;
   float: right !important;
   float: right;
+}
+#mainMenuThemeCentered .list-group-item .fa-stack {
+  font-size: 15px;
 }
 #mainMenuThemeCentered .list-group-item .fa-stack .default-category-icon {
   color: #003264;
@@ -409,33 +413,32 @@
   background-color: rgba(165, 209, 221, 0.8);
 }
 #mainMenuThemeCentered .list-group-item.actual-category:hover {
-  background-color: rgba(210, 236, 243, 0.8);
+  background-color: rgba(165, 209, 221, 0.8);
 }
 #mainMenuThemeCentered .list-group-item.sub {
   overflow: hidden;
   -ms-text-overflow: ellipsis;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
-  font-weight: bold;
+  font-weight: 600;
   white-space: nowrap;
-  padding-top: 5px;
-  padding-left: 26px;
-  padding-bottom: 5px;
-  font-size: 12px;
+  padding-top: 6px;
+  padding-left: 40px;
+  padding-bottom: 7px;
+  font-size: 14px;
   margin-top: 0px;
   line-height: 22px;
 }
-#mainMenuThemeCentered .list-group-item.sub .sub-category {
-  margin-left: 30px;
+#mainMenuThemeCentered .list-group-item.sub.actual-category,
+#mainMenuThemeCentered .list-group-item.sub.under-sub-category {
+  padding-left: 50px;
 }
-#mainMenuThemeCentered .list-group-item.sub .actual-sub-category {
-  margin-left: 45px;
+#mainMenuThemeCentered .list-group-item.sub.actual-category .actual-sub-category,
+#mainMenuThemeCentered .list-group-item.sub.under-sub-category .actual-sub-category {
+  margin-left: 6px;
 }
 #mainMenuThemeCentered .list-group-item.sub i.fa-caret-right {
-  font-size: 17px;
-  position: absolute;
-  left: 59px;
-  top: 8px;
+  font-size: 16px;
 }
 #mainMenuThemeCentered .list-group-item #mainMenuKnowledgeHeart {
   font-size: 24px;

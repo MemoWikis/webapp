@@ -64,12 +64,20 @@
                                 .append($('<i class="fa fa-caret-right"></i>'))
                                 .append($('<span class="actual-sub-category"><%: Model.ActualCategory.Name %></span>'));
             rootCategory.after(actualCategory);
+            rootCategory.css("padding-bottom", "11px");
 
             <% if (Model.CategoryTrail.Count > 0)
                { %>
                     var upperCategory = $('<a class="cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.CategoryTrail.Last().Name, Model.CategoryTrail.Last().Id) %>">')
                                         .append('<span class="sub-category"><%: Model.CategoryTrail.Last().Name %></span>');
                     rootCategory.after(upperCategory);
+
+                    <% if (Model.CategoryTrail.Count > 1)
+                       { %>
+                            var underCategory = $('<a class="cat sub list-group-item under-sub-category active" href="<%= Links.CategoryDetail(Model.CategoryTrail.First().Name, Model.CategoryTrail.First().Id) %>">')
+                                                .append('<span class="sub-category"><%: Model.CategoryTrail.First().Name %></span>');
+                            upperCategory.after(underCategory);
+                    <% } %>
             <% } %>
     <% } %>
 <% } %>
