@@ -201,6 +201,10 @@ textarea.form-control {
   height: 50px;
   width: 70px;
 }
+.questionsSearch .linkQuestion {
+  font-size: 7px;
+  margin: auto;
+}
 .FormSection {
   box-shadow: none;
 }
@@ -217,6 +221,6 @@ textarea.form-control {
 #btnCreateNewQuestionInLearnSet {
   margin-top: 25px;
 }
-.questionCheckbox {
-  margin-right: 500px;
+#learnSetSave {
+  margin: 20px 0px 0px 4px;
 }
