@@ -321,7 +321,6 @@
     }
 
     .list-group-item {
-        background-color: lighten(@light-blue, 4%);
         background-color: white;
         border: none;
         font-size: 15px;
@@ -331,12 +330,12 @@
 
         &.active, &.active:focus {
             color: @global-text-color;
-            background-color: lighten(@middle-blue, 30);
+            background-color: @menu-light-blue;
         }
 
         &:hover {
-            background-color: lighten(@middle-blue, 30);
-            color: black;
+            color: @global-text-color;
+            background-color: @menu-light-blue;
         }
 
         .add-new {
@@ -352,9 +351,50 @@
 
         &.actual-category {
             &.active {
-                background-color: rgba(165, 209, 221, 0.8) !important;
+                background-color: @menu-darker-blue;
+            }
+
+            &:hover {
+                background-color: @menu-light-blue;
             }
         }
+
+        &.sub {
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            white-space: nowrap;
+            padding-top: 5px;
+            padding-left: 26px;
+            padding-bottom: 5px;
+            font-size: 12px;
+            margin-top: 0px;
+            line-height: 22px;
+
+            .sub-category {
+                margin-left: 30px;
+            }
+
+            .actual-sub-category {
+                margin-left: 45px;
+            }
+
+            i.fa-caret-right {
+                font-size: 17px;
+                position: absolute;
+                left: 59px;
+                top: 8px;
+            }
+        }
+
+        #mainMenuKnowledgeHeart {
+            font-size: 24px;
+            padding-right: 3px;
+            padding-left: 3px;
+        }
+
         /*&.set {
             i.fa-caret-right {
                 color: @color-set;
@@ -445,41 +485,6 @@
                 }
             }
         }*/
-        &.sub {
-            overflow: hidden;
-            -ms-text-overflow: ellipsis;
-            -o-text-overflow: ellipsis;
-            text-overflow: ellipsis;
-            font-weight: bold;
-            white-space: nowrap;
-            padding-top: 5px;
-            padding-left: 26px;
-            padding-bottom: 5px;
-            font-size: 12px;
-            margin-top: 0px;
-            line-height: 22px;
-
-            .sub-category {
-                margin-left: 30px;
-            }
-
-            .actual-sub-category {
-                margin-left: 45px;
-            }
-
-            i.fa-caret-right {
-                font-size: 17px;
-                position: absolute;
-                left: 59px;
-                top: 8px;
-            }
-        }
-
-        #mainMenuKnowledgeHeart {
-            font-size: 24px;
-            padding-right: 3px;
-            padding-left: 3px;
-        }
     }
 }
 

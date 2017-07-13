@@ -291,7 +291,6 @@
   margin-left: 5px;
 }
 #mainMenuThemeCentered .list-group-item {
-  background-color: #f6f8fc;
   background-color: white;
   border: none;
   font-size: 15px;
@@ -392,11 +391,11 @@
 #mainMenuThemeCentered .list-group-item.active,
 #mainMenuThemeCentered .list-group-item.active:focus {
   color: #203256;
-  background-color: #bee3ee;
+  background-color: rgba(210, 236, 243, 0.8);
 }
 #mainMenuThemeCentered .list-group-item:hover {
-  background-color: #bee3ee;
-  color: black;
+  color: #203256;
+  background-color: rgba(210, 236, 243, 0.8);
 }
 #mainMenuThemeCentered .list-group-item .add-new {
   margin-top: 2px;
@@ -407,7 +406,10 @@
   color: #003264;
 }
 #mainMenuThemeCentered .list-group-item.actual-category.active {
-  background-color: rgba(165, 209, 221, 0.8) !important;
+  background-color: rgba(165, 209, 221, 0.8);
+}
+#mainMenuThemeCentered .list-group-item.actual-category:hover {
+  background-color: rgba(210, 236, 243, 0.8);
 }
 #mainMenuThemeCentered .list-group-item.sub {
   overflow: hidden;
