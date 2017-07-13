@@ -1,52 +1,81 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using Seedworks.Web.State;
-
-
-public class UserValuationCacheItem
-{
-    public int UserId;
-    public IList<CategoryValuation> CategoryValuations;
-
-    public bool IsBeingRefreshed;
-}
 
 public class UserValuationCache
 {
     public const int ExpirationSpanInMinutes = 60;
 
-    private static string GetCacheKey(int userId) => "UserValuationCashItem_" + userId;
+    public static string GetCacheKey(int userId) => "UserValuationCacheItem_" + userId;
 
     public static UserValuationCacheItem GetItem(int userId)
     {
         var cacheItem = Cache.Get<UserValuationCacheItem>(GetCacheKey(userId));
-        if (cacheItem == null)
+        return cacheItem ?? CreateItemFromDatabase(userId);
+    }
+
+    private static UserValuationCacheItem CreateItemFromDatabase(int userId)
+    {
+        var cacheItem = new UserValuationCacheItem
         {
-            cacheItem = GetItemFromDatabase(userId);
-            UpdateCacheItem(cacheItem, userId);
-        }
+            UserId = userId,
+            CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
+                Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v))),
+            QuestionValuations = new ConcurrentDictionary<int, QuestionValuation>(
+                Sl.QuestionValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v)))
+        };
+        Add_valuationCacheItem_to_cache(cacheItem, userId);
 
         return cacheItem;
     }
 
-    private static UserValuationCacheItem GetItemFromDatabase(int userId)
+    private static void Add_valuationCacheItem_to_cache(UserValuationCacheItem cacheItem, int userId)
     {
-        return new UserValuationCacheItem
+        Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes), slidingExpiration: true);
+    }
+
+    public static IList<QuestionValuation> GetQuestionValuations(int userId) => GetItem(userId).QuestionValuations.Values.ToList();
+
+    public static void AddOrUpdate(QuestionValuation questionValuation)
+    {
+        var cacheItem = GetItem(questionValuation.User.Id);
+
+        lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
         {
-            UserId = userId,
-            CategoryValuations = Sl.CategoryValuationRepo.GetByUser(userId)
-        };
+            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation, (k, v) => v);
+        }
     }
 
-    public static void UpdateValuations(IList<CategoryValuation> categoryValuations, int userId)
+    public static void AddOrUpdate(CategoryValuation categoryValuation)
     {
-        var cacheItem = Cache.Get<UserValuationCacheItem>(GetCacheKey(userId));
-        cacheItem.CategoryValuations = categoryValuations;
-        UpdateCacheItem(cacheItem, userId);
+        var cacheItem = GetItem(categoryValuation.UserId);
+
+        lock ("82f573db-40a7-43d9-9e68-6cd78b626e8d")
+        {
+            cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation, (k, v) => v);
+        }
     }
 
-    public static void UpdateCacheItem(UserValuationCacheItem cacheItem, int userId)
+    public static void RemoveAllForQuestion(int questionId)
     {
-        Cache.Add(GetCacheKey(userId), cacheItem, new TimeSpan(0, ExpirationSpanInMinutes, 0));
+        foreach (var userId in Sl.UserRepo.GetAllIds())
+        {
+            var cacheItem = GetItem(userId);
+            cacheItem.QuestionValuations.TryRemove(questionId, out var questValOut);
+        }
+    }
+
+    public static void RemoveAllForCategory(int categoryId)
+    {
+        foreach (var userId in Sl.UserRepo.GetAllIds())
+        {
+            var cacheItem = GetItem(userId);
+            cacheItem.CategoryValuations.TryRemove(categoryId, out var catValOut);
+        }
     }
 }

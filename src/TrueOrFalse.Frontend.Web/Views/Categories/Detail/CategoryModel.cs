@@ -23,7 +23,7 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> AggregatedSets;
-    public AggregatedContent AggregatedContent;
+    public AggregatedContentFromJson AggregatedContentFromJson;
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
@@ -69,7 +69,7 @@ public class CategoryModel : BaseModel
         _categoryRepo = R<CategoryRepository>();
 
         if(loadKnowledgeSummary)
-            KnowledgeSummary = KnowledgeSummaryLoader.RunFromCache(category, UserId);
+            KnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
@@ -108,7 +108,7 @@ public class CategoryModel : BaseModel
         if (category.Type != CategoryType.Standard)
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
-        CountSets = category.GetCountSets();
+        CountSets = category.GetCountSetsFromJson();
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = category.Type == CategoryType.Standard ? 
@@ -124,10 +124,11 @@ public class CategoryModel : BaseModel
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
-        AggregatedContent = Category.GetAggregatedContent();
+        AggregatedContentFromJson = Category.GetAggregatedContentFromJson();
 
-        AggregatedSetCount = AggregatedContent.AggregatedSetsIds.Count;
-        AggregatedQuestionCount = AggregatedContent.AggregatedQuestionIds.Count;
+
+        AggregatedSetCount = AggregatedContentFromJson.AggregatedSetsIds.Count;
+        AggregatedQuestionCount = AggregatedContentFromJson.AggregatedQuestionIds.Count;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

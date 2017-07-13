@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
 
 public class KnowledgeSummaryLoader
 {
-    public static KnowledgeSummary RunFromCache(Category category, int userId)
+    public static KnowledgeSummary RunFromDbCache(Category category, int userId)
     {
         var categoryValuation = Sl.CategoryValuationRepo.GetBy(category.Id, userId);
 
@@ -31,14 +32,86 @@ public class KnowledgeSummaryLoader
         };
     }
 
-    public static KnowledgeSummary RunFromCache(int categoryId, int userId)
+    public static KnowledgeSummary RunFromDbCache(int categoryId, int userId)
     {
-        return RunFromCache(Sl.CategoryRepo.GetById(categoryId), userId);
+        return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
+    }
+
+    public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    {
+        return RunFromMemoryCache(EntityCache.Categories[categoryId], userId);
+    }
+
+    public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
+    {
+        var stopWatch = Stopwatch.StartNew();
+
+        var aggregatedQuestions = new List<Question>();
+
+        var aggregatedCategories = category.AggregatedCategories(includingSelf: true);
+
+        foreach (var currentCategory in aggregatedCategories)
+        {
+            if(EntityCache.CategoryQuestionsList.ContainsKey(currentCategory.Id))
+                aggregatedQuestions.AddRange(EntityCache.CategoryQuestionsList[currentCategory.Id].Select(c => c.Value));
+        }
+
+        var aggregatedSets = GetAllSetsWithAssociatedCategories(aggregatedCategories);
+
+        foreach (var set in aggregatedSets)
+        {
+            aggregatedQuestions.AddRange(set.Value.Questions());
+        }
+
+        aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
+
+        var userValuations = UserValuationCache.GetItem(userId).QuestionValuations;
+
+        var aggregatedQuestionValuations = new List<QuestionValuation>();
+
+        int countNoValuation = 0;
+
+        foreach (var question in aggregatedQuestions)
+        {
+            if (userValuations.ContainsKey(question.Id))
+            {
+                var valuation = userValuations[question.Id];
+
+                if (valuation != null)
+                    aggregatedQuestionValuations.Add(valuation);
+
+                else
+                    countNoValuation++;
+            }
+            else
+                countNoValuation++;
+        }
+
+        var aggregatedQuestionValuationsInWishKnowledge =
+            aggregatedQuestionValuations.Where(v => v.IsInWishKnowledge()).ToList();
+
+        var knowledgeSummary = new KnowledgeSummary
+        {
+            NotInWishknowledge = countNoValuation + aggregatedQuestionValuations.Count(v => !v.IsInWishKnowledge()),
+            NotLearned = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NotLearned),
+            NeedsLearning = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsLearning),
+            NeedsConsolidation = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation),
+            Solid = aggregatedQuestionValuationsInWishKnowledge.Count(v => v.KnowledgeStatus == KnowledgeStatus.Solid),
+        };
+
+        Logg.r().Information("Loaded KnowledgeSummary in {Elapsed}", stopWatch.Elapsed);
+
+        return knowledgeSummary;
+    }
+
+    private static IEnumerable<KeyValuePair<int, Set>> GetAllSetsWithAssociatedCategories(IList<Category> aggregatedCategories)
+    {
+        return EntityCache.Sets.Where(s => s.Value.Categories.Any(c => aggregatedCategories.Any(ac => c == ac)));
     }
 
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
         => Run(userId, 
-            Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestions().GetIds(),
+            Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromJson().GetIds(),
             onlyValuated);
 
     public static KnowledgeSummary Run(int userId, Set set, bool onlyValuated = true) 

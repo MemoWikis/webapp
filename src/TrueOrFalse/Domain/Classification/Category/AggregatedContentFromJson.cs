@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 
 [Serializable]
-public class AggregatedContent
+public class AggregatedContentFromJson
 {
     public List<int> AggregatedSetsIds;
     
@@ -33,22 +33,14 @@ public class AggregatedContent
         set { AggregatedQuestionIds = value.Select(q => q.Id).ToList(); }
     }
 
-    [JsonIgnore]
-    private readonly CategoryRepository _categoryRepository;
-
-    public AggregatedContent()
-    {
-        _categoryRepository = Sl.R<CategoryRepository>();
-    }
-
     public string ToJson()
     {
         return JsonConvert.SerializeObject(this);
     }
 
-    public static AggregatedContent FromJson(string aggregatedContentJson)
+    public static AggregatedContentFromJson FromJson(string aggregatedContentJson)
     {
-        return JsonConvert.DeserializeObject<AggregatedContent>(aggregatedContentJson ?? "") ?? new AggregatedContent();
+        return JsonConvert.DeserializeObject<AggregatedContentFromJson>(aggregatedContentJson ?? "") ?? new AggregatedContentFromJson();
     }
 
 } 

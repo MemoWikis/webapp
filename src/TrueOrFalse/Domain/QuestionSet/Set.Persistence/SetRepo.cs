@@ -41,8 +41,10 @@ public class SetRepo : RepositoryDbBase<Set>
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedSets();
+            category.UpdateAggregatedSetsJson();
         }
+
+        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
     }
 
     public override void Create(Set set)
@@ -53,6 +55,7 @@ public class SetRepo : RepositoryDbBase<Set>
         UserActivityAdd.CreatedSet(set);
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
+        EntityCache.AddOrUpdate(set);
     }
 
     public IList<Set> GetByIds(List<int> setIds)
@@ -89,16 +92,35 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public Set GetByIdEager(int setId)
     {
-        Question creatorAlias = null;
+        //Question creatorAlias = null;
 
         return _session.QueryOver<Set>()
             .Where(set => set.Id == setId)
             //.Fetch(s => s.Creator).Eager
             //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
             .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
-            .Left.JoinQueryOver<Question>(s => s.Question)
+            .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .SingleOrDefault();
+    }
+
+    public IList<Set> GetAllEager()
+    {
+        return _session.QueryOver<Set>()
+            .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+            .Left.JoinQueryOver(s => s.Question)
+            .Left.JoinQueryOver<Category>(s => s.Categories)
+            .List()
+            .GroupBy(s => s.Id)
+            .Select(s => s.First())
+            .ToList();
+    }
+
+    public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        return EntityCache.CategorySetsList.ContainsKey(categoryId) 
+            ? EntityCache.CategorySetsList[categoryId].Values.ToList() 
+            : new List<Set>();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)

@@ -20,6 +20,7 @@ public class Sl
     public static ActivityPointsRepo ActivityPointsRepo => R<ActivityPointsRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
+    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 
