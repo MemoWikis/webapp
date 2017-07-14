@@ -251,7 +251,7 @@
                         
                         <div class="row">
                             <div class="col-md-12">
-                                <h5>Ergebnis</h5>
+                                <p id="resultHeading">Ergebnis</p>
                             </div>                            
                         </div>
                         
