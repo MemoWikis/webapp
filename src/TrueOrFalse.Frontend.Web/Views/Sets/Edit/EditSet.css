@@ -224,3 +224,16 @@ textarea.form-control {
 #learnSetSave {
   margin: 20px 0px 0px 4px;
 }
+#responseForm {
+  border: 1px solid gainsboro;
+  height: 40px;
+  width: auto;
+  margin-left: 13px;
+  margin-right: 13px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+#responseForm #response {
+  line-height: 1,2em;
+  padding-top: 7px;
+}

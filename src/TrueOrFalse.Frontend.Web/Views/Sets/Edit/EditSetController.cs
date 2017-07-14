@@ -126,12 +126,13 @@ public class EditSetController : BaseController
 
         return Json(new
         {
-            Questions = questions.Select(q => new
+            Questions = questions.Select(question => new
             {
-                Id = q.Id,
-                question = q.Text,
-                correctAnswer= q.Solution,
-                ImageUrl = new QuestionImageSettings(q.Id).GetUrl_50px_square().Url
+                Id = question.Id,
+                question = question.Text,
+                correctAnswer= question.Solution,
+                ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
+                QuestionUrl = Links.AnswerQuestion(question)
 
             })
         },JsonRequestBehavior.AllowGet);
@@ -147,4 +148,6 @@ public class EditSetController : BaseController
     {
         return new EmptyResult();
     }
+
+    
 }

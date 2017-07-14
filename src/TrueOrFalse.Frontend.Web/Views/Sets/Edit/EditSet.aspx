@@ -245,7 +245,7 @@
 
                         <div class="row">
                             <div class="col-md-12" id="questionSearch">
-                                <input id="frageId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
+                                <input id="questionId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
                             </div>
                         </div>    
                         
@@ -260,7 +260,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> zum Lernset hnzufügen</button>
-                            </div>                            
+                            </div>
+                            <div id="responseForm" class="col-md-12">
+                                <p id="response"></p>
+                            </div>
                         </div>
                         
                         <% if (Model.IsEditing){ %>
