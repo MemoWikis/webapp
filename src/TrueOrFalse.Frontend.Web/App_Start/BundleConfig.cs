@@ -221,6 +221,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetSetVideo")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
                 .Include("~/Views/Sets/Detail/Js/SetVideo.js")
                 .Include("~/Views/Widgets/WidgetSetVideo.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));

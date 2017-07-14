@@ -11,6 +11,10 @@ public class WelcomeController : BaseController
     public ActionResult Welcome(){
         return View(new WelcomeModel());
     }
+    public ActionResult Directions()
+    {
+        return View(new BaseModel());
+    }
 
     public ActionResult LogOn() => View();
 
