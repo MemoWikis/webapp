@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5, h6 {
     });
 }
 
-#memuchoInfoHeader {
+#memuchoInfoHeader, .WelcomeBoxHeader {
     font-weight: bold;
 }
 
@@ -82,20 +82,78 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #memuchoInfoFooter {
+    text-align: center;
     padding-top: 20px;
     background-color: white;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     border-top: 1px solid @border-grey;
-
-    #btnMoreAboutMemucho {
-        margin-top: 5px;
-        text-transform: uppercase;
-        .media-xs-up({
-            float: right;
-        });
+    a {
+        margin: 2px;
     }
 }
+
+#WelcomeDashboard {
+    .well;
+    .ShadowBox;
+}
+
+
+/* Progress bar Next Level 
+------------------------------------------------------*/
+
+.ProgressBarContainer, .ProgressBarSegment {
+    height: 30px;
+}
+
+.ProgressBarContainer {
+    display: table;
+    width: 100%;
+
+    border: solid 2px @memo-green;
+    background-color: @memo-green;
+    margin-bottom: 5px;
+    .clearfix;
+}
+
+.ProgressBarSegment {
+    display: table-cell;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: top; //Fix Firefox height bug
+}
+
+.ProgressBarLegend {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 100%;
+    min-width: 30px;
+    font-weight: bold;
+}
+
+.ProgressBarDone {
+    background-color: @memo-green;
+    position: relative;
+    overflow: visible;
+}
+
+.ProgressBarLeft {
+    background-color: lighten(@memo-green, 30);
+}
+
+
+
+/*------------------------------------------------------*/ 
+
+
+
+
+
+
+
+
+
 
 .EduCategoryRow {
     margin-top: 20px;
