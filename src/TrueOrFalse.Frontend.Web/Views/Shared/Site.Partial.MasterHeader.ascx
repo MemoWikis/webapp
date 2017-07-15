@@ -6,11 +6,15 @@
 <% } %>
 
 <% if(Request.Url.Host == "future.memucho.de"){ %>
-    <div class="row" style="background-color: lightpink; text-align: center; color:white">F U T U R E</div>
+    <div class="container" style="width: 100%">
+        <div class="row" style="background-color: lightpink; text-align: center; color:white"><div class="col-xs-12">F U T U R E</div></div>
+    </div>
 <% } %>
 
 <% if(Request.Url.Host == "stage.memucho.de"){ %>
-    <div class="row" style="background-color: orange; text-align: center; color:white">S T A G E</div>
+    <div class="container" style="width: 100%">
+        <div class="row" style="background-color: orange; text-align: center; color:white"><div class="col-xs-12">S T A G E</div></div>
+    </div>
 <% } %>
 <header id="MasterHeader">
     <div class="container">
