@@ -33,7 +33,7 @@ class MenuMobile {
                 return;
             }
 
-            if ($("#mainMenu").has(e.target).length === 0 &&
+            if ($("#mainMenu, #mainMenuThemeCentered").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
             }
@@ -58,7 +58,7 @@ class MenuMobile {
         }
             
         this._isInProgress = true;
-        $("#mainMenu").slideDown(400, () => {
+        $("#mainMenu, #mainMenuThemeCentered").slideDown(400, () => {
             this._isOpen = true;
             this._isInProgress = false;
         });
@@ -72,7 +72,7 @@ class MenuMobile {
         }
 
         this._isInProgress = true;
-        $("#mainMenu").slideUp(400, () => {
+        $("#mainMenu, #mainMenuThemeCentered").slideUp(400, () => {
             this._isOpen = false;
             this._isInProgress = false;    
         });

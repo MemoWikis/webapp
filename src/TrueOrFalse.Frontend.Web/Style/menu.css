@@ -61,7 +61,7 @@
   border: solid 4px #2C5FB2;
   border-top: none;
   border-bottom: 1px solid #e3e3e3;
-  border-right: 1px solid #e3e3e3!important;
+  border-right: 1px solid #e3e3e3 !important;
   font-size: 15px;
   padding-top: 6px;
   padding-bottom: 6px;
@@ -240,6 +240,210 @@
   position: absolute;
   left: 14px;
   top: 2px;
+}
+#mainMenuThemeCentered {
+  /*$ToDo: enable with js functions*/
+}
+#mainMenuThemeCentered .menu-section {
+  margin-bottom: 3px;
+}
+#mainMenuThemeCentered .tooltip > .tooltip-inner {
+  min-width: 200px;
+  text-align: left;
+}
+@media (max-width: 1199px) {
+  #mainMenuThemeCentered {
+    padding: 15px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    position: absolute;
+    top: 0;
+    background-color: #F6F8FA;
+    width: 90%;
+    max-width: 270px;
+    opacity: 1;
+    z-index: 100;
+    box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+  }
+  #mainMenuThemeCentered .list-group {
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 767px) {
+  #mainMenuThemeCentered {
+    left: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+@media (min-width: 1200px) {
+  #mainMenuThemeCentered {
+    display: block !important;
+  }
+}
+#mainMenuThemeCentered .primary-point {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+#mainMenuThemeCentered .primary-point .primary-point-text {
+  display: inline-block;
+  margin-left: 8px;
+}
+#mainMenuThemeCentered .list-group-item {
+  color: #203256;
+  background-color: white;
+  border: none;
+  font-size: 14px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-left: 8px;
+  margin-bottom: unset;
+  /*&.set {
+            i.fa-caret-right {
+                color: @color-set;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.quest {
+            i.fa-caret-right {
+                color: @color-question;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.cat {
+            i.fa-caret-right {
+                color: @color-category;
+            }
+
+            &:hover {
+                color: black;
+            }
+        }
+
+        &.know {
+            i.fa-caret-right {
+                color: @dark-red;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.messages {
+            i.fa-caret-right {
+                color: @middle-orange;
+            }
+
+            &:hover {
+                color: black;
+            }
+        }
+        &.dues {
+            i.fa-caret-right {
+                color: @middle-turquoise;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: white;
+                }
+            }
+        }
+
+        &.users {
+            i.fa-caret-right {
+                color: @color-user;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: @color-user;
+                }
+            }
+        }
+
+        &.play {
+            i.fa-caret-right {
+                color: @color-play;
+            }
+
+            &:hover {
+                i.fa-caret-right {
+                    color: @color-play;
+                }
+            }
+        }*/
+}
+#mainMenuThemeCentered .list-group-item.active,
+#mainMenuThemeCentered .list-group-item.active:focus {
+  background-color: rgba(210, 236, 243, 0.8);
+}
+#mainMenuThemeCentered .list-group-item:hover {
+  color: #203256;
+  background-color: rgba(165, 209, 221, 0.8);
+}
+#mainMenuThemeCentered .list-group-item .add-new {
+  margin-top: 2px;
+  float: right !important;
+  float: right;
+}
+#mainMenuThemeCentered .list-group-item .fa-stack {
+  font-size: 15px;
+}
+#mainMenuThemeCentered .list-group-item .fa-stack .default-category-icon {
+  color: #003264;
+}
+#mainMenuThemeCentered .list-group-item.actual-category.active {
+  background-color: rgba(165, 209, 221, 0.8);
+}
+#mainMenuThemeCentered .list-group-item.actual-category:hover {
+  background-color: rgba(165, 209, 221, 0.8);
+}
+#mainMenuThemeCentered .list-group-item.sub {
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  white-space: nowrap;
+  padding-top: 6px;
+  padding-left: 40px;
+  padding-bottom: 7px;
+  font-size: 14px;
+  margin-top: 0px;
+  line-height: 22px;
+}
+#mainMenuThemeCentered .list-group-item.sub.actual-category,
+#mainMenuThemeCentered .list-group-item.sub.under-sub-category {
+  padding-left: 50px;
+}
+#mainMenuThemeCentered .list-group-item.sub.actual-category .actual-sub-category,
+#mainMenuThemeCentered .list-group-item.sub.under-sub-category .actual-sub-category {
+  margin-left: 6px;
+}
+#mainMenuThemeCentered .list-group-item.sub i.fa-caret-right {
+  font-size: 16px;
+}
+#mainMenuThemeCentered .list-group-item #mainMenuKnowledgeHeart {
+  font-size: 24px;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 div.box-menu {
   background-color: transparent;
