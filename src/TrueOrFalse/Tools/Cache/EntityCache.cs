@@ -138,7 +138,7 @@ public class EntityCache
             if (!categoryQuestionsList.ContainsKey(category.Id))
                 categoryQuestionsList.TryAdd(category.Id, new ConcurrentDictionary<int, Question>());
 
-            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, question, (k, v) => v);
+            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, question, (k, v) => question);
         }
     }
 
@@ -160,7 +160,7 @@ public class EntityCache
             if (!categorySetsList.ContainsKey(category.Id))
                 categorySetsList.TryAdd(category.Id, new ConcurrentDictionary<int, Set>());
 
-            categorySetsList[category.Id]?.AddOrUpdate(set.Id, set, (k, v) => v);
+            categorySetsList[category.Id]?.AddOrUpdate(set.Id, set, (k, v) => set);
         }
     }
 
@@ -226,7 +226,7 @@ public class EntityCache
     /// <param name="obj"></param>
     private static void AddOrUpdate<T>(ConcurrentDictionary<int, T> objectToCache, T obj) where T : DomainEntity
     {
-        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => v);
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
 
     private static void Remove<T>(ConcurrentDictionary<int, T> objectToCache, T obj) where T : DomainEntity

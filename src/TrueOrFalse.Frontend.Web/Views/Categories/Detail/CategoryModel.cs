@@ -120,7 +120,7 @@ public class CategoryModel : BaseModel
 
         TopWishQuestions = wishQuestions.Items;
 
-        AggregatedSets = category.GetAggregatedSets();
+        AggregatedSets = category.GetAggregatedSetsFromJson();
 
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 

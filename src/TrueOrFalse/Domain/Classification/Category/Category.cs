@@ -144,7 +144,7 @@ public class Category : DomainEntity, ICreator
         AggregatedContentJson = aggregatedContent.ToJson();
     }
 
-    public virtual IList<Set> GetAggregatedSets()
+    public virtual IList<Set> GetAggregatedSetsFromJson()
     {
         return GetAggregatedContentFromJson().AggregatedSets;
     }
