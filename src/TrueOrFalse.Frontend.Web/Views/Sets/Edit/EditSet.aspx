@@ -7,9 +7,9 @@
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost + Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetCreate() %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">
     <% } %>
 </asp:Content>
 
@@ -237,6 +237,17 @@
                             </div>
                         <% } %>
                         
+                        <% if (Model.IsEditing){ %>
+                            <div class="row">
+                                <div class="col-xs-12" style="padding-bottom: 10px" id="createNewQuestionInLearnSet">
+                                
+                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-primary" target="_blank" id="btnCreateNewQuestionInLearnSet">
+                                        <i class="fa fa-plus"></i> Neue Frage im Lernset erstellen
+                                    </a>
+
+                                </div>
+                            </div>
+                        <% } %>
                         <div class="row">
                             <div class="col-md-12">
                                 <h3>Füge vorhanden Fragen zum Lernset hinzu</h3>
@@ -266,17 +277,7 @@
                             </div>
                         </div>
                         
-                        <% if (Model.IsEditing){ %>
-                            <div class="row">
-                                <div class="col-xs-12" style="padding-bottom: 10px" id="createNewQuestionInLearnSet">
-                                
-                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-primary" target="_blank" id="btnCreateNewQuestionInLearnSet">
-                                        <i class="fa fa-plus"></i> Neue Frage im Lernset erstellen
-                                    </a>
-
-                                </div>
-                            </div>
-                        <% } %>
+                      
 
                     </div>     
                                         
