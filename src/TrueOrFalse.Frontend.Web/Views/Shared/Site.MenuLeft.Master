@@ -23,7 +23,7 @@
             <div class="row">
                 <section id="MasterLeftColumn" class="">
                     <% Html.RenderPartial(
-                           Model.ThemeMenu.IsActive
+                           Model.TopicMenu.IsActive
                            ? UserControls.MenuLeftThemeCentered
                            : UserControls.MenuLeft, Model.MenuLeftModel); %>
 
