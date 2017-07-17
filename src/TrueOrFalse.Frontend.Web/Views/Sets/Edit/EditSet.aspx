@@ -254,20 +254,22 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12" id="questionSearch">
-                                <input id="questionId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
+                        
+                            <div class="row">
+                                <div class="col-md-12" id="questionSearch">
+                                    <input id="questionId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
+                                </div>
                             </div>
-                        </div>    
+                           
                         
                         <div class="row">
                             <div class="col-md-12">
                                 <p id="resultHeading">Ergebnis</p>
                             </div>                            
                         </div>
-                        
+                    <div id="distance" >
                         <div id="questions" class=""></div>
-                        
+                    </div>    
                         <div class="row">
                             <div class="col-md-12">
                                 <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> zum Lernset hnzufügen</button>

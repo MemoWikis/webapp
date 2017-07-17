@@ -190,23 +190,35 @@ textarea.form-control {
 }*/
 .FormSection {
   box-shadow: none;
+  margin-right: 13px;
 }
-.FormSection .questionsSearch {
-  padding: 5px 5px 5px 5px;
-  margin: 5px 5px 5px 5px;
+.FormSection #resultHeading {
+  padding-top: 15px;
+  padding-left: 8px;
+  font-size: 2em;
+}
+.FormSection #distance {
+  padding-right: 13px;
+}
+.FormSection #distance .questionsSearch {
+  margin: 5px 0px 5px 7px;
   font-size: 1.3em;
   line-height: 1.5em;
   background: none;
   background-color: white;
   border: 1px solid gainsboro;
-  max-width: 650px;
+  /*max-width: 650px;*/
+  /*.linkQuestion {
+            }*/
 }
-.FormSection .questionsSearch .previewImage {
+.FormSection #distance .questionsSearch .previewImage {
   height: 50px;
   width: 70px;
 }
-.FormSection .questionsSearch .linkQuestion {
-  font-size: 7px;
+.FormSection #distance .questionsSearch .col-md-9 .linkQuestion {
+  line-height: 0.5em;
+  padding-top: 5px;
+  padding-bottom: 7px;
   margin: auto;
 }
 #btnSave {
@@ -215,6 +227,7 @@ textarea.form-control {
 }
 #questionSearch {
   padding-left: 13px;
+  margin-top: 15px;
 }
 #createNewQuestionInLearnSet {
   padding-left: 13px;
