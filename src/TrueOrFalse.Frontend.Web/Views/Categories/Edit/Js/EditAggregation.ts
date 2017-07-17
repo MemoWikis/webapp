@@ -39,7 +39,7 @@
             },
             cache: false,
             success(e) {
-                loadModalBody();
+                loadEditAggreationTab();
                 //window.alert("Erfolgreich aktualisiert.");
             },
             error(e) {
