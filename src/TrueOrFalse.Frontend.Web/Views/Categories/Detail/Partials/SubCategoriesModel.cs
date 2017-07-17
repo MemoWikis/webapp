@@ -1,159 +1,42 @@
-﻿//REDUCE THIS TO PROPERTYS NEEDET
-using System.Collections.Generic;
-using System.Linq;
-using TrueOrFalse.Web;
+﻿using System.Collections.Generic;
 
 public class SubCategoriesModel : BaseModel
 {
-    public string MetaTitle;
-    public string MetaDescription;
-
-    public int Id;
-    public string Name;
-    public string Description;
-    public string Type;
-
-    public KnowledgeSummary KnowledgeSummary;
-
-    public IList<Category> BreadCrumb;
-
-    public string CustomPageHtml;//Is set in controller because controller context is needed
-    public IList<Set> FeaturedSets;
-
-    public IList<Category> CategoriesParent;
-    public IList<Category> CategoriesChildren;
-
-    public IList<Set> AggregatedSets;
-    public AggregatedContentFromJson AggregatedContentFromJson;
-    public int AggregatedSetCount;
-    public int AggregatedQuestionCount;
-    public IList<Question> TopQuestions;
-    public IList<Question> TopQuestionsWithReferences;
-    public List<Question> TopQuestionsInSubCats = new List<Question>();
-    public IList<Question> TopWishQuestions;
-    public IList<Question> SingleQuestions;
-
-    public IList<User> TopCreaters;
-
-    public User Creator;
-    public string CreatorName;
-    public string CreationDate;
-    public string CreationDateNiceText;
-
     public Category Category;
 
-    public ImageFrontendData ImageFrontendData;
+    public string Title;
+    public string Text;
 
-    public string InfoUrl;
+    public IList<Category> SubCategoryList;
 
-    public bool IsOwnerOrAdmin;
 
-    public int CountQuestions;
-    public int CountReferences;
-    public int CountWishQuestions;
-    public int CountSets;
-
-    public int CorrectnesProbability;
-    public int AnswersTotal;
-
-    private readonly QuestionRepo _questionRepo;
-    private readonly CategoryRepository _categoryRepo;
-
-    public bool IsInWishknowledge;
-
-    public SubCategoriesModel(Category category, bool loadKnowledgeSummary = true)
+    public SubCategoriesModel(Category category, string title, string text, List<int> subCategoryIdList)
     {
-        MetaTitle = category.Name;
-        MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
+        SubCategoryList = 
+            subCategoryIdList != null
+            ? ConvertToSubCategoryList(subCategoryIdList)
+            : Sl.CategoryRepo.GetChildren(category.Id);
 
-        _questionRepo = R<QuestionRepo>();
-        _categoryRepo = R<CategoryRepository>();
+        Title = title;
+        Text = text;
+    }
 
-        if(loadKnowledgeSummary)
-            KnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
-
-        IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
-
-        InfoUrl = category.WikipediaURL;
-        Category = category;
-
-        Id = category.Id;
-        Name = category.Name;
-        Description = string.IsNullOrEmpty(category.Description?.Trim())
-                        ? null 
-                        : MarkdownMarkdig.ToHtml(category.Description);
-       
-        Type = category.Type.GetShortName();
-        BreadCrumb = GetBreadCrumb.For(Category);
-
-        FeaturedSets = category.FeaturedSets();
-
-        IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
-
-        CategoriesParent = category.ParentCategories();
-        CategoriesChildren = _categoryRepo.GetChildren(category.Id);
-
-        CorrectnesProbability = category.CorrectnessProbability;
-        AnswersTotal = category.CorrectnessProbabilityAnswerCount;
-
+    public ImageFrontendData GetCategoryImage(Category category)
+    {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
-        ImageFrontendData = new ImageFrontendData(imageMetaData);
-
-        var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
-
-        CountQuestions = category.GetCountQuestions() +
-            R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
-
-        CountReferences = ReferenceCount.Get(category.Id);
-
-        if (category.Type != CategoryType.Standard)
-            TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
-
-        CountSets = category.GetCountSetsFromJson();
-        CountWishQuestions = wishQuestions.Total;
-
-        TopQuestions = category.Type == CategoryType.Standard ? 
-            _questionRepo.GetForCategory(category.Id, UserId, 5) : 
-            _questionRepo.GetForReference(category.Id, UserId, 5);
-
-        if (category.Type == CategoryType.Standard)
-            TopQuestionsInSubCats = GetTopQuestionsInSubCats();
-
-        TopWishQuestions = wishQuestions.Items;
-
-        AggregatedSets = category.GetAggregatedSetsFromJson();
-
-        SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
-
-        AggregatedContentFromJson = Category.GetAggregatedContentFromJson();
-
-
-        AggregatedSetCount = AggregatedContentFromJson.AggregatedSetsIds.Count;
-        AggregatedQuestionCount = AggregatedContentFromJson.AggregatedQuestionIds.Count;
+        return new ImageFrontendData(imageMetaData);
     }
 
-    private List<Question> GetTopQuestionsInSubCats()
+    private List<Category> ConvertToSubCategoryList(List<int> subCategoryIds)
     {
-        var topQuestions = new List<Question>();
+        var subCategoryList = new List<Category>();
+        foreach (var subCategoryId in subCategoryIds)
+        {
+            //TODO:Julian FEHLER BEHANDELUNG BEI NULL REFERENCE CATEGORY ID
+            var subCategory = Sl.CategoryRepo.GetById(subCategoryId);
+            subCategoryList.Add(subCategory);
+        }
 
-        var categoryIds = CategoriesChildren.Take(10).Select(c => c.Id);
-        topQuestions.AddRange(_questionRepo.GetForCategory(categoryIds, 15, UserId));
-
-        if(topQuestions.Count < 7)
-            GetTopQuestionsFromChildrenOfChildren(topQuestions);
-                
-        return topQuestions
-            .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
-            .ToList();
+        return subCategoryList;
     }
-
-    private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)
-    {
-        foreach (var childCat in CategoriesChildren)
-            foreach (var childOfChild in _categoryRepo.GetChildren(childCat.Id))
-                if (topQuestions.Count < 6)
-                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, UserId, 5));
-    }
-
-    public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();
 }

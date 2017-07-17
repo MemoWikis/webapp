@@ -12,7 +12,11 @@ public class TemplateJson
 
     public int ContainingCategoryId;//Doesn't have to be included in Json, is passed internally
 
+    public List<int> SubCategoryIdList;
+
     public string Title;
+
+    public string Text;
 
     public int TitleRowCount;
 
