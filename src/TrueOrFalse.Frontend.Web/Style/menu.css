@@ -361,7 +361,7 @@
 #mainMenuThemeCentered #mainMenuQuestionsSetsCategories {
   margin-top: 15px;
 }
-#mainMenuThemeCentered #mainMenuQuestionsSetsCategories .fa {
+#mainMenuThemeCentered #mainMenuQuestionsSetsCategories .fa-search {
   color: grey;
   padding-right: 7px;
   font-size: 12px;
