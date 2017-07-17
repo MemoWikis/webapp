@@ -48,6 +48,7 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "subcategories":
             case "videowidget":
             case "categorynetwork":
             case "contentlists":
