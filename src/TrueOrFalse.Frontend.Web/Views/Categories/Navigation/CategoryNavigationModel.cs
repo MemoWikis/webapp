@@ -9,7 +9,7 @@ public class CategoryNavigationModel : BaseModel
     public List<Category> CategoryTrail;
 
     public List<Category> DefaultCategoriesList = Sl.CategoryRepo.GetDefaultCategoriesList();
-    public Category Allgemeinwissen = Sl.CategoryRepo.GetDefaultCategoriesList().First(c => c.Id == 709);
+    
 
     public CategoryNavigationModel()
     {
@@ -46,6 +46,6 @@ public class CategoryNavigationModel : BaseModel
             }
         }
 
-        RootCategory = Allgemeinwissen;
+        RootCategory = Sl.CategoryRepo.Allgemeinwissen;
     }
 }

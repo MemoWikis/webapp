@@ -278,6 +278,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .RowCount();
     }
 
+    private const int AllgemeinwissenId = 709;
+
+    public Category Allgemeinwissen = Sl.CategoryRepo.GetById(AllgemeinwissenId);
+
     public List<Category> GetDefaultCategoriesList()
     {
         return new List<Category>
@@ -285,7 +289,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             Sl.CategoryRepo.GetById(640), //Schule
             Sl.CategoryRepo.GetById(151), //Studium
             Sl.CategoryRepo.GetById(689), //Zertifikate
-            Sl.CategoryRepo.GetById(709) //Allgemeinwissen
+            Sl.CategoryRepo.GetById(AllgemeinwissenId) //Allgemeinwissen
         };
     }
 }
