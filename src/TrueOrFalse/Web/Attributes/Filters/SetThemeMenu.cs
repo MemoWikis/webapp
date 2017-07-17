@@ -2,7 +2,7 @@
 {
     public class SetThemeMenu : ActionFilterAttribute
     {
-        private bool _hasBelongingCategory;
+        private readonly bool _hasBelongingCategory;
 
         public SetThemeMenu(bool hasBelongingCategory = false)
         {
@@ -27,7 +27,6 @@
         public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
             var userSession = new SessionUiData();
-            userSession.TopicMenu.IsActive = false;
             userSession.TopicMenu.ActiveCategory = null;
 
             base.OnResultExecuted(filterContext);

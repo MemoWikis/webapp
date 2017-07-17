@@ -3,6 +3,6 @@
 [Serializable]
 public class TopicMenu
 {
-    public bool IsActive = false;
+    public bool IsActive = true;
     public Category ActiveCategory;
 }
