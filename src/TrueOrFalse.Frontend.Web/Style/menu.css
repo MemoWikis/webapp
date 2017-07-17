@@ -247,6 +247,9 @@
 #mainMenuThemeCentered .menu-section {
   margin-bottom: 3px;
 }
+#mainMenuThemeCentered .secondary-section .list-group-item {
+  padding: 7px 7px 7px 46px;
+}
 #mainMenuThemeCentered .tooltip > .tooltip-inner {
   min-width: 200px;
   text-align: left;
@@ -354,6 +357,17 @@
   font-size: 24px;
   padding-right: 3px;
   padding-left: 3px;
+}
+#mainMenuThemeCentered #mainMenuQuestionsSetsCategories {
+  margin-top: 15px;
+}
+#mainMenuThemeCentered #mainMenuQuestionsSetsCategories .fa {
+  color: grey;
+  padding-right: 7px;
+  font-size: 12px;
+}
+#mainMenuThemeCentered #mainMenuGamesUsersMessages {
+  margin-top: 15px;
 }
 div.box-menu {
   background-color: transparent;

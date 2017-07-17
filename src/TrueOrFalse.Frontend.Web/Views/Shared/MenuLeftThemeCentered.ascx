@@ -19,21 +19,21 @@
             <% if (isLongMenu) { %>
                 <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section">
                     <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>">
-                        Themen                
+                        <i class="fa fa-search" aria-hidden="true"></i> Themen                
                         <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
                             onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; "
                             title="Neues Thema erstellen"></i>
                     </a>
        
                     <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
-                        Lernsets                
+                        <i class="fa fa-search" aria-hidden="true"></i> Lernsets                
                         <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
                             onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
                             title="Neues Lernset erstellen"></i>
                     </a>    
 
                     <a id="mainMenuBtnQuestions" class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
-                        Fragen
+                        <i class="fa fa-search" aria-hidden="true"></i> Fragen
                         <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
                             onclick="window.location = '<%= Links.CreateQuestion() %>'; return false; "
                             title="Frage erstellen"></i>
