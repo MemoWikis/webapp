@@ -280,7 +280,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     private const int AllgemeinwissenId = 709;
 
-    public Category Allgemeinwissen = Sl.CategoryRepo.GetById(AllgemeinwissenId);
+    public Category Allgemeinwissen => GetById(AllgemeinwissenId);
 
     public List<Category> GetDefaultCategoriesList()
     {
