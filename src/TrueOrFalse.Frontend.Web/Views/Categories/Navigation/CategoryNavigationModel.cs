@@ -13,7 +13,7 @@ public class CategoryNavigationModel : BaseModel
 
     public CategoryNavigationModel()
     {
-        ActiveCategory = ThemeMenu.ActualCategory;
+        ActiveCategory = ThemeMenu.ActiveCategory;
         if (ActiveCategory != null)
         {
             CategoryTrail = GetBreadCrumb.For(ActiveCategory).ToList();
