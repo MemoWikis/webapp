@@ -228,6 +228,9 @@ textarea.form-control {
   margin: 20px 0px 0px 4px;
   margin-top: 50px;
 }
+.form-horizontal .FormSection #safeQuestions {
+  margin-top: 40px;
+}
 #btnSave {
   margin-top: 20px;
   margin-bottom: 50px;

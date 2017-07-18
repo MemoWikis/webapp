@@ -274,8 +274,9 @@
                             <div class="col-md-12">
                                 <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> zum Lernset hnzufügen</button>
                             </div>
-                            <div id="responseForm" class="col-md-12">
-                                <p id="response"></p>
+                            <div class="alert alert-success" role="alert" id="safeQuestions">
+                                <p id="alertOutput"></p>
+                              
                             </div>
                         </div>
                         
