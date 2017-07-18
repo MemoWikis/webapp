@@ -1041,7 +1041,7 @@
     <Compile Include="Web\Context\MenuHistory\QuestionSetHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
-    <Compile Include="Web\Context\Menu\ThemeMenu.cs" />
+    <Compile Include="Web\Context\Menu\TopicMenu.cs" />
     <Compile Include="Web\Context\Menu\Menu.cs" />
     <Compile Include="Web\Context\SessionUiData.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
