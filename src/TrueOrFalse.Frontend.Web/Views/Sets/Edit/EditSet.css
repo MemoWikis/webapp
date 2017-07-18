@@ -188,19 +188,22 @@ textarea.form-control {
     border: solid;
    
 }*/
-.FormSection {
+.form-horizontal {
+  padding-bottom: 100px;
+}
+.form-horizontal .FormSection {
   box-shadow: none;
   margin-right: 13px;
 }
-.FormSection #resultHeading {
+.form-horizontal .FormSection #resultHeading {
   padding-top: 15px;
   padding-left: 8px;
   font-size: 2em;
 }
-.FormSection #distance {
+.form-horizontal .FormSection #distance {
   padding-right: 13px;
 }
-.FormSection #distance .questionsSearch {
+.form-horizontal .FormSection #distance .questionsSearch {
   margin: 5px 0px 5px 7px;
   font-size: 1.3em;
   line-height: 1.5em;
@@ -209,17 +212,21 @@ textarea.form-control {
   border: 1px solid gainsboro;
   /*max-width: 650px;*/
   /*.linkQuestion {
-            }*/
+                }*/
 }
-.FormSection #distance .questionsSearch .previewImage {
+.form-horizontal .FormSection #distance .questionsSearch .previewImage {
   height: 50px;
   width: 70px;
 }
-.FormSection #distance .questionsSearch .col-md-9 .linkQuestion {
+.form-horizontal .FormSection #distance .questionsSearch .col-md-9 .linkQuestion {
   line-height: 0.5em;
   padding-top: 5px;
   padding-bottom: 7px;
   margin: auto;
+}
+.form-horizontal .FormSection #learnSetSave {
+  margin: 20px 0px 0px 4px;
+  margin-top: 50px;
 }
 #btnSave {
   margin-top: 20px;
@@ -234,9 +241,6 @@ textarea.form-control {
 }
 #btnCreateNewQuestionInLearnSet {
   margin-top: 25px;
-}
-#learnSetSave {
-  margin: 20px 0px 0px 4px;
 }
 #responseForm {
   border: 1px solid gainsboro;
