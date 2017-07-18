@@ -14,6 +14,8 @@ public class TemplateJson
 
     public List<int> SubCategoryIdList;
 
+    public List<int> SubCategoryIdOrderList;
+
     public string Title;
 
     public string Text;

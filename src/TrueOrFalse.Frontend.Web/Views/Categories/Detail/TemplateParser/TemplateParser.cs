@@ -84,7 +84,7 @@ public class TemplateParser
         switch (templateJson.TemplateName.ToLower())
         {
             case "subcategories":
-                return new SubCategoriesModel(category, templateJson.Title, templateJson.Text, templateJson.SubCategoryIdList);
+                return new SubCategoriesModel(category, templateJson.Title, templateJson.Text, templateJson.SubCategoryIdList, templateJson.SubCategoryIdOrderList);
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
             case "categorynetwork":
