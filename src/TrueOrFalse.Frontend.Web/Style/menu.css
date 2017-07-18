@@ -302,6 +302,7 @@
   padding-bottom: 14px;
   padding-left: 8px;
   margin-bottom: unset;
+  border-radius: unset;
 }
 #mainMenuThemeCentered .list-group-item.active,
 #mainMenuThemeCentered .list-group-item.active:focus {
