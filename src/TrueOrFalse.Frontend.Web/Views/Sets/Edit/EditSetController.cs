@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -114,11 +115,14 @@ public class EditSetController : BaseController
         return new EmptyResult();
     }
     
-    public JsonResult Search(string term)
+    public JsonResult Search(string term, int setId)
     {
         var searchSpec = new QuestionSearchSpec();
-        searchSpec.Filter.SearchTerm = term;
+        searchSpec.Filter.SearchTerm = term;            
         searchSpec.PageSize = 5;
+
+        var set = Sl.SetRepo.GetById(setId);
+        set.QuestionIds().ForEach(questionId => searchSpec.Filter.QuestionIdsToExclude.Add(questionId));
 
         var searchResult = Sl.SearchQuestions.Run(searchSpec);
 
