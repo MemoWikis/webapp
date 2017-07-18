@@ -137,10 +137,19 @@ public class EditSetController : BaseController
         });
     }
 
-    public JsonResult AddToSet(int setId, List<int> questionIds)
+    public JsonResult AddQuestionsToSet(int setId, List<int> questionIds)
     {
-        var answer = questionIds;
-        return Json(answer);
+        try
+        {
+            AddToSet.Run(questionIds.ToArray(), setId);
+        }
+        catch(Exception e)
+        {
+            Logg.Error(e);
+            return Json(new { Status = false, Message =  e.Message});
+        }
+        
+        return Json(new {Status = true});
     }
 
 }

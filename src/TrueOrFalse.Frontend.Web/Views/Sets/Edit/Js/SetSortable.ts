@@ -10,7 +10,7 @@ class QuestionSortable
 
     constructor() {
         this._ulQuestions = $("#ulQuestions");
-        this._questionSetId = parseInt($("#questionSetContainer").attr("data-id"));
+        this._questionSetId = EditSet.GetSetId();
 
         this._ulQuestions.sortable({
             placeholder: "ui-state-highlight",
