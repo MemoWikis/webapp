@@ -446,3 +446,75 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
   margin-left: 0 !important;
   margin-right: 15px !important;
 }
+/*------------------------------------------------------
+    NEW STYLES
+
+-------------------------------------------------------*/
+#MasterMainColumn {
+  color: #203256;
+}
+#MasterMainColumn p {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 34px;
+  font-weight: 400;
+  color: #203256;
+}
+#MasterMainColumn h1,
+#MasterMainColumn h2,
+#MasterMainColumn h3,
+#MasterMainColumn h4,
+#MasterMainColumn h5 {
+  font-family: Open Sans !important;
+}
+#MasterMainColumn h1 {
+  font-size: 45px !important;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 56px;
+}
+#MasterMainColumn h2 {
+  font-size: 35px;
+  line-height: 44px;
+}
+#MasterMainColumn h3 {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 500;
+}
+#MasterMainColumn h4 {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 500;
+}
+#MainWrapper {
+  background-color: white;
+  padding: 20px;
+}
+#MainWrapper .Box {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+.BoxButtonBar {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.CardsPortrait,
+.CardsLandscape {
+  margin-top: 40px !important;
+}
+.Card .ContentContainer {
+  overflow: hidden;
+}
+.Card .ItemInfo {
+  font-size: 16px !important;
+}
+.Card .ItemTitle {
+  font-size: 20px !important;
+  /*-webkit-hyphens: auto;
+        hyphens: auto;*/
+}
+.Card .ItemText {
+  font-size: 16px !important;
+}
