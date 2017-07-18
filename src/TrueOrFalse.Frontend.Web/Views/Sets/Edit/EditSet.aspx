@@ -29,13 +29,6 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-<script type="text/javascript" src="/Views/Sets/Edit/Questions.js"></script>
-  
-
-    
-<style type="text/css">
-
-</style>
 
 <div id="questionSetContainer" data-id="<%: Model.Id %>">
     

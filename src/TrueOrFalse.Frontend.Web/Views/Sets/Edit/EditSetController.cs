@@ -133,21 +133,14 @@ public class EditSetController : BaseController
                 correctAnswer= question.Solution,
                 ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
                 QuestionUrl = Links.AnswerQuestion(question)
-
             })
-        },JsonRequestBehavior.AllowGet);
+        });
     }
 
-    public JsonResult SaveToLearningSet(Array id)
+    public JsonResult AddToSet(int setId, List<int> questionIds)
     {
-        var answer = id;
-        return Json( answer, JsonRequestBehavior.AllowGet);
+        var answer = questionIds;
+        return Json(answer);
     }
 
-    public EmptyResult AddToSet(int setId, IList<int> questionIds)
-    {
-        return new EmptyResult();
-    }
-
-    
 }

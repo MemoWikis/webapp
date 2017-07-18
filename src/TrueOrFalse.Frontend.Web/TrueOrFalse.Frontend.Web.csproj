@@ -379,7 +379,7 @@
     <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.css" />
     <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.js" />
     <Content Include="Scripts\vendor.somewhere\jquery.dataTables.js" />
-    <Content Include="Views\Sets\Edit\Questions.js" />
+    <Content Include="Views\Sets\Edit\Js\Questions.js" />
     <Content Include="Views\Api\ActivityPoints\ActivityLevelProgress.aspx" />
     <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
