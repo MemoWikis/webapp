@@ -34,7 +34,7 @@
 
     public MenuLeftModel MenuLeftModel = new MenuLeftModel();
 
-    public ThemeMenu ThemeMenu;
+    public TopicMenu TopicMenu;
 
     public bool ShowUserReportWidget = true;
 
@@ -54,6 +54,6 @@
         }
 
         var sessionUiData = Resolve<SessionUiData>();
-        ThemeMenu = sessionUiData.ThemeMenu;
+        TopicMenu = sessionUiData.TopicMenu;
     }
 }

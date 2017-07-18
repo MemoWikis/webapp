@@ -3,20 +3,20 @@ using System.Linq;
 
 public class CategoryNavigationModel : BaseModel
 {
-    public Category ActualCategory;
+    public Category ActiveCategory;
     public Category RootCategory;
 
     public List<Category> CategoryTrail;
 
     public List<Category> DefaultCategoriesList = Sl.CategoryRepo.GetDefaultCategoriesList();
-    public Category Allgemeinwissen = Sl.CategoryRepo.GetDefaultCategoriesList().First(c => c.Id == 709);
+    
 
     public CategoryNavigationModel()
     {
-        ActualCategory = ThemeMenu.ActualCategory;
-        if (ActualCategory != null)
+        ActiveCategory = TopicMenu.ActiveCategory;
+        if (ActiveCategory != null)
         {
-            CategoryTrail = GetBreadCrumb.For(ActualCategory).ToList();
+            CategoryTrail = GetBreadCrumb.For(ActiveCategory).ToList();
             CategoryTrail.Reverse();
             SetRootCategory();
         }
@@ -24,9 +24,9 @@ public class CategoryNavigationModel : BaseModel
 
     private void SetRootCategory()
     {
-        if (DefaultCategoriesList.Contains(ActualCategory))
+        if (DefaultCategoriesList.Contains(ActiveCategory))
         {
-            RootCategory = ActualCategory;
+            RootCategory = ActiveCategory;
             return;
         }
 
@@ -46,6 +46,6 @@ public class CategoryNavigationModel : BaseModel
             }
         }
 
-        RootCategory = Allgemeinwissen;
+        RootCategory = Sl.CategoryRepo.Allgemeinwissen;
     }
 }

@@ -1,7 +1,7 @@
 ﻿class Menu {
 
     constructor() {
-        $("#mainMenu .list-group-item").hover(
+        $(".list-group-item").hover(
             function () {
                 $(this).find(".show-on-hover").show(150);
             },

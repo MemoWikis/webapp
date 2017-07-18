@@ -276,6 +276,13 @@
         margin-bottom: 3px;
     }
 
+
+    .secondary-section {
+        .list-group-item {
+            padding: 7px 7px 7px 46px;
+        }
+    }
+
     .tooltip > .tooltip-inner {
         min-width: 200px;
         text-align: left;
@@ -329,6 +336,7 @@
         padding-bottom: 14px;
         padding-left: 8px;
         margin-bottom: unset;
+        border-radius: unset;
 
         &.active, &.active:focus {
             background-color: @menu-light-blue;
@@ -394,98 +402,23 @@
             padding-right: 3px;
             padding-left: 3px;
         }
-        /*&.set {
-            i.fa-caret-right {
-                color: @color-set;
-            }
-
-            &:hover {
-                i.fa-caret-right {
-                    color: white;
-                }
-            }
-        }
-
-        &.quest {
-            i.fa-caret-right {
-                color: @color-question;
-            }
-
-            &:hover {
-                i.fa-caret-right {
-                    color: white;
-                }
-            }
-        }
-
-        &.cat {
-            i.fa-caret-right {
-                color: @color-category;
-            }
-
-            &:hover {
-                color: black;
-            }
-        }
-
-        &.know {
-            i.fa-caret-right {
-                color: @dark-red;
-            }
-
-            &:hover {
-                i.fa-caret-right {
-                    color: white;
-                }
-            }
-        }
-
-        &.messages {
-            i.fa-caret-right {
-                color: @middle-orange;
-            }
-
-            &:hover {
-                color: black;
-            }
-        }
-        &.dues {
-            i.fa-caret-right {
-                color: @middle-turquoise;
-            }
-
-            &:hover {
-                i.fa-caret-right {
-                    color: white;
-                }
-            }
-        }
-
-        &.users {
-            i.fa-caret-right {
-                color: @color-user;
-            }
-
-            &:hover {
-                i.fa-caret-right {
-                    color: @color-user;
-                }
-            }
-        }
-
-        &.play {
-            i.fa-caret-right {
-                color: @color-play;
-            }
-
-            &:hover {
-                i.fa-caret-right {
-                    color: @color-play;
-                }
-            }
-        }*/
     }
 }
+
+#mainMenuThemeCentered #mainMenuQuestionsSetsCategories {
+    margin-top: 15px;
+
+    .fa-search {
+        color: grey;
+        padding-right: 7px;
+        font-size: 12px;
+    }
+}
+
+#mainMenuThemeCentered #mainMenuGamesUsersMessages {
+    margin-top: 15px;
+}
+
 
     div.box-menu {
         background-color: transparent;
