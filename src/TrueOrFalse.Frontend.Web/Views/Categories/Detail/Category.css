@@ -446,3 +446,17 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
   margin-left: 0 !important;
   margin-right: 15px !important;
 }
+/*******************************************************************/
+/*  SubCategories
+----------------------------------------------------------*/
+#subCategories img {
+  max-width: 80px;
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #eeeeee;
+}
+#subCategories a {
+  color: black;
+}
+#subCategories .set-question-count {
+  color: #999999;
+}
