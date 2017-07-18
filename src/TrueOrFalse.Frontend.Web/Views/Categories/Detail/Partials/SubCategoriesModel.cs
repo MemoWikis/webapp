@@ -21,6 +21,16 @@ public class SubCategoriesModel : BaseModel
         Text = text;
     }
 
+    public int GetTotalQuestionCount(Category category)
+    {
+        return category.GetAggregatedQuestionsFromMemoryCache().Count;
+    }
+
+    public int GetTotalSetCount(Category category)
+    {
+        return category.GetAggregatedSetsFromMemoryCache().Count;
+    }
+
     public ImageFrontendData GetCategoryImage(Category category)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);

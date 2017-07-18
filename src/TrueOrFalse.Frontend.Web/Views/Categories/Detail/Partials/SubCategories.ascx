@@ -14,6 +14,7 @@
                             </div>
                             <div class="col-xs-8">
                                 <a href="<%= Links.GetUrl(subCategory) %>"><%: subCategory.Name %></a>
+                                <div><%: Model.GetTotalSetCount(subCategory) %> Lernset <%: Model.GetTotalQuestionCount(subCategory) %> Fragen</div>
                                 <%-- HIER PROGRESS BAR REIN --%>
                             </div>
                         </div>
