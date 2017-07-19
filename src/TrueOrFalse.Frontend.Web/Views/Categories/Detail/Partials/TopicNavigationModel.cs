@@ -8,14 +8,14 @@ public class TopicNavigationModel : BaseModel
     public string Title;
     public string Text;
 
-    public List<Category> TopicList;
+    public List<Category> CategoryList;
 
 
-    public TopicNavigationModel(Category category, string title, string text, List<int> topicIdList)
+    public TopicNavigationModel(Category category, string title, string text, List<int> categoryIdList)
     {
-        TopicList = 
-            topicIdList != null
-            ? ConvertToCategoryList(topicIdList)
+        CategoryList = 
+            categoryIdList != null
+            ? ConvertToCategoryList(categoryIdList)
             : Sl.CategoryRepo.GetChildren(category.Id).ToList();
 
         Title = title;
@@ -38,13 +38,13 @@ public class TopicNavigationModel : BaseModel
         return new ImageFrontendData(imageMetaData);
     }
 
-    private List<Category> ConvertToCategoryList(List<int> categoryIds)
+    private List<Category> ConvertToCategoryList(List<int> categoryIdList)
     {
         var categoryList = new List<Category>();
-        foreach (var subCategoryId in categoryIds)
+        foreach (var categoryId in categoryIdList)
         {
             //TODO:Julian FEHLER BEHANDELUNG BEI NULL REFERENCE CATEGORY ID
-            var category = Sl.CategoryRepo.GetById(subCategoryId);
+            var category = Sl.CategoryRepo.GetById(categoryId);
             categoryList.Add(category);
         }
 
@@ -59,12 +59,12 @@ public class TopicNavigationModel : BaseModel
 
     //        foreach (var category in topicOrderList)
     //        {
-    //            TopicList.Remove(category);
+    //            CategoryList.Remove(category);
     //        }
 
     //        //TODO:Julian COULD GET WRONG CATEGORIES INTO LIST
-    //        topicOrderList.AddRange(TopicList);
-    //        TopicList = topicOrderList;
+    //        topicOrderList.AddRange(CategoryList);
+    //        CategoryList = topicOrderList;
     //    }
     //}
 }
