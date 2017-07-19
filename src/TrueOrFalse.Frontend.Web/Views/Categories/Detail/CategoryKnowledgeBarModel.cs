@@ -2,8 +2,11 @@
 {
     public Category Category;
 
-   public CategoryKnowledgeBarModel(Category category)
-   {
-       Category = category;
-   }
+    public KnowledgeSummary CategoryKnowledgeSummary;
+
+    public CategoryKnowledgeBarModel(Category category)
+    {
+        Category = category;
+        CategoryKnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category, Sl.SessionUser.UserId);
+    }
 }
