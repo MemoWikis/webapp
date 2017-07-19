@@ -1,27 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class SubCategoriesModel : BaseModel
+public class TopicNavigationModel : BaseModel
 {
     public Category Category;
 
     public string Title;
     public string Text;
 
-    public List<Category> SubCategoryList;
+    public List<Category> TopicList;
 
 
-    public SubCategoriesModel(Category category, string title, string text, List<int> subCategoryIdList, List<int> subCategoryIdOrderList)
+    public TopicNavigationModel(Category category, string title, string text, List<int> topicIdList)
     {
-        SubCategoryList = 
-            subCategoryIdList != null
-            ? ConvertToCategoryList(subCategoryIdList)
+        TopicList = 
+            topicIdList != null
+            ? ConvertToCategoryList(topicIdList)
             : Sl.CategoryRepo.GetChildren(category.Id).ToList();
 
         Title = title;
         Text = text;
-
-        OrderSubCategoryList(subCategoryIdOrderList);
     }
 
     public int GetTotalQuestionCount(Category category)
@@ -53,20 +51,20 @@ public class SubCategoriesModel : BaseModel
         return categoryList;
     }
 
-    private void OrderSubCategoryList(List<int> subCategoryIdOrderList)
-    {
-        if (subCategoryIdOrderList != null)
-        {
-            var subCategoryOrderList = ConvertToCategoryList(subCategoryIdOrderList);
+    //private void OrderTopicList(List<int> topicIdOrderList)
+    //{
+    //    if (topicIdOrderList != null)
+    //    {
+    //        var topicOrderList = ConvertToCategoryList(topicIdOrderList);
 
-            foreach (var category in subCategoryOrderList)
-            {
-                SubCategoryList.Remove(category);
-            }
+    //        foreach (var category in topicOrderList)
+    //        {
+    //            TopicList.Remove(category);
+    //        }
 
-            //TODO:Julian COULD GET WRONG CATEGORIES INTO LIST
-            subCategoryOrderList.AddRange(SubCategoryList);
-            SubCategoryList = subCategoryOrderList;
-        }
-    }
+    //        //TODO:Julian COULD GET WRONG CATEGORIES INTO LIST
+    //        topicOrderList.AddRange(TopicList);
+    //        TopicList = topicOrderList;
+    //    }
+    //}
 }

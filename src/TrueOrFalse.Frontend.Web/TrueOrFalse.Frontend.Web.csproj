@@ -306,7 +306,7 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SubCategoriesModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
@@ -360,7 +360,7 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
-    <Content Include="Views\Categories\Detail\Partials\SubCategories.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
