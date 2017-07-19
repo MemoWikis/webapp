@@ -10,7 +10,7 @@
             <div class="col-xs-6">
                 <div class="row">
                     <div class="col-xs-3">
-                        <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(100, false, ImageType.Category) %>
+                        <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(100, true, ImageType.Category) %>
                     </div>
                     <div class="col-xs-9">
                         <a href="<%= Links.GetUrl(category) %>"><%: category.Name %></a>
