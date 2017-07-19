@@ -15,7 +15,7 @@
                     <div class="col-xs-9">
                         <a href="<%= Links.GetUrl(category) %>"><%: category.Name %></a>
                         <div class="set-question-count"><%: Model.GetTotalSetCount(category) %> Lernset <%: Model.GetTotalQuestionCount(category) %> Fragen</div>
-                        <%-- HIER PROGRESS BAR REIN --%>
+                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
                     </div>
                 </div>
             </div>
