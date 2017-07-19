@@ -2631,6 +2631,7 @@
     <Content Include="Views\Welcome\Directions.less" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Questions\Modals\QuestionInSet.cshtml" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
