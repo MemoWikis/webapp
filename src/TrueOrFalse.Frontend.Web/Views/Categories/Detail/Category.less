@@ -446,10 +446,60 @@ html.flexbox:not(.Explorer) {
     }
 }
 
+/*------------------------------------------------------
+    TopicNavigation
+-------------------------------------------------------*/
+
+#topicNavigation {
+    img {
+        max-width: 80px;
+        border-radius: 50%;
+        box-shadow: 5px 5px 10px @gray-lighter;
+    }
+
+    a {
+        color: black;
+    }
+
+    .set-question-count {
+        color: @gray-light;
+    }
+}
+
+.category-knowledge-bar {
+    margin-top: 15px;
+    height: 10px;
+    width: 180px;
+
+    .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+        height: inherit;
+        float: left;
+    }
+
+    .solid-knowledge {
+        background-color: @solid-knowledge-color;
+    }
+
+    .needs-learning {
+        background-color: @needs-learning-color;
+    }
+
+    .needs-consolidation {
+        background-color: @needs-consolidation-color;
+    }
+
+    .not-learned {
+        background-color: @not-learned-color;
+    }
+
+    .not-in-wish-knowledge {
+        background-color: @not-in-wish-knowledge-color;
+    }
+}
+
 
 /*------------------------------------------------------
     NEW STYLES
-
 -------------------------------------------------------*/
 
 #MasterMainColumn {
