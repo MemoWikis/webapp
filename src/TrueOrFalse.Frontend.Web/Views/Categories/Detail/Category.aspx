@@ -24,7 +24,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
 
-    <div class="row" >
+    <div class="row">
         <div class="col-xs-12 col-md-2 col-md-push-10">
             <div class="navLinks">
                 <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
@@ -41,46 +41,48 @@
         </div>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
             
-            <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
-
-                    Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
-
-
-                    <% if (Model.FeaturedSets.Count > 0){
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
-                            new SingleSetCollectionModel(Model.FeaturedSets));
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-
-
-                    } else {//no featured sets
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-                    }
-
-            } else { 
-                    
-                if(!Model.CustomPageHtml.Contains("MainItemInfo")) { %>                  
+            <div id="MainWrapper">
             
-                    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
+                <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
+
+
+                        <% if (Model.FeaturedSets.Count > 0){
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
+                                new SingleSetCollectionModel(Model.FeaturedSets));
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+
+
+                        } else {//no featured sets
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+                        }
+
+                } else { 
                     
+                    if(!Model.CustomPageHtml.Contains("MainItemInfo")) { %>                  
+            
+                        <% Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
+                    
+                    <% } %>
+            
+                    <div class="MarkdownContent">
+                        <%= Model.CustomPageHtml %>
+                    </div>
+
                 <% } %>
-            
-                <div class="MarkdownContent">
-                    <%= Model.CustomPageHtml %>
-                </div>
-
-            <% } %>
-
+            </div>
         </div>
     </div>
 </asp:Content>
