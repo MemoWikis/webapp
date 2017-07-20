@@ -97,7 +97,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/CategoryEdit")
                 .Include("~/Views/Categories/Edit/EditCategory.css")
-                .Include("~/Scripts/vendor.somewhere/simplemde.css"));
+                .Include("~/Scripts/vendor.somewhere/simplemde.css")
+                .Include("~/Views/Categories/Detail/Category.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
