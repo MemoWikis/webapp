@@ -33,7 +33,7 @@ public class TemplateParser
             }
             catch (Exception e)
             {
-                Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message}).");
+                Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
                 return GetReplacementForNonparsableTemplate(match.Value, e.Message, e.StackTrace);
             }
 
@@ -64,7 +64,7 @@ public class TemplateParser
                 var elementHtml = GetElementHtml(templateJson);
 
                 if (string.IsNullOrEmpty(elementHtml))
-                    throw new Exception("Name des Templates ist unbekannt.");
+                    throw new Exception($"Name des Templates '{elementHtml}' ist unbekannt.");
 
                 return elementHtml;
             }
