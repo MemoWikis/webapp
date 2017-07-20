@@ -11,8 +11,8 @@ public class TemplateJson
 
     public int ContainingCategoryId;//Doesn't have to be included in Json, is passed internally
 
-    public List<int> TopicIdList;
-    public string OrderType;
+    public string Load;
+    public string Order;
 
     public string Title;
 

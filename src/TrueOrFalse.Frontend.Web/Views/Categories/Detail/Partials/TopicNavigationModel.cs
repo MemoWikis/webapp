@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class TopicNavigationModel : BaseModel
@@ -10,19 +11,41 @@ public class TopicNavigationModel : BaseModel
 
     public List<Category> CategoryList;
 
+    public bool HasUsedOrderListWithLoadList;
 
-    public TopicNavigationModel(Category category, string title, string text, List<int> categoryIdList, string orderType)
+    public TopicNavigationModel(Category category, string title, string text, string load, string order)
     {
         Category = category;
 
-        CategoryList = 
-            categoryIdList != null
-            ? ConvertToCategoryList(categoryIdList)
-            : Sl.CategoryRepo.GetChildren(category.Id).ToList();
-
-        if (categoryIdList != null && orderType == "SelectionFirst")
+        var isLoadList = false;
+        switch (load)
         {
-            AppendRemainingItemsToList();
+            case null:
+            case "All":
+                CategoryList = Sl.CategoryRepo.GetChildren(category.Id).ToList();
+                break;
+
+            default:
+                var categoryIdList = load.Split(',').ToList().ConvertAll(Int32.Parse);
+                CategoryList = ConvertToCategoryList(categoryIdList);
+                isLoadList = true;
+                break;
+        }
+
+        switch (order)
+        {
+            case null:
+                break;
+
+            default:
+                if (isLoadList)
+                {
+                    HasUsedOrderListWithLoadList = true;
+                    break;
+                }
+                var firstCategories = ConvertToCategoryList(load.Split(',').ToList().ConvertAll(Int32.Parse));
+                CategoryList = OrderByCategoryList(firstCategories);
+                break;
         }
 
         Title = title;
@@ -58,14 +81,14 @@ public class TopicNavigationModel : BaseModel
         return categoryList;
     }
 
-    private void AppendRemainingItemsToList()
+    private List<Category> OrderByCategoryList(List<Category> firstCategories)
     {
-        var totalSubCategories = Sl.CategoryRepo.GetChildren(Category.Id).ToList();
-        foreach (var subCategory in CategoryList)
+        foreach (var category in firstCategories)
         {
-            totalSubCategories.Remove(subCategory);
+            CategoryList.Remove(category);
         }
 
-        CategoryList.AddRange(totalSubCategories);
+        firstCategories.AddRange(CategoryList);
+        return firstCategories;
     }
 }
