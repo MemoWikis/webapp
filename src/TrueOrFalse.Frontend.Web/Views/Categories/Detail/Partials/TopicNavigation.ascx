@@ -7,7 +7,7 @@
 <div id="topicNavigation" class="row">
     <% foreach (var category in Model.CategoryList)
         { %>
-            <div class="col-xs-6">
+            <div class="col-xs-6 topic">
                 <div class="row">
                     <div class="col-xs-3">
                         <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(100, true, ImageType.Category) %>
