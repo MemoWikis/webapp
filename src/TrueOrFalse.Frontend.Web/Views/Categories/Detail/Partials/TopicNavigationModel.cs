@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class TopicNavigationModel : BaseModel
@@ -10,13 +11,42 @@ public class TopicNavigationModel : BaseModel
 
     public List<Category> CategoryList;
 
+    public bool HasUsedOrderListWithLoadList;
 
-    public TopicNavigationModel(Category category, string title, string text, List<int> categoryIdList)
+    public TopicNavigationModel(Category category, string title, string text, string load, string order)
     {
-        CategoryList = 
-            categoryIdList != null
-            ? ConvertToCategoryList(categoryIdList)
-            : Sl.CategoryRepo.GetChildren(category.Id).ToList();
+        Category = category;
+
+        var isLoadList = false;
+        switch (load)
+        {
+            case null:
+            case "All":
+                CategoryList = Sl.CategoryRepo.GetChildren(category.Id).ToList();
+                break;
+
+            default:
+                var categoryIdList = load.Split(',').ToList().ConvertAll(Int32.Parse);
+                CategoryList = ConvertToCategoryList(categoryIdList);
+                isLoadList = true;
+                break;
+        }
+
+        switch (order)
+        {
+            case null:
+                break;
+
+            default:
+                if (isLoadList)
+                {
+                    HasUsedOrderListWithLoadList = true;
+                    break;
+                }
+                var firstCategories = ConvertToCategoryList(load.Split(',').ToList().ConvertAll(Int32.Parse));
+                CategoryList = OrderByCategoryList(firstCategories);
+                break;
+        }
 
         Title = title;
         Text = text;
@@ -51,20 +81,14 @@ public class TopicNavigationModel : BaseModel
         return categoryList;
     }
 
-    //private void OrderTopicList(List<int> topicIdOrderList)
-    //{
-    //    if (topicIdOrderList != null)
-    //    {
-    //        var topicOrderList = ConvertToCategoryList(topicIdOrderList);
+    private List<Category> OrderByCategoryList(List<Category> firstCategories)
+    {
+        foreach (var category in firstCategories)
+        {
+            CategoryList.Remove(category);
+        }
 
-    //        foreach (var category in topicOrderList)
-    //        {
-    //            CategoryList.Remove(category);
-    //        }
-
-    //        //TODO:Julian COULD GET WRONG CATEGORIES INTO LIST
-    //        topicOrderList.AddRange(CategoryList);
-    //        CategoryList = topicOrderList;
-    //    }
-    //}
+        firstCategories.AddRange(CategoryList);
+        return firstCategories;
+    }
 }
