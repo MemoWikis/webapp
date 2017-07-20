@@ -11,12 +11,19 @@ public class TopicNavigationModel : BaseModel
     public List<Category> CategoryList;
 
 
-    public TopicNavigationModel(Category category, string title, string text, List<int> categoryIdList)
+    public TopicNavigationModel(Category category, string title, string text, List<int> categoryIdList, string orderType)
     {
+        Category = category;
+
         CategoryList = 
             categoryIdList != null
             ? ConvertToCategoryList(categoryIdList)
             : Sl.CategoryRepo.GetChildren(category.Id).ToList();
+
+        if (categoryIdList != null && orderType == "SelectionFirst")
+        {
+            AppendRemainingItemsToList();
+        }
 
         Title = title;
         Text = text;
@@ -51,20 +58,14 @@ public class TopicNavigationModel : BaseModel
         return categoryList;
     }
 
-    //private void OrderTopicList(List<int> topicIdOrderList)
-    //{
-    //    if (topicIdOrderList != null)
-    //    {
-    //        var topicOrderList = ConvertToCategoryList(topicIdOrderList);
+    private void AppendRemainingItemsToList()
+    {
+        var totalSubCategories = Sl.CategoryRepo.GetChildren(Category.Id).ToList();
+        foreach (var subCategory in CategoryList)
+        {
+            totalSubCategories.Remove(subCategory);
+        }
 
-    //        foreach (var category in topicOrderList)
-    //        {
-    //            CategoryList.Remove(category);
-    //        }
-
-    //        //TODO:Julian COULD GET WRONG CATEGORIES INTO LIST
-    //        topicOrderList.AddRange(CategoryList);
-    //        CategoryList = topicOrderList;
-    //    }
-    //}
+        CategoryList.AddRange(totalSubCategories);
+    }
 }
