@@ -48,6 +48,7 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "topicnavigation":
             case "videowidget":
             case "categorynetwork":
             case "contentlists":
@@ -82,6 +83,8 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "topicnavigation":
+                return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.TopicIdList);
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
             case "categorynetwork":

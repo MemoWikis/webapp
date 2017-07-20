@@ -447,16 +447,74 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
   margin-right: 15px !important;
 }
 /*------------------------------------------------------
-    NEW STYLES
-
+    TopicNavigation
 -------------------------------------------------------*/
+#topicNavigation img {
+  max-width: 80px;
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #eeeeee;
+}
+#topicNavigation a {
+  color: black;
+}
+#topicNavigation .set-question-count {
+  color: #999999;
+}
+.category-knowledge-bar {
+  margin-top: 15px;
+  height: 10px;
+  width: 180px;
+}
+.category-knowledge-bar .solid-knowledge,
+.category-knowledge-bar .needs-learning,
+.category-knowledge-bar .needs-consolidation,
+.category-knowledge-bar .not-learned,
+.category-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+.category-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+.category-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+.category-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+.category-knowledge-bar .not-learned {
+  background-color: silver;
+}
+.category-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}
+/*------------------------------------------------------
+    NEW STYLES
+-------------------------------------------------------*/
+.navLinks {
+  margin-top: -5px;
+  margin-bottom: 10px !important;
+}
+.navLinks > a,
+.navLinks > div {
+  display: inline-block !important;
+  margin-right: 10px !important;
+}
 #MasterMainColumn {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 27px;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
   color: #203256;
 }
 #MasterMainColumn p {
   font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 20px;
-  line-height: 34px;
+  font-size: 16px;
+  line-height: 27px;
+  font-size: 18px;
+  line-height: 30px;
   font-weight: 400;
   color: #203256;
 }
@@ -470,7 +528,7 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 #MasterMainColumn h1 {
   font-size: 45px !important;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 56px;
 }
 #MasterMainColumn h2 {
@@ -507,6 +565,11 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 .Card .ContentContainer {
   overflow: hidden;
 }
+@media (min-width: 650px) {
+  .CardsPortrait .Card .CardContent {
+    height: 230px !important;
+  }
+}
 .Card .ItemInfo {
   font-size: 16px !important;
 }
@@ -517,4 +580,7 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 }
 .Card .ItemText {
   font-size: 16px !important;
+}
+.LabelList .LabelItem:before {
+  top: 1.1em !important;
 }
