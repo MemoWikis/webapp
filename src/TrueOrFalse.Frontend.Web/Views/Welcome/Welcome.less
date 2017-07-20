@@ -8,7 +8,13 @@
 
 }
 
-
+.CardsPortrait{ // Apply to row
+    
+    .CardColumn {
+        .make-xs-column(2);
+        .make-sm-column(2);
+    }
+}
 
 //---------------
 #MasterMainContent {
@@ -22,20 +28,153 @@
 
 #welcomeContainer {
     background-color: white;
+
+    .media-md-up( {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    );
+
+    .media-lg( {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    );
 }
 
-/*Fonts*/
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
 }
+
+
+/* FIND YOUR CONTENT BUTTONS */
 
 #titleFindYourContent {
     font-size: 45px;
     text-align: center;
     font-weight: bold;
-    margin-top: 40px;
-    margin-bottom: 35px;
+    margin-top: 60px;
+    margin-bottom: 50px;
 }
+
+
+.EduCategoryRow {
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+    .media-md-up( {
+        margin-bottom: 70px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    );
+
+    .media-lg( {
+        padding-left: 150px;
+        padding-right: 150px;
+    }
+
+    );
+}
+
+.EduCategory {
+    display: block;
+    text-align: center;
+    color: @memo-blue;
+    .BoxButton;
+    height: auto;
+    padding: 25px 0;
+
+    &:hover, &:active, &:focus {
+        text-decoration: none;
+        color: @memo-green;
+        background-color: #f3f2f2;
+
+        .IconForeground {
+            color: @memo-blue;
+        }
+    }
+}
+
+.EduCategoryIcon, .EduCategoryText {
+    display: block;
+}
+
+.EduCategoryIcon {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.EduCategoryText {
+    font-size: @font-size-bigger;
+    font-weight: bold;
+}
+
+
+/* DASHBOARD ELEMENTS*/
+
+#WelcomeDashboard {
+    margin-bottom: 50px;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    #dashboardPoints, #dashboardKnowledgeWheel {
+        margin-top: 40px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-md-up( {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        );
+
+        .media-lg( {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        );
+    }
+
+    #chartWishKnowledge {
+        height: 200px;
+        text-align: left;
+    }
+
+    #dashboardFooter {
+        margin-top: 30px;
+        padding-top: 10px;
+        text-align: center;
+        border-top: 1px solid lightgrey;
+        margin-left: 40px;
+        margin-right: 40px;
+
+        .media-md-up( {
+            margin-left: 90px;
+            margin-right: 90px;
+        }
+
+        );
+
+        .media-lg( {
+            margin-left: 150px;
+            margin-right: 150px;
+        }
+
+        );
+    }
+}
+
+
+/* WHAT IS MEMUCHO */
 
 
 #memuchoInfo {
@@ -44,9 +183,7 @@ h1, h2, h3, h4, h5, h6 {
 
     .media-below-xs( {
         text-align: center;
-    }
-
-    );
+    }    );
 }
 
 #memuchoInfoHeader, .WelcomeBoxHeader {
@@ -128,14 +265,6 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-#WelcomeDashboard {
-    /*.well;
-    .ShadowBox;*/
-    h3 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-}
 
 .categoryOfWeekContainer {
     margin-top: 40px;
@@ -195,53 +324,6 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-
-
-
-.EduCategoryRow {
-    margin-top: 20px;
-    margin-bottom: 40px;
-
-    .media-md-up( {
-        margin-left: 30px;
-        margin-right: 30px;
-    }
-
-    );
-}
-
-.EduCategory {
-    display: block;
-    text-align: center;
-    color: @memo-blue;
-    .BoxButton;
-    height: auto;
-    padding: 25px 0;
-
-    &:hover, &:active, &:focus {
-        text-decoration: none;
-        color: @memo-green;
-        background-color: #f3f2f2;
-        
-        .IconForeground {
-            color: @memo-blue;
-        }
-    }
-}
-
-.EduCategoryIcon, .EduCategoryText {
-    display: block;
-}
-
-.EduCategoryIcon {
-    font-size: 25px;
-    margin-bottom: 5px;
-}
-
-.EduCategoryText {
-    font-size: @font-size-bigger;
-    font-weight: bold;
-}
 
 .welcomeContentSectionHeader {
     margin-top: 50px;

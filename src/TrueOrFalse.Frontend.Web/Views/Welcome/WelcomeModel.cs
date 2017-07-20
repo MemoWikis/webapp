@@ -23,7 +23,7 @@ public class WelcomeModel : BaseModel
     public int ActivityPointsTillNextLevel;
     public int ActivityPointsPercentageOfNextLevel;
 
-
+    public IList<int> CategoriesUniversity;
 
 
     public WelcomeModel()
@@ -84,9 +84,9 @@ public class WelcomeModel : BaseModel
             TotalLearningDays = 214
         };
 
-        ActivityPoints = 3578;
+        ActivityPoints = 3120;
         ActivityLevel = UserLevelCalculator.GetLevel(ActivityPoints);
-        ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(3);
+        ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(ActivityLevel);
         ActivityPointsTillNextLevel = ActivityPointsAtNextLevel - ActivityPoints;
         ActivityPointsPercentageOfNextLevel = ActivityPoints == 0 ? 0 : 100 * ActivityPoints / ActivityPointsAtNextLevel;
 

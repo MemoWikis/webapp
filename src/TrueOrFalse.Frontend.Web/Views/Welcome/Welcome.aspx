@@ -144,22 +144,20 @@
         </div>
 
         <div id="WelcomeDashboard">
-<%--            <h2 class="WelcomeBoxHeader" style="margin-bottom: 25px;">Deine Wissenszentrale (Übersicht)</h2>--%>
-            <%--<a href="<%= Links.Knowledge() %>">Zur Wissenszentrale</a>--%>
             <div class="row">
-                <div class="col-md-6">
-                    <h3>Deine Lernpunkte</h3>
+                <div class="col-md-6" id="dashboardPoints">
+                    <h2>Deine Lernpunkte</h2>
                     <div style="text-align: center; margin-bottom: 25px; margin-top: 15px;">
                         <span class="level-display">
                             <span style="display: inline-block; white-space: nowrap;">
-                                <svg>
+                                <svg class="large">
                                     <circle cx="50%" cy="50%" r="50%" />
                                     <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
                                 </svg>
                             </span>
                         </span>
                         <p style="margin-top: 10px;">
-                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in Level <%= Model.ActivityLevel %>.
+                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <b>Level <%= Model.ActivityLevel %></b>.
                         </p>
                     </div>
 
@@ -177,8 +175,8 @@
                     <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
                 </div>
 
-                <div class="col-md-6">
-                    <h3>Dein Wissensstand</h3>
+                <div class="col-md-6" id="dashboardKnowledgeWheel">
+                    <h2>Dein Wissensstand</h2>
                     <% if(Model.KnowledgeSummary.Total == 0) { %>
                         <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                             <p>
@@ -201,16 +199,20 @@
                             </p>
                         </div>
                     <% }else { %>
-                        <div id="chartWishKnowledge" style="height: 150px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
+                        <div id="chartWishKnowledge" style=""></div>
                         <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                                 <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                             </a>
                         </div>
                     <% } %>
                 </div>
+            </div>
 
-                
+            <div class="row" id="dashboardFooter">
+                <div class="col-xs-12">
+                    <a class="btn btn-link" href="#">Zu deiner Wissenszentrale</a>
+                </div>
             </div>
         </div>
 
@@ -246,8 +248,8 @@
             <div id="memuchoInfoFooter">
                 <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr...</a>
                 <% if (!Model.IsLoggedIn) { %>
-                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                    <div style="margin-top: 10px; text-align: center">
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <% } %>
@@ -303,30 +305,23 @@
                         </p>
                     </div>    
                 </div>
-                <%--        <div class="well" id="oerCamp" style="padding: 10px; ">
-            <div style="text-align: center;">
-                <img src="/Images/LogosPartners/OERCamp-Logo-Text_unten.jpg" alt="" width="170" height="183" style="margin-bottom: 10px;"/>
-            </div>
-            <p style="text-align: center; margin-bottom: 0;">
-                memucho ist beim <a href="http://www.oercamp.de">OERcamp</a> in 
-                <a href="http://www.oercamp.de/17/nord/workshops/#nordB4f" target="_blank">Hamburg</a> (23./24. Juni)
-            </p>
-        </div>--%>
 
             </div>
         </div>
 
        
-        <h3 class="welcomeContentSectionHeader">Schwerpunkt Politik & Wirtschaft</h3>
-        <p class="welcomeContentSectionTarget">Allgemeinwissen, Politik, Wirtschaft, Globalisierung, Migration, Geographie</p>
-        <p class="welcomeContentSectionTeaser">Teste dein Wissen zum politischen Zeitgeschehen und lerne mit memucho die wichtigsten Grundlagen.</p>
+        <h1 class="welcomeContentSectionHeader">Studium</h1>
+<%--        <p class="welcomeContentSectionTarget">Allgemeinwissen, Politik, Wirtschaft, Globalisierung, Migration, Geographie</p>--%>
+<%--        <p class="welcomeContentSectionTeaser">Teste dein Wissen zum politischen Zeitgeschehen und lerne mit memucho die wichtigsten Grundlagen.</p>--%>
         <div class="row CardsPortrait" style="padding-top: 0;">
+            <% var universityTopics = new List<int> { }; %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(64)); //Sozialstaat Deutschland %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(57)); //UN %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
         </div>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(27, new int[] { 749, 635, 630 })); //Einbürgerungstest %>
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
+<%--        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(27, new int[] { 749, 635, 630 })); //Einbürgerungstest %>
+        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>--%>
 
 
      
@@ -339,7 +334,7 @@
                 Was ist memucho?
             </h3>
             <p>
-                memucho ist eine vernetzte Lern- und Wissensplattform. Damit kannst du:
+                memucho hilft dir, Interessantes zu lernen, nie wieder zu vergessen und dein Wissen zu organisieren.
             </p>
             
             <div class="row">
@@ -406,7 +401,7 @@
 
         <div class="well">
             <h3>
-                <a name="teaserPrinciples"></a>
+                <a id="teaserPrinciples"></a>
                 Unsere Prinzipien
             </h3>
             <ul class="fa-ul">
@@ -505,7 +500,7 @@
                         Wir konzipieren, gestalten und programmieren memucho gemeinsam.
                     </p>
                     <p>
-                        Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe Christof an: +49-1577-6825707.
+                        Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
                     </p>
                 </div>
             </div>

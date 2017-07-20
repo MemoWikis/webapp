@@ -21,6 +21,20 @@
 .SingleItem .CardContent {
   height: 80px;
 }
+.CardsPortrait .CardColumn {
+  float: left;
+  width: 16.66666667%;
+  position: relative;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 768px) {
+  .CardsPortrait .CardColumn {
+    float: left;
+    width: 16.66666667%;
+  }
+}
 #MasterMainContent {
   padding-top: 0;
 }
@@ -30,7 +44,18 @@
 #welcomeContainer {
   background-color: white;
 }
-/*Fonts*/
+@media (min-width: 992px) {
+  #welcomeContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  #welcomeContainer {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
 h1,
 h2,
 h3,
@@ -39,204 +64,29 @@ h5,
 h6 {
   font-family: 'Lato', sans-serif;
 }
+/* FIND YOUR CONTENT BUTTONS */
 #titleFindYourContent {
   font-size: 45px;
   text-align: center;
   font-weight: bold;
-  margin-top: 40px;
-  margin-bottom: 35px;
+  margin-top: 60px;
+  margin-bottom: 50px;
 }
-#memuchoInfo {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  background-color: #f5f5f5;
-  border: 1px solid #e3e3e3;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  background-color: #F6F8FC;
-  background-color: white;
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
-}
-#memuchoInfo blockquote {
-  border-color: #ddd;
-  border-color: rgba(0, 0, 0, 0.15);
-}
-#memuchoInfo > h1:first-child,
-#memuchoInfo > h2:first-child,
-#memuchoInfo > h3:first-child,
-#memuchoInfo > h4:first-child {
-  margin-top: 0;
-}
-#memuchoInfo img {
-  border-radius: 4px;
-}
-#memuchoInfo.Team .ImageColumn {
-  position: relative;
-  float: left;
-  width: 33.33333333%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: 20px;
-}
-#memuchoInfo.Team .ImageColumn img {
-  width: auto;
-  max-width: 100%;
-}
-@media (max-width: 479px) {
-  #memuchoInfo {
-    text-align: center;
-  }
-}
-#memuchoInfoHeader,
-.WelcomeBoxHeader {
-  font-weight: bold;
-}
-#memuchoInfoMain {
-  padding: 20px;
-  padding-bottom: 10px;
-  background-color: white;
-}
-#memuchoInfoMain .numberCircleWrapper {
-  font-size: 24px;
-}
-@media (min-width: 480px) and (max-width: 767px) {
-  #memuchoInfoMain .numberCircleWrapper {
-    padding-top: 7px;
-  }
-}
-#memuchoInfoMain .numberCircle {
-  margin-top: -0.1em;
-}
-#memuchoInfoMain .numberCircleOne {
-  color: #188bff;
-}
-#memuchoInfoMain .numberCircleTwo {
-  color: #0065ca;
-}
-#memuchoInfoMain .numberCircleThree {
-  color: #004b97;
-}
-#memuchoInfoMain .numberCircleText {
-  color: white;
-  margin-top: -0.2em;
-  font-size: 1.2em;
-}
-#memuchoInfoMain .memuchoInfoBenefit {
-  font-size: 22px;
-  margin-left: 8px;
-  font-weight: 600;
-}
-@media (max-width: 479px) {
-  #memuchoInfoMain .memuchoInfoBenefit {
-    display: block;
-    margin-top: -5px;
-  }
-}
-#memuchoInfoMain .memuchoInfoBenefitSub {
-  font-size: 16px;
-  color: #999999;
-  padding-bottom: 13px;
-  margin-left: 10px;
-}
-@media (max-width: 767px) {
-  #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 60px;
-    margin-top: -10px;
-    display: block;
-  }
-}
-@media (max-width: 479px) {
-  #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 0;
-    margin-top: 0px;
-  }
-}
-#memuchoInfoFooter {
-  text-align: center;
-  padding-top: 20px;
-  background-color: white;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-top: 1px solid #d6d6d6;
-}
-#memuchoInfoFooter a {
-  margin: 2px;
-}
-#WelcomeDashboard {
-  /*.well;
-    .ShadowBox;*/
-}
-#WelcomeDashboard h3 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.categoryOfWeekContainer {
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-/* Progress bar Next Level 
-------------------------------------------------------*/
-.ProgressBarContainer,
-.ProgressBarSegment {
-  height: 30px;
-}
-.ProgressBarContainer {
-  display: table;
-  width: 100%;
-  border: solid 2px #AFD534;
-  background-color: #AFD534;
-  margin-bottom: 5px;
-}
-.ProgressBarContainer:before,
-.ProgressBarContainer:after {
-  content: " ";
-  display: table;
-}
-.ProgressBarContainer:after {
-  clear: both;
-}
-.ProgressBarContainer:before,
-.ProgressBarContainer:after {
-  content: " ";
-  display: table;
-}
-.ProgressBarContainer:after {
-  clear: both;
-}
-.ProgressBarSegment {
-  display: table-cell;
-  overflow: hidden;
-  text-align: center;
-  vertical-align: top;
-}
-.ProgressBarLegend {
-  position: absolute;
-  left: 0px;
-  top: 4px;
-  width: 100%;
-  min-width: 30px;
-  font-weight: bold;
-}
-.ProgressBarDone {
-  background-color: #AFD534;
-  position: relative;
-  overflow: visible;
-}
-.ProgressBarLeft {
-  background-color: #e1efb3;
-}
-/*------------------------------------------------------*/
 .EduCategoryRow {
   margin-top: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 @media (min-width: 992px) {
   .EduCategoryRow {
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-bottom: 70px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+@media (min-width: 1200px) {
+  .EduCategoryRow {
+    padding-left: 150px;
+    padding-right: 150px;
   }
 }
 .EduCategory {
@@ -383,6 +233,234 @@ fieldset[disabled] .EduCategory.active {
   font-size: 16px;
   font-weight: bold;
 }
+/* DASHBOARD ELEMENTS*/
+#WelcomeDashboard {
+  margin-bottom: 50px;
+}
+#WelcomeDashboard h2 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+#WelcomeDashboard #dashboardPoints,
+#WelcomeDashboard #dashboardKnowledgeWheel {
+  margin-top: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width: 992px) {
+  #WelcomeDashboard #dashboardPoints,
+  #WelcomeDashboard #dashboardKnowledgeWheel {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  #WelcomeDashboard #dashboardPoints,
+  #WelcomeDashboard #dashboardKnowledgeWheel {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+#WelcomeDashboard #chartWishKnowledge {
+  height: 200px;
+  text-align: left;
+}
+#WelcomeDashboard #dashboardFooter {
+  margin-top: 30px;
+  padding-top: 10px;
+  text-align: center;
+  border-top: 1px solid lightgrey;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+@media (min-width: 992px) {
+  #WelcomeDashboard #dashboardFooter {
+    margin-left: 90px;
+    margin-right: 90px;
+  }
+}
+@media (min-width: 1200px) {
+  #WelcomeDashboard #dashboardFooter {
+    margin-left: 150px;
+    margin-right: 150px;
+  }
+}
+/* WHAT IS MEMUCHO */
+#memuchoInfo {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  background-color: #F6F8FC;
+  background-color: white;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+}
+#memuchoInfo blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+#memuchoInfo > h1:first-child,
+#memuchoInfo > h2:first-child,
+#memuchoInfo > h3:first-child,
+#memuchoInfo > h4:first-child {
+  margin-top: 0;
+}
+#memuchoInfo img {
+  border-radius: 4px;
+}
+#memuchoInfo.Team .ImageColumn {
+  position: relative;
+  float: left;
+  width: 33.33333333%;
+  min-height: 1px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
+#memuchoInfo.Team .ImageColumn img {
+  width: auto;
+  max-width: 100%;
+}
+@media (max-width: 479px) {
+  #memuchoInfo {
+    text-align: center;
+  }
+}
+#memuchoInfoHeader,
+.WelcomeBoxHeader {
+  font-weight: bold;
+}
+#memuchoInfoMain {
+  padding: 20px;
+  padding-bottom: 10px;
+  background-color: white;
+}
+#memuchoInfoMain .numberCircleWrapper {
+  font-size: 24px;
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  #memuchoInfoMain .numberCircleWrapper {
+    padding-top: 7px;
+  }
+}
+#memuchoInfoMain .numberCircle {
+  margin-top: -0.1em;
+}
+#memuchoInfoMain .numberCircleOne {
+  color: #188bff;
+}
+#memuchoInfoMain .numberCircleTwo {
+  color: #0065ca;
+}
+#memuchoInfoMain .numberCircleThree {
+  color: #004b97;
+}
+#memuchoInfoMain .numberCircleText {
+  color: white;
+  margin-top: -0.2em;
+  font-size: 1.2em;
+}
+#memuchoInfoMain .memuchoInfoBenefit {
+  font-size: 22px;
+  margin-left: 8px;
+  font-weight: 600;
+}
+@media (max-width: 479px) {
+  #memuchoInfoMain .memuchoInfoBenefit {
+    display: block;
+    margin-top: -5px;
+  }
+}
+#memuchoInfoMain .memuchoInfoBenefitSub {
+  font-size: 16px;
+  color: #999999;
+  padding-bottom: 13px;
+  margin-left: 10px;
+}
+@media (max-width: 767px) {
+  #memuchoInfoMain .memuchoInfoBenefitSub {
+    margin-left: 60px;
+    margin-top: -10px;
+    display: block;
+  }
+}
+@media (max-width: 479px) {
+  #memuchoInfoMain .memuchoInfoBenefitSub {
+    margin-left: 0;
+    margin-top: 0px;
+  }
+}
+#memuchoInfoFooter {
+  text-align: center;
+  padding-top: 20px;
+  background-color: white;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top: 1px solid #d6d6d6;
+}
+#memuchoInfoFooter a {
+  margin: 2px;
+}
+.categoryOfWeekContainer {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+/* Progress bar Next Level 
+------------------------------------------------------*/
+.ProgressBarContainer,
+.ProgressBarSegment {
+  height: 30px;
+}
+.ProgressBarContainer {
+  display: table;
+  width: 100%;
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 5px;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+.ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+}
+.ProgressBarLeft {
+  background-color: #e1efb3;
+}
+/*------------------------------------------------------*/
 .welcomeContentSectionHeader {
   margin-top: 50px;
   margin-bottom: 2px;
