@@ -24,6 +24,8 @@ public class WelcomeModel : BaseModel
     public int ActivityPointsPercentageOfNextLevel;
 
 
+
+
     public WelcomeModel()
     {
         if (IsLoggedIn)
@@ -44,6 +46,8 @@ public class WelcomeModel : BaseModel
 
         }
         else FillWithSampleData();
+
+
     }
 
     private void FillWithSampleData()
@@ -79,6 +83,13 @@ public class WelcomeModel : BaseModel
             LastLength = 12,
             TotalLearningDays = 214
         };
+
+        ActivityPoints = 3578;
+        ActivityLevel = UserLevelCalculator.GetLevel(ActivityPoints);
+        ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(3);
+        ActivityPointsTillNextLevel = ActivityPointsAtNextLevel - ActivityPoints;
+        ActivityPointsPercentageOfNextLevel = ActivityPoints == 0 ? 0 : 100 * ActivityPoints / ActivityPointsAtNextLevel;
+
     }
 
 }

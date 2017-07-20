@@ -1,4 +1,4 @@
-﻿<%@ Page Title="memucho: Schneller lernen, länger wissen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+﻿<%@ Page Title="memucho: Schneller lernen, länger wissen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" 
 	Inherits="ViewPage<WelcomeModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
@@ -28,7 +28,6 @@
     <script>
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(function () { drawKnowledgeChart("chartWishKnowledge") });
-        google.setOnLoadCallback(drawActivityChart);
 
         function drawKnowledgeChart(chartElementId) {
             if ($("#" + chartElementId).length === 0) {
@@ -72,46 +71,7 @@
             }
         }
 
-        function drawActivityChart() {
-            var data = google.visualization.arrayToDataTable([
-                [
-                    'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
-                ],
-                    <% foreach (var stats in Model.Last30Days){ %>
-                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
-                    <% } %>
-                    ]);
 
-                    var view = new google.visualization.DataView(data);
-                    view.setColumns([0, 1,
-                        {
-                            calc: "stringify",
-                            sourceColumn: 1,
-                            type: "string",
-                            role: "annotation"
-                        },
-                        2]);
-
-                    var options = {
-                        legend: { position: 'top', maxLines: 30 },
-                        tooltip: { isHtml: true },
-                        bar: { groupWidth: '89%' },
-                        chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
-                        colors: ['#afd534', 'lightsalmon'],
-                        isStacked: true,
-                    };
-
-                    var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
-                    chart.draw(view, options);
-            <% if (!Model.HasLearnedInLast30Days) { %>
-            var infoDivNotLearned = document.createElement('div');
-            infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
-            infoDivNotLearned.setAttribute('class', 'alert alert-info');
-            infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
-            document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
-            <% } %>
-
-        }
     </script>
 
     <%= Scripts.Render("~/bundles/guidedTourScript") %>
@@ -121,11 +81,11 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
     
-<div class="row">
+<div class="row" id="welcomeContainer">
        
     <div class="col-md-12">
 
-        <h1 class="PageHeader"><span class="ColoredUnderline MemuchoGeneral">Finde deine Lerninhalte</span></h1>
+        <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
         
         <div class="EduCategoryRow row">
             <div class="xxs-stack col-xs-6 col-sm-3">
@@ -184,10 +144,41 @@
         </div>
 
         <div id="WelcomeDashboard">
-            <h2 class="WelcomeBoxHeader" style="margin-bottom: 25px;">Deine Wissenszentrale (Übersicht)</h2>
+<%--            <h2 class="WelcomeBoxHeader" style="margin-bottom: 25px;">Deine Wissenszentrale (Übersicht)</h2>--%>
             <%--<a href="<%= Links.Knowledge() %>">Zur Wissenszentrale</a>--%>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <h3>Deine Lernpunkte</h3>
+                    <div style="text-align: center; margin-bottom: 25px; margin-top: 15px;">
+                        <span class="level-display">
+                            <span style="display: inline-block; white-space: nowrap;">
+                                <svg>
+                                    <circle cx="50%" cy="50%" r="50%" />
+                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                                </svg>
+                            </span>
+                        </span>
+                        <p style="margin-top: 10px;">
+                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in Level <%= Model.ActivityLevel %>.
+                        </p>
+                    </div>
+
+                    <div class="NextLevelContainer">
+                        <div class="ProgressBarContainer">
+                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                                <div class="ProgressBarSegment ProgressBarLegend">
+                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                                </div>
+                            </div>
+                            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
+            
+                        </div>
+                    </div>     
+                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3>Dein Wissensstand</h3>
                     <% if(Model.KnowledgeSummary.Total == 0) { %>
                         <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                             <p>
@@ -218,102 +209,8 @@
                         </div>
                     <% } %>
                 </div>
-                <div class="col-md-4">
-                    <div id="chartActivityLastDays" style="height: 200px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
+
                 
-                    <div class="row" style="font-size: 12px">
-                        <div class="col-md-12">
-                            <% var streak = Model.StreakDays; %>
-                            <!-- -->
-                            Lerntage gesamt: <b><%= streak.TotalLearningDays %></b>
-                            <%--<span class="greyed" style="font-weight: bold;">
-                                seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
-                            </span>--%>
-                            <br />
-
-                            <!-- LongestStreak -->
-                            Längste Folge: <b><%= streak.LongestLength %></b>
-<%--                            <% if (streak.LongestLength == 0){ %>
-                                <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
-                            <% } else { %>
-                                <span class="greyed" style="font-weight: bold;">
-                                    <%= streak.LongestStart.ToString("dd.MM.") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
-                                </span>
-                            <% } %>--%>
-                            <br />
-
-                            <!-- CurrentStreak -->
-                            Aktuelle Folge: <b><%= streak.LastLength %></b>
-<%--                            <% if (streak.LastLength == 0){ %>
-                                <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
-                            <% } else { %>
-                                <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
-                            <% } %>--%>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-4">
-                    <div style="text-align: center; margin-bottom: 25px; margin-top: 15px;">
-                        <span class="level-display">
-                            <span style="display: inline-block; white-space: nowrap;">
-                                <svg>
-                                    <circle cx="50%" cy="50%" r="50%" />
-                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
-                                </svg>
-                            </span>
-                        </span>
-                        <p style="margin-top: 10px;">
-                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in Level <%= Model.ActivityLevel %>.
-                        </p>
-
-                    </div>
-                    
-
-<%--                    <span style="display: inline-block; width: 150px; font-size: 1.1em;">Deine Lernpunkte:</span>
-                    <span style="display: inline-block; width: 80px; font-size: 1.1em; font-weight: bold; text-align:center;"><%= Model.ActivityPoints.ToString("N0") %></span>
-                    <br />&nbsp;<br />
-
-                    <span style="display: inline-block; width: 150px; font-size: 1.1em; height: 40px; vertical-align: middle;">Dein Level:</span>
-                    <span style="display: inline-block; width: 80px; text-align:center;">
-                        <span class="level-display">
-                            <span style="display: inline-block; white-space: nowrap;">
-                                <svg>
-                                    <circle cx="50%" cy="50%" r="50%" />
-                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
-                                </svg>
-                            </span>
-                        </span>
-                    </span>
-                    <br />--%>
-
-                    <div class="NextLevelContainer">
-                        <div class="ProgressBarContainer">
-                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
-                                <div class="ProgressBarSegment ProgressBarLegend">
-                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
-                                </div>
-                            </div>
-                            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
-            
-                        </div>
-                    </div>     
-                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
-
-<%--                    <span style="display: inline-block; height: 40px; vertical-align: middle;">3.243 Lernpunkte <i class="fa fa-arrow-right"></i> Level</span>
-                    <span class="level-display">
-                        <span style="display: inline-block; white-space: nowrap;">
-                            <svg>
-                                <circle cx="50%" cy="50%" r="50%" />
-                                <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
-                            </svg>
-                        </span>
-                    </span>
-                    <br />
---%>
-
-
-                </div>
             </div>
         </div>
 
@@ -321,7 +218,7 @@
 
         <div id="memuchoInfo">
             <h2 id="memuchoInfoHeader">
-                Dein Wissens-Assistent
+                memucho ist dein Wissens-Assistent
             </h2>            
             <div id="memuchoInfoMain">
                 <p>
@@ -347,14 +244,17 @@
                 </p>
             </div>
             <div id="memuchoInfoFooter">
-<%--                <a href="#" class="btn btn-link btn-sm ButtonOnHover" id="btnStartWelcomeTour" data-click-log="WelcomeTour,Click,Start" style="line-height: normal;">
-                    <i class="fa fa-map-signs">&nbsp;</i>Lerne memucho<br/>kennen in 6 Schritten
-                </a>--%>
                 <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr...</a>
-                <a href="<%= Links.Register() %>" class="btn btn-primary">Jetzt registrieren</a>
+                <% if (!Model.IsLoggedIn) { %>
+                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                    </div>
+                <% } %>
             </div>
         </div>
 
+        <% Html.RenderPartial("Partials/TopicOfWeek/TopicOfWeek_2017_30", new TopicOfWeek_2017_30Model(264)); // 264=cat. Psychologie Studium %>
 
         
         <div id="Awards">
@@ -403,118 +303,39 @@
                         </p>
                     </div>    
                 </div>
+                <%--        <div class="well" id="oerCamp" style="padding: 10px; ">
+            <div style="text-align: center;">
+                <img src="/Images/LogosPartners/OERCamp-Logo-Text_unten.jpg" alt="" width="170" height="183" style="margin-bottom: 10px;"/>
+            </div>
+            <p style="text-align: center; margin-bottom: 0;">
+                memucho ist beim <a href="http://www.oercamp.de">OERcamp</a> in 
+                <a href="http://www.oercamp.de/17/nord/workshops/#nordB4f" target="_blank">Hamburg</a> (23./24. Juni)
+            </p>
+        </div>--%>
+
             </div>
         </div>
 
-        
-        <h3 class="welcomeContentSectionHeader">Schwerpunkt Europäische Union</h3>
-        <p class="welcomeContentSectionTarget">Allgemeinwissen, Abitur Politik, Politikwissenschaft</p>
-        <p class="welcomeContentSectionTeaser">Teste dein Wissen zu den Ländern der Europäischen Union und zu den wichtigen Aspekten der Europäischen Union.</p>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% //Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(45)); //EU-Integration %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(20, "Kennst du die Hauptstädte aller 28 Länder der Europäischen Union? Finde es heraus!")); %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(44)); //EU-Organe %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(55)); //EU GASP %>
-        </div>
-        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(19, new[] { 468, 464, 460 })); // EU-Länder erkennen %>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(45, new[] { 805, 237, 1065})); // EU-Integration %>
-
-
-        <h3 class="welcomeContentSectionHeader">Schwerpunkt Geschichte: Wichtige Epochen</h3>
-        <p class="welcomeContentSectionTarget">Allgemeinwissen, Geschichte Abitur, Geschichte Sekundarstufe I</p>
-        <p class="welcomeContentSectionTeaser">Teste dein Wissen zu wichtigen historischen Epochen - und lerne sie mit memucho, um sie immer abrufbereit zu haben!</p>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(49)); //Abitur Franz. Rev %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(42)); //Abitur Weimarer Republik %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(52)); //Sek I Weimarer Republik %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(65)); //Abitur Absolutismus Preußen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(62)); //Abitur Absolutismus Frankreich %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(58)); //Berliner Mauer %>
-        </div>
-
-
+       
         <h3 class="welcomeContentSectionHeader">Schwerpunkt Politik & Wirtschaft</h3>
         <p class="welcomeContentSectionTarget">Allgemeinwissen, Politik, Wirtschaft, Globalisierung, Migration, Geographie</p>
         <p class="welcomeContentSectionTeaser">Teste dein Wissen zum politischen Zeitgeschehen und lerne mit memucho die wichtigsten Grundlagen.</p>
         <div class="row CardsPortrait" style="padding-top: 0;">
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(64)); //Sozialstaat Deutschland %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(57)); //UN %>
-            <% //Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(59)); //Wirtsch. Globalisierung %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
-            <% //Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(7)); //Bundeskanzler erkennen %>
         </div>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(59, new int[] { 1742, 1821, 1807 })); //Int'l Wirtschaftsbeziehungen %>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(66, new int[] { 2044, 2046, 2053 })); //Wirtschaftspolitik %>
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(14, new int[] { 404, 405, 406 }, "Du verstehst den Wirtschafts-Teil der Zeitung nicht? Teste und erweitere dein Grundlagen-Wissen zu Wirtschaftsthemen!")); %>
         <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(27, new int[] { 749, 635, 630 })); //Einbürgerungstest %>
         <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>
 
 
-        <h3 class="welcomeContentSectionHeader">Der Basispass Pferdekunde: Die wichtigsten Grundlagen</h3>
-        <p class="welcomeContentSectionTarget">Pferdesportler, Reiter, Pferdeinteressierte</p>
-        <p class="welcomeContentSectionTeaser">Lerne die Grundlagen der Pferdehaltung und teste dein Wissen zu deinen Fertigkeiten im Umgang mit dem Pferd.</p>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(46)); //Pferdehaltung und Fütterung %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(61)); //Körperteile Pferde %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(60)); //Abzeichen %>
-        </div>
-        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(53, new[] { 1678, 1711, 1651 })); // Pferdefarben Basispass %>
-
-
-        <h3 class="welcomeContentSectionHeader">Sportbootführerschein</h3>
-        <p class="welcomeContentSectionTarget">Segler, Segelinteressierte, Sportbootführer</p>
-        <p class="welcomeContentSectionTeaser">Bereite dich auf die Prüfung zum Sportbootführerschein Binnen oder See vor.</p>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(47)); //Binnenschein-Basisfragen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(48)); //Binnenschein-Binnen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(51)); //Seeschein-See %>
-        </div>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(50, new[] { 1391, 1370, 1359 })); //Binnenschein-Segeln%>
-
-
-        <h3 class="welcomeContentSectionHeader">Literatur: Vertreter und Zitate aus wichtigen Epochen</h3>
-        <p class="welcomeContentSectionTarget">Allgemeinwissen, Deutsch Abitur, Literaturwissenschaft</p>
-        <p class="welcomeContentSectionTeaser">Kennst du die wichtigen Vertreter und Werke der verschiedenen Literaturepochen? Teste hier dein Wissen und lerne die wichtigsten Fakten.</p>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(30)); //Literatur Klassik %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(35)); //Literatur Barock %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(29)); //Literatur Zitate %>
-        </div>
-
-        <h3 class="welcomeContentSectionHeader">Allgemeinwissen und Unterhaltung</h3>
-        <p class="welcomeContentSectionTarget">Allgemeinwissen, Fußball, Sehenswürdigkeiten</p>
-        <p class="welcomeContentSectionTeaser">Teste und erweitere dein Allgemeinwissen. Entscheide, was du lernen und behalten möchtest.</p>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(14)); //Laubbäume %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(22, "Farfalle, Penne oder Rigatoni? Weißt du, wie diese Nudelsorten heißen?")); %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(18)); //Sieger Fußbal-WM Herren %>
-<%--            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(17)); //Sehenswürdigkeiten %>--%>
-        </div>
-        <% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(17, new[] { 373, 360, 367 })); //Sehenswürdigkeiten %>  
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(336, new int[] { 973, 965, 962 }, "Knifflige Fragen! Wer erfand den Champagner? Der Mönch Dom Pérignon 1670?")); %>
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(13)); //Scherzfragen %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(12)); //James Bond%>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(37)); //ARD-Intendanten %>
-        </div>
-        <%--<% Html.RenderPartial("WelcomeBoxSetImgQ", WelcomeBoxSetImgQModel.GetWelcomeBoxSetImgQModel(14, new[] { 348, 341, 344 })); // Laubbäume %>--%>
-        <%--<% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(12, new[] { 303, 288, 289 }, "Der berühmteste Agent im Dienste Ihrer Majestät: Kennst du die wichtigsten Fakten zu den James Bond-Filmen?")); %>--%>
-
-
-        
-        <h3 class="welcomeContentSectionHeader">Schwangerschaft und Elternzeit</h3>
-        <p class="welcomeContentSectionTarget">(Zukünftige) Mütter & Väter</p>
-        <p class="welcomeContentSectionTeaser">Weißt du Bescheid beim Thema Schwangerschaft? Kennst du die rechtlichen Grundlagen bei Mutterschutz und Elternzeit? Teste dein Wissen!</p>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(39, new int[] { 991, 993, 1007})); //Schwangerschaft %>
-        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(40, new int[] { 1011, 1021, 1015 })); //Mutterschutz Rechtliche Grundlagen %>
-
-       
+     
         
 
 
         <div class="well">
             <h3>
-                <a name="teaserWhatIsMemucho"></a>
+                <a id="teaserWhatIsMemucho"></a>
                 Was ist memucho?
             </h3>
             <p>
@@ -639,7 +460,7 @@
             <div class="row">
                 <% if (!Model.IsLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a id="btnRegisterMorePrinciples" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <% } %>
@@ -690,84 +511,35 @@
             </div>
         </div>  
     </div>
-            
-    <div class="col-md-12">
-        <%
-            if (!Model.IsLoggedIn){
-        %>
-            <div class="well" id="boxLoginOrRegister" style="padding: 20px; ">
-                <a id="btnRegisterSidebar" href="<%= Url.Action("Register", "Register") %>" class="btn btn-primary" style="width: 100%;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-                <div style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
-            </div>
-        <% } %>
-        <% if (Model.IsLoggedIn) { %>
-            <div class="well" style="padding: 20px; ">
-                <div style="text-align: center; margin-bottom: 15px;">
-                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip <%= Model.UserHasWishknowledge ? "" : "disabled" %>" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                        <i class="fa fa-heart">&nbsp;&nbsp;</i>LERNEN
-                    </a>
-                </div>
-                <% if (!Model.UserHasWishknowledge) { %>
-                    <p style="font-size: 11px; margin-top: 5px;">
-                        Du hast noch kein Wunschwissen. Füge Lernsets oder Fragen zu 
-                        deinem <span style="white-space: nowrap"><i class="fa fa-heart show-tooltip" style="color:#b13a48;">&nbsp;</i>Wunschwissen</span> hinzu, 
-                        um eine personalisierte Lernsitzung zu starten. 
-                    </p>
-                <% } else { %>
-                    <p style="font-size: 11px; margin-top: 5px;">
-                        *Starte eine personalisierte Lernsitzung mit 10 Fragen aus deinem Wunschwissen (enthält <a href="<%= Links.QuestionsWish() %>"><%= Model.WishCount %> Fragen</a>). 
-                    </p>
-                <% } %>
-            </div>
-        <% } %>
-
-    
-
-<%--        <div class="well" id="oerCamp" style="padding: 10px; ">
-            <div style="text-align: center;">
-                <img src="/Images/LogosPartners/OERCamp-Logo-Text_unten.jpg" alt="" width="170" height="183" style="margin-bottom: 10px;"/>
-            </div>
-            <p style="text-align: center; margin-bottom: 0;">
-                memucho ist beim <a href="http://www.oercamp.de">OERcamp</a> in 
-                <a href="http://www.oercamp.de/17/nord/workshops/#nordB4f" target="_blank">Hamburg</a> (23./24. Juni)
-            </p>
-        </div>--%>
-
-        <div class="well">
+        
+    <div class="row">
+        <div class="col-xs-6 col-md-3">
             <h4>Neueste Lernsets</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
             </div>
         </div>
-        
-        <div class="well">
-            <h4>Neueste Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
-            </div>
-        </div>
-        
-        <div class="well">
-            <h4>Top-Themen nach Anzahl Fragen</h4>
-                <div class="LabelList">
-                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-                </div>
-        </div>
-        
-        <div class="well">
+        <div class="col-xs-6 col-md-3">
             <h4>Neueste Themen:</h4>
             <div class="LabelList">
                 <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
             </div>
         </div>
-
-        <div class="well">
-            <h4>Umfangreichste Lernsets</h4>
+        <div class="col-xs-6 col-md-3">
+            <h4>Neueste Fragen</h4>
             <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostQuestions(5)); %>
+                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
             </div>
         </div>
-        
+        <div class="col-xs-6 col-md-3">
+            <h4>Top-Themen nach Anzahl Fragen</h4>
+            <div class="LabelList">
+                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
+            </div>
+        </div>
+    </div>
+
+<%--    <div class="col-md-12">
         <% if (!Model.IsLoggedIn)
            { %>
             <div class="well" id="newsletterSignUp" style="padding: 20px; ">
@@ -792,44 +564,10 @@
                     </div>
                 </form> 
             </div>
-        <% } %>
-        
-        <%--<div class="row" style="padding-top: 10px;">
-            <div class="col-md-12"><h3 class="media-heading">memucho-Netzwerk</h3></div>
-        </div>
-        
-        <div class="panel panel-default" style="padding-top: 15px; opacity: 0.4;">
-            <div class="panel-heading">Nutzer-Ranking nach Reputation</div>
-            <div class="panel-body" style="padding-top: 12px;">
-                <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: text-bottom"/>&nbsp;Pauli (130 Punkte)</p>
-                <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: bottom"/>&nbsp;Robert (120 Punkte)</p>
-                <p style="padding-left: 5px;"><img src="/favicon-32x32.png" height="25" width="25" style="float: left; vertical-align: middle"/>&nbsp;Christof (112 Punkte)</p>
-            </div>
-        </div>--%>
+        <% } %>        
+    </div>--%>
 
-        <%--<div class="row" style="padding-top: 10px;">
-            <div class="col-md-6">
-                <h4 class="media-heading">Studienfächer</h4>
-                <ul>
-                    <li><a href="#">Psychologie</a></li>
-                    <li><a href="#">Philosophie</a></li>
-                    <li><a href="#">Informatik</a></li>
-                    <li><a href="#">[mehr]</a></li>
-                </ul>
-            </div>
 
-            <div class="col-md-6">
-                <h4 class="media-heading">Schulfächer</h4>
-                <ul>
-                    <li><a href="#">Deutsch</a></li>
-                    <li><a href="#">Mathe</a></li>
-                    <li><a href="#">Geschichte</a></li>
-                    <li><a href="#">[mehr]</a></li>
-                </ul>
-            </div>
-        </div>--%>
-
-    </div>
 </div>
 
 </asp:Content>
