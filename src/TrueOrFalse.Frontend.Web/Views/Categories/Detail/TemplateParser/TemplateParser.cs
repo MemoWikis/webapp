@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 
@@ -61,8 +62,20 @@ public class TemplateParser
         }
     }
 
-    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext) => 
-        GetPartialHtml(templateJson, controllerContext, GetPartialModel(templateJson, category));
+    private static string GetPartialHtml(TemplateJson templateJson, Category category, ControllerContext controllerContext)
+    {
+        try
+        {
+            var partialModel = GetPartialModel(templateJson, category);
+            return GetPartialHtml(templateJson, controllerContext, partialModel);
+
+        }
+        catch (Exception e)
+        {
+            return GetErrorTemplate(e, $"Themen Id: {category?.Id}");
+        }
+
+    }
 
     private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
     {
@@ -123,8 +136,21 @@ public class TemplateParser
         }
     }
 
-    private static string GetReplacementForNonparsableTemplate(string match)//If template cannot be parsed show it for admins, otherwise hide it
+    /// <summary>
+    /// /If template cannot be parsed show it for admins, otherwise hide it
+    /// </summary>
+    /// <param name="match"></param>
+    /// <returns></returns>
+    private static string GetReplacementForNonparsableTemplate(string match)
     {
-        return Sl.R<SessionUser>().IsInstallationAdmin ? "<div style='background-color: rgba(130, 8, 22, 0.33)'>" + match + "</div>" : "";
+        return Sl.SessionUser.IsInstallationAdmin ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33)\'>{match}</div>"
+            : "";
+    }
+
+    private static string GetErrorTemplate(Exception e, string message = "")
+    {
+        return Sl.SessionUser.IsInstallationAdmin
+            ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33)\'>Ein Fehler ist aufgetreten:<br> {e.Message} <br> {message}</div>"
+            : "";
     }
 }
