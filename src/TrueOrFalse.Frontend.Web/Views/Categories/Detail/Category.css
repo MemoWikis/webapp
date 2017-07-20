@@ -494,13 +494,30 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     NEW STYLES
 -------------------------------------------------------*/
+.navLinks {
+  margin-top: -5px;
+  margin-bottom: 10px !important;
+}
+.navLinks > a,
+.navLinks > div {
+  display: inline-block !important;
+  margin-right: 10px !important;
+}
 #MasterMainColumn {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 27px;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
   color: #203256;
 }
 #MasterMainColumn p {
   font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 20px;
-  line-height: 34px;
+  font-size: 16px;
+  line-height: 27px;
+  font-size: 18px;
+  line-height: 30px;
   font-weight: 400;
   color: #203256;
 }
@@ -514,7 +531,7 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 #MasterMainColumn h1 {
   font-size: 45px !important;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 56px;
 }
 #MasterMainColumn h2 {
@@ -551,6 +568,11 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 .Card .ContentContainer {
   overflow: hidden;
 }
+@media (min-width: 650px) {
+  .CardsPortrait .Card .CardContent {
+    height: 230px !important;
+  }
+}
 .Card .ItemInfo {
   font-size: 16px !important;
 }
@@ -561,4 +583,7 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 }
 .Card .ItemText {
   font-size: 16px !important;
+}
+.LabelList .LabelItem:before {
+  top: 1.1em !important;
 }

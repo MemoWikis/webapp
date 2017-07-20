@@ -433,6 +433,9 @@
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
     <Compile Include="Views\Welcome\Login\LoginController.cs" />
+    <Compile Include="Views\Welcome\Partials\TopicOfWeek\TopicOfWeek_2017_30Model.cs" />
+    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
+    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
@@ -719,6 +722,9 @@
     <Content Include="Views\Welcome\Drive.css">
       <DependentUpon>Directions.less</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Partials\TopicOfWeek\TopicOfWeek_2017_30.ascx" />
+    <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
+    <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />

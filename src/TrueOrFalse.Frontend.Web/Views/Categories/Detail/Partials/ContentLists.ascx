@@ -15,13 +15,11 @@
         <% foreach (var set in Model.AggregatedSets)
            { %>
             <div class="LabelItem LabelItem-Set">
-                <div class="EllipsWrapper">
-                    <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
-                    <span style="font-size: 90%;">
-                        (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>,    
-                        <a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Wissen testen</a>)
-                    </span>
-                </div>
+                <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
+                <span style="font-size: 90%;">
+                    (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>,    
+                    <a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>"><i class="fa fa-play-circle">&nbsp;</i>Wissen testen</a>)
+                </span>                 
             </div>
         <% } %>
         </div>
@@ -63,11 +61,9 @@
             {
                 index++; %>
             <div class="LabelItem LabelItem-Question">
-                <div class="EllipsWrapper">
-                    <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter: Model.Name) %>">
-                        <%= question.Text %>
-                    </a>
-                </div>
+                <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter: Model.Name) %>">
+                    <%= question.Text %>
+                </a>
             </div>
         <% } %>
         </div>
@@ -87,9 +83,7 @@
         <div class="LabelList">
         <% var index = 0; foreach(var question in Model.TopWishQuestions){index++; %>
             <div class="LabelItem LabelItem-Question">
-                <div class="EllipsWrapper">
-                     <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
-                </div>
+                <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
             </div>
         <% } %>
         </div>

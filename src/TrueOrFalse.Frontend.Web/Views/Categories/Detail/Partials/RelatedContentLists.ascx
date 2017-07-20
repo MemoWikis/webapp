@@ -11,9 +11,7 @@
             <div class="LabelList">
                 <% var index = 0; foreach(var question in Model.TopQuestionsWithReferences){ index++;%>
                     <div class="LabelItem LabelItem-Question">
-                        <div class="EllipsWrapper">
-                            <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
-                        </div>
+                        <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter:Model.Name) %>" rel="nofollow"><%= question.GetShortTitle(150) %></a>
                     </div>
                 <% } %>
             </div>
@@ -24,9 +22,7 @@
             <div class="LabelList">
             <% var index = 0; foreach(var question in Model.TopQuestionsInSubCats){ index++;%>
                 <div class="LabelItem LabelItem-Question">
-                    <div class="EllipsWrapper">
-                        <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
-                    </div>
+                    <a href="<%= Links.AnswerQuestion(question) %>"><%= question.GetShortTitle(150) %></a>
                 </div>
             <% } %>
             </div>
