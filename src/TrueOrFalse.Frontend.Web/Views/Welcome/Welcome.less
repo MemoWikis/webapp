@@ -1,17 +1,52 @@
 ﻿@import (reference) '../../Style/includes/imports.less';
 
+
+//--- temporary stuff, needs to be cleaned up when card-design is done
+
+.SingleItem .CardContent {
+    height: 80px;
+
+}
+
+
+
+//---------------
+#MasterMainContent {
+    padding-top: 0;
+
+    #MasterMainColumn {
+        width: 100%;
+    }
+}
+
+
+#welcomeContainer {
+    background-color: white;
+}
+
 /*Fonts*/
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
 }
 
+#titleFindYourContent {
+    font-size: 45px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 40px;
+    margin-bottom: 35px;
+}
+
+
 #memuchoInfo {
     .well;
     .ShadowBox;
 
-    .media-below-xs({
+    .media-below-xs( {
         text-align: center;
-    });
+    }
+
+    );
 }
 
 #memuchoInfoHeader, .WelcomeBoxHeader {
@@ -94,14 +129,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #WelcomeDashboard {
-    .well;
-    .ShadowBox;
+    /*.well;
+    .ShadowBox;*/
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+.categoryOfWeekContainer {
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 
 /* Progress bar Next Level 
 ------------------------------------------------------*/
-
 .ProgressBarContainer, .ProgressBarSegment {
     height: 30px;
 }
@@ -144,7 +187,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-/*------------------------------------------------------*/ 
+/*------------------------------------------------------*/
 
 
 
@@ -158,6 +201,13 @@ h1, h2, h3, h4, h5, h6 {
 .EduCategoryRow {
     margin-top: 20px;
     margin-bottom: 40px;
+
+    .media-md-up( {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    );
 }
 
 .EduCategory {
