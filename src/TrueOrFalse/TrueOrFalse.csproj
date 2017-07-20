@@ -778,7 +778,7 @@
     <Compile Include="Infrastructure\Bus\MessageTypes\RecalcProbabilitiesMsg.cs" />
     <Compile Include="Infrastructure\Language\Language.cs" />
     <Compile Include="Infrastructure\ListExtensions.cs" />
-    <Compile Include="Infrastructure\Logging\Logger.cs" />
+    <Compile Include="Infrastructure\Logging\Logg.cs" />
     <Compile Include="Infrastructure\Logging\Loggly.cs" />
     <Compile Include="Infrastructure\Login\MEMuchOCookie.cs" />
     <Compile Include="Infrastructure\Login\ThrowIfNot_IsLoggedInUserOrAdmin.cs" />
