@@ -34,7 +34,7 @@ public class TemplateParser
             catch (Exception e)
             {
                 Logg.r().Error($"Fehler beim Parsen der Kategorie Id={category.Id} ({e.Message} {e.StackTrace}).");
-                return GetReplacementForNonparsableTemplate(match.Value, e.Message, e.StackTrace);
+                return GetReplacementForNonparsableTemplate(match.Value, e.Message);
             }
 
         });
@@ -136,17 +136,10 @@ public class TemplateParser
     /// </summary>
     /// <param name="match"></param>
     /// <returns></returns>
-    private static string GetReplacementForNonparsableTemplate(string match, string exceptionMessage, string stackTrace)
+    private static string GetReplacementForNonparsableTemplate(string match, string exceptionMessage)
     {
         return Sl.SessionUser.IsInstallationAdmin 
-            ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33); margin-bottom: 20px;\'>Folgendes Template konnte nicht umgewandelt werden:<div>{match}</div>Fehler: {exceptionMessage}</br>{stackTrace}</div>"
-            : "";
-    }
-
-    private static string GetErrorTemplate(Exception e, string message = "")
-    {
-        return Sl.SessionUser.IsInstallationAdmin
-            ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33)\'>Ein Fehler ist aufgetreten:<br> {e.Message} <br> {message}</div>"
+            ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33); margin-bottom: 20px;\'>Folgendes Template konnte nicht umgewandelt werden:<div>{match}</div>Fehler: {exceptionMessage}</div>"
             : "";
     }
 }
