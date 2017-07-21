@@ -379,7 +379,6 @@
     <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.css" />
     <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.js" />
     <Content Include="Scripts\vendor.somewhere\jquery.dataTables.js" />
-    <Content Include="Views\Sets\Edit\Js\Questions.js" />
     <Content Include="Views\Api\ActivityPoints\ActivityLevelProgress.aspx" />
     <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
     <Content Include="Views\Categories\Edit\Js\Page.js">
@@ -714,6 +713,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Welcome\Directions.aspx" />
