@@ -15,7 +15,8 @@ public class TopicOfWeek_2017_30Model : BaseModel
     public int QuestionCount;
     public bool IsInWishknowledge;
 
-    public IList<int> AdditionalSets;
+    public IList<int> AdditionalSetsIds;
+    public IList<int> AdditionalCategoriesIds;
 
 
     public TopicOfWeek_2017_30Model(int categoryId)
@@ -23,7 +24,8 @@ public class TopicOfWeek_2017_30Model : BaseModel
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(264, ImageType.Category); //category: "Psychologie (Studium)" - for partial of Topic of the Week
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        AdditionalSets = new List<int> { 141, 123, 135, 282 }; // and: , 148, 278
+        AdditionalSetsIds = new List<int> { 141, 123, 135, 282 }; // and: , 148, 278
+        AdditionalCategoriesIds = new List<int> { 635, 607, 618, 649 };
 
     }
 }

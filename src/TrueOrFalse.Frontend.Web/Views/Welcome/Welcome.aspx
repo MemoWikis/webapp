@@ -145,7 +145,7 @@
 
         <div id="WelcomeDashboard">
             <div class="row">
-                <div class="col-md-6" id="dashboardPoints">
+                <div class="col-sm-6" id="dashboardPoints">
                     <h2>Deine Lernpunkte</h2>
                     <div style="text-align: center; margin-bottom: 25px; margin-top: 15px;">
                         <span class="level-display">
@@ -157,7 +157,7 @@
                             </span>
                         </span>
                         <p style="margin-top: 10px;">
-                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <b>Level <%= Model.ActivityLevel %></b>.
+                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du <span style="white-space: nowrap"><b>Level <%= Model.ActivityLevel %></b>.</span>
                         </p>
                     </div>
 
@@ -175,7 +175,7 @@
                     <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
                 </div>
 
-                <div class="col-md-6" id="dashboardKnowledgeWheel">
+                <div class="col-sm-6" id="dashboardKnowledgeWheel">
                     <h2>Dein Wissensstand</h2>
                     <% if(Model.KnowledgeSummary.Total == 0) { %>
                         <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
@@ -200,19 +200,20 @@
                         </div>
                     <% }else { %>
                         <div id="chartWishKnowledge" style=""></div>
-                        <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
-                            </a>
-                        </div>
                     <% } %>
                 </div>
             </div>
+            
+            <div class="separator">
+            </div>
 
-            <div class="row" id="dashboardFooter">
-                <div class="col-xs-12">
-                    <a class="btn btn-link" href="#">Zu deiner Wissenszentrale</a>
-                </div>
+            <div id="dashboardFooter">
+                <% if(Model.KnowledgeSummary.Total > 0) { %>
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
+                    </a>
+                <% } %>
+                <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
             </div>
         </div>
 
@@ -225,85 +226,146 @@
             <div id="memuchoInfoMain">
                 <p>
                     <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleOne"></i>
+                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
                         <strong class="fa-stack-1x numberCircleText">1</strong>
                     </span>
                     <span class="memuchoInfoBenefit">Sammeln</span> <span class="memuchoInfoBenefitSub"><i class="fa fa-heart-o">&nbsp;</i>Entscheide, was du wissen möchtest.</span>
                 </p>
                 <p>
                     <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleTwo"></i>
+                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
                         <strong class="fa-stack-1x numberCircleText">2</strong>
                     </span>
                     <span class="memuchoInfoBenefit">Lernen</span> <span class="memuchoInfoBenefitSub">Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.</span>
                 </p>
                 <p>
                     <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle numberCircleThree"></i>
+                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
                         <strong class="fa-stack-1x numberCircleText">3</strong>
                     </span>
                     <span class="memuchoInfoBenefit">Nicht vergessen</span> <span class="memuchoInfoBenefitSub">Wir erinnern dich, bevor du vergisst.</span>
                 </p>
             </div>
+            <div class="separator"></div>
             <div id="memuchoInfoFooter">
-                <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr...</a>
                 <% if (!Model.IsLoggedIn) { %>
-                    <div style="margin-top: 10px; text-align: center">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
-                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                    <div style="text-align: center; display: inline-block;">
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
                     </div>
                 <% } %>
+                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link" style="float: right;">Erfahre mehr...</a></span>
             </div>
         </div>
 
         <% Html.RenderPartial("Partials/TopicOfWeek/TopicOfWeek_2017_30", new TopicOfWeek_2017_30Model(264)); // 264=cat. Psychologie Studium %>
 
         
-        <div id="Awards">
+        <div id="awards">
+            <h2>Auszeichnungen</h2>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="well" id="" style="padding: 10px; ">
-                        <div style="text-align: center;">
-                            <a href="/Kategorien/Learning-Level-Up/722">
-                                <img src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" style="margin-bottom: 10px;"/>
-                            </a>
-                        </div>
-                        <p style="text-align: center; margin-bottom: 0;">
-                            Wir freuen uns über die Kooperation mit Learning Level Up!
-                            <a href="/Kategorien/Learning-Level-Up/722" >
-                                <span style="white-space: nowrap">Zur Themenseite.</span>
-                            </a> 
-                        </p>
-                    </div>        
-                </div>
-                <div class="col-md-4">
-                    <div class="well" id="awardLandDerIdeen" style="padding: 10px; ">
-                        <div style="text-align: center;">
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div>
                             <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
-                                <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017" style="margin-bottom: 10px; margin-left: -10px; margin-right: -10px;"/>
+                                <img class="img-logo" src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
                             </a>
                         </div>
-                        <p style="text-align: center; margin-bottom: 5px;">
-                            memucho: Ausgezeichneter Ort im Land der Ideen 2017.
+                        <p>
+                            memucho ist ein Ausgezeichneter Ort im Land der Ideen 2017.
                         </p>
-                        <p style="text-align: center; margin-bottom: 0;">
+                        <p class="logo-box-link">
                             <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
                                 <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
                             </a>
                         </p>
                     </div>        
                 </div>
-                <div class="col-md-4">
-                    <div class="well" id="nominationInnopreis" style="padding: 10px; ">
-                        <div style="text-align: center;">
-                            <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110" style="margin-bottom: 10px;"/>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div>
+                            <img class="img-logo" src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
                         </div>
-                        <p style="text-align: center; margin-bottom: 0;">
+                        <p>
+                            memucho wurde für den Innovationspreis Berlin Brandenburg nominiert.
+                        </p>
+                        <p class="logo-box-link">
                             <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
                                 <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
                             </a>
                         </p>
                     </div>    
+                </div>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div>
+                            <img class="img-logo" src="/Images/LogosPartners/Logo-EXIST-eps.png" alt="" width="115" height="73"/>
+                        </div>
+                        <p>
+                            memucho gewann über das EXIST-Programm eine Förderung vom BMWi und ESF.
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="http://www.fu-berlin.de/sites/profund/aktuelles/news/Memucho.html" target="_blank">
+                                Zum Artikel <span style="white-space: nowrap">(FU Berlin) <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>    
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="partner">
+            <h2>Partner</h2>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div>
+                            <a href="/Kategorien/Learning-Level-Up/722">
+                                <img class="img-logo" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
+                            </a>
+                        </div>
+                        <p>
+                            Learning Level Up bietet Animationen, Grafiken und Videos zum Lernen. Wir freuen uns über die Kooperation!
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="/Kategorien/Learning-Level-Up/722">Zur Themenseite</a> 
+                        </p>
+                    </div>        
+                </div>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div>
+                            <a href="https://www.tutory.de/" target="_blank">
+                                <img class="img-logo" src="/Images/Sponsors/tutory.png" alt="tutory.de"/>
+                            </a>
+                        </div>
+                        <p>
+                            Mit tutory.de lassen sich im Handumdrehen tolle Arbeitsblätter direkt online erstellen
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="https://www.tutory.de/" target="_blank">
+                                <span style="white-space: nowrap">tutory.de <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>        
+                </div>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div>
+                            <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
+                                <img class="img-logo" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
+                            </a>
+                        </div>
+                        <p>
+                            Offene Bildungsressourcen demokratisieren Bildung! Wir machen mit.
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
+                                <span style="white-space: nowrap">Zur UNESCO-Seite <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>        
                 </div>
 
             </div>
@@ -311,14 +373,18 @@
 
        
         <h1 class="welcomeContentSectionHeader">Studium</h1>
-<%--        <p class="welcomeContentSectionTarget">Allgemeinwissen, Politik, Wirtschaft, Globalisierung, Migration, Geographie</p>--%>
-<%--        <p class="welcomeContentSectionTeaser">Teste dein Wissen zum politischen Zeitgeschehen und lerne mit memucho die wichtigsten Grundlagen.</p>--%>
+        <p class="welcomeContentSectionTarget">243[.] Lernsets, mit denen du für dein Studium lernen kannst</p>
+
         <div class="row CardsPortrait" style="padding-top: 0;">
-            <% var universityTopics = new List<int> { }; %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(64)); //Sozialstaat Deutschland %>
+            <% foreach (var categoryId in Model.CategoriesUniversity) { %>
+                <div class="col-xs-6 col-md-3">
+                    <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                </div>
+            <% } %>
+<%--            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(64)); //Sozialstaat Deutschland %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(57)); //UN %>
             <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
+            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>--%>
         </div>
 <%--        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(27, new int[] { 749, 635, 630 })); //Einbürgerungstest %>
         <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>--%>
@@ -389,8 +455,7 @@
                 <div class="clearfix visible-xs"></div>
                 <% if (!Model.IsLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a  id="btnRegisterMoreFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
-                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
                     </div>
                 <% } %>
                 <div class="col-xs-12" style="margin-top: 10px; text-align: right;">
@@ -455,8 +520,7 @@
             <div class="row">
                 <% if (!Model.IsLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
-                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
                     </div>
                 <% } %>
                 <div class="col-xs-12" style="margin-top: 10px; text-align: right;">

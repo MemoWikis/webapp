@@ -47,7 +47,7 @@ public class WelcomeModel : BaseModel
         }
         else FillWithSampleData();
 
-
+        CategoriesUniversity = new List<int> { 706, 6, 741, 715, 806, 565};
     }
 
     private void FillWithSampleData()
@@ -84,7 +84,7 @@ public class WelcomeModel : BaseModel
             TotalLearningDays = 214
         };
 
-        ActivityPoints = 3120;
+        ActivityPoints = 3210;
         ActivityLevel = UserLevelCalculator.GetLevel(ActivityPoints);
         ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(ActivityLevel);
         ActivityPointsTillNextLevel = ActivityPointsAtNextLevel - ActivityPoints;
