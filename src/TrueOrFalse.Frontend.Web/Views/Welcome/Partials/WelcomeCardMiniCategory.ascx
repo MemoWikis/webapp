@@ -10,21 +10,20 @@
 
         <div class="ContentContainer">
             <div class="CardContent">
-                <h6 class="ItemInfo">
+<%--                <h6 class="ItemInfo">
                     <span class="Pin" data-category-id="<%= Model.CategoryId %>" style="">
                         <a href="#" class="noTextdecoration">
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
                     <a href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>">Thema mit <%= Model.QuestionCount %> Fragen</a>
-                </h6>
+                </h6>--%>
                 <div class="LinkArea">
                     <h4 class="ItemTitle"><%: Model.CategoryName %></h4>
-<%--                    <div class="ItemText"><%: Model.CategoryDescription %></div>--%>
                     <a class="Link" href="<%= Links.CategoryDetail(Model.CategoryName, Model.CategoryId) %>"></a>
                 </div>
             </div>
-            <div class="BottomBar">
+            <%--<div class="BottomBar">
                 <div class="dropdown">
                     <% var buttonId = Guid.NewGuid(); %>
                     <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -40,7 +39,7 @@
                 <a href="<%= Links.TestSessionStartForCategory(Model.CategoryName, Model.CategoryId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">
                     <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
                 </a>
-            </div>
+            </div>--%>
         </div>
     </div>
 </div>

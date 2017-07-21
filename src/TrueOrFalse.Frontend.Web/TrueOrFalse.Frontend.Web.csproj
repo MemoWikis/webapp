@@ -339,6 +339,7 @@
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
+    <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -1772,7 +1773,6 @@
     <Content Include="Scripts\guidedTour\tourWelcome.js.map">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
-    <Content Include="Images\LogosPartners\OERcamp-2017-Flyer.pdf" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

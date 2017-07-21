@@ -3,14 +3,61 @@
 
 //--- temporary stuff, needs to be cleaned up when card-design is done
 
-.SingleItem .CardContent {
-    height: 80px;
+.CardColumn {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
+.CardsPortrait { // Apply to row
+    .CardColumn {
+        /*.make-xs-column(2);
+        .make-sm-column(2);*/
+        width: auto;
+    }
+}
+
+.btn-primary {
+    background-color: lighten(@memo-blue, 20);
+    border-color: lighten(@memo-blue, 10);
+}
+.btn-primary:hover, .btn-primary:active {
+    background-color: lighten(@memo-blue, 27);
+    border-color: lighten(@memo-blue, 20);
+}
+
+.btn-primary.btn-lg {
+    text-transform: uppercase;
 }
 
 
-
 //---------------
+
+.float-right-sm-up {
+    .media-sm-up({
+        float:right;
+    })
+}
+
+
+.separator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-top: 1px solid lightgrey;
+    /*margin-left: 40px;
+    margin-right: 40px;
+
+    .media-md-up( {
+        margin-left: 90px;
+        margin-right: 90px;
+    });
+
+    .media-lg( {
+        margin-left: 130px;
+        margin-right: 130px;
+    });*/
+}
+
+
 #MasterMainContent {
     padding-top: 0;
 
@@ -22,26 +69,176 @@
 
 #welcomeContainer {
     background-color: white;
+
+    .media-md-up( {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    );
+
+    .media-lg( {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    );
 }
 
-/*Fonts*/
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lato', sans-serif;
+h1, h2, h3, h4 {
+    font-family: 'Open Sans', Arial, sans-serif;
 }
+
+h1 {
+    font-size: 45px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 35px;
+}
+
+h3 {
+    font-size: 26px;
+    font-weight: 600;
+    //color: @global-text-color-grey;
+}
+
+
+body {
+    font-size: 18px;
+}
+
+/* FIND YOUR CONTENT BUTTONS */
 
 #titleFindYourContent {
     font-size: 45px;
     text-align: center;
     font-weight: bold;
-    margin-top: 40px;
-    margin-bottom: 35px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+    color: #003264;
 }
 
 
-#memuchoInfo {
-    .well;
-    .ShadowBox;
+.EduCategoryRow {
+    margin-top: 20px;
+    margin-bottom: 50px;
 
+    .media-md-up( {
+        margin-bottom: 70px;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    );
+
+    .media-lg( {
+        padding-left: 150px;
+        padding-right: 150px;
+    }
+
+    );
+}
+
+.EduCategory {
+    display: block;
+    text-align: center;
+    color: @memo-blue;
+    .BoxButton;
+    height: auto;
+    padding: 25px 0;
+
+    &:hover, &:active, &:focus {
+        text-decoration: none;
+        color: @memo-green;
+        background-color: #f3f2f2;
+
+        .IconForeground {
+            color: @memo-blue;
+        }
+    }
+}
+
+.EduCategoryIcon, .EduCategoryText {
+    display: block;
+}
+
+.EduCategoryIcon {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.EduCategoryText {
+    font-size: @font-size-bigger;
+    font-weight: bold;
+}
+
+
+/* DASHBOARD ELEMENTS*/
+
+#WelcomeDashboard {
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    #dashboardPoints, #dashboardKnowledgeWheel {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-md-up( {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        );
+
+        .media-lg( {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        );
+    }
+
+    #chartWishKnowledge {
+        height: 200px;
+        text-align: left;
+    }
+
+    #dashboardFooter {
+        text-align: left;
+        margin-top: 20px;
+
+        .media-below-sm ( {
+            text-align: center;
+        });
+
+        /*span {
+            display: inline-block;
+            margin-top: 12px;
+            margin-left: 20px;
+            font-size: 14px;
+
+            .media-sm-up ( {
+                float: right;
+            });
+        }*/
+    }
+}
+
+
+/* WHAT IS MEMUCHO */
+
+
+#memuchoInfo {
+    margin-top: 144px;
     .media-below-xs( {
         text-align: center;
     }
@@ -49,34 +246,28 @@ h1, h2, h3, h4, h5, h6 {
     );
 }
 
-#memuchoInfoHeader, .WelcomeBoxHeader {
+#memuchoInfoHeader {
     font-weight: bold;
+    color: #003264;
+
 }
 
 #memuchoInfoMain {
-    padding: 20px;
-    padding-bottom: 10px;
+    padding-top: 30px;
+    padding-bottom: 1px;
     background-color: white;
 
     .numberCircleWrapper {
         font-size: 24px;
-        .media-xs({
+
+        .media-xs( {
             padding-top: 7px;
         });
     }
 
     .numberCircle {
         margin-top: -.1em;
-    }
-
-    .numberCircleOne {
-        color: lighten(@memo-blue, 35);
-    }
-    .numberCircleTwo {
         color: lighten(@memo-blue, 20);
-    }
-    .numberCircleThree {
-        color: lighten(@memo-blue, 10);
     }
 
     .numberCircleText {
@@ -86,60 +277,141 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .memuchoInfoBenefit {
-        font-size: 22px;
+        font-size: 26px;
         margin-left: 8px;
         font-weight: 600;
+        color: lighten(@memo-blue, 20);
 
-        .media-below-xs({
+        .media-below-xs( {
             display: block;
             margin-top: -5px;
-        });
+        }
+
+        );
     }
 
     .memuchoInfoBenefitSub {
-        font-size: 16px;
+        font-size: 20px;
         color: @global-text-color-grey;
         padding-bottom: 13px;
         margin-left: 10px;
 
-        .media-below-sm({
+        .media-below-sm( {
             margin-left: 60px;
             margin-top: -10px;
             display: block;
-        });
+        }
 
-        .media-below-xs({
+        );
+
+        .media-below-xs( {
             margin-left: 0;
             margin-top: 0px;
-        });
+        }
+
+        );
     }
-    
 }
 
 #memuchoInfoFooter {
-    text-align: center;
+    text-align: left;
     padding-top: 20px;
     background-color: white;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top: 1px solid @border-grey;
-    a {
-        margin: 2px;
+    margin-bottom: 30px;
+
+    .media-below-sm( {
+        text-align: center;
+    });
+}
+
+
+/* CATEGORY OF THE WEEK
+------------------------------------------------------*/
+
+.category-of-week-container {
+    margin-top: 144px;
+    margin-bottom: 40px;
+
+    .separator-category {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-top: 5px solid @color-category;
+    }
+
+
+    .category-of-week-container-inner {
+        max-width: 720px;
+        text-align: left;
+        margin: 0 auto;
+    }
+
+
+    .category-main-image {
+        display: inline-block;
+        float: left;
+        max-width: 200px;
+        margin-right: 30px;
+    }
+
+    .category-of-week-footer {
+        text-align: left;
+        margin-top: 40px;
+        margin-bottom: 40px;
+
+        a.btn {
+            /*margin-left: 20px;
+            margin-right: 20px;*/
+        }
+    }
+
+    .category-of-week-quiz {
+        margin-top: 50px;
+    }
+
+    .category-of-week-additional-recom {
+        margin-top: 40px;
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            font-size: 14px;
+        }
+
+        .SingleItem .CardContent {
+            height: auto;
+        }
     }
 }
 
-#WelcomeDashboard {
-    /*.well;
-    .ShadowBox;*/
-    h3 {
+
+/* AWARDS & PARTNER
+------------------------------------------------------*/
+
+#awards, #partner {
+    margin-top: 144px;
+
+    h2 {
+        margin-bottom: 55px;
+    }
+
+    div.logo-box {
         text-align: center;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    img.img-logo {
+        margin: 10px;
         margin-bottom: 20px;
     }
-}
 
-.categoryOfWeekContainer {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    .logo-box-link {
+        margin-top: 15px;
+        /*text-align: right;
+        font-size: 14px;*/
+    }
 }
 
 
@@ -196,56 +468,9 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
-
-
-.EduCategoryRow {
-    margin-top: 20px;
-    margin-bottom: 40px;
-
-    .media-md-up( {
-        margin-left: 30px;
-        margin-right: 30px;
-    }
-
-    );
-}
-
-.EduCategory {
-    display: block;
-    text-align: center;
-    color: @memo-blue;
-    .BoxButton;
-    height: auto;
-    padding: 25px 0;
-
-    &:hover, &:active, &:focus {
-        text-decoration: none;
-        color: @memo-green;
-        background-color: #f3f2f2;
-        
-        .IconForeground {
-            color: @memo-blue;
-        }
-    }
-}
-
-.EduCategoryIcon, .EduCategoryText {
-    display: block;
-}
-
-.EduCategoryIcon {
-    font-size: 25px;
-    margin-bottom: 5px;
-}
-
-.EduCategoryText {
-    font-size: @font-size-bigger;
-    font-weight: bold;
-}
-
 .welcomeContentSectionHeader {
-    margin-top: 50px;
-    margin-bottom: 2px;
+    margin-top: 144px;
+    margin-bottom: 38px;
 
     .CardsPortrait + &, .CardsLandscape + & {
         margin-top: 30px;
