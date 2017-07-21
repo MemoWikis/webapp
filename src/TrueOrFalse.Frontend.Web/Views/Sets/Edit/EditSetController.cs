@@ -159,9 +159,9 @@ public class EditSetController : BaseController
 
 
 
-    public JsonResult GetHtmlRows(List<int> questionIds)
+    public JsonResult GetHtmlRows(List<int> questionIds, int setid)
     {
-        var questionsInSet = Sl.QuestionInSetRepo.GetByQuestionIds(questionIds);
+        var questionsInSet = Sl.QuestionInSetRepo.GetByQuestionIds(questionIds, setid);
 
         var resultHtmls = new List<string>();
 

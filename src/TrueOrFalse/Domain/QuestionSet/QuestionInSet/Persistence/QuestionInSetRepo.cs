@@ -11,13 +11,13 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
 
     public override void Delete(int questionInSetId)
     {
-        var questionInSet = GetById(questionInSetId);
+        var questionInSet = GetById(questionInSetId); 
         base.Delete(questionInSetId);
 
-        Sl.R<UpdateSetDataForQuestion>().Run(questionInSet.Question);
+        Sl.R<UpdateSetDataForQuestion>().Run(questionInSet.Question); 
     }
 
-    public void DeleteForQuestion(int questionId)
+    public void DeleteForQuestion(int questionId)  
     {
         Session.CreateSQLQuery("DELETE FROM questioninset WHERE Question_id = :questionId")
                 .SetParameter("questionId", questionId).ExecuteUpdate();
@@ -31,11 +31,12 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
         Update(questionInSet);
     }
 
-    public IList<QuestionInSet> GetByQuestionIds(IEnumerable<int> questionIds)
+    public IList<QuestionInSet> GetByQuestionIds(IEnumerable<int> questionIds, int setId)
     {
         return Session.QueryOver<QuestionInSet>()
             .Fetch(q => q.Question).Eager
-            .Where(Restrictions.In("Id", questionIds.ToArray()))
+            .Where(Restrictions.In("Question.Id", questionIds.ToArray()))
+            .And(q => q.Set.Id == setId)
             .List();
     }
 }
