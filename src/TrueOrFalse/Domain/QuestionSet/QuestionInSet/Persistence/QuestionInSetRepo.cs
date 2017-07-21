@@ -1,4 +1,7 @@
-﻿using NHibernate;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NHibernate;
+using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 using Seedworks.Lib.ValueObjects;
 
@@ -26,5 +29,13 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
         questionInSet.Timecode = Timecode.ToSeconds(timeCode);
 
         Update(questionInSet);
+    }
+
+    public IList<QuestionInSet> GetByQuestionIds(IEnumerable<int> questionIds)
+    {
+        return Session.QueryOver<QuestionInSet>()
+            .Fetch(q => q.Question).Eager
+            .Where(Restrictions.In("Id", questionIds.ToArray()))
+            .List();
     }
 }

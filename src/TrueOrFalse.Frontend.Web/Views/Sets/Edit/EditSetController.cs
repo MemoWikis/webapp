@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -154,6 +155,21 @@ public class EditSetController : BaseController
         }
         
         return Json(new {Status = true});
+    }
+
+
+
+    public JsonResult GetHtmlRows(List<int> questionIds)
+    {
+        var questionsInSet = Sl.QuestionInSetRepo.GetByQuestionIds(questionIds);
+
+        var resultHtmls = new List<string>();
+
+        foreach (var questionInSet in questionsInSet)
+            resultHtmls.Add(ViewRenderer.RenderPartialView("~/Views/Sets/Edit/QuestionInSet.ascx",
+                new QuestionInSetModel(questionInSet), ControllerContext));
+
+        return Json(resultHtmls);
     }
 
 }

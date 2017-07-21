@@ -415,6 +415,7 @@
     <Compile Include="Views\Sets\Detail\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
+    <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
@@ -713,6 +714,7 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Welcome\Directions.aspx" />
     <Content Include="Views\Welcome\Directions.css">
