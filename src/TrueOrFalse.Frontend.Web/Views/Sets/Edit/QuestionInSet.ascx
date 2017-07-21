@@ -2,9 +2,6 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="TrueOrFalse.Web" %>
 
-
-
-
 <li class="questionItem ui-state-default Clearfix" data-id="<%= Model.Id %>">
     <div class="QuestionTools">
         <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen (die Frage wird nicht gelöscht)"></i><br/>

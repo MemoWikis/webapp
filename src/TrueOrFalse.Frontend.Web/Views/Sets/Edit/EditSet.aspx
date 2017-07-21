@@ -220,14 +220,12 @@
                             </div>
                         </div>
 
-                        
-                            <div class="row">
-                                <div class="col-md-12" id="questionSearch">
-                                    <input id="questionId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-12" id="questionSearch">
+                                <input id="questionId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
                             </div>
-                           
-                        
+                        </div>
+                                                   
                         <div class="row">
                             <div class="col-md-12">
                                 <p id="resultHeading">Ergebnis</p>

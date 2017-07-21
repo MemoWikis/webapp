@@ -21,7 +21,7 @@ public class QuestionInSetModel : BaseModel
     {
         Text =  questionInSet.Question.Text;
         CreatorId = questionInSet.Question.Creator.Id;
-        Id = questionInSet.Question.Id;
+        Id = questionInSet.Id;
         TextExtended = questionInSet.Question.TextExtended;
         CorrectAnswer = questionInSet.Question.GetSolution().GetCorrectAnswerAsHtml();
         TimeCode = questionInSet.Timecode;
