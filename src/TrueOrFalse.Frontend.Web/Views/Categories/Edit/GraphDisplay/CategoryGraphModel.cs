@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 public class CategoryGraphModel : BaseModel
@@ -16,6 +17,6 @@ public class CategoryGraphModel : BaseModel
 
     private string EscapeChars(string objectString)
     {
-        return objectString.Replace(@"\r", "").Replace(@"\n", "").Replace("\'", @"\'");
+        return objectString.Replace(Environment.NewLine, String.Empty).Replace("\'", @"\'").Replace("\"", "\\\"").Replace(@"\t", " ");
     }
 }

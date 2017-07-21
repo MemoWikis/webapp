@@ -78,6 +78,7 @@ public class TemplateParser
         return GetPartialHtml(templateJson, controllerContext, partialModel);
     }
 
+
     private static string GetPartialHtml(TemplateJson templateJson, ControllerContext controllerContext, BaseModel partialModel)
     {
         return ViewRenderer.RenderPartialView(
@@ -139,6 +140,13 @@ public class TemplateParser
     {
         return Sl.SessionUser.IsInstallationAdmin 
             ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33); margin-bottom: 20px;\'>Folgendes Template konnte nicht umgewandelt werden:<div>{match}</div>Fehler: {exceptionMessage}</br>{stackTrace}</div>"
+            : "";
+    }
+
+    private static string GetErrorTemplate(Exception e, string message = "")
+    {
+        return Sl.SessionUser.IsInstallationAdmin
+            ? $"<div style=\'background-color: rgba(130, 8, 22, 0.33)\'>Ein Fehler ist aufgetreten:<br> {e.Message} <br> {message}</div>"
             : "";
     }
 }
