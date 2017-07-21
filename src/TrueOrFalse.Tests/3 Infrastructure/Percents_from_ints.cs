@@ -9,9 +9,6 @@ public class Percents_from_ints
     [Test]
     public void Test_distribution()
     {
-        //var test = Percents.FromInts(new[] {22d, 77d});
-        Assert.That(PercentageShares.FromInts(new[] {0.225d, 0.775d}).Sum(), Is.EqualTo(100) );
-
         Assert.That(PercentageShares.FromAbsoluteShares(new[] { 99, 3}).Sum(), Is.EqualTo(100));
         Assert.That(PercentageShares.FromAbsoluteShares(new[] { 101, 3 }).Sum(), Is.EqualTo(100));
         Assert.That(PercentageShares.FromAbsoluteShares(new[] { 102, 3 }).Sum(), Is.EqualTo(100));
