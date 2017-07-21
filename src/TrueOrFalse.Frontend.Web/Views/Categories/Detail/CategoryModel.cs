@@ -23,7 +23,6 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> AggregatedSets;
-    public AggregatedContentFromJson AggregatedContentFromJson;
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
@@ -120,15 +119,11 @@ public class CategoryModel : BaseModel
 
         TopWishQuestions = wishQuestions.Items;
 
-        AggregatedSets = category.GetAggregatedSetsFromJson();
-
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
-        AggregatedContentFromJson = Category.GetAggregatedContentFromJson();
-
-
-        AggregatedSetCount = AggregatedContentFromJson.AggregatedSetsIds.Count;
-        AggregatedQuestionCount = AggregatedContentFromJson.AggregatedQuestionIds.Count;
+        AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
+        AggregatedSetCount = AggregatedSets.Count;
+        AggregatedQuestionCount = Category.GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
     private List<Question> GetTopQuestionsInSubCats()
