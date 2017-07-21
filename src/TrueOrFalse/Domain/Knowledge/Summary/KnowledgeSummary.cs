@@ -35,22 +35,14 @@ public class KnowledgeSummary
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
 
-        Percents.FromIntsd(new List<PercentAction>
+        PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {
-            new PercentAction{Value = NotLearned, Action = percent => NotLearnedPercentage = percent },
-            new PercentAction{Value = NeedsLearning, Action = percent => NeedsLearningPercentage = percent },
-            new PercentAction{Value = NeedsConsolidation, Action = percent => NeedsConsolidationPercentage = percent },
-            new PercentAction{Value = Solid, Action = percent => SolidPercentage = percent },
-            new PercentAction{Value = NotInWishknowledge, Action = percent => NotInWishknowledgePercentage = percent },
+            new ValueWithResultAction{AbsoluteValue = NotLearned, ActionForPercentage = percent => NotLearnedPercentage = percent },
+            new ValueWithResultAction{AbsoluteValue = NeedsLearning, ActionForPercentage = percent => NeedsLearningPercentage = percent },
+            new ValueWithResultAction{AbsoluteValue = NeedsConsolidation, ActionForPercentage = percent => NeedsConsolidationPercentage = percent },
+            new ValueWithResultAction{AbsoluteValue = Solid, ActionForPercentage = percent => SolidPercentage = percent },
+            new ValueWithResultAction{AbsoluteValue = NotInWishknowledge, ActionForPercentage = percent => NotInWishknowledgePercentage = percent },
         });
-    }
-
-    private int Percentage(int amount)
-    {
-        if (Total == 0 || amount == 0)
-            return 0;
-
-        return (int)Math.Round(amount / (decimal)Total * 100);
     }
 
     public string ToJson()

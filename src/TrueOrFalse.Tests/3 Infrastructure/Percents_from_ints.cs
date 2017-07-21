@@ -10,17 +10,17 @@ public class Percents_from_ints
     public void Test_distribution()
     {
         //var test = Percents.FromInts(new[] {22d, 77d});
-        Assert.That(Percents.FromInts(new[] {0.225d, 0.775d}).Sum(), Is.EqualTo(100) );
+        Assert.That(PercentageShares.FromInts(new[] {0.225d, 0.775d}).Sum(), Is.EqualTo(100) );
 
-        Assert.That(Percents.FromInts(new[] { 99, 3}).Sum(), Is.EqualTo(100));
-        Assert.That(Percents.FromInts(new[] { 101, 3 }).Sum(), Is.EqualTo(100));
-        Assert.That(Percents.FromInts(new[] { 102, 3 }).Sum(), Is.EqualTo(100));
-        Assert.That(Percents.FromInts(new[] { 775, 225 }).Sum(), Is.EqualTo(100));
+        Assert.That(PercentageShares.FromAbsoluteShares(new[] { 99, 3}).Sum(), Is.EqualTo(100));
+        Assert.That(PercentageShares.FromAbsoluteShares(new[] { 101, 3 }).Sum(), Is.EqualTo(100));
+        Assert.That(PercentageShares.FromAbsoluteShares(new[] { 102, 3 }).Sum(), Is.EqualTo(100));
+        Assert.That(PercentageShares.FromAbsoluteShares(new[] { 775, 225 }).Sum(), Is.EqualTo(100));
 
-        Percents.FromIntsd(new List<PercentAction>
+        PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {
-            new PercentAction{Value = 775, Action = p => Console.WriteLine(p)},
-            new PercentAction{Value = 225, Action = p => Console.WriteLine(p)},
+            new ValueWithResultAction{AbsoluteValue = 775, ActionForPercentage = p => Console.WriteLine(p)},
+            new ValueWithResultAction{AbsoluteValue = 225, ActionForPercentage = p => Console.WriteLine(p)},
         });
     }
 }

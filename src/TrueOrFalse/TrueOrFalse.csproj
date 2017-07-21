@@ -381,7 +381,7 @@
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
-    <Compile Include="Infrastructure\Percents.cs" />
+    <Compile Include="Infrastructure\PercentageShares.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\ISessionManager.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\NHibernateHelper.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\RepositoryDb.cs" />
