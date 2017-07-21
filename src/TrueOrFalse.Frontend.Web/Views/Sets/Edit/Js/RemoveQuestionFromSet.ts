@@ -6,9 +6,10 @@
 class RemoveQuestionFromSet 
 { 
     constructor() {           
-        $(".JS-DeleteButton").click(function() {
+        $(".JS-DeleteButton").on("click",function() {
             var parentLi = $(this).parent().parent();
-            parentLi.hide(800);
+            console.log(parentLi);
+            parentLi.hide(200);
             $.post("/EditSet/RemoveQuestionFromSet", {"questionInSetId" : parentLi.attr("data-id")});
             $("#revertAction").show();
         });
