@@ -97,14 +97,17 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/CategoryEdit")
                 .Include("~/Views/Categories/Edit/EditCategory.css")
-                .Include("~/Scripts/vendor.somewhere/simplemde.css"));
+                .Include("~/Scripts/vendor.somewhere/simplemde.css")
+                .Include("~/Views/Categories/Detail/Category.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
-                .Include("~/Scripts/vendor.somewhere/simplemde.js"));
+                .Include("~/Scripts/vendor.somewhere/simplemde.js")
+                .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
+                .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -125,7 +128,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Answer/ShareQuestion.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
@@ -145,7 +149,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/widgets/ShareDialog.js")
                 .Include("~/Views/Sets/Detail/Js/ShareSet.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js"));
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Set")
                 .Include("~/Views/Sets/Detail/Set.css")
@@ -192,7 +197,8 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/GamePlay")
                 .Include("~/Views/Games/Play/*.css")
@@ -216,6 +222,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetSetVideo")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
                 .Include("~/Views/Sets/Detail/Js/SetVideo.js")
                 .Include("~/Views/Widgets/WidgetSetVideo.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));

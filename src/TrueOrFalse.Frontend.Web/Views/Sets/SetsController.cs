@@ -32,6 +32,7 @@ public class SetsController : BaseController
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult SetsWish(int? page, SetsModel model, string orderBy)
     {
         if (!_sessionUser.IsLoggedIn)
@@ -60,6 +61,7 @@ public class SetsController : BaseController
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult SetsMine(int? page, SetsModel model, string orderBy)
     {
         if (!_sessionUser.IsLoggedIn)
@@ -87,6 +89,7 @@ public class SetsController : BaseController
     }
 
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult Sets(int? page, SetsModel model, string orderBy)
     {
         _util.SetSearchSpecVars(_sessionUiData.SearchSpecSetsAll, page, orderBy);

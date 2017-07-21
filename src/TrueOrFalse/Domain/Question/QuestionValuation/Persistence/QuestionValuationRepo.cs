@@ -44,6 +44,12 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true) => 
         GetByUser(user.Id, onlyActiveKnowledge);
 
+    public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
+    {
+        var cacheItem = UserValuationCache.GetItem(userId);
+        return cacheItem.QuestionValuations.Values.ToList();
+    }
+
     public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
         var query = _session
@@ -77,23 +83,34 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         base.Create(questionValuations);
         _searchIndexQuestion.Update(_questionRepo.GetByIds(questionValuations.QuestionIds().ToArray()));
+
+        foreach (var questionValuation in questionValuations)
+        {
+            UserValuationCache.AddOrUpdate(questionValuation);
+        }
     }
 
     public override void Create(QuestionValuation questionValuation)
     {
         base.Create(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public override void CreateOrUpdate(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public override void Update(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 }

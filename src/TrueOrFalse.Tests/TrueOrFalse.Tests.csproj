@@ -268,6 +268,7 @@
     <Compile Include="2 Domain\Question\Views\QuestionViewTests.cs" />
     <Compile Include="2 Domain\Set\Timecode_Tests.cs" />
     <Compile Include="2 Domain\Set\Valuation\SetValuation_persistence_tests.cs" />
+    <Compile Include="2 Domain\User\ActivityPoints\UserLevelCalculatorTests.cs" />
     <Compile Include="2 Domain\User\Activity\UserActivity_persistence.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_new_follower.cs" />
     <Compile Include="2 Domain\User\Activity\Write_activity_following.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
+    <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
     <Compile Include="3 Infrastructure\YoutubeVideoTests.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />

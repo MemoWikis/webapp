@@ -96,18 +96,18 @@ namespace TrueOrFalse.Tests
 
             Assert.That(category1.CountSets, Is.EqualTo(1));
             Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(3));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(3));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
             Assert.That(category2.CountSets, Is.EqualTo(1));
             Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(2));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
             Assert.That(category3.CountSets, Is.EqualTo(1));
             Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
 
             var set3 = Sl.SetRepo.GetById(set3Id);
@@ -118,15 +118,15 @@ namespace TrueOrFalse.Tests
 
             Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
             Assert.That(category1.CountSets, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(2));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.All(q => q.Id != set3Id));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.All(q => q.Id != set3Id));
 
             Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.All(q => q.Id != set3Id));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.All(q => q.Id != set3Id));
 
             Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(0));
-            Assert.That(category3.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(0));
+            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(0));
             Assert.That(category3.CountSets, Is.EqualTo(0));
 
 
@@ -135,12 +135,12 @@ namespace TrueOrFalse.Tests
             SetDeleter.Run(set2.Id);
 
             Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
             Assert.That(category1.CountSetsAggregated, Is.EqualTo(1));
             Assert.That(category1.CountSets, Is.EqualTo(1));
 
             Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(0));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(0));
             Assert.That(category2.CountSetsAggregated, Is.EqualTo(0));
             Assert.That(category2.CountSets, Is.EqualTo(0));
 
@@ -150,18 +150,18 @@ namespace TrueOrFalse.Tests
 
             Assert.That(category1.CountSets, Is.EqualTo(1));
             Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(2));
-            Assert.That(category1.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
+            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
             Assert.That(category2.CountSets, Is.EqualTo(0));
             Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
             Assert.That(category3.CountSets, Is.EqualTo(1));
             Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContent().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContent().AggregatedSets.Any(q => q.Name == "Set3"));
+            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
         }
     }

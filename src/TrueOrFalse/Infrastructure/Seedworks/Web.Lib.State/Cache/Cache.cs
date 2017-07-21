@@ -23,9 +23,9 @@ namespace Seedworks.Web.State
         /// Add an object to the Cache (overwrite if already existent).<br/>
         /// Remove the item from the cache after <paramref name="timeSpan"/> has elapsed.
         /// </summary>
-        public static void Add(string key, object obj, TimeSpan timeSpan)
+        public static void Add(string key, object obj, TimeSpan timeSpan, bool slidingExpiration = false)
         {
-            _cache.Add(key, obj, timeSpan);
+            _cache.Add(key, obj, timeSpan, slidingExpiration);
         }
 
         public static object Get(string key)

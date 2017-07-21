@@ -85,11 +85,14 @@ public class LearningSessionResultModel : BaseModel
             if (NumberWrongAnswers < 0)
                 Logg.r().Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession id=" + learningSession.Id);
 
-            NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)NumberUniqueQuestions * 100);
-            NumberCorrectAfterRepetitionPercentage = (int)Math.Round(NumberCorrectAfterRepetitionAnswers / (float)NumberUniqueQuestions * 100);
-            NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)NumberUniqueQuestions * 100);
-            NumberNotAnsweredPercentage = (int)Math.Round(NumberNotAnswered / (float)NumberUniqueQuestions * 100);
-
+            PercentageShares.FromAbsoluteShares(
+                new List<ValueWithResultAction>
+                {
+                    new ValueWithResultAction{AbsoluteValue = NumberCorrectAnswers, ActionForPercentage = p => NumberCorrectPercentage = p},
+                    new ValueWithResultAction{AbsoluteValue = NumberCorrectAfterRepetitionAnswers, ActionForPercentage = p => NumberCorrectAfterRepetitionPercentage = p},
+                    new ValueWithResultAction{AbsoluteValue = NumberWrongAnswers, ActionForPercentage = p => NumberWrongAnswersPercentage = p},
+                    new ValueWithResultAction{AbsoluteValue = NumberNotAnswered, ActionForPercentage = p => NumberNotAnsweredPercentage = p},
+                });
         }
     }
 }

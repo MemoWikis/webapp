@@ -27,7 +27,7 @@ public class SetDeleter
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedSets();
+            category.UpdateAggregatedSetsJson();
         }
     }
 

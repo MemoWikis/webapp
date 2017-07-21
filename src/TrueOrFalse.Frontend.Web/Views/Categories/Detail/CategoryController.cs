@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using NHibernate.Mapping;
-using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryController : BaseController
@@ -12,6 +10,7 @@ public class CategoryController : BaseController
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
     [SetMenu(MenuEntry.CategoryDetail)]
+    [SetThemeMenu(true)]
     public ActionResult Category(string text, int id)
     {
         if (SeoUtils.HasUnderscores(text))
@@ -69,7 +68,7 @@ public class CategoryController : BaseController
     {
         var category = Resolve<CategoryRepository>().GetById(categoryId);
 
-        var questions = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
+        var questions = category.GetAggregatedQuestionsFromMemoryCache();
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
@@ -90,7 +89,7 @@ public class CategoryController : BaseController
     public ActionResult StartLearningSessionForSets(List<int> setIds, string setListTitle)
     {
         var sets = R<SetRepo>().GetByIds(setIds);
-        var questions = sets.SelectMany(s => s.Questions()).ToList();
+        var questions = sets.SelectMany(s => s.Questions()).Distinct().ToList();
 
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
@@ -106,10 +105,5 @@ public class CategoryController : BaseController
         R<LearningSessionRepo>().Create(learningSession);
 
         return Redirect(Links.LearningSession(learningSession));
-    }
-
-    public JsonResult GetCategoryGraphDataAsJson(int categoryId)
-    {
-        return GetCategoryGraphData.GetAsJson(Sl.CategoryRepo.GetById(categoryId));
     }
 }

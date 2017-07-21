@@ -28,6 +28,7 @@ public class CategoriesController : BaseController
         _util.SearchApi(searchTerm, _sessionUiData.SearchSpecCategory, SearchTabType.All, ControllerContext);
 
     [SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu]
     public ActionResult Categories(int? page, CategoriesModel model, string orderBy = null)
     {
         _util.SetSearchSpecVars(_sessionUiData.SearchSpecCategory, page, orderBy);
@@ -38,6 +39,7 @@ public class CategoriesController : BaseController
     }
 
     [SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu]
     public ActionResult CategoriesWish(int? page, SetsModel model, string orderBy)
     {
         var searchSpec = _sessionUiData.SearchSpecCategoryWish;

@@ -17,8 +17,10 @@ public class Sl
     public static SessionUiData SessionUiData => R<SessionUiData>();
 
     public static UserRepo UserRepo => R<UserRepo>();
+    public static ActivityPointsRepo ActivityPointsRepo => R<ActivityPointsRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
+    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 

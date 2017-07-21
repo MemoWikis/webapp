@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -55,6 +57,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if(HttpContext.Current != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+
+        JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
     }
 
     public void Logout()
@@ -64,6 +68,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         User = null;
         if (HttpContext.Current != null)
             FormsAuthentication.SignOut();
+    }
+
+    public void UpdateUser()
+    {
+        User = Sl.Resolve<UserRepo>().GetById(Sl.SessionUser.UserId);
     }
 
     public int UserId
@@ -135,4 +144,21 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             TestSessions = new List<TestSession>();
     }
 
+    public List<ActivityPoints> ActivityPoints => Data.Get("pointActivitys", new List<ActivityPoints>());
+
+    public void AddPointActivity(ActivityPoints activityPoints)
+    {
+        ActivityPoints.Add(activityPoints);
+    }
+
+    public int getTotalActivityPoints()
+    {
+        int totalPoints = 0;
+        foreach (var activity in ActivityPoints)
+        {
+            totalPoints += activity.Amount;
+        }
+
+        return totalPoints;
+    }
 }

@@ -52,7 +52,6 @@ public class ModifyRelationsForCategory
                 RelatedCategory = relatedCategory,
                 CategoryRelationType = relationType 
             });
-
     }
 
     public static void AddParentCategory(Category category, Category relatedCategory)
@@ -64,41 +63,19 @@ public class ModifyRelationsForCategory
     {
         var catRepo = Sl.CategoryRepo;
 
-        var descendants = GetCategoriesDescendantsWithAppliedRules(category);
+        var descendants = GetCategoriesDescendants.WithAppliedRules(category);
 
         UpdateCategoryRelationsOfType(category, descendants, CategoryRelationType.IncludesContentOf);
 
-        if(!persist) return;
+        if(!persist)
+            return;
 
         catRepo.Update(category);
 
-        category.UpdateAggregatedContent();
+        category.UpdateAggregatedContentJson();
 
         catRepo.Update(category);
 
         KnowledgeSummaryUpdate.RunForCategory(category.Id);
-
-    }
-
-    public static List<Category> GetCategoriesDescendantsWithAppliedRules(Category category)
-    {
-        var categoriesToExclude = new List<Category>();
-        foreach (var categoryToExclude in category.CategoriesToExclude())
-        {
-            categoriesToExclude.Add(categoryToExclude);
-            categoriesToExclude.AddRange(Sl.CategoryRepo.GetDescendants(categoryToExclude.Id));
-        }
-
-        var categoriesToInclude = new List<Category>();
-        foreach (var categoryToInclude in category.CategoriesToInclude())
-        {
-            categoriesToInclude.Add(categoryToInclude);
-            categoriesToInclude.AddRange(Sl.CategoryRepo.GetDescendants(categoryToInclude.Id));
-        }
-
-        return Sl.CategoryRepo.GetDescendants(category.Id)
-            .Except(categoriesToExclude)
-            .Union(categoriesToInclude)
-            .ToList();
     }
 }

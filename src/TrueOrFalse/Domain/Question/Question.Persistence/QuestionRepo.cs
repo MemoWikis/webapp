@@ -45,10 +45,12 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedQuestions();
+            category.UpdateAggregatedQuestionsJson();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
+
+        EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
     }
 
     public override void Create(Question question)
@@ -59,33 +61,50 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+        foreach (var category in question.Categories)
+        {
+            category.UpdateAggregatedQuestionsJson();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
         if (question.Visibility != QuestionVisibility.Owner)
         {
             UserActivityAdd.CreatedQuestion(question);
             ReputationUpdate.ForUser(question.Creator);
         }
         _searchIndexQuestion.Update(question);
+        EntityCache.AddOrUpdate(question);
     }
 
     public override void Delete(Question question)
     {
         _searchIndexQuestion.Delete(question);
         base.Delete(question);
+        EntityCache.Remove(question);
+        UserValuationCache.RemoveAllForQuestion(question.Id);
     }
 
     public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        var aggregatedQuestions = category.GetAggregatedQuestions();
+        var aggregatedQuestions = category.GetAggregatedQuestionsFromJson();
 
         var userSpecificQuestions = GetAll()
             .Where(q => q.Creator.Id == currentUser
                         && q.Visibility != QuestionVisibility.All
-                        && q.Categories.Any(c => Sl.CategoryRepo.GetAggregatedCategories(category, true).Any(aggrC => aggrC == c))).ToList();
+                        && q.Categories.Any(c => category.AggregatedCategories(includingSelf: true).Any(aggrC => aggrC == c))).ToList();
 
         return aggregatedQuestions.Union(userSpecificQuestions).ToList();
 
+    }
+
+    public IList<Question> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        if (EntityCache.CategoryQuestionsList.ContainsKey(categoryId))
+            return EntityCache.CategoryQuestionsList[categoryId].Values.ToList();
+
+        return new List<Question>();
     }
 
     public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount= -1) => 

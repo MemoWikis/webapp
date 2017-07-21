@@ -1,4 +1,6 @@
-﻿using static System.String;
+﻿using System;
+using System.Net;
+using static System.String;
 
 public class ImageFrontendData
 { 
@@ -43,7 +45,6 @@ public class ImageFrontendData
         Description = !IsNullOrEmpty(ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded)
             ? ImageMetaData.ManualEntriesFromJson().DescriptionManuallyAdded
             : ImageMetaData.DescriptionParsed;
-
 
         if (!ImageCanBeDisplayed)
         {
@@ -196,43 +197,59 @@ public class ImageFrontendData
         string linkToItem = "",
         bool noFollow = false)
     {
-        var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
-
-        if(additionalCssClasses != "")
-            additionalCssClasses = " " + additionalCssClasses;
-
-        if (ImageMetaDataExists && imageUrl.HasUploadedImage || ImageMetaData != null && ImageMetaData.IsYoutubePreviewImage)
+        try
         {
-            if (!ImageCanBeDisplayed)
-                additionalCssClasses += " JS-CantBeDisplayed";
+            var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
 
-            var dataIsYoutubeVide = "";
-            if (ImageMetaData.IsYoutubePreviewImage)
-                dataIsYoutubeVide = $" data-is-youtube-video='{ImageMetaData.YoutubeKey}' ";
+            if (additionalCssClasses != "")
+                additionalCssClasses = " " + additionalCssClasses;
 
-            var altDescription = IsNullOrEmpty(this.Description) ?
-                "" : 
-                this.Description.Replace("\"", "'")
-                    .Replace("„", "'")
-                    .Replace("“", "'")
-                    .StripHTMLTags()
-                    .Truncate(120, true);
+            if (ImageMetaDataExists && imageUrl.HasUploadedImage ||
+                ImageMetaData != null && ImageMetaData.IsYoutubePreviewImage)
+            {
+                if (!ImageCanBeDisplayed)
+                    additionalCssClasses += " JS-CantBeDisplayed";
 
-            return AddLink(
-                    "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url + "' " + //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
-                    "class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses + "' " + 
-                    "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' " + dataIsYoutubeVide + 
+                var dataIsYoutubeVide = "";
+                if (ImageMetaData.IsYoutubePreviewImage)
+                    dataIsYoutubeVide = $" data-is-youtube-video='{ImageMetaData.YoutubeKey}' ";
+
+                var altDescription = IsNullOrEmpty(this.Description)
+                    ? ""
+                    : WebUtility.HtmlEncode(this.Description)
+                        .Replace("\"", "'")
+                        .Replace("„", "'")
+                        .Replace("“", "'")
+                        .StripHTMLTags()
+                        .Truncate(120, true);
+
+
+
+                return AddLink(
+                    "<img src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url +
+                    "' " + //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
+                    "class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses + "' " +
+                    "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' " +
+                    dataIsYoutubeVide +
                     "data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' " +
                     "alt='" + altDescription + "'/>",
                     linkToItem, noFollow);
+
+            }
+
+            return AddLink( //if no image, then display dummy picture
+                "<img src='" + imageUrl.Url
+                + "' class='ItemImage JS-InitImage" + additionalCssClasses
+                + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
+                + "' alt=''/>",
+                linkToItem, noFollow);
+
         }
-        
-        return AddLink( //if no image, then display dummy picture
-            "<img src='" + imageUrl.Url 
-            + "' class='ItemImage JS-InitImage" + additionalCssClasses
-            + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass 
-            + "' alt=''/>",
-            linkToItem, noFollow);
+        catch (Exception e)
+        {
+            Logg.Error(e);
+            return "";
+        }
     }
 
     private static string AddLink(string html, string link, bool noFollow = false)
