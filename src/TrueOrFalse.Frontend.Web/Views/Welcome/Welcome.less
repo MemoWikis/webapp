@@ -3,18 +3,21 @@
 
 //--- temporary stuff, needs to be cleaned up when card-design is done
 
-.CardColumn {
-    padding-left: 15px;
-    padding-right: 15px;
-}
 
-.CardsPortrait { // Apply to row
+.CardsMiniPortrait { // Apply to row
     .CardColumn {
-        /*.make-xs-column(2);
-        .make-sm-column(2);*/
-        width: auto;
+        h4 {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
     }
 }
+
+.SingleItem .CardContent {
+    height: auto;
+}
+
 
 .btn-primary {
     background-color: lighten(@memo-blue, 20);
@@ -42,19 +45,7 @@
 .separator {
     margin-top: 10px;
     margin-bottom: 10px;
-    border-top: 1px solid lightgrey;
-    /*margin-left: 40px;
-    margin-right: 40px;
-
-    .media-md-up( {
-        margin-left: 90px;
-        margin-right: 90px;
-    });
-
-    .media-lg( {
-        margin-left: 130px;
-        margin-right: 130px;
-    });*/
+    border-top: 2px solid lightgrey;
 }
 
 
@@ -101,12 +92,19 @@ h2 {
 h3 {
     font-size: 26px;
     font-weight: 600;
-    //color: @global-text-color-grey;
+    color: @global-text-color-grey;
 }
 
+h4 {
+    font-size: 22px;
+}
 
 body {
     font-size: 18px;
+}
+
+p {
+    max-width: 720px;
 }
 
 /* FIND YOUR CONTENT BUTTONS */
@@ -116,8 +114,18 @@ body {
     text-align: center;
     font-weight: bold;
     margin-top: 60px;
-    margin-bottom: 50px;
+    margin-bottom: 8px;
     color: #003264;
+}
+
+#titleFindYourContentSub {
+    margin-top: 0;
+    margin-bottom: 50px;
+    text-align: center;
+    color: @global-text-color-grey;
+    font-size: 22px;
+    //font-weight: normal;
+    //letter-spacing: .1em;
 }
 
 
@@ -375,13 +383,6 @@ body {
             margin-bottom: 20px;
         }
 
-        h4 {
-            font-size: 14px;
-        }
-
-        .SingleItem .CardContent {
-            height: auto;
-        }
     }
 }
 
@@ -393,7 +394,7 @@ body {
     margin-top: 144px;
 
     h2 {
-        margin-bottom: 55px;
+        margin-bottom: 38px;
     }
 
     div.logo-box {
@@ -402,9 +403,16 @@ body {
         padding-right: 30px;
     }
 
-    img.img-logo {
-        margin: 10px;
-        margin-bottom: 20px;
+    .img-logo {
+        margin-top: 38px;
+        .media-sm-up ( {
+            min-height: 160px;
+        });
+
+        img {
+            margin: 10px;
+            margin-bottom: 10px;
+        }
     }
 
     .logo-box-link {
@@ -459,34 +467,30 @@ body {
 
 
 
-/*------------------------------------------------------*/
+
+/* CONTENT PRESENTATION
+    ------------------------------------------------------*/
 
 
-
-
-
-
-
-
-.welcomeContentSectionHeader {
+#ContentAvailable {
     margin-top: 144px;
     margin-bottom: 38px;
-
-    .CardsPortrait + &, .CardsLandscape + & {
-        margin-top: 30px;
-    }
 }
 
-.welcomeContentSectionTarget {
-    .greyed;
-    margin-bottom: 5px;
+/* WHAT IS MEMUCHO - EXTENDED VERSION
+------------------------------------------------------*/
+
+#memuchoInfoExtended {
+    margin-top: 144px;
 }
 
-.welcomeContentSectionTeaser {
-    margin-bottom: 20px;
+#team, #principles {
+    margin-top: 144px;
 }
+/* ------------------------------------------------------*/
 
-div.question-short-row {
+
+/*div.question-short-row {
     background-color: white;
     margin-left: 5px;
     margin-right: 5px;
@@ -529,10 +533,8 @@ a.question-short {
             max-width: 100%;
         }
     }
-}
-
-    
-.panel {
+}*/
+/*.panel {
     img {
         border-radius: 4px;
     }
@@ -546,14 +548,9 @@ a.question-short {
 
 .panel-body {
     padding: 10px;
-}
-
-//Bootstrap Thumbnails    
-
-
-
+}*/
+//Bootstrap Thumbnails
 .thumbnail {
-
     width: 100%;
     padding: 10px;
 
@@ -569,30 +566,31 @@ a.question-short {
         padding: 0;
     }
 
-    .media-below-xs ({
-
+    .media-below-xs ( {
         .clearfix;
         padding: 10px;
         //display: flex;
-
         img {
             float: left;
             width: 30%;
         }
 
         .caption {
-           // display: flex;
-           margin-left: 30%;
-           padding-top: 0;
-           padding-bottom: 0;
-           padding-right: 0;
-           padding-left: 10px;
+            // display: flex;
+            margin-left: 30%;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 0;
+            padding-left: 10px;
         }
 
-        h4 {margin-top: 0;}
+        h4 {
+            margin-top: 0;
+        }
+        //  .btn {float: right;}
+    }
 
-      //  .btn {float: right;}
-    })
+    )
 }
 
 .CardsPortrait {

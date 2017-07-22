@@ -37,18 +37,18 @@
         </div>
 
         <div class="category-of-week-quiz">
-            <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="116" data-width="100%" data-hideKnowledgeBtn="true"></script>
+            <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="141" data-width="100%" data-hideKnowledgeBtn="true"></script>
         </div>
-    </div>
 
-    <div class="category-of-week-additional-recom">
-        <h3>Entdecke weitere Themenbereiche der Psychologie:</h3>
-        <div class="row" style="padding-left: -10px; padding-right: -10px;">
-            <% foreach (var categoryId in Model.AdditionalCategoriesIds) { %>
-                <div class="col-xs-6 col-md-3">
-                    <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
-                </div>
-            <% } %>
+        <div class="category-of-week-additional-recom">
+            <h3>Entdecke weitere Themenbereiche der Psychologie</h3>
+            <div class="row CardsMiniPortrait" style="padding-left: -10px; padding-right: -10px;">
+                <% foreach (var categoryId in Model.AdditionalCategoriesIds) { %>
+                    <div class="CardColumn col-xs-6 col-sm-3 xxs-stack">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
         </div>
     </div>
     <div class="separator-category"></div>

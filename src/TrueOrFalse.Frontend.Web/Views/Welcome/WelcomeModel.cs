@@ -25,6 +25,11 @@ public class WelcomeModel : BaseModel
 
     public IList<int> CategoriesUniversity;
 
+    public int TotalCategoriesCount;
+    public int TotalCategoriesCountRound10;
+    //public int TotalQuestionCount;
+    //public int TotalSetCount;
+
 
     public WelcomeModel()
     {
@@ -48,6 +53,10 @@ public class WelcomeModel : BaseModel
         else FillWithSampleData();
 
         CategoriesUniversity = new List<int> { 706, 6, 741, 715, 806, 565};
+        //TotalQuestionCount = R<QuestionRepo>().TotalPublicQuestionCount();
+        //TotalSetCount = R<SetRepo>().TotalSetCount();
+        TotalCategoriesCount = R<CategoryRepository>().TotalCategoryCount();
+        TotalCategoriesCountRound10 = (int)Math.Floor(TotalCategoriesCount / 10.0) * 10;
     }
 
     private void FillWithSampleData()
