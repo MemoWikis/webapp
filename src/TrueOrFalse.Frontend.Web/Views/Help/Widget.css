@@ -292,6 +292,23 @@ Pricing table
   background: none;
   color: #fff;
 }
+@media (max-width: 468px) {
+  .navbar .navbar-header {
+    width: 100%;
+  }
+  .navbar .navbar-brand {
+    margin-left: 8px !important;
+    font-size: 18px;
+  }
+  .navbar .nav {
+    position: relative;
+    margin-left: -9px;
+  }
+  .navbar .nav li:first-child a {
+    padding-left: 0px;
+    margin-left: 17px;
+  }
+}
 .nav-pills {
   margin-left: 10px;
 }
