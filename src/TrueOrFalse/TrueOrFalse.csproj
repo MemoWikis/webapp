@@ -741,6 +741,9 @@
     <Compile Include="Search\User\SearchUsers.cs" />
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
+    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
+    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
+    <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
     <Compile Include="Tools\Cache\CategoryCache.cs" />
     <Compile Include="Tools\Cache\UserValuationCache.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
@@ -844,6 +847,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs179.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs178.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs177.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs176.cs" />
@@ -1016,8 +1020,6 @@
     <None Include="Domain\User\Membership\Invoice\InvoiceTemplate.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -1088,7 +1090,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tools\Analytics\Widget\Ops\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
