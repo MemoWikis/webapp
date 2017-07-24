@@ -107,7 +107,7 @@ public class CategoryModel : BaseModel
         if (category.Type != CategoryType.Standard)
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
-        CountSets = category.GetCountSetsFromJson();
+        CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = category.Type == CategoryType.Standard ? 

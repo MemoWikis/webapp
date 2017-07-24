@@ -88,7 +88,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        var aggregatedQuestions = category.GetAggregatedQuestionsFromJson();
+        var aggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
 
         var userSpecificQuestions = GetAll()
             .Where(q => q.Creator.Id == currentUser

@@ -88,7 +88,7 @@ public class Category : DomainEntity, ICreator
 
     public virtual int GetCountQuestions()
     {
-        return CountQuestionsAggregated > 0 ? CountQuestionsAggregated : CountQuestions;
+        return GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
     public virtual int CountSetsAggregated { get; set; }
@@ -102,9 +102,9 @@ public class Category : DomainEntity, ICreator
         UpdateAggregatedQuestionsJson();
     }
 
-    public virtual int GetCountSetsFromJson()
+    public virtual int GetCountSets()
     {
-        return CountSetsAggregated > 0 ? CountSetsAggregated : CountSets;
+        return GetAggregatedSetsFromMemoryCache().Count;
     }
 
     public virtual void UpdateAggregatedSetsJson()
@@ -142,16 +142,6 @@ public class Category : DomainEntity, ICreator
         CountQuestionsAggregated = aggregatedContent.AggregatedQuestions.Count;
 
         AggregatedContentJson = aggregatedContent.ToJson();
-    }
-
-    public virtual IList<Set> GetAggregatedSetsFromJson()
-    {
-        return GetAggregatedContentFromJson().AggregatedSets;
-    }
-
-    public virtual IList<Question> GetAggregatedQuestionsFromJson()
-    {
-        return GetAggregatedContentFromJson().AggregatedQuestions;
     }
 
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache()
