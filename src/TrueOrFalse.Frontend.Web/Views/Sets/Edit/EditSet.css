@@ -197,8 +197,8 @@ textarea.form-control {
 }
 .form-horizontal .FormSection #resultHeading {
   padding-top: 15px;
-  padding-left: 8px;
   font-size: 2em;
+  margin-left: -1px;
 }
 .form-horizontal .FormSection .questionRows {
   margin: 5px 0px 5px 7px;
@@ -207,6 +207,7 @@ textarea.form-control {
   background: none;
   background-color: white;
   border: 1px solid gainsboro;
+  margin-left: -0.5px;
   /*max-width: 650px;*/
   /*.linkQuestion {
                 }*/
@@ -231,13 +232,11 @@ textarea.form-control {
 #btnSave {
   margin-top: 20px;
   margin-bottom: 50px;
+  margin-left: -19px;
 }
 #questionSearch {
-  padding-left: 13px;
+  padding-left: 11px;
   margin-top: 15px;
-}
-#createNewQuestionInLearnSet {
-  padding-left: 13px;
 }
 #btnCreateNewQuestionInLearnSet {
   margin-top: 25px;
