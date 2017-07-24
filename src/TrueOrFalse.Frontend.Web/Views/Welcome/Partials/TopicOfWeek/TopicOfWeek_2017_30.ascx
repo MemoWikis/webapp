@@ -44,7 +44,7 @@
             <h3>Entdecke weitere Themenbereiche der Psychologie</h3>
             <div class="row CardsMiniPortrait" style="padding-left: -10px; padding-right: -10px;">
                 <% foreach (var categoryId in Model.AdditionalCategoriesIds) { %>
-                    <div class="CardColumn col-xs-6 col-sm-3 xxs-stack">
+                    <div class="CardMiniColumn col-xs-6 col-sm-3 xxs-stack">
                         <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
                     </div>
                 <% } %>

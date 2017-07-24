@@ -90,7 +90,7 @@
         
         <div class="EduCategoryRow row">
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Unterrichtsfaecher/682" class="EduCategory">
+                <a href="/Kategorien/Schule/682" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -104,7 +104,7 @@
             </div>
             
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Studienfaecher/687" class="EduCategory">
+                <a href="/Kategorien/Studium/687" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -267,10 +267,126 @@
                 Bei memucho findest du interaktive Lerninhalte zu vielen Themen und kannst sie personalisiert lernen.
                 Dein Thema ist nicht dabei? Kein Problem! Du kannst Inhalte leicht übernehmen, ergänzen oder ganz neu erstellen.
             </p>
-        
+            
+            <!-- School Content -->
             <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Schule/682" class="EduCategory" style="">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Schule
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Schulfächer anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesSchool) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- University Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Studium/687" class="EduCategory">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Studium
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Studienfächer anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <% foreach (var categoryId in Model.CategoriesUniversity) { %>
-                    <div class="CardColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Certificate Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Zertifikate/689" class="EduCategory">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-file-text fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Zertifikate
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Zertifikate & Spezialwissen anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesCertificate) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- General Knowledge Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Allgemeinwissen
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Allgemeinwissen-Themen anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesGeneralKnowledge) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
                         <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
                     </div>
                 <% } %>

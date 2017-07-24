@@ -18,7 +18,7 @@
 }
 @media (min-width: 650px) {
 }
-.CardsMiniPortrait .CardColumn h4 {
+.CardsMiniPortrait .CardMiniColumn h4 {
   font-size: 18px;
   font-weight: normal;
 }
@@ -535,6 +535,25 @@ fieldset[disabled] .EduCategory.active {
 #ContentAvailable {
   margin-top: 144px;
   margin-bottom: 38px;
+}
+#ContentAvailable .EduCategoryLinkCard .CardContent {
+  margin-left: 0;
+  margin-right: 0;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategory {
+  box-shadow: none;
+  border: none;
+  border-color: #fff;
+  margin-bottom: 0;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategoryText {
+  font-size: 18px;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategoryTextSub {
+  display: inline-block;
+  margin-top: 20px;
+  color: #999999;
+  font-weight: 500;
 }
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
