@@ -209,14 +209,17 @@ textarea.form-control {
   border: 1px solid gainsboro;
   margin-left: -0.5px;
   /*max-width: 650px;*/
-  /*.linkQuestion {
-                }*/
 }
 .form-horizontal .FormSection .questionRows .previewImage {
   height: 50px;
   width: 50px;
 }
-.form-horizontal .FormSection .questionRows .col-md-9 .linkQuestion {
+.form-horizontal .FormSection .questionRows .col-xs-2 {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  align-items: center;
+}
+.form-horizontal .FormSection .questionRows .col-xs-9 .linkQuestion {
   line-height: 0.5em;
   padding-top: 5px;
   padding-bottom: 7px;
