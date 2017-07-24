@@ -741,6 +741,7 @@
     <Compile Include="Search\User\SearchUsers.cs" />
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
+    <Compile Include="Tools\Analytics\Widget\Ops\SaveWidgetView.cs" />
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
     <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
@@ -1090,9 +1091,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tools\Analytics\Widget\Ops\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

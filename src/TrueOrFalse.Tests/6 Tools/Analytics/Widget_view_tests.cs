@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-public class Widget_tests : BaseTest
+public class Widget_view_tests : BaseTest
 {
     [Test]
     public void Should_write_widget_view()

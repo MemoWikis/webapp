@@ -13,7 +13,7 @@ public class WidgetController : BaseController
             questionViewGuid, 
             question,
             new QuestionSearchSpec()
-        );
+        ); 
 
         answerQuestionModel.DisableCommentLink = true;
         answerQuestionModel.IsInWidget = true;
@@ -23,6 +23,7 @@ public class WidgetController : BaseController
 
         answerQuestionModel.QuestionViewGuid = questionViewGuid;
 
+        SaveWidgetView.Run()
         Sl.SaveQuestionView.Run(questionViewGuid, question, _sessionUser.User);
 
         return View(
