@@ -16,7 +16,9 @@
                 <div class="col-xs-6 topic">
                     <div class="row">
                         <div class="col-xs-3">
-                            <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(100, true, ImageType.Category) %>
+                            <a href="<%= Links.GetUrl(category) %>">
+                                <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(100, true, ImageType.Category) %>
+                            </a>
                         </div>
                         <div class="col-xs-9">
                             <a href="<%= Links.GetUrl(category) %>"><%: category.Name %></a>
