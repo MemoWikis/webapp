@@ -2,7 +2,6 @@
     Inherits="System.Web.Mvc.ViewUserControl<WelcomeCardMiniCategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="CardColumn">
     <div class="Card SingleItem Category">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.CategoryName, Model.CategoryId), noFollow: true) %>
@@ -42,4 +41,3 @@
             </div>--%>
         </div>
     </div>
-</div>

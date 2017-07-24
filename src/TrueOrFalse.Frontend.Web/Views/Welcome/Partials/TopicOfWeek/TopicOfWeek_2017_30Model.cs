@@ -25,7 +25,7 @@ public class TopicOfWeek_2017_30Model : BaseModel
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         AdditionalSetsIds = new List<int> { 141, 123, 135, 282 }; // and: , 148, 278
-        AdditionalCategoriesIds = new List<int> { 635, 607, 618, 649 };
+        AdditionalCategoriesIds = new List<int> { 271, 607, 618, 649 };
 
     }
 }

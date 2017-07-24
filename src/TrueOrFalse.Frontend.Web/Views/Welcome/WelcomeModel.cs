@@ -23,7 +23,13 @@ public class WelcomeModel : BaseModel
     public int ActivityPointsTillNextLevel;
     public int ActivityPointsPercentageOfNextLevel;
 
+    public IList<int> CategoriesSchool;
     public IList<int> CategoriesUniversity;
+    public IList<int> CategoriesCertificate;
+    public IList<int> CategoriesGeneralKnowledge;
+
+    public int TotalCategoriesCount;
+    public int TotalCategoriesCountRound10;
 
 
     public WelcomeModel()
@@ -47,7 +53,13 @@ public class WelcomeModel : BaseModel
         }
         else FillWithSampleData();
 
-        CategoriesUniversity = new List<int> { 706, 6, 741, 715, 806, 565};
+        TotalCategoriesCount = R<CategoryRepository>().TotalCategoryCount();
+        TotalCategoriesCountRound10 = (int)Math.Floor(TotalCategoriesCount / 10.0) * 10;
+
+        CategoriesUniversity = new List<int> { 706, 6, 741, 715, 806 };
+        CategoriesSchool = new List<int> { 12, 686, 422, 231, 683, 744, 681, 746, 747, 795, 796 }; // 745,
+        CategoriesCertificate = new List<int> { 393, 395, 467, 468, 388 };
+        CategoriesGeneralKnowledge = new List<int> { 189, 58, 14, 84, 363, 196, 794, 203, 830};
     }
 
     private void FillWithSampleData()

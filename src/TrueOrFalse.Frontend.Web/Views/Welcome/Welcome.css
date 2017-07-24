@@ -18,14 +18,12 @@
 }
 @media (min-width: 650px) {
 }
-.CardColumn {
-  padding-left: 15px;
-  padding-right: 15px;
+.CardsMiniPortrait .CardMiniColumn h4 {
+  font-size: 18px;
+  font-weight: normal;
 }
-.CardsPortrait .CardColumn {
-  /*.make-xs-column(2);
-        .make-sm-column(2);*/
-  width: auto;
+.SingleItem .CardContent {
+  height: auto;
 }
 .btn-primary {
   background-color: #0065ca;
@@ -47,19 +45,7 @@
 .separator {
   margin-top: 10px;
   margin-bottom: 10px;
-  border-top: 1px solid lightgrey;
-  /*margin-left: 40px;
-    margin-right: 40px;
-
-    .media-md-up( {
-        margin-left: 90px;
-        margin-right: 90px;
-    });
-
-    .media-lg( {
-        margin-left: 130px;
-        margin-right: 130px;
-    });*/
+  border-top: 2px solid lightgrey;
 }
 #MasterMainContent {
   padding-top: 0;
@@ -98,9 +84,16 @@ h2 {
 h3 {
   font-size: 26px;
   font-weight: 600;
+  color: #999999;
+}
+h4 {
+  font-size: 22px;
 }
 body {
   font-size: 18px;
+}
+p {
+  max-width: 720px;
 }
 /* FIND YOUR CONTENT BUTTONS */
 #titleFindYourContent {
@@ -108,8 +101,15 @@ body {
   text-align: center;
   font-weight: bold;
   margin-top: 60px;
-  margin-bottom: 50px;
+  margin-bottom: 8px;
   color: #003264;
+}
+#titleFindYourContentSub {
+  margin-top: 0;
+  margin-bottom: 50px;
+  text-align: center;
+  color: #999999;
+  font-size: 22px;
 }
 .EduCategoryRow {
   margin-top: 20px;
@@ -442,12 +442,6 @@ fieldset[disabled] .EduCategory.active {
 .category-of-week-container .category-of-week-additional-recom h3 {
   margin-bottom: 20px;
 }
-.category-of-week-container .category-of-week-additional-recom h4 {
-  font-size: 14px;
-}
-.category-of-week-container .category-of-week-additional-recom .SingleItem .CardContent {
-  height: auto;
-}
 /* AWARDS & PARTNER
 ------------------------------------------------------*/
 #awards,
@@ -456,7 +450,7 @@ fieldset[disabled] .EduCategory.active {
 }
 #awards h2,
 #partner h2 {
-  margin-bottom: 55px;
+  margin-bottom: 38px;
 }
 #awards div.logo-box,
 #partner div.logo-box {
@@ -464,10 +458,20 @@ fieldset[disabled] .EduCategory.active {
   padding-left: 30px;
   padding-right: 30px;
 }
-#awards img.img-logo,
-#partner img.img-logo {
+#awards .img-logo,
+#partner .img-logo {
+  margin-top: 38px;
+}
+@media (min-width: 768px) {
+  #awards .img-logo,
+  #partner .img-logo {
+    min-height: 160px;
+  }
+}
+#awards .img-logo img,
+#partner .img-logo img {
   margin: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 #awards .logo-box-link,
 #partner .logo-box-link {
@@ -526,77 +530,100 @@ fieldset[disabled] .EduCategory.active {
 .ProgressBarLeft {
   background-color: #e1efb3;
 }
-/*------------------------------------------------------*/
-.welcomeContentSectionHeader {
+/* CONTENT PRESENTATION
+    ------------------------------------------------------*/
+#ContentAvailable {
   margin-top: 144px;
   margin-bottom: 38px;
 }
-.CardsPortrait + .welcomeContentSectionHeader,
-.CardsLandscape + .welcomeContentSectionHeader {
-  margin-top: 30px;
+#ContentAvailable .EduCategoryLinkCard .CardContent {
+  margin-left: 0;
+  margin-right: 0;
 }
-.welcomeContentSectionTarget {
+#ContentAvailable .EduCategoryLinkCard .EduCategory {
+  box-shadow: none;
+  border: none;
+  border-color: #fff;
+  margin-bottom: 0;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategoryText {
+  font-size: 18px;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategoryTextSub {
+  display: inline-block;
+  margin-top: 20px;
   color: #999999;
-  margin-bottom: 5px;
+  font-weight: 500;
 }
-.welcomeContentSectionTeaser {
-  margin-bottom: 20px;
+/* WHAT IS MEMUCHO - EXTENDED VERSION
+------------------------------------------------------*/
+#memuchoInfoExtended {
+  margin-top: 144px;
 }
-div.question-short-row {
-  background-color: white;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  border-bottom: 1px solid #A6BADE;
+#team,
+#principles {
+  margin-top: 144px;
 }
+/* ------------------------------------------------------*/
+/*div.question-short-row {
+    background-color: white;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #A6BADE;
+   }
+
 div.question-short-row:last-child {
-  border-bottom: none;
-  padding-bottom: 0px;
-}
+    border-bottom: none;
+    padding-bottom: 0px;
+    }
+
 div.question-short-row:first-child {
-  padding-top: 0px;
-}
+    padding-top: 0px;
+    }
+
 a.question-short {
-  font-size: 15px;
+    font-size: 15px;
 }
+
 .well {
-  background-color: #F6F8FC;
-  background-color: white;
+    background-color: @color-background-lightblue;
+    background-color: white;
+
+    > h1, > h2, > h3, > h4 {
+        &:first-child {margin-top: 0;}
+    }
+
+    img {
+        border-radius: 4px;
+    }
+
+    &.Team .ImageColumn {
+        .make-xs-column(4);
+        margin-bottom: 20px;
+                                   
+        img {
+            width: auto;
+            max-width: 100%;
+        }
+    }
+}*/
+/*.panel {
+    img {
+        border-radius: 4px;
+    }
+
+    .pull-left { 
+        .media-below-xs ({
+            width: 30%;
+        })
+    }
 }
-.well > h1:first-child,
-.well > h2:first-child,
-.well > h3:first-child,
-.well > h4:first-child {
-  margin-top: 0;
-}
-.well img {
-  border-radius: 4px;
-}
-.well.Team .ImageColumn {
-  position: relative;
-  float: left;
-  width: 33.33333333%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: 20px;
-}
-.well.Team .ImageColumn img {
-  width: auto;
-  max-width: 100%;
-}
-.panel img {
-  border-radius: 4px;
-}
-@media (max-width: 479px) {
-  .panel .pull-left {
-    width: 30%;
-  }
-}
+
 .panel-body {
-  padding: 10px;
-}
+    padding: 10px;
+}*/
 .thumbnail {
   width: 100%;
   padding: 10px;

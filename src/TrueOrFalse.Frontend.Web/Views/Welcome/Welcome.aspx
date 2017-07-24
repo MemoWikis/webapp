@@ -86,10 +86,11 @@
     <div class="col-md-12">
 
         <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
+        <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
         
         <div class="EduCategoryRow row">
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Unterrichtsfaecher/682" class="EduCategory">
+                <a href="/Kategorien/Schule/682" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -103,7 +104,7 @@
             </div>
             
             <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Studienfaecher/687" class="EduCategory">
+                <a href="/Kategorien/Studium/687" class="EduCategory">
                     <span class="EduCategoryIcon">
                         <span class="fa-stack fa-lg">
                           <i class="fa fa-circle fa-stack-2x"></i>
@@ -259,15 +260,153 @@
 
         <% Html.RenderPartial("Partials/TopicOfWeek/TopicOfWeek_2017_30", new TopicOfWeek_2017_30Model(264)); // 264=cat. Psychologie Studium %>
 
+       
+        <div id="ContentAvailable">
+            <h1>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h1>
+            <p>
+                Bei memucho findest du interaktive Lerninhalte zu vielen Themen und kannst sie personalisiert lernen.
+                Dein Thema ist nicht dabei? Kein Problem! Du kannst Inhalte leicht übernehmen, ergänzen oder ganz neu erstellen.
+            </p>
+            
+            <!-- School Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Schule/682" class="EduCategory" style="">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Schule
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Schulfächer anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesSchool) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- University Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Studium/687" class="EduCategory">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Studium
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Studienfächer anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesUniversity) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Certificate Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Zertifikate/689" class="EduCategory">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-file-text fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Zertifikate
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Zertifikate & Spezialwissen anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesCertificate) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- General Knowledge Content -->
+            <div class="row CardsMiniPortrait" style="padding-top: 0;">
+                <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                    <div class="Card SingleItem Category EduCategoryLinkCard">
+                        <div class="ContentContainer">
+                            <div class="CardContent">
+                                <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
+                                    <span class="EduCategoryIcon">
+                                        <span class="fa-stack fa-lg">
+                                          <i class="fa fa-circle fa-stack-2x"></i>
+                                          <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
+                                        </span>    
+                                    </span>
+                                    <span class="EduCategoryText">
+                                        Allgemeinwissen
+                                    </span>
+                                    <span class="EduCategoryTextSub">
+                                        Alle Allgemeinwissen-Themen anzeigen
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% foreach (var categoryId in Model.CategoriesGeneralKnowledge) { %>
+                    <div class="CardMiniColumn col-xs-4 col-sm-3 col-lg-2">
+                        <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
+                    </div>
+                <% } %>
+            </div>
+
+        </div>
+
+
+     
+        
+
         
         <div id="awards">
             <h2>Auszeichnungen</h2>
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo-box">
-                        <div>
+                        <div class="img-logo">
                             <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
-                                <img class="img-logo" src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
+                                <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
                             </a>
                         </div>
                         <p>
@@ -282,8 +421,8 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="logo-box">
-                        <div>
-                            <img class="img-logo" src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
+                        <div class="img-logo">
+                            <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
                         </div>
                         <p>
                             memucho wurde für den Innovationspreis Berlin Brandenburg nominiert.
@@ -297,8 +436,8 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="logo-box">
-                        <div>
-                            <img class="img-logo" src="/Images/LogosPartners/Logo-EXIST-eps.png" alt="" width="115" height="73"/>
+                        <div class="img-logo">
+                            <img style="margin-top: 35px;" src="/Images/LogosPartners/Logo-EXIST-eps.png" alt="" width="115" height="73"/>
                         </div>
                         <p>
                             memucho gewann über das EXIST-Programm eine Förderung vom BMWi und ESF.
@@ -320,9 +459,9 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo-box">
-                        <div>
+                        <div class="img-logo">
                             <a href="/Kategorien/Learning-Level-Up/722">
-                                <img class="img-logo" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
+                                <img style="margin-top: 24px;" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
                             </a>
                         </div>
                         <p>
@@ -335,9 +474,9 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="logo-box">
-                        <div>
+                        <div class="img-logo">
                             <a href="https://www.tutory.de/" target="_blank">
-                                <img class="img-logo" src="/Images/Sponsors/tutory.png" alt="tutory.de"/>
+                                <img src="/Images/LogosPartners/Logo_tutory_250px.png" alt="tutory.de"/>
                             </a>
                         </div>
                         <p>
@@ -352,9 +491,9 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="logo-box">
-                        <div>
+                        <div class="img-logo">
                             <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                                <img class="img-logo" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
+                                <img style="margin-top: -35px;" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
                             </a>
                         </div>
                         <p>
@@ -371,32 +510,9 @@
             </div>
         </div>
 
-       
-        <h1 class="welcomeContentSectionHeader">Studium</h1>
-        <p class="welcomeContentSectionTarget">243[.] Lernsets, mit denen du für dein Studium lernen kannst</p>
 
-        <div class="row CardsPortrait" style="padding-top: 0;">
-            <% foreach (var categoryId in Model.CategoriesUniversity) { %>
-                <div class="col-xs-6 col-md-3">
-                    <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(categoryId)); %>
-                </div>
-            <% } %>
-<%--            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(64)); //Sozialstaat Deutschland %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(57)); //UN %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>
-            <% Html.RenderPartial("WelcomeBoxSingleSet", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(25)); //Hauptstädte Flächenbundesländer %>--%>
-        </div>
-<%--        <% Html.RenderPartial("WelcomeBoxSetTxtQ", WelcomeBoxSetTxtQModel.GetWelcomeBoxSetTxtQModel(27, new int[] { 749, 635, 630 })); //Einbürgerungstest %>
-        <% Html.RenderPartial("WelcomeBoxCategoryTxtQ", WelcomeBoxCategoryTxtQModel.GetWelcomeBoxCategoryTxtQModel(205, new int[] { 381, 379, 384 }, "Du möchtest dir eine fundierte Meinung zur Flüchtlingspolitik bilden? Erweitere dein Hintergrundwissen mit Fakten!")); %>--%>
-
-
-     
-        
-
-
-        <div class="well">
+        <div class="well" id="memuchoInfoExtended">
             <h3>
-                <a id="teaserWhatIsMemucho"></a>
                 Was ist memucho?
             </h3>
             <p>
@@ -464,9 +580,8 @@
             </div>
         </div>
 
-        <div class="well">
+        <div id="principles" class="well">
             <h3>
-                <a id="teaserPrinciples"></a>
                 Unsere Prinzipien
             </h3>
             <ul class="fa-ul">
@@ -528,9 +643,10 @@
                 </div>
             </div>
         </div>
-        <div class="well Team">
+
+
+        <div id="team" class="well">
             <h3>
-                <a name="teaserWhoWeAre"></a>
                 Team
             </h3>
             <div class="row">
