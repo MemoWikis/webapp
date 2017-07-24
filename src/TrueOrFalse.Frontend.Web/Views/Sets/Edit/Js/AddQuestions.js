@@ -55,6 +55,7 @@ $(function() {
             $('#learnSetSave').hide();
             $("#questionId").val("");
             $("#resultHeading").hide();
+            $("#emptyLearnSet").hide();
         });
 });
 
