@@ -7,5 +7,15 @@ public class WidgetView : Entity, WithDateCreated
 
     public virtual string WidgetKey { get; set; }
 
+    public virtual WidgetType WidgetType { get; set; }
+
     public virtual DateTime DateCreated { get; set; }
+}
+
+public enum WidgetType
+{
+    Question = 0,
+    Set = 1,
+    SetResult = 2,
+    SetVideo = 3
 }

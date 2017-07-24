@@ -8,6 +8,7 @@ public class WidgetViewMap : ClassMap<WidgetView>
 
         Map(x => x.Host);
         Map(x => x.WidgetKey);
+        Map(x => x.WidgetType);
 
         Map(x => x.DateCreated);
     }
