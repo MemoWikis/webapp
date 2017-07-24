@@ -43,7 +43,7 @@ public class TopicNavigationModel : BaseModel
                     HasUsedOrderListWithLoadList = true;
                     break;
                 }
-                var firstCategories = ConvertToCategoryList(load.Split(',').ToList().ConvertAll(Int32.Parse));
+                var firstCategories = ConvertToCategoryList(order.Split(',').ToList().ConvertAll(Int32.Parse));
                 CategoryList = OrderByCategoryList(firstCategories);
                 break;
         }
