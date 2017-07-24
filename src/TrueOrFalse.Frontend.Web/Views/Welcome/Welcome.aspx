@@ -254,7 +254,7 @@
                         <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
                     </div>
                 <% } %>
-                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link" style="float: right;">Erfahre mehr...</a></span>
+                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
             </div>
         </div>
 
@@ -685,34 +685,37 @@
                 </div>
             </div>
         </div>  
+
+        <%--<div class="row">
+            <div class="col-xs-6 col-md-3">
+                <h4>Neueste Lernsets</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h4>Neueste Themen:</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h4>Neueste Fragen</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h4>Top-Themen nach Anzahl Fragen</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
+                </div>
+            </div>
+        </div>--%>
+
     </div>
         
-    <div class="row">
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Lernsets</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Themen:</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Top-Themen nach Anzahl Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-            </div>
-        </div>
-    </div>
+
 
 <%--    <div class="col-md-12">
         <% if (!Model.IsLoggedIn)

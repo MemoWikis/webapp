@@ -6,10 +6,32 @@
 
 .CardsMiniPortrait { // Apply to row
     .CardMiniColumn {
+        display: flex;
+
         h4 {
-            font-size: 18px;
-            font-weight: normal;
+            font-size: 14px;
+            font-weight: bold;
         }
+
+        .Card {
+            width: 100%
+        }
+
+        .Card.SingleItem .ImageContainer img {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}
+
+
+html.flexbox:not(.Explorer) {
+    .CardsMiniPortrait {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
     }
 }
 
@@ -22,6 +44,7 @@
     background-color: lighten(@memo-blue, 20);
     border-color: lighten(@memo-blue, 10);
 }
+
 .btn-primary:hover, .btn-primary:active {
     background-color: lighten(@memo-blue, 27);
     border-color: lighten(@memo-blue, 20);
@@ -32,12 +55,14 @@
 }
 
 
-//---------------
 
+//---------------
 .float-right-sm-up {
-    .media-sm-up({
-        float:right;
-    })
+    .media-sm-up( {
+        float: right;
+    }
+
+    )
 }
 
 
@@ -48,8 +73,13 @@
 }
 
 
+#MasterSection {
+    padding-bottom: 0;
+}
+
 #MasterMainContent {
     padding-top: 0;
+    padding-bottom: 0;
 
     #MasterMainColumn {
         width: 100%;
@@ -59,6 +89,7 @@
 
 #welcomeContainer {
     background-color: white;
+    padding-bottom: 100px;
 
     .media-md-up( {
         padding-left: 20px;
@@ -98,7 +129,7 @@ h4 {
     font-size: 22px;
 }
 
-body {
+#welcomeContainer {
     font-size: 18px;
 }
 
@@ -106,7 +137,10 @@ p {
     max-width: 720px;
 }
 
-/* FIND YOUR CONTENT BUTTONS */
+
+
+/* FIND YOUR CONTENT BUTTONS 
+-------------------------------------------------------------- */
 
 #titleFindYourContent {
     font-size: 45px;
@@ -183,7 +217,6 @@ p {
 
 
 /* DASHBOARD ELEMENTS*/
-
 #WelcomeDashboard {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -225,27 +258,25 @@ p {
 
         .media-below-sm ( {
             text-align: center;
-        });
+        }
 
-        /*span {
-            display: inline-block;
-            margin-top: 12px;
-            margin-left: 20px;
-            font-size: 14px;
+        );
 
-            .media-sm-up ( {
-                float: right;
-            });
-        }*/
+        a.btn {
+            margin-top: 10px;
+        }
+
     }
 }
 
 
-/* WHAT IS MEMUCHO */
 
+/* WHAT IS MEMUCHO 
+------------------------------------------------------ */
 
 #memuchoInfo {
     margin-top: 144px;
+
     .media-below-xs( {
         text-align: center;
     }
@@ -256,7 +287,6 @@ p {
 #memuchoInfoHeader {
     font-weight: bold;
     color: #003264;
-
 }
 
 #memuchoInfoMain {
@@ -269,7 +299,9 @@ p {
 
         .media-xs( {
             padding-top: 7px;
-        });
+        }
+
+        );
     }
 
     .numberCircle {
@@ -322,19 +354,28 @@ p {
 
 #memuchoInfoFooter {
     text-align: left;
-    padding-top: 20px;
+    padding-top: 10px;
     background-color: white;
     margin-bottom: 30px;
 
     .media-below-sm( {
         text-align: center;
     });
+
+    div a.btn {
+        margin-top: 10px;
+    }
+    span .btn {
+        margin-top: 10px;
+        display: inline-block;
+    }
+     
 }
+
 
 
 /* CATEGORY OF THE WEEK
 ------------------------------------------------------*/
-
 .category-of-week-container {
     margin-top: 144px;
     margin-bottom: 40px;
@@ -361,14 +402,19 @@ p {
     }
 
     .category-of-week-footer {
-        text-align: left;
+        text-align: center;
         margin-top: 40px;
         margin-bottom: 40px;
 
-        a.btn {
-            /*margin-left: 20px;
-            margin-right: 20px;*/
+        .media-sm-up ( {
+            text-align: left;
         }
+
+        );
+
+        /*a.btn {
+            margin-top: 20px;
+        }*/
     }
 
     .category-of-week-quiz {
@@ -381,19 +427,15 @@ p {
         h3 {
             margin-bottom: 20px;
         }
-
     }
 }
-
-
 /* AWARDS & PARTNER
 ------------------------------------------------------*/
-
 #awards, #partner {
     margin-top: 144px;
 
     h2 {
-        margin-bottom: 38px;
+        //margin-bottom: 38px;
     }
 
     div.logo-box {
@@ -404,9 +446,12 @@ p {
 
     .img-logo {
         margin-top: 38px;
+
         .media-sm-up ( {
             min-height: 160px;
-        });
+        }
+
+        );
 
         img {
             margin: 10px;
@@ -417,11 +462,9 @@ p {
     .logo-box-link {
         margin-top: 15px;
         /*text-align: right;
-        font-size: 14px;*/
+font-size: 14px;*/
     }
 }
-
-
 /* Progress bar Next Level 
 ------------------------------------------------------*/
 .ProgressBarContainer, .ProgressBarSegment {
@@ -431,7 +474,6 @@ p {
 .ProgressBarContainer {
     display: table;
     width: 100%;
-
     border: solid 2px @memo-green;
     background-color: @memo-green;
     margin-bottom: 5px;
@@ -463,19 +505,24 @@ p {
 .ProgressBarLeft {
     background-color: lighten(@memo-green, 30);
 }
-
-
-
-
 /* CONTENT PRESENTATION
-    ------------------------------------------------------*/
-
-
+------------------------------------------------------*/
 #ContentAvailable {
     margin-top: 144px;
     margin-bottom: 38px;
 
+    .row.CardsMiniPortrait {
+        margin-top: 40px;
+    }
+        
     .EduCategoryLinkCard {
+
+        .ContentContainer {
+            height: 100%;
+            .CardContent {
+                height: 100%;
+            }
+        }
 
         .CardContent {
             margin-left: 0;
@@ -487,6 +534,7 @@ p {
             border: none;
             border-color: #fff;
             margin-bottom: 0;
+            height: 100%;
         }
 
         .EduCategoryText {
@@ -502,9 +550,10 @@ p {
     }
 }
 
+
+
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
-
 #memuchoInfoExtended {
     margin-top: 144px;
 }
@@ -512,70 +561,10 @@ p {
 #team, #principles {
     margin-top: 144px;
 }
-/* ------------------------------------------------------*/
 
 
-/*div.question-short-row {
-    background-color: white;
-    margin-left: 5px;
-    margin-right: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-bottom: 1px solid #A6BADE;
-   }
-
-div.question-short-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0px;
-    }
-
-div.question-short-row:first-child {
-    padding-top: 0px;
-    }
-
-a.question-short {
-    font-size: 15px;
-}
-
-.well {
-    background-color: @color-background-lightblue;
-    background-color: white;
-
-    > h1, > h2, > h3, > h4 {
-        &:first-child {margin-top: 0;}
-    }
-
-    img {
-        border-radius: 4px;
-    }
-
-    &.Team .ImageColumn {
-        .make-xs-column(4);
-        margin-bottom: 20px;
-                                   
-        img {
-            width: auto;
-            max-width: 100%;
-        }
-    }
-}*/
-/*.panel {
-    img {
-        border-radius: 4px;
-    }
-
-    .pull-left { 
-        .media-below-xs ({
-            width: 30%;
-        })
-    }
-}
-
-.panel-body {
-    padding: 10px;
-}*/
 //Bootstrap Thumbnails
-.thumbnail {
+/*.thumbnail {
     width: 100%;
     padding: 10px;
 
@@ -616,22 +605,17 @@ a.question-short {
     }
 
     )
-}
+}*/
 
-.CardsPortrait {
+/*.CardsPortrait {
 
-    .media-sm-up({
-        .CardColumn{
+    .media-sm-up( {
+        .CardColumn {
             .MakeSingleItemCardPortrait
         }
-    });
-    
-}
-
-
-#nominationInnopreis {
-
-    img {
-        border-radius: 0;
     }
-}
+
+    );
+}*/
+
+

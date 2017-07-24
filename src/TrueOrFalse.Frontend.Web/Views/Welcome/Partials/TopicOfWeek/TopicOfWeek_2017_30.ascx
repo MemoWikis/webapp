@@ -31,12 +31,14 @@
         <div class="category-of-week-footer">
             <a class="btn btn-lg btn-primary" href="/Kategorien/Psychologie-Studium/264">Zur Themenseite Psychologie</a>
             
-            <span style="display: inline-block;" class="Pin float-right-sm-up" data-category-id="<%= Model.CategoryId %>">
+            <br class="visible-xs" />
+            <span style="display: inline-block; margin-top: 10px;" class="Pin float-right-sm-up" data-category-id="<%= Model.CategoryId %>">
                 <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
             </span>
         </div>
 
         <div class="category-of-week-quiz">
+            <h3>Quiz der Woche</h3>
             <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="141" data-width="100%" data-hideKnowledgeBtn="true"></script>
         </div>
 

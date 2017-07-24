@@ -24,7 +24,7 @@ public class TopicOfWeek_2017_30Model : BaseModel
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(264, ImageType.Category); //category: "Psychologie (Studium)" - for partial of Topic of the Week
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
-        AdditionalSetsIds = new List<int> { 141, 123, 135, 282 }; // and: , 148, 278
+        AdditionalSetsIds = new List<int> { 123, 141, 135, 282 }; // and: , 148, 278
         AdditionalCategoriesIds = new List<int> { 271, 607, 618, 649 };
 
     }

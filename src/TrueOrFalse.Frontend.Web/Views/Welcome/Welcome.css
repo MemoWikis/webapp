@@ -18,9 +18,26 @@
 }
 @media (min-width: 650px) {
 }
+.CardsMiniPortrait .CardMiniColumn {
+  display: flex;
+}
 .CardsMiniPortrait .CardMiniColumn h4 {
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 14px;
+  font-weight: bold;
+}
+.CardsMiniPortrait .CardMiniColumn .Card {
+  width: 100%;
+}
+.CardsMiniPortrait .CardMiniColumn .Card.SingleItem .ImageContainer img {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+html.flexbox:not(.Explorer) .CardsMiniPortrait {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 .SingleItem .CardContent {
   height: auto;
@@ -47,14 +64,19 @@
   margin-bottom: 10px;
   border-top: 2px solid lightgrey;
 }
+#MasterSection {
+  padding-bottom: 0;
+}
 #MasterMainContent {
   padding-top: 0;
+  padding-bottom: 0;
 }
 #MasterMainContent #MasterMainColumn {
   width: 100%;
 }
 #welcomeContainer {
   background-color: white;
+  padding-bottom: 100px;
 }
 @media (min-width: 992px) {
   #welcomeContainer {
@@ -89,13 +111,14 @@ h3 {
 h4 {
   font-size: 22px;
 }
-body {
+#welcomeContainer {
   font-size: 18px;
 }
 p {
   max-width: 720px;
 }
-/* FIND YOUR CONTENT BUTTONS */
+/* FIND YOUR CONTENT BUTTONS 
+-------------------------------------------------------------- */
 #titleFindYourContent {
   font-size: 45px;
   text-align: center;
@@ -309,23 +332,17 @@ fieldset[disabled] .EduCategory.active {
 #WelcomeDashboard #dashboardFooter {
   text-align: left;
   margin-top: 20px;
-  /*span {
-            display: inline-block;
-            margin-top: 12px;
-            margin-left: 20px;
-            font-size: 14px;
-
-            .media-sm-up ( {
-                float: right;
-            });
-        }*/
 }
 @media (max-width: 767px) {
   #WelcomeDashboard #dashboardFooter {
     text-align: center;
   }
 }
-/* WHAT IS MEMUCHO */
+#WelcomeDashboard #dashboardFooter a.btn {
+  margin-top: 10px;
+}
+/* WHAT IS MEMUCHO 
+------------------------------------------------------ */
 #memuchoInfo {
   margin-top: 144px;
 }
@@ -393,7 +410,7 @@ fieldset[disabled] .EduCategory.active {
 }
 #memuchoInfoFooter {
   text-align: left;
-  padding-top: 20px;
+  padding-top: 10px;
   background-color: white;
   margin-bottom: 30px;
 }
@@ -401,6 +418,13 @@ fieldset[disabled] .EduCategory.active {
   #memuchoInfoFooter {
     text-align: center;
   }
+}
+#memuchoInfoFooter div a.btn {
+  margin-top: 10px;
+}
+#memuchoInfoFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
 }
 /* CATEGORY OF THE WEEK
 ------------------------------------------------------*/
@@ -425,13 +449,17 @@ fieldset[disabled] .EduCategory.active {
   margin-right: 30px;
 }
 .category-of-week-container .category-of-week-footer {
-  text-align: left;
+  text-align: center;
   margin-top: 40px;
   margin-bottom: 40px;
+  /*a.btn {
+            margin-top: 20px;
+        }*/
 }
-.category-of-week-container .category-of-week-footer a.btn {
-  /*margin-left: 20px;
-            margin-right: 20px;*/
+@media (min-width: 768px) {
+  .category-of-week-container .category-of-week-footer {
+    text-align: left;
+  }
 }
 .category-of-week-container .category-of-week-quiz {
   margin-top: 50px;
@@ -447,10 +475,6 @@ fieldset[disabled] .EduCategory.active {
 #awards,
 #partner {
   margin-top: 144px;
-}
-#awards h2,
-#partner h2 {
-  margin-bottom: 38px;
 }
 #awards div.logo-box,
 #partner div.logo-box {
@@ -477,7 +501,7 @@ fieldset[disabled] .EduCategory.active {
 #partner .logo-box-link {
   margin-top: 15px;
   /*text-align: right;
-        font-size: 14px;*/
+font-size: 14px;*/
 }
 /* Progress bar Next Level 
 ------------------------------------------------------*/
@@ -531,10 +555,19 @@ fieldset[disabled] .EduCategory.active {
   background-color: #e1efb3;
 }
 /* CONTENT PRESENTATION
-    ------------------------------------------------------*/
+------------------------------------------------------*/
 #ContentAvailable {
   margin-top: 144px;
   margin-bottom: 38px;
+}
+#ContentAvailable .row.CardsMiniPortrait {
+  margin-top: 40px;
+}
+#ContentAvailable .EduCategoryLinkCard .ContentContainer {
+  height: 100%;
+}
+#ContentAvailable .EduCategoryLinkCard .ContentContainer .CardContent {
+  height: 100%;
 }
 #ContentAvailable .EduCategoryLinkCard .CardContent {
   margin-left: 0;
@@ -545,6 +578,7 @@ fieldset[disabled] .EduCategory.active {
   border: none;
   border-color: #fff;
   margin-bottom: 0;
+  height: 100%;
 }
 #ContentAvailable .EduCategoryLinkCard .EduCategoryText {
   font-size: 18px;
@@ -564,161 +598,55 @@ fieldset[disabled] .EduCategory.active {
 #principles {
   margin-top: 144px;
 }
-/* ------------------------------------------------------*/
-/*div.question-short-row {
-    background-color: white;
-    margin-left: 5px;
-    margin-right: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-bottom: 1px solid #A6BADE;
-   }
-
-div.question-short-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0px;
-    }
-
-div.question-short-row:first-child {
-    padding-top: 0px;
-    }
-
-a.question-short {
-    font-size: 15px;
-}
-
-.well {
-    background-color: @color-background-lightblue;
-    background-color: white;
-
-    > h1, > h2, > h3, > h4 {
-        &:first-child {margin-top: 0;}
-    }
+/*.thumbnail {
+    width: 100%;
+    padding: 10px;
 
     img {
         border-radius: 4px;
     }
 
-    &.Team .ImageColumn {
-        .make-xs-column(4);
-        margin-bottom: 20px;
-                                   
+    .btn {
+        .btn-sm;
+    }
+
+    .caption {
+        padding: 0;
+    }
+
+    .media-below-xs ( {
+        .clearfix;
+        padding: 10px;
+        //display: flex;
         img {
-            width: auto;
-            max-width: 100%;
+            float: left;
+            width: 30%;
+        }
+
+        .caption {
+            // display: flex;
+            margin-left: 30%;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-right: 0;
+            padding-left: 10px;
+        }
+
+        h4 {
+            margin-top: 0;
+        }
+        //  .btn {float: right;}
+    }
+
+    )
+}*/
+/*.CardsPortrait {
+
+    .media-sm-up( {
+        .CardColumn {
+            .MakeSingleItemCardPortrait
         }
     }
-}*/
-/*.panel {
-    img {
-        border-radius: 4px;
-    }
 
-    .pull-left { 
-        .media-below-xs ({
-            width: 30%;
-        })
-    }
-}
-
-.panel-body {
-    padding: 10px;
+    );
 }*/
-.thumbnail {
-  width: 100%;
-  padding: 10px;
-}
-.thumbnail img {
-  border-radius: 4px;
-}
-.thumbnail .btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.thumbnail .caption {
-  padding: 0;
-}
-@media (max-width: 479px) {
-  .thumbnail {
-    padding: 10px;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail img {
-    float: left;
-    width: 30%;
-  }
-  .thumbnail .caption {
-    margin-left: 30%;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 0;
-    padding-left: 10px;
-  }
-  .thumbnail h4 {
-    margin-top: 0;
-  }
-}
-@media (min-width: 768px) {
-  .CardsPortrait .CardColumn .Card {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem {
-    max-width: 300px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer {
-    float: none;
-    border-bottom-width: 5px;
-    border-bottom-style: solid;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    position: absolute;
-    padding-left: 5px;
-    padding-right: 5px;
-    /*line-height: 18px;*/
-    left: 0;
-    bottom: 0;
-    color: white;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.35);
-    border-bottom-left-radius: 5px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    line-height: 18px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
-    content: "Bild- & Lizenzinfos";
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    border-bottom-left-radius: 0;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer img {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
-    height: 180px;
-  }
-}
-#nominationInnopreis img {
-  border-radius: 0;
-}
