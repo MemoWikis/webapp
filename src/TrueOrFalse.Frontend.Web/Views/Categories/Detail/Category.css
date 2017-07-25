@@ -450,7 +450,6 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
     TopicNavigation
 -------------------------------------------------------*/
 #topicNavigation img {
-  max-width: 80px;
   border-radius: 50%;
   box-shadow: 5px 5px 10px #eeeeee;
 }
@@ -476,6 +475,16 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
     left: 0;
     right: 0;
   }
+}
+#topicNavigation .topic .ImageContainer {
+  max-width: 80px;
+}
+#topicNavigation .topic .ImageContainer .LicenseInfo {
+  text-align: center;
+  color: #999999;
+}
+#topicNavigation .topic .ImageContainer .LicenseInfo:after {
+  content: "Lizenz";
 }
 #topicNavigation .topic .topic-name {
   max-height: 65px;
