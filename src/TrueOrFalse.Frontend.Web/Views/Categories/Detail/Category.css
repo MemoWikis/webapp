@@ -461,34 +461,54 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
   color: #999999;
 }
 #topicNavigation .topic {
-  height: 135px;
+  height: 130px;
 }
-.category-knowledge-bar {
+@media (max-width: 649px) {
+  #topicNavigation .topic {
+    float: none;
+    width: 100%;
+    height: inherit;
+    margin-left: 0;
+    margin-bottom: 30px;
+    left: 0;
+    right: 0;
+  }
+}
+#topicNavigation .topic .topic-name {
+  max-height: 65px;
+  overflow: hidden;
+}
+@media (max-width: 649px) {
+  #topicNavigation .topic .topic-name {
+    max-height: none;
+  }
+}
+#topicNavigation .category-knowledge-bar {
   margin-top: 15px;
   height: 10px;
   width: 180px;
 }
-.category-knowledge-bar .solid-knowledge,
-.category-knowledge-bar .needs-learning,
-.category-knowledge-bar .needs-consolidation,
-.category-knowledge-bar .not-learned,
-.category-knowledge-bar .not-in-wish-knowledge {
+#topicNavigation .category-knowledge-bar .solid-knowledge,
+#topicNavigation .category-knowledge-bar .needs-learning,
+#topicNavigation .category-knowledge-bar .needs-consolidation,
+#topicNavigation .category-knowledge-bar .not-learned,
+#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-.category-knowledge-bar .solid-knowledge {
+#topicNavigation .category-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-.category-knowledge-bar .needs-learning {
+#topicNavigation .category-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-.category-knowledge-bar .needs-consolidation {
+#topicNavigation .category-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-.category-knowledge-bar .not-learned {
+#topicNavigation .category-knowledge-bar .not-learned {
   background-color: silver;
 }
-.category-knowledge-bar .not-in-wish-knowledge {
+#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
 /*------------------------------------------------------
@@ -579,7 +599,7 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 .Card .ItemTitle {
   font-size: 20px !important;
   /*-webkit-hyphens: auto;
-        hyphens: auto;*/
+hyphens: auto;*/
 }
 .Card .ItemText {
   font-size: 16px !important;

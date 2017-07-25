@@ -812,6 +812,18 @@
     }
 }
 
+.stack-below(@breakpoint) {
+    @media (max-width: (@breakpoint - 1px)) {
+        float: none;
+        width: 100%;
+        height: inherit;
+        margin-left: 0;
+        margin-bottom: 30px;
+        left: 0;
+        right: 0;
+    }
+}
+
 .float-none-xxs {
     @media (max-width: (@screen-xs-min - 1px)) {
         float: none !important;
