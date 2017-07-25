@@ -200,7 +200,7 @@
                             </p>
                         </div>
                     <% }else { %>
-                        <div id="chartWishKnowledge" style=""></div>
+                        <div id="chartWishKnowledge" <%= !Model.IsLoggedIn ? "style='pointer-events:none;'" : "" %>></div>
                     <% } %>
                 </div>
             </div>
@@ -210,7 +210,7 @@
 
             <div id="dashboardFooter">
                 <% if(Model.KnowledgeSummary.Total > 0) { %>
-                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                    <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="<%= Model.IsLoggedIn ? "": "disabled " %>btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                     </a>
                 <% } %>
@@ -258,9 +258,8 @@
             </div>
         </div>
 
-        <% Html.RenderPartial("Partials/TopicOfWeek/TopicOfWeek_2017_30", new TopicOfWeek_2017_30Model(264)); // 264=cat. Psychologie Studium %>
+        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>
 
-       
         <div id="ContentAvailable">
             <h1>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h1>
             <p>
