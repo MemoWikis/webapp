@@ -449,6 +449,12 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     TopicNavigation
 -------------------------------------------------------*/
+#topicNavigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
 #topicNavigation img {
   border-radius: 50%;
   box-shadow: 5px 5px 10px #eeeeee;
@@ -461,9 +467,6 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 }
 #topicNavigation .set-question-count {
   color: #999999;
-}
-#topicNavigation .topic {
-  height: 130px;
 }
 @media (max-width: 649px) {
   #topicNavigation .topic {
