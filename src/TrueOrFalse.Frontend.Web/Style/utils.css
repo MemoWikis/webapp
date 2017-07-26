@@ -18,6 +18,9 @@
 }
 @media (min-width: 650px) {
 }
+.hide2 {
+  display: none;
+}
 .list-group-item .hide2 {
   display: none;
 }
