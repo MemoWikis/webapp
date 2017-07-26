@@ -392,6 +392,8 @@
     <Compile Include="Domain\User\Settings\UpdateSetting.cs" />
     <Compile Include="Domain\User\Settings\UpdateKnowledgeReportInterval.cs" />
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
+    <Compile Include="Domain\Welcome\TopicOfWeek.cs" />
+    <Compile Include="Domain\Welcome\TopicOfWeekRepo.cs" />
     <Compile Include="Infrastructure\YoutubeVideo.cs" />
     <Compile Include="Tools\Analytics\QuestionsCreatedPerDayResult.cs" />
     <Compile Include="Tools\Analytics\AmountPerDay.cs" />
