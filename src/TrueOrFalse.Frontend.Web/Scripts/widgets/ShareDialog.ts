@@ -38,6 +38,9 @@
         $("#widgetWidth").off("change").on("change", () => { this.SetEmbedCode(); });
         $("#widgetWidthUnit").off("change").on("change", () => { this.SetEmbedCode(); });
 
+        $("#widgetQuestionCount").off("change").on("change", () => { this.SetEmbedCode(); });
+        $("#widgetKey").off("change").on("change", () => { this.SetEmbedCode(); });
+
         $("#widgetMaxWidth").off("change").on("change", () => { this.SetEmbedCode(); });
         $("#ckbEnableMaxWidth").off("change").on("change", () => { this.SetEmbedCode(); });
         $("#ckbHideKnowledgeBtn").off("change").on("change", () => { this.SetEmbedCode(); });
@@ -73,12 +76,23 @@
             settings.HideKnowledgeButton = "data-hideKnowledgeBtn=\"true\"";
         }
 
+        settings.QuestionCount = "";
+        if ($("#widgetQuestionCount").val().length >= 0) {
+            settings.QuestionCount = "data-questionCount=\"" + $("#widgetQuestionCount").val() + "\"";
+        }
+
+        settings.WidgetKey = "";
+        if ($("#widgetKey").val().length >= 0) {
+            settings.WidgetKey = "data-widgetKey=\"" + $("#widgetKey").val() + "\"";
+        }
+
         return settings;
     }
 
     GetEmbedCode(settings: WidgetSettings): string {
         return "<script src=\"" + settings.Url + "\" data-t=\"" + settings.Type + "\" data-id=\"" + settings.Id +
-            "\" data-width=\"" + settings.Width + "\" " + settings.MaxWidth + " " + settings.HideKnowledgeButton + "></script>";
+            "\" data-width=\"" + settings.Width + "\" " + settings.MaxWidth + " " + settings.HideKnowledgeButton +
+            " " + settings.QuestionCount + " " + settings.WidgetKey + "></script>";
     }
 }
 
@@ -88,6 +102,9 @@ class WidgetSettings {
     Width: string;
     MaxWidth: string;
     HideKnowledgeButton: string;
+
+    QuestionCount: string;
+    WidgetKey: string;
 
     Type: string;
     Id: number;
