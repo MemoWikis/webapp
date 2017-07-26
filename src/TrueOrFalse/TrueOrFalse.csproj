@@ -340,6 +340,7 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
     <Compile Include="Domain\Knowledge\TestSession\GetRandomQuestions.cs" />
+    <Compile Include="Domain\Knowledge\TestSession\GetTestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />

@@ -40,6 +40,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
+    [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
@@ -92,6 +93,7 @@ public class AnswerQuestionController : BaseController
             new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
+    [SetThemeMenu(isTestSessionPage: true)]
     public ActionResult Test(int testSessionId)
     {
         return TestActionShared(

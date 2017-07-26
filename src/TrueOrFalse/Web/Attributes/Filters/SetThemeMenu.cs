@@ -45,8 +45,14 @@ namespace System.Web.Mvc
                         : GetQuestionCategory(Convert.ToInt32(httpContextData["id"]));
                 }
 
-                if (_isTestSessionPage) { }
-                if(_isLearningSessionPage) { }
+                if (_isTestSessionPage)
+                {
+                    currentCategory = GetTestSessionCategory(Convert.ToInt32(httpContextData["testSessionId"]));
+                }
+                if (_isLearningSessionPage)
+                {
+                    currentCategory = GetLearningSessionCategory(Convert.ToInt32(httpContextData["learningSessionId"]));
+                }
                 userSession.TopicMenu.ActiveCategory = currentCategory;
             }
 
@@ -105,8 +111,20 @@ namespace System.Web.Mvc
             return currentCategory;
         }
 
-        private Category GetTestSessionCategory(int testSessionId) { }
+        private Category GetTestSessionCategory(int testSessionId)
+        {
+            var testSession = GetTestSession.Get(testSessionId);
+            return testSession.CategoryToTest != null 
+                ? testSession.CategoryToTest
+                : GetQuestionSetCategory(testSession.SetToTest.Id);
+        }
 
-        private Category GetLearningSessionCategory(int learningSessionId) { }
+        private Category GetLearningSessionCategory(int learningSessionId)
+        {
+            var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+            return learningSession.CategoryToLearn != null 
+                ? learningSession.CategoryToLearn
+                : GetQuestionSetCategory(learningSession.SetToLearn.Id);
+        }
     }
 }
