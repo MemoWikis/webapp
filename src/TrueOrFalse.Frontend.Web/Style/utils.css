@@ -1,4 +1,24 @@
-﻿.hide2 {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+.list-group-item .hide2 {
   display: none;
 }
 @media (max-width: 479px) {
@@ -10,4 +30,3 @@
     right: 0;
   }
 }
-/*# sourceMappingURL=utils.css.map */
