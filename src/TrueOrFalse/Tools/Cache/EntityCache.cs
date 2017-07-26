@@ -14,6 +14,7 @@ public class EntityCache
     private const string _cacheKeySets = "allSets_EntityCache";
     private const string _cacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
     private const string _cacheKeyCategorySetsList = "categorySetsList_EntityCache";
+    private const string _cacheKeyCategoryQuestionInSetList = "categoryQuestionInSetList_EntityCache";
 
     public static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
     public static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
@@ -24,6 +25,59 @@ public class EntityCache
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, Set>> CategorySetsList =>
         (ConcurrentDictionary<int, ConcurrentDictionary<int, Set>>)HttpRuntime.Cache[_cacheKeyCategorySetsList];
 
+    /// <summary>
+    /// Holds a list of questions that are subordinate by a set for each category. 
+    /// Each question holds a list of the setsIds that bind them to the category.
+    /// Last level ConcurrentDictionary is used for easy access to keys (set ids) only (the value is always 0).
+    /// </summary>
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> CategoryQuestionInSetList =>
+        (ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionInSetList];
+
+    public static IList<int> GetQuestionsIdsForCategory(int categoryId)
+    {
+        return EntityCache.CategoryQuestionsList.ContainsKey(categoryId) 
+            ? EntityCache.CategoryQuestionsList[categoryId].Keys.ToList() 
+            : new List<int>();
+    }
+
+    public static IList<Question> GetQuestionsInSetsForCategory(int categoryId)
+    {
+        return GetQuestionsByIdsFromMemoryCache(GetQuestionsInSetsIdsForCategory(categoryId));
+    }
+
+    public static IList<int> GetQuestionsInSetsIdsForCategory(int categoryId)
+    {
+        var questionIds = new List<int>();
+
+        if (!CategoryQuestionInSetList.TryGetValue(categoryId, out var questionSetIdLists)) return questionIds;
+
+        foreach (var questionId in questionSetIdLists.Keys)
+        {
+            if (questionSetIdLists.TryGetValue(questionId, out var setIdList) 
+                && !setIdList.IsEmpty)
+            {
+                questionIds.Add(questionId);
+            }
+        }
+
+        return questionIds;
+    }
+
+    public static IList<Question> GetQuestionsByIdsFromMemoryCache(IList<int> questionIds)
+    {
+        var questions = new List<Question>();
+
+        foreach (var questionId in questionIds)
+        {
+            if (Questions.TryGetValue(questionId, out var questionToAdd))
+            {
+                questions.Add(questionToAdd);
+            }
+        }
+
+        return questions;
+    }
+
     public static void Init()
     {
         var stopWatch = Stopwatch.StartNew();
@@ -33,6 +87,7 @@ public class EntityCache
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAll().ToConcurrentDictionary();
         var sets = Sl.SetRepo.GetAllEager();
+        var questionInSets = Sl.QuestionInSetRepo.GetAll();
 
         Logg.r().Information("EntityCache LoadAllEntities {Elapsed}", stopWatch.Elapsed);
 
@@ -41,6 +96,8 @@ public class EntityCache
         IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions.ToConcurrentDictionary()));
         IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets.ToConcurrentDictionary()));
+        
 
         Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
     }
@@ -77,6 +134,49 @@ public class EntityCache
         }
 
         return categorySetsList;
+    }
+
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> 
+        GetCategoryQuestionInSetList(ConcurrentDictionary<int, QuestionInSet> questionInSetItems)
+    {
+        var categoryQuestionInSetList =
+            new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
+
+        foreach (var questionInSet in questionInSetItems)
+        {
+            AddQuestionInSetTo(categoryQuestionInSetList, questionInSet.Value);
+        }
+
+        return categoryQuestionInSetList;
+    }
+
+    private static void AddQuestionInSetTo(
+        ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionInSetList,
+        QuestionInSet questionInSet)
+    {
+        foreach (var category in questionInSet.Set.Categories)
+        {
+            var set = questionInSet.Set;
+            var question = questionInSet.Question;
+
+            if (!categoryQuestionInSetList.ContainsKey(category.Id))
+                categoryQuestionInSetList.TryAdd(category.Id, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
+
+            if(!categoryQuestionInSetList[category.Id].ContainsKey(question.Id))
+                categoryQuestionInSetList[category.Id].TryAdd(question.Id, new ConcurrentDictionary<int, int>());
+
+            categoryQuestionInSetList[category.Id]?[question.Id]?.AddOrUpdate(set.Id, 0, (k, v) => 0);
+        }
+    }
+
+    private static void RemoveQuestionInSetFrom(
+        ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionInSetList,
+        QuestionInSet questionInSet)
+    {
+        foreach (var category in questionInSet.Set.Categories)
+        {
+            categoryQuestionInSetList[category.Id]?[questionInSet.Question.Id]?.TryRemove(questionInSet.Set.Id, out var removedQuestionInSet);
+        }
     }
 
     private static void UpdateCategoryQuestionList(
@@ -131,9 +231,15 @@ public class EntityCache
 
     private static void AddQuestionToCategories(
         Question question,
-        ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionsList)
+        ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionsList,
+        IList<Category> categories = null)
     {
-        foreach (var category in question.Categories)
+        if (categories == null)
+        {
+            categories = question.Categories;
+        }
+
+        foreach (var category in categories)
         {
             if (!categoryQuestionsList.ContainsKey(category.Id))
                 categoryQuestionsList.TryAdd(category.Id, new ConcurrentDictionary<int, Question>());
@@ -209,6 +315,23 @@ public class EntityCache
         {
             AddOrUpdate(Sets, set);
             UpdateCategorySetList(CategorySetsList, set, affectedCategoriesIds);
+        }
+    }
+
+
+    public static void AddOrUpdate(QuestionInSet questionInSet)
+    {
+        lock ("b568f027-d8ad-4e3c-b6ea-32679301f7f6")
+        {
+            AddQuestionInSetTo(CategoryQuestionInSetList, questionInSet);
+        }
+    }
+
+    public static void Remove(QuestionInSet questionInSet)
+    {
+        lock ("d0c11f71-5aab-4186-9016-46f8ffa45efc")
+        {
+            RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
         }
     }
 

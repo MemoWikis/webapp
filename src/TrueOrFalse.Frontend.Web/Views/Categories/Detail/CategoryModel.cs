@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TrueOrFalse.Web;
 
@@ -123,7 +124,8 @@ public class CategoryModel : BaseModel
 
         AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
         AggregatedSetCount = AggregatedSets.Count;
-        AggregatedQuestionCount = Category.GetAggregatedQuestionsFromMemoryCache().Count;
+
+        AggregatedQuestionCount = Category.GetAggregatedQuestionIdsFromMemoryCache().Count;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

@@ -148,7 +148,21 @@ public class Category : DomainEntity, ICreator
     {
         var questionRepo = Sl.QuestionRepo;
 
-        return AggregatedCategories().SelectMany(c => questionRepo.GetForCategoryFromMemoryCache(c.Id)).Distinct().ToList();
+        return AggregatedCategories()
+                .SelectMany(c => 
+                    questionRepo.GetForCategoryFromMemoryCache(c.Id)
+                    .Union(EntityCache.GetQuestionsInSetsForCategory(c.Id)))
+                .Distinct()
+                .ToList();
+    }
+
+    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
+    {
+        return AggregatedCategories()
+            .SelectMany(c => EntityCache.GetQuestionsInSetsIdsForCategory(c.Id)
+                .Union(EntityCache.GetQuestionsIdsForCategory(c.Id)))
+            .Distinct()
+            .ToList();
     }
 
     public virtual IList<Set> GetAggregatedSetsFromMemoryCache()
