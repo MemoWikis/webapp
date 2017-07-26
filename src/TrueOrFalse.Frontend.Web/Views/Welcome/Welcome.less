@@ -554,68 +554,47 @@ font-size: 14px;*/
 
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
+
+.infoItemRow {
+    .infoItemColumn {
+        .xxs-stack;
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+
+        .infoIcon {
+            font-size: 45px;
+            color: @memo-blue;
+        }
+
+        .infoCatchWord {
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 5px;
+        }
+
+        .infoExplanationSnippet {
+            font-size: 18px;
+        }
+    }
+}
+
 #memuchoInfoExtended {
     margin-top: 144px;
+
+    #memuchoInfoExtendedFooter {
+        #memuchoInfoFooter;
+    }
 }
 
-#team, #principles {
+#principles {
+    margin-top: 144px;
+
+    #memuchoPrinciplesFooter {
+        #memuchoInfoFooter;
+    }
+}
+
+#team {
     margin-top: 144px;
 }
-
-
-//Bootstrap Thumbnails
-/*.thumbnail {
-    width: 100%;
-    padding: 10px;
-
-    img {
-        border-radius: 4px;
-    }
-
-    .btn {
-        .btn-sm;
-    }
-
-    .caption {
-        padding: 0;
-    }
-
-    .media-below-xs ( {
-        .clearfix;
-        padding: 10px;
-        //display: flex;
-        img {
-            float: left;
-            width: 30%;
-        }
-
-        .caption {
-            // display: flex;
-            margin-left: 30%;
-            padding-top: 0;
-            padding-bottom: 0;
-            padding-right: 0;
-            padding-left: 10px;
-        }
-
-        h4 {
-            margin-top: 0;
-        }
-        //  .btn {float: right;}
-    }
-
-    )
-}*/
-
-/*.CardsPortrait {
-
-    .media-sm-up( {
-        .CardColumn {
-            .MakeSingleItemCardPortrait
-        }
-    }
-
-    );
-}*/
-
-

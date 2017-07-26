@@ -591,62 +591,74 @@ font-size: 14px;*/
 }
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
+.infoItemRow .infoItemColumn {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+@media (max-width: 479px) {
+  .infoItemRow .infoItemColumn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.infoItemRow .infoItemColumn .infoIcon {
+  font-size: 45px;
+  color: #003264;
+}
+.infoItemRow .infoItemColumn .infoCatchWord {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 5px;
+}
+.infoItemRow .infoItemColumn .infoExplanationSnippet {
+  font-size: 18px;
+}
 #memuchoInfoExtended {
   margin-top: 144px;
 }
-#team,
+#memuchoInfoExtended #memuchoInfoExtendedFooter {
+  text-align: left;
+  padding-top: 10px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #memuchoInfoExtended #memuchoInfoExtendedFooter {
+    text-align: center;
+  }
+}
+#memuchoInfoExtended #memuchoInfoExtendedFooter div a.btn {
+  margin-top: 10px;
+}
+#memuchoInfoExtended #memuchoInfoExtendedFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
+}
 #principles {
   margin-top: 144px;
 }
-/*.thumbnail {
-    width: 100%;
-    padding: 10px;
-
-    img {
-        border-radius: 4px;
-    }
-
-    .btn {
-        .btn-sm;
-    }
-
-    .caption {
-        padding: 0;
-    }
-
-    .media-below-xs ( {
-        .clearfix;
-        padding: 10px;
-        //display: flex;
-        img {
-            float: left;
-            width: 30%;
-        }
-
-        .caption {
-            // display: flex;
-            margin-left: 30%;
-            padding-top: 0;
-            padding-bottom: 0;
-            padding-right: 0;
-            padding-left: 10px;
-        }
-
-        h4 {
-            margin-top: 0;
-        }
-        //  .btn {float: right;}
-    }
-
-    )
-}*/
-/*.CardsPortrait {
-
-    .media-sm-up( {
-        .CardColumn {
-            .MakeSingleItemCardPortrait
-        }
-    }
-
-    );
-}*/
+#principles #memuchoPrinciplesFooter {
+  text-align: left;
+  padding-top: 10px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #principles #memuchoPrinciplesFooter {
+    text-align: center;
+  }
+}
+#principles #memuchoPrinciplesFooter div a.btn {
+  margin-top: 10px;
+}
+#principles #memuchoPrinciplesFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
+}
+#team {
+  margin-top: 144px;
+}
