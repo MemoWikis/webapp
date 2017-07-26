@@ -31,7 +31,8 @@ public class WidgetController : BaseController
             SaveWidgetView.Run(
                 host, 
                 IsNullOrEmpty(widgetKey) ? widgetKey : questionId.ToString(), 
-                WidgetType.Question
+                WidgetType.Question,
+                questionId
             )
         );
 
@@ -45,7 +46,8 @@ public class WidgetController : BaseController
         SaveWidgetView.Run(
             host, 
             IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
-            WidgetType.Set
+            WidgetType.Set,
+            setId
         );
 
         return View(
@@ -86,7 +88,8 @@ public class WidgetController : BaseController
             testSession => SaveWidgetView.Run(
                 host, 
                 IsNullOrEmpty(widgetKey) ? testSession.SetToTestId.ToString() : widgetKey,
-                WidgetType.Set)
+                WidgetType.Set,
+                testSession.SetToTestId)
         );
     }
 
@@ -99,7 +102,8 @@ public class WidgetController : BaseController
         SaveWidgetView.Run(
             host, 
             IsNullOrEmpty(widgetKey) ? widgetKey : testSession.SetToTestId.ToString(), 
-            WidgetType.SetResult
+            WidgetType.SetResult,
+            testSession.SetToTestId
         );
 
         return View("~/Views/Widgets/WidgetSetResult.aspx", setModel);
@@ -110,7 +114,8 @@ public class WidgetController : BaseController
     {
         SaveWidgetView.Run(
             host, IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
-            WidgetType.SetVideo
+            WidgetType.SetVideo,
+            setId
         );
 
         var set = Sl.SetRepo.GetById(setId);

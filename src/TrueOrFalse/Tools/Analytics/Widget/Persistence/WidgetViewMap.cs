@@ -10,6 +10,8 @@ public class WidgetViewMap : ClassMap<WidgetView>
         Map(x => x.WidgetKey);
         Map(x => x.WidgetType);
 
+        Map(x => x.EntityId);
+
         Map(x => x.DateCreated);
     }
 }
