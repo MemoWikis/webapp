@@ -85,64 +85,67 @@
        
     <div class="col-md-12">
 
-        <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
-        <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
+        <div id="findYourContent">
+            <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
+            <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
         
-        <div class="EduCategoryRow row">
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Schule/682" class="EduCategory">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Schule
-                    </span>
-                </a>
-            </div>
+            <div class="EduCategoryRow row">
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Schule/682" class="EduCategory">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Schule
+                        </span>
+                    </a>
+                </div>
             
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Studium/687" class="EduCategory">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Studium
-                    </span>
-                </a>  
-            </div>
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Zertifikate/689" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-file-text-o fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Zertifikate
-                    </span>
-                </a>
-            </div>
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Allgemeinwissen
-                    </span>
-                </a>    
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Studium/687" class="EduCategory">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Studium
+                        </span>
+                    </a>  
+                </div>
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Zertifikate/689" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-file-text-o fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Zertifikate
+                        </span>
+                    </a>
+                </div>
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Allgemeinwissen
+                        </span>
+                    </a>    
+                </div>
             </div>
         </div>
+
 
         <div id="WelcomeDashboard">
             <div class="row">
@@ -187,11 +190,11 @@
                                 Um dein Wunschwissen zu erweitern, suche dir interessante Lerninhalte aus und klicke auf den Hinzufügen-Button oder auf das Herzsymbol:
                                 <ul style="list-style-type: none">
                                     <li>
-                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        <i class="fa fa-heart" style="color:#b13a48;"></i>
                                         In deinem Wunschwissen
                                     </li>                                
                                     <li>
-                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i class="fa fa-heart-o" style="color:#b13a48;"></i>
                                         <i>Nicht</i> in deinem Wunschwissen.
                                     </li>
                                 </ul>
@@ -209,7 +212,7 @@
 
             <div id="dashboardFooter">
                 <% if(Model.KnowledgeSummary.Total > 0) { %>
-                    <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="<%= Model.IsLoggedIn ? "": "disabled " %>btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                    <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                         <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                     </a>
                 <% } %>
@@ -218,34 +221,48 @@
         </div>
 
 
-
         <div id="memuchoInfo">
-            <h2 id="memuchoInfoHeader">
+            <h2>
                 memucho ist dein Wissens-Assistent
-            </h2>            
-            <div id="memuchoInfoMain">
-                <p>
-                    <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
-                        <strong class="fa-stack-1x numberCircleText">1</strong>
-                    </span>
-                    <span class="memuchoInfoBenefit">Sammeln</span> <span class="memuchoInfoBenefitSub"><i class="fa fa-heart-o">&nbsp;</i>Entscheide, was du wissen möchtest.</span>
-                </p>
-                <p>
-                    <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
-                        <strong class="fa-stack-1x numberCircleText">2</strong>
-                    </span>
-                    <span class="memuchoInfoBenefit">Lernen</span> <span class="memuchoInfoBenefitSub">Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.</span>
-                </p>
-                <p>
-                    <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
-                        <strong class="fa-stack-1x numberCircleText">3</strong>
-                    </span>
-                    <span class="memuchoInfoBenefit">Nicht vergessen</span> <span class="memuchoInfoBenefitSub">Wir erinnern dich, bevor du vergisst.</span>
-                </p>
+            </h2>     
+            <div class="row infoItemRow">
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Sammeln
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Entscheide, was du wissen möchtest.
+                    </div>
+                </div>
+
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-line-chart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Lernen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.
+                    </div>
+                </div>
+
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Nicht vergessen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Wir erinnern dich, bevor du vergisst.
+                    </div>
+                </div>
             </div>
+
             <div class="separator"></div>
             <div id="memuchoInfoFooter">
                 <% if (!Model.IsLoggedIn) { %>
@@ -510,7 +527,7 @@
         <div id="memuchoInfoExtended">
             <h2>Was ist memucho?</h2>
             <h3>
-                memucho hilft dir, Interessantes zu lernen, nie wieder zu vergessen und dein Wissen zu organisieren.
+                Wir helfen dir, Interessantes zu lernen, nie wieder zu vergessen und dein Wissen zu organisieren.
             </h3>
             
             <div class="row infoItemRow">
@@ -529,7 +546,7 @@
 
                 <div class="col-md-4 col-xs-6 infoItemColumn">
                     <div class="infoIcon">
-                        <i class="fa fa-book show-tooltip"></i>
+                        <i class="fa fa-book"></i>
                     </div>
                     <div class="infoCatchWord">
                         Wissen erweitern
@@ -627,14 +644,14 @@
 
                 <div class="col-md-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
-                        <i class="fa fa-tree"></i>
+                        <i class="fa fa-leaf"></i>
                     </div>
                     <div class="infoCatchWord">
                         Gemeinwohlorientierung
                     </div>
                     <div class="infoExplanationSnippet">
-                        Wir möchten unser Unternehmen auf <a href="http://www.gemeinwohl-oekonomie.org/de" target="_blank;">gemeinwohlfördernden Werten</a> <i class="fa fa-external-link"></i> aufbauen,
-                        denn wir sind überzeugt, dass Unternehmen eine ethische, soziale und ökologische Verantwortung haben.
+                        Wir möchten unser Unternehmen auf <a href="http://www.gemeinwohl-oekonomie.org/de" target="_blank;">gemeinwohlfördernden Werten</a> <i class="fa fa-external-link"></i> aufbauen.
+                        Wir sind überzeugt, dass Unternehmen eine ethische, soziale und ökologische Verantwortung haben.
                     </div>
                 </div>
 
@@ -647,7 +664,7 @@
                     </div>
                     <div class="infoExplanationSnippet">
                         Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Erfahre mehr</a> über unseren Datenschutz.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum Datenschutz</a>.)
                     </div>
                 </div>
 
@@ -659,8 +676,8 @@
                         Open-Source und Transparenz
                     </div>
                     <div class="infoExplanationSnippet">
-                        Wir entwickeln memucho als Open Source, die Quelltexte sind also frei verfügbar. Du findest sie 
-                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a> <i class="fa fa-external-link"></i>. 
+                        Wir entwickeln memucho als Open Source, die Quelltexte sind frei verfügbar. Du findest sie 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github <i class="fa fa-external-link"></i></a>. 
                         In Zukunft möchten wir eine Gemeinwohlbilanz und wichtige Unternehmenszahlen regelmäßig veröffentlichen.
                     </div>
                 </div>
@@ -679,45 +696,81 @@
         </div>
 
 
-        <div id="team" class="well">
-            <h3>
+        <div id="team">
+            <h2>
                 Team
-            </h3>
-            <div class="row">
-                
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_robert201509_155.jpg"/>
-                        <br/> <b>Robert</b> (Gründer) <br/>
-                </div>
-                
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
-                    <br/> <b>Jule</b> (Gründerin) <br/> 
+            </h2>
+            <div class="row infoItemRow">
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_robert201509_155.jpg"/>
+                    </div>
+                    <div class="infoCatchWord">
+                        Robert
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Gründer)
+                    </div>
                 </div>
 
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
-                    <br/> <b>Christof</b> (Gründer) <br/> 
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Jule
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Gründer)
+                    </div>
                 </div>
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
-                    <br/> <b>Lisa</b> (Kommunikation) <br/> 
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Christof
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Gründer)
+                    </div>
                 </div>
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
-                    <br/> <b>Julian</b> (Entwicklung) <br/> 
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Lisa
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Kommunikation)
+                    </div>
                 </div>
-                <div class="col-xs-12" style="margin-top: 10px;">
-                    <p>
-                        Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
-                        Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
-                        Wir konzipieren, gestalten und programmieren memucho gemeinsam.
-                    </p>
-                    <p>
-                        Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
-                    </p>
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Julian
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Entwicklung)
+                    </div>
                 </div>
             </div>
+
+
+            <p>
+                Wir möchten freie Bildungsinhalten fördern und dich beim Lernen unterstützen. 
+                Auf dieser Idee werden wir ein stabiles gemeinwohlorientiertes Unternehmen aufbauen. 
+                Wir konzipieren, gestalten und programmieren memucho gemeinsam.
+            </p>
+            <p>
+                Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
+            </p>
         </div>  
 
         <%--<div class="row">

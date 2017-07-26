@@ -643,10 +643,10 @@ ul.AutocompleteHeader {
   }
 }
 .level-display circle {
-  fill: #b9db4f;
+  fill: #AFD534;
 }
 .level-display .level-count {
-  fill: darkblue;
+  fill: #003264;
   font-weight: bolder;
   font-size: 1.3em;
   text-anchor: middle;

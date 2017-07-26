@@ -42,18 +42,8 @@ html.flexbox:not(.Explorer) .CardsMiniPortrait {
 .SingleItem .CardContent {
   height: auto;
 }
-.btn-primary {
-  background-color: #0065ca;
-  border-color: #004b97;
-}
-.btn-primary:hover,
-.btn-primary:active {
-  background-color: #0077ee;
-  border-color: #0065ca;
-}
-.btn-primary.btn-lg {
-  text-transform: uppercase;
-}
+/* GENERAL PAGE STYLING
+--------------------------------------------------------- */
 @media (min-width: 768px) {
   .float-right-sm-up {
     float: right;
@@ -64,31 +54,8 @@ html.flexbox:not(.Explorer) .CardsMiniPortrait {
   margin-bottom: 10px;
   border-top: 2px solid lightgrey;
 }
-#MasterSection {
-  padding-bottom: 0;
-}
-#MasterMainContent {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-#MasterMainContent #MasterMainColumn {
-  width: 100%;
-}
-#welcomeContainer {
-  background-color: white;
-  padding-bottom: 100px;
-}
-@media (min-width: 992px) {
-  #welcomeContainer {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-@media (min-width: 1200px) {
-  #welcomeContainer {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
+.btn-primary.btn-lg {
+  text-transform: uppercase;
 }
 h1,
 h2,
@@ -111,10 +78,34 @@ h3 {
 h4 {
   font-size: 22px;
 }
+#MasterSection {
+  padding-bottom: 0;
+}
+#MasterMainContent {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#MasterMainContent #MasterMainColumn {
+  width: 100%;
+}
 #welcomeContainer {
+  background-color: white;
+  padding-bottom: 100px;
   font-size: 18px;
 }
-p {
+@media (min-width: 992px) {
+  #welcomeContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  #welcomeContainer {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+#welcomeContainer p {
   max-width: 720px;
 }
 /* FIND YOUR CONTENT BUTTONS 
@@ -295,7 +286,8 @@ fieldset[disabled] .EduCategory.active {
   font-size: 16px;
   font-weight: bold;
 }
-/* DASHBOARD ELEMENTS*/
+/* DASHBOARD ELEMENTS
+----------------------------------------------- */
 #WelcomeDashboard {
   margin-top: 50px;
   margin-bottom: 50px;
@@ -340,168 +332,6 @@ fieldset[disabled] .EduCategory.active {
 }
 #WelcomeDashboard #dashboardFooter a.btn {
   margin-top: 10px;
-}
-/* WHAT IS MEMUCHO 
------------------------------------------------------- */
-#memuchoInfo {
-  margin-top: 144px;
-}
-@media (max-width: 479px) {
-  #memuchoInfo {
-    text-align: center;
-  }
-}
-#memuchoInfoHeader {
-  font-weight: bold;
-  color: #003264;
-}
-#memuchoInfoMain {
-  padding-top: 30px;
-  padding-bottom: 1px;
-  background-color: white;
-}
-#memuchoInfoMain .numberCircleWrapper {
-  font-size: 24px;
-}
-@media (min-width: 480px) and (max-width: 767px) {
-  #memuchoInfoMain .numberCircleWrapper {
-    padding-top: 7px;
-  }
-}
-#memuchoInfoMain .numberCircle {
-  margin-top: -0.1em;
-  color: #0065ca;
-}
-#memuchoInfoMain .numberCircleText {
-  color: white;
-  margin-top: -0.2em;
-  font-size: 1.2em;
-}
-#memuchoInfoMain .memuchoInfoBenefit {
-  font-size: 26px;
-  margin-left: 8px;
-  font-weight: 600;
-  color: #0065ca;
-}
-@media (max-width: 479px) {
-  #memuchoInfoMain .memuchoInfoBenefit {
-    display: block;
-    margin-top: -5px;
-  }
-}
-#memuchoInfoMain .memuchoInfoBenefitSub {
-  font-size: 20px;
-  color: #999999;
-  padding-bottom: 13px;
-  margin-left: 10px;
-}
-@media (max-width: 767px) {
-  #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 60px;
-    margin-top: -10px;
-    display: block;
-  }
-}
-@media (max-width: 479px) {
-  #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 0;
-    margin-top: 0px;
-  }
-}
-#memuchoInfoFooter {
-  text-align: left;
-  padding-top: 10px;
-  background-color: white;
-  margin-bottom: 30px;
-}
-@media (max-width: 767px) {
-  #memuchoInfoFooter {
-    text-align: center;
-  }
-}
-#memuchoInfoFooter div a.btn {
-  margin-top: 10px;
-}
-#memuchoInfoFooter span .btn {
-  margin-top: 10px;
-  display: inline-block;
-}
-/* CATEGORY OF THE WEEK
-------------------------------------------------------*/
-.category-of-week-container {
-  margin-top: 144px;
-  margin-bottom: 40px;
-}
-.category-of-week-container .separator-category {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  border-top: 5px solid #45aece;
-}
-.category-of-week-container .category-of-week-container-inner {
-  max-width: 720px;
-  text-align: left;
-  margin: 0 auto;
-}
-.category-of-week-container .category-main-image {
-  display: inline-block;
-  float: left;
-  max-width: 200px;
-  margin-right: 30px;
-}
-.category-of-week-container .category-of-week-footer {
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  /*a.btn {
-            margin-top: 20px;
-        }*/
-}
-@media (min-width: 768px) {
-  .category-of-week-container .category-of-week-footer {
-    text-align: left;
-  }
-}
-.category-of-week-container .category-of-week-quiz {
-  margin-top: 50px;
-}
-.category-of-week-container .category-of-week-additional-recom {
-  margin-top: 40px;
-}
-.category-of-week-container .category-of-week-additional-recom h3 {
-  margin-bottom: 20px;
-}
-/* AWARDS & PARTNER
-------------------------------------------------------*/
-#awards,
-#partner {
-  margin-top: 144px;
-}
-#awards div.logo-box,
-#partner div.logo-box {
-  text-align: center;
-  padding-left: 30px;
-  padding-right: 30px;
-}
-#awards .img-logo,
-#partner .img-logo {
-  margin-top: 38px;
-}
-@media (min-width: 768px) {
-  #awards .img-logo,
-  #partner .img-logo {
-    min-height: 160px;
-  }
-}
-#awards .img-logo img,
-#partner .img-logo img {
-  margin: 10px;
-  margin-bottom: 10px;
-}
-#awards .logo-box-link,
-#partner .logo-box-link {
-  margin-top: 15px;
-  /*text-align: right;
-font-size: 14px;*/
 }
 /* Progress bar Next Level 
 ------------------------------------------------------*/
@@ -554,6 +384,79 @@ font-size: 14px;*/
 .ProgressBarLeft {
   background-color: #e1efb3;
 }
+/* WHAT IS MEMUCHO 
+------------------------------------------------------ */
+#memuchoInfo {
+  margin-top: 144px;
+}
+@media (max-width: 479px) {
+  #memuchoInfo {
+    text-align: center;
+  }
+}
+#memuchoInfoFooter {
+  text-align: left;
+  padding-top: 10px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #memuchoInfoFooter {
+    text-align: center;
+  }
+}
+#memuchoInfoFooter div a.btn {
+  margin-top: 10px;
+}
+#memuchoInfoFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
+}
+/* TOPIC OF THE WEEK
+------------------------------------------------------*/
+.topicOfWeekContainer {
+  margin-top: 144px;
+  margin-bottom: 40px;
+}
+.topicOfWeekContainer .separatorCategory {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 5px solid #45aece;
+}
+.topicOfWeekContainer .topicOfWeekContainerInner {
+  max-width: 720px;
+  text-align: left;
+  margin: 0 auto;
+}
+.topicOfWeekContainer .topicOfWeekMainImage {
+  display: inline-block;
+  float: left;
+  max-width: 200px;
+  margin-right: 30px;
+}
+.topicOfWeekContainer .topicOfWeekFooter {
+  text-align: center;
+  padding-top: 40px;
+  margin-bottom: 40px;
+  clear: both;
+  /*a.btn {
+            margin-top: 20px;
+        }*/
+}
+@media (min-width: 768px) {
+  .topicOfWeekContainer .topicOfWeekFooter {
+    text-align: left;
+  }
+}
+.topicOfWeekContainer .topicOfWeekQuiz {
+  margin-top: 50px;
+}
+.topicOfWeekContainer .topicOfWeekAdditionalRecom {
+  margin-top: 40px;
+}
+.topicOfWeekContainer .topicOfWeekAdditionalRecom h3 {
+  margin-bottom: 20px;
+}
 /* CONTENT PRESENTATION
 ------------------------------------------------------*/
 #ContentAvailable {
@@ -588,6 +491,37 @@ font-size: 14px;*/
   margin-top: 20px;
   color: #999999;
   font-weight: 500;
+}
+/* AWARDS & PARTNER
+------------------------------------------------------*/
+#awards,
+#partner {
+  margin-top: 144px;
+}
+#awards div.logo-box,
+#partner div.logo-box {
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#awards .img-logo,
+#partner .img-logo {
+  margin-top: 38px;
+}
+@media (min-width: 768px) {
+  #awards .img-logo,
+  #partner .img-logo {
+    min-height: 160px;
+  }
+}
+#awards .img-logo img,
+#partner .img-logo img {
+  margin: 10px;
+  margin-bottom: 10px;
+}
+#awards .logo-box-link,
+#partner .logo-box-link {
+  margin-top: 15px;
 }
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
@@ -661,4 +595,10 @@ font-size: 14px;*/
 }
 #team {
   margin-top: 144px;
+}
+#team .TeamPic {
+  margin-bottom: 0;
+}
+#team .infoCatchWord {
+  padding-bottom: 2px;
 }
