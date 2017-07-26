@@ -18,25 +18,32 @@
 }
 @media (min-width: 650px) {
 }
+.CardsMiniPortrait .CardMiniColumn {
+  display: flex;
+}
 .CardsMiniPortrait .CardMiniColumn h4 {
-  font-size: 18px;
-  font-weight: normal;
+  font-size: 14px;
+  font-weight: bold;
+}
+.CardsMiniPortrait .CardMiniColumn .Card {
+  width: 100%;
+}
+.CardsMiniPortrait .CardMiniColumn .Card.SingleItem .ImageContainer img {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+html.flexbox:not(.Explorer) .CardsMiniPortrait {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 .SingleItem .CardContent {
   height: auto;
 }
-.btn-primary {
-  background-color: #0065ca;
-  border-color: #004b97;
-}
-.btn-primary:hover,
-.btn-primary:active {
-  background-color: #0077ee;
-  border-color: #0065ca;
-}
-.btn-primary.btn-lg {
-  text-transform: uppercase;
-}
+/* GENERAL PAGE STYLING
+--------------------------------------------------------- */
 @media (min-width: 768px) {
   .float-right-sm-up {
     float: right;
@@ -47,26 +54,8 @@
   margin-bottom: 10px;
   border-top: 2px solid lightgrey;
 }
-#MasterMainContent {
-  padding-top: 0;
-}
-#MasterMainContent #MasterMainColumn {
-  width: 100%;
-}
-#welcomeContainer {
-  background-color: white;
-}
-@media (min-width: 992px) {
-  #welcomeContainer {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-@media (min-width: 1200px) {
-  #welcomeContainer {
-    padding-left: 50px;
-    padding-right: 50px;
-  }
+.btn-primary.btn-lg {
+  text-transform: uppercase;
 }
 h1,
 h2,
@@ -89,13 +78,38 @@ h3 {
 h4 {
   font-size: 22px;
 }
-body {
+#MasterSection {
+  padding-bottom: 0;
+}
+#MasterMainContent {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#MasterMainContent #MasterMainColumn {
+  width: 100%;
+}
+#welcomeContainer {
+  background-color: white;
+  padding-bottom: 100px;
   font-size: 18px;
 }
-p {
+@media (min-width: 992px) {
+  #welcomeContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  #welcomeContainer {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+#welcomeContainer p {
   max-width: 720px;
 }
-/* FIND YOUR CONTENT BUTTONS */
+/* FIND YOUR CONTENT BUTTONS 
+-------------------------------------------------------------- */
 #titleFindYourContent {
   font-size: 45px;
   text-align: center;
@@ -272,7 +286,8 @@ fieldset[disabled] .EduCategory.active {
   font-size: 16px;
   font-weight: bold;
 }
-/* DASHBOARD ELEMENTS*/
+/* DASHBOARD ELEMENTS
+----------------------------------------------- */
 #WelcomeDashboard {
   margin-top: 50px;
   margin-bottom: 50px;
@@ -309,175 +324,14 @@ fieldset[disabled] .EduCategory.active {
 #WelcomeDashboard #dashboardFooter {
   text-align: left;
   margin-top: 20px;
-  /*span {
-            display: inline-block;
-            margin-top: 12px;
-            margin-left: 20px;
-            font-size: 14px;
-
-            .media-sm-up ( {
-                float: right;
-            });
-        }*/
 }
 @media (max-width: 767px) {
   #WelcomeDashboard #dashboardFooter {
     text-align: center;
   }
 }
-/* WHAT IS MEMUCHO */
-#memuchoInfo {
-  margin-top: 144px;
-}
-@media (max-width: 479px) {
-  #memuchoInfo {
-    text-align: center;
-  }
-}
-#memuchoInfoHeader {
-  font-weight: bold;
-  color: #003264;
-}
-#memuchoInfoMain {
-  padding-top: 30px;
-  padding-bottom: 1px;
-  background-color: white;
-}
-#memuchoInfoMain .numberCircleWrapper {
-  font-size: 24px;
-}
-@media (min-width: 480px) and (max-width: 767px) {
-  #memuchoInfoMain .numberCircleWrapper {
-    padding-top: 7px;
-  }
-}
-#memuchoInfoMain .numberCircle {
-  margin-top: -0.1em;
-  color: #0065ca;
-}
-#memuchoInfoMain .numberCircleText {
-  color: white;
-  margin-top: -0.2em;
-  font-size: 1.2em;
-}
-#memuchoInfoMain .memuchoInfoBenefit {
-  font-size: 26px;
-  margin-left: 8px;
-  font-weight: 600;
-  color: #0065ca;
-}
-@media (max-width: 479px) {
-  #memuchoInfoMain .memuchoInfoBenefit {
-    display: block;
-    margin-top: -5px;
-  }
-}
-#memuchoInfoMain .memuchoInfoBenefitSub {
-  font-size: 20px;
-  color: #999999;
-  padding-bottom: 13px;
-  margin-left: 10px;
-}
-@media (max-width: 767px) {
-  #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 60px;
-    margin-top: -10px;
-    display: block;
-  }
-}
-@media (max-width: 479px) {
-  #memuchoInfoMain .memuchoInfoBenefitSub {
-    margin-left: 0;
-    margin-top: 0px;
-  }
-}
-#memuchoInfoFooter {
-  text-align: left;
-  padding-top: 20px;
-  background-color: white;
-  margin-bottom: 30px;
-}
-@media (max-width: 767px) {
-  #memuchoInfoFooter {
-    text-align: center;
-  }
-}
-/* CATEGORY OF THE WEEK
-------------------------------------------------------*/
-.category-of-week-container {
-  margin-top: 144px;
-  margin-bottom: 40px;
-}
-.category-of-week-container .separator-category {
+#WelcomeDashboard #dashboardFooter a.btn {
   margin-top: 10px;
-  margin-bottom: 10px;
-  border-top: 5px solid #45aece;
-}
-.category-of-week-container .category-of-week-container-inner {
-  max-width: 720px;
-  text-align: left;
-  margin: 0 auto;
-}
-.category-of-week-container .category-main-image {
-  display: inline-block;
-  float: left;
-  max-width: 200px;
-  margin-right: 30px;
-}
-.category-of-week-container .category-of-week-footer {
-  text-align: left;
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-.category-of-week-container .category-of-week-footer a.btn {
-  /*margin-left: 20px;
-            margin-right: 20px;*/
-}
-.category-of-week-container .category-of-week-quiz {
-  margin-top: 50px;
-}
-.category-of-week-container .category-of-week-additional-recom {
-  margin-top: 40px;
-}
-.category-of-week-container .category-of-week-additional-recom h3 {
-  margin-bottom: 20px;
-}
-/* AWARDS & PARTNER
-------------------------------------------------------*/
-#awards,
-#partner {
-  margin-top: 144px;
-}
-#awards h2,
-#partner h2 {
-  margin-bottom: 38px;
-}
-#awards div.logo-box,
-#partner div.logo-box {
-  text-align: center;
-  padding-left: 30px;
-  padding-right: 30px;
-}
-#awards .img-logo,
-#partner .img-logo {
-  margin-top: 38px;
-}
-@media (min-width: 768px) {
-  #awards .img-logo,
-  #partner .img-logo {
-    min-height: 160px;
-  }
-}
-#awards .img-logo img,
-#partner .img-logo img {
-  margin: 10px;
-  margin-bottom: 10px;
-}
-#awards .logo-box-link,
-#partner .logo-box-link {
-  margin-top: 15px;
-  /*text-align: right;
-        font-size: 14px;*/
 }
 /* Progress bar Next Level 
 ------------------------------------------------------*/
@@ -530,11 +384,93 @@ fieldset[disabled] .EduCategory.active {
 .ProgressBarLeft {
   background-color: #e1efb3;
 }
+/* WHAT IS MEMUCHO 
+------------------------------------------------------ */
+#memuchoInfo {
+  margin-top: 144px;
+}
+@media (max-width: 479px) {
+  #memuchoInfo {
+    text-align: center;
+  }
+}
+#memuchoInfoFooter {
+  text-align: left;
+  padding-top: 10px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #memuchoInfoFooter {
+    text-align: center;
+  }
+}
+#memuchoInfoFooter div a.btn {
+  margin-top: 10px;
+}
+#memuchoInfoFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
+}
+/* TOPIC OF THE WEEK
+------------------------------------------------------*/
+.topicOfWeekContainer {
+  margin-top: 144px;
+  margin-bottom: 40px;
+}
+.topicOfWeekContainer .separatorCategory {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 5px solid #45aece;
+}
+.topicOfWeekContainer .topicOfWeekContainerInner {
+  max-width: 720px;
+  text-align: left;
+  margin: 0 auto;
+}
+.topicOfWeekContainer .topicOfWeekMainImage {
+  display: inline-block;
+  float: left;
+  max-width: 200px;
+  margin-right: 30px;
+}
+.topicOfWeekContainer .topicOfWeekFooter {
+  text-align: center;
+  padding-top: 40px;
+  margin-bottom: 40px;
+  clear: both;
+  /*a.btn {
+            margin-top: 20px;
+        }*/
+}
+@media (min-width: 768px) {
+  .topicOfWeekContainer .topicOfWeekFooter {
+    text-align: left;
+  }
+}
+.topicOfWeekContainer .topicOfWeekQuiz {
+  margin-top: 50px;
+}
+.topicOfWeekContainer .topicOfWeekAdditionalRecom {
+  margin-top: 40px;
+}
+.topicOfWeekContainer .topicOfWeekAdditionalRecom h3 {
+  margin-bottom: 20px;
+}
 /* CONTENT PRESENTATION
-    ------------------------------------------------------*/
+------------------------------------------------------*/
 #ContentAvailable {
   margin-top: 144px;
   margin-bottom: 38px;
+}
+#ContentAvailable .row.CardsMiniPortrait {
+  margin-top: 40px;
+}
+#ContentAvailable .EduCategoryLinkCard .ContentContainer {
+  height: 100%;
+}
+#ContentAvailable .EduCategoryLinkCard .ContentContainer .CardContent {
+  height: 100%;
 }
 #ContentAvailable .EduCategoryLinkCard .CardContent {
   margin-left: 0;
@@ -545,6 +481,7 @@ fieldset[disabled] .EduCategory.active {
   border: none;
   border-color: #fff;
   margin-bottom: 0;
+  height: 100%;
 }
 #ContentAvailable .EduCategoryLinkCard .EduCategoryText {
   font-size: 18px;
@@ -555,170 +492,113 @@ fieldset[disabled] .EduCategory.active {
   color: #999999;
   font-weight: 500;
 }
+/* AWARDS & PARTNER
+------------------------------------------------------*/
+#awards,
+#partner {
+  margin-top: 144px;
+}
+#awards div.logo-box,
+#partner div.logo-box {
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#awards .img-logo,
+#partner .img-logo {
+  margin-top: 38px;
+}
+@media (min-width: 768px) {
+  #awards .img-logo,
+  #partner .img-logo {
+    min-height: 160px;
+  }
+}
+#awards .img-logo img,
+#partner .img-logo img {
+  margin: 10px;
+  margin-bottom: 10px;
+}
+#awards .logo-box-link,
+#partner .logo-box-link {
+  margin-top: 15px;
+}
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
+.infoItemRow .infoItemColumn {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+@media (max-width: 479px) {
+  .infoItemRow .infoItemColumn {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.infoItemRow .infoItemColumn .infoIcon {
+  font-size: 45px;
+  color: #003264;
+}
+.infoItemRow .infoItemColumn .infoCatchWord {
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 5px;
+}
+.infoItemRow .infoItemColumn .infoExplanationSnippet {
+  font-size: 18px;
+}
 #memuchoInfoExtended {
   margin-top: 144px;
 }
-#team,
+#memuchoInfoExtended #memuchoInfoExtendedFooter {
+  text-align: left;
+  padding-top: 10px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+@media (max-width: 767px) {
+  #memuchoInfoExtended #memuchoInfoExtendedFooter {
+    text-align: center;
+  }
+}
+#memuchoInfoExtended #memuchoInfoExtendedFooter div a.btn {
+  margin-top: 10px;
+}
+#memuchoInfoExtended #memuchoInfoExtendedFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
+}
 #principles {
   margin-top: 144px;
 }
-/* ------------------------------------------------------*/
-/*div.question-short-row {
-    background-color: white;
-    margin-left: 5px;
-    margin-right: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-bottom: 1px solid #A6BADE;
-   }
-
-div.question-short-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0px;
-    }
-
-div.question-short-row:first-child {
-    padding-top: 0px;
-    }
-
-a.question-short {
-    font-size: 15px;
+#principles #memuchoPrinciplesFooter {
+  text-align: left;
+  padding-top: 10px;
+  background-color: white;
+  margin-bottom: 30px;
 }
-
-.well {
-    background-color: @color-background-lightblue;
-    background-color: white;
-
-    > h1, > h2, > h3, > h4 {
-        &:first-child {margin-top: 0;}
-    }
-
-    img {
-        border-radius: 4px;
-    }
-
-    &.Team .ImageColumn {
-        .make-xs-column(4);
-        margin-bottom: 20px;
-                                   
-        img {
-            width: auto;
-            max-width: 100%;
-        }
-    }
-}*/
-/*.panel {
-    img {
-        border-radius: 4px;
-    }
-
-    .pull-left { 
-        .media-below-xs ({
-            width: 30%;
-        })
-    }
-}
-
-.panel-body {
-    padding: 10px;
-}*/
-.thumbnail {
-  width: 100%;
-  padding: 10px;
-}
-.thumbnail img {
-  border-radius: 4px;
-}
-.thumbnail .btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.thumbnail .caption {
-  padding: 0;
-}
-@media (max-width: 479px) {
-  .thumbnail {
-    padding: 10px;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail img {
-    float: left;
-    width: 30%;
-  }
-  .thumbnail .caption {
-    margin-left: 30%;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 0;
-    padding-left: 10px;
-  }
-  .thumbnail h4 {
-    margin-top: 0;
+@media (max-width: 767px) {
+  #principles #memuchoPrinciplesFooter {
+    text-align: center;
   }
 }
-@media (min-width: 768px) {
-  .CardsPortrait .CardColumn .Card {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem {
-    max-width: 300px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer {
-    float: none;
-    border-bottom-width: 5px;
-    border-bottom-style: solid;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    position: absolute;
-    padding-left: 5px;
-    padding-right: 5px;
-    /*line-height: 18px;*/
-    left: 0;
-    bottom: 0;
-    color: white;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.35);
-    border-bottom-left-radius: 5px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    line-height: 18px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
-    content: "Bild- & Lizenzinfos";
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    border-bottom-left-radius: 0;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer img {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
-    height: 180px;
-  }
+#principles #memuchoPrinciplesFooter div a.btn {
+  margin-top: 10px;
 }
-#nominationInnopreis img {
-  border-radius: 0;
+#principles #memuchoPrinciplesFooter span .btn {
+  margin-top: 10px;
+  display: inline-block;
+}
+#team {
+  margin-top: 144px;
+}
+#team .TeamPic {
+  margin-bottom: 0;
+}
+#team .infoCatchWord {
+  padding-bottom: 2px;
 }
