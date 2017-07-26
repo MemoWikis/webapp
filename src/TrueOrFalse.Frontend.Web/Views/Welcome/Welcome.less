@@ -45,10 +45,34 @@ html.flexbox:not(.Explorer) {
 --------------------------------------------------------- */
 
 .float-right-sm-up {
-    .media-sm-up({
+    .media-sm-up( {
         float: right;
-    });
+    }
+
+    );
 }
+.float-right-lg-up {
+    .media-lg( {
+        float: right;
+    }
+
+    );
+}
+.align-left-md-up {
+    .media-md-up( {
+        text-align: left;
+    }
+
+    )
+}
+.align-right-md-up {
+    .media-md-up( {
+        text-align: right;
+    }
+
+    )
+}
+
 
 .separator {
     margin-top: 10px;
@@ -57,7 +81,7 @@ html.flexbox:not(.Explorer) {
 }
 
 .btn-primary.btn-lg {
-    text-transform: uppercase;
+    //text-transform: uppercase;
 }
 
 h1, h2, h3, h4 {
@@ -483,7 +507,7 @@ h4 {
     margin-top: 144px;
 
     #memuchoInfoExtendedFooter {
-        #memuchoInfoFooter;
+        text-align: right;
     }
 }
 
@@ -492,6 +516,7 @@ h4 {
 
     #memuchoPrinciplesFooter {
         #memuchoInfoFooter;
+        padding-top: 0;
     }
 }
 

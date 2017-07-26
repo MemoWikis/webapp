@@ -211,12 +211,29 @@
             </div>
 
             <div id="dashboardFooter">
-                <% if(Model.KnowledgeSummary.Total > 0) { %>
-                    <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
-                    </a>
+                <% if(Model.IsLoggedIn) {
+                        if (Model.KnowledgeSummary.Total > 0) { %>
+                            <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
+                            </a>
+                        <% } %>
+                    <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
+                <% } else { %>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-sm-12 col-md-7 align-left-md-up">
+                            <p>
+                                <b>Registriere dich jetzt</b>, um personalisiert und interaktiv zu lernen. <br />
+                                Deinen Wissensstand hast du immer im Blick und mit deinen Lernpunkten erreichst du immer neue Level.
+                            </p>
+                        </div>
+                        <div class="col-sm-12 col-md-5 align-right-md-up">
+                            <div class="" style="text-align: center; display: inline-block;">
+                                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                            </div>
+
+                        </div>
+                    </div>
                 <% } %>
-                <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
             </div>
         </div>
 
@@ -263,18 +280,20 @@
                 </div>
             </div>
 
-            <div class="separator"></div>
+<%--            <div class="separator"></div>
             <div id="memuchoInfoFooter">
                 <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a> <br/>
                     </div>
                 <% } %>
                 <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
-            </div>
+            </div>--%>
         </div>
 
-        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>
+
+<%--        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
+
 
         <div id="ContentAvailable">
             <h1>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h1>
@@ -613,12 +632,12 @@
             </div>
             <div class="separator"></div>
             <div id="memuchoInfoExtendedFooter">
-                <% if (!Model.IsLoggedIn) { %>
+<%--                <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a> <br/>
                     </div>
-                <% } %>
-                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
+                <% } %>--%>
+                <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
             </div>
         </div>
 

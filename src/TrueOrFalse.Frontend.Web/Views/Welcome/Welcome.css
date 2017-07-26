@@ -49,13 +49,25 @@ html.flexbox:not(.Explorer) .CardsMiniPortrait {
     float: right;
   }
 }
+@media (min-width: 1200px) {
+  .float-right-lg-up {
+    float: right;
+  }
+}
+@media (min-width: 992px) {
+  .align-left-md-up {
+    text-align: left;
+  }
+}
+@media (min-width: 992px) {
+  .align-right-md-up {
+    text-align: right;
+  }
+}
 .separator {
   margin-top: 10px;
   margin-bottom: 10px;
   border-top: 2px solid lightgrey;
-}
-.btn-primary.btn-lg {
-  text-transform: uppercase;
 }
 h1,
 h2,
@@ -555,22 +567,7 @@ fieldset[disabled] .EduCategory.active {
   margin-top: 144px;
 }
 #memuchoInfoExtended #memuchoInfoExtendedFooter {
-  text-align: left;
-  padding-top: 10px;
-  background-color: white;
-  margin-bottom: 30px;
-}
-@media (max-width: 767px) {
-  #memuchoInfoExtended #memuchoInfoExtendedFooter {
-    text-align: center;
-  }
-}
-#memuchoInfoExtended #memuchoInfoExtendedFooter div a.btn {
-  margin-top: 10px;
-}
-#memuchoInfoExtended #memuchoInfoExtendedFooter span .btn {
-  margin-top: 10px;
-  display: inline-block;
+  text-align: right;
 }
 #principles {
   margin-top: 144px;
@@ -580,6 +577,7 @@ fieldset[disabled] .EduCategory.active {
   padding-top: 10px;
   background-color: white;
   margin-bottom: 30px;
+  padding-top: 0;
 }
 @media (max-width: 767px) {
   #principles #memuchoPrinciplesFooter {
