@@ -27,6 +27,7 @@
     InitModal() {
         this.InitSettings();
         this.SetEmbedCode();
+        $('.show-tooltip').tooltip();
     }
 
     InitSettings() {
