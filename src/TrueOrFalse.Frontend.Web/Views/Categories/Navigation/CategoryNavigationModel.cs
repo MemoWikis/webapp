@@ -14,6 +14,7 @@ public class CategoryNavigationModel : BaseModel
     public CategoryNavigationModel()
     {
         ActiveCategory = TopicMenu.ActiveCategory;
+
         if (ActiveCategory != null)
         {
             CategoryTrail = GetBreadCrumb.For(ActiveCategory).ToList();
