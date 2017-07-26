@@ -72,10 +72,6 @@ public class ModifyRelationsForCategory
 
         catRepo.Update(category);
 
-        category.UpdateAggregatedContentJson();
-
-        catRepo.Update(category);
-
         KnowledgeSummaryUpdate.RunForCategory(category.Id);
     }
 }

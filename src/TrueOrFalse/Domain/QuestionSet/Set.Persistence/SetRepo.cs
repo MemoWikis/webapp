@@ -39,12 +39,12 @@ public class SetRepo : RepositoryDbBase<Set>
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
+        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
+
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedSetsJson();
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
-
-        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
     }
 
     public override void Create(Set set)
