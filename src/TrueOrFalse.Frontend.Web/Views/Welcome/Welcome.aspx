@@ -228,7 +228,7 @@
                         </div>
                         <div class="col-sm-12 col-md-5 align-right-md-up">
                             <div class="" style="text-align: center; display: inline-block;">
-                                <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                                <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                             </div>
 
                         </div>
@@ -284,7 +284,7 @@
             <div id="memuchoInfoFooter">
                 <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a> <br/>
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
                 <% } %>
                 <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
@@ -634,7 +634,7 @@
             <div id="memuchoInfoExtendedFooter">
 <%--                <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt registrieren</a> <br/>
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
                 <% } %>--%>
                 <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
@@ -707,7 +707,7 @@
             <div id="memuchoPrinciplesFooter">
                 <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
                 <% } %>
                 <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
