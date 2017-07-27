@@ -15,7 +15,7 @@ class ShareSet extends ShareDialog {
         $("[data-action=embed-set]").click((e) => {
             e.preventDefault();
             this.ShowModal();
-        });     
+        });
     }
 
     ShowModal() {

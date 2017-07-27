@@ -41,7 +41,7 @@ public class WidgetController : BaseController
             new WidgetQuestionModel(answerQuestionModel, host));
     }
 
-    public ActionResult Set(int setId, bool? hideAddToKnowledge, string host, string widgetKey)
+    public ActionResult Set(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1)
     {
         SaveWidgetView.Run(
             host, 
@@ -52,13 +52,14 @@ public class WidgetController : BaseController
 
         return View(
             "~/Views/Widgets/WidgetSetStart.aspx",
-            new WidgetSetStartModel(setId, Convert.ToBoolean(hideAddToKnowledge), host));
+            new WidgetSetStartModel(setId, Convert.ToBoolean(hideAddToKnowledge), host, questionCount));
     }
 
-    public ActionResult SetStart(int setId, bool? hideAddToKnowledge, string host, string widgetKey)
+    public ActionResult SetStart(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1)
     {
         var set = Sl.SetRepo.GetById(setId);
-        var testSession = new TestSession(set);
+
+        var testSession = new TestSession(set, questionCount);
 
         if(hideAddToKnowledge.HasValue)
             testSession.HideAddKnowledge = hideAddToKnowledge.Value;
@@ -93,11 +94,11 @@ public class WidgetController : BaseController
         );
     }
 
-    public ActionResult SetTestResult(int testSessionId, string host, string widgetKey)
+    public ActionResult SetTestResult(int testSessionId, string host, string widgetKey, int questionCount)
     {
         var testSession = TestSessionResultController.GetTestSession(testSessionId);
         var testSessionResultModel = new TestSessionResultModel(testSession);
-        var setModel = new WidgetSetResultModel(testSessionResultModel, host);
+        var setModel = new WidgetSetResultModel(testSessionResultModel, host, questionCount);
 
         SaveWidgetView.Run(
             host, 
