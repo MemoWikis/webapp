@@ -35,23 +35,23 @@ namespace System.Web.Mvc
 
                 if (_isQuestionSetPage)
                 {
-                    currentCategory = GetQuestionSetCategory(Convert.ToInt32(httpContextData["id"]));
+                    currentCategory = ThemeMenuHistoryOps.GetQuestionSetCategory(Convert.ToInt32(httpContextData["id"]));
                 }
 
                 if (_isQuestionPage)
                 {
                     currentCategory = httpContextData["setId"] != null 
-                        ? GetQuestionSetCategory(Convert.ToInt32(httpContextData["setId"])) 
-                        : GetQuestionCategory(Convert.ToInt32(httpContextData["id"]));
+                        ? ThemeMenuHistoryOps.GetQuestionSetCategory(Convert.ToInt32(httpContextData["setId"])) 
+                        : ThemeMenuHistoryOps.GetQuestionCategory(Convert.ToInt32(httpContextData["id"]));
                 }
 
                 if (_isTestSessionPage)
                 {
-                    currentCategory = GetTestSessionCategory(Convert.ToInt32(httpContextData["testSessionId"]));
+                    currentCategory = ThemeMenuHistoryOps.GetTestSessionCategory(Convert.ToInt32(httpContextData["testSessionId"]));
                 }
                 if (_isLearningSessionPage)
                 {
-                    currentCategory = GetLearningSessionCategory(Convert.ToInt32(httpContextData["learningSessionId"]));
+                    currentCategory = ThemeMenuHistoryOps.GetLearningSessionCategory(Convert.ToInt32(httpContextData["learningSessionId"]));
                 }
                 userSession.TopicMenu.ActiveCategory = currentCategory;
             }
@@ -65,66 +65,6 @@ namespace System.Web.Mvc
             userSession.TopicMenu.ActiveCategory = null;
 
             base.OnResultExecuted(filterContext);
-        }
-
-        private Category GetQuestionSetCategory(int setId)
-        {
-            var currentSet = Sl.SetRepo.GetById(setId);
-            var currentSetCategories = currentSet.Categories;
-
-            var visitedCategories = Sl.SessionUiData.VisitedCategories;
-
-            Category currentCategory;
-            if (visitedCategories.Any())
-            {
-                currentCategory = currentSetCategories.All(c => c.Id == visitedCategories.First().Id) 
-                    ? Sl.CategoryRepo.GetById(visitedCategories.First().Id) 
-                    : currentSetCategories.First();
-            }
-            else
-            {
-                currentCategory = currentSetCategories.First();
-            }
-
-            return currentCategory;
-        }
-
-        private Category GetQuestionCategory(int questionId)
-        {
-            var currentQuestion = Sl.QuestionRepo.GetById(questionId);
-            var currentQuestionCategories = currentQuestion.Categories;
-
-            var visitedCategories = Sl.SessionUiData.VisitedCategories;
-
-            Category currentCategory;
-            if (visitedCategories.Any())
-            {
-                currentCategory = currentQuestionCategories.All(c => c.Id == visitedCategories.First().Id) 
-                    ? Sl.CategoryRepo.GetById(visitedCategories.First().Id) 
-                    : currentQuestionCategories.First();
-            }
-            else
-            {
-                currentCategory = currentQuestionCategories.First();
-            }
-
-            return currentCategory;
-        }
-
-        private Category GetTestSessionCategory(int testSessionId)
-        {
-            var testSession = GetTestSession.Get(testSessionId);
-            return testSession.CategoryToTest != null 
-                ? testSession.CategoryToTest
-                : GetQuestionSetCategory(testSession.SetToTest.Id);
-        }
-
-        private Category GetLearningSessionCategory(int learningSessionId)
-        {
-            var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
-            return learningSession.CategoryToLearn != null 
-                ? learningSession.CategoryToLearn
-                : GetQuestionSetCategory(learningSession.SetToLearn.Id);
         }
     }
 }
