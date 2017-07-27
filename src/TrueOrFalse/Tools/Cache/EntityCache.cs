@@ -53,7 +53,7 @@ public class EntityCache
 
         foreach (var questionId in questionSetIdLists.Keys)
         {
-            if (questionSetIdLists.TryGetValue(questionId, out var setIdList) 
+            if (questionSetIdLists.TryGetValue(questionId, out var setIdList)
                 && !setIdList.IsEmpty)
             {
                 questionIds.Add(questionId);
@@ -229,6 +229,31 @@ public class EntityCache
         }
     }
 
+    private static void UpdateCategoryQuestionInSetList(
+        ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionsInSetList,
+        Set set,
+        List<int> affectedCategoryIds = null)
+    {
+        foreach (var questionInSet in set.QuestionsInSet)
+        {
+            DeleteQuestionInSetFromRemovedCategories(questionInSet, categoryQuestionsInSetList, affectedCategoryIds);
+
+            AddQuestionInSetTo(categoryQuestionsInSetList, questionInSet);
+        }
+    }
+
+    private static void DeleteQuestionInSetFromRemovedCategories(QuestionInSet questionInSet, ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionsInSetList, List<int> affectedCategoryIds)
+    {
+        if (affectedCategoryIds != null)
+        {
+            foreach (var categoryId in affectedCategoryIds.Except(questionInSet.Set.Categories.GetIds()))
+            {
+                if (categoryQuestionsInSetList.ContainsKey(categoryId))
+                    categoryQuestionsInSetList[categoryId]?[questionInSet.Question.Id]?.TryRemove(questionInSet.Set.Id, out var outValue);
+            }
+        }
+    }
+
     private static void AddQuestionToCategories(
         Question question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> categoryQuestionsList,
@@ -315,6 +340,7 @@ public class EntityCache
         {
             AddOrUpdate(Sets, set);
             UpdateCategorySetList(CategorySetsList, set, affectedCategoriesIds);
+            UpdateCategoryQuestionInSetList(CategoryQuestionInSetList, set, affectedCategoriesIds);
         }
     }
 
