@@ -72,6 +72,10 @@ public class ModifyRelationsForCategory
 
         catRepo.Update(category);
 
+        category.UpdateCountQuestionsAggregated();
+
+        catRepo.Update(category);
+
         KnowledgeSummaryUpdate.RunForCategory(category.Id);
     }
 }

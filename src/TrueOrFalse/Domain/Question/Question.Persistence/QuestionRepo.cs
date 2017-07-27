@@ -47,6 +47,8 @@ public class QuestionRepo : RepositoryDbBase<Question>
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
     }
@@ -61,6 +63,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
         foreach (var category in question.Categories)
         {
+            category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }

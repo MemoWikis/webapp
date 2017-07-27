@@ -100,7 +100,7 @@ public class CategoryModel : BaseModel
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.GetCountQuestions() +
+        CountQuestions = category.CountQuestions +
             R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
 
         CountReferences = ReferenceCount.Get(category.Id);
@@ -125,7 +125,7 @@ public class CategoryModel : BaseModel
         AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
         AggregatedSetCount = AggregatedSets.Count;
 
-        AggregatedQuestionCount = Category.GetAggregatedQuestionIdsFromMemoryCache().Count;
+        AggregatedQuestionCount = Category.CountQuestionsAggregated;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

@@ -26,7 +26,7 @@
             if (contextCategory != null)
             {
                 ContextCategoryName = contextCategory.Name;
-                QuestionCount = contextCategory.GetCountQuestions();
+                QuestionCount = contextCategory.CountQuestionsAggregated;
             } 
         }
 

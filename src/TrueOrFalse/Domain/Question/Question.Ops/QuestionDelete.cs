@@ -43,6 +43,7 @@ public class QuestionDelete
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
+            category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }

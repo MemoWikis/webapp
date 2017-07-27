@@ -9,8 +9,6 @@ public class WelcomeController : BaseController
     [SetMenu(MenuEntry.None)]
     [SetThemeMenu]
     public ActionResult Welcome(){
-        var y = EntityCache.CategoryQuestionInSetList;
-
         return View(new WelcomeModel());
     }
     public ActionResult Directions()

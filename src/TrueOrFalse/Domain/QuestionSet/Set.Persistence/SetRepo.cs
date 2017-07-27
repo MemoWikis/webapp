@@ -40,16 +40,11 @@ public class SetRepo : RepositoryDbBase<Set>
             CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
         EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
-        //foreach (var categoryId in categoriesToUpdateIds)
-        //{
-        //    foreach (var questionInSet in set.QuestionsInSet)
-        //    {
-        //        EntityCache.Remove();
-        //    }
-        //}
-
+       
         foreach (var category in aggregatedCategoriesToUpdate)
         {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
     }
@@ -63,7 +58,6 @@ public class SetRepo : RepositoryDbBase<Set>
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
         EntityCache.AddOrUpdate(set);
-        //
     }
 
     public IList<Set> GetByIds(List<int> setIds)

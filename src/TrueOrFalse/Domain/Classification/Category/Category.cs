@@ -71,77 +71,21 @@ public class Category : DomainEntity, ICreator
             .ToList();
     }
 
-    public virtual string AggregatedContentJson { get; set; }
-
-    public virtual AggregatedContentFromJson GetAggregatedContentFromJson()
-    {
-        if (AggregatedContentJson == null)
-        {
-            UpdateAggregatedContentJson();
-            Sl.CategoryRepo.Update(this);
-        }
-
-        return AggregatedContentFromJson.FromJson(AggregatedContentJson);
-    }
-
     public virtual int CountQuestionsAggregated { get; set; }
 
-    public virtual int GetCountQuestions()
+    public virtual void UpdateCountQuestionsAggregated()
     {
-        return GetAggregatedQuestionsFromMemoryCache().Count;
+        CountQuestionsAggregated = GetCountQuestionsAggregated();
     }
 
-    public virtual int CountSetsAggregated { get; set; }
-
-    public virtual void UpdateAggregatedContentJson()
+    public virtual int GetCountQuestionsAggregated()
     {
-        if(AggregatedContentJson == null)
-            AggregatedContentJson = new AggregatedContentFromJson().ToJson();
-
-        UpdateAggregatedSetsJson();
-        UpdateAggregatedQuestionsJson();
+        return GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
     public virtual int GetCountSets()
     {
         return GetAggregatedSetsFromMemoryCache().Count;
-    }
-
-    public virtual void UpdateAggregatedSetsJson()
-    {
-        var aggregatedSets = new List<Set>();
-
-        foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
-        {
-            aggregatedSets.AddRange(aggregatedCategory.GetSetsNonAggregated());
-        }
-
-        var aggregatedContent = GetAggregatedContentFromJson();
-
-        aggregatedContent.AggregatedSets = aggregatedSets.Distinct().ToList();
-        CountSetsAggregated = aggregatedContent.AggregatedSets.Count;
-
-        AggregatedContentJson = aggregatedContent.ToJson();
-    }
-
-    public virtual void UpdateAggregatedQuestionsJson()
-    {
-        var aggregatedQuestions = new List<Question>();
-
-        var questionRepo = Sl.R<QuestionRepo>();
-
-        foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
-        {
-            aggregatedQuestions.AddRange(questionRepo.GetForCategory(aggregatedCategory.Id));
-            aggregatedQuestions.AddRange(Sl.SetRepo.GetForCategory(aggregatedCategory.Id).SelectMany(s => s.Questions()));
-        }
-
-        var aggregatedContent = GetAggregatedContentFromJson();
-
-        aggregatedContent.AggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        CountQuestionsAggregated = aggregatedContent.AggregatedQuestions.Count;
-
-        AggregatedContentJson = aggregatedContent.ToJson();
     }
 
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache()
