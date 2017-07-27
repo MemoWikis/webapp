@@ -113,9 +113,9 @@ select.form-control {
 }
 #ulQuestions {
   list-style-type: none;
-  margin: 0;
+  margin-left: -5px;
   padding: 0;
-  width: 100%;
+  width: 101.5%;
 }
 #ulQuestions li {
   margin: 0 5px 5px 5px;
@@ -195,6 +195,15 @@ textarea.form-control {
   box-shadow: none;
   margin-right: 13px;
 }
+.form-horizontal .FormSection #safeQuestions {
+  margin-left: 10px;
+}
+.form-horizontal .FormSection .nolabel {
+  background-color: blue;
+}
+.form-horizontal .FormSection .nolabel .btn {
+  margin-left: -220px;
+}
 .form-horizontal .FormSection #resultHeading {
   padding-top: 15px;
   font-size: 2em;
@@ -211,19 +220,38 @@ textarea.form-control {
   /*max-width: 650px;*/
 }
 .form-horizontal .FormSection .questionRows .previewImage {
-  height: 50px;
-  width: 50px;
+  height: 75px;
+  width: 75px;
+}
+.form-horizontal .FormSection .questionRows .col-xs-1 {
+  width: 8.33%;
 }
 .form-horizontal .FormSection .questionRows .col-xs-2 {
+  width: 16.66%;
   padding-top: 5px;
   padding-bottom: 5px;
   align-items: center;
 }
 .form-horizontal .FormSection .questionRows .col-xs-9 .linkQuestion {
+  width: 74.97%;
   line-height: 0.5em;
   padding-top: 5px;
   padding-bottom: 7px;
   margin: auto;
+}
+.form-horizontal .FormSection .questionRows .col-xs-9 .linkQuestion a {
+  font-size: 12px;
+  text-align: right;
+  margin-right: -48px;
+  float: right;
+}
+@media only screen and (max-width: 768px) {
+  .form-horizontal .FormSection .questionRows {
+    /* For mobile phones: */
+  }
+  .form-horizontal .FormSection .questionRows [class*="col-"] {
+    width: 100%;
+  }
 }
 .form-horizontal .FormSection #learnSetSave {
   margin: 20px 0px 0px 4px;
@@ -256,4 +284,7 @@ textarea.form-control {
 #responseForm #response {
   line-height: 1,2em;
   padding-top: 7px;
+}
+#btn-save {
+  margin-left: -21px;
 }
