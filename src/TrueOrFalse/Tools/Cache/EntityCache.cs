@@ -159,11 +159,9 @@ public class EntityCache
             var set = questionInSet.Set;
             var question = questionInSet.Question;
 
-            if (!categoryQuestionInSetList.ContainsKey(category.Id))
-                categoryQuestionInSetList.TryAdd(category.Id, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
+            categoryQuestionInSetList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>(), (k, existingList) => existingList);
 
-            if(!categoryQuestionInSetList[category.Id].ContainsKey(question.Id))
-                categoryQuestionInSetList[category.Id].TryAdd(question.Id, new ConcurrentDictionary<int, int>());
+            categoryQuestionInSetList[category.Id]?.AddOrUpdate(question.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
 
             categoryQuestionInSetList[category.Id]?[question.Id]?.AddOrUpdate(set.Id, 0, (k, v) => 0);
         }
@@ -266,8 +264,7 @@ public class EntityCache
 
         foreach (var category in categories)
         {
-            if (!categoryQuestionsList.ContainsKey(category.Id))
-                categoryQuestionsList.TryAdd(category.Id, new ConcurrentDictionary<int, Question>());
+            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, Question>(), (k, existingList) => existingList);
 
             categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, question, (k, v) => question);
         }
@@ -288,8 +285,7 @@ public class EntityCache
     {
         foreach (var category in set.Categories)
         {
-            if (!categorySetsList.ContainsKey(category.Id))
-                categorySetsList.TryAdd(category.Id, new ConcurrentDictionary<int, Set>());
+            categorySetsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, Set>(), (k, existingList) => existingList);
 
             categorySetsList[category.Id]?.AddOrUpdate(set.Id, set, (k, v) => set);
         }
@@ -306,11 +302,8 @@ public class EntityCache
 
     public static void AddOrUpdate(Question question, List<int> affectedCategoriesIds = null)
     {
-        lock ("ebbe6d4a-70f0-46f8-9aaf-60b1a8ebb1bf")
-        {
-            AddOrUpdate(Questions, question);
-            UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoriesIds);
-        }
+        AddOrUpdate(Questions, question);
+        UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoriesIds);
     }
 
     public static void Remove(Question question)
@@ -321,10 +314,7 @@ public class EntityCache
 
     public static void AddOrUpdate(Category category)
     {
-        lock ("5345455b-ab89-4ba2-87ad-a34ae43cdd06")
-        {
-            AddOrUpdate(Categories, category);
-        }
+        AddOrUpdate(Categories, category);
     }
 
     public static void Remove(Category category)
@@ -332,33 +322,14 @@ public class EntityCache
         Remove(Categories, category);
         CategoryQuestionsList.TryRemove(category.Id, out var catOut);
         CategorySetsList.TryRemove(category.Id, out var catOut2);
-     }
+        CategoryQuestionInSetList.TryRemove(category.Id, out var listOut);
+    }
 
     public static void AddOrUpdate(Set set, List<int> affectedCategoriesIds = null)
     {
-        lock ("deb61dfa-9279-41d5-98d0-e8b9b221a685")
-        {
-            AddOrUpdate(Sets, set);
-            UpdateCategorySetList(CategorySetsList, set, affectedCategoriesIds);
-            UpdateCategoryQuestionInSetList(CategoryQuestionInSetList, set, affectedCategoriesIds);
-        }
-    }
-
-
-    public static void AddOrUpdate(QuestionInSet questionInSet)
-    {
-        lock ("b568f027-d8ad-4e3c-b6ea-32679301f7f6")
-        {
-            AddQuestionInSetTo(CategoryQuestionInSetList, questionInSet);
-        }
-    }
-
-    public static void Remove(QuestionInSet questionInSet)
-    {
-        lock ("d0c11f71-5aab-4186-9016-46f8ffa45efc")
-        {
-            RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
-        }
+        AddOrUpdate(Sets, set);
+        UpdateCategorySetList(CategorySetsList, set, affectedCategoriesIds);
+        UpdateCategoryQuestionInSetList(CategoryQuestionInSetList, set, affectedCategoriesIds);
     }
 
     public static void Remove(Set set)
@@ -367,8 +338,20 @@ public class EntityCache
         RemoveSetFrom(CategorySetsList, set);
     }
 
+    public static void AddOrUpdate(QuestionInSet questionInSet)
+    {
+        AddQuestionInSetTo(CategoryQuestionInSetList, questionInSet);
+    }
+
+    public static void Remove(QuestionInSet questionInSet)
+    {
+        RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
+    }
+
+    
+
     /// <summary>
-    /// Not ThreadSafe!
+    /// Not ThreadSafe! 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="objectToCache"></param>
