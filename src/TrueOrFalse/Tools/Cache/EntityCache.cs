@@ -33,6 +33,42 @@ public class EntityCache
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> CategoryQuestionInSetList =>
         (ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionInSetList];
 
+    public static void Init()
+    {
+        var stopWatch = Stopwatch.StartNew();
+
+        Logg.r().Information("EntityCache Start {Elapsed}", stopWatch.Elapsed);
+
+        var questions = Sl.QuestionRepo.GetAll();
+        var categories = Sl.CategoryRepo.GetAll().ToConcurrentDictionary();
+        var sets = Sl.SetRepo.GetAllEager();
+        var questionInSets = Sl.QuestionInSetRepo.GetAll();
+
+        Logg.r().Information("EntityCache LoadAllEntities {Elapsed}", stopWatch.Elapsed);
+
+        IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
+        IntoForeverCache(_cacheKeyCategories, categories);
+        IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
+        IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets.ToConcurrentDictionary()));
+        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets.ToConcurrentDictionary()));
+
+
+        Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
+    }
+
+    private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
+    {
+        HttpRuntime.Cache.Insert(
+            key,
+            objectToCache,
+            null,
+            Cache.NoAbsoluteExpiration,
+            Cache.NoSlidingExpiration,
+            CacheItemPriority.NotRemovable,
+            null);
+    }
+
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
     {
         return EntityCache.CategoryQuestionsList.ContainsKey(categoryId) 
@@ -78,41 +114,7 @@ public class EntityCache
         return questions;
     }
 
-    public static void Init()
-    {
-        var stopWatch = Stopwatch.StartNew();
-
-        Logg.r().Information("EntityCache Start {Elapsed}", stopWatch.Elapsed);
-        
-        var questions = Sl.QuestionRepo.GetAll();
-        var categories = Sl.CategoryRepo.GetAll().ToConcurrentDictionary();
-        var sets = Sl.SetRepo.GetAllEager();
-        var questionInSets = Sl.QuestionInSetRepo.GetAll();
-
-        Logg.r().Information("EntityCache LoadAllEntities {Elapsed}", stopWatch.Elapsed);
-
-        IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategories, categories);
-        IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions.ToConcurrentDictionary()));
-        IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets.ToConcurrentDictionary()));
-        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets.ToConcurrentDictionary()));
-        
-
-        Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
-    }
-
-    private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
-    {
-        HttpRuntime.Cache.Insert(
-            key,
-            objectToCache,
-            null,
-            Cache.NoAbsoluteExpiration,
-            Cache.NoSlidingExpiration,
-            CacheItemPriority.NotRemovable,
-            null);
-    }
+    
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> GetCategoryQuestionsList(ConcurrentDictionary<int, Question> questions)
     {
