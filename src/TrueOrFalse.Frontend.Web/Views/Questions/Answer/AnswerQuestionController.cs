@@ -579,7 +579,7 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), isSession: true);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -600,7 +600,7 @@ public class AnswerQuestionController : BaseController
         int currentStepIdx = model.TestSessionCurrentStep;
         bool isLastStep = model.TestSessionIsLastStep;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), isSession: true);
     }
 
     private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, SessionData sessionData, bool isSession = false)
@@ -610,6 +610,13 @@ public class AnswerQuestionController : BaseController
             nextPageLink = model.NextUrl(Url);
         if (model.HasPreviousPage)
             previousPageLink = model.PreviousUrl(Url);
+
+        var menuHtml = Empty;
+        if (model.Set == null && !isSession)
+        {
+            Sl.SessionUiData.TopicMenu.ActiveCategory = ThemeMenuHistoryOps.GetQuestionCategory(model.Question.Id);
+            menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
+        }
 
         var serializer = new JavaScriptSerializer();
         return serializer.Serialize(new
@@ -640,7 +647,8 @@ public class AnswerQuestionController : BaseController
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
-            offlineDevelopment = Settings.DevelopOffline()
+            offlineDevelopment = Settings.DevelopOffline(),
+            menuHtml
         });
     }
 
