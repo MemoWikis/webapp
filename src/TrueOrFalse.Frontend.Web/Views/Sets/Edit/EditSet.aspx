@@ -159,7 +159,7 @@
                                     <% if (Model.IsEditing) { %>
                                         <input type="submit"  value="Speichern" class="btn btn-primary" name="btnSave" id="btnSave"  />
                                     <% } else { %>
-                                        <input type="submit" value="Lernset erstellen" class="btn btn-primary" 
+                                        <input type="submit" value="Lernset erstellen"  class="btn btn-primary" id="btn-save" 
                                                name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
                                     <% } %>
                                 </div>
@@ -198,7 +198,7 @@
 
                                 </div>
                             </div>
-                        <% } %>
+                      
                         
                         <div class="row">
                             <div class="col-md-12">
@@ -224,12 +224,13 @@
                             <div class="col-md-12">
                                 <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> zum Lernset hnzufügen</button>
                             </div>
-                            <div class="alert alert-success" role="alert" id="safeQuestions">
+                      
+                            <div class="alert col-md-12 alert-success" role="alert" id="safeQuestions">
                                 <p id="alertOutput"></p>
                               
                             </div>
                         </div>
-                        
+                        <% } %> 
 
                         <% if (Model.IsEditing){ %>
                             <div class="row" style="margin-top: 60px">

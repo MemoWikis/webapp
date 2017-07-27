@@ -38,7 +38,7 @@ $(function() {
                             function (data) {
                                 for (var i= 0; i<data.length;i++) {
                                     console.log(data[i]);
-                                    $("#ulQuestions").append($(data[i])).fadeIn();
+                                    $("#ulQuestions").append($(data[i])).fadeIn(400);
                                 }
                                 console.log(data);
                             });
@@ -55,14 +55,14 @@ $(function() {
             $('#learnSetSave').hide();
             $("#questionId").val("");
             $("#resultHeading").hide();
-            $("#emptyLearnSet").hide();
+            $(".alert-info").hide();
         });
 });
 
 var options = {
     callback: function () {
         $("#questions").empty();
-        $("#safeQuestions").hide();     
+        $("#safeQuestions").hide(); 
         $.post("/EditSet/Search",
             { setId: EditSet.GetSetId(), term: $("#questionId").val() },
             function(data) {
@@ -84,7 +84,7 @@ var options = {
                                     .append($("<p class='linkQuestion'>")
                                         .append($("<a href=" +
                                             data.Questions[i].QuestionUrl +
-                                            ">Zur Frage </a>"))))
+                                            ">zur Frage </a>"))))
                             );
                     }
                 }
