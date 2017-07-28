@@ -94,7 +94,7 @@ public class CategoryApiController : BaseController
                 new CategoryJsonResult {
                     id = c.Id, 
                     name = c.Name, 
-                    numberOfQuestions = c.GetCountQuestions(),
+                    numberOfQuestions = c.CountQuestionsAggregated,
                     imageUrl = new CategoryImageSettings(c.Id).GetUrl_50px().Url, 
                     type = c.Type.ToString(),
                     typeGroup = c.Type.GetCategoryTypeGroup().ToString(),

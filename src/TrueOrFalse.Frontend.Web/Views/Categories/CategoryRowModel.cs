@@ -42,8 +42,8 @@ public class CategoryRowModel : BaseModel
 
         IsInWishknowledge = valution.IsInWishKnowledge();
 
-        QuestionCount = category.GetCountQuestions();
-        SetCount = category.GetCountSetsFromJson();
+        QuestionCount = category.CountQuestionsAggregated;
+        SetCount = category.GetCountSets();
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 

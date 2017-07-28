@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TrueOrFalse.Web;
 
@@ -23,7 +24,6 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> AggregatedSets;
-    public AggregatedContentFromJson AggregatedContentFromJson;
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
@@ -100,7 +100,7 @@ public class CategoryModel : BaseModel
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.GetCountQuestions() +
+        CountQuestions = category.CountQuestions +
             R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
 
         CountReferences = ReferenceCount.Get(category.Id);
@@ -108,7 +108,7 @@ public class CategoryModel : BaseModel
         if (category.Type != CategoryType.Standard)
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
-        CountSets = category.GetCountSetsFromJson();
+        CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
         TopQuestions = category.Type == CategoryType.Standard ? 
@@ -120,15 +120,12 @@ public class CategoryModel : BaseModel
 
         TopWishQuestions = wishQuestions.Items;
 
-        AggregatedSets = category.GetAggregatedSetsFromJson();
-
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
-        AggregatedContentFromJson = Category.GetAggregatedContentFromJson();
+        AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
+        AggregatedSetCount = AggregatedSets.Count;
 
-
-        AggregatedSetCount = AggregatedContentFromJson.AggregatedSetsIds.Count;
-        AggregatedQuestionCount = AggregatedContentFromJson.AggregatedQuestionIds.Count;
+        AggregatedQuestionCount = Category.CountQuestionsAggregated;
     }
 
     private List<Question> GetTopQuestionsInSubCats()
