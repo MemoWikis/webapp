@@ -449,46 +449,85 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     TopicNavigation
 -------------------------------------------------------*/
+#topicNavigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
 #topicNavigation img {
-  max-width: 80px;
   border-radius: 50%;
   box-shadow: 5px 5px 10px #eeeeee;
 }
 #topicNavigation a {
-  color: black;
+  color: #203256;
+}
+#topicNavigation a:hover {
+  text-decoration: none;
 }
 #topicNavigation .set-question-count {
   color: #999999;
 }
-#topicNavigation .topic {
-  height: 135px;
+#topicNavigation .topic .row {
+  margin-top: 20px;
+  margin-bottom: 25px;
 }
-.category-knowledge-bar {
+@media (max-width: 649px) {
+  #topicNavigation .topic {
+    float: none;
+    width: 100%;
+    height: inherit;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+#topicNavigation .topic .ImageContainer {
+  max-width: 80px;
+  min-width: 70px;
+}
+#topicNavigation .topic .ImageContainer .LicenseInfo {
+  text-align: center;
+  color: #999999;
+}
+#topicNavigation .topic .ImageContainer .LicenseInfo:after {
+  content: "Lizenz";
+}
+#topicNavigation .topic .topic-name {
+  max-height: 65px;
+  overflow: hidden;
+}
+@media (max-width: 649px) {
+  #topicNavigation .topic .topic-name {
+    max-height: none;
+  }
+}
+#topicNavigation .category-knowledge-bar {
   margin-top: 15px;
   height: 10px;
   width: 180px;
 }
-.category-knowledge-bar .solid-knowledge,
-.category-knowledge-bar .needs-learning,
-.category-knowledge-bar .needs-consolidation,
-.category-knowledge-bar .not-learned,
-.category-knowledge-bar .not-in-wish-knowledge {
+#topicNavigation .category-knowledge-bar .solid-knowledge,
+#topicNavigation .category-knowledge-bar .needs-learning,
+#topicNavigation .category-knowledge-bar .needs-consolidation,
+#topicNavigation .category-knowledge-bar .not-learned,
+#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-.category-knowledge-bar .solid-knowledge {
+#topicNavigation .category-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-.category-knowledge-bar .needs-learning {
+#topicNavigation .category-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-.category-knowledge-bar .needs-consolidation {
+#topicNavigation .category-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-.category-knowledge-bar .not-learned {
+#topicNavigation .category-knowledge-bar .not-learned {
   background-color: silver;
 }
-.category-knowledge-bar .not-in-wish-knowledge {
+#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
 /*------------------------------------------------------
@@ -579,7 +618,7 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
 .Card .ItemTitle {
   font-size: 20px !important;
   /*-webkit-hyphens: auto;
-        hyphens: auto;*/
+hyphens: auto;*/
 }
 .Card .ItemText {
   font-size: 16px !important;

@@ -23,7 +23,8 @@ public class AnswerQuestionController : BaseController
         _answerQuestion = answerQuestion;
     }
 
-    [SetMenu(MenuEntry.QuestionDetail)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (id.HasValue && SeoUtils.HasUnderscores(text))

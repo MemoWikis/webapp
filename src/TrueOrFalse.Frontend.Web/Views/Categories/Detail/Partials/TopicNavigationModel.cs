@@ -40,10 +40,9 @@ public class TopicNavigationModel : BaseModel
             default:
                 if (isLoadList)
                 {
-                    HasUsedOrderListWithLoadList = true;
-                    break;
+                    throw new Exception("\"Load: \" und \"Order: \" können nicht gleichzeitig mit Category-Id-Listen als Parameter verwendet werden!");
                 }
-                var firstCategories = ConvertToCategoryList(load.Split(',').ToList().ConvertAll(Int32.Parse));
+                var firstCategories = ConvertToCategoryList(order.Split(',').ToList().ConvertAll(Int32.Parse));
                 CategoryList = OrderByCategoryList(firstCategories);
                 break;
         }

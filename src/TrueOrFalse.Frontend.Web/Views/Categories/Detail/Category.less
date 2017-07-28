@@ -451,14 +451,22 @@ html.flexbox:not(.Explorer) {
 -------------------------------------------------------*/
 
 #topicNavigation {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+
     img {
-        max-width: 80px;
         border-radius: 50%;
         box-shadow: 5px 5px 10px @gray-lighter;
     }
 
     a {
-        color: black;
+        color: @global-text-color;
+
+        &:hover {
+            text-decoration: none;
+        }
     }
 
     .set-question-count {
@@ -466,50 +474,75 @@ html.flexbox:not(.Explorer) {
     }
 
     .topic {
-        height: 135px;
+        .row {
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stack-below(@extra-breakpoint-cards);
+
+        .ImageContainer {
+            max-width: 80px;
+            min-width: 70px;
+
+            .LicenseInfo {
+                text-align: center;
+                color: @gray-light;
+
+                &:after {
+                    content: "Lizenz";
+                }
+            }
+        }
+
+        .topic-name {
+            max-height: 65px;
+            overflow: hidden;
+
+            @media (max-width: (@extra-breakpoint-cards - 1px)) {
+                max-height: none;
+            }
+        }
+    }
+
+    .category-knowledge-bar {
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
     }
 }
-
-.category-knowledge-bar {
-    margin-top: 15px;
-    height: 10px;
-    width: 180px;
-
-    .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
-        height: inherit;
-        float: left;
-    }
-
-    .solid-knowledge {
-        background-color: @solid-knowledge-color;
-    }
-
-    .needs-learning {
-        background-color: @needs-learning-color;
-    }
-
-    .needs-consolidation {
-        background-color: @needs-consolidation-color;
-    }
-
-    .not-learned {
-        background-color: @not-learned-color;
-    }
-
-    .not-in-wish-knowledge {
-        background-color: @not-in-wish-knowledge-color;
-    }
-}
-
-
-/*------------------------------------------------------
+    /*------------------------------------------------------
     NEW STYLES
 -------------------------------------------------------*/
-
 .navLinks {
 
     > a, > div {
-        display: inline-block !important; 
+        display: inline-block !important;
         margin-right: 10px !important;
     }
 
@@ -518,9 +551,7 @@ html.flexbox:not(.Explorer) {
 }
 
 #MasterMainColumn {
-
     .new-font-style();
-
     color: @global-text-color;
 
     p {
@@ -598,7 +629,7 @@ html.flexbox:not(.Explorer) {
     .ItemTitle {
         font-size: 20px !important;
         /*-webkit-hyphens: auto;
-        hyphens: auto;*/
+hyphens: auto;*/
     }
 
     .ItemText {
@@ -634,17 +665,3 @@ html.flexbox:not(.Explorer) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
