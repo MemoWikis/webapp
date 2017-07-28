@@ -30,6 +30,7 @@ class SolutionTypeMatchList
 
 
             var urlParams = Utils.GetQueryString();
+            var urlNext = $("#btnNext").attr("href");
 
             jQuery.ajax({
                 url: url,
@@ -43,8 +44,8 @@ class SolutionTypeMatchList
                 },
                 success: htmlResult => {
                     $("div#LicenseQuestion").remove();
-                    $("#AnswerBody")
-                        .replaceWith(htmlResult);
+                    $("#AnswerBody").replaceWith(htmlResult);
+                    $("#btnNext").attr("href", urlNext);
                 },
                 async: false
             });
