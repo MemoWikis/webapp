@@ -531,6 +531,16 @@ ul.AutocompleteHeader{
         height: 32px;
     }
 
+    svg.large {
+        width: 90px;
+        height: 90px;
+
+        text {
+            font-size: 60px;
+        }
+    }
+
+
     @media (max-width: 767px) {
 
         svg {
@@ -541,11 +551,11 @@ ul.AutocompleteHeader{
     }
 
     circle {
-        fill: RGB(185,219,79);
+        fill: @memo-green;
     }
 
     .level-count {
-        fill: darkblue;
+        fill: @memo-blue;
         font-weight: bolder;
         font-size: 1.3em;
         text-anchor: middle;

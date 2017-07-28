@@ -23,7 +23,7 @@
         <br />
         <br />
         <a href="#" data-btn-login="true" class="btn btn-success">Jetzt einloggen</a> oder
-        <a href="<%= Url.Action("Register", "Register") %>"> registrieren</a>
+        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>"> registrieren</a>
     </p>
 
 </asp:Content>

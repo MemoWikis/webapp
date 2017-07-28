@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="memucho Nutzungsbedingungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -23,7 +24,7 @@
 <div class="row" style="padding-top:30px;">
     <div class="BackToHome col-md-3">
         <p>
-            <a href="<%= Url.Action("Register", "Register") %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
+            <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
         </p>
         <p>
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>

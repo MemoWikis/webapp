@@ -383,6 +383,8 @@
     <Compile Include="Domain\User\Settings\UserSettingNotificationInterval.cs" />
     <Compile Include="Infrastructure\PercentageShares.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\ISessionManager.cs" />
+    <Compile Include="Domain\Welcome\TopicOfWeek.cs" />
+    <Compile Include="Domain\Welcome\TopicOfWeekRepo.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\NHibernateHelper.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\RepositoryDb.cs" />
     <Compile Include="Infrastructure\Seedworks\Lib.Persistence\Persistence.NHibernate\SessionExtensions.cs" />
@@ -826,6 +828,10 @@
     <Compile Include="Search\User\SearchUsersResult.cs" />
     <Compile Include="Infrastructure\Time\DateTimeUtils.cs" />
     <Compile Include="Tools\Cache\EntityCache.cs" />
+    <Compile Include="Tools\Analytics\Widget\Ops\SaveWidgetView.cs" />
+    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewMap.cs" />
+    <Compile Include="Tools\Analytics\Widget\Persistence\WidgetViewRepo.cs" />
+    <Compile Include="Tools\Analytics\Widget\WidgetView.cs" />
     <Compile Include="Tools\Cache\UserValuationCache.cs" />
     <Compile Include="Tools\Cache\UserValuationCacheItem.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
@@ -930,6 +936,8 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs180.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs179.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs178.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs177.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs176.cs" />

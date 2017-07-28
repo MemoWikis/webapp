@@ -15,7 +15,7 @@ class ShareSet extends ShareDialog {
         $("[data-action=embed-set]").click((e) => {
             e.preventDefault();
             this.ShowModal();
-        });     
+        });
     }
 
     ShowModal() {
@@ -24,6 +24,34 @@ class ShareSet extends ShareDialog {
             $("#modalContainer").append(modal);
             this.InitModal();
             $("#modalShareSet").modal('show');
+
+            var validationSettings = {
+                rules: {
+                    widgetQuestionCount: {
+                        required: true,
+                        digits: true
+                    },
+                    widgetWidth: {
+                        required: false,
+                        digits: true
+                    },
+                    widgetMaxWidth : {
+                        required: false,
+                        digits: true                        
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    if (element.parent().attr("class") == "input-group") {
+                        error.insertAfter($(element).parent());
+                    }
+                    else {
+                        error.insertAfter(element);
+                    }
+                }
+            };
+
+            fnValidateForm("#modalShareSetForm", validationSettings, false);
+
         });
     }
 

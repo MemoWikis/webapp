@@ -19,8 +19,9 @@ public class WelcomeCardMiniCategoryModel : BaseModel
     public WelcomeCardMiniCategoryModel(int categoryId)
     {
         var category = R<CategoryRepository>().GetById(categoryId) ?? new Category();
-        Category = category;
+        //Category = category;
         CategoryId = categoryId;
+        CategoryName = category.Name;
 
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

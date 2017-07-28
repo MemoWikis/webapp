@@ -10,14 +10,14 @@
 
         <div class="ContentContainer">
             <div class="CardContent">
-                <h6 class="ItemInfo">
+<%--                <h6 class="ItemInfo">
                     <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
                         <a href="#" class="noTextdecoration">
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    <a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>">Thema mit <%= Model.QuestionCount %> Fragen</a>
-                </h6>
+                    <a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>">Lernset mit <%= Model.QuestionCount %> Fragen</a>
+                </h6>--%>
                 <div class="LinkArea">
                     <h4 class="ItemTitle"><%: Model.SetName %></h4>
                     <a class="Link" href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"></a>
