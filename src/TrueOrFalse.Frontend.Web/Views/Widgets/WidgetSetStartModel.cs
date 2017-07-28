@@ -6,7 +6,7 @@
     public bool HideAddToKnowledge;
     public string StartSessionUrl;
 
-    public WidgetSetStartModel(int setId, bool hideAddToKnowledge, string host, int questionCount) : base(host)
+    public WidgetSetStartModel(int setId, bool hideAddToKnowledge, string host, int questionCount, string widgetKey) : base(host)
     {
         SetId = setId;
         var set = Sl.R<SetRepo>().GetById(setId);
@@ -17,9 +17,9 @@
 
         ShowUserReportWidget = false;
 
-        StartSessionUrl = GetStartTestSessionUrl(setId, hideAddToKnowledge, host, questionCount);
+        StartSessionUrl = GetStartTestSessionUrl(setId, hideAddToKnowledge, host, questionCount, widgetKey);
     }
 
-    public static string GetStartTestSessionUrl(int setId, bool hideAddToKnowledge, string host, int questionCount) 
-        => $"/widget/fragesatz/{setId}?hideAddToKnowledge={hideAddToKnowledge}&host={host}";
+    public static string GetStartTestSessionUrl(int setId, bool hideAddToKnowledge, string host, int questionCount, string widgetKey) 
+        => $"/widget/fragesatz/{setId}?hideAddToKnowledge={hideAddToKnowledge}&host={host}&questionCount={questionCount}&widgetKey={widgetKey}";
 }

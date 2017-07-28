@@ -18,7 +18,8 @@ public class WidgetView : Entity, WithDateCreated
 public enum WidgetType
 {
     Question = 0,
-    Set = 1,
-    SetResult = 2,
-    SetVideo = 3
+    SetStartPage = 1,
+    SetStepPage = 2,
+    SetResult = 3,
+    SetVideo = 4
 }

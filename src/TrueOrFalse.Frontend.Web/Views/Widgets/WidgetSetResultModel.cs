@@ -6,7 +6,7 @@ public class WidgetSetResultModel : WidgetBaseModel
 
     public string StartSessionUrl;
 
-    public WidgetSetResultModel(TestSessionResultModel testSessionResultModel, string host, int questionCount) : base(host)
+    public WidgetSetResultModel(TestSessionResultModel testSessionResultModel, string host, int questionCount, string widgetKey) : base(host)
     {
         TestSessionResultModel = testSessionResultModel;
         TestSessionResultModel.IsInWidget = true;
@@ -20,7 +20,8 @@ public class WidgetSetResultModel : WidgetBaseModel
             TestSessionResultModel.TestedSet.Id, 
             testSessionResultModel.TestSession.HideAddKnowledge, 
             host,
-            questionCount
+            questionCount,
+            widgetKey
         );
     }
 }

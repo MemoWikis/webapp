@@ -77,12 +77,12 @@
         }
 
         settings.QuestionCount = "";
-        if ($("#widgetQuestionCount").val().length >= 0) {
+        if ($("#widgetQuestionCount").val() && $("#widgetQuestionCount").val().length >= 0) {
             settings.QuestionCount = "data-questionCount=\"" + $("#widgetQuestionCount").val() + "\"";
         }
 
         settings.WidgetKey = "";
-        if ($("#widgetKey").val().length >= 0) {
+        if ($("#widgetQuestionCount").val() && $("#widgetKey").val().length >= 0) {
             settings.WidgetKey = "data-widgetKey=\"" + $("#widgetKey").val() + "\"";
         }
 

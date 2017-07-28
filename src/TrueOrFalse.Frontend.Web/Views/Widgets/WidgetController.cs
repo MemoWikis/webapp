@@ -30,7 +30,7 @@ public class WidgetController : BaseController
             _sessionUser.User, 
             SaveWidgetView.Run(
                 host, 
-                IsNullOrEmpty(widgetKey) ? widgetKey : questionId.ToString(), 
+                !IsNullOrEmpty(widgetKey) ? widgetKey : questionId.ToString(), 
                 WidgetType.Question,
                 questionId
             )
@@ -45,14 +45,14 @@ public class WidgetController : BaseController
     {
         SaveWidgetView.Run(
             host, 
-            IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
-            WidgetType.Set,
+            !IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
+            WidgetType.SetStartPage,
             setId
         );
 
         return View(
             "~/Views/Widgets/WidgetSetStart.aspx",
-            new WidgetSetStartModel(setId, Convert.ToBoolean(hideAddToKnowledge), host, questionCount));
+            new WidgetSetStartModel(setId, Convert.ToBoolean(hideAddToKnowledge), host, questionCount, widgetKey));
     }
 
     public ActionResult SetStart(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1)
@@ -69,18 +69,20 @@ public class WidgetController : BaseController
         return RedirectToAction(
             "SetTestStep", 
             "Widget", 
-            new {testSessionId = testSession.Id, host = host, WidgetType.Set}
+            new {testSessionId = testSession.Id, host = host, widgetKey = widgetKey, questionCount = questionCount}
         );
     }
 
-    public ActionResult SetTestStep(int testSessionId, string host, string widgetKey)
+    public ActionResult SetTestStep(int testSessionId, string host, string widgetKey, int questionCount)
     {
+        var routeValues = new {testSessionId = testSessionId, host = host, widgetKey = widgetKey, questionCount = questionCount};
+
         return AnswerQuestionController.TestActionShared(
             testSessionId,
-            testSession => RedirectToAction("SetTestResult", "Widget", new {testSessionId = testSessionId, host}),
+            testSession => RedirectToAction("SetTestResult", "Widget", routeValues),
             (testSession, questionViewGuid, question) => {
                 var answerModel = new AnswerQuestionModel(testSession, questionViewGuid, question);
-                answerModel.NextUrl = url => url.Action("SetTestStep", "Widget", new { testSessionId = testSession.Id, host = host });
+                answerModel.NextUrl = url => url.Action("SetTestStep", "Widget", routeValues);
                 answerModel.IsInWidget = true;
                 answerModel.DisableAddKnowledgeButton = testSession.HideAddKnowledge;
 
@@ -88,8 +90,8 @@ public class WidgetController : BaseController
             },
             testSession => SaveWidgetView.Run(
                 host, 
-                IsNullOrEmpty(widgetKey) ? testSession.SetToTestId.ToString() : widgetKey,
-                WidgetType.Set,
+                !IsNullOrEmpty(widgetKey) ? widgetKey : testSession.SetToTestId.ToString(),
+                WidgetType.SetStepPage,
                 testSession.SetToTestId)
         );
     }
@@ -98,11 +100,11 @@ public class WidgetController : BaseController
     {
         var testSession = TestSessionResultController.GetTestSession(testSessionId);
         var testSessionResultModel = new TestSessionResultModel(testSession);
-        var setModel = new WidgetSetResultModel(testSessionResultModel, host, questionCount);
+        var setModel = new WidgetSetResultModel(testSessionResultModel, host, questionCount, widgetKey);
 
         SaveWidgetView.Run(
             host, 
-            IsNullOrEmpty(widgetKey) ? widgetKey : testSession.SetToTestId.ToString(), 
+            !IsNullOrEmpty(widgetKey) ? widgetKey : testSession.SetToTestId.ToString(), 
             WidgetType.SetResult,
             testSession.SetToTestId
         );
@@ -114,7 +116,7 @@ public class WidgetController : BaseController
     public ActionResult SetVideo(int setId, bool? hideAddToKnowledge, string host, string widgetKey)
     {
         SaveWidgetView.Run(
-            host, IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
+            host, !IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
             WidgetType.SetVideo,
             setId
         );
