@@ -21,9 +21,15 @@
 .CardsMiniPortrait .CardMiniColumn {
   display: flex;
 }
+@media (max-width: 479px) {
+  .CardsMiniPortrait .CardMiniColumn {
+    width: 50%;
+  }
+}
 .CardsMiniPortrait .CardMiniColumn h4 {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
+  line-height: 20px;
 }
 .CardsMiniPortrait .CardMiniColumn .Card {
   width: 100%;
@@ -33,6 +39,25 @@
   border-top-right-radius: 4px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.CardsMiniPortrait .CardMiniColumn .CardContent {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.CardsMiniPortrait .CardMiniColumn .CardContent .ItemTitle {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo {
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #999999;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo {
+  line-height: 18px;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
 }
 html.flexbox:not(.Explorer) .CardsMiniPortrait {
   display: flex;

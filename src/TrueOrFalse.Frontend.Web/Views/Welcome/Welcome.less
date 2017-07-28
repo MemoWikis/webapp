@@ -6,11 +6,18 @@
 
 .CardsMiniPortrait { // Apply to row
     .CardMiniColumn {
+
+        .media-below-xs( {
+            width: 50%;
+        }
+
+        );
         display: flex;
 
         h4 {
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 600;
+            line-height: 20px;
         }
 
         .Card {
@@ -23,6 +30,24 @@
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
+
+        .CardContent {
+            margin-left: 8px;
+            margin-right: 8px;
+
+            .ItemTitle {
+                margin-top: 10px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .LicenseInfo {
+            margin-left: 8px;
+            margin-right: 8px;
+            .greyed;
+        }
+
+        .FullLicenseLinkText;
     }
 }
 
