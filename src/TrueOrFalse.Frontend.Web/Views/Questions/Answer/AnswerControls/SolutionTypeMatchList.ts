@@ -40,7 +40,8 @@ class SolutionTypeMatchList
                     isMobileDevice: isMobile,
                     testSessionId: testSessionId,
                     learningSessionId: learningSessionId,
-                    isVideo: isVideo
+                    isVideo: isVideo,
+                    hideAddToKnowledge: $("#disableAddKnowledgeButton").val()
                 },
                 success: htmlResult => {
                     $("div#LicenseQuestion").remove();
