@@ -8,8 +8,8 @@ public class SetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 
-    [SetMenu(MenuEntry.QuestionSet)]
-    [SetThemeMenu]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionSetPage: true)]
     public ActionResult QuestionSet(string text, int id)
     {
         if (SeoUtils.HasUnderscores(text))

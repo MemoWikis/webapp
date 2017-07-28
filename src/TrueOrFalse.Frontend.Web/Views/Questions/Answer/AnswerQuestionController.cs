@@ -23,7 +23,8 @@ public class AnswerQuestionController : BaseController
         _answerQuestion = answerQuestion;
     }
 
-    [SetMenu(MenuEntry.QuestionDetail)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (id.HasValue && SeoUtils.HasUnderscores(text))
@@ -109,7 +110,9 @@ public class AnswerQuestionController : BaseController
     public static ActionResult TestActionShared(
         int testSessionId,
         Func<TestSession, ActionResult> redirectToFinalStepFunc,
-        Func<TestSession, Guid, Question, ActionResult> resultFunc)
+        Func<TestSession, Guid, Question, ActionResult> resultFunc,
+        Func<TestSession, WidgetView> widgetViewFunc = null
+    )
     {
         var sessionUser = Sl.SessionUser;
 
@@ -134,7 +137,7 @@ public class AnswerQuestionController : BaseController
         var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
 
-        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User, widgetViewFunc?.Invoke(testSession));
 
         return resultFunc(testSession, questionViewGuid, question);
     }

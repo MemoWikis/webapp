@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -13,6 +13,8 @@
     <%--HEADER--%>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
     <section id="MasterSection">
+
+        <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
         
         <section id="MasterMainContent" class="container">
             <div class="row">

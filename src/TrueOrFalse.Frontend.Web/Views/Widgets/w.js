@@ -141,13 +141,26 @@ if (hideKnowledgeBtn && hideKnowledgeBtn.length > 0 && hideKnowledgeBtn == "true
     queryKnowledgeBtn = "&hideAddToKnowledge=true";
 }
 
+var queryQuestionCount = "";
+var questionCountAttr = scriptTag.getAttribute("data-questionCount");
+if (questionCountAttr && questionCountAttr.length > 0) {
+    queryQuestionCount = "&questionCount=" + questionCountAttr;
+}
+
+var queryWidgetKey = "";
+var widgetKeyAttr = scriptTag.getAttribute("data-widgetKey");
+if (widgetKeyAttr && widgetKeyAttr.length > 0) {
+    queryWidgetKey = "&widgetKey=" + widgetKeyAttr;
+}
+
 var queryHost = "&host=" + window.location.hostname;
+var queryPartShared = queryDummy + queryKnowledgeBtn + queryHost + queryWidgetKey + queryQuestionCount;
 
 if (type_ === "question")
 {
     var questionId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/frage/' + questionId + queryDummy + queryKnowledgeBtn + queryHost;
+    var filePath = domain + '/widget/frage/' + questionId + queryPartShared + queryQuestionCount;
     var iframeId = "iframe-q" + questionId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
@@ -156,7 +169,7 @@ else if (type_ === "set")
 {
     var setId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/fragesatz/start/' + setId + queryDummy + queryKnowledgeBtn + queryHost;
+    var filePath = domain + '/widget/fragesatz/start/' + setId + queryPartShared;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
@@ -164,7 +177,7 @@ else if (type_ === "set")
 else if (type_ === "setVideo") {
     var setId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/fragesatz-v/' + setId + queryDummy + queryKnowledgeBtn + queryHost;
+    var filePath = domain + '/widget/fragesatz-v/' + setId + queryPartShared;
     var iframeId = "iframe-sv" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);

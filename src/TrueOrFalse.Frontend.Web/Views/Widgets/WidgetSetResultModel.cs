@@ -6,7 +6,7 @@ public class WidgetSetResultModel : WidgetBaseModel
 
     public string StartSessionUrl;
 
-    public WidgetSetResultModel(TestSessionResultModel testSessionResultModel, string host) : base(host)
+    public WidgetSetResultModel(TestSessionResultModel testSessionResultModel, string host, int questionCount, string widgetKey) : base(host)
     {
         TestSessionResultModel = testSessionResultModel;
         TestSessionResultModel.IsInWidget = true;
@@ -16,6 +16,12 @@ public class WidgetSetResultModel : WidgetBaseModel
 
         ShowUserReportWidget = false;
 
-        StartSessionUrl = WidgetSetStartModel.GetStartTestSessionUrl(TestSessionResultModel.TestedSet.Id, testSessionResultModel.TestSession.HideAddKnowledge, host);
+        StartSessionUrl = WidgetSetStartModel.GetStartTestSessionUrl(
+            TestSessionResultModel.TestedSet.Id, 
+            testSessionResultModel.TestSession.HideAddKnowledge, 
+            host,
+            questionCount,
+            widgetKey
+        );
     }
 }
