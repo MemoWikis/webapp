@@ -1350,10 +1350,13 @@ li.google-visualization-tooltip-item span {
 @media (max-width: 479px) {
   .TeamPic {
     width: 50%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 .TeamPic img {
   border-radius: 5px;
+  border-radius: 50%;
 }
 /* $ToDo: Clean up
 ----------------------------------------------------------*/

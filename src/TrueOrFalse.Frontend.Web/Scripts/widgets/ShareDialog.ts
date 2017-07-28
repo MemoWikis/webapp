@@ -90,6 +90,7 @@
     }
 
     GetEmbedCode(settings: WidgetSettings): string {
+
         return "<script src=\"" + settings.Url + "\" data-t=\"" + settings.Type + "\" data-id=\"" + settings.Id +
             "\" data-width=\"" + settings.Width + "\" " + settings.MaxWidth + " " + settings.HideKnowledgeButton +
             " " + settings.QuestionCount + " " + settings.WidgetKey + "></script>";

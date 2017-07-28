@@ -21,9 +21,15 @@
 .CardsMiniPortrait .CardMiniColumn {
   display: flex;
 }
+@media (max-width: 479px) {
+  .CardsMiniPortrait .CardMiniColumn {
+    width: 50%;
+  }
+}
 .CardsMiniPortrait .CardMiniColumn h4 {
   font-size: 14px;
   font-weight: bold;
+  line-height: 20px;
 }
 .CardsMiniPortrait .CardMiniColumn .Card {
   width: 100%;
@@ -33,6 +39,25 @@
   border-top-right-radius: 4px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+.CardsMiniPortrait .CardMiniColumn .CardContent {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.CardsMiniPortrait .CardMiniColumn .CardContent .ItemTitle {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo {
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #999999;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo {
+  line-height: 18px;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
 }
 html.flexbox:not(.Explorer) .CardsMiniPortrait {
   display: flex;
@@ -78,17 +103,25 @@ h4 {
 h1 {
   font-size: 45px;
   margin-bottom: 20px;
+  font-weight: normal;
 }
 h2 {
   font-size: 35px;
+  text-align: center;
 }
 h3 {
   font-size: 26px;
   font-weight: 600;
   color: #999999;
+  text-align: center;
 }
 h4 {
   font-size: 22px;
+}
+.ShortParagraph {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 #MasterSection {
   padding-bottom: 0;
@@ -125,7 +158,7 @@ h4 {
 #titleFindYourContent {
   font-size: 45px;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
   margin-top: 60px;
   margin-bottom: 8px;
   color: #003264;

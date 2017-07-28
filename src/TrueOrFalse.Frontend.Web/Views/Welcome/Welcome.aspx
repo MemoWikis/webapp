@@ -296,8 +296,8 @@
 
 
         <div id="ContentAvailable">
-            <h1>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h1>
-            <p>
+            <h2>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h2>
+            <p class="ShortParagraph">
                 Bei memucho findest du interaktive Lerninhalte zu vielen Themen und kannst sie personalisiert lernen.
                 Dein Thema ist nicht dabei? Kein Problem! Du kannst Inhalte leicht übernehmen, ergänzen oder ganz neu erstellen.
             </p>
@@ -782,12 +782,12 @@
             </div>
 
 
-            <p>
+            <p class="ShortParagraph">
                 Wir möchten freie Bildungsinhalten fördern und dich beim Lernen unterstützen. 
                 Auf dieser Idee werden wir ein stabiles gemeinwohlorientiertes Unternehmen aufbauen. 
                 Wir konzipieren, gestalten und programmieren memucho gemeinsam.
             </p>
-            <p>
+            <p class="ShortParagraph">
                 Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
             </p>
         </div>  
