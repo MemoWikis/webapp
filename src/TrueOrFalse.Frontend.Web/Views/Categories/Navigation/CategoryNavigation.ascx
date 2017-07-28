@@ -52,16 +52,16 @@
 </div>
 
 <script>
-<% if (Model.ActiveCategory != null) { %>
+<% if (Model.ActiveCategories != null) { %>
 
     var rootCategory = $("#default-category-<%= Model.RootCategory.Id %>");
     rootCategory.addClass("active");
 
-    <% if(Model.ActiveCategory != Model.RootCategory) { %>
+    <% if(Model.ActiveCategories != Model.RootCategory) { %>
 
-            var actualCategory = $('<a class= "cat sub list-group-item actual-category active" href="<%= Links.CategoryDetail(Model.ActiveCategory.Name, Model.ActiveCategory.Id) %>">')
+            var actualCategory = $('<a class= "cat sub list-group-item actual-category active" href="<%= Links.CategoryDetail(Model.ActiveCategories.Name, Model.ActiveCategories.Id) %>">')
                                 .append($('<i class="fa fa-caret-right"></i>'))
-                                .append($('<span class="actual-sub-category"><%: Model.ActiveCategory.Name %></span>'));
+                                .append($('<span class="actual-sub-category"><%: Model.ActiveCategories.Name %></span>'));
             rootCategory.after(actualCategory);
             rootCategory.css("padding-bottom", "11px");
 

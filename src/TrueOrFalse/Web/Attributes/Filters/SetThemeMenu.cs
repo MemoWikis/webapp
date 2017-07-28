@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace System.Web.Mvc
 {
@@ -28,32 +29,42 @@ namespace System.Web.Mvc
             {
                 var httpContextData = HttpContext.Current.Request.RequestContext.RouteData.Values;
 
-                Category currentCategory = null;
+                var currentCategoies = new List<Category>();
 
                 if (_isCategoryPage)
-                    currentCategory = Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"]));
+                    currentCategoies.Add(Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"])));
 
                 if (_isQuestionSetPage)
                 {
-                    currentCategory = ThemeMenuHistoryOps.GetQuestionSetCategory(Convert.ToInt32(httpContextData["id"]));
+                    var currentSet = Sl.SetRepo.GetById(Convert.ToInt32(httpContextData["id"]));
+                    currentCategoies.AddRange(currentSet.Categories);
                 }
 
                 if (_isQuestionPage)
                 {
-                    currentCategory = httpContextData["setId"] != null 
-                        ? ThemeMenuHistoryOps.GetQuestionSetCategory(Convert.ToInt32(httpContextData["setId"])) 
-                        : ThemeMenuHistoryOps.GetQuestionCategory(Convert.ToInt32(httpContextData["id"]));
+                    currentCategoies.AddRange(httpContextData["setId"] != null
+                        ? Sl.SetRepo.GetById(Convert.ToInt32(httpContextData["setId"])).Categories
+                        : ThemeMenuHistoryOps.GetQuestionCategories(Convert.ToInt32(httpContextData["id"])));
                 }
 
                 if (_isTestSessionPage)
                 {
-                    currentCategory = ThemeMenuHistoryOps.GetTestSessionCategory(Convert.ToInt32(httpContextData["testSessionId"]));
+                    var testSession = GetTestSession.Get(Convert.ToInt32(httpContextData["testSessionId"]));
+                    if(testSession.CategoryToTest != null)
+                        currentCategoies.Add(testSession.CategoryToTest);
+                    else
+                        currentCategoies.AddRange(testSession.SetToTest.Categories);
                 }
+
                 if (_isLearningSessionPage)
                 {
-                    currentCategory = ThemeMenuHistoryOps.GetLearningSessionCategory(Convert.ToInt32(httpContextData["learningSessionId"]));
+                    var learningSession = Sl.LearningSessionRepo.GetById(Convert.ToInt32(httpContextData["learningSessionId"]));
+                    if(learningSession.CategoryToLearn != null)
+                        currentCategoies.Add(learningSession.CategoryToLearn);
+                    else
+                        currentCategoies.AddRange(learningSession.SetToLearn.Categories);
                 }
-                userSession.TopicMenu.ActiveCategory = currentCategory;
+                userSession.TopicMenu.ActiveCategories = currentCategoies;
             }
 
             base.OnActionExecuting(filterContext);
@@ -62,7 +73,7 @@ namespace System.Web.Mvc
         public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
             var userSession = new SessionUiData();
-            userSession.TopicMenu.ActiveCategory = null;
+            userSession.TopicMenu.ActiveCategories = null;
 
             base.OnResultExecuted(filterContext);
         }

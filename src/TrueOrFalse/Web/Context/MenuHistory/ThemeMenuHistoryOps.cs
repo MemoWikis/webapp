@@ -1,65 +1,52 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 public class ThemeMenuHistoryOps
 {
-    public static Category GetQuestionSetCategory(int setId)
+    //public static Category GetQuestionSetCategory(int setId)
+    //{
+    //    var currentSet = Sl.SetRepo.GetById(setId);
+    //    var currentSetCategories = currentSet.Categories;
+
+    //    var visitedCategories = Sl.SessionUiData.VisitedCategories;
+
+    //    Category currentCategory;
+    //    if (visitedCategories.Any())
+    //    {
+    //        currentCategory = currentSetCategories.All(c => c.Id == visitedCategories.First().Id)
+    //            ? Sl.CategoryRepo.GetById(visitedCategories.First().Id)
+    //            : currentSetCategories.First();
+    //    }
+    //    else
+    //    {
+    //        currentCategory = currentSetCategories.First();
+    //    }
+
+    //    return currentCategory;
+    //}
+
+    public static List<Category> GetQuestionCategories(int questionId)
     {
-        var currentSet = Sl.SetRepo.GetById(setId);
-        var currentSetCategories = currentSet.Categories;
+        var question = Sl.QuestionRepo.GetById(questionId);
 
-        var visitedCategories = Sl.SessionUiData.VisitedCategories;
-
-        Category currentCategory;
-        if (visitedCategories.Any())
+        if (question.Categories.Count > 0)
         {
-            currentCategory = currentSetCategories.All(c => c.Id == visitedCategories.First().Id)
-                ? Sl.CategoryRepo.GetById(visitedCategories.First().Id)
-                : currentSetCategories.First();
-        }
-        else
-        {
-            currentCategory = currentSetCategories.First();
-        }
-
-        return currentCategory;
-    }
-
-    public static Category GetQuestionCategory(int questionId)
-    {
-        var currentQuestion = Sl.QuestionRepo.GetById(questionId);
-        var currentQuestionCategories = currentQuestion.Categories;
-
-        var visitedCategories = Sl.SessionUiData.VisitedCategories;
-
-        Category currentCategory;
-        if (visitedCategories.Any())
-        {
-            currentCategory = currentQuestionCategories.All(c => c.Id == visitedCategories.First().Id)
-                ? Sl.CategoryRepo.GetById(visitedCategories.First().Id)
-                : currentQuestionCategories.First();
-        }
-        else
-        {
-            currentCategory = currentQuestionCategories.First();
+            return question.Categories.ToList();
         }
 
-        return currentCategory;
+        var questionSetsCategories = new List<Category>();
+        questionSetsCategories.AddRange(question.SetsTop5.SelectMany(s => s.Categories));
+        return questionSetsCategories;
     }
 
-    public static Category GetTestSessionCategory(int testSessionId)
-    {
-        var testSession = GetTestSession.Get(testSessionId);
-        return testSession.CategoryToTest != null
-            ? testSession.CategoryToTest
-            : GetQuestionSetCategory(testSession.SetToTest.Id);
-    }
+    //public static Category GetTestSessionCategory(int testSessionId)
+    //{
+    //}
 
-    public static Category GetLearningSessionCategory(int learningSessionId)
-    {
-        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
-        return learningSession.CategoryToLearn != null
-            ? learningSession.CategoryToLearn
-            : GetQuestionSetCategory(learningSession.SetToLearn.Id);
-    }
+    //public static Category GetLearningSessionCategory(int learningSessionId)
+    //{
+    //}
 
 }
