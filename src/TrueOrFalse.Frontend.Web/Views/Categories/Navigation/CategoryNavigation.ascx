@@ -57,7 +57,7 @@
     var rootCategory = $("#default-category-<%= Model.RootCategory.Id %>");
     rootCategory.addClass("active");
 
-    <% if(Model.ActiveCategories != Model.RootCategory) { %>
+    <% if(Model.ActiveCategories.First() != Model.RootCategory) { %>
 
             var actualCategory = $('<a class= "cat sub list-group-item actual-category active" href="<%= Links.CategoryDetail(Model.ActiveCategories.Name, Model.ActiveCategories.Id) %>">')
                                 .append($('<i class="fa fa-caret-right"></i>'))

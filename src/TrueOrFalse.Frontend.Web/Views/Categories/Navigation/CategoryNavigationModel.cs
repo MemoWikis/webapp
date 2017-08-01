@@ -17,7 +17,9 @@ public class CategoryNavigationModel : BaseModel
 
         if (ActiveCategories != null)
         {
-            //HIER KOMMT DIE PFADFINDUNG DER KATEGORIE REIN
+            FindActiveCategoryPath(ActiveCategories);
+
+            //THIS IS GOING TO BE REMOVED
             CategoryTrail = GetBreadCrumb.For(ActiveCategories.First()).ToList();
             CategoryTrail.Reverse();
             SetRootCategory();
@@ -49,5 +51,39 @@ public class CategoryNavigationModel : BaseModel
         }
 
         RootCategory = Sl.CategoryRepo.Allgemeinwissen;
+    }
+
+    private void FindActiveCategoryPath(List<Category> actualCategories)
+    {
+
+        var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath;
+        if (userCategoryPath.Count > 0)
+        {
+            foreach (var actualCategory in actualCategories)
+            {
+                var pathIndex = userCategoryPath.FindIndex(c => c.Equals(actualCategory));
+                if (pathIndex != -1)
+                {
+                    userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - (pathIndex + 1));
+                    CategoryTrail = userCategoryPath;
+                    return;
+                }
+            }
+        }
+
+        var lastCategory = Sl.CategoryRepo.GetById(Sl.SessionUiData.VisitedCategories.First().Id);
+        if (lastCategory != null)
+        {
+            foreach (var actualCategory in actualCategories)
+            {
+                if (lastCategory.AggregatedCategories().Contains(actualCategory))
+                {
+                    //Do the Find Route Stuff
+                    return;
+                }
+            }
+        }
+
+        //Do the Default Stuff
     }
 }
