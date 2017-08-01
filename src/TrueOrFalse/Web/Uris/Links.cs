@@ -382,7 +382,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
-        public static string CategoryDetail(Category category) => CategoryDetail(category.Name, category.Id);
+
+        public static string CategoryDetail(Category category) =>
+            HttpContext.Current == null 
+                ? "" 
+                : CategoryDetail(category.Name, category.Id);
 
         public static string CategoryDetail(string name, int id) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id }, null);
