@@ -1,32 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 public class ThemeMenuHistoryOps
 {
-    //public static Category GetQuestionSetCategory(int setId)
-    //{
-    //    var currentSet = Sl.SetRepo.GetById(setId);
-    //    var currentSetCategories = currentSet.Categories;
-
-    //    var visitedCategories = Sl.SessionUiData.VisitedCategories;
-
-    //    Category currentCategory;
-    //    if (visitedCategories.Any())
-    //    {
-    //        currentCategory = currentSetCategories.All(c => c.Id == visitedCategories.First().Id)
-    //            ? Sl.CategoryRepo.GetById(visitedCategories.First().Id)
-    //            : currentSetCategories.First();
-    //    }
-    //    else
-    //    {
-    //        currentCategory = currentSetCategories.First();
-    //    }
-
-    //    return currentCategory;
-    //}
-
+    public static List<Category> GetConnectingCategoryPath(Category firstCategory, Category lastCategory)
+    {
+        //PATHFINDING HAPPENING HERE
+        return new List<Category>();
+    }
     public static List<Category> GetQuestionCategories(int questionId)
     {
         var question = Sl.QuestionRepo.GetById(questionId);

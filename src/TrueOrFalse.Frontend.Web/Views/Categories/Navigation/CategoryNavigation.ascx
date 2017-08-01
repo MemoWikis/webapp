@@ -52,27 +52,27 @@
 </div>
 
 <script>
-<% if (Model.ActiveCategories != null) { %>
+<% if (Model.ActiveCategory != null) { %>
 
     var rootCategory = $("#default-category-<%= Model.RootCategory.Id %>");
     rootCategory.addClass("active");
 
-    <% if(Model.ActiveCategories.First() != Model.RootCategory) { %>
+    <% if(Model.ActiveCategory != Model.RootCategory) { %>
 
-            var actualCategory = $('<a class= "cat sub list-group-item actual-category active" href="<%= Links.CategoryDetail(Model.ActiveCategories.Name, Model.ActiveCategories.Id) %>">')
+            var actualCategory = $('<a class= "cat sub list-group-item actual-category active" href="<%= Links.CategoryDetail(Model.ActiveCategory.Name, Model.ActiveCategory.Id) %>">')
                                 .append($('<i class="fa fa-caret-right"></i>'))
-                                .append($('<span class="actual-sub-category"><%: Model.ActiveCategories.Name %></span>'));
+                                .append($('<span class="actual-sub-category"><%: Model.ActiveCategory.Name %></span>'));
             rootCategory.after(actualCategory);
             rootCategory.css("padding-bottom", "11px");
 
             <% if (Model.CategoryTrail.Count > 0) { %>
-                    var upperCategory = $('<a class="cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.CategoryTrail.Last().Name, Model.CategoryTrail.Last().Id) %>">')
-                                        .append('<span class="sub-category"><%: Model.CategoryTrail.Last().Name %></span>');
+                    var upperCategory = $('<a class="cat sub list-group-item active" href="<%= Links.CategoryDetail(Model.CategoryTrail.First().Name, Model.CategoryTrail.First().Id) %>">')
+                                        .append('<span class="sub-category"><%: Model.CategoryTrail.First().Name %></span>');
                     rootCategory.after(upperCategory);
 
                     <% if (Model.CategoryTrail.Count > 1) { %>
-                            var underCategory = $('<a class="cat sub list-group-item under-sub-category active" href="<%= Links.CategoryDetail(Model.CategoryTrail.First().Name, Model.CategoryTrail.First().Id) %>">')
-                                                .append('<span class="sub-category"><%: Model.CategoryTrail.First().Name %></span>');
+                            var underCategory = $('<a class="cat sub list-group-item under-sub-category active" href="<%= Links.CategoryDetail(Model.CategoryTrail.Last().Name, Model.CategoryTrail.Last().Id) %>">')
+                                                .append('<span class="sub-category"><%: Model.CategoryTrail.Last().Name %></span>');
                             upperCategory.after(underCategory);
                     <% } %>
             <% } %>
