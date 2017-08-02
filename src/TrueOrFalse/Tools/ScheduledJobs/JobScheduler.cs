@@ -35,6 +35,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
             Schedule_KnowledgeReportCheck();
+            Schedule_LOM_Export();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
@@ -116,6 +117,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 TriggerBuilder.Create()
                     .WithDailyTimeIntervalSchedule(x =>
                         x.StartingDailyAt(new TimeOfDay(10, 00))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
+
+        private static void Schedule_LOM_Export()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<LomExportJob>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(3, 30))
                             .OnEveryDay()
                             .EndingDailyAfterCount(1)).Build());
         }
