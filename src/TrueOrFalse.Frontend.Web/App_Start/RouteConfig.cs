@@ -153,6 +153,7 @@ namespace TrueOrFalse
             routes.MapRoute("ApiQuestions", "Api/Questions/{action}", new { controller = "QuestionsApi" });
             routes.MapRoute("ApiSearch", "Api/Search/{action}", new { controller = "SearchApi" });
             routes.MapRoute("ApiActivityPoints", "Api/ActivityPoints/{action}", new { controller = "ActivityPointsApi" });
+            routes.MapRoute("ApiLom", "Api/Lom/{action}", new { controller = "LomApi" });
 
             routes.MapRoute("ImageUpload", "Images/ImageUpload/{action}", new { controller = "ImageUpload" });
             
