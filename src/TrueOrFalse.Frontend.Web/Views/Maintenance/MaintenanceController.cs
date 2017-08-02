@@ -489,6 +489,5 @@ public class MaintenanceController : BaseController
         }
 
         return View("Maintenance", new MaintenanceModel { });
-
     }
 }
