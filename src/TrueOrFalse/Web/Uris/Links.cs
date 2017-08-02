@@ -141,7 +141,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
-        public static string AnswerQuestion(Question question) => AnswerQuestion(question, -1);
+        public static string AnswerQuestion(Question question) => 
+            HttpContext.Current == null
+            ? ""
+            : AnswerQuestion(question, -1);
 
         public static string AnswerQuestion(string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
         {
@@ -339,7 +342,10 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string SetDetail(UrlHelper url, SetMini setMini) => SetDetail(url, setMini.Name, setMini.Id);
         public static string SetDetail(UrlHelper url, Set set) => SetDetail(url, set.Name, set.Id);
-        public static string SetDetail(Set set) => SetDetail(set.Name, set.Id);
+        public static string SetDetail(Set set) => 
+            HttpContext.Current == null
+            ? ""
+            : SetDetail(set.Name, set.Id);
         public static string SetDetail(string name, int id) => SetDetail(GetUrlHelper(), name, id);
 
         public static string SetDetail(UrlHelper url, string name, int id){
