@@ -221,4 +221,6 @@ public class Category : DomainEntity, ICreator
 
         throw new Exception("Invalid type.");
     }
+
+    public virtual string ToLomXml() => LomXml.From(this);
 }

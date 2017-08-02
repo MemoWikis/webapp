@@ -246,6 +246,9 @@
     <Compile Include="Domain\Classification\Category\Graph\CategoryNode.cs" />
     <Compile Include="Domain\Classification\Category\Graph\GraphJsonDtos.cs" />
     <Compile Include="Domain\Classification\Category\Graph\Ops\GetCategoryGraph.cs" />
+    <Compile Include="Tools\Export\LomExporter.cs" />
+    <Compile Include="Tools\Export\LomLists.cs" />
+    <Compile Include="Tools\Export\LomXml.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryDeleter.cs" />
     <Compile Include="Domain\Classification\Category\Ops\CategoryExists.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetBreadCrumb.cs" />
