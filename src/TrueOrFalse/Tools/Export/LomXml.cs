@@ -4,30 +4,78 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class LomXml
 {
+    private static XAttribute _langAttributeDe => new XAttribute("language", "de");
+    private static XElement _sourceElementLom => new XElement("source", "LOMv1.0");
+    private static XElement _sourceElementLre => new XElement("source", "LREv3.0");
+
     public static string From(Category category)
     {
-        var langAttribute = new XAttribute("language", "de");
-        var sourceElementLom = new XElement("source", "LOMv1.0");
-        var sourceElementLre = new XElement("source", "LREv3.0");
+        
 
         var xDoc = new XDocument(
             new XElement("lom",
-                GetGeneral(category, langAttribute, sourceElementLom),
-                GetLifecycle(langAttribute, sourceElementLom),
-                GetMetaMetadata(),//???
+                GetGeneral(category),
+                GetLifecycle(category),
+                GetMetaMetadata(),
                 GetTechnical(category),
-                GetEducational()
+                GetEducational(),
+                GetRights()
             )
         );
 
         return xDoc.ToString();
     }
 
-    private static XElement GetTechnical(Category category)
+    private static XElement GetGeneral(Category category)
     {
-        return new XElement("technical",
-            //Format, size
-            new XElement("location", Links.CategoryDetail(category))
+        return new XElement("general",
+            new XElement("identifier",
+                new XElement("catalog", "memucho"),
+                new XElement("entry", category.Id)
+            ),
+            new XElement("title",
+                new XElement("string", category.Name.Truncate(1000), _langAttributeDe)
+            ),
+            new XElement("language", "de"),
+            new XElement("description",
+                new XElement("string", category.Description.Truncate(2000), _langAttributeDe)
+            ),
+            category.ParentCategories().Select(c =>
+                new XElement("keyword",
+                    new XElement("string", c.Name, _langAttributeDe)
+                )
+            ).ToList(),
+            new XElement("structure",
+                _sourceElementLom,
+                new XElement("value", LomGeneralStructure.Atomic.GetValue())
+            ),
+            new XElement("aggregationLevel",
+                _sourceElementLom,
+                new XElement("value", LomAggregationLevel.Level3Course.GetValue())
+            )
+        );
+    }
+
+    private static XElement GetLifecycle(Category category)
+    {
+        return new XElement("lifeCycle",
+            new XElement("version",
+                new XElement("string", "1.0", _langAttributeDe)
+            ),
+            new XElement("status",
+                _sourceElementLom,
+                new XElement("value", LomLifecycleStatus.Final.GetValue())
+            ),
+            new XElement("contribute",
+                new XElement("role",
+                    _sourceElementLom,
+                    new XElement("value", LomLifecycleRole.Author.GetValue())
+                ),
+                new XElement("entity", new XCData("BEGIN:vCard VERSION:3.0 FN:memucho.de N:memucho.de END:vcard")),
+                new XElement("date",
+                    new XElement("dateTime", category.DateCreated)
+                )
+            )
         );
     }
 
@@ -36,66 +84,35 @@ public class LomXml
         return new XElement("metaMetadata","");
     }
 
+    private static XElement GetTechnical(Category category)
+    {
+        return new XElement("technical",
+            new XElement("format", "text/html"),
+            new XElement("location", Links.CategoryDetail(category))
+        );
+    }
+
     private static XElement GetEducational()
     {
         return new XElement("educational",
-            new XElement("learningResourceType", LomEducationalEndUser.Learner.GetValue()),
-            new XElement("context","")//???
+            new XElement("learningResourceType", "web page"),
+            new XElement("context",
+                _sourceElementLre,
+                new XElement("value", LomEducationalContext.CompulsoryEducation)),//???
+            new XElement("typicalAgeRange", "0-99")
         );
     }
 
-    private static XElement GetLifecycle(XAttribute langAttribute, XElement sourceElementLom)
+    private static XElement GetRights()
     {
-        return new XElement("lifeCycle",
-            new XElement("version",
-                new XElement("string", "1.0", langAttribute)
+        return new XElement("rights",
+            new XElement("copyrightAndOtherRestrictions",
+                _sourceElementLom,
+                new XElement("value", "yes")
             ),
-            new XElement("status",
-                sourceElementLom,
-                new XElement("value", LomLifecycleStatus.Final.GetValue())
-            ),
-            new XElement("contribute",
-                new XElement("role", 
-                    sourceElementLom,
-                    new XElement("value", LomLifecycleRole.Author.GetValue())
-                )
-                ,
-                new XElement("entity", new XCData("test"))
-            )
-            //Liste von "contribute"
-            //Unter "entity" vCard
-            //Date
-            //...
+            new XElement("description",
+                new XElement("string", "CC BY, Autor: memucho", _langAttributeDe))
         );
     }
-
-    private static XElement GetGeneral(Category category, XAttribute langAttribute, XElement sourceElementLom)
-    {
-        return new XElement("general", 
-            new XElement("identifier",
-                new XElement("catalog", "memucho"),
-                new XElement("entry", category.Id)
-            ),
-            new XElement("title", 
-                new XElement("string", category.Name.Truncate(1000), langAttribute)
-            ),
-            new XElement("language", "de"),
-            new XElement("description", 
-                new XElement("string", category.Description.Truncate(2000), langAttribute)
-            ),
-            category.ParentCategories().Select(c => 
-                new XElement("keyword", 
-                    new XElement("string", c.Name, langAttribute)
-                )
-            ).ToList(),
-            new XElement("structure",
-                sourceElementLom,
-                new XElement("value", LomGeneralStructure.Atomic.GetValue())
-            ),
-            new XElement("aggregationLevel",
-                sourceElementLom,
-                new XElement("value", LomAggregationLevel.Level3Course.GetValue())
-            )
-        );
-    }
+    
 }

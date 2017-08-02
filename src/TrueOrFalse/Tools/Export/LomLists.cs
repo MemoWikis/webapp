@@ -124,13 +124,24 @@ static class LomListsExtensions
         return endUser.ToString().ToLower();
     }
 
-    //public static string GetValue(this LomEducationalContext context)
-    //{
-    //    switch (context)
-    //    {
-
-    //        default: "other"
-    //    }
-    //}
+    public static string GetValue(this LomEducationalContext context)
+    {
+        switch (context)
+        {
+            case LomEducationalContext.PreSchool: return "pre-school";
+            case LomEducationalContext.CompulsoryEducation: return "compulsory education";
+            case LomEducationalContext.SpecialEducation: return "special education";
+            case LomEducationalContext.VocationalEducation: return "vocational education";
+            case LomEducationalContext.HigherEducation: return "higher education";
+            case LomEducationalContext.DistanceEducation: return "distance education";
+            case LomEducationalContext.ContinuingEducation: return "continuing education";
+            case LomEducationalContext.ProfessionalDevelopment: return "professional development";
+            case LomEducationalContext.Library: return "library";
+            case LomEducationalContext.EducationalAdministration: return "educational administration";
+            case LomEducationalContext.PolicyMaking: return "policy making";
+            case LomEducationalContext.Other: return "other";
+            default: return "other";
+        }
+    }
 }
 
