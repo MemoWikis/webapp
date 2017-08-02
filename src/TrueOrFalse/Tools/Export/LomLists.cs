@@ -77,6 +77,14 @@ public enum LomEducationalContext
     Other = 12
 }
 
+public enum LomMetaMetadataRoleLre
+{
+    Creator = 1,
+    Enricher = 2,
+    Provider = 3,
+    Validator = 4
+}
+
 
 static class LomListsExtensions
 {
@@ -117,6 +125,11 @@ static class LomListsExtensions
 
             default: return "";
         }
+    }
+
+    public static string GetValue(this LomMetaMetadataRoleLre role)
+    {
+        return role.ToString().ToLower();
     }
 
     public static string GetValue(this LomEducationalEndUser endUser)

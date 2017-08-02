@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Xml.Linq;
 using TrueOrFalse.Frontend.Web.Code;
@@ -7,16 +8,15 @@ public class LomXml
     private static XAttribute _langAttributeDe => new XAttribute("language", "de");
     private static XElement _sourceElementLom => new XElement("source", "LOMv1.0");
     private static XElement _sourceElementLre => new XElement("source", "LREv3.0");
+    private static readonly XCData _vCardCData = new XCData("BEGIN:vCard VERSION:3.0 FN:memucho.de N:memucho.de END:vcard");
 
     public static string From(Category category)
     {
-        
-
         var xDoc = new XDocument(
             new XElement("lom",
                 GetGeneral(category),
                 GetLifecycle(category),
-                GetMetaMetadata(),
+                GetMetaMetadata(category),
                 GetTechnical(category),
                 GetEducational(),
                 GetRights()
@@ -31,7 +31,7 @@ public class LomXml
         return new XElement("general",
             new XElement("identifier",
                 new XElement("catalog", "memucho"),
-                new XElement("entry", category.Id)
+                new XElement("entry", "thema-" + category.Id)
             ),
             new XElement("title",
                 new XElement("string", category.Name.Truncate(1000), _langAttributeDe)
@@ -71,7 +71,7 @@ public class LomXml
                     _sourceElementLom,
                     new XElement("value", LomLifecycleRole.Author.GetValue())
                 ),
-                new XElement("entity", new XCData("BEGIN:vCard VERSION:3.0 FN:memucho.de N:memucho.de END:vcard")),
+                new XElement("entity", _vCardCData),
                 new XElement("date",
                     new XElement("dateTime", category.DateCreated)
                 )
@@ -79,16 +79,29 @@ public class LomXml
         );
     }
 
-    private static XElement GetMetaMetadata()
+    private static XElement GetMetaMetadata(Category category)
     {
-        return new XElement("metaMetadata","");
+        return new XElement("metaMetadata",
+            new XElement("identifier",
+                new XElement("catalog", "memucho"),
+                new XElement("entry", "metadata.memucho-thema-" + category.Id)
+            ),
+            new XElement("contribute", 
+                new XElement("role",
+                    _sourceElementLre,
+                    new XElement("value", LomMetaMetadataRoleLre.Creator.GetValue())
+                ),
+                new XElement("entity", _vCardCData),
+                new XElement("date", DateTime.Now)
+            )
+        );
     }
 
     private static XElement GetTechnical(Category category)
     {
         return new XElement("technical",
             new XElement("format", "text/html"),
-            new XElement("location", Links.CategoryDetail(category))
+            new XElement("location", "https://memucho.de" + Links.CategoryDetail(category))
         );
     }
 
@@ -98,7 +111,7 @@ public class LomXml
             new XElement("learningResourceType", "web page"),
             new XElement("context",
                 _sourceElementLre,
-                new XElement("value", LomEducationalContext.CompulsoryEducation)),//???
+                new XElement("value", LomEducationalContext.CompulsoryEducation)),
             new XElement("typicalAgeRange", "0-99")
         );
     }
@@ -114,5 +127,10 @@ public class LomXml
                 new XElement("string", "CC BY, Autor: memucho", _langAttributeDe))
         );
     }
-    
+
+    //private static XElement GetClassification()
+    //{
+    //    return new XElement();
+    //}
+}
 }
