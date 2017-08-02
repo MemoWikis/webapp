@@ -133,4 +133,3 @@ public class LomXml
     //    return new XElement();
     //}
 }
-}
