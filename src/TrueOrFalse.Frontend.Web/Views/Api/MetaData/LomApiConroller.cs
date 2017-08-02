@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 public class LomApiController : BaseController
 {
@@ -8,5 +9,19 @@ public class LomApiController : BaseController
         var xml = LomXml.From(category);
 
         return Content(xml, "text/xml");
-    }   
+    }
+
+
+    /// <summary>
+    /// Local access only,  for debugging and testing.
+    /// </summary>
+    public ActionResult TriggerExportToFileSystem()
+    {
+        if(!Request.IsLocal)
+            throw new Exception("only local access allowed");
+
+        LomExporter.AllToFileSystem();
+
+        return Content("DONE!");
+    }
 }
