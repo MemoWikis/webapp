@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using TrueOrFalse.Frontend.Web.Code;
@@ -12,35 +13,50 @@ public class LomXml
 
     public static string From(Category category)
     {
+        return From(new LomXmlParams(category));
+    }
+
+    public static string From(Set set)
+    {
+        return From(new LomXmlParams(set));
+    }
+
+    public static string From(Question question)
+    {
+        return From(new LomXmlParams(question));
+    }
+
+    public static string From(LomXmlParams objectParams)
+    {
         var xDoc = new XDocument(
             new XElement("lom",
-                GetGeneral(category),
-                GetLifecycle(category),
-                GetMetaMetadata(category),
-                GetTechnical(category),
+                GetGeneral(objectParams),
+                GetLifecycle(objectParams),
+                GetMetaMetadata(objectParams),
+                GetTechnical(objectParams),
                 GetEducational(),
-                GetRights()
+                GetRights(objectParams)
             )
         );
 
         return xDoc.ToString();
     }
 
-    private static XElement GetGeneral(Category category)
+    private static XElement GetGeneral(LomXmlParams p)
     {
         return new XElement("general",
             new XElement("identifier",
                 new XElement("catalog", "memucho"),
-                new XElement("entry", "thema-" + category.Id)
+                new XElement("entry", p.GeneralIdentifier)
             ),
             new XElement("title",
-                new XElement("string", category.Name.Truncate(1000), _langAttributeDe)
+                new XElement("string", p.GeneralTitle.Truncate(1000), _langAttributeDe)
             ),
             new XElement("language", "de"),
             new XElement("description",
-                new XElement("string", category.Description.Truncate(2000), _langAttributeDe)
+                new XElement("string", p.GeneralDescription.Truncate(2000), _langAttributeDe)
             ),
-            category.ParentCategories().Select(c =>
+            p.Categories.Select(c =>
                 new XElement("keyword",
                     new XElement("string", c.Name, _langAttributeDe)
                 )
@@ -51,12 +67,12 @@ public class LomXml
             ),
             new XElement("aggregationLevel",
                 _sourceElementLom,
-                new XElement("value", LomAggregationLevel.Level3Course.GetValue())
+                new XElement("value", p.AggregationLevel)
             )
         );
     }
 
-    private static XElement GetLifecycle(Category category)
+    private static XElement GetLifecycle(LomXmlParams p)
     {
         return new XElement("lifeCycle",
             new XElement("version",
@@ -73,18 +89,18 @@ public class LomXml
                 ),
                 new XElement("entity", _vCardCData),
                 new XElement("date",
-                    new XElement("dateTime", category.DateCreated)
+                    new XElement("dateTime", p.LifecycleDate)
                 )
             )
         );
     }
 
-    private static XElement GetMetaMetadata(Category category)
+    private static XElement GetMetaMetadata(LomXmlParams p)
     {
         return new XElement("metaMetadata",
             new XElement("identifier",
                 new XElement("catalog", "memucho"),
-                new XElement("entry", "metadata.memucho-thema-" + category.Id)
+                new XElement("entry", p.MetaMetaCatalogEntry)
             ),
             new XElement("contribute", 
                 new XElement("role",
@@ -97,11 +113,11 @@ public class LomXml
         );
     }
 
-    private static XElement GetTechnical(Category category)
+    private static XElement GetTechnical(LomXmlParams p)
     {
         return new XElement("technical",
             new XElement("format", "text/html"),
-            new XElement("location", "https://memucho.de" + Links.CategoryDetail(category))
+            new XElement("location", p.TechnicalLocation)
         );
     }
 
@@ -116,7 +132,7 @@ public class LomXml
         );
     }
 
-    private static XElement GetRights()
+    private static XElement GetRights(LomXmlParams p)
     {
         return new XElement("rights",
             new XElement("copyrightAndOtherRestrictions",
@@ -124,7 +140,7 @@ public class LomXml
                 new XElement("value", "yes")
             ),
             new XElement("description",
-                new XElement("string", "CC BY, Autor: memucho", _langAttributeDe))
+                new XElement("string", p.RightsDescription, _langAttributeDe))
         );
     }
 
@@ -133,4 +149,57 @@ public class LomXml
     //    return new XElement();
     //}
 }
+
+public class LomXmlParams
+{
+    public string GeneralIdentifier;
+    public string GeneralTitle;
+    public string GeneralDescription;
+    public IList<Category> Categories;
+    public int AggregationLevel;
+    public DateTime LifecycleDate;
+    public string MetaMetaCatalogEntry;
+    public string TechnicalLocation;
+    public string RightsDescription;
+
+
+    public LomXmlParams(Category category)
+    {
+        GeneralIdentifier = "thema-" + category.Id;
+        GeneralTitle = category.Name;
+        GeneralDescription = category.Description;
+        Categories = category.ParentCategories();
+        AggregationLevel = LomAggregationLevel.Level3Course.GetValue();
+        LifecycleDate = category.DateCreated;
+        MetaMetaCatalogEntry = "metadata.memucho-thema-" + category.Id;
+        TechnicalLocation = "https://memucho.de" + Links.CategoryDetail(category);
+        RightsDescription = "CC BY, Autor: " + category.Creator.Name + " (Nutzer auf memucho.de)";
+    }
+
+    public LomXmlParams(Question question)
+    {
+        GeneralIdentifier = "frage-" + question.Id;
+        GeneralTitle = question.Text;
+        GeneralDescription = "Lernfrage \"" + question.Text + "\" mit Antwortmöglichkeit";
+        Categories = question.Categories;
+        AggregationLevel = LomAggregationLevel.Level1Fragment.GetValue();
+        LifecycleDate = question.DateCreated;
+        MetaMetaCatalogEntry = "metadata.memucho-frage-" + question.Id;
+        TechnicalLocation = "https://memucho.de" + Links.AnswerQuestion(question);
+        RightsDescription = "CC BY, Autor: " + question.Creator.Name + " (Nutzer auf memucho.de)";
+    }
+
+    public LomXmlParams(Set set)
+    {
+        GeneralIdentifier = "set-" + set.Id;
+        GeneralTitle = set.Text;
+        GeneralDescription = set.Text;
+        Categories = set.Categories;
+        AggregationLevel = LomAggregationLevel.Level2Lesson.GetValue();
+        LifecycleDate = set.DateCreated;
+        MetaMetaCatalogEntry = "metadata.memucho-set-" + set.Id;
+        TechnicalLocation = "https://memucho.de" + Links.SetDetail(set);
+        RightsDescription = "CC BY, Autor: " + set.Creator.Name + " (Nutzer auf memucho.de)";
+    }
+
 }
