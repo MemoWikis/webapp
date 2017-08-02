@@ -18,6 +18,11 @@ public class LomExporter
         if (!Directory.Exists(exportPath))
             throw new Exception("directory does not exist");
 
+        ExportCategories(exportPath);
+    }
+
+    private static void ExportCategories(string exportPath)
+    {
         var listOfSelectedCategories = new[] {84, 724, 725, 841, 264, 265, 285, 606, 615, 618, 619, 607, 635, 644};
         var categories = Sl.CategoryRepo.GetByIds(listOfSelectedCategories);
 
