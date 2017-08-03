@@ -19,11 +19,19 @@ class ShareSet extends ShareDialog {
     }
 
     ShowModal() {
+
+        var self = this;
         $.post("/Set/ShareSetModal?setId=" + this._setId, (modal) => {
             $("#modalShareSet").hide(); 
             $("#modalContainer").append(modal);
-            this.InitModal();
             $("#modalShareSet").modal('show');
+
+            var interval = setInterval(() => {
+                if ($("#ckbHideKnowledgeBtn").length === 1) {
+                    self.InitModal();
+                    clearInterval(interval);
+                }
+            }, 15);
 
             var validationSettings = {
                 rules: {
