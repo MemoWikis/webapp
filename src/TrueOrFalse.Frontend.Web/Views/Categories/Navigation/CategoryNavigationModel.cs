@@ -7,7 +7,7 @@ public class CategoryNavigationModel : BaseModel
     public Category RootCategory;
     private List<Category> _activeCategories;
 
-    public List<Category> CategoryTrail;
+    public List<Category> CategoryConnectionTrail;
 
     public List<Category> DefaultCategoriesList = Sl.CategoryRepo.GetDefaultCategoriesList();
     
@@ -22,7 +22,7 @@ public class CategoryNavigationModel : BaseModel
         }
     }
 
-    private List<Category> ExtractRootCategoryFromTrail(List<Category> categoryTrail)
+    private List<Category> ExtractRootCategoryFromPath(List<Category> categoryTrail)
     {
         if (categoryTrail.Count > 0)
         {
@@ -52,6 +52,8 @@ public class CategoryNavigationModel : BaseModel
 
     private void FindActiveCategoryPath(List<Category> actualCategories)
     {
+        List<Category> categoryConnectionTrail;
+
         var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath;
         if (userCategoryPath?.Count > 0)
         {
@@ -64,12 +66,12 @@ public class CategoryNavigationModel : BaseModel
                         userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - (pathIndex + 1)); //TODO:Julian Null Pointer Exception if position not exsitent
                     Sl.SessionUiData.TopicMenu.UserCategoryPath = userCategoryPath;
 
-                    var categoryTrail = new List<Category>(userCategoryPath); //TODO:Julian There is a better way to solve this
-                    ExtractRootCategoryFromTrail(categoryTrail);
-                    categoryTrail.RemoveAt(0);
-                    if (categoryTrail.Count > 0)
-                        categoryTrail.RemoveAt(categoryTrail.Count - 1);
-                    CategoryTrail = categoryTrail;
+                    categoryConnectionTrail = new List<Category>(userCategoryPath);
+                    ExtractRootCategoryFromPath(categoryConnectionTrail);
+                    categoryConnectionTrail.RemoveAt(0);
+                    if (categoryConnectionTrail.Count > 0)
+                        categoryConnectionTrail.RemoveAt(categoryConnectionTrail.Count - 1);
+                    CategoryConnectionTrail = categoryConnectionTrail;
 
                     ActiveCategory = actualCategory;
                     return;
@@ -83,13 +85,14 @@ public class CategoryNavigationModel : BaseModel
                 if (lastVisitedCategoryAggregatedCategories.Contains(actualCategory))
                 {
                     var connectingCategoryPath = ThemeMenuHistoryOps.GetConnectedCategoryPath(new List<Category> { lastVisitedCategory }, actualCategory);
-                    ExtractRootCategoryFromTrail(connectingCategoryPath);
-                    connectingCategoryPath.Insert(0, RootCategory);
+                    ExtractRootCategoryFromPath(connectingCategoryPath);
                     Sl.SessionUiData.TopicMenu.UserCategoryPath = connectingCategoryPath;
 
-                    connectingCategoryPath.RemoveAt(0);
-                    connectingCategoryPath.RemoveAt(connectingCategoryPath.Count - 1);
-                    CategoryTrail = connectingCategoryPath;
+                    categoryConnectionTrail = new List<Category>(connectingCategoryPath);
+                    categoryConnectionTrail.RemoveAt(0);
+                    if(categoryConnectionTrail.Count > 0)
+                        categoryConnectionTrail.RemoveAt(categoryConnectionTrail.Count - 1);
+                    CategoryConnectionTrail = categoryConnectionTrail;
                     ActiveCategory = actualCategory;
                     return;
                 }
@@ -99,12 +102,13 @@ public class CategoryNavigationModel : BaseModel
         ActiveCategory = actualCategories.First();
         var categoryPath = new List<Category>(GetBreadCrumb.For(actualCategories.First()));
         categoryPath.Add(ActiveCategory);
-        categoryPath = ExtractRootCategoryFromTrail(categoryPath); //TODO:Julian Error possible because of Allgemeinwissen added to Path (= wrong Path)
-        Sl.SessionUiData.TopicMenu.UserCategoryPath = new List<Category>(categoryPath);
+        categoryPath = ExtractRootCategoryFromPath(categoryPath);
+        Sl.SessionUiData.TopicMenu.UserCategoryPath = categoryPath;
 
-        categoryPath.RemoveAt(0);
-        if(categoryPath.Count > 0)
-            categoryPath.RemoveAt(categoryPath.Count - 1);
-        CategoryTrail = categoryPath;
+        categoryConnectionTrail = new List<Category>(categoryPath);
+        categoryConnectionTrail.RemoveAt(0);
+        if(categoryConnectionTrail.Count > 0)
+            categoryConnectionTrail.RemoveAt(categoryConnectionTrail.Count - 1);
+        CategoryConnectionTrail = categoryConnectionTrail;
     }
 }
