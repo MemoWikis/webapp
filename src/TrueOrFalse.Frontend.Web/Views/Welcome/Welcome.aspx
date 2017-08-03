@@ -781,15 +781,17 @@
                 </div>
             </div>
 
-
-            <p class="ShortParagraph">
-                Wir möchten freie Bildungsinhalten fördern und dich beim Lernen unterstützen. 
-                Auf dieser Idee werden wir ein stabiles gemeinwohlorientiertes Unternehmen aufbauen. 
-                Wir konzipieren, gestalten und programmieren memucho gemeinsam.
-            </p>
-            <p class="ShortParagraph">
-                Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
-            </p>
+            <div class="TeamText">
+                <p class="ShortParagraph">
+                    Wir möchten freie Bildungsinhalte fördern und dich beim Lernen unterstützen. 
+                    Auf dieser Idee werden wir ein stabiles gemeinwohlorientiertes Unternehmen aufbauen. 
+                    Wir konzipieren, gestalten und programmieren memucho gemeinsam.
+                </p>
+                <p class="ShortParagraph">
+                    Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
+                </p>
+            </div>
+            
         </div>  
 
         <%--<div class="row">

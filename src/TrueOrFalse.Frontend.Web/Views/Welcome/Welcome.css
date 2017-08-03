@@ -348,6 +348,13 @@ fieldset[disabled] .EduCategory.active {
   padding-left: 10px;
   padding-right: 10px;
 }
+@media (max-width: 767px) {
+  #WelcomeDashboard #dashboardPoints,
+  #WelcomeDashboard #dashboardKnowledgeWheel {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
 @media (min-width: 992px) {
   #WelcomeDashboard #dashboardPoints,
   #WelcomeDashboard #dashboardKnowledgeWheel {
@@ -360,6 +367,11 @@ fieldset[disabled] .EduCategory.active {
   #WelcomeDashboard #dashboardKnowledgeWheel {
     padding-left: 40px;
     padding-right: 40px;
+  }
+}
+@media (max-width: 767px) {
+  #WelcomeDashboard #dashboardPoints {
+    margin-bottom: 50px;
   }
 }
 #WelcomeDashboard #chartWishKnowledge {
@@ -632,4 +644,7 @@ fieldset[disabled] .EduCategory.active {
 }
 #team .infoCatchWord {
   padding-bottom: 2px;
+}
+.TeamText {
+  margin-top: 40px;
 }
