@@ -18,7 +18,12 @@ public class LomExporter
         if (!Directory.Exists(exportPath))
             throw new Exception("directory does not exist");
 
+        foreach (FileInfo file in new DirectoryInfo(exportPath).GetFiles())
+            file.Delete();
+
         ExportCategories(exportPath);
+        ExportQuestions(exportPath);
+        ExportLearnsets(exportPath);
     }
 
     private static void ExportCategories(string exportPath)
@@ -28,12 +33,57 @@ public class LomExporter
 
         foreach (var category in categories)
         {
-            var exportFilePath = Path.Combine(exportPath, $"topic-{category.Id}.xml");
+            if (!category.Creator.IsMemuchoUser && !category.Creator.IsBeltz)
+                continue;
 
-            if (File.Exists(exportFilePath))
-                File.Delete(exportFilePath);
+            try
+            {
+                File.WriteAllText(Path.Combine(exportPath, $"topic-{category.Id}.xml"), LomXml.From(category));
+            }
+            catch (Exception e)
+            {
+                Logg.Error(new Exception($"Error exporting set {category.Id}", e));
+            }
+        }        
+    }
 
-            File.WriteAllText(exportFilePath, LomXml.From(category));
+    private static void ExportQuestions(string exportPath)
+    {
+        var allQuestions = Sl.QuestionRepo.GetAll();
+
+        foreach (var question in allQuestions)
+        {
+            if(!question.Creator.IsMemuchoUser && !question.Creator.IsBeltz)
+                continue;
+
+            try
+            {
+                File.WriteAllText(Path.Combine(exportPath, $"question-{question.Id}.xml"), LomXml.From(question));
+            }
+            catch (Exception e)
+            {
+                Logg.Error(new Exception($"Error exporting question {question.Id}", e));
+            }
+        }
+    }
+
+    private static void ExportLearnsets(string exportPath)
+    {
+        var allSets = Sl.SetRepo.GetAll();
+
+        foreach (var set in allSets)
+        {
+            if (!set.Creator.IsMemuchoUser && !set.Creator.IsBeltz)
+                continue;
+
+            try
+            {
+                File.WriteAllText(Path.Combine(exportPath, $"set-{set.Id}.xml"), LomXml.From(set));
+            }
+            catch (Exception e)
+            {
+                Logg.Error(new Exception($"Error exporting set {set.Id}", e));
+            }
         }
     }
 }
