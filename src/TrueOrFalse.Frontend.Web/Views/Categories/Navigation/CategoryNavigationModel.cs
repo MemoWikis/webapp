@@ -22,17 +22,16 @@ public class CategoryNavigationModel : BaseModel
         }
     }
 
-    private void ExtractRootCategoryFromTrail(List<Category> categoryTrail)
+    private List<Category> ExtractRootCategoryFromTrail(List<Category> categoryTrail)
     {
-        if (DefaultCategoriesList.Contains(categoryTrail.First()))
-        {
-            RootCategory = categoryTrail.First();
-            categoryTrail.RemoveAt(0);
-            return;
-        }
-
         if (categoryTrail.Count > 0)
         {
+            if (DefaultCategoriesList.Contains(categoryTrail.First()))
+            {
+                RootCategory = categoryTrail.First();
+                return categoryTrail;
+            }
+
             foreach (var category in categoryTrail)
             {
                 if (DefaultCategoriesList.Any(d => category.Id == d.Id))
@@ -40,48 +39,52 @@ public class CategoryNavigationModel : BaseModel
                     RootCategory = category;
 
                     var rootCategoryIndex = categoryTrail.FindIndex(c => c == category);
-                    categoryTrail.RemoveRange(0, rootCategoryIndex);
-                    return;
+                    categoryTrail.RemoveRange(0, rootCategoryIndex - 1);
+                    return categoryTrail;
                 }
             }
         }
 
         RootCategory = Sl.CategoryRepo.Allgemeinwissen;
+        categoryTrail.Insert(0, RootCategory);
+        return categoryTrail;
     }
 
     private void FindActiveCategoryPath(List<Category> actualCategories)
     {
-
-        if (Sl.SessionUiData.TopicMenu.UserCategoryPath.Count > 0)
+        var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath;
+        if (userCategoryPath?.Count > 0)
         {
-            var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath;
             foreach (var actualCategory in actualCategories)
             {
                 var pathIndex = userCategoryPath.FindIndex(c => c == actualCategory);
                 if (pathIndex != -1)
                 {
-                    userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - pathIndex + 1); //TODO:Julian Null Pointer Exception if position not exsitent
+                    if(userCategoryPath.Count > pathIndex + 1)
+                        userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - (pathIndex + 1)); //TODO:Julian Null Pointer Exception if position not exsitent
                     Sl.SessionUiData.TopicMenu.UserCategoryPath = userCategoryPath;
 
-                    var categoryTrail = new List<Category>(userCategoryPath);//TODO:Julian There is a better way to solve this
-                    categoryTrail.RemoveAt(categoryTrail.Count - 1); //Remove actualCategory
+                    var categoryTrail = new List<Category>(userCategoryPath); //TODO:Julian There is a better way to solve this
                     ExtractRootCategoryFromTrail(categoryTrail);
+                    categoryTrail.RemoveAt(0);
+                    if (categoryTrail.Count > 0)
+                        categoryTrail.RemoveAt(categoryTrail.Count - 1);
                     CategoryTrail = categoryTrail;
 
                     ActiveCategory = actualCategory;
                     return;
                 }
             }
-        }
 
-        if (Sl.SessionUiData.VisitedCategories.Any())
-        {
-            var lastVisitedCategory = Sl.CategoryRepo.GetById(Sl.SessionUiData.VisitedCategories.First().Id);
+            var lastVisitedCategory = userCategoryPath.Last();
+            var lastVisitedCategoryAggregatedCategories = lastVisitedCategory.AggregatedCategories(false);
             foreach (var actualCategory in actualCategories)
             {
-                if (lastVisitedCategory.AggregatedCategories().Contains(actualCategory))
+                if (lastVisitedCategoryAggregatedCategories.Contains(actualCategory))
                 {
-                    var connectingCategoryPath = ThemeMenuHistoryOps.GetConnectingCategoryPath(lastVisitedCategory, actualCategory);
+                    var connectingCategoryPath = ThemeMenuHistoryOps.GetConnectedCategoryPath(new List<Category> { lastVisitedCategory }, actualCategory);
+                    ExtractRootCategoryFromTrail(connectingCategoryPath);
+                    connectingCategoryPath.Insert(0, RootCategory);
                     Sl.SessionUiData.TopicMenu.UserCategoryPath = connectingCategoryPath;
 
                     connectingCategoryPath.RemoveAt(0);
@@ -93,16 +96,15 @@ public class CategoryNavigationModel : BaseModel
             }
         }
 
-        var activeCategory = actualCategories.First();
-        ActiveCategory = activeCategory;
+        ActiveCategory = actualCategories.First();
         var categoryPath = new List<Category>(GetBreadCrumb.For(actualCategories.First()));
-        categoryPath.Add(activeCategory);
-        ExtractRootCategoryFromTrail(categoryPath);
-        categoryPath.Insert(0, RootCategory);
-        Sl.SessionUiData.TopicMenu.UserCategoryPath = categoryPath;
+        categoryPath.Add(ActiveCategory);
+        categoryPath = ExtractRootCategoryFromTrail(categoryPath); //TODO:Julian Error possible because of Allgemeinwissen added to Path (= wrong Path)
+        Sl.SessionUiData.TopicMenu.UserCategoryPath = new List<Category>(categoryPath);
 
         categoryPath.RemoveAt(0);
-        categoryPath.RemoveAt(categoryPath.Count - 1);
-        CategoryTrail = categoryPath; //TODO:Julian There is a better way...
+        if(categoryPath.Count > 0)
+            categoryPath.RemoveAt(categoryPath.Count - 1);
+        CategoryTrail = categoryPath;
     }
 }
