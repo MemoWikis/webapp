@@ -78,7 +78,8 @@ public class CategoryNavigationModel : BaseModel
                 }
             }
 
-            var lastVisitedCategory = userCategoryPath.Last();
+            var lastVisitedCategoryId = userCategoryPath.Last().Id;
+            var lastVisitedCategory = Sl.CategoryRepo.GetById(lastVisitedCategoryId);
             var lastVisitedCategoryAggregatedCategories = lastVisitedCategory.AggregatedCategories(false);
             foreach (var actualCategory in actualCategories)
             {
