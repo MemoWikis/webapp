@@ -35,6 +35,12 @@ public class TopicNavigationModel : BaseModel
         switch (order)
         {
             case null:
+            case "QuestionAmount":
+                CategoryList = CategoryList.OrderByDescending(c => c.GetAggregatedQuestionsFromMemoryCache().Count).ToList();
+                break;
+
+            case "Name":
+                CategoryList = CategoryList.OrderBy(c => c.Name).ToList();
                 break;
 
             default:
