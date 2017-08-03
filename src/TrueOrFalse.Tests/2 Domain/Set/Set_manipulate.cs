@@ -57,112 +57,113 @@ namespace TrueOrFalse.Tests
             Assert.That(setFromDb.Categories.Count(x => x.Name == "category 1"), Is.EqualTo(1));
         }
 
-        [Test]
-        public void Should_update_affected_categories()
-        {
-            ContextCategory.New().Add("1").Add("2").Add("3").Persist();
+        //Rewrite for memory cache 
+        //[Test]
+        //public void Should_update_affected_categories()
+        //{
+        //    ContextCategory.New().Add("1").Add("2").Add("3").Persist();
 
-            var category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that update of CountSet in db with sql isn't overwritten by nhibernate later
-            var category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
-            var category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
+        //    var category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();//Reload to ensure that update of CountSet in db with sql isn't overwritten by nhibernate later
+        //    var category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
+        //    var category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
 
-            var setContext =
-                ContextSet.New()
-                    .AddSet(name: "Set1", categories: new List<Category> { category1 })
-                    .AddSet(name: "Set2", categories: new List<Category> { category2 })
-                    .AddSet(name: "Set3", categories: new List<Category> { category3 })
-                    .Persist();
+        //    var setContext =
+        //        ContextSet.New()
+        //            .AddSet(name: "Set1", categories: new List<Category> { category1 })
+        //            .AddSet(name: "Set2", categories: new List<Category> { category2 })
+        //            .AddSet(name: "Set3", categories: new List<Category> { category3 })
+        //            .Persist();
 
-            var set2Id = setContext.All.First(q => q.Name == "Set2").Id;
-            var set3Id = setContext.All.First(q => q.Name == "Set3").Id;
+        //    var set2Id = setContext.All.First(q => q.Name == "Set2").Id;
+        //    var set3Id = setContext.All.First(q => q.Name == "Set3").Id;
 
-            Assert.That(category1.CountSets, Is.EqualTo(1));
-            Assert.That(category2.CountSets, Is.EqualTo(1));
-            Assert.That(category3.CountSets, Is.EqualTo(1));
+        //    Assert.That(category1.CountSets, Is.EqualTo(1));
+        //    Assert.That(category2.CountSets, Is.EqualTo(1));
+        //    Assert.That(category3.CountSets, Is.EqualTo(1));
 
-            ModifyRelationsForCategory.AddParentCategory(category2, category1);
-            ModifyRelationsForCategory.AddParentCategory(category3, category2);
+        //    ModifyRelationsForCategory.AddParentCategory(category2, category1);
+        //    ModifyRelationsForCategory.AddParentCategory(category3, category2);
 
-            RecycleContainer();//Relations need to be persisted to be considered by ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf()
+        //    RecycleContainer();//Relations need to be persisted to be considered by ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf()
 
-            category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();
-            category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
-            category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
-
-
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category1);
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category2);
-            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category3);
-
-            Assert.That(category1.CountSets, Is.EqualTo(1));
-            Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(3));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
-
-            Assert.That(category2.CountSets, Is.EqualTo(1));
-            Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
-
-            Assert.That(category3.CountSets, Is.EqualTo(1));
-            Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
+        //    category1 = Sl.R<CategoryRepository>().GetByName("1").FirstOrDefault();
+        //    category2 = Sl.R<CategoryRepository>().GetByName("2").FirstOrDefault();
+        //    category3 = Sl.R<CategoryRepository>().GetByName("3").FirstOrDefault();
 
 
-            var set3 = Sl.SetRepo.GetById(set3Id);
+        //    ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category1);
+        //    ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category2);
+        //    ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category3);
 
-            set3.Categories.Remove(category3);
+        //    Assert.That(category1.CountSets, Is.EqualTo(1));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(3));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
-            Sl.SetRepo.Update(set3);
+        //    Assert.That(category2.CountSets, Is.EqualTo(1));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
-            Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.CountSets, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.All(q => q.Id != set3Id));
-
-            Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.All(q => q.Id != set3Id));
-
-            Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(0));
-            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(0));
-            Assert.That(category3.CountSets, Is.EqualTo(0));
+        //    Assert.That(category3.CountSets, Is.EqualTo(1));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+        //    Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
 
-            var set2 = Sl.SetRepo.GetById(set2Id);
+        //    var set3 = Sl.SetRepo.GetById(set3Id);
 
-            SetDeleter.Run(set2.Id);
+        //    set3.Categories.Remove(category3);
 
-            Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category1.CountSetsAggregated, Is.EqualTo(1));
-            Assert.That(category1.CountSets, Is.EqualTo(1));
+        //    Sl.SetRepo.Update(set3);
 
-            Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(0));
-            Assert.That(category2.CountSetsAggregated, Is.EqualTo(0));
-            Assert.That(category2.CountSets, Is.EqualTo(0));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category1.CountSets, Is.EqualTo(1));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.All(q => q.Id != set3Id));
 
-            set3.Categories.Add(category3);
+        //    Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.All(q => q.Id != set3Id));
 
-            Sl.SetRepo.Update(set3);
+        //    Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(0));
+        //    Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(0));
+        //    Assert.That(category3.CountSets, Is.EqualTo(0));
 
-            Assert.That(category1.CountSets, Is.EqualTo(1));
-            Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
-            Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
 
-            Assert.That(category2.CountSets, Is.EqualTo(0));
-            Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
+        //    var set2 = Sl.SetRepo.GetById(set2Id);
 
-            Assert.That(category3.CountSets, Is.EqualTo(1));
-            Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
-            Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
+        //    SetDeleter.Run(set2.Id);
 
-        }
+        //    Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+        //    Assert.That(category1.CountSetsAggregated, Is.EqualTo(1));
+        //    Assert.That(category1.CountSets, Is.EqualTo(1));
+
+        //    Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(0));
+        //    Assert.That(category2.CountSetsAggregated, Is.EqualTo(0));
+        //    Assert.That(category2.CountSets, Is.EqualTo(0));
+
+        //    set3.Categories.Add(category3);
+
+        //    Sl.SetRepo.Update(set3);
+
+        //    Assert.That(category1.CountSets, Is.EqualTo(1));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category1.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(2));
+        //    Assert.That(category1.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
+
+        //    Assert.That(category2.CountSets, Is.EqualTo(0));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category2.Id).Count, Is.EqualTo(0));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+        //    Assert.That(category2.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
+
+        //    Assert.That(category3.CountSets, Is.EqualTo(1));
+        //    Assert.That(Sl.SetRepo.GetForCategory(category3.Id).Count, Is.EqualTo(1));
+        //    Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Count, Is.EqualTo(1));
+        //    Assert.That(category3.GetAggregatedContentFromJson().AggregatedSets.Any(q => q.Name == "Set3"));
+
+        //}
     }
 }

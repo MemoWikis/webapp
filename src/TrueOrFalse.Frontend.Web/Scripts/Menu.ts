@@ -2,12 +2,12 @@
 
     constructor() {
         $(".list-group-item").hover(
-            function () {
-                $(this).find(".show-on-hover").show(150);
-            },
-            function () {
-                $(this).find(".show-on-hover").hide(150);
-            }
+                function () {
+                    $(this).find(".show-on-hover").show(150);
+                },
+                function () {
+                    $(this).find(".show-on-hover").hide(150);
+                }
             );
     }
 }

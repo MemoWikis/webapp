@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div style="padding-bottom: 15px;">
+<%--<div style="padding-bottom: 15px;">
     <div class="btn-group btn-breadcrumb MobileHide">
         <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
         <a href="<%= Links.CategoriesAll() %>" class="btn btn-sm btn-default">
@@ -40,9 +40,21 @@
         <a href="#" class="current"><%= Model.Category.Name %></a>
 
     </div>
-</div>
+</div>--%>
 
 <div id="ItemMainInfo" class="Category Box">
+    <div class="navLinks" >
+        <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+        <% if(Model.IsOwnerOrAdmin){ %>
+            <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+        <% } %>
+        <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
+        <% if(Model.IsInstallationAdmin) { %>
+            <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
+            </a>    
+        <% } %>
+    </div>
     <div class="">
         <div class="row">
             <div class="col-xs-12">
@@ -50,9 +62,12 @@
                     <div class="greyed">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> und <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %>
                     </div>
-                    <h1 style="margin-top: 5px;">
-                       <%= Model.Name %>
-                    </h1>
+                    <div id="MainHeading">
+                        <h1 class="" style="margin-top: 5px;">
+                           <%= Model.Name %>
+                        </h1>
+                        <%--<% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>--%>
+                    </div>
                 </header>
             </div>
             <div class="xxs-stack col-xs-4 col-sm-3">

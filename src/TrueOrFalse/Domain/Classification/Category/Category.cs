@@ -71,94 +71,42 @@ public class Category : DomainEntity, ICreator
             .ToList();
     }
 
-    public virtual string AggregatedContentJson { get; set; }
-
-    public virtual AggregatedContentFromJson GetAggregatedContentFromJson()
-    {
-        if (AggregatedContentJson == null)
-        {
-            UpdateAggregatedContentJson();
-            Sl.CategoryRepo.Update(this);
-        }
-
-        return AggregatedContentFromJson.FromJson(AggregatedContentJson);
-    }
-
     public virtual int CountQuestionsAggregated { get; set; }
 
-    public virtual int GetCountQuestions()
+    public virtual void UpdateCountQuestionsAggregated()
     {
-        return CountQuestionsAggregated > 0 ? CountQuestionsAggregated : CountQuestions;
+        CountQuestionsAggregated = GetCountQuestionsAggregated();
     }
 
-    public virtual int CountSetsAggregated { get; set; }
-
-    public virtual void UpdateAggregatedContentJson()
+    public virtual int GetCountQuestionsAggregated()
     {
-        if(AggregatedContentJson == null)
-            AggregatedContentJson = new AggregatedContentFromJson().ToJson();
-
-        UpdateAggregatedSetsJson();
-        UpdateAggregatedQuestionsJson();
+        return GetAggregatedQuestionsFromMemoryCache().Count;
     }
 
-    public virtual int GetCountSetsFromJson()
+    public virtual int GetCountSets()
     {
-        return CountSetsAggregated > 0 ? CountSetsAggregated : CountSets;
-    }
-
-    public virtual void UpdateAggregatedSetsJson()
-    {
-        var aggregatedSets = new List<Set>();
-
-        foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
-        {
-            aggregatedSets.AddRange(aggregatedCategory.GetSetsNonAggregated());
-        }
-
-        var aggregatedContent = GetAggregatedContentFromJson();
-
-        aggregatedContent.AggregatedSets = aggregatedSets.Distinct().ToList();
-        CountSetsAggregated = aggregatedContent.AggregatedSets.Count;
-
-        AggregatedContentJson = aggregatedContent.ToJson();
-    }
-
-    public virtual void UpdateAggregatedQuestionsJson()
-    {
-        var aggregatedQuestions = new List<Question>();
-
-        var questionRepo = Sl.R<QuestionRepo>();
-
-        foreach (var aggregatedCategory in AggregatedCategories(includingSelf: true))
-        {
-            aggregatedQuestions.AddRange(questionRepo.GetForCategory(aggregatedCategory.Id));
-            aggregatedQuestions.AddRange(Sl.SetRepo.GetForCategory(aggregatedCategory.Id).SelectMany(s => s.Questions()));
-        }
-
-        var aggregatedContent = GetAggregatedContentFromJson();
-
-        aggregatedContent.AggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        CountQuestionsAggregated = aggregatedContent.AggregatedQuestions.Count;
-
-        AggregatedContentJson = aggregatedContent.ToJson();
-    }
-
-    public virtual IList<Set> GetAggregatedSetsFromJson()
-    {
-        return GetAggregatedContentFromJson().AggregatedSets;
-    }
-
-    public virtual IList<Question> GetAggregatedQuestionsFromJson()
-    {
-        return GetAggregatedContentFromJson().AggregatedQuestions;
+        return GetAggregatedSetsFromMemoryCache().Count;
     }
 
     public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache()
     {
         var questionRepo = Sl.QuestionRepo;
 
-        return AggregatedCategories().SelectMany(c => questionRepo.GetForCategoryFromMemoryCache(c.Id)).Distinct().ToList();
+        return AggregatedCategories()
+                .SelectMany(c => 
+                    questionRepo.GetForCategoryFromMemoryCache(c.Id)
+                    .Union(EntityCache.GetQuestionsInSetsForCategory(c.Id)))
+                .Distinct()
+                .ToList();
+    }
+
+    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
+    {
+        return AggregatedCategories()
+            .SelectMany(c => EntityCache.GetQuestionsInSetsIdsForCategory(c.Id)
+                .Union(EntityCache.GetQuestionsIdsForCategory(c.Id)))
+            .Distinct()
+            .ToList();
     }
 
     public virtual IList<Set> GetAggregatedSetsFromMemoryCache()
@@ -273,4 +221,6 @@ public class Category : DomainEntity, ICreator
 
         throw new Exception("Invalid type.");
     }
+
+    public virtual string ToLomXml() => LomXml.From(this);
 }

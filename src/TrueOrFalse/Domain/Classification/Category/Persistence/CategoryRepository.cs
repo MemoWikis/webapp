@@ -286,8 +286,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return new List<Category>
         {
-            Sl.CategoryRepo.GetById(640), //Schule
-            Sl.CategoryRepo.GetById(151), //Studium
+            Sl.CategoryRepo.GetById(682), //Schule
+            Sl.CategoryRepo.GetById(687), //Studium
             Sl.CategoryRepo.GetById(689), //Zertifikate
             Sl.CategoryRepo.GetById(AllgemeinwissenId) //Allgemeinwissen
         };

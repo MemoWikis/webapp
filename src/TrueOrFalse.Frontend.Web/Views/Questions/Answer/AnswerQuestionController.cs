@@ -23,7 +23,8 @@ public class AnswerQuestionController : BaseController
         _answerQuestion = answerQuestion;
     }
 
-    [SetMenu(MenuEntry.QuestionDetail)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (id.HasValue && SeoUtils.HasUnderscores(text))
@@ -109,7 +110,9 @@ public class AnswerQuestionController : BaseController
     public static ActionResult TestActionShared(
         int testSessionId,
         Func<TestSession, ActionResult> redirectToFinalStepFunc,
-        Func<TestSession, Guid, Question, ActionResult> resultFunc)
+        Func<TestSession, Guid, Question, ActionResult> resultFunc,
+        Func<TestSession, WidgetView> widgetViewFunc = null
+    )
     {
         var sessionUser = Sl.SessionUser;
 
@@ -134,7 +137,7 @@ public class AnswerQuestionController : BaseController
         var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
 
-        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User, widgetViewFunc?.Invoke(testSession));
 
         return resultFunc(testSession, questionViewGuid, question);
     }
@@ -410,17 +413,32 @@ public class AnswerQuestionController : BaseController
     }
 
     //For MatchList Questions
-    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice = null, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
+    public string RenderAnswerBody(
+        int questionId, 
+        string pager, 
+        bool? isMobileDevice = null, 
+        int? testSessionId = null, 
+        int? learningSessionId = null, 
+        bool isVideo = false,
+        bool? hideAddToKnowledge = false)
     {
+
+        AnswerQuestionModel answerQuestionModel;
+
         if (learningSessionId != null)
         {
             var learningSession = Sl.Resolve<LearningSessionRepo>().GetById((int) learningSessionId);
             ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
             ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
             var learningSessionQuestionViewGuid = Guid.NewGuid();
+
+            answerQuestionModel = new AnswerQuestionModel(learningSessionQuestionViewGuid, learningSession, isMobileDevice);
+            if (hideAddToKnowledge.HasValue)
+                answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
             return ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(learningSessionQuestionViewGuid, learningSession, isMobileDevice)),
+                new AnswerBodyModel(answerQuestionModel),
                 ControllerContext
             );
         }
@@ -435,9 +453,13 @@ public class AnswerQuestionController : BaseController
             ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
             ControllerContext.RouteData.Values.Add("name", testSessionName);
 
+            answerQuestionModel = new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice);
+            if (hideAddToKnowledge.HasValue)
+                answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
             return ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice)),
+                new AnswerBodyModel(answerQuestionModel),
                 ControllerContext
             );
         }
@@ -454,9 +476,14 @@ public class AnswerQuestionController : BaseController
         //for normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
+
+        answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice);
+        if (hideAddToKnowledge.HasValue)
+            answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
+            new AnswerBodyModel(answerQuestionModel),
             ControllerContext
         );
     }

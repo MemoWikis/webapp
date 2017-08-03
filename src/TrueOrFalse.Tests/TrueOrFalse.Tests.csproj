@@ -299,7 +299,9 @@
     <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
+    <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
+    <Compile Include="3 Infrastructure\EntityCacheTests.cs" />
     <Compile Include="3 Infrastructure\YoutubeVideoTests.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />
     <Compile Include="4 Search\UserSearchTests.cs" />
@@ -308,8 +310,10 @@
     <Compile Include="4 Search\Support\UserInputToSearchExpressionTest.cs" />
     <Compile Include="5 Utiltities\UrlTest.cs" />
     <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />
-    <Compile Include="6 Web\Crawler_tests.cs" />
-    <Compile Include="6 Web\UriSanitizer_Tests.cs" />
+    <Compile Include="6 Tools\Analytics\Widget_view_tests.cs" />
+    <Compile Include="6 Tools\Export\LOM_Export_Tests.cs" />
+    <Compile Include="7 Web\Crawler_tests.cs" />
+    <Compile Include="7 Web\UriSanitizer_Tests.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.cs" />
     <Compile Include="a Test MetaData\Personas\Persona.LoggedInUser.cs" />

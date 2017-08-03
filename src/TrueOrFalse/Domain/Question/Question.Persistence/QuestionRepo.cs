@@ -40,17 +40,17 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .ToList(); //All categories added or removed have to be updated
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
 
+        EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
+
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedQuestionsJson();
+            category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
-
-        EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
     }
 
     public override void Create(Question question)
@@ -63,7 +63,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
         foreach (var category in question.Categories)
         {
-            category.UpdateAggregatedQuestionsJson();
+            category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
@@ -88,7 +88,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        var aggregatedQuestions = category.GetAggregatedQuestionsFromJson();
+        var aggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
 
         var userSpecificQuestions = GetAll()
             .Where(q => q.Creator.Id == currentUser
