@@ -22,13 +22,6 @@ public class SetDeleter
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
         Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
-
-        var aggregatedCategoriesToUpdate = CategoryAggregation.GetInterrelatedCategories(categoriesToUpdate);
-
-        foreach (var category in aggregatedCategoriesToUpdate)
-        {
-            category.UpdateAggregatedSetsJson();
-        }
     }
 
     public class CanBeDeletedResult

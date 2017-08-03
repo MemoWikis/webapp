@@ -72,7 +72,7 @@ public class ModifyRelationsForCategory
 
         catRepo.Update(category);
 
-        category.UpdateAggregatedContentJson();
+        category.UpdateCountQuestionsAggregated();
 
         catRepo.Update(category);
 

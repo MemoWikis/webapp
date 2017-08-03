@@ -484,11 +484,10 @@ public class MaintenanceController : BaseController
 
         foreach (var cat in cats)
         {
-            if (cat.GetCountQuestions() != questionRepo.GetForCategory(cat.Id).Count)
+            if (cat.GetCountQuestionsAggregated() != cat.CountQuestionsAggregated)
                 list.Add(cat);
         }
 
         return View("Maintenance", new MaintenanceModel { });
-
     }
 }

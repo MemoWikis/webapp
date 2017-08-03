@@ -15,10 +15,20 @@
     }
 
     ShowModal() {
+
+        var self = this;
+
         $.post("/AnswerQuestion/ShareQuestionModal?questionId=" + this._questionId, (modal) => {
             $("#modalShareQuestion").hide();
             $("#modalContainer").append(modal);
-            this.InitModal();
+
+            var interval = setInterval(() => {
+                if ($("#ckbHideKnowledgeBtn").length === 1) {
+                    self.InitModal();
+                    clearInterval(interval);
+                }
+            }, 15);
+
             $("#modalShareQuestion").modal('show');
         });
     }

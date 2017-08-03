@@ -85,64 +85,67 @@
        
     <div class="col-md-12">
 
-        <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
-        <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
+        <div id="findYourContent">
+            <h1 id="titleFindYourContent">Finde deine Lerninhalte</h1>
+            <h3 id="titleFindYourContentSub">und lerne interaktiv & personalisiert</h3>
         
-        <div class="EduCategoryRow row">
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Schule/682" class="EduCategory">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Schule
-                    </span>
-                </a>
-            </div>
+            <div class="EduCategoryRow row">
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Schule/682" class="EduCategory">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-child fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Schule
+                        </span>
+                    </a>
+                </div>
             
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Studium/687" class="EduCategory">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Studium
-                    </span>
-                </a>  
-            </div>
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Zertifikate/689" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-file-text-o fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Zertifikate
-                    </span>
-                </a>
-            </div>
-            <div class="xxs-stack col-xs-6 col-sm-3">
-                <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
-                    <span class="EduCategoryIcon">
-                        <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
-                        </span>    
-                    </span>
-                    <span class="EduCategoryText">
-                        Allgemeinwissen
-                    </span>
-                </a>    
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Studium/687" class="EduCategory">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-graduation-cap fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Studium
+                        </span>
+                    </a>  
+                </div>
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Zertifikate/689" class="EduCategory show-tooltip" title="Sportbootführerscheine, Einbürgerungstest, Pferdebasispass etc.">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-file-text-o fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Zertifikate
+                        </span>
+                    </a>
+                </div>
+                <div class="xxs-stack col-xs-6 col-sm-3">
+                    <a href="/Kategorien/Allgemeinwissen/709" class="EduCategory">
+                        <span class="EduCategoryIcon">
+                            <span class="fa-stack fa-lg">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse IconForeground"></i>
+                            </span>    
+                        </span>
+                        <span class="EduCategoryText">
+                            Allgemeinwissen
+                        </span>
+                    </a>    
+                </div>
             </div>
         </div>
+
 
         <div id="WelcomeDashboard">
             <div class="row">
@@ -184,15 +187,14 @@
                                 memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
                             </p>
                             <p>
-                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                                oder <a href="<%= Links.SetsAll() %>">Lernsets</a> aus und klicke dort auf das Herzsymbol:
+                                Um dein Wunschwissen zu erweitern, suche dir interessante Lerninhalte aus und klicke auf den Hinzufügen-Button oder auf das Herzsymbol:
                                 <ul style="list-style-type: none">
                                     <li>
-                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        <i class="fa fa-heart" style="color:#b13a48;"></i>
                                         In deinem Wunschwissen
                                     </li>                                
                                     <li>
-                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i class="fa fa-heart-o" style="color:#b13a48;"></i>
                                         <i>Nicht</i> in deinem Wunschwissen.
                                     </li>
                                 </ul>
@@ -200,7 +202,7 @@
                             </p>
                         </div>
                     <% }else { %>
-                        <div id="chartWishKnowledge" style=""></div>
+                        <div id="chartWishKnowledge" <%= !Model.IsLoggedIn ? "style='pointer-events:none;'" : "" %>></div>
                     <% } %>
                 </div>
             </div>
@@ -209,61 +211,93 @@
             </div>
 
             <div id="dashboardFooter">
-                <% if(Model.KnowledgeSummary.Total > 0) { %>
-                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
-                    </a>
+                <% if(Model.IsLoggedIn) {
+                        if (Model.KnowledgeSummary.Total > 0) { %>
+                            <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
+                            </a>
+                        <% } %>
+                    <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
+                <% } else { %>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-sm-12 col-md-7 align-left-md-up">
+                            <p>
+                                <b>Registriere dich jetzt</b>, um personalisiert und interaktiv zu lernen. <br />
+                                Deinen Wissensstand hast du immer im Blick und mit deinen Lernpunkten erreichst du immer neue Level.
+                            </p>
+                        </div>
+                        <div class="col-sm-12 col-md-5 align-right-md-up">
+                            <div class="" style="text-align: center; display: inline-block;">
+                                <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
+                            </div>
+
+                        </div>
+                    </div>
                 <% } %>
-                <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
             </div>
         </div>
-
 
 
         <div id="memuchoInfo">
-            <h2 id="memuchoInfoHeader">
+            <h2>
                 memucho ist dein Wissens-Assistent
-            </h2>            
-            <div id="memuchoInfoMain">
-                <p>
-                    <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
-                        <strong class="fa-stack-1x numberCircleText">1</strong>
-                    </span>
-                    <span class="memuchoInfoBenefit">Sammeln</span> <span class="memuchoInfoBenefitSub"><i class="fa fa-heart-o">&nbsp;</i>Entscheide, was du wissen möchtest.</span>
-                </p>
-                <p>
-                    <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
-                        <strong class="fa-stack-1x numberCircleText">2</strong>
-                    </span>
-                    <span class="memuchoInfoBenefit">Lernen</span> <span class="memuchoInfoBenefitSub">Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.</span>
-                </p>
-                <p>
-                    <span class="fa-stack fa-2x numberCircleWrapper">
-                        <i class="fa fa-circle fa-stack-2x numberCircle"></i>
-                        <strong class="fa-stack-1x numberCircleText">3</strong>
-                    </span>
-                    <span class="memuchoInfoBenefit">Nicht vergessen</span> <span class="memuchoInfoBenefitSub">Wir erinnern dich, bevor du vergisst.</span>
-                </p>
+            </h2>     
+            <div class="row infoItemRow">
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Sammeln
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Entscheide, was du wissen möchtest.
+                    </div>
+                </div>
+
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-line-chart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Lernen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.
+                    </div>
+                </div>
+
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Nicht vergessen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Wir erinnern dich, bevor du vergisst.
+                    </div>
+                </div>
             </div>
-            <div class="separator"></div>
+
+<%--            <div class="separator"></div>
             <div id="memuchoInfoFooter">
                 <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
                 <% } %>
-                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link" style="float: right;">Erfahre mehr...</a></span>
-            </div>
+                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
+            </div>--%>
         </div>
 
-        <% Html.RenderPartial("Partials/TopicOfWeek/TopicOfWeek_2017_30", new TopicOfWeek_2017_30Model(264)); // 264=cat. Psychologie Studium %>
 
-       
+<%--        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
+
+
         <div id="ContentAvailable">
-            <h1>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h1>
-            <p>
+            <h2>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h2>
+            <p class="ShortParagraph">
                 Bei memucho findest du interaktive Lerninhalte zu vielen Themen und kannst sie personalisiert lernen.
                 Dein Thema ist nicht dabei? Kein Problem! Du kannst Inhalte leicht übernehmen, ergänzen oder ganz neu erstellen.
             </p>
@@ -397,8 +431,6 @@
 
      
         
-
-        
         <div id="awards">
             <h2>Auszeichnungen</h2>
             <div class="row">
@@ -511,208 +543,285 @@
         </div>
 
 
-        <div class="well" id="memuchoInfoExtended">
+        <div id="memuchoInfoExtended">
+            <h2>Was ist memucho?</h2>
             <h3>
-                Was ist memucho?
+                Wir helfen dir, Interessantes zu lernen, nie wieder zu vergessen und dein Wissen zu organisieren.
             </h3>
-            <p>
-                memucho hilft dir, Interessantes zu lernen, nie wieder zu vergessen und dein Wissen zu organisieren.
-            </p>
             
-            <div class="row">
-                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
-                  <i class="fa fa-clock-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
-                    <b>Schneller lernen</b>
-                    <p>
+            <div class="row infoItemRow">
+                <div class="col-md-4 col-xs-6 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-clock-o"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Schneller lernen
+                    </div>
+                    <div class="infoExplanationSnippet">
                         memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. 
                         So brauchst du weniger Zeit zum Lernen.
-                    </p>
-                </div>
-                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
-                  <i class="fa fa-book fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
-                    <b>Wissen erweitern</b>
-                    <p>
-                        Du möchtest gerne mehr über Politik, die Griechenland-Krise oder über James Bond-Filme wissen? 
-                        Finde die passenden Lernsets und stelle dir dein Wunschwissen zusammen!
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
-                  <i class="fa fa-calendar-o fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
-                    <b>Zu einem bestimmten Termin lernen</b>
-                    <p>
-                        Eine Klassenarbeit oder eine Prüfung steht an? Mit Terminen in memucho weißt du immer, 
-                        was du schon sicher kannst und wo du weiter lernen musst.
-                    </p>
-                </div>
-                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
-                  <i class="fa fa-pie-chart fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
-                    <b>Überblick behalten</b>
-                    <p>
-                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Kein Problem, mit memucho behältst du den Überblick.
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 5px 10px;">
-                  <i class="fa fa-share-alt fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
-                    <b>Wissen teilen</b>
-                    <p>
-                        memucho ist ein offenes Netzwerk, wo du dein Wissen teilen und das Wissen anderer nutzen kannst. 
-                        Denn Wissen wird mehr, wenn man es teilt!
-                    </p>
-                </div>
-                <div class="col-xs-6 xxs-stack" style="text-align: center; font-size: 100%; padding: 5px 3px 20px;">
-                  <i class="fa fa-users fa-2x show-tooltip" style="color: #2C5FB2"></i><br/>
-                    <b>Gemeinsam lernen</b>
-                    <p>
-                        Lerne gemeinsam mit Freunden und verabrede dich zum Quizduell, um dich auf die Klassenarbeit vorzubereiten.
-                    </p>
-                </div>
-                <div class="clearfix visible-xs"></div>
-                <% if (!Model.IsLoggedIn) { %>
-                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
                     </div>
-                <% } %>
-                <div class="col-xs-12" style="margin-top: 10px; text-align: right;">
-                    <a id="btnMoreFeatures" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover">ERFAHRE MEHR...</a><br />
                 </div>
+
+                <div class="col-md-4 col-xs-6 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Wissen erweitern
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Egal ob Geschichte für die Schule, die WM-Gewinner seit 1930 oder die Hintergründe globaler Migrationsströme - 
+                        erweitere dein Wissen!
+                    </div>
+                </div>
+
+                <div class="clearfix visible-xs visible-sm"></div>
+
+                <div class="col-md-4 col-xs-6 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-calendar-o"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Prüfungsvorbereitung
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Du bekommst einen persönlichen Lernplan, der dir genau sagt, wie oft und wie lange du lernen solltest.
+                    </div>
+                </div>
+
+                <div class="clearfix visible-md visible-lg"></div>
+
+                <div class="col-md-4 col-xs-6 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-pie-chart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Überblick behalten
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Mit memucho behältst du den Überblick.
+                    </div>
+                </div>
+
+                <div class="clearfix visible-xs visible-sm"></div>
+
+                <div class="col-md-4 col-xs-6 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-share-alt"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Wissen teilen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Nutze das Wissen von Freunden und Experten und teile dein eigenes. Denn Wissen wird mehr, wenn man es teilt.
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-6 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Gemeinsam lernen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Lade deine Freunde ein, folge ihnen und lerne mit ihnen gemeinsam.
+                    </div>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div id="memuchoInfoExtendedFooter">
+<%--                <% if (!Model.IsLoggedIn) { %>
+                    <div style="text-align: center; display: inline-block;">
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
+                    </div>
+                <% } %>--%>
+                <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
             </div>
         </div>
 
-        <div id="principles" class="well">
-            <h3>
+
+
+        <div id="principles">
+            <h2>
                 Unsere Prinzipien
-            </h3>
-            <ul class="fa-ul">
-                <li><i class="fa fa-li fa-book"></i>
-                    <b>Freie Bildungsinhalte ("Open Educational Resources")</b>
-                    <p>
-                        Wir sind Teil der Bewegung zur Förderung frei zugänglicher Bildungsmaterialien.
-                        In memucho unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, 
-                        genau wie fast alle Einträge auf Wikipedia. Öffentliche memucho-Inhalte 
-                        können also von jedem kostenfrei und ohne Einschränkungen verwendet werden 
-                        (<a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.de">Hier 
-                        erfährst du genaueres zur Lizenz CC BY 4.0.</a>). Private Inhalte sind aber privat.
-                    </p>
-                </li>
-                <li><i class="fa fa-li fa-tree"></i>
-                    <b>Gemeinwohlorientierung</b><br/>
-                    <p>
-                        Wir möchten unser Unternehmen auf gemeinwohlfördernden Werten aufbauen. 
-                        Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de">Gemeinwohlökonomie</a> 
-                        sind wir davon überzeugt, dass Unternehmen der Gemeinschaft dienen müssen und deshalb 
-                        eine ethische, soziale und ökologische Verantwortung haben. Daher werden wir in Zukunft 
-                        eine Gemeinwohlbilanz veröffentlichen.
-                    </p>
-                </li>
-                <li><i class="fa fa-li fa-exchange"></i>
-                    <b>Mitwirkung und Vernetzung</b>
-                    <p>
-                        Wir glauben, dass Wissen vernetzt sein muss. Der Vernetzungsgedanke spielt bei uns eine 
-                        große Rolle. In der aktuellen Beta-Phase ist uns euer Feedback ganz besonders wichtig, 
-                        aber auch später werden Mitglieder mitentscheiden, welche Funktionen wir als nächstes umsetzen 
-                        und aktive Mitglieder können Inhalte mitmoderieren.
-                    </p>
-                </li>
-                <li><i class="fa fa-li fa-lock"></i>
-                    <b>Datenschutz ist uns sehr sehr wichtig</b>
-                    <p>
+            </h2>
+            <div class="row infoItemRow">
+                <div class="col-md-6 col-xs-12 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-bullhorn"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Freie Bildungsinhalte
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Alle Lerninhalte bei uns sind frei und rechtssicher lizenziert. 
+                        Du kannst sie nutzen, weiterverwenden und ergänzen, wie es für dich am besten passst.
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xs-12 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-leaf"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Gemeinwohlorientierung
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Wir möchten unser Unternehmen auf <a href="http://www.gemeinwohl-oekonomie.org/de" target="_blank;">gemeinwohlfördernden Werten</a> <i class="fa fa-external-link"></i> aufbauen.
+                        Wir sind überzeugt, dass Unternehmen eine ethische, soziale und ökologische Verantwortung haben.
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xs-12 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Datenschutz
+                    </div>
+                    <div class="infoExplanationSnippet">
                         Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Erfahre mehr</a> über unseren Datenschutz.)
-                    </p>
-                </li>
-                <li><i class="fa fa-li fa-github"></i>
-                    <b>Open-Source und Transparenz</b>
-                    <p>
-                        Die Software, mit der memucho läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte 
-                        sind frei verfügbar und können von allen frei verwendet werden. Du findest sie 
-                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a>. 
-                        In Zukunft möchten wir neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
-                    </p> 
-                </li>        
-            </ul>
-            <div class="row">
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum Datenschutz</a>.)
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xs-12 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-github"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Open-Source und Transparenz
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Wir entwickeln memucho als Open Source, die Quelltexte sind frei verfügbar. Du findest sie 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github <i class="fa fa-external-link"></i></a>. 
+                        In Zukunft möchten wir eine Gemeinwohlbilanz und wichtige Unternehmenszahlen regelmäßig veröffentlichen.
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="separator"></div>
+            <div id="memuchoPrinciplesFooter">
                 <% if (!Model.IsLoggedIn) { %>
-                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a> <br/>
+                    <div style="text-align: center; display: inline-block;">
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
                 <% } %>
-                <div class="col-xs-12" style="margin-top: 10px; text-align: right;">
-                    <a id="btnMorePrinciples" href="<%= Links.AboutMemucho() %>" class="btn btn-link ButtonOnHover">ERFAHRE MEHR...</a><br />
-                </div>
+                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
             </div>
         </div>
 
 
-        <div id="team" class="well">
-            <h3>
+        <div id="team">
+            <h2>
                 Team
-            </h3>
-            <div class="row">
-                
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_robert201509_155.jpg"/>
-                        <br/> <b>Robert</b> (Gründer) <br/>
-                </div>
-                
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
-                    <br/> <b>Jule</b> (Gründerin) <br/> 
+            </h2>
+            <div class="row infoItemRow">
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_robert201509_155.jpg"/>
+                    </div>
+                    <div class="infoCatchWord">
+                        Robert
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Gründer)
+                    </div>
                 </div>
 
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
-                    <br/> <b>Christof</b> (Gründer) <br/> 
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Jule
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Gründer)
+                    </div>
                 </div>
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
-                    <br/> <b>Lisa</b> (Kommunikation) <br/> 
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Christof
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Gründer)
+                    </div>
                 </div>
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
-                    <br/> <b>Julian</b> (Entwicklung) <br/> 
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Lisa
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Kommunikation)
+                    </div>
                 </div>
-                <div class="col-xs-12" style="margin-top: 10px;">
-                    <p>
-                        Wir möchten den Zugang zu freien Bildungsinhalten verbessern und dass Faktenlernen einfacher wird und mehr Spaß macht. 
-                        Und wir möchten dabei ein stabiles <a href="#teaserPrinciples">gemeinwohlorientiertes Unternehmen</a> aufbauen. 
-                        Wir konzipieren, gestalten und programmieren memucho gemeinsam.
-                    </p>
-                    <p>
-                        Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
-                    </p>
+
+                <div class="col-xs-4 infoItemColumn">
+                    <div class="TeamPic">
+                        <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
+                    </div>
+                    <div class="infoCatchWord">
+                        Julian
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        (Entwicklung)
+                    </div>
                 </div>
             </div>
+
+
+            <p class="ShortParagraph">
+                Wir möchten freie Bildungsinhalten fördern und dich beim Lernen unterstützen. 
+                Auf dieser Idee werden wir ein stabiles gemeinwohlorientiertes Unternehmen aufbauen. 
+                Wir konzipieren, gestalten und programmieren memucho gemeinsam.
+            </p>
+            <p class="ShortParagraph">
+                Wenn du Fragen oder Anregungen hast, schreibe uns eine E-Mail an <span class="mailme">team at memucho dot de</span> oder rufe uns an: +49 - 30 - 616 566 26.
+            </p>
         </div>  
+
+        <%--<div class="row">
+            <div class="col-xs-6 col-md-3">
+                <h4>Neueste Lernsets</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h4>Neueste Themen:</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h4>Neueste Fragen</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-3">
+                <h4>Top-Themen nach Anzahl Fragen</h4>
+                <div class="LabelList">
+                    <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
+                </div>
+            </div>
+        </div>--%>
+
     </div>
         
-    <div class="row">
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Lernsets</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Themen:</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Top-Themen nach Anzahl Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-            </div>
-        </div>
-    </div>
+
 
 <%--    <div class="col-md-12">
         <% if (!Model.IsLoggedIn)

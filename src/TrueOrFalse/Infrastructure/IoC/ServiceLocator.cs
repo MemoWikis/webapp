@@ -48,6 +48,8 @@ public class Sl
 
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
 
+    public static WidgetViewRepo WidgetViewRepo => R<WidgetViewRepo>();
+
     public static int CurrentUserId => R<SessionUser>().UserId;
 }
 
