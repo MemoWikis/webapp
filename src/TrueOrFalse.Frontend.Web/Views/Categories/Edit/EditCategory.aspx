@@ -157,7 +157,24 @@
                                 <div class="col-md-12">
                                     <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
                                 </div>
-                            </div>                
+                            </div>
+                            
+                            <% if(Model.IsInstallationAdmin){ %>
+                            
+                                <div style="text-align: left; padding-top: 10px;"><b>Nur für Admins</b></div>
+
+                                <% if (Model.IsEditing) { %>
+                                    <div>
+                                        <a href="#EditAggregationModal" class="btn btn-info" id="OpenEditAggregationModal" data-toggle="modal">Unterthemen einschließen</a>
+                                    </div>
+                                <% } %>
+
+                                <div>
+                                    <%= Html.CheckBoxFor(m => Model.DisableLearningFunctions) %> Keine Lernoptionen anzeigen
+                                </div>
+
+                            <% } %>
+
                         </div>
                     </div>
                 </div>
@@ -184,23 +201,8 @@
                         </div>
                     </div>
 
-                    <% if (Model.IsInstallationAdmin){
+                    <% if (Model.IsInstallationAdmin){ %>
 
-                        if (Model.IsEditing) { %>
-                            <div style="margin-bottom: 20px;">
-                                <a href="#EditAggregationModal" id="OpenEditAggregationModal" class="btn btn-default" data-toggle="modal">Unterthemen einschließen</a>
-                            </div>
-                        <% } %>
-
-                        <div class="form-group">
-                            <div class="noLabel columnControlsFull" style="font-size: 100%;">
-                                 <div class="checkbox">
-                                    <label>
-                                        <%= Html.CheckBoxFor(m => Model.DisableLearningFunctions) %>Keine Lernoptionen anzeigen (nur für Admins) 
-                                    </label>
-                                </div>
-                            </div>      
-                        </div>
                         <div class="form-group">
                             <label class="columnLabel control-label" for="TopicMarkdown">
                                 Freie Seitengestaltung für Themenseite
@@ -237,8 +239,8 @@
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <% if (Model.IsEditing){ %>
-                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
                                 <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" style="float: right; width: 200px;" />
                             <% } else { %>
                                 <input type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>

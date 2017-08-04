@@ -108,11 +108,8 @@ select.form-control {
 }
 @media (min-width: 992px) {
   #CategoryImageColumn {
-    text-align: right;
+    padding-left: 30px;
     padding-top: 93px;
-  }
-  #CategoryImageColumn #categoryImg {
-    float: right;
   }
 }
 #CategoryImageColumn #categoryImg {
