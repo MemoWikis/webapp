@@ -334,12 +334,14 @@ public class MaintenanceController : BaseController
             } else {
 
                 var nextViewIndex = allQuestionViews.FindIndex(x =>
-                                                          x.DateCreated > questionView.DateCreated
-                                                          && x.UserId == questionView.UserId);
+                    x.DateCreated > questionView.DateCreated
+                    && x.UserId == questionView.UserId);
 
-                var upperTimeBound = nextViewIndex != -1 && allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
-                                         ? allQuestionViews[nextViewIndex].DateCreated
-                                         : questionView.DateCreated.Add(maxTimeForView);
+                var upperTimeBound = 
+                    nextViewIndex != -1 && 
+                    allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
+                        ? allQuestionViews[nextViewIndex].DateCreated
+                        : questionView.DateCreated.Add(maxTimeForView);
 
                 answersForQuestionView = allAnswers
                     .Where(a =>

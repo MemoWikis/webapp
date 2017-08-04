@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
@@ -13,11 +14,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _searchIndexCategory = searchIndexCategory;
     }
 
-    public Category GetByIdEager(int categoryId) => 
+    public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] {categoryId}).FirstOrDefault();
+
+    public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds) => 
         _session.QueryOver<Category>()
-            .Where(set => set.Id == categoryId)
+            .Where(Restrictions.In("Id", categoryIds.ToArray()))
             .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .SingleOrDefault();
+            .List();
 
     public override void Create(Category category)
     {

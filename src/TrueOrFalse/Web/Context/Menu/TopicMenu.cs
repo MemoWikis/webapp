@@ -5,6 +5,6 @@ using System.Collections.Generic;
 public class TopicMenu
 {
     public bool IsActive = true;
-    public List<Category> ActiveCategories;
-    public List<Category> UserCategoryPath;
+    public IList<Category> ActiveCategories = new List<Category>();
+    public IList<Category> UserCategoryPath = new List<Category>();
 }

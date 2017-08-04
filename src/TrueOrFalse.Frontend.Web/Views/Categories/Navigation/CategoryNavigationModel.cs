@@ -48,11 +48,11 @@ public class CategoryNavigationModel : BaseModel
         return categoryTrail;
     }
 
-    private void FindActiveCategoryPath(List<Category> actualCategories)
+    private void FindActiveCategoryPath(IList<Category> actualCategories)
     {
         List<Category> categoryConnectionTrail;
 
-        var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath;
+        var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath.ToList();
         if (userCategoryPath?.Count > 0)
         {
             foreach (var actualCategory in actualCategories)

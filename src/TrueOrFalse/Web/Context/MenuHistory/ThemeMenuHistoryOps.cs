@@ -23,7 +23,7 @@ public class ThemeMenuHistoryOps
         return new List<Category>();
     }
 
-    public static List<Category> GetQuestionCategories(int questionId)
+    public static IList<Category> GetQuestionCategories(int questionId)
     {
         var question = Sl.QuestionRepo.GetById(questionId);
 
@@ -36,13 +36,5 @@ public class ThemeMenuHistoryOps
         questionSetsCategories.AddRange(question.SetsTop5.SelectMany(s => s.Categories));
         return questionSetsCategories;
     }
-
-    //public static Category GetTestSessionCategory(int testSessionId)
-    //{
-    //}
-
-    //public static Category GetLearningSessionCategory(int learningSessionId)
-    //{
-    //}
 
 }

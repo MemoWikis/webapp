@@ -92,7 +92,7 @@ public class CategoriesModel : BaseModel
 
     public void SetCategories(IList<Category> categories)
     {
-        var valuations = R<CategoryValuationRepo>().GetBy(categories.GetIds(), _sessionUser.UserId);
+        var valuations = R<CategoryValuationRepo>().GetBy(categories.GetIds().ToArray(), _sessionUser.UserId);
 
         Rows = 
             from category 
