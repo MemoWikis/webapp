@@ -47,10 +47,12 @@ public class CategoryModel : BaseModel
 
     public bool IsOwnerOrAdmin;
 
-    public int CountQuestions;
+    public int CountAggregatedQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
+
+    public const int MaxCountQuestionsToDisplay = 20;
 
     public int CorrectnesProbability;
     public int AnswersTotal;
@@ -100,9 +102,7 @@ public class CategoryModel : BaseModel
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.CountQuestions +
-            R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
-
+        CountAggregatedQuestions = category.CountQuestionsAggregated;
         CountReferences = ReferenceCount.Get(category.Id);
 
         if (category.Type != CategoryType.Standard)
@@ -111,9 +111,7 @@ public class CategoryModel : BaseModel
         CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = category.Type == CategoryType.Standard ? 
-            _questionRepo.GetForCategory(category.Id, UserId, 5) : 
-            _questionRepo.GetForReference(category.Id, UserId, 5);
+        TopQuestions = category.GetAggregatedQuestionsFromMemoryCache().Take(MaxCountQuestionsToDisplay).ToList();
 
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
