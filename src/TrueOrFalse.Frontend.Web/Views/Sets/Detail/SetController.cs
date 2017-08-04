@@ -78,10 +78,10 @@ public class SetController : BaseController
 
     public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
     {
-        var sets = Sl.R<SetRepo>().GetByIds(setIds);
+        var sets = Sl.SetRepo.GetByIds(setIds);
         var testSession = new TestSession(sets, setListTitle);
 
-        R<SessionUser>().AddTestSession(testSession);
+        Sl.SessionUser.AddTestSession(testSession);
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }

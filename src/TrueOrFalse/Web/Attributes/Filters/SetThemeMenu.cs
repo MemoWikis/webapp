@@ -31,7 +31,7 @@ namespace System.Web.Mvc
                 var currentCategoies = new List<Category>();
 
                 if (_isCategoryPage)
-                    currentCategoies.Add(Sl.CategoryRepo.GetById(Convert.ToInt32(httpContextData["id"])));
+                    currentCategoies.Add(Sl.CategoryRepo.GetByIdEager(Convert.ToInt32(httpContextData["id"])));
 
                 if (_isQuestionSetPage)
                 {

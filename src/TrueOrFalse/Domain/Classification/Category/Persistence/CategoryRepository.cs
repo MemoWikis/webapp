@@ -19,7 +19,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds) => 
         _session.QueryOver<Category>()
             .Where(Restrictions.In("Id", categoryIds.ToArray()))
-            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+            .JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+            .JoinQueryOver(x => x.RelatedCategory)
             .List();
 
     public override void Create(Category category)

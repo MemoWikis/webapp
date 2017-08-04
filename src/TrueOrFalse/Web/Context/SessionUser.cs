@@ -88,8 +88,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<TestSession> TestSessions
     {
-        get { return Data.Get<List<TestSession>>("testSessions"); }
-        set { Data["testSessions"] = value; }
+        get => Data.Get<List<TestSession>>("testSessions");
+        set => Data["testSessions"] = value;
     }
 
     public TestSessionStep GetPreviousTestSessionStep(int testSessionId) =>
@@ -131,8 +131,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<int> AnsweredQuestionIds
     {
-        get { return Data.Get<List<int>>("answeredQuestionIds"); }
-        set { Data["answeredQuestionIds"] = value; }
+        get => Data.Get<List<int>>("answeredQuestionIds");
+        set => Data["answeredQuestionIds"] = value;
     }
 
     public SessionUser()

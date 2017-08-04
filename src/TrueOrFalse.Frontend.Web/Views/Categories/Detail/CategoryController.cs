@@ -44,21 +44,21 @@ public class CategoryController : BaseController
 
     public ActionResult StartTestSession(int categoryId)
     {
-        var category = Sl.R<CategoryRepository>().GetById(categoryId);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
         var testSession = new TestSession(category);
 
-        R<SessionUser>().AddTestSession(testSession);
+        Sl.SessionUser.AddTestSession(testSession);
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
 
     public ActionResult StartTestSessionForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
     {
-        var sets = Sl.R<SetRepo>().GetByIds(setIds);
-        var category = Sl.R<CategoryRepository>().GetById(categoryId);
+        var sets = Sl.SetRepo.GetByIds(setIds);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
         var testSession = new TestSession(sets, setListTitle, category);
 
-        R<SessionUser>().AddTestSession(testSession);
+        Sl.SessionUser.AddTestSession(testSession);
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }
@@ -66,7 +66,7 @@ public class CategoryController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int categoryId)
     {
-        var category = Resolve<CategoryRepository>().GetById(categoryId);
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
 
         var questions = category.GetAggregatedQuestionsFromMemoryCache();
 
@@ -80,7 +80,7 @@ public class CategoryController : BaseController
             User = _sessionUser.User
         };
 
-        R<LearningSessionRepo>().Create(learningSession);
+        Sl.LearningSessionRepo.Create(learningSession);
 
         return Redirect(Links.LearningSession(learningSession));
     }
@@ -88,7 +88,7 @@ public class CategoryController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSessionForSets(List<int> setIds, string setListTitle)
     {
-        var sets = R<SetRepo>().GetByIds(setIds);
+        var sets = Sl.SetRepo.GetByIds(setIds);
         var questions = sets.SelectMany(s => s.Questions()).Distinct().ToList();
 
         if (questions.Count == 0)
