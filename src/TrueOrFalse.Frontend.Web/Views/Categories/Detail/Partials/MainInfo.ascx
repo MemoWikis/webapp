@@ -3,34 +3,9 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<%--<div style="padding-bottom: 15px;">
-    <div class="btn-group btn-breadcrumb MobileHide">
-        <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
-        <a href="<%= Links.CategoriesAll() %>" class="btn btn-sm btn-default">
-            <% if (Model.Type != "Standard"){ %>
-                <%= Model.Type %>
-            <% } else { %> 
-                Themen
-            <% }  %>
-        </a>
-        
-        <% foreach (var item in Model.BreadCrumb){%>
-            <a href="<%= Links.CategoryDetail(item) %>" class="btn btn-sm btn-default"><%= item.Name %></a> 
-        <%}%>
-        
-        <a href="#" class="btn btn-sm btn-default current"><%= Model.Category.Name %></a>
-
-    </div>
+<div style="padding-bottom: 15px;">
     <div class="BreadcrumbsMobile DesktopHide">
         <a href="/" class=""><i class="fa fa-home"></i></a>
-        <span> <i class="fa fa-chevron-right"></i> </span>
-        <a href="<%= Links.CategoriesAll() %>" class="">
-            <% if (Model.Type != "Standard"){ %>
-                <%= Model.Type %>
-            <% } else { %> 
-                Themen
-            <% }  %>
-        </a>
         <span> <i class="fa fa-chevron-right"></i> </span>
         <% foreach (var item in Model.BreadCrumb){%>
             <a href="<%= Links.CategoryDetail(item) %>" class=""><%= item.Name %></a>
@@ -40,7 +15,7 @@
         <a href="#" class="current"><%= Model.Category.Name %></a>
 
     </div>
-</div>--%>
+</div>
 
 <div id="ItemMainInfo" class="Category Box">
     <div class="navLinks" >
