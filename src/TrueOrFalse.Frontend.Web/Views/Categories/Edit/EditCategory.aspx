@@ -65,13 +65,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="aside col-md-3 col-md-push-9">
-            <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
-            <div style="margin-top: 10px;">
-                <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
-            </div>
-        </div>
-        <div class="col-md-9 col-md-pull-3">
+        <div class="col-md-12">
             <div class="form-horizontal">
                         
                 <%: Html.HiddenFor(m => m.ImageIsNew) %>
@@ -84,73 +78,87 @@
                 <input type="hidden" id="categoryId" value="<%= Model.IsEditing ?  Model.Category.Id.ToString() : "" %>"/>
                 <input type="hidden" id="categoryType" value="<%= Model.IsEditing ? Model.Category.Type.ToString() : "" %>"/>
 
-                <% if (!Model.IsEditing)
-                   { %>
-                <div id="CategoryTypeSelect" class="FormSection">
-                    <div class="form-group">
-                        <label class="columnLabel control-label">
-                            Thementyp
-                        </label>
-                        <div class="columnControlsFull">
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %> />
-                                    Thema (Standard)
-                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themen" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %> />
-                                    Medien
-                                    <i class="fa fa-question-circle show-tooltip" title="Für Quellenangaben und für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
-                                    <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
-                                    <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
-                                        <optgroup label="Druckmedien und eBooks">
-                                            <option value="Book">Buch (auch eBooks)</option>
-                                            <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
-                                            <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
-                                            <option value="DailyIssue">Tageszeitung: Ausgabe</option>
-                                            <option value="DailyArticle">Tageszeitung: Artikel</option>
-                                            <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
-                                            <option value="MagazineIssue">Zeitschrift: Ausgabe</option>
-                                            <option value="MagazineArticle">Zeitschrift: Artikel</option>
-                                        </optgroup>
-                                        <optgroup label="Internet">
-                                            <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>
-                                            <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="WebsiteVideo" disabled><%= CategoryType.WebsiteVideo.GetName() %></option>
-                                        </optgroup>
-                                        <optgroup label="Film und Fernsehen" disabled>
-                                            <option value="Movie" disabled><%= CategoryType.Movie.GetName() %></option>
-                                            <option value="TvShow" disabled><%= CategoryType.TvShow.GetName() %></option>
-                                            <option value="TvShowEpisode" disabled><%= CategoryType.TvShowEpisode.GetName() %></option>
-                                        </optgroup>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
-                                    Aus- und Weiterbildung
-                                    <br/>(Universitäten, Kurse, Professoren/Dozenten etc.)
-                                    <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
-                                        <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
-                                        <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
-                                        <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
-                                        <option value="Course"><%= CategoryType.Course.GetName() %></option>
-                                        <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
-                                    </select>
-                                </label>
+                <% if (!Model.IsEditing) { %>
+                    <div id="CategoryTypeSelect" class="FormSection">
+                        <div class="form-group">
+                            <label class="columnLabel control-label">
+                                Thementyp
+                            </label>
+                            <div class="columnControlsFull">
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %> />
+                                        Thema (Standard)
+                                        <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themen" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %> />
+                                        Medien
+                                        <i class="fa fa-question-circle show-tooltip" title="Für Quellenangaben und für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
+                                        <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
+                                        <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
+                                            <optgroup label="Druckmedien und eBooks">
+                                                <option value="Book">Buch (auch eBooks)</option>
+                                                <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
+                                                <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
+                                                <option value="DailyIssue">Tageszeitung: Ausgabe</option>
+                                                <option value="DailyArticle">Tageszeitung: Artikel</option>
+                                                <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
+                                                <option value="MagazineIssue">Zeitschrift: Ausgabe</option>
+                                                <option value="MagazineArticle">Zeitschrift: Artikel</option>
+                                            </optgroup>
+                                            <optgroup label="Internet">
+                                                <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>
+                                                <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                                <option value="WebsiteVideo" disabled><%= CategoryType.WebsiteVideo.GetName() %></option>
+                                            </optgroup>
+                                            <optgroup label="Film und Fernsehen" disabled>
+                                                <option value="Movie" disabled><%= CategoryType.Movie.GetName() %></option>
+                                                <option value="TvShow" disabled><%= CategoryType.TvShow.GetName() %></option>
+                                                <option value="TvShowEpisode" disabled><%= CategoryType.TvShowEpisode.GetName() %></option>
+                                            </optgroup>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
+                                        Aus- und Weiterbildung
+                                        <br/>(Universitäten, Kurse, Professoren/Dozenten etc.)
+                                        <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
+                                            <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
+                                            <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
+                                            <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
+                                            <option value="Course"><%= CategoryType.Course.GetName() %></option>
+                                            <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
+                                        </select>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                </div>
                 <% } %>
                 <div class="FormSection">
-                    <div id="CategoryDetailsBody">
-                        <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div id="CategoryDetailsBody">
+                                <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                    
+                            </div>        
+                        </div>
+                        <div id="CategoryImageColumn" class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px; display: block;">
+                                <div class="col-md-12">
+                                    <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+                                </div>
+                            </div>                
+                        </div>
                     </div>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
@@ -178,13 +186,12 @@
 
                     <% if (Model.IsInstallationAdmin){
 
-                           if (Model.IsEditing)
-                           { %>
+                        if (Model.IsEditing) { %>
                             <div style="margin-bottom: 20px;">
                                 <a href="#EditAggregationModal" id="OpenEditAggregationModal" class="btn btn-default" data-toggle="modal">Unterthemen einschließen</a>
                             </div>
+                        <% } %>
 
-                            <% } %>
                         <div class="form-group">
                             <div class="noLabel columnControlsFull" style="font-size: 100%;">
                                  <div class="checkbox">

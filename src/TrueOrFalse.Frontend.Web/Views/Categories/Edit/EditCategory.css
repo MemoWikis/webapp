@@ -106,9 +106,18 @@ select.form-control {
 .input-group select.form-control {
   max-width: none;
 }
-#categoryImg {
+@media (min-width: 992px) {
+  #CategoryImageColumn {
+    text-align: right;
+    padding-top: 93px;
+  }
+  #CategoryImageColumn #categoryImg {
+    float: right;
+  }
+}
+#CategoryImageColumn #categoryImg {
   width: 100%;
-  max-width: 200px;
+  max-width: 250px;
 }
 #CategoryTypeSelect {
   padding-bottom: 20px;

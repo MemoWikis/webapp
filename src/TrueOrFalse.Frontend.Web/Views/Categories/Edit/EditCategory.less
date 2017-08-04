@@ -4,9 +4,22 @@
 
 .FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
 
-#categoryImg {
-    width: 100%;
-    max-width: 200px;
+
+#CategoryImageColumn {
+
+    @media (min-width: 992px) {
+        text-align: right;
+        padding-top: 93px;
+
+        #categoryImg {
+            float: right;
+        }
+    }
+
+    #categoryImg {
+        width: 100%;
+        max-width: 250px;
+    }
 }
 
 #CategoryTypeSelect {
