@@ -551,8 +551,14 @@ html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
   font-weight: 400;
   color: #203256;
 }
-#MasterMainColumn .form-control {
+#MasterMainColumn .form-control,
+#MasterMainColumn input[type="submit"] {
   font-size: 18px;
+}
+#MasterMainColumn input.form-control,
+#MasterMainColumn textarea.form-control,
+#MasterMainColumn select.form-control {
+  max-width: 100%;
 }
 #MasterMainColumn p {
   font-family: 'Open Sans', Arial, sans-serif;

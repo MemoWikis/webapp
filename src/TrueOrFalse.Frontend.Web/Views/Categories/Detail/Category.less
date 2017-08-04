@@ -552,12 +552,16 @@ html.flexbox:not(.Explorer) {
 
 #MasterMainColumn {
 
-    .form-control {
+    .form-control, input[type="submit"] {
         font-size: 18px;
     }
 
-    .new-font-style();
+    input.form-control, textarea.form-control, select.form-control{
+        max-width: 100%;
+    }
 
+
+    .new-font-style();
     color: @global-text-color;
 
     p {
