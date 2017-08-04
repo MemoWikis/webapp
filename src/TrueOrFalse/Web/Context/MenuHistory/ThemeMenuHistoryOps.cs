@@ -11,7 +11,7 @@ public class ThemeMenuHistoryOps
             var newPath = new List<Category>(path);
             newPath.Insert(0, pathParent);
             if (newPath.First() == upperCategory)
-                return path;
+                return newPath;
 
             var finalParentPath = GetConnectedCategoryPath(newPath, upperCategory);
             if (finalParentPath.Count > 0)
