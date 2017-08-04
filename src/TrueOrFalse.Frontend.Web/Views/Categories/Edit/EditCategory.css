@@ -133,3 +133,13 @@ select.form-control {
   pointer-events: none;
   font: 15px sans-serif;
 }
+#MasterMainColumn .form-control,
+#MasterMainColumn input[type="submit"],
+#MasterMainColumn .btn {
+  font-size: 18px;
+}
+#MasterMainColumn input.form-control,
+#MasterMainColumn textarea.form-control,
+#MasterMainColumn select.form-control {
+  max-width: 100%;
+}
