@@ -343,6 +343,7 @@
     <Compile Include="Domain\Knowledge\Probability\ForValuation\ProbabilityCalc_Curve.cs" />
     <Compile Include="Domain\Knowledge\Summary\KnowledgeSummaryUpdate.cs" />
     <Compile Include="Domain\Knowledge\TestSession\GetRandomQuestions.cs" />
+    <Compile Include="Domain\Knowledge\TestSession\GetTestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSession.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStep.cs" />
     <Compile Include="Domain\Knowledge\TestSession\TestSessionStepAnswerState.cs" />
@@ -1052,6 +1053,7 @@
     <Compile Include="Web\Context\MenuHistory\HistoryItemBase.cs" />
     <Compile Include="Web\Context\MenuHistory\QuestionHistory.cs" />
     <Compile Include="Web\Context\MenuHistory\QuestionSetHistory.cs" />
+    <Compile Include="Web\Context\MenuHistory\ThemeMenuHistoryOps.cs" />
     <Compile Include="Web\Context\MenuHistory\UserHistory.cs" />
     <Compile Include="Web\Context\ContextItemKeys.cs" />
     <Compile Include="Web\Context\Menu\TopicMenu.cs" />

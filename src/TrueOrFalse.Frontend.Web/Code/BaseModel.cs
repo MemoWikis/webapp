@@ -53,7 +53,6 @@
                 UpcomingGame = new Game();
         }
 
-        var sessionUiData = Resolve<SessionUiData>();
-        TopicMenu = sessionUiData.TopicMenu;
+        TopicMenu = Sl.SessionUiData.TopicMenu;
     }
 }

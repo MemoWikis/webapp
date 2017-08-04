@@ -98,7 +98,7 @@ public class WidgetController : BaseController
 
     public ActionResult SetTestResult(int testSessionId, string host, string widgetKey, int questionCount)
     {
-        var testSession = TestSessionResultController.GetTestSession(testSessionId);
+        var testSession = GetTestSession.Get(testSessionId);
         var testSessionResultModel = new TestSessionResultModel(testSession);
         var setModel = new WidgetSetResultModel(testSessionResultModel, host, questionCount, widgetKey);
 
