@@ -5,7 +5,6 @@ public class CategoryNavigationModel : BaseModel
 {
     public Category ActiveCategory;
     public Category RootCategory;
-    private List<Category> _activeCategories;
 
     public List<Category> CategoryConnectionTrail;
 
@@ -14,11 +13,10 @@ public class CategoryNavigationModel : BaseModel
 
     public CategoryNavigationModel()
     {
-        _activeCategories = TopicMenu.ActiveCategories;
-
-        if (_activeCategories != null)
+        var activeCategories = TopicMenu.ActiveCategories;
+        if (activeCategories != null)
         {
-            FindActiveCategoryPath(_activeCategories);
+            FindActiveCategoryPath(activeCategories);
         }
     }
 
@@ -63,7 +61,7 @@ public class CategoryNavigationModel : BaseModel
                 if (pathIndex != -1)
                 {
                     if(userCategoryPath.Count > pathIndex + 1)
-                        userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - (pathIndex + 1)); //TODO:Julian Null Pointer Exception if position not exsitent
+                        userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - (pathIndex + 1));
                     Sl.SessionUiData.TopicMenu.UserCategoryPath = userCategoryPath;
 
                     categoryConnectionTrail = new List<Category>(userCategoryPath);
@@ -85,7 +83,9 @@ public class CategoryNavigationModel : BaseModel
             {
                 if (lastVisitedCategoryAggregatedCategories.Contains(actualCategory))
                 {
-                    var connectingCategoryPath = ThemeMenuHistoryOps.GetConnectedCategoryPath(new List<Category> { lastVisitedCategory }, actualCategory);
+                    var connectingCategoryPath = ThemeMenuHistoryOps.GetConnectedCategoryPath(new List<Category> { actualCategory }, lastVisitedCategory);
+                    userCategoryPath.RemoveAt(userCategoryPath.Count - 1);
+                    connectingCategoryPath.InsertRange(0, userCategoryPath);
                     ExtractRootCategoryFromPath(connectingCategoryPath);
                     Sl.SessionUiData.TopicMenu.UserCategoryPath = connectingCategoryPath;
 
