@@ -604,9 +604,6 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .CardsLandscape {
   margin-top: 40px !important;
 }
-.Card .ContentContainer {
-  overflow: hidden;
-}
 @media (min-width: 650px) {
   .CardsPortrait .Card .CardContent {
     height: 230px !important;
