@@ -52,7 +52,10 @@ namespace System.Web.Mvc
                     if(testSession.CategoryToTest != null)
                         currentCategoies.Add(testSession.CategoryToTest);
                     else
-                        currentCategoies.AddRange(testSession.SetToTest.Categories);
+                        currentCategoies.AddRange(
+                            //get eager loaded categories from cache
+                            EntityCache.GetCategories(testSession.SetToTest.Categories.GetIds())
+                        );
                 }
 
                 if (_isLearningSessionPage)

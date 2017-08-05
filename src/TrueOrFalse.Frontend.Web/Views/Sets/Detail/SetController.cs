@@ -68,7 +68,7 @@ public class SetController : BaseController
 
     public ActionResult StartTestSession(int setId)
     {
-        var set = Sl.SetRepo.GetById(setId);
+        var set = Sl.SetRepo.GetByIdEager(setId);
         var testSession = new TestSession(set);
 
         Sl.SessionUser.AddTestSession(testSession);
@@ -78,7 +78,7 @@ public class SetController : BaseController
 
     public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
     {
-        var sets = Sl.SetRepo.GetByIds(setIds);
+        var sets = Sl.SetRepo.GetByIdsEager(setIds.ToArray());
         var testSession = new TestSession(sets, setListTitle);
 
         Sl.SessionUser.AddTestSession(testSession);

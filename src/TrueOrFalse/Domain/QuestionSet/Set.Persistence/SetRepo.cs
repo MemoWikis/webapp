@@ -98,18 +98,20 @@ public class SetRepo : RepositoryDbBase<Set>
 
         return _session.QueryOver<Set>()
             .Where(set => set.Id == setId)
-            //.Fetch(s => s.Creator).Eager
-            //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
             .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
             .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .SingleOrDefault();
     }
 
-    public IList<Set> GetAllEager()
+    public IList<Set> GetByIdsEager(int[] setIds = null)
     {
-        return _session.QueryOver<Set>()
-            .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+        var query = _session.QueryOver<Set>();
+
+        if (setIds != null)
+            query = query.Where(Restrictions.In("Id", setIds));
+
+        return query.Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
             .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .List()
@@ -117,6 +119,8 @@ public class SetRepo : RepositoryDbBase<Set>
             .Select(s => s.First())
             .ToList();
     }
+
+    public IList<Set> GetAllEager() => GetByIdsEager();
 
     public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
     {

@@ -16,12 +16,22 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] {categoryId}).FirstOrDefault();
 
-    public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds) => 
-        _session.QueryOver<Category>()
-            .Where(Restrictions.In("Id", categoryIds.ToArray()))
-            .JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+    public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
+    {
+        var query = _session.QueryOver<Category>();
+
+        if (categoryIds != null)
+            query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
+
+        return query.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
             .JoinQueryOver(x => x.RelatedCategory)
-            .List();
+            .List()
+            .GroupBy(c => c.Id)
+            .Select(c => c.First())
+            .ToList();
+    }
+
+    public IList<Category> GetAllEager() => GetByIdsEager();
 
     public override void Create(Category category)
     {

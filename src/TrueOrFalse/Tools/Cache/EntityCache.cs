@@ -40,7 +40,7 @@ public class EntityCache
         Logg.r().Information("EntityCache Start {Elapsed}", stopWatch.Elapsed);
 
         var questions = Sl.QuestionRepo.GetAll();
-        var categories = Sl.CategoryRepo.GetAll().ToConcurrentDictionary();
+        var categories = Sl.CategoryRepo.GetAllEager().ToConcurrentDictionary();
         var sets = Sl.SetRepo.GetAllEager();
         var questionInSets = Sl.QuestionInSetRepo.GetAll();
 
@@ -366,5 +366,10 @@ public class EntityCache
     private static void Remove<T>(ConcurrentDictionary<int, T> objectToCache, T obj) where T : DomainEntity
     {
         objectToCache.TryRemove(obj.Id, out var outObj);
+    }
+
+    public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds)
+    {
+        return getIds.Select(categoryId => Categories[categoryId]);
     }
 }
