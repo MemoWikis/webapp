@@ -5,6 +5,9 @@ public class GetBreadCrumb
 {
     public static IList<Category> For(Category category)
     {
+        if(category == null)
+            return new List<Category>();
+
         var result = GetParent(category, new List<Category>());
         result.Reverse();
         return result;

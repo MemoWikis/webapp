@@ -103,9 +103,11 @@ public class CategoryNavigationModel : BaseModel
             }
         }
 
-        ActiveCategory = pageCategories.First();
-        var categoryPath = new List<Category>(GetBreadCrumb.For(pageCategories.First()));
-        categoryPath.Add(ActiveCategory);
+        ActiveCategory = pageCategories.FirstOrDefault();
+        var categoryPath = new List<Category>(GetBreadCrumb.For(pageCategories.FirstOrDefault()));
+
+        if(ActiveCategory != null) 
+            categoryPath.Add(ActiveCategory);
 
         categoryPath = GetRootCategoryFromPath(categoryPath);
 
