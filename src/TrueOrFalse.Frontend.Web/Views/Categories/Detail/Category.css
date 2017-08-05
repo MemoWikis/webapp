@@ -409,39 +409,39 @@ p:empty {
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
 }
-html.flexbox:not(.Explorer) .CardsLandscape {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .CardColumn {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .CardColumn {
   display: flex;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card {
   display: flex;
   width: 100%;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .ImageContainer {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ImageContainer {
   flex: 0 0 100px;
   flex-grow: 0%;
   flex-shrink: 0%;
   flex-basis: 100px;
   align-self: flex-start;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .ContentContainer {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ContentContainer {
   margin-left: 0 !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: auto;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .CardContent {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .CardContent {
   margin-left: 0;
   height: auto;
   max-height: 243px;
   border-bottom: none !important;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   border-top: 1px solid #dfdfdf;
   margin-left: 0 !important;
   margin-right: 15px !important;
