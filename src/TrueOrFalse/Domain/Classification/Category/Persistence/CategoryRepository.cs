@@ -296,7 +296,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public Category Allgemeinwissen => GetById(AllgemeinwissenId);
 
-    public List<Category> GetDefaultCategoriesList()
+    public List<Category> GetRootCategoriesList()
     {
         return new List<Category>
         {

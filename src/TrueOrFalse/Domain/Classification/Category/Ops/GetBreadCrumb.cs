@@ -12,7 +12,7 @@ public class GetBreadCrumb
 
     private static List<Category> GetParent(Category category, List<Category> result)
     {
-        var defaultCategories = Sl.CategoryRepo.GetDefaultCategoriesList();
+        var defaultCategories = Sl.CategoryRepo.GetRootCategoriesList();
         if (!category.ParentCategories().Any() || defaultCategories.Contains(category))
             return result;
 

@@ -6,72 +6,75 @@ public class CategoryNavigationModel : BaseModel
     public Category ActiveCategory;
     public Category RootCategory;
 
-    public List<Category> CategoryConnectionTrail;
+    public List<Category> CategoryTrail;
 
-    public List<Category> DefaultCategoriesList = Sl.CategoryRepo.GetDefaultCategoriesList();
+    public List<Category> RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
     
 
     public CategoryNavigationModel()
     {
-        var activeCategories = TopicMenu.ActiveCategories;
+        var activeCategories = TopicMenu.PageCategories;
         if (activeCategories != null)
         {
-            FindActiveCategoryPath(activeCategories);
+            SetCategoryPath(activeCategories);
         }
     }
 
-    private List<Category> ExtractRootCategoryFromPath(List<Category> categoryTrail)
+    private List<Category> GetRootCategoryFromPath(List<Category> categoryPath)
     {
-        if (categoryTrail.Count > 0)
+        if (categoryPath.Count > 0)
         {
-            if (DefaultCategoriesList.Contains(categoryTrail.First()))
+            if (RootCategoriesList.Contains(categoryPath.First()))
             {
-                RootCategory = categoryTrail.First();
-                return categoryTrail;
+                RootCategory = categoryPath.First();
+                return categoryPath;
             }
 
-            foreach (var category in categoryTrail)
+            foreach (var category in categoryPath)
             {
-                if (DefaultCategoriesList.Any(d => category.Id == d.Id))
+                if (RootCategoriesList.Any(d => category.Id == d.Id))
                 {
                     RootCategory = category;
 
-                    var rootCategoryIndex = categoryTrail.FindIndex(c => c == category);
-                    categoryTrail.RemoveRange(0, rootCategoryIndex - 1);
-                    return categoryTrail;
+                    var rootCategoryIndex = categoryPath.FindIndex(c => c == category);
+                    categoryPath.RemoveRange(0, rootCategoryIndex - 1);
+                    return categoryPath;
                 }
             }
         }
 
         RootCategory = Sl.CategoryRepo.Allgemeinwissen;
-        categoryTrail.Insert(0, RootCategory);
-        return categoryTrail;
+        categoryPath.Insert(0, RootCategory);
+
+        return categoryPath;
     }
 
-    private void FindActiveCategoryPath(IList<Category> actualCategories)
+    private void SetCategoryPath(IList<Category> pageCategories)
     {
-        List<Category> categoryConnectionTrail;
+        List<Category> categoryTrail;
 
-        var userCategoryPath = Sl.SessionUiData.TopicMenu.UserCategoryPath.ToList();
+        var userCategoryPath = Sl.SessionUiData.TopicMenu.CategoryPath.ToList();
         if (userCategoryPath?.Count > 0)
         {
-            foreach (var actualCategory in actualCategories)
+            foreach (var category in pageCategories)
             {
-                var pathIndex = userCategoryPath.FindIndex(c => c == actualCategory);
+                var pathIndex = userCategoryPath.FindIndex(c => c == category);
                 if (pathIndex != -1)
                 {
                     if(userCategoryPath.Count > pathIndex + 1)
                         userCategoryPath.RemoveRange(pathIndex + 1, userCategoryPath.Count - (pathIndex + 1));
-                    Sl.SessionUiData.TopicMenu.UserCategoryPath = userCategoryPath;
 
-                    categoryConnectionTrail = new List<Category>(userCategoryPath);
-                    ExtractRootCategoryFromPath(categoryConnectionTrail);
-                    categoryConnectionTrail.RemoveAt(0);
-                    if (categoryConnectionTrail.Count > 0)
-                        categoryConnectionTrail.RemoveAt(categoryConnectionTrail.Count - 1);
-                    CategoryConnectionTrail = categoryConnectionTrail;
+                    Sl.SessionUiData.TopicMenu.CategoryPath = userCategoryPath;
 
-                    ActiveCategory = actualCategory;
+                    categoryTrail = new List<Category>(userCategoryPath);
+                    GetRootCategoryFromPath(categoryTrail);
+                    categoryTrail.RemoveAt(0);
+                    if (categoryTrail.Count > 0)
+                        categoryTrail.RemoveAt(categoryTrail.Count - 1);
+
+                    CategoryTrail = categoryTrail;
+                    ActiveCategory = category;
+
                     return;
                 }
             }
@@ -79,37 +82,40 @@ public class CategoryNavigationModel : BaseModel
             var lastVisitedCategoryId = userCategoryPath.Last().Id;
             var lastVisitedCategory = Sl.CategoryRepo.GetById(lastVisitedCategoryId);
             var lastVisitedCategoryAggregatedCategories = lastVisitedCategory.AggregatedCategories(false);
-            foreach (var actualCategory in actualCategories)
+            foreach (var actualCategory in pageCategories)
             {
                 if (lastVisitedCategoryAggregatedCategories.Contains(actualCategory))
                 {
                     var connectingCategoryPath = ThemeMenuHistoryOps.GetConnectedCategoryPath(new List<Category> { actualCategory }, lastVisitedCategory);
                     userCategoryPath.RemoveAt(userCategoryPath.Count - 1);
                     connectingCategoryPath.InsertRange(0, userCategoryPath);
-                    ExtractRootCategoryFromPath(connectingCategoryPath);
-                    Sl.SessionUiData.TopicMenu.UserCategoryPath = connectingCategoryPath;
+                    GetRootCategoryFromPath(connectingCategoryPath);
+                    Sl.SessionUiData.TopicMenu.CategoryPath = connectingCategoryPath;
 
-                    categoryConnectionTrail = new List<Category>(connectingCategoryPath);
-                    categoryConnectionTrail.RemoveAt(0);
-                    if(categoryConnectionTrail.Count > 0)
-                        categoryConnectionTrail.RemoveAt(categoryConnectionTrail.Count - 1);
-                    CategoryConnectionTrail = categoryConnectionTrail;
+                    categoryTrail = new List<Category>(connectingCategoryPath);
+                    categoryTrail.RemoveAt(0);
+                    if(categoryTrail.Count > 0)
+                        categoryTrail.RemoveAt(categoryTrail.Count - 1);
+                    CategoryTrail = categoryTrail;
                     ActiveCategory = actualCategory;
                     return;
                 }
             }
         }
 
-        ActiveCategory = actualCategories.First();
-        var categoryPath = new List<Category>(GetBreadCrumb.For(actualCategories.First()));
+        ActiveCategory = pageCategories.First();
+        var categoryPath = new List<Category>(GetBreadCrumb.For(pageCategories.First()));
         categoryPath.Add(ActiveCategory);
-        categoryPath = ExtractRootCategoryFromPath(categoryPath);
-        Sl.SessionUiData.TopicMenu.UserCategoryPath = categoryPath;
 
-        categoryConnectionTrail = new List<Category>(categoryPath);
-        categoryConnectionTrail.RemoveAt(0);
-        if(categoryConnectionTrail.Count > 0)
-            categoryConnectionTrail.RemoveAt(categoryConnectionTrail.Count - 1);
-        CategoryConnectionTrail = categoryConnectionTrail;
+        categoryPath = GetRootCategoryFromPath(categoryPath);
+
+        Sl.SessionUiData.TopicMenu.CategoryPath = categoryPath;
+
+        categoryTrail = new List<Category>(categoryPath);
+        categoryTrail.RemoveAt(0);
+        if(categoryTrail.Count > 0)
+            categoryTrail.RemoveAt(categoryTrail.Count - 1);
+
+        CategoryTrail = categoryTrail;
     }
 }

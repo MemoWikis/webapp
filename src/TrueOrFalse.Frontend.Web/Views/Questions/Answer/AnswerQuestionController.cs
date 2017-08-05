@@ -640,7 +640,7 @@ public class AnswerQuestionController : BaseController
         var menuHtml = Empty;
         if (model.Set == null && !isSession)
         {
-            Sl.SessionUiData.TopicMenu.ActiveCategories = ThemeMenuHistoryOps.GetQuestionCategories(model.Question.Id);
+            Sl.SessionUiData.TopicMenu.PageCategories = ThemeMenuHistoryOps.GetQuestionCategories(model.Question.Id);
             menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
         }
 

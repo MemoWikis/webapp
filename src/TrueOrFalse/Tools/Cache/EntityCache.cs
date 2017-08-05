@@ -368,8 +368,9 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out var outObj);
     }
 
-    public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds)
-    {
-        return getIds.Select(categoryId => Categories[categoryId]);
-    }
+
+    public static Category GetCategory(int categoryId) => Categories[categoryId];
+
+    public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
+        getIds.Select(categoryId => Categories[categoryId]);
 }
