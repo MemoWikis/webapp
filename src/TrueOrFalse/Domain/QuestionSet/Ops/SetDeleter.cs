@@ -4,7 +4,6 @@ using TrueOrFalse.Search;
 
 public class SetDeleter 
 {
-
     public static void Run(int setId)
     {
         var setRepo = Sl.R<SetRepo>();
@@ -22,6 +21,15 @@ public class SetDeleter
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
 
         Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
+
+        var aggregatedCategoriesToUpdate = CategoryAggregation.GetInterrelatedCategories(categoriesToUpdate);
+
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
     }
 
     public class CanBeDeletedResult
