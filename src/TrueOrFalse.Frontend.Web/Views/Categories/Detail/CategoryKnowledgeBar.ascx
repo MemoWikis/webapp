@@ -2,13 +2,6 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryKnowledgeBarModel>" %>
 
 <div class="category-knowledge-bar">
-    
-    <% if(Model.CategoryKnowledgeSummary.SolidPercentage > 0) { %>
-        <div class="solid-knowledge show-tooltip" 
-            data-html="true"
-            title="Sicheres Wissen: <br/> <%= Model.CategoryKnowledgeSummary.Solid %> Fragen (<%= Model.CategoryKnowledgeSummary.SolidPercentage %>%)" 
-            style="width: <%= Model.CategoryKnowledgeSummary.SolidPercentage %>%;"></div>
-    <% } %>
 
     <% if(Model.CategoryKnowledgeSummary.NeedsLearningPercentage > 0) { %>
         <div class="needs-learning show-tooltip"
@@ -22,6 +15,13 @@
             data-html="true"
             title="Solltest du lernen: <br/> <%= Model.CategoryKnowledgeSummary.NeedsConsolidation %> Fragen (<%= Model.CategoryKnowledgeSummary.NeedsConsolidationPercentage %>%)"
             style="width: <%= Model.CategoryKnowledgeSummary.NeedsConsolidationPercentage %>%;"></div>
+    <% } %>
+    
+    <% if(Model.CategoryKnowledgeSummary.SolidPercentage > 0) { %>
+        <div class="solid-knowledge show-tooltip" 
+            data-html="true"
+            title="Sicheres Wissen: <br/> <%= Model.CategoryKnowledgeSummary.Solid %> Fragen (<%= Model.CategoryKnowledgeSummary.SolidPercentage %>%)" 
+            style="width: <%= Model.CategoryKnowledgeSummary.SolidPercentage %>%;"></div>
     <% } %>
 
     <% if(Model.CategoryKnowledgeSummary.NotLearnedPercentage > 0) { %>

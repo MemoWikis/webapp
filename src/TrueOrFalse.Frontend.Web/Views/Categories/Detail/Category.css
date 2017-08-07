@@ -515,14 +515,14 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   height: inherit;
   float: left;
 }
-#topicNavigation .category-knowledge-bar .solid-knowledge {
-  background-color: #afd534;
-}
 #topicNavigation .category-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
 #topicNavigation .category-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
+}
+#topicNavigation .category-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
 }
 #topicNavigation .category-knowledge-bar .not-learned {
   background-color: silver;
