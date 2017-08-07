@@ -13,7 +13,7 @@ public class TopicNavigationModel : BaseModel
 
     public bool HasUsedOrderListWithLoadList;
 
-    public TopicNavigationModel(Category category, string title, string text, string load, string order)
+    public TopicNavigationModel(Category category, string title, string text = null, string load = null, string order = null)
     {
         Category = category;
 

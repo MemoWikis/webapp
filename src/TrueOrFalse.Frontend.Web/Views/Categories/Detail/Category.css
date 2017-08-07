@@ -454,6 +454,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 #topicNavigation img {
   border-radius: 50%;

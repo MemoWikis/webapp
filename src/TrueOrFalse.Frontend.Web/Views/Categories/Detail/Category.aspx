@@ -33,7 +33,10 @@
                 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
-
+                
+                        <%if (Model.CategoriesChildren.Count > 0)
+                                Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",
+                                                new TopicNavigationModel(Model.Category, "Unterthemen"));%>
 
                         <% if (Model.FeaturedSets.Count > 0){
 

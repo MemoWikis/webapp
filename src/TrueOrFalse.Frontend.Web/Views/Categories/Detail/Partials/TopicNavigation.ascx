@@ -4,7 +4,7 @@
 <h1><%: Model.Title %></h1>
 <p><%: Model.Text %></p>
 
-<div id="topicNavigation" class="row">
+<div id="topicNavigation" class="row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %>>
     <% foreach (var category in Model.CategoryList)
         { %>
             <div class="col-xs-6 topic">
