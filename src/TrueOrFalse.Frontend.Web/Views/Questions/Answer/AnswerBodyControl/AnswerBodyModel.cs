@@ -15,9 +15,10 @@ public class AnswerBodyModel : BaseModel
     public bool IsInWishknowledge;
 
     public string QuestionText;
+
     public string QuestionTextMarkdown;
 
-    public LicenseQuestion LicenseQuestion;
+public LicenseQuestion LicenseQuestion;
 
     public bool HasSound => !string.IsNullOrEmpty(SoundUrl);
     public string SoundUrl;
@@ -31,6 +32,7 @@ public class AnswerBodyModel : BaseModel
     public bool? isMobileRequest;
 
     public bool IsInWidget;
+    public bool IsForVideo;
     public bool IsLearningSession;
     public LearningSession LearningSession;
     public bool IsLastLearningStep = false;
@@ -141,6 +143,13 @@ public class AnswerBodyModel : BaseModel
 
         QuestionText = question.Text;
         QuestionTextMarkdown = MarkdownInit.Run().Transform(question.TextExtended);
+
+        if (question.SolutionType == TrueOrFalse.SolutionType.FlashCard)
+        {
+            QuestionText = EscapeFlashCardText(QuestionText);
+            QuestionTextMarkdown = EscapeFlashCardText(QuestionTextMarkdown);
+        }
+
         LicenseQuestion = question.License;
                           
         SoundUrl = new GetQuestionSoundUrl().Run(question);
@@ -152,5 +161,14 @@ public class AnswerBodyModel : BaseModel
         SolutionModel = GetQuestionSolution.Run(question);
 
         TotalActivityPoints = IsLoggedIn ? Sl.SessionUser.User.ActivityPoints : Sl.R<SessionUser>().getTotalActivityPoints();
+    }
+
+    private string EscapeFlashCardText(string text)
+    {
+        return text
+            .Replace("'", "\\'")
+            .Replace("\"", "\\\"")
+            .Replace(Environment.NewLine, String.Empty)
+            .Replace("\n", String.Empty);
     }
 }

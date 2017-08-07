@@ -1,17 +1,17 @@
 ﻿class ActivityPoints {
-    public static AddPointsFromRightAnswer() {
+    public static addPointsFromRightAnswer() {
         ActivityPoints.addPoints(15, "RightAnswer");
     }
 
-    public static  AddPointsFromWrongAnswer() {
+    public static  addPointsFromWrongAnswer() {
         ActivityPoints.addPoints(1, "WrongAnswer");
     }
 
-    public static AddPointsFromShowSolutionAnswer() {
+    public static addPointsFromShowSolutionAnswer() {
         ActivityPoints.addPoints(3, "ShowedSolution");
     }
 
-    public static AddPointsFromCountAsCorrect() {
+    public static addPointsFromCountAsCorrect() {
         ActivityPoints.addPoints(12, "CountAsCorrect");
     }
 
@@ -25,11 +25,11 @@
 
     private static updatePointsDisplay(levelData) {
         $("#activityPointsDispaly #activityPoints").html(levelData.totalPoints.toString());
-        $("#userLevelDisplay").html(levelData.userLevel)
+        $("#header-level-display text").html(levelData.userLevel);
     }
 
     private static showLevelPopup(levelPopup: string) {
-        if (levelPopup != "") {
+        if (levelPopup != "" && $("#IsWidget").val() !== "true") {
             $("#levelPopupModal").remove();
             var levelPopupObject = $(levelPopup);
             levelPopupObject.find(".redirect-to-register").click(e => {

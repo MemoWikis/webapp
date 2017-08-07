@@ -30,6 +30,8 @@ public class Settings
 
     public static int TestSessionQuestionCount = 5;
 
+    public static string LomExportPath;
+
     private static bool? _developOffline;
 
     public static bool DevelopOffline()
@@ -106,5 +108,6 @@ public class Settings
         SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
         CanonicalHost = GetValue(OverwrittenConfig.Value("CanonicalHost"), "CanonicalHost");
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
+        LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
     }
 }

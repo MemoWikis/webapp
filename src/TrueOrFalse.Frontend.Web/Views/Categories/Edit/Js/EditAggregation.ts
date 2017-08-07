@@ -29,6 +29,26 @@
         });
     });
 
+    $('#btnResetAggregation').click(e => {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "/EditCategory/ResetAggregation",
+            data: {
+                categoryId: $('#hhdCategoryId').val()
+            },
+            cache: false,
+            success(e) {
+                loadEditAggreationTab();
+                //window.alert("Erfolgreich aktualisiert.");
+            },
+            error(e) {
+                console.log(e);
+                window.alert("Ein Fehler ist aufgetreten");
+            }
+        });
+    });
+
     $('#btnCloseAggregation').click(e => {
         e.preventDefault();
         $('#EditAggregationModal').modal('hide');
@@ -37,8 +57,8 @@
 });
 
 
-function initilizeNavBar()
-{
+function initilizeNavBar() {
+    $("#EditAggregationModal .nav .tab-unterthemen").unbind();
     $("#EditAggregationModal .nav .tab-unterthemen").click(e => {
         e.preventDefault();
         $("#EditAggregationModal .nav .tab-unterthemen").addClass("active");
@@ -48,6 +68,7 @@ function initilizeNavBar()
         loadEditAggreationTab();
     });
 
+    $("#EditAggregationModal .nav .tab-categories-graph").unbind();
     $("#EditAggregationModal .nav .tab-categories-graph").click(e => {
         e.preventDefault();
         $("#EditAggregationModal .nav .tab-categories-graph").addClass("active");

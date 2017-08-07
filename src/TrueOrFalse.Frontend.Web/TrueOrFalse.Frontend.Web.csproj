@@ -24,11 +24,13 @@
     <UseIISExpress>true</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <TypeScriptToolsVersion>2.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -179,17 +181,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.Persistence.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Web.Lib.Persistence">
-      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
-    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.2.1\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -226,6 +217,7 @@
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
@@ -308,21 +300,25 @@
     <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
     <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
     <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
     <Compile Include="Views\Api\Search\SearchApiController.cs" />
     <Compile Include="Views\Api\Search\PrepareSearch.cs" />
     <Compile Include="Views\Api\TrainingPlanApiController.cs" />
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
+    <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
     <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
@@ -343,6 +339,8 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
+    <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -365,6 +363,7 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
       <DependentUpon>ChangeTypeControls.ts</DependentUpon>
@@ -389,6 +388,8 @@
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js.map">
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
+    <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
     </Content>
@@ -434,6 +435,9 @@
     <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
     <Compile Include="Views\VariousPublic\RedirectController.cs" />
     <Compile Include="Views\Welcome\Login\LoginController.cs" />
+    <Compile Include="Views\Welcome\Partials\TopicOfWeekModel.cs" />
+    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
+    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
     <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
@@ -711,6 +715,18 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
+    <Content Include="Views\Shared\LinkToTop.ascx" />
+    <Content Include="Views\Welcome\Directions.aspx" />
+    <Content Include="Views\Welcome\Directions.css">
+      <DependentUpon>Directions.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Drive.css">
+      <DependentUpon>Directions.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
+    <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
+    <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
@@ -1758,7 +1774,6 @@
     <Content Include="Scripts\guidedTour\tourWelcome.js.map">
       <DependentUpon>tourWelcome.ts</DependentUpon>
     </Content>
-    <Content Include="Images\LogosPartners\OERcamp-2017-Flyer.pdf" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -2618,6 +2633,7 @@
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
+    <Content Include="Views\Welcome\Directions.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
@@ -2708,14 +2724,16 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Import Project="..\packages\OctoPack.3.4.2\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets')" />
-  <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
-    <Error Condition="!Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\OctoPack.3.4.2\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
   <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />-->
   <PropertyGroup>
     <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
   </PropertyGroup>
+  <Import Project="..\packages\OctoPack.3.6.1\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.1\build\OctoPack.targets'))" />
+  </Target>
 </Project>

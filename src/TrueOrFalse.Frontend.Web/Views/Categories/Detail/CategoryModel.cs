@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TrueOrFalse.Web;
 
@@ -23,7 +24,6 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> AggregatedSets;
-    public AggregatedContent AggregatedContent;
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
@@ -47,10 +47,12 @@ public class CategoryModel : BaseModel
 
     public bool IsOwnerOrAdmin;
 
-    public int CountQuestions;
+    public int CountAggregatedQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
+
+    public const int MaxCountQuestionsToDisplay = 20;
 
     public int CorrectnesProbability;
     public int AnswersTotal;
@@ -69,7 +71,7 @@ public class CategoryModel : BaseModel
         _categoryRepo = R<CategoryRepository>();
 
         if(loadKnowledgeSummary)
-            KnowledgeSummary = KnowledgeSummaryLoader.RunFromCache(category, UserId);
+            KnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
@@ -100,9 +102,7 @@ public class CategoryModel : BaseModel
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.GetCountQuestions() +
-            R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
-
+        CountAggregatedQuestions = category.CountQuestionsAggregated;
         CountReferences = ReferenceCount.Get(category.Id);
 
         if (category.Type != CategoryType.Standard)
@@ -111,23 +111,19 @@ public class CategoryModel : BaseModel
         CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = category.Type == CategoryType.Standard ? 
-            _questionRepo.GetForCategory(category.Id, UserId, 5) : 
-            _questionRepo.GetForReference(category.Id, UserId, 5);
+        TopQuestions = category.GetAggregatedQuestionsFromMemoryCache().Take(MaxCountQuestionsToDisplay).ToList();
 
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
         TopWishQuestions = wishQuestions.Items;
 
-        AggregatedSets = category.GetAggregatedSets();
-
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
 
-        AggregatedContent = Category.GetAggregatedContent();
+        AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
+        AggregatedSetCount = AggregatedSets.Count;
 
-        AggregatedSetCount = AggregatedContent.AggregatedSetsIds.Count;
-        AggregatedQuestionCount = AggregatedContent.AggregatedQuestionIds.Count;
+        AggregatedQuestionCount = Category.CountQuestionsAggregated;
     }
 
     private List<Question> GetTopQuestionsInSubCats()

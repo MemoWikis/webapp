@@ -4,33 +4,8 @@
 
 
 <div style="padding-bottom: 15px;">
-    <div class="btn-group btn-breadcrumb MobileHide">
-        <a href="/" class="btn btn-sm btn-default"><i class="fa fa-home"></i></a>
-        <a href="<%= Links.CategoriesAll() %>" class="btn btn-sm btn-default">
-            <% if (Model.Type != "Standard"){ %>
-                <%= Model.Type %>
-            <% } else { %> 
-                Themen
-            <% }  %>
-        </a>
-        
-        <% foreach (var item in Model.BreadCrumb){%>
-            <a href="<%= Links.CategoryDetail(item) %>" class="btn btn-sm btn-default"><%= item.Name %></a> 
-        <%}%>
-        
-        <a href="#" class="btn btn-sm btn-default current"><%= Model.Category.Name %></a>
-
-    </div>
     <div class="BreadcrumbsMobile DesktopHide">
         <a href="/" class=""><i class="fa fa-home"></i></a>
-        <span> <i class="fa fa-chevron-right"></i> </span>
-        <a href="<%= Links.CategoriesAll() %>" class="">
-            <% if (Model.Type != "Standard"){ %>
-                <%= Model.Type %>
-            <% } else { %> 
-                Themen
-            <% }  %>
-        </a>
         <span> <i class="fa fa-chevron-right"></i> </span>
         <% foreach (var item in Model.BreadCrumb){%>
             <a href="<%= Links.CategoryDetail(item) %>" class=""><%= item.Name %></a>
@@ -43,6 +18,18 @@
 </div>
 
 <div id="ItemMainInfo" class="Category Box">
+    <div class="navLinks" >
+        <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
+        <% if(Model.IsOwnerOrAdmin){ %>
+            <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+        <% } %>
+        <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
+        <% if(Model.IsInstallationAdmin) { %>
+            <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
+            </a>    
+        <% } %>
+    </div>
     <div class="">
         <div class="row">
             <div class="col-xs-12">
@@ -50,9 +37,12 @@
                     <div class="greyed">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> und <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %>
                     </div>
-                    <h1 style="margin-top: 5px; font-size: 26px;">
-                       <%= Model.Name %>
-                    </h1>
+                    <div id="MainHeading">
+                        <h1 class="" style="margin-top: 5px;">
+                           <%= Model.Name %>
+                        </h1>
+                        <%--<% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>--%>
+                    </div>
                 </header>
             </div>
             <div class="xxs-stack col-xs-4 col-sm-3">
@@ -158,16 +148,16 @@
         </div>
         <div class="BoxButtonColumn">
             <% var tooltipTest = "Teste dein Wissen mit " + Settings.TestSessionQuestionCount + " zufällig ausgewählten Fragen zu diesem Thema und jeweils nur einem Antwortversuch.";
-               if (Model.CountSets == 0 && Model.CountQuestions == 0)
+               if (Model.CountSets == 0 && Model.CountAggregatedQuestions == 0)
                    tooltipTest = "Noch keine Lernsets oder Fragen zum Testen zu diesem Thema vorhanden"; %>
             <div class="BoxButton show-tooltip 
-                <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : "" %>"
+                <%= Model.CountSets == 0 && Model.CountAggregatedQuestions == 0 ? "LookNotClickable" : "" %>"
                 data-original-title="<%= tooltipTest %>">
                 <div class="BoxButtonIcon"><i class="fa fa-play-circle"></i></div>
                 <div class="BoxButtonText">
                     <span>Wissen testen</span>
                 </div>
-                <% if (Model.CountSets > 0 || Model.CountQuestions > 0)
+                <% if (Model.CountSets > 0 || Model.CountAggregatedQuestions > 0)
                    { %>
                     <a href="<%= Links.TestSessionStartForCategory(Model.Name, Model.Id) %>" rel="nofollow"></a>
                 <% } %>
@@ -175,17 +165,17 @@
         </div>
         <div class="BoxButtonColumn">
             <% var tooltipLearn = "Lerne zu diesem Thema genau die Fragen, die du am dringendsten wiederholen solltest.";
-               if (Model.CountSets == 0 && Model.CountQuestions == 0)
+               if (Model.CountSets == 0 && Model.CountAggregatedQuestions == 0)
                    tooltipLearn = "Noch keine Lernsets oder Fragen zum Lernen zu diesem Thema vorhanden"; %>
              <div class="BoxButton show-tooltip 
                 <%= !Model.IsLoggedIn ? "LookDisabled" : "" %>
-                <%= Model.CountSets == 0 && Model.CountQuestions == 0 ? "LookNotClickable" : "" %>"
+                <%= Model.CountSets == 0 && Model.CountAggregatedQuestions == 0 ? "LookNotClickable" : "" %>"
                 data-original-title="<%= tooltipLearn %>">
                 <div class="BoxButtonIcon"><i class="fa fa-line-chart"></i></div>
                 <div class="BoxButtonText">
                     <span>Lernen</span>
                 </div>
-                <% if (Model.CountSets > 0 || Model.CountQuestions > 0)
+                <% if (Model.CountSets > 0 || Model.CountAggregatedQuestions > 0)
                    { %>
                     <a href="<%= Links.StartCategoryLearningSession(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"></a>
                 <% } %>

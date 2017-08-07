@@ -16,7 +16,8 @@
     <% if(Model.TestSession.SessionNotFound) { %>
     
         <h2>Uuups...</h2>
-        <p>die Testsitzung ist nicht mehr aktuell.</p>
+        <p><br />Du hattest hier dein Wissen getestet. Leider kannst du nicht fortsetzen, weil deine Sitzung inzwischen abgelaufen ist.</p>
+        <p><a href="/">Zur Startseite</a></p>
 
     <% } else { %>
     
@@ -60,7 +61,7 @@
                     </div>
                     <div class="col-xs-12" style="text-align: right;">
                         <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr über memucho</a>
-                        <a href="<%= Url.Action("Register", "Register") %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                     </div>
                 </div>
             </div>

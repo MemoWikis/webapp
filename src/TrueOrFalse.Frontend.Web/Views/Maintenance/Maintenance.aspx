@@ -60,6 +60,10 @@
             <a href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
                 Feld: AnzahlFragen pro Thema aktualisieren
+            </a><br/>
+            <a href="<%= Url.Action("CreateAggregationsForAll", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i>
+                Aggregat-Relationen akualisieren / anlegen
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">

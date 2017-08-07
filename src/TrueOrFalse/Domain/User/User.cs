@@ -39,6 +39,7 @@ public class User : DomainEntity
     public virtual int ActivityLevel { get; set; }
 
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+    public virtual bool IsBeltz => 356 == Id;
 
     public virtual void AddFollower(User follower)
     {

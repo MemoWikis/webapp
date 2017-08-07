@@ -7,7 +7,7 @@ public class QuestionView : IPersistable, WithDateCreated
     public virtual Guid Guid { get; set; }
     public virtual string GuidString
     {
-        get { return Guid == Guid.Empty ? null : Guid.ToString(); }
+        get => Guid == Guid.Empty ? null : Guid.ToString();
         set
         {
             if (value == null)
@@ -31,10 +31,12 @@ public class QuestionView : IPersistable, WithDateCreated
     public virtual Round Round { get; set; }
     public virtual LearningSession LearningSession { get; set; }
 
+    public virtual WidgetView WidgetView { get; set; }
+
     public virtual Guid LearningSessionStepGuid { get; set; }
     public virtual string LearningSessionStepGuidString
     {
-        get { return LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString(); }
+        get => LearningSessionStepGuid == Guid.Empty ? null : LearningSessionStepGuid.ToString();
         set
         {
             if (value == null)

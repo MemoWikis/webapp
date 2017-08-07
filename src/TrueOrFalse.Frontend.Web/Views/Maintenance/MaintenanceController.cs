@@ -334,12 +334,14 @@ public class MaintenanceController : BaseController
             } else {
 
                 var nextViewIndex = allQuestionViews.FindIndex(x =>
-                                                          x.DateCreated > questionView.DateCreated
-                                                          && x.UserId == questionView.UserId);
+                    x.DateCreated > questionView.DateCreated
+                    && x.UserId == questionView.UserId);
 
-                var upperTimeBound = nextViewIndex != -1 && allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
-                                         ? allQuestionViews[nextViewIndex].DateCreated
-                                         : questionView.DateCreated.Add(maxTimeForView);
+                var upperTimeBound = 
+                    nextViewIndex != -1 && 
+                    allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
+                        ? allQuestionViews[nextViewIndex].DateCreated
+                        : questionView.DateCreated.Add(maxTimeForView);
 
                 answersForQuestionView = allAnswers
                     .Where(a =>
@@ -474,6 +476,7 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
+    [ValidateAntiForgeryToken]
     [HttpPost]
     public ActionResult CheckForCategoriesWithIncorrectQuestionCount()
     {
@@ -484,11 +487,25 @@ public class MaintenanceController : BaseController
 
         foreach (var cat in cats)
         {
-            if (cat.GetCountQuestions() != questionRepo.GetForCategory(cat.Id).Count)
+            if (cat.GetCountQuestionsAggregated() != cat.CountQuestionsAggregated)
                 list.Add(cat);
         }
 
         return View("Maintenance", new MaintenanceModel { });
+    }
 
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult CreateAggregationsForAll()
+    {
+        var allCategories = Sl.CategoryRepo.GetAll();
+
+        foreach (var category in allCategories)
+        {
+            Logg.r().Information("Created aggregates for {0}", category.Name);
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
+        }
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
 }

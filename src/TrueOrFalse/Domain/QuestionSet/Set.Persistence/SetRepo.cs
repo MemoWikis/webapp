@@ -39,9 +39,13 @@ public class SetRepo : RepositoryDbBase<Set>
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
+        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
+       
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedSets();
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
     }
 
@@ -53,6 +57,7 @@ public class SetRepo : RepositoryDbBase<Set>
         UserActivityAdd.CreatedSet(set);
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
+        EntityCache.AddOrUpdate(set);
     }
 
     public IList<Set> GetByIds(List<int> setIds)
@@ -89,16 +94,39 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public Set GetByIdEager(int setId)
     {
-        Question creatorAlias = null;
+        //Question creatorAlias = null;
 
         return _session.QueryOver<Set>()
             .Where(set => set.Id == setId)
-            //.Fetch(s => s.Creator).Eager
-            //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
             .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
-            .Left.JoinQueryOver<Question>(s => s.Question)
+            .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .SingleOrDefault();
+    }
+
+    public IList<Set> GetByIdsEager(int[] setIds = null)
+    {
+        var query = _session.QueryOver<Set>();
+
+        if (setIds != null)
+            query = query.Where(Restrictions.In("Id", setIds));
+
+        return query.Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+            .Left.JoinQueryOver(s => s.Question)
+            .Left.JoinQueryOver<Category>(s => s.Categories)
+            .List()
+            .GroupBy(s => s.Id)
+            .Select(s => s.First())
+            .ToList();
+    }
+
+    public IList<Set> GetAllEager() => GetByIdsEager();
+
+    public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        return EntityCache.CategorySetsList.ContainsKey(categoryId) 
+            ? EntityCache.CategorySetsList[categoryId].Values.ToList() 
+            : new List<Set>();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)

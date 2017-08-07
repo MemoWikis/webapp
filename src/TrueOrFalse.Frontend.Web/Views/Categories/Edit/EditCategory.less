@@ -4,9 +4,18 @@
 
 .FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
 
-#categoryImg {
-    width: 100%;
-    max-width: 200px;
+
+#CategoryImageColumn {
+
+    @media (min-width: 992px) {
+        padding-left: 30px;
+        padding-top: 93px;
+    }
+
+    #categoryImg {
+        width: 100%;
+        max-width: 250px;
+    }
 }
 
 #CategoryTypeSelect {
@@ -29,5 +38,16 @@
         background-color: red;
         pointer-events: none;
         font: 15px sans-serif;
+    }
+}
+
+#MasterMainColumn {
+
+    .form-control, input[type="submit"], .btn {
+        font-size: 18px;
+    }
+
+    input.form-control, textarea.form-control, select.form-control {
+        max-width: 100%;
     }
 }

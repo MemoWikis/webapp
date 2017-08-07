@@ -141,7 +141,10 @@ namespace TrueOrFalse.Frontend.Web.Code
             return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
-        public static string AnswerQuestion(Question question) => AnswerQuestion(question, -1);
+        public static string AnswerQuestion(Question question) => 
+            HttpContext.Current == null
+            ? ""
+            : AnswerQuestion(question, -1);
 
         public static string AnswerQuestion(string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
         {
@@ -339,7 +342,10 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string SetDetail(UrlHelper url, SetMini setMini) => SetDetail(url, setMini.Name, setMini.Id);
         public static string SetDetail(UrlHelper url, Set set) => SetDetail(url, set.Name, set.Id);
-        public static string SetDetail(Set set) => SetDetail(set.Name, set.Id);
+        public static string SetDetail(Set set) => 
+            HttpContext.Current == null
+            ? ""
+            : SetDetail(set.Name, set.Id);
         public static string SetDetail(string name, int id) => SetDetail(GetUrlHelper(), name, id);
 
         public static string SetDetail(UrlHelper url, string name, int id){
@@ -382,7 +388,11 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
-        public static string CategoryDetail(Category category) => CategoryDetail(category.Name, category.Id);
+
+        public static string CategoryDetail(Category category) =>
+            HttpContext.Current == null 
+                ? "" 
+                : CategoryDetail(category.Name, category.Id);
 
         public static string CategoryDetail(string name, int id) => 
             GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id }, null);
@@ -408,6 +418,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
+        public static string Directions => GetUrlHelper().Action("Directions", "Welcome");
 
         public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
 

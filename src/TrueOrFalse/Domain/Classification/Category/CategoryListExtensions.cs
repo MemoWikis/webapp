@@ -14,6 +14,6 @@ public static class CategoryListExtensions
         return "";
     }
 
-    public static IList<int> GetIds(this IEnumerable<Category> sets) =>
+    public static IEnumerable<int> GetIds(this IEnumerable<Category> sets) =>
         sets.Select(q => q.Id).ToList();
 }

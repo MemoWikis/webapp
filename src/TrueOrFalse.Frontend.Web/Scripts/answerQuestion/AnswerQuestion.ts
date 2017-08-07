@@ -121,7 +121,7 @@ class AnswerQuestion {
                 e => {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
-                    ActivityPoints.AddPointsFromCountAsCorrect();
+                    ActivityPoints.addPointsFromCountAsCorrect();
                 });
 
         $("#CountWrongAnswers")
@@ -137,7 +137,7 @@ class AnswerQuestion {
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
-                ActivityPoints.AddPointsFromShowSolutionAnswer();
+                ActivityPoints.addPointsFromShowSolutionAnswer();
                 return false;
             });
 
@@ -248,7 +248,7 @@ class AnswerQuestion {
     private HandleCorrectAnswer() {
         this.AnsweredCorrectly = true;
 
-        ActivityPoints.AddPointsFromRightAnswer();
+        ActivityPoints.addPointsFromRightAnswer();
 
         if (this.SolutionType !== SolutionType.FlashCard) {
             this._inputFeedback.ShowSuccess();
@@ -263,7 +263,7 @@ class AnswerQuestion {
     }
 
     private HandleWrongAnswer(result: any, answerText: string) {
-        ActivityPoints.AddPointsFromWrongAnswer();
+        ActivityPoints.addPointsFromWrongAnswer();
 
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');

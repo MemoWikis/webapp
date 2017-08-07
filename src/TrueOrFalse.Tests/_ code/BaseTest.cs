@@ -30,6 +30,8 @@ public class BaseTest
         Resolve<SessionUser>().IsInstallationAdmin = true;
 
         DateTimeX.ResetOffset();
+
+        EntityCache.Init();
     }
 
     public void RecycleContainer()

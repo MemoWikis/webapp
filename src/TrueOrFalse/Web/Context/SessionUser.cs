@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
@@ -55,6 +57,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if(HttpContext.Current != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+
+        JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
     }
 
     public void Logout()
@@ -84,8 +88,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<TestSession> TestSessions
     {
-        get { return Data.Get<List<TestSession>>("testSessions"); }
-        set { Data["testSessions"] = value; }
+        get => Data.Get<List<TestSession>>("testSessions");
+        set => Data["testSessions"] = value;
     }
 
     public TestSessionStep GetPreviousTestSessionStep(int testSessionId) =>
@@ -127,8 +131,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<int> AnsweredQuestionIds
     {
-        get { return Data.Get<List<int>>("answeredQuestionIds"); }
-        set { Data["answeredQuestionIds"] = value; }
+        get => Data.Get<List<int>>("answeredQuestionIds");
+        set => Data["answeredQuestionIds"] = value;
     }
 
     public SessionUser()

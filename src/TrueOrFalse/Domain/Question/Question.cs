@@ -198,4 +198,6 @@ public class Question : DomainEntity, ICreator
     }
 
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
+
+    public virtual string ToLomXml() => LomXml.From(this);
 }
