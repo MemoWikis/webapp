@@ -153,18 +153,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RabbitMQ.Client.3.5.2\lib\net40\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Seedworks.Lib, Version=0.8.2.17096, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Lib.Persistence, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Persistence.0.8.2.20\lib\Seedworks.Lib.Persistence.dll</HintPath>
-    </Reference>
-    <Reference Include="Seedworks.Web.Lib.Persistence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Seedworks.Web.State.0.8.2.3\lib\Seedworks.Web.Lib.Persistence.dll</HintPath>
-    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.2.1\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -227,6 +215,7 @@
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
     <Compile Include="2 Domain.Jobs\TrainingPlanUpdateCheckJobTest.cs" />
+    <Compile Include="2 Domain\Category\UserValuationCache_tests.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />
     <Compile Include="2 Domain\Date\Date_time.cs" />
@@ -310,7 +299,9 @@
     <Compile Include="3 Infrastructure\Bus\BusTests.cs" />
     <Compile Include="3 Infrastructure\DbSettings.cs" />
     <Compile Include="3 Infrastructure\DoesTableExistTests.cs" />
+    <Compile Include="3 Infrastructure\Percents_from_ints.cs" />
     <Compile Include="3 Infrastructure\PersistentLogin\PersistentLoginPersistenceTests.cs" />
+    <Compile Include="3 Infrastructure\EntityCacheTests.cs" />
     <Compile Include="3 Infrastructure\YoutubeVideoTests.cs" />
     <Compile Include="4 Search\CategorySearchTests.cs" />
     <Compile Include="4 Search\UserSearchTests.cs" />
@@ -320,6 +311,7 @@
     <Compile Include="5 Utiltities\UrlTest.cs" />
     <Compile Include="5 Utiltities\TimeElapsedAsTextTests.cs" />
     <Compile Include="6 Tools\Analytics\Widget_view_tests.cs" />
+    <Compile Include="6 Tools\Export\LOM_Export_Tests.cs" />
     <Compile Include="7 Web\Crawler_tests.cs" />
     <Compile Include="7 Web\UriSanitizer_Tests.cs" />
     <Compile Include="a Test MetaData\Features\Features.cs" />

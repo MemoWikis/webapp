@@ -65,12 +65,12 @@ public class WelcomeModel : BaseModel
     private void FillWithSampleData()
     {
         KnowledgeSummary = new KnowledgeSummary
-        {
-            NotLearned = 25,
-            NeedsLearning = 44,
-            NeedsConsolidation = 91,
-            Solid = 128
-        };
+        (
+            notLearned : 25,
+            needsLearning : 44,
+            needsConsolidation : 91,
+            solid : 128
+        );
         Last30Days = new List<GetAnswerStatsInPeriodResult>();
         int totalDayAnswers;
         var random = new Random();

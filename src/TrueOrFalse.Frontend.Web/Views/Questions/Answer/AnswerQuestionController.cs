@@ -23,7 +23,8 @@ public class AnswerQuestionController : BaseController
         _answerQuestion = answerQuestion;
     }
 
-    [SetMenu(MenuEntry.QuestionDetail)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (id.HasValue && SeoUtils.HasUnderscores(text))
@@ -39,6 +40,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
+    [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
@@ -91,6 +93,7 @@ public class AnswerQuestionController : BaseController
             new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
+    [SetThemeMenu(isTestSessionPage: true)]
     public ActionResult Test(int testSessionId)
     {
         return TestActionShared(
@@ -602,7 +605,7 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), isSession: true);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -623,7 +626,7 @@ public class AnswerQuestionController : BaseController
         int currentStepIdx = model.TestSessionCurrentStep;
         bool isLastStep = model.TestSessionIsLastStep;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), isSession: true);
     }
 
     private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, SessionData sessionData, bool isSession = false)
@@ -633,6 +636,13 @@ public class AnswerQuestionController : BaseController
             nextPageLink = model.NextUrl(Url);
         if (model.HasPreviousPage)
             previousPageLink = model.PreviousUrl(Url);
+
+        var menuHtml = Empty;
+        if (model.Set == null && !isSession)
+        {
+            Sl.SessionUiData.TopicMenu.PageCategories = ThemeMenuHistoryOps.GetQuestionCategories(model.Question.Id);
+            menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
+        }
 
         var serializer = new JavaScriptSerializer();
         return serializer.Serialize(new
@@ -663,7 +673,8 @@ public class AnswerQuestionController : BaseController
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
-            offlineDevelopment = Settings.DevelopOffline()
+            offlineDevelopment = Settings.DevelopOffline(),
+            menuHtml
         });
     }
 

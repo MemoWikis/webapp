@@ -1,7 +1,5 @@
 ﻿public class BaseModel : BaseResolve
 {
-    public MenuLeftModel MenuLeftModel = new MenuLeftModel();
-
     public SponsorModel SponsorModel
     {
         get
@@ -34,6 +32,10 @@
 
     public bool IsCreatorOfGame;
 
+    public MenuLeftModel MenuLeftModel = new MenuLeftModel();
+
+    public TopicMenu TopicMenu;
+
     public bool ShowUserReportWidget = true;
 
     public BaseModel()
@@ -50,5 +52,7 @@
             else
                 UpcomingGame = new Game();
         }
+
+        TopicMenu = Sl.SessionUiData.TopicMenu;
     }
 }

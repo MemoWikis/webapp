@@ -67,9 +67,6 @@ html {
 body {
   min-width: 280px;
   position: relative;
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 14px;
-  color: #203256;
   background-color: #F6F8FA;
 }
 h1,

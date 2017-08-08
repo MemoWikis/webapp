@@ -16,6 +16,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
     public void Run(Category category)
     {
         category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
+        category.UpdateCountQuestionsAggregated();
     }
 
     public void Run(IList<Category> categories)

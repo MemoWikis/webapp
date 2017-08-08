@@ -5,6 +5,7 @@ public class LearningSessionResultController : BaseController
 {
     private const string _viewLocation = "~/Views/Questions/Answer/LearningSession/LearningSessionResult.aspx";
 
+    [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult LearningSessionResult(int learningSessionId, string learningSessionName)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);

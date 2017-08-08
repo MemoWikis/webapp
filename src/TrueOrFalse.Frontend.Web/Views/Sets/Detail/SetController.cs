@@ -8,7 +8,8 @@ public class SetController : BaseController
 {
     private const string _viewLocation = "~/Views/Sets/Detail/Set.aspx";
 
-    [SetMenu(MenuEntry.QuestionSetDetail)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionSetPage: true)]
     public ActionResult QuestionSet(string text, int id)
     {
         if (SeoUtils.HasUnderscores(text))
@@ -67,7 +68,7 @@ public class SetController : BaseController
 
     public ActionResult StartTestSession(int setId)
     {
-        var set = Sl.SetRepo.GetById(setId);
+        var set = Sl.SetRepo.GetByIdEager(setId);
         var testSession = new TestSession(set);
 
         Sl.SessionUser.AddTestSession(testSession);
@@ -77,10 +78,10 @@ public class SetController : BaseController
 
     public ActionResult StartTestSessionForSets(List<int> setIds, string setListTitle)
     {
-        var sets = Sl.R<SetRepo>().GetByIds(setIds);
+        var sets = Sl.SetRepo.GetByIdsEager(setIds.ToArray());
         var testSession = new TestSession(sets, setListTitle);
 
-        R<SessionUser>().AddTestSession(testSession);
+        Sl.SessionUser.AddTestSession(testSession);
 
         return Redirect(Links.TestSession(testSession.UriName, testSession.Id));
     }

@@ -95,6 +95,7 @@
                     this.updateSessionHeader(result.sessionData);
                 else
                     this.updateNavigationBar(result.navBarData);
+                this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
                 this.updateUrl(result.url);
                 $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
@@ -158,6 +159,11 @@
     private updateUrl(url: string) {
         if(Modernizr.history)
             history.pushState({stateType: "BrowserNavigation"}, $(".QuestionText").html(), url);
+    }
+
+    private updateMenu(newMenuHtml: string) {
+        if(newMenuHtml)
+            $("#mainMenuThemeNavigation").replaceWith($(newMenuHtml));
     }
 
     private sendGoogleAnalyticsPageView(offlineDevelopment: boolean) {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -82,7 +81,7 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
-        AggregatedCategories = category.AggregatedCategories();
+        AggregatedCategories = category.AggregatedCategories(includingSelf: false);
         NonAggregatedCategories = category.NonAggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;

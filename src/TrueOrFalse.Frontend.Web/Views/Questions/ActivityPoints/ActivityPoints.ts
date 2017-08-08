@@ -29,7 +29,7 @@
     }
 
     private static showLevelPopup(levelPopup: string) {
-        if (levelPopup != "") {
+        if (levelPopup != "" && $("#IsWidget").val() !== "true") {
             $("#levelPopupModal").remove();
             var levelPopupObject = $(levelPopup);
             levelPopupObject.find(".redirect-to-register").click(e => {
