@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryGraphModel>" %>
-<button id="MakeFullscreen">Enter Fullscreen Mode</button>
+<button id="CategoryGraphFullscreenButton" class="btn"><i class="fa fa-arrows-alt"></i></button>
 <div id="category-graph"></div>
 <script type="text/javascript">
     function buildCategoryGraph(targetSelector, width, height) {
@@ -66,13 +66,21 @@
         }
     }
 
-    $("#MakeFullscreen").click(function (e) {
-        $("body").append($('<div id="category-graph-fullscreen">'));
-        var fullscreenElement = document.getElementById("category-graph-fullscreen");
+    $("#CategoryGraphFullscreenButton").click(function (e) {
+        $("body").append($('<div id="CategoryGraphFullscreen">'));
+        var fullscreenElement = document.getElementById("CategoryGraphFullscreen");
         requestFullScreen(fullscreenElement);
         var width = $(window).width();
         var height = $(window).height();
-        buildCategoryGraph("#category-graph-fullscreen", width, height);
+        buildCategoryGraph("#CategoryGraphFullscreen", width, height);
+    });
+
+    $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e) {
+        if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement !== null) {
+            var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+            if(fullscreenElement == null)
+                $("#CategoryGraphFullscreen").remove();
+        }
     });
 
     var width = $("#EditAggregationModal .modal-body").width();
