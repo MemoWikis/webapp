@@ -28,14 +28,25 @@
     margin-bottom: 20px;
 }
 
-#EditAggregationModal {
+#EditAggregationModal, #CategoryGraphFullscreen {
+    #category-graph svg{
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+
+    #CategoryGraphFullscreenButton {
+        float: right;
+        position: relative;
+        top: 45px;
+        right: 5px;
+    }
+
     .link {
         stroke: #ccc;
         stroke-width: 2px;
     }
 
     .node text {
-        background-color: red;
         pointer-events: none;
         font: 15px sans-serif;
     }
