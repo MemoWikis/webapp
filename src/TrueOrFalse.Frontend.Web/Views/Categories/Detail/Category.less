@@ -116,8 +116,8 @@ span.CategoryType {
     }
 
     p {
-        /*font-size: 18px;*/
-        line-height: 1.6em;
+        font-size: 16px;
+        //line-height: 1.0em;
         margin-bottom: 20px;
     }
 
@@ -552,12 +552,13 @@ html.flexbox:not(.Explorer):not(.Safari) {
 }
 
 #MasterMainColumn {
-
-    .new-font-style();
+    //.new-font-style();
+    .old-font-style();
     color: @global-text-color;
 
     p {
-        .new-font-style();
+        //.new-font-style();
+        .old-font-style
     }
 
     h1, h2, h3, h4, h5 {
@@ -625,13 +626,14 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 
     .ItemTitle {
-        font-size: 20px !important;
+        font-size: 18px !important;
+        line-height: 18px !important;
         /*-webkit-hyphens: auto;
 hyphens: auto;*/
     }
 
     .ItemText {
-        font-size: 16px !important;
+        //font-size: 16px !important;
     }
 }
 

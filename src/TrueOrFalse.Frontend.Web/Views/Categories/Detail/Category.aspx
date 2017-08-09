@@ -43,8 +43,6 @@
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
                                 new SingleSetCollectionModel(Model.FeaturedSets));
 
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
-
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
 
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
@@ -53,8 +51,6 @@
                         } else {//no featured sets
 
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
 
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
                         }

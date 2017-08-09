@@ -119,8 +119,7 @@ span.CategoryType {
   margin-bottom: 15px;
 }
 .MarkdownContent p {
-  /*font-size: 18px;*/
-  line-height: 1.6em;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 .MarkdownContent ul {
@@ -545,20 +544,12 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #MasterMainColumn {
   font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 16px;
-  line-height: 27px;
-  font-size: 18px;
-  line-height: 30px;
-  font-weight: 400;
+  font-size: 14px;
   color: #203256;
 }
 #MasterMainColumn p {
   font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 16px;
-  line-height: 27px;
-  font-size: 18px;
-  line-height: 30px;
-  font-weight: 400;
+  font-size: 14px;
   color: #203256;
 }
 #MasterMainColumn h1,
@@ -614,12 +605,10 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-size: 16px !important;
 }
 .Card .ItemTitle {
-  font-size: 20px !important;
+  font-size: 18px !important;
+  line-height: 18px !important;
   /*-webkit-hyphens: auto;
 hyphens: auto;*/
-}
-.Card .ItemText {
-  font-size: 16px !important;
 }
 .LabelList .LabelItem:before {
   top: 1.1em !important;

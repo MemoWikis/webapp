@@ -264,21 +264,34 @@ h4 {
         margin-bottom: 40px;
     }
 
-    #dashboardPoints, #dashboardKnowledgeWheel {
+    #dashboardPoints , #dashboardKnowledgeWheel {
         margin-top: 20px;
         margin-bottom: 20px;
         padding-left: 10px;
         padding-right: 10px;
 
-        .media-md-up( {
+        .media-below-sm({
+            padding-left: 40px;
+            padding-right: 40px;
+        });
+        
+        .media-md-up({
             padding-left: 20px;
             padding-right: 20px;
         });
 
-        .media-lg( {
+        .media-lg({
             padding-left: 40px;
             padding-right: 40px;
         });
+    }
+
+    #dashboardPoints {
+
+        .media-below-sm({
+            margin-bottom: 50px;
+        });
+
     }
 
     #chartWishKnowledge {
@@ -297,7 +310,6 @@ h4 {
         a.btn {
             margin-top: 10px;
         }
-
     }
 }
 
@@ -563,4 +575,9 @@ h4 {
         padding-bottom: 2px;
     }
 
+}
+
+.TeamText {
+
+    margin-top: 40px;
 }
