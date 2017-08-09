@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace System.Web.Mvc
 {
@@ -63,8 +64,16 @@ namespace System.Web.Mvc
                     var learningSession = Sl.LearningSessionRepo.GetById(Convert.ToInt32(httpContextData["learningSessionId"]));
                     if(learningSession.CategoryToLearn != null)
                         activeCategories.Add(learningSession.CategoryToLearn);
-                    else
+                    else if (learningSession.SetToLearn != null)
                         activeCategories.AddRange(learningSession.SetToLearn.Categories);
+                    else
+                    {
+                        if (learningSession.CurrentLearningStepIdx() != -1)
+                            activeCategories.AddRange(learningSession.Steps[learningSession.CurrentLearningStepIdx()]
+                                .Question.Categories);
+                    }
+                        
+
                 }
                 userSession.TopicMenu.PageCategories = activeCategories;
             }
