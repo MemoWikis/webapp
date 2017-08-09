@@ -36,7 +36,8 @@ public class TopicNavigationModel : BaseModel
         {
             case null:
             case "QuestionAmount":
-                CategoryList = CategoryList.OrderByDescending(c => c.GetAggregatedQuestionsFromMemoryCache().Count).ToList();
+                if(load == null || load == "All")
+                    CategoryList = CategoryList.OrderByDescending(c => c.GetAggregatedQuestionsFromMemoryCache().Count).ToList();
                 break;
 
             case "Name":
