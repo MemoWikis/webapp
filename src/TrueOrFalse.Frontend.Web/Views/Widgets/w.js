@@ -164,12 +164,19 @@ if (type_ === "question")
     var iframeId = "iframe-q" + questionId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
-}    
-else if (type_ === "set")
-{
+}
+else if (type_ === "set") {
     var setId = scriptTag.getAttribute("data-id");
 
     var filePath = domain + '/widget/fragesatz/start/' + setId + queryPartShared;
+    var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
+
+    writeIframe(iframeId, filePath);
+}
+else if (type_ === "learningsession") {
+    var setId = scriptTag.getAttribute("data-id");
+
+    var filePath = domain + '/widget/learningsession/' + setId + queryPartShared;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);

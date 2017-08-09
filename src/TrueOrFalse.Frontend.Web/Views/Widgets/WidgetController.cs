@@ -41,6 +41,20 @@ public class WidgetController : BaseController
             new WidgetQuestionModel(answerQuestionModel, host));
     }
 
+    public ActionResult SetUpLearningSession(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1)
+    {
+        SaveWidgetView.Run(
+            host, 
+            !IsNullOrEmpty(widgetKey) ? widgetKey : setId.ToString(), 
+            WidgetType.SetStartPage,
+            setId
+        );
+
+        return View(
+            "~/Views/Widgets/WidgetSetStart.aspx",
+            new WidgetSetStartModel(setId, Convert.ToBoolean(hideAddToKnowledge), host, questionCount, widgetKey));
+    }
+
     public ActionResult Set(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1)
     {
         SaveWidgetView.Run(
