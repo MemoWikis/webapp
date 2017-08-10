@@ -4,7 +4,7 @@
     public string Title;
     public string Text;
 
-    public TestSetWidgetModel(int setId, string title, string text)
+    public TestSetWidgetModel(int setId, string title = null, string text = null)
     {
         SetId = setId;
         Title = title;

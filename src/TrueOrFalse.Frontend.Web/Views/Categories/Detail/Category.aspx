@@ -37,6 +37,13 @@
                         <%if (Model.CategoriesChildren.Count > 0)
                                 Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",
                                                 new TopicNavigationModel(Model.Category, "Unterthemen"));%>
+                
+                        <% for (var i = 0; i < 2; i++)
+                                {
+                                    if(Model.AggregatedSets[i] != null)
+                                        Html.RenderPartial("~/Views/Categories/Detail/Partials/TestSetWidget.ascx",
+                                            new TestSetWidgetModel(Model.AggregatedSets[i].Id));
+                                } %>
 
                         <% if (Model.FeaturedSets.Count > 0){
 
