@@ -2,7 +2,6 @@
     MasterPageFile="~/Views/Shared/Site.Widget.Master" 
     Inherits="ViewPage<WidgetSetStartModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="Head" runat="server">
     <style type="text/css">

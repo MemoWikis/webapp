@@ -10,9 +10,15 @@
     public string QuestionText => AnswerQuestionModel.QuestionText;
     public Question Question => AnswerQuestionModel.Question;
 
-    public WidgetSetModel(AnswerQuestionModel answerQuestionModel, string host) : base(host)
+    public string Title;
+    public string Text;
+
+    public WidgetSetModel(AnswerQuestionModel answerQuestionModel, string host, string title = null, string text = null) : base(host)
     {
         ShowUserReportWidget = false;
         AnswerQuestionModel = answerQuestionModel;
+
+        Title = title ?? answerQuestionModel.TestSession.SetToTest.Name;
+        Text = text ?? answerQuestionModel.TestSession.SetToTest.Text;
     }
 }

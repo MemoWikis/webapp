@@ -76,8 +76,7 @@ function writeIframe(iframeId, iframeSource) {
                 '</a>' +
             '</div>' +
         '</div>';
-
-    if (scriptTag.getAttribute("data-isPreview")){
+    if (scriptTag.getAttribute("data-isPreview")) {
         var newElement = document.createElement('div');
         newElement.innerHTML = iframeHtml;
         document.getElementById('divPreviewSetWidget').appendChild(newElement);
@@ -141,6 +140,18 @@ if (hideKnowledgeBtn && hideKnowledgeBtn.length > 0 && hideKnowledgeBtn == "true
     queryKnowledgeBtn = "&hideAddToKnowledge=true";
 }
 
+var querySetTitle = "";
+var setTitleAttr = scriptTag.getAttribute("data-setTitle");
+if (setTitleAttr && setTitleAttr.length > 0) {
+    querySetTitle = "&title=" + setTitleAttr;
+}
+
+var querySetText = "";
+var setTextAttr = scriptTag.getAttribute("data-setText");
+if (setTextAttr && setTextAttr.length > 0) {
+    querySetText = "&text=" + setTextAttr;
+}
+
 var queryQuestionCount = "";
 var questionCountAttr = scriptTag.getAttribute("data-questionCount");
 if (questionCountAttr && questionCountAttr.length > 0) {
@@ -173,10 +184,10 @@ else if (type_ === "set") {
 
     writeIframe(iframeId, filePath);
 }
-else if (type_ === "learningsession") {
+else if (type_ === "templateset") {
     var setId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/learningsession/' + setId + queryPartShared;
+    var filePath = domain + '/widget/fragesatz/templateset/' + setId + queryPartShared + querySetTitle + querySetText;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);

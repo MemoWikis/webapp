@@ -20,6 +20,9 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
     
+    <h2><%: Model.Title %></h2>
+    <h4><%: Model.Text %></h4>
+
     <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
         data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
