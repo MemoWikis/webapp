@@ -97,7 +97,7 @@ public class TemplateParser
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
             case "testsetwidget":
-                return new TestSetWidgetModel(templateJson.SetId);
+                return new TestSetWidgetModel(templateJson.SetId, templateJson.Title, templateJson.Text);
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
