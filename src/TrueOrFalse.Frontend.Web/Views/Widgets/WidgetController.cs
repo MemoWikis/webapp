@@ -41,6 +41,24 @@ public class WidgetController : BaseController
             new WidgetQuestionModel(answerQuestionModel, host));
     }
 
+    public ActionResult SetWithoutStartScreen(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1, string title = null, string text = null)
+    {
+        var set = Sl.SetRepo.GetById(setId);
+
+        var testSession = new TestSession(set, questionCount);
+
+        if (hideAddToKnowledge.HasValue)
+            testSession.HideAddKnowledge = hideAddToKnowledge.Value;
+
+        Sl.SessionUser.AddTestSession(testSession);
+
+        return RedirectToAction(
+            "SetTestStep",
+            "Widget",
+            new { testSessionId = testSession.Id, host = host, widgetKey = widgetKey, questionCount = questionCount, title = title, text = text }
+        );
+    }
+
     public ActionResult Set(int setId, bool? hideAddToKnowledge, string host, string widgetKey, int questionCount = -1)
     {
         SaveWidgetView.Run(
@@ -73,7 +91,7 @@ public class WidgetController : BaseController
         );
     }
 
-    public ActionResult SetTestStep(int testSessionId, string host, string widgetKey, int questionCount)
+    public ActionResult SetTestStep(int testSessionId, string host, string widgetKey, int questionCount, string title = null, string text = null)
     {
         var routeValues = new {testSessionId = testSessionId, host = host, widgetKey = widgetKey, questionCount = questionCount};
 
@@ -81,12 +99,15 @@ public class WidgetController : BaseController
             testSessionId,
             testSession => RedirectToAction("SetTestResult", "Widget", routeValues),
             (testSession, questionViewGuid, question) => {
-                var answerModel = new AnswerQuestionModel(testSession, questionViewGuid, question);
-                answerModel.NextUrl = url => url.Action("SetTestStep", "Widget", routeValues);
-                answerModel.IsInWidget = true;
-                answerModel.DisableAddKnowledgeButton = testSession.HideAddKnowledge;
+                var answerModel =
+                    new AnswerQuestionModel(testSession, questionViewGuid, question)
+                    {
+                        NextUrl = url => url.Action("SetTestStep", "Widget", routeValues),
+                        IsInWidget = true,
+                        DisableAddKnowledgeButton = testSession.HideAddKnowledge
+                    };
 
-                return View("~/Views/Widgets/WidgetSet.aspx", new WidgetSetModel(answerModel, host));
+                return View("~/Views/Widgets/WidgetSet.aspx", new WidgetSetModel(answerModel, host, title, text));
             },
             testSession => SaveWidgetView.Run(
                 host, 

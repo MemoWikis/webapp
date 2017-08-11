@@ -124,12 +124,25 @@ select.form-control {
   margin-top: 0;
   margin-bottom: 20px;
 }
-#EditAggregationModal .link {
+#EditAggregationModal #category-graph svg,
+#CategoryGraphFullscreen #category-graph svg {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+#EditAggregationModal #CategoryGraphFullscreenButton,
+#CategoryGraphFullscreen #CategoryGraphFullscreenButton {
+  float: right;
+  position: relative;
+  top: 45px;
+  right: 5px;
+}
+#EditAggregationModal .link,
+#CategoryGraphFullscreen .link {
   stroke: #ccc;
   stroke-width: 2px;
 }
-#EditAggregationModal .node text {
-  background-color: red;
+#EditAggregationModal .node text,
+#CategoryGraphFullscreen .node text {
   pointer-events: none;
   font: 15px sans-serif;
 }
