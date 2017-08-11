@@ -18,18 +18,7 @@
 </div>
 
 <div id="ItemMainInfo" class="Category Box">
-    <div class="navLinks" >
-        <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
-        <% if(Model.IsOwnerOrAdmin){ %>
-            <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
-        <% } %>
-        <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
-        <% if(Model.IsInstallationAdmin) { %>
-            <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
-                <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
-            </a>    
-        <% } %>
-    </div>
+    
     <div class="">
         <div class="row">
             <div class="col-xs-12">
@@ -102,6 +91,20 @@
             </div>
         </div>
     </div>    
+</div>
+
+<div class="navLinks" >
+    <% if(Model.IsOwnerOrAdmin){ %>
+        <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
+    <% } %>
+    <% if(Model.IsInstallationAdmin){ %>
+        <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
+    <% } %>
+    <% if(Model.IsInstallationAdmin) { %>
+        <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+            <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
+        </a>    
+    <% } %>
 </div>
 
 <% if (!Model.Category.DisableLearningFunctions) { %>
@@ -184,3 +187,4 @@
     </div>
 
 <% } %>
+
