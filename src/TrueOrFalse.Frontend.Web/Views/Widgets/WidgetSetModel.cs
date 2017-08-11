@@ -18,7 +18,7 @@
         ShowUserReportWidget = false;
         AnswerQuestionModel = answerQuestionModel;
 
-        Title = title ?? answerQuestionModel.TestSession.SetToTest.Name;
-        Text = text ?? answerQuestionModel.TestSession.SetToTest.Text;
+        Title = title;
+        Text = text;
     }
 }

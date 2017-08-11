@@ -11,8 +11,8 @@ public class TestSetWidgetModel : BaseModel
         Set = Sl.SetRepo.GetById(setId);
         if (Set == null)
             throw new Exception("Die angegebene Fragesatz-ID verweist nicht auf einen existierenden Fragesatz");
-        Title = title;
-        Text = text;
+        Title = title ?? Set.Name;
+        Text = text ?? Set.Text;
     }
 
 }
