@@ -38,7 +38,8 @@
                                 Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",
                                                 new TopicNavigationModel(Model.Category, "Unterthemen"));%>
                 
-                        <% for (var i = 0; i < 2; i++)
+                        <% if(Model.AggregatedSets.Any())
+                                for (var i = 0; i < 2; i++)
                                 {
                                     if(Model.AggregatedSets[i] != null)
                                         Html.RenderPartial("~/Views/Categories/Detail/Partials/TestSetWidget.ascx",
