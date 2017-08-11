@@ -20,7 +20,10 @@
                                 <%: category.Name %>
                             </div>
                         </a>
-                        <div class="set-question-count"><%: Model.GetTotalSetCount(category) %> Lernset <%: Model.GetTotalQuestionCount(category) %> Fragen</div>
+                        <div class="set-question-count">
+                            <%: Model.GetTotalSetCount(category) %> Lernset<% if(Model.GetTotalSetCount(category) != 1){ %>s&nbsp;<% } else { %>&nbsp;<% } %>
+                            <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
+                        </div>
                         <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
                     </div>
                 </div>
