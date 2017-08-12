@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using NHibernate.Util;
 
 public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 {
@@ -15,11 +16,13 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 
     public static void Run(Question question)
     {
-        var answers = Sl.R<AnswerRepo>().GetByQuestion(question.Id);
+        var answers = Sl.AnswerRepo.GetByQuestion(question.Id);
 
         question.CorrectnessProbability = ProbabilityCalc_Question.Run(answers);
         question.CorrectnessProbabilityAnswerCount = answers.Count;
 
-        Sl.R<QuestionRepo>().Update(question);
+        Sl.QuestionRepo.UpdateFieldsOnly(question);
+
+        question.Categories.ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id));
     }
 }

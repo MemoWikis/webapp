@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
-using Microsoft.Owin.Security.Provider;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
@@ -14,6 +12,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
     public QuestionRepo(ISession session, SearchIndexQuestion searchIndexQuestion) : base(session)
     {
         _searchIndexQuestion = searchIndexQuestion;
+    }
+
+    public void UpdateFieldsOnly(Question question)
+    {
+        base.Update(question);
     }
 
     public new void Update(Question question)
@@ -33,11 +36,14 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion.Update(question);
         base.Update(question);
         Flush();
+
         var categoriesToUpdateIds = categoriesBeforeUpdateIds
             .Union(question.Categories.Select(c => c.Id))
-            .Union(question.References.Where(r => r.Category != null).Select(r => r.Category.Id))
+            .Union(question.References.Where(r => r.Category != null)
+            .Select(r => r.Category.Id))
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
+
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
 
         EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
