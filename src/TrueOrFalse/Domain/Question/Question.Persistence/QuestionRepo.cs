@@ -49,7 +49,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
 
         var aggregatedCategoriesToUpdate =
-            CategoryAggregation.GetInterrelatedCategories(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
+            CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
