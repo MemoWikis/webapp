@@ -116,8 +116,9 @@ span.CategoryType {
     }
 
     p {
-        font-size: 16px;
-        //line-height: 1.0em;
+        .media-xs-up({
+            font-size: 16px;
+        });
         margin-bottom: 20px;
     }
 
@@ -550,41 +551,60 @@ html.flexbox:not(.Explorer):not(.Safari) {
 }
 
 #MasterMainColumn {
-    //.new-font-style();
-    .old-font-style();
+    line-height: 1.5;
+
+    .media-xs-up ( {
+        .new-font-style();
+    }
+
+    );
     color: @global-text-color;
 
     p {
-        //.new-font-style();
-        .old-font-style
+        .media-xs-up ( {
+            .new-font-style();
+        }
+
+        );
     }
 
     h1, h2, h3, h4, h5 {
         font-family: Open Sans !important;
+        line-height: 1.2;
     }
 
     h1 {
-        font-size: 45px !important;
+        font-size: @font-size-h1-mem;
         font-style: normal;
         font-weight: 400;
-        line-height: 56px;
+
+        .media-below-xs( {
+            font-size: @font-size-h2-mem;
+        });
     }
 
     h2 {
-        font-size: 35px;
-        line-height: 44px;
+        font-size: @font-size-h2-mem;
+
+        .media-below-xs({
+            font-size: @font-size-h3-mem;
+        });
     }
 
     h3 {
-        font-size: 26px;
-        line-height: 30px;
-        font-weight: 500;
+        font-size: @font-size-h3-mem;
+
+        .media-below-xs({
+            font-size: @font-size-h4-mem;
+        });
     }
 
     h4 {
-        font-size: 26px;
-        line-height: 30px;
-        font-weight: 500;
+        font-size: @font-size-h3-mem;
+
+        .media-below-xs({
+            font-size: @font-size-h4-mem;
+        });
     }
 }
 
@@ -620,18 +640,29 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 
     .ItemInfo {
-        font-size: 16px !important;
+
+        font-size: 14px;
+
+        .media-xs-up({
+            font-size: 16px !important;
+        });
     }
 
     .ItemTitle {
-        font-size: 18px !important;
-        line-height: 18px !important;
-        /*-webkit-hyphens: auto;
-hyphens: auto;*/
+        .media-xs-up({
+            font-size: 18px !important;
+        });
+        -webkit-hyphens: auto;
+        hyphens: auto;
     }
 
     .ItemText {
-        //font-size: 16px !important;
+
+        line-height: 1.5;
+
+        .media-xs-up({
+            font-size: 16px !important;
+        });
     }
 }
 

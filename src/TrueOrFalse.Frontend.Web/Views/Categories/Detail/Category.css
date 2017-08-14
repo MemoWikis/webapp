@@ -119,8 +119,12 @@ span.CategoryType {
   margin-bottom: 15px;
 }
 .MarkdownContent p {
-  font-size: 16px;
   margin-bottom: 20px;
+}
+@media (min-width: 480px) {
+  .MarkdownContent p {
+    font-size: 16px;
+  }
 }
 .MarkdownContent ul {
   margin-bottom: 20px;
@@ -540,14 +544,30 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   float: none !important;
 }
 #MasterMainColumn {
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 14px;
+  line-height: 1.5;
   color: #203256;
 }
-#MasterMainColumn p {
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 14px;
-  color: #203256;
+@media (min-width: 480px) {
+  #MasterMainColumn {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 27px;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 400;
+    color: #203256;
+  }
+}
+@media (min-width: 480px) {
+  #MasterMainColumn p {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 27px;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 400;
+    color: #203256;
+  }
 }
 #MasterMainColumn h1,
 #MasterMainColumn h2,
@@ -555,26 +575,41 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #MasterMainColumn h4,
 #MasterMainColumn h5 {
   font-family: Open Sans !important;
+  line-height: 1.2;
 }
 #MasterMainColumn h1 {
-  font-size: 45px !important;
+  font-size: 45px;
   font-style: normal;
   font-weight: 400;
-  line-height: 56px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h1 {
+    font-size: 35px;
+  }
 }
 #MasterMainColumn h2 {
   font-size: 35px;
-  line-height: 44px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h2 {
+    font-size: 25px;
+  }
 }
 #MasterMainColumn h3 {
-  font-size: 26px;
-  line-height: 30px;
-  font-weight: 500;
+  font-size: 25px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h3 {
+    font-size: 20px;
+  }
 }
 #MasterMainColumn h4 {
-  font-size: 26px;
-  line-height: 30px;
-  font-weight: 500;
+  font-size: 25px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h4 {
+    font-size: 20px;
+  }
 }
 #MainWrapper {
   background-color: white;
@@ -599,13 +634,29 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   }
 }
 .Card .ItemInfo {
-  font-size: 16px !important;
+  font-size: 14px;
+}
+@media (min-width: 480px) {
+  .Card .ItemInfo {
+    font-size: 16px !important;
+  }
 }
 .Card .ItemTitle {
-  font-size: 18px !important;
-  line-height: 18px !important;
-  /*-webkit-hyphens: auto;
-hyphens: auto;*/
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+@media (min-width: 480px) {
+  .Card .ItemTitle {
+    font-size: 18px !important;
+  }
+}
+.Card .ItemText {
+  line-height: 1.5;
+}
+@media (min-width: 480px) {
+  .Card .ItemText {
+    font-size: 16px !important;
+  }
 }
 .LabelList .LabelItem:before {
   top: 1.1em !important;
