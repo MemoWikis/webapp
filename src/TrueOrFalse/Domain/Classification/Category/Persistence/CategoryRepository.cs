@@ -23,8 +23,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         if (categoryIds != null)
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
 
-        return query.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .JoinQueryOver(x => x.RelatedCategory)
+        return query
+            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+            .Left.JoinQueryOver(x => x.RelatedCategory)
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -37,6 +38,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default(DateTime)))
             related.DateModified = related.DateCreated = DateTime.Now;
+
         base.Create(category);
         Flush();
         UserActivityAdd.CreatedCategory(category);
