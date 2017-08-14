@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Security;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -115,4 +119,61 @@ public class EditSetController : BaseController
         Resolve<QuestionInSetRepo>().Delete(questionInSetId);
         return new EmptyResult();
     }
+    
+    public JsonResult Search(string term, int setId)
+    {
+        var searchSpec = new QuestionSearchSpec();
+        searchSpec.Filter.SearchTerm = term;            
+        searchSpec.PageSize = 5;
+
+        var set = Sl.SetRepo.GetById(setId);
+        set.QuestionIds().ForEach(questionId => searchSpec.Filter.QuestionIdsToExclude.Add(questionId));
+
+        var searchResult = Sl.SearchQuestions.Run(searchSpec);
+
+        var questions = searchResult.GetQuestions();
+
+        return Json(new
+        {
+            Questions = questions.Select(question => new
+            {
+                Id = question.Id,
+                question = question.Text,
+                correctAnswer= question.Solution,
+                ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
+                QuestionUrl = Links.AnswerQuestion(question)
+            })
+        });
+    }
+
+    public JsonResult AddQuestionsToSet(int setId, List<int> questionIds)
+    {
+        try
+        {
+            AddToSet.Run(questionIds.ToArray(), setId);
+        }
+        catch(Exception e)
+        {
+            Logg.Error(e);
+            return Json(new { Status = false, Message =  e.Message});
+        }
+        
+        return Json(new {Status = true});
+    }
+
+
+
+    public JsonResult GetHtmlRows(List<int> questionIds, int setid)
+    {
+        var questionsInSet = Sl.QuestionInSetRepo.GetByQuestionIds(questionIds, setid);
+
+        var resultHtmls = new List<string>();
+
+        foreach (var questionInSet in questionsInSet)
+            resultHtmls.Add(ViewRenderer.RenderPartialView("~/Views/Sets/Edit/QuestionInSet.ascx",
+                new QuestionInSetModel(questionInSet), ControllerContext));
+
+        return Json(resultHtmls);
+    }
+
 }

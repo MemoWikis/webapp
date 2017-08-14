@@ -22,7 +22,7 @@ public class SetDeleter
 
         Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
 
-        var aggregatedCategoriesToUpdate = CategoryAggregation.GetInterrelatedCategories(categoriesToUpdate);
+        var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {

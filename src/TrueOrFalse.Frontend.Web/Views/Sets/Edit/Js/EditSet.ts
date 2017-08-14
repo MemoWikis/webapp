@@ -30,6 +30,10 @@
 
         $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId } );
     }
+
+    static GetSetId() : number { 
+        return parseInt($("#questionSetContainer").attr("data-id"));
+    }
 }
 
 $(() => {

@@ -33,14 +33,15 @@
 			callback: function() { },
 			highlight: true,
 			captureLength: 2,
-			inputTypes: _supportedInputTypes
+            inputTypes: _supportedInputTypes,
+            allowSameSearch: false
 		}, o);
 
 		function checkElement(timer, override) {
-			var value = $(timer.el).val();
+            var value = $(timer.el).val();
 
 			// Fire if text >= options.captureLength AND text != saved text OR if override AND text >= options.captureLength
-			if ((value.length >= options.captureLength && value.toUpperCase() != timer.text)
+			if ((value.length >= options.captureLength && (options.allowSameSearch || value.toUpperCase() != timer.text))
 				|| (override && value.length >= options.captureLength))
 			{
 				timer.text = value.toUpperCase();

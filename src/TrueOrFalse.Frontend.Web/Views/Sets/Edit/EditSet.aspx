@@ -7,9 +7,9 @@
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost + Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.SetCreate() %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">
     <% } %>
 </asp:Content>
 
@@ -29,10 +29,6 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
-<style type="text/css">
-
-</style>
 
 <div id="questionSetContainer" data-id="<%: Model.Id %>">
     
@@ -156,104 +152,99 @@
                                 <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
                             </div>
                         </div>
+                        
+                        <div class="FormSection">
+                            <div class="form-group">
+                                <div class="noLabel columnControlsFull <%= Model.IsEditing ? "separationBorderTop" : "" %>">
+                                    <% if (Model.IsEditing) { %>
+                                        <input type="submit"  value="Speichern" class="btn btn-primary" name="btnSave" id="btnSave"  />
+                                    <% } else { %>
+                                        <input type="submit" value="Lernset erstellen"  class="btn btn-primary" id="btn-save" 
+                                               name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <% if (Model.IsEditing) { %>
                             <div class="form-group">
-                                <div class="noLabel noControls separationBorderTop">
+                                <div class="noLabel noControls">
                             
-                                    <h4 style="margin-top: 0px;">Reihenfolge der Fragen
+                                    <h3 style="margin-top: 0px;">Reihenfolge der Fragen
                                         <span style="font-size: 11px;">(per Drag'n'Drop)</span>
                                         <span id="revertAction" class="pull-right hide2" style="font-size: 11px; font-weight: normal; position: relative; top: 7px; right: 7px; cursor: pointer">
                                             [Rückgängig]
                                         </span>
-                                    </h4>
+                                    </h3>
 
                                     <% if (Model.QuestionsInSet.Count == 0) { %>
 
                                         <div class="alert alert-info" style="margin-top: 15px; margin-bottom: 5px;">
-                                            <p>
+                                            <p id="emptyLearnSet">
                                                 <b>Dein Lernset enthält noch keine Fragen.</b>
-                                                Du kannst <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" target="_blank">eine neue Frage erstellen</a> für dieses Lernset.
-                                                Oder du fügst vorhandene Fragen hinzu, indem du sie auf der 
-                                                <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions", null, new {target = "_blank"}) %> auswählst und 
-                                                auf "Zum Lernset hinzufügen" klickst.
                                             </p>
                                         </div>
                                     
-                                    <% } else { %>
-
-                                        <ul id="ulQuestions">
-                                            <% foreach (var questionInSet in Model.QuestionsInSet)
-                                               { %>
-                                                <li class="questionItem ui-state-default Clearfix" data-id="<%= questionInSet.Id %>">
-                                                    <div class="QuestionTools">
-                                                        <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen (die Frage wird nicht gelöscht)"></i><br/>
-                                                        <% if (Model.IsOwner(questionInSet.Question.Creator.Id))
-                                                           { %>
-                                                            <a href="<%= Links.EditQuestion(Url, questionInSet.Question.Text, questionInSet.Question.Id) %>">
-                                                                <i class="fa fa-pencil"></i> 
-                                                            </a>
-                                                        <% } %>
-                                                    </div>
-
-                                                    <div class="draggable-panel" style="float: left;"><i class="fa fa-bars" aria-hidden="true"></i></div>
-                                                    <div class="QuestionText">
-                                                        <a href="#" data-action="open-details"><i class="fa fa-chevron-right"></i></a>
-                                                        <a href="#" data-action="close-details" class="hide2"><i class="fa fa-chevron-down"></i></a>
-                                                        <%= questionInSet.Question.Text %>
-                                                        <%= MarkdownInit.Run().Transform(questionInSet.Question.TextExtended) %>
-                                                        <div>
-                                                            Richtige Antwort: <b><%= questionInSet.Question.GetSolution().GetCorrectAnswerAsHtml() %></b>
-                                                        </div>
-                                                    </div>
-                                                    <div style="display: inline-block; float: right; width: 65px;">
-                                                        <input type="text" class="form-control show-tooltip" value="<%= Timecode.ToString(questionInSet.Timecode) %>"
-                                                            data-in-set-id="<%= questionInSet.Id %>"
-                                                            data-input="video-timecode"
-                                                            data-original-title="Falls du oben ein Video angegeben hast: Zeitpunkt zu dem das Video pausiert und die Frage gezeigt wird." />
-                                                    </div>
-                                                </li>  
-                                            <% } %>
-                                        </ul>
                                     <% } %>
-                                </div>
-                            </div>
-                        <% } %>
-
-                        <% if (Model.IsEditing)
-                           { %>
-                            <div class="row">
-                                <div class="col-xs-12" style="padding-bottom: 10px">
-                                
-                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default" target="_blank">
-                                        <i class="fa fa-plus"></i>
-                                        Neue Frage hinzufügen
-                                    </a>
-                                    <a href="<%= Links.QuestionsAll() %>" class="btn btn-default" target="_blank">
-                                        <i class="fa fa-check"></i>
-                                        Zur Auswahl vorhandener Fragen
-                                    </a>
+                                    
+                                    <ul id="ulQuestions">
+                                    <% foreach (var questionInSet in Model.QuestionsInSet){ %>
+                                        
+                                        <%Html.RenderPartial("~/Views/Sets/Edit/QuestionInSet.ascx", new QuestionInSetModel(questionInSet)); %>
+                                          
+                                    <% } %>  
+                                    </ul>
 
                                 </div>
                             </div>
-                        <% } %>
-
-                    </div>                   
-                    
-                    <div class="FormSection">
-                        <div class="form-group">
-                            <div class="noLabel columnControlsFull <%= Model.IsEditing ? "separationBorderTop" : "" %>">
-                                <% if (Model.IsEditing) { %>
-                                    <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
-                                <% } else { %>
-                                    <input type="submit" value="Lernset erstellen" class="btn btn-primary" 
-                                        name="btnSave" <% if (!Model.IsLoggedIn) { %> disabled="disabled" <% } %>/>
-                                <% } %>
+                      
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Füge vorhanden Fragen zum Lernset hinzu</h3>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="row">
+                            <div class="col-md-12" id="questionSearch">
+                                <input id="questionId" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/>
+                            </div>
+                        </div>
+                                                   
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p id="resultHeading">Ergebnis</p>
+                            </div>                            
+                        </div>
                     
+                        <div id="questions" class=""></div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> zum Lernset hnzufügen</button>
+                            </div>
+                      
+                            <div class="alert col-md-12 alert-success" role="alert" id="safeQuestions">
+                                <p id="alertOutput"></p>
+                              
+                            </div>
+                        </div>
+                        <% } %> 
+
+                        <% if (Model.IsEditing){ %>
+                            <div class="row" style="margin-top: 60px">
+                                <div class="col-xs-12" style="padding-bottom: 10px" id="createNewQuestionInLearnSet">
+                                    <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" target="_blank" id="btnCreateNewQuestionInLearnSet">
+                                        <i class="fa fa-plus"></i> oder neue Frage im Lernset erstellen.
+                                    </a>
+
+                                </div>
+                            </div>
+                        <% } %>                      
+
+                    </div>     
+                                        
                     <% if (!Model.IsEditing) { %>
                         <div class="FormSection">
                             <div class="form-group">
@@ -269,19 +260,14 @@
                         </div>
                     <% } %>
 
-                
                 </div>
             
-                <div class="row">
-                    
-                </div>
-
             </div>
         </div>
     
     <% } %>
 </div>
-    
+
 <% Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx"); %>
     
 <div id="modalRevertAction" class="modal">

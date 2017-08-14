@@ -15,11 +15,22 @@
     
     <style type="text/css">
         html { height: auto;}
+        
+        #WidgetContent .set-title {
+            margin-top: unset;
+        }
+    
+        #WidgetContent .set-text {
+            margin-bottom: 30px;
+        }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="MainContent" runat="server">
-    
+
+    <h2 class="set-title"><%: Model.Title %></h2>
+    <h5 class="set-text"><%: Model.Text %></h5>
+
     <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
         data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"

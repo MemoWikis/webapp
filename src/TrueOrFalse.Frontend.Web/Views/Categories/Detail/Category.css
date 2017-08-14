@@ -661,3 +661,13 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .LabelList .LabelItem:before {
   top: 1.1em !important;
 }
+.testSetWidget {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.testSetWidget h2 {
+  margin-bottom: 10px;
+}
+.testSetWidget h5 {
+  margin-bottom: 20px;
+}
