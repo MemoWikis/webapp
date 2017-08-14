@@ -43,7 +43,8 @@ public class EditQuestionController : BaseController
         return View(_viewLocation, model);
     }
 
-    [SetMenu(MenuEntry.Questions)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ViewResult Edit(int id)
     {
         var question = _questionRepo.GetById(id);
@@ -62,7 +63,8 @@ public class EditQuestionController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.Questions)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Edit(int id, EditQuestionModel model, HttpPostedFileBase imagefile, HttpPostedFileBase soundfile)
     {
         var question = _questionRepo.GetById(id);

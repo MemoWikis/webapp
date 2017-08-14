@@ -23,7 +23,8 @@ public class AnswerQuestionController : BaseController
         _answerQuestion = answerQuestion;
     }
 
-    [SetMenu(MenuEntry.QuestionDetail)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionPage: true)]
     public ActionResult Answer(string text, int? id, int? elementOnPage, string pager, int? setId, int? questionId, string category)
     {
         if (id.HasValue && SeoUtils.HasUnderscores(text))
@@ -39,6 +40,7 @@ public class AnswerQuestionController : BaseController
         return AnswerQuestion(text, id, elementOnPage, pager, category);
     }
 
+    [SetThemeMenu(isLearningSessionPage: true)]
     public ActionResult Learn(int learningSessionId, string learningSessionName, int skipStepIdx = -1)
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
@@ -91,6 +93,7 @@ public class AnswerQuestionController : BaseController
             new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId)));
     }
 
+    [SetThemeMenu(isTestSessionPage: true)]
     public ActionResult Test(int testSessionId)
     {
         return TestActionShared(
@@ -109,7 +112,9 @@ public class AnswerQuestionController : BaseController
     public static ActionResult TestActionShared(
         int testSessionId,
         Func<TestSession, ActionResult> redirectToFinalStepFunc,
-        Func<TestSession, Guid, Question, ActionResult> resultFunc)
+        Func<TestSession, Guid, Question, ActionResult> resultFunc,
+        Func<TestSession, WidgetView> widgetViewFunc = null
+    )
     {
         var sessionUser = Sl.SessionUser;
 
@@ -134,7 +139,7 @@ public class AnswerQuestionController : BaseController
         var question = Sl.R<QuestionRepo>().GetById(testSession.Steps.ElementAt(testSession.CurrentStepIndex - 1).QuestionId);
         var questionViewGuid = Guid.NewGuid();
 
-        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User);
+        Sl.SaveQuestionView.Run(questionViewGuid, question, sessionUser.User, widgetViewFunc?.Invoke(testSession));
 
         return resultFunc(testSession, questionViewGuid, question);
     }
@@ -410,17 +415,32 @@ public class AnswerQuestionController : BaseController
     }
 
     //For MatchList Questions
-    public string RenderAnswerBody(int questionId, string pager, bool? isMobileDevice = null, int? testSessionId = null, int? learningSessionId = null, bool isVideo = false)
+    public string RenderAnswerBody(
+        int questionId, 
+        string pager, 
+        bool? isMobileDevice = null, 
+        int? testSessionId = null, 
+        int? learningSessionId = null, 
+        bool isVideo = false,
+        bool? hideAddToKnowledge = false)
     {
+
+        AnswerQuestionModel answerQuestionModel;
+
         if (learningSessionId != null)
         {
             var learningSession = Sl.Resolve<LearningSessionRepo>().GetById((int) learningSessionId);
             ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
             ControllerContext.RouteData.Values.Add("learningSessionName", learningSession.UrlName);
             var learningSessionQuestionViewGuid = Guid.NewGuid();
+
+            answerQuestionModel = new AnswerQuestionModel(learningSessionQuestionViewGuid, learningSession, isMobileDevice);
+            if (hideAddToKnowledge.HasValue)
+                answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
             return ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(learningSessionQuestionViewGuid, learningSession, isMobileDevice)),
+                new AnswerBodyModel(answerQuestionModel),
                 ControllerContext
             );
         }
@@ -435,9 +455,13 @@ public class AnswerQuestionController : BaseController
             ControllerContext.RouteData.Values.Add("testSessionId", testSessionId);
             ControllerContext.RouteData.Values.Add("name", testSessionName);
 
+            answerQuestionModel = new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice);
+            if (hideAddToKnowledge.HasValue)
+                answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
             return ViewRenderer.RenderPartialView(
                 "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(new AnswerQuestionModel(testSession, testSessionQuestionViewGuid, testSessionQuestion, isMobileDevice)),
+                new AnswerBodyModel(answerQuestionModel),
                 ControllerContext
             );
         }
@@ -454,9 +478,14 @@ public class AnswerQuestionController : BaseController
         //for normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
+
+        answerQuestionModel = new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice);
+        if (hideAddToKnowledge.HasValue)
+            answerQuestionModel.DisableAddKnowledgeButton = hideAddToKnowledge.Value;
+
         return ViewRenderer.RenderPartialView(
             "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-            new AnswerBodyModel(new AnswerQuestionModel(questionViewGuid, question, activeSearchSpec, isMobileDevice)),
+            new AnswerBodyModel(answerQuestionModel),
             ControllerContext
         );
     }
@@ -576,7 +605,7 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), isSession: true);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -597,7 +626,7 @@ public class AnswerQuestionController : BaseController
         int currentStepIdx = model.TestSessionCurrentStep;
         bool isLastStep = model.TestSessionIsLastStep;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), isSession: true);
     }
 
     private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, SessionData sessionData, bool isSession = false)
@@ -607,6 +636,13 @@ public class AnswerQuestionController : BaseController
             nextPageLink = model.NextUrl(Url);
         if (model.HasPreviousPage)
             previousPageLink = model.PreviousUrl(Url);
+
+        var menuHtml = Empty;
+        if (model.Set == null && !isSession)
+        {
+            Sl.SessionUiData.TopicMenu.PageCategories = ThemeMenuHistoryOps.GetQuestionCategories(model.Question.Id);
+            menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
+        }
 
         var serializer = new JavaScriptSerializer();
         return serializer.Serialize(new
@@ -637,7 +673,8 @@ public class AnswerQuestionController : BaseController
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),
             commentsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/Comments/CommentsSection.ascx", model, ControllerContext),
-            offlineDevelopment = Settings.DevelopOffline()
+            offlineDevelopment = Settings.DevelopOffline(),
+            menuHtml
         });
     }
 

@@ -35,6 +35,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
             Schedule_KnowledgeReportCheck();
+            Schedule_LOM_Export();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
@@ -120,6 +121,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
+        private static void Schedule_LOM_Export()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<LomExportJob>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(3, 30))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
+
 
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
@@ -130,6 +141,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<TypeToStart>().Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
+
+        public static void StartImmediately_InitUserValuationCache(int userId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<InitUserValuationCache>()
+                .UsingJobData("userId", userId)
+                .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
     }

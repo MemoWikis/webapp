@@ -116,8 +116,8 @@ span.CategoryType {
     }
 
     p {
-        /*font-size: 18px;*/
-        line-height: 1.6em;
+        font-size: 16px;
+        //line-height: 1.0em;
         margin-bottom: 20px;
     }
 
@@ -399,7 +399,7 @@ p:empty {
 }
 
 
-html.flexbox:not(.Explorer) {
+html.flexbox:not(.Explorer):not(.Safari) {
     .CardsLandscape {
         display: flex;
         flex-wrap: wrap;
@@ -446,3 +446,235 @@ html.flexbox:not(.Explorer) {
     }
 }
 
+/*------------------------------------------------------
+    TopicNavigation
+-------------------------------------------------------*/
+
+#topicNavigation {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    img {
+        border-radius: 50%;
+        box-shadow: 5px 5px 10px @gray-lighter;
+    }
+
+    a {
+        color: @global-text-color;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .set-question-count {
+        color: @gray-light;
+    }
+
+    .topic {
+        .row {
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stack-below(@extra-breakpoint-cards);
+
+        .ImageContainer {
+            max-width: 80px;
+            min-width: 70px;
+
+            .LicenseInfo {
+                text-align: center;
+                color: @gray-light;
+
+                &:after {
+                    content: "Lizenz";
+                }
+            }
+        }
+
+        .topic-name {
+            max-height: 65px;
+            overflow: hidden;
+
+            @media (max-width: (@extra-breakpoint-cards - 1px)) {
+                max-height: none;
+            }
+        }
+    }
+
+    .category-knowledge-bar {
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
+    }
+}
+    /*------------------------------------------------------
+    NEW STYLES
+-------------------------------------------------------*/
+.navLinks {
+
+    > a, > div {
+        display: inline-block !important;
+        margin-right: 10px !important;
+    }
+
+    margin-top: -5px;
+    margin-bottom: 10px !important;
+}
+
+#MasterMainColumn {
+    //.new-font-style();
+    .old-font-style();
+    color: @global-text-color;
+
+    p {
+        //.new-font-style();
+        .old-font-style
+    }
+
+    h1, h2, h3, h4, h5 {
+        font-family: Open Sans !important;
+    }
+
+    h1 {
+        font-size: 45px !important;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 56px;
+    }
+
+    h2 {
+        font-size: 35px;
+        line-height: 44px;
+    }
+
+    h3 {
+        font-size: 26px;
+        line-height: 30px;
+        font-weight: 500;
+    }
+
+    h4 {
+        font-size: 26px;
+        line-height: 30px;
+        font-weight: 500;
+    }
+}
+
+#MainWrapper {
+    background-color: white;
+    padding: 20px;
+
+    .Box {
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+.BoxButtonBar {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.CardsPortrait, .CardsLandscape {
+    margin-top: 40px !important;
+}
+
+.Card {
+
+    .CardContent {
+
+        .CardsPortrait & {
+            @media (min-width: @extra-breakpoint-cards) {
+                height: 230px !important;
+            }
+        }
+    }
+
+    .ItemInfo {
+        font-size: 16px !important;
+    }
+
+    .ItemTitle {
+        font-size: 18px !important;
+        line-height: 18px !important;
+        /*-webkit-hyphens: auto;
+hyphens: auto;*/
+    }
+
+    .ItemText {
+        //font-size: 16px !important;
+    }
+}
+
+.LabelList .LabelItem {
+
+    &:before {
+        top: 1.1em !important;
+    }
+}
+
+
+.show-knowledge-bar-as-underlining() {
+    #ItemMainInfo header {
+        border: none !important;
+    }
+
+    #MainHeading {
+        .clearfix;
+        float: left;
+        margin-bottom: 20px;
+
+        h1 {
+            float: left;
+        }
+
+        .category-knowledge-bar {
+            width: 100%;
+            height: 8px;
+        }
+    }
+}
+
+.testSetWidget {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    h5 {
+        margin-bottom: 20px;
+    }
+}

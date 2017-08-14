@@ -139,7 +139,7 @@
                 <%  var isLoggedIn = Sl.R<SessionUser>().IsLoggedIn;
                     if (!isLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <%  } %>
@@ -219,7 +219,7 @@
             <div class="row aboutRow">
                 <%  if (!isLoggedIn) { %>
                     <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action("Register", "Welcome") %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                         <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
                     </div>
                 <%  } %>

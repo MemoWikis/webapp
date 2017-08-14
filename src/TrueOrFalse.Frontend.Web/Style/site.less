@@ -59,9 +59,6 @@ html {
 body {
     min-width: 280px;
     position: relative;
-    font-family: @font-family-text;
-    font-size: @font-size-normal;
-    color: @global-text-color;
     background-color: @color-background-global;
 }
 
@@ -534,6 +531,16 @@ ul.AutocompleteHeader{
         height: 32px;
     }
 
+    svg.large {
+        width: 90px;
+        height: 90px;
+
+        text {
+            font-size: 60px;
+        }
+    }
+
+
     @media (max-width: 767px) {
 
         svg {
@@ -544,11 +551,11 @@ ul.AutocompleteHeader{
     }
 
     circle {
-        fill: RGB(185,219,79);
+        fill: @memo-green;
     }
 
     .level-count {
-        fill: darkblue;
+        fill: @memo-blue;
         font-weight: bolder;
         font-size: 1.3em;
         text-anchor: middle;
@@ -1361,10 +1368,13 @@ li.google-visualization-tooltip-item span {
     margin-bottom: 20px;
     .media-below-xs({
         width: 50%;
+        margin-left: auto;
+        margin-right: auto;
     });
 
      img {
         border-radius: @border-radius-item-image;
+        border-radius: 50%;
      }
 }
 

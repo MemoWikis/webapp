@@ -9,13 +9,13 @@
 
     public string GetForCategory(int categoryId)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromCache(UserId, categoryId);
+        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(categoryId, UserId);
         return RenderPartialView(knowledgeSummary);
     }
 
     private string RenderPartialView(KnowledgeSummary knowledgeSummary) => 
         ViewRenderer.RenderPartialView(
-            "/Views/Knowledge/Wheel/KnowledgeWheel.ascx", 
+            "/Views/Knowledge/Wheel/KnowledgeWheel.ascx",
             knowledgeSummary,
             ControllerContext
         );

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class MenuLeftModel : BaseResolve
+﻿public class MenuLeftModel : BaseResolve
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
@@ -14,6 +12,7 @@ public class MenuLeftModel : BaseResolve
         var sessionUiData= Resolve<SessionUiData>();
 
         Menu = sessionUiData.Menu;
+
         if (userSession.User != null)
         {
             IsInstallationAdmin = userSession.IsInstallationAdmin;

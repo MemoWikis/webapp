@@ -37,7 +37,7 @@ function receiveMessage(event) {
     }
 }
 
-function writeIframe(iframeId, iframeSource) {
+function writeIframe(iframeId, iframeSource, logoOn) {
     var width = scriptTag.getAttribute("data-width");
 
     var attrMaxWidth = "";
@@ -47,6 +47,15 @@ function writeIframe(iframeId, iframeSource) {
         attrMaxWidth = "maxWidth=\"" + maxWidth + "\"";
         styleMaxWidth = "max-width: " + maxWidth + ";";
     }
+
+    var memuchoLogo = (logoOn === "false")
+        ? ""
+        : '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 12px; position: relative; width: 100%; visibility: hidden;" id="memuchoLogo' + iframeId + '"> ' +
+            '<a href="https://memucho.de" target="_blank"' + 'onmouseover = "this.style.filter = \'grayscale(0)\'" onmouseout  = "this.style.filter = \'grayscale(1)\'">' +
+                '<span style="font-weight: bold;"> memucho </span>' +
+                '<img src="https://memucho.de/Images/Logo/LogoSmall.png"/ style="width: 23px; height: auto; vertical-align: middle; padding-bottom: 4px; border: none; box-shadow: none;">' +
+            '</a>' +
+        '</div>';
 
     var iframeHtml =
         '<div style="width: ' + width + '; ' + styleMaxWidth + '">' +
@@ -68,16 +77,9 @@ function writeIframe(iframeId, iframeSource) {
                 'marginheight="0" marginwidth="0" ' +
                 'frameborder="no" scrolling="no"> ' +
             '</iframe>' + 
-            '<div style="font-family: \'Open Sans\', Arial, sans-serif; font-size: 12px; position: relative; width: 100%; visibility: hidden;" id="memuchoLogo' + iframeId + '"> ' +
-                '<a href="https://memucho.de" target="_blank"' +
-                    'onmouseover = "this.style.filter = \'grayscale(0)\'" onmouseout  = "this.style.filter = \'grayscale(1)\'">' +
-                    '<span style="font-weight: bold;"> memucho </span>' +
-                    '<img src="https://memucho.de/Images/Logo/LogoSmall.png"/ style="width: 23px; height: auto; vertical-align: middle; padding-bottom: 4px; border: none; box-shadow: none;">' +
-                '</a>' +
-            '</div>' +
+            memuchoLogo +
         '</div>';
-
-    if (scriptTag.getAttribute("data-isPreview")){
+    if (scriptTag.getAttribute("data-isPreview")) {
         var newElement = document.createElement('div');
         newElement.innerHTML = iframeHtml;
         document.getElementById('divPreviewSetWidget').appendChild(newElement);
@@ -141,30 +143,68 @@ if (hideKnowledgeBtn && hideKnowledgeBtn.length > 0 && hideKnowledgeBtn == "true
     queryKnowledgeBtn = "&hideAddToKnowledge=true";
 }
 
+var querySetTitle = "";
+var setTitleAttr = scriptTag.getAttribute("data-setTitle");
+if (setTitleAttr && setTitleAttr.length > 0) {
+    querySetTitle = "&title=" + setTitleAttr;
+}
+
+var querySetText = "";
+var setTextAttr = scriptTag.getAttribute("data-setText");
+if (setTextAttr && setTextAttr.length > 0) {
+    querySetText = "&text=" + setTextAttr;
+}
+
+var queryQuestionCount = "";
+var questionCountAttr = scriptTag.getAttribute("data-questionCount");
+if (questionCountAttr && questionCountAttr.length > 0) {
+    queryQuestionCount = "&questionCount=" + questionCountAttr;
+}
+
+var queryLogoOn = "";
+var LogoOnAttr = scriptTag.getAttribute("data-logoOn");
+if (LogoOnAttr && LogoOnAttr.length > 0) {
+    queryLogoOn = "&questionCount=" + LogoOnAttr;
+}
+
+var queryWidgetKey = "";
+var widgetKeyAttr = scriptTag.getAttribute("data-widgetKey");
+if (widgetKeyAttr && widgetKeyAttr.length > 0) {
+    queryWidgetKey = "&widgetKey=" + widgetKeyAttr;
+}
+
 var queryHost = "&host=" + window.location.hostname;
+var queryPartShared = queryDummy + queryKnowledgeBtn + queryHost + queryWidgetKey + queryQuestionCount;
 
 if (type_ === "question")
 {
     var questionId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/frage/' + questionId + queryDummy + queryKnowledgeBtn + queryHost;
+    var filePath = domain + '/widget/frage/' + questionId + queryPartShared + queryQuestionCount;
     var iframeId = "iframe-q" + questionId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
-}    
-else if (type_ === "set")
-{
+}
+else if (type_ === "set") {
     var setId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/fragesatz/start/' + setId + queryDummy + queryKnowledgeBtn + queryHost;
+    var filePath = domain + '/widget/fragesatz/start/' + setId + queryPartShared;
     var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);
 }
+else if (type_ === "templateset") {
+    var setId = scriptTag.getAttribute("data-id");
+
+    var filePath = domain + '/widget/fragesatz/templateset/' + setId + queryPartShared + querySetTitle + querySetText;
+    var iframeId = "iframe-s" + setId + Math.floor((Math.random() * 10000) + 1);
+
+    writeIframe(iframeId, filePath, LogoOnAttr);
+}
 else if (type_ === "setVideo") {
     var setId = scriptTag.getAttribute("data-id");
 
-    var filePath = domain + '/widget/fragesatz-v/' + setId + queryDummy + queryKnowledgeBtn + queryHost;
+    var filePath = domain + '/widget/fragesatz-v/' + setId + queryPartShared;
     var iframeId = "iframe-sv" + setId + Math.floor((Math.random() * 10000) + 1);
 
     writeIframe(iframeId, filePath);

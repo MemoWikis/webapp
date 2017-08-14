@@ -67,9 +67,6 @@ html {
 body {
   min-width: 280px;
   position: relative;
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-size: 14px;
-  color: #203256;
   background-color: #F6F8FA;
 }
 h1,
@@ -628,6 +625,13 @@ ul.AutocompleteHeader {
   width: 32px;
   height: 32px;
 }
+.level-display svg.large {
+  width: 90px;
+  height: 90px;
+}
+.level-display svg.large text {
+  font-size: 60px;
+}
 @media (max-width: 767px) {
   .level-display svg {
     margin-top: 4px;
@@ -636,10 +640,10 @@ ul.AutocompleteHeader {
   }
 }
 .level-display circle {
-  fill: #b9db4f;
+  fill: #AFD534;
 }
 .level-display .level-count {
-  fill: darkblue;
+  fill: #003264;
   font-weight: bolder;
   font-size: 1.3em;
   text-anchor: middle;
@@ -1346,10 +1350,13 @@ li.google-visualization-tooltip-item span {
 @media (max-width: 479px) {
   .TeamPic {
     width: 50%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 .TeamPic img {
   border-radius: 5px;
+  border-radius: 50%;
 }
 /* $ToDo: Clean up
 ----------------------------------------------------------*/

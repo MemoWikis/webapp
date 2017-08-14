@@ -39,11 +39,11 @@ public class QuestionDelete
         questionRepo.Delete(question);
         Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);
 
-        var aggregatedCategoriesToUpdate = CategoryAggregation.GetInterrelatedCategories(categoriesToUpdate);
+        var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);
 
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateAggregatedQuestions();
+            category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }

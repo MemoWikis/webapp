@@ -30,6 +30,7 @@ class SolutionTypeMatchList
 
 
             var urlParams = Utils.GetQueryString();
+            var urlNext = $("#btnNext").attr("href");
 
             jQuery.ajax({
                 url: url,
@@ -39,12 +40,13 @@ class SolutionTypeMatchList
                     isMobileDevice: isMobile,
                     testSessionId: testSessionId,
                     learningSessionId: learningSessionId,
-                    isVideo: isVideo
+                    isVideo: isVideo,
+                    hideAddToKnowledge: $("#disableAddKnowledgeButton").val()
                 },
                 success: htmlResult => {
                     $("div#LicenseQuestion").remove();
-                    $("#AnswerBody")
-                        .replaceWith(htmlResult);
+                    $("#AnswerBody").replaceWith(htmlResult);
+                    $("#btnNext").attr("href", urlNext);
                 },
                 async: false
             });

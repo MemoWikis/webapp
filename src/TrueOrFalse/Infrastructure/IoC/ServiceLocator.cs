@@ -20,6 +20,7 @@ public class Sl
     public static ActivityPointsRepo ActivityPointsRepo => R<ActivityPointsRepo>();
 
     public static CategoryRepository CategoryRepo => R<CategoryRepository>();
+    public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
 
@@ -46,6 +47,8 @@ public class Sl
     public static LearningSessionRepo LearningSessionRepo => R<LearningSessionRepo>();
 
     public static ImageMetaDataRepo ImageMetaDataRepo => R<ImageMetaDataRepo>();
+
+    public static WidgetViewRepo WidgetViewRepo => R<WidgetViewRepo>();
 
     public static int CurrentUserId => R<SessionUser>().UserId;
 }

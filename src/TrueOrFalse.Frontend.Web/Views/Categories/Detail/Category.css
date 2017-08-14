@@ -119,8 +119,7 @@ span.CategoryType {
   margin-bottom: 15px;
 }
 .MarkdownContent p {
-  /*font-size: 18px;*/
-  line-height: 1.6em;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 .MarkdownContent ul {
@@ -409,40 +408,218 @@ p:empty {
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
 }
-html.flexbox:not(.Explorer) .CardsLandscape {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .CardColumn {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .CardColumn {
   display: flex;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card {
   display: flex;
   width: 100%;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .ImageContainer {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ImageContainer {
   flex: 0 0 100px;
   flex-grow: 0%;
   flex-shrink: 0%;
   flex-basis: 100px;
   align-self: flex-start;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .ContentContainer {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ContentContainer {
   margin-left: 0 !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: auto;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .CardContent {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .CardContent {
   margin-left: 0;
   height: auto;
   max-height: 243px;
   border-bottom: none !important;
 }
-html.flexbox:not(.Explorer) .CardsLandscape .Card .BottomBar {
+html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   border-top: 1px solid #dfdfdf;
   margin-left: 0 !important;
   margin-right: 15px !important;
+}
+/*------------------------------------------------------
+    TopicNavigation
+-------------------------------------------------------*/
+#topicNavigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+#topicNavigation img {
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #eeeeee;
+}
+#topicNavigation a {
+  color: #203256;
+}
+#topicNavigation a:hover {
+  text-decoration: none;
+}
+#topicNavigation .set-question-count {
+  color: #999999;
+}
+#topicNavigation .topic .row {
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
+@media (max-width: 649px) {
+  #topicNavigation .topic {
+    float: none;
+    width: 100%;
+    height: inherit;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+#topicNavigation .topic .ImageContainer {
+  max-width: 80px;
+  min-width: 70px;
+}
+#topicNavigation .topic .ImageContainer .LicenseInfo {
+  text-align: center;
+  color: #999999;
+}
+#topicNavigation .topic .ImageContainer .LicenseInfo:after {
+  content: "Lizenz";
+}
+#topicNavigation .topic .topic-name {
+  max-height: 65px;
+  overflow: hidden;
+}
+@media (max-width: 649px) {
+  #topicNavigation .topic .topic-name {
+    max-height: none;
+  }
+}
+#topicNavigation .category-knowledge-bar {
+  margin-top: 15px;
+  height: 10px;
+  width: 180px;
+}
+#topicNavigation .category-knowledge-bar .solid-knowledge,
+#topicNavigation .category-knowledge-bar .needs-learning,
+#topicNavigation .category-knowledge-bar .needs-consolidation,
+#topicNavigation .category-knowledge-bar .not-learned,
+#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+#topicNavigation .category-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+#topicNavigation .category-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+#topicNavigation .category-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+#topicNavigation .category-knowledge-bar .not-learned {
+  background-color: silver;
+}
+#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}
+/*------------------------------------------------------
+    NEW STYLES
+-------------------------------------------------------*/
+.navLinks {
+  margin-top: -5px;
+  margin-bottom: 10px !important;
+}
+.navLinks > a,
+.navLinks > div {
+  display: inline-block !important;
+  margin-right: 10px !important;
+}
+#MasterMainColumn {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  color: #203256;
+}
+#MasterMainColumn p {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  color: #203256;
+}
+#MasterMainColumn h1,
+#MasterMainColumn h2,
+#MasterMainColumn h3,
+#MasterMainColumn h4,
+#MasterMainColumn h5 {
+  font-family: Open Sans !important;
+}
+#MasterMainColumn h1 {
+  font-size: 45px !important;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 56px;
+}
+#MasterMainColumn h2 {
+  font-size: 35px;
+  line-height: 44px;
+}
+#MasterMainColumn h3 {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 500;
+}
+#MasterMainColumn h4 {
+  font-size: 26px;
+  line-height: 30px;
+  font-weight: 500;
+}
+#MainWrapper {
+  background-color: white;
+  padding: 20px;
+}
+#MainWrapper .Box {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+.BoxButtonBar {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.CardsPortrait,
+.CardsLandscape {
+  margin-top: 40px !important;
+}
+@media (min-width: 650px) {
+  .CardsPortrait .Card .CardContent {
+    height: 230px !important;
+  }
+}
+.Card .ItemInfo {
+  font-size: 16px !important;
+}
+.Card .ItemTitle {
+  font-size: 18px !important;
+  line-height: 18px !important;
+  /*-webkit-hyphens: auto;
+hyphens: auto;*/
+}
+.LabelList .LabelItem:before {
+  top: 1.1em !important;
+}
+.testSetWidget {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.testSetWidget h2 {
+  margin-bottom: 10px;
+}
+.testSetWidget h5 {
+  margin-bottom: 20px;
 }

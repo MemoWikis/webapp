@@ -30,6 +30,12 @@ public static class AddToSet
             }
         }
 
+        foreach (var category in set.Categories)
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+        }
+
         Sl.R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(set, Sl.R<SessionUser>().User);
 
         return new AddToSetResult

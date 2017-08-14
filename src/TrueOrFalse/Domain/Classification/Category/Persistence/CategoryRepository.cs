@@ -2,24 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
+using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
 public class CategoryRepository : RepositoryDbBase<Category>
 {
     private readonly SearchIndexCategory _searchIndexCategory;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory, CategoryRelationRepo categoryRelationRepo)
+    public CategoryRepository(ISession session, SearchIndexCategory searchIndexCategory)
         : base(session){
         _searchIndexCategory = searchIndexCategory;
-        _categoryRelationRepo = categoryRelationRepo;
     }
 
-    public Category GetByIdEager(int categoryId) => 
-        _session.QueryOver<Category>()
-            .Where(set => set.Id == categoryId)
-            .Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .SingleOrDefault();
+    public Category GetByIdEager(int categoryId) => GetByIdsEager(new[] {categoryId}).FirstOrDefault();
+
+    public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
+    {
+        var query = _session.QueryOver<Category>();
+
+        if (categoryIds != null)
+            query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
+
+        return query.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
+            .JoinQueryOver(x => x.RelatedCategory)
+            .List()
+            .GroupBy(c => c.Id)
+            .Select(c => c.First())
+            .ToList();
+    }
+
+    public IList<Category> GetAllEager() => GetByIdsEager();
 
     public override void Create(Category category)
     {
@@ -29,6 +41,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         Flush();
         UserActivityAdd.CreatedCategory(category);
         _searchIndexCategory.Update(category);
+        EntityCache.AddOrUpdate(category);
     }
 
     public override void Update(Category category)
@@ -37,12 +50,15 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Update(category);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
+        EntityCache.AddOrUpdate(category);
     }
 
     public override void Delete(Category category)
     {
         _searchIndexCategory.Delete(category);
         base.Delete(category);
+        EntityCache.Remove(category);
+        UserValuationCache.RemoveAllForCategory(category.Id); 
     }
 
     public IList<Category> GetByName(string categoryName)
@@ -67,19 +83,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .Select(GetById)
                 .Where(set => set != null)
                 .ToList();
-    }
-
-    public IList<Category> GetAggregatedCategories(Category category, bool includeSelf = false)
-    {
-        var aggregatedCategories = _categoryRelationRepo
-            .GetAll()
-            .Where(r => r.Category == category && r.CategoryRelationType == CategoryRelationType.IncludesContentOf)
-            .Select(r => r.RelatedCategory);
-
-        if(includeSelf)
-            aggregatedCategories = aggregatedCategories.Union(new List<Category>{category});
-
-         return aggregatedCategories.ToList();
     }
 
     public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
@@ -287,5 +290,20 @@ public class CategoryRepository : RepositoryDbBase<Category>
     {
         return _session.QueryOver<Category>()
             .RowCount();
+    }
+
+    private const int AllgemeinwissenId = 709;
+
+    public Category Allgemeinwissen => GetById(AllgemeinwissenId);
+
+    public List<Category> GetRootCategoriesList()
+    {
+        return new List<Category>
+        {
+            Sl.CategoryRepo.GetById(682), //Schule
+            Sl.CategoryRepo.GetById(687), //Studium
+            Sl.CategoryRepo.GetById(689), //Zertifikate
+            Sl.CategoryRepo.GetById(AllgemeinwissenId) //Allgemeinwissen
+        };
     }
 }

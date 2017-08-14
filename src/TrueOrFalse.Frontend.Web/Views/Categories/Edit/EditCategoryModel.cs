@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -82,7 +81,7 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
-        AggregatedCategories = category.AggregatedCategories();
+        AggregatedCategories = category.AggregatedCategories(includingSelf: false);
         NonAggregatedCategories = category.NonAggregatedCategories();
         DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
@@ -124,9 +123,13 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.DisableLearningFunctions = DisableLearningFunctions;
-        category.TopicMarkdown = TopicMarkdown;
-        category.FeaturedSetsIdsString = FeaturedSetIdsString;
+
+        if (IsInstallationAdmin)//Prevent overwrite of hidden fields if edited by non-admin
+        {
+            category.DisableLearningFunctions = DisableLearningFunctions;
+            category.TopicMarkdown = TopicMarkdown;
+            category.FeaturedSetsIdsString = FeaturedSetIdsString;
+        }
 
         ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 

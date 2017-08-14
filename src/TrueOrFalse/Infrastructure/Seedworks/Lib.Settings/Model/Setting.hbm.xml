@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true">
+  <class name="Seedworks.Lib.Settings, SpeakFriend.Utilities" table="Setting" lazy="false" discriminator-value="x">
+
+    <id name="Id" >
+      <generator class="native" />
+    </id>
+
+    <discriminator column="NHType" type="string" />
+    
+    <property name="Key" column="Key_" />
+    <property name="ValueStr" column="Value_" />
+
+    <property name="SettingType" />
+    <property name="SettingTypeId" />
+
+    <property name="DateModified" type="DateTime" not-null="true"/>
+    <property name="DateCreated" type="DateTime" not-null="true"/>
+
+    <subclass name="Seedworks.Lib.Settings.SettingBoolean, Seedworks.Lib.Settings" discriminator-value="b" />
+    <subclass name="Seedworks.Lib.Settings.SettingInteger, Seedworks.Lib.Settings" discriminator-value="i" />
+    <subclass name="Seedworks.Lib.Settings.SettingString, Seedworks.Lib.Settings" discriminator-value="s" />
+    
+  </class>
+</hibernate-mapping>

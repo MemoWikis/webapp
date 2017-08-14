@@ -5,6 +5,9 @@ public class GetBreadCrumb
 {
     public static IList<Category> For(Category category)
     {
+        if(category == null)
+            return new List<Category>();
+
         var result = GetParent(category, new List<Category>());
         result.Reverse();
         return result;
@@ -12,10 +15,16 @@ public class GetBreadCrumb
 
     private static List<Category> GetParent(Category category, List<Category> result)
     {
-        if (!category.ParentCategories().Any())
+        var defaultCategories = Sl.CategoryRepo.GetRootCategoriesList();
+        if (!category.ParentCategories().Any() || defaultCategories.Contains(category))
             return result;
 
         var categoryToAdd = category.ParentCategories().First();
+        foreach (var parentCategory in category.ParentCategories())
+        {
+            if (defaultCategories.Contains(parentCategory))
+                categoryToAdd = parentCategory;
+        }
         result.Add(categoryToAdd);
 
         return GetParent(categoryToAdd, result);

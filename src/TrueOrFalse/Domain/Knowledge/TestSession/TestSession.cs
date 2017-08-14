@@ -60,16 +60,21 @@ public class TestSession
     {        
     }
 
-    public TestSession(Set set)
+    public TestSession(Set set, int testSessionCount = -1)
     {
-        UriName = "Lernset-" + UriSanitizer.Run(set.Name);
+        if (testSessionCount == -1)
+            testSessionCount = Settings.TestSessionQuestionCount;
+
+        UriName = "Lernset-" + UriSanitizer.Run(set.Name);//force eager loading
         SetToTest = set;
+        SetToTest.Categories = set.Categories.ToList();
         SetToTestId = set.Id;
         SetLink = Links.SetDetail(set);
         SetName = set.Name;
         SetQuestionCount = set.Questions().Count;
+        
         var excludeQuestionIds = Sl.SessionUser.AnsweredQuestionIds.ToList();
-        var questions = GetRandomQuestions.Run(set, Settings.TestSessionQuestionCount, excludeQuestionIds, true).ToList();
+        var questions = GetRandomQuestions.Run(set, testSessionCount, excludeQuestionIds, true).ToList();
         Populate(questions);
     }
 
