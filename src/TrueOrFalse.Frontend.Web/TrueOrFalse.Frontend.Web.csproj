@@ -415,6 +415,7 @@
     <Compile Include="Views\Sets\Detail\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
+    <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
     <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
     <Compile Include="Views\Shared\AddToWishknowledge.cs" />
     <Compile Include="Views\Shared\SponsorModel.cs" />
@@ -717,7 +718,9 @@
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
+    <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Welcome\Directions.aspx" />
     <Content Include="Views\Welcome\Directions.css">
@@ -2636,6 +2639,9 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
     <Content Include="Views\Welcome\Directions.less" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Questions\Modals\QuestionInSet.cshtml" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

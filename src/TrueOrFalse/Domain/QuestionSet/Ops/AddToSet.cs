@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class AddToSet : IRegisterAsInstancePerLifetime
+public static class AddToSet 
 {
-    public static AddToSetResult Run(int[] questionIds, int questionSet)
+    public static AddToSetResult Run(IEnumerable<int> questionIds, int questionSet)
     {
         return Run(
-            Sl.QuestionRepo.GetByIds(questionIds), 
+            Sl.QuestionRepo.GetByIds(questionIds.ToArray()), 
             Sl.SetRepo.GetById(questionSet));
     }
 
@@ -15,11 +15,11 @@ public class AddToSet : IRegisterAsInstancePerLifetime
 
     public static AddToSetResult Run(IList<Question> questions, Set set)
     {
-        var nonAddedQuestions = new List<Question>();
+        var notAddedQuestions = new List<Question>();
         foreach (var question in questions)
         {
             if (set.QuestionsInSet.Any(q => q.Question.Id == question.Id))
-                nonAddedQuestions.Add(question);
+                notAddedQuestions.Add(question);
             else
             {
                 var questionInSet = new QuestionInSet();
@@ -40,8 +40,8 @@ public class AddToSet : IRegisterAsInstancePerLifetime
 
         return new AddToSetResult
         {
-            AmountAddedQuestions = questions.Count - nonAddedQuestions.Count,
-            AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count,
+            AmountAddedQuestions = questions.Count - notAddedQuestions.Count,
+            AmountOfQuestionsAlreadyInSet = notAddedQuestions.Count,
             Set = set
         };
     }

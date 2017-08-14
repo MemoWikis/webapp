@@ -13,7 +13,7 @@ namespace System.Web.Mvc
             if (message == null)
                 return;
 
-            var newViewContext = 
+            var newViewContext =  
                 new ViewContext(html.ViewContext, 
                 html.ViewContext.View, 
                 new ViewDataDictionary(message), 

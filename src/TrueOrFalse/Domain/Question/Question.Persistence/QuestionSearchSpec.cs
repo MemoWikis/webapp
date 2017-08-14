@@ -37,6 +37,7 @@ public class QuestionFilter : ConditionContainer
     public bool IgnorePrivates = true;
 
     public IList<int> Categories = new List<int>();
+    public IList<int> QuestionIdsToExclude = new List<int>();
 
     public bool Knowledge_Solid = true;
     public bool Knowledge_ShouldConsolidate = true;
