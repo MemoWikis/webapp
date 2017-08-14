@@ -101,20 +101,24 @@ var options = {
 
 function toggleCheckbox(event, checkbox) {
 
-    if (event.target.tagName.toUpperCase() === 'INPUT') {
-        if (checkbox.is(':checked')) {
-            $('#learnSetSave').fadeIn();
-        } else {
-            $('#learnSetSave').hide();
-        }
-    } else { 
+    if (event.target.tagName.toUpperCase() !== 'INPUT') {
         if (checkbox.is(':checked')) {
             checkbox.prop('checked', false);
-            $('#learnSetSave').hide();
         } else {
             checkbox.prop('checked', true);
-            $('#learnSetSave').fadeIn();
         }
+    }
+
+    if (checkbox.is(':checked')) {
+        $('#learnSetSave').fadeIn();
+    } else {
+
+        var checkedCount = $("#questions input:checkbox")
+            .filter(function (index, input) { return $(input).is(":checked") })
+            .length;
+
+        if(checkedCount === 0)
+            $('#learnSetSave').hide();
     }
 
 }
