@@ -1,21 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Web;
-using Seedworks.Lib;
-using TrueOrFalse.Web;
-
-public class QuestionInSetModel : BaseModel
+﻿public class QuestionInSetModel : BaseModel
 {
-
-    public int Id { get; private set; }
-    public string Text { get; private set; }
-    public int CreatorId { get; private set; }
-    public string TextExtended { get; private set; }
-    public string CorrectAnswer { get; private set; }
-    public int TimeCode { get; private set; }
-    public int QuestionInSetId { get; private set; }
+    public int Id { get; }
+    public string Text { get; }
+    public int CreatorId { get; }
+    public string TextExtended { get; }
+    public string CorrectAnswer { get; }
+    public int TimeCode { get; }
+    public int QuestionId { get; }
 
     public QuestionInSetModel(QuestionInSet questionInSet)
     {
@@ -25,7 +16,7 @@ public class QuestionInSetModel : BaseModel
         TextExtended = questionInSet.Question.TextExtended;
         CorrectAnswer = questionInSet.Question.GetSolution().GetCorrectAnswerAsHtml();
         TimeCode = questionInSet.Timecode;
-        QuestionInSetId = questionInSet.Id;
+        QuestionId = questionInSet.Question.Id;
 
     }
 
