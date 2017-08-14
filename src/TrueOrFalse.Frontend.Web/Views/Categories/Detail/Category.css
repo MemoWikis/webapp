@@ -537,6 +537,19 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     NEW STYLES
 -------------------------------------------------------*/
+.navLinks {
+  display: inline;
+  padding-left: 12px;
+  padding-top: 2px;
+}
+.navLinks .visible-lg {
+  display: inline !important;
+}
+@media (max-width: 1199px) {
+  .navLinks .visible-lg {
+    display: none !important;
+  }
+}
 .navLinks > a,
 .navLinks > div {
   display: inline-block !important;
