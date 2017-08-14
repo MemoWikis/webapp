@@ -674,6 +674,14 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .LabelList .LabelItem:before {
   top: 1.1em !important;
 }
+#AboveMainHeading {
+  margin-top: -5px;
+}
+@media (min-width: 991px) {
+  #AboveMainHeading {
+    margin-top: -21px;
+  }
+}
 .testSetWidget {
   margin-top: 20px;
   margin-bottom: 20px;

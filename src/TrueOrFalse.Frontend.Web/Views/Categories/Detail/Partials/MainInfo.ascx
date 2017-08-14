@@ -19,11 +19,11 @@
 
 <div id="ItemMainInfo" class="Category Box">
     
-    <div class="">
+    <div>
         <div class="row">
             <div class="col-xs-12">
                 <header>
-                    <div class="greyed">
+                    <div id="AboveMainHeading" class="greyed">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                     </div>
                     <div id="MainHeading">
@@ -95,7 +95,7 @@
                                 </a>    
                             <% } %>
                         </div>                        
-
+                            
                     </div>
                    
                     <div style="float: right">
