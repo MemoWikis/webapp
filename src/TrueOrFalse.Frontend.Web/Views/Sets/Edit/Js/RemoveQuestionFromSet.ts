@@ -6,7 +6,8 @@
 class RemoveQuestionFromSet 
 { 
     constructor() {           
-        $(".JS-DeleteButton").on("click",function() {
+        $("#ulQuestions").on("click",".JS-DeleteButton" ,function (event) {
+            console.log(event);
             var parentLi = $(this).parent().parent();
             console.log(parentLi);
             parentLi.hide(200);

@@ -1,5 +1,10 @@
 ﻿
-$(function() {
+$(function () {
+
+  
+    $("#revertAction").click(function () {
+        $("#modalRevertAction").modal();
+    });
 
     hiding();
     disableSubmitButtonSouldBePressedEnter();
@@ -41,7 +46,11 @@ $(function() {
                                     $("#ulQuestions").append($(data[i])).fadeIn(400);
                                 }
                                 console.log(data);
-                            });
+                            });               
+
+                        $("#revertAction").click(function () {
+                            $("#modalRevertAction").modal();
+                        });
 
                     } else {
                         $("#safeQuestions").removeClass("alert-success").addClass("alert-warning");
