@@ -218,6 +218,7 @@ textarea.form-control {
   border: 1px solid gainsboro;
   margin-left: -0.5px;
   /*max-width: 650px;*/
+  padding: 10px;
 }
 .form-horizontal .FormSection .questionRows .previewImage {
   height: 75px;
