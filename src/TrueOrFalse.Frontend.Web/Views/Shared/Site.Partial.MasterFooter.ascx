@@ -43,9 +43,8 @@
             <a href="<%= Links.WidgetPricing() %>">Angebote und Preise für Widgets</a><br/>
             &nbsp;<br/>
             <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
-            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
             <a href="<%=Links.Jobs() %>">Jobs</a><br/>
-            <a href="<%=Links.Directions %>">Anfahrt</a><br/>
+            <a href="<%=Links.Contact %>">Kontakt & Anfahrt</a><br/>
         </div>
         
         <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">        

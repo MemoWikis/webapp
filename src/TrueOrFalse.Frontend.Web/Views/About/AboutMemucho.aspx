@@ -158,7 +158,7 @@
             <p>
                 Wir wollen nicht nur dein Lernen vereinfachen, sondern damit freie Bildungsinhalte und Open-Source fördern und ein gemeinwohlorientiertes und 
                 transparentes Unternehmen aufbauen. Diese Werte leiten unser Handeln. 
-                <a href="<%= Links.FAQItem("Contact") %>">Melde dich bei uns</a>, wenn du Fragen oder Anregungen hast. Wir freuen uns über deine Nachricht!
+                <a href="<%= Links.Contact %>">Melde dich bei uns</a>, wenn du Fragen oder Anregungen hast. Wir freuen uns über deine Nachricht!
             </p>
 
             <div class="row aboutRow" style="margin-top: 30px;">

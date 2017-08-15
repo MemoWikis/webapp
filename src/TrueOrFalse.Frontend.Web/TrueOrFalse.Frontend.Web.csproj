@@ -722,12 +722,9 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
-    <Content Include="Views\Welcome\Directions.aspx" />
-    <Content Include="Views\Welcome\Directions.css">
-      <DependentUpon>Directions.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Welcome\Drive.css">
-      <DependentUpon>Directions.less</DependentUpon>
+    <Content Include="Views\Welcome\Contact.aspx" />
+    <Content Include="Views\Welcome\Contact.css">
+      <DependentUpon>Contact.less</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
@@ -2638,7 +2635,7 @@
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
-    <Content Include="Views\Welcome\Directions.less" />
+    <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Questions\Modals\QuestionInSet.cshtml" />
