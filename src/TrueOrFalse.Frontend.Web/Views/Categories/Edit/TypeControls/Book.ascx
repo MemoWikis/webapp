@@ -84,9 +84,9 @@
 </div>--%>
 <div class="form-group">
     <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia
+        Buch-Seite des Verlags
         <i class="fa fa-question-circle show-tooltip" 
-            title="Falls es einen Wikipedia-Artikel zum Buch gibt, gib bitte hier den Link an" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+            title="Falls es eine Seite zum Buch beim Verlag gibt, gib bitte hier den Link an" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">

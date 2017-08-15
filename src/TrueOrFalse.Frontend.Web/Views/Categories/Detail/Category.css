@@ -52,7 +52,7 @@ span.CategoryType {
   content: ",\0000a0";
 }
 .Reference {
-  margin-bottom: 5px;
+  margin-bottom: 20px;
 }
 .Reference .Icon,
 .Reference .Name {

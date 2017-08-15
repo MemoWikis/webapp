@@ -69,7 +69,7 @@
                 }
                 if (!String.IsNullOrEmpty(Model.WikipediaURL))
                 {
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                    %><br /><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %> <i class='fa fa-external-link'></i></span></a></div><%
                 }
             %></div>
 <%

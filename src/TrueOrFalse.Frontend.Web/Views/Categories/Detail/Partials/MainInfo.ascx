@@ -65,11 +65,11 @@
                 <% if (!String.IsNullOrEmpty(Model.InfoUrl)){ %>
                     <div>
                         <div class="WikiLink" style="margin-top: 10px;">
-                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.InfoUrl %></div>" data-placement="left" data-html="true">
+                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.InfoUrl) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
                                 <% if(Links.IsLinkToWikipedia(Model.InfoUrl)){ %>
-                                    <img src="/Images/wiki-24.png" style="margin-top: -1px;" />
+                                    <i class="fa fa-wikipedia-w"></i>    
                                 <% } %>
-                                <%= Model.InfoUrl %>
+                                <%= Model.Category.Type == CategoryType.Book ? "Zur Verlagsseite des Buchs <i class='fa fa-external-link'></i>" : Model.InfoUrl %>
                             </a>
                         </div>
                     </div>
