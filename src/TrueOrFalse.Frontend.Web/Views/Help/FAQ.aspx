@@ -274,7 +274,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+        <%--<div class="panel panel-default">
             <% currentFaqItem = new FAQAccordeonItem("Contact"); %>
           
             <div class="panel-heading" role="tab" id="<%= currentFaqItem.ItemHtmlIdHeading %>">
@@ -300,7 +300,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div>--%>
     </div>
     
 </asp:Content>

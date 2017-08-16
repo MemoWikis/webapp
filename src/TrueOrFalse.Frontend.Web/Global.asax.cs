@@ -35,12 +35,12 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
 
-            EntityCache.Init();
-
 #if DEBUG
             if (Settings.DebugUserNHProfiler())
                 NHibernateProfiler.Initialize();
 #endif            
+
+            EntityCache.Init();
 
             if (!Settings.DisableAllJobs())
                 JobScheduler.Start();

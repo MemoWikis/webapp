@@ -248,5 +248,9 @@
   {
     "outputFile": "Style/utils.css",
     "inputFile": "Style/utils.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Contact.css",
+    "inputFile": "Views/Welcome/Contact.less"
   }
 ]

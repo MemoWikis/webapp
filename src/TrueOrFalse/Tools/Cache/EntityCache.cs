@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Caching;
-using NHibernate.Util;
 using Seedworks.Lib.Persistence;
 
 public class EntityCache
@@ -113,8 +112,6 @@ public class EntityCache
 
         return questions;
     }
-
-    
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> GetCategoryQuestionsList(ConcurrentDictionary<int, Question> questions)
     {
@@ -349,8 +346,6 @@ public class EntityCache
     {
         RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
     }
-
-    
 
     /// <summary>
     /// Not ThreadSafe! 

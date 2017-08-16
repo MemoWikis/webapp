@@ -18,24 +18,13 @@
 </div>
 
 <div id="ItemMainInfo" class="Category Box">
-    <div class="navLinks" >
-        <a href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>" style="font-size: 12px;"><i class="fa fa-list"></i>&nbsp;zur Übersicht</a>
-        <% if(Model.IsOwnerOrAdmin){ %>
-            <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a> 
-        <% } %>
-        <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a>
-        <% if(Model.IsInstallationAdmin) { %>
-            <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
-                <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
-            </a>    
-        <% } %>
-    </div>
-    <div class="">
+    
+    <div>
         <div class="row">
             <div class="col-xs-12">
                 <header>
-                    <div class="greyed">
-                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %> und <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %>
+                    <div id="AboveMainHeading" class="greyed">
+                        <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
                     </div>
                     <div id="MainHeading">
                         <h1 class="" style="margin-top: 5px;">
@@ -76,11 +65,11 @@
                 <% if (!String.IsNullOrEmpty(Model.InfoUrl)){ %>
                     <div>
                         <div class="WikiLink" style="margin-top: 10px;">
-                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<div style='white-space: normal; word-wrap: break-word; text-align:left; '>Link&nbsp;auf&nbsp;Wikipedia:&nbsp;<%= Model.InfoUrl %></div>" data-placement="left" data-html="true">
+                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.InfoUrl) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
                                 <% if(Links.IsLinkToWikipedia(Model.InfoUrl)){ %>
-                                    <img src="/Images/wiki-24.png" style="margin-top: -1px;" />
+                                    <i class="fa fa-wikipedia-w"></i>    
                                 <% } %>
-                                <%= Model.InfoUrl %>
+                                <%= Model.Category.Type == CategoryType.Book ? "Zur Verlagsseite des Buchs <i class='fa fa-external-link'></i>" : Model.InfoUrl %>
                             </a>
                         </div>
                     </div>
@@ -89,7 +78,24 @@
                 <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                 <div class="BottomBar">
                     <div style="float: left; padding-top: 3px;">
-                        <div class="fb-share-button" style="width: 100%" data-href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div>                
+                        <div class="fb-share-button" data-href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true">
+                            <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a>
+                        </div>
+                    
+                        <div class="navLinks">  
+                            <% if(Model.IsOwnerOrAdmin){ %>
+                                <a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>" style="font-size: 12px;"><i class="fa fa-pencil"></i>&nbsp;<span class="visible-lg">bearbeiten</span></a> 
+                            <% } %>
+                            <% if(Model.IsInstallationAdmin){ %>
+                                <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;<span class="visible-lg">Frage hinzufügen</span></a>
+                            <% } %>
+                            <% if(Model.IsInstallationAdmin) { %>
+                                <a href="#" class="show-tooltip" data-placement="right" data-original-title="Views - nur von admin sichtbar">
+                                    <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> 
+                                </a>    
+                            <% } %>
+                        </div>                        
+                            
                     </div>
                    
                     <div style="float: right">
@@ -184,3 +190,4 @@
     </div>
 
 <% } %>
+
