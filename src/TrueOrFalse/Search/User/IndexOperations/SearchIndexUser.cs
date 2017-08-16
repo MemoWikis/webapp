@@ -13,10 +13,11 @@ namespace TrueOrFalse.Search
 
         public void Update(User user, bool runSolrUpdateAsync = false)
         {
-            Action action = () => {
+            void action()
+            {
                 _solrOperations.Add(ToUserSolrMap.Run(user));
                 _solrOperations.Commit();
-            };
+            }
 
             if (runSolrUpdateAsync)
                 AsyncExe.Run(action);

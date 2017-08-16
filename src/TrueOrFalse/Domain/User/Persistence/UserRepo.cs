@@ -61,12 +61,14 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void Update(User user, bool runSolrUpdateAsync = false)
     {
+        Logg.r().Information("user update {Id} {Email}", user.Id, user.EmailAddress);
         _searchIndexUser.Update(user, runSolrUpdateAsync);
         base.Update(user);
     }
 
     public override void Create(User user)
     {
+        Logg.r().Information("user create {Id} {Email}", user.Id, user.EmailAddress);
         base.Create(user);
         _searchIndexUser.Update(user);
     }
@@ -86,8 +88,8 @@ public class UserRepo : RepositoryDbBase<User>
 
     public override IList<User> GetByIds(params int[] userIds)
     {
-        var questions = base.GetByIds(userIds);
-        return userIds.Select(t => questions.First(q => q.Id == t)).ToList();
+        var users = base.GetByIds(userIds);
+        return userIds.Select(t => users.First(u => u.Id == t)).ToList();
     }
 
     public IList<User> GetWhereReputationIsBetween(int newReputation, int oldRepution)
