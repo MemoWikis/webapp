@@ -176,4 +176,9 @@ public class EditSetController : BaseController
         return Json(resultHtmls);
     }
 
+    public String GetYoutubeUrl(String url)
+    {
+        return url;
+    }
+
 }

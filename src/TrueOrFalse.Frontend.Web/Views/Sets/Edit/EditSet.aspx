@@ -127,7 +127,7 @@
                             <%= Html.TextBoxFor(m => m.VideoUrl, new {@class = "form-control"}) %>
                         </div>
                     </div>
-
+             
                     <div class="form-group">
                         <label class="columnLabel control-label">
                             <span class="show-tooltip" title="Themen helfen bei der Einordnung des Lernsets und ermöglichen dir und anderen, Lernsets wiederzufinden.">
