@@ -47,12 +47,9 @@
         <div class="PageHeader col-xs-12">
             <h2 class="pull-left">
                 <span class="ColoredUnderline Set">
-                    <% if (Model.IsEditing)
-                       { %>
+                    <% if (Model.IsEditing) { %>
                         Lernset bearbeiten
-                    <% }
-                       else
-                       { %>
+                    <% } else { %>
                         Lernset erstellen
                     <% } %>
                 </span>
@@ -62,8 +59,7 @@
                     <a href="<%= Links.SetsAll() %>" style="font-size: 12px; margin: 0;">
                         <i class="fa fa-list"></i>&nbsp;zur Übersicht
                     </a><br/>
-                    <% if (Model.Set != null)
-                       { %>
+                    <% if (Model.Set != null) { %>
                         <a href="<%= Links.SetDetail(Url, Model.Set) %>" style="font-size: 12px;">
                             <i class="fa fa-eye"></i>&nbsp;Detailansicht
                         </a> 
@@ -71,8 +67,7 @@
                 </div>
             </div>
             <div class="PageHeader col-xs-12">
-                <% if (!Model.IsLoggedIn)
-                   { %>
+                <% if (!Model.IsLoggedIn) { %>
                     <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
                         <h4>Einloggen oder registrieren</h4>
                         <p>
@@ -90,19 +85,32 @@
         </div>
     </div>
     
-               
-        
+
         <div class="col-md-12 ">
             <div class="form-horizontal rowBase">
                 <div class="FormSection">
                     <div class="row">
-                        <div class="form-group col-md-9">
-                            <%= LabelExtensions.LabelFor(Html, m => m.Title, new {@class = "RequiredField control-label columnLabel"}) %>
-                                <div class="columnControlsFull">
-                                     <%= Html.TextBoxFor(m => m.Title, new {@class = "form-control"}) %>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-12 form-group ">
+                                    <%= LabelExtensions.LabelFor(Html, m => m.Title, new {@class = "RequiredField control-label columnLabel"}) %>
+                                    <div class="columnControlsFull">
+                                        <%= Html.TextBoxFor(m => m.Title, new {@class = "form-control"}) %>
+                                    </div>                                    
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="form-group">
+                                        <%= LabelExtensions.LabelFor(Html, m => m.Text, new {@class = "control-label columnLabel"}) %>
+                                        <div class="columnControlsFull">
+                                            <%= Html.TextAreaFor(m => m.Text, new {@class = "form-control"}) %>
+                                        </div>
+                                    </div>                                    
+                                </div>      
+                            </div>
                         </div>
-                    
+
                         <div class="aside col-md-3 ">
                             <img id="questionSetImg" src="<%= Model.ImageUrl_206px %>" class="img-responsive" style="border-radius:5px;" />
                             <div style="margin-top: 10px;">
@@ -110,13 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <%= LabelExtensions.LabelFor(Html, m => m.Text, new {@class = "control-label columnLabel"}) %>
-                        <div class="columnControlsFull">
-                            <%= Html.TextAreaFor(m => m.Text, new {@class = "form-control"}) %>
-                        </div>
-                    </div>
-                        
+                
                     <div class="form-group">
                         <label class="columnLabel control-label">
                             <span class="show-tooltip" title="Die Url aus der Adresszeile des Browser, zum Beispiel: https://www.youtube.com/watch?v=iQ6NxvQRfq4">
