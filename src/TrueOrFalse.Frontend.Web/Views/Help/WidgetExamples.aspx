@@ -139,6 +139,7 @@
                 </p>
                 <ul class="nav nav-pills nav-stacked feature-list">
                     <li><i class="fa fa-check" aria-hidden="true"></i> Alle vorhandenen und eigene Fragen nutzbar</li>
+                    <li><i class="fa fa-check" aria-hidden="true"></i> Anzahl Fragen pro Durchlauf einstellbar</li>
                     <li><i class="fa fa-check" aria-hidden="true"></i> Titel und Untertitel für eigene Lernsets frei einstellbar</li>
                     <li><i class="fa fa-check" aria-hidden="true"></i> Alle interaktiven Frage-Typen frei kombinierbar</li>
                     <li><i class="fa fa-check" aria-hidden="true"></i> Rückmeldung für Nutzer bei jeder Frage</li>
