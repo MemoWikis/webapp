@@ -49,13 +49,13 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
     }
 
     public override string CorrectAnswer()
-    {
+    {   
         string CorrectAnswer = AnswerListDelimiter;
         foreach (var SingleChoice in Choices)
         {
             if (SingleChoice.IsCorrect)
             {
-                CorrectAnswer += SingleChoice.Text;
+                CorrectAnswer += HttpUtility.HtmlEncode(SingleChoice.Text);
                 if (SingleChoice != Choices[Choices.Count - 1])
                     CorrectAnswer += AnswerListDelimiter;
             }

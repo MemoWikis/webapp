@@ -28,6 +28,6 @@ public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
         if (!Choices.Any())
             return "";
 
-        return Choices.First();
+        return HttpUtility.HtmlEncode(Choices.First());
     }
 }
