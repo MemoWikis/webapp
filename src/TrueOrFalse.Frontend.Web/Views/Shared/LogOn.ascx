@@ -20,10 +20,6 @@
     <i class="fa fa-question-circle MobileLarge"></i>
 </a> 
 
-<%--<a href="#" class="helpLink TextLinkWithIcon" id="startWelcomeTour">
-    <i class="fa fa-map-signs"></i> Kurze Tour
-</a>--%>
-
 <%
     
     if (userSession.IsLoggedIn)
@@ -47,14 +43,19 @@
                 <% } %>
             </ul>
         </div>
+
         <span id="header-level-display" class="level-display">
-            <span style="display: inline-block; white-space: nowrap;" class="show-tooltip" data-placement="bottom" title="Dein erreichtes Level. Lernpunkte erhältst du beim Beantworten von Fragen.">
-                <svg>
-                    <circle cx="50%" cy="50%" r="50%" />
-                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= userSession.User.ActivityLevel %></text>
-                </svg>
-            </span>
+            <a id="header-level-display-popover" class="" href="#" data-toggle="popover" data-trigger="focus" data-placement="auto top"
+                title='<div id="activity-popover-title">Dein erreichtes Level</div>'>
+                <span style="display: inline-block; white-space: nowrap;" class="" data-placement="bottom">
+                    <svg>
+                        <circle cx="50%" cy="50%" r="50%" />
+                        <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= userSession.User.ActivityLevel %></text>
+                    </svg>
+                </span>
+            </a>
         </span>
+
 <%
     }else {
 %> 

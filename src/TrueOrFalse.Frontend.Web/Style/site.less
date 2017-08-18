@@ -461,6 +461,79 @@ img {
     i#tabInfoMyKnowledge {
         margin-right: 1px;
     }
+
+}
+
+
+#MasterHeader .popover {
+    max-width: 600px !important;
+}
+
+#activity-popover-title {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 6px 0;
+    text-align: center;
+    color: @global-text-color;
+}
+
+#activity-popover-content-inner {
+    padding-top: 10px;
+    line-height: normal;
+    color: @text-color;
+    font-size: 18px;
+    text-align: center;
+
+    span {
+        vertical-align: baseline !important;
+        height: auto !important;
+        line-height: normal !important;
+    }
+
+    .ProgressBarContainer, .ProgressBarSegment {
+        height: 25px;
+    }
+
+    .ProgressBarContainer {
+        display: table;
+        width: 100%;
+        border: solid 2px @memo-green;
+        background-color: @memo-green;
+        margin-bottom: 5px;
+        margin-top: 15px;
+        .clearfix;
+    }
+
+    .ProgressBarSegment {
+        display: table-cell;
+        overflow: hidden;
+        text-align: center;
+        vertical-align: top; //Fix Firefox height bug
+    }
+
+    .ProgressBarLegend {
+        position: absolute;
+        left: 0px;
+        top: 0;
+        width: 100%;
+        min-width: 30px;
+        font-weight: bold;
+    }
+
+    .ProgressBarDone {
+        background-color: @memo-green;
+        position: relative;
+        overflow: visible;
+    }
+
+    .ProgressBarLeft {
+        background-color: lighten(@memo-green, 30);
+    }
+
+    .ProgressInfoText {
+        text-align: center;
+        color: @global-text-color-grey;
+    }
 }
 
 .MenuButtonXS { //to override bootstrap styles several times
