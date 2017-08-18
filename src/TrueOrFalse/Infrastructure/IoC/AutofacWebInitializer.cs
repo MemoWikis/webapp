@@ -4,6 +4,8 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.SignalR;
 using AutofacContrib.SolrNet;
 using AutofacContrib.SolrNet.Config;
+using SolrNet;
+using SolrNet.Impl;
 using TrueOrFalse.Search;
 
 namespace TrueOrFalse.Infrastructure
@@ -58,7 +60,26 @@ namespace TrueOrFalse.Infrastructure
 
             builder.RegisterModule(new SolrNetModule(cores));
 
+            //RegisterPostSolrConnection(cores, builder);
+
             return builder.Build();
+        }
+
+        private static void RegisterPostSolrConnection(SolrServers cores, ContainerBuilder builder)
+        {
+            foreach (SolrServerElement core in cores)
+            {
+                var coreConnectionId = core.Id + typeof(SolrConnection);
+                var solrConnection = new SolrConnection(core.Url);
+
+                builder.RegisterType(typeof(PostSolrConnection))
+                    .Named(coreConnectionId, typeof(ISolrConnection))
+                    .WithParameters(new[]
+                    {
+                        new NamedParameter("conn", solrConnection),
+                        new NamedParameter("serverUrl", core.Url)
+                    });
+            }
         }
     }
 }
