@@ -18,7 +18,7 @@
                 <%= Model.QuestionImageFrontendDatas.First(x => x.Item1 == question.Id).Item2.RenderHtmlImageBasis(120, true, ImageType.Question, linkToItem: primaryActionUrl) %>
             </div>
             <div class="caption" style="padding-top: 10px">
-                <p><%= question.Text %></p>
+                <p><%: question.Text %></p>
             </div>
         </div>
         <% } %>

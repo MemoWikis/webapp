@@ -7,6 +7,7 @@ using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
+[ValidateInput(false)]
 public class EditQuestionController : BaseController
 {
     private readonly QuestionRepo _questionRepo;

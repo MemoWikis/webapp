@@ -32,7 +32,7 @@
                     <% foreach (var question in Model.Questions){ %>
                     <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
                         <a class="PlainTextLook" href="<%= Links.AnswerQuestion(question, Model.Set) %>">
-                            <%= question.Text %>
+                            <%: question.Text %>
                          </a>
                     </div>
             <% } %>

@@ -5,7 +5,7 @@
 <li class="questionItem ui-state-default Clearfix" data-id="<%= Model.Id %>">
     <div class="QuestionTools">
         <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen (die Frage wird nicht gelöscht)"></i><br/>
-            <a href="<%= Links.EditQuestion(Url, Model.Text, Model.QuestionId) %>">
+            <a href="<%: Links.EditQuestion(Url, Model.Text, Model.QuestionId) %>">
                 <i class="fa fa-pencil"></i> 
             </a>
     
@@ -14,8 +14,8 @@
     <div class="QuestionText">
         <a href="#" data-action="open-details"><i class="fa fa-chevron-right"></i></a>
         <a href="#" data-action="close-details" class="hide2"><i class="fa fa-chevron-down"></i></a>
-        <%= Model.Text %>
-        <%= MarkdownInit.Run().Transform(Model.TextExtended) %>
+        <%: Model.Text %>
+        <%: MarkdownInit.Run().Transform(Model.TextExtended) %>
         <div>
             Richtige Antwort: <b><%= Model.CorrectAnswer %></b>
         </div>

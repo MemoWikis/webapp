@@ -10,7 +10,7 @@
 
     public QuestionInSetModel(QuestionInSet questionInSet)
     {
-        Text =  questionInSet.Question.Text;
+        Text = questionInSet.Question.Text;
         CreatorId = questionInSet.Question.Creator.Id;
         Id = questionInSet.Id;
         TextExtended = questionInSet.Question.TextExtended;
