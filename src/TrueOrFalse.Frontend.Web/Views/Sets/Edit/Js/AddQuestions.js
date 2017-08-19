@@ -8,7 +8,7 @@ $(function () {
 
     hiding();
     disableSubmitButtonSouldBePressedEnter();
-    $("input").typeWatch(options);
+    $("#questionId").typeWatch(options);
 
 
     //Check in and Checkout
