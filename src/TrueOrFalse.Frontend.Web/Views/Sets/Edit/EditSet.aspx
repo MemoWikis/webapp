@@ -95,7 +95,7 @@
                                 <div class="col-md-12 form-group ">
                                     <%= LabelExtensions.LabelFor(Html, m => m.Title, new {@class = "RequiredField control-label columnLabel"}) %>
                                     <div class="columnControlsFull">
-                                        <%= Html.TextBoxFor(m => m.Title, new {@class = "form-control"}) %>
+                                        <%= Html.TextBoxFor(m => m.Title, new {@class = "form-control", @maxlength = "255"}) %>
                                     </div>                                    
                                 </div>
                             </div>

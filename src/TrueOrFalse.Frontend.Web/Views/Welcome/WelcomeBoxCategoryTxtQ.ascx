@@ -27,7 +27,7 @@
                 <div class="LabelList">
                     <% foreach (var question in Model.Questions){ %>
                     <div class="LabelItem LabelItem-Question" style="padding-bottom: 5px">
-                        <%= question.Text %>
+                        <%: question.Text %>
                     </div>
             <% } %>
                 </div>

@@ -14,7 +14,7 @@
             </a>
         </div>                        
         <a href="<%= Links.AnswerQuestion(Url, Model.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
-            <%=Model.Question.Text %>
+            <%: Model.Question.Text %>
         </a>
         <% if (Model.UserIsInstallationAdmin) { %>
             <p style="margin-top: 8px; padding-left: 15px;">

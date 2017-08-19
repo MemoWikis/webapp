@@ -463,6 +463,82 @@ img {
 #loginAndHelp i#tabInfoMyKnowledge {
   margin-right: 1px;
 }
+#MasterHeader .popover {
+  max-width: 600px !important;
+}
+#activity-popover-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 6px 0;
+  text-align: center;
+  color: #203256;
+}
+#activity-popover-content-inner {
+  padding-top: 10px;
+  line-height: normal;
+  color: #333333;
+  font-size: 18px;
+  text-align: center;
+}
+#activity-popover-content-inner span {
+  vertical-align: baseline !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+#activity-popover-content-inner .ProgressBarContainer,
+#activity-popover-content-inner .ProgressBarSegment {
+  height: 25px;
+}
+#activity-popover-content-inner .ProgressBarContainer {
+  display: table;
+  width: 100%;
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+#activity-popover-content-inner .ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+#activity-popover-content-inner .ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+}
+#activity-popover-content-inner .ProgressBarLeft {
+  background-color: #e1efb3;
+}
+#activity-popover-content-inner .ProgressInfoText {
+  text-align: center;
+  color: #999999;
+}
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
   margin-right: 10px;

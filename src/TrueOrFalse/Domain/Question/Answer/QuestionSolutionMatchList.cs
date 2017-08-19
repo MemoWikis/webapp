@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Script.Serialization;
+using SolrNet.Utils;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
 public class QuestionSolutionMatchList : QuestionSolution
@@ -102,7 +103,9 @@ public class QuestionSolutionMatchList : QuestionSolution
     {
         string CorrectAnswerMessage = PairSeperator;
         foreach (var pair in Pairs)
-            CorrectAnswerMessage += pair.ElementLeft.Text + ElementSeperator + pair.ElementRight.Text + PairSeperator;
+            CorrectAnswerMessage +=
+                HttpUtility.HtmlEncode(pair.ElementLeft.Text) + ElementSeperator +
+                HttpUtility.HtmlEncode(pair.ElementRight.Text) + PairSeperator;
 
         return CorrectAnswerMessage;
     }

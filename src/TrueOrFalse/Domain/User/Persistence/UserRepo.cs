@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
@@ -61,14 +62,14 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void Update(User user, bool runSolrUpdateAsync = false)
     {
-        Logg.r().Information("user update {Id} {Email}", user.Id, user.EmailAddress);
+        Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         _searchIndexUser.Update(user, runSolrUpdateAsync);
         base.Update(user);
     }
 
     public override void Create(User user)
     {
-        Logg.r().Information("user create {Id} {Email}", user.Id, user.EmailAddress);
+        Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
         _searchIndexUser.Update(user);
     }

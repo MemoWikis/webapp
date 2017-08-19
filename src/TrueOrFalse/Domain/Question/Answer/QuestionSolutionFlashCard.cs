@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using SolrNet.Utils;
 using TrueOrFalse.Web;
 
 public class QuestionSolutionFlashCard : QuestionSolution
@@ -17,7 +18,7 @@ public class QuestionSolutionFlashCard : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        return Text;
+        return HttpUtility.HtmlEncode(Text);
     }
 
     public override string GetCorrectAnswerAsHtml()

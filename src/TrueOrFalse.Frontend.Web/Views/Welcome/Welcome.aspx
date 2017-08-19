@@ -176,7 +176,7 @@
             
                         </div>
                     </div>     
-                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
+                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel.ToString("N0") %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
                 </div>
 
                 <div class="col-sm-6" id="dashboardKnowledgeWheel">

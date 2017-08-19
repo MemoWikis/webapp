@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Web;
 
 public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
 {
@@ -12,7 +13,7 @@ public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
             (
                from x in postData.AllKeys 
                where x.StartsWith("choice-")
-               select postData.Get(x)
+               select HttpContext.Current.Request.Unvalidated[x]
              )
              .ToList();
     }
@@ -27,6 +28,6 @@ public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
         if (!Choices.Any())
             return "";
 
-        return Choices.First();
+        return HttpUtility.HtmlEncode(Choices.First());
     }
 }

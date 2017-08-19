@@ -36,7 +36,7 @@
                     </div>
                     <div class="col-xs-9 col-sm-12">
                         <div class="LabelItem LabelItem-Question" style="padding-bottom: 10px">
-                            <a class="PlainTextLook" href="<%= Links.AnswerQuestion(question, Model.Set)%>"><%= question.Text %></a>
+                            <a class="PlainTextLook" href="<%= Links.AnswerQuestion(question, Model.Set)%>"><%: question.Text %></a>
                         </div>
                     </div>
                 </div>
