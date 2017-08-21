@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<TopicNavigationModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<h1><%: Model.Title %></h1>
+<h2><%: Model.Title %></h2>
 <p><%: Model.Text %></p>
 
 <div id="topicNavigation" class="row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %>>
