@@ -27,6 +27,6 @@ public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
         if (!Choices.Any())
             return "";
 
-        return HttpUtility.HtmlEncode(Choices.First());
+        return Choices.First();
     }
 }
