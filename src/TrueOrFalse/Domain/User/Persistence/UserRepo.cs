@@ -90,7 +90,15 @@ public class UserRepo : RepositoryDbBase<User>
     public override IList<User> GetByIds(params int[] userIds)
     {
         var users = base.GetByIds(userIds);
-        return userIds.Select(t => users.First(u => u.Id == t)).ToList();
+
+        if (userIds.Length != users.Count)
+        {
+            var missingUsersIds = userIds.Where(id => !users.Any(u => id == u.Id)).ToList();
+            Logg.r().Error($"Following user ids from solr not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
+
+        }
+
+        return userIds.Select(t => users.FirstOrDefault(u => u.Id == t)).Where(x => x != null).ToList();
     }
 
     public IList<User> GetWhereReputationIsBetween(int newReputation, int oldRepution)
