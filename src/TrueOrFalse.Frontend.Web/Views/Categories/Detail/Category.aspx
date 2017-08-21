@@ -5,7 +5,7 @@
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% Title = Model.MetaTitle; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
-    <meta name="description" content="<%: Model.MetaDescription %>"/>
+    <meta name="description" content="<%= Model.MetaDescription %>"/>
     
 
     <meta property="og:title" content="<%: Model.Name %>" />

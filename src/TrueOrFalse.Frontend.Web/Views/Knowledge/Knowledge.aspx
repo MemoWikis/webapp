@@ -396,7 +396,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-9" style="">
-                                <a href="<%= Links.AnswerQuestion(question) %>"><%: question.Text %></a>
+                                <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
                             </div>
                         </div>
                     <% } %>

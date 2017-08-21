@@ -18,6 +18,7 @@ public class QuestionDelete
 
         var categoriesToUpdate = question.Categories.ToList();
         //delete connected db-entries
+        Sl.R<ReferenceRepo>().DeleteForQuestion(questionId);
         Sl.R<AnswerRepo>().DeleteFor(questionId); //not accounted for: answerfeature_to_answer
         Sl.R<QuestionViewRepository>().DeleteForQuestion(questionId);
         Sl.R<QuestionInSetRepo>().DeleteForQuestion(questionId);
@@ -35,6 +36,9 @@ public class QuestionDelete
         Sl.R<ISession>()
             .CreateSQLQuery("DELETE FROM questionFeature_to_question where Question_id = " + questionId)
             .ExecuteUpdate(); //probably not necessary
+
+        Sl.R<TrainingDateRepo>().DeleteQuestionInAllTrainingDates(questionId);
+        Sl.R<LearningSessionRepo>().DeleteQuestionInAllLearningSessions(questionId);
 
         questionRepo.Delete(question);
         Sl.R<UpdateQuestionCountForCategory>().Run(categoriesToUpdate);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web.Script.Serialization;
-    using SolrNet.Utils;
 
 public class QuestionSolutionSequence : QuestionSolution
 {
@@ -29,6 +28,6 @@ public class QuestionSolutionSequence : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        return HttpUtility.HtmlEncode(string.Join(", ", Rows.Values));
+        return string.Join(", ", Rows.Values);
     }
 }

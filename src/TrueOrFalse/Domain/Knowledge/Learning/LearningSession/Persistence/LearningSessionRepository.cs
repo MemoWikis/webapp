@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Linq;
@@ -48,6 +49,21 @@ public class LearningSessionRepo : RepositoryDbBase<LearningSession>
         return Session
             .Query<LearningSession>()
             .Count(x => (x.SetToLearn.Id == setId) || (x.SetsToLearnIdsString.Contains(setId.ToString())));
+    }
+
+    public void DeleteQuestionInAllLearningSessions(int questionId)
+    {
+        var potentiallyAffectedLearningSessions = _session
+            .Query<LearningSession>()
+            .Where(d => d.StepsJson.Contains(questionId.ToString()))
+            .ToList();
+        var affectedSessions = potentiallyAffectedLearningSessions.Where(d => d.Steps.Any(q => q.QuestionId == questionId)).ToList();
+
+        foreach (var affectedSession in affectedSessions)
+        {
+            affectedSession.Steps = affectedSession.Steps.Where(s => s.QuestionId != questionId).ToList();
+        }
+
     }
 
 }

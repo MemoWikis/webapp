@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
 using TrueOrFalse.MultipleChoice;
 
 public class QuestionSolutionMultipleChoice : QuestionSolution
@@ -17,7 +16,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
         (
                 from key in postData.AllKeys
                 where key.StartsWith("choice-")
-                select HttpContext.Current.Request.Unvalidated[key]
+                select postData.Get(key)
         )
         .ToList();
 
@@ -25,7 +24,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("choice_correct-")
-            select HttpContext.Current.Request.Unvalidated[key]
+            select postData.Get(key)
         )
         .ToList();
 
@@ -49,13 +48,13 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
     }
 
     public override string CorrectAnswer()
-    {   
+    {
         string CorrectAnswer = AnswerListDelimiter;
         foreach (var SingleChoice in Choices)
         {
             if (SingleChoice.IsCorrect)
             {
-                CorrectAnswer += HttpUtility.HtmlEncode(SingleChoice.Text);
+                CorrectAnswer += SingleChoice.Text;
                 if (SingleChoice != Choices[Choices.Count - 1])
                     CorrectAnswer += AnswerListDelimiter;
             }

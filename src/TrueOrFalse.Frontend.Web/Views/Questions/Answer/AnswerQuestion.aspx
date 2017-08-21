@@ -11,13 +11,13 @@
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <% } %>
     
-    <meta name="description" content="<%: Model.DescriptionForSearchEngines %>"/>
+    <meta name="description" content="<%= Model.DescriptionForSearchEngines %>"/>
     
     <meta property="og:title" content="<%: Model.QuestionText %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost %><%= Links.AnswerQuestion(Model.Question) %>" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="<%= GetQuestionImageFrontendData.Run(Model.Question).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url %>" />
-    <meta property="og:description" content="<%: Model.DescriptionForFacebook %>" />
+    <meta property="og:description" content="<%= Model.DescriptionForFacebook %>" />
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">

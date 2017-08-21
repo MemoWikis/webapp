@@ -7,7 +7,7 @@
 
     <%var canonicalUrl = Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id); %>    
     <link rel="canonical" href="<%= canonicalUrl %>">
-    <meta name="description" content="<%: Model.MetaDescription %>">
+    <meta name="description" content="<%= Model.MetaDescription %>">
     
     <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= canonicalUrl %>" />

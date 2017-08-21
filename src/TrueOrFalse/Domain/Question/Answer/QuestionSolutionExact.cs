@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using SolrNet.Utils;
 
 public class QuestionSolutionExact : QuestionSolution
 {
@@ -59,7 +58,7 @@ public class QuestionSolutionExact : QuestionSolution
 
     public override string CorrectAnswer()
     {
-        return HttpUtility.HtmlEncode(Text);
+        return Text;
     }
 
     public void FillFromPostData(NameValueCollection postData)

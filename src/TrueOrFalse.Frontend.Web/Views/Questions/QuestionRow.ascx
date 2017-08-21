@@ -12,7 +12,7 @@
         <div class="MainContentUpper">
             <div class="QuestionText TitleText">
                 <% if(Model.IsPrivate){ %> <i class="fa fa-lock show-tooltip" title="Private Frage"></i><% } %>
-                <a href="<%= Model.AnswerQuestionLink(Url) %>"><%: Model.QuestionShort%></a>
+                <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
             </div>   
             <div>
                 <% Html.RenderPartial("Category", Model.Question); %>

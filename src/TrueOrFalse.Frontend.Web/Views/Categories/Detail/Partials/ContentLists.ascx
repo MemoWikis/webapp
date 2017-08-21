@@ -41,7 +41,7 @@
                 index++; %>
             <div class="LabelItem LabelItem-Question">
                 <a href="<%= Links.AnswerQuestion(question, paramElementOnPage: index, categoryFilter: Model.Name) %>">
-                    <%: question.Text %>
+                    <%= question.Text %>
                 </a>
             </div>
         <% } %>

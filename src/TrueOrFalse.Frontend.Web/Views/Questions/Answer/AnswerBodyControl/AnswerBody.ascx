@@ -45,7 +45,7 @@
     
     <% if (Model.SolutionType != SolutionType.FlashCard.ToString()) { %>
     <h1 class="QuestionText" style="font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;">
-        <%: Model.QuestionText %>
+        <%= Model.QuestionText %>
     </h1>
     <% } %>
 
@@ -86,7 +86,7 @@
 
                             if (Model.SolutionType == SolutionType.FlashCard.ToString()){ %>
                                 <script type="text/javascript">
-                                    var questionText = '<h1 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%: Model.QuestionText %></h1>';
+                                    var questionText = '<h1 class="QuestionText" style="text-align: center; font-size: 22px; font-family: Open Sans, Arial, sans-serif; line-height: 31px; margin: 0;"><%= Model.QuestionText %></h1>';
                                     var flashCardFrontHTML = questionText + '<%= Model.QuestionTextMarkdown %>';
                                     $("#flashCard-front").append($('<div id="flashCard-frontContent">').append(flashCardFrontHTML));
                                     $('#flashCard-frontContent img').load(function() {
