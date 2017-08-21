@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Web;
 using TrueOrFalse.MultipleChoice;
 
 public class QuestionSolutionMultipleChoice : QuestionSolution
@@ -17,7 +16,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
         (
                 from key in postData.AllKeys
                 where key.StartsWith("choice-")
-                select HttpContext.Current.Request.Unvalidated[key]
+                select postData.Get(key)
         )
         .ToList();
 
@@ -25,7 +24,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("choice_correct-")
-            select HttpContext.Current.Request.Unvalidated[key]
+            select postData.Get(key)
         )
         .ToList();
 
