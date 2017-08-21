@@ -61,7 +61,7 @@ function onYouTubeIframeAPIReady() {
 
 
 $(function () {
-    $("#ulQuestion").on('click', '.form-control', function () {
+    $("#ulQuestions").on('click', '.form-control', function () {
        
         if (player.getCurrentTime() % 60 < 10) {
             console.log
