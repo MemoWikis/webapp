@@ -62,14 +62,16 @@ function onYouTubeIframeAPIReady() {
 
 $(function () {
     $("#ulQuestions").on('click', '.form-control', function () {
-       
+        var temp;
         if (player.getCurrentTime() % 60 < 10) {
-            console.log
-            var temp = Math.floor(player.getCurrentTime() / 60) + ":" + "0" + (player.getCurrentTime() % 60).toFixed();
-            console.log(temp);
+             temp = Math.floor(player.getCurrentTime() / 60) + ":" + "0" + (player.getCurrentTime() % 60).toFixed();            
         }else{
-        var temp = Math.floor(player.getCurrentTime() / 60) + ":" + (player.getCurrentTime() % 60).toFixed(); 
+            temp = Math.floor(player.getCurrentTime() / 60) + ":" + (player.getCurrentTime() % 60).toFixed(); 
         }
+        $(this).val(temp);
+        var timeCode = temp;       
+        var questionInSetId = $(this).attr("data-in-set-id");
+        $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId });
         $(this).val(temp);
         player.stopVideo();
        
