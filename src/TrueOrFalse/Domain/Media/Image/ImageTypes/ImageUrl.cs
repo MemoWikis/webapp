@@ -52,6 +52,8 @@ public class ImageUrl
                 {
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
+                        Logg.r().Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {HttpContext.Current?.Request.Url.AbsoluteUri}). ");
+
                         if (isSquare)
                         {
                             requestedWidth = Math.Max(biggestAvailableImage.Width, biggestAvailableImage.Height);
