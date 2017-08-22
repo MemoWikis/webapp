@@ -20,9 +20,9 @@ $(function () {
         });
     // Button Click 
     $("#learnSetSave").on("click",
-        function() {
-
-            event.preventDefault();
+        function(e) {
+            
+            e.preventDefault();
             var selectedQuestionIds = [];
             
 
@@ -55,8 +55,9 @@ $(function () {
                     } else {
                         $("#safeQuestions").removeClass("alert-success").addClass("alert-warning");
                         $("#alertOutput").text("Speichern fehlgeschlagen");
-                    }
+                    } 
                 }
+            
             );
             
             $("#safeQuestions").fadeIn();
@@ -65,6 +66,7 @@ $(function () {
             $("#questionId").val("");
             $("#resultHeading").hide();
             $(".alert-info").hide();
+            
         });
 });
 
