@@ -23,7 +23,7 @@ function InitLabelTooltips() {
                 $(this).attr('title', 'Das Thema entspricht der Antwort.').attr('data-placement', 'top');
             } else {
                 if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2 * (parseInt($(this).css('border-left-width')))))
-                    $(this).attr('title', 'Zum Thema "' + $("<p>" + $(this).html() + "</p>").text() + '"').attr('data-placement', 'top');
+                    $(this).attr('title', 'Zum Thema "' + $("<p>" + $(this).html() + "</p>").text() + '"').attr('data-placement', 'top'); // p-tags added for .text() to work normal when stripping of tags
                 else
                     $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
             }

@@ -182,6 +182,9 @@
                     if (indexSuccessfulReferences === result.correctAnswerReferences.length) {
                         this.ShowAnswerDetails();
                     }
+                    if (Utils.IsInWidget()) {
+                        this.AddTargetBlankToReferenceLinks();
+                    } 
                 });
                 for (var i = 0; i < result.correctAnswerReferences.length; i++) {
                     var reference = result.correctAnswerReferences[i];
@@ -224,6 +227,7 @@
             } else {
                 this.ShowAnswerDetails();
             }
+
         });
     }
 
@@ -350,5 +354,9 @@
 
         $("#buttons-first-try").hide();
         $("#buttons-answer-again").hide();
+    }
+
+    private AddTargetBlankToReferenceLinks() {
+        $("#References").find("a").attr("target", "_blank");
     }
 } 
