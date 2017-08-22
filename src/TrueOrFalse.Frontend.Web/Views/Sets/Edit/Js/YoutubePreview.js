@@ -13,17 +13,23 @@ var optionsYoutube = {
                 'videoId': match[2],
                 'suggestedQuality': 'large'
             });
-            
+
             console.log('https://www.youtube.com/embed/' + match[2]);
             $('#player').fadeIn();
-        } 
-        
+
+
+        } else {
+            $('#VideoUrl').val("");
+            $("#player").hide();
+
+        }
+
 
     },
     wait: 750,
     highlight: true,
     allowSubmit: false,
-    captureLength: 15,
+    captureLength: 0,
     allowSameSearch: true
 }
 
@@ -44,10 +50,10 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 var player;
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '360',
-        width: '640',
-        videoId: '',
+    player = new YT.Player("player", {
+        height: "360",
+        width: "640",
+        videoId: ""
         
     });
 }
@@ -74,11 +80,13 @@ $(function () {
         $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId });
         $(this).val(temp);
         player.stopVideo();
+
        
     });
 
     $("#VideoUrl").typeWatch(optionsYoutube);
-    $('#player').hide();
-
+    if ($("#VideoUrl").val() === "") {
+        $("#player").hide();
+    }
 
 });
