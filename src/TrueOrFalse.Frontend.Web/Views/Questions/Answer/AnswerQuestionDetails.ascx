@@ -30,7 +30,7 @@
             <% if (Model.Categories.Count > 0)
                { %>
                 <p style="padding-top: 10px;">
-                    <% Html.RenderPartial("Category", Model.Question); %>
+                    <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
                 </p>
             <% } %>
         

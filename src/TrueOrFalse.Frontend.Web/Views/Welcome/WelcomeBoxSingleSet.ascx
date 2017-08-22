@@ -8,9 +8,6 @@
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Url, Model.SetName,Model.SetId), noFollow: true) %>
         </div>
 
-        <div>
-            <!-- % Html.RenderPartial("Category", Model.Question); % -->
-        </div>
         <div class="ContentContainer">
             <div class="CardContent">
                 <h6 class="ItemInfo">

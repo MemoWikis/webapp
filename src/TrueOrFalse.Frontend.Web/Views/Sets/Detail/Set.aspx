@@ -83,7 +83,7 @@
                             <div class="row" >
                                 <div class="col-md-5" style="display: inline-block; margin-top: 20px;">
                                     <% foreach (var category in Model.Set.Categories){ %>
-                                        <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                                        <% Html.RenderPartial("CategoryLabel", category); %>
                                     <% } %>
                                 </div>        
                     

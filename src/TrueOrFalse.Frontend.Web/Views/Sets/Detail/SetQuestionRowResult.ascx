@@ -20,7 +20,7 @@
             <p style="margin-top: 8px; padding-left: 15px;">
                 <i class="fa fa-user-secret show-tooltip" title="Die Kategorien werden an dieser Stelle nur Admin-Nutzern angezeigt."></i>
                 <% foreach (var category in Model.Question.Categories){ %>
-                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                    <% Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
             </p>
         <% } %>

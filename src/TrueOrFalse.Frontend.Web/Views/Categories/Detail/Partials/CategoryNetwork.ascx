@@ -8,7 +8,7 @@
         <div>
             <% foreach (var category in Model.CategoriesParent)
                 { %>
-                <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                <% Html.RenderPartial("CategoryLabel", category); %>
             <% } %>
         </div>
     <% }
@@ -23,7 +23,7 @@
     <% if(Model.CategoriesChildren.Count > 0){ %>
         <div>
             <% foreach(var category in Model.CategoriesChildren){ %>
-                <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>
+                <% Html.RenderPartial("CategoryLabel", category); %>
             <% } %>
             <i class="fa fa-plus-circle show-tooltip color-category add-new" 
                 style="font-size: 14px; cursor: pointer"

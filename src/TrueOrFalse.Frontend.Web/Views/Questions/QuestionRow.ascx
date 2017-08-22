@@ -15,7 +15,7 @@
                 <a href="<%= Model.AnswerQuestionLink(Url) %>"><%=Model.QuestionShort%></a>
             </div>   
             <div>
-                <% Html.RenderPartial("Category", Model.Question); %>
+                <% Html.RenderPartial("CategoriesOfQuestion", Model.Question); %>
             </div>
             <% if(Model.SetCount > 0){ %>
             <div style="margin-top: 3px;">

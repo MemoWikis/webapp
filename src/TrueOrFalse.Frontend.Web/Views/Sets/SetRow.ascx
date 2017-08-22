@@ -35,7 +35,7 @@
             </div>
             <div style="margin-bottom: 5px;">
                 <% foreach (var category in Model.Categories){ %>
-                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                    <% Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
             </div>
         
