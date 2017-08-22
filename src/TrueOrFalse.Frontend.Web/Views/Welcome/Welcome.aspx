@@ -669,7 +669,7 @@
                         Gemeinwohlorientierung
                     </div>
                     <div class="infoExplanationSnippet">
-                        Wir möchten unser Unternehmen auf <a href="http://www.gemeinwohl-oekonomie.org/de" target="_blank;">gemeinwohlfördernden Werten</a> <i class="fa fa-external-link"></i> aufbauen.
+                        Wir möchten unser Unternehmen auf <a href="http://www.gemeinwohl-oekonomie.org/de" target="_blank;">gemeinwohlfördernden Werten <i class="fa fa-external-link"></i></a> aufbauen.
                         Wir sind überzeugt, dass Unternehmen eine ethische, soziale und ökologische Verantwortung haben.
                     </div>
                 </div>
@@ -683,13 +683,13 @@
                     </div>
                     <div class="infoExplanationSnippet">
                         Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
-                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum Datenschutz</a>.)
+                        Aber wir werden deine Daten niemals verkaufen. (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum Datenschutz</a>)
                     </div>
                 </div>
 
                 <div class="col-md-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
-                        <i class="fa fa-github"></i>
+                        <i class="fa fa-search-plus"></i>
                     </div>
                     <div class="infoCatchWord">
                         Open-Source und Transparenz
