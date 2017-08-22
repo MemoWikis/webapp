@@ -721,6 +721,7 @@
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js" />
+    <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
@@ -1365,7 +1366,7 @@
     <Content Include="Views\Sets\Js\SetDelete.js">
       <DependentUpon>SetDelete.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\Category.ascx" />
+    <Content Include="Views\Shared\CategoriesOfQuestion.ascx" />
     <Content Include="Views\Shared\MessageGame.ascx" />
     <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
     <Content Include="Views\Users\Account\Js\Membership.js">
