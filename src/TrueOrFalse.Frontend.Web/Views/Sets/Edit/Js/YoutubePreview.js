@@ -63,18 +63,18 @@ function onYouTubeIframeAPIReady() {
 
 
 $(function () {
-    $("#ulQuestions").on('click', '.time-button', function () {
-        var temp;
+    $("#ulQuestions").on("click", ".time-button", function () {
+        var temp=0;
         if (player.getCurrentTime() % 60 < 10) {
              temp = Math.floor(player.getCurrentTime() / 60) + ":" + "0" + (player.getCurrentTime() % 60).toFixed();            
         }else{
             temp = Math.floor(player.getCurrentTime() / 60) + ":" + (player.getCurrentTime() % 60).toFixed(); 
-        }.
-        $(this.form).val(temp);
+        }
+        $(this).parent().find(".form-control").val(temp);
         var timeCode = temp;       
         var questionInSetId = $(this).attr("data-in-set-id");
         $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId });
-        $(this).val(temp);
+    
         player.stopVideo();
 
        
