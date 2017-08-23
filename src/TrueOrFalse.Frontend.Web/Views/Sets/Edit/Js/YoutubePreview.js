@@ -18,10 +18,6 @@ var optionsYoutube = {
             $('#player').fadeIn();
 
 
-        } else {
-            $('#VideoUrl').val("");
-            $("#player").hide();
-
         }
 
 
@@ -67,14 +63,14 @@ function onYouTubeIframeAPIReady() {
 
 
 $(function () {
-    $("#ulQuestions").on('click', '.form-control', function () {
+    $("#ulQuestions").on('click', '.time-button', function () {
         var temp;
         if (player.getCurrentTime() % 60 < 10) {
              temp = Math.floor(player.getCurrentTime() / 60) + ":" + "0" + (player.getCurrentTime() % 60).toFixed();            
         }else{
             temp = Math.floor(player.getCurrentTime() / 60) + ":" + (player.getCurrentTime() % 60).toFixed(); 
-        }
-        $(this).val(temp);
+        }.
+        $(this.form).val(temp);
         var timeCode = temp;       
         var questionInSetId = $(this).attr("data-in-set-id");
         $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId });
@@ -85,6 +81,7 @@ $(function () {
     });
 
     $("#VideoUrl").typeWatch(optionsYoutube);
+
     if ($("#VideoUrl").val() === "") {
         $("#player").hide();
     }
