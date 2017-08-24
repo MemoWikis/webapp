@@ -75,7 +75,8 @@ $(function () {
         }
         $(this).parent().find(".form-control").val(temp);
         var timeCode = temp;       
-        var questionInSetId = $(this).attr("data-in-set-id");
+        var questionInSetId = $(this).parent().find(".form-control").attr("data-in-set-id");
+        console.log(questionInSetId);
         $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId });
     
         player.pauseVideo();   
