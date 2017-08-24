@@ -27,6 +27,11 @@ public class ThemeMenuHistoryOps
     {
         var question = Sl.QuestionRepo.GetById(questionId);
 
+        if (question == null)
+        {
+            return new List<Category>();
+        }
+
         if (question.Categories.Count > 0)
         {
             return question.Categories.ToList();
