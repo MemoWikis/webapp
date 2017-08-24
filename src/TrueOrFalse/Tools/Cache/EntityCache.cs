@@ -54,7 +54,7 @@ public class EntityCache
 
 
         Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
-    }
+    } 
 
     private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
     {
