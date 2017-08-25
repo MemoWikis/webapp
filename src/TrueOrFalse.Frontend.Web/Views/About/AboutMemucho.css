@@ -37,6 +37,31 @@
   margin-right: -20px;
   position: relative;
 }
+@media (min-width: 1200px) {
+  #teamImgQuote {
+    margin-bottom: 230px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  #teamImgQuote {
+    margin-bottom: 200px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  #teamImgQuote {
+    margin-bottom: 250px;
+  }
+}
+@media (min-width: 480px) and (max-width: 767px) {
+  #teamImgQuote {
+    margin-bottom: 300px;
+  }
+}
+@media (max-width: 479px) {
+  #teamImgQuote {
+    margin-bottom: 250px;
+  }
+}
 #teamImgQuote .teamSquare {
   width: 300px;
   padding: 30px;
@@ -48,7 +73,7 @@
 }
 #teamImgQuote #teamQuoteCircle {
   position: absolute;
-  top: 50%;
+  top: 60%;
   width: 100%;
 }
 #teamImgQuote #teamQuoteCircle .quoteIcon {
@@ -56,12 +81,24 @@
   color: #003264;
   margin-bottom: 15px;
 }
+@media (max-width: 479px) {
+  #teamImgQuote #teamQuoteCircle .quoteIcon {
+    font-size: 25px;
+  }
+}
 #teamImgQuote #teamQuoteCircle #teamQuote {
   color: #003264;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
   font-style: italic;
   line-height: 32px;
+  padding: 0 10px;
+}
+@media (max-width: 479px) {
+  #teamImgQuote #teamQuoteCircle #teamQuote {
+    font-size: 14px;
+    line-height: 22px;
+  }
 }
 #teamImgQuote #teamQuoteCircle #teamQuoteNames {
   color: white;
@@ -70,6 +107,12 @@
   font-size: 14px;
   letter-spacing: .05em;
 }
+@media (max-width: 479px) {
+  #teamImgQuote #teamQuoteCircle #teamQuoteNames {
+    font-size: 12px;
+    letter-spacing: normal;
+  }
+}
 #teamImgQuote #teamQuoteCircle #teamQuoteNamesSub {
   margin-top: 5px;
   color: white;
@@ -77,8 +120,14 @@
   font-size: 14px;
   letter-spacing: .05em;
 }
+@media (max-width: 479px) {
+  #teamImgQuote #teamQuoteCircle #teamQuoteNamesSub {
+    font-size: 12px;
+    letter-spacing: normal;
+  }
+}
 .circle {
-  width: 35%;
+  width: 350px;
   position: absolute;
   left: 50%;
   -webkit-transform: translateX(-50%);
@@ -89,6 +138,11 @@
   background-color: transparent;
   color: #222;
   text-align: center;
+}
+@media (max-width: 479px) {
+  .circle {
+    width: 250px;
+  }
 }
 .circle:after {
   display: block;

@@ -22,6 +22,36 @@
     margin-right: -20px;
     position: relative;
 
+    .media-lg( {
+        margin-bottom: 230px;
+    }
+
+    );
+
+    .media-md( {
+        margin-bottom: 200px;
+    }
+
+    );
+
+    .media-sm( {
+        margin-bottom: 250px;
+    }
+
+    );
+
+    .media-xs( {
+        margin-bottom: 300px;
+    }
+
+    );
+
+    .media-below-xs( {
+        margin-bottom: 250px;
+    }
+
+    );
+
     img {
     }
 
@@ -36,25 +66,38 @@
     }
 
     #teamQuoteCircle {
-        //max-width: 380px;
         //width: 350px;
         //height: 350px;
         position: absolute;
-        top: 50%;
+        top: 60%;
         width: 100%;
 
         .quoteIcon {
             font-size: 35px;
             color: @memo-blue;
             margin-bottom: 15px;
+
+            .media-below-xs( {
+                font-size: 25px;
+            }
+
+            );
         }
 
         #teamQuote {
             color: @memo-blue;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 20px;
             font-style: italic;
             line-height: 32px;
+            padding: 0 10px;
+
+            .media-below-xs( {
+                font-size: 14px;
+                line-height: 22px;
+            }
+
+            );
         }
 
         #teamQuoteNames {
@@ -63,6 +106,13 @@
             margin-top: 13px;
             font-size: 14px;
             letter-spacing: .05em;
+
+            .media-below-xs( {
+                font-size: 12px;
+                letter-spacing: normal;
+            }
+
+            );
         }
 
         #teamQuoteNamesSub {
@@ -71,12 +121,19 @@
             font-weight: normal;
             font-size: 14px;
             letter-spacing: .05em;
+
+            .media-below-xs( {
+                font-size: 12px;
+                letter-spacing: normal;
+            }
+
+            );
         }
     }
 }
 
 .circle {
-    width: 35%;
+    width: 350px;
     position: absolute;
     left: 50%;
     -webkit-transform: translateX(-50%);
@@ -87,6 +144,9 @@
     background-color: transparent;
     color: #222;
     text-align: center;
+    .media-below-xs({
+        width: 250px;
+    });
 }
 
 .circle:after {
