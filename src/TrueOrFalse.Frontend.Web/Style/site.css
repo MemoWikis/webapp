@@ -1379,6 +1379,23 @@ ul.show-tooltip-ul {
   padding-left: 15px;
 }
 /*Icons*/
+.LinkToTop {
+  text-align: right;
+  margin: 20px 0;
+  padding: 20px;
+  color: #1964c8;
+  opacity: 0.3;
+}
+.LinkToTop i {
+  font-size: 50px;
+  margin-bottom: -10px;
+}
+.LinkToTop p {
+  font-size: 12px;
+  margin-top: -10px;
+  margin-right: 9px;
+  letter-spacing: .1em;
+}
 /*Dropdowns*/
 ul.AlignDdRight {
   left: auto;

@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+    Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
@@ -11,21 +12,194 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 20px;"><span class="ColoredUnderline Question">memucho: Die schnelle und sichere Art zu lernen</span></h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <div class="well">
-            <p>
-                Wir möchten, dass du mit memucho besser lernen kannst und mehr Spaß dabei hast, neues und altes Wissen zu entdecken. Das ist unser großes Ziel! 
-                Noch sind wir in der <a href="<%= Links.BetaInfo() %>">Beta-Phase</a> und freuen uns, dass du von Anfang an dabei bist. 
-                Hier erfährst du, <a href="#Vorteile">welche Vorteile</a> dir memucho bietet, <a href="#Prinzipien">welche Prinzipien</a> uns leiten und <a href="#Team">wer wir sind</a>.
-            </p>
-        </div>
-        
-        <div style="text-align: center; margin-bottom: 30px;">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
+        <div id="MainWrapper">
+
+            <div id="pageTitleMemucho">
+                <img src="/Images/Logo/LogoWordmark_w300.png"/>
+                <h1>Schneller lernen, länger wissen</h1>
+            </div>
+            
+            <div id="teamImgQuote">
+                <img id="teamImg" src="/Images/Team/founderTeam_20161027.jpg"/>
+                
+                <div class="teamSquare hidden">
+                    Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla 
+                </div>
+
+                <div id="teamQuoteCircle" class="">
+                    <div class="circle">
+                        <div class="circleInner">
+                            <div class="circleWrapper">
+                                <div class="circleContent">
+                                    <i class="fa fa-quote-left quoteIcon">&nbsp;</i>
+                                    <div id="teamQuote">
+                                        Wir möchten, dass du optimiert lernen und dein Wissen organisieren kannst - und mehr Spaß hast!
+                                        Dabei fördern wir offene Bildungsmaterialien.
+                                    </div>
+                                    <div id="teamQuoteNames">Christof, Robert und Jule</div>
+                                    <div id="teamQuoteNamesSub">Gründerteam memucho</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="advantages">
+                <h2>Deine Vorteile bei memucho</h2>
+                
+                <div class="advantage">
+                    <div class="advantageIcon" style="color: #B13A48">
+                        <i class="fa fa-heart-o">&nbsp;</i> <i class="fa fa-heart">&nbsp;</i>
+                    </div>
+                    <h3>Wunschwissen sammeln und nie vergessen</h3>
+                    <p>
+                        Stelle dir dein <i class="fa fa-heart" style="color: #B13A48"></i> Wunschwissen zusammen und entscheide, was du dir merken möchtest.
+                        Damit hast du deinen Wissensstand immer im Blick. Wir erinnert dich, wenn du es wieder lernen musst, um es nicht zu vergessen.
+                    </p>
+                </div>
+
+                <div class="advantage">
+                    <div class="advantageIcon">
+                        <i class="fa fa-check-circle"></i>
+                    </div>
+                    <h3>Optimierte Prüfungsvorbereitung</h3>
+                    <p>
+                        Du musst für eine Prüfung lernen? Lege einfach einen Termin an und wir erstellen dir einen persönlichen Lernplan. 
+                        Intelligente Algorithmen sagen dir, wann du was am besten lernst und ob du deine Lernziele erreichen wirst.
+                    </p>
+                </div>
+
+                <div class="advantage">
+                    <div class="advantageIcon">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <h3>Entdecke neues Wissen</h3>
+                    <p>
+                        Du musst für eine Prüfung lernen? Lege einfach einen Termin an und wir erstellen dir einen persönlichen Lernplan. 
+                        Intelligente Algorithmen sagen dir, wann du was am besten lernst und ob du deine Lernziele erreichen wirst.
+                    </p>
+                </div>
+                
+                <div id="advantagesFooter">
+                    <%  if (!false) { // Model.IsLoggedIn %>
+                        <div class="" style="text-align: center; display: inline-block;">
+                            <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
+                        </div>
+                    <%  } %>
+                </div>
+
+            </div>
+            
+
+            <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+            
+            
+            <div id="keyNumbers">
+                <div class="row">
+                    <div class="col-xs-4 keyNumberCol">
+                        <div class="keyNumber">
+                            4.000.000 +
+                        </div>
+                        <div class="keyNumberExplanation">
+                            Lernpunkte wurden bisher bei memucho errungen
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 keyNumberCol">
+                        <div class="keyNumber">
+                            5.500
+                        </div>
+                        <div class="keyNumberExplanation">
+                            Fragen gibt es zu beantworten
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4 keyNumberCol">
+                        <div class="keyNumber">
+                            28 %
+                        </div>
+                        <div class="keyNumberExplanation">
+                            der Fragen werden von Nutzern falsch beantwortet
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+
+            
+            <div id="principles">
+                <h2>Unsere Prinzipien</h2>
+                <div class="advantage">
+                    <div class="advantageIcon">
+                        <i class="fa fa-bullhorn"></i>
+                    </div>
+                    <h3>Freie Bildungsinhalte</h3>
+                    <div class="floatingImg">
+                        <img src="/Images/LogosPartners/oer_logo_EN_2_w400.png"/><br/>
+                        <p>
+                            Jonathas Mello, <a target="_blank" href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0 Unported</a>
+                        </p>
+                    </div>
+                    <p>
+                        Alle Lerninhalte bei uns sind frei und rechtssicher lizenziert. 
+                        Du kannst sie nutzen, weiterverwenden und ergänzen, wie es für dich am besten passst.
+                        Wir nutzen dafür die offene Lizenz "Creative Commons Namensnennung" 
+                        (kurz: <a href="https://creativecommons.org/licenses/by/4.0/deed.de" target="_blank">CC BY 4.0</a>).
+                    </p>
+                    <p>
+                        Offene Bildungsinhalte ("Open Educational Resources", oder kurz "OER") demokratisieren Wissen und ermöglichen es Lehrenden und Lernenden, 
+                        die Materialien an ihre spezifischen Bedürfnisse anzupassen. 
+                        <a href="http://www.unesco.de/fileadmin/medien/Dokumente/Bildung/Was_sind_OER__cc.pdf" target="_blank">
+                            Hier erfährst du mehr zu OER. <i class="fa fa-external-link"></i>
+                        </a>
+                    </p>
+                </div>
+                <div class="Clearfix"></div>
+                <div class="advantage">
+                    <div class="advantageIcon">
+                        <i class="fa fa-leaf"></i>
+                    </div>
+                    <h3>Sozialunternehmen und Gemeinwohlorientierung</h3>
+                    <p>
+                        Wir möchten jedem Menschen den Zugang zu freien und hochwertigen Bildungsmaterialien ermöglichen. 
+                        Und wir sind überzeugt, dass Unternehmen eine ethische, soziale und ökologische Verantwortung haben.
+                        Deshalb möchten wir unser Unternehmen auf 
+                        <a href="http://www.gemeinwohl-oekonomie.org/de" target="_blank;">gemeinwohlfördernden Werten <i class="fa fa-external-link"></i></a> 
+                        aufbauen und werden dazu in Zukunft eine Gemeinwohlbilanz veröffentlichen.
+                    </p>
+                </div>
+
+                <div class="advantage">
+                    <div class="advantageIcon">
+                        <i class="fa fa-search-plus"></i>
+                    </div>
+                    <h3>Datenschutz, Transparenz und Open-Source</h3>
+                    <p>
+                        Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
+                        Aber wir werden deine Daten niemals verkaufen. 
+                        (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum <i class="fa fa-lock">&nbsp;</i>Datenschutz</a>)
+                    </p>
+                    <p>
+                        Damit du überprüfen kannst, was wir versprechen und weil wir Open Source eine tolle Idee finden, 
+                        sind auch die Quelltexte von memucho frei verfügbar. Du findest sie 
+                        auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github <i class="fa fa-external-link"></i></a>. 
+                        In Zukunft möchten wir neben der Gemeinwohlbilanz auch wichtige Unternehmenszahlen regelmäßig veröffentlichen.
+                    </p>
+                </div>
+                
+            </div>
+
+
+            <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+
+
+            <div style="text-align: center; margin-bottom: 30px;">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
+            </div>
+
         </div>
     </div>
 </div>
@@ -148,87 +322,6 @@
         </div>
     </div>
 </div>
-    
-<div class="row">
-    <div class="col-xs-12">
-        <div class="well">
-            <h1 class="PageHeader" id="Prinzipien">
-                <span class="ColoredUnderline Question">Unsere Prinzipien</span>
-            </h1>
-            <p>
-                Wir wollen nicht nur dein Lernen vereinfachen, sondern damit freie Bildungsinhalte und Open-Source fördern und ein gemeinwohlorientiertes und 
-                transparentes Unternehmen aufbauen. Diese Werte leiten unser Handeln. 
-                <a href="<%= Links.Contact %>">Melde dich bei uns</a>, wenn du Fragen oder Anregungen hast. Wir freuen uns über deine Nachricht!
-            </p>
-
-            <div class="row aboutRow" style="margin-top: 30px;">
-                <div class="col-xs-3 aboutImg xxs-stack">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-tree fa-3x"></i>
-                    </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Sozialunternehmen und Gemeinwohlorientierung</h3>
-                    <p>
-                        memucho fördert die freie Verfügbarkeit von Wissen, unterstützt Lernende beim Lernen und ist und bleibt kostenlos. 
-                        Damit demokratisieren wir Wissen. Darüber hinaus möchten wir unser Unternehmen auf gemeinwohlfördernden Werten aufbauen. 
-                        Als Teil der <a href="http://www.gemeinwohl-oekonomie.org/de"><i class="fa fa-external-link">&nbsp;</i>Gemeinwohlökonomie</a> sind wir davon überzeugt, 
-                        dass Unternehmen der Gemeinschaft dienen müssen und deshalb eine ethische, soziale und ökologische Verantwortung haben. 
-                        Dazu gehört in Zukunft die Veröffentlichung einer 
-                        <a href="https://www.ecogood.org/de/gemeinwohl-bilanz/gemeinwohl-matrix/" target="_blank"><i class="fa fa-external-link">&nbsp;</i>Gemeinwohlbilanz</a>.
-                    </p>
-                </div>
-            </div>
-
-            <div class="row aboutRow">
-                <div class="col-xs-3 aboutImg xxs-stack">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-book fa-3x"></i>
-                    </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Offene Bildungsinhalte (OER)</h3>
-                    <p>
-                        Wir sind Teil der Bewegung zur Förderung frei zugänglicher Bildungsmaterialien, der "Open Educational Resources" (OER). 
-                        In memucho unterliegen öffentliche Inhalte einer Creative Commons-Lizenz, genau wie fast alle Einträge auf Wikipedia. 
-                        Unsere Fragen können also von jedem kostenfrei und ohne Einschränkungen verwendet werden. Private Inhalte sind aber privat. 
-                        (<a href="http://creativecommons.org/licenses/by/4.0/deed.de" target="_blank"><i class="fa fa-external-link">&nbsp;</i>Hier erfährst du genaueres zur Creative-Commons-Lizenz CC BY 4.0</a> und 
-                        <a href="http://www.unesco.de/fileadmin/medien/Dokumente/Bildung/Was_sind_OER__cc.pdf" target="_blank"><i class="fa fa-external-link">&nbsp;</i>hier gibt es Infos zu OER von der Unesco</a>).
-<%--                        <img src="/Images/LogosPartners/Logo-OER_200px_by_Jonathasmello.png" />
-                        <span class="greyed" style="font-size: 11px;">OER-Logo, von Jonathas Mello (CC BY 3.0)</span>--%>
-                    </p>
-                </div>
-            </div>
-
-            <div class="row aboutRow">
-                <div class="col-xs-3 aboutImg xxs-stack">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Open Source und Transparenz</h3>
-                    <p>
-                        Die Software, mit der memucho läuft, steht unter einer Open-Source-Lizenz. Die Quelltexte sind frei verfügbar und können von allen frei verwendet werden. 
-                        Du findest sie auf <a href="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"><i class="fa fa-github">&nbsp;</i>Github</a>. Wenn wir etwas versprechen, kannst du es im Quelltext überprüfen. 
-                        Weil uns Transparenz auch sonst wichtig ist, möchten wir in Zukunft neben der Gemeinwohlbilanz auch unsere Unternehmenszahlen veröffentlichen.
-                    </p>
-                </div>
-            </div>
-
-            <div class="row aboutRow">
-                <%  if (!isLoggedIn) { %>
-                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
-                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
-                    </div>
-                <%  } %>
-            </div>
-
-        </div>
-    </div>
-</div>
-    
     
 
 <div class="row">

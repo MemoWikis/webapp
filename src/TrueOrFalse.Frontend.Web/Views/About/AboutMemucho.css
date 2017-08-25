@@ -18,6 +18,191 @@
 }
 @media (min-width: 650px) {
 }
+#MainWrapper {
+  background-color: white;
+  padding: 20px;
+}
+#pageTitleMemucho {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+#pageTitleMemucho h1 {
+  font-size: 45px;
+  margin-top: 10px;
+  font-weight: normal;
+}
+#teamImgQuote {
+  margin-left: -20px;
+  margin-right: -20px;
+}
+#teamImgQuote .teamSquare {
+  width: 300px;
+  padding: 30px;
+  background-color: #AFD534;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  right: 50%;
+}
+#teamImgQuote #teamQuoteCircle {
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#teamImgQuote #teamQuoteCircle .quoteIcon {
+  font-size: 35px;
+  color: #003264;
+  margin-bottom: 15px;
+}
+#teamImgQuote #teamQuoteCircle #teamQuote {
+  color: #003264;
+  font-weight: 500;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 32px;
+}
+#teamImgQuote #teamQuoteCircle #teamQuoteNames {
+  color: white;
+  font-weight: bold;
+  margin-top: 13px;
+  font-size: 14px;
+  letter-spacing: .05em;
+}
+#teamImgQuote #teamQuoteCircle #teamQuoteNamesSub {
+  margin-top: 5px;
+  color: white;
+  font-weight: normal;
+  font-size: 14px;
+  letter-spacing: .05em;
+}
+.circle {
+  position: relative;
+  display: block;
+  margin: 2em 0;
+  background-color: transparent;
+  color: #222;
+  text-align: center;
+}
+.circle:after {
+  display: block;
+  padding-bottom: 100%;
+  width: 100%;
+  height: 0;
+  border-radius: 50%;
+  background-color: #AFD534;
+  content: "";
+}
+.circleInner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.circleWrapper {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+.circleContent {
+  display: table-cell;
+  padding: 1em;
+  vertical-align: middle;
+}
+#advantages,
+#principles {
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+#advantages h2,
+#principles h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 55px;
+}
+#advantages .advantage,
+#principles .advantage {
+  margin-top: 35px;
+}
+#advantages .advantage h3,
+#principles .advantage h3 {
+  font-size: 35px;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+#advantages .advantage .advantageIcon,
+#principles .advantage .advantageIcon {
+  font-size: 48px;
+  text-align: center;
+}
+#advantages .advantage p,
+#principles .advantage p {
+  font-size: 18px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+}
+#advantages .floatingImg,
+#principles .floatingImg {
+  text-align: center;
+}
+@media (min-width: 480px) {
+  #advantages .floatingImg,
+  #principles .floatingImg {
+    float: right;
+    max-width: 250px;
+  }
+}
+#advantages .floatingImg p,
+#principles .floatingImg p {
+  color: #999999;
+  font-size: 14px;
+}
+#advantages .floatingImg p a,
+#principles .floatingImg p a {
+  color: inherit;
+}
+#advantages #advantagesFooter,
+#principles #advantagesFooter,
+#advantages #principlesFooter,
+#principles #principlesFooter {
+  text-align: center;
+  margin-top: 45px;
+}
+#keyNumbers {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  border-top: 3px solid #AFD534;
+  border-bottom: 3px solid #AFD534;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+#keyNumbers .keyNumberCol {
+  text-align: center;
+}
+@media (max-width: 479px) {
+  #keyNumbers .keyNumberCol {
+    float: none;
+    width: 100%;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+#keyNumbers .keyNumberCol .keyNumber {
+  color: #AFD534;
+  font-weight: bold;
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+#keyNumbers .keyNumberCol .keyNumberExplanation {
+  padding: 0 10px;
+  font-size: 20px;
+  font-weight: 500;
+}
 .aboutRow {
   display: flex;
 }

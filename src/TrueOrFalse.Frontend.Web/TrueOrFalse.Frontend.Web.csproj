@@ -342,6 +342,8 @@
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
+    <Content Include="Images\Logo\LogoWordmark_w300.png" />
+    <Content Include="Images\Team\founderTeam_20161027.jpg" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />

@@ -1,49 +1,256 @@
 ﻿@import '../../Style/includes/imports.less';
 
-.aboutRow {
-    display: flex;
-    .media-below-xs({
-        display: inherit;
-    });
-
+#MainWrapper {
+    background-color: white;
+    padding: 20px;
 }
 
-.aboutImg {
+#pageTitleMemucho {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    h1 {
+        font-size: 45px;
+        margin-top: 10px;
+        font-weight: normal;
+    }
+}
+
+#teamImgQuote {
+    margin-left: -20px;
+    margin-right: -20px;
+
+    img {
+    }
+
+    .teamSquare {
+        width: 300px;
+        padding: 30px;
+        background-color: @memo-green;
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        right: 50%;
+    }
+
+    #teamQuoteCircle {
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
+
+        .quoteIcon {
+            font-size: 35px;
+            color: @memo-blue;
+            margin-bottom: 15px;
+        }
+
+        #teamQuote {
+            color: @memo-blue;
+            font-weight: 500;
+            font-size: 18px;
+            font-style: italic;
+            line-height: 32px;
+        }
+
+        #teamQuoteNames {
+            color: white;
+            font-weight: bold;
+            margin-top: 13px;
+            font-size: 14px;
+            letter-spacing: .05em;
+        }
+
+        #teamQuoteNamesSub {
+            margin-top: 5px;
+            color: white;
+            font-weight: normal;
+            font-size: 14px;
+            letter-spacing: .05em;
+        }
+    }
+}
+
+.circle {
     position: relative;
-    display: inline-block;
-    vertical-align: middle;
-    padding: 10px;
-    color: @memo-green;
+    display: block;
+    margin: 2em 0;
+    background-color: transparent;
+    color: #222;
+    text-align: center;
 }
 
-.aboutImgInner {
+.circle:after {
+    display: block;
+    padding-bottom: 100%;
+    width: 100%;
+    height: 0;
+    border-radius: 50%;
+    background-color: @memo-green;
+    content: "";
+}
+
+.circleInner {
     position: absolute;
     top: 0;
     bottom: 0;
+    left: 0;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    padding: 15px;
+    height: 100%;
 }
 
-.aboutText {
-    padding: 10px;
+.circleWrapper {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
 
-    h3 {
-        margin-top: 0;
-        .media-below-xs({
-            margin-top: 15px;
-        });
+.circleContent {
+    display: table-cell;
+    padding: 1em;
+    vertical-align: middle;
+}
+
+
+#advantages, #principles {
+    margin-top: 60px;
+    margin-bottom: 30px;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 55px;
+    }
+
+    .advantage {
+        margin-top: 35px;
+
+        h3 {
+            font-size: 35px;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .advantageIcon {
+            font-size: 48px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+        }
+    }
+
+    .floatingImg {
+        text-align: center;
+
+        .media-xs-up( {
+            float: right;
+            max-width: 250px;
+        }
+
+        );
+
+        p {
+            color: @global-text-color-grey;
+            font-size: 14px;
+
+            a {
+                color: inherit;
+            }
+        }
+    }
+
+    #advantagesFooter, #principlesFooter {
+        text-align: center;
+        margin-top: 45px;
     }
 }
 
 
 
-.partnerLogos {
-    text-align: center;
-    img {
-        padding: 20px;
+#keyNumbers {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-top: 3px solid @memo-green;
+    border-bottom: 3px solid @memo-green;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .keyNumberCol {
+        .xxs-stack;
+        text-align: center;
+
+        .keyNumber {
+            color: @memo-green;
+            font-weight: bold;
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+        .keyNumberExplanation {
+            padding: 0 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
     }
 }
+
+
+
+    .aboutRow {
+        display: flex;
+
+        .media-below-xs( {
+            display: inherit;
+        }
+
+        );
+    }
+
+    .aboutImg {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 10px;
+        color: @memo-green;
+    }
+
+    .aboutImgInner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .aboutText {
+        padding: 10px;
+
+        h3 {
+            margin-top: 0;
+
+            .media-below-xs( {
+                margin-top: 15px;
+            }
+
+            );
+        }
+    }
+
+
+
+    .partnerLogos {
+        text-align: center;
+
+        img {
+            padding: 20px;
+        }
+    }

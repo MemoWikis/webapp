@@ -529,7 +529,7 @@
                             </a>
                         </div>
                         <p>
-                            Offene Bildungsressourcen demokratisieren Bildung! Wir machen mit.
+                            Freie Bildungsmaterialien demokratisieren Bildung! Wir machen mit.
                         </p>
                         <p class="logo-box-link">
                             <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
