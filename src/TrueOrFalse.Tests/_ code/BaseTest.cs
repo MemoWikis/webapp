@@ -7,6 +7,7 @@ using NUnit.Framework;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 [TestFixture]
 public class BaseTest
@@ -56,6 +57,8 @@ public class BaseTest
 
     private static void BuildContainer()
     {
+        JobScheduler.EmptyMethodToCallConstructor();//Call here to have container with default solr cores registered (not suitable for unit testing) built first and overwritten afterwards 
+
         var builder = new ContainerBuilder();
         builder.RegisterModule<AutofacCoreModule>();
 
@@ -86,6 +89,7 @@ public class BaseTest
         builder.RegisterModule(new SolrNetModule(cores));
         _container = builder.Build();
         ServiceLocator.Init(_container);
+
     }
 
     public static T Resolve<T>()
