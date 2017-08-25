@@ -35,6 +35,7 @@
 #teamImgQuote {
   margin-left: -20px;
   margin-right: -20px;
+  position: relative;
 }
 #teamImgQuote .teamSquare {
   width: 300px;
@@ -46,13 +47,9 @@
   right: 50%;
 }
 #teamImgQuote #teamQuoteCircle {
-  max-width: 380px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 350px;
-  height: 350px;
   position: absolute;
-  top: 500px;
+  top: 50%;
+  width: 100%;
 }
 #teamImgQuote #teamQuoteCircle .quoteIcon {
   font-size: 35px;
@@ -81,7 +78,10 @@
   letter-spacing: .05em;
 }
 .circle {
-  position: relative;
+  width: 35%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: block;
   margin: 2em 0;
   background-color: transparent;
