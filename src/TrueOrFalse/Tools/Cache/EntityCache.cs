@@ -335,6 +335,11 @@ public class EntityCache
     {
         Remove(Sets, set);
         RemoveSetFrom(CategorySetsList, set);
+
+        foreach (var questionInSet in set.QuestionsInSet)
+        {
+            RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
+        }
     }
 
     public static void AddOrUpdate(QuestionInSet questionInSet)

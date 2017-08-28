@@ -43,7 +43,7 @@ public class SetRepo : RepositoryDbBase<Set>
        
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateCountQuestionsAggregated();
+            category.UpdateCountQuestionsAggregated(persist: true);
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
@@ -191,6 +191,11 @@ public class SetRepo : RepositoryDbBase<Set>
 
         _searchIndexSet.Delete(set);
         base.Delete(set);
+        EntityCache.Remove(set);
+        foreach (var category in set.Categories)
+        {
+            category.UpdateCountQuestionsAggregated(persist: true);
+        }
         Flush();
     }
 
