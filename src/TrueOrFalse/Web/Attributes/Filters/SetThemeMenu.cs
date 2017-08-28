@@ -50,13 +50,24 @@ namespace System.Web.Mvc
                 if (_isTestSessionPage)
                 {
                     var testSession = GetTestSession.Get(Convert.ToInt32(httpContextData["testSessionId"]));
-                    if(testSession.CategoryToTest != null)
-                        activeCategories.Add(EntityCache.GetCategory(testSession.CategoryToTest.Id));
-                    else
-                        activeCategories.AddRange(
-                            //get eager loaded categories from cache
-                            EntityCache.GetCategories(testSession.SetToTest.Categories.GetIds())
-                        );
+
+                    if (testSession != null)
+                    {
+                        if (testSession.CategoryToTest != null)
+                            activeCategories.Add(EntityCache.GetCategory(testSession.CategoryToTest.Id));
+                        else if (testSession.SetToTest != null)
+                        {
+                            activeCategories.AddRange(
+                                //get eager loaded categories from cache
+                                EntityCache.GetCategories(testSession.SetToTest.Categories.GetIds())
+                            );
+                        }
+                        else if (testSession.SetsToTestIds != null)
+                        {
+                            var categories = Sl.SetRepo.GetByIds(testSession.SetsToTestIds.ToList()).SelectMany(s => s.Categories).Distinct();
+                            activeCategories.AddRange(categories);
+                        }
+                    }
                 }
 
                 if (_isLearningSessionPage)
