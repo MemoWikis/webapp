@@ -194,7 +194,7 @@ public class SetRepo : RepositoryDbBase<Set>
         EntityCache.Remove(set);
         foreach (var category in set.Categories)
         {
-            category.UpdateCountQuestionsAggregated(persist: true);
+            category.UpdateCountQuestionsAggregated();
         }
         Flush();
     }
