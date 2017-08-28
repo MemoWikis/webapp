@@ -43,7 +43,7 @@ public class SetRepo : RepositoryDbBase<Set>
        
         foreach (var category in aggregatedCategoriesToUpdate)
         {
-            category.UpdateCountQuestionsAggregated(persist: true);
+            category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
             KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
         }
