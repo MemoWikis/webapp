@@ -511,6 +511,20 @@ html.flexbox:not(.Explorer):not(.Safari) {
                 max-height: none;
             }
         }
+
+        .KnowledgeBarLegend {
+            .greyed;
+            font-size: 12px;
+            line-height: 2em;
+            opacity: 0;
+            transition: opacity 0.2s linear;
+        }
+
+        &:hover {
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
+        }
     }
 
     .category-knowledge-bar {

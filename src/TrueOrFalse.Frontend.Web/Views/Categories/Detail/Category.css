@@ -513,6 +513,16 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     max-height: none;
   }
 }
+#topicNavigation .topic .KnowledgeBarLegend {
+  color: #999999;
+  font-size: 12px;
+  line-height: 2em;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+#topicNavigation .topic:hover .KnowledgeBarLegend {
+  opacity: 1;
+}
 #topicNavigation .category-knowledge-bar {
   margin-top: 15px;
   height: 10px;
