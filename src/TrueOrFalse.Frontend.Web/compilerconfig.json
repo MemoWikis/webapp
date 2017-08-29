@@ -252,5 +252,9 @@
   {
     "outputFile": "Views/Welcome/Contact.css",
     "inputFile": "Views/Welcome/Contact.less"
+  },
+  {
+    "outputFile": "Views/Users/Account/Membership.css",
+    "inputFile": "Views/Users/Account/Membership.less"
   }
 ]

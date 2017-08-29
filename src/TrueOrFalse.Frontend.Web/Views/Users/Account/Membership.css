@@ -1,6 +1,55 @@
-﻿.FormSection {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+#MainWrapper {
+  background-color: white;
+  padding: 20px;
+  font-size: 18px;
+}
+#MainWrapper h1 {
+  font-size: 45px;
+  font-weight: normal;
+}
+#MainWrapper h2 {
+  font-size: 35px;
+  margin-top: 35px;
+  margin-bottom: 20px;
+}
+#MainWrapper h3 {
+  font-size: 28px;
+}
+#MainWrapper p,
+#MainWrapper ul,
+#MainWrapper ol {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.FormSection {
   background-color: transparent;
   padding-top: 10px;
+}
+#PriceSelection {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 #PriceSelection .radio {
   margin-bottom: 20px;
@@ -16,11 +65,18 @@
   margin-top: 10px;
 }
 #PriceSelection .PriceLevelInfo .Description {
-  font-size: 90%;
+  font-size: 14px;
   margin-bottom: 5px;
 }
 #PriceSelection .LabelInline {
   cursor: default;
+}
+#invoiceForm {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  margin-bottom: 30px;
 }
 .NotInFocus {
   color: GrayText !important;
@@ -28,4 +84,3 @@
 label.ValidationError {
   padding-left: 0 !important;
 }
-/*# sourceMappingURL=Membership.css.map */

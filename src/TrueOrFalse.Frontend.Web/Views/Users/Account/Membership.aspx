@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<MembershipModel>" %> 
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Js/Membership.js") %>
@@ -11,10 +12,10 @@
 
     <div class="row">
         
-        <div class="col-md-9 xxs-stack">
-        
-            <% if (Model.IsMember) {%>
-            <h2 class="PageHeader">Danke, dass du uns unterstützt <i class="fa fa-smile-o"></i></h2>
+        <div class="col-xs-12">
+        <div id="MainWrapper">
+        <% if (Model.IsMember) {%>
+            <h1 class="PageHeader">Danke, dass du uns unterstützt <i class="fa fa-smile-o"></i></h1>
             
             <% Html.Message(Model.Message); %>
             <div class="Box">
@@ -28,55 +29,63 @@
                     <p><b>Gültig bis einschließlich:</b> <%= String.Format("{0:d}", Model.Membership.PeriodEnd) %></p>
                 </div>
             </div>   
-            <% } else { %>
-            <h2 class="PageHeader">Fördermitglied werden</h2>
+        <% } else { %>
+            <h1 class="PageHeader">Fördermitglied werden</h1>
     
-            <h3>Du möchtest Fördermitglied werden?</h3>
-            <p>Du findest, dass memucho eine tolle Sache ist und möchtest uns unterstützen? 
-                Dann werde Fördermitglied der ersten Stunde!</p>
-            <p>Wir sind noch nicht ganz fertig, memucho befindet sich in der Beta-Phase. 
+            
+            <p>
+                <strong>Du möchtest Fördermitglied werden?</strong>
+                Du findest, dass memucho eine tolle Sache ist und möchtest uns unterstützen? 
+                Dann werde Fördermitglied der ersten Stunde!
+            </p>
+            <p>
+                Wir sind noch nicht ganz fertig, memucho befindet sich in der <a href="<%= Links.BetaInfo() %>">Beta-Phase</a>. 
                 Einige Funktionen fehlen noch, andere Dinge müssen wir noch verbessern und 
                 benutzerfreundlicher machen. 
                 Außerdem haben wir noch sooo viele Ideen, die auf Verwirklichung warten. Wir arbeiten daran! 
                 Aber gerade in der schwierigen Startphase brauchen wir dich und deine Unterstützung. 
-                Wenn du an uns glaubst, dann werde jetzt Fördermitglied!</p>
+                Wenn du an uns glaubst, dann werde jetzt Fördermitglied!
+            </p>
     
-            <% } %>
+        <% } %>
     
-            <% if (Model.IsMember) {%>
-                <h3>Welche Vorteile hast du als Mitglied? </h3>
-            <% } else { %>
-                <h3>Was bekommst du? </h3>
-            <% } %>
+        <% if (Model.IsMember) {%>
+            <h2>Welche Vorteile hast du als Mitglied? </h2>
+        <% } else { %>
+            <h2>Was bekommst du als Mitglied? </h2>
+        <% } %>
+            
 
-            <ul>
-                <li>Die wertvolle Trophäe "Fördermitglied der 1. Stunde" in Gold in deinem Profil auf Lebenszeit.</li>
-                <li>Die memucho-Seite komplett werbefrei.</li>
-                <li>Alle memucho-Funktionen auch zukünftig ohne Beschränkungen, insbesondere...
-                    <ul style="list-style: none;">
-                        <li>...unbegrenzt private Fragen</li>
-                        <li>...unbegrenzt Wunschwissen</li>
-                        <li>...unbegrenzte Nutzung von Lernterminen</li>     
-                        <li>...unbegrenzte Nutzung von Widgets (sonst max. 5)</li>
-                    </ul>
-                </li>
-                <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
+        <ul>
+            <li>Die wertvolle Trophäe "Fördermitglied der 1. Stunde" in Gold in deinem Profil auf Lebenszeit.</li>
+            <li>Die memucho-Seite komplett werbefrei.</li>
+            <li>Alle memucho-Funktionen auch zukünftig ohne Beschränkungen, insbesondere...
+                <ul style="list-style: none;">
+                    <li>...unbegrenzt private Fragen</li>
+                    <li>...unbegrenzt Wunschwissen</li>
+                    <li>...unbegrenzte Nutzung von Lernterminen</li>     
+                    <li>...unbegrenzte Nutzung von Widgets (sonst max. 5)</li>
+                </ul>
+            </li>
+            <li>Das gute Gefühl, eine tolle Idee zu unterstützen.</li>
 
-            </ul>
-            <% if (!Model.IsMember) {%>
-                <p>
-                    In der Beta-Phase sind die Funktionalitäten für Nichtmitglieder teilweise noch nicht beschränkt. 
-                    Bis zum offiziellen Start unserer Plattform 
-                    winken für dich als Fördermitglied also neben der werbefreien Nutzung 
-                    "nur" Ruhm, Ehre und die besondere Trophäe 
-                    &#8211 und das gute Gefühl, eine tolle Sache zu unterstützen.
-                </p>
+        </ul>
+        <% if (!Model.IsMember) {%>
+            <p>
+                In der Beta-Phase sind die Funktionalitäten für Nichtmitglieder teilweise noch nicht beschränkt. 
+                Bis zum offiziellen Start unserer Plattform 
+                winken für dich als Fördermitglied also neben der werbefreien Nutzung 
+                "nur" Ruhm, Ehre und die besondere Trophäe 
+                &#8211 und das gute Gefühl, eine tolle Sache zu unterstützen.
+            </p>
 
-            <h3>Dein Beitrag</h3>
-            <p>Dein Beitrag richtet sich nach deinen finanziellen Möglichkeiten und deiner Motivation.</p>
+            <h2>Dein Beitrag</h2>
+            <p>
+                Dein Beitrag richtet sich nach deinen finanziellen Möglichkeiten und deiner Motivation. Du kannst ihn selbst wählen.
+            </p>
+            
 
-
-             <% using (Html.BeginForm("Membership", "Account", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
+            <% using (Html.BeginForm("Membership", "Account", null, FormMethod.Post, new { id="BecomeMemberForm", enctype = "multipart/form-data" })){ %>
     
                 <input type="hidden" id="hddSelectedPrice" name="SelectedPrice" value="0"/>
 
@@ -166,53 +175,59 @@
     
                 <% if(Model.IsLoggedIn){ %>
     
-                    <h3>Deine Rechnungsdaten</h3>
+                    <h2>Deine Rechnungsdaten</h2>
     
-                    <p>Du erhältst von uns eine Rechnung per E-Mail an <b><%= Model.BillingEmail%></b>.</p>
+                    <p>
+                        Du erhältst von uns eine Rechnung an die von dir angegebene E-Mail-Adresse: <b><%= Model.BillingEmail%></b>.
+                        Bitte überweise uns den Betrag auf das in der Rechnung angegebene Konto. Andere Zahlungsoptionen bietet wir leider noch
+                        nicht an.
+                    </p>
     
     
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="form-group">
-                                <label class="control-label RequiredField">Name Rechnungsempfänger</label>
-                                <input class="form-control" name="BillingName" value="<%= Model.BillingName %>"/>
-                            </div>
+                    <div id="invoiceForm">
+                        <div class="form-group">
+                            <label class="control-label RequiredField">Name Rechnungsempfänger</label>
+                            <input class="form-control" name="BillingName" value="<%= Model.BillingName %>"/>
+                        </div>
 
-                            <div class="form-group">
-                                <label class="control-label">Rechnungsadresse (optional)</label>
-                                <textarea class="form-control" name="BillingAddress"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label class="control-label">Rechnungsadresse (optional)</label>
+                            <textarea class="form-control" name="BillingAddress"></textarea>
+                        </div>
                 
-                            <div>
-                              <label class="radio-inline">
+                        <div>
+                            <label class="radio-inline">
                                 <input type="radio" name="PaymentPeriod" value="halfYear">
                                 Halbjährlich zahlen
-                              </label>
-                              <label class="radio-inline">
+                            </label>
+                            <label class="radio-inline">
                                 <input type="radio" name="PaymentPeriod" value="fullYear" checked>
                                 Jährlich zahlen
-                              </label>
-                            </div>
-
-                            <div class="checkbox">
-                                <label>
-                                    <%= Html.CheckBoxFor(m => Model.AutoRenewal) %>Automatisch verlängern 
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                Du kannst jederzeit kündigen! Wir erstatten den Restbetrag für verbleibende volle Monate zurück.
-                            </div>
-
+                            </label>
                         </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <%= Html.CheckBoxFor(m => Model.AutoRenewal) %>Automatisch verlängern 
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            Du kannst jederzeit kündigen! Wir erstatten den Restbetrag für verbleibende volle Monate zurück.
+                        </div>
+
                     </div>
     
-                    <div style="clear: left;">
-                        <input type="submit" value="Verbindlich Mitglied werden" class="btn btn-success" name="btnSave" />
+                    <div style="text-align: center; margin-top: 30px;">
+                        <input type="submit" value="Verbindlich Mitglied werden" class="btn btn-lg btn-success" name="btnSave" />
                     </div>
     
                 <% } %>
             <% } %>
-<% } %>    
+        <% } %>           
+            
+            <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+
+            </div>
         </div>
     </div>
 </asp:Content>

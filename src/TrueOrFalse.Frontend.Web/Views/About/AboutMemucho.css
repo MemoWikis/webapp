@@ -23,6 +23,11 @@
   padding: 20px;
   font-size: 18px;
 }
+#MainWrapper h1 {
+  font-size: 45px;
+  margin-top: 10px;
+  font-weight: normal;
+}
 #MainWrapper h2 {
   font-size: 55px;
 }
@@ -38,11 +43,6 @@
   text-align: center;
   margin-top: 20px;
   margin-bottom: 30px;
-}
-#pageTitleMemucho h1 {
-  font-size: 45px;
-  margin-top: 10px;
-  font-weight: normal;
 }
 #teamImgQuote {
   margin-left: -20px;
