@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
+using NHibernate.Linq;
 
 public class UserRepo : RepositoryDbBase<User>
 {
@@ -111,6 +112,11 @@ public class UserRepo : RepositoryDbBase<User>
             query.Where(u => u.Reputation < newReputation && u.Reputation > oldRepution);
        
         return query.List();
+    }
+
+    public int GetTotalActivityPoints()
+    {
+        return _session.Query<User>().Sum(u => u.ActivityPoints);
     }
 
     public void UpdateActivityPointsData()

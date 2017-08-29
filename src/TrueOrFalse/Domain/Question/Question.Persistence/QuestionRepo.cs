@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using TrueOrFalse.Search;
 
 public class QuestionRepo : RepositoryDbBase<Question>
@@ -316,5 +317,16 @@ public class QuestionRepo : RepositoryDbBase<Question>
         return _session.QueryOver<Question>()
             .Where(q => q.Visibility == QuestionVisibility.All)
             .RowCount();
+    }
+
+    public int GetPercentageQuestionsAnsweredMostlyWrong()
+    {
+        int moreWrongThanRight = _session
+            .Query<Question>()
+            .Count(q => q.TotalFalseAnswers + q.TotalTrueAnswers > 0 && q.TotalFalseAnswers >= q.TotalTrueAnswers);
+        int moreRightThanWrong = _session
+            .Query<Question>()
+            .Count(q => q.TotalFalseAnswers < q.TotalTrueAnswers);
+        return (100 * moreWrongThanRight / (moreRightThanWrong + moreWrongThanRight));
     }
 }
