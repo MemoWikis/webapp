@@ -1,4 +1,5 @@
-﻿ <%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<MembershipModel>" %> <%@ Import Namespace="System.Web.Optimization" %>
+﻿<%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<MembershipModel>" %> 
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Js/Membership.js") %>
@@ -6,6 +7,8 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+
     <div class="row">
         
         <div class="col-md-9 xxs-stack">
@@ -83,42 +86,20 @@
                         <label>
                             <input id="rdoPriceReduced" type="radio" name="PriceLevel" value="Reduced"/>
                             <span class="Title">Ermäßigt: </span>
-                            <span class="MinPrice">0,80</span>&nbsp;€ bis 1,99&nbsp;€ im Monat, empfohlen: <span class="bold">1,00&nbsp;€ </span>&nbsp;(12,00&nbsp;€ im Jahr)
+                            <span class="MinPrice">1,00</span>&nbsp;€ bis 3,99&nbsp;€ im Monat, empfohlen: <span class="bold">3,00&nbsp;€ </span>&nbsp;(36,00&nbsp;€ im Jahr)
                         </label>
                         <a href="#PriceReducedInfo" class="MoreLink" data-toggle="collapse" aria-expanded="false" aria-controls="PriceReducedInfo"><i class="fa fa-chevron-down"></i></a>
                         <div id="PriceReducedInfo" class="PriceLevelInfo collapse">
                             <div class="Description">
                                 Du bist zum Beispiel Schüler, Student, Geringverdiener oder Lebenskünstler 
                                 mit geringem Budget und kannst auch deine Eltern nicht um Unterstützung bitten. 
-                                Den Wert eines halben Kaffees im Monat oder eines Taschenbuchs im Jahr 
+                                Den Wert eines Kaffees im Monat oder von zwei Taschenbüchern im Jahr 
                                 kannst du aber für memucho aufbringen.
                             </div>
                             <div class="ControlGroupInline JS-ValidationGroup" style="clear: left;">
                                 <label class="control-label LabelInline">Dein Beitrag: </label>
                                 <div class="ControlInline">
-                                    <input id="PriceReduced" name="PriceReduced" class="InputPrice NotInFocus form-control JS-ValidationGroupMember" type="text" value="1,00">
-                                </div>
-                                <label class="control-label LabelInline">€ &nbsp;&nbsp;(<span class="YearlyPrice">12,00</span>&nbsp;€ im Jahr)</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="radio">
-                        <label>
-                            <input id="rdoPriceNormal" type="radio" name="PriceLevel" value="Normal" checked>
-                            <span class="Title">Normal: </span>
-                            <span class="MinPrice">2,00</span>&nbsp;€ bis 3,99&nbsp;€ im Monat, empfohlen: <span class="bold">3,00 € </span>&nbsp;(36,00&nbsp;€ im Jahr)
-                        </label>
-                        <a href="#PriceNormalInfo" class="MoreLink" data-toggle="collapse" aria-expanded="true" aria-controls="PriceNormalInfo"><i class="fa"></i></a>
-
-                        <div id="PriceNormalInfo" class="PriceLevelInfo collapse in">
-                            <div class="Description">
-                                Du oder deine Eltern sind Normalverdiener.
-                                3,00&nbsp;€ im Monat für Bildung gehen voll in Ordnung.
-                            </div>
-                            <div class="ControlGroupInline JS-ValidationGroup" style="clear: left;">
-                                <label class="control-label LabelInline">Dein Beitrag: </label>
-                                <div class="ControlInline">
-                                    <input id="PriceNormal" name="PriceNormal" class="InputPrice form-control JS-ValidationGroupMember" type="text" value="3,00">
+                                    <input id="PriceReduced" name="PriceReduced" class="InputPrice NotInFocus form-control JS-ValidationGroupMember" type="text" value="3,00">
                                 </div>
                                 <label class="control-label LabelInline">€ &nbsp;&nbsp;(<span class="YearlyPrice">36,00</span>&nbsp;€ im Jahr)</label>
                             </div>
@@ -126,9 +107,31 @@
                     </div>
                     <div class="radio">
                         <label>
+                            <input id="rdoPriceNormal" type="radio" name="PriceLevel" value="Normal" checked>
+                            <span class="Title">Normal: </span>
+                            <span class="MinPrice">4,00</span>&nbsp;€ bis 6,99&nbsp;€ im Monat, empfohlen: <span class="bold">5,00 € </span>&nbsp;(60,00&nbsp;€ im Jahr)
+                        </label>
+                        <a href="#PriceNormalInfo" class="MoreLink" data-toggle="collapse" aria-expanded="true" aria-controls="PriceNormalInfo"><i class="fa"></i></a>
+
+                        <div id="PriceNormalInfo" class="PriceLevelInfo collapse in">
+                            <div class="Description">
+                                Du oder deine Eltern sind Normalverdiener.
+                                5,00&nbsp;€ im Monat für Bildung gehen voll in Ordnung.
+                            </div>
+                            <div class="ControlGroupInline JS-ValidationGroup" style="clear: left;">
+                                <label class="control-label LabelInline">Dein Beitrag: </label>
+                                <div class="ControlInline">
+                                    <input id="PriceNormal" name="PriceNormal" class="InputPrice form-control JS-ValidationGroupMember" type="text" value="5,00">
+                                </div>
+                                <label class="control-label LabelInline">€ &nbsp;&nbsp;(<span class="YearlyPrice">60,00</span>&nbsp;€ im Jahr)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="radio">
+                        <label>
                             <input id="rdoPriceSupporter" type="radio" name="PriceLevel" value="Supporter"/>
                             <span class="Title">Solibeitrag: </span>
-                            <span class="MinPrice">4,00</span>&nbsp;€ oder mehr im Monat, empfohlen: <span class="bold">5,00&nbsp;€ </span>&nbsp;(60,00&nbsp;€ im Jahr)
+                            <span class="MinPrice">7,00</span>&nbsp;€ oder mehr im Monat, empfohlen: <span class="bold">10,00&nbsp;€ </span>&nbsp;(120,00&nbsp;€ im Jahr)
                         </label>
                         <a href="#PriceSupporterInfo" class="MoreLink" data-toggle="collapse" aria-expanded="false" aria-controls="PriceSupporterInfo"><i class="fa fa-chevron-down"></i></a>
                         <div id="PriceSupporterInfo" class="PriceLevelInfo collapse">
@@ -139,9 +142,9 @@
                             <div class="ControlGroupInline JS-ValidationGroup" style="clear: left;">
                                 <label class="control-label LabelInline">Dein Beitrag: </label>
                                 <div class="ControlInline">
-                                    <input id="PriceSupporter" class="InputPrice NotInFocus form-control JS-ValidationGroupMember" name="PriceSupporter" type="text" value="5,00">
+                                    <input id="PriceSupporter" class="InputPrice NotInFocus form-control JS-ValidationGroupMember" name="PriceSupporter" type="text" value="10,00">
                                 </div>
-                                <label class="control-label LabelInline">€ &nbsp;&nbsp;(<span class="YearlyPrice">60</span>&nbsp;€ im Jahr)</label>
+                                <label class="control-label LabelInline">€ &nbsp;&nbsp;(<span class="YearlyPrice">120</span>&nbsp;€ im Jahr)</label>
                             </div>
                         </div>
                     </div>
@@ -182,11 +185,11 @@
                 
                             <div>
                               <label class="radio-inline">
-                                <input type="radio" name="PaymentPeriod" value="halfYear" checked>
+                                <input type="radio" name="PaymentPeriod" value="halfYear">
                                 Halbjährlich zahlen
                               </label>
                               <label class="radio-inline">
-                                <input type="radio" name="PaymentPeriod" value="fullYear">
+                                <input type="radio" name="PaymentPeriod" value="fullYear" checked>
                                 Jährlich zahlen
                               </label>
                             </div>
