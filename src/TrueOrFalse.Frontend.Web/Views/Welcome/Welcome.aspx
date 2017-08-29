@@ -280,15 +280,15 @@
                 </div>
             </div>
 
-<%--            <div class="separator"></div>
+            <div class="separator"></div>
             <div id="memuchoInfoFooter">
-                <% if (!Model.IsLoggedIn) { %>
+<%--                <% if (!Model.IsLoggedIn) { %>
                     <div style="text-align: center; display: inline-block;">
                         <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
-                <% } %>
-                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
-            </div>--%>
+                <% } %>--%>
+                <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
+            </div>
         </div>
 
 
@@ -546,89 +546,64 @@
         <div id="memuchoInfoExtended">
             <h2>Was ist memucho?</h2>
             <h3>
-                Wir helfen dir, Interessantes zu lernen, nie wieder zu vergessen und dein Wissen zu organisieren.
+                Wir helfen dir, Interessantes zu lernen, nie wieder zu vergessen <br class="visible-lg"/>und dein Wissen zu organisieren.
             </h3>
             
             <div class="row infoItemRow">
-                <div class="col-md-4 col-xs-6 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
-                        <i class="fa fa-clock-o"></i>
+                        <i class="fa fa-heart"></i>
                     </div>
                     <div class="infoCatchWord">
-                        Schneller lernen
+                        Wunschwissen sammeln
                     </div>
                     <div class="infoExplanationSnippet">
-                        memucho analysiert dein Lernverhalten und wiederholt schwierige Fragen zum optimalen Zeitpunkt. 
-                        So brauchst du weniger Zeit zum Lernen.
+                        Stelle dir dein  Wunschwissen zusammen und entscheide, was du dir merken möchtest. 
+                        Bei memucho findest du interaktive Fragen zu vielen Themen.
                     </div>
                 </div>
 
-                <div class="col-md-4 col-xs-6 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
-                        <i class="fa fa-book"></i>
+                        <i class="fa fa-line-chart"></i>
                     </div>
                     <div class="infoCatchWord">
-                        Wissen erweitern
+                        Interaktiv & optimiert lernen
                     </div>
                     <div class="infoExplanationSnippet">
-                        Egal ob Geschichte für die Schule, die WM-Gewinner seit 1930 oder die Hintergründe globaler Migrationsströme - 
-                        erweitere dein Wissen!
+                        Unsere Algorithmen sagen dir immer, was du am dringendsten lernen musst. 
+                        So sparst du Zeit und gewinnst an Sicherheit.
+                    </div>
+                </div>
+                
+                <div class="Clearfix"></div>
+
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-bar-chart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Wissensstand im Blick
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Du möchtest dir gern 50, 500, 5.000 oder mehr Fragen merken? 
+                        Behalte den Überblick und habe deinen Wissensstand immer im Blick.
                     </div>
                 </div>
 
-                <div class="clearfix visible-xs visible-sm"></div>
-
-                <div class="col-md-4 col-xs-6 infoItemColumn">
-                    <div class="infoIcon">
-                        <i class="fa fa-calendar-o"></i>
-                    </div>
-                    <div class="infoCatchWord">
-                        Prüfungsvorbereitung
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        Du bekommst einen persönlichen Lernplan, der dir genau sagt, wie oft und wie lange du lernen solltest.
-                    </div>
-                </div>
-
-                <div class="clearfix visible-md visible-lg"></div>
-
-                <div class="col-md-4 col-xs-6 infoItemColumn">
-                    <div class="infoIcon">
-                        <i class="fa fa-pie-chart"></i>
-                    </div>
-                    <div class="infoCatchWord">
-                        Überblick behalten
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        Du möchtest dir gerne 50, 500, 5000 (oder mehr) Fakten merken? Mit memucho behältst du den Überblick.
-                    </div>
-                </div>
-
-                <div class="clearfix visible-xs visible-sm"></div>
-
-                <div class="col-md-4 col-xs-6 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
                         <i class="fa fa-share-alt"></i>
                     </div>
                     <div class="infoCatchWord">
-                        Wissen teilen
+                        Wissen teilen und gemeinsam lernen
                     </div>
                     <div class="infoExplanationSnippet">
-                        Nutze das Wissen von Freunden und Experten und teile dein eigenes. Denn Wissen wird mehr, wenn man es teilt.
+                        Nutze die vorhandenen Lerninhalte und teile dein eigenes Wissen. Du kannst selbst eigene Fragen und Lernsets erstellen.
                     </div>
                 </div>
 
-                <div class="col-md-4 col-xs-6 infoItemColumn">
-                    <div class="infoIcon">
-                        <i class="fa fa-users"></i>
-                    </div>
-                    <div class="infoCatchWord">
-                        Gemeinsam lernen
-                    </div>
-                    <div class="infoExplanationSnippet">
-                        Lade deine Freunde ein, folge ihnen und lerne mit ihnen gemeinsam.
-                    </div>
-                </div>
+
             </div>
             <div class="separator"></div>
             <div id="memuchoInfoExtendedFooter">
@@ -648,7 +623,7 @@
                 Unsere Prinzipien
             </h2>
             <div class="row infoItemRow">
-                <div class="col-md-6 col-xs-12 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
                         <i class="fa fa-bullhorn"></i>
                     </div>
@@ -661,7 +636,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-xs-12 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
                         <i class="fa fa-leaf"></i>
                     </div>
@@ -673,8 +648,10 @@
                         Wir sind überzeugt, dass Unternehmen eine ethische, soziale und ökologische Verantwortung haben.
                     </div>
                 </div>
+                
+                <div class="Clearfix"></div>
 
-                <div class="col-md-6 col-xs-12 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
                         <i class="fa fa-lock"></i>
                     </div>
@@ -687,7 +664,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 col-xs-12 infoItemColumn">
+                <div class="col-sm-6 col-xs-12 infoItemColumn">
                     <div class="infoIcon">
                         <i class="fa fa-search-plus"></i>
                     </div>
@@ -710,7 +687,7 @@
                         <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                     </div>
                 <% } %>
-                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
+                <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>#principles" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
             </div>
         </div>
 

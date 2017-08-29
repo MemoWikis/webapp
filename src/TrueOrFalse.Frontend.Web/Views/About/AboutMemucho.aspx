@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
-    Inherits="System.Web.Mvc.ViewPage" %>
+    Inherits="System.Web.Mvc.ViewPage<AboutMemuchoModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
@@ -20,12 +20,8 @@
             </div>
             
             <div id="teamImgQuote">
-                <img id="teamImg" src="/Images/Team/founderTeam_20161027.jpg"/>
+                <img id="teamImg" src="/Images/Team/founderTeam_20161027_e1.jpg"/>
                 
-                <div class="teamSquare hidden">
-                    Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla Ein Text bla bla 
-                </div>
-
                 <div id="teamQuoteCircle" class="">
                     <div class="circle">
                         <div class="circleInner">
@@ -34,7 +30,7 @@
                                     <i class="fa fa-quote-left quoteIcon">&nbsp;</i>
                                     <div id="teamQuote">
                                         Wir möchten, dass du optimiert lernen und dein Wissen organisieren kannst - und mehr Spaß hast!
-                                        Dabei fördern wir offene Bildungsmaterialien.
+                                        Dabei fördern wir freie Bildungsmaterialien.
                                     </div>
                                     <div id="teamQuoteNames">Christof, Robert und Jule</div>
                                     <div id="teamQuoteNamesSub">Gründerteam memucho</div>
@@ -44,45 +40,77 @@
                     </div>
                 </div>
             </div>
-            
+
+
             <div id="advantages">
-                <h2>Deine Vorteile bei memucho</h2>
+                <h2>Deine Vorteile</h2>
                 
                 <div class="advantage">
                     <div class="advantageIcon" style="color: #B13A48">
                         <i class="fa fa-heart-o">&nbsp;</i> <i class="fa fa-heart">&nbsp;</i>
                     </div>
-                    <h3>Wunschwissen sammeln und nie vergessen</h3>
+                    <h3>Wunschwissen sammeln</h3>
                     <p>
                         Stelle dir dein <i class="fa fa-heart" style="color: #B13A48"></i> Wunschwissen zusammen und entscheide, was du dir merken möchtest.
-                        Damit hast du deinen Wissensstand immer im Blick. Wir erinnert dich, wenn du es wieder lernen musst, um es nicht zu vergessen.
+                        Damit hast du deinen Wissensstand zu allen Themen immer im Blick.
+                    </p>
+                    <p>
+                        Bei memucho findest du spannende Lerninhalte, die du interaktiv lernen kannst &#8211; 
+                        egal, was du parat haben möchtest: Geschichtswissen für die Schule, Methodenwissen für das Studium, 
+                        Hintergrundfakten zu Flucht & Migration oder Fußballwissen für die nächste WM.
                     </p>
                 </div>
 
                 <div class="advantage">
                     <div class="advantageIcon">
-                        <i class="fa fa-check-circle"></i>
+                        <i class="fa fa-line-chart"></i>
                     </div>
-                    <h3>Optimierte Prüfungsvorbereitung</h3>
+                    <h3>Interaktiv & optimiert lernen</h3>
                     <p>
-                        Du musst für eine Prüfung lernen? Lege einfach einen Termin an und wir erstellen dir einen persönlichen Lernplan. 
-                        Intelligente Algorithmen sagen dir, wann du was am besten lernst und ob du deine Lernziele erreichen wirst.
+                        Unsere Algorithmen sagen dir immer, was du am dringendsten lernen musst und erinnern dich ans Wiederholen, bevor du vergisst. 
+                        So sparst du Zeit und gewinnst an Sicherheit. 
+                    </p>
+                    <p>
+                        Interaktiven Fragen helfen dir, Wissen im Gedächtnis besser zu verankern.
+                        Lernpunkte motivieren dich und führen dich zu immer neuen Levels.
+                    </p>
+                    <p>
+                        Für deine Prüfungen erstellen wir dir sogar deinen ganz persönlichen Lernplan. So erfährst du, wie viel Zeit du zum Lernen
+                        einplanen solltest und ob du deine Lernziele erreichst. So kannst du dich entspannt auf die Prüfungen vorbereiten.
                     </p>
                 </div>
 
                 <div class="advantage">
                     <div class="advantageIcon">
-                        <i class="fa fa-lightbulb-o"></i>
+                        <i class="fa fa-bar-chart"></i>
                     </div>
-                    <h3>Entdecke neues Wissen</h3>
+                    <h3>Wissensstand im Blick</h3>
                     <p>
-                        Du musst für eine Prüfung lernen? Lege einfach einen Termin an und wir erstellen dir einen persönlichen Lernplan. 
-                        Intelligente Algorithmen sagen dir, wann du was am besten lernst und ob du deine Lernziele erreichen wirst.
+                        Du möchtest dir gern 50, 500, 5.000 oder mehr Fragen merken? Mit memucho behältst du den Überblick und hast deinen Wissensstand immer im Blick.
+                    </p>
+                    <p>
+                        Wir zeigen dir für dein Wunschwissen, was du dringend lernen musst und was du schon sicher kannst. 
+                        Und wenn du für Prüfungen lernen musst, behältst du mit der Terminfunktion den Überblick über deinen Lernstand und die benötigte Lernzeit.
+                    </p>
+                </div>
+
+                <div class="advantage">
+                    <div class="advantageIcon">
+                        <i class="fa fa-share-alt"></i>
+                    </div>
+                    <h3>Wissen teilen und gemeinsam lernen</h3>
+                    <p>
+                        Nutze die vorhandenen Lerninhalte und teile dein eigenes Wissen. 
+                        Du kannst selbst eigene Fragen und Lernsets erstellen. Denn Wissen wird mehr, wenn man es teilt!
+                    </p>
+                    <p>
+                        Je mehr andere Nutzer mit deinen Fragen lernen, desto mehr Reputationspunkte erhältst du und wirst als Experte sichtbar.
+                        Lade dazu deine Freunde ein, folge ihnen und lerne mit ihnen gemeinsam. Wer wird am meisten Lernpunkte erreichen?
                     </p>
                 </div>
                 
                 <div id="advantagesFooter">
-                    <%  if (!false) { // Model.IsLoggedIn %>
+                    <%  if (!Model.IsLoggedIn) { %>
                         <div class="" style="text-align: center; display: inline-block;">
                             <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
                         </div>
@@ -99,7 +127,7 @@
                 <div class="row">
                     <div class="col-xs-4 keyNumberCol">
                         <div class="keyNumber">
-                            4.000.000 +
+                            <%= Model.TotalActivityPoints.ToString("N0") %>
                         </div>
                         <div class="keyNumberExplanation">
                             Lernpunkte wurden bisher bei memucho errungen
@@ -108,27 +136,24 @@
 
                     <div class="col-xs-4 keyNumberCol">
                         <div class="keyNumber">
-                            5.500
+                            <%= Model.TotalQuestionCount.ToString("N0") %>
                         </div>
                         <div class="keyNumberExplanation">
-                            Fragen gibt es zu beantworten
+                            interaktive Fragen gibt es zu beantworten
                         </div>
                     </div>
 
                     <div class="col-xs-4 keyNumberCol">
                         <div class="keyNumber">
-                            28 %
+                            <%= Model.PercentageQuestionsAnsweredMostlyWrong %> %
                         </div>
                         <div class="keyNumberExplanation">
-                            der Fragen werden von Nutzern falsch beantwortet
+                            der Fragen werden öfter falsch als richtig beantwortet
                         </div>
                     </div>
                 </div>
             </div>
             
-            
-            <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
             
             <div id="principles">
                 <h2>Unsere Prinzipien</h2>
@@ -194,190 +219,137 @@
 
 
             <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
-
-            <div style="text-align: center; margin-bottom: 30px;">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
-            </div>
-
-        </div>
-    </div>
-</div>
+            
+            
+            
         
-<div class="row">
-    <div class="col-xs-12">        
-
-        <div class="well">
-            <h1 class="PageHeader" id="Vorteile">
-                <span class="ColoredUnderline Question">Deine Vorteile bei memucho</span>
-            </h1>
-            
-            <div class="row aboutRow">
-                <div class="col-xs-3 xxs-stack aboutImg <%--col-xs-push-9--%>">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-heart fa-3x" style="/*color:#b13a48*/"></i>
+            <div id="awards">
+                <h2>Auszeichnungen</h2>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
+                                    <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
+                                </a>
+                            </div>
+                            <p>
+                                memucho ist ein Ausgezeichneter Ort im Land der Ideen 2017.
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
+                                    <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
+                                </a>
+                            </p>
+                        </div>        
                     </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText <%--col-xs-pull-3--%>">
-                    <h3>Wunschwissen sammeln und nie vergessen</h3>
-                    <p>
-                        Bei memucho kannst du dein <i class="fa fa-heart" style="color:#b13a48;"></i> Wunschwissen zusammenstellen. 
-                        Entscheide, was du dir merken möchtest und memucho erinnert dich rechtzeitig daran, 
-                        wenn du es wieder lernen musst, um es nicht zu vergessen.
-                    </p>
-                    <p>
-                        Wo? Überall, wo du ein kleines <i class="fa fa-heart-o" style="color:#b13a48;"></i> findest, kannst du draufklicken, 
-                        um ein Lernset, ein ganzes Thema oder eine einzelne Frage zu deinem Wunschwissen hinzuzufügen.
-                        In deiner <a href="<%= Links.Knowledge() %>">Wissenszentrale</a> bekommst du jederzeit einen Überblick zu deinem Wunschwissen.
-                    </p>
-                </div>
-            </div>
-
-            <div class="row aboutRow">
-                <div class="col-xs-3 xxs-stack aboutImg <%--col-xs-push-9--%>">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-check-circle fa-3x"></i>
+                    <div class="col-sm-4">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
+                            </div>
+                            <p>
+                                memucho wurde für den Innovationspreis Berlin Brandenburg nominiert.
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
+                                </a>
+                            </p>
+                        </div>    
                     </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText <%--col-xs-pull-3--%>">
-                    <h3>Sicherheit gewinnen</h3>
-                    <p>
-                        Mit memucho weißt du immer, wie viel Zeit du noch zum Lernen brauchst und ob du deine Lernziele erreichst. 
-                        Du liegst im Plan? Dann kannst du mit gutem Gewissen ins Kino gehen.
-                    </p>
-                    <p>
-                        Wo? Im Moment musst du dafür die einen Prüfungstermin anlegen (vergleiche den nächsten Punkt), aber ganz bald 
-                        kannst du auch dein Wunschwissen optimiert lernen - also all das, was du dir immer merken möchtest.
-                    </p>
-                </div>
-            </div>
-
-            <div class="row aboutRow">
-                <div class="col-xs-3 xxs-stack aboutImg">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-line-chart fa-3x"></i>
+                    <div class="col-sm-4">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <img style="margin-top: 35px;" src="/Images/LogosPartners/Logo-EXIST-eps.png" alt="" width="115" height="73"/>
+                            </div>
+                            <p>
+                                memucho gewann über das EXIST-Programm eine Förderung vom BMWi und ESF.
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="http://www.fu-berlin.de/sites/profund/aktuelles/news/Memucho.html" target="_blank">
+                                    Zum Artikel <span style="white-space: nowrap">(FU Berlin) <i class="fa fa-external-link"></i></span>
+                                </a>
+                            </p>
+                        </div>    
                     </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Optimiert für eine Prüfung lernen</h3>
-                    <p>
-                        memucho erstellt dir einen persönlichen Lernplan, wenn du dich auf eine Prüfung vorbereitest. 
-                        Intelligente Algorithmen sagen dir, wann du was am besten lernst und ob du deine Lernziele erreichen wirst. 
-                        memucho ist dein persönlicher Coach beim Auswendiglernen.
-                    </p>
-                    <p>
-                        Wie das geht? Gehe zu <a href="<%= Links.Dates() %>">Termine</a>, lege einen neuen Termin an und wähle die
-                        zu lernenden Lernsets aus. memucho erstellt dir dann automatisch einen persönlichen Lernplan.
-                    </p>
+
+                    <div class="col-xs-12" id="innopreisVideo">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
+                        <p>
+                            Das Video zu unserer Nominierung für den Innovationspreis Berlin Brandenburg im November 2016.
+                        </p>
+                    </div>
                 </div>
             </div>
             
-            <div class="row aboutRow">
-                <div class="col-xs-3 aboutImg xxs-stack">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-clock-o fa-3x"></i>
+
+            <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+            
+
+
+            <div id="partner">
+                <h2>Partner</h2>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <a href="/Kategorien/Learning-Level-Up/722">
+                                    <img style="margin-top: 24px;" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
+                                </a>
+                            </div>
+                            <p>
+                                Learning Level Up bietet Animationen, Grafiken und Videos zum Lernen. Wir freuen uns über die Kooperation!
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="/Kategorien/Learning-Level-Up/722">Zur Themenseite</a> 
+                            </p>
+                        </div>        
                     </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Zeit sparen</h3>
-                    <p>
-                        memucho weiß, welche Fragen du am dringendsten lernen musst und welche (noch) nicht.
-                        So lernst du immer das Richtige und musst nie wieder umsonst lernen. Dadurch sparst du Zeit.
-                    </p>
-                    <p>
-                        Wie wir das machen? Wir analysieren, wie und wofür du lernst und wie andere Nutzer die Inhalte gelernt haben. 
-                        Dadurch können wir vorhersagen, wie gut du etwas (noch) weißt. Nutze dafür unsere Lernen-Funktion. 
-                        Sie ist nur verfügbar, wenn du <a href="#" data-btn-login="true">angemeldet bist</a>.
-                        <%--(<a href="<%= Links.AlgoInsightForecast() %>">Hier erfährst du mehr über unsere Technologie.</a>)--%>
-                    </p>
+                    <div class="col-sm-4">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <a href="https://www.tutory.de/" target="_blank">
+                                    <img src="/Images/LogosPartners/Logo_tutory_250px.png" alt="tutory.de"/>
+                                </a>
+                            </div>
+                            <p>
+                                Mit tutory.de lassen sich im Handumdrehen tolle Arbeitsblätter direkt online erstellen
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="https://www.tutory.de/" target="_blank">
+                                    <span style="white-space: nowrap">tutory.de <i class="fa fa-external-link"></i></span>
+                                </a>
+                            </p>
+                        </div>        
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
+                                    <img style="margin-top: -35px;" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
+                                </a>
+                            </div>
+                            <p>
+                                Freie Bildungsmaterialien demokratisieren Bildung! Wir machen mit.
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
+                                    <span style="white-space: nowrap">Zur UNESCO-Seite <i class="fa fa-external-link"></i></span>
+                                </a>
+                            </p>
+                        </div>        
+                    </div>
+
                 </div>
             </div>
 
-            <div class="row aboutRow">
-                <div class="col-xs-3 xxs-stack aboutImg">
-                    <div class="aboutImgInner">
-                        <i class="fa fa-cogs fa-3x"></i>
-                    </div>
-                </div>
-                <div class="col-xs-9 xxs-stack aboutText">
-                    <h3>Und vieles mehr...</h3>
-                    <p>
-                        Mit memucho behältst du immer den Überblick, egal wie viel Wissen du dir merken möchtest oder wieviele Prüfungen du hast. 
-                        memucho zeigt dir ausführliche <a href="<%= Links.Knowledge() %>">Lernauswertungen</a> und Statistiken 
-                        und du kannst <a href="<%= Links.Users() %>">deinen Freunden folgen</a>, 
-                        mit ihnen lernen und im <a href="<%= Links.Games() %>">Quiz-Spiel</a> gegen sie antreten.
-                    </p>
-                </div>
-            </div>
-            <div class="row aboutRow">
-                <%  var isLoggedIn = Sl.R<SessionUser>().IsLoggedIn;
-                    if (!isLoggedIn) { %>
-                    <div class="col-xs-12" style="margin-top: 10px; text-align: center">
-                        <a id="btnRegisterAboutFeatures" href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-success" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
-                        <div class="" style="margin-top: 3px; font-style: italic">*memucho ist kostenlos.</div>
-                    </div>
-                <%  } %>
-            </div>
+
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
         </div>
     </div>
 </div>
-    
-
-<div class="row">
-    <div class="col-xs-12">
-        <div class="well">
-            <h1 class="PageHeader" id="Team">
-                <span class="ColoredUnderline Question">Das Team</span>
-            </h1>
-            <p>
-                Wir möchten den Zugang zu freien Bildungsinhalten verbessern und mit memucho ein soziales Wissensnetzwerk aufbauen, mit dem
-                Faktenlernen effizienter wird und mehr Spaß macht. Wir konzipieren, gestalten und programmieren memucho gemeinsam.
-            </p>
-
-            <div class="row" style="margin-top: 30px;">
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_robert201509_155.jpg"/>
-                        <br/> <b>Robert</b><br/>(Gründer) 
-                </div>
-                
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_jule201509-2_155.jpg"/>  
-                    <br/> <b>Jule</b><br/>(Gründerin)
-                </div>
-
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg"/>  
-                    <br/> <b>Christof</b><br/>(Gründer)
-                </div>
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
-                    <br/> <b>Lisa</b><br/>(Kommunikation)
-                </div>
-                <div class="col-xs-4 TeamPic">
-                    <img src="/Images/Team/team_julian20170404_P3312327_155.jpg"/>  
-                    <br/> <b>Julian</b><br/>(Entwicklung)
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
    
-<div class="row">
-    <div class="col-xs-12">
-        <div class="well">
-            <h1 class="PageHeader" id="Partner">
-                <span class="ColoredUnderline Question">Unsere Partner</span>
-            </h1>
-            <p class="partnerLogos">
-                <a href="https://learning-levelup.de/" target="_blank"><img src="/Images/LogosPartners/Logo_LearningLevelUp.png"/></a>
-                <a href="https://www.tutory.de/" target="_blank"><img src="/Images/LogosPartners/Logo_tutory_250px.png"/></a>
-                <a href="http://www.lernen-mit-spass.ch/" target="_blank"><img src="/Images/LogosPartners/Logo_lernenmitspass_w200.gif"/></a>
-                <%--<a href="http://www.geschichtsinfos.de/" target="_blank"><img src="/Images/LogosPartners/Logo_Geschichtsinfos_de_w200.jpg"/></a>--%>
-            </p>
-        </div>
-    </div>
-</div>
 
 </asp:Content>

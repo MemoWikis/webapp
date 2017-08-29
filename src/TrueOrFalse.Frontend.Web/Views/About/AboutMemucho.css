@@ -21,6 +21,18 @@
 #MainWrapper {
   background-color: white;
   padding: 20px;
+  font-size: 18px;
+}
+#MainWrapper h2 {
+  font-size: 55px;
+}
+#MainWrapper h3 {
+  font-size: 35px;
+}
+#MainWrapper p {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 #pageTitleMemucho {
   text-align: center;
@@ -62,18 +74,9 @@
     margin-bottom: 250px;
   }
 }
-#teamImgQuote .teamSquare {
-  width: 300px;
-  padding: 30px;
-  background-color: #AFD534;
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  right: 50%;
-}
 #teamImgQuote #teamQuoteCircle {
   position: absolute;
-  top: 60%;
+  top: 50%;
   width: 100%;
 }
 #teamImgQuote #teamQuoteCircle .quoteIcon {
@@ -179,16 +182,14 @@
 #advantages h2,
 #principles h2 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 55px;
+  margin-bottom: 30px;
 }
 #advantages .advantage,
 #principles .advantage {
-  margin-top: 35px;
+  margin-top: 45px;
 }
 #advantages .advantage h3,
 #principles .advantage h3 {
-  font-size: 35px;
   text-align: center;
   margin-top: 0;
   margin-bottom: 20px;
@@ -197,13 +198,6 @@
 #principles .advantage .advantageIcon {
   font-size: 48px;
   text-align: center;
-}
-#advantages .advantage p,
-#principles .advantage p {
-  font-size: 18px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
 }
 #advantages .floatingImg,
 #principles .floatingImg {
@@ -230,11 +224,16 @@
 #advantages #principlesFooter,
 #principles #principlesFooter {
   text-align: center;
-  margin-top: 45px;
+  margin-top: 55px;
+  /*border-top: 2px solid lightgrey;
+        padding-top: 20px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;*/
 }
 #keyNumbers {
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 110px;
   border-top: 3px solid #AFD534;
   border-bottom: 3px solid #AFD534;
   padding-top: 20px;
@@ -300,9 +299,47 @@
     margin-top: 15px;
   }
 }
-.partnerLogos {
+/* AWARDS & PARTNER
+------------------------------------------------------*/
+#awards,
+#partner {
+  margin-top: 60px;
+}
+#awards h2,
+#partner h2 {
   text-align: center;
 }
-.partnerLogos img {
-  padding: 20px;
+#awards div.logo-box,
+#partner div.logo-box {
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+#awards .img-logo,
+#partner .img-logo {
+  margin-top: 38px;
+}
+@media (min-width: 768px) {
+  #awards .img-logo,
+  #partner .img-logo {
+    min-height: 160px;
+  }
+}
+#awards .img-logo img,
+#partner .img-logo img {
+  margin: 10px;
+  margin-bottom: 10px;
+}
+#awards .logo-box-link,
+#partner .logo-box-link {
+  margin-top: 15px;
+}
+#awards #innopreisVideo,
+#partner #innopreisVideo {
+  margin-top: 80px;
+  text-align: center;
+}
+#awards #innopreisVideo p,
+#partner #innopreisVideo p {
+  margin-top: 10px;
 }

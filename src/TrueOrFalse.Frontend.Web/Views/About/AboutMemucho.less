@@ -3,6 +3,20 @@
 #MainWrapper {
     background-color: white;
     padding: 20px;
+    font-size: 18px;
+
+    h2 {
+        font-size: 55px;
+    }
+    h3 {
+        font-size: 35px;
+    }
+
+    p {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 #pageTitleMemucho {
@@ -55,21 +69,10 @@
     img {
     }
 
-    .teamSquare {
-        width: 300px;
-        padding: 30px;
-        background-color: @memo-green;
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        right: 50%;
-    }
 
     #teamQuoteCircle {
-        //width: 350px;
-        //height: 350px;
         position: absolute;
-        top: 60%;
+        top: 50%;
         width: 100%;
 
         .quoteIcon {
@@ -187,15 +190,13 @@
 
     h2 {
         text-align: center;
-        margin-bottom: 20px;
-        font-size: 55px;
+        margin-bottom: 30px;
     }
 
     .advantage {
-        margin-top: 35px;
+        margin-top: 45px;
 
         h3 {
-            font-size: 35px;
             text-align: center;
             margin-top: 0;
             margin-bottom: 20px;
@@ -206,12 +207,6 @@
             text-align: center;
         }
 
-        p {
-            font-size: 18px;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 600px;
-        }
     }
 
     .floatingImg {
@@ -236,7 +231,13 @@
 
     #advantagesFooter, #principlesFooter {
         text-align: center;
-        margin-top: 45px;
+        margin-top: 55px;
+
+        /*border-top: 2px solid lightgrey;
+        padding-top: 20px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;*/
     }
 }
 
@@ -244,7 +245,7 @@
 
 #keyNumbers {
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 110px;
     border-top: 3px solid @memo-green;
     border-bottom: 3px solid @memo-green;
     padding-top: 20px;
@@ -316,10 +317,48 @@
 
 
 
-    .partnerLogos {
+/* AWARDS & PARTNER
+------------------------------------------------------*/
+#awards, #partner {
+    margin-top: 60px;
+
+    h2 {
         text-align: center;
+    }
+
+    div.logo-box {
+        text-align: center;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .img-logo {
+        margin-top: 38px;
+
+        .media-sm-up ( {
+            min-height: 160px;
+        }
+
+        );
 
         img {
-            padding: 20px;
+            margin: 10px;
+            margin-bottom: 10px;
         }
     }
+
+    .logo-box-link {
+        margin-top: 15px;
+    }
+
+    #innopreisVideo {
+        margin-top: 80px;
+        text-align: center;
+
+        p {
+            margin-top: 10px;
+        }
+    }
+}
+
+ 

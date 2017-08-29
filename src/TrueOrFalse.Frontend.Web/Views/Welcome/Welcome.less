@@ -366,23 +366,23 @@ h4 {
 }
 
 #memuchoInfoFooter {    // is mixed-in in other footers (see below)
-    text-align: left;
-    padding-top: 10px;
+    text-align: right;
+    padding-top: 0;
     background-color: white;
     margin-bottom: 30px;
 
-    .media-below-sm( {
+    /*.media-below-sm( {
         text-align: center;
-    });
+    });*/
 
     div a.btn {
         margin-top: 10px;
     }
 
-    span .btn {
+    /*span .btn {
         margin-top: 10px;
         display: inline-block;
-    }
+    }*/
 }
 
 
@@ -538,12 +538,13 @@ h4 {
 
         .infoCatchWord {
             font-weight: bold;
-            font-size: 18px;
             padding: 10px 5px;
         }
 
         .infoExplanationSnippet {
-            font-size: 18px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 }
