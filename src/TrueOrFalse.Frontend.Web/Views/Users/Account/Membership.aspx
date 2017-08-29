@@ -159,19 +159,15 @@
                     </div>
                 </div>
     
-                <div class="row">
-                    <div class="col-md-9">
-                        <% if(!Model.IsLoggedIn){ %>
-                            <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
-                                <h4>Einloggen oder registrieren</h4>
-                                <p>
-                                    Um Mitglied zu werden 
-                                    musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
-                                </p>
-                            </div>
-                        <% }%>
-                    </div>            
-                </div>
+                <% if(!Model.IsLoggedIn){ %>
+                    <div class="bs-callout bs-callout-danger" style="margin-top: 0;">
+                        <h3>Einloggen oder registrieren</h3>
+                        <p>
+                            Um Mitglied zu werden 
+                            musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="/Registrieren">registrieren</a>.
+                        </p>
+                    </div>
+                <% }%>
     
                 <% if(Model.IsLoggedIn){ %>
     

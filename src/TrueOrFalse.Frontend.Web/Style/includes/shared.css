@@ -3358,14 +3358,17 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   border: 1px solid #dddddd;
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
-.bs-callout h4 {
+.bs-callout h4,
+.bs-callout h3 {
   margin-top: 0;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
-.bs-callout-info h4 {
+.bs-callout-info h4,
+.bs-callout-info h3 {
   color: #5bc0de !important;
 }
-.bs-callout-danger h4 {
+.bs-callout-danger h4,
+.bs-callout-danger h3 {
   color: #ce4844 !important;
 }
 .bs-callout p:last-child {
