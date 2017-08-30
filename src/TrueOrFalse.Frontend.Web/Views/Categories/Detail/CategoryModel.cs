@@ -123,7 +123,7 @@ public class CategoryModel : BaseModel
         AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
         AggregatedSetCount = AggregatedSets.Count;
 
-        AggregatedQuestionCount = Category.CountQuestionsAggregated;
+        AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
     }
 
     private List<Question> GetTopQuestionsInSubCats()
