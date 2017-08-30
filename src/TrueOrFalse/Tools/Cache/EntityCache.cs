@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -233,7 +234,22 @@ public class EntityCache
     {
         foreach (var questionInSet in set.QuestionsInSet)
         {
+            var questionId = questionInSet.Question.Id;
+
             DeleteQuestionInSetFromRemovedCategories(questionInSet, categoryQuestionsInSetList, affectedCategoryIds);
+
+            var catgoryList = affectedCategoryIds?.Select(id => new {CategoryId = id, Dictionary = categoryQuestionsInSetList[id]}).ToList();
+
+            var filteredDict = new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
+
+            catgoryList.ForEach(c =>
+            {
+                if(c.Dictionary.TryGetValue(questionId, out var x)) {
+                    filteredDict.TryAdd(c.CategoryId, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
+                    var y = filteredDict[c.CategoryId];
+                    y.TryAdd(questionId, x);
+                }
+            });
 
             AddQuestionInSetTo(categoryQuestionsInSetList, questionInSet);
         }
