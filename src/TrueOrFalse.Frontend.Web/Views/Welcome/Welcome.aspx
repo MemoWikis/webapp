@@ -290,7 +290,72 @@
                 <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
             </div>
         </div>
+        
+        
 
+        <div class="topicOfWeekContainer">
+            <h3 class="greyed">Unser Spezial zur Wahl #btw2017</h3>
+            <div class="separatorCategory"></div>
+
+            <div class="topicOfWeekContainerInner">
+                <h1>Bundestagswahl 2017</h1>
+
+                <div class="ImageContainer topicOfWeekMainImage" style="clear: both;">
+                    <%
+                        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(863, ImageType.Category);
+                        var imageFrontendData = new ImageFrontendData(imageMetaData);
+                        var btwCategory = Sl.R<CategoryRepository>().GetById(863);
+                        %>
+                    <%= imageFrontendData.RenderHtmlImageBasis(350, false, ImageType.Category, "ImageContainer") %>
+                </div>
+
+                Am 24. September 2017 wird der 19. Deutsche Bundestag gewählt. 
+                Der Deutsche Bundestag ist die Volksvertretung der Bundesrepublik Deutschland und als 
+                maßgebliches Gesetzgebungsgremium ihr wichtigstes Organ. 
+                Er besteht aus Abgeordneten des deutschen Volkes, die in allgemeiner, unmittelbarer, freier, 
+                gleicher und geheimer Wahl auf vier Jahre gewählt werden.
+
+
+                <div class="topicOfWeekFooter" style="text-align: center;">
+                    <a class="btn btn-lg btn-primary" href="<%= Links.CategoryDetail(btwCategory) %>">Zur Themenseite Bundestagswahl 2017</a>
+            
+<%--                    <br class="visible-xs" />
+                    <span style="display: inline-block; margin-top: 10px;" class="Pin float-right-sm-up" data-category-id="<%= Model.CategoryId %>">
+                        <%= Html.Partial("AddToWishknowledgeButton", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                    </span>--%>
+                </div>
+
+                <div class="topicOfWeekQuiz">
+                    <h3 style="text-align: left;">Quiz: Alles, was wichtig ist</h3>
+                    <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="357" data-width="100%" data-hideKnowledgeBtn="true"></script>
+                </div>
+
+                <div class="topicOfWeekQuiz">
+                    <h3 style="text-align: left;">Quiz: Die Plakate der Parteien</h3>
+                    <script src="https://memucho.de/views/widgets/w.js" data-t="set" data-id="358" data-width="100%" data-hideKnowledgeBtn="true"></script>
+                </div>
+
+                <div class="topicOfWeekAdditionalRecom" style="margin-top: 50px;">
+                    <h3 style="text-align: left;">Entdecke weitere Themenbereiche</h3>
+                    <div class="row CardsMiniPortrait" style="padding-left: -10px; padding-right: -10px;">
+                        <div class="CardMiniColumn col-xs-6 col-sm-3 xxs-stack">
+                            <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(840)); %>
+                        </div>
+                        <div class="CardMiniColumn col-xs-6 col-sm-3 xxs-stack">
+                            <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(106)); %>
+                        </div>
+                        <div class="CardMiniColumn col-xs-6 col-sm-3 xxs-stack">
+                            <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(59)); %>
+                        </div>
+                        <div class="CardMiniColumn col-xs-6 col-sm-3 xxs-stack">
+                            <% Html.RenderPartial("WelcomeCardMiniCategory", new WelcomeCardMiniCategoryModel(58)); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="separatorCategory"></div>
+
+        </div>
 
 <%--        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
 
