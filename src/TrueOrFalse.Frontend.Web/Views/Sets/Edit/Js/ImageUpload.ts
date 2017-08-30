@@ -1,4 +1,4 @@
- /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
+﻿ /// <reference path="../../../../Scripts/typescript.defs/jquery.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/bootstrap.d.ts" />
 /// <reference path="../../../../Scripts/typescript.defs/lib.d.ts" />
 /// <reference path="../../../Images/ImageUpload/ImageUpload.ts" />
@@ -9,7 +9,7 @@ declare var questionSetId: number;
 
 $(function () {
     var imageUploadModal = new ImageUploadModal();
-    imageUploadModal.SetTitle("Bild f�r Lernset hochladen");
+    imageUploadModal.SetTitle("Bild für Lernset hochladen");
     imageUploadModal.OnSave(function (url: string) {
         $("#questionSetImg").attr("src", url);
 
