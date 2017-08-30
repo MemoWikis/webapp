@@ -2831,6 +2831,11 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 15px;
   margin-right: 15px;
 }
+.Card img[src*="img.youtube"] {
+  background-color: black;
+  padding-top: 12.5%;
+  padding-bottom: 12.5%;
+}
 .CardsLandscape .CardColumn {
   position: relative;
   float: left;

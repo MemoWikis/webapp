@@ -337,6 +337,8 @@
         margin-left: 15px;
         margin-right: 15px;
     }
+
+    .MakeYoutubeImagesSquare;
 }
 
 .CardsLandscape { // Apply to row
@@ -743,6 +745,14 @@
         border-bottom-left-radius: @border-radius-item-image;
         border-bottom-right-radius: @border-radius-item-image;
         text-align: center;
+    }
+}
+
+.MakeYoutubeImagesSquare() {
+    img[src*="img.youtube"] {
+        background-color: black;
+        padding-top: 12.5%;
+        padding-bottom: 12.5%;
     }
 }
 

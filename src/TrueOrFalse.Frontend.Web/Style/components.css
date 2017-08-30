@@ -352,6 +352,11 @@ div.selected-row:hover {
   border-radius: 5px;
   max-width: 100%;
 }
+.column-Image img[src*="img.youtube"] {
+  background-color: black;
+  padding-top: 12.5%;
+  padding-bottom: 12.5%;
+}
 .column-MainContent {
   display: flex;
   -ms-flex-direction: column;
