@@ -38,10 +38,9 @@
 
     <div class="row">
         
-        <%--<div class="col-xs-3 col-md-2 xxs-stack col-xs-push-9 col-md-push-10">--%>
         <div class="col-xs-12 col-md-2 col-md-push-10">
             <div class="navLinks">
-                <a href="<%= Links.SetsAll() %>"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>
+                <%--<a href="<%= Links.SetsAll() %>"><i class="fa fa-list">&nbsp;</i>Zur Übersicht</a>--%>
                 <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                     <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                     <a href="<%= Links.CreateQuestion(setId: Model.Id) %>"><i class="fa fa-plus-circle">&nbsp;</i>Frage hinzufügen</a> 
@@ -55,7 +54,6 @@
             </div>
         </div>
         
-       <%-- <div class="xxs-stack col-xs-9 col-md-10 col-xs-pull-3 col-md-pull-2">--%>
         <div class="col-xs-12 col-md-10 col-md-pull-2">
             <div id="ItemMainInfo" class="Set Box">
                 <div class="">
@@ -110,6 +108,20 @@
                                     <div class="fb-share-button" style="width: 100%; float: left;" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
                                 </div>
                                 <a data-action="embed-set" style="display: inline-block; margin-top: 7px; margin-left: 7px;" href="#"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
+
+                                <div class="navLinks">
+                                    <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
+                                        <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
+                                        <a href="<%= Links.CreateQuestion(setId: Model.Id) %>"><i class="fa fa-plus-circle">&nbsp;</i>Frage hinzufügen</a> 
+                                    <% } %>
+                                
+                                    <% if(Model.IsInstallationAdmin) { %>
+                                        <a href="#" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                                            <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views
+                                        </a>    
+                                    <% } %>
+                                </div>
+
                                 
                                 <div style="float: right">
                                     <span style="display: inline-block; font-size: 16px; font-weight: normal;" class="Pin" data-set-id="<%= Model.Id %>">
@@ -195,9 +207,16 @@
                 </div>
             </div> 
             
-            <% if (Model.Set.HasVideo) { 
-                Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));
-            } %>
+            <% if (Model.Set.HasVideo) {
+                   Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));
+               } else { %>
+                <h4>Teste dein Wissen:</h4>
+                <script src="https://memucho.de/views/widgets/w.js" data-t="templateset" data-id="<%= Model.Set.Id %>" data-width="100%" data-maxwidth="100%" data-logoon="false" data-questioncount="5"></script>
+                <p>
+                    Lerne personalisiert, was du am dringendsten wiederholen musst:
+                    <a href=" " class="btn btn-lg btn-primary"><i class="fa fa-line-chart">&nbsp;</i>Jetzt lernen</a>
+                </p>
+            <% } %>
 
             <% if(Model.QuestionCount > 0) { %>
                 <h4 style="margin-top: 30px; margin-bottom: 8px;">
