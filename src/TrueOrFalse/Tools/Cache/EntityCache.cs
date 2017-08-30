@@ -234,22 +234,7 @@ public class EntityCache
     {
         foreach (var questionInSet in set.QuestionsInSet)
         {
-            var questionId = questionInSet.Question.Id;
-
             DeleteQuestionInSetFromRemovedCategories(questionInSet, categoryQuestionsInSetList, affectedCategoryIds);
-
-            var catgoryList = affectedCategoryIds?.Select(id => new {CategoryId = id, Dictionary = categoryQuestionsInSetList[id]}).ToList();
-
-            var filteredDict = new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
-
-            catgoryList.ForEach(c =>
-            {
-                if(c.Dictionary.TryGetValue(questionId, out var x)) {
-                    filteredDict.TryAdd(c.CategoryId, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
-                    var y = filteredDict[c.CategoryId];
-                    y.TryAdd(questionId, x);
-                }
-            });
 
             AddQuestionInSetTo(categoryQuestionsInSetList, questionInSet);
         }
@@ -389,4 +374,31 @@ public class EntityCache
 
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);
+
+    /// <summary>
+    /// Helps do debug, e.g. filter CategoryQuestionInSetList for certain questions in certain categories and the belonging set ids
+    /// </summary>
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>
+        FilterThreeLevelConcurrentDictionary(
+            ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> dictionary, IList<int> firstLevelFilterIds, IList<int> secondLevelFilterIds)
+    {
+        var filteredDict = new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
+
+        foreach (var secondLevelFilterId in secondLevelFilterIds)
+        {
+            var listOfDict = firstLevelFilterIds.Select(id => new {Id = id, Dictionary = dictionary[id]}).ToList();
+
+            listOfDict.ForEach(d =>
+            {
+                if (d.Dictionary.TryGetValue(secondLevelFilterId, out var outDict))
+                {
+                    filteredDict.TryAdd(d.Id, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
+                    filteredDict[d.Id].TryAdd(secondLevelFilterId, outDict);
+                }
+            });
+
+        }
+
+        return filteredDict;
+    }
 }
