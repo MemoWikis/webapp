@@ -207,14 +207,14 @@
                 
 
                 <% if(Model.QuestionCount > 0) { %>
-                    <h4 style="margin-top: 60px; margin-bottom: 8px;">
-                        Übersicht über enthaltene Fragen
+                    <h4 style="margin-top: 80px;">
+                        Übersicht über alle enthaltene Fragen
                         <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                             <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>" style="font-size: smaller;"><i class="fa fa-pencil">&nbsp;</i></a> 
                         <% } %>
                     </h4>
 
-                    <p style="margin-bottom: 20px;">
+                    <p style="margin-bottom: 30px; max-width: 100%" class="greyed">
                         Dieses Lernset enthält <%= Model.QuestionCount %> einzelne Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>. 
                         Du kannst in der Übersicht auf eine Frage klicken, um alle Fragen durchzublättern. 
                         Um eine begrenzte Zahl an Fragen zu beantworten und eine Auswertung zu erhalten, nutze bitte die LERNEN- oder WISSEN TESTEN-Funktion oben.
