@@ -12,7 +12,6 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
     public override void Create(QuestionInSet questionInSet)
     {
         base.Create(questionInSet);
-        EntityCache.AddOrUpdate(questionInSet);
     }
 
     public override void Delete(int questionInSetId)
@@ -20,8 +19,7 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
         var questionInSet = GetById(questionInSetId); 
         base.Delete(questionInSetId);
 
-        EntityCache.Remove(questionInSet);
-        Sl.R<UpdateSetDataForQuestion>().Run(questionInSet.Question); 
+        
     }
 
     public void DeleteForQuestion(int questionId)  

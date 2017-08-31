@@ -116,7 +116,11 @@ public class EditSetController : BaseController
     [HttpPost]
     public EmptyResult RemoveQuestionFromSet(int questionInSetId)
     {
-        Resolve<QuestionInSetRepo>().Delete(questionInSetId);
+        var questionInSet = Resolve<QuestionInSetRepo>().GetById(questionInSetId);
+        questionInSet.Set.QuestionsInSet.Remove(questionInSet);
+        Sl.SetRepo.Update(questionInSet.Set);
+        EntityCache.Remove(questionInSet);
+        Sl.R<UpdateSetDataForQuestion>().Run(questionInSet.Question);
         return new EmptyResult();
     }
     
