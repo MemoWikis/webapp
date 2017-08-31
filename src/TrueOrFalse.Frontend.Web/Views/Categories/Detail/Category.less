@@ -515,13 +515,17 @@ html.flexbox:not(.Explorer):not(.Safari) {
         .KnowledgeBarLegend {
             .greyed;
             font-size: 12px;
-            line-height: 2em;
+            line-height: 1.5em;
             //text-transform: uppercase;
             opacity: 0;
             transition: opacity 0.2s linear;
+
+             .media-below-sm ({
+                opacity: 1;
+            });
         }
 
-        &:hover {
+        &:hover {   //show on hover over navigation tile
             .KnowledgeBarLegend {
                 opacity: 1;
             }

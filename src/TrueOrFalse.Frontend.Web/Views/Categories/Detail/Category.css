@@ -516,9 +516,14 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #topicNavigation .topic .KnowledgeBarLegend {
   color: #999999;
   font-size: 12px;
-  line-height: 2em;
+  line-height: 1.5em;
   opacity: 0;
   transition: opacity 0.2s linear;
+}
+@media (max-width: 767px) {
+  #topicNavigation .topic .KnowledgeBarLegend {
+    opacity: 1;
+  }
 }
 #topicNavigation .topic:hover .KnowledgeBarLegend {
   opacity: 1;
