@@ -128,11 +128,12 @@
                                         Aus- und Weiterbildung
                                         <br/>(Universitäten, Kurse, Professoren/Dozenten etc.)
                                         <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
+                                            <option value="EducationProvider"><%= CategoryType.EducationProvider.GetName() %></option>
                                             <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
                                             <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
                                             <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
-                                            <option value="Course"><%= CategoryType.Course.GetName() %></option>
-                                            <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
+                                            <option value="Course" disabled="disabled"><%= CategoryType.Course.GetName() %></option>
+                                            <option value="Certification" disabled="disabled"><%= CategoryType.Certification.GetName() %></option>
                                         </select>
                                     </label>
                                 </div>
