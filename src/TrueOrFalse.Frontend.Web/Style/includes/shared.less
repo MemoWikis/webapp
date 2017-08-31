@@ -69,12 +69,15 @@
 
 .new-font-style() {
     font-family: @font-family-text;
-    font-size: 16px;
-    line-height: 27px;
     font-size: 18px;
     line-height: 30px;
     font-weight: 400;
     color: @global-text-color;
+    .media-below-xs({
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: normal;
+    })
 }
 
 .link {
@@ -340,6 +343,19 @@
 
     .MakeYoutubeImagesSquare;
 }
+
+.Card .CardContent {
+    h4 {
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+
+    .ItemText {
+        line-height: normal;
+        font-size: 14px;
+    }
+}
+
 
 .CardsLandscape { // Apply to row
 

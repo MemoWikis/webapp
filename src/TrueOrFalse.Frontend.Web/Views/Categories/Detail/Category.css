@@ -575,28 +575,17 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #MasterMainColumn {
   line-height: 1.5;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
   color: #203256;
 }
-@media (min-width: 480px) {
+@media (max-width: 479px) {
   #MasterMainColumn {
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 16px;
-    line-height: 27px;
-    font-size: 18px;
-    line-height: 30px;
-    font-weight: 400;
-    color: #203256;
-  }
-}
-@media (min-width: 480px) {
-  #MasterMainColumn p {
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 16px;
-    line-height: 27px;
-    font-size: 18px;
-    line-height: 30px;
-    font-weight: 400;
-    color: #203256;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
   }
 }
 #MasterMainColumn h1,
@@ -611,6 +600,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-size: 45px;
   font-style: normal;
   font-weight: 400;
+  margin-top: 5px;
 }
 @media (max-width: 479px) {
   #MasterMainColumn h1 {
@@ -691,6 +681,26 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .LabelList .LabelItem:before {
   top: 1.1em !important;
 }
+/*.show-knowledge-bar-as-underlining() {
+    #ItemMainInfo header {
+        border: none !important;
+    }
+
+    #MainHeading {
+        .clearfix;
+        float: left;
+        margin-bottom: 20px;
+
+        h1 {
+            float: left;
+        }
+
+        .category-knowledge-bar {
+            width: 100%;
+            height: 8px;
+        }
+    }
+}*/
 #AboveMainHeading {
   margin-top: -5px;
 }

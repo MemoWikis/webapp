@@ -1330,10 +1330,6 @@ div.box-main .box-content {
   background-color: white;
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
-.rowBase:first-child,
-.category-row:first-child {
-  border-top: none;
-}
 .jqstooltip {
   height: 36px;
   width: 100px;
@@ -1395,6 +1391,7 @@ ul.show-tooltip-ul {
   margin-right: 9px !important;
   letter-spacing: .1em !important;
   max-width: 100% !important;
+  line-height: 17px !important;
 }
 /*Dropdowns*/
 ul.AlignDdRight {

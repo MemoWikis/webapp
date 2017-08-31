@@ -25,9 +25,14 @@
                 <header>
                     <div id="AboveMainHeading" class="greyed">
                         <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
+                        <% if(Model.IsInstallationAdmin) { %>
+                            <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                                (<i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views)
+                            </span>    
+                        <% } %>
                     </div>
                     <div id="MainHeading">
-                        <h1 class="" style="margin-top: 5px;">
+                        <h1>
                            <%= Model.Name %>
                         </h1>
                         <%--<% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>--%>
@@ -88,11 +93,6 @@
                             <% } %>
                             <% if(Model.IsInstallationAdmin){ %>
                                 <a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>" style="font-size: 12px;"><i class="fa fa-plus-circle"></i>&nbsp;<span class="visible-lg">Frage hinzufügen</span></a>
-                            <% } %>
-                            <% if(Model.IsInstallationAdmin) { %>
-                                <a href="#" class="show-tooltip" data-placement="right" data-original-title="Views - nur von admin sichtbar">
-                                    <i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> 
-                                </a>    
                             <% } %>
                         </div>                        
                             
