@@ -20,9 +20,9 @@
             margin-top: unset;
         }
     
-        #WidgetContent .set-text {
+        /*#WidgetContent .set-text {
             margin-bottom: 30px;
-        }
+        }*/
     </style>
 </asp:Content>
 

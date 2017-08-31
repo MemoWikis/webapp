@@ -18,23 +18,151 @@
 }
 @media (min-width: 650px) {
 }
-@media (max-width: 991px) {
-  .navLinks {
-    float: none;
-    margin-bottom: 10px;
-  }
-  .navLinks > a {
-    display: inline-block;
-    margin-right: 10px;
+#MasterMainColumn {
+  line-height: 1.5;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+  color: #203256;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
   }
 }
-.sparklineTotals,
-.sparklineTotalsUser {
+#MasterMainColumn h1,
+#MasterMainColumn h2,
+#MasterMainColumn h3,
+#MasterMainColumn h4,
+#MasterMainColumn h5 {
+  font-family: Open Sans !important;
+  line-height: 1.2;
+}
+#MasterMainColumn h1 {
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 400;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h1 {
+    font-size: 35px;
+  }
+}
+#MasterMainColumn h2 {
+  font-size: 35px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h2 {
+    font-size: 25px;
+  }
+}
+#MasterMainColumn h3 {
+  font-size: 25px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h3 {
+    font-size: 20px;
+  }
+}
+#MasterMainColumn h4 {
+  font-size: 25px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h4 {
+    font-size: 20px;
+  }
+}
+#MainWrapper {
+  background-color: white;
+  padding: 20px;
+  /*h1 {
+        font-size: 45px;
+        margin-top: 10px;
+        font-weight: normal;
+    }
+
+    h2 {
+        font-size: 55px;
+    }
+
+    h3 {
+        font-size: 35px;
+    }*/
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+  color: #203256;
+}
+#MainWrapper p {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 479px) {
+  #MainWrapper {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
+  }
+}
+#AboveMainHeading {
+  margin-top: -5px;
+  /*@media (min-width: 991px) {
+        margin-top: -21px;
+    }*/
+}
+.shareLinks {
+  display: inline-block;
+}
+.editLinks {
+  display: inline-block;
+  font-size: 14px;
+}
+.editLinks > a {
+  margin: 0 5px;
+}
+/*.navLinks {
+    display: inline;
+    //padding-left: 12px;
+    padding-top: 2px;
+    float: left !important;
+
+    > a, > div {
+        display: inline-block !important;
+        margin-right: 10px !important;
+        float: none !important;
+        font-size: 14px;
+    }
+}*/
+.BoxButtonBar {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+/* QUESTION-SET-ROW
+--------------------------------*/
+.question-row .sparklineTotals,
+.question-row .sparklineTotalsUser {
   font-size: 11px;
 }
-.StatsRow {
+.question-row .correctAnswer {
+  margin-top: 6px;
+  font-size: smaller;
+  color: #999999;
+  line-height: 1.4em;
+}
+.question-row .StatsRow {
   margin-left: 0;
   margin-right: 0;
+}
+/* WIDGETS
+-----------------------------*/
+.testSetWidget {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .SetVideo #AnswerBody {
   padding-top: 10px;
@@ -148,6 +276,8 @@ div.video-header h4 {
   margin-top: -10px;
   margin-bottom: 20px;
 }
+/*      MODALS
+----------------------------- */
 #modalShareSet input,
 #modalShareSet select {
   display: inline-block;

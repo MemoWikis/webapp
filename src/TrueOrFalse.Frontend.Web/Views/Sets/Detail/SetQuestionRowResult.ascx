@@ -9,13 +9,16 @@
     </div>
     <div class="col-lg-9 col-sm-7 col-xs-10 col-1">
         <div class="Pin" data-question-id="<%= Model.Question.Id %>" style="float: right; display: inline-block">
-            <a href="#" class="noTextdecoration" style="font-size: 16px; height: 10px; position: relative; top: 3px; padding-right: 7px; padding-left: 7px;">
+            <a href="#" class="noTextdecoration" style="height: 10px; position: relative; top: 3px; padding-right: 7px; padding-left: 7px;">
                 <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
             </a>
         </div>                        
-        <a href="<%= Links.AnswerQuestion(Url, Model.Question, Model.Set) %>" style="font-weight:normal; font-size:17px;">
+        <a href="<%= Links.AnswerQuestion(Url, Model.Question, Model.Set) %>">
             <%=Model.Question.Text %>
         </a>
+        <div class="correctAnswer">
+            Richtige Antwort: <%= Model.CorrectAnswer %>
+        </div>
         <% if (Model.UserIsInstallationAdmin) { %>
             <p style="margin-top: 8px; padding-left: 15px;">
                 <i class="fa fa-user-secret show-tooltip" title="Die Kategorien werden an dieser Stelle nur Admin-Nutzern angezeigt."></i>

@@ -1,27 +1,159 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
-.navLinks {
-    .media-below-md ( {
-        float: none;
-        margin-bottom: 10px;
+#MasterMainColumn {
+    line-height: 1.5;
+    .new-font-style();
+    color: @global-text-color;
 
-        > a {
-            display: inline-block;
-            margin-right: 10px;
-        }
+    h1, h2, h3, h4, h5 {
+        font-family: Open Sans !important;
+        line-height: 1.2;
     }
 
-    );
+    h1 {
+        font-size: @font-size-h1-mem;
+        font-style: normal;
+        font-weight: 400;
+
+        .media-below-xs( {
+            font-size: @font-size-h2-mem;
+        }
+
+        );
+    }
+
+    h2 {
+        font-size: @font-size-h2-mem;
+
+        .media-below-xs( {
+            font-size: @font-size-h3-mem;
+        }
+
+        );
+    }
+
+    h3 {
+        font-size: @font-size-h3-mem;
+
+        .media-below-xs( {
+            font-size: @font-size-h4-mem;
+        }
+
+        );
+    }
+
+    h4 {
+        font-size: @font-size-h3-mem;
+
+        .media-below-xs( {
+            font-size: @font-size-h4-mem;
+        }
+
+        );
+    }
 }
 
-.sparklineTotals, .sparklineTotalsUser {
-    font-size: 11px;
+
+#MainWrapper {
+    background-color: white;
+    padding: 20px;
+
+    /*h1 {
+        font-size: 45px;
+        margin-top: 10px;
+        font-weight: normal;
+    }
+
+    h2 {
+        font-size: 55px;
+    }
+
+    h3 {
+        font-size: 35px;
+    }*/
+
+    p {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .new-font-style();
 }
 
-.StatsRow {
-    margin-left: 0;
-    margin-right: 0;
+
+#AboveMainHeading {
+    margin-top: -5px;
+
+    /*@media (min-width: 991px) {
+        margin-top: -21px;
+    }*/
 }
+
+.shareLinks {
+    display: inline-block;
+}
+
+.editLinks {
+    display: inline-block;
+    font-size: 14px;
+    > a {
+        margin: 0 5px;
+    }
+}
+
+/*.navLinks {
+    display: inline;
+    //padding-left: 12px;
+    padding-top: 2px;
+    float: left !important;
+
+    > a, > div {
+        display: inline-block !important;
+        margin-right: 10px !important;
+        float: none !important;
+        font-size: 14px;
+    }
+}*/
+
+.BoxButtonBar {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+/* QUESTION-SET-ROW
+--------------------------------*/
+
+.question-row {
+    .sparklineTotals, .sparklineTotalsUser {
+        font-size: 11px;
+    }
+
+    .correctAnswer {
+        margin-top: 6px;
+        font-size: smaller;
+        color: @global-text-color-grey;
+        line-height: 1.4em;
+    }
+
+    .StatsRow {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+}
+
+
+/* WIDGETS
+-----------------------------*/
+
+.testSetWidget {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
 
 .SetVideo {
     #AnswerBody {
@@ -154,6 +286,9 @@ div.video-header {
         margin-bottom: 20px;
     }
 }
+
+/*      MODALS
+----------------------------- */
 
 #modalShareSet {
     input, select {
