@@ -100,7 +100,7 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">
-        Online-Version
+        Online-Version des Artikels
         <i class="fa fa-question-circle show-tooltip" 
             title="Falls der Artikel zusätzlich online zugänglich ist, gib bitte hier die URL (vorzugsweise einen Perma-Link) an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>

@@ -67,10 +67,7 @@
                    {
                 %><div class="Isbn"><span>ISBN: <%= book.ISBN %></span></div><% 
                 }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL))
-                {
-                    %><br /><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>" target="_blank"><span><%= Model.WikipediaURL %> <i class='fa fa-external-link'></i></span></a></div><%
-                }
+
                 if (!String.IsNullOrEmpty(Model.Url))
                 {
                     %><br /><div class="Url"><a href="<%= Model.Url %>" target="_blank"><span><%= Model.Url %> <i class='fa fa-external-link'></i></span></a></div><%
@@ -99,9 +96,6 @@
                 }
                 if (!String.IsNullOrEmpty(Model.Url)){
                     %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
-                }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
                 }
             %></div>
 <%
@@ -173,6 +167,10 @@
                         } else {%><span>Nr. <%= dailyIssue.No %></span><%}
                     %></div><%
                 }
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
+                }
+
             %></div>
 <%
             break;
@@ -193,9 +191,6 @@
                 }
                 if (!String.IsNullOrEmpty(Model.Url)){
                     %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
-                }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
                 }
             %></div>
 <%
@@ -260,6 +255,9 @@
                 if (!String.IsNullOrEmpty(magazineIssue.Volume))
                 {
                     %><div class="Volume"><span>Jahrgang <%= magazineIssue.Volume %></span></div><%
+                }
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%
@@ -355,9 +353,8 @@
                         {%>–<%= volumeChapter.PagesChapterTo %><%}
                     %></div><%
                 }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL))
-                {
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%
@@ -390,7 +387,7 @@
                 }
                 if (!String.IsNullOrEmpty(Model.Url))
                 {
-                    %><div class="Url show-tooltip" title="<%= Model.Url %>"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%

@@ -55,7 +55,7 @@ public static class CategoryTypeExts
             case CategoryType.MagazineArticle: return "Artikel in Zeitschrift";
 
             case CategoryType.Website: return "Webseite";
-            case CategoryType.WebsiteArticle: return "Online-Artikel";
+            case CategoryType.WebsiteArticle: return "Online-Artikel / Blog-Artikel";
             case CategoryType.WebsiteVideo: return "Youtube-Video";
             case CategoryType.WebsiteOther: return "Webseite: Artikel/Eintrag/Meldung/Kurs...";
 
@@ -119,6 +119,42 @@ public static class CategoryTypeExts
             return "Artikel";
 
         return e.GetName();
+    }
+
+    public static string GetUrlDescription(this CategoryType e)
+    {
+        switch (e)
+        {
+            //case CategoryType.Standard: return "Offizielle Webseite";
+
+            case CategoryType.Book: return "Offizielle Webseite zum Buch";
+            case CategoryType.VolumeChapter: return "Offizielle Webseite zum Sammelbandbeitrag";
+            case CategoryType.Daily: return "Webseite der Tageszeitung";
+            case CategoryType.DailyIssue: return "Webseite der Ausgabe";
+            case CategoryType.DailyArticle: return "Webseite des Artikel der Tageszeitung";
+            case CategoryType.Magazine: return "Webseite der Zeitschrift";
+            case CategoryType.MagazineIssue: return "Webseite der Ausgabe";
+            case CategoryType.MagazineArticle: return "Webseite des Artikels";
+
+            //case CategoryType.Website: return "Webseite";
+            //case CategoryType.WebsiteArticle: return "Online-Artikel / Blog-Artikel";
+            case CategoryType.WebsiteVideo: return "Link zum Youtube-Video";
+            //case CategoryType.WebsiteOther: return "Webseite: Artikel/Eintrag/Meldung/Kurs...";
+
+
+            case CategoryType.Movie: return "Offizielle Webseite zum Film";
+            case CategoryType.TvShow: return "Offizielle Webseite zur Sendung";
+            case CategoryType.TvShowEpisode: return "Offizielle Webseite zur Episode/Ausgabe";
+
+            case CategoryType.FieldOfStudy: return "Offizielle Webseite zum Studienfach";
+            case CategoryType.FieldOfTraining: return "Offizielle Webseite zum Ausbildungsberuf";
+            case CategoryType.SchoolSubject: return "Offizielle Webseite zum Schulfach";
+            case CategoryType.Course: return "Offizielle Webseite zum Kurs/Seminar";
+            case CategoryType.Certification: return "Offizielle Webseite zur Zertifizierung";
+            case CategoryType.EducationProvider: return "Offizielle Webseite des Bildungsanbieters";
+        }
+        return "";
+
     }
 
 }

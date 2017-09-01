@@ -43,7 +43,7 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">
-        Url
+        Offizielle Webseite der Tageszeitung
         <i class="fa fa-question-circle show-tooltip" 
             title="Gib hier bitte die offizielle Webseite der Tageszeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
@@ -56,7 +56,7 @@
 
 <div class="form-group">
     <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia-URL
+        Wikipedia-Artikel
         <i class="fa fa-question-circle show-tooltip" 
             title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>

@@ -71,12 +71,23 @@
 </div>
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Url">
-        Url
+        Internetadresse des <%= CategoryType.WebsiteArticle.GetName() %>
         <i class="fa fa-question-circle show-tooltip" 
             title="Bitte gib wenn möglich einen Perma-Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
         <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es einen Wikipedia-Artikel zum Online-Artikel gibt, gib bitte hier den Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
     </div>
 </div>

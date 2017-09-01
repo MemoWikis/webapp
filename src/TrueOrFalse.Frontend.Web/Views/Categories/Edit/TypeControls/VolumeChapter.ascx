@@ -111,10 +111,21 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia-URL
+    <label class="columnLabel control-label" for="Url">
+        Internetseite
         <i class="fa fa-question-circle show-tooltip" 
-            title="Falls es einen Wikipedia-Artikel zum Buch gibt, gib bitte hier den Link an" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+           title="Falls es eine offizielle Internetseite zu diesem Sammelbandbeitrag gibt, gib bitte hier den Link an" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es einen Wikipedia-Artikel zu diesem Sammelbandbeitrag gibt, gib bitte hier den Link an" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">

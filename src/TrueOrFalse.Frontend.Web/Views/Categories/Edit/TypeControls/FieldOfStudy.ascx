@@ -19,7 +19,24 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="WikipediaUrl">Wikipedia URL</label>
+    <label class="columnLabel control-label" for="Url">
+        Offizielle Internetseite des Studienfaches
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es eine offizielle Seite des Studienfaches gibt, gib bitte hier die Webseite an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es eine Wikipedia-Seite zum Studienfaches gibt, gib sie bitte hier an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
     <div class="columnControlsFull">
         <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
     </div>

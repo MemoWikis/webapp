@@ -19,10 +19,22 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia-URL
+    <label class="columnLabel control-label" for="Url">
+        Offizielle Webseite (z.B. bei Institutionen)
         <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+           title="<%= EditCategoryTypeModel.UrlInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">

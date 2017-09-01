@@ -9,8 +9,15 @@
 </div>
 
 <div class="form-group">
-    <label class="columnLabel control-label" for="Url">Wikipedia URL</label>
+    <label class="columnLabel control-label" for="Url">Webseite</label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= Model.WikipediaUrl %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaURL">Wikipedia-Artikel</label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="WikipediaURL" type="text" value="<%= Model.WikipediaUrl %>">
     </div>
 </div>

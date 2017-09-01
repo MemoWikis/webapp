@@ -110,6 +110,18 @@
         <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
 </div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="Url">
+        Internetseite dieser Ausgabe der Zeitschrift
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Gib bitte hier den Link zu dieser Ausgabe der Zeitschrift an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+
  <%if (!Model.IsEditing) { %>
     <script type="text/javascript">
         $('[name="TxtMagazine"]').rules("add", { required: true, });

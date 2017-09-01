@@ -12,6 +12,7 @@ public class EditCategoryTypeModel : BaseModel
 
     public object Model;
 
+    public const string UrlInfo = "Falls es eine offizielle und eindeutige Seite zum Thema gibt (und nur dann!), gib bitte hier den Link an (z.B. bei Institutionen wie der UNO, dem Bundestag etc.).";
     public const string WikipediaInfo = "Falls es einen Wikipedia-Artikel zum Thema gibt, gib bitte hier den Link an (z.B. Thema 'Lerntheorie' - http://de.wikipedia.org/wiki/Lerntheorie).";
     public const string DescriptionInfo = "Kurze Beschreibung des Themas und/oder alternative Bezeichnungen.";
 

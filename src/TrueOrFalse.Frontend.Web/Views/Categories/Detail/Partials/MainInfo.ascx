@@ -67,14 +67,21 @@
                     
                 </div>
                 
-                <% if (!String.IsNullOrEmpty(Model.InfoUrl)){ %>
+                <% if (!String.IsNullOrEmpty(Model.Url)){ %>
                     <div>
-                        <div class="WikiLink" style="margin-top: 10px;">
-                            <a href="<%= Model.InfoUrl %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.InfoUrl) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
-                                <% if(Links.IsLinkToWikipedia(Model.InfoUrl)){ %>
-                                    <i class="fa fa-wikipedia-w"></i>    
-                                <% } %>
-                                <%= Model.Category.Type == CategoryType.Book ? "Zur Verlagsseite des Buchs <i class='fa fa-external-link'></i>" : Model.InfoUrl %>
+                        <div class="WikiLink">
+                            <a href="<%= Model.Url %>" target="_blank" class="" title="" data-placement="left" data-html="true">
+                                <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.Type.GetUrlDescription()) ? Model.Url : Model.Category.Type.GetUrlDescription() %>
+                            </a>
+                        </div>
+                    </div>
+                <% } %>
+                <% if (!String.IsNullOrEmpty(Model.WikipediaURL)){ %>
+                    <div>
+                        <div class="WikiLink">
+                            <a href="<%= Model.WikipediaURL %>" target="_blank" class="show-tooltip" title="<%= Links.IsLinkToWikipedia(Model.WikipediaURL) ? "Link&nbsp;auf&nbsp;Wikipedia" : "" %>" data-placement="left" data-html="true">
+                                <% if(Links.IsLinkToWikipedia(Model.WikipediaURL)){ %>
+                                    <i class="fa fa-wikipedia-w">&nbsp;</i><% } %><%= Model.WikipediaURL %>
                             </a>
                         </div>
                     </div>

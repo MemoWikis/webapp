@@ -55,9 +55,9 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia-URL
+        Wikipedia-Artikel
         <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+            title="Falls es einen Wikipedia-Artikel zur Zeitschrift gibt, gib bitte hier den Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
