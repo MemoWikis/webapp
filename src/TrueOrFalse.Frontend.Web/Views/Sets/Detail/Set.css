@@ -144,6 +144,11 @@
 }
 /* QUESTION-SET-ROW
 --------------------------------*/
+.question-row {
+  padding-top: 10px;
+  padding-bottom: 15px;
+  line-height: 1.4em;
+}
 .question-row .sparklineTotals,
 .question-row .sparklineTotalsUser {
   font-size: 11px;

@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<SetQuestionRowModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div class="rowBase question-row" style="padding-top: 10px; padding-bottom: 10px;">
+<div class="rowBase question-row">
     <div class="col-lg-1 col-xs-2 col-0" style="padding-right: 0px;">
         <div class="ImageContainer ShortLicenseLinkText">
         <%= GetQuestionImageFrontendData.Run(Model.Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, Model.Question, Model.Set)) %>
