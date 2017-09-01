@@ -20,7 +20,7 @@
                             <a class="topic-name" href="<%= Links.GetUrl(category) %>">
                                 <div class="topic-name">
                                     <% if (Model.GetTotalSetCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
-                                        <i class="fa fa-user-secret"></i>
+                                        <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
                                     <% } %>
                                     <%: category.Name %>
                                 </div>
