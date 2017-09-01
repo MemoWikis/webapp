@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 public static class AddToSet 
@@ -26,11 +25,7 @@ public static class AddToSet
                 var questionInSet = new QuestionInSet();
                 questionInSet.Question = question;
                 questionInSet.Set = set;
-                questionInSet.DateCreated = DateTime.Now;
-                questionInSet.DateModified = DateTime.Now;
-                set.QuestionsInSet.Add(questionInSet);
-                Sl.SetRepo.Update(set);
-                EntityCache.AddOrUpdate(questionInSet);
+                Sl.QuestionInSetRepo.Create(questionInSet);
                 Sl.UpdateSetDataForQuestion.Run(question);
             }
         }
