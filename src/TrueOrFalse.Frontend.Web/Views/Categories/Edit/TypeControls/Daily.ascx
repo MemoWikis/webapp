@@ -43,24 +43,20 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">
-        Url
+        Offizielle Webseite der Tageszeitung
         <i class="fa fa-question-circle show-tooltip" 
             title="Gib hier bitte die offizielle Webseite der Tageszeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
     </div>
 </div>
-<%--<div class="form-group">
-    <label class="columnLabel control-label" for="xxx">xxx</label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="xxx" type="text" value="<%= model.xxx %>">
-    </div>
-</div>--%>
+
+
 <div class="form-group">
     <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia-URL
+        Wikipedia-Artikel
         <i class="fa fa-question-circle show-tooltip" 
             title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>

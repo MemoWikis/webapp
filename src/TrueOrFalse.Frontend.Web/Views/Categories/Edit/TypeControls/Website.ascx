@@ -28,13 +28,24 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="columnLabel control-label" for="Url">
-        Url
+    <label class="RequiredField columnLabel control-label" for="Url">
+        Internetseite
         <i class="fa fa-question-circle show-tooltip" 
-            title="Gib hier bitte die URL der Webseite an. Beispiel: www.zeit.de" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+           title="Gib hier bitte die URL der Webseite an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+</div>
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es einen Wikipedia-Artikel zur Webseite gibt, gib bitte hier den Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
     </div>
 </div>

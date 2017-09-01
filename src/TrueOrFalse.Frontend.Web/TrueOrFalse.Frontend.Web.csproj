@@ -393,6 +393,7 @@
     <Content Include="Views\Categories\Edit\Js\EditAggregation.js.map">
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Error\Error.css">

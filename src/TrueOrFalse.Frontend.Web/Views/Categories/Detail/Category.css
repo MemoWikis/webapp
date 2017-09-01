@@ -311,6 +311,7 @@ span.CategoryType {
             z-index: 100000000000;*/
 }
 .WikiLink {
+  margin-top: 15px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

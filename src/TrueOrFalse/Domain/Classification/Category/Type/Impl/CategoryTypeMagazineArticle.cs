@@ -12,7 +12,6 @@ public class CategoryTypeMagazineArticle : CategoryTypeBase<CategoryTypeMagazine
     public string Title;
     public string Subtitle;
     public string Author;
-    public string Url;
     public string PagesArticleFrom;
     public string PagesArticleTo;
 

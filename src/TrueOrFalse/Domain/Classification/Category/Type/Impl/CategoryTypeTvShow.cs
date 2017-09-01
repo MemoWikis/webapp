@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 [Serializable]
 public class CategoryTypeTvShow : CategoryTypeBase<CategoryTypeTvShow>
 {
-    public string Url;
 
     [JsonIgnore]
     public override CategoryType Type { get { return CategoryType.TvShow; } }

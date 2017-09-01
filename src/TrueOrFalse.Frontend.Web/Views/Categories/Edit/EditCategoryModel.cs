@@ -175,6 +175,9 @@ public class EditCategoryModel : BaseModel
         if (request["WikipediaUrl"] != null)
             category.WikipediaURL = ToUrlWithProtocol(request["WikipediaUrl"]);
 
+        if (request["Url"] != null)
+            category.Url = ToUrlWithProtocol(request["Url"]);
+
         if (category.Type == CategoryType.Book)
             return FillBook(category, request, result);
 
@@ -199,14 +202,14 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.VolumeChapter)
             return FillVolumeChapter(category, request, result);
 
-        if (category.Type == CategoryType.Website)
-            category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
+        //if (category.Type == CategoryType.Website)
+        //    category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
 
         if (category.Type == CategoryType.WebsiteArticle)
             return FillWebsiteArticle(category, request, result);
 
-        if (category.Type == CategoryType.WebsiteVideo)
-            category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
+        //if (category.Type == CategoryType.WebsiteVideo)
+        //    category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
 
         return result;
     }
@@ -239,8 +242,7 @@ public class EditCategoryModel : BaseModel
         category.TypeJson = new CategoryTypeDaily
         { Title = request["Title"],
             ISSN = request["ISSN"],
-            Publisher = request["Publisher"],
-            Url = ToUrlWithProtocol(request["Url"])
+            Publisher = request["Publisher"]
         }.ToJson();
 
         category.Name = request["Title"];
@@ -283,7 +285,6 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -327,8 +328,7 @@ public class EditCategoryModel : BaseModel
         {
             Title = request["Title"],
             ISSN = request["ISSN"],
-            Publisher = request["Publisher"],
-            Url = ToUrlWithProtocol(request["Url"])
+            Publisher = request["Publisher"]
         }.ToJson();
 
         category.Name = request["Title"];
@@ -373,7 +373,6 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -447,8 +446,7 @@ public class EditCategoryModel : BaseModel
                 Author = request["Author"],
                 PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
-                PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
-                Url = ToUrlWithProtocol(request["Url"])
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"])
             }.ToJson();
 
         if (String.IsNullOrEmpty(request["Subtitle"]))
