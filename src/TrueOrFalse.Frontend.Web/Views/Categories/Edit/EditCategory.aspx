@@ -103,8 +103,8 @@
                                                 <option value="Book">Buch (auch eBooks)</option>
                                                 <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
                                                 <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
-                                                <option value="DailyIssue">Tageszeitung: Ausgabe</option>
-                                                <option value="DailyArticle">Tageszeitung: Artikel</option>
+                                                <option value="DailyIssue">Zeitung: Ausgabe</option>
+                                                <option value="DailyArticle">Zeitung: Artikel</option>
                                                 <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
                                                 <option value="MagazineIssue">Zeitschrift: Ausgabe</option>
                                                 <option value="MagazineArticle">Zeitschrift: Artikel</option>

@@ -271,7 +271,7 @@ public class EditCategoryModel : BaseModel
                 parentCategoryType: CategoryType.Daily,
                 htmlInputId: "hddTxtDaily",
                 errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
-                "Um zu speichern, wähle bitte eine Tageszeitung aus.");
+                "Um zu speichern, wähle bitte eine Zeitung aus.");
 
         category.Name = categoryDailyIssue.BuildTitle(addParentDaily.FieldValue);
 
@@ -303,7 +303,7 @@ public class EditCategoryModel : BaseModel
                 parentCategoryType: CategoryType.Daily,
                 htmlInputId: "hddTxtDaily",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
-                "Um zu speichern, wähle bitte eine Tageszeitung aus.");
+                "Um zu speichern, wähle bitte eine Zeitung aus.");
 
         var addParentDailyIssue =
             new AddParentCategoryFromInput(
@@ -312,7 +312,7 @@ public class EditCategoryModel : BaseModel
                 parentCategoryType: CategoryType.DailyIssue,
                 htmlInputId: "hddTxtDailyIssue",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
-                "Um zu speichern, wähle bitte eine Ausgabe der Tageszeitung aus.");
+                "Um zu speichern, wähle bitte eine Ausgabe der Zeitung aus.");
 
         if (addParentDaily.HasError)
             return addParentDaily.Result;

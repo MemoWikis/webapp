@@ -10,7 +10,7 @@
 <div class="ParentCategories">
     <div id="JS-DailySelect" class="form-group">
         <label class="RequiredField columnLabel control-label" for="">
-            Tageszeitung
+            Zeitung
         </label>
         <div class="JS-RelatedCategories columnControlsFull">
             <% if(Model.IsEditing){ %>

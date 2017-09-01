@@ -9,7 +9,7 @@
 <input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="xxx">
-        Tageszeitung
+        Zeitung
     </label>
     <div class="JS-RelatedCategories columnControlsFull">
         
@@ -82,9 +82,9 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">
-        Internetseite der Ausgabe der Tageszeitung
+        Internetseite der Ausgabe der Zeitung
         <i class="fa fa-question-circle show-tooltip" 
-           title="Gib bitte hier den Link zu dieser Ausgabe der Tageszeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+           title="Gib bitte hier den Link zu dieser Ausgabe der Zeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">

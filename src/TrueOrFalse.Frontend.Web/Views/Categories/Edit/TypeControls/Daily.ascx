@@ -43,9 +43,9 @@
 </div>
 <div class="form-group">
     <label class="columnLabel control-label" for="Url">
-        Offizielle Webseite der Tageszeitung
+        Offizielle Webseite der Zeitung
         <i class="fa fa-question-circle show-tooltip" 
-            title="Gib hier bitte die offizielle Webseite der Tageszeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+            title="Gib hier bitte die offizielle Webseite der Zeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">

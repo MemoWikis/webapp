@@ -47,9 +47,9 @@ public static class CategoryTypeExts
 
             case CategoryType.Book: return "Buch";
             case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
-            case CategoryType.Daily: return "Tageszeitung";
-            case CategoryType.DailyIssue: return "Ausgabe Tageszeitung";
-            case CategoryType.DailyArticle: return "Artikel in Tageszeitung";
+            case CategoryType.Daily: return "Zeitung";
+            case CategoryType.DailyIssue: return "Ausgabe Zeitung";
+            case CategoryType.DailyArticle: return "Artikel in Zeitung";
             case CategoryType.Magazine: return "Zeitschrift";
             case CategoryType.MagazineIssue: return "Ausgabe Zeitschrift";
             case CategoryType.MagazineArticle: return "Artikel in Zeitschrift";
@@ -130,9 +130,9 @@ public static class CategoryTypeExts
 
             case CategoryType.Book: return "Offizielle Webseite zum Buch";
             case CategoryType.VolumeChapter: return "Offizielle Webseite zum Sammelbandbeitrag";
-            case CategoryType.Daily: return "Webseite der Tageszeitung";
+            case CategoryType.Daily: return "Webseite der Zeitung";
             case CategoryType.DailyIssue: return "Webseite der Ausgabe";
-            case CategoryType.DailyArticle: return "Webseite des Artikel der Tageszeitung";
+            case CategoryType.DailyArticle: return "Webseite des Artikel der Zeitung";
             case CategoryType.Magazine: return "Webseite der Zeitschrift";
             case CategoryType.MagazineIssue: return "Webseite der Ausgabe";
             case CategoryType.MagazineArticle: return "Webseite des Artikels";
