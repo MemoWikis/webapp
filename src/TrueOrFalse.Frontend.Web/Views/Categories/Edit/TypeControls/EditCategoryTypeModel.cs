@@ -8,6 +8,7 @@ public class EditCategoryTypeModel : BaseModel
 
     public string Description { get; set; }
     public string WikipediaUrl { get; set; }
+    public string Url { get; set; }
 
     public object Model;
 
@@ -49,6 +50,7 @@ public class EditCategoryTypeModel : BaseModel
         Name = category.Name;
         Description = category.Description;
         WikipediaUrl = category.WikipediaURL;
+        Url = category.Url;
     }
 
     public static void SaveToSession(object typeModel, Category category)

@@ -49,15 +49,11 @@
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
     </div>
 </div>
-<%--<div class="form-group">
-    <label class="columnLabel control-label" for="xxx">xxx</label>
-    <div class="columnControlsFull">
-        <input class="form-control" name="xxx" type="text" value="<%= model.xxx %>">
-    </div>
-</div>--%>
+
+
 <div class="form-group">
     <label class="columnLabel control-label" for="WikipediaUrl">
         Wikipedia-URL

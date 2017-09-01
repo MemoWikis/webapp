@@ -50,7 +50,7 @@
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
     </div>
 </div>
 <div class="form-group">
