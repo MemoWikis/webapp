@@ -96,12 +96,12 @@
                             <div class="Divider" style="margin-top: 10px; margin-bottom: 5px;"></div>
                             <div class="BottomBar">
                                 <div style="float: left; padding-top: 7px;">
-                                    <div class="shareLinks">
-                                        <div class="fb-share-button" style="width: 100%; float: left;" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a></div> 
-                                        <a data-action="embed-set" <%--style="display: inline-block; margin-top: 7px; margin-left: 7px;"--%> href="#"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
-                                    </div>
+                                    <div class="fb-share-button" style="display: inline-block;" data-href="<%= Settings.CanonicalHost + Links.SetDetail(Model.Name, Model.Id) %>" data-layout="button" data-size="small" data-mobile-iframe="true">
+                                        <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Teilen</a>
+                                    </div> 
                                     
                                     <div class="editLinks">
+                                        <a class="embedSetLink" data-action="embed-set" href="#"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
                                         <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                                             <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                                             <a href="<%= Links.CreateQuestion(setId: Model.Id) %>"><i class="fa fa-plus-circle">&nbsp;</i>Frage hinzufügen</a> 

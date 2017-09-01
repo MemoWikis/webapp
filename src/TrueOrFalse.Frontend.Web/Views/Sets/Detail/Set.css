@@ -115,12 +115,13 @@
         margin-top: -21px;
     }*/
 }
-.shareLinks {
-  display: inline-block;
-}
 .editLinks {
   display: inline-block;
   font-size: 14px;
+}
+.editLinks .embedSetLink {
+  font-size: 18px;
+  margin-left: 10px;
 }
 .editLinks > a {
   margin: 0 5px;
