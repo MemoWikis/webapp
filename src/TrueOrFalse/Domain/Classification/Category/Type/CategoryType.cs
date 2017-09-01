@@ -117,7 +117,8 @@ public static class CategoryTypeExts
     {
         if (e == CategoryType.DailyArticle || e == CategoryType.MagazineArticle)
             return "Artikel";
-
+        if (e == CategoryType.WebsiteArticle)
+            return "Online-Artikel";
         return e.GetName();
     }
 
