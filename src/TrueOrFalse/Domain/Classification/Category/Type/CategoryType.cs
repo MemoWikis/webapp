@@ -28,6 +28,7 @@ public enum CategoryType
     SchoolSubject = 17,
     Course = 18,
     Certification = 19,
+    EducationProvider = 22
 }
 
 public enum CategoryTypeGroup
@@ -68,6 +69,7 @@ public static class CategoryTypeExts
             case CategoryType.SchoolSubject: return "Schulfach";
             case CategoryType.Course: return "Kurs/Seminar";
             case CategoryType.Certification: return "Zertifizierung";
+            case CategoryType.EducationProvider: return "Bildungsanbieter";
         }
         throw new Exception("invalid category type");
     }
@@ -101,7 +103,8 @@ public static class CategoryTypeExts
             e == CategoryType.Course ||
             e == CategoryType.FieldOfStudy ||
             e == CategoryType.FieldOfTraining ||
-            e == CategoryType.SchoolSubject)
+            e == CategoryType.SchoolSubject ||
+            e == CategoryType.EducationProvider)
         {
             return CategoryTypeGroup.Education;
         }
