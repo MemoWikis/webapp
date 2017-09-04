@@ -26,8 +26,7 @@ public class EntityCache
         (ConcurrentDictionary<int, ConcurrentDictionary<int, Set>>)HttpRuntime.Cache[_cacheKeyCategorySetsList];
 
     /// <summary>
-    /// Holds a list of questions that are subordinate by a set for each category. 
-    /// Each question holds a list of the setsIds that bind them to the category.
+    /// CategoryIds > QuestionIds (for each category) > SetsIds (of sets that bind question to category)
     /// Last level ConcurrentDictionary is used for easy access to keys (set ids) only (the value is always 0).
     /// </summary>
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> CategoryQuestionInSetList =>
@@ -81,6 +80,13 @@ public class EntityCache
         return GetQuestionsByIdsFromMemoryCache(GetQuestionsInSetsIdsForCategory(categoryId));
     }
 
+    public static IList<Set> GetSetsForCategory(int categoryId)
+    {
+        return CategorySetsList.ContainsKey(categoryId) 
+            ? GetSetsByIds(CategorySetsList[categoryId].Keys.ToList())
+            : new List<Set>();
+    }
+
     public static IList<int> GetQuestionsInSetsIdsForCategory(int categoryId)
     {
         var questionIds = new List<int>();
@@ -112,6 +118,21 @@ public class EntityCache
         }
 
         return questions;
+    }
+
+    public static IList<Set> GetSetsByIds(IList<int> setIds)
+    {
+        var sets = new List<Set>();
+
+        foreach (var id in setIds)
+        {
+            if (Sets.TryGetValue(id, out var setToAdd))
+            {
+                sets.Add(setToAdd);
+            }
+        }
+
+        return sets;
     }
 
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, Question>> GetCategoryQuestionsList(ConcurrentDictionary<int, Question> questions)
@@ -345,12 +366,31 @@ public class EntityCache
 
     public static void AddOrUpdate(QuestionInSet questionInSet)
     {
+        AddOrUpdateQuestionsInSet(Sets, questionInSet);
         AddQuestionInSetTo(CategoryQuestionInSetList, questionInSet);
+    }
+
+    private static void AddOrUpdateQuestionsInSet(ConcurrentDictionary<int, Set> sets, QuestionInSet questionInSet)
+    {
+        if (sets.TryGetValue(questionInSet.Set.Id, out var outSet))
+        {
+            outSet.QuestionsInSet = new HashSet<QuestionInSet>(outSet.QuestionsInSet.Where(q => q.Id != questionInSet.Id));
+            outSet.QuestionsInSet.Add(questionInSet);
+        }
     }
 
     public static void Remove(QuestionInSet questionInSet)
     {
         RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
+        RemoveQuestionFromSet(Sets, questionInSet);
+    }
+
+    public static void RemoveQuestionFromSet(ConcurrentDictionary<int, Set> sets, QuestionInSet questionInSet)
+    {
+        if (sets.TryGetValue(questionInSet.Set.Id, out var outSet))
+        {
+            outSet.QuestionsInSet = new HashSet<QuestionInSet>(outSet.QuestionsInSet.Where(q => q.Id != questionInSet.Id));
+        }
     }
 
     /// <summary>

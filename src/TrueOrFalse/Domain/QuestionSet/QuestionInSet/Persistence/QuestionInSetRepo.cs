@@ -15,6 +15,12 @@ public class QuestionInSetRepo : RepositoryDb<QuestionInSet>
         EntityCache.AddOrUpdate(questionInSet);
     }
 
+    public override void Update(QuestionInSet questionInSet)
+    {
+        base.Update(questionInSet);
+        EntityCache.AddOrUpdate(questionInSet);
+    }
+
     public override void Delete(int questionInSetId)
     {
         var questionInSet = GetById(questionInSetId); 

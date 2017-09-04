@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
@@ -124,9 +125,7 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
     {
-        return EntityCache.CategorySetsList.ContainsKey(categoryId) 
-            ? EntityCache.CategorySetsList[categoryId].Values.ToList() 
-            : new List<Set>();
+        return EntityCache.GetSetsForCategory(categoryId).ToList();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
