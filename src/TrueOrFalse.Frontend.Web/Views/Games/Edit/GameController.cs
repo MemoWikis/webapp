@@ -45,7 +45,7 @@ public class GameController : BaseController
         {
             var category = Sl.R<CategoryRepository>().GetById(Convert.ToInt32(Request["categoryId"]));
             if (category != null)
-                gameModel.Sets = category.GetSetsNonAggregated();
+                gameModel.Sets = category.GetAggregatedSetsFromMemoryCache();
         }
 
         return View(_viewLocation, gameModel);

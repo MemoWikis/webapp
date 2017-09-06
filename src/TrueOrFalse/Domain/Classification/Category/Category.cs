@@ -135,17 +135,6 @@ public class Category : DomainEntity, ICreator
             .ToList();
     }
 
-    public virtual IList<Set> GetSetsNonAggregated(bool featuredSetsOnlyIfAny = false)
-    {
-        var featuredSets = FeaturedSets();
-        if (featuredSets.Count > 0 && featuredSetsOnlyIfAny)
-        {
-            return featuredSets;
-        }
-
-        return Sl.R<SetRepo>().GetForCategory(Id);
-    }
-
     public virtual int CountQuestions { get; set; }
     public virtual int CountSets { get; set; }
 
