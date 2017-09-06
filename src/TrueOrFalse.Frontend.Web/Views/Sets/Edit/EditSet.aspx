@@ -10,7 +10,7 @@
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">
-    <% } %>
+    <% } %> 
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
