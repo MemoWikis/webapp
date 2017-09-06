@@ -189,23 +189,60 @@
     <% } %>
 
     <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">
+        
+        <div class="row">
+            <div class="col-sm-6" id="learningPoints">
+                <div class="rowBase" style="padding: 10px;">
+                    <h3>Deine Lernpunkte</h3>
+                    <div style="text-align: center; margin-bottom: 28px; margin-top: 15px;">
+                        <span class="level-display" style="float: left; margin-top: -4px;">
+                            <span style="display: inline-block; white-space: nowrap;">
+                                <svg class="">
+                                    <circle cx="50%" cy="50%" r="50%" />
+                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                                </svg>
+                            </span>
+                        </span>
+                        <p class="textPointsAndLevel">
+                            Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <span style="white-space: nowrap"><b>Level <%= Model.ActivityLevel %></b>.</span>
+                        </p>
+                    </div>
 
-        <div class="number-box-reputation" style="float: left;">
-            <a href="<%= Links.UserDetail(Model.UserName, Model.UserId) %>">
-                <div style="padding-left: 14px; padding: 8px;">                        
-                    <span>Reputation: <b><%= Model.ReputationTotal %></b> <i class="fa fa-info-circle show-tooltip" title="Du gewinnst Reputationspunkte z.B., indem du gute Fragen, Lernsets etc. erstellst. In der Hilfe erfährst du mehr."></i>,</span>
-                    <span>Rang: <b><%= Model.ReputationRank %></b>,</span>
-                    erstellte Fragen: <b><%= Model.QuestionsCreatedCount %></b>,
-                    erstellte Lernsets: <b><%= Model.SetsCreatedCount %></b>
+                    <div class="NextLevelContainer">
+                        <div class="ProgressBarContainer">
+                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                                <div class="ProgressBarSegment ProgressBarLegend">
+                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                                </div>
+                            </div>
+                            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
+            
+                        </div>
+                    </div>     
+                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel.ToString("N0") %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
                 </div>
-            </a>
-        </div>
-    
-    <div style="clear: left;"></div>   
+            </div>
 
-        <p style="">
-            &nbsp; <a href="<%= Links.UserDetail(Model.User) %>" style="font-size: 12px;">Details auf deiner Profilseite</a>
-        </p>
+            <div class="col-sm-6" id="reputationPoints">
+                <div class="rowBase" style="padding: 10px;">
+                    <h3>Deine Reputation</h3>
+                
+                    <p>
+                        Reputation: <b><%= Model.ReputationTotal %> Punkte</b>
+                        <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>
+                        <br/>
+                        Position: <%= Model.ReputationRank %><br/>
+                        Erstellte Fragen: <%= Model.QuestionsCreatedCount %><br/>
+                        Erstellte Lernsets: <%= Model.SetsCreatedCount %>
+                    </p>
+
+                    <p class="moreInfoLink">
+                        <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
+                    </p>                    
+                </div>
+            </div>
+        </div>
+
 
         <div class="row">
                             
