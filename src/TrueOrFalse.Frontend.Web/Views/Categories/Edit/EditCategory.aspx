@@ -132,7 +132,7 @@
                                             <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
                                             <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
                                             <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
-                                            <option value="Course" disabled="disabled"><%= CategoryType.Course.GetName() %></option>
+                                            <option value="Course"><%= CategoryType.Course.GetName() %></option>
                                             <option value="Certification" disabled="disabled"><%= CategoryType.Certification.GetName() %></option>
                                         </select>
                                     </label>
