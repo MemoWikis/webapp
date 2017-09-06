@@ -71,7 +71,7 @@
                     <div>
                         <div class="WikiLink">
                             <a href="<%= Model.Url %>" target="_blank" class="" title="" data-placement="left" data-html="true">
-                                <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.Type.GetUrlDescription()) ? Model.Url : Model.Category.Type.GetUrlDescription() %>
+                                <i class='fa fa-external-link'>&nbsp;&nbsp;</i><%= string.IsNullOrEmpty(Model.Category.UrlLinkText) ? Model.Url : Model.Category.UrlLinkText %>
                             </a>
                         </div>
                     </div>

@@ -45,6 +45,7 @@ public class CategoryModel : BaseModel
 
     public string WikipediaURL;
     public string Url;
+    public string UrlLinkText;
 
     public bool IsOwnerOrAdmin;
 
@@ -78,6 +79,7 @@ public class CategoryModel : BaseModel
 
         WikipediaURL = category.WikipediaURL;
         Url = category.Url;
+        UrlLinkText = category.UrlLinkText;
         Category = category;
 
         Id = category.Id;

@@ -177,6 +177,7 @@ public class EditCategoryModel : BaseModel
 
         if (request["Url"] != null)
             category.Url = ToUrlWithProtocol(request["Url"]);
+        category.UrlLinkText = request["UrlLinkText"] ?? "";
 
         if (category.Type == CategoryType.Book)
             return FillBook(category, request, result);
@@ -232,8 +233,6 @@ public class EditCategoryModel : BaseModel
         else
             category.Name = request["Title"] + " – " + request["Subtitle"];
         
-        //category.Name += " (" + category.Type.GetName() + ")";
-
         return result;
     }
 
