@@ -18,6 +18,8 @@ public class Category : DomainEntity, ICreator
 
     public virtual string Url { get; set; }
 
+    public virtual string UrlLinkText { get; set; }
+
     public virtual bool DisableLearningFunctions { get; set; }
 
     public virtual User Creator { get; set; }

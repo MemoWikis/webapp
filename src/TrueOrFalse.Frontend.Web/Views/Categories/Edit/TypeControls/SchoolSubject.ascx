@@ -20,7 +20,7 @@
 </div>
 <%--<div class="form-group">
     <label class="columnLabel control-label" for="Url">
-        Offizielle Internetseite zum Schulfach
+        Offizielle Webseite zum Schulfach
         <i class="fa fa-question-circle show-tooltip" 
            title="Falls es sie gibt: Gib bitte hier die offizielle Webseite des Schulfachs an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
