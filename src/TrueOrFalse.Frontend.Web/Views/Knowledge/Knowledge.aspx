@@ -353,6 +353,47 @@
                 </div>
             </div>
         </div>
+        
+        
+        <div id="wishKnowledge">
+            <div class="rowBase">
+                <h3>Themen in deinem Wunschwissen</h3>
+                <div class="row">
+                    <% foreach (var category in Model.CategoriesWish)
+                       { %>
+                        <div class="col-xs-6 topic">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <div class="ImageContainer">
+                                        <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(category.Name, category.Id)) %>
+                                    </div>
+                                </div>
+                                <div class="col-xs-9">
+                                    <a class="topic-name" href="<%= Links.GetUrl(category) %>">
+                                        <div class="topic-name">
+                                            <%: category.Name %>
+                                        </div>
+                                    </a>
+                                    <div class="set-question-count">
+                                        <%: Model.GetTotalSetCount(category) %> Lernset<% if(Model.GetTotalSetCount(category) != 1){ %>s&nbsp;<% } else { %>&nbsp;<% } %>
+                                        <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
+                                    </div>
+                                    <div class="KnowledgeBarWrapper">
+                                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
+                                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                    </div>
+                                    <div class="showSubTopics">
+                                        <a href="#"><i class="fa fa-caret-down">&nbsp;</i>Zeige Unterthemen</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>                            
+            </div>
+
+        </div>
+
     
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">

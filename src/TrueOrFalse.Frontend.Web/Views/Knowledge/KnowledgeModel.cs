@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -35,6 +36,8 @@ public class KnowledgeModel : BaseModel
     public User User = new User();
     public int ReputationRank;
     public int ReputationTotal;
+
+    public IList<Category> CategoriesWish;
 
     public UIMessage Message;
 
@@ -83,6 +86,12 @@ public class KnowledgeModel : BaseModel
         HasLearnedInLast30Days = Last30Days.Sum(d => d.TotalAnswers) > 0;
         StreakDays = R<GetStreaksDays>().Run(User);
 
+
+        //GET WISH KNOWLEDGE INFO
+        CategoriesWish = R<CategoryRepository>().GetByIds(751, 394, 175);
+
+
+        //GET DATES information
         Dates = R<DateRepo>().GetBy(UserId, true);
         DatesInNetwork = R<GetDatesInNetwork>().Run(UserId);
 
@@ -161,6 +170,10 @@ public class KnowledgeModel : BaseModel
             TotalLearningDays = 214
         };
 
+
+        CategoriesWish = new List<Category>();
+
+
         Dates = GetSampleDates.Run();
         DatesInNetwork = GetSampleDates.RunAgain();
 
@@ -203,5 +216,20 @@ public class KnowledgeModel : BaseModel
                 TrainingPlan = new TrainingPlan()
             })
         };
+    }
+
+    public ImageFrontendData GetCategoryImage(Category category)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
+        return new ImageFrontendData(imageMetaData);
+    }
+    public int GetTotalQuestionCount(Category category)
+    {
+        return category.GetAggregatedQuestionsFromMemoryCache().Count;
+    }
+
+    public int GetTotalSetCount(Category category)
+    {
+        return category.GetAggregatedSetsFromMemoryCache().Count;
     }
 }
