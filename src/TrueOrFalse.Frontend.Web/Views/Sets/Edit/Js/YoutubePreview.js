@@ -1,102 +1,170 @@
 ﻿
 
+var youtube = {
 
-var optionsYoutube = {
-    callback: function (data) {
-        // No Else ,validierung Is carried out in validation.ts
-
+    transformYoutubeUrl: function (url) {
         var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
-        var match = data.match(regExp);
-        if (match && match[2].length == 11) {
+        var match = url.match(regExp);
+        return match;
 
-            player.loadVideoById({
-                'videoId': match[2],
-                'suggestedQuality': 'large'
-            });
-            $('#player').fadeIn();
+    },
+
+    loadPlayer: function (urlObject) {
+        //fehleranzeige vermeiden versucht es sonst auch zu laden wenn Objekt null ist 
+        if (urlObject === null)
+            return;
+        player.loadVideoById({
+            videoId: urlObject[2]
+
+        });
+    },
+    timeTransform: function (value = "") {
+        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + (player.getCurrentTime() % 60).toFixed();
+        return timeTransformValue;
+    },
+    videoAvailable: function (videoId) {
+
+        return $.ajax({
+            url: "https://www.googleapis.com/youtube/v3/videos?part=id&key=AIzaSyCPbY50W-gD0-KLnsKQCiS0d1Y5SKK0bOg&id=" + videoId
+        });
+    },
+    videoAvailableSetDataVideoAvailableTrue: function () {
+        $('#VideoUrl').attr('data-video-available', true);
+    },
+    videoAvailableSetDataVideoAvailableFalse: function () {
+        $('#VideoUrl').attr('data-video-available', false);
+    }
+}
 
 
-        }
+var optionsYoutubeTypeWatch = {
+    callback: function (data) {
 
+        var urlObject = youtube.transformYoutubeUrl(data);
 
+        var videoAvailable = youtube.videoAvailable(urlObject[2]);
+
+        videoAvailable.success(function (d) {
+            if (d.items.length < 1) {
+                youtube.videoAvailableSetDataVideoAvailableFalse();
+                everythingElse.hideElements();
+
+            } else {
+                youtube.videoAvailableSetDataVideoAvailableTrue();
+                youtube.loadPlayer(urlObject);
+                everythingElse.fadeInElements();
+                player.stopVideo();
+
+            }
+
+            $("#VideoUrl").valid();
+        });
     },
     wait: 750,
     highlight: true,
-    allowSubmit: false,
+    allowSubmit: true,
     captureLength: 0,
     allowSameSearch: true
 };
 
 
 // 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
+var tag = document.createElement("script");
 var isLoaded = false;
-    tag.src = "https://www.youtube.com/iframe_api";
+tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
+// after the API code downloads.
 var player;
+
 function onYouTubeIframeAPIReady() {
     player = new YT.Player("player", {
         height: "360",
         width: "640",
-        videoId: "",
         events: {
-            // ist der Youtubeplayer fertig geladen wird isLoadet auf true gesetzt , da wir nicht wissen was zuerst fertig ist Seite oder player
             'onReady': function () {
-                isLoaded = true;
-                // wird ein Trigger abgesetzt der aufs Document geht 
-                $(document).trigger('playerIsLoaded');
+                $('document').ready(function () {
+                    //Standard ausblenden
+
+                    everythingElse.hideElements();
+                    var url = $('#VideoUrl').val();
+                    var urlObject = youtube.transformYoutubeUrl(url);
+
+                    // es  kann eine Url gespeichert sein ,diese muss sofort geprüft werden
+                    var videoAvailable = youtube.videoAvailable(urlObject[2]);
+                    videoAvailable.success(function (data) {
+
+
+                        if (data.items.length > 0) {
+                            everythingElse.fadeInElements();
+                            youtube.loadPlayer(urlObject);
+                            player.stopVideo();
+                        } else if (url !== "") {
+                            youtube.videoAvailableSetDataVideoAvailableFalse();
+
+
+                        }
+                    });
+
+                });
             }
         }
-        
-    });
+    }
+    )
+};
+var everythingElse = {
+
+    hideElements: function () {
+        $("#player").hide();
+        $('#ulQuestions').removeClass('showTimeInput');
+    },
+
+    fadeInElements: function () {
+        $('#ulQuestions').addClass('showTimeInput');
+        $('#player').fadeIn();
+
+
+    }
+
+
+
 }
 
 
 
-   function simulatdedClickOfVideoUrlInput() {
-       $("#VideoUrl").trigger(jQuery.Event("keydown", { keycode: 39 }));
-   }
-
-   
-   
 
 
 $(function () {
+
+    $.validator.addMethod("UrlCheck", function (value, element) {
+        return $(element).attr('data-video-available') === "true";
+
+    }, 'Das Video ist nicht oder nicht mehr vorhanden');
+
+
+    everythingElse.hideElements();
     $("#ulQuestions").on("click", ".time-button", function () {
-        var temp=0;
+        var temp;
         if (player.getCurrentTime() % 60 < 10) {
-             temp = Math.floor(player.getCurrentTime() / 60) + ":" + "0" + (player.getCurrentTime() % 60).toFixed();            
-        }else{
-             temp = Math.floor(player.getCurrentTime() / 60) + ":" + (player.getCurrentTime() % 60).toFixed(); 
+            temp = youtube.timeTransform("0");
+        } else {
+            temp = youtube.timeTransform();
         }
+
         $(this).parent().find(".form-control").val(temp);
-        var timeCode = temp;       
+
         var questionInSetId = $(this).parent().find(".form-control").attr("data-in-set-id");
-        console.log(questionInSetId);
-        $.post("/SetVideo/SaveTimeCode/", { timeCode: timeCode, questionInSetId: questionInSetId });
-    
-        player.pauseVideo();   
+        $.post("/SetVideo/SaveTimeCode/", { timeCode: temp, questionInSetId: questionInSetId });
+
+        player.pauseVideo();
     });
 
-    $("#VideoUrl").typeWatch(optionsYoutube);
+    $("#VideoUrl").typeWatch(optionsYoutubeTypeWatch);
 
-    if ($("#VideoUrl").val() === "") {
-        $("#player").hide();
-    }
-    // der Trigger enthält den Wert der Variablen isLoadet ist der Wert true wird der Trigger auf das Input feld gesetzt und dieses neu geladen
-    // Sinn der Aktion ist es ,das typewatch aktualisiert wird und ein Wert an den Player übergeben wird 
-    if (isLoaded) {
-       // $('#VideoUrl').trigger(jQuery.Event('keydown', { keycode: 39 }));
-        simulatdedClickOfVideoUrlInput();
-    } else {
-        // ist der Status false ,on wird erst ausgeführt wenn playerIsLoadet getriggert wurde
-        $(document).on('playerIsLoaded', function () {
-            simulatdedClickOfVideoUrlInput();
-            //$('#VideoUrl').trigger(jQuery.Event('keydown', { keycode: 39 }));
-        });
-    }
+
+
+
+
 });

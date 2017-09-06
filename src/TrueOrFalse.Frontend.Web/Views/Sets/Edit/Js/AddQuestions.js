@@ -1,7 +1,7 @@
 ﻿
 $(function () {
 
-  
+
     $("#revertAction").click(function () {
         $("#modalRevertAction").modal();
     });
@@ -20,33 +20,35 @@ $(function () {
         });
     // Button Click 
     $("#learnSetSave").on("click",
-        function(e) {
-            
+        function (e) {
+
             e.preventDefault();
             var selectedQuestionIds = [];
-            
 
-            $("#questions input:checked").each(function() {
+
+            $("#questions input:checked").each(function () {
                 selectedQuestionIds.push($(this).attr("value"));
             });
 
-            $.post("/EditSet/AddQuestionsToSet",
-                { setid: EditSet.GetSetId(), questionIds: selectedQuestionIds },   //
-                function(data) {
 
+            $.ajax({
+                type: 'POST',
+                url: "/EditSet/AddQuestionsToSet",
+                data: { setid: EditSet.GetSetId(), questionIds: selectedQuestionIds },
+                success: function (data) {
                     if (data.Status === true) {
-                        $("#alertOutput").text("Speichern erfolgreich");
 
+                        $("#alertOutput").text("Speichern erfolgreich");
                         //1: load row html
                         $.post("/EditSet/GetHtmlRows",
                             { setid: EditSet.GetSetId(), questionIds: selectedQuestionIds },
                             function (data) {
-                                for (var i= 0; i<data.length;i++) {
-                                    console.log(data[i]);
+                                for (var i = 0; i < data.length; i++) {
+
                                     $("#ulQuestions").append($(data[i])).fadeIn(400);
                                 }
-                                console.log(data);
-                            });               
+
+                            });
 
                         $("#revertAction").click(function () {
                             $("#modalRevertAction").modal();
@@ -55,28 +57,31 @@ $(function () {
                     } else {
                         $("#safeQuestions").removeClass("alert-success").addClass("alert-warning");
                         $("#alertOutput").text("Speichern fehlgeschlagen");
-                    } 
-                }
-            
-            );
-            
+                    }
+                },
+                dataType: 'json',
+                async: false
+            });
+
+
+
             $("#safeQuestions").fadeIn();
             $("#questions").empty();
             $('#learnSetSave').hide();
             $("#questionId").val("");
             $("#resultHeading").hide();
             $(".alert-info").hide();
-            
+
         });
 });
 
 var options = {
     callback: function () {
         $("#questions").empty();
-        $("#safeQuestions").hide(); 
+        $("#safeQuestions").hide();
         $.post("/EditSet/Search",
             { setId: EditSet.GetSetId(), term: $("#questionId").val() },
-            function(data) {
+            function (data) {
 
                 if (data.Questions.length > 0) {
                     $("#resultHeading").fadeIn();
@@ -106,7 +111,7 @@ var options = {
     highlight: true,
     allowSubmit: false,
     captureLength: 2,
-    allowSameSearch:true
+    allowSameSearch: true
 }
 
 
@@ -128,16 +133,16 @@ function toggleCheckbox(event, checkbox) {
             .filter(function (index, input) { return $(input).is(":checked") })
             .length;
 
-        if(checkedCount === 0)
+        if (checkedCount === 0)
             $('#learnSetSave').hide();
     }
 
 }
 
 function disableSubmitButtonSouldBePressedEnter() {
-    $('body').keypress(function(e) {
+    $('body').keypress(function (e) {
         if (e.keyCode === 13 && $("#questionId").is(":focus")) {
-            event.preventDefault();         
+            event.preventDefault();
             return false;
         }
     });
@@ -147,6 +152,6 @@ function hiding() {
     $("#safeQuestions").hide();
     $("#resultHeading").hide();
     $('#questions').hide();
-    $('#learnSetSave').hide();   
+    $('#learnSetSave').hide();
 }
 

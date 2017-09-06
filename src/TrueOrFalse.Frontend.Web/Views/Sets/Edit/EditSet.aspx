@@ -10,7 +10,7 @@
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">
-    <% } %> 
+    <% } %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
@@ -131,8 +131,9 @@
                     </div>
               
                         
-                <div id="player">
-                </div>
+                    <div id="player" >
+                    </div>
+                  
 
                
                     
@@ -203,7 +204,7 @@
                                     
                                 <% } %>
                                     
-                                <ul id="ulQuestions">
+                                <ul id="ulQuestions" >
                                     <% foreach (var questionInSet in Model.QuestionsInSet){ %>
                                         
                                         <%Html.RenderPartial("~/Views/Sets/Edit/QuestionInSet.ascx", new QuestionInSetModel(questionInSet)); %>
@@ -217,7 +218,7 @@
                         
                         <div class="row">
                             <div class="col-md-12">
-                                <h3>Füge vorhanden Fragen zum Lernset hinzu</h3>
+                                <h3>Füge vorhandene Fragen zum Lernset hinzu</h3>
                             </div>
                         </div>
 
