@@ -88,7 +88,11 @@ public class KnowledgeModel : BaseModel
 
 
         //GET WISH KNOWLEDGE INFO
-        CategoriesWish = R<CategoryRepository>().GetByIds(751, 394, 175);
+        var categoriesValuation = UserValuationCache.GetCategoryValuations(UserId)
+            .Where(v => v.IsInWishKnowledge())
+            .Select(v => v.CategoryId)
+            .ToList();
+        CategoriesWish = R<CategoryRepository>().GetByIds(categoriesValuation);
 
 
         //GET DATES information
