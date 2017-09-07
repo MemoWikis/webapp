@@ -21,7 +21,6 @@ namespace TrueOrFalse.Tests
 
             AddToSet.Run(context.All.GetIds().ToArray(), questionSet.Id);
 
-            base.RecycleContainer();
             var questionSetFromDb = Resolve<SetRepo>().GetById(questionSet.Id);
             var questionSetFromDb2 = Resolve<ISession>().QueryOver<Set>().SingleOrDefault();
 
