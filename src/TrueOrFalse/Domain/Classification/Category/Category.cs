@@ -215,6 +215,9 @@ public class Category : DomainEntity, ICreator
         if (Type == CategoryType.EducationProvider)
             return CategoryTypeEducationProvider.FromJson(this);
 
+        if (Type == CategoryType.Course)
+            return CategoryTypeCourse.FromJson(this);
+
         throw new Exception("Invalid type.");
     }
 

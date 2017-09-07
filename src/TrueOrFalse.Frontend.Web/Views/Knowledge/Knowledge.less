@@ -1,4 +1,81 @@
-﻿#chartKnowledge text {
+﻿@import (reference) '../../Style/includes/imports.less';
+
+/* Progress bar Next Level 
+------------------------------------------------------*/
+
+#learningPoints, #reputationPoints {
+    font-size: 18px;
+    margin: 20px 0;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+}
+
+#learningPoints {
+
+    p.textPointsAndLevel {
+        margin-left: 50px;
+        text-align: left;
+    }
+}
+
+.ProgressBarContainer, .ProgressBarSegment {
+    height: 30px;
+}
+
+.ProgressBarContainer {
+    display: table;
+    width: 100%;
+    border: solid 2px @memo-green;
+    background-color: @memo-green;
+    margin-bottom: 5px;
+    .clearfix;
+}
+
+.ProgressBarSegment {
+    display: table-cell;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: top; //Fix Firefox height bug
+}
+
+.ProgressBarLegend {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 100%;
+    min-width: 30px;
+    font-weight: bold;
+}
+
+.ProgressBarDone {
+    background-color: @memo-green;
+    position: relative;
+    overflow: visible;
+}
+
+.ProgressBarLeft {
+    background-color: lighten(@memo-green, 30);
+}
+
+/*----------*/
+
+#reputationPoints {
+    p.moreInfoLink {
+        margin-bottom: 0;
+        margin-top: 10px;
+        font-size: smaller;
+        text-align: right;
+    }
+}
+
+
+/* STATISTIC CHARTS
+-------------------------------------------*/
+
+#chartKnowledge text {
     font-size: 13px; 
     cursor: pointer;
     

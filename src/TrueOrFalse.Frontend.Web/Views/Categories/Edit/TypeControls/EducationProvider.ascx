@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="ViewUserControl<EditCategoryTypeModel>" %>
 
 <h4 class="CategoryTypeHeader"><%= CategoryType.EducationProvider.GetName() %></h4>
+
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" for="Name">Name</label>
     <div class="columnControlsFull">
