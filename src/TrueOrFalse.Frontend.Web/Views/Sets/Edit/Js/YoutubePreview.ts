@@ -136,19 +136,18 @@ class YoutubeApiLoad {
         everythingElse.hideElements();
         $("#ulQuestions").on("click",
             ".time-button",
-            ()=> {
+            (event) => {
+                var t = event.target;
                 var temp;
                 if (player.getCurrentTime() % 60 < 10) {
                     temp = youtube.timeTransform("0");
                 } else {
                     temp = youtube.timeTransform();
                 }
-
-                $(this).parent().find(".form-control").val(temp);
-
-                var questionInSetId = $(this).parent().find(".form-control").attr("data-in-set-id");
+                var input = $(t).parent().parent().find(".form-control");
+                input.val(temp);
+                var questionInSetId = input.attr("data-in-set-id");
                 $.post("/SetVideo/SaveTimeCode/", { timeCode: temp, questionInSetId: questionInSetId });
-
                 player.pauseVideo();
             });
 

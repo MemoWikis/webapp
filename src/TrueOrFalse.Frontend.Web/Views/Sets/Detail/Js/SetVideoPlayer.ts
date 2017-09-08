@@ -25,10 +25,9 @@ class SetVideoPlayer
     Player : YT.Player;
 
     constructor() {
-
-        debugger;
         initPlayer = () => {
             player = new YT.Player('player', {
+                playerVars: { rel: 0 },
                 events: {
                     'onReady':
                         setVideoPlayer.OnPlayerReady,
