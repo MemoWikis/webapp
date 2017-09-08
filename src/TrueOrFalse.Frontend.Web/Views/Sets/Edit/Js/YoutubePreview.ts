@@ -106,8 +106,7 @@ class YoutubeApiLoad {
         }
         initPlayer = () => {
             player = new YT.Player('player', {
-                width: "640",
-                height: "360",
+                playerVars: { rel: 0 },
                 events: {
                     onReady: () => { initPlayerSettings() }
                 }
