@@ -103,18 +103,17 @@ $(function () {
     }, 'Das Video ist nicht oder nicht mehr vorhanden');
     everythingElse.hideElements();
     $("#ulQuestions").on("click", ".time-button", function () {
-        // dont change in LambdaExpression dont work 
-        var temp;
+        var timecode;
         if (player.getCurrentTime() % 60 < 10) {
-            temp = youtube.timeTransform("0");
+            timecode = youtube.timeTransform("0");
         }
         else {
-            temp = youtube.timeTransform();
+            timecode = youtube.timeTransform();
         }
-        var input = $(this).parent().parent().find(".form-control");
-        input.val(temp);
+        var input = $(this).parent().find(".form-control");
+        input.val(timecode);
         var questionInSetId = input.attr("data-in-set-id");
-        $.post("/SetVideo/SaveTimeCode/", { timeCode: temp, questionInSetId: questionInSetId });
+        $.post("/SetVideo/SaveTimeCode/", { timeCode: timecode, questionInSetId: questionInSetId });
         player.pauseVideo();
     });
     $("#VideoUrl").typeWatch(optionsYoutubeTypeWatch);
