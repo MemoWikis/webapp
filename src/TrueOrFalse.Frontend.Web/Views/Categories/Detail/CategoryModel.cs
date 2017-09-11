@@ -24,6 +24,7 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesChildren;
 
     public IList<Set> AggregatedSets;
+    public IList<Question> AggregatedQuestions;
     public int AggregatedSetCount;
     public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
@@ -106,7 +107,8 @@ public class CategoryModel : BaseModel
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountAggregatedQuestions = category.CountQuestionsAggregated;
+        AggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
+        CountAggregatedQuestions = AggregatedQuestions.Count;
         CountReferences = ReferenceCount.Get(category.Id);
 
         if (category.Type != CategoryType.Standard)
@@ -115,7 +117,7 @@ public class CategoryModel : BaseModel
         CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = category.GetAggregatedQuestionsFromMemoryCache().Take(MaxCountQuestionsToDisplay).ToList();
+        TopQuestions = AggregatedQuestions.Take(MaxCountQuestionsToDisplay).ToList();
 
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
