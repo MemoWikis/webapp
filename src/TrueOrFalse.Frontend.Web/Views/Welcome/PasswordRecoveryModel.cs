@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
-public class PasswordRecoveryModel
+public class PasswordRecoveryModel : BaseModel
 {
     public UIMessage Message;
 
