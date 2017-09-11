@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Owin.Security.Provider;
 using Newtonsoft.Json;
 using NHibernate;
 using Seedworks.Lib.Persistence;
@@ -92,16 +93,23 @@ public class Category : DomainEntity, ICreator
         return GetAggregatedSetsFromMemoryCache().Count;
     }
 
-    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache()
+    public virtual IList<Question> GetAggregatedQuestionsFromMemoryCache(bool onlyVisible = true)
     {
         var questionRepo = Sl.QuestionRepo;
 
-        return AggregatedCategories()
-                .SelectMany(c => 
-                    questionRepo.GetForCategoryFromMemoryCache(c.Id)
+        var questions = AggregatedCategories()
+            .SelectMany(c =>
+                questionRepo.GetForCategoryFromMemoryCache(c.Id)
                     .Union(EntityCache.GetQuestionsInSetsForCategory(c.Id)))
-                .Distinct()
-                .ToList();
+            .Distinct()
+            .ToList();
+
+        if (onlyVisible)
+        {
+            questions = questions.Where(q => q.IsVisibleToCurrentUser()).ToList();
+        }
+
+        return questions.ToList();
     }
 
     public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache()
