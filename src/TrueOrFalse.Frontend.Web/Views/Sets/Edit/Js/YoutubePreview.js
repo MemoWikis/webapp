@@ -75,6 +75,7 @@ var YoutubeApiLoad = (function () {
             var videoAvailable = youtube.videoAvailable(urlObject[2]);
             videoAvailable.done(function (data) {
                 if (data.items.length > 0) {
+                    youtube.videoAvailableSetDataVideoAvailableTrue();
                     everythingElse.fadeInElements();
                     youtube.loadPlayer(urlObject);
                     player.stopVideo();
