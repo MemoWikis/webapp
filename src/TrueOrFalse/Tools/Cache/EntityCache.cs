@@ -391,6 +391,11 @@ public class EntityCache
         {
             outSet.QuestionsInSet = new HashSet<QuestionInSet>(outSet.QuestionsInSet.Where(q => q.Id != questionInSet.Id));
             outSet.QuestionsInSet.Add(questionInSet);
+
+            foreach (var questionInSetItem in outSet.QuestionsInSet)
+            {
+                questionInSetItem.Set = outSet;
+            }
         }
     }
 
