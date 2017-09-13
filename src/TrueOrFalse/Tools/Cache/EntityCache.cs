@@ -48,10 +48,14 @@ public class EntityCache
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeySets, sets.ToConcurrentDictionary());
-        IntoForeverCache(_cacheKeyCategoryQuestionsList, GetCategoryQuestionsList(questions));
-        IntoForeverCache(_cacheKeyCategorySetsList, GetCategorySetsList(sets));
-        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets));
 
+        IntoForeverCache(_cacheKeyCategoryQuestionsList, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
+        IntoForeverCache(_cacheKeyCategorySetsList, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>());
+        IntoForeverCache(_cacheKeyCategoryQuestionInSetList, new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>());
+
+        FillCategoryQuestionsList(questions);
+        FillCategorySetsList(sets);
+        FillCategoryQuestionInSetList(questionInSets);
 
         Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
     }
@@ -68,40 +72,29 @@ public class EntityCache
             null);
     }
 
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
+    private static void FillCategoryQuestionsList(IList<Question> questions)
     {
-        var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
         {
-            UpdateCategoryQuestionList(categoryQuestionList, question);
+            UpdateCategoryQuestionList(question);
         }
-
-        return categoryQuestionList;
     }
 
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategorySetsList(IList<Set> sets)
+    private static void FillCategorySetsList(IList<Set> sets)
     {
-        var categorySetsList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var set in sets)
         {
-            UpdateCategorySetList(categorySetsList, set);
+            UpdateCategorySetList(set);
         }
-
-        return categorySetsList;
     }
 
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>
-        GetCategoryQuestionInSetList(IList<QuestionInSet> questionInSetItems)
+    private static void
+        FillCategoryQuestionInSetList(IList<QuestionInSet> questionInSetItems)
     {
-        var categoryQuestionInSetList =
-            new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
-
         foreach (var questionInSet in questionInSetItems)
         {
-            AddQuestionInSetTo(categoryQuestionInSetList, questionInSet);
+            AddToCategoryQuestionInSetList(questionInSet);
         }
-
-        return categoryQuestionInSetList;
     }
 
     public static IList<Question> GetQuestionsForCategory(int categoryId)
@@ -186,111 +179,101 @@ public class EntityCache
         return sets;
     }
 
-    private static void AddQuestionInSetTo(
-        ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionInSetList,
-        QuestionInSet questionInSet)
+    private static void AddToCategoryQuestionInSetList(QuestionInSet questionInSet)
     {
         foreach (var category in questionInSet.Set.Categories)
         {
             var set = questionInSet.Set;
             var question = questionInSet.Question;
 
-            categoryQuestionInSetList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>(), (k, existingList) => existingList);
+            CategoryQuestionInSetList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>(), (k, existingList) => existingList);
 
-            categoryQuestionInSetList[category.Id]?.AddOrUpdate(question.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
+            CategoryQuestionInSetList[category.Id]?.AddOrUpdate(question.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
 
-            categoryQuestionInSetList[category.Id]?[question.Id]?.AddOrUpdate(set.Id, 0, (k, v) => 0);
+            CategoryQuestionInSetList[category.Id]?[question.Id]?.AddOrUpdate(set.Id, 0, (k, v) => 0);
         }
     }
 
-    private static void RemoveQuestionInSetFrom(
-        ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionInSetList,
-        QuestionInSet questionInSet)
+    private static void RemoveFromCategoryQuestionInSetList(QuestionInSet questionInSet)
     {
         foreach (var category in questionInSet.Set.Categories)
         {
-            categoryQuestionInSetList[category.Id]?[questionInSet.Question.Id]?.TryRemove(questionInSet.Set.Id, out var removedQuestionInSet);
+            CategoryQuestionInSetList[category.Id]?[questionInSet.Question.Id]?.TryRemove(questionInSet.Set.Id, out var removedQuestionInSet);
         }
     }
 
     private static void UpdateCategoryQuestionList(
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList, 
         Question question, 
         List<int> affectedCategoryIds = null)
     {
-        DeleteQuestionFromRemovedCategories(question, categoryQuestionsList, affectedCategoryIds);
+        DeleteQuestionFromRemovedCategories(question, affectedCategoryIds);
 
-        AddQuestionToCategories(question, categoryQuestionsList);
+        AddQuestionToCategories(question);
     }
 
     private static void UpdateCategorySetList(
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categorySetsList,
         Set set,
         List<int> affectedCategoryIds = null)
     {
-        DeleteSetFromRemovedCategories(set, categorySetsList, affectedCategoryIds);
+        DeleteSetFromRemovedCategories(set, affectedCategoryIds);
 
-        AddSetToCategories(set, categorySetsList);
+        AddSetToCategories(set);
     }
 
     private static void DeleteQuestionFromRemovedCategories(
         Question question, 
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
         List<int> affectedCategoryIds = null)
     {
         if (affectedCategoryIds != null)
         {
             foreach (var categoryId in affectedCategoryIds.Except(question.Categories.GetIds()))
             {
-                if (categoryQuestionsList.ContainsKey(categoryId))
-                    categoryQuestionsList[categoryId]?.TryRemove(question.Id, out var outVar);
+                if (CategoryQuestionsList.ContainsKey(categoryId))
+                    CategoryQuestionsList[categoryId]?.TryRemove(question.Id, out var outVar);
             }
         }
     }
 
     private static void DeleteSetFromRemovedCategories(
         Set set,
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categorySetsList,
         List<int> affectedCategoryIds = null)
     {
         if (affectedCategoryIds != null)
         {
             foreach (var categoryId in affectedCategoryIds.Except(set.Categories.GetIds()))
             {
-                if (categorySetsList.ContainsKey(categoryId))
-                    categorySetsList[categoryId]?.TryRemove(set.Id, out var questionOut);
+                if (CategorySetsList.ContainsKey(categoryId))
+                    CategorySetsList[categoryId]?.TryRemove(set.Id, out var questionOut);
             }
         }
     }
 
     private static void UpdateCategoryQuestionInSetList(
-        ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionsInSetList,
         Set set,
         List<int> affectedCategoryIds = null)
     {
         foreach (var questionInSet in set.QuestionsInSet)
         {
-            DeleteQuestionInSetFromRemovedCategories(questionInSet, categoryQuestionsInSetList, affectedCategoryIds);
+            DeleteQuestionInSetFromRemovedCategories(questionInSet, affectedCategoryIds);
 
-            AddQuestionInSetTo(categoryQuestionsInSetList, questionInSet);
+            AddToCategoryQuestionInSetList(questionInSet);
         }
     }
 
-    private static void DeleteQuestionInSetFromRemovedCategories(QuestionInSet questionInSet, ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionsInSetList, List<int> affectedCategoryIds)
+    private static void DeleteQuestionInSetFromRemovedCategories(QuestionInSet questionInSet, List<int> affectedCategoryIds)
     {
         if (affectedCategoryIds != null)
         {
             foreach (var categoryId in affectedCategoryIds.Except(questionInSet.Set.Categories.GetIds()))
             {
-                if (categoryQuestionsInSetList.ContainsKey(categoryId))
-                    categoryQuestionsInSetList[categoryId]?[questionInSet.Question.Id]?.TryRemove(questionInSet.Set.Id, out var outValue);
+                if (CategoryQuestionInSetList.ContainsKey(categoryId))
+                    CategoryQuestionInSetList[categoryId]?[questionInSet.Question.Id]?.TryRemove(questionInSet.Set.Id, out var outValue);
             }
         }
     }
 
     private static void AddQuestionToCategories(
         Question question,
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
         IList<Category> categories = null)
     {
         if (categories == null)
@@ -300,38 +283,36 @@ public class EntityCache
 
         foreach (var category in categories)
         {
-            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
+            CategoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
 
-            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
+            CategoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
         }
     }
 
-    private static void RemoveQuestionFrom(ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionList, Question question)
+    private static void RemoveQuestionFrom(Question question)
     {
         foreach (var category in question.Categories)
         {
-            var questionsInCategory = categoryQuestionList[category.Id];
+            var questionsInCategory = CategoryQuestionsList[category.Id];
             questionsInCategory.TryRemove(question.Id, out var outVar);
         }
     }
 
-    private static void AddSetToCategories(
-        Set set,
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categorySetsList)
+    private static void AddSetToCategories(Set set)
     {
         foreach (var category in set.Categories)
         {
-            categorySetsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
+            CategorySetsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
 
-            categorySetsList[category.Id]?.AddOrUpdate(set.Id, 0, (k, v) => 0);
+            CategorySetsList[category.Id]?.AddOrUpdate(set.Id, 0, (k, v) => 0);
         }
     }
 
-    private static void RemoveSetFrom(ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categorySetList, Set set)
+    private static void RemoveFromCategorySetList(Set set)
     {
         foreach (var category in set.Categories)
         {
-            var questionsInCategory = categorySetList[category.Id];
+            var questionsInCategory = CategorySetsList[category.Id];
             questionsInCategory.TryRemove(set.Id, out var setOut);
         }
     }
@@ -339,13 +320,13 @@ public class EntityCache
     public static void AddOrUpdate(Question question, List<int> affectedCategoriesIds = null)
     {
         AddOrUpdate(Questions, question);
-        UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoriesIds);
+        UpdateCategoryQuestionList(question, affectedCategoriesIds);
     }
 
     public static void Remove(Question question)
     {
         Remove(Questions, question);
-        RemoveQuestionFrom(CategoryQuestionsList, question);
+        RemoveQuestionFrom(question);
     }
 
     public static void AddOrUpdate(Category category)
@@ -395,30 +376,30 @@ public class EntityCache
     public static void AddOrUpdate(Set set, List<int> affectedCategoriesIds = null)
     {
         AddOrUpdate(Sets, set);
-        UpdateCategorySetList(CategorySetsList, set, affectedCategoriesIds);
-        UpdateCategoryQuestionInSetList(CategoryQuestionInSetList, set, affectedCategoriesIds);
+        UpdateCategorySetList(set, affectedCategoriesIds);
+        UpdateCategoryQuestionInSetList(set, affectedCategoriesIds);
     }
 
     public static void Remove(Set set)
     {
         Remove(Sets, set);
-        RemoveSetFrom(CategorySetsList, set);
+        RemoveFromCategorySetList(set);
 
         foreach (var questionInSet in set.QuestionsInSet)
         {
-            RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
+            RemoveFromCategoryQuestionInSetList(questionInSet);
         }
     }
 
     public static void AddOrUpdate(QuestionInSet questionInSet)
     {
-        AddOrUpdateQuestionsInSet(Sets, questionInSet);
-        AddQuestionInSetTo(CategoryQuestionInSetList, questionInSet);
+        AddOrUpdateQuestionsInSet(questionInSet);
+        AddToCategoryQuestionInSetList(questionInSet);
     }
 
-    private static void AddOrUpdateQuestionsInSet(ConcurrentDictionary<int, Set> sets, QuestionInSet questionInSet)
+    private static void AddOrUpdateQuestionsInSet(QuestionInSet questionInSet)
     {
-        if (sets.TryGetValue(questionInSet.Set.Id, out var outSet))
+        if (Sets.TryGetValue(questionInSet.Set.Id, out var outSet))
         {
             outSet.QuestionsInSet = new HashSet<QuestionInSet>(outSet.QuestionsInSet.Where(q => q.Id != questionInSet.Id));
             outSet.QuestionsInSet.Add(questionInSet);
@@ -432,13 +413,13 @@ public class EntityCache
 
     public static void Remove(QuestionInSet questionInSet)
     {
-        RemoveQuestionInSetFrom(CategoryQuestionInSetList, questionInSet);
-        RemoveQuestionFromSet(Sets, questionInSet);
+        RemoveFromCategoryQuestionInSetList(questionInSet);
+        RemoveQuestionFromSet(questionInSet);
     }
 
-    public static void RemoveQuestionFromSet(ConcurrentDictionary<int, Set> sets, QuestionInSet questionInSet)
+    public static void RemoveQuestionFromSet(QuestionInSet questionInSet)
     {
-        if (sets.TryGetValue(questionInSet.Set.Id, out var outSet))
+        if (Sets.TryGetValue(questionInSet.Set.Id, out var outSet))
         {
             outSet.QuestionsInSet = new HashSet<QuestionInSet>(outSet.QuestionsInSet.Where(q => q.Id != questionInSet.Id));
         }
