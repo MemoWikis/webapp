@@ -343,6 +343,9 @@
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
+    <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
+    <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-medium.png" />
+    <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Team\founderTeam_20161027.jpg" />
@@ -860,7 +863,6 @@
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
     <Content Include="Images\LogosPartners\Logo_Geschichtsinfos_de_w200.jpg" />
-    <Content Include="Images\LogosPartners\Logo_lernenmitspass_w200.gif" />
     <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
     <Content Include="Images\Logo\LogoComplete_M.png" />

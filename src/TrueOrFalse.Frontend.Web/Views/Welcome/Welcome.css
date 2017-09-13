@@ -556,8 +556,6 @@ fieldset[disabled] .EduCategory.active {
 #awards div.logo-box,
 #partner div.logo-box {
   text-align: center;
-  padding-left: 30px;
-  padding-right: 30px;
 }
 #awards .img-logo,
 #partner .img-logo {
@@ -577,6 +575,14 @@ fieldset[disabled] .EduCategory.active {
 #awards .logo-box-link,
 #partner .logo-box-link {
   margin-top: 15px;
+}
+#awards div.logo-box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#partner div.logo-box {
+  padding-left: 30px;
+  padding-right: 30px;
 }
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
