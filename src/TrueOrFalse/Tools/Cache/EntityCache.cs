@@ -16,9 +16,9 @@ public class EntityCache
     private const string _cacheKeyCategorySetsList = "categorySetsList_EntityCache";
     private const string _cacheKeyCategoryQuestionInSetList = "categoryQuestionInSetList_EntityCache";
 
-    public static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
-    public static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
-    public static ConcurrentDictionary<int, Set> Sets => (ConcurrentDictionary<int, Set>)HttpRuntime.Cache[_cacheKeySets];
+    private static ConcurrentDictionary<int, Question> Questions => (ConcurrentDictionary<int, Question>)HttpRuntime.Cache[_cacheKeyQuestions];
+    private static ConcurrentDictionary<int, Category> Categories => (ConcurrentDictionary<int, Category>)HttpRuntime.Cache[_cacheKeyCategories];
+    private static ConcurrentDictionary<int, Set> Sets => (ConcurrentDictionary<int, Set>)HttpRuntime.Cache[_cacheKeySets];
 
     //In category lists last level ConcurrentDictionary is used for easy access to keys (item ids) only (value is always 0)
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList => 
@@ -88,6 +88,11 @@ public class EntityCache
     public static IList<Set> GetSetsForCategory(int categoryId)
     {
         return GetSetsByIds(GetSetIdsForCategory(categoryId));
+    }
+
+    public static IList<Set> GetSetsForCategories(IList<Category> categories)
+    {
+        return categories.SelectMany(c => GetSetsForCategory(c.Id)).Distinct().ToList();
     }
 
     public static IList<int> GetSetIdsForCategory(int categoryId)

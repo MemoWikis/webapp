@@ -123,9 +123,7 @@ public class Category : DomainEntity, ICreator
 
     public virtual IList<Set> GetAggregatedSetsFromMemoryCache()
     {
-        var setRepo = Sl.SetRepo;
-
-        return AggregatedCategories().SelectMany(c => setRepo.GetForCategoryFromMemoryCache(c.Id)).Distinct().ToList();
+        return EntityCache.GetSetsForCategories(AggregatedCategories());
     }
 
     public virtual IList<Set> FeaturedSets()
