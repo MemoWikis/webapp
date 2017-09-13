@@ -351,6 +351,37 @@ public class EntityCache
     public static void AddOrUpdate(Category category)
     {
         AddOrUpdate(Categories, category);
+
+        UpdateCategoryForQuestions(category);
+        UpdateCategoryForSets(category);
+    }
+
+    private static void UpdateCategoryForSets(Category category)
+    {
+        var affectedSetIds = GetSetIdsForCategory(category.Id);
+
+        foreach (var setId in affectedSetIds)
+        {
+            if (Sets.TryGetValue(setId, out var set))
+            {
+                set.Categories = set.Categories.Where(c => c.Id != category.Id).ToList();
+                set.Categories.Add(category);
+            }
+        }
+    }
+
+    private static void UpdateCategoryForQuestions(Category category)
+    {
+        var affectedQuestionsIds = GetQuestionsIdsForCategory(category.Id);
+
+        foreach (var questionId in affectedQuestionsIds)
+        {
+            if (Questions.TryGetValue(questionId, out var question))
+            {
+                question.Categories = question.Categories.Where(c => c.Id != category.Id).ToList();
+                question.Categories.Add(category);
+            }
+        }
     }
 
     public static void Remove(Category category)
