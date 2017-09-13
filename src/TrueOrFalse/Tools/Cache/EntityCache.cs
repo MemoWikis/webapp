@@ -70,7 +70,7 @@ public class EntityCache
 
     public static IList<Question> GetQuestionsForCategory(int categoryId)
     {
-        return GetQuestionsByIdsFromMemoryCache(GetQuestionsIdsForCategory(categoryId));
+        return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
     }
 
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
@@ -82,7 +82,7 @@ public class EntityCache
 
     public static IList<Question> GetQuestionsInSetsForCategory(int categoryId)
     {
-        return GetQuestionsByIdsFromMemoryCache(GetQuestionsInSetsIdsForCategory(categoryId));
+        return GetQuestionsByIds(GetQuestionsInSetsIdsForCategory(categoryId));
     }
 
     public static IList<Set> GetSetsForCategory(int categoryId)
@@ -110,7 +110,7 @@ public class EntityCache
         return questionIds;
     }
 
-    public static IList<Question> GetQuestionsByIdsFromMemoryCache(IList<int> questionIds)
+    public static IList<Question> GetQuestionsByIds(IList<int> questionIds)
     {
         var questions = new List<Question>();
 
