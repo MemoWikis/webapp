@@ -68,6 +68,42 @@ public class EntityCache
             null);
     }
 
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
+    {
+        var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
+        foreach (var question in questions)
+        {
+            UpdateCategoryQuestionList(categoryQuestionList, question);
+        }
+
+        return categoryQuestionList;
+    }
+
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategorySetsList(IList<Set> sets)
+    {
+        var categorySetsList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
+        foreach (var set in sets)
+        {
+            UpdateCategorySetList(categorySetsList, set);
+        }
+
+        return categorySetsList;
+    }
+
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>
+        GetCategoryQuestionInSetList(IList<QuestionInSet> questionInSetItems)
+    {
+        var categoryQuestionInSetList =
+            new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
+
+        foreach (var questionInSet in questionInSetItems)
+        {
+            AddQuestionInSetTo(categoryQuestionInSetList, questionInSet);
+        }
+
+        return categoryQuestionInSetList;
+    }
+
     public static IList<Question> GetQuestionsForCategory(int categoryId)
     {
         return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
@@ -148,42 +184,6 @@ public class EntityCache
         }
 
         return sets;
-    }
-
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<Question> questions)
-    {
-        var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
-        foreach (var question in questions)
-        {
-            UpdateCategoryQuestionList(categoryQuestionList, question);
-        }
-
-        return categoryQuestionList;
-    }
-
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategorySetsList(IList<Set> sets)
-    {
-        var categorySetsList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
-        foreach (var set in sets)
-        {
-            UpdateCategorySetList(categorySetsList, set);
-        }
-
-        return categorySetsList;
-    }
-
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> 
-        GetCategoryQuestionInSetList(IList<QuestionInSet> questionInSetItems)
-    {
-        var categoryQuestionInSetList =
-            new ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>();
-
-        foreach (var questionInSet in questionInSetItems)
-        {
-            AddQuestionInSetTo(categoryQuestionInSetList, questionInSet);
-        }
-
-        return categoryQuestionInSetList;
     }
 
     private static void AddQuestionInSetTo(
