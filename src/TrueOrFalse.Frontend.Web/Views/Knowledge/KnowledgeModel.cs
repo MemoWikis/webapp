@@ -13,6 +13,12 @@ public class KnowledgeModel : BaseModel
     public IList<GetAnswerStatsInPeriodResult> Last30Days = new List<GetAnswerStatsInPeriodResult>();
     public bool HasLearnedInLast30Days;
 
+    public int ActivityPoints;
+    public int ActivityLevel;
+    public int ActivityPointsAtNextLevel;
+    public int ActivityPointsTillNextLevel;
+    public int ActivityPointsPercentageOfNextLevel;
+
     public int QuestionsCount;
     public int QuestionsCreatedCount;
     public int SetsCount;
@@ -50,9 +56,15 @@ public class KnowledgeModel : BaseModel
             return;
         }
 
+        User = R<UserRepo>().GetById(UserId);
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetsCount = R<GetWishSetCount>().Run(UserId);
-        User = R<UserRepo>().GetById(UserId);
+
+        ActivityPoints = User.ActivityPoints;
+        ActivityLevel = User.ActivityLevel;
+        ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(ActivityLevel);
+        ActivityPointsTillNextLevel = ActivityPointsAtNextLevel - ActivityPoints;
+        ActivityPointsPercentageOfNextLevel = ActivityPoints == 0 ? 0 : 100 * ActivityPoints / ActivityPointsAtNextLevel;
 
         QuestionsCreatedCount = Resolve<UserSummary>().AmountCreatedQuestions(UserId);
         SetsCreatedCount = Resolve<UserSummary>().AmountCreatedSets(UserId);
@@ -89,6 +101,12 @@ public class KnowledgeModel : BaseModel
 
     private void FillWithSampleData()
     {
+        ActivityPoints = 3210;
+        ActivityLevel = UserLevelCalculator.GetLevel(ActivityPoints);
+        ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(ActivityLevel);
+        ActivityPointsTillNextLevel = ActivityPointsAtNextLevel - ActivityPoints;
+        ActivityPointsPercentageOfNextLevel = ActivityPoints == 0 ? 0 : 100 * ActivityPoints / ActivityPointsAtNextLevel;
+
         QuestionsCount = 288;
         SetsCount = 12;
         User = new User {

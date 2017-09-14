@@ -22,7 +22,8 @@ class ShareSet extends ShareDialog {
 
         var self = this;
         $.post("/Set/ShareSetModal?setId=" + this._setId, (modal) => {
-            $("#modalShareSet").hide(); 
+
+            $("#modalShareSet").modal('hide');
             $("#modalContainer").append(modal);
             $("#modalShareSet").modal('show');
 
@@ -64,7 +65,7 @@ class ShareSet extends ShareDialog {
     }
 
     SetEmbedCode() {
-        
+
         var type_ = "set";
 
         if (this._hasVideo)

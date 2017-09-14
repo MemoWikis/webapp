@@ -35,7 +35,7 @@ public class KnowledgeSummaryLoader
 
     public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
     {
-        return RunFromMemoryCache(EntityCache.Categories[categoryId], userId);
+        return RunFromMemoryCache(EntityCache.GetCategory(categoryId), userId);
     }
 
     public static KnowledgeSummary RunFromMemoryCache(Category category, int userId)
@@ -51,11 +51,11 @@ public class KnowledgeSummaryLoader
             aggregatedQuestions.AddRange(EntityCache.GetQuestionsForCategory(currentCategory.Id));
         }
 
-        var aggregatedSets = GetAllSetsWithAssociatedCategories(aggregatedCategories);
+        var aggregatedSets = EntityCache.GetSetsForCategories(aggregatedCategories);
 
         foreach (var set in aggregatedSets)
         {
-            aggregatedQuestions.AddRange(set.Value.Questions());
+            aggregatedQuestions.AddRange(set.Questions());
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
@@ -97,11 +97,6 @@ public class KnowledgeSummaryLoader
         Logg.r().Information("Loaded KnowledgeSummary in {Elapsed}", stopWatch.Elapsed);
 
         return knowledgeSummary;
-    }
-
-    private static IEnumerable<KeyValuePair<int, Set>> GetAllSetsWithAssociatedCategories(IList<Category> aggregatedCategories)
-    {
-        return EntityCache.Sets.Where(s => s.Value.Categories.Any(c => aggregatedCategories.Any(ac => c == ac)));
     }
 
     public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 

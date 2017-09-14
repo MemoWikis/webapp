@@ -72,7 +72,12 @@ public class EditCategoryController : BaseController
         } else {
             _categoryRepository.Update(category);
 
-            model.Message = new SuccessMessage("Das Thema wurde gespeichert.");
+            model.Message 
+                = new SuccessMessage(String.Format(
+                    "Das Thema wurde gespeichert. <br>" +
+                    "Du kannst es weiter bearbeiten oder" +
+                    " <a href=\"{0}\">zur Detailansicht wechseln</a>.",
+                    Links.CategoryDetail(category)));
         }
         StoreImage(id);
         
@@ -124,10 +129,13 @@ public class EditCategoryController : BaseController
 
         TempData["createCategoryMsg"] 
             = new SuccessMessage(string.Format(
-                 "Das Thema <strong>'{0}'</strong> wurde angelegt.<br>" + 
-                 "Du kannst das Thema jetzt bearbeiten" +
-                 " oder ein <a href=\"{1}\">neues Thema anlegen</a>.", 
+                 "Das Thema <strong>'{0}'</strong> {1} wurde angelegt.<br>" + 
+                 "Du kannst das Thema weiter bearbeiten," +
+                 " <a href=\"{2}\">zur Detailansicht wechseln</a>" +
+                 " oder ein <a href=\"{3}\">neues Thema anlegen</a>.", 
                 category.Name,
+                category.Type == CategoryType.Standard ? "" : "("+category.Type.GetShortName()+")",
+                Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
         return Redirect(Links.CategoryEdit(category));

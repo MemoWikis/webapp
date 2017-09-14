@@ -150,7 +150,7 @@ public class EditCategoryModel : BaseModel
 
     private static string ToUrlWithProtocol(string input)
     {
-        if (String.IsNullOrEmpty(input))
+        if (String.IsNullOrEmpty(input?.Trim()))
             return "";
 
         if (input.ToLower().StartsWith("http://"))
