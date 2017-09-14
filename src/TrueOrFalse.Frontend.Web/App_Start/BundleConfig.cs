@@ -138,6 +138,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
+                .Include("~/Views/Sets/Detail/Js/YoutubeApi.js")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));

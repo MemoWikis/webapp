@@ -372,6 +372,9 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Scripts\YoutubeApi.js">
+      <DependentUpon>YoutubeApi.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
@@ -406,6 +409,9 @@
       <DependentUpon>Error.less</DependentUpon>
     </Content>
     <Content Include="Views\Error\Error.less" />
+    <Content Include="Scripts\YoutubeApi.js.map">
+      <DependentUpon>YoutubeApi.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -731,7 +737,11 @@
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
-    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js" />
+    <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
+    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
+      <DependentUpon>YoutubePreview.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
@@ -2655,6 +2665,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Questions\Modals\QuestionInSet.cshtml" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
+    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
+      <DependentUpon>YoutubePreview.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

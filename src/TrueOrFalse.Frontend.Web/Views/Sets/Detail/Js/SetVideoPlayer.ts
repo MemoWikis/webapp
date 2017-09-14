@@ -1,5 +1,7 @@
-﻿var player: YT.Player;
+﻿
 var setVideo: SetVideo;
+
+declare var initPlayer: () => void;
 
 class StopVideoAt {
 
@@ -23,6 +25,17 @@ class SetVideoPlayer
     Player : YT.Player;
 
     constructor() {
+        initPlayer = () => {
+            player = new YT.Player('player', {
+                playerVars: { rel: 0 },
+                events: {
+                    'onReady':
+                        setVideoPlayer.OnPlayerReady,
+                    'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }
+                }
+            });
+        }
+        apiLoad();
 
         $(() => {
             this.InitVideoStops();
@@ -149,21 +162,3 @@ class VideoPausingButtons {
 
 
 var setVideoPlayer = new SetVideoPlayer();
-
-// 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-
-function onYouTubeIframeAPIReady() {
-
-    player = new YT.Player('player', {
-        events: {
-            'onReady': setVideoPlayer.OnPlayerReady,
-            'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }
-        }
-    });
-
-}
