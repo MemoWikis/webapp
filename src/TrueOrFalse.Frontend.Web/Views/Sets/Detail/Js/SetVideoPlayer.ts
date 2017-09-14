@@ -46,6 +46,9 @@ class SetVideoPlayer
 
     public OnPlayerReady() {
         this.Player = player;
+        $('#along').click(() => {
+            player.playVideo();
+        });
     }
 
     public OnStateChange(event : YT.EventArgs, setVideoPlayer : SetVideoPlayer) {
@@ -74,6 +77,7 @@ class SetVideoPlayer
                     pauseAt
                 ));
         });
+      
     }
 
     public StartTimecodeCheck() {
@@ -111,7 +115,7 @@ class SetVideoPlayer
 
         }, 500);
     }
-
+    
 
 }
 
@@ -158,7 +162,10 @@ class VideoPausingButtons {
         this._startPausingBtn.hide();
         this._stopPausingBtn.show(); 
     }
+
 }
+
+
 
 
 var setVideoPlayer = new SetVideoPlayer();

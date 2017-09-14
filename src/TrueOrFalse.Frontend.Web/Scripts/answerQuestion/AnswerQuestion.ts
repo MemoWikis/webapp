@@ -190,7 +190,7 @@ class AnswerQuestion {
                 $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
-
+                    $('#along').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
                 $('#buttons-answer').hide();
@@ -228,9 +228,10 @@ class AnswerQuestion {
                         AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
                     }
 
-                    if (result.correct)
+                    if (result.correct) {
                         self.HandleCorrectAnswer();
-                    else
+                        $('#along').fadeIn();
+                    } else
                         self.HandleWrongAnswer(result, answerText);
 
                     $("#answerHistory").empty();

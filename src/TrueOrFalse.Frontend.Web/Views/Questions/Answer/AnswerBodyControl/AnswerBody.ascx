@@ -164,6 +164,8 @@
                                 <% } %>
                                             <!-- SetPlayer.ts-->
                                     <a href="#" id="along" class="btn btn-primary ButtonGroup" rel="nofollow" style="padding-right: 10px; display: none" >Weiter</a>
+
+
                                
                                 <div style="clear: both"></div>
                             </div>
