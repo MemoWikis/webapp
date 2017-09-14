@@ -1,4 +1,4 @@
-﻿var player: YT.Player;
+﻿//var player: YT.Player;
 
 class SetVideo {
 

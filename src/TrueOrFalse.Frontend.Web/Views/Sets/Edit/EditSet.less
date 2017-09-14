@@ -2,7 +2,7 @@
 
 //Form column style
 
-.FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3);//conditional styles, @labels-stacked: TRUE for having labels stacked
+.FormColumnGrid (@labels-stacked: true; @label-width-variable: false; 3); //conditional styles, @labels-stacked: TRUE for having labels stacked
 
 .separationBorderTop {
     border-top: 1px solid @border-grey;
@@ -15,25 +15,34 @@
     margin-left: -5px;
     padding: 0;
     width: 101.5%;
+
+    .time-button, .time-input {
+        display: none;
+    }
+
+    &.showTimeInput {
+        .time-button, .time-input {
+            display: block;
+        }
+    }
 }
 
-#ulQuestions li 
-{
-    margin: 0 5px 5px 5px; 
-    padding: 5px; 
-    font-size: 1.0em; 
-    line-height: 1.2em; 
-    background: none; 
+#ulQuestions li {
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.0em;
+    line-height: 1.2em;
+    background: none;
     background-color: white;
 
     .QuestionTools {
-        position: relative; 
-        right: 0; 
-        float:right; 
-        margin-left: 5px; 
+        position: relative;
+        right: 0;
+        float: right;
+        margin-left: 5px;
     }
 
-    .DeleteButton { 
+    .DeleteButton {
         cursor: pointer;
         padding-top: 9px;
     }
@@ -41,28 +50,27 @@
     .QuestionText {
         max-height: 32px;
         max-width: 450px;
+
         @media screen {
             @media (max-width: 730px) {
-                max-width: 60%;        
+                max-width: 60%;
             }
+
             @media (max-width: 445px) {
-                max-width: 40%;        
+                max-width: 40%;
             }
         }
+
         overflow: hidden;
         vertical-align: middle;
         line-height: 34px;
         display: inline-block;
-        
-        .fa-chevron-right{
+
+        .fa-chevron-right {
             padding-left: 5px;
             padding-right: 3px;
         }
-
     }
-
-  
-
 }
 
 
@@ -72,7 +80,10 @@
     height: 40px;
     line-height: 1.2em;
     border: none;
-    #ulQuestions li& {background-color: gainsboro;} 
+
+    #ulQuestions li& {
+        background-color: gainsboro;
+    }
 }
 
 .draggable-panel {
@@ -82,22 +93,21 @@
     margin-right: 5px;
     font-size: 20px;
 
-    i{
+    i {
         margin-top: 7px;
         margin-right: 7px;
     }
 }
 
-textarea.form-control{
+textarea.form-control {
     width: 100%;
     max-width: none;
-    height:120px;
+    height: 120px;
 }
 
 //jQuery Ui Question.js
 #editSet {
     margin-top: 6.0em;
-   
 }
 
 
@@ -118,13 +128,15 @@ textarea.form-control{
         #safeQuestions {
             margin-left: 10px;
         }
-        .nolabel { 
+
+        .nolabel {
             background-color: blue;
+
             .btn {
                 margin-left: -220px;
             }
         }
- 
+
         #resultHeading {
             padding-top: 15px;
             font-size: 2em;
@@ -201,17 +213,17 @@ textarea.form-control{
     margin-bottom: 50px;
     margin-left: -19px;
 }
-#questionSearch{
-    padding-left:11px;
+
+#questionSearch {
+    padding-left: 11px;
     margin-top: 15px;
 }
 
-#createNewQuestionInLearnSet{
-   
+#createNewQuestionInLearnSet {
 }
 
-#btnCreateNewQuestionInLearnSet{
-    margin-top:25px;
+#btnCreateNewQuestionInLearnSet {
+    margin-top: 25px;
 }
 
 
@@ -231,10 +243,8 @@ textarea.form-control{
         line-height: 1,2em;
         padding-top: 7px;
     }
-
-  
 }
 
-#btn-save{
+#btn-save {
     margin-left: -21px;
 }
