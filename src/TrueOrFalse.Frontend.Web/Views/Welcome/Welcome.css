@@ -467,6 +467,33 @@ fieldset[disabled] .EduCategory.active {
 #memuchoInfoFooter div a.btn {
   margin-top: 10px;
 }
+/* CALL-TO-ACTION-BOX
+--------------------------------------------------------- */
+.callToActionBox {
+  margin-top: 85px;
+  margin-bottom: 30px;
+}
+.callToActionBox .row {
+  /*display: flex;
+        flex-direction: row;
+        //flex-wrap: wrap;
+        align-items: center;*/
+}
+.callToActionBox h3 {
+  color: #203256;
+  margin-bottom: 20px;
+}
+.callToActionBox .img-logo {
+  text-align: center;
+  padding-top: 20px;
+}
+.callToActionBox .textExplanation {
+  padding: 20px;
+  /*img {
+            display: inline-block;
+            text-align: center;
+        }*/
+}
 /* TOPIC OF THE WEEK
 ------------------------------------------------------*/
 .topicOfWeekContainer {
@@ -556,8 +583,6 @@ fieldset[disabled] .EduCategory.active {
 #awards div.logo-box,
 #partner div.logo-box {
   text-align: center;
-  padding-left: 30px;
-  padding-right: 30px;
 }
 #awards .img-logo,
 #partner .img-logo {
@@ -577,6 +602,14 @@ fieldset[disabled] .EduCategory.active {
 #awards .logo-box-link,
 #partner .logo-box-link {
   margin-top: 15px;
+}
+#awards div.logo-box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#partner div.logo-box {
+  padding-left: 30px;
+  padding-right: 30px;
 }
 /* WHAT IS MEMUCHO - EXTENDED VERSION
 ------------------------------------------------------*/
