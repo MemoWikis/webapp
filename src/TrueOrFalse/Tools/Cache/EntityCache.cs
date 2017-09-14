@@ -32,18 +32,20 @@ public class EntityCache
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> CategoryQuestionInSetList =>
         (ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionInSetList];
 
-    public static void Init()
+    public static void Init(bool inUnitTest = false)
     {
         var stopWatch = Stopwatch.StartNew();
 
-        Logg.r().Information("EntityCache Start {Elapsed}", stopWatch.Elapsed);
+        var unitTestString = inUnitTest ? " (in unit test) " : "";
+
+        Logg.r().Information("EntityCache Start" + unitTestString + "{Elapsed}", stopWatch.Elapsed);
 
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
         var sets = Sl.SetRepo.GetAllEager();
         var questionInSets = Sl.QuestionInSetRepo.GetAll();
 
-        Logg.r().Information("EntityCache LoadAllEntities {Elapsed}", stopWatch.Elapsed);
+        Logg.r().Information("EntityCache LoadAllEntities" + unitTestString + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
@@ -53,7 +55,7 @@ public class EntityCache
         IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets));
 
 
-        Logg.r().Information("EntityCache PutIntoCache {Elapsed}", stopWatch.Elapsed);
+        Logg.r().Information("EntityCache PutIntoCache" + unitTestString + "{Elapsed}", stopWatch.Elapsed);
     }
 
     private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
