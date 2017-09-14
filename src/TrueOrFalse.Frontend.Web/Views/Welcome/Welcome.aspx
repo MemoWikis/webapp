@@ -292,6 +292,34 @@
         </div>
         
         
+        <div class="callToActionBox">
+            <h2>
+                Deine Stimme für freie Bildung
+            </h2>
+            <div class="row">
+                <div class="col-md-5 img-logo">
+                    <img src="/Images/LogosPartners/Logo_DEP_rgb_300x98.jpg"/>
+                </div>
+                <div class="col-md-7 textExplanation">
+                    <p>
+                        Wir sind nominiert für den Publikumspreis vom Deutschen Engagementpreis &ndash; und <strong>jetzt brauchen wir deine Stimme</strong>! 
+                    </p>
+                    <p>
+                        <a href="https://www.deutscher-engagementpreis.de/wettbewerb/publikumspreis/voting-detail/?tx_epawards_voting%5BawardWinner%5D=963&tx_epawards_voting%5Baction%5D=show&tx_epawards_voting%5Bcontroller%5D=Vote&cHash=a36d2dd613b235a05d95e8ebc949a3e1" target="_blank">Hier kannst du für uns abstimmen</a>, 
+                        mehr Infos findest du auch <a href="http://blog.memucho.de/2017/09/nominiert-und-engagiert/" target="_blank">auf unserem Blog</a>.
+                    </p>
+                    <p class="img-logo">
+                        <a href="https://www.deutscher-engagementpreis.de/wettbewerb/publikumspreis/voting-detail/?tx_epawards_voting%5BawardWinner%5D=963&tx_epawards_voting%5Baction%5D=show&tx_epawards_voting%5Bcontroller%5D=Vote&cHash=a36d2dd613b235a05d95e8ebc949a3e1" target="_blank">
+                            <img src="https://www.deutscher-engagementpreis.de/fileadmin/daten/Seiten/Der_Preis/PR_Paket/Websticker_Teilnehmer-2017_400x120.png"/>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+        
 
         <div class="topicOfWeekContainer">
             <h3 class="greyed">Unser Spezial zur Wahl #btw2017</h3>
@@ -358,6 +386,7 @@
         </div>
 
 <%--        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
 
         <div id="ContentAvailable">
@@ -494,6 +523,7 @@
         </div>
 
 
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
      
         
         <div id="awards">
@@ -628,6 +658,9 @@
 
             </div>
         </div>
+        
+
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
 
         <div id="memuchoInfoExtended">
@@ -777,6 +810,9 @@
                 <span class="float-right-sm-up"><a href="<%= Links.AboutMemucho() %>#principles" class="btn btn-lg btn-link">Erfahre mehr...</a></span>
             </div>
         </div>
+        
+        
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
 
         <div id="team">
@@ -884,6 +920,8 @@
                 </div>
             </div>
         </div>--%>
+    
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
     </div>
         
