@@ -132,9 +132,9 @@
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
                                             <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
                                             <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link">Nicht werten!</a>
-                                            </div><div>
-                                    <% } %>
-
+                                            </div>
+                                            <div>
+                                    <% } %><!-- ??????----->
                                     <% if (Model.IsLearningSession && Model.NextUrl != null) { %>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
@@ -162,7 +162,9 @@
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link">Lösung anzeigen</a>
                                 </div>
                                 <% } %>
-
+                                            <!-- SetPlayer.ts-->
+                                    <a href="#" id="along" class="btn btn-primary ButtonGroup" rel="nofollow" style="padding-right: 10px; display: none" >Weiter</a>
+                               
                                 <div style="clear: both"></div>
                             </div>
                                 <div id="AnswerFeedbackAndSolutionDetails">
