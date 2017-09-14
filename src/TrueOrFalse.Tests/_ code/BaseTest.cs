@@ -32,7 +32,7 @@ public class BaseTest
 
         DateTimeX.ResetOffset();
 
-        EntityCache.Init(inUnitTest: true);
+        EntityCache.Init(" (started in unit test) ");
     }
 
     public void RecycleContainer()

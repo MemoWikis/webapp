@@ -9,13 +9,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RefreshEntityCache : IJob
     {
-        public const int IntervalInMinutes = 60;
-
         public void Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
-                EntityCache.Init();
+                EntityCache.Init(" (in JobScheduler) ");
             }, "RefreshEntityCache");
         }
 
