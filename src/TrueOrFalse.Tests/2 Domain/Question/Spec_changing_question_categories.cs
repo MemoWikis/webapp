@@ -33,8 +33,8 @@ namespace TrueOrFalse.Tests
 
             var questionFromDb = categoryRepository.GetAll()[0];
             Assert.That(questionFromDb.Categories.Count, Is.EqualTo(2));
-            Assert.That(questionFromDb.Categories[0].Name, Is.EqualTo("A"));
-            Assert.That(questionFromDb.Categories[1].Name, Is.EqualTo("B"));
+            Assert.That(questionFromDb.Categories.Any(c => c.Name == "A"));
+            Assert.That(questionFromDb.Categories.Any(c => c.Name == "B"));
         }
 
         //Rewrite for memory cache
