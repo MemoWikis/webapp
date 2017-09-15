@@ -2,7 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.Caching;
 using Seedworks.Lib.Persistence;
@@ -338,6 +340,8 @@ public class EntityCache
 
     public static void AddOrUpdate(Question question, List<int> affectedCategoriesIds = null)
     {
+        question = DeepClone(question);
+
         AddOrUpdate(Questions, question);
         UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoriesIds);
     }
@@ -350,6 +354,8 @@ public class EntityCache
 
     public static void AddOrUpdate(Category category)
     {
+        category = DeepClone(category);
+
         AddOrUpdate(Categories, category);
 
         UpdateCategoryForQuestions(category);
@@ -396,6 +402,8 @@ public class EntityCache
 
     public static void AddOrUpdate(Set set, List<int> affectedCategoriesIds = null)
     {
+        set = DeepClone(set);
+
         AddOrUpdate(Sets, set);
         UpdateCategorySetList(CategorySetsList, set, affectedCategoriesIds);
         UpdateCategoryQuestionInSetList(CategoryQuestionInSetList, set, affectedCategoriesIds);
@@ -414,6 +422,8 @@ public class EntityCache
 
     public static void AddOrUpdate(QuestionInSet questionInSet)
     {
+        questionInSet = DeepClone(questionInSet);
+
         AddOrUpdateQuestionsInSet(Sets, questionInSet);
         AddQuestionInSetTo(CategoryQuestionInSetList, questionInSet);
     }
@@ -493,5 +503,17 @@ public class EntityCache
         }
 
         return filteredDict;
+    }
+
+    public static T DeepClone<T>(T obj)
+    {
+        using (var ms = new MemoryStream())
+        {
+            var formatter = new BinaryFormatter();
+            formatter.Serialize(ms, obj);
+            ms.Position = 0;
+
+            return (T)formatter.Deserialize(ms);
+        }
     }
 }
