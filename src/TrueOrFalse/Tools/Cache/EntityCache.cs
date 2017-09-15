@@ -364,8 +364,9 @@ public class EntityCache
         {
             if (Sets.TryGetValue(setId, out var set))
             {
-                set.Categories = set.Categories.Where(c => c.Id != category.Id).ToList();
-                set.Categories.Add(category);
+                var categoryToReplace = set.Categories.First(c => c.Id == category.Id);
+                var index = set.Categories.IndexOf(categoryToReplace);
+                set.Categories[index] = category;
             }
         }
     }
@@ -378,8 +379,9 @@ public class EntityCache
         {
             if (Questions.TryGetValue(questionId, out var question))
             {
-                question.Categories = question.Categories.Where(c => c.Id != category.Id).ToList();
-                question.Categories.Add(category);
+                var categoryToReplace = question.Categories.First(c => c.Id == category.Id);
+                var index = question.Categories.IndexOf(categoryToReplace);
+                question.Categories[index] = category;
             }
         }
     }
