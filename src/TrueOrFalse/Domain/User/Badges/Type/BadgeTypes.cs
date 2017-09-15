@@ -57,7 +57,7 @@ public class BadgeTypes
             {
                 Key = "NewbieSilver",
                 Name = "Newbie",
-                Description = "2 Multiple-Choice-Fragen mit Thema erstellt, 2 Fragesätze mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
+                Description = "2 Multiple-Choice-Fragen mit Thema erstellt, 2 Lernsets mit mind. 10 Fragen erstellt, 2 fremde und 2 eigene Fragen in Wunschwissen aufgenommen",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.FirstSteps),
                 Levels = new List<BadgeLevel>{ BadgeLevel.GetSilver()},
                 BadgeCheckOn = new []{ BadgeCheckOn.QuestionUpdateOrCreate, BadgeCheckOn.SetUpdateOrCreate, BadgeCheckOn.WishKnowledgeAdd},
@@ -150,7 +150,7 @@ public class BadgeTypes
             {
                 Key = "DonDoItSelf",
                 Name = "IchMachsDochNichtSelbst",
-                Description = "{badgePoints} Fragesätze mit mehr als 10 Fragen, mit mind. 1 fremden Frage zusammengestellt",
+                Description = "{badgePoints} Lernsets mit mehr als 10 Fragen, mit mind. 1 fremden Frage zusammengestellt",
                 Group =  BadgeTypeGroups.GetByKey(BadgeTypeGroupKeys.Sets),
                 Levels = new List<BadgeLevel>
                 {

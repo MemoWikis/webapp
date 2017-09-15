@@ -8,10 +8,6 @@ class SolutionTypeMultipleChoice
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
-        $('input:checkbox[name=answer]').change((event) => {
-            this.AnswerQuestion.OnAnswerChange();
-            this.AnswerQuestion.GiveSelectedSolutionClass(event);
-        });
     }
 
     static GetChosenAnswers(): string {
@@ -32,9 +28,5 @@ class SolutionTypeMultipleChoice
 
     GetAnswerData(): {} {
         return { answer: SolutionTypeMultipleChoice.GetChosenAnswers()};
-    }
-
-    OnNewAnswer() {
-        $('input:checkbox[name=answer]:checked').prop('checked', false);
     }
 };

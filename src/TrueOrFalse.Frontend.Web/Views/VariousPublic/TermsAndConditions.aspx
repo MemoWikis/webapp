@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="memucho Nutzungsbedingungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -23,7 +24,7 @@
 <div class="row" style="padding-top:30px;">
     <div class="BackToHome col-md-3">
         <p>
-            <a href="<%= Url.Action("Register", "Register") %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
+            <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>"><i class="fa fa-chevron-left">&nbsp;</i>Zum Registrieren</a> 
         </p>
         <p>
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
@@ -70,7 +71,7 @@
         <p>
             Wenn du Texte oder Bilder bei memucho einstellst, musst du sicher sein, dass diese nicht urheberrechtlich geschützt sind. 
             Dies bestätigst du jedesmal, wenn du eine Frage erstellst oder änderst, es gilt aber auch bei allen anderen Bereichen 
-            (Themen, Fragesätzen etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative Commons-Lizenz “CC BY 4.0” stehen. 
+            (Themen, Lernsets etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative Commons-Lizenz “CC BY 4.0” stehen. 
             Wenn du sie einmal eingestellt hast, können sie von allen anderen (unter bestimmten Bedingungen) frei verwendet werden. Besondere 
             Vorsicht ist z.B. bei Schulbüchern geboten, hier darfst du nicht abschreiben. Wenn du dir nicht sicher bist, verzichte im Zweifelsfall 
             lieber auf eine bestimmte Frage oder ein Bild. Für Verstöße bist du verantwortlich. Erfahren wir von solchen Verstöße gegen das 

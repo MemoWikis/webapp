@@ -22,19 +22,23 @@
                     
                     <a href="<%= Model.DetailLink(Url) %>">
                         <% if (Model.HasMarkdownContent) { %>
-                            <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% } %><%=Model.CategoryName.TruncateAtWord(55) %>
+                            <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% 
+                        }
+                        if (Model.IsMediaCategory)
+                        {%>
+                            <i class="fa fa-book show-tooltip" data-original-title="Medium: <%= Model.CategoryTypeName %>")>&nbsp;</i><%}
+                        if (Model.IsEducationCategory)
+                        {%>
+                            <i class="fa fa-graduation-cap show-tooltip" data-original-title="Bildungsstufe: <%= Model.CategoryTypeName %>")>&nbsp;</i><%
+                        }
+                        %><%=Model.CategoryName.TruncateAtWord(55) %>
                     </a> 
                 </div>
             
                 <div style="margin-top: 1px;">
-                    <a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>
+                    <%--<a href="<%: Links.QuestionWithCategoryFilter(Url, Model.Category) %>" class="" rel="nofollow">Enthält <%= Model.QuestionCount + " Frage" + StringUtils.PluralSuffix(Model.QuestionCount, "n") %></a>--%>
+                    <%= Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %> und <%= Model.SetCount %> Lernset<%= StringUtils.PluralSuffix(Model.SetCount, "s") %>
                 </div>
-                <% if(Model.AnswersTotal > 0) { %>
-                    <div style="margin-top: 2px; font-size: small;">
-                        <%= Model.AnswersTotal  %>x beantwortet, 
-                        davon <%= Model.CorrectnesProbability %>% richtig.
-                    </div>
-                <% } %>
             </div>
 
             <div class="MainContentLower">

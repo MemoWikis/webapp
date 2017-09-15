@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using FluentNHibernate.Conventions;
 using NHibernate;
@@ -8,25 +9,25 @@ public class CategoryInKnowledge
 {
     public static void Pin(int categoryId, User user)
     {
-        UpdateRelevancePersonal(categoryId, user, 50);
         PinQuestionsInCategory(categoryId, user);
+        UpdateCategoryValuation(categoryId, user, 50);
     }
 
     private static void PinQuestionsInCategory(int categoryId, User user)
     {
-        var questions = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
+        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         QuestionInKnowledge.Pin(questions, user);
     }
 
-    public static void Unpin(int categoryId, User user) => UpdateRelevancePersonal(categoryId, user, -1);
+    public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
 
     public static void UnpinQuestionsInCategory(int categoryId, User user)
     {
-        var questionsInCategory = GetQuestionsForCategory.AllIncludingQuestionsInSet(categoryId);
+        var questionsInCategory = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
         var questionsInPinnedSets = SetInKnowledge.ValuatedQuestionsInSets(user, questionIds);
-        var questionsInPinnedCategories = ValuatedQuestionsInCategories(user, questionIds, exeptCategoryId:categoryId);
+        var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId:categoryId);
 
         var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id));
@@ -35,34 +36,28 @@ public class CategoryInKnowledge
             QuestionInKnowledge.Unpin(question.Id, user);
     }
 
-    private static IList<int> ValuatedQuestionsInCategories(User user, IList<int> questionIds, int exeptCategoryId = -1)
+    private static IList<int> QuestionsInValuatedCategories(User user, IList<int> questionIds, int exeptCategoryId = -1)
     {
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        Func<int, string> getCategoryFilter = categoryId => 
-            categoryId == -1 ? "" : $"and cv.CategoryId != {categoryId}";
+        var valuatedCategories = UserValuationCache.GetCategoryValuations(user.Id).Where(v => v.IsInWishKnowledge());
 
-        var query = $@"
-            select 
-                q.Question_id 
-            from user u
-            join categoryvaluation cv
-            on u.Id = cv.UserId
-            join category c
-            on cv.CategoryId = c.Id
-            join categories_to_questions q
-            on c.Id = q.Category_id
-            where u.Id = {user.Id} 
-            {getCategoryFilter(exeptCategoryId)} 
-            and cv.RelevancePersonal >= 0
-            and q.Question_id in ({questionIds.Select(x => x.ToString()).Aggregate((a, b) => a + ", " + b)})";
+        if (exeptCategoryId != -1)
+            valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);
 
-        var questionsInOtherPinnedSetsIds = Sl.Resolve<ISession>().CreateSQLQuery(query).List<int>();
-        return questionsInOtherPinnedSetsIds;
+        var catRepo = Sl.CategoryRepo;
+
+        var questionsInOtherValuatedCategories = valuatedCategories
+            .SelectMany(v => catRepo.GetById(v.CategoryId).GetAggregatedQuestionsFromMemoryCache())
+            .GetIds()
+            .Distinct()
+            .ToList();
+
+        return questionsInOtherValuatedCategories;
     }
 
-    private static void UpdateRelevancePersonal(int categoryId, User user, int relevance = 50)
+    private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
     {
         CreateOrUpdateCategoryValuation.Run(categoryId, user.Id, relevancePeronal: relevance);
 

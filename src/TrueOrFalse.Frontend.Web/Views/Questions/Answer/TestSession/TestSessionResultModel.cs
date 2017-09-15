@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class TestSessionResultModel : BaseModel
@@ -24,6 +25,23 @@ public class TestSessionResultModel : BaseModel
     public ContentRecommendationResult ContentRecommendationResult;
 
     public bool IsInWidget;
+
+    public virtual int TotalPossibleQuestions
+    {
+        get
+        {
+            if (TestSession.IsSetSession)
+                return TestedSet.Questions().Count;
+
+            if (TestSession.IsSetsSession)
+                return TestedSets.Sum(s => s.Questions().Count); //DB is accessed
+
+            if (TestSession.IsCategorySession)
+                return GetQuestionsForCategory.AllIncludingQuestionsInSet(TestedCategory.Id).Count;
+
+            throw new Exception("unknown session type");
+        }
+    }
 
     public TestSessionResultModel(TestSession testSession)
     {
@@ -62,10 +80,15 @@ public class TestSessionResultModel : BaseModel
         NumberCorrectAnswers = Steps.Count(s => s.AnswerState == TestSessionStepAnswerState.AnsweredCorrect);
         NumberWrongAnswers = Steps.Count(s => s.AnswerState == TestSessionStepAnswerState.AnsweredWrong);
         NumberOnlySolutionView = Steps.Count(s => s.AnswerState == TestSessionStepAnswerState.OnlyViewedSolution);
-        NumberCorrectPercentage = (int)Math.Round(NumberCorrectAnswers / (float)NumberQuestions * 100);
-        NumberWrongAnswersPercentage = (int)Math.Round(NumberWrongAnswers / (float)NumberQuestions * 100);
-        NumberOnlySolutionViewPercentage = (int)Math.Round(NumberOnlySolutionView / (float)NumberQuestions * 100);
+
+        PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
+        {
+            new ValueWithResultAction{AbsoluteValue = NumberCorrectAnswers, ActionForPercentage = p => NumberCorrectPercentage = p},
+            new ValueWithResultAction{AbsoluteValue = NumberWrongAnswers, ActionForPercentage = p => NumberWrongAnswersPercentage = p},
+            new ValueWithResultAction{AbsoluteValue = NumberOnlySolutionView, ActionForPercentage = p => NumberOnlySolutionViewPercentage = p},
+        });
 
         PercentageAverageRightAnswers = (int)Math.Round(Steps.Sum(s => s.Question.CorrectnessProbability) / (float)NumberQuestions);
     }
+
 }

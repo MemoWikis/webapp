@@ -18,80 +18,272 @@
 }
 @media (min-width: 650px) {
 }
-@media (max-width: 991px) {
-  .navLinks {
-    float: none;
-    margin-bottom: 10px;
-  }
-  .navLinks > a {
-    display: inline-block;
-    margin-right: 10px;
+#MasterMainColumn {
+  line-height: 1.5;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+  color: #203256;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
   }
 }
-.question-row {
-  /*.col-0{
-        img{
-            border-radius:5px;
-        }
+#MasterMainColumn h1,
+#MasterMainColumn h2,
+#MasterMainColumn h3,
+#MasterMainColumn h4,
+#MasterMainColumn h5 {
+  font-family: Open Sans !important;
+  line-height: 1.2;
+}
+#MasterMainColumn h1 {
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 400;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h1 {
+    font-size: 35px;
+  }
+}
+#MasterMainColumn h2 {
+  font-size: 35px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h2 {
+    font-size: 25px;
+  }
+}
+#MasterMainColumn h3 {
+  font-size: 25px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h3 {
+    font-size: 20px;
+  }
+}
+#MasterMainColumn h4 {
+  font-size: 25px;
+}
+@media (max-width: 479px) {
+  #MasterMainColumn h4 {
+    font-size: 20px;
+  }
+}
+#MainWrapper {
+  background-color: white;
+  padding: 20px;
+  /*h1 {
+        font-size: 45px;
+        margin-top: 10px;
+        font-weight: normal;
     }
 
-    .col-1{
-        padding-right: 0px;
-
-        overflow:hidden; 
-        padding-left: -33px;
+    h2 {
+        font-size: 55px;
     }
 
-    .col-2{
-        height: 100%;
-        @media (max-width: @screen-xs-max) { 
-            padding-top: 15px;
-            font-size: 16px;
-        }
+    h3 {
+        font-size: 35px;
+    }*/
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+  color: #203256;
+}
+#MainWrapper p {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 479px) {
+  #MainWrapper {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
+  }
+}
+#AboveMainHeading {
+  margin-top: -5px;
+  /*@media (min-width: 991px) {
+        margin-top: -21px;
     }*/
 }
-.sparklineTotals,
-.sparklineTotalsUser {
+.editLinks {
+  display: inline-block;
+  font-size: 14px;
+}
+.editLinks .embedSetLink {
+  font-size: 18px;
+  margin-left: 10px;
+}
+.editLinks > a {
+  margin: 0 5px;
+}
+/*.navLinks {
+    display: inline;
+    //padding-left: 12px;
+    padding-top: 2px;
+    float: left !important;
+
+    > a, > div {
+        display: inline-block !important;
+        margin-right: 10px !important;
+        float: none !important;
+        font-size: 14px;
+    }
+}*/
+.BoxButtonBar {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+/* QUESTION-SET-ROW
+--------------------------------*/
+.question-row {
+  padding-top: 10px;
+  padding-bottom: 15px;
+  line-height: 1.4em;
+}
+.question-row .sparklineTotals,
+.question-row .sparklineTotalsUser {
   font-size: 11px;
 }
-/*.Stats {
-    .media-below-md({
-        margin-left: 16.66666667%;
-        margin-left: 20%;
-        float: left;
-    });
-}*/
-.StatsRow {
+.question-row .correctAnswer {
+  margin-top: 6px;
+  font-size: smaller;
+  color: #999999;
+  line-height: 1.4em;
+}
+.question-row .StatsRow {
   margin-left: 0;
   margin-right: 0;
 }
+/* WIDGETS
+-----------------------------*/
+.testSetWidget {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.SetVideo #AnswerBody {
+  padding-top: 10px;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 #video-pager {
   margin: 0px;
-  padding-top: 7px;
-  padding-bottom: 12px;
+  padding: 20px 20px 10px 20px;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0;
 }
-#video-pager a.correctAnswer {
-  background-color: #10d410;
-  color: white;
+#video-pager td {
+  vertical-align: top;
 }
-#video-pager a.wrongAnswer {
-  background-color: #ff5a49;
-  color: white;
+#video-pager div.pager-block {
+  display: inline-block;
 }
-#video-pager .btn-default {
+#video-pager div.pager-block #tablePager {
+  max-width: 90%;
+}
+@media screen and (max-width: 900px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 87%;
+  }
+}
+@media screen and (max-width: 800px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 85%;
+  }
+}
+@media screen and (max-width: 500px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 80%;
+  }
+}
+@media screen and (max-width: 400px) {
+  #video-pager div.pager-block #tablePager {
+    max-width: 70%;
+  }
+}
+#video-pager div.pager-block #tablePager a:hover {
+  color: #3f88ff;
+}
+#video-pager div.pager-block i.fa-arrow-circle-left,
+#video-pager div.pager-block i.fa-arrow-circle-right {
+  font-size: 25px;
+}
+#video-pager div.pager-block i.fa-arrow-circle-left {
+  padding-left: 5px;
+  padding-right: 7px;
+}
+#video-pager div.pager-block i.fa-arrow-circle-right {
+  padding-left: 7px;
+}
+#video-pager div.pager-block div.pages {
+  display: inline-block;
+}
+#video-pager div.pager-block a.disabled {
+  color: silver;
+  box-shadow: inset;
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: default;
+}
+#video-pager div.pager-block a.page {
   margin-bottom: 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+  text-decoration: none;
+  color: #2C5FB2;
+  font-size: 18px;
+}
+#video-pager div.pager-block a.page:hover {
+  color: #3f88ff;
+}
+#video-pager div.pager-block a.page.correctAnswer i {
+  color: #AFD534;
+}
+#video-pager div.pager-block a.page.wrongAnswer i {
+  color: #B13A48;
+}
+#video-pager .pause-buttons {
+  padding-left: 10px;
+  padding-top: 0px;
+  vertical-align: top;
+  line-height: 25px;
+  font-size: 25px;
 }
 #video-pager .pause-buttons a {
-  position: relative;
-  top: 12px;
+  color: #c7c7c7;
+}
+#video-pager .pause-buttons a:hover,
+#video-pager .pause-buttons a:active,
+#video-pager .pause-buttons a:visited,
+#video-pager .pause-buttons a:link {
+  text-decoration: none;
 }
 #video-pager .pause-buttons a:hover {
-  text-decoration: none;
+  color: #9b9b9b;
+}
+#video-pager .pause-buttons #syncVideo {
+  font-size: 24px;
+  margin-right: 2px;
+  position: relative;
+  top: -1px;
 }
 div.video-header h4 {
   margin-top: -10px;
   margin-bottom: 20px;
 }
+/*      MODALS
+----------------------------- */
 #modalShareSet input,
 #modalShareSet select {
   display: inline-block;

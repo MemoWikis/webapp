@@ -7,8 +7,14 @@ using TrueOrFalse.Web;
 public class WelcomeController : BaseController
 {
     [SetMenu(MenuEntry.None)]
+    [SetThemeMenu]
     public ActionResult Welcome(){
         return View(new WelcomeModel());
+    }
+
+    public ActionResult Contact()
+    {
+        return View(new BaseModel());
     }
 
     public ActionResult LogOn() => View();

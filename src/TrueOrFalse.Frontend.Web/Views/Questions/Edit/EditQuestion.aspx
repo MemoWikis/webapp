@@ -7,7 +7,7 @@
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.EditQuestion(Model.QuestionText, Model.Id) %>">
     <% } else {  %>
-        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion(Url) %>">
+        <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>">
     <% } %>
 </asp:Content>
 
@@ -28,6 +28,10 @@
     <input type="hidden" id="questionId" name="questionId" value="<%= Model.Id %>"/>
     <input type="hidden" id="isEditing" name="isEditing" value="<%= Model.IsEditing %>"/>
     <input type="hidden" id="urlSolutionEditBody" value="<%=Url.Action("SolutionEditBody", "EditQuestion") %>" />
+    
+    <% if(Model.Set != null){ %>
+        <input type="hidden" id="hddSetId" name="hddSetId" value="<%= Model.Set.Id %>"/>
+    <% } %>
 
     <div class="row">
         <div class="PageHeader col-xs-12">
@@ -40,7 +44,7 @@
                 </div>
                 <% if (!Model.ShowSaveAndNewButton){ %>
                     <div style="line-height: 12px">
-                        <a href="<%= Links.CreateQuestion(Url) %>" style="font-size: 12px;
+                        <a href="<%= Links.CreateQuestion() %>" style="font-size: 12px;
                             margin: 0;"><i class="fa fa-plus-circle"></i> Frage erstellen</a>
                     </div>
                 <%} %>
@@ -117,7 +121,7 @@
             <div class="col-md-9 col-md-pull-3">
                 <div class="form-horizontal rowBase" role="form">
                     <div class="FormSection">
-                        <div class="form-group">
+                        <div class="form-group" id="formGroupQuestionText">
                             <%= Html.LabelFor(m => m.QuestionText, new { @class = "RequiredField columnLabel control-label" })%>
                             <div class="columnControlsFull">
                             <%--<div class="columnControls3of4">--%>
@@ -161,7 +165,17 @@
                             <label for="soundfile" class="control-label">Ton:</label>
                             &nbsp;&nbsp;<input type="file" name="soundfile" id="soundfile" />
                         </div>--%>
-                        <div class="form-group">    
+
+                        <% if(Model.Set != null){ %>
+                            <div class="row" id="RowAssignSet">
+                                <div class="col-lg-12" style="padding-bottom: 10px">
+                                    Im Lernsets: <a href="<%= Links.SetDetail(Url, Model.Set) %>"><span class="label label-set show-tooltip" data-placement="top" data-original-title="Zum Lernset"><%= Model.Set.Name %></span></a> 
+                                    <a href="#" id="RemoveSet" style="margin-left: 2px;" class="show-tooltip" data-placement="top" data-original-title="Lernset nicht zuordnen"><img alt="" src="/Images/Buttons/cross.png"></a>
+                                </div>
+                            </div>
+                        <% } %>
+
+                        <div class="form-group">
                             <label class="columnLabel control-label">
                                 <span class="show-tooltip" data-toggle="tooltip" title="Themen helfen bei der Einordnung der Frage und ermöglichen dir und anderen die Fragen wiederzufinden. Tipp: Falls du ein gesuchtes Thema nicht findest, kannst du es in einem neuen Tab anlegen und dann einfach hier weitermachen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Themen</span>
                             </label>
@@ -211,7 +225,7 @@
                     </div>
                     <div class="FormSection">
 
-                        <div class="form-group markdown">
+                        <div class="form-group markdown" id="formGroupDescription">
                             <label class="columnLabel control-label" for="Description">
                                 <span class="show-tooltip"  title = "Erscheinen nach dem Beantworten der Frage zusammen mit der richtigen Lösung und sollen beim Einordnen und Merken der abgefragten Fakten helfen. Oft wird eine Frage erst durch informative Zusatzangaben so richtig gut." data-placement = "<%= CssJs.TooltipPlacementLabel %>">Ergänzungen</span>
                             </label>
@@ -219,7 +233,7 @@
                                 <div class="wmd-panel">
                                     <div id="wmd-button-bar-2"></div>
                                     <%= Html.TextAreaFor(m => m.Description, new 
-                                        { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.", rows = 4 })%>
+                                        { @class= "form-control wmd-input", id="wmd-input-2", placeholder = "Erklärungen, Zusatzinfos, Merkhilfen, Abbildungen, weiterführende Literatur und Links etc.", rows = 6 })%>
                                 </div>
                                 <div id="wmd-preview-2" class="wmd-panel wmd-preview"></div>
                             </div>
@@ -227,8 +241,6 @@
                     
                         <div class="form-group" style="margin-bottom: 0;">
                             <label class="columnLabel control-label"> 
-                                <%--<br/>
-                                <div style="font-weight: normal">(Gute Quellen machen gute Fragen/Antworten nochbesser!)</div>--%>
                                 <span class="show-tooltip" data-toggle="tooltip" title = "Bitte belege die von dir angeführten Fakten mit Quellen und mache wörtliche und auch indirekte Zitate als solche erkennbar. Bitte gehe sparsam mit wörtlichen Zitaten um und formuliere wenn möglich mit eigenen Worten. Du kannst in Frage, Anwort und Ergänzungen auf die hier eingefügten Quellen verweisen." data-placement = "<%= CssJs.TooltipPlacementLabel %>">
                                     Quellen
                                 </span>

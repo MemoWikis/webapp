@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Register Src="~/Views/Categories/Edit/TypeControls/Book.ascx" TagPrefix="uc1" TagName="Book" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% if (Model.IsEditing) { %>
@@ -12,12 +11,14 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
-    <link href="/Views/Categories/Edit/EditCategory.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/fileUploader") %>
-    <%= Scripts.Render("~/bundles/CategoryEdit") %>
+    <%= Styles.Render("~/bundles/CategoryEdit") %>
+    <%= Scripts.Render("~/bundles/js/CategoryEdit") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+
+<input type="hidden" id="hhdCategoryId" value="<%= Model.Id %>"/>
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditCategory", null, 
     FormMethod.Post, new { enctype = "multipart/form-data", id="EditCategoryForm", data_is_editing=Model.IsEditing })){%>
@@ -64,13 +65,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="aside col-md-3 col-md-push-9">
-            <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
-            <div style="margin-top: 10px;">
-                <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
-            </div>
-        </div>
-        <div class="col-md-9 col-md-pull-3">
+        <div class="col-md-12">
             <div class="form-horizontal">
                         
                 <%: Html.HiddenFor(m => m.ImageIsNew) %>
@@ -83,76 +78,106 @@
                 <input type="hidden" id="categoryId" value="<%= Model.IsEditing ?  Model.Category.Id.ToString() : "" %>"/>
                 <input type="hidden" id="categoryType" value="<%= Model.IsEditing ? Model.Category.Type.ToString() : "" %>"/>
 
-                <% if (!Model.IsEditing)
-                   { %>
-                <div id="CategoryTypeSelect" class="FormSection">
-                    <div class="form-group">
-                        <label class="columnLabel control-label">
-                            Thementyp
-                        </label>
-                        <div class="columnControlsFull">
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %> />
-                                    Thema (Standard)
-                                    <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themen" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %> />
-                                    Medien
-                                    <i class="fa fa-question-circle show-tooltip" title="Für Quellenangaben und für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
-                                    <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
-                                    <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
-                                        <optgroup label="Druckmedien und eBooks">
-                                            <option value="Book">Buch (auch eBooks)</option>
-                                            <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
-                                            <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
-                                            <option value="DailyIssue">Tageszeitung: Ausgabe</option>
-                                            <option value="DailyArticle">Tageszeitung: Artikel</option>
-                                            <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
-                                            <option value="MagazineIssue">Zeitschrift: Ausgabe</option>
-                                            <option value="MagazineArticle">Zeitschrift: Artikel</option>
-                                        </optgroup>
-                                        <optgroup label="Internet">
-                                            <%--<option value="Website"><%= CategoryType.Website.GetName() %></option>--%>
-                                            <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
-                                            <option value="WebsiteVideo" disabled><%= CategoryType.WebsiteVideo.GetName() %></option>
-                                        </optgroup>
-                                        <optgroup label="Film und Fernsehen" disabled>
-                                            <option value="Movie" disabled><%= CategoryType.Movie.GetName() %></option>
-                                            <option value="TvShow" disabled><%= CategoryType.TvShow.GetName() %></option>
-                                            <option value="TvShowEpisode" disabled><%= CategoryType.TvShowEpisode.GetName() %></option>
-                                        </optgroup>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="radio">
-<%--                                <label style="font-weight: normal">
-                                    <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
-                                    Aus- und Weiterbildung--%>
-                                    <a href="#" class="featureNotImplemented">
-                                        <span style="color: lightgrey">Aus- und Weiterbildung
-                                        <br/>(Studiengänge, Schulfächer, Klassenstufen etc.)</span>
-                                    </a>
-                                    <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
-                                        <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
-                                        <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
-                                        <option value="FieldStudyTrade"><%= CategoryType.FieldStudyTrade.GetName() %></option>
-                                        <option value="Course"><%= CategoryType.Course.GetName() %></option>
-                                        <option value="Certification"><%= CategoryType.Certification.GetName() %></option>
-                                    </select>
-                                <%--</label>--%>
+                <% if (!Model.IsEditing) { %>
+                    <div id="CategoryTypeSelect" class="FormSection">
+                        <div class="form-group">
+                            <label class="columnLabel control-label">
+                                Thementyp
+                            </label>
+                            <div class="columnControlsFull">
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="standard" <%= Model.rdoCategoryTypeGroup == "standard" ? "checked" : "" %> />
+                                        Thema (Standard)
+                                        <i class="fa fa-question-circle show-tooltip" title="Für alle normalen Themen" data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="media" <%= Model.rdoCategoryTypeGroup == "media" ? "checked" : "" %> />
+                                        Medien
+                                        <i class="fa fa-question-circle show-tooltip" title="Für Quellenangaben und für Fragen, die sich auf ein bestimmtes Buch, einen Zeitungsartikel usw. beziehen." data-placement="<%= CssJs.TooltipPlacementFormField %>"></i>
+                                        <br/><span style="font-weight: normal;">(Bücher, Zeitungsartikel, Online-Beiträge, Videos etc.)</span>
+                                        <select class="form-control" id="ddlCategoryTypeMedia" name="ddlCategoryTypeMedia" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeMedia %>" >
+                                            <optgroup label="Druckmedien und eBooks">
+                                                <option value="Book">Buch (auch eBooks)</option>
+                                                <option value="VolumeChapter"><%= CategoryType.VolumeChapter.GetName() %></option>
+                                                <option value="Daily"><%= CategoryType.Daily.GetName() %></option>
+                                                <option value="DailyIssue">Zeitung: Ausgabe</option>
+                                                <option value="DailyArticle">Zeitung: Artikel</option>
+                                                <option value="Magazine"><%= CategoryType.Magazine.GetName() %></option>
+                                                <option value="MagazineIssue">Zeitschrift: Ausgabe</option>
+                                                <option value="MagazineArticle">Zeitschrift: Artikel</option>
+                                            </optgroup>
+                                            <optgroup label="Internet">
+                                                <option value="Website"><%= CategoryType.Website.GetName() %></option>
+                                                <option value="WebsiteArticle"><%= CategoryType.WebsiteArticle.GetName() %></option>
+                                                <option value="WebsiteVideo" disabled><%= CategoryType.WebsiteVideo.GetName() %></option>
+                                            </optgroup>
+                                            <optgroup label="Film und Fernsehen" disabled>
+                                                <option value="Movie" disabled><%= CategoryType.Movie.GetName() %></option>
+                                                <option value="TvShow" disabled><%= CategoryType.TvShow.GetName() %></option>
+                                                <option value="TvShowEpisode" disabled><%= CategoryType.TvShowEpisode.GetName() %></option>
+                                            </optgroup>
+                                        </select>
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label style="font-weight: normal">
+                                        <input type="radio" name="rdoCategoryTypeGroup" value="education" <%= Model.rdoCategoryTypeGroup == "education" ? "checked" : "" %> />
+                                        Aus- und Weiterbildung
+                                        <br/>(Universitäten, Kurse, Professoren/Dozenten etc.)
+                                        <select class="form-control" id="ddlCategoryTypeEducation" name="ddlCategoryTypeEducation" style="margin-top: 5px; display: none;" data-selectedValue="<%= Model.ddlCategoryTypeEducation %>">
+                                            <option value="EducationProvider"><%= CategoryType.EducationProvider.GetName() %></option>
+                                            <option value="SchoolSubject"><%= CategoryType.SchoolSubject.GetName() %></option>
+                                            <option value="FieldOfStudy"><%= CategoryType.FieldOfStudy.GetName() %></option>
+                                            <option value="FieldOfTraining"><%= CategoryType.FieldOfTraining.GetName() %></option>
+                                            <option value="Course"><%= CategoryType.Course.GetName() %></option>
+                                            <option value="Certification" disabled="disabled"><%= CategoryType.Certification.GetName() %></option>
+                                        </select>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                </div>
                 <% } %>
+
                 <div class="FormSection">
-                    <div id="CategoryDetailsBody">
-                        <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div id="CategoryDetailsBody">
+                                <h4 class="CategoryTypeHeader">Formular wird geladen...</h4>                    
+                            </div>        
+                        </div>
+                        <div id="CategoryImageColumn" class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img id="categoryImg" src="<%= Model.ImageUrl %>" class="img-responsive" style="border-radius:5px;" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px; display: block;">
+                                <div class="col-md-12">
+                                    <a href="#" style="position: relative; top: -6px; font-size: 90%;" id="aImageUpload">[Verwende ein anderes Bild]</a>
+                                </div>
+                            </div>
+                            
+                            <% if(Model.IsInstallationAdmin){ %>
+                            
+                                <div style="text-align: left; padding-top: 10px;"><b>Nur für Admins</b></div>
+
+                                <% if (Model.IsEditing) { %>
+                                    <div>
+                                        <a href="#EditAggregationModal" class="btn btn-info" id="OpenEditAggregationModal" data-toggle="modal">Unterthemen einschließen</a>
+                                    </div>
+                                <% } %>
+
+                                <div>
+                                    <%= Html.CheckBoxFor(m => Model.DisableLearningFunctions) %> Keine Lernoptionen anzeigen
+                                </div>
+
+                            <% } %>
+
+                        </div>
                     </div>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
@@ -177,17 +202,23 @@
                             </div>
                         </div>
                     </div>
-                    <% if (Model.IsInstallationAdmin)
-                    { %>
+
+                    <% if (Model.IsInstallationAdmin){ %>
+
                         <div class="form-group">
                             <label class="columnLabel control-label" for="TopicMarkdown">
-                                Freie Seitengestaltung für Themenseite
+                                <i class="fa fa-user-secret show-tooltip" data-original-title="Nur für Admins sichtbar">&nbsp;</i>Freie Seitengestaltung für Themenseite:
                                 <i class="fa fa-question-circle show-tooltip" 
                                     title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
+                                <a href="https://docs.google.com/document/d/1bxd6IzF6JbpLIMejwuBUHX9k1_86hpxRGtWDMVv-z6E/edit?usp=sharing" target="_blank">
+                                    Doku für Templates
+                                    <i class="fa fa-external-link"></i>
+                                </a>
+                                
                             </label>
                             <div class="columnControlsFull">
-                                <textarea class="form-control" name="TopicMarkdown" type="text" 
+                                <textarea class="form-control" name="TopicMarkdown" id="TopicMarkdown" 
                                     <% var x = Model.TopicMarkdown; %>
                                     rows="<%= string.IsNullOrEmpty(Model.TopicMarkdown) ? "4" : "16" %>" 
                                     style="width: 100%; max-width: 100%;"><%= Model.TopicMarkdown %></textarea>
@@ -195,9 +226,9 @@
                         </div>
                         <div class="form-group">
                             <label class="columnLabel control-label" for="FeaturedSetIdsString">
-                                Offiziell präsentierte Fragesätze
+                                <i class="fa fa-user-secret show-tooltip" data-original-title="Nur für Admins sichtbar">&nbsp;</i>Offiziell präsentierte Lernsets
                                 <i class="fa fa-question-circle show-tooltip" 
-                                    title="Bitte Ids der Fragesätze in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Fragesätze tatsächlich mit dem Thema versehen sind." 
+                                    title="Bitte Ids der Lernsets in der Form '1,2,3' angeben. Bitte darauf achten, dass diese Lernsets tatsächlich mit dem Thema versehen sind." 
                                     data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
                             </label>
                             <div class="columnControlsFull">
@@ -215,8 +246,8 @@
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <% if (Model.IsEditing){ %>
-                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
                                 <a data-toggle="modal" href="#modalDeleteCategory" data-categoryId="<%= Model.Id %>" class="btn btn-danger"><i class="fa fa-trash-o"></i> Löschen</a>
+                                <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" style="float: right; width: 200px;" />
                             <% } else { %>
                                 <input type="submit" value="Thema erstellen" class="btn btn-primary" name="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>/>
                             <% } %>
@@ -246,10 +277,41 @@
             });
         <% } %>
     </script>
-<% } 
+<% }
     Html.RenderPartial("~/Views/Images/ImageUpload/ImageUpload.ascx");
     Html.RenderPartial("~/Views/Categories/Modals/ModalDeleteCategory.ascx");
-%>
+
+    if (Model.IsEditing)
+    { %>
+    <div id="EditAggregationModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Unterthemen einschließen</h3>
+                </div>
+                <div class="modal-body clearfix">
+                    <ul class="nav nav-tabs">
+                        <li class="tab-unterthemen active"><a href="#">Unterthemen einschließen</a></li>
+                        <li class="tab-categories-graph"><a href="#">Graphen Ansicht</a></li>
+                    </ul>
+                    <div class="tab-body">
+                        <div style="text-align: center">
+                            <i class="fa fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    
+                    <a href="#" id="btnResetAggregation" class="btn btn-danger" style="float: left">Zurücksetzen</a>
+                    <a href="#" class="btn btn-default" id="btnCloseAggregation">Schließen</a>
+                    <a href="#" id="btnEditAggregation" class="btn btn-primary">Bearbeiten</a>
+                </div>
+            </div>
+        </div>
+    </div>
+   <% } %>
+
 
 
 </asp:Content>

@@ -23,7 +23,7 @@
                 <h3 class="">
                     Fragen
                 </h3>
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btnCreateItem btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion() %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
@@ -84,7 +84,7 @@
      <div class="boxtainer-outlined-tabs">
          
         <div class="boxtainer-header MobileHide">
-                <a href="<%= Links.CreateQuestion(Url) %>" class="btnCreateItem btn btn-success btn-sm">
+                <a href="<%= Links.CreateQuestion() %>" class="btnCreateItem btn btn-success btn-sm">
                     <i class="fa fa-plus-circle"></i>
                     Frage erstellen
                 </a>
@@ -187,8 +187,8 @@
                                 </li>
                             </ul>
                         
-                            <a href="#" class="btn btn-default btn-xs" style="margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Fragesatz hinzufügen">
-                                <i class="fa fa-list-ol"></i> Zum Fragesatz hinzufügen
+                            <a href="#" class="btn btn-default btn-xs" style="margin-left: 7px;" id="btnSelectionToSet" data-placement="bottom" data-original-title="Ausgewählte zu Lernset hinzufügen">
+                                <i class="fa fa-list-ol"></i> Zum Lernset hinzufügen
                             </a>
                             <%--<a href="#" class="btn btn-default btn-xs featureNotImplemented" style="display: none; margin-left: 7px;" id="btnSelectionDelete" data-placement="bottom" data-original-title="Ausgewählte löschen">
                                 <i class="fa fa-trash-o"></i> 

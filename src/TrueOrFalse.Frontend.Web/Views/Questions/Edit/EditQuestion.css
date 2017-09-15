@@ -151,6 +151,14 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
+.input-group input.form-control,
+.input-group textarea.form-control,
+.input-group select.form-control {
+  max-width: none;
+}
+#formGroupQuestionText textarea {
+  max-width: none;
+}
 #txtNewRelatedCategory {
   float: left;
   margin-right: 12px;
@@ -208,6 +216,9 @@ select.form-control {
     border-bottom-right-radius: 0;
   }
 }
+#formGroupDescription textarea {
+  max-width: none;
+}
 #JS-References .LabelInline,
 #AddReferenceControls .LabelInline {
   font-size: 111.11111111%;
@@ -243,4 +254,48 @@ select.form-control {
 #JS-References .Reference,
 #AddReferenceControls .Reference {
   margin-bottom: 5px;
+}
+@media (max-width: 479px) {
+  i {
+    display: none;
+  }
+}
+#matchlist-solutionOrderCheck {
+  margin-bottom: 25px;
+}
+#multiplechoice-solutionOrderCheck {
+  margin-bottom: 25px;
+  margin-top: -10px;
+}
+#matchlist #responseModal .matchlist-modalinput {
+  margin-left: unset;
+}
+#matchlist #pairs .matchlist-leftelement {
+  width: 48%;
+}
+#matchlist #pairs .matchlist-arrow {
+  margin-right: 2%;
+  margin-left: 2%;
+}
+#matchlist #pairs .matchlist-rightpairelement {
+  width: 40%;
+}
+#matchlist #pairs .removeButton {
+  width: 2%;
+}
+#matchlist #matchlist-button #addPair {
+  width: 48%;
+}
+#matchlist #matchlist-button #responseModalButton {
+  width: 40%;
+  margin-left: 5.8%;
+}
+#matchlist #responseModal .modal-content {
+  margin-top: 50%;
+}
+#matchlist #responseModal .modal-content .matchlist-rightelement {
+  width: 100%;
+}
+#EditQuestionForm a > span {
+  max-width: 220px;
 }

@@ -6,7 +6,10 @@ public class SetQuestionRowModel
     public virtual Question Question { get; set; }
     public virtual int Sort { get; set; }
 
+    public string CorrectAnswer;
+
     public bool IsInWishknowledge;
+    public bool UserIsInstallationAdmin;
 
     public HistoryAndProbabilityModel HistoryAndProbability;
 
@@ -18,10 +21,12 @@ public class SetQuestionRowModel
     {
         Question = question;
         Set = set;
+        CorrectAnswer = Question.GetSolution().GetCorrectAnswerAsHtml();
 
         questionValuation = questionValuation ?? new QuestionValuation();
 
         IsInWishknowledge = questionValuation.IsInWishKnowledge();
+        UserIsInstallationAdmin = Sl.SessionUser.IsInstallationAdmin;
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

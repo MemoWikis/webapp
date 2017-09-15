@@ -1,7 +1,7 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseModel>" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" style="background-color: white">
+<html xmlns="http://www.w3.org/1999/xhtml" style="background-color: transparent;">
 <head runat="server">
     <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
     <% Html.RenderPartial("Site.Partial.Head"); %>
@@ -9,16 +9,19 @@
 </head>
 
 <body id="MasterWidget">
-    <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
+    <div id="WidgetContent">
+        <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
+        <input type="hidden" id="IsWidget" value="true" />
 
-    <div id="MasterMainColumn">
-        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
-    </div>
+        <div id="MasterMainColumn">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+        </div>
     
-    <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
-    <% Html.RenderPartial("UnpinSetModal"); %>
-    <% Html.RenderPartial("UnpinCategoryModal"); %>
-    <% Html.RenderPartial("FeatureNotImplementedModal"); %>
-    <div id="modalLoginContainer"></div>
+        <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
+        <% Html.RenderPartial("UnpinSetModal"); %>
+        <% Html.RenderPartial("UnpinCategoryModal"); %>
+        <% Html.RenderPartial("FeatureNotImplementedModal"); %>
+        <div id="modalLoginContainer"></div>
+    </div>
 </body>
 </html>

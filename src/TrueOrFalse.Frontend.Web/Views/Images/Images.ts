@@ -36,10 +36,18 @@ class Images {
         });
     }
 
+    private static GetYoutubeAttribute(elem : JQuery) {
+
+        if (!elem.is("[data-is-youtube-video]"))
+            return "";
+
+        return "data-is-youtube-video='" + elem.attr('data-is-youtube-video') + "'";
+    }
+
     private static AddHoverLicenseArea() {
-         $('.LicensedImage.JS-InitImage').each(function () {
+        $('.LicensedImage.JS-InitImage').each(function () {
             $("<div class='SelectAreaImageInfo'>" +
-                "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='HoverMessage JS-InitImageDetailModal'>Bild- und Lizenzinfos</div>" +
+                "<div data-image-id ='" + $(this).attr('data-image-id') + "' class='HoverMessage JS-InitImageDetailModal' " + Images.GetYoutubeAttribute($(this)) + " >Bild- und Lizenzinfos</div>" +
                 "</div>").insertAfter($(this).parent().find('.SelectAreaCheckbox'));
         });
     }
@@ -52,7 +60,7 @@ class Images {
                 return;
             }
 
-            $("<div data-image-id ='" + $(this).attr('data-image-id') + "' class='LicenseInfo JS-InitImageDetailModal'></div>")
+            $("<div data-image-id ='" + $(this).attr('data-image-id') + "' class='LicenseInfo JS-InitImageDetailModal' " + Images.GetYoutubeAttribute($(this)) + "></div>")
                 .appendTo($(this)
                 .closest('.ImageContainer'));
 

@@ -44,9 +44,21 @@ public class MaintenanceController : BaseController
     }
 
     [SetMenu(MenuEntry.Maintenance)]
-    public ActionResult ContentReport()
+    public ActionResult ContentCreatedReport()
     {
-        return View(new ContentReportModel());
+        return View(new ContentCreatedReportModel());
+    }
+
+    [SetMenu(MenuEntry.Maintenance)]
+    public ActionResult ContentStats()
+    {
+        return View(new ContentStatsModel());
+    }
+
+    [SetMenu(MenuEntry.Maintenance)]
+    public ActionResult ContentStatsShowStats()
+    {
+        return View("ContentStats", new ContentStatsModel(true));
     }
 
     [SetMenu(MenuEntry.Maintenance)]
@@ -123,7 +135,7 @@ public class MaintenanceController : BaseController
     public ActionResult ReIndexAllSets()
     {
         Resolve<ReIndexAllSets>().Run();
-        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Fragesätze wurden neu indiziert.") });
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Lernsets wurden neu indiziert.") });
     }
 
     [ValidateAntiForgeryToken][HttpPost]
@@ -214,9 +226,9 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public ActionResult AssignCategoryToQuestionsInSet(ToolsModel toolsModel)
     {
-        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryId);
+        var categoryToAssign = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToAddId);
 
-        var setIds = toolsModel.SetsToUpdateIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+        var setIds = toolsModel.SetsToAddCategoryToIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => Convert.ToInt32(x)).ToList();
 
         var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
@@ -243,13 +255,50 @@ public class MaintenanceController : BaseController
             questionRepo.Update(question);
         }
 
-        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Fragesätzen {setsString} zugewiesen");
+        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToAssign.Name}\" (Id {categoryToAssign.Id}) wurde den Fragen in den Lernsets {setsString} zugewiesen");
 
         //ModelState.Clear(); 
 
         return View("Tools", toolsModel );
     }
-    
+
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult RemoveCategoryFromQuestionsInSet(ToolsModel toolsModel)
+    {
+        var categoryToRemove = Sl.R<CategoryRepository>().GetById(toolsModel.CategoryToRemoveId);
+
+        var setIds = toolsModel.SetsToRemoveCategoryFromIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x)).ToList();
+
+        var sets = Sl.Resolve<SetRepo>().GetByIds(setIds);
+
+        if (sets.Count == 0)
+        {
+            throw new Exception("no sets found");
+        }
+
+        var setsString = "";
+
+        sets.ForEach(s => setsString += $", \"{s.Name}\" (Id {s.Id})");
+
+        setsString = setsString.Substring(2); //Remove superfluous characters
+
+        var questionRepo = Sl.R<QuestionRepo>();
+
+        var questions = sets.SelectMany(s => s.Questions());
+
+        foreach (var question in questions)
+        {
+            question.Categories.Remove(categoryToRemove);
+            question.Categories = question.Categories.Distinct().ToList();
+            questionRepo.Update(question);
+        }
+
+        toolsModel.Message = new SuccessMessage($"Das Thema \"{categoryToRemove.Name}\" (Id {categoryToRemove.Id}) wurde von den Fragen in den Lernsets {setsString} entfernt");
+
+        return View("Tools", toolsModel);
+    }
 
     [HttpPost]
     public ActionResult MigrateAnswerData()
@@ -285,12 +334,14 @@ public class MaintenanceController : BaseController
             } else {
 
                 var nextViewIndex = allQuestionViews.FindIndex(x =>
-                                                          x.DateCreated > questionView.DateCreated
-                                                          && x.UserId == questionView.UserId);
+                    x.DateCreated > questionView.DateCreated
+                    && x.UserId == questionView.UserId);
 
-                var upperTimeBound = nextViewIndex != -1 && allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
-                                         ? allQuestionViews[nextViewIndex].DateCreated
-                                         : questionView.DateCreated.Add(maxTimeForView);
+                var upperTimeBound = 
+                    nextViewIndex != -1 && 
+                    allQuestionViews[nextViewIndex].DateCreated < questionView.DateCreated.Add(maxTimeForView)
+                        ? allQuestionViews[nextViewIndex].DateCreated
+                        : questionView.DateCreated.Add(maxTimeForView);
 
                 answersForQuestionView = allAnswers
                     .Where(a =>
@@ -425,6 +476,7 @@ public class MaintenanceController : BaseController
         return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage(message) });
     }
 
+    [ValidateAntiForgeryToken]
     [HttpPost]
     public ActionResult CheckForCategoriesWithIncorrectQuestionCount()
     {
@@ -435,11 +487,25 @@ public class MaintenanceController : BaseController
 
         foreach (var cat in cats)
         {
-            if (cat.CountQuestions != questionRepo.GetForCategory(cat.Id).Count)
+            if (cat.GetCountQuestionsAggregated() != cat.CountQuestionsAggregated)
                 list.Add(cat);
         }
 
         return View("Maintenance", new MaintenanceModel { });
+    }
 
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public ActionResult CreateAggregationsForAll()
+    {
+        var allCategories = Sl.CategoryRepo.GetAll();
+
+        foreach (var category in allCategories)
+        {
+            Logg.r().Information("Created aggregates for {0}", category.Name);
+            ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
+        }
+
+        return View("Maintenance", new MaintenanceModel { Message = new SuccessMessage("Aggregate erstellt") });
     }
 }

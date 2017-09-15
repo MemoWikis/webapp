@@ -30,7 +30,7 @@ namespace TrueOrFalse.Tests
                 .Add("fieldName", "2")
                 .Add("fieldName", "3");
 
-            Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~) fieldName:(2~) fieldName:(3~)"));
+            Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(2~) fieldName:(3~))"));
 
             sqb = new SearchQueryBuilder()
                 .Add("fieldName", "1")
@@ -48,7 +48,7 @@ namespace TrueOrFalse.Tests
                 .Add("fieldName", "1")
                 .Add("fieldName", "\"one two\"", startsWith: true);
 
-            Assert.That(sqb.ToString(), Is.EqualTo("fieldName:(1~) fieldName:(\"one two*\")^10"));
+            Assert.That(sqb.ToString(), Is.EqualTo("(fieldName:(1~) fieldName:(\"one two*\")^10)"));
         }
     }
 }

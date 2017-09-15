@@ -43,7 +43,13 @@ public class SaveImageToFile
                 ResizeImage.ConfigureGraphics(graphics);
                 graphics.DrawImage(image, 0, 0);
             }
-            resized.Save(imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg", ImageFormat.Jpeg);
+            var filename = imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg";
+            resized.Save(filename, ImageFormat.Jpeg);
+
+            if (image.Width < 300)
+            {
+                Logg.r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+            }
         }
     }
 

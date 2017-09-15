@@ -1,33 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Seedworks.Web.State;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 {
     public bool HasBetaAccess
     {
-        get { return Data.Get("isBetaLogin", false); }
-        set { Data["isBetaLogin"] = value; }
+        get => Data.Get("isBetaLogin", false);
+        set => Data["isBetaLogin"] = value;
     }
 
     public bool IsLoggedIn
     {
-        get { return Data.Get("isLoggedIn", false); }
-        private set { Data["isLoggedIn"] = value; }
+        get => Data.Get("isLoggedIn", false);
+        private set => Data["isLoggedIn"] = value;
     }
 
     public bool IsInstallationAdmin
     {
-        get { return Data.Get("isAdministrativeLogin", false); }
-        set { Data["isAdministrativeLogin"] = value; }
+        get => Data.Get("isAdministrativeLogin", false);
+        set => Data["isAdministrativeLogin"] = value;
     } 
 
     public User User
     {
-        get { return Data.Get<User>("user"); }
-        private set { Data["user"] = value; }
+        get => Data.Get<User>("user");
+        private set => Data["user"] = value;
     }
 
     public bool IsLoggedInUser(int userId)
@@ -54,6 +57,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
         if(HttpContext.Current != null)
             FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+
+        JobScheduler.StartImmediately_InitUserValuationCache(user.Id);
     }
 
     public void Logout()
@@ -63,6 +68,11 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
         User = null;
         if (HttpContext.Current != null)
             FormsAuthentication.SignOut();
+    }
+
+    public void UpdateUser()
+    {
+        User = Sl.Resolve<UserRepo>().GetById(Sl.SessionUser.UserId);
     }
 
     public int UserId
@@ -78,8 +88,20 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<TestSession> TestSessions
     {
-        get { return Data.Get<List<TestSession>>("testSessions"); }
-        set { Data["testSessions"] = value; }
+        get => Data.Get<List<TestSession>>("testSessions");
+        set => Data["testSessions"] = value;
+    }
+
+    public TestSessionStep GetPreviousTestSessionStep(int testSessionId) =>
+        GetCurrentTestSessionStep(testSessionId, offset: -1);
+
+    public TestSessionStep GetCurrentTestSessionStep(int testSessionId, int offset = 0)
+    {
+        var currentStepIndex = TestSessions.Find(s => s.Id == testSessionId).CurrentStepIndex - 1 + offset;
+
+        return TestSessions
+            .Find(s => s.Id == testSessionId)
+            .Steps.ElementAt(currentStepIndex);
     }
 
     private int _currentTestSessionId
@@ -109,8 +131,8 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
 
     public List<int> AnsweredQuestionIds
     {
-        get { return Data.Get<List<int>>("answeredQuestionIds"); }
-        set { Data["answeredQuestionIds"] = value; }
+        get => Data.Get<List<int>>("answeredQuestionIds");
+        set => Data["answeredQuestionIds"] = value;
     }
 
     public SessionUser()
@@ -122,4 +144,21 @@ public class SessionUser : SessionBase, IRegisterAsInstancePerLifetime
             TestSessions = new List<TestSession>();
     }
 
+    public List<ActivityPoints> ActivityPoints => Data.Get("pointActivitys", new List<ActivityPoints>());
+
+    public void AddPointActivity(ActivityPoints activityPoints)
+    {
+        ActivityPoints.Add(activityPoints);
+    }
+
+    public int getTotalActivityPoints()
+    {
+        int totalPoints = 0;
+        foreach (var activity in ActivityPoints)
+        {
+            totalPoints += activity.Amount;
+        }
+
+        return totalPoints;
+    }
 }

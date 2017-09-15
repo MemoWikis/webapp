@@ -13,6 +13,8 @@
                 </div>
                 <div class="alert alert-danger" id="questionDeleteCanNotDelete">
                 </div>
+                <div class="alert alert-info" id="questionDeleteResult">
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-default" id="btnCloseQuestionDelete">Abbrechen</a>

@@ -1,4 +1,7 @@
-﻿var player: YT.Player;
+﻿
+var setVideo: SetVideo;
+
+declare var initPlayer: () => void;
 
 class StopVideoAt {
 
@@ -19,7 +22,20 @@ class SetVideoPlayer
 
     IsVideoPausingEnabled = true;
 
+    Player : YT.Player;
+
     constructor() {
+        initPlayer = () => {
+            player = new YT.Player('player', {
+                playerVars: { rel: 0 },
+                events: {
+                    'onReady':
+                        setVideoPlayer.OnPlayerReady,
+                    'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }
+                }
+            });
+        }
+        apiLoad();
 
         $(() => {
             this.InitVideoStops();
@@ -29,7 +45,7 @@ class SetVideoPlayer
     }
 
     public OnPlayerReady() {
-        //console.log("player ready");
+        this.Player = player;
     }
 
     public OnStateChange(event : YT.EventArgs, setVideoPlayer : SetVideoPlayer) {
@@ -47,10 +63,15 @@ class SetVideoPlayer
 
         $("#video-pager a[data-video-question-id]").each(function () {
 
+            var pauseAt = +$(this).attr("data-video-pause-at");
+
+            if (pauseAt == 0)
+                return;
+
             self.VideoStops.push(
                 new StopVideoAt(
                     +$(this).attr("data-video-question-id"),
-                    +$(this).attr("data-video-pause-at")
+                    pauseAt
                 ));
         });
     }
@@ -79,9 +100,10 @@ class SetVideoPlayer
             if (stops.length > 0) {
 
                 player.pauseVideo();
-                SetVideo.ClickItem(stops[0].QuestionId);
 
-                console.log("Video pausiert, beantworte die Frage");
+                setVideo.ShowYoutubeOverlay();
+
+                SetVideo.ClickItem(stops[0].QuestionId);
 
             } else {
                 this.VideoCheckIntervalPaused = false;
@@ -140,21 +162,3 @@ class VideoPausingButtons {
 
 
 var setVideoPlayer = new SetVideoPlayer();
-
-// 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-
-function onYouTubeIframeAPIReady() {
-
-    player = new YT.Player('player', {
-        events: {
-            'onReady': setVideoPlayer.OnPlayerReady,
-            'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }
-        }
-    });
-
-}

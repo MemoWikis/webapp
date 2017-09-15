@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
+using TrueOrFalse;
 
 public class TestSessionController : BaseController
 {
@@ -9,23 +11,27 @@ public class TestSessionController : BaseController
     public void RegisterQuestionAnswered(int testSessionId, int questionId, Guid questionViewGuid, bool answeredQuestion)
     {
         _sessionUser.AnsweredQuestionIds.Add(questionId);
-        var currentStep = _sessionUser.TestSessions.Find(s => s.Id == testSessionId).CurrentStep - 1;
-        //_sessionUser.TestSessions.Find(s => s.Id == testSessionId).Steps
-        _sessionUser.TestSessions.Find(s => s.Id == testSessionId).Steps.ElementAt(currentStep).QuestionViewGuid = questionViewGuid;
+
+        var currentStep = _sessionUser.GetCurrentTestSessionStep(testSessionId);
+
+        currentStep.QuestionViewGuid = questionViewGuid;
+
         if (answeredQuestion)
         {
-            var answers = Sl.R<AnswerRepo>().GetByQuestionViewGuid(questionViewGuid).Where(a => !a.IsView()).ToList();
+            var answers = Sl.AnswerRepo.GetByQuestionViewGuid(questionViewGuid).Where(a => !a.IsView()).ToList();
+            var answer = answers.First();
+
             if (answers.Count > 1)
                 throw new Exception("Cannot handle multiple answers to one TestSessionStep.");
-            _sessionUser.TestSessions.Find(s => s.Id == testSessionId).Steps.ElementAt(currentStep).AnswerText = answers.FirstOrDefault().AnswerText;
-            _sessionUser.TestSessions.Find(s => s.Id == testSessionId).Steps.ElementAt(currentStep).AnswerState = 
-                answers.FirstOrDefault().AnsweredCorrectly() ? TestSessionStepAnswerState.AnsweredCorrect : TestSessionStepAnswerState.AnsweredWrong;
+
+            currentStep.AnswerText = answer.AnswerText;
+            currentStep.AnswerState = answer.AnsweredCorrectly() ? TestSessionStepAnswerState.AnsweredCorrect : TestSessionStepAnswerState.AnsweredWrong;
         }
         else
         {
-            _sessionUser.TestSessions.Find(s => s.Id == testSessionId).Steps.ElementAt(currentStep).AnswerState = TestSessionStepAnswerState.OnlyViewedSolution;
+            currentStep.AnswerState = TestSessionStepAnswerState.OnlyViewedSolution;
         }
-        _sessionUser.TestSessions.Find(s => s.Id == testSessionId).CurrentStep++;
+        _sessionUser.TestSessions.Find(s => s.Id == testSessionId).CurrentStepIndex++;
     }
-  
+
 }

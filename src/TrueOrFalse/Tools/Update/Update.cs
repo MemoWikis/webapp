@@ -101,6 +101,19 @@
                 .Add(UpdateToVs168.Run)
                 .Add(UpdateToVs169.Run)
                 .Add(UpdateToVs170.Run)
+                .Add(UpdateToVs171.Run)
+                .Add(UpdateToVs172.Run)
+                .Add(UpdateToVs173.Run)
+                .Add(UpdateToVs174.Run)
+                .Add(UpdateToVs175.Run)
+                .Add(UpdateToVs176.Run)
+		        .Add(UpdateToVs177.Run)
+                .Add(UpdateToVs178.Run)
+                .Add(UpdateToVs179.Run)
+                .Add(UpdateToVs180.Run)
+                .Add(UpdateToVs181.Run)
+                .Add(UpdateToVs182.Run)
+                .Add(UpdateToVs183.Run)
                 .Run();
         }
     }

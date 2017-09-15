@@ -10,7 +10,7 @@ public class BadgeTypeGroups
         {
             new BadgeTypeGroup(BadgeTypeGroupKeys.FirstSteps, "Erste Schritte"),
             new BadgeTypeGroup(BadgeTypeGroupKeys.Questions, "Fragen"),
-            new BadgeTypeGroup(BadgeTypeGroupKeys.Sets, "Fragesätzen"),
+            new BadgeTypeGroup(BadgeTypeGroupKeys.Sets, "Lernsets"),
             new BadgeTypeGroup(BadgeTypeGroupKeys.Categories, "Themen"),
             new BadgeTypeGroup(BadgeTypeGroupKeys.WishKnowledge, "Wunschwissen"),
             new BadgeTypeGroup(BadgeTypeGroupKeys.Training, "Lernen"),

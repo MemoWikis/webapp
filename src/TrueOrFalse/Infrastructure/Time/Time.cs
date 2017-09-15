@@ -47,6 +47,7 @@ public struct Time : IComparable<Time>
 
             if(parts.Length == 2)
                 return new Time(Convert.ToInt32(parts[0]), Convert.ToInt32(parts[1]));
+
         }
         catch{}
 

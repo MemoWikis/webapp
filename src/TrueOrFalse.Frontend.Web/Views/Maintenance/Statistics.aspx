@@ -138,15 +138,15 @@
         function drawChartUsageStatsPt1() {
             var data = google.visualization.arrayToDataTable([
                 [
-                    'Datum', '# Fragen beantwortet', '# Fragen gesehen', '# Lernsitzungen gestartet', '# Termine angelegt'
+                    'Datum', '# Fragen beantwortet', '# Fragen gesehen', '# Lernsitzungen gestartet (/10)', '# Termine angelegt (/100)'
                 ],
                 <%  foreach (var day in Model.UsageStats)
                     {
                         Response.Write("[new Date('" + day.DateTime.ToString("yyyy-MM-dd") + "'), " + 
                             day.QuestionsAnsweredCount + ", " + 
                             day.QuestionsViewedCount + ", " + 
-                            day.LearningSessionsStartedCount + ", " + 
-                            day.DatesCreatedCount + "],");
+                            day.LearningSessionsStartedCount*10 + ", " + 
+                            day.DatesCreatedCount*100 + "],");
                     } %>
             ]);
 
@@ -222,7 +222,8 @@
                 <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li><a href="/Maintenance/CMS">CMS</a></li>
-                <li><a href="/Maintenance/ContentReport">Content</a></li>
+                <li><a href="/Maintenance/ContentCreatedReport">Cnt-Created</a></li>
+                <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                 <li class="active"><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
@@ -282,7 +283,8 @@
 
         <div class="col-xs-12" style="margin-top: 20px;">
             <p>
-                Wie oft wurden pro Tag durch eingeloggte (!) Nutzer (ohne Admins)...
+                Wie oft wurden pro Tag durch eingeloggte (!) Nutzer (ohne Admins)... <br />
+                (Lernsitzungen und Termine sind mit dem angegebenen Faktor multipliziert, um sie sichtbar zu halten.)
             </p>
             <div id="chartUsageStats1" style="height: 300px; margin-right: 20px; text-align: left;"></div>
         </div>

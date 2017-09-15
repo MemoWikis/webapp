@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using TrueOrFalse.Search;
+using NHibernate.Linq;
 
 public class UserRepo : RepositoryDbBase<User>
 {
@@ -61,12 +63,14 @@ public class UserRepo : RepositoryDbBase<User>
 
     public void Update(User user, bool runSolrUpdateAsync = false)
     {
+        Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         _searchIndexUser.Update(user, runSolrUpdateAsync);
         base.Update(user);
     }
 
     public override void Create(User user)
     {
+        Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         base.Create(user);
         _searchIndexUser.Update(user);
     }
@@ -82,10 +86,20 @@ public class UserRepo : RepositoryDbBase<User>
         base.Delete(id);
     }
 
+    public IList<User> GetByIds(List<int> userIds) => GetByIds(userIds.ToArray());
+
     public override IList<User> GetByIds(params int[] userIds)
     {
-        var questions = base.GetByIds(userIds);
-        return userIds.Select(t => questions.First(q => q.Id == t)).ToList();
+        var users = base.GetByIds(userIds);
+
+        if (userIds.Length != users.Count)
+        {
+            var missingUsersIds = userIds.Where(id => !users.Any(u => id == u.Id)).ToList();
+            Logg.r().Error($"Following user ids from solr not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
+
+        }
+
+        return userIds.Select(t => users.FirstOrDefault(u => u.Id == t)).Where(x => x != null).ToList();
     }
 
     public IList<User> GetWhereReputationIsBetween(int newReputation, int oldRepution)
@@ -98,5 +112,26 @@ public class UserRepo : RepositoryDbBase<User>
             query.Where(u => u.Reputation < newReputation && u.Reputation > oldRepution);
        
         return query.List();
+    }
+
+    public int GetTotalActivityPoints()
+    {
+        return _session.Query<User>().Sum(u => u.ActivityPoints);
+    }
+
+    public void UpdateActivityPointsData()
+    {
+        var totalPointCount = 0;
+        foreach (var activityPoints in Sl.ActivityPointsRepo.GetActivtyPointsByUser(Sl.CurrentUserId))
+        {
+            totalPointCount += activityPoints.Amount;
+        }
+
+        var userLevel = UserLevelCalculator.GetLevel(totalPointCount);
+
+        var user = GetByIds(Sl.SessionUser.UserId).First();
+        user.ActivityPoints = totalPointCount;
+        user.ActivityLevel = userLevel;
+        Update(user);
     }
 }

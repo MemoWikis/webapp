@@ -17,4 +17,10 @@ public class ReferenceRepo : RepositoryDb<Reference>
             .List<Question>();
     }
 
+    public void DeleteForQuestion(int questionId)
+    {
+        Session.CreateSQLQuery("DELETE FROM reference WHERE Question_id = :questionId")
+            .SetParameter("questionId", questionId).ExecuteUpdate();
+
+    }
 }

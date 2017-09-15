@@ -57,6 +57,18 @@ public class EditQuestionModel_to_Question
                 solutionModel3.FillFromPostData(postData);
                 question.Solution = serializer.Serialize(solutionModel3);
                 break;
+
+            case SolutionType.MatchList:
+                var solutionModelMatchList = new QuestionSolutionMatchList();
+                solutionModelMatchList.FillFromPostData(postData);
+                question.Solution = serializer.Serialize(solutionModelMatchList);
+                break;
+
+            case SolutionType.FlashCard:
+                var solutionModelFlashCard = new QuestionSolutionFlashCard();
+                solutionModelFlashCard.FillFromPostData(postData);
+                question.Solution = serializer.Serialize(solutionModelFlashCard);
+                break;
         }
 
         return question;

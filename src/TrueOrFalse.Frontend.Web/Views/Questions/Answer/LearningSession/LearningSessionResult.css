@@ -97,19 +97,26 @@
   background-color: lightgray;
 }
 .SummaryText {
+  font-size: 16px;
   margin: 40px 0;
 }
 .SummaryText p {
   margin-bottom: 5px;
   font-weight: normal;
 }
+.ResultDescription {
+  font-size: 16px;
+}
+.ResultDescription .label {
+  max-width: 100%;
+}
 .sumPctCol {
   width: auto!important;
   padding-right: 0;
 }
 .sumPct {
-  text-align: right;
-  padding: 5px 8px;
+  text-align: center;
+  padding: 8px;
   border-right-width: 0px;
   border-right-style: solid;
   color: white;
@@ -142,7 +149,7 @@
   margin-bottom: 40px;
 }
 .QuestionLearned {
-  margin-top: 4px;
+  margin-bottom: 7px;
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 5px 10px;
@@ -226,252 +233,13 @@
 .boxInfoContent p {
   margin: 3px 0;
 }
-/* Session heading
-------------------------------------------------------*/
-.SessionHeading {
-  font-weight: bold;
-  padding-bottom: 10px;
-  display: flex;
+#WidgetSetResult {
+  margin-bottom: 60px;
 }
-.SessionHeading:before,
-.SessionHeading:after {
-  content: " ";
-  display: table;
-}
-.SessionHeading:after {
-  clear: both;
-}
-.SessionHeading:before,
-.SessionHeading:after {
-  content: " ";
-  display: table;
-}
-.SessionHeading:after {
-  clear: both;
-}
-@media (max-width: 479px) {
-  .SessionHeading {
-    flex-direction: column-reverse;
-  }
-}
-@media (min-width: 480px) {
-  .SessionHeading {
-    align-items: center;
-    justify-content: space-between;
-  }
-}
-.LabelLink {
-  display: inline-block;
-  overflow: hidden;
-}
-@media (min-width: 480px) {
-  .QuestionCount,
-  .EduPartnerWrapper {
-    width: 30%;
-  }
-  .SessionTitle {
-    width: 100%;
-  }
-  .EduPartnerWrapper + .SessionTitle {
-    width: 70%;
-  }
-}
-@media (min-width: 992px) {
-  .QuestionCount,
-  .EduPartnerWrapper {
-    width: 20%;
-  }
-  .SessionTitle {
-    width: 100%;
-  }
-  .EduPartnerWrapper + .SessionTitle {
-    width: 80%;
-  }
-}
-@media (min-width: 480px) {
-  .SessionTitle {
-    padding-right: 10px;
-  }
-}
-@media (min-width: 480px) {
-  .EduPartnerWrapper {
-    text-align: center;
-  }
-}
-.EduPartnerLogoWrapper {
-  width: 100px;
-}
-@media (max-width: 479px) {
-  .EduPartnerLogoWrapper {
-    float: right;
-  }
-}
-/* Session bar/Progress bar
-------------------------------------------------------*/
-.SessionBar {
-  border: solid 2px #AFD534;
-  background-color: #AFD534;
+#WidgetSetResult .buttonRow {
+  margin-top: 30px;
   margin-bottom: 20px;
 }
-.SessionBar:before,
-.SessionBar:after {
-  content: " ";
-  display: table;
+#WidgetSetResult #divIndicatorAverageText {
+  margin-bottom: 30px;
 }
-.SessionBar:after {
-  clear: both;
-}
-.SessionBar:before,
-.SessionBar:after {
-  content: " ";
-  display: table;
-}
-.SessionBar:after {
-  clear: both;
-}
-.ProgressBarContainer,
-.SessionType,
-.QuestionCount,
-.ProgressBarSegment {
-  height: 30px;
-}
-.SessionType,
-.QuestionCount {
-  background-color: #AFD534;
-  padding-top: 5px;
-}
-@media (max-width: 479px) {
-  .SessionType,
-  .QuestionCount {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-}
-@media (min-width: 480px) {
-  .SessionType,
-  .QuestionCount,
-  .SessionType span,
-  .QuestionCount span {
-    text-align: center;
-  }
-}
-.SessionType > span,
-.QuestionCount > span {
-  width: 100%;
-}
-.SessionType {
-  float: left;
-}
-.SessionType span {
-  text-transform: uppercase;
-  font-weight: bold;
-}
-@media (min-width: 480px) {
-  .SessionType {
-    width: 20%;
-  }
-}
-@media (min-width: 768px) {
-  .SessionType {
-    width: 15%;
-  }
-}
-@media (min-width: 992px) {
-  .SessionType {
-    width: 10%;
-  }
-}
-.ProgressBarContainer {
-  display: table;
-}
-@media (max-width: 479px) {
-  .ProgressBarContainer {
-    width: 100%;
-  }
-}
-@media (min-width: 480px) {
-  .ProgressBarContainer {
-    width: 50%;
-  }
-}
-@media (min-width: 768px) {
-  .ProgressBarContainer {
-    width: 55%;
-  }
-}
-@media (min-width: 992px) {
-  .ProgressBarContainer {
-    width: 70%;
-  }
-}
-.ProgressBarSegment {
-  display: table-cell;
-  overflow: hidden;
-  text-align: center;
-  vertical-align: top;
-}
-.ProgressBarLegend {
-  position: absolute;
-  left: 0px;
-  top: 4px;
-  width: 100%;
-  min-width: 30px;
-}
-.ProgressBarDone {
-  background-color: #c8e273;
-  position: relative;
-  overflow: visible;
-}
-.ProgressBarLeft {
-  background-color: #e1efb3;
-}
-.CollectionType {
-  float: left;
-  padding-right: 10px;
-}
-.LabelWrapper {
-  max-width: 70%;
-  float: left;
-}
-.LabelWrapper:before,
-.LabelWrapper:after {
-  content: " ";
-  display: table;
-}
-.LabelWrapper:after {
-  clear: both;
-}
-.LabelWrapper:before,
-.LabelWrapper:after {
-  content: " ";
-  display: table;
-}
-.LabelWrapper:after {
-  clear: both;
-}
-.LabelWrapper a,
-.LabelWrapper .label {
-  max-width: 100%;
-  font-size: 100%;
-  margin: 0;
-}
-.EduPartnerWrapper {
-  clear: left;
-}
-/*.SessionTitle {
-    display: table;
-    
-}
-
-.CollectionType {
-    display: table-cell;
-    width:1%;
-    white-space:nowrap;
-}
-
-.LabelWrapper {
-    display: table-cell;
-    .label {
-        max-width: 100%;
-    }
-}*/

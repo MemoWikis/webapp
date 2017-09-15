@@ -5,7 +5,7 @@
 
     public int ContextCategoryId;
     public string ContextCategoryName = "";
-    public int QCount;
+    public int QuestionCount;
 
 
     public ImageFrontendData ImageFrontendData;
@@ -26,7 +26,7 @@
             if (contextCategory != null)
             {
                 ContextCategoryName = contextCategory.Name;
-                QCount = contextCategory.CountQuestions;
+                QuestionCount = contextCategory.CountQuestionsAggregated;
             } 
         }
 

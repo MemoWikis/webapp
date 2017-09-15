@@ -9,7 +9,7 @@
 
     <div class="SessionTitle">
         <% if(Model.LearningSession.IsSetSession) { %>
-            <div class="CollectionType">Fragesatz</div>
+            <div class="CollectionType">Lernset</div>
             <div class="LabelWrapper">
                 <a class="LabelLink" href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>">
                     <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
@@ -18,7 +18,7 @@
         <% } %>
 
         <% if(Model.LearningSession.IsSetsSession) { %>
-            <%= Model.LearningSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.LearningSession.SetsToLearn().Count %> Fragesätze</span>)
+            <%= Model.LearningSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.LearningSession.SetsToLearn().Count %> Lernsets</span>)
         <% } %>
 
         <% if(Model.LearningSession.IsCategorySession) { %>

@@ -50,13 +50,43 @@
     </div>
         
     <div class="row">
-        <div class="col-md-9 xxs-stack">
-            <% Html.Message(Model.Message); %>
+        <div class="col-md-3 col-md-push-9">
+            <div class="alert alert-warning">
+                <p>
+                    <strong>Spiele im Test-Betrieb:</strong> Der Echtzeit-Quiz-Modus befindet sich noch im Testbetrieb. Das heißt, es kann manchmal zu unerwarteten Fehlern kommen. 
+                    Spaß macht es aber trotzdem - also probiere es ruhig aus!
+                </p>
+            </div>
         </div>
-            
-        <div class="col-md-9">
+        <div class="col-md-9 col-md-pull-3">
+            <div>
+                <% Html.Message(Model.Message); %>
+            </div>
             <div class="form-horizontal">
                 <div class="FormSection">
+                    <div class="form-group">
+                        <label class="columnLabel control-label">
+                            <span class="show-tooltip" title="Wähle hier die Lernsets, zu denen zu spielen möchtest">
+                                <strong>Lernsets, mit denen gespielt wird:</strong> <i class="fa fa-question-circle"></i>
+                            </span>
+                        </label>
+                        <div class="JS-Sets columnControlsFull">
+                            <script type="text/javascript">
+                                $(function () {
+                                    <%foreach (var set in Model.Sets) { %>
+                                    $("#txtSet")
+                                        .val('<%=set.Name %>')
+                                        .data('set-id', '<%=set.Id %>')
+                                        .trigger("initSetFromTxt");
+                                    <% } %>
+                                    InitLabelTooltips();
+                                });
+                            </script>
+                            <div class="JS-SetInputContainer ControlInline ">
+                                <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
@@ -102,7 +132,7 @@
                                     <div class="input-group">
                                         <input class="form-control" name="Rounds" value="15" style="height: 30px;" />
                                         <span class="input-group-addon" style="height: 30px;">
-                                            (max. 100) &nbsp;&nbsp;&nbsp;&nbsp; 
+                                            (max. 100)
                                         </span>
                                     </div>
                                 </div>
@@ -130,7 +160,9 @@
                                 <div class="col-md-11 col-sm-8 col-xs-11">
                                         <div class="checkbox">
                                         <label>
-                                            <%= Html.CheckBoxFor(x => x.WithSystemAvgPlayer) %> Mit Memucho-Durchschnitts-Spieler
+                                            <span class="show-tooltip" title="Wenn du keine Mitspieler erwartest, kannst du einfach gegen memucho spielen.">
+                                                <%= Html.CheckBoxFor(x => x.WithSystemAvgPlayer) %> Mit memucho als Spieler <i class="fa fa-question-circle"></i>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -138,24 +170,6 @@
                         </div>
                     </div>
                                                                      
-                    <div class="form-group">
-                        <label class="columnLabel control-label">Fragesätze mit denen gespielt wird:</label>
-                        <div class="JS-Sets columnControlsFull">
-                            <script type="text/javascript">
-                                $(function () {
-                                    <%foreach (var set in Model.Sets) { %>
-                                    $("#txtSet")
-                                        .val('<%=set.Name %>')
-                                        .data('set-id', '<%=set.Id %>')
-                                        .trigger("initSetFromTxt");
-                                    <% } %>
-                                });
-                            </script>
-                            <div class="JS-SetInputContainer ControlInline ">
-                                <input id="txtSet" class="form-control .JS-ValidationIgnore" type="text" placeholder="Beginne zu tippen"  />
-                            </div>
-                        </div>
-                    </div>
 
 <%--                        <div class="form-group">
                         <%= Html.LabelFor(m => m.Comment, new { @class = "columnLabel control-label" })%>
@@ -180,6 +194,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 <% } %>
 </asp:Content>

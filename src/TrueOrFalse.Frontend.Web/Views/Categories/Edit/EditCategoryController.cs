@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Web;
@@ -19,6 +20,7 @@ public class EditCategoryController : BaseController
     }
 
     [SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu]
     public ViewResult Create(string name, string parent, string type)
     {
         var model = new EditCategoryModel {Name = name ?? "", PreselectedType = !String.IsNullOrEmpty(type) ? (CategoryType)Enum.Parse(typeof(CategoryType), type) : CategoryType.Standard };
@@ -29,7 +31,8 @@ public class EditCategoryController : BaseController
         return View(_viewPath, model);
     }
 
-    [SetMenu(MenuEntry.Categories)]
+    //[SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu(true)]
     public ViewResult Edit(int id)
     {
         var category = _categoryRepository.GetById(id);
@@ -40,6 +43,7 @@ public class EditCategoryController : BaseController
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category, HistoryItemType.Edit));
         
         var model = new EditCategoryModel(category){IsEditing = true};
+        //model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Type, category.Type, category.Id).ToList();
 
         if (TempData["createCategoryMsg"] != null)
             model.Message = (SuccessMessage)TempData["createCategoryMsg"];
@@ -48,7 +52,8 @@ public class EditCategoryController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.Categories)]
+    //[SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu(true)]
     public ViewResult Edit(int id, EditCategoryModel model, HttpPostedFileBase file)
     {
         var category = _categoryRepository.GetById(id);
@@ -67,18 +72,25 @@ public class EditCategoryController : BaseController
         } else {
             _categoryRepository.Update(category);
 
-            model.Message = new SuccessMessage("Das Thema wurde gespeichert.");
+            model.Message 
+                = new SuccessMessage(String.Format(
+                    "Das Thema wurde gespeichert. <br>" +
+                    "Du kannst es weiter bearbeiten oder" +
+                    " <a href=\"{0}\">zur Detailansicht wechseln</a>.",
+                    Links.CategoryDetail(category)));
         }
         StoreImage(id);
         
         model.Init(category);
         model.IsEditing = true;
+        model.DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
 
         return View(_viewPath, model);
     }
 
     [HttpPost]
     [SetMenu(MenuEntry.Categories)]
+    [SetThemeMenu]
     public ActionResult Create(EditCategoryModel model, HttpPostedFileBase file)
     {                
         model.FillReleatedCategoriesFromPostData(Request.Form);
@@ -117,10 +129,13 @@ public class EditCategoryController : BaseController
 
         TempData["createCategoryMsg"] 
             = new SuccessMessage(string.Format(
-                 "Das Thema <strong>'{0}'</strong> wurde angelegt.<br>" + 
-                 "Du kannst das Thema jetzt bearbeiten" +
-                 " oder ein <a href=\"{1}\">neues Thema anlegen</a>.", 
+                 "Das Thema <strong>'{0}'</strong> {1} wurde angelegt.<br>" + 
+                 "Du kannst das Thema weiter bearbeiten," +
+                 " <a href=\"{2}\">zur Detailansicht wechseln</a>" +
+                 " oder ein <a href=\"{3}\">neues Thema anlegen</a>.", 
                 category.Name,
+                category.Type == CategoryType.Standard ? "" : "("+category.Type.GetShortName()+")",
+                Links.CategoryDetail(category),
                 Links.CategoryCreate()));
 
         return Redirect(Links.CategoryEdit(category));
@@ -152,5 +167,59 @@ public class EditCategoryController : BaseController
                     _sessionUiData.TmpImagesStore.ByGuid(Request["ImageGuid"]), categoryId, _sessionUser.User.Id, Request["ImageLicenseOwner"]);
             }
         }
+    }
+
+    [HttpPost]
+    public JsonResult GetMarkdownPreview(int categoryId, string text)
+    {
+        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
+        category.TopicMarkdown = text;
+
+        Sl.Session.Evict(category); //prevent change tracking and updates
+
+        return Json(MarkdownToHtml.Run(category, ControllerContext));
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public void EditAggregation(int categoryId, string categoriesToExcludeIdsString, string categoriesToIncludeIdsString)
+    {
+        var category = _categoryRepository.GetById(categoryId);
+
+        category.CategoriesToExcludeIdsString = categoriesToExcludeIdsString;
+        category.CategoriesToIncludeIdsString = categoriesToIncludeIdsString;
+
+        ModifyRelationsForCategory.UpdateRelationsOfTypeIncludesContentOf(category);
+    }
+
+    [HttpPost]
+    [AccessOnlyAsAdmin]
+    public void ResetAggregation(int categoryId)
+    {
+        var catRepo = Sl.CategoryRepo;
+
+        var category = catRepo.GetById(categoryId);
+
+        var relationsToRemove =
+            category.CategoryRelations.Where(r => r.CategoryRelationType == CategoryRelationType.IncludesContentOf).ToList();
+
+        foreach (var relation in relationsToRemove)
+        {
+            category.CategoryRelations.Remove(relation);
+        }
+
+        catRepo.Update(category);
+    }
+
+    public ActionResult GetEditCategoryAggregationModalContent(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        return View("~/Views/Categories/Modals/EditAggregationModal.ascx", new EditCategoryModel(category));
+    }
+
+    public string GetCategoryGraphDisplay(int categoryId)
+    {
+        var category = Sl.CategoryRepo.GetById(categoryId);
+        return ViewRenderer.RenderPartialView("~/Views/Categories/Edit/GraphDisplay/CategoryGraph.ascx", new CategoryGraphModel(category), ControllerContext);
     }
 }

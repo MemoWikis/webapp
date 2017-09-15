@@ -2412,6 +2412,12 @@
 .bold {
   font-weight: bold;
 }
+.fontSizeNormal {
+  font-size: 14px;
+}
+.fontSizeSmall {
+  font-size: 12px;
+}
 .greyed {
   color: #999999;
 }
@@ -2813,12 +2819,30 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   border-bottom-color: #45aece !important;
   border-right-color: #45aece !important;
 }
+.Card .ItemInfo {
+  font-size: 12px;
+}
 .Card .ItemInfo .Pin {
   padding-left: 1px;
   display: inline-block;
 }
 .Card .BottomBar {
   padding: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.Card img[src*="img.youtube"] {
+  background-color: black;
+  padding-top: 12.5%;
+  padding-bottom: 12.5%;
+}
+.Card .CardContent h4 {
+  font-size: 18px !important;
+  font-weight: 500;
+}
+.Card .CardContent .ItemText {
+  line-height: normal;
+  font-size: 14px;
 }
 .CardsLandscape .CardColumn {
   position: relative;
@@ -2867,7 +2891,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 110px;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .CardContent {
-  border-bottom: 1px solid #dfdfdf;
   padding-bottom: 10px;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .ItemTitle {
@@ -2877,7 +2900,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .CardsLandscape .CardColumn .Card.SingleItem .BottomBar {
   padding: 5px 0;
-  margin: 0 10px 0 0;
 }
 @media (max-width: 649px) {
   .CardsLandscape .CardColumn {
@@ -2951,7 +2973,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 110px;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .CardContent {
-  border-bottom: 1px solid #dfdfdf;
   padding-bottom: 10px;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .ItemTitle {
@@ -2961,7 +2982,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .BottomBar {
   padding: 5px 0;
-  margin: 0 10px 0 0;
 }
 @media (min-width: 768px) {
   .CardsLandscapeNarrow .CardColumn {
@@ -3068,7 +3088,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
     margin-left: 110px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
-    border-bottom: 1px solid #dfdfdf;
     padding-bottom: 10px;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ItemTitle {
@@ -3078,7 +3097,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   }
   .CardsPortrait .CardColumn .Card.SingleItem .BottomBar {
     padding: 5px 0;
-    margin: 0 10px 0 0;
   }
   .CardsPortrait .CardColumn .Card {
     margin-bottom: 10px;
@@ -3168,7 +3186,6 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   margin-left: 15px;
   margin-right: 15px;
   overflow: hidden;
-  border-bottom: 1px solid #dfdfdf;
 }
 @media (max-width: 991px) {
   .SingleItem .CardContent {
@@ -3196,6 +3213,11 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   line-height: 15px;
 }
 .Card .ImageLicenseCaption a {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.Card .BottomBar {
+  border-top: 1px solid #dfdfdf;
   margin-left: 15px;
   margin-right: 15px;
 }
@@ -3349,14 +3371,17 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   border: 1px solid #dddddd;
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
-.bs-callout h4 {
+.bs-callout h4,
+.bs-callout h3 {
   margin-top: 0;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
-.bs-callout-info h4 {
+.bs-callout-info h4,
+.bs-callout-info h3 {
   color: #5bc0de !important;
 }
-.bs-callout-danger h4 {
+.bs-callout-danger h4,
+.bs-callout-danger h3 {
   color: #ce4844 !important;
 }
 .bs-callout p:last-child {

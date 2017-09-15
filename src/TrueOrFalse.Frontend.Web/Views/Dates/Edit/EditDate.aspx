@@ -100,12 +100,12 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-xs-5 col-sm-4 xxs-stack">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         Datum
                                     </label>
-                                    <div class="col-md-11 col-xs-6">
+                                    <div class="col-md-11">
                                         <div class="input-group date">
                                             <input class="form-control" name="Date" value="<%= Model.Date.ToString("dd.MM.yyyy") %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
@@ -115,12 +115,12 @@
                                     </div>
                                 </div>                                
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-xs-6 xxs-stack">
                                 <div class="form-group">
                                     <label class="columnLabel control-label">
                                         Uhrzeit
                                     </label>
-                                    <div class="col-md-10 col-xs-6">
+                                    <div class="col-md-10">
                                         <div class="input-group clockpicker" data-autoclose="true">
                                             <input class="form-control" name="Time" value="<%= Model.Time %>" style="height: 30px;" />
                                             <span class="input-group-addon" style="height: 30px;">
@@ -134,7 +134,7 @@
 
                         <div class="form-group" style="margin-bottom: 5px;">
                             <label class="columnLabel control-label">
-                                Fragesätze, die du zu diesem Termin lernen möchtest:
+                                Lernsets, die du zu diesem Termin lernen möchtest:
                             </label>
                             <div class="JS-Sets columnControlsFull">
                                 <script type="text/javascript">
@@ -145,6 +145,7 @@
                                             .data('set-id', '<%=set.Id %>')
                                             .trigger("initSetFromTxt");
                                         <% } %>
+                                        InitLabelTooltips();
                                     });
                                 </script>
                                 <div class="JS-SetInputContainer ControlInline ">

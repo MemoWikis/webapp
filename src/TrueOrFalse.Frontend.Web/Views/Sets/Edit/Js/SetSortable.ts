@@ -10,7 +10,7 @@ class QuestionSortable
 
     constructor() {
         this._ulQuestions = $("#ulQuestions");
-        this._questionSetId = parseInt($("#questionSetContainer").attr("data-id"));
+        this._questionSetId = EditSet.GetSetId();
 
         this._ulQuestions.sortable({
             placeholder: "ui-state-highlight",
@@ -22,14 +22,13 @@ class QuestionSortable
     }
 
     UpdateIndicies() { 
-        var lisItems = $("#ulQuestions li");
+        var lisItems = $("#ulQuestions li[data-id]");
         var cmdItems = [];
+
         for (var i = 0; i < lisItems.length; i++) {
             var id = $(lisItems[i]).attr("data-id");
-            cmdItems.push({ "Id": id, "NewIndex": i})
+            cmdItems.push({ "Id": id, "NewIndex": i });
         }
-
-        console.log(cmdItems)
 
         $.post("/Set/UpdateQuestionsOrder/", 
             { "questionSetId":this._questionSetId, 

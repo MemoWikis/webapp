@@ -19,7 +19,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _session = session;
     }
 
-    public void Run(Guid questionViewGuid, Question question, User user)
+    public void Run(Guid questionViewGuid, Question question, User user, WidgetView widgetView = null)
     {
         Run(questionViewGuid, question, user == null ? -1 : user.Id);
     }
@@ -31,7 +31,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         Player player = null,
         Round round = null,
         LearningSession learningSession = null,
-        Guid learningSessionStepGuid = default(Guid))
+        Guid learningSessionStepGuid = default(Guid),
+        WidgetView widgetView = null)
     {
         if (HttpContext.Current == null)
             return;
@@ -51,7 +52,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             Round = round,
             UserAgent = userAgent,
             LearningSession = learningSession,
-            LearningSessionStepGuid = learningSessionStepGuid
+            LearningSessionStepGuid = learningSessionStepGuid,
+            WidgetView = widgetView
         });
 
         _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).

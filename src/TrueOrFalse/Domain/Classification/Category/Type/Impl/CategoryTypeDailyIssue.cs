@@ -20,7 +20,7 @@ public class CategoryTypeDailyIssue : CategoryTypeBase<CategoryTypeDailyIssue>
             if (Category == null)
                 return null;
 
-            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.Daily);
+            return Category.ParentCategories().FirstOrDefault(c => c.Type == CategoryType.Daily);
         }
     }
 

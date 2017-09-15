@@ -113,12 +113,12 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', '<%= Settings.GoogleKey %>', 'auto');
+    ga('create', '<%= Settings.GoogleAnalyticsKey %>', 'auto');
     ga('require', 'linkid');
     ga('set', 'dimension2', '<%= Sl.R<SessionUser>().IsLoggedIn %>');
     <% if (Sl.R<SessionUser>().IsLoggedIn)
           {
-              Response.Write("ga('set', 'userId', '"+Sl.R<SessionUser>().UserId + "');");
+              Response.Write("ga('set', 'userId', '" + Sl.R<SessionUser>().UserId + "');");
           }
     %>
     ga('send', 'pageview');

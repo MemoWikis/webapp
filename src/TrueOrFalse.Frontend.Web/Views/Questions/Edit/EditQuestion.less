@@ -54,6 +54,9 @@
 
 //
 
+#formGroupQuestionText textarea {
+    max-width: none;
+}
 
 #txtNewRelatedCategory {
     float: left;
@@ -133,6 +136,14 @@
     }
 }
 
+
+//Description
+
+#formGroupDescription textarea {
+    max-width: none;
+}
+
+
 //References
 
 //.ReferenceAllInlineStyle;
@@ -164,3 +175,64 @@
 }
 
 
+.media-below-xs({
+    i {display:none;}
+});
+
+#matchlist-solutionOrderCheck {
+    margin-bottom: 25px;
+}
+
+#multiplechoice-solutionOrderCheck {
+    margin-bottom: 25px;
+    margin-top: -10px;
+}
+
+//MatchList question type
+#matchlist{
+     #responseModal {
+         .matchlist-modalinput {
+             margin-left: unset;
+         }
+     }
+
+    #pairs{
+         .matchlist-leftelement {
+             width:48%;
+         }
+         .matchlist-arrow {
+             margin-right:2%;
+             margin-left:2%;
+         }
+         .matchlist-rightpairelement {
+             width:40%;
+         }
+         .removeButton{
+             width:2%;
+         }
+    }
+
+    #matchlist-button{
+        #addPair{
+            width:48%;
+        }
+        #responseModalButton{
+            width:40%;
+            margin-left:5.8%;
+        }
+    }
+
+    #responseModal .modal-content{
+        margin-top:50%;
+
+        .matchlist-rightelement{
+            width:100%;
+        }
+    }
+}
+
+#EditQuestionForm{
+    a > span{
+        max-width: 220px;
+    }
+}

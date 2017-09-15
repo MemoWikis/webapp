@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
+using static System.String;
 
 namespace TrueOrFalse.Frontend.Web.Code
 {
@@ -26,6 +28,12 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string HelpFAQ() => GetUrlHelper().Action(HelpActionFAQ, HelpController);
         public const string HelpWillkommen = "Willkommen";
         public const string HelpWunschwissen = "Willkommen";
+        public static string HelpWidget() => GetUrlHelper().Action("Widget", HelpController);
+        public static string HelpWidgetWordpress() => GetUrlHelper().Action("WidgetInWordpress", HelpController);
+        public static string HelpWidgetMoodle() => GetUrlHelper().Action("WidgetInMoodle", HelpController);
+        public static string HelpWidgetBlackboard() => GetUrlHelper().Action("WidgetInBlackboard", HelpController);
+        public static string WidgetPricing() => GetUrlHelper().Action("WidgetPricing", HelpController);
+        public static string WidgetExamples() => GetUrlHelper().Action("WidgetExamples", HelpController);
 
         public const string AccountController = "Account";
         public const string RegisterAction = "Register";
@@ -111,38 +119,46 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string QuestionWithCreatorFilter(UrlHelper url, User user) => "/Fragen/Suche/" + "Ersteller__" + user.Name + "__";
 
+        public static string QuestionSearch(string searchTerm) => "/Fragen/Suche/" + searchTerm;
+        public static string CategoriesSearch(string searchTerm) => "/Kategorien/Suche/" + searchTerm;
+        public static string SetsSearch(string searchTerm) => "/Fragesaetze/Suche/" + searchTerm;
+        public static string UsersSearch(string searchTerm) => "/Nutzer/Suche/" + searchTerm;
+
+
         public static string AnswerQuestion(Question question, Set set) => AnswerQuestion(GetUrlHelper(), question, set);
 
         public static string AnswerQuestion(UrlHelper url, Question question, Set set){
             return url.Action("Answer", AnswerQuestionController, 
                 new { text = UriSegmentFriendlyQuestion.Run(question.Text), questionId = question.Id, setId = set.Id });
         }
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int setId)
-        {
-            return url.Action("Answer", AnswerQuestionController,
+        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int setId) => 
+            url.Action("Answer", AnswerQuestionController,
                 new { text = UriSegmentFriendlyQuestion.Run(questionText), questionId, setId});
+
+        public static string AnswerQuestion(QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
+
+        public static string AnswerQuestion(Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
+            return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
         }
 
-        public static string AnswerQuestion(UrlHelper url, QuestionSearchSpec searchSpec) => "/AnswerQuestion/Answer?pager=" + searchSpec?.Key;
+        public static string AnswerQuestion(Question question) => 
+            HttpContext.Current == null
+            ? ""
+            : AnswerQuestion(question, -1);
 
-        public static string AnswerQuestion(UrlHelper url, Question question, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = ""){
-            return AnswerQuestion(url, question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
-        }
-
-        public static string AnswerQuestion(Question question) => AnswerQuestion(GetUrlHelper(), question, -1);
-
-        public static string AnswerQuestion(UrlHelper url, string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
+        public static string AnswerQuestion(string questionText, int questionId, int paramElementOnPage = 1, string pagerKey = "", string categoryFilter = "")
         {
             if (paramElementOnPage == -1)
             {
-                return url.Action("Answer", AnswerQuestionController,
+                return GetUrlHelper().Action("Answer", AnswerQuestionController,
                     new
                     {
                         text = UriSegmentFriendlyQuestion.Run(questionText),
                         id = questionId
                     }, null);
             }
-            return url.Action("Answer", AnswerQuestionController,
+
+            return GetUrlHelper().Action("Answer", AnswerQuestionController,
                 new {
                     text = UriSegmentFriendlyQuestion.Run(questionText), 
                     id = questionId, 
@@ -152,12 +168,15 @@ namespace TrueOrFalse.Frontend.Web.Code
                 }, null);
         }
 
-        public static string CreateQuestion() => CreateQuestion(GetUrlHelper());
-
-        public static string CreateQuestion(UrlHelper url, int categoryId = -1)
+        public static string CreateQuestion(int categoryId = -1, int setId = -1)
         {
+            var url = GetUrlHelper();
+
             if (categoryId != -1)
                 return url.Action("Create", EditQuestionController, new { categoryId = categoryId });
+
+            if (setId != -1)
+                return url.Action("Create", EditQuestionController, new { setId = setId });
 
             return url.Action("Create", EditQuestionController);
         }
@@ -222,7 +241,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("Create", DateEditController, new { setListTitle })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
 
         public static object DateCreateForCategory(int categoryId) => GetUrlHelper().Action("Create", "EditDate", new { categoryId = categoryId });
@@ -275,7 +294,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("StartLearningSessionForSets", CategoryController, new { setListTitle })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
 
         /* Testing / TestSession*/
@@ -296,13 +315,13 @@ namespace TrueOrFalse.Frontend.Web.Code
         {
             return GetUrlHelper().Action("StartTestSessionForSets", SetController, new { setListTitle })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
         public static string TestSessionStartForSetsInCategory(List<int> setIds, string setListTitle, int categoryId)
         {
             return GetUrlHelper().Action("StartTestSessionForSetsInCategory", CategoryController, new { setListTitle, categoryId })
                 + "&setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
         }
 
         public static string TestSessionRegisterQuestionAnswered(UrlHelper url) => url.Action("RegisterQuestionAnswered", TestSessionController);
@@ -323,7 +342,10 @@ namespace TrueOrFalse.Frontend.Web.Code
 
         public static string SetDetail(UrlHelper url, SetMini setMini) => SetDetail(url, setMini.Name, setMini.Id);
         public static string SetDetail(UrlHelper url, Set set) => SetDetail(url, set.Name, set.Id);
-        public static string SetDetail(Set set) => SetDetail(set.Name, set.Id);
+        public static string SetDetail(Set set) => 
+            HttpContext.Current == null
+            ? ""
+            : SetDetail(set.Name, set.Id);
         public static string SetDetail(string name, int id) => SetDetail(GetUrlHelper(), name, id);
 
         public static string SetDetail(UrlHelper url, string name, int id){
@@ -348,7 +370,10 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string GameCreateFromDate(int dateId) => GetUrlHelper().Action("Create", "Game", new {dateId = dateId});
         public static string GameCreateFromSet(int setId) => GetUrlHelper().Action("Create", "Game", new { setId = setId});
         public static string GameCreateFromSets(List<int> setIds) => GetUrlHelper().Action("Create", "Game") + "?setIds="
-                + string.Join("&setIds=", setIds);
+                + Join("&setIds=", setIds);
+        public static string GameCreateFromCategory(int categoryId) => GetUrlHelper().Action("Create", "Game", new { categoryId = categoryId });
+
+
 
         public static string GameCreate() => GetUrlHelper().Action("Create", "Game", null);
         public static string GamePlay(UrlHelper url, int gameId) => GetUrlHelper().Action("Play", "Play", new { gameId = gameId });
@@ -363,13 +388,14 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoriesAll() => GetUrlHelper().Action(CategoriesAction, CategoriesController);
         public static string CategoriesWish() => GetUrlHelper().Action("CategoriesWish", CategoriesController);
         public static string CategoryCreate() => GetUrlHelper().Action(CategoryCreateAction, CategoryEditController);
-        public static string CategoryDetail(Category category) => CategoryDetail(category.Name, category.Id);
 
-        public static string CategoryDetail(string name, int id)
-        {
-            return GetUrlHelper().Action("Category", CategoryController,
-                new { text = UriSanitizer.Run(name), id = id }, null);
-        }
+        public static string CategoryDetail(Category category) =>
+            HttpContext.Current == null 
+                ? "" 
+                : CategoryDetail(category.Name, category.Id);
+
+        public static string CategoryDetail(string name, int id) => 
+            GetUrlHelper().Action("Category", CategoryController, new { text = UriSanitizer.Run(name), id = id }, null);
 
         public static string GetUrl(object type)
         {
@@ -392,8 +418,17 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string CategoryEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditCategory", new { text = UriSanitizer.Run(name), id = id });
 
         public static string FAQItem(string itemNameInView) => GetUrlHelper().Action("FAQ", "Help") + "#" + itemNameInView;
+        public static string Contact => GetUrlHelper().Action("Contact", "Welcome");
 
         public static string ErrorNotLoggedIn(string backTo) => GetUrlHelper().Action("_NotLoggedIn", "Error", new {backTo = backTo});
+
+        public static bool IsLinkToWikipedia(string url)
+        {
+            if (IsNullOrEmpty(url))
+                return false;
+
+            return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
+        }
     }
 }
  

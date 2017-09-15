@@ -1,8 +1,10 @@
 ﻿<%@ Page Title="memucho für Lehrende" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<ForTeachersModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/ForTeachers.css" rel="stylesheet" />
+    <%= Scripts.Render("~/bundles/mailto") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -50,7 +52,7 @@
                             <div class="col-xs-10">
                                 <p class="overviewHeader">Integration in Kurswebseite</p>
                                 <p class="overviewSubtext">
-                                    Einzelne Fragen oder die Lernfunktion für ganze Fragesätze direkt in die Kursseite, das Schul-LMS oder deinen Blog integrieren.
+                                    Einzelne Fragen oder die Lernfunktion für ganze Lernsets direkt in die Kursseite, das Schul-LMS oder deinen Blog integrieren.
                                 </p>
                             </div>
                             <div class="col-xs-12">
@@ -117,62 +119,62 @@
                 </p>
                 <p>
                     Bei memucho gibt es bereits <a href="<%= Links.QuestionsAll()%>"><%= Model.TotalPublicQuestionCount.ToString("N0") %> öffentliche Fragen</a> und
-                    <a href="<%= Links.SetsAll()%>"><%= Model.TotalSetCount.ToString("N0") %> zusammengestellte Fragesätze</a> (jeder Fragesatz bündelt mehrere Fragen zu einem Thema),
+                    <a href="<%= Links.SetsAll()%>"><%= Model.TotalSetCount.ToString("N0") %> zusammengestellte Lernsets</a> (jedes Lernset bündelt mehrere Fragen zu einem Thema),
                     eingeordnet in <a href="<%= Links.CategoriesAll()%>"><%= Model.TotalCategoryCount.ToString("N0") %> Themen und Unterthemen</a>. 
                     Alle Inhalte bei memucho sind frei und rechtssicher verwendbar, sie stehen unter der Creative-Commons-Lizenz "CC-BY 4.0". 
-                    Du kannst die vorhandenen Fragesätze einfach nutzen und zum Beispiel deinen Schülern zum Lernen empfehlen.
+                    Du kannst die vorhandenen Lernsets einfach nutzen und zum Beispiel deinen Schülern zum Lernen empfehlen.
                 </p>
                 <p>
-                    Die Fragen in den Fragesätzen passen nicht genau auf den behandelten Stoff? Kein Problem, du kannst die Zusammenstellung ganz leicht ändern und bei Bedarf
+                    Die Fragen in den Lernsets passen nicht genau auf den behandelten Stoff? Kein Problem, du kannst die Zusammenstellung ganz leicht ändern und bei Bedarf
                     mit eigenen Fragen ergänzen. Dabei musst du das Rad nicht neu erfinden.
-                    Du legst einfach einen eigenen Fragesatz an und fügst alle Fragen, die es bei memucho schon gibt und die für dich relevant sind, hinzu.
-                    Zu den Aspekten, die bei memucho noch fehlen, erstellst du einfach eigene Fragen und fügst sie deinem eigenen Fragesatz hinzu.
+                    Du legst einfach ein eigenes Lernset an und fügst alle Fragen, die es bei memucho schon gibt und die für dich relevant sind, hinzu.
+                    Zu den Aspekten, die bei memucho noch fehlen, erstellst du einfach eigene Fragen und fügst sie deinem eigenen Lernset hinzu.
                     So passen die Fragen ganz genau zum behandelten Lernstoff.<br />
                 </p>
                 <p>
                     Übrigens: Eine tolle Alternative ist es, deine <a href="#StudentContentMore">Schüler oder Studenten in das Erstellen der Lerninhalte</a> einzubeziehen.
                 </p>
                 <p>
-                    Du willst genauer wissen, wie du Fragesätze neu zusammenstellst und ergänzt?
+                    Du willst genauer wissen, wie du Lernset neu zusammenstellst und ergänzt?
                     <button class="btn btn-secondary" data-toggle="collapse" data-target="#CompileContentDetails">Schritt-für-Schritt-Anleitung anzeigen</button>
                 </p>
 
                 <div id="CompileContentDetails" class="collapse">
                     <h4 style="margin-top: 25px;">
-                        Schritt-für-Schritt-Anleitung zum Anpassen und Ergänzen von Fragesätzen
+                        Schritt-für-Schritt-Anleitung zum Anpassen und Ergänzen von Lernsets
                     </h4>
                     <ol>
                         <li>
-                            Erstelle einen <a href="<%= Links.SetCreate() %>">neuen leeren Fragesatz</a>
-                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Fragesätze <i class="fa fa-arrow-circle-o-right"></i> Fragesatz erstellen)
+                            Erstelle ein <a href="<%= Links.SetCreate() %>">neues leeres Lernset</a>
+                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Lernsets <i class="fa fa-arrow-circle-o-right"></i> Lernset erstellen)
                         </li>
                         <img src="/Images/Screenshots/fragen-zusammenstellen.png" class="screenshot" width="525" height="379" />
                         <li>
-                            Füge alle passenden Fragen, die du gerne übernehmen würdest, zu deinem Fragesatz hinzu (vgl. Screenshot). Das geht so:
+                            Füge alle passenden Fragen, die du gerne übernehmen würdest, zu deinem Lernset hinzu (vgl. Screenshot). Das geht so:
                             <ul>
                                 <li>
                                     Gehe zu <a href="<%= Links.QuestionsAll() %>">Fragen</a> und nutze die Filterfunktionen, um die gesuchten Fragen anzuzeigen.
                                     Du kannst dir zum Beispiel nur die Fragen zu einem Thema anzeigen lassen.
                                 </li>
                                 <li>Markiere die gewünschten Fragen (Klick auf die Checkbox in der oberen Hälfte des Bildes).</li>
-                                <li>Klick auf die Schaltfläche "Zum Fragesatz hinzufügen". Wähle hier den von dir angelegten Fragesatz aus.</li>
+                                <li>Klick auf die Schaltfläche "Zum Lernset hinzufügen". Wähle hier den von dir angelegten Lernset aus.</li>
                             </ul>
                         </li>
                         <li>
-                            Bei <a href="<%= Links.SetsMine() %>">"Meine Fragesätze"</a> 
-                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Fragesätze <i class="fa fa-arrow-circle-o-right"></i> Karteireiter Meine Fragesätze)
-                            findest du deine Fragesätze jederzeit wieder und kannst sie bearbeiten.
+                            Bei <a href="<%= Links.SetsMine() %>">"Meine Lernsets"</a> 
+                            (Menü <i class="fa fa-arrow-circle-o-right"></i> Lernsets <i class="fa fa-arrow-circle-o-right"></i> Karteireiter Meine Lernsets)
+                            findest du deine Lernsets jederzeit wieder und kannst sie bearbeiten.
                             Füge ein passendes Bild hinzu, eine gute Beschreibung und passe gegebenenfalls die Reihenfolge der Fragen an.
-                            Wenn andere deinen Fragesatz nützlich finden und damit lernen, erhältst du Reputationspunkte!
+                            Wenn andere dein Lernset nützlich finden und damit lernen, erhältst du Reputationspunkte!
                         </li>
                         <li>
-                            Wenn dir im Fragesatz bestimmte Aspekte fehlen, kannst du jederzeit <a href="<%= Links.CreateQuestion() %>">eigene Fragen erstellen</a>
+                            Wenn dir im Lernset bestimmte Aspekte fehlen, kannst du jederzeit <a href="<%= Links.CreateQuestion() %>">eigene Fragen erstellen</a>
                             (Menü <i class="fa fa-arrow-circle-o-right"></i> Fragen <i class="fa fa-arrow-circle-o-right"></i> Frage erstellen).
                         </li>
                         <li>
-                            Füge nun noch die eigenen Fragen zu dem Fragesatz hinzu. Du findest die von dir erstellten Fragen unter <a href="<%=Links.QuestionsMine()%>">Meine Fragen</a> 
+                            Füge nun noch die eigenen Fragen zu dem Lernset hinzu. Du findest die von dir erstellten Fragen unter <a href="<%=Links.QuestionsMine()%>">Meine Fragen</a> 
                             (Menü <i class="fa fa-arrow-circle-o-right"></i> Fragen <i class="fa fa-arrow-circle-o-right"></i> Karteireiter Meine Fragen). 
-                            Wähle sie aus und füge sie deinem Fragesatz hinzu (wie oben).
+                            Wähle sie aus und füge sie deinem Lernset hinzu (wie oben).
                         </li>
                     </ol>
                 </div>
@@ -193,50 +195,22 @@
                 </p>
                 
                 <p>
-                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Fragesätze auf deinem eigenen Blog oder der Schulwebseite zeigen?
+                    Du möchtest, dass deine Schüler oder Studenten direkt auf der Kursseite lernen? Du möchtest Fragen oder Lernsets und 
+                    das dazugehörige Video auf deinem eigenen Blog oder der Schulwebseite zeigen?
                     Mit den memucho-Widgets ist das problemlos möglich. Du brauchst keine Programmier-Kenntnisse und in der Regel auch keine besonderen Rechte.
                     Das funktioniert bei eigenen Seiten und bei verschiedenen Plattformen wie Wordpress, Moodle, Blackboard usw.
                 </p>
                 <p>
-                    Wenn du ein memucho-Widget einbindest, erscheint die Frage oder das Lernmodul direkt dort, wo du es einbindest. 
+                    Wenn du ein memucho-Widget einbindest, erscheint der Quiz (Lernset-Widget), das Video mit den Lernfragen (Video-Widget) oder die einzelne Lernfrage (Frage-Widget)
+                    direkt dort, wo du es einbindest. 
                     Du musst nur eine Zeile Code von memucho per Copy'n'Paste bei dir einfügen, so wie du zum Beispiel auch youtube-Videos einbetten kannst. 
                     Dann können deine Schüler direkt auf der Kurs- oder Projektwebseite ihr Wissen testen und die Inhalte lernen.
                 </p>
                 <p>
-                    Du willst genauer wissen, wie du memucho-Widgets einbettest?
-                    <button class="btn btn-secondary" data-toggle="collapse" data-target="#WidgetDetails">Schritt-für-Schritt-Anleitung anzeigen</button>
+                    Du willst genauer wissen, wie du memucho-Widgets einbettest? 
+                    <a href="<%= Links.HelpWidget() %>">Hier zeigen wir dir eine Anleitung</a>, wie du die Widgets einbetten kannst.
                 </p>
 
-                <div id="WidgetDetails" class="collapse">
-                    <h4 style="margin-top: 25px;">
-                        Schritt-für-Schritt-Anleitung zur Einbettung von Fragen und Fragesätzen (memucho-Widget)
-                    </h4>
-                    <p>
-                        Bei memucho findest du bei jeder einzelnen Frage (im Beantworten-Modus) unten einen Link "<strong><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</strong>".
-                        Dort findest du eine kleine Code-Zeile, die ungefähr so aussieht:
-                    </p>
-                    <p>
-                        <code>
-                            &lt;script src="https://memucho.de/views/widgets/question.js" questionId="1183" width="560" height="315"&gt; &lt;/script&gt;
-                        </code>
-                    </p>
-                    <p>
-                        Diese kannst du einfach an die Stelle kopieren, wo die Frage in deiner Webseite erscheinen soll.
-                        Du musst lediglich beachten, dass du dich in einem Modus befindest, wo du HTML-Code einfügen darfst. Oft gibt es dafür einen Umschalter. Einige Beispiele:
-                    </p>
-                    <ul>
-                        <li>Bei Wordpress: "Text" und nicht "Visuell" <img src="/Images/Screenshots/wordpress-textmode-small.png" /></li>
-                        <li>
-                            Bei Moodle: Material hinzufügen: Textfeld. Dann im Textfeld das "Mehr Symbole anzeigen" <img src="/Images/Screenshots/moodle-1-mehrFelder-small.png" /> aktivieren
-                            und dann den HTML-Modus einschalten <img src="/Images/Screenshots/moodle-2-HTMLmode-small.png" />
-                        </li>
-                        <li>Bei Blackboard: Bei Kursmaterial ein Element erstellen, dann im Editierfenster auf den Button "HTML" klicken <img src="/Images/Screenshots/blackboard-html-mode-small.png" /></li>
-                    </ul>
-                    <p>
-                        <strong>Das Widget für die Lernfunktion ganzer Fragesätze folgt in Kürze, wir arbeiten daran!</strong>
-                    </p>
-
-                </div>
             </div>
         </div>
     </div>
@@ -256,7 +230,7 @@
                     Daher kannst du als Lehrer oder Dozent eine Gruppenarbeit oder eine Hausaufgabe vergeben, bei der deine Schüler bzw. Studenten 
                     die passenden Fragen zum behandelten Lernstoff selbst erstellen. 
                     Dabei kannst du Themen gut aufteilen, denn die einzelnen Fragen von unterschiedlichen Schülern können leicht zu 
-                    einheitlichen Fragesätzen zusammengefasst werden, die für die ganze Klasse relevant sind.
+                    einheitlichen Lernsets zusammengefasst werden, die für die ganze Klasse relevant sind.
                 </p>
                 <p>
                     Deine Schüler und Studenten lernen dadurch nicht nur selber viel, sie tun auch etwas Gutes: Sie erstellen offene Bildungsinhalte! 
@@ -271,7 +245,7 @@
                     oder - zum Beispiel als Abschluss eines Projektes - sogar auf die Schulwebseite eingebunden werden. 
                     Eine tolle und sehr einfache Präsentation der Aktivitäten in der Schule. Bestimmt macht es auch Eltern Spaß, ihr Wissen zu testen oder sogar
                     im Quiz gegen die eigenen Kinder anzutreten.
-                    <!-- Beispiel liefern?: Der Biokurs behandelt gerade Vererbungslehre? Der von Schülern erstellte passende Fragesatz als Ergebnis auf der Schulwebseite kann mit Eltern geteilt werden... -->
+                    <!-- Beispiel liefern?: Der Biokurs behandelt gerade Vererbungslehre? Das von Schülern erstellte passende Lernset als Ergebnis auf der Schulwebseite kann mit Eltern geteilt werden... -->
                 </p>
             </div>
         </div>
@@ -304,6 +278,36 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="well" style="margin-top: 25px;">
+                <h2 class="PageHeader">
+                    <span class="ColoredUnderline GeneralMemucho">Kontakt</span>
+                </h2>
+
+                <div class="row">
+                    <div class="col-xs-4 col-md-3 TeamPic">
+                        <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                    </div>
+                    <div class="col-xs-8 col-md-9">
+                        <p>
+                            Du hast Fragen? Du hast selber tolle Ideen? Du kannst uns von deinen Erfahrungen beim Einsatz digitaler Medien im Unterricht bzw. in der Lehre erzählen?
+                            Sprich uns einfach an, wir freuen uns über deine Nachricht! Dein Ansprechpartner ist:<br/>
+                        </p>
+                        <p>
+                            <strong>Lisa</strong><br/>
+                            E-Mail: <span class="mailme">lisa at memucho dot de</span><br/>
+                            Telefon: 0151 - 265 033 70<br/>
+                        </p>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
 </asp:Content>

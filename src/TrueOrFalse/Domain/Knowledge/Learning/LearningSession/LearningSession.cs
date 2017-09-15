@@ -40,10 +40,10 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         get
         {
             if (IsSetSession)
-                return "Fragesatz-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
+                return "Lernset-" + UriSegmentFriendlyUser.Run(SetToLearn.Name);
 
             if (IsSetsSession)
-                return "Fragesaetze-" + UriSegmentFriendlyUser.Run(SetListTitle);
+                return "Lernsets-" + UriSegmentFriendlyUser.Run(SetListTitle);
 
             if (IsCategorySession)
                 return "Thema-" + UriSegmentFriendlyUser.Run(CategoryToLearn.Name);
@@ -216,16 +216,18 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual bool LimitForNumberOfRepetitionsHasBeenReached()
     {
-        return Steps.Count > Steps.Select(s => s.Question).Distinct().Count()*2;
+        return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count()*2;
     }
 
-    public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid)
+    public virtual LearningSessionStep GetStep(Guid learningSessionStepGuid)
     {
-        var learningSession = Sl.R<LearningSessionRepo>().GetById(learningSessionId);
-        var steps = learningSession.Steps.Where(s => s.Guid == learningSessionStepGuid).ToList();
-        if(steps.Count > 1)
+        var steps = Steps.Where(s => s.Guid == learningSessionStepGuid).ToList();
+        if (steps.Count > 1)
             throw new Exception("duplicate Guid");
 
         return steps.FirstOrDefault();
     }
+
+    public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid) => 
+        Sl.LearningSessionRepo.GetById(learningSessionId).GetStep(learningSessionStepGuid);
 }

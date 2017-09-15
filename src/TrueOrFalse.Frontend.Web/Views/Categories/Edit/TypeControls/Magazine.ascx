@@ -42,25 +42,36 @@
         <input class="form-control" name="Publisher" type="text" value="<%=model.Publisher %>">
     </div>
 </div>
+
 <div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es einen Wikipedia-Artikel zur Zeitschrift gibt, gib bitte hier den Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
+    </div>
+</div>
+
+<div class="form-group" style="padding-top: 20px; padding-bottom: 20px;">
     <label class="columnLabel control-label" for="Url">
-        Url
+        Offizielle Webseite
         <i class="fa fa-question-circle show-tooltip" 
             title="Gib hier bitte die offizielle Webseite der Zeitschrift an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
     </div>
-</div>
-<div class="form-group">
-    <label class="columnLabel control-label" for="WikipediaUrl">
-        Wikipedia-URL
+    <label class="columnLabel control-label" for="UrlLinkText">
+        Angezeigter Link-Text (optional)
         <i class="fa fa-question-circle show-tooltip" 
-            title="<%= EditCategoryTypeModel.WikipediaInfo%>" data-placement="<%= CssJs.TooltipPlacementLabel %>">
+           title="Gib hier einen Text an, der den Link beschreibt, zum Beispiel 'Offizielle Webseite von XYZ'. Lässt du das Feld leer, wird die Link-Adresse angezeigt." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
+        <input class="form-control" name="UrlLinkText" type="text" maxlength="50" value="<%= Model.UrlLinkText %>">
     </div>
 </div>

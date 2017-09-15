@@ -10,7 +10,7 @@
                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                 </a>
             </span>&nbsp;
-            <a href="<%: Links.SetDetail(Url, Model.Set) %>">Fragesatz mit <%= Model.QuestionCount %> Fragen</a>
+            <a href="<%: Links.SetDetail(Url, Model.Set) %>">Lernset mit <%= Model.QuestionCount %> Fragen</a>
         </h6>
         <h4>
             <a class="PlainTextLook" href="<%: Links.SetDetail(Url, Model.Set) %>"><%: Model.SetName %></a>
@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="BottomBar">
-            <%--<a href="<%= Links.AnswerQuestion(Url, Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
+            <%--<a href="<%= Links.AnswerQuestion(Model.FirstQText, Model.FirstQId, Model.SetId) %>" class="btn btn-primary btn-sm" role="button">Alle beantworten</a>--%>
             <div class="dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
                 <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -51,7 +51,7 @@
                     <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" rel="nofollow" data-allowed="logged-in">Jetzt lernen</a></li>
                     <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
                     <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Termin anlegen</a></li>
-                    <li><a href="<%= Model.SetDetailLink %>"> Fragesatz-Detailseite</a></li>
+                    <li><a href="<%= Model.SetDetailLink %>"> Lernset-Detailseite</a></li>
                 </ul>
             </div>
             <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

@@ -1,4 +1,4 @@
-﻿public class WidgetSetVideoModel : BaseModel
+﻿public class WidgetSetVideoModel :  WidgetBaseModel
 {
     public string MetaTitle => Set.Name;
     public string MetaDescription => SeoUtils.ReplaceDoubleQuotes(Set.Text).Truncate(250, true);
@@ -10,7 +10,7 @@
 
     public bool HideAddToKnowledge;
 
-    public WidgetSetVideoModel(Set set, bool hideAddToKnowledge = false)
+    public WidgetSetVideoModel(Set set, bool hideAddToKnowledge, string host) : base(host)
     {
         ShowUserReportWidget = false;
         HideAddToKnowledge = hideAddToKnowledge;

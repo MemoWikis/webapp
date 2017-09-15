@@ -18,177 +18,662 @@
 }
 @media (min-width: 650px) {
 }
-/*Fonts*/
+.CardsMiniPortrait .CardMiniColumn {
+  display: flex;
+}
+@media (max-width: 479px) {
+  .CardsMiniPortrait .CardMiniColumn {
+    width: 50%;
+  }
+}
+.CardsMiniPortrait .CardMiniColumn h4 {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+}
+.CardsMiniPortrait .CardMiniColumn .Card {
+  width: 100%;
+}
+.CardsMiniPortrait .CardMiniColumn .Card.SingleItem .ImageContainer img {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.CardsMiniPortrait .CardMiniColumn .CardContent {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.CardsMiniPortrait .CardMiniColumn .CardContent .ItemTitle {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo {
+  margin-left: 8px;
+  margin-right: 8px;
+  color: #999999;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo {
+  line-height: 18px;
+}
+.CardsMiniPortrait .CardMiniColumn .LicenseInfo:after {
+  content: "Bild- & Lizenzinfos";
+}
+html.flexbox:not(.Explorer) .CardsMiniPortrait {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.SingleItem .CardContent {
+  height: auto;
+}
+/* GENERAL PAGE STYLING
+--------------------------------------------------------- */
+@media (min-width: 768px) {
+  .float-right-sm-up {
+    float: right;
+  }
+}
+@media (min-width: 1200px) {
+  .float-right-lg-up {
+    float: right;
+  }
+}
+@media (min-width: 992px) {
+  .align-left-md-up {
+    text-align: left;
+  }
+}
+@media (min-width: 992px) {
+  .align-right-md-up {
+    text-align: right;
+  }
+}
+.separator {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 2px solid lightgrey;
+}
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
-  font-family: 'Lato', sans-serif;
+h4 {
+  font-family: 'Open Sans', Arial, sans-serif;
 }
-.welcomeContentSectionHeader {
-  margin-top: 50px;
-  margin-bottom: 2px;
+h1 {
+  font-size: 45px;
+  margin-bottom: 20px;
+  font-weight: normal;
 }
-.CardsPortrait + .welcomeContentSectionHeader,
-.CardsLandscape + .welcomeContentSectionHeader {
-  margin-top: 30px;
+h2 {
+  font-size: 35px;
+  text-align: center;
 }
-.welcomeContentSectionTarget {
+h3 {
+  font-size: 26px;
+  font-weight: 600;
   color: #999999;
+  text-align: center;
+}
+h4 {
+  font-size: 22px;
+}
+.ShortParagraph {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+#MasterSection {
+  padding-bottom: 0;
+}
+#MasterMainContent {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#MasterMainContent #MasterMainColumn {
+  width: 100%;
+}
+#welcomeContainer {
+  background-color: white;
+  padding-bottom: 100px;
+  font-size: 18px;
+}
+@media (min-width: 992px) {
+  #welcomeContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  #welcomeContainer {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+#welcomeContainer p {
+  max-width: 720px;
+}
+/* FIND YOUR CONTENT BUTTONS 
+-------------------------------------------------------------- */
+#titleFindYourContent {
+  font-size: 45px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 60px;
+  margin-bottom: 8px;
+  color: #003264;
+}
+#titleFindYourContentSub {
+  margin-top: 0;
+  margin-bottom: 50px;
+  text-align: center;
+  color: #999999;
+  font-size: 22px;
+}
+.EduCategoryRow {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+@media (min-width: 992px) {
+  .EduCategoryRow {
+    margin-bottom: 70px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+@media (min-width: 1200px) {
+  .EduCategoryRow {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+}
+.EduCategory {
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  border: 1px solid #e3e3e3;
+  padding: 15px;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  display: block;
+  white-space: normal;
+  height: 100px;
+  position: relative;
+  margin-bottom: 20px;
+  color: #003264;
+  height: auto;
+  padding: 25px 0;
+}
+.EduCategory:focus,
+.EduCategory:active:focus,
+.EduCategory.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.EduCategory:hover,
+.EduCategory:focus {
+  color: #333;
+  text-decoration: none;
+}
+.EduCategory:active,
+.EduCategory.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.EduCategory.disabled,
+.EduCategory[disabled],
+fieldset[disabled] .EduCategory {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.EduCategory:hover,
+.EduCategory:focus,
+.EduCategory:active,
+.EduCategory.active,
+.open .dropdown-toggle.EduCategory {
+  color: #333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+.EduCategory:active,
+.EduCategory.active,
+.open .dropdown-toggle.EduCategory {
+  background-image: none;
+}
+.EduCategory.disabled,
+.EduCategory[disabled],
+fieldset[disabled] .EduCategory,
+.EduCategory.disabled:hover,
+.EduCategory[disabled]:hover,
+fieldset[disabled] .EduCategory:hover,
+.EduCategory.disabled:focus,
+.EduCategory[disabled]:focus,
+fieldset[disabled] .EduCategory:focus,
+.EduCategory.disabled:active,
+.EduCategory[disabled]:active,
+fieldset[disabled] .EduCategory:active,
+.EduCategory.disabled.active,
+.EduCategory[disabled].active,
+fieldset[disabled] .EduCategory.active {
+  background-color: #fff;
+  border-color: #ccc;
+}
+.EduCategory .badge {
+  color: #fff;
+  background-color: #333;
+}
+.EduCategory.LookDisabled {
+  color: darkgray;
+  box-shadow: none;
+}
+.EduCategory.LookDisabled:hover {
+  background-color: white;
+}
+.EduCategory.LookNotClickable {
+  color: darkgray;
+  box-shadow: none;
+  cursor: default;
+}
+.EduCategory.LookNotClickable:hover {
+  background-color: white;
+}
+.EduCategory a {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.EduCategory:hover,
+.EduCategory:active,
+.EduCategory:focus {
+  text-decoration: none;
+  color: #AFD534;
+  background-color: #f3f2f2;
+}
+.EduCategory:hover .IconForeground,
+.EduCategory:active .IconForeground,
+.EduCategory:focus .IconForeground {
+  color: #003264;
+}
+.EduCategoryIcon,
+.EduCategoryText {
+  display: block;
+}
+.EduCategoryIcon {
+  font-size: 25px;
   margin-bottom: 5px;
 }
-.welcomeContentSectionTeaser {
+.EduCategoryText {
+  font-size: 16px;
+  font-weight: bold;
+}
+/* DASHBOARD ELEMENTS
+----------------------------------------------- */
+#WelcomeDashboard {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+#WelcomeDashboard h2 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+#WelcomeDashboard #dashboardPoints,
+#WelcomeDashboard #dashboardKnowledgeWheel {
+  margin-top: 20px;
   margin-bottom: 20px;
-}
-div.question-short-row {
-  background-color: white;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-  border-bottom: 1px solid #A6BADE;
-}
-div.question-short-row:last-child {
-  border-bottom: none;
-  padding-bottom: 0px;
-}
-div.question-short-row:first-child {
-  padding-top: 0px;
-}
-a.question-short {
-  font-size: 15px;
-}
-.well {
-  background-color: #F6F8FC;
-  background-color: white;
-}
-.well > h1:first-child,
-.well > h2:first-child,
-.well > h3:first-child,
-.well > h4:first-child {
-  margin-top: 0;
-}
-.well img {
-  border-radius: 4px;
-}
-.well.Team .ImageColumn {
-  position: relative;
-  float: left;
-  width: 33.33333333%;
-  min-height: 1px;
   padding-left: 10px;
   padding-right: 10px;
+}
+@media (max-width: 767px) {
+  #WelcomeDashboard #dashboardPoints,
+  #WelcomeDashboard #dashboardKnowledgeWheel {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+@media (min-width: 992px) {
+  #WelcomeDashboard #dashboardPoints,
+  #WelcomeDashboard #dashboardKnowledgeWheel {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+@media (min-width: 1200px) {
+  #WelcomeDashboard #dashboardPoints,
+  #WelcomeDashboard #dashboardKnowledgeWheel {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+@media (max-width: 767px) {
+  #WelcomeDashboard #dashboardPoints {
+    margin-bottom: 50px;
+  }
+}
+#WelcomeDashboard #chartWishKnowledge {
+  height: 200px;
+  text-align: left;
+}
+#WelcomeDashboard #dashboardFooter {
+  text-align: left;
+  margin-top: 20px;
+}
+@media (max-width: 767px) {
+  #WelcomeDashboard #dashboardFooter {
+    text-align: center;
+  }
+}
+#WelcomeDashboard #dashboardFooter a.btn {
+  margin-top: 10px;
+}
+/* Progress bar Next Level 
+------------------------------------------------------*/
+.ProgressBarContainer,
+.ProgressBarSegment {
+  height: 30px;
+}
+.ProgressBarContainer {
+  display: table;
+  width: 100%;
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 5px;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+.ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+}
+.ProgressBarLeft {
+  background-color: #e1efb3;
+}
+/* WHAT IS MEMUCHO 
+------------------------------------------------------ */
+#memuchoInfo {
+  margin-top: 144px;
+}
+@media (max-width: 479px) {
+  #memuchoInfo {
+    text-align: center;
+  }
+}
+#memuchoInfoFooter {
+  text-align: right;
+  padding-top: 0;
+  background-color: white;
+  margin-bottom: 30px;
+  /*.media-below-sm( {
+        text-align: center;
+    });*/
+  /*span .btn {
+        margin-top: 10px;
+        display: inline-block;
+    }*/
+}
+#memuchoInfoFooter div a.btn {
+  margin-top: 10px;
+}
+/* CALL-TO-ACTION-BOX
+--------------------------------------------------------- */
+.callToActionBox {
+  margin-top: 85px;
+  margin-bottom: 30px;
+}
+.callToActionBox .row {
+  /*display: flex;
+        flex-direction: row;
+        //flex-wrap: wrap;
+        align-items: center;*/
+}
+.callToActionBox h3 {
+  color: #203256;
   margin-bottom: 20px;
 }
-.well.Team .ImageColumn img {
-  width: auto;
-  max-width: 100%;
+.callToActionBox .img-logo {
+  text-align: center;
+  padding-top: 20px;
 }
-.panel img {
-  border-radius: 4px;
+.callToActionBox .textExplanation {
+  padding: 20px;
+  /*img {
+            display: inline-block;
+            text-align: center;
+        }*/
 }
-@media (max-width: 479px) {
-  .panel .pull-left {
-    width: 30%;
-  }
+/* TOPIC OF THE WEEK
+------------------------------------------------------*/
+.topicOfWeekContainer {
+  margin-top: 144px;
+  margin-bottom: 40px;
 }
-.panel-body {
-  padding: 10px;
+.topicOfWeekContainer .separatorCategory {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 5px solid #45aece;
 }
-.thumbnail {
-  width: 100%;
-  padding: 10px;
+.topicOfWeekContainer .topicOfWeekContainerInner {
+  max-width: 720px;
+  text-align: left;
+  margin: 0 auto;
 }
-.thumbnail img {
-  border-radius: 4px;
+.topicOfWeekContainer .topicOfWeekMainImage {
+  display: inline-block;
+  float: left;
+  max-width: 200px;
+  margin-right: 30px;
 }
-.thumbnail .btn {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-}
-.thumbnail .caption {
-  padding: 0;
-}
-@media (max-width: 479px) {
-  .thumbnail {
-    padding: 10px;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail:before,
-  .thumbnail:after {
-    content: " ";
-    display: table;
-  }
-  .thumbnail:after {
-    clear: both;
-  }
-  .thumbnail img {
-    float: left;
-    width: 30%;
-  }
-  .thumbnail .caption {
-    margin-left: 30%;
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-right: 0;
-    padding-left: 10px;
-  }
-  .thumbnail h4 {
-    margin-top: 0;
-  }
+.topicOfWeekContainer .topicOfWeekFooter {
+  text-align: center;
+  padding-top: 40px;
+  margin-bottom: 40px;
+  clear: both;
+  /*a.btn {
+            margin-top: 20px;
+        }*/
 }
 @media (min-width: 768px) {
-  .CardsPortrait .CardColumn .Card {
-    margin-left: auto;
-    margin-right: auto;
+  .topicOfWeekContainer .topicOfWeekFooter {
+    text-align: left;
   }
-  .CardsPortrait .CardColumn .Card.SingleItem {
-    max-width: 300px;
+}
+.topicOfWeekContainer .topicOfWeekQuiz {
+  margin-top: 50px;
+}
+.topicOfWeekContainer .topicOfWeekAdditionalRecom {
+  margin-top: 40px;
+}
+.topicOfWeekContainer .topicOfWeekAdditionalRecom h3 {
+  margin-bottom: 20px;
+}
+/* CONTENT PRESENTATION
+------------------------------------------------------*/
+#ContentAvailable {
+  margin-top: 144px;
+  margin-bottom: 38px;
+}
+#ContentAvailable .row.CardsMiniPortrait {
+  margin-top: 40px;
+}
+#ContentAvailable .EduCategoryLinkCard .ContentContainer {
+  height: 100%;
+}
+#ContentAvailable .EduCategoryLinkCard .ContentContainer .CardContent {
+  height: 100%;
+}
+#ContentAvailable .EduCategoryLinkCard .CardContent {
+  margin-left: 0;
+  margin-right: 0;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategory {
+  box-shadow: none;
+  border: none;
+  border-color: #fff;
+  margin-bottom: 0;
+  height: 100%;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategoryText {
+  font-size: 18px;
+}
+#ContentAvailable .EduCategoryLinkCard .EduCategoryTextSub {
+  display: inline-block;
+  margin-top: 20px;
+  color: #999999;
+  font-weight: 500;
+}
+/* AWARDS & PARTNER
+------------------------------------------------------*/
+#awards,
+#partner {
+  margin-top: 144px;
+}
+#awards div.logo-box,
+#partner div.logo-box {
+  text-align: center;
+}
+#awards .img-logo,
+#partner .img-logo {
+  margin-top: 38px;
+}
+@media (min-width: 768px) {
+  #awards .img-logo,
+  #partner .img-logo {
+    min-height: 160px;
   }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer {
+}
+#awards .img-logo img,
+#partner .img-logo img {
+  margin: 10px;
+  margin-bottom: 10px;
+}
+#awards .logo-box-link,
+#partner .logo-box-link {
+  margin-top: 15px;
+}
+#awards div.logo-box {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#partner div.logo-box {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+/* WHAT IS MEMUCHO - EXTENDED VERSION
+------------------------------------------------------*/
+.infoItemRow .infoItemColumn {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+@media (max-width: 479px) {
+  .infoItemRow .infoItemColumn {
     float: none;
-    border-bottom-width: 5px;
-    border-bottom-style: solid;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    position: absolute;
-    padding-left: 5px;
-    padding-right: 5px;
-    /*line-height: 18px;*/
+    width: 100%;
+    margin-left: 0;
     left: 0;
-    bottom: 0;
-    color: white;
-    background-color: black;
-    background-color: rgba(0, 0, 0, 0.35);
-    border-bottom-left-radius: 5px;
+    right: 0;
   }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    line-height: 18px;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo:after {
-    content: "Bild- & Lizenzinfos";
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer .LicenseInfo {
-    border-bottom-left-radius: 0;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .ImageContainer img {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
-    height: 180px;
-  }
+}
+.infoItemRow .infoItemColumn .infoIcon {
+  font-size: 45px;
+  color: #003264;
+}
+.infoItemRow .infoItemColumn .infoCatchWord {
+  font-weight: bold;
+  padding: 10px 5px;
+}
+.infoItemRow .infoItemColumn .infoExplanationSnippet {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#memuchoInfoExtended {
+  margin-top: 144px;
+}
+#memuchoInfoExtended #memuchoInfoExtendedFooter {
+  text-align: right;
+}
+#principles {
+  margin-top: 144px;
+}
+#principles #memuchoPrinciplesFooter {
+  text-align: right;
+  background-color: white;
+  margin-bottom: 30px;
+  /*.media-below-sm( {
+        text-align: center;
+    });*/
+  /*span .btn {
+        margin-top: 10px;
+        display: inline-block;
+    }*/
+  padding-top: 0;
+}
+#principles #memuchoPrinciplesFooter div a.btn {
+  margin-top: 10px;
+}
+#team {
+  margin-top: 144px;
+}
+#team .TeamPic {
+  margin-bottom: 0;
+}
+#team .infoCatchWord {
+  padding-bottom: 2px;
+}
+.TeamText {
+  margin-top: 40px;
 }

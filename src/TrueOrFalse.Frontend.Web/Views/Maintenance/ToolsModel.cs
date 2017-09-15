@@ -14,7 +14,11 @@ public class ToolsModel : BaseModel
     [DisplayName("User Id:")]
     public int TxtUserId { get; set; }
 
-    public string SetsToUpdateIds { get; set; }
+    public string SetsToAddCategoryToIds { get; set; }
 
-    public int CategoryId { get; set; }
+    public int CategoryToAddId { get; set; }
+
+    public string SetsToRemoveCategoryFromIds { get; set; }
+
+    public int CategoryToRemoveId { get; set; }
 }

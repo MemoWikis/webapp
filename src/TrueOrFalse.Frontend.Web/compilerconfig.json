@@ -208,5 +208,53 @@
   {
     "outputFile": "Views/Help/Widget.css",
     "inputFile": "Views/Help/Widget.less"
+  },
+  {
+    "outputFile": "Views/About/AboutMemucho.css",
+    "inputFile": "Views/About/AboutMemucho.less"
+  },
+  {
+    "outputFile": "Views/Games/Games.css",
+    "inputFile": "Views/Games/Games.less"
+  },
+  {
+    "outputFile": "Style/grid.css",
+    "inputFile": "Style/grid.less"
+  },
+  {
+    "outputFile": "Views/Maintenance/ContentStats.css",
+    "inputFile": "Views/Maintenance/ContentStats.less"
+  },
+  {
+    "outputFile": "Views/Games/Edit/Game.css",
+    "inputFile": "Views/Games/Edit/Game.less"
+  },
+  {
+    "outputFile": "Views/Dates/Edit/EditDate.css",
+    "inputFile": "Views/Dates/Edit/EditDate.less"
+  },
+  {
+    "outputFile": "Views/Error/Error.css",
+    "inputFile": "Views/Error/Error.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Drive.css",
+    "inputFile": "Views/Welcome/Drive.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Directions.css",
+    "inputFile": "Views/Welcome/Directions.less"
+  },
+  {
+    "outputFile": "Style/utils.css",
+    "inputFile": "Style/utils.less"
+  },
+  {
+    "outputFile": "Views/Welcome/Contact.css",
+    "inputFile": "Views/Welcome/Contact.less"
+  },
+  {
+    "outputFile": "Views/Users/Account/Membership.css",
+    "inputFile": "Views/Users/Account/Membership.less"
   }
 ]

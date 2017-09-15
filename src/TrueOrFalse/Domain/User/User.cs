@@ -35,7 +35,11 @@ public class User : DomainEntity
     public virtual string FacebookId { get; set; }
     public virtual string GoogleId { get; set; }
 
+    public virtual int ActivityPoints { get; set; }
+    public virtual int ActivityLevel { get; set; }
+
     public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+    public virtual bool IsBeltz => 356 == Id;
 
     public virtual void AddFollower(User follower)
     {
@@ -76,6 +80,8 @@ public class User : DomainEntity
     public virtual Membership CurrentMembership() => MembershipPeriods.FirstOrDefault(x => x.IsActive());
 
     public virtual bool IsFacebookUser() => !IsNullOrEmpty(FacebookId);
+
+    public virtual bool IsGoogleUser() => !IsNullOrEmpty(GoogleId);
 }
 
 public class FacebookUserCreateParameter

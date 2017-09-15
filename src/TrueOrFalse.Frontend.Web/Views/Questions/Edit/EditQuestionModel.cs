@@ -70,36 +70,31 @@ public class EditQuestionModel : BaseModel
     public bool IsEditing;
     private string _pageTitle;
 
-    public IEnumerable<SelectListItem> VisibilityData { get {
-            return new List<SelectListItem> {
-                            new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
-                            new SelectListItem {Text = "Nur Ich", Value = QuestionVisibility.Owner.ToString()},
-                            new SelectListItem {Text = "Ich und meine Freunde", Value = QuestionVisibility.OwnerAndFriends.ToString()},
-                        };
-        }
-    }
+    public IEnumerable<SelectListItem> VisibilityData =>  new List<SelectListItem>
+    {
+        new SelectListItem {Text = "Alle", Value = QuestionVisibility.All.ToString()},
+        new SelectListItem {Text = "Nur Ich", Value = QuestionVisibility.Owner.ToString()},
+        new SelectListItem {Text = "Ich und meine Freunde", Value = QuestionVisibility.OwnerAndFriends.ToString()},
+    };
 
-    public IEnumerable<SelectListItem> AnswerTypeData{ get {
-            return new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Multiple Choice (eine richtige Antwort)", Value = TrueOrFalse.SolutionType.MultipleChoice_SingleSolution.ToString()},
-                            new SelectListItem {Text = "Multiple Choice (mehrere richtige Antworten)", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
-                            new SelectListItem {Text = "Freie Antwort (Text/Zahl/Datum)", Value = TrueOrFalse.SolutionType.Text.ToString()},
-                            new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
-                        };
-        }
-    }
+    public IEnumerable<SelectListItem> AnswerTypeData => new List<SelectListItem>
+    {
+        new SelectListItem {Text = "Multiple Choice (eine richtige Antwort)", Value = TrueOrFalse.SolutionType.MultipleChoice_SingleSolution.ToString()},
+        new SelectListItem {Text = "Multiple Choice (mehrere richtige Antworten)", Value = TrueOrFalse.SolutionType.MultipleChoice.ToString()},
+        new SelectListItem {Text = "Freie Antwort (Text/Zahl/Datum)", Value = TrueOrFalse.SolutionType.Text.ToString()},
+        //new SelectListItem {Text = "Sequenz (Liste)", Value = TrueOrFalse.SolutionType.Sequence.ToString()},
+        new SelectListItem {Text = "Zuordnung (Liste)", Value = TrueOrFalse.SolutionType.MatchList.ToString()},
+        new SelectListItem {Text = "Karteikarte", Value = TrueOrFalse.SolutionType.FlashCard.ToString()}
+    };
 
     [DisplayName("Charakter")]
-    public IEnumerable<SelectListItem> CharacterData{ get {
-            return new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Ernsthaft", Value = QuestionCharacter.Serious.ToString()},
-                            new SelectListItem {Text = "Unterhaltsam", Value = QuestionCharacter.Entertaining.ToString()}
-                        };
-        }
-    }
+    public IEnumerable<SelectListItem> CharacterData => new List<SelectListItem>
+    {
+        new SelectListItem {Text = "Ernsthaft", Value = QuestionCharacter.Serious.ToString()},
+        new SelectListItem {Text = "Unterhaltsam", Value = QuestionCharacter.Entertaining.ToString()}
+    };
 
+    public Set Set { get; set; }
 
     public EditQuestionModel()
     {

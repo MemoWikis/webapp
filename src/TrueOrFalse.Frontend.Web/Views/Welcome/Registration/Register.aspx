@@ -20,7 +20,7 @@
         <div class="form-horizontal col-md-9">            
             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                 <div class="col-xs-12" >
-                    <h1>Jetzt registrieren. Memucho ist kostenlos.</h1>                 
+                    <h1>Jetzt registrieren. memucho ist kostenlos.</h1>                 
                 </div>
                 <div class="col-xs-12" >
                     Wir schützen und respektieren deine Privatsphäre.

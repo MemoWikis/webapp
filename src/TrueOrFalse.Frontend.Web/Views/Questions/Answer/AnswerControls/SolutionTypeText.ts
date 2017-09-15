@@ -9,8 +9,6 @@ class SolutionTypeTextEntry
         super(answerEntry);
 
         this.AnswerQuestion = new AnswerQuestion(this);
-
-        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });    
     }
 
     GetAnswerText(): string {
@@ -19,11 +17,5 @@ class SolutionTypeTextEntry
 
     GetAnswerData(): {} {
         return { answer: $("#txtAnswer").val() };
-    }
-
-    OnNewAnswer() {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
-        $("#txtAnswer").select();
     }
 };

@@ -22,7 +22,7 @@ public class QuestionSolutionSequence : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        var values = new JavaScriptSerializer().Deserialize<string[]>(answer);
+        var values = new JavaScriptSerializer().Deserialize<string[]>(answer.Trim());
         return values.SequenceEqual(Rows.Values);
     }
 

@@ -19,7 +19,8 @@
                     <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                     <li><a href="/Maintenance/Tools">Tools</a></li>
                     <li><a href="/Maintenance/CMS">CMS</a></li>
-                    <li><a href="/Maintenance/ContentReport">Content</a></li>
+                    <li><a href="/Maintenance/ContentCreatedReport">Cnt-Created</a></li>
+                    <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                     <li><a href="/Maintenance/Statistics">Stats</a></li>
                 </ul>
             </div>
@@ -41,7 +42,7 @@
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">
-            <h4 style="margin-top: 10px;">Fragesätze</h4>
+            <h4 style="margin-top: 10px;">Lernsets</h4>
             <a href="<%= Url.Action("CalcAggregatedValuesSets", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
                 Aggregierte Zahlen aktualisieren
@@ -59,6 +60,10 @@
             <a href="<%= Url.Action("UpdateFieldQuestionCountForCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i>
                 Feld: AnzahlFragen pro Thema aktualisieren
+            </a><br/>
+            <a href="<%= Url.Action("CreateAggregationsForAll", "Maintenance") %>" data-url="toSecurePost">
+                <i class="fa fa-retweet"></i>
+                Aggregat-Relationen akualisieren / anlegen
             </a>
         </div>
         <div class="col-md-6 MaintenanceSection">
@@ -82,7 +87,7 @@
                 <i class="fa fa-retweet"></i> Fragen 
             </a> /
             <a href="<%= Url.Action("ReIndexAllSets", "Maintenance") %>" data-url="toSecurePost">
-                <i class="fa fa-retweet"></i> Fragesätze
+                <i class="fa fa-retweet"></i> Lernsets
             </a> /
             <a href="<%= Url.Action("ReIndexAllCategories", "Maintenance") %>" data-url="toSecurePost">
                 <i class="fa fa-retweet"></i> Themen

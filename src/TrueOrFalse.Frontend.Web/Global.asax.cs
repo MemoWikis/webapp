@@ -23,10 +23,6 @@ namespace TrueOrFalse.Frontend.Web
         protected void Application_Start()
         {
             InitializeAutofac();
-#if DEBUG
-            if(Settings.DebugUserNHProfiler())
-                NHibernateProfiler.Initialize();
-#endif
             
             Sl.Resolve<Update>().Run();
 
@@ -38,9 +34,23 @@ namespace TrueOrFalse.Frontend.Web
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new JavaScriptViewEngine());
             ViewEngines.Engines.Add(new PartialSubDirectoriesViewEngine());
-            
-            if(!Settings.DisableAllJobs())
+
+#if DEBUG
+            if (Settings.DebugUserNHProfiler())
+                NHibernateProfiler.Initialize();
+#endif            
+
+            if (!Settings.DisableAllJobs())
                 JobScheduler.Start();
+
+            if (Settings.InitEntityCacheViaJobScheduler())
+            {
+                JobScheduler.StartImmediately_RefreshEntityCache();//Is a lot faster (for unknown reasons) than direct init but bears the risk of EntityCache not being filled before first request
+            }
+            else
+            {
+                EntityCache.Init();
+            }
 
             Logg.r().Information("=== Application Start ===============================");
         }

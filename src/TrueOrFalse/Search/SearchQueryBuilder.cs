@@ -10,6 +10,7 @@ namespace TrueOrFalse.Search
 
         private readonly IList<string> _orConditions = new List<string>();
         private readonly IList<string> _andConditions = new List<string>();
+        private readonly IList<string> _notConditions = new List<string>();
 
         public SearchQueryBuilder Add(
             string fieldName, 
@@ -18,6 +19,7 @@ namespace TrueOrFalse.Search
             bool exact = false,
             bool phrase = false,
             bool isAndCondition = false, 
+            bool isNotCondition = false,
             int boost = -1)
         {
             if (String.IsNullOrWhiteSpace(seachTerm))
@@ -58,6 +60,8 @@ namespace TrueOrFalse.Search
 
             if(isAndCondition)
                 _andConditions.Add(term);
+            else if (isNotCondition)
+                _notConditions.Add(term);
             else
                 _orConditions.Add(term);
 
@@ -68,19 +72,19 @@ namespace TrueOrFalse.Search
         {
             _buildedExpression = "*:*";
 
-            if (!_orConditions.Any() && !_andConditions.Any())
+            if (!_orConditions.Any() && !_andConditions.Any() && !_notConditions.Any())
                 return;
 
             string stringOrConditions = null;
             if(_orConditions.Any())
-                stringOrConditions = _orConditions.Aggregate((a, b) => a + " " + b);
+                stringOrConditions = "(" + _orConditions.Aggregate((a, b) => a + " " + b) + ")";
 
-            if (!String.IsNullOrEmpty(stringOrConditions) && _andConditions.Count == 0)
-                _buildedExpression = stringOrConditions;
-            else if (!String.IsNullOrEmpty(stringOrConditions) && _andConditions.Count != 0)
-                _buildedExpression = "(" + stringOrConditions + ")" + " AND " + _andConditions.Aggregate((a,b) => a + " AND " + b);
-            else
-                _buildedExpression = _andConditions.Aggregate((a, b) => a + " AND " + b);
+            var andConditions = _andConditions.Any() ? _andConditions.Aggregate((a, b) => a + " AND " + b) : "";
+            var notConditions = _notConditions.Any() ? _notConditions.Select(a => "-" + a).Aggregate((a, b) => a + " AND " + b) : "";
+
+            _buildedExpression = new List<string> { stringOrConditions, andConditions, notConditions}
+                .Where(a => !String.IsNullOrEmpty(a))
+                .Aggregate((a, b) => a + " AND " + b);
         }
 
         public override string ToString()

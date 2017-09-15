@@ -16,24 +16,37 @@
 
 function InitLabelTooltips() {
     $('.label-category').each(function () {
-        $(this).addClass('show-tooltip');
-        if ($(this).attr("data-isSpolier") === "true"){
-            $(this).attr('title', 'Das Thema entspricht der Antwort.').attr('data-placement', 'top');
-        } else {
-            if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2 * (parseInt($(this).css('border-left-width')))))
-                $(this).attr('title', 'Zum Thema "' + $(this).html() + '"').attr('data-placement', 'top');
-            else 
-                $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
+
+        if (!$(this).attr('data-original-title') && !$(this).attr('title')) {//Proceed only for those labels that don't have a tooltip text specified yet
+            $(this).addClass('show-tooltip');
+            if ($(this).attr("data-isSpolier") === "true") {
+                $(this).attr('title', 'Das Thema entspricht der Antwort.').attr('data-placement', 'top');
+            } else {
+                if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2 * (parseInt($(this).css('border-left-width')))))
+                    $(this).attr('title', 'Zum Thema "' + $("<p>" + $(this).html() + "</p>").text() + '"').attr('data-placement', 'top'); // p-tags added for .text() to work normal when stripping of tags
+                else
+                    $(this).attr('title', 'Zum Thema').attr('data-placement', 'top');
+            }
+            $(this).tooltip();
         }
     });
+
     $('.label-set').each(function () {
-        $(this).addClass('show-tooltip');
-        if ($(this)[0].scrollWidth > $(this).innerWidth()) //this is simpler and more to the point, but in cases when content is just truncated does not work in firefox; reason: scrollWidth gives different values in FF and Chrome
-        //if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2*(parseInt($(this).css('border-left-width')))))
-            $(this).attr('title', 'Zum Fragesatz "' + $(this).html()+'"').attr('data-placement', 'top');
-        else 
-            $(this).attr('title', 'Zum Fragesatz').attr('data-placement', 'top');
-        //console.log("clientWidth: " + $(this)[0].clientWidth + " -scrollWidth: " + $(this)[0].scrollWidth + " -offsetWidth: " + $(this)[0].offsetWidth + " -innerWidth: " + $(this).innerWidth() + " -maxWidth:" + $(this).css('maxWidth'));
+        if (!$(this).attr('data-original-title') && !$(this).attr('title')) {//Proceed only for those labels that don't have a tooltip text specified yet
+
+            $(this).addClass('show-tooltip');
+            if ($(this)[0]
+                .scrollWidth >
+                $(this).innerWidth())
+                //this is simpler and more to the point, but in cases when content is just truncated does not work in firefox; reason: scrollWidth gives different values in FF and Chrome
+                //if ($(this).innerWidth() == (parseInt($(this).css('max-width')) - 2*(parseInt($(this).css('border-left-width')))))
+                $(this).attr('title', 'Zum Lernset "' + $(this).html() + '"').attr('data-placement', 'top');
+            else
+                $(this).attr('title', 'Zum Lernset').attr('data-placement', 'top');
+            $(this).tooltip();
+
+            //console.log("clientWidth: " + $(this)[0].clientWidth + " -scrollWidth: " + $(this)[0].scrollWidth + " -offsetWidth: " + $(this)[0].offsetWidth + " -innerWidth: " + $(this).innerWidth() + " -maxWidth:" + $(this).css('maxWidth'));
+        }
     });
 }
 
@@ -60,8 +73,8 @@ function Allowed_only_for_active_users() {
         });
 }
 
-function InitClickLog(){
-    $("[data-click-log]")
+function InitClickLog(limitingSlector: string = null){
+    $(limitingSlector + "[data-click-log]")
         .click(function () {
             var data = $(this).attr("data-click-log");
             var datas = data.split(",");
@@ -119,8 +132,8 @@ function InitPopoverForAllSets() {
     });    
 }
 
-function PreventDropdonwnsFromBeingHorizontallyOffscreen() {
-    $('.dropdown')
+function PreventDropdonwnsFromBeingHorizontallyOffscreen(limitingSlector: string = null) {
+    $(limitingSlector + '.dropdown')
         .on('shown.bs.dropdown',
             function(e) {
                 var dropdown = $(e.delegateTarget).find('ul');
@@ -172,6 +185,56 @@ class Site {
     }
 }
 
+var BrowserDetect = {//https://stackoverflow.com/a/13480430
+    browser: "",
+    //version: "",
+    init: function () {
+        this.browser = this.searchString(this.dataBrowser) || "Other";
+        //this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "Unknown";
+    },
+    searchString: function (data) {
+        for (var i = 0; i < data.length; i++) {
+            var dataString = data[i].string;
+            this.versionSearchString = data[i].subString;
+
+            if (dataString.indexOf(data[i].subString) !== -1) {
+                return data[i].identity;
+            }
+        }
+    },
+    //searchVersion: function (dataString) {
+    //    var index = dataString.indexOf(this.versionSearchString);
+    //    if (index === -1) {
+    //        return;
+    //    }
+
+    //    var rv = dataString.indexOf("rv:");
+    //    if (this.versionSearchString === "Trident" && rv !== -1) {
+    //        return parseFloat(dataString.substring(rv + 3));
+    //    } else {
+    //        return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+    //    }
+    //},
+
+    dataBrowser: [
+        { string: navigator.userAgent, subString: "Edge", identity: "Edge" },
+        { string: navigator.userAgent, subString: "MSIE", identity: "Explorer" },
+        { string: navigator.userAgent, subString: "Trident", identity: "Explorer" },
+        { string: navigator.userAgent, subString: "Firefox", identity: "Firefox" },
+        { string: navigator.userAgent, subString: "Opera", identity: "Opera" },
+        { string: navigator.userAgent, subString: "OPR", identity: "Opera" },
+
+        { string: navigator.userAgent, subString: "Chrome", identity: "Chrome" },
+        { string: navigator.userAgent, subString: "Safari", identity: "Safari" }
+    ]
+
+};
+
+function SetBrowserClass() {
+    BrowserDetect.init();
+    $('html').addClass(BrowserDetect.browser);
+}
+
 $(() => {
 
     new Site();
@@ -181,6 +244,7 @@ $(() => {
         function () { $(this).animate({ 'background-size': '86%' }, 250); }
     );
 
+    SetBrowserClass();
     InitPopoverForAllSets();
     FillSparklineTotals();
     InitTooltips();

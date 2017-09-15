@@ -16,11 +16,17 @@ namespace TrueOrFalse
             routes.MapRoute("CheckUserNameForAvailability", "Registrieren/IsUserNameAvailable", new { controller = "Login", action = "IsUserNameAvailable" });
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
+            routes.MapRoute("Contact", "Kontakt", new { controller = "Welcome", action = "Contact" });
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
             routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });
 
             routes.MapRoute("Widget", "Hilfe/Widget", new { controller = "Help", action = "Widget" });
+            routes.MapRoute("WidgetInWordpress", "Hilfe/memucho-Quiz-in-Wordpress-einbetten", new { controller = "Help", action = "WidgetInWordpress" });
+            routes.MapRoute("WidgetInMoodle", "Hilfe/memucho-Quiz-in-Moodle-einbetten", new { controller = "Help", action = "WidgetInMoodle" });
+            routes.MapRoute("WidgetInBlackboard", "Hilfe/memucho-Quiz-in-Blackboard-einbetten", new { controller = "Help", action = "WidgetInBlackboard" });
+            routes.MapRoute("WidgetPricing", "Widget-Angebote-Preisliste", new { controller = "Help", action = "WidgetPricing" });
+            routes.MapRoute("WidgetExamples", "Widget-Beispiele", new { controller = "Help", action = "WidgetExamples" });
             routes.MapRoute("Help", "Hilfe/{action}", new { controller = "Help", action = "FAQ" });
 
             routes.MapRoute("UsersSearchApi", "Nutzer/SucheApi", new { controller = "Users", action = "SearchApi", searchTerm = UrlParameter.Optional });
@@ -139,13 +145,15 @@ namespace TrueOrFalse
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });
             routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
-
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi" });
             routes.MapRoute("ApiSets", "Api/Sets/{action}", new { controller = "SetsApi" });
             routes.MapRoute("ApiUserFacebook", "Api/FacebookUsers/{action}", new { controller = "FacebookUsersApi" });
             routes.MapRoute("ApiUserGoogle", "Api/GoogleUsers/{action}", new { controller = "GoogleUsersApi" });
             routes.MapRoute("ApiQuestions", "Api/Questions/{action}", new { controller = "QuestionsApi" });
+            routes.MapRoute("ApiSearch", "Api/Search/{action}", new { controller = "SearchApi" });
+            routes.MapRoute("ApiActivityPoints", "Api/ActivityPoints/{action}", new { controller = "ActivityPointsApi" });
+            routes.MapRoute("ApiLom", "Api/Lom/{action}", new { controller = "LomApi" });
 
             routes.MapRoute("ImageUpload", "Images/ImageUpload/{action}", new { controller = "ImageUpload" });
             
@@ -164,6 +172,7 @@ namespace TrueOrFalse
             routes.MapRoute("WidgetQuestion", "widget/frage/{questionId}", new { controller = "Widget", action = "Question" });
             routes.MapRoute("WidgetSetStart", "widget/fragesatz/start/{setId}", new { controller = "Widget", action = "Set" });
             routes.MapRoute("WidgetSet", "widget/fragesatz/{setId}", new { controller = "Widget", action = "SetStart" });
+            routes.MapRoute("WidgetLearningSession", "widget/fragesatz/templateset/{setId}", new { controller = "Widget", action = "SetWithoutStartScreen" });
             routes.MapRoute("WidgetSetVideo", "widget/fragesatz-v/{setId}", new { controller = "Widget", action = "SetVideo" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });

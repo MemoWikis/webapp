@@ -129,6 +129,316 @@
     display: none;
   }
 }
+/* Session heading
+------------------------------------------------------*/
+.SessionHeading {
+  font-weight: bold;
+  padding-bottom: 10px;
+  display: flex;
+}
+.SessionHeading:before,
+.SessionHeading:after {
+  content: " ";
+  display: table;
+}
+.SessionHeading:after {
+  clear: both;
+}
+.SessionHeading:before,
+.SessionHeading:after {
+  content: " ";
+  display: table;
+}
+.SessionHeading:after {
+  clear: both;
+}
+@media (max-width: 479px) {
+  .SessionHeading {
+    flex-direction: column-reverse;
+  }
+}
+@media (min-width: 480px) {
+  .SessionHeading {
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.LabelLink {
+  display: inline-block;
+  overflow: hidden;
+}
+@media (min-width: 480px) {
+  .QuestionCount,
+  .EduPartnerWrapper {
+    width: 30%;
+  }
+  .SessionTitle {
+    width: 100%;
+  }
+  .EduPartnerWrapper + .SessionTitle {
+    width: 70%;
+  }
+}
+@media (min-width: 992px) {
+  .QuestionCount,
+  .EduPartnerWrapper {
+    width: 20%;
+  }
+  .SessionTitle {
+    width: 100%;
+  }
+  .EduPartnerWrapper + .SessionTitle {
+    width: 80%;
+  }
+}
+@media (min-width: 480px) {
+  .SessionTitle {
+    padding-right: 10px;
+  }
+}
+.EduPartnerWrapper {
+  clear: left;
+}
+@media (min-width: 480px) {
+  .EduPartnerWrapper {
+    text-align: center;
+  }
+}
+.EduPartnerLogoWrapper {
+  width: 100px;
+}
+@media (max-width: 479px) {
+  .EduPartnerLogoWrapper {
+    float: right;
+  }
+}
+/* Session bar/Progress bar
+------------------------------------------------------*/
+.SessionBar {
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 20px;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+.SessionBar:before,
+.SessionBar:after {
+  content: " ";
+  display: table;
+}
+.SessionBar:after {
+  clear: both;
+}
+@media (max-width: 767px) {
+  .SessionBar {
+    margin-bottom: 0;
+  }
+  .SessionBar + .row #AnswerBody {
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+.ProgressBarContainer,
+.SessionType,
+.QuestionCount,
+.ProgressBarSegment {
+  height: 30px;
+}
+.SessionType,
+.QuestionCount {
+  background-color: #AFD534;
+  padding-top: 5px;
+}
+@media (max-width: 479px) {
+  .SessionType,
+  .QuestionCount {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media (min-width: 480px) {
+  .SessionType,
+  .QuestionCount,
+  .SessionType span,
+  .QuestionCount span {
+    text-align: center;
+  }
+}
+.SessionType > span,
+.QuestionCount > span {
+  width: 100%;
+}
+.SessionType {
+  float: left;
+}
+.SessionType span {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+@media (min-width: 480px) {
+  .SessionType {
+    width: 20%;
+  }
+}
+@media (min-width: 768px) {
+  .SessionType {
+    width: 15%;
+  }
+}
+@media (min-width: 992px) {
+  .SessionType {
+    width: 10%;
+  }
+}
+.ProgressBarContainer {
+  display: table;
+}
+@media (max-width: 479px) {
+  .ProgressBarContainer {
+    width: 100%;
+  }
+}
+@media (min-width: 480px) {
+  .ProgressBarContainer {
+    width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .ProgressBarContainer {
+    width: 55%;
+  }
+}
+@media (min-width: 992px) {
+  .ProgressBarContainer {
+    width: 70%;
+  }
+}
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+}
+.ProgressBarDone {
+  background-color: #c8e273;
+  position: relative;
+  overflow: visible;
+}
+.ProgressBarLeft {
+  background-color: #e1efb3;
+}
+.CollectionType {
+  float: left;
+  padding-right: 10px;
+}
+.LabelWrapper {
+  max-width: 70%;
+  float: left;
+}
+.LabelWrapper:before,
+.LabelWrapper:after {
+  content: " ";
+  display: table;
+}
+.LabelWrapper:after {
+  clear: both;
+}
+.LabelWrapper:before,
+.LabelWrapper:after {
+  content: " ";
+  display: table;
+}
+.LabelWrapper:after {
+  clear: both;
+}
+.LabelWrapper a,
+.LabelWrapper .label {
+  max-width: 100%;
+  font-size: 100%;
+  margin: 0;
+}
+/* Answer Section
+------------------------------------------------------*/
+.QuestionText {
+  padding-bottom: 20px;
+}
+@media (min-width: 768px) {
+  .QuestionText {
+    padding-bottom: 30px;
+  }
+}
+#activityPointsDispaly {
+  font-size: 22px;
+  font-family: sans-serif;
+  line-height: normal;
+  color: #b9db4f;
+}
+#activityPointsDispaly small {
+  font-size: 10px;
+  display: block;
+}
+#levelPopupModal,
+#levelPopupModal .modal-title,
+#levelPopupModal .title-text {
+  font-family: 'Open Sans' !important;
+}
+@media (max-width: 767px) {
+  #levelPopupModal .modal-title {
+    text-align: center;
+  }
+}
+#levelPopupModal .title-text {
+  font-size: 22px;
+}
+#levelPopupModal .happy-memo-svg {
+  margin: 30px 45px 30px 30px;
+  float: right;
+}
+@media (max-width: 767px) {
+  #levelPopupModal .happy-memo-svg {
+    float: unset;
+    display: block;
+    margin: 20px auto 20px auto;
+  }
+}
+#levelPopupModal .level-display {
+  position: relative;
+  top: 7px;
+}
+#levelPopupModal .level-display .level-count {
+  fill: white;
+}
+#levelPopupModal .modal-header {
+  border-bottom: none;
+}
+@media (max-width: 767px) {
+  #levelPopupModal .modal-body {
+    text-align: center;
+  }
+}
+#levelPopupModal .modal-footer {
+  border-top: none;
+  margin-top: unset;
+}
+@media (min-width: 767px) {
+  #levelPopupModal .modal-footer {
+    margin-bottom: 20px;
+  }
+}
 #MarkdownCol {
   position: relative;
   min-height: 1px;
@@ -192,6 +502,7 @@
   }
 }
 #MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection {
+  margin-bottom: 10px;
   width: 100%;
 }
 #AnswerAndSolutionCol #ButtonsAndSolutionCol {
@@ -223,15 +534,16 @@
   vertical-align: bottom;
   padding-left: 10px;
   padding-right: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   margin-bottom: 0px;
   width: 100%;
 }
-@media (max-width: 767px) {
-  #AnswerInputSection {
-    margin-top: 15px;
-    width: 100%;
-  }
+#AnswerInputSection .right-answer {
+  color: green;
+  font-weight: bold;
+}
+#AnswerInputSection .wrong-answer {
+  color: #B13A48;
 }
 #AnswerInputSection textarea,
 #AnswerInputSection input {
@@ -242,9 +554,7 @@
 }
 #AnswerInputSection .radio {
   margin-bottom: 0;
-}
-#MarkdownCol + #AnswerAndSolutionCol #AnswerInputSection .radio {
-  margin-top: 0;
+  margin-top: -2px;
 }
 #AnswerInputSection .radio + .radio {
   margin-top: 10px;
@@ -254,13 +564,25 @@
     margin-top: 15px;
   }
 }
+#AnswerInputSection .checkbox {
+  margin-bottom: 0;
+  margin-top: -2px;
+}
+#AnswerInputSection .checkbox + .checkbox {
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  #AnswerInputSection .checkbox + .checkbox {
+    margin-top: 15px;
+  }
+}
 #txtAnswer {
   max-width: 450px;
 }
 #Buttons {
   display: inline-block;
   vertical-align: bottom;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   width: 100%;
 }
 #Buttons .btn-link {
@@ -271,24 +593,22 @@
 }
 #Buttons .btn {
   margin-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-@media (max-width: 479px) {
-  #Buttons .btn {
-    display: table;
-  }
+  margin-bottom: 15px;
 }
 #Buttons .HeartToAddButton {
   float: right;
-  margin-top: 10px;
   margin-bottom: 10px;
 }
 #answerQuestionDetails .label {
   max-width: 100%;
 }
-#AnswerFeedbackAndSolutionDetails {
-  margin-top: 20px;
+/*#AnswerFeedbackAndSolutionDetails {
+    margin-top: 20px;
+}*/
+@media (max-width: 767px) {
+  #SolutionDetails {
+    padding-bottom: 20px;
+  }
 }
 .answerFeedback {
   position: absolute;
@@ -303,6 +623,10 @@
   border-radius: 4px;
   color: white;
   font-weight: bold;
+}
+.answerFeedbackCorrect,
+.answerFeedbackWrong {
+  z-index: 999;
 }
 .answerFeedbackCorrect {
   background-color: #AFD534;
@@ -331,20 +655,140 @@
     max-height: 250px;
   }
 }
-.MarkdownImage img {
-  max-height: 500px;
+#MasterWidget #AnswerBody {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 0;
 }
-@media (max-width: 767px) {
-  .MarkdownImage img {
-    max-height: 250px;
+#MasterWidget .SessionBar {
+  margin-bottom: 15px;
+}
+#MasterWidget #LicenseQuestion {
+  margin-top: 10px;
+  padding: 0;
+}
+#MasterWidget #video-pager {
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+.matchlist-leftelementwrapper {
+  text-align: center;
+}
+.matchlist-pairrow {
+  margin-bottom: 10px;
+  margin-top: 2px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+.matchlist-droppable {
+  border: 1px dashed;
+  border-radius: 5px;
+  height: 33px;
+}
+.matchlist-divider {
+  border-bottom: 1px solid;
+  margin: 20px 25% 0 25%;
+}
+.matchlist-hovered {
+  background-color: gainsboro;
+}
+#matchlist-rightelements {
+  margin-top: 20px;
+  padding: 0 13px 0 10px;
+  display: flex;
+  align-items: flex-start;
+  align-content: space-around;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+.matchlist-rightelement {
+  display: inline-block;
+  word-wrap: break-word;
+  border: 1px solid;
+  padding: 2px 0 3px 0;
+  border-radius: 3px;
+  margin: 10px 0 0 0;
+  cursor: move;
+  background-color: white;
+  text-align: center;
+  white-space: pre-wrap;
+}
+.matchlist-droppable-dropped {
+  height: initial;
+  padding: 2px;
+  display: inline-block;
+  width: 100%;
+}
+.matchlist-rightelement-dropped {
+  position: static !important;
+  margin: unset;
+  width: 100%;
+}
+.matchlist-mobilepairrow {
+  margin-bottom: 20px;
+}
+.matchlist-elementlabel {
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+#flashCardContent {
+  min-height: 250px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  #flashCardContent {
+    margin-bottom: 25px;
   }
 }
-#AnswerInputSection .right-answer {
-  color: green;
-  font-weight: bold;
+#flashCardContent > div,
+#flashCardContent #flashCard-frontContent > p {
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
-#AnswerInputSection .wrong-answer {
-  color: #B13A48;
+#flashCardContent #flashCard-back > p {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+#flashCardContent #flashCard-back > p img {
+  max-width: 60%;
+}
+#flashCardContent > div {
+  background-color: white;
+  border: 1px solid #c9c9c9;
+  box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.2);
+}
+#flashCardContent img {
+  padding-bottom: 20px;
+}
+#flashCardContent .flipClickHint {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+#flashCardContent .flipClickHint span {
+  color: silver;
+}
+#flashCardContent #flashCard-frontContent,
+#flashCardContent #flashCard-back {
+  padding: 15px 15px 40px 15px;
+}
+#flashCardContent #flashCard-frontContent img {
+  max-width: 60%;
+}
+.flashCardAnswerButtons > .btn {
+  margin-left: unset;
 }
 /*#AnswerInputSection .radio { //styles for radio html like in bootestrap style (input inside label)
     background-color: lightgray;

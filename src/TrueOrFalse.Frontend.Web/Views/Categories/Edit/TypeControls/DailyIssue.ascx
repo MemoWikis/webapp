@@ -9,7 +9,7 @@
 <input class="form-control" name="Name" type="hidden" value="<%= Model.Name %>">
 <div class="form-group">
     <label class="RequiredField columnLabel control-label" style="font-weight: bold;" for="xxx">
-        Tageszeitung
+        Zeitung
     </label>
     <div class="JS-RelatedCategories columnControlsFull">
         
@@ -38,12 +38,12 @@
         <div class="JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay.PadLeft(2, '0') %>" placeholder="TT">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateDay) ? null : model.PublicationDateDay.PadLeft(2, '0') %>" placeholder="TT">
             </div>
             <label class="control-label LabelInline">.</label>
             <label class="sr-only" for="PublicationDateMonth">Monat</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth.PadLeft(2, '0') %>" placeholder="MM">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateMonth) ? null : model.PublicationDateMonth.PadLeft(2, '0') %>" placeholder="MM">
             </div>
             <label class="control-label LabelInline">.</label>
             <label class="sr-only" for="PublicationDateYear">Jahr</label>
@@ -80,6 +80,28 @@
         <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
 </div>
+
+<div class="form-group" style="padding-top: 20px; padding-bottom: 20px;">
+    <label class="columnLabel control-label" for="Url">
+        Webseite der Ausgabe der Zeitung
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Gib bitte hier den Link zu dieser Ausgabe der Zeitung an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+    <label class="columnLabel control-label" for="UrlLinkText">
+        Angezeigter Link-Text (optional)
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Gib hier einen Text an, der den Link beschreibt, zum Beispiel 'Offizielle Webseite der Ausgabe'. Lässt du das Feld leer, wird die Link-Adresse angezeigt." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="UrlLinkText" type="text" maxlength="50" value="<%= Model.UrlLinkText %>">
+    </div>
+</div>
+
  <%if (!Model.IsEditing) { %>
     <script type="text/javascript">
         $('[name="TxtDaily"]').rules("add", { required: true, });

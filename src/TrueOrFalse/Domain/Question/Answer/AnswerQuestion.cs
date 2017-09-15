@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TrueOrFalse;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
@@ -74,7 +75,6 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             {
                 learningSession.UpdateAfterWrongAnswerOrShowSolution(learningSessionStep);
                 answerQuestionResult.NewStepAdded = learningSession.Steps.Count > numberOfStepsBeforeAnswer;
-                
             }
 
             answerQuestionResult.NumberSteps = learningSession.Steps.Count;
@@ -108,6 +108,9 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         int userId,
         Guid questionViewGuid,
         int interactionNumber,
+        int? testSessionId,
+        int? learningSessionId,
+        string learningSessionStepGuid,
         int millisecondsSinceQuestionView = -1,
         bool countLastAnswerAsCorrect = false,
         bool countUnansweredAsCorrect = false,
@@ -116,7 +119,26 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         
         if(countLastAnswerAsCorrect && countUnansweredAsCorrect)
             throw new Exception("either countLastAnswerAsCorrect OR countUnansweredAsCorrect should be set to true, not both");
-        
+
+        if (testSessionId.HasValue && (countLastAnswerAsCorrect || countUnansweredAsCorrect))
+        {
+            var currentStep = Sl.SessionUser.GetPreviousTestSessionStep(testSessionId.Value);
+            currentStep.AnswerState = TestSessionStepAnswerState.AnsweredCorrect;
+        }
+
+        if (learningSessionId.HasValue && (countLastAnswerAsCorrect || countUnansweredAsCorrect))
+        {
+            var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId.Value);
+            var learningSessionStep = learningSession.GetStep(new Guid(learningSessionStepGuid));
+            learningSessionStep.AnswerState = StepAnswerState.Answered;
+            //learningSessionStep.Answer.AnswerredCorrectly = AnswerCorrectness.IsView;
+
+            learningSession.Steps.Remove(learningSession.Steps.Last());
+
+            Sl.AnswerRepo.Update(learningSessionStep.Answer);
+            Sl.LearningSessionRepo.Update(learningSession);
+        }
+
         if (countLastAnswerAsCorrect)
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true
@@ -143,7 +165,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
         var result = new AnswerQuestionResult
         {
-            IsCorrect = solution.IsCorrect(answer.Trim()),
+            IsCorrect = solution.IsCorrect(answer),
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer
         };

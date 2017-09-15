@@ -7,8 +7,6 @@ class SolutionTypeSequence
     constructor(answerEntry: AnswerEntry) {
         super(answerEntry);
         this.AnswerQuestion = new AnswerQuestion(this);
-
-        $('.sequence-row').keydown(() => { this.AnswerQuestion.OnAnswerChange(); });
     }
 
     GetAnswerText(): string {
@@ -23,9 +21,5 @@ class SolutionTypeSequence
                 return $(x).val();
             }))
         };
-    }
-
-    OnNewAnswer() {
-        $('.sequence-row').val("");
     }
 };

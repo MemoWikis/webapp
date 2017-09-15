@@ -2,8 +2,8 @@
 
 
 <% var random = new Random();
-   foreach (var choice in Model.Choices.OrderBy(x => random.Next()))
-   { %>
+   foreach (var choice in  Model.Choices.OrderBy(x => random.Next()))
+    { %>
     <div class="radio">
         <label>
             <input type="radio" name="answer" value="<%: choice %>" /> <%: choice %> <br />

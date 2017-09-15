@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using static System.String;
 
 public class Settings
 {
@@ -14,7 +15,10 @@ public class Settings
     public static string SolrPath;
     public static string SolrCoresSuffix;
     public static bool GoogleKeyIsSet = false;
-    public static string GoogleKey;
+
+    public static string GoogleAnalyticsKey;
+    public static string GoogleApiKey;
+
     public static bool AdvertisementTurnedOn;
 
     public static string EmailFrom = "team@memucho.de";
@@ -25,6 +29,8 @@ public class Settings
     public static bool WithNHibernateStatistics = true;
 
     public static int TestSessionQuestionCount = 5;
+
+    public static string LomExportPath;
 
     private static bool? _developOffline;
 
@@ -41,6 +47,13 @@ public class Settings
             _developOffline = false;
 
         return _developOffline.Value;
+    }
+
+    public static bool InitEntityCacheViaJobScheduler()
+    {
+        var result = OverwrittenConfig.Value("initEntityCacheViaJobScheduler");
+
+        return result.HasValue && Boolean.Parse(result.Value);
     }
 
     /// <summary>Develop / Stage / Live</summary>
@@ -93,12 +106,15 @@ public class Settings
 
     static Settings()
     {
-        GoogleKey = Get<string>("GoogleAnalyticsKey");
-        GoogleKeyIsSet = !String.IsNullOrEmpty(GoogleKey);
+        GoogleAnalyticsKey = Get<string>("GoogleAnalyticsKey");
+        GoogleKeyIsSet = !IsNullOrEmpty(GoogleAnalyticsKey);
+        GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
+
         SolrCoresSuffix = GetValue(OverwrittenConfig.Value("solrCoresSuffix"), "SolrCoresSuffix");
         SolrPath = GetValue(OverwrittenConfig.Value("pathToSolr"), "SolrPath");
         SolrUrl = GetValue(OverwrittenConfig.Value("sorlUrl"), "SolrUrl");
         CanonicalHost = GetValue(OverwrittenConfig.Value("CanonicalHost"), "CanonicalHost");
         AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
+        LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
     }
 }

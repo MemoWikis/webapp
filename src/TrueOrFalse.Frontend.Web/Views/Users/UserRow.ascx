@@ -57,14 +57,14 @@
             <div style="padding-top: 5px;">
                 <div>
                     Erstellt:
-                    <%= Model.CreatedQuestions %> Fragen / <%= Model.CreatedSets %> Fragesätze
+                    <%= Model.CreatedQuestions %> Fragen / <%= Model.CreatedSets %> Lernsets
                 </div>
                 
                 <div>
                     <% if (!Model.ShowWishKnowlede){ %>
                         <i class="fa fa-lock show-tooltip" data-html="true" style="color: lightslategrey"  title="Privates Wunschwissen. <br> Das Wunschwissen ist nicht einsehbar."></i>
                     <% } %>
-                    Wunschwissen: <%= Model.WishCountQuestions %> Fragen / <%= Model.WishCountSets %> Fragesätze
+                    Wunschwissen: <%= Model.WishCountQuestions %> Fragen / <%= Model.WishCountSets %> Lernsets
                 </div>
 
             </div>

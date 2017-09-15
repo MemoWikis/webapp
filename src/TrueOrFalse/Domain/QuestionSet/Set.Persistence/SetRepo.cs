@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using NHibernate.Transform;
 using TrueOrFalse.Search;
 
@@ -23,17 +25,29 @@ public class SetRepo : RepositoryDbBase<Set>
         _searchIndexSet.Update(set);
         base.Update(set);
 
-        var categoriesToUpdate =
+        var categoriesToUpdateIds =
             _session.CreateSQLQuery("SELECT Category_id FROM categories_to_sets WHERE Set_id =" + set.Id)
             .List<int>().ToList();
 
         Flush();//Flush exactly here: If category has been added, categories_to_sets entry has been added already (important for UpdateSetCountForCategory). If category has been removed, it is still included in categoriesToUpdate.
 
-        categoriesToUpdate.AddRange(set.Categories.Select(x => x.Id).ToList());
-        categoriesToUpdate = categoriesToUpdate.GroupBy(x => x).Select(x => x.First()).ToList();
-        Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdate);
+        categoriesToUpdateIds.AddRange(set.Categories.Select(x => x.Id).ToList());
+        categoriesToUpdateIds = categoriesToUpdateIds.GroupBy(x => x).Select(x => x.First()).ToList();
+        Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdateIds);
 
         Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
+
+        var aggregatedCategoriesToUpdate =
+            CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
+
+        EntityCache.AddOrUpdate(set, categoriesToUpdateIds);
+       
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
     }
 
     public override void Create(Set set)
@@ -44,6 +58,7 @@ public class SetRepo : RepositoryDbBase<Set>
         UserActivityAdd.CreatedSet(set);
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
+        EntityCache.AddOrUpdate(set);
     }
 
     public IList<Set> GetByIds(List<int> setIds)
@@ -63,6 +78,13 @@ public class SetRepo : RepositoryDbBase<Set>
         return result;
     }
 
+    public IList<Set> GetByCreatorId(int creatorId)
+    {
+        return _session.QueryOver<Set>()
+            .Where(c => c.Creator.Id == creatorId)
+            .List<Set>();
+    }
+
     public IList<Set> GetForCategory(int categoryId)
     {
         return _session.QueryOver<Set>()
@@ -73,16 +95,37 @@ public class SetRepo : RepositoryDbBase<Set>
 
     public Set GetByIdEager(int setId)
     {
-        Question creatorAlias = null;
+        //Question creatorAlias = null;
 
         return _session.QueryOver<Set>()
             .Where(set => set.Id == setId)
-            //.Fetch(s => s.Creator).Eager
-            //.Left.JoinAlias(s => s.Creator, () => creatorAlias)
             .Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
-            .Left.JoinQueryOver<Question>(s => s.Question)
+            .Left.JoinQueryOver(s => s.Question)
             .Left.JoinQueryOver<Category>(s => s.Categories)
             .SingleOrDefault();
+    }
+
+    public IList<Set> GetByIdsEager(int[] setIds = null)
+    {
+        var query = _session.QueryOver<Set>();
+
+        if (setIds != null)
+            query = query.Where(Restrictions.In("Id", setIds));
+
+        return query.Left.JoinQueryOver<QuestionInSet>(s => s.QuestionsInSet)
+            .Left.JoinQueryOver(s => s.Question)
+            .Left.JoinQueryOver<Category>(s => s.Categories)
+            .List()
+            .GroupBy(s => s.Id)
+            .Select(s => s.First())
+            .ToList();
+    }
+
+    public IList<Set> GetAllEager() => GetByIdsEager();
+
+    public IList<Set> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        return EntityCache.GetSetsForCategory(categoryId).ToList();
     }
 
     public IEnumerable<Set> GetMostRecent_WithAtLeast3Questions(int amount)
@@ -147,11 +190,13 @@ public class SetRepo : RepositoryDbBase<Set>
 
         _searchIndexSet.Delete(set);
         base.Delete(set);
+        EntityCache.Remove(set);
+        foreach (var category in set.Categories)
+        {
+            category.UpdateCountQuestionsAggregated();
+        }
         Flush();
     }
-
-    
-
 
     public int HowManyNewSetsCreatedSince(DateTime since)
     {
@@ -166,4 +211,9 @@ public class SetRepo : RepositoryDbBase<Set>
             .RowCount();
     }
 
+    public string GetYoutbeUrl(int setId) => 
+        _session.Query<Set>()
+            .Where(s => s.Id == setId)
+            .Select(s => s.VideoUrl)
+            .FirstOrDefault();
 }

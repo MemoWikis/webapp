@@ -38,9 +38,13 @@
             <b>Memucho</b><br/>
             <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br/>
             <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br/>
+            &nbsp;<br/>
+            <a href="<%= Links.WidgetExamples() %>">Beispiele Widgets</a><br/>
+            <a href="<%= Links.WidgetPricing() %>">Angebote und Preise für Widgets</a><br/>
+            &nbsp;<br/>
             <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
-            <a href="<%=Links.FAQItem("Contact") %>">Kontakt</a><br/>
             <a href="<%=Links.Jobs() %>">Jobs</a><br/>
+            <a href="<%=Links.Contact %>">Kontakt & Anfahrt</a><br/>
         </div>
         
         <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">        
@@ -50,7 +54,9 @@
             <a href="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1">
                 <i class="fa fa-cogs">&nbsp;</i>Teamcity
             </a><br/>
-            <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %><br/>
+            <% if(Request.IsLocal){ %>
+                <%= Html.ActionLink("Algorithmus-Einblick", "Forecast", "AlgoInsight")  %><br/>
+            <% } %>
             <% var assembly = Assembly.Load("TrueOrFalse"); %>
             <span style="color:darkgray">
                 (Build: <%= assembly.GetName().Version.Major %> am
@@ -66,6 +72,7 @@
         <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
             <b>Hilfe</b><br/>
             <a href="<%=Links.HelpFAQ() %>">FAQ</a><br/>
+            <a href="<%= Links.HelpWidget() %>">Hilfe zu Widgets</a><br/>
             Christof: <span style="white-space: nowrap;">+49-1577-6825707</span>
         </div>
         

@@ -101,9 +101,20 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
-#categoryImg {
+.input-group input.form-control,
+.input-group textarea.form-control,
+.input-group select.form-control {
+  max-width: none;
+}
+@media (min-width: 992px) {
+  #CategoryImageColumn {
+    padding-left: 30px;
+    padding-top: 93px;
+  }
+}
+#CategoryImageColumn #categoryImg {
   width: 100%;
-  max-width: 200px;
+  max-width: 250px;
 }
 #CategoryTypeSelect {
   padding-bottom: 20px;
@@ -112,4 +123,36 @@ select.form-control {
   color: #45aece;
   margin-top: 0;
   margin-bottom: 20px;
+}
+#EditAggregationModal #category-graph svg,
+#CategoryGraphFullscreen #category-graph svg {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+#EditAggregationModal #CategoryGraphFullscreenButton,
+#CategoryGraphFullscreen #CategoryGraphFullscreenButton {
+  float: right;
+  position: relative;
+  top: 45px;
+  right: 5px;
+}
+#EditAggregationModal .link,
+#CategoryGraphFullscreen .link {
+  stroke: #ccc;
+  stroke-width: 2px;
+}
+#EditAggregationModal .node text,
+#CategoryGraphFullscreen .node text {
+  pointer-events: none;
+  font: 15px sans-serif;
+}
+#MasterMainColumn .form-control,
+#MasterMainColumn input[type="submit"],
+#MasterMainColumn .btn {
+  font-size: 18px;
+}
+#MasterMainColumn input.form-control,
+#MasterMainColumn textarea.form-control,
+#MasterMainColumn select.form-control {
+  max-width: 100%;
 }

@@ -1,4 +1,24 @@
-﻿.columnControlsFull {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+.columnControlsFull {
   font-size: 90%;
 }
 .columnControlsFull .radio,
@@ -81,4 +101,11 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
-/*# sourceMappingURL=Game.css.map */
+.input-group input.form-control,
+.input-group textarea.form-control,
+.input-group select.form-control {
+  max-width: none;
+}
+.FormSection .input-group-addon {
+  min-width: 110px;
+}

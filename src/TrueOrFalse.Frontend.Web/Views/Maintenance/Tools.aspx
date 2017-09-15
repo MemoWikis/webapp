@@ -18,7 +18,8 @@
                 <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li class="active"><a href="/Maintenance/Tools">Tools</a></li>
                 <li><a href="/Maintenance/CMS">CMS</a></li>
-                <li><a href="/Maintenance/ContentReport">Content</a></li>
+                <li><a href="/Maintenance/ContentCreatedReport">Cnt-Created</a></li>
+                <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                 <li><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
@@ -49,7 +50,7 @@
         Start 100 test jobs
     </a><br/>
     
-    <h4 style="margin-top: 20px;">Fragen in Fragesätzen nachkategorisieren</h4>
+    <h4 style="margin-top: 20px;">Fragen in Lernsets nachkategorisieren</h4>
     <div class="form-horizontal">
 
         <% using (Html.BeginForm("AssignCategoryToQuestionsInSet", "Maintenance")){%>
@@ -57,22 +58,52 @@
             <%= Html.AntiForgeryToken() %>
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">Fragesätze (Set-Ids kommasepariert)</label>
+                <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
                 <div class="col-xs-2">
-                    <%= Html.TextBoxFor(m => m.SetsToUpdateIds, new {@class="form-control"} ) %>    
+                    <%= Html.TextBoxFor(m => m.SetsToAddCategoryToIds, new {@class="form-control"} ) %>    
                 </div>
             </div>
         
             <div class="form-group">
                 <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
                 <div class="col-xs-2">
-                    <%= Html.TextBoxFor(m => m.CategoryId, new {@class="form-control"} ) %>    
+                    <%= Html.TextBoxFor(m => m.CategoryToAddId, new {@class="form-control"} ) %>    
                 </div>
             </div>
 
             <div class="form-group" style="">
                 <div class="col-sm-offset-2 col-sm-9">
                     <input type="submit" value="Thema zuweisen" class="btn btn-primary" />
+                </div>
+            </div>
+
+        <% } %>
+    </div>
+    
+    <h4 style="margin-top: 20px;">Kategorie von Fragen in Lernsets entfernen</h4>
+    <div class="form-horizontal">
+
+        <% using (Html.BeginForm("RemoveCategoryFromQuestionsInSet", "Maintenance")){%>
+        
+            <%= Html.AntiForgeryToken() %>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Lernsets (Set-Ids kommasepariert)</label>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.SetsToRemoveCategoryFromIds, new {@class="form-control"} ) %>    
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <label class="control-label col-sm-2">Thema/Kategorie (Id)</label>
+                <div class="col-xs-2">
+                    <%= Html.TextBoxFor(m => m.CategoryToRemoveId, new {@class="form-control"} ) %>    
+                </div>
+            </div>
+
+            <div class="form-group" style="">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <input type="submit" value="Thema entfernen" class="btn btn-primary" />
                 </div>
             </div>
 

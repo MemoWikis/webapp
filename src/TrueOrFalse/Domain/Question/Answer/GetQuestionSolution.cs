@@ -28,6 +28,12 @@ public class GetQuestionSolution
 
             case SolutionType.MultipleChoice:
                 return serializer.Deserialize<QuestionSolutionMultipleChoice>(question.Solution);
+
+            case SolutionType.MatchList:
+                return serializer.Deserialize<QuestionSolutionMatchList>(question.Solution);
+
+            case SolutionType.FlashCard:
+                return serializer.Deserialize<QuestionSolutionFlashCard>(question.Solution);
         }
 
         throw new NotImplementedException($"Solution Type not implemented: {question.SolutionType}");

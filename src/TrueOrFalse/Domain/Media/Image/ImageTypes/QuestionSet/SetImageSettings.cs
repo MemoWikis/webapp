@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static System.String;
 
 public class SetImageSettings : ImageSettings, IImageSettings
 {
@@ -24,7 +25,7 @@ public class SetImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_206px_square() { return GetUrl(206, isSquare:true); }
     public ImageUrl GetUrl_350px_square() { return GetUrl(350, isSquare: true); }
 
-    private ImageUrl GetUrl(int width, bool isSquare = false)
+    public ImageUrl GetUrl(int width, bool isSquare = false)
     {
         var imageMetaRepo = ServiceLocator.Resolve<ImageMetaDataRepo>();
         var imageMeta = imageMetaRepo.GetBy(Id, ImageType.QuestionSet);
@@ -33,7 +34,19 @@ public class SetImageSettings : ImageSettings, IImageSettings
             this,
             width, 
             isSquare,
-            arg => BaseDummyUrl + width + ".png"
+            arg =>
+            {
+                var youtubUrl = Sl.SetRepo.GetYoutbeUrl(Id);
+
+                if (!IsNullOrEmpty(youtubUrl))
+                {
+                    var youtubeKey = YoutubeVideo.GetVideoKeyFromUrl(youtubUrl);
+                    if(!IsNullOrEmpty(youtubeKey))
+                        return YoutubeVideo.GetPreviewImage(youtubeKey);
+                }
+
+                return BaseDummyUrl + width + ".png";
+            }
         ).SetSuffix(imageMeta);
     }
 }

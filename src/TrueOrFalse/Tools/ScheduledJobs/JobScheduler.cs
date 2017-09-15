@@ -17,6 +17,10 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.Start();
         }
 
+        public static void EmptyMethodToCallConstructor()
+        {
+        }
+
         public static void Shutdown()
         {
             _scheduler.Shutdown(waitForJobsToComplete:true);
@@ -29,11 +33,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_GameLoop();
             Schedule_RecalcKnowledgeStati();
+            Schedule_RecalcKnowledgeSummariesForCategory();
             Schedule_RecalcReputation();
             Schedule_RecalcReputationForAll();
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
             Schedule_KnowledgeReportCheck();
+            Schedule_LOM_Export();
         }
 
         private static void Schedule_CleanupWorkInProgressQuestions()
@@ -60,6 +66,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         x.StartingDailyAt(new TimeOfDay(2, 00))
                          .OnEveryDay()
                          .EndingDailyAfterCount(1)).Build());
+        }
+
+        private static void Schedule_RecalcKnowledgeSummariesForCategory()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForCategory>().Build(),
+                TriggerBuilder.Create()
+                    .WithSimpleSchedule(x => x.WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
+                        .RepeatForever()).Build());
         }
 
         private static void Schedule_RecalcReputation()
@@ -111,15 +125,45 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
+        private static void Schedule_LOM_Export()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<LomExportJob>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(3, 30))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
+
+        private static void Schedule_RefreshEntityCache()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<RefreshEntityCache>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(3, 30))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
 
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
         public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }
+        public static void StartImmediately_RecalcKnowledgeStati() { StartImmediately<RecalcKnowledgeStati>(); }
+        public static void StartImmediately_RefreshEntityCache() { StartImmediately<RefreshEntityCache>(); }
 
         public static void StartImmediately<TypeToStart>() where TypeToStart : IJob
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<TypeToStart>().Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
+
+        public static void StartImmediately_InitUserValuationCache(int userId)
+        {
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<InitUserValuationCache>()
+                .UsingJobData("userId", userId)
+                .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
     }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
-using TrueOrFalse.MultipleChoice;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
@@ -17,7 +17,7 @@ public class Question : DomainEntity, ICreator
     public virtual int LicenseId { get; set; }
     public virtual LicenseQuestion License
     {
-        get { return LicenseQuestionRepo.GetById(LicenseId); }
+        get => LicenseQuestionRepo.GetById(LicenseId);
         set
         {
             if (value == null)
@@ -133,10 +133,10 @@ public class Question : DomainEntity, ICreator
         return Text.TruncateAtWord(length);
     }
 
-    public virtual bool IsPrivate()
-    {
-        return Visibility != QuestionVisibility.All;
-    }
+    public virtual bool IsPrivate() => Visibility != QuestionVisibility.All;
+
+    public virtual bool IsVisibleToCurrentUser () 
+        => Visibility == QuestionVisibility.All || Sl.SessionUser.IsLoggedInUser(Creator.Id);
 
     public virtual void UpdateReferences(IList<Reference> references)
     {
@@ -167,5 +167,37 @@ public class Question : DomainEntity, ICreator
         }
     }
 
+    public static string AnswersAsHTML(string answerText, SolutionType solutionType)
+    {
+        if (solutionType == SolutionType.MatchList)
+        {
+            var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
+            if (answerObject.Pairs.Count == 0)
+                return "(keine Auswahl)";
+            string formattedMatchListAnswer = "</br><ul>";
+            foreach (var pair in answerObject.Pairs)
+            {
+                formattedMatchListAnswer += "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>";
+            }
+            formattedMatchListAnswer += "</ul>";
+            return formattedMatchListAnswer;
+        }
+
+        if (solutionType == SolutionType.MultipleChoice)
+        {
+            if (answerText == "")
+                return "(keine Auswahl)";
+            var builder = new StringBuilder(answerText);
+                string formattedMultipleChoiceAnswer = "</br> <ul> <li>" +
+                            builder.Replace("%seperate&xyz%", "</li><li>").ToString() +
+                            "</li> </ul>";
+            return formattedMultipleChoiceAnswer;
+        }
+
+        return answerText;
+    }
+
     public virtual QuestionSolution GetSolution() => GetQuestionSolution.Run(this);
+
+    public virtual string ToLomXml() => LomXml.From(this);
 }

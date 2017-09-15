@@ -1,54 +1,47 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-public class AddToSet : IRegisterAsInstancePerLifetime
+public static class AddToSet 
 {
-    private readonly SetRepo _setRepo;
-    private readonly QuestionRepo _questionRepo;
-    private readonly QuestionInSetRepo _questionInSetRepo;
-    private readonly UpdateSetDataForQuestion _updateSetData;
-
-    public AddToSet(
-            SetRepo setRepo, 
-            QuestionRepo questionRepo,
-            QuestionInSetRepo questionInSetRepo,
-            UpdateSetDataForQuestion updateSetData){
-        _setRepo = setRepo;
-        _questionRepo = questionRepo;
-        _questionInSetRepo = questionInSetRepo;
-        _updateSetData = updateSetData;
-            }
-
-    public AddToSetResult Run(int[] questionIds, int questionSet)
+    public static AddToSetResult Run(IEnumerable<int> questionIds, int questionSet)
     {
         return Run(
-            _questionRepo.GetByIds(questionIds), 
-            _setRepo.GetById(questionSet));
+            Sl.QuestionRepo.GetByIds(questionIds.ToArray()), 
+            Sl.SetRepo.GetById(questionSet));
     }
 
-    public AddToSetResult Run(IList<Question> questions, Set set)
+    public static AddToSetResult Run(Question question, Set set) 
+        => Run(new List<Question> {question}, set);
+
+    public static AddToSetResult Run(IList<Question> questions, Set set)
     {
-        var nonAddedQuestions = new List<Question>();
+        var notAddedQuestions = new List<Question>();
         foreach (var question in questions)
         {
             if (set.QuestionsInSet.Any(q => q.Question.Id == question.Id))
-                nonAddedQuestions.Add(question);
+                notAddedQuestions.Add(question);
             else
             {
                 var questionInSet = new QuestionInSet();
                 questionInSet.Question = question;
                 questionInSet.Set = set;
-                _questionInSetRepo.Create(questionInSet);
-                _updateSetData.Run(question);
+                Sl.QuestionInSetRepo.Create(questionInSet);
+                Sl.UpdateSetDataForQuestion.Run(question);
             }
+        }
+
+        foreach (var category in set.Categories)
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
         }
 
         Sl.R<AddValuationEntries_ForQuestionsInSetsAndDates>().Run(set, Sl.R<SessionUser>().User);
 
         return new AddToSetResult
         {
-            AmountAddedQuestions = questions.Count() - nonAddedQuestions.Count(),
-            AmountOfQuestionsAlreadyInSet = nonAddedQuestions.Count(),
+            AmountAddedQuestions = questions.Count - notAddedQuestions.Count,
+            AmountOfQuestionsAlreadyInSet = notAddedQuestions.Count,
             Set = set
         };
     }

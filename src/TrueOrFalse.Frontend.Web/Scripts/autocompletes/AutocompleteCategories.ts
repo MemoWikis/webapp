@@ -263,6 +263,10 @@ class AutocompleteCategories {
                     jqueryReference.find('.PublicationDate').remove();
                     
                 jqueryReference.find('.WikiUrl').remove();
+                jqueryReference.find('a').each((i, e) => {//Prevent nested 'a', replace inner anchor elements with divs
+                    var content = $(e).html();
+                    $(e).replaceWith($('<div></div>').append(content));
+                });
                 
                 var jqueryReferenceHtml = $('<div></div>').append(jqueryReference).html();
 
@@ -296,12 +300,12 @@ class AutocompleteCategories {
                         break;
 
                     case AutoCompleteFilterType.Daily:
-                        linkText = "Tageszeitung in neuem Tab erstellen.";
+                        linkText = "Zeitung in neuem Tab erstellen.";
                         urlCategory = "Daily";
                         break;
 
                     case AutoCompleteFilterType.DailyIssue:
-                        linkText = "Ausgabe der Tageszeitung in neuem Tab erstellen.";
+                        linkText = "Ausgabe der Zeitung in neuem Tab erstellen.";
                         urlCategory = "DailyIssue";
                         break;
 
@@ -340,7 +344,7 @@ class AutocompleteCategories {
                     html =  "<div class='CatListItem'>" +
                                 resultInfo + "in neuem Tab " +
                                 "<a href='/Kategorien/Erstelle/DailyArticle' target='_blank' class='TextLink'>" +
-                                    "Artikel in Tageszeitung" +
+                                    "Artikel in Zeitung" +
                                 "</a>" +
                                 " oder " +
                                 "<a href='/Kategorien/Erstelle/MagazineArticle' target='_blank' class='TextLink'>" +

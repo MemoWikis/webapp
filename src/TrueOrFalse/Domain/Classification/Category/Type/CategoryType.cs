@@ -2,6 +2,7 @@
 
 public enum CategoryType
 {
+    None = 0,
     Standard = 1,
     
     Book = 5,
@@ -23,10 +24,11 @@ public enum CategoryType
     TvShowEpisode = 14,
 
     FieldOfStudy = 15,
-    FieldStudyTrade = 16,
+    FieldOfTraining = 16,
     SchoolSubject = 17,
     Course = 18,
     Certification = 19,
+    EducationProvider = 22
 }
 
 public enum CategoryTypeGroup
@@ -45,15 +47,15 @@ public static class CategoryTypeExts
 
             case CategoryType.Book: return "Buch";
             case CategoryType.VolumeChapter: return "Beitrag in Sammelband";
-            case CategoryType.Daily: return "Tageszeitung";
-            case CategoryType.DailyIssue: return "Ausgabe Tageszeitung";
-            case CategoryType.DailyArticle: return "Artikel in Tageszeitung";
+            case CategoryType.Daily: return "Zeitung";
+            case CategoryType.DailyIssue: return "Ausgabe Zeitung";
+            case CategoryType.DailyArticle: return "Artikel in Zeitung";
             case CategoryType.Magazine: return "Zeitschrift";
             case CategoryType.MagazineIssue: return "Ausgabe Zeitschrift";
             case CategoryType.MagazineArticle: return "Artikel in Zeitschrift";
 
             case CategoryType.Website: return "Webseite";
-            case CategoryType.WebsiteArticle: return "Online-Artikel";
+            case CategoryType.WebsiteArticle: return "Online-Artikel / Blog-Artikel";
             case CategoryType.WebsiteVideo: return "Youtube-Video";
             case CategoryType.WebsiteOther: return "Webseite: Artikel/Eintrag/Meldung/Kurs...";
 
@@ -63,10 +65,11 @@ public static class CategoryTypeExts
             case CategoryType.TvShowEpisode: return "Fernsehen: Episode/Ausgabe";
 
             case CategoryType.FieldOfStudy: return "Studienfach";
-            case CategoryType.FieldStudyTrade: return "Ausbildungsberuf";
+            case CategoryType.FieldOfTraining: return "Ausbildungsberuf";
             case CategoryType.SchoolSubject: return "Schulfach";
             case CategoryType.Course: return "Kurs/Seminar";
             case CategoryType.Certification: return "Zertifizierung";
+            case CategoryType.EducationProvider: return "Bildungsanbieter";
         }
         throw new Exception("invalid category type");
     }
@@ -99,8 +102,9 @@ public static class CategoryTypeExts
         if (e == CategoryType.Certification ||
             e == CategoryType.Course ||
             e == CategoryType.FieldOfStudy ||
-            e == CategoryType.FieldStudyTrade ||
-            e == CategoryType.SchoolSubject)
+            e == CategoryType.FieldOfTraining ||
+            e == CategoryType.SchoolSubject ||
+            e == CategoryType.EducationProvider)
         {
             return CategoryTypeGroup.Education;
         }
@@ -113,7 +117,8 @@ public static class CategoryTypeExts
     {
         if (e == CategoryType.DailyArticle || e == CategoryType.MagazineArticle)
             return "Artikel";
-
+        if (e == CategoryType.WebsiteArticle)
+            return "Online-Artikel";
         return e.GetName();
     }
 

@@ -9,15 +9,23 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.Name);
         Map(x => x.Description);
         Map(x => x.WikipediaURL);
+        Map(x => x.Url);
+        Map(x => x.UrlLinkText);
+
+        Map(x => x.CategoriesToExcludeIdsString);
+        Map(x => x.CategoriesToIncludeIdsString);
+
+        Map(x => x.DisableLearningFunctions);
 
         References(x => x.Creator);
 
         Map(x => x.TopicMarkdown);
         Map(x => x.FeaturedSetsIdsString);
 
+        Map(x => x.CountQuestionsAggregated);
+
         Map(x => x.CountQuestions);
         Map(x => x.CountSets);
-        Map(x => x.CountCreators);
 
         Map(x => x.Type);
         Map(x => x.TypeJson);
@@ -29,8 +37,10 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
-        HasManyToMany(x => x.ParentCategories).
-            Table("relatedcategoriestorelatedcategories")
-            .ChildKeyColumn("Related_Id");
+
+        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories")
+            .Cascade.AllDeleteOrphan()
+            .Inverse();
+
     }
 }

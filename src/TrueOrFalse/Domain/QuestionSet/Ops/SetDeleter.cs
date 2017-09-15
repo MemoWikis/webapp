@@ -4,7 +4,6 @@ using TrueOrFalse.Search;
 
 public class SetDeleter 
 {
-
     public static void Run(int setId)
     {
         var setRepo = Sl.R<SetRepo>();
@@ -12,12 +11,25 @@ public class SetDeleter
 
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(set.Creator.Id);
 
+        var categoriesToUpdate = set.Categories.ToList();
+
         Sl.R<UserActivityRepo>().DeleteForSet(setId);
         Sl.R<LearningSessionRepo>().UpdateForDeletedSet(setId);
         setRepo.Delete(set);
 
         Sl.R<SetValuationRepo>().DeleteWhereSetIdIs(setId);
         Sl.R<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
+
+        Sl.R<UpdateSetCountForCategory>().Run(categoriesToUpdate);
+
+        var aggregatedCategoriesToUpdate = CategoryAggregation.GetAggregatingAncestors(categoriesToUpdate);
+
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
     }
 
     public class CanBeDeletedResult
@@ -35,9 +47,9 @@ public class SetDeleter
             {
                 Yes = false,
                 IfNot_Reason =
-                    "Der Fragesatz kann nicht gelöscht werden, " +
+                    "Das Lernset kann nicht gelöscht werden, " +
                     "er ist " + howOftenInOtherPeopleWuwi + "-mal Teil des Wunschwissens anderer Nutzer. " +
-                    "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
+                    "Bitte melde dich bei uns, wenn du meinst, das Lernset sollte dennoch gelöscht werden."
             };
         }
         var howOftenInFutureDate = Sl.R<SetRepo>().HowOftenInDate(setId);
@@ -47,10 +59,10 @@ public class SetDeleter
             {
                 Yes = false,
                 IfNot_Reason =
-                    "Der Fragesatz kann nicht gelöscht werden, da in " +
+                    "Das Lernset kann nicht gelöscht werden, da in " +
                     howOftenInFutureDate + " Termin" + StringUtils.PluralSuffix(howOftenInFutureDate, "en") +
                     " (vielleicht auch bei dir) damit gelernt wurde oder wird. " +
-                    "Bitte melde dich bei uns, wenn du meinst, der Fragesatz sollte dennoch gelöscht werden."
+                    "Bitte melde dich bei uns, wenn du meinst, das Lernset sollte dennoch gelöscht werden."
             };
 
         }

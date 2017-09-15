@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<Category>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <%
     object type = Model.GetTypeModel();
@@ -12,17 +13,13 @@
                 <div class="Icon show-tooltip" title="<%= CategoryType.Book.GetName() %>"><i class="fa fa-book"></i></div><% 
                 
                 if (!String.IsNullOrEmpty(book.Title))
-                {
-                    %><div class="Name"><%
-                    if (!String.IsNullOrEmpty(book.Subtitle))
-                    {
-                        %><span><%= book.Title %> – <%= book.Subtitle %></span><%
-                    }
-                    else
-                    {
-                        %><span><%= book.Title %></span><% 
-                    }
-                    %></div><%
+                {%>
+                    <div class="Name">
+                        <a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+                            <span><%= book.Title %><%= String.IsNullOrEmpty(book.Subtitle) ? "" : " - " + book.Subtitle %></span>
+                        </a>
+
+                    </div><%
                 }
                 if (!String.IsNullOrEmpty(book.Author))
                    {
@@ -70,11 +67,12 @@
                    {
                 %><div class="Isbn"><span>ISBN: <%= book.ISBN %></span></div><% 
                 }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL))
+
+                if (!String.IsNullOrEmpty(Model.Url))
                 {
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                    %><br /><div class="Url"><a href="<%= Model.Url %>" target="_blank"><span><%= Model.Url %> <i class='fa fa-external-link'></i></span></a></div><%
                 }
-            %></div>
+                %></div>
 <%
             break;
 
@@ -83,20 +81,21 @@
 %>
            <div class="Reference Daily">
                 <div class="Icon show-tooltip" title="<%= CategoryType.Daily.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
-                if (!String.IsNullOrEmpty(Model.Name)){
-                    %><div class="Name"><span><%= Model.Name %></span></div><%
-                }
+                if (!String.IsNullOrEmpty(Model.Name)){%>
+                    <div class="Name">
+                        <a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+                            <span><%= Model.Name %></span>
+                        </a>
+                    </div>
+               <%}
                 if (!String.IsNullOrEmpty(daily.Publisher)){
                     %><div class="Publisher"><span><%= daily.Publisher %></span></div><%
                 }
                 if (!String.IsNullOrEmpty(daily.ISSN)){
                     %><div class="Issn"><span>ISSN: <%= daily.ISSN %></span></div><%      
                 }
-                if (!String.IsNullOrEmpty(daily.Url)){
-                    %><div class="Url"><a href="<%= daily.Url %>"><span><%= daily.Url %></span></a></div><%
-                }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%
@@ -109,18 +108,13 @@
            <div class="Reference DailyArticle">
                 <div class="Icon show-tooltip" title="<%= CategoryType.DailyArticle.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
                 if (!String.IsNullOrEmpty(dailyArticle.Title))
-                {
-                    %><div class="Name"><%
-                    if (!String.IsNullOrEmpty(dailyArticle.Subtitle))
-                    {
-                        %><span><%= dailyArticle.Title %> – <%= dailyArticle.Subtitle %></span><%
-                    }
-                    else
-                    {
-                        %><span><%= dailyArticle.Title %></span><% 
-                    }
-                    %></div><%
-                }
+                {%>
+                   <div class="Name">
+                       <a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+                           <span><%= dailyArticle.Title %><%= String.IsNullOrEmpty(dailyArticle.Subtitle) ? "" : " - " + dailyArticle.Subtitle %></span>
+                       </a>
+                   </div>
+                <%}
                 if (!String.IsNullOrEmpty(dailyArticle.Author))
                 {
                     var htmlAuthors = dailyArticle.Author
@@ -141,8 +135,8 @@
                     %></div><%
                 }
                 
-                if (!String.IsNullOrEmpty(dailyArticle.Url)){
-                    %><div class="Url"><a href="<%= dailyArticle.Url %>"><span><%= dailyArticle.Url %></span></a></div><%
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
                 
             %></div>
@@ -155,7 +149,7 @@
            <div class="Reference DailyIssue">
                 <div class="Icon show-tooltip" title="<%= CategoryType.DailyIssue.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
                 if (!String.IsNullOrEmpty(Model.Name)){
-                    %><div class="Name"><span><%= Model.Name %></span></div><%
+                    %><div class="Name"><a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>"><span><%= Model.Name %></span></a></div><%
                 }
                 if (DateTime.TryParse(dailyIssue.PublicationDateYear + "-" + dailyIssue.PublicationDateMonth + "-" + dailyIssue.PublicationDateDay, out date))
                 {
@@ -173,6 +167,10 @@
                         } else {%><span>Nr. <%= dailyIssue.No %></span><%}
                     %></div><%
                 }
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
+                }
+
             %></div>
 <%
             break;
@@ -183,7 +181,7 @@
             <div class="Reference Magazine">
                 <div class="Icon show-tooltip" title="<%= CategoryType.Magazine.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
                 if (!String.IsNullOrEmpty(Model.Name)){
-                    %><div class="Name"><span><%= Model.Name %></span></div><%
+                    %><div class="Name"><a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>"><span><%= Model.Name %></span></a></div><%
                 }
                 if (!String.IsNullOrEmpty(magazine.Publisher)){
                     %><div class="Publisher"><span><%= magazine.Publisher %></span></div><%
@@ -191,11 +189,8 @@
                 if (!String.IsNullOrEmpty(magazine.ISSN)){
                     %><div class="Issn"><span>ISSN: <%= magazine.ISSN %></span></div><%
                 }
-                if (!String.IsNullOrEmpty(magazine.Url)){
-                    %><div class="Url"><a href="<%= magazine.Url %>"><span><%= magazine.Url %></span></a></div><%
-                }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL)){
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%
@@ -207,18 +202,13 @@
            <div class="Reference MagazineArticle">
                 <div class="Icon show-tooltip" title="<%= CategoryType.MagazineArticle.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
                 if (!String.IsNullOrEmpty(magazineArticle.Title))
-                {
-                    %><div class="Name"><%
-                    if (!String.IsNullOrEmpty(magazineArticle.Subtitle))
-                    {
-                        %><span><%= magazineArticle.Title %> – <%= magazineArticle.Subtitle %></span><%
-                    }
-                    else
-                    {
-                        %><span><%= magazineArticle.Title %></span><% 
-                    }
-                    %></div><%
-                }
+                {%>
+                   <div class="Name">
+                       <a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+                           <span><%= magazineArticle.Title %><%= String.IsNullOrEmpty(magazineArticle.Subtitle) ? "" : " - " + magazineArticle.Subtitle %></span>
+                       </a>
+                   </div>
+                <%}
                 if (!String.IsNullOrEmpty(magazineArticle.Author))
                    {
                        var htmlAuthors = magazineArticle.Author
@@ -238,9 +228,9 @@
                     }
                 %></div><%
                 }
-                if (!String.IsNullOrEmpty(magazineArticle.Url))
+                if (!String.IsNullOrEmpty(Model.Url))
                 {
-                    %><div class="Url"><a href="<%= magazineArticle.Url %>"><span><%= magazineArticle.Url %></span></a></div><%
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%
@@ -252,7 +242,7 @@
            <div class="Reference MagazineIssue">
                 <div class="Icon show-tooltip" title="<%= CategoryType.MagazineIssue.GetName() %>"><i class="fa fa-file-text-o"></i></div><% 
                 if (!String.IsNullOrEmpty(Model.Name)){
-                    %><div class="Name"><span><%= Model.Name %></span></div><%
+                    %><div class="Name"><a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>"><span><%= Model.Name %></span></a></div><%
                 }
                 if (!String.IsNullOrEmpty(magazineIssue.Title))
                 {
@@ -266,6 +256,9 @@
                 {
                     %><div class="Volume"><span>Jahrgang <%= magazineIssue.Volume %></span></div><%
                 }
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
+                }
             %></div>
 <%
             break;
@@ -276,18 +269,13 @@
             <div class="Reference VolumeChapter">
                 <div class="Icon show-tooltip" title="<%= CategoryType.VolumeChapter.GetName() %>"><i class="fa fa-book"></i></div><% 
                 if (!String.IsNullOrEmpty(volumeChapter.Title))
-                {
-                    %><div class="Name"><%
-                    if (!String.IsNullOrEmpty(volumeChapter.Subtitle))
-                    {
-                        %><span><%= volumeChapter.Title %> – <%= volumeChapter.Subtitle %></span><%
-                    }
-                    else
-                    {
-                        %><span><%= volumeChapter.Title %></span><% 
-                    }
-                    %></div><%
-                }
+                {  %>
+                    <div class="Name">
+                        <a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+                            <span><%= volumeChapter.Title %><%= String.IsNullOrEmpty(volumeChapter.Subtitle) ? "" : " - " + volumeChapter.Subtitle %></span>
+                        </a>
+                    </div>
+                <%}
                 if (!String.IsNullOrEmpty(volumeChapter.Author))
                    {
                        var htmlAuthors = volumeChapter.Author
@@ -365,9 +353,8 @@
                         {%>–<%= volumeChapter.PagesChapterTo %><%}
                     %></div><%
                 }
-                if (!String.IsNullOrEmpty(Model.WikipediaURL))
-                {
-                    %><div class="WikiUrl"><a href="<%= Model.WikipediaURL %>"><span><%= Model.WikipediaURL %></span></a></div><%
+                if (!String.IsNullOrEmpty(Model.Url)){
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%
@@ -379,18 +366,13 @@
            <div class="Reference WebsiteArticle">
                 <div class="Icon show-tooltip" title="<%= CategoryType.WebsiteArticle.GetName() %>"><i class="fa fa-laptop"></i></div><%
                 if (!String.IsNullOrEmpty(websiteArticle.Title))
-                {
-                    %><div class="Name"><%
-                    if (!String.IsNullOrEmpty(websiteArticle.Subtitle))
-                    {
-                        %><span><%= websiteArticle.Title %> – <%= websiteArticle.Subtitle %></span><%
-                    }
-                    else
-                    {
-                        %><span><%= websiteArticle.Title %></span><% 
-                    }
-                    %></div><%
-                }
+                {%>
+                    <div class="Name">
+                        <a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>">
+                            <span><%= websiteArticle.Title %><%= String.IsNullOrEmpty(websiteArticle.Subtitle) ? "" : " - " + websiteArticle.Subtitle %></span>
+                        </a>
+                    </div>
+                <%}
                 if (!String.IsNullOrEmpty(websiteArticle.Author))
                 {
                     var htmlAuthors = websiteArticle.Author
@@ -403,9 +385,9 @@
                 {
                     %><div class="PublicationDate"><span>erschienen am <%= date.ToString("dd.MM.yyyy")%></span></div><%
                 }
-                if (!String.IsNullOrEmpty(websiteArticle.Url))
+                if (!String.IsNullOrEmpty(Model.Url))
                 {
-                    %><div class="Url show-tooltip" title="<%= websiteArticle.Url %>"><a href="<%= websiteArticle.Url %>"><span><%= websiteArticle.Url %></span></a></div><%
+                    %><div class="Url"><a href="<%= Model.Url %>"><span><%= Model.Url %></span></a></div><%
                 }
             %></div>
 <%

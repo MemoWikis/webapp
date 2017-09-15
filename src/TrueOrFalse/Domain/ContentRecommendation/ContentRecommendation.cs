@@ -18,7 +18,7 @@ public class ContentRecommendation
         ((List<Set>)result.Sets).AddRange(sets.Take(amountSets));
 
         var amountCategories = amount <= 2 ? 0 : (int)Math.Floor((double)amount / 3);
-        var categories = set.Questions().SelectMany(q => q.Categories).Distinct().Where(c => c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
+        var categories = set.Questions().SelectMany(q => q.Categories).Distinct().Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
         categories.Shuffle();
         ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
 
@@ -44,10 +44,11 @@ public class ContentRecommendation
 
         var amountCategories = amount <= 2 ? 0 : (int)Math.Floor((double)amount / 3);
         var categories = Sl.R<CategoryRepository>().GetChildren(category.Id);
-        ((List<Category>)categories).AddRange(category.ParentCategories);
+        ((List<Category>)categories).AddRange(category.ParentCategories());
         //not yet included: "sibling"-categories (= children of parent categories).
         categories = categories.Distinct().ToList();
-        ((List<Category>)categories).RemoveAll(c => c.CountQuestions <= 5 || c == category); //only consider categories with at least 5 questions
+        ((List<Category>)categories).RemoveAll(c => Math.Max(c.CountQuestionsAggregated, c.CountQuestions) < 5 || c == category); //only consider categories with at least 5 questions
+
         categories.Shuffle();
         ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
 
@@ -68,7 +69,7 @@ public class ContentRecommendation
         ((List<Set>)result.Sets).AddRange(sets.Take(amountSets));
 
         var amountCategories = amount <= 2 ? 0 : (int) Math.Floor((double) amount/3);
-        var categories = question.Categories.Where(c => c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
+        var categories = question.Categories.Where(c => c.CountQuestionsAggregated > 5 || c.CountQuestions > 5).ToList(); //only consider categories with at least 5 questions
         categories.Shuffle();
         ((List<Category>)result.Categories).AddRange(categories.Take(amountCategories));
 
@@ -80,11 +81,15 @@ public class ContentRecommendation
 
     public static List<Set> GetPopularSets(int amount, IList<int> excludeSetIds = null, IList<int> avoidSetIds = null)
     {
-        //popular sets are by CMS
+        //popular sets are: all those created by memucho user and those set in CMS (settings table: suggested sets)
         if (amount == 0)
             return new List<Set>();
 
         var suggestedSets = Sl.R<DbSettingsRepo>().Get().SuggestedSets();
+        var setsByMemucho = Sl.R<SetRepo>().GetByCreatorId(Settings.MemuchoUserId);
+
+        ((List<Set>)suggestedSets).AddRange(setsByMemucho);
+        suggestedSets = suggestedSets.Distinct().ToList();
 
         if ((excludeSetIds != null) && excludeSetIds.Any())
             suggestedSets.RemoveAll(s => excludeSetIds.Contains(s.Id));

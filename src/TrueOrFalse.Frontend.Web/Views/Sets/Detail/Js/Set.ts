@@ -1,4 +1,5 @@
 var drawKnowledgeChart;
+var setVideo: SetVideo;
 
 class SetPage {
     constructor() {
@@ -12,7 +13,7 @@ class SetPage {
         //setShare.ShowModal();
 
         if (hasVideo) {
-            new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });
+            setVideo = new SetVideo(() => { new Pin(PinType.Question, KnowledgeWheel.ReloadSet) });
         } else {
             new Pin(PinType.Question, KnowledgeWheel.ReloadSet);
         }

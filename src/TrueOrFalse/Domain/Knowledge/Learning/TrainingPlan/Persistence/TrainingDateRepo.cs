@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NHibernate;
+using NHibernate.Linq;
 
 public class TrainingDateRepo : RepositoryDbBase<TrainingDate>
 {
@@ -39,5 +41,19 @@ public class TrainingDateRepo : RepositoryDbBase<TrainingDate>
             .Where(d => d.User == currentUser)
             .List<TrainingDate>();
         // Equals about: Select * from trainingdate as td LEFT JOIN trainingplan as tp ON td.TrainingPlan_Id = tp.Id LEFT JOIN date as d ON tp.Date_id = d.Id WHERE d.User_id = currentUser
+    }
+
+    public void DeleteQuestionInAllTrainingDates(int questionId)
+    {
+        var potentiallyAffectedTrainingDates = _session
+            .Query<TrainingDate>()
+            .Where(d => d.AllQuestionsJson.Contains(questionId.ToString()))
+            .ToList();
+        var affectedDates = potentiallyAffectedTrainingDates.Where(d => d.AllQuestions.Any(q => q.QuestionId == questionId)).ToList();
+
+        foreach (var affecteDate in affectedDates)
+        {
+            affecteDate.AllQuestions = affecteDate.AllQuestions.Where(q => q.QuestionId != questionId).ToList();
+        }
     }
 }

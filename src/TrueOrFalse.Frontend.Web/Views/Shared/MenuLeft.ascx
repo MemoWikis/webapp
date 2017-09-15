@@ -52,11 +52,11 @@
 
             
                 <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
-                    <i class="fa fa-caret-right"></i> Fragesätze
+                    <i class="fa fa-caret-right"></i> Lernsets
                 
                     <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" 
                         onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; "
-                        title="Neuen Fragesatz erstellen"></i>
+                        title="Neues Lernset erstellen"></i>
                 </a>    
                 <%
                     var visitedS = new SessionUiData().VisitedSets;
@@ -64,7 +64,7 @@
                     foreach (var set in visitedS){ index++; %>
                         <% var activeClass = "";  if (index == 1) { activeClass = Model.Active(MenuEntry.QuestionSetDetail); } %>
             
-                        <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Fragesatz: <%=set.Name%>" data-placement="right">
+                        <a href="<%= Links.SetDetail(Url, set.Name, set.Id) %>" class="show-tooltip list-group-item set sub <%= activeClass + " " + visitedS.CssFirst(index) + visitedS.CssLast(index) %>" title="Lernset: <%=set.Name%>" data-placement="right">
                             <i class="fa fa-caret-right"></i> <%=set.Name%>
                         </a>
                 <% } %>
@@ -73,7 +73,7 @@
                 <a id="mainMenuBtnQuestions" class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
                     <i class="fa fa-caret-right"></i> Fragen
                     <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" 
-                        onclick="window.location = '<%= Links.CreateQuestion(Url) %>'; return false; "
+                        onclick="window.location = '<%= Links.CreateQuestion() %>'; return false; "
                         title="Frage erstellen"></i>
                 </a>
 
@@ -87,7 +87,7 @@
                         if(question.Set != null)
                             url = Links.AnswerQuestion(Url, question.Question, question.Set);
                         else if (question.SearchSpec != null)
-                            url = Links.AnswerQuestion(Url, question.SearchSpec);
+                            url = Links.AnswerQuestion(question.SearchSpec);
                         else
                             url = Links.AnswerQuestion(question.Question);
 

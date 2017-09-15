@@ -3,48 +3,57 @@
 
 <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
 
-<div class="SessionHeading">
+<% if(!Model.IsInWidget) { %>
+    <div class="SessionHeading">
                     
-    <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
+        <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
 
-    <div class="SessionTitle">
-        <% if(Model.TestSession.IsSetSession) { %>
-            <div class="CollectionType">
-                Fragesatz
-            </div>
-            <div class="LabelWrapper">
-                <a class="LabelLink" href="<%= Model.TestSession.SetLink %>">
-                    <span class="label label-set show-tooltip" data-original-title="Zum Fragesatz <%= Model.TestSession.SetName %> mit <%= Model.TestSession.SetQuestionCount %> Fragen"><%: Model.TestSession.SetName %></span>
-                </a>
-            </div>
-        <% } %>
+        <div class="SessionTitle">
+            <% if(Model.TestSession.IsSetSession) { %>
+                <div class="CollectionType">
+                    Lernset
+                </div>
+                <div class="LabelWrapper">
+                    <a class="LabelLink" href="<%= Model.TestSession.SetLink %>">
+                        <span class="label label-set show-tooltip" data-original-title="Zum Lernset <%= Model.TestSession.SetName %> mit <%= Model.TestSession.SetQuestionCount %> Fragen"><%: Model.TestSession.SetName %></span>
+                    </a>
+                </div>
+            <% } %>
 
-        <% if(Model.TestSession.IsSetsSession) { %>
-            <%= Model.TestSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.TestSession.SetsToTestIds.Count %> Fragesätze</span>)
-        <% } %>
+            <% if(Model.TestSession.IsSetsSession) { %>
+                <%= Model.TestSession.SetListTitle %> (<span style="white-space: nowrap"><%= Model.TestSession.SetsToTestIds.Count %> Lernsets</span>)
+            <% } %>
 
-        <% if(Model.TestSession.IsCategorySession) { %>
-            <div class="CollectionType">
-                Thema 
-            </div>
-            <div class="LabelWrapper">
-                <a class="LabelLink" href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>">
-                    <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
-                </a>
-            </div>
-        <% } %>
+            <% if(Model.TestSession.IsCategorySession) { %>
+                <div class="CollectionType">
+                    Thema 
+                </div>
+                <div class="LabelWrapper">
+                    <a class="LabelLink" href="<%= Links.CategoryDetail(Model.TestSession.CategoryToTest.Name, Model.TestSession.CategoryToTest.Id) %>">
+                        <span class="label label-category"><%: Model.TestSession.CategoryToTest.Name %></span>
+                    </a>
+                </div>
+            <% } %>
+        </div>
     </div>
-</div>
+<% } %>
+
 <div class="SessionBar">
     <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
     <div class="SessionType">
+        <% if (Model.IsInWidget) { %>
+            <span>
+                Testen
+            </span>
+        <% } else { %>
+        
         <span class="show-tooltip"
             data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
                 <ul>
                     <li>werden die Fragen zufällig ausgewählt</li>
                     <li>hast du jeweils nur einen Antwortversuch</li>
                 </ul>
-            </div>"%>"
+            </div>" %>"
             data-html="true" style="float: left;">
             Testen
             <span class="fa-stack fa-1x" style="font-size: 10px; top: -1px;">
@@ -52,6 +61,7 @@
                 <i class="fa fa-info fa-stack-1x" style=""></i>
             </span>
         </span>
+        <% } %>
     </div>
     <div class="ProgressBarContainer">
         <div id="progressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.TestSessionCurrentStepPercentage + "%" %>;">

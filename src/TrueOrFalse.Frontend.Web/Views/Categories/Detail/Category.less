@@ -28,7 +28,7 @@ span.CategoryType {
 .ReferenceAllInlineButAuthorStyle;
 
 .Reference {
-    margin-bottom: 5px;
+    margin-bottom: 20px;
 
     .Icon,
     .Name {
@@ -98,20 +98,59 @@ span.CategoryType {
 /*  Markdown Content
 ----------------------------------------------------------*/
 
-.MarkdownContent h2 {
-    margin-top: 40px;
-    margin-bottom: 25px;
+.MarkdownContent {
+
+    p, ul, ol {
+        max-width: 720px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h2 {
+        margin-top: 40px;
+        margin-bottom: 25px;
+    }
+
+    h3 {
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+    }
+
+    p {
+        .media-xs-up({
+            font-size: 16px;
+        });
+        margin-bottom: 20px;
+    }
+
+    ul {
+        margin-bottom: 20px;
+    }
 }
 
-.MarkdownContent h3 {
-    margin-top: 35px;
-    margin-bottom: 20px;
+.MarkdownContent {
+
+    .Card {
+
+        h2 {
+            .h2;
+        }
+
+        h3 {
+           .h3;
+        }
+
+        h4 {
+            .h4;
+        }
+    }
 }
 
-.MarkdownContent h4 {
-    margin-top: 30px;
-    margin-bottom: 15px;
-}
 
 .Box + h2, .Box + h3, .Box + h4 {
     margin-top: 20px;
@@ -125,15 +164,8 @@ span.CategoryType {
     }
 }
 
-
 .Box + h2, .Box + h3, .Box + h4 {
     margin-top: 50px;
-}
-
-.MarkdownContent p {
-    /*font-size: 18px;*/
-    line-height: 1.6em;
-    margin-bottom: 20px;
 }
 
 .Box p {
@@ -143,7 +175,11 @@ span.CategoryType {
 }
 
 .Card.ItemList {
-    padding: 10px;
+    padding: 10px 0 0 15px;
+
+    .CardContent {
+        max-height: none !important;
+    }
 
     .ItemTitle, .ItemText {
         line-height: 20px;
@@ -219,7 +255,8 @@ span.CategoryType {
 .ItemRow {
 
     .media-xs-up ({
-        height: 85px;
+        max-height: 76px;
+        margin-bottom: 18px;
         overflow: hidden;
     });
 
@@ -253,6 +290,7 @@ span.CategoryType {
 }
 
 .WikiLink {
+    margin-top: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -366,4 +404,341 @@ p:empty {
 .BreadcrumbsMobile {
    i.fa-home {font-size: 120%;}
    i.fa-chevron-right {font-size: 80%;}
+}
+
+
+html.flexbox:not(.Explorer):not(.Safari) {
+    .CardsLandscape {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+
+        .CardColumn {
+            display: flex;
+        }
+
+        .Card {
+
+            display: flex;
+            width: 100%;
+
+            .ImageContainer {
+                flex: 0 0 100px;
+                flex-grow: 0%; //sic!
+                flex-shrink: 0%; //sic!
+                flex-basis: 100px;
+                align-self: flex-start
+            }
+
+            .ContentContainer {
+                margin-left: 0 !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                flex: auto;
+            }
+
+            .CardContent {
+                margin-left: 0;
+                height: auto;
+                max-height: 243px;
+                border-bottom: none !important;
+            }
+
+            .BottomBar {
+                border-top: 1px solid @ruler-grey;
+                margin-left: 0 !important;
+                margin-right: 15px !important;
+            }
+        }
+    }
+}
+
+/*------------------------------------------------------
+    TopicNavigation
+-------------------------------------------------------*/
+
+#topicNavigation {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    img {
+        border-radius: 50%;
+        box-shadow: 5px 5px 10px @gray-lighter;
+    }
+
+    a {
+        color: @global-text-color;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    .set-question-count {
+        color: @gray-light;
+    }
+
+    .topic {
+        .row {
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .stack-below(@extra-breakpoint-cards);
+
+        .ImageContainer {
+            max-width: 80px;
+            min-width: 70px;
+
+            .LicenseInfo {
+                text-align: center;
+                color: @gray-light;
+
+                &:after {
+                    content: "Lizenz";
+                }
+            }
+        }
+
+        .topic-name {
+            max-height: 65px;
+            overflow: hidden;
+
+            @media (max-width: (@extra-breakpoint-cards - 1px)) {
+                max-height: none;
+            }
+        }
+
+        .KnowledgeBarLegend {
+            .greyed;
+            font-size: 12px;
+            line-height: 1.5em;
+            //text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.2s linear;
+
+             .media-below-sm ({
+                opacity: 1;
+            });
+        }
+
+        &:hover {   //show on hover over navigation tile
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
+        }
+    }
+
+    .category-knowledge-bar {
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
+    }
+}
+    /*------------------------------------------------------
+    NEW STYLES
+-------------------------------------------------------*/
+.navLinks {
+    display: inline;
+    padding-left: 12px;
+    padding-top: 2px;
+
+    .visible-lg {
+        display: inline !important;
+
+        .media-below-lg({
+            display: none !important;
+        });
+    }
+
+    > a, > div {
+        display: inline-block !important;
+        margin-right: 10px !important;
+        float: none !important;
+    }
+}
+
+#MasterMainColumn {
+    line-height: 1.5;
+
+    .new-font-style();
+    color: @global-text-color;
+
+    h1, h2, h3, h4, h5 {
+        font-family: Open Sans !important;
+        line-height: 1.2;
+    }
+
+    h1 {
+        font-size: @font-size-h1-mem;
+        font-style: normal;
+        font-weight: 400;
+        margin-top: 5px;
+
+        .media-below-xs( {
+            font-size: @font-size-h2-mem;
+        });
+    }
+
+    h2 {
+        font-size: @font-size-h2-mem;
+
+        .media-below-xs({
+            font-size: @font-size-h3-mem;
+        });
+    }
+
+    h3 {
+        font-size: @font-size-h3-mem;
+
+        .media-below-xs({
+            font-size: @font-size-h4-mem;
+        });
+    }
+
+    h4 {
+        font-size: @font-size-h3-mem;
+
+        .media-below-xs({
+            font-size: @font-size-h4-mem;
+        });
+    }
+}
+
+#MainWrapper {
+    background-color: white;
+    padding: 20px;
+
+    .Box {
+        padding: 0;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+.BoxButtonBar {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.CardsPortrait, .CardsLandscape {
+    margin-top: 40px !important;
+}
+
+.Card {
+
+    .CardContent {
+
+        .CardsPortrait & {
+            @media (min-width: @extra-breakpoint-cards) {
+                height: 230px !important;
+            }
+        }
+    }
+
+    .ItemInfo {
+
+        font-size: 14px;
+
+        .media-xs-up({
+            font-size: 16px !important;
+        });
+    }
+
+    .ItemTitle {
+        .media-xs-up({
+            font-size: 18px !important;
+        });
+        -webkit-hyphens: auto;
+        hyphens: auto;
+    }
+
+    .ItemText {
+
+        line-height: 1.5;
+
+        .media-xs-up({
+            font-size: 16px !important;
+        });
+    }
+}
+
+.LabelList .LabelItem {
+
+    &:before {
+        top: 1.1em !important;
+    }
+}
+
+
+/*.show-knowledge-bar-as-underlining() {
+    #ItemMainInfo header {
+        border: none !important;
+    }
+
+    #MainHeading {
+        .clearfix;
+        float: left;
+        margin-bottom: 20px;
+
+        h1 {
+            float: left;
+        }
+
+        .category-knowledge-bar {
+            width: 100%;
+            height: 8px;
+        }
+    }
+}*/
+
+#AboveMainHeading {
+    margin-top: -5px;
+
+    @media (min-width: 991px) {
+        margin-top: -21px;
+    }
+}
+
+
+.testSetWidget {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    h5 {
+        margin-bottom: 20px;
+    }
 }

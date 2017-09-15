@@ -5,7 +5,7 @@ public class AboutController : Controller
     [SetMenu(MenuEntry.None)]
     public ActionResult AboutMemucho()
     {
-        return View(new BaseModel());
+        return View(new AboutMemuchoModel());
     }
 
     [SetMenu(MenuEntry.None)]

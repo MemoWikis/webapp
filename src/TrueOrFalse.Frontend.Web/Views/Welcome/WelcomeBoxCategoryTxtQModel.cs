@@ -28,7 +28,7 @@ public class WelcomeBoxCategoryTxtQModel : BaseModel
         CategoryName = category.Name;
         CategoryDescription = categoryDescription ?? category.Description;
         CategoryDetailLink = urlHelper => Links.CategoryDetail(category.Name, category.Id);
-        QuestionCount = category.CountQuestions;
+        QuestionCount = category.CountQuestionsAggregated;
         Questions = R<QuestionRepo>().GetByIds(questionIds) ?? new List<Question>(); //not checked if questionIds are part of category!
         if (Questions.Count < 1) Questions.Add(new Question());
 

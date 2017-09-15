@@ -114,6 +114,8 @@ namespace TrueOrFalse.Tests
         [Test]
         public void Should_order_search_result()
         {
+            Resolve<ReIndexAllQuestions>().Run();
+
             var context = ContextQuestion.New()
                 .AddQuestion(questionText: "Question1", solutionText: "Answer1").TotalQualityAvg(10).TotalValuationAvg(50)
                 .AddQuestion(questionText: "Question2", solutionText: "Answer2").TotalQualityAvg(50).TotalValuationAvg(1)

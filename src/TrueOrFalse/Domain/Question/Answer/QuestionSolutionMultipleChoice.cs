@@ -6,7 +6,9 @@ using TrueOrFalse.MultipleChoice;
 
 public class QuestionSolutionMultipleChoice : QuestionSolution
 {
+    private const string AnswerListDelimiter = "</br>";
     public List<Choice> Choices = new List<Choice>();
+    public bool isSolutionOrdered;
 
     public void FillFromPostData(NameValueCollection postData)
     {
@@ -34,27 +36,61 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
                 Text = choices[i]
             });
         }
+
+        isSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
     }
 
     public override bool IsCorrect(string answer)
     {
-        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries);
-        string[] Solutions = this.CorrectAnswer().Split(new string[] { "</br>" }, StringSplitOptions.RemoveEmptyEntries);
-        return Enumerable.SequenceEqual(Answers.OrderBy(t => t), Solutions.OrderBy(t => t));
+        string[] Answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        string[] Solutions = CorrectAnswer().Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+        return Answers.OrderBy(t => t).SequenceEqual(Solutions.OrderBy(t => t));
     }
 
     public override string CorrectAnswer()
     {
-        string CorrectAnswer = "</br>";
-        foreach (var SingleChoice in this.Choices)
+        string CorrectAnswer = AnswerListDelimiter;
+        foreach (var SingleChoice in Choices)
         {
-            if (SingleChoice.IsCorrect == true)
+            if (SingleChoice.IsCorrect)
             {
                 CorrectAnswer += SingleChoice.Text;
-                if (SingleChoice != this.Choices[(this.Choices.Count - 1)])
-                    CorrectAnswer += "</br>";
+                if (SingleChoice != Choices[Choices.Count - 1])
+                    CorrectAnswer += AnswerListDelimiter;
             }
         }
         return CorrectAnswer;
+    }
+
+    public override string GetCorrectAnswerAsHtml()
+    {
+        string htmlListItems;
+
+        var correctAnswer = CorrectAnswer();
+
+        if (correctAnswer == AnswerListDelimiter)
+            return "";
+
+        if (!correctAnswer.Contains(AnswerListDelimiter))
+        {
+            htmlListItems = $"<li>{correctAnswer}</li>";
+        }
+        else
+        {
+            htmlListItems = correctAnswer
+                .Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(a => $"<li>{a}</li>")
+                .Aggregate((a, b) => a + b);
+        }
+
+        return $"<ul>{htmlListItems}</ul>";
+    }
+
+    public override string GetAnswerForSEO()
+    {
+        return CorrectAnswer()
+            .Split(new [] {AnswerListDelimiter}, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => $"{x}, ")
+            .Aggregate((a, b) => a + b);
     }
 }

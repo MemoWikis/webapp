@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 
 [Serializable]
 [DebuggerDisplay("TemplateName: {TemplateName}")]
@@ -10,9 +9,14 @@ public class TemplateJson
 {
     public string TemplateName;
 
-    public int CategoryId;//Doesn't have to be included in Json, is passed internally
+    public int ContainingCategoryId;//Doesn't have to be included in Json, is passed internally
+
+    public string Load;
+    public string Order;
 
     public string Title;
+
+    public string Text;
 
     public int TitleRowCount;
 
@@ -48,6 +52,8 @@ public class TemplateJson
     }
 
     public int SetRowCount;
+
+    public int CategoryId;
 
     public string CssClasses;
 }

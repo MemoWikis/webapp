@@ -6,9 +6,13 @@ public class CategoryRowModel : BaseModel
 {
     public Category Category;
     public int QuestionCount;
+    public int SetCount;
     public int CategoryId;
     public string CategoryName;
     public object DescriptionShort;
+    public bool IsMediaCategory;
+    public bool IsEducationCategory;
+    public string CategoryTypeName;
     public bool HasMarkdownContent;
 
     public Func<UrlHelper, string> DetailLink;
@@ -30,11 +34,16 @@ public class CategoryRowModel : BaseModel
         CategoryId = category.Id;
         CategoryName = category.Name;
         DescriptionShort = "";
+        var catTypeGroup = Category.Type.GetCategoryTypeGroup();
+        IsMediaCategory = catTypeGroup == CategoryTypeGroup.Media;
+        IsEducationCategory = catTypeGroup == CategoryTypeGroup.Education;
+        CategoryTypeName = Category.Type.GetName();
         HasMarkdownContent = !string.IsNullOrEmpty(category.TopicMarkdown);
 
         IsInWishknowledge = valution.IsInWishKnowledge();
 
-        QuestionCount = category.CountQuestions;
+        QuestionCount = category.CountQuestionsAggregated;
+        SetCount = category.GetCountSets();
 
         UserCanEdit = _sessionUser.IsInstallationAdmin;
 
@@ -43,7 +52,7 @@ public class CategoryRowModel : BaseModel
         DateCreated = category.DateCreated.ToString("dd.MM.yyyy");
         DateCreatedLong = category.DateCreated.ToString("U");//Change to "g" format?
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         CorrectnesProbability = category.CorrectnessProbability;

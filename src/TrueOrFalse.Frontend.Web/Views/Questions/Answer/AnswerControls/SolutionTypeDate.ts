@@ -9,7 +9,6 @@
 
         this.AnswerQuestion = new AnswerQuestion(this);
 
-        $("#txtAnswer").keypress(() => { this.AnswerQuestion.OnAnswerChange(); });
         $("#txtAnswer").keyup(() => { this.SetDateUi(); });
 
         var metaData = this.GetJsonMetaData();
@@ -22,12 +21,6 @@
 
     GetAnswerData(): {} {
         return { answer: $("#txtAnswer").val() };
-    }
-
-    OnNewAnswer() {
-        $("#txtAnswer").focus();
-        $("#txtAnswer").setCursorPosition(0);
-        $("#txtAnswer").select();
     }
 
     SetDateUi() {

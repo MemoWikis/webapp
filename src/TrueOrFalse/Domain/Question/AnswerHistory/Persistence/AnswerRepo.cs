@@ -172,11 +172,19 @@ public class AnswerRepo : RepositoryDb<Answer>
 
     public Answer GetByLearningSessionStepGuid(Guid learningSessionStepGuid)
     {
-        return learningSessionStepGuid == default(Guid) 
-            ? null 
-            : _session.QueryOver<Answer>()
-                .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
-                .SingleOrDefault();
+        if(learningSessionStepGuid == default(Guid))
+            return null;
+
+        var answerInteractions = _session.QueryOver<Answer>()
+            .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
+            .List();
+
+        if (!answerInteractions.Any())
+            return null;
+
+        return answerInteractions
+            .OrderByDescending(a => a.Id)
+            .Last();
     }
 
     public override void Create(Answer answer)

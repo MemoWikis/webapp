@@ -12,7 +12,6 @@ public class CategoryTypeDailyArticle : CategoryTypeBase<CategoryTypeDailyArticl
     public string Title;
     public string Subtitle;
     public string Author;
-    public string Url;
     public string PagesArticleFrom;
     public string PagesArticleTo;
 
@@ -25,7 +24,7 @@ public class CategoryTypeDailyArticle : CategoryTypeBase<CategoryTypeDailyArticl
             if (Category == null)
                 return null;
 
-            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.Daily);
+            return Category.ParentCategories().FirstOrDefault(c => c.Type == CategoryType.Daily);
         }
     }
 
@@ -38,7 +37,7 @@ public class CategoryTypeDailyArticle : CategoryTypeBase<CategoryTypeDailyArticl
             if (Category == null)
                 return null;
 
-            return Category.ParentCategories.FirstOrDefault(c => c.Type == CategoryType.DailyIssue);
+            return Category.ParentCategories().FirstOrDefault(c => c.Type == CategoryType.DailyIssue);
         }
     }
 

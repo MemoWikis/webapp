@@ -19,6 +19,8 @@ public class QuestionViewMap : ClassMap<QuestionView>
         References(x => x.LearningSession).Cascade.None();
         Map(x => x.LearningSessionStepGuidString).Column("LearningSessionStepGuid").CustomSqlType("varchar(36)").Unique();
 
+        References(x => x.WidgetView).Cascade.None();
+
         Map(x => x.Migrated);
 
         Map(x => x.DateCreated);

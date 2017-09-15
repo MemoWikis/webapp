@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="Dein Ergebnis" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<TestSessionResultModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<%@ Register Src="~/Views/Questions/Answer/TestSession/TestSessionResultHead.ascx" TagPrefix="uc1" TagName="TestSessionResultHead" %>
 
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
@@ -18,12 +16,24 @@
     <% if(Model.TestSession.SessionNotFound) { %>
     
         <h2>Uuups...</h2>
-        <p>die Testsitzung ist nicht mehr aktuell.</p>
+        <p><br />Du hattest hier dein Wissen getestet. Leider kannst du nicht fortsetzen, weil deine Sitzung inzwischen abgelaufen ist.</p>
+        <p><a href="/">Zur Startseite</a></p>
 
     <% } else { %>
-
+    
         <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultHead.ascx", Model);  %>
     
+<%--        <% if (Model.IsLoggedIn)
+                Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User));
+            else
+                Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx",
+                    new ActivityLevelProgressModel(
+                        new User {
+                            ActivityPoints = Sl.SessionUser.getTotalActivityPoints(),
+                            ActivityLevel = UserLevelCalculator.GetLevel(Sl.SessionUser.getTotalActivityPoints())
+                        }));
+           %>--%>
+
         <% if (!Model.IsLoggedIn) { %>
             <div class="bs-callout bs-callout-info" id="divCallForRegistration" style="width: 100%; margin-top: 0; text-align: left; opacity: 0; display: none;">
                 <div class="row">
@@ -51,10 +61,10 @@
                     </div>
                     <div class="col-xs-12" style="text-align: right;">
                         <a href="<%= Links.AboutMemucho() %>" class="btn btn-link">Erfahre mehr über memucho</a>
-                        <a href="<%= Url.Action("Register", "Register") %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-success shakeInInterval" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a> <br/>
                     </div>
                 </div>
-            </div> 
+            </div>
         <% } %>
 
 
@@ -68,29 +78,31 @@
                         Zur Wissenszentrale
                     </a>
                     <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip" style="padding-right: 10px"
-                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus dem gleichen Fragesatz");
-                                                      else if (Model.TestSession.IsSetsSession) Response.Write("aus den gleichen Fragesätzen");
-                                                      else if (Model.TestSession.IsCategorySession) Response.Write("zum gleichen Thema");%>
+                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus demselben Lernset");
+                                                      else if (Model.TestSession.IsSetsSession) Response.Write("aus denselben Lernsets");
+                                                      else if (Model.TestSession.IsCategorySession) Response.Write("zum selben Thema");%>
                         " rel="nofollow">
                         <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
                     </a>
                 </div>
-            
+
                 <% if (Model.ContentRecommendationResult != null) { %>
-                    <h4>Andere Nutzer lernen auch:</h4>
-                    <div class="row CardsLandscape" id="contentRecommendation">
-                        <% foreach (var set in Model.ContentRecommendationResult.Sets)
-                           {
-                                Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                           } %>
-                        <% foreach (var category in Model.ContentRecommendationResult.Categories)
-                           {
-                                Html.RenderPartial("~/Views/Shared/Cards/CardSingleCategory.ascx", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
-                           } %>
-                        <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
-                           { 
-                                Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
-                           } %>
+                    <div style="margin-top: 80px;">
+                        <h4>Das könnte dich auch interessieren:</h4>
+                        <div class="row CardsLandscape" id="contentRecommendation">
+                            <% foreach (var set in Model.ContentRecommendationResult.Sets)
+                               {
+                                    Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                               } %>
+                            <% foreach (var category in Model.ContentRecommendationResult.Categories)
+                               {
+                                    Html.RenderPartial("~/Views/Shared/Cards/CardSingleCategory.ascx", CardSingleCategoryModel.GetCardSingleCategoryModel(category.Id));
+                               } %>
+                            <% foreach (var set in Model.ContentRecommendationResult.PopularSets)
+                               { 
+                                    Html.RenderPartial("~/Views/Welcome/WelcomeBoxSingleSet.ascx", WelcomeBoxSingleSetModel.GetWelcomeBoxSetSingleModel(set.Id));
+                               } %>
+                        </div>
                     </div>
                 <% } %>
             </div>

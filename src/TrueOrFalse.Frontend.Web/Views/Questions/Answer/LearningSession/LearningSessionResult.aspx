@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="Ergebnis Lernsitzung" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<LearningSessionResultModel>" %>
-<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -71,6 +70,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     
+    
+<%--    <% if (Model.IsLoggedIn)
+           Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User)); %>--%>
+
     <h2 style="margin-bottom: 15px; margin-top: 0px;">
         <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                         if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
@@ -106,7 +109,7 @@
             </div>
 
             <div class="SummaryText" style="clear: left;">
-                <p>In dieser Lernsitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
+                <p style="margin-bottom: 20px;">In dieser Lernsitzung hast du <%= Model.NumberUniqueQuestions %> Fragen gelernt und dabei</p>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row">
@@ -130,25 +133,25 @@
             </div>
             <div class="buttonRow">
                 <% if (Model.LearningSession.IsDateSession) { %>
-                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin/Fragesatz beginnen">
-                        Neue Lernsitzung
+                    <a href="/Termin/Lernen/<%=Model.LearningSession.DateToLearn.Id %>" class="btn btn-link show-tooltip" style="padding-right: 10px" title="Eine neue Lernsitzung zu diesem Termin beginnen">
+                        Weiterlernen
                     </a>
                     <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-primary" style="padding-right: 10px">
                         Zur Wissenszentrale
                     </a>
                 <% } else if (Model.LearningSession.IsSetSession) { %>
-                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Fragesatz (Übersicht)</a>
+                    <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" class="btn btn-link" style="padding-right: 10px">Zum Lernset (Übersicht)</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>
                 <% } else if (Model.LearningSession.IsSetsSession) { %>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>
                 <% } else if (Model.LearningSession.IsCategorySession) { %>
                     <a href="<%= Links.CategoryDetail(Model.LearningSession.CategoryToLearn.Name, Model.LearningSession.CategoryToLearn.Id) %>" class="btn btn-link" style="padding-right: 10px">Zum Thema</a>
                     <a href="<%= Links.StartLearningSession(Model.LearningSession) %>" class="btn btn-primary" style="padding-right: 10px">
-                        Neue Lernsitzung
+                        Weiterlernen
                     </a>   
                 <% } else if (Model.LearningSession.IsWishSession) { %>
                     <a href="<%= Links.Knowledge() %>" class="btn btn-link" style="padding-right: 10px">Zur Wissenszentrale</a>
@@ -161,8 +164,8 @@
             </div>
             
             <div id="detailedAnswerAnalysis">
-                <h3>Auswertung deiner Antworten</h3>
-                <p class="greyed" style="font-size: 11px;">
+                <h3 style="margin-bottom: 25px;">Auswertung deiner Antworten</h3>
+                <p class="greyed fontSizeSmall">
                     <a href="#" data-action="showAllDetails">Alle Details einblenden</a> | <a href="#" data-action="hideAllDetails">Alle Details ausblenden</a> | <a href="#" data-action="showDetailsExceptRightAnswer">Details zu allen nicht korrekten Fragen einblenden</a>
                 </p>
                 <% foreach (var uniqueQuestion in Model.AnsweredStepsGrouped)
@@ -217,13 +220,12 @@
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-2 answerDetailImage">
                                                     <div class="ImageContainer ShortLicenseLinkText">
-                                                    <%= GetQuestionImageFrontendData.Run(uniqueQuestion.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(Url, uniqueQuestion.First().Question)) %> 
+                                                    <%= GetQuestionImageFrontendData.Run(uniqueQuestion.First().Question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(uniqueQuestion.First().Question)) %> 
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-9 col-sm-10">
-                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).CorrectAnswer()%><br/></p>
-                                                    <%
-                                                    int counter = 1;
+                                                    <p class="rightAnswer">Richtige Antwort: <%= GetQuestionSolution.Run(uniqueQuestion.First().Question).GetCorrectAnswerAsHtml() %><br/></p>
+                                                    <% int counter = 1;
                                                     foreach (var step in uniqueQuestion)
                                                     {
                                                         if (step.AnswerState == StepAnswerState.NotViewedOrAborted)
@@ -244,7 +246,7 @@
                                                         }
                                                         else
                                                         {
-                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= step.Answer.AnswerText %></p><%
+                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHTML(step.Answer.AnswerText, step.Question.SolutionType) %></p><%
                                                         }
                                                         counter++;
                                                     } %>
@@ -266,11 +268,11 @@
             <% if(Model.LearningSession.IsSetSession) { %>
                 <div class="boxInfo">
                     <div class="boxInfoHeader">
-                        Fragesatz-Info
+                        Lernset-Info
                     </div>
                     <div class="boxInfoContent">
                         <p>
-                            Du hast diesen Fragesatz gelernt:<br />
+                            Du hast dieses Lernset gelernt:<br />
                             <a href="<%= Links.SetDetail(Url, Model.LearningSession.SetToLearn) %>" style="display: inline-block;">
                                 <span class="label label-set"><%: Model.LearningSession.SetToLearn.Name %></span>
                             </a> (insgesamt <%=Model.LearningSession.TotalPossibleQuestions %> Fragen)
@@ -286,7 +288,7 @@
                     </div>
                     <div class="boxInfoContent">
                         <p>
-                            Du hast diese Fragesätze gelernt:
+                            Du hast dieses Lernset gelernt:
                         </p>
                         <div class="LabelList">
                             <% foreach (var set in Model.SetsToLearn) { %>
@@ -312,7 +314,7 @@
                         </p>
                         <ul>
                             <li><a href="<%= Links.QuestionsWish() %>"><%= Model.WishCountQuestions %> Fragen</a></li>
-                            <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Frage<%= StringUtils.PluralSuffix(Model.WishCountSets,"sätze","satz") %></a></li>
+                            <li><a href="<%= Links.SetsWish() %>"><%= Model.WishCountSets %> Lernset<%= StringUtils.PluralSuffix(Model.WishCountSets,"s") %></a></li>
                         </ul>
                     </div>
                 </div>
@@ -364,7 +366,7 @@
                                 </a>
                                     
                                 <div class="dateSets" style="display: inline; position: relative; display: none;" >
-                                    aus <%= Model.DateToLearn.Sets.Count %> <%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "Fragesätzen","Fragesatz") %>
+                                    aus <%= Model.DateToLearn.Sets.Count %> Lernset<%= StringUtils.PluralSuffix(Model.DateToLearn.Sets.Count, "s") %>
                                     <%  foreach(var set in Model.DateToLearn.Sets){ %>
                                         <a href="<%= Links.SetDetail(Url, set) %>">
                                             <span class="label label-set"><%= set.Name %></span>

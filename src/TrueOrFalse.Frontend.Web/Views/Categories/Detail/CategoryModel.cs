@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using TrueOrFalse.Web;
 
@@ -22,7 +23,10 @@ public class CategoryModel : BaseModel
     public IList<Category> CategoriesParent;
     public IList<Category> CategoriesChildren;
 
-    public IList<Set> Sets;
+    public IList<Set> AggregatedSets;
+    public IList<Question> AggregatedQuestions;
+    public int AggregatedSetCount;
+    public int AggregatedQuestionCount;
     public IList<Question> TopQuestions;
     public IList<Question> TopQuestionsWithReferences;
     public List<Question> TopQuestionsInSubCats = new List<Question>();
@@ -40,15 +44,18 @@ public class CategoryModel : BaseModel
 
     public ImageFrontendData ImageFrontendData;
 
-    public string WikiUrl;
+    public string WikipediaURL;
+    public string Url;
+    public string UrlLinkText;
 
     public bool IsOwnerOrAdmin;
 
-    public int CountQuestions;
+    public int CountAggregatedQuestions;
     public int CountReferences;
     public int CountWishQuestions;
     public int CountSets;
-    public int CountCreators;
+
+    public const int MaxCountQuestionsToDisplay = 20;
 
     public int CorrectnesProbability;
     public int AnswersTotal;
@@ -67,11 +74,13 @@ public class CategoryModel : BaseModel
         _categoryRepo = R<CategoryRepository>();
 
         if(loadKnowledgeSummary)
-            KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, category);
+            KnowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(category.Id, UserId);
 
         IsInWishknowledge = Sl.CategoryValuationRepo.IsInWishKnowledge(category.Id, UserId);
 
-        WikiUrl = category.WikipediaURL;
+        WikipediaURL = category.WikipediaURL;
+        Url = category.Url;
+        UrlLinkText = category.UrlLinkText;
         Category = category;
 
         Id = category.Id;
@@ -87,41 +96,40 @@ public class CategoryModel : BaseModel
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
 
-        CategoriesParent = category.ParentCategories;
+        CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
 
         CorrectnesProbability = category.CorrectnessProbability;
         AnswersTotal = category.CorrectnessProbabilityAnswerCount;
 
-        var imageMetaData = Resolve<ImageMetaDataRepo>().GetBy(category.Id, ImageType.Category);
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         ImageFrontendData = new ImageFrontendData(imageMetaData);
 
         var wishQuestions = _questionRepo.GetForCategoryAndInWishCount(category.Id, UserId, 5);
 
-        CountQuestions = category.CountQuestions +
-            R<QuestionGetCount>().Run(UserId, category.Id, new[] {QuestionVisibility.Owner, QuestionVisibility.OwnerAndFriends});
-
+        AggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
+        CountAggregatedQuestions = AggregatedQuestions.Count;
         CountReferences = ReferenceCount.Get(category.Id);
 
         if (category.Type != CategoryType.Standard)
             TopQuestionsWithReferences = Sl.R<ReferenceRepo>().GetQuestionsForCategory(category.Id);
 
-        CountSets = category.CountSets;
-        CountCreators = category.CountCreators;
+        CountSets = category.GetCountSets();
         CountWishQuestions = wishQuestions.Total;
 
-        TopQuestions = category.Type == CategoryType.Standard ? 
-            _questionRepo.GetForCategory(category.Id, 5, UserId) : 
-            _questionRepo.GetForReference(category.Id, 5, UserId);
+        TopQuestions = AggregatedQuestions.Take(MaxCountQuestionsToDisplay).ToList();
 
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
         TopWishQuestions = wishQuestions.Items;
 
-        Sets = Resolve<SetRepo>().GetForCategory(category.Id);
-
         SingleQuestions = GetQuestionsForCategory.QuestionsNotIncludedInSet(Id);
+
+        AggregatedSets = category.GetAggregatedSetsFromMemoryCache();
+        AggregatedSetCount = AggregatedSets.Count;
+
+        AggregatedQuestionCount = Category.GetCountQuestionsAggregated();
     }
 
     private List<Question> GetTopQuestionsInSubCats()
@@ -144,7 +152,7 @@ public class CategoryModel : BaseModel
         foreach (var childCat in CategoriesChildren)
             foreach (var childOfChild in _categoryRepo.GetChildren(childCat.Id))
                 if (topQuestions.Count < 6)
-                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, 5, UserId));
+                    topQuestions.AddRange(_questionRepo.GetForCategory(childOfChild.Id, UserId, 5));
     }
 
     public string GetViews() => Sl.CategoryViewRepo.GetViewCount(Id).ToString();

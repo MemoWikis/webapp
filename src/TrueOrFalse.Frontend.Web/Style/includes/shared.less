@@ -61,6 +61,25 @@
 /*  General styles
 ----------------------------------------------------------*/
 
+.old-font-style() {
+    font-family: @font-family-text;
+    font-size: @font-size-normal;
+    color: @global-text-color;
+}
+
+.new-font-style() {
+    font-family: @font-family-text;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 400;
+    color: @global-text-color;
+    .media-below-xs({
+        font-size: 14px;
+        line-height: 21px;
+        font-weight: normal;
+    })
+}
+
 .link {
     color: @link-blue;
 
@@ -71,6 +90,14 @@
 
 .bold  {
     font-weight: bold;
+}
+
+.fontSizeNormal {
+    font-size: @font-size-normal;
+}
+
+.fontSizeSmall {
+    font-size: @font-size-small;
 }
 
 .greyed {
@@ -298,15 +325,37 @@
         }
     }
 
-    .ItemInfo .Pin {
-        padding-left: 1px;
-        display: inline-block;
+    .ItemInfo {
+
+        font-size: @font-size-small;
+
+        .Pin {
+            padding-left: 1px;
+            display: inline-block;
+        }
     }
 
     .BottomBar {
         padding: 5px;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+    .MakeYoutubeImagesSquare;
+}
+
+.Card .CardContent {
+    h4 {
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+
+    .ItemText {
+        line-height: normal;
+        font-size: 14px;
     }
 }
+
 
 .CardsLandscape { // Apply to row
 
@@ -384,7 +433,6 @@
     margin-left: @margin-card;
     margin-right: @margin-card;
     overflow: hidden;
-    border-bottom: 1px solid @ruler-grey;
 
     .SingleItem & {
         .media-below-md({
@@ -400,10 +448,7 @@
     }
     
     .ItemInfo {
-
         margin-bottom: 8px;
-        
-        
     }
 
     .ItemText {
@@ -425,6 +470,12 @@
         margin-left: @margin-card;
         margin-right: @margin-card;
     }
+}
+
+.Card .BottomBar {
+    border-top: 1px solid @ruler-grey;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .ButtonEllipsis {
@@ -505,8 +556,6 @@
                 height: 180px;
             }
         }
-
-        
     }
 }
 
@@ -553,7 +602,7 @@
         }
 
         .CardContent {
-            border-bottom: 1px solid @ruler-grey;
+            //border-bottom: 1px solid @ruler-grey;
             padding-bottom: 10px;
         }
 
@@ -565,9 +614,7 @@
 
 
         .BottomBar {
-            //border-top: 1px solid @ruler-grey;
             padding: 5px 0;
-            margin: 0 10px 0 0;
         }
     }
 }
@@ -634,6 +681,8 @@
         height: auto !important;
     }
 }
+
+
 
 
 /*  Images
@@ -715,6 +764,14 @@
     }
 }
 
+.MakeYoutubeImagesSquare() {
+    img[src*="img.youtube"] {
+        background-color: black;
+        padding-top: 12.5%;
+        padding-bottom: 12.5%;
+    }
+}
+
 /*  Markdown
 ----------------------------------------------------------*/
 .MarkdownVideo {
@@ -775,6 +832,17 @@
     @media (max-width: (@screen-xs-min - 1px))  {
         float: none;
         width: 100%;
+        margin-left: 0;
+        left: 0;
+        right: 0;
+    }
+}
+
+.stack-below(@breakpoint) {
+    @media (max-width: (@breakpoint - 1px)) {
+        float: none;
+        width: 100%;
+        height: inherit;
         margin-left: 0;
         left: 0;
         right: 0;
@@ -895,16 +963,16 @@
     box-shadow: 0 0px 0px rgba(0,0,0,0.16), 0 1px 0px rgba(0,0,0,0.23);
 }
 
-.bs-callout h4 {
+.bs-callout h4, .bs-callout h3 {
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
-.bs-callout-info h4 {
+.bs-callout-info h4, .bs-callout-info h3 {
     color: #5bc0de !important;
 }
 
-.bs-callout-danger h4 {
+.bs-callout-danger h4, .bs-callout-danger h3 {
     color: #ce4844 !important;
 }
 
@@ -995,6 +1063,10 @@
 
         input.form-control, textarea.form-control, select.form-control {
             max-width: 400px;
+
+            .input-group & {
+                max-width: none;
+            }
         }
     }
     //Form grid styles with labels as seperate column

@@ -46,7 +46,7 @@ public class QuestionHistoryItem : HistoryItemBase
         Type = type;
         FillQuestionFields(question);
             
-        SearchSpec = QuestionSearchSpecSession.CloneAndAddToSession(seachSpec, this);
+        SearchSpec = QuestionSearchSpecSession.AddCloneToSession(seachSpec, this);
     }
 
     public QuestionHistoryItem(Question question, HistoryItemType type)
@@ -61,8 +61,6 @@ public class QuestionHistoryItem : HistoryItemBase
         Question = question;
         Id = question.Id;
         Text = question.Text;
-        Solution = GetQuestionSolution.Run(question).CorrectAnswer();
-
-
+        Solution = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml();
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FluentNHibernate.Utils;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using TrueOrFalse.Search;
 
 public class QuestionRepo : RepositoryDbBase<Question>
@@ -15,9 +15,14 @@ public class QuestionRepo : RepositoryDbBase<Question>
         _searchIndexQuestion = searchIndexQuestion;
     }
 
+    public void UpdateFieldsOnly(Question question)
+    {
+        base.Update(question);
+    }
+
     public new void Update(Question question)
     {
-        var categories = _session
+        var categoriesIds = _session
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
             .List<int>();
 
@@ -27,17 +32,32 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .CreateSQLQuery(query)
             .List<int>();
 
-        var categoriesBeforeUpdateIds = categories.Union(categoriesReferences);
+        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences);
 
         _searchIndexQuestion.Update(question);
         base.Update(question);
         Flush();
+
         var categoriesToUpdateIds = categoriesBeforeUpdateIds
             .Union(question.Categories.Select(c => c.Id))
-            .Union(question.References.Where(r => r.Category != null).Select(r => r.Category.Id))
+            .Union(question.References.Where(r => r.Category != null)
+            .Select(r => r.Category.Id))
             .Distinct()
             .ToList(); //All categories added or removed have to be updated
+
         Sl.Resolve<UpdateQuestionCountForCategory>().Run(categoriesToUpdateIds);
+
+        EntityCache.AddOrUpdate(question, categoriesToUpdateIds);
+
+        var aggregatedCategoriesToUpdate =
+            CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
+
+        foreach (var category in aggregatedCategoriesToUpdate)
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
     }
 
     public override void Create(Question question)
@@ -48,33 +68,57 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
+        foreach (var category in question.Categories.ToList())
+        {
+            category.UpdateCountQuestionsAggregated();
+            Sl.CategoryRepo.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
+        }
         if (question.Visibility != QuestionVisibility.Owner)
         {
             UserActivityAdd.CreatedQuestion(question);
             ReputationUpdate.ForUser(question.Creator);
         }
         _searchIndexQuestion.Update(question);
+        EntityCache.AddOrUpdate(question);
     }
 
     public override void Delete(Question question)
     {
         _searchIndexQuestion.Delete(question);
         base.Delete(question);
+        EntityCache.Remove(question);
+        UserValuationCache.RemoveAllForQuestion(question.Id);
     }
 
-    public IList<Question> GetForCategory(int categoryId, int resultCount, int currentUser) => 
-        GetForCategory(new List<int> {categoryId}, resultCount, currentUser);
-
-    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int resultCount, int currentUser)
+    public IList<Question> GetForCategoryAggregated(int categoryId, int currentUser, int resultCount = -1)
     {
-        return _session.QueryOver<Question>()
+        var category = Sl.CategoryRepo.GetById(categoryId);
+
+        return category.GetAggregatedQuestionsFromMemoryCache();
+    }
+
+    public IList<Question> GetForCategoryFromMemoryCache(int categoryId)
+    {
+        return EntityCache.GetQuestionsForCategory(categoryId);
+    }
+
+    public IList<Question> GetForCategory(int categoryId, int currentUser, int resultCount= -1) => 
+        GetForCategory(new List<int> {categoryId}, currentUser, resultCount);
+
+    public IList<Question> GetForCategory(IEnumerable<int> categoryIds, int currentUser, int resultCount = -1)
+    {
+        var query = _session.QueryOver<Question>()
             .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
             .ThenBy(x => x.DateCreated).Desc
             .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
             .JoinQueryOver<Category>(q => q.Categories)
-            .Where(Restrictions.In("Id", categoryIds.ToArray()))
-            .Take(resultCount)
-            .List<Question>();
+            .Where(Restrictions.In("Id", categoryIds.ToArray()));
+
+        if (resultCount > -1)
+            query.Take(resultCount);
+
+        return query.List<Question>();
     }
 
     public IList<Question> GetForCategory(int categoryId)
@@ -86,16 +130,21 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<Question>();
     }
 
-    public IList<Question> GetForReference(int categoryId, int resultCount, int currentUser)
+    public IList<Question> GetForReference(int categoryId, int currentUser, int resultCount = -1)
     {
-        return _session.QueryOver<Question>()
-            .OrderBy(q => q.TotalRelevancePersonalEntries).Desc
-            .ThenBy(q => q.DateCreated).Desc
+        var query = _session.QueryOver<Question>()
+            .OrderBy(q => q.TotalRelevancePersonalEntries)
+            .Desc
+            .ThenBy(q => q.DateCreated)
+            .Desc
             .Where(q => q.Visibility == QuestionVisibility.All || q.Creator.Id == currentUser)
             .JoinQueryOver<Reference>(q => q.References)
-            .Where(q => q.Category.Id == categoryId)
-            .Take(resultCount)
-            .List<Question>();
+            .Where(q => q.Category.Id == categoryId);
+
+        if (resultCount > -1)
+            query.Take(resultCount);
+
+        return query.List<Question>();
     }
 
     public PagedResult<Question> GetForCategoryAndInWishCount(int categoryId, int userId, int resultCount)
@@ -122,23 +171,23 @@ public class QuestionRepo : RepositoryDbBase<Question>
         };
     }
 
-    public IList<Question> GetByIds(List<int> questionIds)
-    {
-        return GetByIds(questionIds.ToArray());
-    }
+    public IList<Question> GetByIds(List<int> questionIds) => 
+        GetByIds(questionIds.ToArray());
 
     public override IList<Question> GetByIds(params int[] questionIds)
     {
-        var tmpResult = base.GetByIds(questionIds);
+        var questions = _session
+            .QueryOver<Question>()
+            .Fetch(q => q.Categories).Eager
+            .Where(Restrictions.In("Id", questionIds))
+            .List()
+            .Distinct()
+            .ToList();
 
-        var result = new List<Question>();
-        for (int i = 0; i < questionIds.Length; i++)
-        {
-            if (tmpResult.Any(q => q.Id == questionIds[i]))
-                result.Add(tmpResult.First(q => q.Id == questionIds[i]));
-        }
-
-        return result;
+        return questionIds
+            .Select(questionId => questions.FirstOrDefault(question => question.Id == questionId))
+            .Where(q => q != null)
+            .ToList();
     }
 
     public IList<int> GetByKnowledge(
@@ -183,10 +232,11 @@ public class QuestionRepo : RepositoryDbBase<Question>
             .List<int>();
     }
 
-    public IEnumerable<Question> GetMostRecent(int amount)
+    public IEnumerable<Question> GetMostRecent(int amount, QuestionVisibility questionVisibility = QuestionVisibility.All)
     {
         return _session
             .QueryOver<Question>()
+            .Where(q => q.Visibility == questionVisibility)
             .OrderBy(q => q.DateCreated).Desc
             .Take(amount)
             .List();
@@ -256,5 +306,16 @@ public class QuestionRepo : RepositoryDbBase<Question>
         return _session.QueryOver<Question>()
             .Where(q => q.Visibility == QuestionVisibility.All)
             .RowCount();
+    }
+
+    public int GetPercentageQuestionsAnsweredMostlyWrong()
+    {
+        int moreWrongThanRight = _session
+            .Query<Question>()
+            .Count(q => q.TotalFalseAnswers + q.TotalTrueAnswers > 0 && q.TotalFalseAnswers >= q.TotalTrueAnswers);
+        int moreRightThanWrong = _session
+            .Query<Question>()
+            .Count(q => q.TotalFalseAnswers < q.TotalTrueAnswers);
+        return (100 * moreWrongThanRight / (moreRightThanWrong + moreWrongThanRight));
     }
 }

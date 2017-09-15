@@ -1,4 +1,98 @@
-﻿#chartKnowledge text {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+/* Progress bar Next Level 
+------------------------------------------------------*/
+#learningPoints,
+#reputationPoints {
+  font-size: 18px;
+  margin: 20px 0;
+}
+#learningPoints h3,
+#reputationPoints h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+#learningPoints p.textPointsAndLevel {
+  margin-left: 50px;
+  text-align: left;
+}
+.ProgressBarContainer,
+.ProgressBarSegment {
+  height: 30px;
+}
+.ProgressBarContainer {
+  display: table;
+  width: 100%;
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 5px;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarContainer:before,
+.ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+.ProgressBarContainer:after {
+  clear: both;
+}
+.ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+.ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 4px;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+.ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+}
+.ProgressBarLeft {
+  background-color: #e1efb3;
+}
+/*----------*/
+#reputationPoints p.moreInfoLink {
+  margin-bottom: 0;
+  margin-top: 10px;
+  font-size: smaller;
+  text-align: right;
+}
+/* STATISTIC CHARTS
+-------------------------------------------*/
+#chartKnowledge text {
   font-size: 13px;
   cursor: pointer;
 }

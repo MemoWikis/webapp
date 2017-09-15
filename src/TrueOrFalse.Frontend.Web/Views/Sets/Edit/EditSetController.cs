@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Security;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using NHibernate.Util;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -10,6 +14,7 @@ public class EditSetController : BaseController
     private const string _viewLocation = "~/Views/Sets/Edit/EditSet.aspx";
 
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult Create()
     {
         var model = new EditSetModel();
@@ -19,6 +24,7 @@ public class EditSetController : BaseController
 
     [HttpPost]
     [SetMenu(MenuEntry.QuestionSet)]
+    [SetThemeMenu]
     public ActionResult Create(EditSetModel model)
     {
         if (!ModelState.IsValid){
@@ -28,7 +34,7 @@ public class EditSetController : BaseController
 
         var set = model.ToQuestionSet();
         set.Creator = _sessionUser.User;
-        Resolve<SetRepo>().Create(set);
+        Sl.SetRepo.Create(set);
 
         StoreImage(set.Id);
 
@@ -36,16 +42,16 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
 
         TempData["createSetMsg"] = new SuccessMessage(
-            string.Format("Der Fragesatz <i>'{0}'</i> wurde erstellt. Du kannst ihn nun weiter bearbeiten.",
-                          set.Name.TruncateAtWord(30)));
+            $"Das Lernset <i>'{set.Name.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst es nun weiter bearbeiten.");
 
         return Redirect(Links.QuestionSetEdit(set.Name, set.Id));
     }
 
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionSetPage: true)]
     public ViewResult Edit(int id)
     {
-        var set = Resolve<SetRepo>().GetById(id);
+        var set = Sl.SetRepo.GetById(id);
         _sessionUiData.VisitedSets.Add(new QuestionSetHistoryItem(set, HistoryItemType.Edit));
         var model = new EditSetModel(set);
         model.SetToUpdateModel();
@@ -60,7 +66,8 @@ public class EditSetController : BaseController
     }
 
     [HttpPost]
-    [SetMenu(MenuEntry.QuestionSet)]
+    [SetMenu(MenuEntry.None)]
+    [SetThemeMenu(isQuestionSetPage: true)]
     public ViewResult Edit(int id, EditSetModel model)
     {
         var setRepo = Resolve<SetRepo>();
@@ -75,7 +82,7 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
         setRepo.Update(set);
 
-        model.Message = new SuccessMessage("Der Fragesatz wurde gespeichert");
+        model.Message = new SuccessMessage("Das Lernset wurde gespeichert");
         
         return View(_viewLocation, model);
     }
@@ -112,4 +119,63 @@ public class EditSetController : BaseController
         Resolve<QuestionInSetRepo>().Delete(questionInSetId);
         return new EmptyResult();
     }
+    
+    public JsonResult Search(string term, int setId)
+    {
+        var searchSpec = new QuestionSearchSpec();
+        searchSpec.Filter.SearchTerm = term;            
+        searchSpec.PageSize = 5;
+
+        var set = Sl.SetRepo.GetById(setId);
+        set.QuestionIds().ForEach(questionId => searchSpec.Filter.QuestionIdsToExclude.Add(questionId));
+
+        var searchResult = Sl.SearchQuestions.Run(searchSpec);
+
+        var questions = searchResult.GetQuestions();
+
+        return Json(new
+        {
+            Questions = questions.Select(question => new
+            {
+                Id = question.Id,
+                question = question.Text,
+                correctAnswer= question.Solution,
+                ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
+                QuestionUrl = Links.AnswerQuestion(question)
+            })
+        });
+    }
+
+    public JsonResult AddQuestionsToSet(int setId, List<int> questionIds)
+    {
+        try
+        {
+            AddToSet.Run(questionIds.ToArray(), setId);
+        }
+        catch(Exception e)
+        {
+            Logg.Error(e);
+            return Json(new { Status = false, Message =  e.Message});
+        }
+        
+        return Json(new {Status = true});
+    }
+
+
+
+    public JsonResult GetHtmlRows(List<int> questionIds, int setid)
+    {
+        var questionsInSet = Sl.QuestionInSetRepo.GetByQuestionIds(questionIds, setid);
+
+        var resultHtmls = new List<string>();
+
+        foreach (var questionInSet in questionsInSet)
+            resultHtmls.Add(ViewRenderer.RenderPartialView("~/Views/Sets/Edit/QuestionInSet.ascx",
+                new QuestionInSetModel(questionInSet), ControllerContext));
+
+        return Json(resultHtmls);
+    }
+
+   
+
 }

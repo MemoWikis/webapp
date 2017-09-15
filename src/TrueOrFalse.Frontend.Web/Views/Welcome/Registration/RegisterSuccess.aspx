@@ -21,7 +21,7 @@
                       <i class="fa fa-book fa-2x" style="color: #2C5FB2"></i><br/>
                         <p><b>Wissen entdecken</b></p>
                         <p>
-                            Stöbere bei den <a href="<%= Url.Action("Sets", "Sets")%>">Fragesätzen</a> oder den 
+                            Stöbere bei den <a href="<%= Url.Action("Sets", "Sets")%>">Lernsets</a> oder den 
                             <a href="<%= Url.Action(Links.Questions, Links.QuestionsController) %>">Fragen</a> nach interessantem Wissen und füge es 
                             deinem <span style="white-space: nowrap;"><i class='fa fa-heart' style='color:#b13a48;'></i>&nbsp;Wunschwissen</span> hinzu.
                         </p>
@@ -30,7 +30,7 @@
                       <i class="fa fa-pencil fa-2x" style="color: #2C5FB2"></i><br/>
                         <p><b>Wissen erstellen</b></p>
                         <p>
-                            <a href="<%= Links.CreateQuestion(Url) %>">Erstelle eigene Fragen</a>, die du gerne lernen möchtest und füge sie zu eigenen Fragesätzen zusammen.
+                            <a href="<%= Links.CreateQuestion() %>">Erstelle eigene Fragen</a>, die du gerne lernen möchtest und füge sie zu eigenen Lernsets zusammen.
                         </p>
                     </div>
                     <div class="col-xs-6 col-lg-3" style="text-align: center; font-size: 100%; padding: 10px;">

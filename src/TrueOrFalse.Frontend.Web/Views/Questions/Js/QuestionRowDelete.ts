@@ -20,14 +20,20 @@ class QuestionRowDelete {
                 e.preventDefault();
             });
 
-            $('#confirmQuestionDelete').click(function (e) {
-                deleteQuestion(questionIdToDelete, sourcePage);
-                $('#modalDeleteQuestion').modal('hide');
+            $('#confirmQuestionDelete').click(function(e) {
                 e.preventDefault();
+                $("#questionDeleteResult").html("Die Frage wird gelöscht... Bitte habe einen Moment Geduld.");
+                $("#questionDeleteResult").show();
+                window.setTimeout(function() {
+                    deleteQuestion(questionIdToDelete, sourcePage);
+                }, 10);
             });
         });
 
         function populateDeleteQuestionId(questionId) {
+            $("#questionDeleteResult").hide();
+            $("#questionDeleteResult").html("");
+            $("#questionDeleteResult").removeClass("alert-danger");
             $.ajax({
                 type: 'POST',
                 url: "/Questions/DeleteDetails/" + questionId,
@@ -51,6 +57,8 @@ class QuestionRowDelete {
                 error: function (e) {
                     console.log(e);
                     window.alert("Ein Fehler ist aufgetreten");
+                    $("#confirmQuestionDelete").hide();
+                    $("#btnCloseQuestionDelete").html("Schließen");
                 }
             });
         }
@@ -58,17 +66,22 @@ class QuestionRowDelete {
         function deleteQuestion(questionId, sourcePage: QuestionRowDeleteSourcePage) {
             $.ajax({
                 type: 'POST',
+                async: false,
                 url: "/Questions/Delete/" + questionId,
                 cache: false,
                 success: function (e) {
+                    $('#modalDeleteQuestion').modal('hide');
                     if (sourcePage == QuestionRowDeleteSourcePage.QuestionRow)
                         window.location.reload();
                     if (sourcePage == QuestionRowDeleteSourcePage.QuestionDetail)
                         window.location.href = "/Fragen/Meine";
                 },
                 error: function (e) {
-                    console.log(e);
-                    window.alert("Ein Fehler ist aufgetreten");
+                    $("#confirmQuestionDelete").hide();
+                    $("#questionDeleteResult").removeClass("alert-info");
+                    $("#questionDeleteResult").addClass("alert-danger");
+                    $("#questionDeleteResult").html("Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.");
+
                 }
             });
         }

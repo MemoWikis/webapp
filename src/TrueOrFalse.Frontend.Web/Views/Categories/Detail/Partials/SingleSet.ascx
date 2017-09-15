@@ -7,10 +7,6 @@
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(300, true, ImageType.QuestionSet, linkToItem: Links.SetDetail(Model.Set), noFollow: true) %>
         </div>
-
-        <div>
-            <!-- % Html.RenderPartial("Category", Model.Question); % -->
-        </div>
         <div class="ContentContainer">
             <div class="CardContent">
                 <h6 class="ItemInfo">
@@ -19,7 +15,7 @@
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    <a href="<%= Links.SetDetail(Model.Set) %>">Fragesatz mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
+                    <a href="<%= Links.SetDetail(Model.Set) %>">Lernset mit <%= Model.QCount %> Frage<%= StringUtils.PluralSuffix(Model.QCount, "n") %></a>
                 </h6>
                 <div class="LinkArea">
                     <h4 class="ItemTitle"><%: Model.SetName %></h4>
@@ -37,7 +33,7 @@
                         <li><a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">Jetzt lernen</a></li>
                         <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
                         <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Termin anlegen</a></li>
-                        <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Fragesatz-Detailseite</a></li>
+                        <li><a href="<%= Links.SetDetail(Model.SetName, Model.SetId) %>"> Lernset-Detailseite</a></li>
                     </ul>
                 </div>
                 <a href="<%= Links.TestSessionStartForSet(Model.SetName, Model.SetId) %>" class="btn btn-link btn-sm ButtonOnHover" role="button" rel="nofollow">

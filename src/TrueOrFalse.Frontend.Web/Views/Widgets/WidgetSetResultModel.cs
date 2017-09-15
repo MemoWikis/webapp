@@ -1,10 +1,12 @@
 ﻿using TrueOrFalse.Frontend.Web.Code;
 
-public class WidgetSetResultModel : BaseModel
+public class WidgetSetResultModel : WidgetBaseModel
 {
     public TestSessionResultModel TestSessionResultModel;
 
-    public WidgetSetResultModel(TestSessionResultModel testSessionResultModel)
+    public string StartSessionUrl;
+
+    public WidgetSetResultModel(TestSessionResultModel testSessionResultModel, string host, int questionCount, string widgetKey) : base(host)
     {
         TestSessionResultModel = testSessionResultModel;
         TestSessionResultModel.IsInWidget = true;
@@ -13,5 +15,13 @@ public class WidgetSetResultModel : BaseModel
             Links.GetUrlHelper().Action("Set", "Widget", new {setId = testSessionResultModel.TestSession.SetToTestId});
 
         ShowUserReportWidget = false;
+
+        StartSessionUrl = WidgetSetStartModel.GetStartTestSessionUrl(
+            TestSessionResultModel.TestedSet.Id, 
+            testSessionResultModel.TestSession.HideAddKnowledge, 
+            host,
+            questionCount,
+            widgetKey
+        );
     }
 }

@@ -1,6 +1,10 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" 
-        Title="Error"
-%>
+        Title="Error"%>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+    <%= Styles.Render("~/Views/Error/Error.css") %>
+</asp:Content>
 
 <asp:Content ID="errorContent" ContentPlaceHolderID="MainContent" runat="server">
 <script type="text/javascript" >
@@ -15,14 +19,12 @@
         $(spt).remove();
     });
 </script>    
+    <img src="/Images/Error/memo-404_german_600.png" class="ErrorImage" />
 
-    <h1 style="margin-top: 0px;">Seite nicht gefunden.</h1>
     <p>
-        Leider konnten wir die angefragte Seite nicht finden (Fehler 404).<br/>
-        Wenn du meinst, dass sei ein Fehler, dann <a href="#" onclick="_urq.push(['Feedback_Open']);">melde ihn uns bitte hier</a> oder per E-Mail an <span class="mailme">team at memucho dot de</span>
+        Fehler 404. Wenn du meinst, dass hier eigentlich etwas sein müsste, dann <a href="#" onclick="_urq.push(['Feedback_Open']);">melde es uns bitte hier</a> oder per E-Mail an <span class="mailme">team at memucho dot de</span>
     </p>
     <p>
          <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>
     </p>
-    <img src="/Images/Logo/memucho_MEMO_angry_blau_w220.png" width="220" height="231" style="margin: 20px 0 50px 20px" />
 </asp:Content>

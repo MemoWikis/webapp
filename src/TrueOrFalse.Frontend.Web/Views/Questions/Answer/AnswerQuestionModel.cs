@@ -40,6 +40,8 @@ public class AnswerQuestionModel : BaseModel
     public SolutionMetadata SolutionMetadata;
     public string SolutionMetaDataJson;
 
+    public bool? isMobileDevice;
+
     public string ImageUrl_500px;
     public string SoundUrl;
     public int TotalViews;
@@ -115,16 +117,22 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
-    public AnswerQuestionModel(Question question) : this()
+    public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
     {
+        if(this.QuestionViewGuid == Guid.Empty)
+            QuestionViewGuid = Guid.NewGuid();
+
+        this.isMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
+
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         LearningSession = learningSession;
@@ -149,22 +157,25 @@ public class AnswerQuestionModel : BaseModel
 
     public static AnswerQuestionModel CreateExpiredTestSession()
     {
-        var model = new AnswerQuestionModel();
-        model.IsTestSession = true;
-        model.ShowErrorExpiredTestSession = true;
-
+        var model = new AnswerQuestionModel()
+        {
+            IsTestSession = true,
+            ShowErrorExpiredTestSession = true
+        };
         return model;
     }
 
-    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question) : this()
+    public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
+
         QuestionViewGuid = questionViewGuid;
         TestSession = testSession;
         IsTestSession = true;
         TestSessionId = testSession.Id;
-        TestSessionCurrentStep = testSession.CurrentStep;
+        TestSessionCurrentStep = testSession.CurrentStepIndex;
         TestSessionNumberOfSteps = testSession.NumberOfSteps;
-        TestSessionIsLastStep = testSession.CurrentStep == testSession.NumberOfSteps;
+        TestSessionIsLastStep = testSession.CurrentStepIndex == testSession.NumberOfSteps;
         TestSessionCurrentStepPercentage = TestSessionCurrentStep == 0
             ? 0
             : (int) Math.Round((TestSessionCurrentStep-1)/(float) TestSessionNumberOfSteps*100);
@@ -174,8 +185,9 @@ public class AnswerQuestionModel : BaseModel
         Populate(question);
     }
 
-    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec) : this()
+    public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null) : this()
     {
+        this.isMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         PageCurrent = searchSpec.CurrentPage.ToString();
@@ -192,7 +204,7 @@ public class AnswerQuestionModel : BaseModel
         SourceIsTabMine = SearchTabType.Mine == searchSpec.SearchTab;
         SourceIsTabWish = SearchTabType.Wish == searchSpec.SearchTab;
 
-        if (searchSpec.Filter.IsOneCategoryFilter()){
+        if (searchSpec.Filter.HasExactOneCategoryFilter()){
             SourceCategory = Resolve<CategoryRepository>().GetById(searchSpec.Filter.Categories.First());
             if (SourceCategory != null)
                 SourceIsCategory = true;
@@ -305,7 +317,7 @@ public class AnswerQuestionModel : BaseModel
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = $"Antwort: '{SolutionModel.CorrectAnswer()}'. {Environment.NewLine}";
+            result = $"Antwort: '{SolutionModel.GetAnswerForSEO()}'. {Environment.NewLine}";
 
             if (result.Length < 100 && !IsNullOrEmpty(Question.Description))
             {
@@ -338,7 +350,12 @@ public class AnswerQuestionModel : BaseModel
 
         if (Question.SolutionType == TrueOrFalse.SolutionType.MultipleChoice_SingleSolution)
         {
-            result = ((QuestionSolutionMultipleChoice_SingleSolution)SolutionModel)
+            var solutionModel = (QuestionSolutionMultipleChoice_SingleSolution) SolutionModel;
+
+            if (!solutionModel.Choices.Any())
+                return "";
+
+            result = solutionModel
                 .Choices
                 .Shuffle()
                 .Aggregate((a, b) => $"{a} - oder - {Environment.NewLine} {b}");

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
+[DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge()}")]
 public class QuestionValuation : IPersistable, WithDateCreated
 {
     public virtual int Id { get; set; }

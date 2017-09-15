@@ -93,10 +93,19 @@
 }
 
 .SummaryText {
+    font-size: @font-size-bigger;
     margin: 40px 0;
     p {
         margin-bottom: 5px;
         font-weight: normal;
+    }
+}
+
+.ResultDescription {
+    font-size: @font-size-bigger;
+
+    .label {
+        max-width: 100%;
     }
 }
 
@@ -105,8 +114,8 @@
     padding-right: 0;
 }
 .sumPct {
-    text-align: right;
-    padding: 5px 8px;
+    text-align: center;
+    padding: 8px;
     border-right-width: 0px;
     border-right-style: solid;
     color: white;
@@ -142,7 +151,7 @@
 }
 
 .QuestionLearned {
-     margin-top: 4px;
+     margin-bottom: 7px;
      border: 1px solid lightgray;
      border-radius: 4px;
      padding: 5px 10px;
@@ -245,215 +254,17 @@
     }
 }
 
-/* Session heading
-------------------------------------------------------*/
+#WidgetSetResult {
 
-.SessionHeading {
-    font-weight: bold;
-    padding-bottom: 10px;
-    display: flex;
+    margin-bottom: 60px;
 
-    .clearfix;
-
-    .media-below-xs({
-        flex-direction: column-reverse;
-        
-    });
-
-    .media-xs-up({
-        align-items: center;
-        justify-content: space-between;
-    });
-}
-
-.LabelLink {
-     display: inline-block;
-     overflow: hidden;
-}
-
-.SessionHeaderColumnWidth(@rightColWidthPercentage) {
-    .QuestionCount, .EduPartnerWrapper {
-        width: @rightColWidthPercentage * 1%;
+    .buttonRow {
+        margin-top: 30px;
+        margin-bottom: 20px;
     }
 
-    .SessionTitle {
-        width: 100%;
-    }
-
-    .EduPartnerWrapper + .SessionTitle {
-        width: 100% - @rightColWidthPercentage;
+    #divIndicatorAverageText {
+        margin-bottom: 30px;
     }
 }
-
-.media-xs-up({
-    .SessionHeaderColumnWidth(30%);
-});
-
-.media-md-up({
-    .SessionHeaderColumnWidth(20%);
-});
-
-.SessionTitle {
-    .media-xs-up({
-        padding-right: 10px;
-    });
-}
-
-.EduPartnerWrapper {
-
-    .media-xs-up({
-        text-align: center;
-    });
-}
-
-.EduPartnerLogoWrapper {
-    .media-below-xs({
-        float: right;
-    });
-    width: 100px;
-}
-
-/* Session bar/Progress bar
-------------------------------------------------------*/
-
-.SessionBar {
-    border: solid 2px @memo-green;
-    background-color: @memo-green;
-    margin-bottom: 20px;
-    .clearfix;
-}
-
-.ProgressBarContainer, .SessionType, .QuestionCount, .ProgressBarSegment {
-    height: 30px;
-}
-
-.SessionType, .QuestionCount {
-
-    background-color: @memo-green;
-
-    .media-below-xs({
-        padding-left: 15px;
-        padding-right: 15px;
-    });
-
-     &, & span {
-        .media-xs-up({
-            text-align: center;
-        });
-    }
-
-     > span {
-         width: 100%;
-     }
-    
-    padding-top: 5px;
-}
-
-.SessionType {
-
-    float: left;
-
-    span {
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    .media-xs-up({
-        width: 20%;
-    });
-
-    .media-sm-up({
-        width: 15%;
-    });
-
-    .media-md-up({
-        width: 10%;
-    });
-
-}
-
-.ProgressBarContainer {
-
-    display: table;
-
-    .media-below-xs({
-        width: 100%;
-    });
-
-    .media-xs-up({
-        width: 50%;
-    });
-
-    .media-sm-up({
-        width: 55%;
-    });
-
-    .media-md-up({
-        width: 70%;
-    });
-}
-
-.ProgressBarSegment {
-    display: table-cell;
-    overflow: hidden;
-    text-align: center;
-    vertical-align: top;//Fix Firefox height bug
-}
-
-.ProgressBarLegend {
-    position: absolute;
-    left: 0px;
-    top: 4px;
-    width: 100%;
-    min-width: 30px;
-}
-
-.ProgressBarDone {
-    background-color: lighten(@memo-green, 15);
-    position: relative;
-    overflow: visible;
-}
-
-.ProgressBarLeft {
-    background-color: lighten(@memo-green, 30);
-}
-
-.CollectionType {
-    float: left;
-    padding-right: 10px;
-}
-
-.LabelWrapper {
-    max-width: 70%;
-    float: left;
-    .clearfix;
-
-    a, .label {
-        max-width: 100%;
-        font-size: 100%;
-        margin: 0;
-    }
-}
-
-.EduPartnerWrapper {
-    clear: left;
-}
-
-/*.SessionTitle {
-    display: table;
-    
-}
-
-.CollectionType {
-    display: table-cell;
-    width:1%;
-    white-space:nowrap;
-}
-
-.LabelWrapper {
-    display: table-cell;
-    .label {
-        max-width: 100%;
-    }
-}*/
 

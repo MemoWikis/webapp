@@ -15,6 +15,11 @@ public class Set : DomainEntity, ICreator
     public virtual string VideoKey => YoutubeVideo.GetVideoKeyFromUrl(VideoUrl);
 
     public virtual ISet<QuestionInSet> QuestionsInSet{ get; set;}
+
+    public virtual IList<QuestionInSet> QuestionsInSetPublic => 
+        QuestionsInSet.Where(qs => qs.Question.IsVisibleToCurrentUser()).ToList();
+        
+
     public virtual User Creator { get; set; }
 
     public virtual int TotalRelevancePersonalAvg { get; set; }
@@ -51,7 +56,12 @@ public class Set : DomainEntity, ICreator
     public virtual IList<Question> Questions() => 
         QuestionsInSet.Select(q => q.Question).ToList();
 
+    public virtual IList<Question> QuestionsPublic() => 
+        QuestionsInSetPublic.Select(qs => qs.Question).ToList();
+
     public virtual bool HasVideo => 
         !IsNullOrEmpty(VideoUrl) && 
         !IsNullOrEmpty(YoutubeVideo.GetVideoKeyFromUrl(VideoUrl));
+
+    public virtual string ToLomXml() => LomXml.From(this);
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using TrueOrFalse.Web;
 
 public class EditCategoryModel : BaseModel
@@ -17,7 +16,19 @@ public class EditCategoryModel : BaseModel
 
     public IList<Category> ParentCategories = new List<Category>();
 
-    public string TopicMarkdown { get; set; }
+    public List<Category> DescendantCategories = new List<Category>();
+
+    public IList<Category> AggregatedCategories = new List<Category>();
+
+    public IList<Category> NonAggregatedCategories = new List<Category>();
+
+    public string CategoriesToExcludeIdsString { get; set; }
+
+    public string CategoriesToIncludeIdsString { get; set; }
+
+    public bool DisableLearningFunctions { get; set; }
+
+    public string TopicMarkdown { get; set; } 
 
     public string FeaturedSetIdsString { get; set; }
 
@@ -54,7 +65,7 @@ public class EditCategoryModel : BaseModel
 
     public void Init(Category category)
     {
-        var parentCategories = category.ParentCategories;
+        var parentCategories = category.ParentCategories();
         if (category.Type == CategoryType.DailyIssue)
             parentCategories = parentCategories.Where(c => c.Type != CategoryType.Daily).ToList();
         if (category.Type == CategoryType.DailyArticle)
@@ -70,18 +81,26 @@ public class EditCategoryModel : BaseModel
         Id = category.Id;
         Description = category.Description;
         ParentCategories = parentCategories;
+        AggregatedCategories = category.AggregatedCategories(includingSelf: false);
+        NonAggregatedCategories = category.NonAggregatedCategories();
+        DisableLearningFunctions = category.DisableLearningFunctions;
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
+        CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString;
+        CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
+        DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
     }
 
     public ConvertToCategoryResult ConvertToCategory()
     {
         var category = new Category(Name);
         category.Description = Description;
-        category.ParentCategories = ParentCategories;
+        
+        category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -104,12 +123,18 @@ public class EditCategoryModel : BaseModel
     {
         category.Name = Name;
         category.Description = Description;
-        category.ParentCategories = ParentCategories;
-        category.TopicMarkdown = TopicMarkdown;
-        category.FeaturedSetsIdsString = FeaturedSetIdsString;
+
+        if (IsInstallationAdmin)//Prevent overwrite of hidden fields if edited by non-admin
+        {
+            category.DisableLearningFunctions = DisableLearningFunctions;
+            category.TopicMarkdown = TopicMarkdown;
+            category.FeaturedSetsIdsString = FeaturedSetIdsString;
+        }
+
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
 
         FillFromRequest(category);
-    }
+}
 
     private static string ToNumericalString(string input)
     {
@@ -125,7 +150,7 @@ public class EditCategoryModel : BaseModel
 
     private static string ToUrlWithProtocol(string input)
     {
-        if (String.IsNullOrEmpty(input))
+        if (String.IsNullOrEmpty(input?.Trim()))
             return "";
 
         if (input.ToLower().StartsWith("http://"))
@@ -149,6 +174,10 @@ public class EditCategoryModel : BaseModel
 
         if (request["WikipediaUrl"] != null)
             category.WikipediaURL = ToUrlWithProtocol(request["WikipediaUrl"]);
+
+        if (request["Url"] != null)
+            category.Url = ToUrlWithProtocol(request["Url"]);
+        category.UrlLinkText = request["UrlLinkText"] ?? "";
 
         if (category.Type == CategoryType.Book)
             return FillBook(category, request, result);
@@ -174,14 +203,14 @@ public class EditCategoryModel : BaseModel
         if (category.Type == CategoryType.VolumeChapter)
             return FillVolumeChapter(category, request, result);
 
-        if (category.Type == CategoryType.Website)
-            category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
+        //if (category.Type == CategoryType.Website)
+        //    category.TypeJson = new CategoryTypeWebsite { Url = ToUrlWithProtocol(request["Url"]) }.ToJson();
 
         if (category.Type == CategoryType.WebsiteArticle)
             return FillWebsiteArticle(category, request, result);
 
-        if (category.Type == CategoryType.WebsiteVideo)
-            category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
+        //if (category.Type == CategoryType.WebsiteVideo)
+        //    category.TypeJson = new CategoryTypeWebsiteVideo {Url = ToUrlWithProtocol(request["YoutubeUrl"])}.ToJson();
 
         return result;
     }
@@ -204,8 +233,6 @@ public class EditCategoryModel : BaseModel
         else
             category.Name = request["Title"] + " – " + request["Subtitle"];
         
-        //category.Name += " (" + category.Type.GetName() + ")";
-
         return result;
     }
 
@@ -214,8 +241,7 @@ public class EditCategoryModel : BaseModel
         category.TypeJson = new CategoryTypeDaily
         { Title = request["Title"],
             ISSN = request["ISSN"],
-            Publisher = request["Publisher"],
-            Url = ToUrlWithProtocol(request["Url"])
+            Publisher = request["Publisher"]
         }.ToJson();
 
         category.Name = request["Title"];
@@ -244,7 +270,7 @@ public class EditCategoryModel : BaseModel
                 parentCategoryType: CategoryType.Daily,
                 htmlInputId: "hddTxtDaily",
                 errorMessage: "Die Ausgabe konnte nicht gespeichert werden. <br>" +
-                "Um zu speichern, wähle bitte eine Tageszeitung aus.");
+                "Um zu speichern, wähle bitte eine Zeitung aus.");
 
         category.Name = categoryDailyIssue.BuildTitle(addParentDaily.FieldValue);
 
@@ -258,7 +284,6 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -277,7 +302,7 @@ public class EditCategoryModel : BaseModel
                 parentCategoryType: CategoryType.Daily,
                 htmlInputId: "hddTxtDaily",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
-                "Um zu speichern, wähle bitte eine Tageszeitung aus.");
+                "Um zu speichern, wähle bitte eine Zeitung aus.");
 
         var addParentDailyIssue =
             new AddParentCategoryFromInput(
@@ -286,7 +311,7 @@ public class EditCategoryModel : BaseModel
                 parentCategoryType: CategoryType.DailyIssue,
                 htmlInputId: "hddTxtDailyIssue",
                 errorMessage: "Der Artikel konnte nicht gespeichert werden. <br>" +
-                "Um zu speichern, wähle bitte eine Ausgabe der Tageszeitung aus.");
+                "Um zu speichern, wähle bitte eine Ausgabe der Zeitung aus.");
 
         if (addParentDaily.HasError)
             return addParentDaily.Result;
@@ -302,8 +327,7 @@ public class EditCategoryModel : BaseModel
         {
             Title = request["Title"],
             ISSN = request["ISSN"],
-            Publisher = request["Publisher"],
-            Url = ToUrlWithProtocol(request["Url"])
+            Publisher = request["Publisher"]
         }.ToJson();
 
         category.Name = request["Title"];
@@ -348,7 +372,6 @@ public class EditCategoryModel : BaseModel
             Title = request["Title"],
             Subtitle = request["Subtitle"],
             Author = request["Author"],
-            Url = ToUrlWithProtocol(request["Url"]),
             PagesArticleFrom = request["PagesArticleFrom"],
             PagesArticleTo = request["PagesArticleTo"]
         };
@@ -422,8 +445,7 @@ public class EditCategoryModel : BaseModel
                 Author = request["Author"],
                 PublicationDateYear = ToNumericalString(request["PublicationDateYear"]),
                 PublicationDateMonth = ToNumericalString(request["PublicationDateMonth"]),
-                PublicationDateDay = ToNumericalString(request["PublicationDateDay"]),
-                Url = ToUrlWithProtocol(request["Url"])
+                PublicationDateDay = ToNumericalString(request["PublicationDateDay"])
             }.ToJson();
 
         if (String.IsNullOrEmpty(request["Subtitle"]))
@@ -466,13 +488,31 @@ public class EditCategoryModel : BaseModel
                 }
             }
 
-            category.ParentCategories.Add(parentFromDb);            
+            ModifyRelationsForCategory.AddParentCategory(category, parentFromDb);            
         }
     }
 
     public void FillReleatedCategoriesFromPostData(NameValueCollection postData)
     {
         ParentCategories = AutocompleteUtils.GetRelatedCategoriesFromPostData(postData);
+    }
+
+    public bool IsInCategoriesToInclude(int categoryId)
+    {
+        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString) 
+            && CategoriesToIncludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x))
+            .Any(c => c == categoryId);
+    }
+
+    public bool IsInCategoriesToExclude(int categoryId)
+    {
+        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
+               && CategoriesToExcludeIdsString
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => Convert.ToInt32(x))
+            .Any(c => c == categoryId);
     }
 }
 

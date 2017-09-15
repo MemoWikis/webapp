@@ -12,6 +12,7 @@
     MOBILE SUBHEADER / #MobileSubHeader
     MASTER MAIN CONTENT / #MasterMainContent
     MASTER FOOTER / #MasterFooter
+    MASTER WIDGET
     SPONSOR
     VALIDATION
     BUTTONS
@@ -30,6 +31,7 @@
         Icons
         Dropdowns
         Google Chart Custom Layout
+        Team Pictures
 
 [Imports:]
 --------------------------------------------------------*/
@@ -63,11 +65,11 @@ html {
   background-color: #EFEFEF;
 }
 body {
-  min-width: 280px;
-  position: relative;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   color: #203256;
+  min-width: 280px;
+  position: relative;
   background-color: #F6F8FA;
 }
 h1,
@@ -89,7 +91,7 @@ a:hover {
 a.TextLink:hover {
   text-decoration: underline;
 }
-@media (max-width: 767px) {
+@media (max-width: 1199px) {
   a i.MobileLarge {
     font-size: 25px;
     padding-left: 5px;
@@ -193,10 +195,7 @@ img {
   margin: 0;
   width: 100%;
   max-height: 50px;
-  background-image: -webkit-linear-gradient(top, #003264 0%, #1964c8 100%);
-  background-image: linear-gradient(to bottom, #003264 0%, #1964c8 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff003264', endColorstr='#ff1964c8', GradientType=0);
+  background-color: #003264;
 }
 #MasterHeader .HeaderMainRow {
   height: 34px;
@@ -214,6 +213,42 @@ img {
     height: 37px;
     margin-top: 6px;
     margin-bottom: 6px;
+  }
+}
+#MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+  margin-left: 4px;
+  margin-top: 2px;
+  width: 320px;
+  padding-left: 10px;
+}
+@media (max-width: 1199px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 200px;
+  }
+}
+@media (max-width: 767px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    margin-top: 0px;
+  }
+}
+@media (max-width: 690px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 180px;
+  }
+}
+@media (max-width: 390px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 160px;
+  }
+}
+@media (max-width: 370px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 120px;
+  }
+}
+@media (max-width: 320px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 120px;
   }
 }
 #MasterHeader .col-Logo {
@@ -263,7 +298,7 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 600px) {
+@media (max-width: 630px) {
   #BetaLogo {
     display: none;
   }
@@ -290,8 +325,11 @@ img {
 #Wordmark {
   height: 100%;
   float: left;
+  /*.media-below-xs ({
+        display: none;
+    });*/
 }
-@media (max-width: 479px) {
+@media (max-width: 580px) {
   #Wordmark {
     display: none;
   }
@@ -302,8 +340,11 @@ img {
 }
 #LogoSmall {
   height: 100%;
+  /*.media-xs-up ({
+        display: none;
+    });*/
 }
-@media (min-width: 480px) {
+@media (min-width: 580px) {
   #LogoSmall {
     display: none;
   }
@@ -328,35 +369,10 @@ img {
   line-height: 34px;
 }
 #loginAndHelp .dropdown .userName {
-  max-width: 115px;
+  max-width: 145px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-@media (min-width: 500px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 135px;
-  }
-}
-@media (min-width: 520px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 155px;
-  }
-}
-@media (min-width: 540px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 175px;
-  }
-}
-@media (min-width: 560px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 195px;
-  }
-}
-@media (min-width: 992px) {
-  #loginAndHelp .dropdown .userName {
-    max-width: 400px;
-  }
 }
 #loginAndHelp a,
 #loginAndHelp span {
@@ -382,12 +398,17 @@ img {
 #loginAndHelp #SupportUs {
   color: #FFD700;
 }
+@media (max-width: 420px) {
+  #loginAndHelp #SupportUs {
+    display: none;
+  }
+}
 #loginAndHelp #SupportUs:hover,
 #loginAndHelp #SupportUs:active,
 #loginAndHelp #SupportUs:focus {
   color: #AFD534;
 }
-@media (max-width: 991px) {
+@media (max-width: 1200px) {
   #loginAndHelp #SupportUs .TextSpan {
     display: none;
   }
@@ -402,9 +423,14 @@ img {
     margin-right: 10px;
   }
 }
-@media (min-width: 768px) {
-  #loginAndHelp a.helpLink i {
-    font-size: 16px;
+@media (max-width: 370px) {
+  #loginAndHelp a.helpLink {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  #loginAndHelp a.helpLink.helpLinkFaq {
+    display: none;
   }
 }
 #loginAndHelp .userImage {
@@ -422,18 +448,12 @@ img {
   margin-left: 0;
 }
 #loginAndHelp .TextSpan,
-#loginAndHelp span {
+#loginAndHelp span:not(.level-display) {
   display: inline-block;
 }
-@media (max-width: 479px) {
+@media (max-width: 991px) {
   #loginAndHelp .TextSpan,
-  #loginAndHelp span {
-    display: none;
-  }
-}
-@media (max-width: 767px) {
-  #loginAndHelp .TextSpan.Help,
-  #loginAndHelp span.Help {
+  #loginAndHelp span:not(.level-display) {
     display: none;
   }
 }
@@ -442,6 +462,82 @@ img {
 }
 #loginAndHelp i#tabInfoMyKnowledge {
   margin-right: 1px;
+}
+#MasterHeader .popover {
+  max-width: 600px !important;
+}
+#activity-popover-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 6px 0;
+  text-align: center;
+  color: #203256;
+}
+#activity-popover-content-inner {
+  padding-top: 10px;
+  line-height: normal;
+  color: #333333;
+  font-size: 18px;
+  text-align: center;
+}
+#activity-popover-content-inner span {
+  vertical-align: baseline !important;
+  height: auto !important;
+  line-height: normal !important;
+}
+#activity-popover-content-inner .ProgressBarContainer,
+#activity-popover-content-inner .ProgressBarSegment {
+  height: 25px;
+}
+#activity-popover-content-inner .ProgressBarContainer {
+  display: table;
+  width: 100%;
+  border: solid 2px #AFD534;
+  background-color: #AFD534;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarContainer:before,
+#activity-popover-content-inner .ProgressBarContainer:after {
+  content: " ";
+  display: table;
+}
+#activity-popover-content-inner .ProgressBarContainer:after {
+  clear: both;
+}
+#activity-popover-content-inner .ProgressBarSegment {
+  display: table-cell;
+  overflow: hidden;
+  text-align: center;
+  vertical-align: top;
+}
+#activity-popover-content-inner .ProgressBarLegend {
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 100%;
+  min-width: 30px;
+  font-weight: bold;
+}
+#activity-popover-content-inner .ProgressBarDone {
+  background-color: #AFD534;
+  position: relative;
+  overflow: visible;
+}
+#activity-popover-content-inner .ProgressBarLeft {
+  background-color: #e1efb3;
+}
+#activity-popover-content-inner .ProgressInfoText {
+  text-align: center;
+  color: #999999;
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
@@ -598,6 +694,39 @@ fieldset[disabled] #MenuButton:hover {
     display: none;
   }
 }
+ul.AutocompleteHeader {
+  max-width: 550px;
+}
+.level-display {
+  margin-left: 3px;
+}
+.level-display svg {
+  width: 32px;
+  height: 32px;
+}
+.level-display svg.large {
+  width: 90px;
+  height: 90px;
+}
+.level-display svg.large text {
+  font-size: 60px;
+}
+@media (max-width: 767px) {
+  .level-display svg {
+    margin-top: 4px;
+    width: 25px;
+    height: 25px;
+  }
+}
+.level-display circle {
+  fill: #AFD534;
+}
+.level-display .level-count {
+  fill: #003264;
+  font-weight: bolder;
+  font-size: 1.3em;
+  text-anchor: middle;
+}
 /* MASTER SECTION
 ----------------------------------------------------------*/
 #MasterSection {
@@ -697,9 +826,6 @@ fieldset[disabled] #MenuButton:hover {
     width: 80%;
   }
 }
-#MasterWidget {
-  background-color: white;
-}
 #MasterLeftColumn {
   position: relative;
   min-height: 1px;
@@ -776,6 +902,30 @@ fieldset[disabled] #MenuButton:hover {
   #MasterFooter .FooterCol:last-child > div {
     float: right;
   }
+}
+/* MASTER WIDGET
+----------------------------------------------------------*/
+#MasterWidget,
+#MasterWidget html {
+  background-color: transparent !important;
+}
+#MasterWidget #WidgetContent {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  background-color: white;
+}
+#MasterWidget #WidgetContent blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 /* SPONSOR
 ----------------------------------------------------------*/
@@ -877,17 +1027,16 @@ a.button span.ui-icon {
 }
 #modalLogin .modal-dialog div.col-you-have-to-be-logged-in {
   padding-bottom: 5px;
-  padding-left: 5px;
-  margin-top: -13px;
+  padding-right: 15px;
+  margin-top: -29px;
   border-bottom: 1px solid lavender;
 }
-@media screen and (min-width: 568px) {
+@media (min-width: 480px) {
   #modalLogin .modal-dialog {
-    width: 450px;
+    width: 430px;
     height: 300px;
-  }
-  #modalLogin .modal-dialog div.col-you-have-to-be-logged-in {
-    padding-left: 40px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 /*  LABELS
@@ -1181,10 +1330,6 @@ div.box-main .box-content {
   background-color: white;
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
 }
-.rowBase:first-child,
-.category-row:first-child {
-  border-top: none;
-}
 .jqstooltip {
   height: 36px;
   width: 100px;
@@ -1201,7 +1346,7 @@ i:hover {
 }
 /*UI*/
 ul.ui-autocomplete {
-  z-index: 2;
+  z-index: 3;
 }
 /* VARIOUS
 ----------------------------------------------------------*/
@@ -1230,6 +1375,24 @@ ul.show-tooltip-ul {
   padding-left: 15px;
 }
 /*Icons*/
+.LinkToTop {
+  text-align: right;
+  margin: 20px 0;
+  color: #1964c8;
+  opacity: 0.3;
+}
+.LinkToTop i {
+  font-size: 50px;
+  margin-bottom: -10px;
+}
+.LinkToTop p {
+  font-size: 12px !important;
+  margin-top: -10px !important;
+  margin-right: 9px !important;
+  letter-spacing: .1em !important;
+  max-width: 100% !important;
+  line-height: 17px !important;
+}
 /*Dropdowns*/
 ul.AlignDdRight {
   left: auto;
@@ -1272,6 +1435,22 @@ li.google-visualization-tooltip-item {
 li.google-visualization-tooltip-item span {
   font-size: 12px !important;
 }
+/*Team Pictures*/
+.TeamPic {
+  text-align: center;
+  margin-bottom: 20px;
+}
+@media (max-width: 479px) {
+  .TeamPic {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+.TeamPic img {
+  border-radius: 5px;
+  border-radius: 50%;
+}
 /* $ToDo: Clean up
 ----------------------------------------------------------*/
 .dark-blue {
@@ -1311,6 +1490,17 @@ a.noTextdecoration:hover {
   width: 100%;
   height: 0;
   padding-bottom: 56.25%;
+}
+.youtubeContainer .youtubeOverlay {
+  z-index: 22;
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  opacity: 0.90;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 16%;
 }
 .youtubeContainer iframe.video {
   position: absolute;

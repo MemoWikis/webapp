@@ -28,7 +28,7 @@ public class ImageUrl
                 return GetResult(imageSettings, requestedWidth, isSquare);
 
             //we guess the biggest file has a width of 512
-            var image512 = string.Format("{0}_512.jpg", imageSettings.ServerPathAndId());
+            var image512 = $"{imageSettings.ServerPathAndId()}_512.jpg";
             if (File.Exists(image512))
             {
                 using (var image = Image.FromFile(image512))
@@ -38,15 +38,22 @@ public class ImageUrl
                 return GetResult(imageSettings, requestedWidth, isSquare);
             }
 
+            if (HttpContext.Current == null)
+            {
+                return new ImageUrl {Url = getFallBackImage(requestedWidth), HasUploadedImage = false};
+            }
+
             //we search for the biggest file
-            var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), string.Format("{0}_*.jpg", imageSettings.Id));
+            var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), $"{imageSettings.Id}_*.jpg");
             if (fileNames.Any()){
                 var maxFileWidth = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
 
-                using (var biggestAvailableImage = Image.FromFile(string.Format("{0}_{1}.jpg", imageSettings.ServerPathAndId(), maxFileWidth)))
+                using (var biggestAvailableImage = Image.FromFile($"{imageSettings.ServerPathAndId()}_{maxFileWidth}.jpg"))
                 {
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
+                        Logg.r().Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {HttpContext.Current?.Request.Url.AbsoluteUri}). ");
+
                         if (isSquare)
                         {
                             requestedWidth = Math.Max(biggestAvailableImage.Width, biggestAvailableImage.Height);
@@ -94,7 +101,7 @@ public class ImageUrl
     public ImageUrl SetSuffix(ImageMetaData imageMeta)
     {
         var urlSuffix = "";
-        if (imageMeta != null)
+        if (imageMeta != null && !imageMeta.IsYoutubePreviewImage)
             urlSuffix = "?" + imageMeta.DateModified.ToString("yyyyMMdd-HHMMss");
 
         Url += urlSuffix ;

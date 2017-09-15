@@ -41,6 +41,13 @@ public class GameController : BaseController
                 gameModel.Sets = date.Sets;
         }
 
+        if (Request["categoryId"] != null)
+        {
+            var category = Sl.R<CategoryRepository>().GetById(Convert.ToInt32(Request["categoryId"]));
+            if (category != null)
+                gameModel.Sets = category.GetAggregatedSetsFromMemoryCache();
+        }
+
         return View(_viewLocation, gameModel);
     }
 
@@ -50,7 +57,7 @@ public class GameController : BaseController
         var sets = AutocompleteUtils.GetSetsFromPostData(Request.Form);
         if (sets.Count == 0)
         {
-            gameModel.Message = new ErrorMessage("Bitte gib mindestens einen Fragesatz ein.");
+            gameModel.Message = new ErrorMessage("Bitte gib mindestens ein Lernset ein.");
             return View(_viewLocation, gameModel);            
         }
 
@@ -66,8 +73,26 @@ public class GameController : BaseController
 
         if (!hasQuestions)
         {
-            gameModel.Message = new ErrorMessage("Die gewählten Fragesätze beinhalten keine Multiple-Choice-Fragen.");
-            return View(_viewLocation, gameModel);                                    
+            gameModel.Message = new ErrorMessage("Die gewählten Lernsets beinhalten keine Multiple-Choice-Fragen.");
+            return View(_viewLocation, gameModel);
+        }
+
+        
+        
+        //MatchList Fragen nicht zulassen (temporär)
+        bool containsMatchListQuestions = sets.SelectMany(x => x.QuestionsInSet).Any(q => q.Question.SolutionType == SolutionType.MatchList);
+        if (containsMatchListQuestions)
+        {
+            gameModel.Message = new ErrorMessage("Bitte wählen sie keine Fragen vom Typ Zuordnung (Liste). Diese sind leider noch nicht in den Spielen-Modus integriert.");
+            return View(_viewLocation, gameModel);
+        }
+        
+        //FlashCard Fragen nicht zulassen
+        bool containsFlashCardQuestions= sets.SelectMany(x => x.QuestionsInSet).Any(q => q.Question.SolutionType == SolutionType.FlashCard);
+        if (containsFlashCardQuestions)
+        {
+            gameModel.Message = new ErrorMessage("Bitte wählen sie keine Fragen vom Typ Karteikarte. Diese sind für Spiele ungeeignet!");
+            return View(_viewLocation, gameModel);
         }
 
         var game = new Game();

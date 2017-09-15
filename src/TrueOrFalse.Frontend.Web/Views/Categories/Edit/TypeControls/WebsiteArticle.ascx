@@ -39,18 +39,18 @@
         <div class="JS-ValidationGroup">
             <label class="sr-only" for="PublicationDateDay">Tag</label>
             <div style="" class="ControlInline">
-                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= model.PublicationDateDay.PadLeft(2, '0') %>" placeholder="TT">
+                <input class="form-control InputDayOrMonth JS-ValidationGroupMember" name="PublicationDateDay" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateDay) ? null : model.PublicationDateDay.PadLeft(2, '0') %>" placeholder="TT">
             </div>
             <label class="control-label LabelInline">.</label>
             <div class="ControlGroupInline">
                 <label class="sr-only" for="PublicationDateMonth">Monat</label>
                 <div style="" class="ControlInline">
-                    <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= model.PublicationDateMonth.PadLeft(2, '0') %>" placeholder="MM">
+                    <input class="form-control InputDayOrMonth JS-ValidationGroupMember" style="" name="PublicationDateMonth" type="text" value="<%= string.IsNullOrEmpty(model.PublicationDateMonth) ? null : model.PublicationDateMonth.PadLeft(2, '0') %>" placeholder="MM">
                 </div>
                 <label class="control-label LabelInline">.</label>
             </div>
             <div class="ControlGroupInline">
-                <label class="sr-only" for="PublicationDateYear">Jahr</label>
+                <label class="sr-only" for="PublicationDateYear">Jahr</label> 
                 <div style="" class="ControlInline">
                     <input class="form-control InputYear JS-ValidationGroupMember" name="PublicationDateYear" type="text" value="<%= model.PublicationDateYear %>" placeholder="JJJJ">
                 </div>
@@ -69,14 +69,36 @@
         <textarea class="form-control" name="Description" type="text"><%= Model.Description %></textarea>
     </div>
 </div>
-<div class="form-group">
+
+<div class="form-group" style="padding-top: 20px; padding-bottom: 20px;">
     <label class="RequiredField columnLabel control-label" for="Url">
-        Url
+        Internetadresse des <%= CategoryType.WebsiteArticle.GetName() %>
         <i class="fa fa-question-circle show-tooltip" 
             title="Bitte gib wenn möglich einen Perma-Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
         </i>
     </label>
     <div class="columnControlsFull">
-        <input class="form-control" name="Url" type="text" value="<%= model.Url %>">
+        <input class="form-control" name="Url" type="text" value="<%= Model.Url %>">
+    </div>
+    <label class="columnLabel control-label" for="UrlLinkText">
+        Angezeigter Link-Text (optional)
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Gib hier einen Text an, der den Link beschreibt, zum Beispiel 'Offizielle Webseite des Artikels'. Lässt du das Feld leer, wird die Link-Adresse angezeigt." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="UrlLinkText" type="text" maxlength="50" value="<%= Model.UrlLinkText %>">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="columnLabel control-label" for="WikipediaUrl">
+        Wikipedia-Artikel
+        <i class="fa fa-question-circle show-tooltip" 
+           title="Falls es einen Wikipedia-Artikel zum Online-Artikel gibt, gib bitte hier den Link an." data-placement="<%= CssJs.TooltipPlacementLabel %>">
+        </i>
+    </label>
+    <div class="columnControlsFull">
+        <input class="form-control" name="WikipediaUrl" type="text" value="<%= Model.WikipediaUrl %>">
     </div>
 </div>

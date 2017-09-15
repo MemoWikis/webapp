@@ -81,7 +81,7 @@ namespace TrueOrFalse.Tests
             importerResult.Categories.Count().Should().Be.EqualTo(2);
             importerResult.Categories.First().Name.Should().Be.EqualTo("Sport");
             importerResult.Categories.Last().Name.Should().Be.EqualTo("Football");
-            importerResult.Categories.Last().ParentCategories.Single().Should().Be.SameInstanceAs(importerResult.Categories.First());
+            importerResult.Categories.Last().ParentCategories().Single().Should().Be.SameInstanceAs(importerResult.Categories.First());
         }
 
     }

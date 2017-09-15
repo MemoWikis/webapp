@@ -12,7 +12,8 @@
                 <li><a href="/Maintenance/Messages">Nachrichten</a></li>
                 <li><a href="/Maintenance/Tools">Tools</a></li>
                 <li class="active"><a href="/Maintenance/CMS">CMS</a></li>
-                <li><a href="/Maintenance/ContentReport">Content</a></li>
+                <li><a href="/Maintenance/ContentCreatedReport">Cnt-Created</a></li>
+                <li><a href="/Maintenance/ContentStats">Cnt Stats</a></li>
                 <li><a href="/Maintenance/Statistics">Stats</a></li>
             </ul>
         </div>
@@ -29,7 +30,8 @@
         
             <%= Html.AntiForgeryToken() %>
             <div class="form-group">
-                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Fragesätze</span> (Set-Ids kommasepariert)</label>
+                <label class="control-label"><span style="font-weight: bold">Vorgeschlagene Lernsets</span> (Set-Ids kommasepariert)</label>
+                <i class="fa fa-info-circle show-tooltip" title="Diese Lernsets werden bei den Inhalteempfehlungen zusätzlich zu allen Lernsets von memucho berücksichtigt.">&nbsp;</i>
                 <%= Html.TextBoxFor(m => m.SuggestedSetsIdString, new {@class="form-control"} ) %>
                 <% foreach(var set in Model.SuggestedSets) { %>
                     <a href="<%= Links.SetDetail(Url, set) %>"><span class="label label-set"><%: set.Id %>-<%: set.Name %></span></a>

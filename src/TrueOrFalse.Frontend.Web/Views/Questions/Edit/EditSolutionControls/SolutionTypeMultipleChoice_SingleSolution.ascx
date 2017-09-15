@@ -10,7 +10,6 @@
     </div>
 </div>
 
-
 <script type="text/javascript">
     var addingChoiceId = $("#choices .form-group").length;
     $("#addChoice").click(function () {
@@ -46,10 +45,15 @@
 
     });
 <% if (Model != null)
-       foreach (var choice in Model.Choices){ %>
+   {
+       foreach (var choice in Model.Choices)
+       { %>
         $("#addChoice").click();
         $(".sequence-choice").last().val('<%= choice %>');
-<% }else { %>
+        <% }
+   }
+   else
+   { %>
        $("#addChoice").click();
        $("#addChoice").click();
 <% } %>

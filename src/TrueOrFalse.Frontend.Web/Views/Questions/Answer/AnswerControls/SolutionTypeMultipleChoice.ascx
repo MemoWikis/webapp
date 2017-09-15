@@ -1,10 +1,16 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
 
 
-<% var random = new Random();
-   foreach (var choice in Model.Choices.OrderBy(x => random.Next()))
-   { %>
-    <div class="radio">
+<% var localChoices = Model.Choices;
+   if (!Model.isSolutionOrdered)
+   {
+       var random = new Random();
+       localChoices = Model.Choices.OrderBy(x => random.Next()).ToList();
+   }
+
+   foreach (var choice in localChoices)
+    { %>
+    <div class="checkbox">
         <label>
             <input type="checkbox" name="answer" value="<%: choice.Text %>" /> <%: choice.Text %> <br />
         </label>

@@ -18,13 +18,16 @@
                 </div>
                 <div>
                     <% if(Model.QuestionCount != 0){ %>
-                        <span class="label label-question show-tooltip" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Fragesatz">
+                        <span class="label label-question show-tooltip" title="" data-placement="top" data-original-title="<%= Model.QuestionCount %> Fragen im Lernset">
                             <%= Model.QuestionCount %>
                         </span>
                     <% }else{ %>
                         <span style="color: darkgray">(0)</span>
                     <% } %>            
                     <a href="<%= Model.DetailLink(Url) %>"><%= Model.Name %></a>
+                    <% if(Model.HasVideo) { %>
+                        <i class="fa fa-lg fa-youtube-play show-tooltip greyed" data-original-title="Lernset mit Video und den dazu passenden Fragen">&nbsp;</i>
+                    <% } %>
                 </div>
             </div>
             <div style="margin-bottom: 5px;">
@@ -32,7 +35,7 @@
             </div>
             <div style="margin-bottom: 5px;">
                 <% foreach (var category in Model.Categories){ %>
-                    <a href="<%= Links.CategoryDetail(category) %>"><span class="label label-category"><%= category.Name %></span></a>    
+                    <% Html.RenderPartial("CategoryLabel", category); %>
                 <% } %>
             </div>
         
@@ -42,7 +45,7 @@
     <div class="column-Additional">
         
         <div class="StatsGroup SetInfo">
-            <a href="<%= Model.UserLink(Url)  %>" class="StatsRow userPopover show-tooltip" style="padding-right: 5px;" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
+            <a href="<%= Model.UserLink(Url)  %>" class="StatsRow show-tooltip" style="padding-right: 5px;" rel="popover" data-creater-id="<%= Model.CreatorId %>" 
                data-original-title="Erstellt von <%=Model.CreatorName %>">
                 <%= Model.CreatorName %></a>
             
@@ -70,10 +73,10 @@
                 <a class="StatsRow" style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
                     <i class="fa fa-line-chart fa-fw">&nbsp;</i>Jetzt lernen
                 </a>
-                <a class="StatsRow" style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Fragesatz starten." >
+                <a class="StatsRow" style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Lernset starten." >
                     <i class="fa fa-gamepad fa-fw" style="font-size: 15px;">&nbsp;</i>Spiel starten
                 </a>
-                <a class="StatsRow" style="display: block;" href="<%= Links.DateCreateForSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Fragesatz erstellen." >
+                <a class="StatsRow" style="display: block;" href="<%= Links.DateCreateForSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Termin mit diesem Lernset erstellen." >
                     <i class="fa fa-calendar fa-fw" style="font-size: 13px;">&nbsp;</i>Termin lernen
                 </a>
             <% }

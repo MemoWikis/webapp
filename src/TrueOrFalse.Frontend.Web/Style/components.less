@@ -35,7 +35,6 @@
 }
 
 ul.ui-autocomplete {
-
     border-radius: 4px;
 
     li.ui-menu-item {
@@ -45,27 +44,31 @@ ul.ui-autocomplete {
         margin: 0 !important;
         padding: 0;
 
-        &.ui-state-focus, &.ui-state-hover{
-            background: none !important;//to override jquery-ui styles
+        &.ui-state-focus, &.ui-state-hover {
+            background: #f5f8ff !important; //to override jquery-ui styles
         }
     }
 
-    .CatListItem, .SetListItem {
-        
+    .CatListItem, .SetListItem, .SearchResultItem {
         border: 1px transparent solid;
         padding: 5px !important;
         margin: 2px;
         border-radius: 4px;
-
         display: block;
-        overflow: hidden;//replaces clearfix which causes layout bug
+        overflow: hidden; //replaces clearfix which causes layout bug
+        z-index: 100;
 
         img {
             float: left;
             border-radius: 4px;
+            margin-right: 7px;
         }
 
         .CatDescription {
+            margin-left: 55px;
+        }
+
+        .SetDescription {
             margin-left: 55px;
         }
 
@@ -85,7 +88,7 @@ ul.ui-autocomplete {
         }
     }
 
-    a.CatListItem{//"a" is needed to exclude div.CatListItem
+    a.CatListItem { //"a" is needed to exclude div.CatListItem
         &:hover, &:focus {
             background-color: @background-grey;
         }
@@ -99,11 +102,49 @@ ul.ui-autocomplete {
 
     .Reference {
         max-width: 300px;
+
         div:not(.Name):not(.Icon) {
             font-size: 80%;
         }
+
         .Url {
             display: inline-block !important;
+        }
+    }
+
+    .SearchResultItem {
+        img {
+            height: 40px;
+            width: 40px;
+        }
+
+        a {
+            width: 100%;
+            display: block;
+            height: 40px;
+        }
+
+        padding: 3px !important;
+    }
+
+    div.SearchResultHeader {
+        cursor: default;
+        background-color: #003264;
+        color: white;
+        padding: 3px !important;
+        padding-left: 8px !important;
+        font-weight: bold;
+
+        div.ResultCount {
+            float: right;
+            font-weight: normal;
+            font-size: 12px;
+            margin-top: 4px;
+            padding-right: 6px;
+
+            a {
+                color: white;
+            }
         }
     }
 }
@@ -241,6 +282,8 @@ div.selected-row:hover { background-color: #d6e0f4;}
         border-radius: @border-radius-item-image;
         max-width: 100%;
     }
+
+    .MakeYoutubeImagesSquare;
 }
 
 .column-MainContent {

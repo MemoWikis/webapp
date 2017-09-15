@@ -10,7 +10,7 @@ internal class ImageLicenses_from_wikimedia : BaseTest
     [Test]
     public void Authorized_licenses_should_contain_all_necessary_information()
     {
-        var allAuthorizedLicenses = LicenseImageRepo.GetAllAuthorizedLicenses();
+        var allAuthorizedLicenses = LicenseImageRepo.GetAllAuthorizedLicenses().Where(l => l.Id != 555).ToList();
 
         //Check for licenses without valid id
         Assert.That(allAuthorizedLicenses.All(license => license.Id > 0),

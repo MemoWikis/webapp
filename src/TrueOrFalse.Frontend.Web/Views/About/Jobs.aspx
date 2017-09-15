@@ -1,28 +1,13 @@
 ﻿<%@ Page Title="Jobs bei memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/Jobs.css" rel="stylesheet" />
-
-<script type="text/javascript" >
-
-    $(function () {
-        $("span.mailme")
-            .each(function() {
-                var spt = this.innerHTML;
-                var at = / at /;
-                var dot = / dot /g;
-                var addr = spt.replace(at, "@").replace(dot, ".");
-                $(this).after('<a href="mailto:' + addr + '" title="Schreibe eine E-Mail">' + addr + '</a>');
-                $(this).remove();
-            });
-    });
-</script>    
+    <%= Scripts.Render("~/bundles/mailto") %>
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
 
 <div class="row">
     <div class="col-xs-12">
@@ -163,8 +148,8 @@
                 Deine Aufgaben sind:
             </p>
             <ul>
-                <li>Erstellen von hochwertigen Lerninhalten bei memucho v.a. zu Einführungsthemen der BWL und VWL (<a href="<%= Links.SetsAll() %>">Beispiele für Fragesätze</a>)</li>
-                <li>Entwickeln eigener guter Ideen zu Fragesätzen</li>
+                <li>Erstellen von hochwertigen Lerninhalten bei memucho v.a. zu Einführungsthemen der BWL und VWL (<a href="<%= Links.SetsAll() %>">Beispiele für Lernsets</a>)</li>
+                <li>Entwickeln eigener guter Ideen zu Lernsets</li>
                 <li>Inhaltspflege vorhandener Inhalte (Rechtschreibung, Ergänzung von Themen, Quellen hinzufügen...)</li>
             </ul>
             <p class="listTitle">
@@ -229,7 +214,7 @@
             </p>
             <ul>
                 <li>Erstellen von hochwertigen Lerninhalten bei memucho (<a href="<%= Links.SetsAll() %>">Beispiele</a>)</li>
-                <li>Entwickeln eigener guter Ideen zu Fragesätzen</li>
+                <li>Entwickeln eigener guter Ideen zu Lernsets</li>
                 <li>Inhaltspflege vorhandener Inhalte (Rechtschreibung, Ergänzung von Themen, Quellen hinzufügen...)</li>
             </ul>
             <p class="listTitle">

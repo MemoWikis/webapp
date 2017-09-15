@@ -23,6 +23,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/shared")
                 .IncludeDirectory("~/Scripts/", "*.js")
                 .IncludeDirectory("~/Scripts/vendor", "*.js")
+                .IncludeDirectory("~/Scripts/header", "*.js")
                 .IncludeDirectory("~/Scripts/hubs", "*.js")
                 .IncludeDirectory("~/Scripts/socialLogins", "*.js")
                 .IncludeDirectory("~/Views/Images", "*.js")
@@ -55,6 +56,9 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/Registration")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/Help")
+                .IncludeDirectory("~/Views/Help/Js", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Category")
                 .Include("~/Views/Categories/Detail/Category.css"));
@@ -91,11 +95,19 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/Categories")
                 .IncludeDirectory("~/Views/Categories/Js/", "*.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/CategoryEdit")
+            bundles.Add(new StyleBundle("~/bundles/CategoryEdit")
+                .Include("~/Views/Categories/Edit/EditCategory.css")
+                .Include("~/Scripts/vendor.somewhere/simplemde.css")
+                .Include("~/Views/Categories/Detail/Category.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/CategoryEdit")
                 .IncludeDirectory("~/Views/Categories/Edit/Js/", "*.js")
                 .Include("~/Views/Categories/Js/CategoryDelete.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
-                .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
+                .Include("~/Scripts/autocompletes/AutocompleteCategories.js")
+                .Include("~/Scripts/vendor.somewhere/simplemde.js")
+                .Include("~/Views/Categories/Edit/Js/EditCategoryNavBar.js")
+                .Include("~/Scripts/vendor.somewhere/d3v3.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Users")
                 .IncludeDirectory("~/Views/Users/Js/", "*.js"));
@@ -117,7 +129,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
-            );
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
@@ -126,6 +138,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Questions/Js/QuestionRowDelete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/SetEdit")
+                .Include("~/Views/Sets/Detail/Js/YoutubeApi.js")
                 .IncludeDirectory("~/Views/Sets/Edit/Js/" ,"*.js")
                 .Include("~/Views/Images/ImageUpload/ImageUpload.js")
                 .Include("~/Scripts/autocompletes/AutocompleteCategories.js"));
@@ -137,7 +150,8 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/widgets/ShareDialog.js")
                 .Include("~/Views/Sets/Detail/Js/ShareSet.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
-                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js"));
+                .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Set")
                 .Include("~/Views/Sets/Detail/Set.css")
@@ -184,12 +198,16 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/GamePlay")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
-                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Games/Play/Js/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/GamePlay")
                 .Include("~/Views/Games/Play/*.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/AwesomeIframe")
+                .Include("~/Views/Widgets/AwesomeIframe.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetQuestion")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
@@ -205,6 +223,7 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/WidgetSetVideo")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
                 .Include("~/Views/Sets/Detail/Js/SetVideo.js")
                 .Include("~/Views/Widgets/WidgetSetVideo.js")
                 .Include("~/Views/Widgets/AwesomeIframe.js"));
@@ -230,8 +249,20 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
+                .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")
+                .Include("~/Views/Maintenance/ContentStats.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceContentStats")
+                .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.js")
+                .Include("~/Scripts/vendor.somewhere/jquery.dataTables.js")
+                .Include("~/Views/Maintenance/Js/ContentStats.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/mailto")
+                .Include("~/Scripts/various/mailto.js"));
+
 #if RELEASE
-                BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations = true;
 #endif
         }
     }

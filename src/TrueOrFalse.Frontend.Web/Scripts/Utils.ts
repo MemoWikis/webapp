@@ -105,6 +105,10 @@ class Utils
         return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
 
+    static IsInWidget() {
+        return $("#IsWidget").length > 0;
+    }
+
     static SendGaEvent(category: string, action: string, label: string) {
         try {
             ga('send', 'event', category, action, label);    

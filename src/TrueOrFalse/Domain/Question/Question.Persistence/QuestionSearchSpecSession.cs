@@ -27,16 +27,21 @@ public class QuestionSearchSpecSession : IRegisterAsInstancePerLifetime
             activeSearchSpec = _sessionUiData.SearchSpecQuestionWish;
             activeSearchSpec.SearchTab = SearchTabType.Wish;
         }
+        else if (key == "searchbox")
+        {
+            activeSearchSpec = _sessionUiData.SearchSpecQuestionSearchBox;
+            activeSearchSpec.SearchTab = SearchTabType.All;
+        }
         else
         {
             activeSearchSpec = _sessionUiData.SearchSpecQuestionAll;
             activeSearchSpec.SearchTab = SearchTabType.All;
         }
 
-        return CloneAndAddToSession(activeSearchSpec);
+        return AddCloneToSession(activeSearchSpec);
     }
 
-    public static QuestionSearchSpec CloneAndAddToSession(QuestionSearchSpec searchSpec, QuestionHistoryItem historyItem = null)
+    public static QuestionSearchSpec AddCloneToSession(QuestionSearchSpec searchSpec, QuestionHistoryItem historyItem = null)
     {
         var result = searchSpec.DeepClone();
         result.Key = Guid.NewGuid().ToString();
@@ -44,7 +49,7 @@ public class QuestionSearchSpecSession : IRegisterAsInstancePerLifetime
         if (historyItem != null)
             result.HistoryItem = historyItem.DeepClone();
 
-        Sl.Resolve<SessionUiData>().SearchSpecQuestions.Add(result);
+        Sl.SessionUiData.SearchSpecQuestions.Add(result);
         return result;
     }
 

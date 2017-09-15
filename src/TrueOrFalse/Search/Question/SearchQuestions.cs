@@ -32,6 +32,7 @@ namespace TrueOrFalse.Search
                 searchSpec.Filter.IgnorePrivates,
                 searchSpec.Filter.Categories,
                 searchSpec.Filter.GetKnowledgeQuestionIds(),
+                searchSpec.Filter.QuestionIdsToExclude,
                 orderBy: orderBy
             );
 
@@ -52,6 +53,7 @@ namespace TrueOrFalse.Search
             bool ignorePrivates = true,
             IList<int> categories = null,
             IList<int> questionIds = null, 
+            IList<int> questionIdsToExclude = null,
             SearchQuestionsOrderBy orderBy = SearchQuestionsOrderBy.None)
         {
             var sqb = new SearchQueryBuilder();
@@ -91,6 +93,9 @@ namespace TrueOrFalse.Search
 
             questionIds?
                 .ForEach(x => sqb.Add("Id", x.ToString(), exact: true, isAndCondition:false));
+
+            questionIdsToExclude?
+                .ForEach(x => sqb.Add("Id", x.ToString(), exact: true, isNotCondition:true));
 
             if (ignorePrivates)
                 sqb.Add("IsPrivate", "false", exact:true, isAndCondition:true);
