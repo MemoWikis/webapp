@@ -135,6 +135,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
+        private static void Schedule_RefreshEntityCache()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<RefreshEntityCache>().Build(),
+                TriggerBuilder.Create()
+                    .WithDailyTimeIntervalSchedule(x =>
+                        x.StartingDailyAt(new TimeOfDay(3, 30))
+                            .OnEveryDay()
+                            .EndingDailyAfterCount(1)).Build());
+        }
 
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
