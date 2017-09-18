@@ -534,27 +534,34 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   height: 10px;
   width: 180px;
 }
-#topicNavigation .category-knowledge-bar .solid-knowledge,
-#topicNavigation .category-knowledge-bar .needs-learning,
-#topicNavigation .category-knowledge-bar .needs-consolidation,
-#topicNavigation .category-knowledge-bar .not-learned,
-#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
+/*------------------------------------------------------
+    KnowledgeBar
+-------------------------------------------------------*/
+.category-knowledge-bar {
+  height: 10px;
+  width: 100%;
+}
+.category-knowledge-bar .solid-knowledge,
+.category-knowledge-bar .needs-learning,
+.category-knowledge-bar .needs-consolidation,
+.category-knowledge-bar .not-learned,
+.category-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-#topicNavigation .category-knowledge-bar .needs-learning {
+.category-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-#topicNavigation .category-knowledge-bar .needs-consolidation {
+.category-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-#topicNavigation .category-knowledge-bar .solid-knowledge {
+.category-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-#topicNavigation .category-knowledge-bar .not-learned {
+.category-knowledge-bar .not-learned {
   background-color: silver;
 }
-#topicNavigation .category-knowledge-bar .not-in-wish-knowledge {
+.category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
 /*------------------------------------------------------
@@ -728,9 +735,10 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     CategoryHeader
 -------------------------------------------------------*/
-#CategoryHeader {
+#CategoryHeader #HeadingSection {
   display: flex;
   align-items: center;
+  margin-bottom: 50px;
 }
 #CategoryHeader #HeadingContainer {
   flex: auto;
@@ -755,4 +763,77 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .LicenseInfo {
   color: #999999;
   text-align: center;
+}
+#CategoryHeader #TabsBar {
+  height: 45px;
+  border-top: solid 1px #d6d6d6;
+  border-bottom: solid 1px #d6d6d6;
+  display: flex;
+}
+#CategoryHeader .Tabs {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+  color: #999999;
+  text-transform: uppercase;
+  padding-right: 20px;
+}
+#CategoryHeader .Tabs .Tab {
+  height: 100%;
+  line-height: 38px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  top: 3px;
+}
+#CategoryHeader .Tabs .Tab.active {
+  color: #003264;
+  font-weight: bold;
+  border-bottom: solid 6px #003264;
+}
+#CategoryHeader #Management {
+  width: 50%;
+  display: flex;
+}
+#CategoryHeader .Border {
+  width: 1px;
+  background-color: #d6d6d6;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+#CategoryHeader .KnowledgeBarWrapper {
+  padding-top: 17px;
+  padding-left: 30px;
+  padding-right: 30px;
+  flex-grow: 1;
+}
+#CategoryHeader .Buttons {
+  flex-grow: 0;
+}
+#CategoryHeader .Buttons .Button {
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+#CategoryHeader .Buttons .Pin {
+  margin-top: 5px;
+}
+#CategoryHeader .Buttons .Pin .Text {
+  font-size: 12px;
+  color: #999999;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+#CategoryHeader .Buttons .dropdown a {
+  font-size: 18px;
+  color: #999999;
+  margin-top: 2px;
+}
+#CategoryHeader .Facebook {
+  color: #999999;
+}
+#CategoryHeader .Facebook span {
+  font-size: 14px;
+  padding-top: 5px;
 }

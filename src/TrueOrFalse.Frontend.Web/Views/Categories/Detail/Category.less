@@ -537,34 +537,44 @@ html.flexbox:not(.Explorer):not(.Safari) {
         margin-top: 15px;
         height: 10px;
         width: 180px;
-
-        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
-            height: inherit;
-            float: left;
-        }
-
-        .needs-learning {
-            background-color: @needs-learning-color;
-        }
-
-        .needs-consolidation {
-            background-color: @needs-consolidation-color;
-        }
-
-        .solid-knowledge {
-            background-color: @solid-knowledge-color;
-        }
-
-        .not-learned {
-            background-color: @not-learned-color;
-        }
-
-        .not-in-wish-knowledge {
-            background-color: @not-in-wish-knowledge-color;
-        }
     }
 }
-    /*------------------------------------------------------
+
+/*------------------------------------------------------
+    KnowledgeBar
+-------------------------------------------------------*/
+
+.category-knowledge-bar {
+    height: 10px;
+    width: 100%;
+
+    .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+        height: inherit;
+        float: left;
+    }
+
+    .needs-learning {
+        background-color: @needs-learning-color;
+    }
+
+    .needs-consolidation {
+        background-color: @needs-consolidation-color;
+    }
+
+    .solid-knowledge {
+        background-color: @solid-knowledge-color;
+    }
+
+    .not-learned {
+        background-color: @not-learned-color;
+    }
+
+    .not-in-wish-knowledge {
+        background-color: @not-in-wish-knowledge-color;
+    }
+}
+
+/*------------------------------------------------------
     NEW STYLES
 -------------------------------------------------------*/
 .navLinks {
@@ -747,8 +757,12 @@ html.flexbox:not(.Explorer):not(.Safari) {
     CategoryHeader
 -------------------------------------------------------*/
 #CategoryHeader {
-    display: flex;
-    align-items: center;
+
+    #HeadingSection {
+        display: flex;
+        align-items: center;
+        margin-bottom: 50px;
+    }
 
     #HeadingContainer {
         //margin-left: 120px;
@@ -757,9 +771,12 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
     .ImageContainer {
         width: 120px;
-        .media-below-sm({
+
+        .media-below-sm( {
             width: 15%;
-        });
+        }
+
+        );
         flex-grow: 0;
         flex-shrink: 0;
         float: left;
@@ -775,5 +792,95 @@ html.flexbox:not(.Explorer):not(.Safari) {
     .LicenseInfo {
         .greyed;
         text-align: center;
+    }
+
+    #TabsBar {
+        height: 45px;
+        border-top: solid 1px @border-grey;
+        border-bottom: solid 1px @border-grey;
+        display: flex;
+    }
+
+    .Tabs {
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+        align-items: center;
+        .greyed;
+        text-transform: uppercase;
+        padding-right: 20px;
+
+
+        .Tab {
+            height: 100%;
+            line-height: 38px;
+            padding-left: 10px;
+            padding-right: 10px;
+            position: relative;
+            top: 3px;
+
+            &.active {
+                color: @memo-blue;
+                font-weight: bold;
+                border-bottom: solid 6px @memo-blue;
+            }
+        }
+    }
+
+    #Management {
+        width: 50%;
+        display: flex;
+    }
+
+    .Border {
+        width: 1px;
+        background-color: @border-grey;
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+
+    .KnowledgeBarWrapper {
+        padding-top: 17px;
+        padding-left: 30px;
+        padding-right: 30px;
+        flex-grow: 1;
+    }
+
+    .Buttons {
+        flex-grow: 0;
+
+        .Button {
+            float: left;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .Pin {
+            margin-top: 5px;
+
+            .Text {
+                font-size: 12px;
+                .greyed;
+                text-transform: uppercase;
+                vertical-align: middle;
+            }
+        }
+
+        .dropdown {
+            a {
+                font-size: 18px;
+                .greyed;
+                margin-top: 2px;
+            }
+        }
+    }
+
+    .Facebook {
+        .greyed;
+
+        span {
+            font-size: 14px;
+            padding-top: 5px;
+        }
     }
 }
