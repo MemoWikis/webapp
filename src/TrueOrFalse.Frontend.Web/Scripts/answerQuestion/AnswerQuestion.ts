@@ -122,6 +122,7 @@ class AnswerQuestion {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
                     ActivityPoints.addPointsFromCountAsCorrect();
+                   
                 });
 
         $("#CountWrongAnswers")
@@ -138,6 +139,7 @@ class AnswerQuestion {
             .click(() => {
                 this._inputFeedback.ShowSolution();
                 ActivityPoints.addPointsFromShowSolutionAnswer();
+                $('#continue').fadeIn();
                 return false;
             });
 
@@ -190,7 +192,7 @@ class AnswerQuestion {
                 $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
-                    $('#along').hide();
+                $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
                 $('#buttons-answer').hide();
@@ -230,7 +232,7 @@ class AnswerQuestion {
 
                     if (result.correct) {
                         self.HandleCorrectAnswer();
-                        $('#along').fadeIn();
+                        $('#continue').fadeIn();
                     } else
                         self.HandleWrongAnswer(result, answerText);
 
@@ -283,6 +285,7 @@ class AnswerQuestion {
             this._inputFeedback.UpdateAnswersSoFar();
             this.RegisterWrongAnswer();//need only this
             this._inputFeedback.ShowError();
+            
 
             if (this.IsLearningSession || this.IsTestSession) {
 
@@ -306,7 +309,8 @@ class AnswerQuestion {
         this.AtLeastOneWrongAnswer = true;
         $('#aCountAsCorrect')
             .attr('data-original-title',
-                'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+            'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+        
     }
 
     private allWrongAnswersTried(answerText: string) {

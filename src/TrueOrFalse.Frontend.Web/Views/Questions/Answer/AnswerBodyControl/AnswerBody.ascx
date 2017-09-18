@@ -160,10 +160,19 @@
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link">Lösung anzeigen</a>
+                                    <a href="#" id="continue" class="btn btn-primary ButtonGroup" rel="nofollow" style="padding-right: 10px; display: none" >Weiter</a>
                                 </div>
                                 <% } %>
                                             <!-- SetPlayer.ts-->
-                                    <a href="#" id="along" class="btn btn-primary ButtonGroup" rel="nofollow" style="padding-right: 10px; display: none" >Weiter</a>
+                                    
+                                            <script>      $('#continue').click((e) => {
+                                                                debugger;
+                                                                e.preventDefault();
+                                                                console.log(e);
+                                                                player.playVideo();
+                                                });
+
+                                            </script>
 
 
                                

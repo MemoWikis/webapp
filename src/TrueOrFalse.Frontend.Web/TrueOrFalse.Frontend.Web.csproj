@@ -21,7 +21,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkProfile />
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TypeScriptToolsVersion>2.2</TypeScriptToolsVersion>
@@ -31,6 +31,7 @@
     <IISExpressUseClassicPipelineMode />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -732,12 +733,16 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideow.js">
+      <DependentUpon>SetVideow.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideow.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
@@ -2668,6 +2673,9 @@
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideow.js.map">
+      <DependentUpon>SetVideow.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
@@ -2752,7 +2760,18 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://memucho.local</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:60653/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

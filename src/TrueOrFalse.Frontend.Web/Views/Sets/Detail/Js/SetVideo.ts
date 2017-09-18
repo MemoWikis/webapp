@@ -55,6 +55,8 @@ class SetVideo {
             self.HideYoutubeOverlay();
         });
 
+
+
         $("#youtubeAnswerQuestion").click(function(e) {
             e.preventDefault();
 

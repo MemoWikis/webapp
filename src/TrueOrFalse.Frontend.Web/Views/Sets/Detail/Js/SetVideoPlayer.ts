@@ -45,9 +45,9 @@ class SetVideoPlayer
     }
 
     public OnPlayerReady() {
-        this.Player = player;
-        $('#along').click(() => {
-            player.playVideo();
+        $(document).ready(() => {
+            this.Player = player;
+      
         });
     }
 
