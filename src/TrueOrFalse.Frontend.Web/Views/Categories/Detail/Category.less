@@ -742,3 +742,38 @@ html.flexbox:not(.Explorer):not(.Safari) {
         margin-bottom: 20px;
     }
 }
+
+/*------------------------------------------------------
+    CategoryHeader
+-------------------------------------------------------*/
+#CategoryHeader {
+    display: flex;
+    align-items: center;
+
+    #HeadingContainer {
+        //margin-left: 120px;
+        flex: auto;
+    }
+
+    .ImageContainer {
+        width: 120px;
+        .media-below-sm({
+            width: 15%;
+        });
+        flex-grow: 0;
+        flex-shrink: 0;
+        float: left;
+        text-align: center;
+        margin-right: 20px;
+    }
+
+    img {
+        border-radius: 50%;
+        width: 80px;
+    }
+
+    .LicenseInfo {
+        .greyed;
+        text-align: center;
+    }
+}

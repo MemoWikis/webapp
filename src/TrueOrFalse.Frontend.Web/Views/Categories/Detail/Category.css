@@ -725,3 +725,34 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .testSetWidget h5 {
   margin-bottom: 20px;
 }
+/*------------------------------------------------------
+    CategoryHeader
+-------------------------------------------------------*/
+#CategoryHeader {
+  display: flex;
+  align-items: center;
+}
+#CategoryHeader #HeadingContainer {
+  flex: auto;
+}
+#CategoryHeader .ImageContainer {
+  width: 120px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  float: left;
+  text-align: center;
+  margin-right: 20px;
+}
+@media (max-width: 767px) {
+  #CategoryHeader .ImageContainer {
+    width: 15%;
+  }
+}
+#CategoryHeader img {
+  border-radius: 50%;
+  width: 80px;
+}
+#CategoryHeader .LicenseInfo {
+  color: #999999;
+  text-align: center;
+}
