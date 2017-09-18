@@ -587,7 +587,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-weight: 400;
   color: #203256;
 }
-@media (max-width: 479px) {
+@media (max-width: 767px) {
   #MasterMainColumn {
     font-size: 14px;
     line-height: 21px;
@@ -608,7 +608,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-weight: 400;
   margin-top: 5px;
 }
-@media (max-width: 479px) {
+@media (max-width: 767px) {
   #MasterMainColumn h1 {
     font-size: 35px;
   }
@@ -616,7 +616,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #MasterMainColumn h2 {
   font-size: 35px;
 }
-@media (max-width: 479px) {
+@media (max-width: 767px) {
   #MasterMainColumn h2 {
     font-size: 25px;
   }
@@ -624,7 +624,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #MasterMainColumn h3 {
   font-size: 25px;
 }
-@media (max-width: 479px) {
+@media (max-width: 767px) {
   #MasterMainColumn h3 {
     font-size: 20px;
   }
@@ -632,7 +632,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #MasterMainColumn h4 {
   font-size: 25px;
 }
-@media (max-width: 479px) {
+@media (max-width: 767px) {
   #MasterMainColumn h4 {
     font-size: 20px;
   }
