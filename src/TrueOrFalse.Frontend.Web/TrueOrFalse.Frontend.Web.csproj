@@ -733,16 +733,12 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\Js\SetVideow.js">
-      <DependentUpon>SetVideow.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
-    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideow.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
@@ -2672,9 +2668,6 @@
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Sets\Detail\Js\SetVideow.js.map">
-      <DependentUpon>SetVideow.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
