@@ -548,29 +548,35 @@ h4 {
         margin-right: -20px;
         padding-bottom: 80px;
 
-        .carousel-img {
-            text-align: center;
-            padding-bottom: 30px;
-        }
-
-        .blogpostButtons {
-            margin-top: 30px;
-
-            .btn {
-                margin-top: 20px;
-            }
-        }
-
         .carousel-inner {
             padding: 0 60px;
+
+            .carousel-img {
+                text-align: center;
+                padding-bottom: 30px;
+
+                img {
+                    max-height: 200px;
+                }
+            }
+
             p.authorInfo {
                 margin-bottom: 0px;
                 color: @global-text-color-grey;
                 font-size: smaller;
             }
+
             h4 {
                 margin-top: 5px;
                 margin-bottom: 15px;
+            }
+
+            .blogpostButtons {
+                margin-top: 30px;
+
+                .btn {
+                    margin-top: 20px;
+                }
             }
         }
 

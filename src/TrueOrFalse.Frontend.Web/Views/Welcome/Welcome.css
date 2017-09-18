@@ -592,18 +592,15 @@ fieldset[disabled] .EduCategory.active {
   margin-right: -20px;
   padding-bottom: 80px;
 }
-#blogposts .carousel .carousel-img {
+#blogposts .carousel .carousel-inner {
+  padding: 0 60px;
+}
+#blogposts .carousel .carousel-inner .carousel-img {
   text-align: center;
   padding-bottom: 30px;
 }
-#blogposts .carousel .blogpostButtons {
-  margin-top: 30px;
-}
-#blogposts .carousel .blogpostButtons .btn {
-  margin-top: 20px;
-}
-#blogposts .carousel .carousel-inner {
-  padding: 0 60px;
+#blogposts .carousel .carousel-inner .carousel-img img {
+  max-height: 200px;
 }
 #blogposts .carousel .carousel-inner p.authorInfo {
   margin-bottom: 0px;
@@ -613,6 +610,12 @@ fieldset[disabled] .EduCategory.active {
 #blogposts .carousel .carousel-inner h4 {
   margin-top: 5px;
   margin-bottom: 15px;
+}
+#blogposts .carousel .carousel-inner .blogpostButtons {
+  margin-top: 30px;
+}
+#blogposts .carousel .carousel-inner .blogpostButtons .btn {
+  margin-top: 20px;
 }
 #blogposts .carousel .carousel-indicators li {
   margin: 0 5px;
