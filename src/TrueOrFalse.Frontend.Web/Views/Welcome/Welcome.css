@@ -633,7 +633,7 @@ fieldset[disabled] .EduCategory.active {
 }
 #blogposts .carousel .carousel-control .glyphicon {
   font: normal normal normal 22px/1 FontAwesome;
-  font-size: 60px;
+  font-size: 50px;
 }
 #blogposts .carousel .carousel-control .glyphicon-chevron-left::before {
   content: "\f053";
