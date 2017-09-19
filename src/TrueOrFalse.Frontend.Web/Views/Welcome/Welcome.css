@@ -602,6 +602,10 @@ fieldset[disabled] .EduCategory.active {
 #blogposts .carousel .carousel-inner .carousel-img img {
   max-height: 200px;
 }
+#blogposts .carousel .carousel-inner .carousel-img .img-caption {
+  color: #999999;
+  font-size: smaller;
+}
 #blogposts .carousel .carousel-inner p.authorInfo {
   margin-bottom: 0px;
   color: #999999;
