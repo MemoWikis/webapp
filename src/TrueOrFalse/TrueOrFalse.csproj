@@ -233,6 +233,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
+    <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
     <Compile Include="Domain\Classification\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />
@@ -924,6 +926,7 @@
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueRepo.cs" />
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueType.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\RefreshEntityCache.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\LomExportJob.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeSummariesForCategory.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeStati.cs" />

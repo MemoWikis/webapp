@@ -179,4 +179,12 @@ public class CategoriesController : BaseController
         }
     }
 
+    public string RenderCategoryNetworkNavigation(int id)
+    {
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Categories/Navigation/CategoryNetworkNavigation.ascx",
+            new CategoryNetworkNavigationModel(id),
+            ControllerContext);
+    }
+
 }

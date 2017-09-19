@@ -79,9 +79,10 @@ public class CategoryNavigationModel : BaseModel
                 }
             }
 
-            var lastVisitedCategoryId = userCategoryPath.Last().Id;
-            var lastVisitedCategory = Sl.CategoryRepo.GetById(lastVisitedCategoryId);
-            var lastVisitedCategoryAggregatedCategories = lastVisitedCategory.AggregatedCategories(false);
+            var lastVisitedCategory = GetLastVisitedExistingCategory(userCategoryPath);
+            var lastVisitedCategoryAggregatedCategories = lastVisitedCategory != null
+                ? lastVisitedCategory.AggregatedCategories(false)
+                : new List<Category>();
             foreach (var actualCategory in pageCategories)
             {
                 if (lastVisitedCategoryAggregatedCategories.Contains(actualCategory))
@@ -119,5 +120,17 @@ public class CategoryNavigationModel : BaseModel
             categoryTrail.RemoveAt(categoryTrail.Count - 1);
 
         CategoryTrail = categoryTrail;
+    }
+
+    private static Category GetLastVisitedExistingCategory(IList<Category> userCategoryPath)
+    {
+        for (var i = userCategoryPath.Count - 1; i >= 0; i--)
+        {
+            var category = Sl.CategoryRepo.GetById(userCategoryPath[i].Id);
+            if (category != null)
+                return category;
+        }
+
+        return null;
     }
 }

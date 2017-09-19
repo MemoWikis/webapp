@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using TrueOrFalse.Web;
 
-public class PasswordResetModel
+public class PasswordResetModel : BaseModel
 {
     public UIMessage Message;
 

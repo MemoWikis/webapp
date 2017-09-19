@@ -117,6 +117,14 @@ select.form-control {
   padding: 0;
   width: 101.5%;
 }
+#ulQuestions .time-button,
+#ulQuestions .time-input {
+  display: none;
+}
+#ulQuestions.showTimeInput .time-button,
+#ulQuestions.showTimeInput .time-input {
+  display: block;
+}
 #ulQuestions li {
   margin: 0 5px 5px 5px;
   padding: 5px;

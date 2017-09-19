@@ -222,63 +222,77 @@
             
             
             
-        
             <div id="awards">
                 <h2>Auszeichnungen</h2>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-xs-6 col-md-3 xxs-stack">
                         <div class="logo-box">
                             <div class="img-logo">
                                 <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
                                     <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
                                 </a>
                             </div>
-                            <p>
+                            <%--                        <p>
                                 memucho ist ein Ausgezeichneter Ort im Land der Ideen 2017.
                             </p>
                             <p class="logo-box-link">
                                 <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
                                     <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
                                 </a>
-                            </p>
+                            </p>--%>
                         </div>        
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-xs-6 col-md-3 xxs-stack">
                         <div class="logo-box">
                             <div class="img-logo">
-                                <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
+                                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                                    <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
+                                </a>
                             </div>
-                            <p>
+                            <%--                        <p>
                                 memucho wurde für den Innovationspreis Berlin Brandenburg nominiert.
                             </p>
                             <p class="logo-box-link">
                                 <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
                                     <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
                                 </a>
-                            </p>
+                            </p>--%>
                         </div>    
                     </div>
-                    <div class="col-sm-4">
+                    <div class="clearfix visible-xs visible-sm"></div>
+                    <div class="col-xs-6 col-md-3 xxs-stack">
                         <div class="logo-box">
                             <div class="img-logo">
-                                <img style="margin-top: 35px;" src="/Images/LogosPartners/Logo-EXIST-eps.png" alt="" width="115" height="73"/>
+                                <a href="https://www.deutscher-engagementpreis.de/wettbewerb/publikumspreis/voting-detail/?tx_epawards_voting%5BawardWinner%5D=963&tx_epawards_voting%5Baction%5D=show&tx_epawards_voting%5Bcontroller%5D=Vote&cHash=a36d2dd613b235a05d95e8ebc949a3e1" target="_blank">
+                                    <img style="margin-top: 45px;" src="/Images/LogosPartners/Logo_DEP_rgb_300x98.jpg" alt="" width="230" height="75"/>
+                                </a>
                             </div>
-                            <p>
-                                memucho gewann über das EXIST-Programm eine Förderung vom BMWi und ESF.
+                            <%--                        <p>
+                                memucho ist Nominierter für den Deutschen Engagementpreis 2017.
                             </p>
                             <p class="logo-box-link">
-                                <a href="http://www.fu-berlin.de/sites/profund/aktuelles/news/Memucho.html" target="_blank">
-                                    Zum Artikel <span style="white-space: nowrap">(FU Berlin) <i class="fa fa-external-link"></i></span>
+                                <a href="https://www.deutscher-engagementpreis.de/wettbewerb/publikumspreis/voting-detail/?tx_epawards_voting%5BawardWinner%5D=963&tx_epawards_voting%5Baction%5D=show&tx_epawards_voting%5Bcontroller%5D=Vote&cHash=a36d2dd613b235a05d95e8ebc949a3e1" target="_blank">
+                                    <span style="white-space: nowrap">Zum Portrait <i class="fa fa-external-link"></i></span>
                                 </a>
-                            </p>
+                            </p>--%>
                         </div>    
                     </div>
-
-                    <div class="col-xs-12" id="innopreisVideo">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/qJW_V_q_3hs" frameborder="0" allowfullscreen></iframe>    
-                        <p>
-                            Das Video zu unserer Nominierung für den Innovationspreis Berlin Brandenburg im November 2016.
-                        </p>
+                    <div class="col-xs-6 col-md-3 xxs-stack">
+                        <div class="logo-box">
+                            <div class="img-logo">
+                                <a href="https://www.netzsieger.de/p/memucho" target="_blank">
+                                    <img src="/Images/LogosPartners/Logo_netzsieger_170905-memucho-small.png" alt="" width="165" height="126"/>
+                                </a>
+                            </div>
+                            <%--                        <p>
+                                memucho erhält beim Einzeltest 4,7/5 Punkten.
+                            </p>
+                            <p class="logo-box-link">
+                                <a href="https://www.netzsieger.de/p/memucho" target="_blank">
+                                    <span style="white-space: nowrap">Zum Testbericht <i class="fa fa-external-link"></i></span>
+                                </a>
+                            </p>--%>
+                        </div>    
                     </div>
                 </div>
             </div>

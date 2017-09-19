@@ -9,7 +9,5 @@ public class EntityCacheTests
     [Test]
     public void Test()
     {
-        var x = EntityCache.CategoryQuestionsList;
-        var y = EntityCache.CategoryQuestionInSetList;
     }
 }

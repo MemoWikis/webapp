@@ -68,7 +68,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
         base.Create(question);
         Flush();
         Sl.R<UpdateQuestionCountForCategory>().Run(question.Categories);
-        foreach (var category in question.Categories)
+        foreach (var category in question.Categories.ToList())
         {
             category.UpdateCountQuestionsAggregated();
             Sl.CategoryRepo.Update(category);
@@ -95,15 +95,7 @@ public class QuestionRepo : RepositoryDbBase<Question>
     {
         var category = Sl.CategoryRepo.GetById(categoryId);
 
-        var aggregatedQuestions = category.GetAggregatedQuestionsFromMemoryCache();
-
-        var userSpecificQuestions = GetAll()
-            .Where(q => q.Creator.Id == currentUser
-                        && q.Visibility != QuestionVisibility.All
-                        && q.Categories.Any(c => category.AggregatedCategories(includingSelf: true).Any(aggrC => aggrC == c))).ToList();
-
-        return aggregatedQuestions.Union(userSpecificQuestions).ToList();
-
+        return category.GetAggregatedQuestionsFromMemoryCache();
     }
 
     public IList<Question> GetForCategoryFromMemoryCache(int categoryId)

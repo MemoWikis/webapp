@@ -320,6 +320,7 @@
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
     <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
+    <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
     <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
     <Compile Include="Views\Dates\DateRowModel.cs" />
     <Compile Include="Views\Dates\Edit\EditDateController.cs" />
@@ -342,6 +343,9 @@
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
+    <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
+    <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-medium.png" />
+    <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Team\founderTeam_20161027.jpg" />
@@ -368,6 +372,9 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Scripts\YoutubeApi.js">
+      <DependentUpon>YoutubeApi.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
@@ -394,12 +401,17 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+    <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
+    <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
     </Content>
     <Content Include="Views\Error\Error.less" />
+    <Content Include="Scripts\YoutubeApi.js.map">
+      <DependentUpon>YoutubeApi.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -725,7 +737,11 @@
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
-    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js" />
+    <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
+    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
+      <DependentUpon>YoutubePreview.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
@@ -857,7 +873,6 @@
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
     <Content Include="Images\LogosPartners\Logo_Geschichtsinfos_de_w200.jpg" />
-    <Content Include="Images\LogosPartners\Logo_lernenmitspass_w200.gif" />
     <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
     <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
     <Content Include="Images\Logo\LogoComplete_M.png" />
@@ -1164,6 +1179,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Categories\Js\CategoryNetworkNavigation.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowCopy.ts" />
@@ -2649,6 +2665,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Questions\Modals\QuestionInSet.cshtml" />
     <Content Include="Views\Shared\ActivityPopupContent.ascx" />
+    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
+      <DependentUpon>YoutubePreview.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
