@@ -102,7 +102,7 @@ public class WordpressBlogPost
     {
         get
         {
-            var author = Embedded.Authors.FirstOrDefault();
+            var author = Embedded?.Authors?.FirstOrDefault();
             if (author != null) return author.Name;
             return "";
         }
@@ -112,13 +112,22 @@ public class WordpressBlogPost
     {
         get
         {
-            var embeddedWpFeaturedMedia = Embedded
-                .FeaturedMedia.FirstOrDefault();
+            var embeddedWpFeaturedMedia = Embedded?.FeaturedMedia?.FirstOrDefault();
             if (embeddedWpFeaturedMedia != null)
                 return embeddedWpFeaturedMedia
                     .MediaDetails
                     .Sizes.TryGetAndReturn("medium")
                     .SourceUrl;
+            return "";
+        }
+    }
+
+    public string FeaturedImageCaption
+    {
+        get
+        {
+            var embeddedWpFeaturedMedia = Embedded?.FeaturedMedia?.FirstOrDefault();
+            if (embeddedWpFeaturedMedia != null) return embeddedWpFeaturedMedia.Caption;
             return "";
         }
     }

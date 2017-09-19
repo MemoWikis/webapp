@@ -2,8 +2,9 @@
 
 <div id="carouselBlogposts" class="carousel slide" data-ride="carousel" data-interval="false">
     <ol class="carousel-indicators">
-        <li data-target="#carouselBlogposts" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselBlogposts" data-slide-to="1"></li>
+        <% for (int i = 0; i < Model.Count; i++) { %>
+            <li data-target="#carouselBlogposts" data-slide-to="<%= i %>" <%= i==0 ? "class=\"active\"" : "" %>></li>
+        <% } %>
     </ol>
     <div class="carousel-inner" role="listbox">
         <% 
@@ -12,7 +13,8 @@
             <div class="item <%= firstIsShown ? "" : "active" %>">
                 <div class="row">
                     <div class="col-sm-5 carousel-img">
-                        <img class="" src="<%= post.FeaturedImageMediumSizedUrl %>" alt="First slide">
+                        <img class="" src="<%= post.FeaturedImageMediumSizedUrl %>">
+                        <p class="img-caption"><%= Regex.Replace(post.FeaturedImageCaption, "<.*?>", String.Empty) %></p>
                     </div>
                     <div class="col-sm-7 carousel-text">
                         <p class="authorInfo"><%= post.DateCreated.ToString("dd.MM.yyy") %> | <%= post.AuthorName %></p>
