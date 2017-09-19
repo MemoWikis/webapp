@@ -18,9 +18,9 @@
                         <p class="authorInfo"><%= post.DateCreated.ToString("dd.MM.yyy") %> | <%= post.AuthorName %></p>
                         <h4><%= post.Title %></h4>
                         <p><%= post.Excerpt.TruncateAtWordWithEllipsisText(300, "...") %></p>
-                        <div class="blogpostButtons" style="text-align: center">
+                        <div class="blogpostButtons">
                             <a href="<%= post.Url %>" target="_blank" class="btn btn-lg btn-primary">Weiterlesen</a>
-                            <a href="http://blog.memucho.de" target="_blank" class="btn btn-lg btn-default">Zum memucho Blog</a>
+                            <a href="http://blog.memucho.de" target="_blank" class="btn btn-lg btn-default">Zum memucho-Blog</a>
                         </div>
                     </div>
                 </div>
