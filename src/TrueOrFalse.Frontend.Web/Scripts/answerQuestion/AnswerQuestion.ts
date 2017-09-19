@@ -75,7 +75,7 @@ class AnswerQuestion {
 
         var self = this;
 
-        $('body').keydown(function(e) {
+        $('body').keydown(function(e) {                                                       // simulate Click wenn sichbar und wenn Enter gedrückt wird
             var target = $(e.target);
             if (e.keyCode == 13 && (target.parents("#AnswerBody").length)) {
                 $("#btnCheck:visible").click();
@@ -188,14 +188,15 @@ class AnswerQuestion {
                 self.AmountOfTries++;
                 self.AnswersSoFar.push(answerText);
 
-                if (this.SolutionType !== SolutionType.FlashCard) {
-                $('#spnWrongAnswer').show();
+                if (this.SolutionType !== SolutionType.FlashCard) {   
+                    $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
                 $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
-                $('#buttons-answer').hide();
+                    $('#buttons-answer').hide();
+                    $('#continue').fadeIn();
             }
             $.ajax({
                 type: 'POST',
