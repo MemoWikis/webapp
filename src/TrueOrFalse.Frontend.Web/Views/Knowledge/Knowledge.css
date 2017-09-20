@@ -194,11 +194,14 @@
     Wishknowledge Categories
 -------------------------------------------------------*/
 #wishKnowledge {
+  margin-bottom: 20px;
+}
+#wishKnowledge .wishKnowledgeNavRow {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 #wishKnowledge img {
   border-radius: 50%;
@@ -215,7 +218,7 @@
 }
 #wishKnowledge .topic .row {
   margin-top: 20px;
-  margin-bottom: 25px;
+  padding-left: 20px;
 }
 @media (max-width: 649px) {
   #wishKnowledge .topic {

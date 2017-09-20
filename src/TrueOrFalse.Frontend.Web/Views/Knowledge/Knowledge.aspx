@@ -355,12 +355,11 @@
         </div>
         
         
-        <div id="wishKnowledge">
-            <div class="rowBase">
+        <div id="wishKnowledge" class="rowBase">
+            <div class="col-xs-12">
                 <h3>Themen in deinem Wunschwissen</h3>
-                <div class="row">
-                    <% foreach (var category in Model.CategoriesWish)
-                       { %>
+                <div class="row wishKnowledgeNavRow">
+                    <%  foreach (var category in Model.CategoriesWish) { %>
                         <div class="col-xs-6 topic">
                             <div class="row">
                                 <div class="col-xs-3">
@@ -382,9 +381,15 @@
                                         <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
                                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                                     </div>
-                                    <div class="showSubTopics">
-                                        <a href="#"><i class="fa fa-caret-down">&nbsp;</i>Zeige Unterthemen</a>
-                                    </div>
+<%--                                    <div class="showSubTopics">
+                                        <button data-toggle="collapse" data-target="#agg<%=category.Id %>"><i class="fa fa-caret-down">&nbsp;</i>Zeige aggreg. Unterthemen</button>
+                                        <div id="agg<%=category.Id %>" class="collapse">
+                                            <% foreach (var aggregatedCategory in category.AggregatedCategories(false))
+                                               {
+                                                   Response.Write(aggregatedCategory.Name + " (" + aggregatedCategory.Id + "); ");
+                                               } %>
+                                        </div>
+                                    </div>--%>
                                 </div>
                             </div>
                         </div>

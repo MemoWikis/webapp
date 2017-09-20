@@ -92,7 +92,42 @@ public class KnowledgeModel : BaseModel
             .Where(v => v.IsInWishKnowledge())
             .Select(v => v.CategoryId)
             .ToList();
-        CategoriesWish = R<CategoryRepository>().GetByIds(categoriesValuation);
+        var categoriesWishPool = R<CategoryRepository>().GetByIds(categoriesValuation).OrderByDescending(c => c.CountQuestionsAggregated);
+        var categoriesWish = new List<Category>();
+
+        foreach (var category in categoriesWishPool) //sort list of categories putting child categories after their parents --> todo: put it in Domain/Category/SortCategoriesAccordingToLevel.cs
+        {
+            //before inserting, iterate over all categories already inserted to check, where this one should be inserted
+            var insertAfterIndex = -1; 
+            foreach (var allreadySelectedCategory in categoriesWish)
+            {
+                if (allreadySelectedCategory.AggregatedCategories(false).Contains(category))
+                {
+                    //check if more specific category was already added to insert this one there
+                    if (insertAfterIndex == -1 || categoriesWish.ElementAt(insertAfterIndex).AggregatedCategories(false).Contains(allreadySelectedCategory))
+                    {
+                        insertAfterIndex = categoriesWish.IndexOf(allreadySelectedCategory);
+                    }
+
+                }
+            }
+            
+            //check if next is subcat of allreadySelectedCat; while that is true, postpone the insert after last item of same/inferior level (to keep order by questioncount)
+            var nextIndex = insertAfterIndex + 1;
+            while (insertAfterIndex != -1 
+                && categoriesWish.Count > nextIndex 
+                && categoriesWish.ElementAt(insertAfterIndex).AggregatedCategories(false).Contains(categoriesWish.ElementAt(nextIndex)))
+            {
+                nextIndex++;
+            }
+            insertAfterIndex = nextIndex - 1;
+
+
+            if (insertAfterIndex == -1)
+                insertAfterIndex = categoriesWish.Count - 1; //if category is not sub-topic of any already selected, then insert it at the end
+            categoriesWish.Insert(insertAfterIndex + 1, category);
+        }
+        CategoriesWish = categoriesWish;
 
 
         //GET DATES information

@@ -169,10 +169,14 @@
 -------------------------------------------------------*/
 
 #wishKnowledge {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: space-between;
-    justify-content: space-between;
+    .wishKnowledgeNavRow {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: space-between;
+        margin-bottom: 30px;
+    }
+
     margin-bottom: 20px;
 
     img {
@@ -195,7 +199,8 @@
     .topic {
         .row {
             margin-top: 20px;
-            margin-bottom: 25px;
+            //margin-bottom: 20px;
+            padding-left: 20px;
         }
 
         .stack-below(@extra-breakpoint-cards);
