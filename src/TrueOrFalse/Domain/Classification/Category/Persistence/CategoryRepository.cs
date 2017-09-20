@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
@@ -46,11 +47,19 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(category);
     }
 
-    public override void Update(Category category)
+    public override void Update(Category category) => Update(category, null);
+
+    // ReSharper disable once MethodOverloadWithOptionalParameter
+    public void Update(Category category, User author = null)
     {
         _searchIndexCategory.Update(category);
         base.Update(category);
+
+        if(author != null)
+            Sl.CategoryChangeRepo.Create(category, author);
+
         Flush();
+
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
         EntityCache.AddOrUpdate(category);
     }
