@@ -364,7 +364,10 @@ public class EntityCache
         {
             if (Sets.TryGetValue(setId, out var set))
             {
-                var categoryToReplace = set.Categories.First(c => c.Id == category.Id);
+                var categoryToReplace = set.Categories.FirstOrDefault(c => c.Id == category.Id);
+
+                if(categoryToReplace == null) return;
+
                 var index = set.Categories.IndexOf(categoryToReplace);
                 set.Categories[index] = category;
             }
@@ -379,7 +382,10 @@ public class EntityCache
         {
             if (Questions.TryGetValue(questionId, out var question))
             {
-                var categoryToReplace = question.Categories.First(c => c.Id == category.Id);
+                var categoryToReplace = question.Categories.FirstOrDefault(c => c.Id == category.Id);
+
+                if(categoryToReplace == null) return;
+
                 var index = question.Categories.IndexOf(categoryToReplace);
                 question.Categories[index] = category;
             }
