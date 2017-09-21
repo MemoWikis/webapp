@@ -32,9 +32,11 @@
                 
                 <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
                 
-                <div id="TabContent">
+                <div id="TopicTabContent" class="TabContent">
                     <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
                 </div>
+                <div id="LearningTabContent" class="TabContent"></div>
+                <div id="AnalyticsTabContent" class="TabContent"></div>
             </div>
         </div>
     </div>
