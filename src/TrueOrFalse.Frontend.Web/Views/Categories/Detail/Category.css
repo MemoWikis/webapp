@@ -842,6 +842,9 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   width: 23px;
   transition: font 0.3s ease;
 }
+#CategoryHeader .Buttons .Pin .iAddedNot {
+  vertical-align: middle;
+}
 #CategoryHeader .Buttons .Pin .Text {
   display: inline !important;
   padding-left: 2px;
@@ -873,4 +876,35 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Facebook span {
   font-size: 14px;
   padding-top: 5px;
+}
+#CategoryHeader #ManagementMobile {
+  display: none;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+#CategoryHeader #ManagementMobile .KnowledgeBarWrapper {
+  width: 50%;
+  flex-grow: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+#CategoryHeader #ManagementMobile .Buttons {
+  flex-grow: 0;
+}
+@media (max-width: 767px) {
+  #CategoryHeader #ManagementMobile {
+    display: flex;
+  }
+  #CategoryHeader #Management {
+    display: none;
+  }
+  #CategoryHeader .Tabs {
+    width: 100%;
+    padding-right: 0;
+    justify-content: space-between;
+  }
+  #CategoryHeader .Tab {
+    width: 30%;
+    text-align: center;
+  }
 }

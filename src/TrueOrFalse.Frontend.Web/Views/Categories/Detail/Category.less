@@ -757,7 +757,6 @@ html.flexbox:not(.Explorer):not(.Safari) {
     CategoryHeader
 -------------------------------------------------------*/
 #CategoryHeader {
-
     margin-bottom: 80px;
 
     #HeadingSection {
@@ -884,6 +883,10 @@ html.flexbox:not(.Explorer):not(.Safari) {
                 transition: font 0.3s ease;
             }
 
+            .iAddedNot {
+                vertical-align: middle;
+            }
+
             .Text {
                 display: inline !important;
                 padding-left: 2px;
@@ -924,4 +927,45 @@ html.flexbox:not(.Explorer):not(.Safari) {
             padding-top: 5px;
         }
     }
+
+    #ManagementMobile {
+        display: none;
+        justify-content: space-between;
+        margin-bottom: 30px;
+
+        .KnowledgeBarWrapper {
+            width: 50%;
+            flex-grow: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .Buttons {
+            flex-grow: 0;
+        }
+    }
+
+    .media-below-sm( {
+
+        #ManagementMobile {
+            display: flex;
+        }
+
+        #Management {
+            display: none;
+        }
+
+        .Tabs {
+            width: 100%;
+            padding-right: 0;
+            justify-content: space-between;
+        }
+
+        .Tab {
+            width: 30%;
+            text-align: center;
+        }
+    }
+
+    );
 }

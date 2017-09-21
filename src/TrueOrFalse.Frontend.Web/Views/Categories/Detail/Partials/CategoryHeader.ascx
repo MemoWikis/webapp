@@ -18,6 +18,39 @@
 </div>
 
 <div id="CategoryHeader">
+    <div id="ManagementMobile">
+        <div class="KnowledgeBarWrapper">
+            <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
+            <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
+        </div>
+        <div class="Buttons">
+            <div class="Button Facebook">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
+            <div class="Button Pin" data-category-id="<%= Model.Id %>">
+                <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
+                    <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
+                </a>
+            </div>
+            <div class="Button dropdown">
+                <% var buttonId = Guid.NewGuid(); %>
+                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
+                    <% if (Model.AggregatedSetCount > 0)
+                       { %>
+                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">Thema zum Termin lernen</a></li>
+                        
+                        <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">Spiel starten</a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div id="HeadingSection">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
@@ -75,7 +108,7 @@
                     </a>
                 </div>
                 <div class="Button dropdown">
-                    <% var buttonId = Guid.NewGuid(); %>
+                    <% buttonId = Guid.NewGuid(); %>
                     <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
