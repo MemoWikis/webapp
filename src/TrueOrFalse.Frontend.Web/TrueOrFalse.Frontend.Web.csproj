@@ -376,6 +376,9 @@
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">

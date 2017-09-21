@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div id="CategoryHeader" style ="margin-bottom: 200px;">
+<div id="CategoryHeader">
     <div id="HeadingSection">
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
@@ -38,12 +38,12 @@
     </div>
     <div id="TabsBar">
         <div class="Tabs">
-            <div id="TopicTab" class="Tab ">
+            <div id="TopicTab" class="Tab active">
                 <a href="#">
                     Thema
                 </a>
             </div>
-            <div id="LearningTab" class="Tab active">
+            <div id="LearningTab" class="Tab">
                 <a href="#">
                     Lernen
                 </a>

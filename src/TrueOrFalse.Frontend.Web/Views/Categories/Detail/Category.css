@@ -735,6 +735,9 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     CategoryHeader
 -------------------------------------------------------*/
+#CategoryHeader {
+  margin-bottom: 80px;
+}
 #CategoryHeader #HeadingSection {
   display: flex;
   align-items: center;

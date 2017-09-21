@@ -26,15 +26,19 @@ public class CategoryController : BaseController
 
         _sessionUiData.VisitedCategories.Add(new CategoryHistoryItem(category));
 
+        return View(_viewLocation, GetModelWithContentHtml(category));
+    }
+
+    private CategoryModel GetModelWithContentHtml(Category category)
+    {
         var contentHtml = string.IsNullOrEmpty(category.TopicMarkdown?.Trim())
             ? null
             : MarkdownToHtml.Run(category, ControllerContext);
 
-        return View(_viewLocation,
-            new CategoryModel(category)
-            {
-              CustomPageHtml = contentHtml
-            });
+        return new CategoryModel(category)
+        {
+            CustomPageHtml = contentHtml
+        };
     }
 
     public void CategoryById(int id)
@@ -105,6 +109,15 @@ public class CategoryController : BaseController
         R<LearningSessionRepo>().Create(learningSession);
 
         return Redirect(Links.LearningSession(learningSession));
+    }
+
+    public string Tab(string tabName, int categoryId)
+    {
+        return ViewRenderer.RenderPartialView(
+            "/Views/Categories/Detail/Tabs/" + tabName + ".ascx",
+            GetModelWithContentHtml(Sl.CategoryRepo.GetById(categoryId)),
+            ControllerContext
+        );
     }
 
     public string KnowledgeBar(int categoryId)
