@@ -68,6 +68,7 @@
                     if(!Model.CustomPageHtml.Contains("MainItemInfo")) { %>                  
             
                         <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
+                        <%--<% Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model); %>--%>
                     
                     <% } %>
             

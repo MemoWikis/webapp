@@ -858,11 +858,27 @@ html.flexbox:not(.Explorer):not(.Safari) {
         .Pin {
             margin-top: 5px;
 
+            i {
+                width: 23px;
+            }
+
             .Text {
+                display: inline !important;
+                padding-left: 2px;
                 font-size: 12px;
                 .greyed;
                 text-transform: uppercase;
                 vertical-align: middle;
+            }
+
+            &:hover {
+                .Text {
+                    color: @dark-red;
+                }
+
+                i {
+                    font-size: 110%;
+                }
             }
         }
 

@@ -819,11 +819,22 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Buttons .Pin {
   margin-top: 5px;
 }
+#CategoryHeader .Buttons .Pin i {
+  width: 23px;
+}
 #CategoryHeader .Buttons .Pin .Text {
+  display: inline !important;
+  padding-left: 2px;
   font-size: 12px;
   color: #999999;
   text-transform: uppercase;
   vertical-align: middle;
+}
+#CategoryHeader .Buttons .Pin:hover .Text {
+  color: #B13A48;
+}
+#CategoryHeader .Buttons .Pin:hover i {
+  font-size: 110%;
 }
 #CategoryHeader .Buttons .dropdown a {
   font-size: 18px;

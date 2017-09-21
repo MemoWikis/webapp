@@ -66,7 +66,6 @@
                 <div class="Button Pin" data-category-id="<%= Model.Id %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                        <span class="Text">Hinzufügen</span>
                     </a>
                 </div>
                 <div class="Button dropdown">

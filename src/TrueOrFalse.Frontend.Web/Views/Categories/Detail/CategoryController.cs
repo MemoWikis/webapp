@@ -106,4 +106,14 @@ public class CategoryController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
+
+    public string KnowledgeBar(int categoryId)
+    {
+        return ViewRenderer.RenderPartialView(
+            "/Views/Categories/Detail/CategoryKnowledgeBar.ascx",
+            new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)), 
+            ControllerContext
+        );
+    }
+        
 }

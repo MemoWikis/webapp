@@ -13,7 +13,7 @@ class Pin {
 
     OnPinChanged: () => void;
 
-    constructor(pinRowType : PinType, onPinChanged : () => void = null) {
+    constructor(pinRowType: PinType, onPinChanged: () => void = null) {
 
         var self = this; 
         this._pinRowType = pinRowType;
