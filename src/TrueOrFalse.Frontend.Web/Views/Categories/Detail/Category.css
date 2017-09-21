@@ -807,6 +807,10 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-weight: bold;
   cursor: default;
 }
+#CategoryHeader .Tabs .Tab.active a:active,
+#CategoryHeader .Tabs .Tab.active a:focus {
+  outline: none;
+}
 #CategoryHeader #Management {
   width: 50%;
   display: flex;
@@ -857,6 +861,11 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-size: 18px;
   color: #999999;
   margin-top: 2px;
+}
+#CategoryHeader .Buttons .dropdown-toggle:hover,
+#CategoryHeader .Buttons .dropdown-toggle:active,
+#CategoryHeader .Buttons .dropdown-toggle:focus {
+  color: #003264;
 }
 #CategoryHeader .Facebook {
   color: #999999;
