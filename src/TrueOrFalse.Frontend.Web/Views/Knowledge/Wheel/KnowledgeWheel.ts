@@ -28,7 +28,6 @@ class KnowledgeBar {
     }
 
     private static Reload(url: string) {
-        debugger;
         $.get(url, (html) => {
 
             $(".KnowledgeBarWrapper")
