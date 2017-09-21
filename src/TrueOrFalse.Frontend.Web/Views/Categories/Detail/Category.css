@@ -836,7 +836,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Buttons .Pin:hover i {
   font-size: 110%;
 }
-#CategoryHeader .Buttons .dropdown a {
+#CategoryHeader .Buttons .dropdown-toggle {
   font-size: 18px;
   color: #999999;
   margin-top: 2px;

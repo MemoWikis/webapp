@@ -73,8 +73,13 @@
                     <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="<%=buttonId %>">
-                        <li><a href="<%= Links.CategoryDetail(Model.Name, Model.Id) %>"> Detailseite zum Thema</a></li>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
+                        <% if (Model.AggregatedSetCount > 0)
+                           { %>
+                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">Thema zum Termin lernen</a></li>
+                        
+                        <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">Spiel starten</a></li>
+                        <% } %>
                     </ul>
                 </div>
             </div>
