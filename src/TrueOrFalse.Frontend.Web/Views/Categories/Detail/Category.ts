@@ -38,10 +38,10 @@
 
     private static ShowTab(tabName: string): void {
 
-        $('.TabContent').fadeOut(200, function() {
-            $('.Tab').removeClass('active');
-            $('#' + tabName).addClass('active');
-        });
+        $('.Tab').removeClass('active');
+        $('#' + tabName).addClass('active');
+
+        $('.TabContent').fadeOut(200);
 
         $('#' + tabName + "Content").delay(200).fadeIn(200);
     }

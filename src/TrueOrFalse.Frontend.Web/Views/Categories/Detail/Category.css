@@ -805,6 +805,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Tabs .Tab.active a {
   color: #003264;
   font-weight: bold;
+  cursor: default;
 }
 #CategoryHeader #Management {
   width: 50%;
