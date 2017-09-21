@@ -780,17 +780,28 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   padding-right: 20px;
 }
 #CategoryHeader .Tabs .Tab {
+  position: relative;
+  top: 3px;
+}
+#CategoryHeader .Tabs .Tab a {
+  display: block;
   height: 100%;
   line-height: 38px;
   padding-left: 20px;
   padding-right: 20px;
-  position: relative;
-  top: 3px;
+  color: #999999;
+}
+#CategoryHeader .Tabs .Tab a:hover,
+#CategoryHeader .Tabs .Tab a:focus {
+  text-decoration: none;
+  color: #003264;
 }
 #CategoryHeader .Tabs .Tab.active {
+  border-bottom: solid 6px #003264;
+}
+#CategoryHeader .Tabs .Tab.active a {
   color: #003264;
   font-weight: bold;
-  border-bottom: solid 6px #003264;
 }
 #CategoryHeader #Management {
   width: 50%;

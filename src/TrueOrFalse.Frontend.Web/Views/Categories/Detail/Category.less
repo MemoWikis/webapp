@@ -812,16 +812,30 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
 
         .Tab {
-            height: 100%;
-            line-height: 38px;
-            padding-left: 20px;
-            padding-right: 20px;
             position: relative;
             top: 3px;
 
+            a {
+                display: block;
+                height: 100%;
+                line-height: 38px;
+                padding-left: 20px;
+                padding-right: 20px;
+                .greyed;
+
+                &:hover, &:focus {
+                    text-decoration: none;
+                    color: @memo-blue;
+                }
+            }
+
             &.active {
-                color: @memo-blue;
-                font-weight: bold;
+
+                a {
+                    color: @memo-blue;
+                    font-weight: bold;
+                }
+
                 border-bottom: solid 6px @memo-blue;
             }
         }

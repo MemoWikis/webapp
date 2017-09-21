@@ -38,14 +38,20 @@
     </div>
     <div id="TabsBar">
         <div class="Tabs">
-            <div class="Tab ">
-                Thema
+            <div id="TopicTab" class="Tab ">
+                <a href="#">
+                    Thema
+                </a>
             </div>
-            <div class="Tab active">
-                Lernen
+            <div id="LearningTab" class="Tab active">
+                <a href="#">
+                    Lernen
+                </a>
             </div>
-            <div class="Tab">
-                Analytics
+            <div id="AnalyticsTab" class="Tab">
+                <a href="#">
+                    Analytics
+                </a>
             </div>
         </div>
         <div id="Management">
