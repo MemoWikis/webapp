@@ -38,10 +38,12 @@
 
     private static ShowTab(tabName: string): void {
 
-        $('.TabContent').hide();
-        $('.Tab').removeClass('active');
-        $('#' + tabName).addClass('active');
-        $('#' + tabName + "Content").animate({ opacity: 0.00 }, 0).show().animate({ opacity: 1.00 }, 400);
+        $('.TabContent').fadeOut(200, function() {
+            $('.Tab').removeClass('active');
+            $('#' + tabName).addClass('active');
+        });
+
+        $('#' + tabName + "Content").delay(200).fadeIn(200);
     }
 
 }
