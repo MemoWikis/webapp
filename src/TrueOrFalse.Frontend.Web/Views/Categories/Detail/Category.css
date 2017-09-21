@@ -782,8 +782,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Tabs .Tab {
   height: 100%;
   line-height: 38px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   position: relative;
   top: 3px;
 }
@@ -821,6 +821,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
+  transition: font 0.3s ease;
 }
 #CategoryHeader .Buttons .Pin .Text {
   display: inline !important;
@@ -829,6 +830,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   color: #999999;
   text-transform: uppercase;
   vertical-align: middle;
+  transition: color 0.3s ease;
 }
 #CategoryHeader .Buttons .Pin:hover .Text {
   color: #B13A48;
