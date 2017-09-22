@@ -96,12 +96,6 @@
                 <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
             </div>
             <div class="Buttons">
-                <div class="Button Facebook">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                    </span>
-                </div>
                 <div class="Button Pin" data-category-id="<%= Model.Id %>">
                     <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                         <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>

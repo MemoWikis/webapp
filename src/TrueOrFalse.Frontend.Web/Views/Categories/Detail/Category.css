@@ -870,13 +870,6 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Buttons .dropdown-toggle:focus {
   color: #003264;
 }
-#CategoryHeader .Facebook {
-  color: #999999;
-}
-#CategoryHeader .Facebook span {
-  font-size: 14px;
-  padding-top: 5px;
-}
 #CategoryHeader #ManagementMobile {
   display: none;
   justify-content: space-between;
