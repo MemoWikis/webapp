@@ -2,8 +2,8 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-
-<div style="padding-bottom: 15px;">
+<div id="CategoryHeader">
+    
     <div class="BreadcrumbsMobile DesktopHide">
         <a href="/" class=""><i class="fa fa-home"></i></a>
         <span> <i class="fa fa-chevron-right"></i> </span>
@@ -13,23 +13,14 @@
         <%}%>
         
         <a href="#" class="current"><%= Model.Category.Name %></a>
-
     </div>
-</div>
 
-<div id="CategoryHeader">
     <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
             <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
         </div>
         <div class="Buttons">
-            <div class="Button Facebook">
-                <span class="fa-stack fa-lg">
-                    <i class="fa fa-circle fa-stack-2x"></i>
-                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                </span>
-            </div>
             <div class="Button Pin" data-category-id="<%= Model.Id %>">
                 <a href="#" class="noTextdecoration" style="font-size: 22px; height: 10px;">
                     <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
@@ -46,6 +37,12 @@
                         <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">Thema zum Termin lernen</a></li>
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">Spiel starten</a></li>
+                    <% }
+                    if(Model.IsOwnerOrAdmin){ %>
+                        <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
+                    <% }
+                    if (Model.IsInstallationAdmin){ %>
+                        <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                     <% } %>
                 </ul>
             </div>
@@ -112,6 +109,12 @@
                         <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">Thema zum Termin lernen</a></li>
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">Spiel starten</a></li>
+                        <% }
+                        if(Model.IsOwnerOrAdmin){ %>
+                        <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
+                        <% }
+                        if (Model.IsInstallationAdmin){ %>
+                            <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                         <% } %>
                     </ul>
                 </div>

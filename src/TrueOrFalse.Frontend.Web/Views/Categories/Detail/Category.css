@@ -414,11 +414,33 @@ p:empty {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
+.BreadcrumbsMobile {
+  font-size: 14px;
+  background-color: white;
+  color: #999999;
+}
 .BreadcrumbsMobile i.fa-home {
   font-size: 120%;
 }
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
+}
+.BreadcrumbsMobile a {
+  color: #999999;
+  text-decoration: none;
+}
+.BreadcrumbsMobile a:not(.current):hover,
+.BreadcrumbsMobile a:not(.current):focus,
+.BreadcrumbsMobile a:not(.current):active {
+  color: #003264;
+}
+.BreadcrumbsMobile a.current {
+  cursor: default;
+}
+@media (max-width: 991px) {
+  .BreadcrumbsMobile {
+    padding-bottom: 20px;
+  }
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
   display: flex;
@@ -836,18 +858,20 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   padding-right: 5px;
 }
 #CategoryHeader .Buttons .Pin {
-  margin-top: 5px;
+  margin-top: 2px;
 }
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
   transition: font 0.3s ease;
 }
-#CategoryHeader .Buttons .Pin .iAddedNot {
+#CategoryHeader .Buttons .Pin .iAddedNot,
+#CategoryHeader .Buttons .Pin .iAdded,
+#CategoryHeader .Buttons .Pin .iSpinner {
   vertical-align: middle;
 }
 #CategoryHeader .Buttons .Pin .Text {
   display: inline !important;
-  padding-left: 2px;
+  padding-left: 3px;
   font-size: 12px;
   color: #999999;
   text-transform: uppercase;
@@ -899,5 +923,10 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   #CategoryHeader .Tab {
     width: 30%;
     text-align: center;
+  }
+}
+@media (max-width: 991px) {
+  #MainWrapper {
+    padding-top: 10px;
   }
 }

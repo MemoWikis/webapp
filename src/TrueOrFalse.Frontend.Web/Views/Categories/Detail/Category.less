@@ -402,8 +402,37 @@ p:empty {
 }
 
 .BreadcrumbsMobile {
-   i.fa-home {font-size: 120%;}
-   i.fa-chevron-right {font-size: 80%;}
+    font-size: 14px;
+    background-color: white;
+
+    .greyed;
+
+    i.fa-home {
+        font-size: 120%;
+    }
+
+    i.fa-chevron-right {
+        font-size: 80%;
+    }
+
+    a {
+        .greyed;
+        text-decoration: none;
+
+        &:not(.current) {
+            &:hover, &:focus, &:active {
+                color: @memo-blue;
+            }
+        }
+
+        &.current {
+            cursor: default;
+        }
+    }
+
+    .media-below-md({
+        padding-bottom: 20px;
+    });
 }
 
 
@@ -876,20 +905,20 @@ html.flexbox:not(.Explorer):not(.Safari) {
         }
 
         .Pin {
-            margin-top: 5px;
+            margin-top: 2px;
 
             i {
                 width: 23px;
                 transition: font 0.3s ease;
             }
 
-            .iAddedNot {
+            .iAddedNot, .iAdded, .iSpinner {
                 vertical-align: middle;
             }
 
             .Text {
                 display: inline !important;
-                padding-left: 2px;
+                padding-left: 3px;
                 font-size: 12px;
                 .greyed;
                 text-transform: uppercase;
@@ -936,7 +965,9 @@ html.flexbox:not(.Explorer):not(.Safari) {
         }
     }
 
-    .media-below-sm( {
+    
+
+    .media-below-sm({
 
         #ManagementMobile {
             display: flex;
@@ -956,7 +987,11 @@ html.flexbox:not(.Explorer):not(.Safari) {
             width: 30%;
             text-align: center;
         }
-    }
-
-    );
+    });
 }
+
+.media-below-md( {
+    #MainWrapper {
+        padding-top: 10px;
+    }
+});
