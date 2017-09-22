@@ -357,42 +357,71 @@
         
         <div id="wishKnowledge" class="rowBase">
             <div class="col-xs-12">
-                <h3>Themen in deinem Wunschwissen</h3>
+                <h3>Themen und Lernsets in deinem Wunschwissen</h3>
                 <div class="row wishKnowledgeNavRow">
-                    <%  foreach (var category in Model.CategoriesWish) { %>
+                    <% foreach (var catOrSet in Model.CatsAndSetsWish) { %>
                         <div class="col-xs-6 topic">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <div class="ImageContainer">
-                                        <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(category.Name, category.Id)) %>
+                            <% if (catOrSet is Category) {
+                                   var category = (Category) catOrSet; %>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="ImageContainer">
+                                            <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(category.Name, category.Id)) %>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <a class="topic-name" href="<%= Links.GetUrl(category) %>">
+                                            <div class="topic-name">
+                                                <%: category.Name %>
+                                            </div>
+                                        </a>
+                                        <div class="set-question-count">
+                                            <%: Model.GetTotalSetCount(category) %> Lernset<%= StringUtils.PluralSuffix(Model.GetTotalSetCount(category),"s") %>
+                                            <%: Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category),"s") %>
+                                        </div>
+                                        <div class="KnowledgeBarWrapper">
+                                            <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
+                                            <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                        </div>
+<%--                                        <div class="showSubTopics">
+                                            <button data-toggle="collapse" data-target="#agg<%= category.Id %>"><i class="fa fa-caret-down">&nbsp;</i>Zeige aggreg. Unterthemen</button>
+                                            <div id="agg<%= category.Id %>" class="collapse">
+                                                <% foreach (var aggregatedCategory in category.AggregatedCategories(false))
+                                                   {
+                                                       Response.Write(aggregatedCategory.Name + " (" + aggregatedCategory.Id + "); ");
+                                                   } %>
+                                            </div>
+                                        </div>--%>
                                     </div>
                                 </div>
-                                <div class="col-xs-9">
-                                    <a class="topic-name" href="<%= Links.GetUrl(category) %>">
-                                        <div class="topic-name">
-                                            <%: category.Name %>
+                            <% } else if (catOrSet is Set) {
+                                   var set = (Set) catOrSet; %>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <div class="ImageContainer">
+                                            <%= Model.GetSetImage(set).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.SetDetail(set)) %>
                                         </div>
-                                    </a>
-                                    <div class="set-question-count">
-                                        <%: Model.GetTotalSetCount(category) %> Lernset<% if(Model.GetTotalSetCount(category) != 1){ %>s&nbsp;<% } else { %>&nbsp;<% } %>
-                                        <%: Model.GetTotalQuestionCount(category) %> Frage<% if(Model.GetTotalQuestionCount(category) != 1){ %>n<% } %>
                                     </div>
-                                    <div class="KnowledgeBarWrapper">
-                                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
-                                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                    <div class="col-xs-9">            
+                                        <a class="topic-name" href="<%= Links.GetUrl(set) %>">
+                                            <div class="set-question-count">
+                                                Lernset mit <%= set.QuestionCount() /*includes private questions! excluding them would also exclude private questions visible to user*/ %>
+                                                Frage<%= StringUtils.PluralSuffix(set.QuestionCount(),"n") %>
+                                            </div>
+                                            <div class="topic-name">
+                                                <%: set.Name %>
+                                            </div>
+<%--                                            <div class="KnowledgeBarWrapper">
+                                                <% Html.RenderPartial("~/Views/QuestionSet/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set)); %>
+                                                <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                            </div>--%>
+                                        </a>
+                                        
                                     </div>
-<%--                                    <div class="showSubTopics">
-                                        <button data-toggle="collapse" data-target="#agg<%=category.Id %>"><i class="fa fa-caret-down">&nbsp;</i>Zeige aggreg. Unterthemen</button>
-                                        <div id="agg<%=category.Id %>" class="collapse">
-                                            <% foreach (var aggregatedCategory in category.AggregatedCategories(false))
-                                               {
-                                                   Response.Write(aggregatedCategory.Name + " (" + aggregatedCategory.Id + "); ");
-                                               } %>
-                                        </div>
-                                    </div>--%>
                                 </div>
-                            </div>
+                            <% } %>
                         </div>
+                        
                     <% } %>
                 </div>                            
             </div>
@@ -519,7 +548,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
-                    <p class="greyed" style="font-size: 12px;""><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+                    <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
 
                     <% if (Model.NetworkActivities.Count == 0) { %>
                             Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 

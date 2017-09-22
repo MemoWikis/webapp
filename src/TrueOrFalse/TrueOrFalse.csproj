@@ -251,6 +251,7 @@
     <Compile Include="Domain\Classification\Category\Graph\Ops\GetCategoryGraph.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeCourse.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
+    <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />

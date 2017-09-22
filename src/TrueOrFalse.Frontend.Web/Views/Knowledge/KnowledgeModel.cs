@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using NHibernate.Util;
 using TrueOrFalse.Web;
 
 public class KnowledgeModel : BaseModel
@@ -37,7 +38,7 @@ public class KnowledgeModel : BaseModel
     public int ReputationRank;
     public int ReputationTotal;
 
-    public IList<Category> CategoriesWish;
+    public IList<object> CatsAndSetsWish;
 
     public UIMessage Message;
 
@@ -88,16 +89,18 @@ public class KnowledgeModel : BaseModel
 
 
         //GET WISH KNOWLEDGE INFO
-        var categoriesValuation = UserValuationCache.GetCategoryValuations(UserId)
+        var categoryValuationIds = UserValuationCache.GetCategoryValuations(UserId)
             .Where(v => v.IsInWishKnowledge())
             .Select(v => v.CategoryId)
             .ToList();
-        var categoriesWishPool = R<CategoryRepository>().GetByIds(categoriesValuation);
-        CategoriesWish = OrderCategoriesByQuestionCountAndLevel.Run(categoriesWishPool);
+        var categoriesWishPool = R<CategoryRepository>().GetByIds(categoryValuationIds);
+        var categoriesWish = OrderCategoriesByQuestionCountAndLevel.Run(categoriesWishPool);
 
-        //foreach set: gehe durch die cat-liste und stoppe dort, wo es am spezifischsten ist und füge es ein
-        //wenn kein Thema gefunden, dann gehe von oben durch:
-        //wo frageanzahl gleich ist: solange thema unterthema von irgendeinem davor ist [wie geht das?], verschiebe Einschub
+        var setValuationIds = R<SetValuationRepo>().GetByUser(UserId).Select(v => v.SetId).ToList();
+        var setsWish = R<SetRepo>().GetByIds(setValuationIds).OrderByDescending(s => s.QuestionCount()).ToList(); // sorts by questioncount including private questions! Excluding them would also exclude private questions visible to user
+        CatsAndSetsWish = SortSetsIntoListOfCategories.Run(categoriesWish, setsWish);
+
+
 
         //GET DATES information
         Dates = R<DateRepo>().GetBy(UserId, true);
@@ -240,4 +243,10 @@ public class KnowledgeModel : BaseModel
     {
         return category.GetAggregatedSetsFromMemoryCache().Count;
     }
+    public ImageFrontendData GetSetImage(Set set)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
+        return new ImageFrontendData(imageMetaData);
+    }
+
 }
