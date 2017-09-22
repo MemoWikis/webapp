@@ -181,6 +181,11 @@ public class KnowledgeModel : BaseModel
             TotalLearningDays = 214
         };
 
+
+        var wishCategories = Sl.R<CategoryRepository>().GetByIds(652, 145, 6) ?? new List<Category>();
+        var wishSets = Sl.R<SetRepo>().GetByIds(14, 20, 189) ?? new List<Set>();
+        CatsAndSetsWish = SortSetsIntoListOfCategories.Run(wishCategories, wishSets);
+
         Dates = GetSampleDates.Run();
         DatesInNetwork = GetSampleDates.RunAgain();
 
