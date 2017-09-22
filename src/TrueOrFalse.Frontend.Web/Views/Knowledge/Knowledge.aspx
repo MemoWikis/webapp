@@ -430,10 +430,10 @@
                                             <div class="topic-name">
                                                 <%: set.Name %>
                                             </div>
-<%--                                            <div class="KnowledgeBarWrapper">
-                                                <% Html.RenderPartial("~/Views/QuestionSet/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set)); %>
+                                            <div class="KnowledgeBarWrapper">
+                                                <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set)); %>
                                                 <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                                            </div>--%>
+                                            </div>
                                         </a>
                                         
                                     </div>

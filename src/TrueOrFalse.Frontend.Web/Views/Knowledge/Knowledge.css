@@ -266,32 +266,43 @@
 #wishKnowledge .topic:hover .KnowledgeBarLegend {
   opacity: 1;
 }
-#wishKnowledge .category-knowledge-bar {
+#wishKnowledge .category-knowledge-bar,
+#wishKnowledge .set-knowledge-bar {
   margin-top: 15px;
   height: 10px;
   width: 180px;
 }
 #wishKnowledge .category-knowledge-bar .solid-knowledge,
+#wishKnowledge .set-knowledge-bar .solid-knowledge,
 #wishKnowledge .category-knowledge-bar .needs-learning,
+#wishKnowledge .set-knowledge-bar .needs-learning,
 #wishKnowledge .category-knowledge-bar .needs-consolidation,
+#wishKnowledge .set-knowledge-bar .needs-consolidation,
 #wishKnowledge .category-knowledge-bar .not-learned,
-#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge {
+#wishKnowledge .set-knowledge-bar .not-learned,
+#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge,
+#wishKnowledge .set-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-#wishKnowledge .category-knowledge-bar .needs-learning {
+#wishKnowledge .category-knowledge-bar .needs-learning,
+#wishKnowledge .set-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-#wishKnowledge .category-knowledge-bar .needs-consolidation {
+#wishKnowledge .category-knowledge-bar .needs-consolidation,
+#wishKnowledge .set-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-#wishKnowledge .category-knowledge-bar .solid-knowledge {
+#wishKnowledge .category-knowledge-bar .solid-knowledge,
+#wishKnowledge .set-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-#wishKnowledge .category-knowledge-bar .not-learned {
+#wishKnowledge .category-knowledge-bar .not-learned,
+#wishKnowledge .set-knowledge-bar .not-learned {
   background-color: silver;
 }
-#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge {
+#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge,
+#wishKnowledge .set-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
 #wishKnowledge #btnShowAllWishKnowledgeContent {
