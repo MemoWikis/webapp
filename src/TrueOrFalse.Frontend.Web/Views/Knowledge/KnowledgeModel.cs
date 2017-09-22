@@ -181,10 +181,6 @@ public class KnowledgeModel : BaseModel
             TotalLearningDays = 214
         };
 
-
-        CategoriesWish = new List<Category>();
-
-
         Dates = GetSampleDates.Run();
         DatesInNetwork = GetSampleDates.RunAgain();
 

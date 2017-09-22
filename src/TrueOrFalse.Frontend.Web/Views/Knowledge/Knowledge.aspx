@@ -155,6 +155,7 @@
     </style>
 
     <%= Styles.Render("~/bundles/Knowledge") %>
+    <%= Scripts.Render("~/bundles/js/Knowledge") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -359,7 +360,12 @@
             <div class="col-xs-12">
                 <h3>Themen und Lernsets in deinem Wunschwissen</h3>
                 <div class="row wishKnowledgeNavRow">
-                    <% foreach (var catOrSet in Model.CatsAndSetsWish) { %>
+                    <% foreach (var catOrSet in Model.CatsAndSetsWish) {
+                           if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8)
+                           { %>
+                                </div>
+                                <div id="wishKnowledgeMore" class="row wishKnowledgeNavRow" style="display: none;">
+                           <% } %>
                         <div class="col-xs-6 topic">
                             <% if (catOrSet is Category) {
                                    var category = (Category) catOrSet; %>
@@ -421,9 +427,14 @@
                                 </div>
                             <% } %>
                         </div>
-                        
                     <% } %>
-                </div>                            
+                </div>
+                <% if (Model.CatsAndSetsWish.Count > 8) { %>
+                    <div>
+                        <a href="#" id="btnShowAllWishKnowledgeContent" class="btn btn-link btn-lg">Alle anzeigen (<%= Model.CatsAndSetsWish.Count-6 %> weitere) <i class="fa fa-caret-down"></i></a> 
+                        <a href="#" id="btnShowLessWishKnowledgeContent" class="btn btn-link btn-lg" style="display: none;"> <i class="fa fa-caret-up"></i> Weniger anzeigen</a>
+                    </div>
+                <% } %>
             </div>
 
         </div>

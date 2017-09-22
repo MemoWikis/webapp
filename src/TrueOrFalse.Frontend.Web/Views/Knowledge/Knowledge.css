@@ -196,13 +196,13 @@
 #wishKnowledge {
   margin-top: 20px;
   margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 #wishKnowledge .wishKnowledgeNavRow {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
   justify-content: space-between;
-  margin-bottom: 30px;
 }
 #wishKnowledge img {
   border-radius: 50%;
@@ -293,4 +293,14 @@
 }
 #wishKnowledge .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
+}
+#wishKnowledge #btnShowAllWishKnowledgeContent {
+  margin-top: 30px;
+  text-align: center;
+  display: block;
+}
+#wishKnowledge #btnShowLessWishKnowledgeContent {
+  margin-top: 30px;
+  text-align: center;
+  display: block;
 }
