@@ -184,6 +184,8 @@ class SetVideo {
         this.GetCurrentMenuItem()
             .removeClass("wrongAnswer")
             .addClass("correctAnswer");
+
+            arrayStops.splice(0, 1);
             setVideoPlayer.evaluationArray(arrayStops);
     }
 

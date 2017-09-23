@@ -1,4 +1,4 @@
-﻿var arrayStops;
+﻿var arrayStops:StopVideoAt[];
 var setVideo: SetVideo;                                                //setvideo global
 
 declare var initPlayer: () => void;                                    // initPlayer wird declariert Rückgabe = void
@@ -83,21 +83,17 @@ class SetVideoPlayer
    
 
     public evaluationArray = (stops) => {
-        var temp = 0;
+      
         
         $(document).on('click', '.test', (e) => {
-            
             e.preventDefault();
-            temp += 1;
-                if (temp < stops.length) {
-                    SetVideo.ClickItem(stops[temp].QuestionId);
-                    console.log(temp);
-                    return stops;
-                    
+                if (  stops.length > 0 ) {
+                    SetVideo.ClickItem(stops[0].QuestionId);
+                    arrayStops = stops;
                 } else {
                     player.playVideo();
                     setVideo.HideYoutubeOverlay();
-                    return[];
+                    
                 }
             
         });
@@ -122,16 +118,13 @@ class SetVideoPlayer
 
             lastVideoCheck = currentTime;
 
-            var stops: StopVideoAt[] = this.VideoStops.filter(item => item.Seconds == currentTime); 
-           
-            if (stops.length > 1) {
+            var stops: StopVideoAt[] = this.VideoStops.filter(item => item.Seconds == currentTime);
+
+            if (stops.length > 0) {
+                arrayStops = stops;
                 player.pauseVideo();
                 setVideo.ShowYoutubeOverlay();
-                   arrayStops = this.evaluationArray(stops);
-            } else if (stops.length === 1) {   
-                player.pauseVideo();
-                setVideo.ShowYoutubeOverlay();
-                    SetVideo.ClickItem(stops[0].QuestionId);
+                SetVideo.ClickItem(stops[0].QuestionId);
             } else {
                 this.VideoCheckIntervalPaused = false;
             }
