@@ -163,22 +163,9 @@
                                     
                                 </div>
                                 <% } %>
-                                            <button id="continue" class="btn btn-primary" style="display: none">Weiter</button>
-                                            <!-- SetPlayer.ts-->
-                                    
-                                            <script>      $('#continue').click((e) => {
-                                                                debugger;
-                                                                e.preventDefault();
-                                                                console.log(e);
-                                                                player.playVideo();
-                                                                $('#continue').hide();
-                                                               
-                                                });
+                                          
+                                            <button id="continue"  class="btn btn-primary test" style="display: block">Weiter</button>
 
-                                            </script>
-
-
-                               
                                 <div style="clear: both"></div>
                             </div>
                                 <div id="AnswerFeedbackAndSolutionDetails">

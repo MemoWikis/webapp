@@ -1,4 +1,4 @@
-﻿//var player: YT.Player;
+﻿///<reference path="SetVideoPlayer.ts"/>
 
 class SetVideo {
 
@@ -184,6 +184,7 @@ class SetVideo {
         this.GetCurrentMenuItem()
             .removeClass("wrongAnswer")
             .addClass("correctAnswer");
+            setVideoPlayer.evaluationArray(arrayStops);
     }
 
     HandleWrongAnswer() {
@@ -207,4 +208,5 @@ class SetVideo {
     GetTimecodeOffCurrentMenu() : number{
         return +$("#video-pager").find("a.current").first().attr("data-video-pause-at");
     }
+    
 }
