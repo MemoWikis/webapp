@@ -19,6 +19,8 @@
 @media (min-width: 650px) {
 }
 .CardsMiniPortrait .CardMiniColumn {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 @media (max-width: 479px) {
@@ -60,9 +62,14 @@
   content: "Bild- & Lizenzinfos";
 }
 html.flexbox:not(.Explorer) .CardsMiniPortrait {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 .SingleItem .CardContent {
   height: auto;
@@ -236,7 +243,6 @@ h4 {
 .EduCategory.active {
   outline: 0;
   background-image: none;
-  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 .EduCategory.disabled,
@@ -246,7 +252,6 @@ fieldset[disabled] .EduCategory {
   pointer-events: none;
   opacity: 0.65;
   filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 .EduCategory:hover,

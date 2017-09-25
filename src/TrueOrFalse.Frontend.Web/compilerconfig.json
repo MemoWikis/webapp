@@ -11,6 +11,9 @@
     "inputFile": "Views/Welcome/Welcome.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
     }
   },
   {
@@ -60,6 +63,9 @@
     "inputFile": "Style/components.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
     }
   },
   {
@@ -74,6 +80,9 @@
     "inputFile": "Views/Questions/Answer/AnswerQuestion.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
     }
   },
   {
@@ -102,7 +111,11 @@
     "inputFile": "Views/Categories/Detail/Category.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
     }
+
   },
   {
     "outputFile": "Style/form.css",
@@ -151,6 +164,9 @@
     "inputFile": "Style/menu.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
     }
   },
   {
@@ -211,7 +227,10 @@
   },
   {
     "outputFile": "Views/About/AboutMemucho.css",
-    "inputFile": "Views/About/AboutMemucho.less"
+    "inputFile": "Views/About/AboutMemucho.less",
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+    }
   },
   {
     "outputFile": "Views/Games/Games.css",

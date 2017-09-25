@@ -219,7 +219,6 @@
 #mainMenu .list-group-item.sub {
   overflow: hidden;
   -ms-text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-top: 1px;
@@ -284,8 +283,12 @@
   }
 }
 #mainMenuThemeCentered .primary-point {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -332,7 +335,6 @@
 #mainMenuThemeCentered .list-group-item.sub {
   overflow: hidden;
   -ms-text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   font-weight: 600;
   white-space: nowrap;
