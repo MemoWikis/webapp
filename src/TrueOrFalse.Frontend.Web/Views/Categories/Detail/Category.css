@@ -443,30 +443,55 @@ p:empty {
   }
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .CardColumn {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ImageContainer {
-  flex: 0 0 100px;
-  flex-grow: 0%;
-  flex-shrink: 0%;
-  flex-basis: 100px;
-  align-self: flex-start;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100px;
+          flex: 0 0 100px;
+  -webkit-box-flex: 0%;
+      -ms-flex-positive: 0%;
+          flex-grow: 0%;
+  -ms-flex-negative: 0%;
+      flex-shrink: 0%;
+  -ms-flex-preferred-size: 100px;
+      flex-basis: 100px;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ContentContainer {
   margin-left: 0 !important;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .CardContent {
   margin-left: 0;
@@ -483,10 +508,16 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     TopicNavigation
 -------------------------------------------------------*/
 #topicNavigation {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-line-pack: justify;
+      align-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin-bottom: 20px;
 }
 #topicNavigation img {
@@ -541,6 +572,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   font-size: 12px;
   line-height: 1.5em;
   opacity: 0;
+  -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 @media (max-width: 767px) {
@@ -698,7 +730,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .Card .ItemTitle {
   -webkit-hyphens: auto;
-  hyphens: auto;
+  -ms-hyphens: auto;
+      hyphens: auto;
 }
 @media (min-width: 480px) {
   .Card .ItemTitle {
@@ -761,17 +794,26 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   margin-bottom: 80px;
 }
 #CategoryHeader #HeadingSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-bottom: 50px;
 }
 #CategoryHeader #HeadingContainer {
-  flex: auto;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
 }
 #CategoryHeader .ImageContainer {
   width: 120px;
-  flex-grow: 0;
-  flex-shrink: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   float: left;
   text-align: center;
   margin-right: 20px;
@@ -793,13 +835,21 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   height: 45px;
   border-top: solid 1px #d6d6d6;
   border-bottom: solid 1px #d6d6d6;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 #CategoryHeader .Tabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 50%;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: #999999;
   text-transform: uppercase;
   padding-right: 20px;
@@ -835,6 +885,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader #Management {
   width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 #CategoryHeader .Border {
@@ -847,10 +899,25 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   padding-top: 17px;
   padding-left: 30px;
   padding-right: 30px;
-  flex-grow: 1;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+#CategoryHeader .category-knowledge-bar .ConditionalLegend {
+  display: block !important;
+  position: absolute;
+  top: 11px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 10px;
+  line-height: 10px;
+  color: #999999;
 }
 #CategoryHeader .Buttons {
-  flex-grow: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
 }
 #CategoryHeader .Buttons .Button {
   float: left;
@@ -862,6 +929,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader .Buttons .Pin i {
   width: 23px;
+  -webkit-transition: font 0.3s ease;
   transition: font 0.3s ease;
 }
 #CategoryHeader .Buttons .Pin .iAddedNot,
@@ -876,6 +944,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   color: #999999;
   text-transform: uppercase;
   vertical-align: middle;
+  -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;
 }
 #CategoryHeader .Buttons .Pin:hover .Text {
@@ -896,20 +965,28 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader #ManagementMobile {
   display: none;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin-bottom: 30px;
 }
 #CategoryHeader #ManagementMobile .KnowledgeBarWrapper {
   width: 50%;
-  flex-grow: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
   padding-left: 0;
   padding-right: 0;
 }
 #CategoryHeader #ManagementMobile .Buttons {
-  flex-grow: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
 }
 @media (max-width: 767px) {
   #CategoryHeader #ManagementMobile {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
   }
   #CategoryHeader #Management {
@@ -918,7 +995,9 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   #CategoryHeader .Tabs {
     width: 100%;
     padding-right: 0;
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
   }
   #CategoryHeader .Tab {
     width: 30%;
