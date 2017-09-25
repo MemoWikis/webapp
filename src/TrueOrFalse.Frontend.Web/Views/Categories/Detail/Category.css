@@ -474,7 +474,9 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #topicNavigation a {
   color: #203256;
 }
-#topicNavigation a:hover {
+#topicNavigation a:hover,
+#topicNavigation a:active,
+#topicNavigation a:focus {
   text-decoration: none;
 }
 #topicNavigation .set-question-count {

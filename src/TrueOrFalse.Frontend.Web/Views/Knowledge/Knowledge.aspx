@@ -396,7 +396,7 @@
                                     </a>
                                     <div class="set-question-count">
                                         <%: Model.GetTotalSetCount(category) %> Lernset<%= StringUtils.PluralSuffix(Model.GetTotalSetCount(category),"s") %>
-                                        <%: Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category),"s") %>
+                                        <%: Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category),"n") %>
                                     </div>
                                     <div class="KnowledgeBarWrapper">
                                         <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
@@ -423,18 +423,18 @@
                                 </div>
                                 <div class="col-xs-9">            
                                     <a class="topic-name" href="<%= Links.GetUrl(set) %>">
-                                        <div class="set-question-count">
-                                            Lernset mit <%= set.QuestionCount() /*includes private questions! excluding them would also exclude private questions visible to user*/ %>
-                                            Frage<%= StringUtils.PluralSuffix(set.QuestionCount(),"n") %>
-                                        </div>
                                         <div class="topic-name">
                                             <%: set.Name %>
                                         </div>
-                                        <div class="KnowledgeBarWrapper">
-                                            <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set)); %>
-                                            <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                                        </div>
                                     </a>
+                                    <div class="set-question-count">
+                                        Lernset mit <%= set.QuestionCount() /*includes private questions! excluding them would also exclude private questions visible to user*/ %>
+                                        Frage<%= StringUtils.PluralSuffix(set.QuestionCount(),"n") %>
+                                    </div>
+                                    <div class="KnowledgeBarWrapper">
+                                        <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set)); %>
+                                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
+                                    </div>
                                         
                                 </div>
                             </div>

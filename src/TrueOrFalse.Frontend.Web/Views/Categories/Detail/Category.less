@@ -473,7 +473,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
     a {
         color: @global-text-color;
 
-        &:hover {
+        &:hover, &:active, &:focus {
             text-decoration: none;
         }
     }
@@ -521,12 +521,14 @@ html.flexbox:not(.Explorer):not(.Safari) {
             opacity: 0;
             transition: opacity 0.2s linear;
 
-             .media-below-sm ({
+            .media-below-sm ( {
                 opacity: 1;
-            });
+            }
+
+            );
         }
 
-        &:hover {   //show on hover over navigation tile
+        &:hover { //show on hover over navigation tile
             .KnowledgeBarLegend {
                 opacity: 1;
             }

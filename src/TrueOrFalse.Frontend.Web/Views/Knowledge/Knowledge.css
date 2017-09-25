@@ -219,7 +219,9 @@
 #wishKnowledge a {
   color: #203256;
 }
-#wishKnowledge a:hover {
+#wishKnowledge a:hover,
+#wishKnowledge a:active,
+#wishKnowledge a:focus {
   text-decoration: none;
 }
 #wishKnowledge .set-question-count {
