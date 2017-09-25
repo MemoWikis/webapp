@@ -1,6 +1,7 @@
 ﻿var choices = [];
 
 class AnswerQuestion {
+    private ClickToContinue: () => void;
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
 
@@ -74,6 +75,16 @@ class AnswerQuestion {
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
         var self = this;
+        this.ClickToContinue = function () {
+            $('#continue').fadeIn();
+            $(document).off('click').on('click',
+                '.test',
+                (e) => {
+                    e.preventDefault();
+                    setVideo.HideYoutubeOverlay();
+                    player.playVideo();
+                });
+        };
 
         $('body').keydown(function(e) {                                                       // simulate Click wenn sichbar und wenn Enter gedrückt wird
             var target = $(e.target);
@@ -125,6 +136,7 @@ class AnswerQuestion {
                    
                 });
 
+        
         $("#CountWrongAnswers")
             .click(e => {
                 e.preventDefault();
@@ -134,12 +146,13 @@ class AnswerQuestion {
                 else
                     divWrongAnswers.hide();
             });
-
+        
+   
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
                 ActivityPoints.addPointsFromShowSolutionAnswer();
-                $('#continue').fadeIn();
+                this.ClickToContinue(); 
                 return false;
             });
 
@@ -172,7 +185,9 @@ class AnswerQuestion {
     IsLastQuestion(): boolean {
         return $("#isLastQuestion").val() === "True";
     }
+    
 
+    
     public ValidateAnswer() {
         var answerText
             = this._getAnswerText();
@@ -192,11 +207,11 @@ class AnswerQuestion {
                     $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
-                $('#continue').hide();
+               // $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
                     $('#buttons-answer').hide();
-                    $('#continue').fadeIn();
+                  this.ClickToContinue();
             }
             $.ajax({
                 type: 'POST',
@@ -233,7 +248,7 @@ class AnswerQuestion {
 
                     if (result.correct) {
                         self.HandleCorrectAnswer();
-                        $('#continue').fadeIn();
+                        self.ClickToContinue();
                     } else
                         self.HandleWrongAnswer(result, answerText);
 

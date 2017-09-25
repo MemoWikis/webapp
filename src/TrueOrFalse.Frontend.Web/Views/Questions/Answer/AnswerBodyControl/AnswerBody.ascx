@@ -164,7 +164,7 @@
                                 </div>
                                 <% } %>
                                           
-                                            <button id="continue"  class="btn btn-primary test" style="display: block">Weiter</button>
+                                            <button id="continue"  class="btn btn-primary test" style="display: none">Weiter</button>
 
                                 <div style="clear: both"></div>
                             </div>

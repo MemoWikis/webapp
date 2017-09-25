@@ -1,9 +1,9 @@
-﻿var arrayStops:StopVideoAt[];
-var setVideo: SetVideo;                                                //setvideo global
+﻿
+var setVideo: SetVideo;                                               
 
-declare var initPlayer: () => void;                                    // initPlayer wird declariert Rückgabe = void
+declare var initPlayer: () => void;                                   
 
-class StopVideoAt {                                                     // wird ein Object erzeugt welches die QuestionId und die geplante Stopzeit enthält
+class StopVideoAt {                                                     
 
     QuestionId: number;
     Seconds : number;
@@ -16,23 +16,23 @@ class StopVideoAt {                                                     // wird 
 
 class SetVideoPlayer                                                              
 {
-    VideoStops: StopVideoAt[] = [];                  // StopArray
-    VideoIsPlaying = false;                          // Videostatus standard = stoppt
-    VideoCheckIntervalPaused = false;                // Video wird gecheckt = standard
+    VideoStops: StopVideoAt[] = [];                
+    VideoIsPlaying = false;                          
+    VideoCheckIntervalPaused = false;                
 
-    IsVideoPausingEnabled = true;                    // ?????
+    IsVideoPausingEnabled = true;                    
 
     Player : YT.Player;
 
-    constructor() {                                               // YoutubePlayer wird erstellt 
-        initPlayer = () => {                                      // wird nach download der YoutubeApi aufgerufen 
+    constructor() {                                               
+        initPlayer = () => {                                      
             player = new YT.Player('player', {               
                 playerVars: { rel: 0 },
                 events: {
                     'onReady':
-                        setVideoPlayer.OnPlayerReady,             // wenn PLayer Rdy wird die OnplayerRdy aufgerufen        
-                    'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }        // bei Änderungen am Player wird eine eine nonyme Function aufgerufen das Event übergeben 
-                }                                                                                            // diese ruft setVideoPlayer.OnStateChange(e, setVideoPlayer) auf und erstellt ein neuen setVideoPlayer
+                        setVideoPlayer.OnPlayerReady,                   
+                    'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }       
+                }                                                                                           
             });
         }
         apiLoad();
@@ -44,7 +44,7 @@ class SetVideoPlayer
         });
     }
 
-    public OnPlayerReady() {                                        // Wenn dokument fertig wird player an Player übergeben
+    public OnPlayerReady() {                                       
         $(document).ready(() => {
             this.Player = player;
       
@@ -64,40 +64,21 @@ class SetVideoPlayer
     public InitVideoStops() {
         var self = this;
 
-        $("#video-pager a[data-video-question-id]").each(function () {                  // suche alle lInks die data-video-question-id in #video-pager enthalten 
+        $("#video-pager a[data-video-question-id]").each(function () {                  
 
-            var pauseAt = +$(this).attr("data-video-pause-at");                       //1        // hier wird die geplante Pause abgeholt ergo muss sie schon vorher eingetragen werden
+            var pauseAt = +$(this).attr("data-video-pause-at");                      
 
-            if (pauseAt == 0)                                                           // ist die pause 0 verlasse funktion
+            if (pauseAt == 0)                                                          
                 return;
 
-            self.VideoStops.push(                                                  // Videostops erzeugen und in Html setzen
+            self.VideoStops.push(                                                  
                 new StopVideoAt(                                                                                                                         
-                    +$(this).attr("data-video-question-id"),                         // neuer Stop erste wird die ID gesetzt 
-                    pauseAt                                                           // wann Pause siehe 1 
+                    +$(this).attr("data-video-question-id"),                       
+                    pauseAt                                                          
                 ));
         });
       
     }
-
-   
-
-    public evaluationArray = (stops) => {
-      
-        
-        $(document).on('click', '.test', (e) => {
-            e.preventDefault();
-                if (  stops.length > 0 ) {
-                    SetVideo.ClickItem(stops[0].QuestionId);
-                    arrayStops = stops;
-                } else {
-                    player.playVideo();
-                    setVideo.HideYoutubeOverlay();
-                    
-                }
-            
-        });
-  }
 
     public StartTimecodeCheck() {
 
@@ -121,7 +102,7 @@ class SetVideoPlayer
             var stops: StopVideoAt[] = this.VideoStops.filter(item => item.Seconds == currentTime);
 
             if (stops.length > 0) {
-                arrayStops = stops;
+               // arrayStops = stops;
                 player.pauseVideo();
                 setVideo.ShowYoutubeOverlay();
                 SetVideo.ClickItem(stops[0].QuestionId);
