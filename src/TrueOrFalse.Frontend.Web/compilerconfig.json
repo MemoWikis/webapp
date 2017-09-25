@@ -13,7 +13,7 @@
       "enabled": false
     },
     "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -65,7 +65,7 @@
       "enabled": false
     },
     "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -82,7 +82,7 @@
       "enabled": false
     },
     "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -113,7 +113,7 @@
       "enabled": false
     },
     "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
 
   },
@@ -166,7 +166,7 @@
       "enabled": false
     },
     "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -229,7 +229,7 @@
     "outputFile": "Views/About/AboutMemucho.css",
     "inputFile": "Views/About/AboutMemucho.less",
     "options": {
-      "autoPrefix": "> 1%, last 2 versions, Firefox ESR"
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {

@@ -444,52 +444,66 @@ p:empty {
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
   -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
       -ms-flex-align: stretch;
           align-items: stretch;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .CardColumn {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 100%;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ImageContainer {
   -webkit-box-flex: 0;
+  -webkit-flex: 0 0 100px;
       -ms-flex: 0 0 100px;
           flex: 0 0 100px;
   -webkit-box-flex: 0%;
+  -webkit-flex-grow: 0%;
       -ms-flex-positive: 0%;
           flex-grow: 0%;
-  -ms-flex-negative: 0%;
-      flex-shrink: 0%;
-  -ms-flex-preferred-size: 100px;
-      flex-basis: 100px;
-  -ms-flex-item-align: start;
-      align-self: flex-start;
+  -webkit-flex-shrink: 0%;
+      -ms-flex-negative: 0%;
+          flex-shrink: 0%;
+  -webkit-flex-basis: 100px;
+      -ms-flex-preferred-size: 100px;
+          flex-basis: 100px;
+  -webkit-align-self: flex-start;
+      -ms-flex-item-align: start;
+          align-self: flex-start;
 }
 html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ContentContainer {
   margin-left: 0 !important;
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
   -webkit-box-flex: 1;
+  -webkit-flex: auto;
       -ms-flex: auto;
           flex: auto;
 }
@@ -509,20 +523,26 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 -------------------------------------------------------*/
 #topicNavigation {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -ms-flex-line-pack: justify;
-      align-content: space-between;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-align-content: space-between;
+      -ms-flex-line-pack: justify;
+          align-content: space-between;
   -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
   margin-bottom: 20px;
 }
 #topicNavigation img {
-  border-radius: 50%;
-  box-shadow: 5px 5px 10px #eeeeee;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  -webkit-box-shadow: 5px 5px 10px #eeeeee;
+          box-shadow: 5px 5px 10px #eeeeee;
 }
 #topicNavigation a {
   color: #203256;
@@ -705,7 +725,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #MainWrapper .Box {
   padding: 0;
   border: none;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 .BoxButtonBar {
   margin-top: 50px;
@@ -795,25 +816,30 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader #HeadingSection {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
+  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: 50px;
 }
 #CategoryHeader #HeadingContainer {
   -webkit-box-flex: 1;
+  -webkit-flex: auto;
       -ms-flex: auto;
           flex: auto;
 }
 #CategoryHeader .ImageContainer {
   width: 120px;
   -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
   float: left;
   text-align: center;
   margin-right: 20px;
@@ -824,7 +850,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   }
 }
 #CategoryHeader img {
-  border-radius: 50%;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
   width: 80px;
 }
 #CategoryHeader .LicenseInfo {
@@ -836,18 +863,22 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   border-top: solid 1px #d6d6d6;
   border-bottom: solid 1px #d6d6d6;
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 #CategoryHeader .Tabs {
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   width: 50%;
   -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
   -webkit-box-align: center;
+  -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
   color: #999999;
@@ -886,6 +917,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader #Management {
   width: 50%;
   display: -webkit-box;
+  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
@@ -900,6 +932,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   padding-left: 30px;
   padding-right: 30px;
   -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
@@ -916,6 +949,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader .Buttons {
   -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
 }
@@ -966,6 +1000,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader #ManagementMobile {
   display: none;
   -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
   margin-bottom: 30px;
@@ -973,6 +1008,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader #ManagementMobile .KnowledgeBarWrapper {
   width: 50%;
   -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
   padding-left: 0;
@@ -980,12 +1016,14 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 #CategoryHeader #ManagementMobile .Buttons {
   -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
 }
 @media (max-width: 767px) {
   #CategoryHeader #ManagementMobile {
     display: -webkit-box;
+    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
   }
@@ -996,6 +1034,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     width: 100%;
     padding-right: 0;
     -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
         -ms-flex-pack: justify;
             justify-content: space-between;
   }
