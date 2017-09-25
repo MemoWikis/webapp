@@ -372,74 +372,19 @@
                         </p>
                     </div>
                 <% } %>
-                <div class="row wishKnowledgeNavRow">
+                <div class="row wishKnowledgeItems">
                     <% foreach (var catOrSet in Model.CatsAndSetsWish) {
-                            if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8)
-                            { %>
-                        </div>
-                <div id="wishKnowledgeMore" class="row wishKnowledgeNavRow" style="display: none;">
-                    <% } %>
-                    <div class="col-xs-6 topic">
-                        <% if (catOrSet is Category) {
-                                var category = (Category) catOrSet; %>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <div class="ImageContainer">
-                                        <%= Model.GetCategoryImage(category).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(category.Name, category.Id)) %>
-                                    </div>
+                            if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8) { %>
                                 </div>
-                                <div class="col-xs-9">
-                                    <a class="topic-name" href="<%= Links.GetUrl(category) %>">
-                                        <div class="topic-name">
-                                            <%: category.Name %>
-                                        </div>
-                                    </a>
-                                    <div class="set-question-count">
-                                        <%: Model.GetTotalSetCount(category) %> Lernset<%= StringUtils.PluralSuffix(Model.GetTotalSetCount(category),"s") %>
-                                        <%: Model.GetTotalQuestionCount(category) %> Frage<%= StringUtils.PluralSuffix(Model.GetTotalQuestionCount(category),"n") %>
-                                    </div>
-                                    <div class="KnowledgeBarWrapper">
-                                        <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category)); %>
-                                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                                    </div>
-                                    <%--                                        <div class="showSubTopics">
-                                        <button data-toggle="collapse" data-target="#agg<%= category.Id %>"><i class="fa fa-caret-down">&nbsp;</i>Zeige aggreg. Unterthemen</button>
-                                        <div id="agg<%= category.Id %>" class="collapse">
-                                            <% foreach (var aggregatedCategory in category.AggregatedCategories(false))
-                                                {
-                                                    Response.Write(aggregatedCategory.Name + " (" + aggregatedCategory.Id + "); ");
-                                                } %>
-                                        </div>
-                                    </div>--%>
-                                </div>
+                                <div id="wishKnowledgeMore" class="row wishKnowledgeItems" style="display: none;">
+                            <% } %>
+                            <div class="col-xs-6 topic">
+                                <% if (catOrSet is Category) { %>
+                                       <% Html.RenderPartial("Partials/KnowledgeCardMiniCategory", new KnowledgeCardMiniCategoryModel((Category)catOrSet)); %>
+                                <% } else if (catOrSet is Set) { %>
+                                    <% Html.RenderPartial("Partials/KnowledgeCardMiniSet", new KnowledgeCardMiniSetModel((Set)catOrSet)); %>
+                                <% } %>
                             </div>
-                        <% } else if (catOrSet is Set) {
-                                var set = (Set) catOrSet; %>
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <div class="ImageContainer">
-                                        <%= Model.GetSetImage(set).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.SetDetail(set)) %>
-                                    </div>
-                                </div>
-                                <div class="col-xs-9">            
-                                    <a class="topic-name" href="<%= Links.GetUrl(set) %>">
-                                        <div class="topic-name">
-                                            <%: set.Name %>
-                                        </div>
-                                    </a>
-                                    <div class="set-question-count">
-                                        Lernset mit <%= set.QuestionCount() /*includes private questions! excluding them would also exclude private questions visible to user*/ %>
-                                        Frage<%= StringUtils.PluralSuffix(set.QuestionCount(),"n") %>
-                                    </div>
-                                    <div class="KnowledgeBarWrapper">
-                                        <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set)); %>
-                                        <div class="KnowledgeBarLegend">Dein Wissensstand</div>
-                                    </div>
-                                        
-                                </div>
-                            </div>
-                        <% } %>
-                    </div>
                     <% } %>
                 </div>
                 <% if (Model.CatsAndSetsWish.Count > 8) { %>

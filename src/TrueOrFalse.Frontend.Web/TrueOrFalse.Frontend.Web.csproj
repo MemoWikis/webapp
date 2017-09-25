@@ -340,6 +340,8 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
@@ -412,6 +414,8 @@
     <Content Include="Scripts\YoutubeApi.js.map">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
+    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

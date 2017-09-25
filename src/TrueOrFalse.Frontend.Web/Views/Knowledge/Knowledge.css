@@ -206,7 +206,7 @@
   margin-right: 0;
   /*end of temporary stoff*/
 }
-#wishKnowledge .wishKnowledgeNavRow {
+#wishKnowledge .wishKnowledgeItems {
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
