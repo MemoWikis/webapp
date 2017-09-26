@@ -256,5 +256,9 @@
   {
     "outputFile": "Views/Users/Account/Membership.css",
     "inputFile": "Views/Users/Account/Membership.less"
+  },
+  {
+    "outputFile": "Views/Users/Account/WidgetViews.css",
+    "inputFile": "Views/Users/Account/WidgetViews.less"
   }
 ]

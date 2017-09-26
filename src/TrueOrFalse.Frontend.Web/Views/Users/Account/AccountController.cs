@@ -47,4 +47,11 @@ public class AccountController : BaseController
 
         return Redirect(Request.UrlReferrer.AbsolutePath);
     }
+
+    [SetMenu(MenuEntry.None)]
+    [AccessOnlyAsLoggedIn]
+    public ActionResult WidgetViews()
+    {
+        return View("~/Views/Users/Account/WidgetViews.aspx", new WidgetViewsModel());
+    }
 }
