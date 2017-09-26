@@ -260,5 +260,9 @@
   {
     "outputFile": "Views/Users/Account/WidgetViews.css",
     "inputFile": "Views/Users/Account/WidgetViews.less"
+  },
+  {
+    "outputFile": "Views/Users/Account/WidgetViews/WidgetViews.css",
+    "inputFile": "Views/Users/Account/WidgetViews/WidgetViews.less"
   }
 ]

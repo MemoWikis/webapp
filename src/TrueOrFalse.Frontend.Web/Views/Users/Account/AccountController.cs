@@ -52,6 +52,6 @@ public class AccountController : BaseController
     [AccessOnlyAsLoggedIn]
     public ActionResult WidgetViews()
     {
-        return View("~/Views/Users/Account/WidgetViews.aspx", new WidgetViewsModel());
+        return View("~/Views/Users/Account/WidgetViews/WidgetViews.aspx", new WidgetViewsModel());
     }
 }

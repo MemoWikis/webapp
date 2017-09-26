@@ -26,6 +26,8 @@
 #MainWrapper h1 {
   font-size: 45px;
   font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 30px;
 }
 #MainWrapper h2 {
   font-size: 35px;

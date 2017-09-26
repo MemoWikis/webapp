@@ -23,7 +23,7 @@ public class WidgetViewRepo : RepositoryDb<WidgetView>
                 var widgetViews = new Dictionary<string, int>();
                 month.GroupBy(v => v.WidgetKey)
                     .ForEach(w => widgetViews.Add(w.Key, w.Count()));
-                result.Add(new WidgetViewsPerMonthAndKeyResult {Month = month.Key, ViewsPerWidgetKey = widgetViews});
+                result.Add(new WidgetViewsPerMonthAndKeyResult { Month = month.Key, ViewsPerWidgetKey = widgetViews});
             });
 
         return result;

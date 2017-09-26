@@ -107,6 +107,7 @@
                                        <li><%=host %></li>
                                 <% } %>
                             </ul>
+                            <a href="<%= Links.WidgetViews() %>" class="btn btn-default" style="margin: 20px 0;">Zur Widget-Statistik</a>
                             <p>Wenn du gerne einen Host hinzufügen möchtest, <a href="<%= Links.Contact %>">melde dich bei uns.</a></p>
                         </div>
                     <% } %>

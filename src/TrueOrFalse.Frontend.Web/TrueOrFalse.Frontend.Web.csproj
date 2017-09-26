@@ -444,7 +444,8 @@
     <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
-    <Compile Include="Views\Users\Account\WidgetViewsModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetViews\Partials\WidgetViewTotalsForHostModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetViews\WidgetViewsModel.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -755,8 +756,9 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
-    <Content Include="Views\Users\Account\WidgetViews.aspx" />
-    <Content Include="Views\Users\Account\WidgetViews.css">
+    <Content Include="Views\Users\Account\WidgetViews\Partials\WidgetViewTotalsForHost.ascx" />
+    <Content Include="Views\Users\Account\WidgetViews\WidgetViews.aspx" />
+    <Content Include="Views\Users\Account\WidgetViews\WidgetViews.css">
       <DependentUpon>WidgetViews.less</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Contact.aspx" />
@@ -2683,7 +2685,7 @@
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
-    <Content Include="Views\Users\Account\WidgetViews.less" />
+    <Content Include="Views\Users\Account\WidgetViews\WidgetViews.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
