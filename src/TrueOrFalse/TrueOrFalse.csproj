@@ -949,6 +949,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs184.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs183.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs182.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs181.cs" />

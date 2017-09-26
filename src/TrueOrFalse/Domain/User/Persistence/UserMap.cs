@@ -21,6 +21,8 @@ public class UserMap : ClassMap<User>
         HasMany(x => x.MembershipPeriods)
             .Cascade.All().Not.LazyLoad();
 
+        Map(x => x.WidgetHostsSpaceSeparated);
+
         HasMany(x => x.Followers)
             .KeyColumn("User_id")
             .Cascade.All()

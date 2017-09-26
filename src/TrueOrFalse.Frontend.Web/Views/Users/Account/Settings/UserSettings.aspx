@@ -36,7 +36,7 @@
         <% if (!Model.IsLoggedIn) { %>
             <div class="row">
                 <div class="col-xs-9 xxs-stack">
-                    Um Einstellungen vorzunehmen, musst du dich <a href="#" data-btn-login="true">einloggen</a>
+                    Um Einstellungen vorzunehmen, musst du dich <a href="#" data-btn-login="true">einloggen</a>.
                 </div>
             </div>
             <% return;
@@ -98,6 +98,18 @@
                             </label>
                         </div>
                     </div>
+                    <% if (Model.WidgetHosts.Any()) { %>
+                        <div class="FormSection">
+                            <h3>Widgets</h3>
+                            <p>Du verwendest Widgets auf folgenden Hosts:</p>
+                            <ul>
+                                <% foreach (var host in Model.WidgetHosts) { %>
+                                       <li><%=host %></li>
+                                <% } %>
+                            </ul>
+                            <p>Wenn du gerne einen Host hinzufügen möchtest, <a href="<%= Links.Contact %>">melde dich bei uns.</a></p>
+                        </div>
+                    <% } %>
                     <div class="FormSection">
                         <h3>Passwort</h3>
                         <p>
