@@ -1020,6 +1020,9 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
       -ms-flex-positive: 0;
           flex-grow: 0;
 }
+#CategoryHeader #ManagementMobile .Buttons .Pin {
+  margin-top: 5px;
+}
 @media (max-width: 767px) {
   #CategoryHeader #ManagementMobile {
     display: -webkit-box;
