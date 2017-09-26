@@ -20,7 +20,7 @@
             <% foreach (var host in Model.Hosts) { %>
                 <div class="col-xs-12" style="margin-top: 20px;">
                     <h2>Host: <%= host %></h2>
-                    <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetViewTotalsForHost.ascx", new WidgetViewTotalsForHostModel(host)); %>
+                    <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetViewsForHost.ascx", new WidgetViewsForHostModel(host)); %>
                 </div>
                 <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
             <% } %>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public class WidgetViewTotalsForHostModel : BaseModel
+public class WidgetViewsForHostModel : BaseModel
 {
 
     public string Host;
@@ -11,7 +11,7 @@ public class WidgetViewTotalsForHostModel : BaseModel
     public IList<WidgetViewsPerMonthAndKeyResult> WidgetViewsPerMonthAndKeyResults;
     public IList<string> WidgetKeys;
 
-    public WidgetViewTotalsForHostModel(string host)
+    public WidgetViewsForHostModel(string host)
     {
         Host = host;
         Regex rgx = new Regex("[^a-zA-Z0-9 -]");
