@@ -49,6 +49,13 @@ public class Settings
         return _developOffline.Value;
     }
 
+    public static bool InitEntityCacheViaJobScheduler()
+    {
+        var result = OverwrittenConfig.Value("initEntityCacheViaJobScheduler");
+
+        return result.HasValue && Boolean.Parse(result.Value);
+    }
+
     /// <summary>Develop / Stage / Live</summary>
     public static string Environment() => OverwrittenConfig.ValueString("environment");
 

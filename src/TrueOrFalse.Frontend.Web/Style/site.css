@@ -1380,6 +1380,7 @@ ul.show-tooltip-ul {
   margin: 20px 0;
   color: #1964c8;
   opacity: 0.3;
+  clear: both;
 }
 .LinkToTop i {
   font-size: 50px;

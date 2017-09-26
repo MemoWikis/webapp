@@ -2670,6 +2670,7 @@
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

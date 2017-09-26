@@ -233,6 +233,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
+    <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
     <Compile Include="Domain\Classification\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />

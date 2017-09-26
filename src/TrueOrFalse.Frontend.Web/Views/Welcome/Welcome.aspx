@@ -662,6 +662,14 @@
 
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
+        <div id="blogposts">
+            <h3>Neues von unserem Blog</h3>
+            <% Html.RenderPartial("Partials/BlogPostCarousel", Model.MemuchoBlogPosts); %>
+        </div>
+
+
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+
 
         <div id="memuchoInfoExtended">
             <h2>Was ist memucho?</h2>
@@ -922,7 +930,7 @@
         </div>--%>
     
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
+        
     </div>
         
 
