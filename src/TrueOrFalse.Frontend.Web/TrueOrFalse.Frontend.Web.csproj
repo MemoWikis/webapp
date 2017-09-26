@@ -444,6 +444,7 @@
     <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
+    <Compile Include="Views\Users\Account\WidgetViews\Partials\WidgetDetailViewsModel.cs" />
     <Compile Include="Views\Users\Account\WidgetViews\Partials\WidgetViewsForHostModel.cs" />
     <Compile Include="Views\Users\Account\WidgetViews\WidgetViewsModel.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
@@ -756,6 +757,7 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
+    <Content Include="Views\Users\Account\WidgetViews\Partials\WidgetDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetViews\Partials\WidgetViewsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetViews\WidgetViews.aspx" />
     <Content Include="Views\Users\Account\WidgetViews\WidgetViews.css">
@@ -2041,7 +2043,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
-    <TypeScriptCompile Include="Views\Users\Account\Js\WidgetViews.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\WidgetViews\Js\WidgetViews.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />

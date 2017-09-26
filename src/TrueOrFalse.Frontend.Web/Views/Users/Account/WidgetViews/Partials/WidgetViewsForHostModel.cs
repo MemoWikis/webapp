@@ -17,7 +17,7 @@ public class WidgetViewsForHostModel : BaseModel
         Regex rgx = new Regex("[^a-zA-Z0-9 -]");
         HostOnlyAlphaNumerical = rgx.Replace(host, "_");
         WidgetKeys = Sl.R<WidgetViewRepo>().GetWidgetKeys(host).OrderBy(k => k).ToList();
-        WidgetViewsPerMonthAndKeyResults = Sl.R<WidgetViewRepo>().GetWidgetViewsPerMonthAndKeyResults(host);
+        WidgetViewsPerMonthAndKeyResults = Sl.R<WidgetViewRepo>().GetWidgetViewsPerMonthAndKey(host);
 
     }
 }

@@ -5,6 +5,7 @@
 <script type="text/javascript">
     google.load("visualization", "1", { packages: ["corechart"] });
     google.setOnLoadCallback(drawChartAllWidgets<%= Model.HostOnlyAlphaNumerical %>);
+    
 
     function drawChartAllWidgets<%= Model.HostOnlyAlphaNumerical %>() {
         var data = google.visualization.arrayToDataTable([
@@ -46,6 +47,7 @@
         var chart = new google.visualization.ColumnChart(document.getElementById("chartAllWidgets<%= Model.HostOnlyAlphaNumerical %>"));
         chart.draw(view, options);
     }
+
 </script>
 
 <div class="allWidgetsViews">
@@ -80,13 +82,15 @@
     <h3 style="margin: 40px 0 30px;">Details zu einzelnen Widgets</h3>
 
     <form>
-        Zeige Aufrufe zu diesem Widget: <select>
+        Zeige Aufrufe zu diesem Widget: <select class="selectWidgetForSingleView" data-host="<%= Model.Host %>">
             <% foreach (var widgetKey in Model.WidgetKeys)
                { %>
-                   <option><%= widgetKey %></option>
+                   <option value="<%= widgetKey %>"><%= widgetKey %></option>
             <% } %>
         </select>
     </form>
+    
+    <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetDetailViews.ascx", new WidgetDetailViewsModel(Model.Host, Model.WidgetKeys.LastOrDefault())); %>
 
     <p></p>
 

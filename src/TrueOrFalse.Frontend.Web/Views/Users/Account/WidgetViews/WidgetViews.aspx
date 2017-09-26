@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Users/Account/WidgetViews/WidgetViews.css") %>
-    <%= Scripts.Render("~/Views/Users/Account/Js/WidgetViews.js") %>
+    <%= Scripts.Render("~/Views/Users/Account/WidgetViews/Js/WidgetViews.js") %>
 
 
 </asp:Content>

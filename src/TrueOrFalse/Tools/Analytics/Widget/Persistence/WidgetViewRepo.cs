@@ -11,7 +11,7 @@ public class WidgetViewRepo : RepositoryDb<WidgetView>
     {
     }
 
-    public IList<WidgetViewsPerMonthAndKeyResult> GetWidgetViewsPerMonthAndKeyResults(string host)
+    public IList<WidgetViewsPerMonthAndKeyResult> GetWidgetViewsPerMonthAndKey(string host)
     {
         var result = new List<WidgetViewsPerMonthAndKeyResult>();
         _session.QueryOver<WidgetView>()
@@ -40,4 +40,34 @@ public class WidgetViewRepo : RepositoryDb<WidgetView>
         return result;
     }
 
+    public IList<WidgetDetailViewsPerMonthAndTypeResult> GetWidgetDetailViewsPerMonthAndType(string host,
+        string widgetKey)
+    {
+        var result = new List<WidgetDetailViewsPerMonthAndTypeResult>();
+        _session.QueryOver<WidgetView>()
+            .Where(v => v.Host == host)
+            .And(v => v.WidgetKey == widgetKey)
+            .List()
+            .GroupBy(v => new DateTime(v.DateCreated.Year, v.DateCreated.Month, 1))
+            .ForEach(month =>
+            {
+                var widgetViews = new Dictionary<WidgetType, int>();
+                month.GroupBy(v => v.WidgetType)
+                    .ForEach(w => widgetViews.Add(w.Key, w.Count()));
+                result.Add(new WidgetDetailViewsPerMonthAndTypeResult { Month = month.Key, ViewsPerWidgetType = widgetViews });
+            });
+        return result;
+    }
+
+    public IList<WidgetType> GetWidgetTypes(string host, string widgetKey)
+    {
+        var result = new List<WidgetType>();
+        _session.QueryOver<WidgetView>()
+            .Where(v => v.Host == host)
+            .And(v => v.WidgetKey == widgetKey)
+            .List()
+            .GroupBy(v => v.WidgetType)
+            .ForEach(k => result.Add(k.Key));
+        return result;
+    }
 }
