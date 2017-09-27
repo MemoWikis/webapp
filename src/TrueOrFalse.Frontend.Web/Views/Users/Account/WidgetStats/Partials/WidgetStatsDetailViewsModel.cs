@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public class WidgetDetailViewsModel : BaseModel
+public class WidgetStatsDetailViewsModel : BaseModel
 {
     public string HostOnlyAlphaNumerical;
 
@@ -11,7 +11,7 @@ public class WidgetDetailViewsModel : BaseModel
     public IList<WidgetType> WidgetTypes;
 
 
-    public WidgetDetailViewsModel(string host, string widgetKey)
+    public WidgetStatsDetailViewsModel(string host, string widgetKey)
     {
         Regex rgx = new Regex("[^a-zA-Z0-9 -]");
         HostOnlyAlphaNumerical = rgx.Replace(host, "_");

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<WidgetDetailViewsModel>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<WidgetStatsDetailViewsModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <script type="text/javascript">
@@ -50,3 +50,6 @@
 <div id="chartSingleWidgetDetail_<%= Model.HostOnlyAlphaNumerical %>" style="height: 400px; margin-right: 20px; text-align: left;">
 </div>
 
+<script>
+    drawChartSingleWidgetDetail_<%= Model.HostOnlyAlphaNumerical %>(); //if this partial view is loaded via ajax, the above call (google.setOnLoadCallback) is not called, so chart needs to be drawn here.
+</script>

@@ -444,9 +444,9 @@
     <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
-    <Compile Include="Views\Users\Account\WidgetViews\Partials\WidgetDetailViewsModel.cs" />
-    <Compile Include="Views\Users\Account\WidgetViews\Partials\WidgetViewsForHostModel.cs" />
-    <Compile Include="Views\Users\Account\WidgetViews\WidgetViewsModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHostModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\WidgetStatsModel.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -757,11 +757,11 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
-    <Content Include="Views\Users\Account\WidgetViews\Partials\WidgetDetailViews.ascx" />
-    <Content Include="Views\Users\Account\WidgetViews\Partials\WidgetViewsForHost.ascx" />
-    <Content Include="Views\Users\Account\WidgetViews\WidgetViews.aspx" />
-    <Content Include="Views\Users\Account\WidgetViews\WidgetViews.css">
-      <DependentUpon>WidgetViews.less</DependentUpon>
+    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetViews.css">
+      <DependentUpon>WidgetStats.less</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Contact.aspx" />
     <Content Include="Views\Welcome\Contact.css">
@@ -2043,7 +2043,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
-    <TypeScriptCompile Include="Views\Users\Account\WidgetViews\Js\WidgetViews.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
@@ -2687,7 +2687,7 @@
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
-    <Content Include="Views\Users\Account\WidgetViews\WidgetViews.less" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

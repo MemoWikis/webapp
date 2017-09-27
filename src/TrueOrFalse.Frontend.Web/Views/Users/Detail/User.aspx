@@ -94,7 +94,7 @@
         
         <% if (Model.IsCurrentUser) { %>
             <div class="col-xs-12" style="margin-top: 20px; margin-bottom: 20px;">
-                <a href="<%= Links.WidgetViews() %>" class="btn btn-default">Zur Widget-Statistik</a>
+                <a href="<%= Links.WidgetStats() %>" class="btn btn-default">Zur Widget-Statistik</a>
             </div>
         <% } %>
     </div>

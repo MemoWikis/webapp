@@ -50,8 +50,18 @@ public class AccountController : BaseController
 
     [SetMenu(MenuEntry.None)]
     [AccessOnlyAsLoggedIn]
-    public ActionResult WidgetViews()
+    public ActionResult WidgetStats()
     {
-        return View("~/Views/Users/Account/WidgetViews/WidgetViews.aspx", new WidgetViewsModel());
+        return View("~/Views/Users/Account/WidgetStats/WidgetStats.aspx", new WidgetStatsModel());
+    }
+
+    public string RenderWidgetStatsDetail(string host, string widgetKey)
+    {
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Users/Account/WidgetStats/Partials/WidgetStatsDetailViews.ascx",
+            new WidgetStatsDetailViewsModel(host, widgetKey), 
+            ControllerContext
+        );
+
     }
 }

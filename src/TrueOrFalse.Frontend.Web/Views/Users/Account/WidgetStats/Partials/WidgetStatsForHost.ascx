@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<WidgetViewsForHostModel>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<WidgetStatsForHostModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -80,9 +80,9 @@
 
 <div class="singleWidgetDetails">
     <h3 style="margin: 40px 0 30px;">Details zu einzelnen Widgets</h3>
-    <% var divSingleWidgetGuid = new Guid(); %>
+    <% var divSingleWidgetGuid = Guid.NewGuid(); %>
     <form>
-        Zeige Aufrufe zu diesem Widget: <select class="selectWidgetForSingleView" data-host="<%= Model.Host %>" data-target-guid="<%= divSingleWidgetGuid %>">
+        Zeige Aufrufe zu diesem Widget: <select class="selectWidgetForSingleView" data-host="<%= Model.Host %>" data-target-div="<%= divSingleWidgetGuid %>">
             <% foreach (var widgetKey in Model.WidgetKeys)
                { %>
                    <option value="<%= widgetKey %>"><%= widgetKey %></option>
@@ -91,7 +91,7 @@
     </form>
     
     <div id="<%= divSingleWidgetGuid %>">
-        <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetDetailViews.ascx", new WidgetDetailViewsModel(Model.Host, Model.WidgetKeys.FirstOrDefault())); %>
+        <% Html.RenderPartial("~/Views/Users/Account/WidgetStats/Partials/WidgetStatsDetailViews.ascx", new WidgetStatsDetailViewsModel(Model.Host, Model.WidgetKeys.FirstOrDefault())); %>
     </div>
     
 

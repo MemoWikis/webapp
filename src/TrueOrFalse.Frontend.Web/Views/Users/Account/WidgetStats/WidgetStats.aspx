@@ -1,9 +1,9 @@
-﻿<%@ Page Title="Widget-Statistik" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<WidgetViewsModel>" %>
+﻿<%@ Page Title="Widget-Statistik" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<WidgetStatsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
-    <%= Styles.Render("~/Views/Users/Account/WidgetViews/WidgetViews.css") %>
-    <%= Scripts.Render("~/Views/Users/Account/WidgetViews/Js/WidgetViews.js") %>
+    <%= Styles.Render("~/Views/Users/Account/WidgetStats/WidgetStats.css") %>
+    <%= Scripts.Render("~/Views/Users/Account/WidgetStats/Js/WidgetStats.js") %>
 
 
 </asp:Content>
@@ -20,7 +20,7 @@
             <% foreach (var host in Model.Hosts) { %>
                 <div class="col-xs-12" style="margin-top: 20px;">
                     <h2>Host: <%= host %></h2>
-                    <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetViewsForHost.ascx", new WidgetViewsForHostModel(host)); %>
+                    <% Html.RenderPartial("~/Views/Users/Account/WidgetStats/Partials/WidgetStatsForHost.ascx", new WidgetStatsForHostModel(host)); %>
                 </div>
                 <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
             <% } %>

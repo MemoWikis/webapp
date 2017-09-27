@@ -41,7 +41,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public const string Logout = "Logout";
         public const string MembershipAction = "Membership";
         public static string Membership() => GetUrlHelper().Action(MembershipAction, AccountController);
-        public static string WidgetViews() => GetUrlHelper().Action("WidgetViews", AccountController);
+        public static string WidgetStats() => GetUrlHelper().Action("WidgetStats", AccountController);
         public static string BetaInfo() => GetUrlHelper().Action("MemuchoBeta", VariousController);
 
         public static UrlHelper GetUrlHelper() => new UrlHelper(HttpContext.Current.Request.RequestContext);
