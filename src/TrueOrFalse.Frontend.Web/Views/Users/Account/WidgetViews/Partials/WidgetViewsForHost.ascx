@@ -80,9 +80,9 @@
 
 <div class="singleWidgetDetails">
     <h3 style="margin: 40px 0 30px;">Details zu einzelnen Widgets</h3>
-
+    <% var divSingleWidgetGuid = new Guid(); %>
     <form>
-        Zeige Aufrufe zu diesem Widget: <select class="selectWidgetForSingleView" data-host="<%= Model.Host %>">
+        Zeige Aufrufe zu diesem Widget: <select class="selectWidgetForSingleView" data-host="<%= Model.Host %>" data-target-guid="<%= divSingleWidgetGuid %>">
             <% foreach (var widgetKey in Model.WidgetKeys)
                { %>
                    <option value="<%= widgetKey %>"><%= widgetKey %></option>
@@ -90,7 +90,10 @@
         </select>
     </form>
     
-    <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetDetailViews.ascx", new WidgetDetailViewsModel(Model.Host, Model.WidgetKeys.LastOrDefault())); %>
+    <div id="<%= divSingleWidgetGuid %>">
+        <% Html.RenderPartial("~/Views/Users/Account/WidgetViews/Partials/WidgetDetailViews.ascx", new WidgetDetailViewsModel(Model.Host, Model.WidgetKeys.FirstOrDefault())); %>
+    </div>
+    
 
     <p></p>
 
