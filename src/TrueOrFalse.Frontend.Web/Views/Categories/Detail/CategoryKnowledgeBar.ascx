@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryKnowledgeBarModel>" %>
 
-<div class="category-knowledge-bar" style="position: relative;">
+<div class="category-knowledge-bar" data-category-id="<%= Model.Category.Id%>" style="position: relative;">
 
     <% if(Model.CategoryKnowledgeSummary.NeedsLearningPercentage > 0) { %>
         <div class="needs-learning show-tooltip"
