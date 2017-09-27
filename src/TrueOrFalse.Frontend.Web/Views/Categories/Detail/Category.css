@@ -130,7 +130,7 @@ span.CategoryType {
 }
 @media (min-width: 480px) {
   .MarkdownContent p {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 .MarkdownContent ul {
