@@ -47,7 +47,7 @@
 </script>
 
 
-<div id="chartSingleWidgetDetail_<%= Model.HostOnlyAlphaNumerical %>" style="height: 400px; margin-right: 20px; text-align: left;">
+<div id="chartSingleWidgetDetail_<%= Model.HostOnlyAlphaNumerical %>" class="statsChart" style="height: 400px; margin-right: 20px; text-align: left;">
 </div>
 
 <script>

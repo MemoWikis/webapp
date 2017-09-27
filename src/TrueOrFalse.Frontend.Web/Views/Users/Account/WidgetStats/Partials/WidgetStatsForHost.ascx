@@ -52,7 +52,7 @@
 
 <div class="allWidgetsViews">
     
-    <div id="chartAllWidgets<%= Model.HostOnlyAlphaNumerical %>" style="height: 600px; margin-right: 20px; text-align: left;">
+    <div id="chartAllWidgets<%= Model.HostOnlyAlphaNumerical %>" class="statsChart" style="height: 600px; margin-right: 20px; text-align: left;">
     </div>
     
     <div style="text-align: center; margin-bottom: 10px;">
