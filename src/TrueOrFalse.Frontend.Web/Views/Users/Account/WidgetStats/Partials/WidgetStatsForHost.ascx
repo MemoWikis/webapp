@@ -25,7 +25,7 @@
                        int value = 0;
                        month.ViewsPerWidgetKey.TryGetValue(widgetKey, out value);
                        Response.Write(", " + value);
-                       Response.Write(", '<b>" + month.Month.ToString("MMMM yyyy") +"</b><br/>Widget \"<i>" + widgetKey + "</i>\": <b>" + value + "</b> Aufrufe'");
+                       Response.Write(", '<b>" + month.Month.ToString("MMMM yyyy") +"</b><br/>Widget \"" + widgetKey + "\": <b>" + value + "</b> Aufrufe'");
                    }
                    Response.Write(",'Insgesamt: "+ month.ViewsPerWidgetKey.Sum(x => x.Value) + "']");
                } %>
@@ -34,7 +34,7 @@
         var view = new google.visualization.DataView(data);
 
         var options = {
-            title: "Übersicht über alle Widgets (nach WidgetKey) auf \"<%= Model.Host %>\"",
+            title: "Übersicht über alle Widgets (nach Widget-Identifizierung) auf \"<%= Model.Host %>\"",
             titleTextStyle: {
                 fontSize: 18,
                 bold: true,
@@ -72,8 +72,8 @@
     <div id="annotation<%= Model.HostOnlyAlphaNumerical %>" class="collapse">
         <p>
             <strong>Erläuterung Legende:</strong> 
-            Unterschiedliche Widgets werden an dem Widget-Key erkannt, der bei der Konfiguration des Widgets angegeben werden kann. 
-            Wird kein eigener Key angegeben, wird die ID des Lernsets (bei einem Lernset-Widget) bzw. der Frage (bei einem Einzelfragen-Widget) als Key verwendet.
+            Unterschiedliche Widgets werden an der Identifizierung (auch Widget-Key) erkannt, die bei der Konfiguration des Widgets angegeben werden kann. 
+            Wird keine eigene Identifizierung angegeben, wird die ID des Lernsets (bei einem Lernset-Widget) bzw. der Frage (bei einem Einzelfragen-Widget) als Key verwendet.
         </p>
         <p>
             <strong>Erläuterung Zählweise:</strong> 
