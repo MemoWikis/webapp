@@ -13,6 +13,7 @@
                 { label: 'Monat', type: 'date' },
                 <% foreach (var widgetKey in Model.WidgetKeys) {
                        Response.Write("'" + widgetKey + "', ");
+                        Response.Write("{type: 'string', role: 'tooltip', 'p': {'html': true}},");
                    } %>
                 { role: 'annotation' }
             ]
@@ -24,6 +25,7 @@
                        int value = 0;
                        month.ViewsPerWidgetKey.TryGetValue(widgetKey, out value);
                        Response.Write(", " + value);
+                       Response.Write(", '<b>" + month.Month.ToString("MMMM yyyy") +"</b><br/>Widget \"<i>" + widgetKey + "</i>\": <b>" + value + "</b> Aufrufe'");
                    }
                    Response.Write(",'Insgesamt: "+ month.ViewsPerWidgetKey.Sum(x => x.Value) + "']");
                } %>
@@ -32,6 +34,12 @@
         var view = new google.visualization.DataView(data);
 
         var options = {
+            title: "Übersicht über alle Widgets (nach WidgetKey) auf \"<%= Model.Host %>\"",
+            titleTextStyle: {
+                fontSize: 18,
+                bold: true,
+                italic: false
+            },
             tooltip: { isHtml: true },
             annotations: { alwaysOutside: true },
             legend: { position: 'top', maxLines: 30 },
