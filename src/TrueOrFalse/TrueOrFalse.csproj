@@ -233,6 +233,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
+    <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Category\Ops\OrderCategoriesByQuestionCountAndLevel.cs" />
     <Compile Include="Domain\Classification\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />
@@ -248,6 +251,9 @@
     <Compile Include="Domain\Classification\Category\Graph\Ops\GetCategoryGraph.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeCourse.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
+    <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
+    <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
+    <Compile Include="Tools\Analytics\Widget\WidgetViewsPerMonthAndKeyResult.cs" />
     <Compile Include="Tools\Export\LomExporter.cs" />
     <Compile Include="Tools\Export\LomLists.cs" />
     <Compile Include="Tools\Export\LomXml.cs" />
@@ -944,6 +950,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs184.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs183.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs182.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs181.cs" />

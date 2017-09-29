@@ -30,6 +30,7 @@ public class WelcomeModel : BaseModel
     public int TotalCategoriesCount;
     public int TotalCategoriesCountRound10;
 
+    public IList<WordpressBlogPost> MemuchoBlogPosts;
 
     public WelcomeModel()
     {
@@ -54,7 +55,9 @@ public class WelcomeModel : BaseModel
         CategoriesUniversity = new List<int> { 706, 6, 741, 715, 806 };
         CategoriesSchool = new List<int> { 12, 686, 422, 231, 683, 744, 681, 746, 747, 795, 796 }; // 745,
         CategoriesCertificate = new List<int> { 393, 395, 467, 468, 388 };
-        CategoriesGeneralKnowledge = new List<int> { 189, 58, 14, 84, 363, 196, 794, 203, 830};
+        CategoriesGeneralKnowledge = new List<int> { 189, 58, 14, 84, 363, 196, 794, 203, 830, 840, 337};
+
+       MemuchoBlogPosts = BlogMemuchoDeRepo.GetRecentPosts(3);
     }
 
     private void FillWithSampleData()

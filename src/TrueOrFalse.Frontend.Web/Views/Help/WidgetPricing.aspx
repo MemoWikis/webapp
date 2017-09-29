@@ -182,8 +182,8 @@
 				                    <ul class="pricing-content list-unstyled">
 					                    <li>Dezente Werbung<br/><small>(unaufdringliche Sponsor-Links)</small></li>
 					                    <li>Mit memucho-Branding</li>
+				                        <li>Unbegrenzt Widgets</li>
 					                    <li>Unbegrenzte Aufrufe</li>
-					                    <%--<li>Maximal 5 Widgets</li>--%>
 				                    </ul>
 				                    <div class="pricing-footer">
 					                    <%--<p>Geeignet als Start und für kleine Blogs und Projekte</p>--%>
@@ -203,6 +203,7 @@
 				                    <ul class="pricing-content list-unstyled">
 					                    <li>Werbefrei</li>
 					                    <li>Mit memucho-Branding</li>
+                                        <li>Mit Nutzungs-Statistik</li>
 					                    <li>Inkl. 500.000 Aufrufe<br/><small>Je 100.000 weitere: € 3,50</small></li>
 				                    </ul>
 				                    <div class="pricing-footer">
@@ -223,6 +224,7 @@
 				                    <ul class="pricing-content list-unstyled">
 					                    <li>Werbefrei</li>
 					                    <li>Ohne memucho-Branding</li>
+				                        <li>Mit Nutzungs-Statistik</li>
 					                    <li>Inkl. 100.000 Aufrufe<br/><small>Je 100.000 weitere: € 9,00</small></li>
 				                    </ul>
 				                    <div class="pricing-footer">
@@ -242,6 +244,7 @@
 				                    </div>
 				                    <ul class="pricing-content list-unstyled">
 					                    <li>Werbefrei, kein Branding</li>
+				                        <li>Mit Nutzungs-Statistik</li>
 				                        <li>SLAs (Lifetime)</li>
 					                    <li>Workflows/<br/><small>Individualisierung</small></li>
 				                    </ul>

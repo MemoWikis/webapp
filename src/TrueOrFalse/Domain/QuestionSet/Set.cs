@@ -59,6 +59,12 @@ public class Set : DomainEntity, ICreator
     public virtual IList<Question> QuestionsPublic() => 
         QuestionsInSetPublic.Select(qs => qs.Question).ToList();
 
+    public virtual int QuestionCount() =>
+        QuestionsInSet.Count;
+
+    public virtual int QuestionsPublicCount() =>
+        QuestionsInSetPublic.Count;
+
     public virtual bool HasVideo => 
         !IsNullOrEmpty(VideoUrl) && 
         !IsNullOrEmpty(YoutubeVideo.GetVideoKeyFromUrl(VideoUrl));

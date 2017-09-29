@@ -143,7 +143,6 @@ h4 {
 }
 #MasterMainContent {
   padding-top: 0;
-  padding-bottom: 0;
 }
 #MasterMainContent #MasterMainColumn {
   width: 100%;
@@ -593,6 +592,84 @@ fieldset[disabled] .EduCategory.active {
   margin-top: 20px;
   color: #999999;
   font-weight: 500;
+}
+/* BLOGPOST CAROUSEL
+------------------------------------------------------*/
+#blogposts {
+  margin-top: 85px;
+  margin-bottom: 55px;
+  padding: 30px 20px 10px;
+  background-color: #eeeeee;
+}
+#blogposts h3 {
+  margin-bottom: 75px;
+  margin-top: 10px;
+  text-align: center;
+}
+#blogposts .carousel {
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-bottom: 80px;
+}
+#blogposts .carousel .carousel-inner .item {
+  padding: 0 60px;
+  min-height: 300px;
+}
+#blogposts .carousel .carousel-inner .carousel-img {
+  text-align: center;
+  padding-bottom: 30px;
+}
+#blogposts .carousel .carousel-inner .carousel-img img {
+  max-height: 200px;
+}
+#blogposts .carousel .carousel-inner .carousel-img .img-caption {
+  color: #999999;
+  font-size: smaller;
+}
+#blogposts .carousel .carousel-inner p.authorInfo {
+  margin-bottom: 0px;
+  color: #999999;
+  font-size: smaller;
+}
+#blogposts .carousel .carousel-inner h4 {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+#blogposts .carousel .carousel-inner .blogpostButtons {
+  margin-top: 30px;
+}
+#blogposts .carousel .carousel-inner .blogpostButtons .btn {
+  margin-top: 20px;
+}
+#blogposts .carousel .carousel-indicators li {
+  margin: 0 5px;
+  width: 19px;
+  height: 19px;
+  border: 2px solid #AFD534;
+}
+#blogposts .carousel .carousel-indicators li.active {
+  background-color: #AFD534;
+}
+#blogposts .carousel .carousel-control {
+  width: 50px;
+  color: #AFD534;
+  margin-bottom: 80px;
+}
+#blogposts .carousel .carousel-control .glyphicon {
+  font: normal normal normal 22px/1 FontAwesome;
+  font-size: 50px;
+  top: 110px;
+}
+@media (max-width: 767px) {
+  #blogposts .carousel .carousel-control .glyphicon {
+    top: 150px;
+  }
+}
+#blogposts .carousel .carousel-control .glyphicon-chevron-left::before {
+  content: "\f053";
+}
+#blogposts .carousel .carousel-control .glyphicon-chevron-right::before {
+  content: "\f054";
 }
 /* AWARDS & PARTNER
 ------------------------------------------------------*/

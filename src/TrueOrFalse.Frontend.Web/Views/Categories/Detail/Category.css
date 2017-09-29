@@ -129,7 +129,7 @@ span.CategoryType {
 }
 @media (min-width: 480px) {
   .MarkdownContent p {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 .MarkdownContent ul {
@@ -546,7 +546,9 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #topicNavigation a {
   color: #203256;
 }
-#topicNavigation a:hover {
+#topicNavigation a:hover,
+#topicNavigation a:active,
+#topicNavigation a:focus {
   text-decoration: none;
 }
 #topicNavigation .set-question-count {

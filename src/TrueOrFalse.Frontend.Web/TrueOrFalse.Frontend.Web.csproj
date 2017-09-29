@@ -340,6 +340,8 @@
     <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
     <Compile Include="Views\Help\FAQAccordeonItem.cs" />
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
@@ -416,6 +418,8 @@
     <Content Include="Scripts\YoutubeApi.js.map">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
+    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -433,6 +437,7 @@
     <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
     <Compile Include="Views\Sets\Detail\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
@@ -443,6 +448,9 @@
     <Compile Include="Views\Shared\SponsorModel.cs" />
     <Compile Include="Views\Topics\TopicModel.cs" />
     <Compile Include="Views\Topics\TopicsController.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHostModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\WidgetStatsModel.cs" />
     <Compile Include="Views\Users\UserSearchResultModel.cs" />
     <Compile Include="Views\Users\Account\MembershipModel.cs" />
     <Compile Include="Views\Api\CategoryApiController.cs" />
@@ -736,12 +744,15 @@
     <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
       <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
     <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
@@ -750,6 +761,13 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
+    <Content Include="Views\Shared\GlobalLicense.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.css">
+      <DependentUpon>WidgetStats.less</DependentUpon>
+    </Content>
     <Content Include="Views\Welcome\Contact.aspx" />
     <Content Include="Views\Welcome\Contact.css">
       <DependentUpon>Contact.less</DependentUpon>
@@ -2030,6 +2048,7 @@
     <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
     <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
     <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
     <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
@@ -2672,6 +2691,8 @@
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

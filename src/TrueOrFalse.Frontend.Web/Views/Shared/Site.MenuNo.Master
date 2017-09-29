@@ -20,6 +20,7 @@
             <div class="row">
                 <section id="MasterMainColumn">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                    <% Html.RenderPartial("GlobalLicense"); %>
                 </section>
             </div>
         </section>
