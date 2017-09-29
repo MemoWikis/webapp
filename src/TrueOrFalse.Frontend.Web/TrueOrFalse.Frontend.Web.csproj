@@ -757,6 +757,7 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
+    <Content Include="Views\Shared\GlobalLicense.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
