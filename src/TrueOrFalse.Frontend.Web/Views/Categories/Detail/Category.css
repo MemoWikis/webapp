@@ -812,7 +812,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     CategoryHeader
 -------------------------------------------------------*/
 #CategoryHeader {
-  margin-bottom: 80px;
+  margin-bottom: 60px;
 }
 #CategoryHeader #HeadingSection {
   display: -webkit-box;
@@ -1049,5 +1049,51 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 @media (max-width: 991px) {
   #MainWrapper {
     padding-top: 10px;
+  }
+}
+.DescriptionSection {
+  margin-bottom: 100px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+@media (max-width: 479px) {
+  .DescriptionSection {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+.DescriptionSection .ImageContainer {
+  margin-bottom: 20px;
+  max-width: 25%;
+  margin-right: 20px;
+  -webkit-flex-shrink: 0;
+      -ms-flex-negative: 0;
+          flex-shrink: 0;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .DescriptionSection .ImageContainer {
+    max-width: 30%;
+  }
+}
+@media (max-width: 479px) {
+  .DescriptionSection .ImageContainer {
+    max-width: 100%;
+    -webkit-align-self: center;
+        -ms-flex-item-align: center;
+                -ms-grid-row-align: center;
+            align-self: center;
+  }
+}
+.DescriptionSection .ImageContainer img {
+  max-height: 220px;
+}
+@media (max-width: 767px) {
+  .DescriptionSection .ImageContainer img {
+    max-height: 200px;
   }
 }

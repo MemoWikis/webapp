@@ -786,7 +786,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
     CategoryHeader
 -------------------------------------------------------*/
 #CategoryHeader {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
 
     #HeadingSection {
         display: flex;
@@ -1014,4 +1014,41 @@ html.flexbox:not(.Explorer):not(.Safari) {
     #MainWrapper {
         padding-top: 10px;
     }
-});
+}
+); .DescriptionSection {
+    margin-bottom: 100px;
+    display: flex;
+
+    .media-below-xs( {
+        flex-direction: column;
+    }
+
+    );
+
+    .ImageContainer {
+        margin-bottom: 20px;
+        max-width: 25%;
+
+        .media-sm({
+            max-width: 30%;
+        });
+
+        .media-below-xs({
+            max-width: 100%;
+            align-self: center;
+        });
+        margin-right: 20px;
+        flex-shrink: 0;
+
+
+        img {
+            max-height: 220px;
+
+            .media-below-sm( {
+                max-height: 200px;
+            }
+
+            );
+        }
+    }
+}
