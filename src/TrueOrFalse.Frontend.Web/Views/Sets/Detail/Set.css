@@ -18,6 +18,16 @@
 }
 @media (min-width: 650px) {
 }
+@media (max-width: 767px) {
+  #MasterMainContent {
+    padding-top: 0;
+  }
+}
+@media (min-width: 768px) {
+  #MasterMainContent {
+    padding-top: 25px;
+  }
+}
 #MasterMainColumn {
   line-height: 1.5;
   font-family: 'Open Sans', Arial, sans-serif;
@@ -75,7 +85,7 @@
     font-size: 20px;
   }
 }
-#MainWrapper {
+#MasterMainWrapper {
   background-color: white;
   padding: 20px;
   /*h1 {
@@ -97,13 +107,13 @@
   font-weight: 400;
   color: #203256;
 }
-#MainWrapper p {
+#MasterMainWrapper p {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
 @media (max-width: 767px) {
-  #MainWrapper {
+  #MasterMainWrapper {
     font-size: 14px;
     line-height: 21px;
     font-weight: normal;

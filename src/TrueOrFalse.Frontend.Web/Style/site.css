@@ -807,7 +807,7 @@ ul.AutocompleteHeader {
   padding-top: 25px;
   padding-bottom: 20px;
 }
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   #MasterMainContent {
     padding-top: 0;
     padding-left: 0;
@@ -848,6 +848,11 @@ ul.AutocompleteHeader {
   #MasterLeftColumn {
     width: 20%;
   }
+}
+#MasterMainWrapper {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 25px;
 }
 #GlobalLicense {
   padding: 35px 20px 10px 20px;

@@ -726,11 +726,11 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     font-size: 20px;
   }
 }
-#MainWrapper {
+#MasterMainWrapper {
   background-color: white;
   padding: 20px;
 }
-#MainWrapper .Box {
+#MasterMainWrapper .Box {
   padding: 0;
   border: none;
   -webkit-box-shadow: none;
@@ -1069,7 +1069,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   }
 }
 @media (max-width: 991px) {
-  #MainWrapper {
+  #MasterMainWrapper {
     padding-top: 10px;
   }
 }

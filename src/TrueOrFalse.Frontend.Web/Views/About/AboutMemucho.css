@@ -18,23 +18,23 @@
 }
 @media (min-width: 650px) {
 }
-#MainWrapper {
+#MasterMainWrapper {
   background-color: white;
   padding: 20px;
   font-size: 18px;
 }
-#MainWrapper h1 {
+#MasterMainWrapper h1 {
   font-size: 45px;
   margin-top: 10px;
   font-weight: normal;
 }
-#MainWrapper h2 {
+#MasterMainWrapper h2 {
   font-size: 55px;
 }
-#MainWrapper h3 {
+#MasterMainWrapper h3 {
   font-size: 35px;
 }
-#MainWrapper p {
+#MasterMainWrapper p {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

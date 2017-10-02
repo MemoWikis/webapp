@@ -24,20 +24,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
 
-    <div class="row">
-            
-        <div class="col-xs-12">
-            
-            <div id="MainWrapper">
+    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
                 
-                <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
-                
-                <div id="TopicTabContent" class="TabContent">
-                    <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
-                </div>
-                <div id="LearningTabContent" class="TabContent"></div>
-                <div id="AnalyticsTabContent" class="TabContent"></div>
-            </div>
-        </div>
+    <div id="TopicTabContent" class="TabContent">
+        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
     </div>
+    <div id="LearningTabContent" class="TabContent"></div>
+    <div id="AnalyticsTabContent" class="TabContent"></div>
 </asp:Content>
