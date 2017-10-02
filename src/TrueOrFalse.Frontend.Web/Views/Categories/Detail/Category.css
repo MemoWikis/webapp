@@ -1067,7 +1067,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   }
 }
 .DescriptionSection {
-  margin-bottom: 100px;
+  margin-bottom: 70px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1080,6 +1080,11 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     -webkit-flex-direction: column;
         -ms-flex-direction: column;
             flex-direction: column;
+  }
+}
+@media (max-width: 767px) {
+  .DescriptionSection {
+    margin-bottom: 50px;
   }
 }
 .DescriptionSection .ImageContainer {
