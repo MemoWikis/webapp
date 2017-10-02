@@ -5,15 +5,69 @@
 
 <div style="padding-bottom: 15px;">
     <div class="BreadcrumbsMobile DesktopHide">
-        <a href="/" class=""><i class="fa fa-home"></i></a>
-        <span> <i class="fa fa-chevron-right"></i> </span>
-        <% foreach (var item in Model.BreadCrumb){%>
-            <a href="<%= Links.CategoryDetail(item) %>" class=""><%= item.Name %></a>
+        <% if (Model.BreadCrumb.Count == 1 && Model.RootCategoriesList.Contains(Model.BreadCrumb.First()))
+           { %>
+            <a href="/" class=""><i class="fa fa-home"></i></a>
             <span> <i class="fa fa-chevron-right"></i> </span>
-        <%}%>
-        
-        <a href="#" class="current"><%= Model.Category.Name %></a>
+            <a href="<%= Links.CategoryDetail(Model.BreadCrumb.First()) %>" class=""><%= Model.BreadCrumb.First().Name %></a>
+        <% }
+           else
+           {
+                foreach (var rootCategory in Model.RootCategoriesList)
+                {
+                   if (Model.BreadCrumb.First() == rootCategory)
+                   {
+                        switch (Model.RootCategoriesList.IndexOf(rootCategory))
+                        {
+                            case 0:
+                            %>
+                            <span class="fa-stack fa-fw">
+                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
+                                <i class="fa fa-child fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <%
+                            break;
 
+                            case 1:
+                            %> 
+                            <span class="fa-stack fa-fw">
+                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
+                                <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <%
+                            break;
+
+                            case 2:
+                            %>
+                            <span class="fa-stack fa-fw">
+                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
+                                <i class="fa fa-file-text-o fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <%
+                            break;
+
+                            case 3:
+                            %>
+                            <span class="fa-stack fa-fw">
+                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
+                                <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
+                            </span>
+                            <%
+                            break;
+                            
+                            //default:
+                            //throw new Exception("This should not happen");
+                        }
+                        break;
+                   }
+                }
+            
+                for (var i = 1; i < Model.BreadCrumb.Count; i++)
+                { %>
+                <span> <i class="fa fa-chevron-right"></i> </span>
+                <a href="<%= Links.CategoryDetail(Model.BreadCrumb[i]) %>" class=""><%= Model.BreadCrumb[i].Name %></a>
+            <% } %>
+        <% } %>
     </div>
 </div>
 
