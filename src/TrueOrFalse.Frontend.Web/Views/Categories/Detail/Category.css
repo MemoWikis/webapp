@@ -1047,6 +1047,20 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     text-align: center;
   }
 }
+@media (max-width: 767px) {
+  #CategoryHeader {
+    margin-bottom: 30px;
+  }
+  #CategoryHeader .BreadcrumbsMobile {
+    padding-bottom: 0;
+  }
+  #CategoryHeader #ManagementMobile {
+    margin-bottom: 10px;
+  }
+  #CategoryHeader #HeadingSection {
+    margin-bottom: 30px;
+  }
+}
 @media (max-width: 991px) {
   #MainWrapper {
     padding-top: 10px;
@@ -1099,6 +1113,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   }
 }
 .DescriptionSection .TextColumn {
+  width: 100%;
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;

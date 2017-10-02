@@ -100,7 +100,7 @@ span.CategoryType {
 .MarkdownContent {
 
     p, ul, ol {
-        max-width: 720px;
+        max-width: @paragraph-max-width;
         margin-left: auto;
         margin-right: auto;
     }
@@ -1009,6 +1009,22 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 
     );
+
+    .media-below-sm({
+
+        margin-bottom: 30px;
+
+        .BreadcrumbsMobile {
+            padding-bottom: 0;
+        }
+        #ManagementMobile {
+            margin-bottom: 10px;
+        }
+
+        #HeadingSection {
+            margin-bottom: 30px;
+        }
+    });
 }
 
 .media-below-md( {
@@ -1016,9 +1032,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
         padding-top: 10px;
     }
 }
-); 
-
-.DescriptionSection {
+); .DescriptionSection {
     margin-bottom: 100px;
     display: flex;
 
@@ -1032,14 +1046,18 @@ html.flexbox:not(.Explorer):not(.Safari) {
         margin-bottom: 20px;
         max-width: 25%;
 
-        .media-sm({
+        .media-sm( {
             max-width: 30%;
-        });
+        }
 
-        .media-below-xs({
+        );
+
+        .media-below-xs( {
             max-width: 100%;
             align-self: center;
-        });
+        }
+
+        );
         margin-right: 20px;
         flex-shrink: 0;
 
@@ -1056,7 +1074,8 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 
     .TextColumn {
-        max-width: 720px;
+        width: 100%;
+        max-width: @paragraph-max-width;
         margin-left: auto;
         margin-right: auto;
     }
