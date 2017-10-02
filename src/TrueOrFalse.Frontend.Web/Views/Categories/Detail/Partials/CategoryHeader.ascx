@@ -4,7 +4,7 @@
 
 <div id="CategoryHeader">
     
-    <div class="BreadcrumbsMobile DesktopHide">
+    <div class="BreadcrumbsMobile">
         <a href="/" class=""><i class="fa fa-home"></i></a>
         <span> <i class="fa fa-chevron-right"></i> </span>
         <% foreach (var item in Model.BreadCrumb){%>
@@ -18,7 +18,6 @@
     <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
-            <%--<div class="KnowledgeBarLegend">Dein Wissensstand</div>--%>
         </div>
         <div class="Buttons">
             <div class="Button Pin" data-category-id="<%= Model.Id %>">

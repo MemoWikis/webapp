@@ -416,7 +416,14 @@ p:empty {
 .BreadcrumbsMobile {
   font-size: 14px;
   background-color: white;
+  line-height: 1.5em;
+  margin-bottom: 10px;
   color: #999999;
+}
+@media (min-width: 1200px) {
+  .BreadcrumbsMobile {
+    display: none;
+  }
 }
 .BreadcrumbsMobile i.fa-home {
   font-size: 120%;
@@ -436,7 +443,7 @@ p:empty {
 .BreadcrumbsMobile a.current {
   cursor: default;
 }
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
   .BreadcrumbsMobile {
     padding-bottom: 20px;
   }
