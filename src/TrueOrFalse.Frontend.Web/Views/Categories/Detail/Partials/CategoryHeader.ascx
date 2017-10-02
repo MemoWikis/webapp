@@ -34,9 +34,9 @@
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
                     <% if (Model.AggregatedSetCount > 0)
                        { %>
-                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">Thema zum Termin lernen</a></li>
+                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>
                         
-                        <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">Spiel starten</a></li>
+                        <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                     <% }
                     if(Model.IsOwnerOrAdmin){ %>
                         <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
@@ -98,8 +98,6 @@
                         <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                     </a>
                 </div>
-                <% if (Model.AggregatedSetCount > 0 || Model.IsOwnerOrAdmin)
-                   { %>
                 <div class="Button dropdown">
                     <% buttonId = Guid.NewGuid(); %>
                     <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -108,9 +106,9 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                         <% if (Model.AggregatedSetCount > 0)
                            { %>
-                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create">Thema zum Termin lernen</a></li>
+                        <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>
                         
-                        <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game">Spiel starten</a></li>
+                        <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                         <% }
                            if (Model.IsOwnerOrAdmin)
                            { %>
@@ -122,7 +120,6 @@
                         <% } %>
                     </ul>
                 </div>
-                <% } %>
             </div>
         </div>
     </div>
