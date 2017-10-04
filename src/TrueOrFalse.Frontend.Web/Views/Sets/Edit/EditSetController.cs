@@ -139,7 +139,7 @@ public class EditSetController : BaseController
             {
                 Id = question.Id,
                 question = question.Text,
-                correctAnswer= question.Solution,
+                correctAnswer= question.GetSolution().GetCorrectAnswerAsHtml(),
                 ImageUrl = new QuestionImageSettings(question.Id).GetUrl_50px_square().Url,
                 QuestionUrl = Links.AnswerQuestion(question)
             })
