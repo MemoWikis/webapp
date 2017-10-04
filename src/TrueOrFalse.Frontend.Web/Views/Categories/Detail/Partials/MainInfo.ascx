@@ -5,17 +5,18 @@
 
 <div style="padding-bottom: 15px;">
     <div class="BreadcrumbsMobile DesktopHide">
-        <% if (Model.BreadCrumb.Count == 1 && Model.RootCategoriesList.Contains(Model.BreadCrumb.First()))
-           { %>
+        <% var breadCrumb = Model.BreadCrumb;
+            if (breadCrumb.Count == 1 && Model.RootCategoriesList.Contains(breadCrumb.First()))
+            { %>
             <a href="/" class="category-icon"><i class="fa fa-home"></i></a>
             <span> <i class="fa fa-chevron-right"></i> </span>
-            <a href="<%= Links.CategoryDetail(Model.BreadCrumb.First()) %>" class=""><%= Model.BreadCrumb.First().Name %></a>
+            <a href="<%= Links.CategoryDetail(breadCrumb.First()) %>" class=""><%= breadCrumb.First().Name %></a>
         <% }
            else
            {
                 foreach (var rootCategory in Model.RootCategoriesList)
                 {
-                   if (Model.BreadCrumb.First() == rootCategory)
+                   if (breadCrumb.First() == rootCategory)
                    {
                         switch (Model.RootCategoriesList.IndexOf(rootCategory))
                         {
@@ -58,10 +59,10 @@
                    }
                 }
             
-                for (var i = 1; i < Model.BreadCrumb.Count; i++)
+                for (var i = 1; i < breadCrumb.Count; i++)
                 { %>
                 <span> <i class="fa fa-chevron-right"></i> </span>
-                <a href="<%= Links.CategoryDetail(Model.BreadCrumb[i]) %>" class=""><%= Model.BreadCrumb[i].Name %></a>
+                <a href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
             <% } %>
         <% } %>
     </div>
