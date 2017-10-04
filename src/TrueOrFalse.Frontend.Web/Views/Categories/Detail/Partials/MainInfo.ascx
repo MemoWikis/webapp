@@ -7,7 +7,7 @@
     <div class="BreadcrumbsMobile DesktopHide">
         <% if (Model.BreadCrumb.Count == 1 && Model.RootCategoriesList.Contains(Model.BreadCrumb.First()))
            { %>
-            <a href="/" class=""><i class="fa fa-home"></i></a>
+            <a href="/" class="category-icon"><i class="fa fa-home"></i></a>
             <span> <i class="fa fa-chevron-right"></i> </span>
             <a href="<%= Links.CategoryDetail(Model.BreadCrumb.First()) %>" class=""><%= Model.BreadCrumb.First().Name %></a>
         <% }
@@ -21,37 +21,33 @@
                         {
                             case 0:
                             %>
-                            <span class="fa-stack fa-fw">
-                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
-                                <i class="fa fa-child fa-stack-1x fa-inverse"></i>
-                            </span>
+                            <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
+                                <i class="fa fa-child"></i>
+                            </a>
                             <%
                             break;
 
                             case 1:
                             %> 
-                            <span class="fa-stack fa-fw">
-                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
-                                <i class="fa fa-graduation-cap fa-stack-1x fa-inverse"></i>
-                            </span>
+                            <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
+                                <i class="fa fa-graduation-cap"></i>
+                            </a>
                             <%
                             break;
 
                             case 2:
                             %>
-                            <span class="fa-stack fa-fw">
-                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
-                                <i class="fa fa-file-text-o fa-stack-1x fa-inverse"></i>
-                            </span>
+                            <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
+                                <i class="fa fa-file-text-o"></i>
+                            </a>
                             <%
                             break;
 
                             case 3:
                             %>
-                            <span class="fa-stack fa-fw">
-                                <i class="fa fa-circle fa-stack-2x default-category-icon"></i>
-                                <i class="fa fa-lightbulb-o fa-stack-1x fa-inverse"></i>
-                            </span>
+                            <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
+                                <i class="fa fa-lightbulb-o"></i>
+                            </a>
                             <%
                             break;
                             
