@@ -38,7 +38,7 @@
                             case 2:
                             %>
                             <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
-                                <i class="fa fa-file-text-o"></i>
+                                <i class="fa fa-file-text"></i>
                             </a>
                             <%
                             break;
