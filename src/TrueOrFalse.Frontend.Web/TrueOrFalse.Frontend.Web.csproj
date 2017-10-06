@@ -409,6 +409,7 @@
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
+    <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
     </Content>
@@ -437,7 +438,7 @@
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
-    <Compile Include="Views\Sets\Detail\ShareSetModalModel.cs" />
+    <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
@@ -747,13 +748,14 @@
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
       <DependentUpon>YoutubePreview.ts</DependentUpon>

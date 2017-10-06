@@ -40,12 +40,12 @@ public class SetController : BaseController
         foreach (var rowModel in set.QuestionsInSet)
             sbHtmlRows.Append(
                 ViewRenderer.RenderPartialView(
-                    "~/Views/Sets/Detail/SetQuestionRowResult.ascx", 
+                    "~/Views/Sets/Detail/SetQuestionRowResult.ascx",
                     rowModel,
                     ControllerContext)
             );
-            
-        return Json( new { Html = sbHtmlRows.ToString() });
+
+        return Json(new {Html = sbHtmlRows.ToString()});
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
@@ -55,7 +55,8 @@ public class SetController : BaseController
         if (set.Questions().Count == 0)
             throw new Exception("Cannot start LearningSession from set with no questions.");
 
-        var learningSession = new LearningSession{
+        var learningSession = new LearningSession
+        {
             SetToLearn = set,
             Steps = GetLearningSessionSteps.Run(set),
             User = _sessionUser.User
@@ -87,5 +88,23 @@ public class SetController : BaseController
     }
 
     public string ShareSetModal(int setId) =>
-        ViewRenderer.RenderPartialView("~/Views/Sets/Detail/ShareSetModal.ascx", new ShareSetModalModel(setId), ControllerContext);
+        ViewRenderer.RenderPartialView("~/Views/Sets/Detail/Modals/ShareSetModal.ascx", new ShareSetModalModel(setId),
+            ControllerContext);
+
+    [HttpPost]
+    public JsonResult Copy(int sourceSetId)
+    {
+        var copiedSetId = R<CopySet>().Run(sourceSetId, UserId);
+        var copiedSet = R<SetRepo>().GetById(copiedSetId);
+        return new JsonResult
+        {
+            Data = new
+            {
+                CopiedSetId = copiedSetId,
+                CopiedSetName = copiedSet.Name,
+                CopiedSetEditUrl = Links.QuestionSetEdit(copiedSet.Name, copiedSet.Id)
+            }
+        };
+
+    }
 }

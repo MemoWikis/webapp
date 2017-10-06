@@ -148,10 +148,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Set")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .Include("~/Views/Sets/Detail/Js/Set.js")
-                .Include("~/Views/Sets/Detail/Js/SetVideo.js")
                 .Include("~/Scripts/widgets/ShareDialog.js")
-                .Include("~/Views/Sets/Detail/Js/ShareSet.js")
+                .IncludeDirectory("~/Views/Sets/Detail/Js", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));

@@ -35,4 +35,5 @@ class SetPage {
 
 $(() => {
     new SetPage();
+    new SetCopy();
 });
