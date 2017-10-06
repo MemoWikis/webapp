@@ -414,6 +414,7 @@
     <Content Include="Scripts\YoutubeApi.js.map">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
     <None Include="Views\Maintenance\ContentStats.less" />
@@ -749,6 +750,8 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
+    <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
@@ -757,6 +760,7 @@
     <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
+    <Content Include="Views\Shared\GlobalLicense.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />

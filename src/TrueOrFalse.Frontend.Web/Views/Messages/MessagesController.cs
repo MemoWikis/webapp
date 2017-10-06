@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 public class MessagesController : BaseController
@@ -7,32 +8,22 @@ public class MessagesController : BaseController
     [SetMenu(MenuEntry.Messages)]
     public ActionResult Messages()
     {
+        return View(new MessageModel());
+    }
+
+    public string RenderAllMessagesInclRead()
+    {
         if (!_sessionUser.IsLoggedIn)
-            return View(new MessageModel(new List<Message>()
-            {
-                new Message
-                {
-                    Subject = "Hallo Unbekannte(r)!",
-                    Body = @"<p>
-                                schön, dass du bei uns vorbeischaust. 
-                                Du bist nicht eingeloggt, daher gibt es hier eigentlich nichts zu sehen.
-                                <a href='#' data-btn-login='true'><i class='fa fa-sign-in'></i>&nbsp;Logge dich am besten gleich ein</a> oder 
-                                <a href=" + Url.Action("Register", "Register") + @"><i class='fa fa-user-plus'></i>&nbsp;registriere dich</a> als neuer Benutzer, es dauert nur wenige Sekunden.
-                            </p>
-                            <p>Wir wünschen dir weiter viel Spaß beim Stöbern.</p>
-                            <p>
-                                Viele Grüße,<br>
-                                Christof, Jule & Robert
-                            </p>",
-                    DateCreated = DateTime.Now,
-                    IsRead = false
-                }
-            }));
+        {
+            return "";
+        }
 
         var messages = Resolve<MessageRepo>()
-            .GetForUser(_sessionUser.User.Id);
+            .GetForUser(_sessionUser.User.Id, false)
+            .Select(m => new MessageModelRow(m))
+            .ToList();
 
-        return View(new MessageModel(messages));
+        return ViewRenderer.RenderPartialView("~/Views/Messages/Partials/MessagesRows.ascx", messages, ControllerContext);
     }
 
     [HttpPost]

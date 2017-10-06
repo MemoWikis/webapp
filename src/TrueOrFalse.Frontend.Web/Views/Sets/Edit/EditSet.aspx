@@ -238,7 +238,7 @@
                         
                         <div class="row">
                             <div class="col-md-12">
-                                <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> zum Lernset hnzufügen</button>
+                                <button id="learnSetSave" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> Markierte Fragen zum Lernset hinzufügen</button>
                             </div>
                       
                             <div class="alert col-md-12 alert-success" role="alert" id="safeQuestions">
@@ -252,7 +252,7 @@
                         <div class="row" style="margin-top: 60px">
                             <div class="col-xs-12" style="padding-bottom: 10px" id="createNewQuestionInLearnSet">
                                 <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" target="_blank" id="btnCreateNewQuestionInLearnSet">
-                                    <i class="fa fa-plus"></i> oder neue Frage im Lernset erstellen.
+                                    <i class="fa fa-plus">&nbsp;</i>oder neue Frage im Lernset erstellen.
                                 </a>
 
                             </div>

@@ -1,42 +1,45 @@
-$(function() {
+class Message {
 
-    var fnSetValue = function(selector: string, newValue : any) {
-        $(selector)
-            .text(newValue)
-            .animate({ opacity: 0.25 }, 100)
-            .animate({ opacity: 1.00 }, 500);
-    };
+    constructor() {
 
-    $("[data-messageId]").each(function () {
+        var fnSetValue = function(selector: string, newValue: any) {
+            $(selector)
+                .text(newValue)
+                .animate({ opacity: 0.25 }, 100)
+                .animate({ opacity: 1.00 }, 500);
+        };
 
-        var row = $(this);
-        var msgId = row.attr("data-messageId");
+        $("[data-messageId]").each(function() {
 
-        row
-            .find("a.markAsRead")
-            .click(function (e) {
-                e.preventDefault();
-                $(this).parent().hide();
-                $(this).parent().parent().find(".markAsUnRead").parent().show();
+            var row = $(this);
+            var msgId = row.attr("data-messageId");
 
-                $.post($("#urlMessageSetRead").val(), {'msgId': msgId});
-                fnSetValue("#badgeNewMessages", parseInt($("#badgeNewMessages").text()) - 1);
+            row
+                .find("a.markAsRead")
+                .click(function(e) {
+                    e.preventDefault();
+                    $(this).parent().hide();
+                    $(this).parent().parent().find(".markAsUnRead").parent().show();
 
-                row.addClass("isRead");
+                    $.post($("#urlMessageSetRead").val(), { 'msgId': msgId });
+                    fnSetValue("#badgeNewMessages", parseInt($("#badgeNewMessages").text()) - 1);
+
+                    row.addClass("isRead");
+                });
+
+            row
+                .find("a.markAsUnRead")
+                .click(function(e) {
+                    e.preventDefault();
+                    $(this).parent().hide();
+                    $(this).parent().parent().find(".markAsRead").parent().show();
+
+
+                    $.post($("#urlMessageSetUnread").val(), { 'msgId': msgId });
+                    fnSetValue("#badgeNewMessages", parseInt($("#badgeNewMessages").text()) + 1);
+
+                    row.removeClass("isRead");
+                });
         });
-
-        row
-            .find("a.markAsUnRead")
-            .click(function (e) {
-                e.preventDefault();
-                $(this).parent().hide();
-                $(this).parent().parent().find(".markAsRead").parent().show();
-
-                
-                $.post($("#urlMessageSetUnread").val(), { 'msgId': msgId });
-                fnSetValue("#badgeNewMessages", parseInt($("#badgeNewMessages").text()) + 1);
-
-                row.removeClass("isRead");
-            });
-    });
-});
+    }
+}

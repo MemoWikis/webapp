@@ -34,20 +34,21 @@
     
     <div class="row">
         
-        <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">
-            <b>Memucho</b><br/>
+        <div class="FooterCol xxs-stack col-xs-6 col-md-4">
+            <b>memucho</b><br/>
             <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br/>
             <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br/>
+            <a href="<%= Links.WidgetExamples() %>">Widgets: Beispiele & Übersicht</a><br/>
+            <%--<a href="<%= Links.WidgetPricing() %>">Angebote und Preise für Widgets</a><br/>--%>
             &nbsp;<br/>
-            <a href="<%= Links.WidgetExamples() %>">Beispiele Widgets</a><br/>
-            <a href="<%= Links.WidgetPricing() %>">Angebote und Preise für Widgets</a><br/>
+            <a href="http://blog.memucho.de">memucho-Blog</a><br/>
             &nbsp;<br/>
             <a href="<%=Links.WelfareCompany() %>">Gemeinwohlökonomie</a><br/>
             <a href="<%=Links.Jobs() %>">Jobs</a><br/>
             <a href="<%=Links.Contact %>">Kontakt & Anfahrt</a><br/>
         </div>
         
-        <div class="FooterCol xxs-stack col-xs-6 col-md-4 col-xs-12">        
+        <div class="FooterCol xxs-stack col-xs-6 col-md-4">        
             
             <b>Software</b><br/>
             <a href="https://github.com/TrueOrFalse/TrueOrFalse"><i class="fa fa-github">&nbsp;</i>Github</a> <br/>
@@ -68,21 +69,20 @@
             <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
             <a href="<%=Links.Imprint %>">Impressum & Datenschutz</a><br/>
         </div>
+        <div class="visible-xs visible-sm" style="clear: both"></div>
         
-        <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
+        <div class="FooterCol xxs-stack col-xs-6 col-md-2">
             <b>Hilfe</b><br/>
             <a href="<%=Links.HelpFAQ() %>">FAQ</a><br/>
             <a href="<%= Links.HelpWidget() %>">Hilfe zu Widgets</a><br/>
             Christof: <span style="white-space: nowrap;">+49-1577-6825707</span>
         </div>
         
-        <div class="FooterCol xxs-stack col-xs-6 col-md-2 col-xs-12">
-            <div class="FooterLastCol">
-                <b>Mehr</b><br/>
-                <div class="fb-like" data-href="https://www.facebook.com/MemuchoWissen" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>
-                <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true">&nbsp;</i>auf Facebook</a><br/>
-                <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true">&nbsp;</i>auf Twitter</a><br/>
-            </div>
+        <div class="FooterCol xxs-stack col-xs-6 col-md-2">
+            <b>Mehr</b><br/>
+            <div class="fb-like" data-href="https://www.facebook.com/MemuchoWissen" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="false"></div><br/>
+            <a href="https://www.facebook.com/MemuchoWissen"><i class="fa fa-facebook-official" aria-hidden="true">&nbsp;</i>auf Facebook</a><br/>
+            <a href="https://twitter.com/memuchoWissen"><i class="fa fa-twitter" aria-hidden="true">&nbsp;</i>auf Twitter</a><br/>
         </div>
     </div>
     <div class="Clearfix"></div>

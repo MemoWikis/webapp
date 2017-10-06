@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-sm-5 carousel-img">
                         <img class="" src="<%= post.FeaturedImageMediumSizedUrl %>">
-                        <p class="img-caption"><%= Regex.Replace(post.FeaturedImageCaption, "<.*?>", String.Empty) %></p>
+                        <p class="img-caption Wrap"><%= Regex.Replace(post.FeaturedImageCaption, "<.*?>", String.Empty) %></p>
                     </div>
                     <div class="col-sm-7 carousel-text">
                         <p class="authorInfo"><%= post.DateCreated.ToString("dd.MM.yyy") %> | <%= post.AuthorName %></p>

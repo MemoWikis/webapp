@@ -147,7 +147,6 @@ h4 {
 
 #MasterMainContent {
     padding-top: 0;
-    padding-bottom: 0;
 
     #MasterMainColumn {
         width: 100%;
@@ -549,7 +548,11 @@ h4 {
         padding-bottom: 80px;
 
         .carousel-inner {
-            padding: 0 60px;
+
+            .item {
+                padding: 0 60px;
+                min-height: 300px;
+            }
 
             .carousel-img {
                 text-align: center;
@@ -606,10 +609,17 @@ h4 {
             .glyphicon {
                 font: normal normal normal 22px/1 FontAwesome;
                 font-size: 50px;
+                top: 110px;
+                .media-below-sm({
+                    top: 150px;
+                });
             }
 
-            .glyphicon-chevron-left::before {
-                content: "\f053";
+            .glyphicon-chevron-left {
+
+                &::before {
+                    content: "\f053";
+                }
             }
 
             .glyphicon-chevron-right::before {
