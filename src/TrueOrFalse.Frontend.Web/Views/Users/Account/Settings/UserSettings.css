@@ -18,26 +18,6 @@
 }
 @media (min-width: 650px) {
 }
-/*#MasterMainWrapper {
-        background-color: none;
-        padding-top: 10px;
-        padding-left: 10px;
-        padding-right: 10px;
-
-        .media-sm-up( {
-            padding-top: 0;
-            padding-left: 0;
-            padding-right: 0;
-        }
-
-        );
-    }
-
-    .MainFilterBarWrapper {
-        .media-below-sm({
-            margin-bottom: 10px;
-        });
-    }*/
 .columnControlsFull {
   font-size: 90%;
 }
