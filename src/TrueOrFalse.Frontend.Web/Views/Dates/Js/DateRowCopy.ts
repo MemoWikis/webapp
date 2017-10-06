@@ -12,7 +12,7 @@ class DateRowCopy {
         var self = this;
         var dateIdToCopy;
         
-        $('a[href*=#modalCopy]').click(function () {
+        $('a[href*=#modalCopyDate]').click(function () {
             dateIdToCopy = $(this).attr("data-dateId");
             self.PopulatModal(dateIdToCopy);
             ga('send', 'event', 'CopyDate', 'OpenModalCopyDate', 'OpenModalCopyDate');
@@ -22,13 +22,13 @@ class DateRowCopy {
 
         $('#btnCloseDateCopy').click(function (e) {
             e.preventDefault();
-            $('#modalCopy').modal('hide');
+            $('#modalCopyDate').modal('hide');
         });
 
         $('#btnConfirmDateCopy').click(function (e) {
             e.preventDefault();
             self.CopyDate(dateIdToCopy);
-            $('#modalCopy').modal('hide');
+            $('#modalCopyDate').modal('hide');
         });        
     }
 
