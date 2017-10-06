@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<dynamic>" %>
 
-<div id="modalCopy" class="modal fade">
+<div id="modalCopyDate" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
