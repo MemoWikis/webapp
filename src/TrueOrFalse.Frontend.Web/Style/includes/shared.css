@@ -6,6 +6,7 @@
 
     Helper Classes
     General Styles
+    Page Styles
     Layout Elements
     NavLinks
     Buttons
@@ -2421,8 +2422,6 @@
 }
 .bold {
   font-weight: bold;
-}
-.fontSizeNormal {
   font-size: 14px;
 }
 .fontSizeSmall {
@@ -2431,6 +2430,8 @@
 .greyed {
   color: #999999;
 }
+/*  Page Styles
+----------------------------------------------------------*/
 /*  Layout elements
 ----------------------------------------------------------*/
 .drop-shadow1 {

@@ -22,6 +22,26 @@
 div.column-MainContent {background-color: seashell; }
 div.column-Additional { background-color: yellowgreen;}
 div.question-row{background-color:silver;}*/
+/*#MasterMainWrapper {
+        background-color: none;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-sm-up( {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        );
+    }
+
+    .MainFilterBarWrapper {
+        .media-below-sm({
+            margin-bottom: 10px;
+        });
+    }*/
 .SearchQuestionsForm {
   /*.input-group { 
         .xxs-stack;

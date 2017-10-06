@@ -115,7 +115,6 @@
     "options": {
       "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
-
   },
   {
     "outputFile": "Style/form.css",
@@ -287,5 +286,9 @@
   {
     "outputFile": "Views/Users/Account/WidgetStats/WidgetStats.css",
     "inputFile": "Views/Users/Account/WidgetStats/WidgetStats.less"
+  },
+  {
+    "outputFile": "Views/Users/Account/Settings/UserSettings.css",
+    "inputFile": "Views/Users/Account/Settings/UserSettings.less"
   }
 ]

@@ -1,4 +1,44 @@
-﻿.columnControlsFull {
+﻿@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (min-width: 768px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 767px) {
+}
+@media (max-width: 649px) {
+}
+@media (min-width: 650px) {
+}
+/*#MasterMainWrapper {
+        background-color: none;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-sm-up( {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        );
+    }
+
+    .MainFilterBarWrapper {
+        .media-below-sm({
+            margin-bottom: 10px;
+        });
+    }*/
+.columnControlsFull {
   font-size: 90%;
 }
 .columnControlsFull .radio,
@@ -15,7 +55,8 @@
   padding-right: 10px;
   text-align: left !important;
 }
-.columnControlsFull {
+.columnControlsFull,
+.noControls {
   position: relative;
   float: left;
   width: 100%;
@@ -24,11 +65,17 @@
   padding-right: 10px;
 }
 .columnControlsFull .radio,
-.columnControlsFull .form-control-static {
+.noControls .radio,
+.columnControlsFull .form-control-static,
+.noControls .form-control-static {
   margin-left: 20px;
 }
-.columnControlsFull .form-control-static {
+.columnControlsFull .form-control-static,
+.noControls .form-control-static {
   padding-top: 0;
+}
+.noLabel .form-control-static {
+  margin-left: 0;
 }
 .aside .columnControlsFull .radio,
 .aside .columnControlsFull .form-control-static {
@@ -56,6 +103,8 @@
     float: none;
     width: 100%;
     margin-left: 0;
+    left: 0;
+    right: 0;
   }
 }
 .noLabel {
@@ -72,4 +121,8 @@ textarea.form-control,
 select.form-control {
   max-width: 400px;
 }
-/*# sourceMappingURL=UserSettings.css.map */
+.input-group input.form-control,
+.input-group textarea.form-control,
+.input-group select.form-control {
+  max-width: none;
+}

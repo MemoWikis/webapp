@@ -850,9 +850,15 @@ ul.AutocompleteHeader {
   }
 }
 #MasterMainWrapper {
+  background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 25px;
+}
+@media (max-width: 991px) {
+  #MobileSubHeader + #MasterMainContent {
+    padding-top: 0;
+  }
 }
 #GlobalLicense {
   padding: 35px 20px 10px 20px;
