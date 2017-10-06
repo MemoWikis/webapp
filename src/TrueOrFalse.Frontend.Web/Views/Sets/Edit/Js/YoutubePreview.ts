@@ -46,6 +46,12 @@ var optionsYoutubeTypeWatch = {
 
         var videoAvailable = youtube.videoAvailable(urlObject[2]);
 
+        try {
+            var videoAvailable = youtube.videoAvailable(urlObject[2]);
+        } catch (e) {
+            everythingElse.hideElements();
+        }
+
         videoAvailable.done((d)=> {
             if (d.items.length < 1) {
                 youtube.videoAvailableSetDataVideoAvailableFalse();
@@ -74,11 +80,13 @@ var everythingElse = {
     hideElements: ()=> {
         $("#player").hide();
         $('#ulQuestions').removeClass('showTimeInput');
+        $('.questionItem').find('input').hide();
     },
 
     fadeInElements: ()=> {
         $('#ulQuestions').addClass('showTimeInput');
         $('#player').fadeIn();
+        $('.questionItem').find('input').fadeIn();
     }
 }
 
