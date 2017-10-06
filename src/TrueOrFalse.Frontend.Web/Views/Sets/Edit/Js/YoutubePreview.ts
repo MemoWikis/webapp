@@ -21,7 +21,7 @@ var youtube = {
         });
     },
     timeTransform: (value = "") => {
-        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + (player.getCurrentTime() % 60).toFixed();
+        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + Math.floor(player.getCurrentTime()) % 60;
         return timeTransformValue;
     },
     videoAvailable: (videoId)=> {

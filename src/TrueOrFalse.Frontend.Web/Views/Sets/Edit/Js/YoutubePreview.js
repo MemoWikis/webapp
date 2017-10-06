@@ -16,7 +16,7 @@ var youtube = {
     },
     timeTransform: function (value) {
         if (value === void 0) { value = ""; }
-        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + (player.getCurrentTime() % 60).toFixed();
+        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + Math.floor(player.getCurrentTime()) % 60;
         return timeTransformValue;
     },
     videoAvailable: function (videoId) {
@@ -34,11 +34,7 @@ var youtube = {
 var optionsYoutubeTypeWatch = {
     callback: function (data) {
         var urlObject = youtube.transformYoutubeUrl(data);
-        try {
-            var videoAvailable = youtube.videoAvailable(urlObject[2]);
-        } catch (e) {
-            everythingElse.hideElements(); 
-        }
+        var videoAvailable = youtube.videoAvailable(urlObject[2]);
         videoAvailable.done(function (d) {
             if (d.items.length < 1) {
                 youtube.videoAvailableSetDataVideoAvailableFalse();
@@ -63,12 +59,10 @@ var everythingElse = {
     hideElements: function () {
         $("#player").hide();
         $('#ulQuestions').removeClass('showTimeInput');
-        $('.questionItem').find('input').hide();
     },
     fadeInElements: function () {
         $('#ulQuestions').addClass('showTimeInput');
         $('#player').fadeIn();
-        $('.questionItem').find('input').fadeIn();
     }
 };
 var YoutubeApiLoad = (function () {
