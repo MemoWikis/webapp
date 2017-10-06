@@ -35,5 +35,6 @@
     <% } %>
 </div>
 
+
 <script src="/Views/Sets/Detail/Js/SetVideoPlayer.js"></script>
-<script src="../../../TrueOrFalse.Frontend.Web/Scripts/YoutubeApi.js"></script>
+
