@@ -70,21 +70,7 @@ public class CategoryController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult StartLearningSession(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-
-        var questions = category.GetAggregatedQuestionsFromMemoryCache();
-
-        if (questions.Count == 0)
-            throw new Exception("Cannot start LearningSession with 0 questions.");
-
-        var learningSession = new LearningSession
-        {
-            CategoryToLearn = category,
-            Steps = GetLearningSessionSteps.Run(questions),
-            User = _sessionUser.User
-        };
-
-        Sl.LearningSessionRepo.Create(learningSession);
+        var learningSession = CreateLearningSession.ForCategory(categoryId);
 
         return Redirect(Links.LearningSession(learningSession));
     }
