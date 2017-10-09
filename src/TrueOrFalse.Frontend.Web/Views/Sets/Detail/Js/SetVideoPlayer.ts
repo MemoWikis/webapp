@@ -1,9 +1,9 @@
 ﻿
-var setVideo: SetVideo;
+var setVideo: SetVideo;                                               
 
-declare var initPlayer: () => void;
+declare var initPlayer: () => void;                                   
 
-class StopVideoAt {
+class StopVideoAt {                                                     
 
     QuestionId: number;
     Seconds : number;
@@ -14,25 +14,25 @@ class StopVideoAt {
     }
 }
 
-class SetVideoPlayer
+class SetVideoPlayer                                                              
 {
-    VideoStops: StopVideoAt[] = [];
-    VideoIsPlaying = false;
-    VideoCheckIntervalPaused = false;
+    VideoStops: StopVideoAt[] = [];                
+    VideoIsPlaying = false;                          
+    VideoCheckIntervalPaused = false;                
 
-    IsVideoPausingEnabled = true;
+    IsVideoPausingEnabled = true;                    
 
     Player : YT.Player;
 
-    constructor() {
-        initPlayer = () => {
-            player = new YT.Player('player', {
+    constructor() {                                               
+        initPlayer = () => {                                      
+            player = new YT.Player('player', {               
                 playerVars: { rel: 0 },
                 events: {
                     'onReady':
-                        setVideoPlayer.OnPlayerReady,
-                    'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }
-                }
+                        setVideoPlayer.OnPlayerReady,                   
+                    'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }       
+                }                                                                                           
             });
         }
         apiLoad();
@@ -44,8 +44,11 @@ class SetVideoPlayer
         });
     }
 
-    public OnPlayerReady() {
-        this.Player = player;
+    public OnPlayerReady() {                                       
+        $(document).ready(() => {
+            this.Player = player;
+      
+        });
     }
 
     public OnStateChange(event : YT.EventArgs, setVideoPlayer : SetVideoPlayer) {
@@ -61,19 +64,20 @@ class SetVideoPlayer
     public InitVideoStops() {
         var self = this;
 
-        $("#video-pager a[data-video-question-id]").each(function () {
+        $("#video-pager a[data-video-question-id]").each(function () {                  
 
-            var pauseAt = +$(this).attr("data-video-pause-at");
+            var pauseAt = +$(this).attr("data-video-pause-at");                      
 
-            if (pauseAt == 0)
+            if (pauseAt == 0)                                                          
                 return;
 
-            self.VideoStops.push(
-                new StopVideoAt(
-                    +$(this).attr("data-video-question-id"),
-                    pauseAt
+            self.VideoStops.push(                                                  
+                new StopVideoAt(                                                                                                                         
+                    +$(this).attr("data-video-question-id"),                       
+                    pauseAt                                                          
                 ));
         });
+      
     }
 
     public StartTimecodeCheck() {
@@ -98,20 +102,17 @@ class SetVideoPlayer
             var stops: StopVideoAt[] = this.VideoStops.filter(item => item.Seconds == currentTime);
 
             if (stops.length > 0) {
-
+               // arrayStops = stops;
                 player.pauseVideo();
-
                 setVideo.ShowYoutubeOverlay();
-
                 SetVideo.ClickItem(stops[0].QuestionId);
-
             } else {
                 this.VideoCheckIntervalPaused = false;
             }
 
         }, 500);
     }
-
+    
 
 }
 
@@ -158,7 +159,10 @@ class VideoPausingButtons {
         this._startPausingBtn.hide();
         this._stopPausingBtn.show(); 
     }
+
 }
+
+
 
 
 var setVideoPlayer = new SetVideoPlayer();

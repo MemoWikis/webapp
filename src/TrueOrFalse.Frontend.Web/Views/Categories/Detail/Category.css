@@ -431,6 +431,24 @@ p:empty {
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
 }
+.BreadcrumbsMobile .category-icon:hover {
+  text-decoration: none;
+}
+.BreadcrumbsMobile i.fa {
+  font-size: 120%;
+  width: 0.9em;
+  text-align: center;
+}
+.BreadcrumbsMobile i.fa-graduation-cap {
+  width: 1.25em;
+}
+.BreadcrumbsMobile i.fa-home {
+  width: auto;
+}
+.BreadcrumbsMobile i.fa-chevron-right {
+  font-size: 80%;
+  width: auto;
+}
 .BreadcrumbsMobile a {
   color: #999999;
   text-decoration: none;

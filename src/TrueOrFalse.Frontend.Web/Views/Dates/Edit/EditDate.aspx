@@ -34,7 +34,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     
 <% using (Html.BeginForm(Model.IsEditing ? "Edit" : "Create", "EditDate", null, 
-    FormMethod.Post, new { enctype = "multipart/form-data", id="EditGameForm"})){%>
+    FormMethod.Post, new { enctype = "multipart/form-data", id="EditDateForm"})){%>
     
     <input type="hidden" name="DateId" value="<%= Model.DateId %>"/>
 
@@ -171,9 +171,9 @@
                         
                         <div class="form-group">
                             <div class="noLabel columnControlsFull">
-                                <input type="submit" class="btn btn-primary" name="btnSave" 
-                                    value="<%= Model.IsEditing ? "Termin bearbeiten" :  "Termin erstellen " %>"
-                                    <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %> />
+                                <button type="submit" class="btn btn-primary" id="btnSave" <% if(!Model.IsLoggedIn){ %> disabled="disabled" <% } %>>
+                                    <%= Model.IsEditing ? "Termin bearbeiten" :  "Termin erstellen " %>
+                                </button>
                             </div>
                         </div>
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using TrueOrFalse.Web;
 
@@ -15,7 +14,8 @@ public class CategoryModel : BaseModel
 
     public KnowledgeSummary KnowledgeSummary;
 
-    public IList<Category> BreadCrumb;
+    public List<Category> RootCategoriesList;
+    public IList<Category> BreadCrumb => Sl.SessionUiData.TopicMenu.CategoryPath;
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
@@ -67,6 +67,7 @@ public class CategoryModel : BaseModel
 
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {
+        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -90,7 +91,6 @@ public class CategoryModel : BaseModel
                         : MarkdownMarkdig.ToHtml(category.Description);
        
         Type = category.Type.GetShortName();
-        BreadCrumb = GetBreadCrumb.For(Category);
 
         FeaturedSets = category.FeaturedSets();
 

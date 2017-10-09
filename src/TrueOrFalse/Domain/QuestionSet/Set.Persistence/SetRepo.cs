@@ -61,6 +61,34 @@ public class SetRepo : RepositoryDbBase<Set>
         EntityCache.AddOrUpdate(set);
     }
 
+    public int Copy(Set sourceSet)
+    {
+        var questionsInSet = new HashSet<QuestionInSet>();
+        sourceSet.QuestionsInSet.ToList().ForEach(q => questionsInSet.Add(new QuestionInSet
+        {
+            Question = q.Question,
+            Set = q.Set,
+            Timecode = q.Timecode,
+            Sort = q.Sort
+        }));
+        var categories = new List<Category>();
+        categories.AddRange(sourceSet.Categories);
+        Set copiedSet = new Set
+        {
+            Creator = _userSession.User,
+            Name = sourceSet.Name + " (Kopie von " + _userSession.User.Name + ")",
+            Text = sourceSet.Text,
+            VideoUrl = sourceSet.VideoUrl,
+            QuestionsInSet = questionsInSet,
+            Categories = categories,
+            CopiedFrom = sourceSet
+        };
+
+        Create(copiedSet);
+
+        return copiedSet.Id;
+    }
+
     public IList<Set> GetByIds(List<int> setIds)
     {
         return GetByIds(setIds.ToArray());

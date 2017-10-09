@@ -7,6 +7,12 @@
     <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
     <% Html.RenderPartial("Site.Partial.Head"); %>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
+    <style type="text/css">
+        #MenuButton
+        {
+            display:none;
+        }
+    </style>
 </head>
 
 <body>

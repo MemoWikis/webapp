@@ -47,6 +47,9 @@
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                                 (<i class="fa fa-user-secret">&nbsp;</i><%= Model.GetViews() %> views)
                             </span>    
+                                        <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
+                                            (<i class="fa fa-user-secret">&nbsp;</i><%= Model.Set.CopiedInstances.Count %> copies)
+                                        </span>    
                         <% } %>
                     </div>
                     <div id="MainHeading">
@@ -99,6 +102,7 @@
                                     
                         <div class="editLinks">
                             <a class="embedSetLink" data-action="embed-set" href="#"><i class="fa fa-code" aria-hidden="true">&nbsp;</i>Einbetten</a>
+                                        <a data-toggle="modal" href="#modalCopySet" data-url="toSecurePost"><i class="fa fa-files-o"></i> Lernset kopieren</a>
                             <% if(Model.IsOwner || Model.IsInstallationAdmin){ %>
                                 <a href="<%= Links.QuestionSetEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil">&nbsp;</i>Bearbeiten</a> 
                                 <a href="<%= Links.CreateQuestion(setId: Model.Id) %>"><i class="fa fa-plus-circle">&nbsp;</i>Frage hinzufügen</a> 
@@ -278,5 +282,8 @@
 
 
     <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+
+
+    <% Html.RenderPartial("~/Views/Sets/Detail/Modals/CopySetModal.ascx"); %>
 
 </asp:Content>

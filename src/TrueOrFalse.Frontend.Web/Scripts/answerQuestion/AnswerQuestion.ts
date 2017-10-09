@@ -1,6 +1,7 @@
 ﻿var choices = [];
 
 class AnswerQuestion {
+    private ClickToContinue: () => void;
     private _getAnswerText: () => string;
     private _getAnswerData: () => {};
 
@@ -74,8 +75,18 @@ class AnswerQuestion {
         this._inputFeedback = new AnswerQuestionUserFeedback(this);
 
         var self = this;
+        this.ClickToContinue = function () {
+            $('#continue').fadeIn();
+            $(document).off('click').on('click',
+                '.test',
+                (e) => {
+                    e.preventDefault();
+                    setVideo.HideYoutubeOverlay();
+                    player.playVideo();
+                });
+        };
 
-        $('body').keydown(function(e) {
+        $('body').keydown(function(e) {                                                       // simulate Click wenn sichbar und wenn Enter gedrückt wird
             var target = $(e.target);
             if (e.keyCode == 13 && (target.parents("#AnswerBody").length)) {
                 $("#btnCheck:visible").click();
@@ -122,8 +133,10 @@ class AnswerQuestion {
                     e.preventDefault();
                     self.countAnswerAsCorrect();
                     ActivityPoints.addPointsFromCountAsCorrect();
+                   
                 });
 
+        
         $("#CountWrongAnswers")
             .click(e => {
                 e.preventDefault();
@@ -133,11 +146,13 @@ class AnswerQuestion {
                 else
                     divWrongAnswers.hide();
             });
-
+        
+   
         $(".selectorShowSolution")
             .click(() => {
                 this._inputFeedback.ShowSolution();
                 ActivityPoints.addPointsFromShowSolutionAnswer();
+                this.ClickToContinue(); 
                 return false;
             });
 
@@ -170,7 +185,9 @@ class AnswerQuestion {
     IsLastQuestion(): boolean {
         return $("#isLastQuestion").val() === "True";
     }
+    
 
+    
     public ValidateAnswer() {
         var answerText
             = this._getAnswerText();
@@ -186,14 +203,15 @@ class AnswerQuestion {
                 self.AmountOfTries++;
                 self.AnswersSoFar.push(answerText);
 
-                if (this.SolutionType !== SolutionType.FlashCard) {
-                $('#spnWrongAnswer').show();
+                if (this.SolutionType !== SolutionType.FlashCard) {   
+                    $('#spnWrongAnswer').show();
                 $("#buttons-first-try").hide();
                 $("#buttons-answer-again").hide();
-
+               // $('#continue').hide();
                 $("#answerHistory").html("<i class='fa fa-spinner fa-spin' style=''></i>");
             } else {
-                $('#buttons-answer').hide();
+                    $('#buttons-answer').hide();
+                  this.ClickToContinue();
             }
             $.ajax({
                 type: 'POST',
@@ -228,9 +246,10 @@ class AnswerQuestion {
                         AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
                     }
 
-                    if (result.correct)
+                    if (result.correct) {
                         self.HandleCorrectAnswer();
-                    else
+                        self.ClickToContinue();
+                    } else
                         self.HandleWrongAnswer(result, answerText);
 
                     $("#answerHistory").empty();
@@ -282,6 +301,7 @@ class AnswerQuestion {
             this._inputFeedback.UpdateAnswersSoFar();
             this.RegisterWrongAnswer();//need only this
             this._inputFeedback.ShowError();
+            
 
             if (this.IsLearningSession || this.IsTestSession) {
 
@@ -305,7 +325,8 @@ class AnswerQuestion {
         this.AtLeastOneWrongAnswer = true;
         $('#aCountAsCorrect')
             .attr('data-original-title',
-                'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+            'Drücke hier und deine letzte Antwort wird als richtig gewertet (bei anderer Schreibweise, Formulierung ect). Aber nicht schummeln!');
+        
     }
 
     private allWrongAnswersTried(answerText: string) {

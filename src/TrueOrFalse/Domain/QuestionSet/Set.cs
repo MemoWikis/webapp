@@ -27,6 +27,9 @@ public class Set : DomainEntity, ICreator
 
     public virtual IList<Category> Categories { get; set; }
 
+    public virtual Set CopiedFrom { get; set; }
+    public virtual IList<Set> CopiedInstances { get; set; }
+
     public virtual void Add(Question question){
         QuestionsInSet.Add(
             new QuestionInSet{
