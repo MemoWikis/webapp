@@ -605,7 +605,13 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid), isSession: true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSessionId), isSession: true);
+    }
+
+    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId)
+    {
+        var learningSession = CreateLearningSession.ForCategory(categoryId);
+        return RenderAnswerBodyByLearningSession(learningSession.Id);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -680,13 +686,14 @@ public class AnswerQuestionController : BaseController
 
     private class SessionData
     {
-        public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, Guid currentStepGuid = new Guid())
+        public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, Guid currentStepGuid = new Guid(), int learningSessionId = -1)
         {
             CurrentSessionHeader = currentSessionHeader;
             CurrentStepIdx = currentStepIdx;
             SkipStepIdx = skipStepIdx;
             IsLastStep = isLastStep;
             CurrentStepGuid = currentStepGuid;
+            LearningSessionId = learningSessionId;
         }
 
         public string CurrentSessionHeader { get; private set; }
@@ -694,6 +701,7 @@ public class AnswerQuestionController : BaseController
         public int SkipStepIdx { get; private set; }
         public bool IsLastStep { get; private set; }
         public Guid CurrentStepGuid { get; private set; }
+        public int LearningSessionId { get; private set; }
     }
 
 

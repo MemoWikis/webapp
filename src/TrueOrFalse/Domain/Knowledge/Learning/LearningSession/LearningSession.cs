@@ -142,7 +142,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
         {
             learningSession.Steps = GetLearningSessionSteps
                 .Run(date.AllQuestions(),
-                date.TrainingPlanSettings.QuestionsPerDate_Minimum);
+                numberOfSteps: date.TrainingPlanSettings.QuestionsPerDate_Minimum);
         }
         else if (trainingDate.LearningSession != null)
         {

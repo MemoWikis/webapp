@@ -12,7 +12,10 @@
                 if (!Tabbing.ContentIsPresent(tabname)) {
                     Tabbing.RenderTabContent(tabname);
                 }
-
+                if (tabname == "LearningTab" && $('#hddLearningSessionStarted').val() == "False") {
+                    new PageInit();
+                    $('#hddLearningSessionStarted').val("True");
+                }
                 Tabbing.ShowTab(tabname);
             });
         });

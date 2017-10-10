@@ -18,7 +18,7 @@ public class GetLearningSessionSteps
                 .ToList());
     }
 
-    public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10)
+    public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10, int userId = -1)
     {
         var auxParams = GetStepSelectionParams(questions);
         var steps = GetSteps(auxParams, numberOfSteps);
@@ -39,19 +39,20 @@ public class GetLearningSessionSteps
         return steps;
     }
 
-    private static StepSelectionParams GetStepSelectionParams(IList<Question> allQuestions)
+    private static StepSelectionParams GetStepSelectionParams(IList<Question> allQuestions, int userId = -1)
     {
         var auxParams = new StepSelectionParams {AllQuestions = allQuestions};
 
-        var user = Sl.R<SessionUser>().User;
+        if(userId == -1)
+            userId = Sl.R<SessionUser>().User.Id;
 
         var allQuestionsIds = allQuestions.Select(x => x.Id).ToList();
 
         var ids = allQuestions.GetIds();
 
-        auxParams.AllTotals = Sl.Resolve<TotalsPersUserLoader>().Run(user.Id, ids);
-        auxParams.AllValuations = Sl.Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(allQuestionsIds, user.Id);
-        auxParams.AllAnswerHistories = Sl.Resolve<AnswerRepo>().GetByQuestion(allQuestionsIds, user.Id);
+        auxParams.AllTotals = Sl.Resolve<TotalsPersUserLoader>().Run(userId, ids);
+        auxParams.AllValuations = Sl.Resolve<QuestionValuationRepo>().GetActiveInWishknowledge(allQuestionsIds, userId);
+        auxParams.AllAnswerHistories = Sl.Resolve<AnswerRepo>().GetByQuestion(allQuestionsIds, userId);
 
         auxParams.UnansweredQuestions = allQuestions
             .Where(q => auxParams.AllTotals.ByQuestionId(q.Id)

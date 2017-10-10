@@ -17,18 +17,26 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+    <%= Styles.Render("~/bundles/AnswerQuestion") %>
+
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
+    <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
+    <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
 
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
                 
     <div id="TopicTabContent" class="TabContent">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
     </div>
-    <div id="LearningTabContent" class="TabContent"></div>
+    <div id="LearningTabContent" class="TabContent" display: none;>
+        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+    </div>
     <div id="AnalyticsTabContent" class="TabContent"></div>
 </asp:Content>

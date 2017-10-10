@@ -43,5 +43,7 @@ class PageInit {
 }
 
 $(() => {
-    new PageInit();
+    if ($('#LearningTabContent').length = 0) {
+        new PageInit();
+    }
 });
