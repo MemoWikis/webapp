@@ -931,7 +931,9 @@
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueRepo.cs" />
     <Compile Include="Tools\ScheduledJobs\JobQueue\JobQueueType.cs" />
     <Compile Include="Tools\ScheduledJobs\JobScheduler.cs" />
-    <Compile Include="Tools\ScheduledJobs\Jobs\AddCategoryToWishKnowledge.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\EditCategoryWishKnowledge\CategoryUserPair.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\EditCategoryWishKnowledge\RemoveCategoryFromWishKnowledge.cs" />
+    <Compile Include="Tools\ScheduledJobs\Jobs\EditCategoryWishKnowledge\AddCategoryToWishKnowledge.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RefreshEntityCache.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\LomExportJob.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\RecalcKnowledgeSummariesForCategory.cs" />

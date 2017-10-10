@@ -50,7 +50,14 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     {
         return
             _session.QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.EditCategoryWishKnowledge).List();
+                .Where(j => j.JobQueueType == JobQueueType.AddCategoryToWishKnowledge).List();
+    }
+
+    public IList<JobQueue> GetRemoveCategoryFromWishKnowledge()
+    {
+        return
+            _session.QueryOver<JobQueue>()
+                .Where(j => j.JobQueueType == JobQueueType.RemoveCategoryFromWishKnowledge).List();
     }
 }
     

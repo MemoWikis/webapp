@@ -7,7 +7,7 @@ using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class AddCategoryToWishKnowledge : IJob
+    public class RemoveCategoryFromWishKnowledge : IJob
     {
         public const int IntervalInSeconds = 2;
 
@@ -16,12 +16,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 var successfullJobIds = new List<int>();
-                var jobs = scope.R<JobQueueRepo>().GetAddCategoryToWishKnowledge();
-                var categoryUserPairs = new List<AddCategoryToWishKnowledge>();
+                var jobs = scope.R<JobQueueRepo>().GetRemoveCategoryFromWishKnowledge();
+                var categoryUserPairs = new List<CategoryUserPair>();
                 foreach (var job in jobs)
                 {
                     var serializer = new JavaScriptSerializer();
-                    var categoryUserIdPair = serializer.Deserialize<AddCategoryToWishKnowledge>(job.JobContent);
+                    var categoryUserIdPair = serializer.Deserialize<CategoryUserPair>(job.JobContent);
                     categoryUserPairs.Add(categoryUserIdPair);
                 }
                 foreach (var categoryUserPair in categoryUserPairs)
@@ -34,7 +34,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
                     catch (Exception e)
                     {
-                        Logg.r().Error(e, "Error in job AddCategoryToWishKnowledge.");
+                        Logg.r().Error(e, "Error in job RemoveCategoryFromWishKnowledge.");
                         new RollbarClient().SendException(e);
                     }
                 }
@@ -43,17 +43,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (successfullJobIds.Count > 0)
                 {
                     scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
-                    Logg.r().Information("Job AddCategoryToWishKnowledge added for "+ successfullJobIds.Count + " jobs.");
+                    Logg.r().Information("Job RemoveCategoryFromWishKnowledge removed for " + successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }
 
             }, "RecalcReputation");
         }
-    }
-
-    public class CategoryUserPair
-    {
-        public int CategoryId;
-        public int UserId;
     }
 }
