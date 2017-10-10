@@ -145,6 +145,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
+        private static void Schedule_AddCategoryToWishKnowledge()
+        {
+            _scheduler.ScheduleJob(JobBuilder.Create<AddCategoryToWishKnowledge>().Build(),
+                TriggerBuilder.Create().
+                    WithSimpleSchedule(x => x
+                        .WithIntervalInSeconds(AddCategoryToWishKnowledge.IntervalInSeconds)
+                            .RepeatForever()).Build());
+        }
+
         public static void StartImmediately_TrainingReminderCheck() { StartImmediately<TrainingReminderCheck>(); }
         public static void StartImmediately_TrainingPlanUpdateCheck() { StartImmediately<TrainingPlanUpdateCheck>(); }
         public static void StartImmediately_CleanUpWorkInProgressQuestions() { StartImmediately<CleanUpWorkInProgressQuestions>(); }

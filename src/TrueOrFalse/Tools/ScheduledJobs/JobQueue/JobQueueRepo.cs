@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FluentNHibernate.Utils;
 using NHibernate;
 using Seedworks.Lib.Persistence;
 
@@ -43,6 +44,13 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     {
         return
             _session.QueryOver<JobQueue>().Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory).List();
+    }
+
+    public IList<JobQueue> GetAddCategoryToWishKnowledge()
+    {
+        return
+            _session.QueryOver<JobQueue>()
+                .Where(j => j.JobQueueType == JobQueueType.EditCategoryWishKnowledge).List();
     }
 }
     
