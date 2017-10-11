@@ -13,6 +13,20 @@ public class WidgetView : Entity, WithDateCreated
     public virtual int EntityId { get; set; }
 
     public virtual DateTime DateCreated { get; set; }
+
+
+    public static string GetDescriptionForWidgetType(WidgetType widgetType)
+    {
+        switch (widgetType)
+        {
+                case WidgetType.Question: return "Frage in Einzelfrage-Widget";
+                case WidgetType.SetStartPage: return "Lernset Startseite";
+                case WidgetType.SetStepPage: return "Einzelfrage in Lernset";
+                case WidgetType.SetResult: return "Ergebnisseite Lernset";
+                case WidgetType.SetVideo: return "Video-Lernset";
+            default: return "";
+        }
+    }
 }
 
 public enum WidgetType

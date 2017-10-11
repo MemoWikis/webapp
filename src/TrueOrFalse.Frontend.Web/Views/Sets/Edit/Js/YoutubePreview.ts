@@ -21,7 +21,7 @@ var youtube = {
         });
     },
     timeTransform: (value = "") => {
-        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + (player.getCurrentTime() % 60).toFixed();
+        var timeTransformValue = Math.floor(player.getCurrentTime() / 60) + ":" + value + Math.floor(player.getCurrentTime()) % 60;
         return timeTransformValue;
     },
     videoAvailable: (videoId)=> {
@@ -45,6 +45,12 @@ var optionsYoutubeTypeWatch = {
         var urlObject = youtube.transformYoutubeUrl(data);
 
         var videoAvailable = youtube.videoAvailable(urlObject[2]);
+
+        try {
+            var videoAvailable = youtube.videoAvailable(urlObject[2]);
+        } catch (e) {
+            everythingElse.hideElements();
+        }
 
         videoAvailable.done((d)=> {
             if (d.items.length < 1) {
@@ -74,11 +80,13 @@ var everythingElse = {
     hideElements: ()=> {
         $("#player").hide();
         $('#ulQuestions').removeClass('showTimeInput');
+        $('.questionItem').find('input').hide();
     },
 
     fadeInElements: ()=> {
         $('#ulQuestions').addClass('showTimeInput');
         $('#player').fadeIn();
+        $('.questionItem').find('input').fadeIn();
     }
 }
 

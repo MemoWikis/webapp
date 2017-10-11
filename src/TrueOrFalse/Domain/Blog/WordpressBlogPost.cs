@@ -114,10 +114,21 @@ public class WordpressBlogPost
         {
             var embeddedWpFeaturedMedia = Embedded?.FeaturedMedia?.FirstOrDefault();
             if (embeddedWpFeaturedMedia != null)
-                return embeddedWpFeaturedMedia
+            {
+                var mediaSizeMedium = embeddedWpFeaturedMedia
                     .MediaDetails
-                    .Sizes.TryGetAndReturn("medium")
-                    .SourceUrl;
+                    .Sizes.TryGetAndReturn("medium");;
+                if (mediaSizeMedium != null)
+                    return mediaSizeMedium.SourceUrl;
+
+                //fallback-option: if no medium sized image is available (this is the case when original image is smaller than medium size), try full size
+                var mediaSizeFull = embeddedWpFeaturedMedia
+                    .MediaDetails
+                    .Sizes.TryGetAndReturn("full");
+                if (mediaSizeFull != null)
+                    return mediaSizeFull.SourceUrl;
+
+            }
             return "";
         }
     }

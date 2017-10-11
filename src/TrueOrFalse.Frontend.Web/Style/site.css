@@ -731,11 +731,9 @@ ul.AutocompleteHeader {
 ----------------------------------------------------------*/
 #MasterSection {
   position: relative;
-}
-@media (min-width: 768px) {
-  #MasterSection {
-    padding-bottom: 100px;
-  }
+  /*.media-sm-up( {
+        padding-bottom: 100px;
+    });*/
 }
 /* MOBILE SUBHEADER
 ----------------------------------------------------------*/
@@ -843,6 +841,22 @@ ul.AutocompleteHeader {
   #MasterLeftColumn {
     width: 20%;
   }
+}
+#GlobalLicense {
+  padding: 35px 20px 10px 20px;
+  font-size: 14px;
+  line-height: 1.3em;
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #999999;
+}
+#GlobalLicense .CCLogo {
+  display: block;
+  float: left;
+}
+#GlobalLicense .Text {
+  margin-left: 98px;
 }
 /* MASTER FOOTER
 ----------------------------------------------------------*/

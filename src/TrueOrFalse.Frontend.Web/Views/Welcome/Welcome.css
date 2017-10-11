@@ -128,7 +128,6 @@ h4 {
 }
 #MasterMainContent {
   padding-top: 0;
-  padding-bottom: 0;
 }
 #MasterMainContent #MasterMainColumn {
   width: 100%;
@@ -592,8 +591,9 @@ fieldset[disabled] .EduCategory.active {
   margin-right: -20px;
   padding-bottom: 80px;
 }
-#blogposts .carousel .carousel-inner {
+#blogposts .carousel .carousel-inner .item {
   padding: 0 60px;
+  min-height: 300px;
 }
 #blogposts .carousel .carousel-inner .carousel-img {
   text-align: center;
@@ -638,6 +638,12 @@ fieldset[disabled] .EduCategory.active {
 #blogposts .carousel .carousel-control .glyphicon {
   font: normal normal normal 22px/1 FontAwesome;
   font-size: 50px;
+  top: 110px;
+}
+@media (max-width: 767px) {
+  #blogposts .carousel .carousel-control .glyphicon {
+    top: 150px;
+  }
 }
 #blogposts .carousel .carousel-control .glyphicon-chevron-left::before {
   content: "\f053";

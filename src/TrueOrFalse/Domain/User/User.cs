@@ -24,6 +24,17 @@ public class User : DomainEntity
     public virtual bool AllowsSupportiveLogin { get; set; }
     public virtual UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
     public virtual IList<Membership> MembershipPeriods { get; set; }
+    public virtual string WidgetHostsSpaceSeparated { get; set; }
+
+    public virtual IList<string> WidgetHosts()
+    {
+        if (string.IsNullOrEmpty(WidgetHostsSpaceSeparated))
+            return new List<string>();
+
+        return WidgetHostsSpaceSeparated
+            .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim()).ToList();
+    }
 
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }

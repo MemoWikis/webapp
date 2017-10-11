@@ -7,6 +7,12 @@
     <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
     <% Html.RenderPartial("Site.Partial.Head"); %>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
+    <style type="text/css">
+        #MenuButton
+        {
+            display:none;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,6 +26,7 @@
             <div class="row">
                 <section id="MasterMainColumn">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                    <% Html.RenderPartial("GlobalLicense"); %>
                 </section>
             </div>
         </section>

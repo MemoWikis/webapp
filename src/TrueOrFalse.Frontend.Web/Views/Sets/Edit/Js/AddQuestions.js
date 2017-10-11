@@ -38,7 +38,7 @@ $(function () {
                 success: function (data) {
                     if (data.Status === true) {
 
-                        $("#alertOutput").text("Speichern erfolgreich");
+                        $("#alertOutput").text("Fragen erfolgreich hinzugefügt und Lernset gespeichert.");
                         //1: load row html
                         $.post("/EditSet/GetHtmlRows",
                             { setid: EditSet.GetSetId(), questionIds: selectedQuestionIds },
@@ -81,7 +81,7 @@ var options = {
         $("#safeQuestions").hide();
         $.post("/EditSet/Search",
             { setId: EditSet.GetSetId(), term: $("#questionId").val() },
-            function (data) {
+            function(data) {
 
                 if (data.Questions.length > 0) {
                     $("#resultHeading").fadeIn();
@@ -97,8 +97,9 @@ var options = {
                                         " class='previewImage' >")))
                                 .append($("<div class='col-xs-9'>")
                                     .append(data.Questions[i].question)
+                                    .append("<div class='greyed' style='font-size: smaller;'>Richtige Antwort: " + data.Questions[i].correctAnswer + "</div>")
                                     .append($("<p class='linkQuestion'>")
-                                        .append($("<a href=" +
+                                        .append($("<a target='_blank' href=" +
                                             data.Questions[i].QuestionUrl +
                                             ">zur Frage </a>"))))
                             );

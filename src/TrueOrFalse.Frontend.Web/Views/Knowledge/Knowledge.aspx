@@ -155,6 +155,7 @@
     </style>
 
     <%= Styles.Render("~/bundles/Knowledge") %>
+    <%= Scripts.Render("~/bundles/js/Knowledge") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
@@ -353,6 +354,49 @@
                 </div>
             </div>
         </div>
+        
+        
+        <div id="wishKnowledge" class="row">
+            <div class="col-xs-12">
+                <h3>Themen und Lernsets in deinem Wunschwissen</h3>
+                
+                <% if (!Model.CatsAndSetsWish.Any()) { %>
+                    <div class="alert alert-info" style="max-width: 600px; margin: 30px auto 10px auto;">
+                        <p>
+                            Du hast keine Themen oder Lernsets in deinem Wunschwissen. Finde interessante Themen aus den Bereichen 
+                            <a href="<%= Links.CategoryDetail("Schule", 682) %>">Schule</a>,
+                            <a href="<%= Links.CategoryDetail("Studium", 687) %>">Studium</a>,
+                            <a href="<%= Links.CategoryDetail("Zertifikate", 689) %>">Zertifikate</a> und 
+                            <a href="<%= Links.CategoryDetail("Allgemeinwissen", 709) %>">Allgemeinwissen</a>
+                            und füge sie deinem Wunschwissen hinzu. Dann hast du deinen Wissensstand hier immer im Blick.
+                        </p>
+                    </div>
+                <% } %>
+                <div class="row wishKnowledgeItems">
+                    <% foreach (var catOrSet in Model.CatsAndSetsWish) {
+                            if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8) { %>
+                                </div>
+                                <div id="wishKnowledgeMore" class="row wishKnowledgeItems" style="display: none;">
+                            <% } %>
+                            <div class="col-xs-6 topic">
+                                <% if (catOrSet is Category) { %>
+                                       <% Html.RenderPartial("Partials/KnowledgeCardMiniCategory", new KnowledgeCardMiniCategoryModel((Category)catOrSet)); %>
+                                <% } else if (catOrSet is Set) { %>
+                                    <% Html.RenderPartial("Partials/KnowledgeCardMiniSet", new KnowledgeCardMiniSetModel((Set)catOrSet)); %>
+                                <% } %>
+                            </div>
+                    <% } %>
+                </div>
+                <% if (Model.CatsAndSetsWish.Count > 8) { %>
+                    <div>
+                        <a href="#" id="btnShowAllWishKnowledgeContent" class="btn btn-link btn-lg">Alle anzeigen (<%= Model.CatsAndSetsWish.Count-6 %> weitere) <i class="fa fa-caret-down"></i></a> 
+                        <a href="#" id="btnShowLessWishKnowledgeContent" class="btn btn-link btn-lg" style="display: none;"> <i class="fa fa-caret-up"></i> Weniger anzeigen</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+            
     
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
@@ -473,7 +517,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
-                    <p class="greyed" style="font-size: 12px;""><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+                    <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
 
                     <% if (Model.NetworkActivities.Count == 0) { %>
                             Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
