@@ -78,7 +78,7 @@ class AnswerQuestion {
         this.ClickToContinue = function () {
             $('#continue').fadeIn();
             $(document).off('click').on('click',
-                '.test',
+                '.clickToContinue',
                 (e) => {
                     e.preventDefault();
                     setVideo.HideYoutubeOverlay();
