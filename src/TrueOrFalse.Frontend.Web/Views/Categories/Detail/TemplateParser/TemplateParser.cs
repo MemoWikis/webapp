@@ -53,7 +53,8 @@ public class TemplateParser
         {
             case "topicnavigation":
             case "videowidget":
-            case "testsetwidget":
+            case "settestsessionnostartscreen":
+            case "settestsessionassessment":
             case "categorynetwork":
             case "contentlists":
             case "singleset":
@@ -96,8 +97,10 @@ public class TemplateParser
                 return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
-            case "testsetwidget":
-                return new TestSetWidgetModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+            case "settestsessionnostartscreen":
+                return new SetTestSessionNoStartScreenModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+            case "settestsessionassessment":
+                return new SetTestSessionAssessmentModel(templateJson.SetId, templateJson.Title, templateJson.Text);
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);

@@ -308,12 +308,13 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionAssessmentModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TestSetWidgetModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
@@ -377,6 +378,7 @@
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\SetTestSessionAssessment.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
@@ -534,7 +536,7 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TestSetWidget.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
       <DependentUpon>WidgetPricing.ts</DependentUpon>

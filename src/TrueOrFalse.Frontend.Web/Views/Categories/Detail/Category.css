@@ -729,13 +729,13 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     margin-top: -21px;
   }
 }
-.testSetWidget {
+.setTestSessionNoStartScreen {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.testSetWidget h2 {
+.setTestSessionNoStartScreen h2 {
   margin-bottom: 10px;
 }
-.testSetWidget h5 {
+.setTestSessionNoStartScreen h5 {
   margin-bottom: 20px;
 }
