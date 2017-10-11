@@ -65,7 +65,7 @@ public class TemplateParser
                 var elementHtml = GetElementHtml(templateJson);
 
                 if (string.IsNullOrEmpty(elementHtml))
-                    throw new Exception($"Name des Templates '{elementHtml}' ist unbekannt.");
+                    throw new Exception($"Name des Templates '{templateJson.TemplateName}' ist unbekannt.");
 
                 return elementHtml;
             }
