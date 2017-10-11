@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Script.Serialization;
 using Quartz;
 using RollbarSharp;
@@ -32,7 +33,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         CategoryInKnowledge.UpdateCategoryValuation(categoryUserPair.CategoryId, user);
 
                         //scope.R<ReputationUpdate>().Run(scope.R<UserRepo>().GetById(Convert.ToInt32(userJobs.Key)));
-                        //successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
+                        successfullJobIds.AddRange(jobs.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)
                     {
