@@ -1,21 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Web.Script.Serialization;
 using FluentNHibernate.Conventions;
 using NHibernate;
 using TrueOrFalse;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class CategoryInKnowledge
 {
     public static void Pin(int categoryId, User user)
     {
+        var serializer = new JavaScriptSerializer();
+        var categoryUserPairJsonString =
+            serializer.Serialize(new CategoryUserPair {CategoryId = categoryId, UserId = user.Id});
+        Sl.R<JobQueueRepo>().Add(JobQueueType.AddCategoryToWishKnowledge, categoryUserPairJsonString);
+
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         foreach (var question in questions)
         {
             ProbabilityUpdate_Valuation.Run(question.Id, user.Id);
         }
         //Create DB Entry for job
-        //PinQuestionsInCategory(categoryId, user);
-        //UpdateCategoryValuation(categoryId, user, 50);
+
+        ////PinQuestionsInCategory(categoryId, user);
+        ////UpdateCategoryValuation(categoryId, user, 50);
     }
 
     public static void PinQuestionsInCategory(int categoryId, User user)
