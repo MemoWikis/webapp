@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions;
 using NHibernate;
+using TrueOrFalse;
 
 public class CategoryInKnowledge
 {
     public static void Pin(int categoryId, User user)
     {
-        PinQuestionsInCategory(categoryId, user);
-        UpdateCategoryValuation(categoryId, user, 50);
+        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        foreach (var question in questions)
+        {
+            ProbabilityUpdate_Valuation.Run(question.Id, user.Id);
+        }
+        //Create DB Entry for job
+        //PinQuestionsInCategory(categoryId, user);
+        //UpdateCategoryValuation(categoryId, user, 50);
     }
 
-    private static void PinQuestionsInCategory(int categoryId, User user)
+    public static void PinQuestionsInCategory(int categoryId, User user)
     {
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         QuestionInKnowledge.Pin(questions, user);
@@ -57,7 +62,7 @@ public class CategoryInKnowledge
         return questionsInOtherValuatedCategories;
     }
 
-    private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
+    public static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
     {
         CreateOrUpdateCategoryValuation.Run(categoryId, user.Id, relevancePeronal: relevance);
 

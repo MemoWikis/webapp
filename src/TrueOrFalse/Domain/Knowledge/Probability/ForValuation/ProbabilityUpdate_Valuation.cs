@@ -44,7 +44,7 @@ namespace TrueOrFalse
 
         private static void Run(QuestionValuation questionValuation)
         {
-            var sp = Stopwatch.StartNew();
+            Stopwatch.StartNew();
 
             var question = questionValuation.Question;
             var user = questionValuation.User;

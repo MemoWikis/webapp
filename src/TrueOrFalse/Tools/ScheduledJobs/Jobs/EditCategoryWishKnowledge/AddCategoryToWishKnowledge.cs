@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Web.Script.Serialization;
 using Quartz;
 using RollbarSharp;
@@ -28,7 +27,26 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     try
                     {
-                        //DO THE JOB THING INSIDE HERE
+                        var user = Sl.UserRepo.GetById(categoryUserPair.UserId);
+                        CategoryInKnowledge.PinQuestionsInCategory(categoryUserPair.CategoryId, user);
+                        CategoryInKnowledge.UpdateCategoryValuation(categoryUserPair.CategoryId, user);
+
+                        ////var user = Sl.UserRepo.GetById(categoryUserPair.UserId);
+                        ////var questions = Sl.CategoryRepo.GetById(categoryUserPair.CategoryId).GetAggregatedQuestionsFromMemoryCache();
+                        ////var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), categoryUserPair.UserId);
+                        ////foreach (var question in questions)
+                        ////{
+                        ////    QuestionInKnowledge.CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevancePersonal: 50);
+                        ////    Sl.Session.CreateSQLQuery(QuestionInKnowledge.GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+                        ////    ProbabilityUpdate_Valuation.Run(question, user);
+                        ////}
+                        ////QuestionInKnowledge.SetUserWishCountQuestions(user);
+
+                        ////var creatorGroups = questions.Select(q => q.Creator).GroupBy(c => c.Id);
+
+                        ////foreach (var creator in creatorGroups)
+                        ////    ReputationUpdate.ForUser(creator.First());
+
                         //scope.R<ReputationUpdate>().Run(scope.R<UserRepo>().GetById(Convert.ToInt32(userJobs.Key)));
                         //successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
                     }
