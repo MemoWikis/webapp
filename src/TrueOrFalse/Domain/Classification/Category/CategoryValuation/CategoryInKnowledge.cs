@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Script.Serialization;
 using FluentNHibernate.Conventions;
@@ -16,9 +17,26 @@ public class CategoryInKnowledge
         Sl.R<JobQueueRepo>().Add(JobQueueType.AddCategoryToWishKnowledge, categoryUserPairJsonString);
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        var userQuestionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
         foreach (var question in questions)
         {
-            ProbabilityUpdate_Valuation.Run(question.Id, user.Id);
+            if (user.Id == -1)
+                return;
+
+            var questionValuation =
+                userQuestionValuation.First(x => x.Value.Question.Id == question.Id).Value ??
+                new QuestionValuation
+                {
+                    Question = question,
+                    User = user
+                };
+
+            Stopwatch.StartNew();
+            //var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user);
+            //questionValuation.CorrectnessProbability = probabilityResult.Probability;
+            //questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+            //questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+            UserValuationCache.AddOrUpdate(questionValuation);
         }
         //Create DB Entry for job
 
