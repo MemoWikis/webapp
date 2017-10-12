@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
+using NHibernate;
 
 public class CreateLearningSession
 {
-    public static LearningSession ForCategory(int categoryId, int userId = -1)
+    public static LearningSession ForCategory(int categoryId)
     {
         var category = Sl.CategoryRepo.GetByIdEager(categoryId);
 
@@ -16,12 +17,12 @@ public class CreateLearningSession
         if (questions.Count == 0)
             throw new Exception("Cannot start LearningSession with 0 questions.");
 
-        var user = userId != -1 ? Sl.Resolve<UserRepo>().GetById(userId) : Sl.R<SessionUser>().User;
+        var user = Sl.R<SessionUser>().User;
 
         var learningSession = new LearningSession
         {
             CategoryToLearn = category,
-            Steps = GetLearningSessionSteps.Run(questions, userId),
+            Steps = GetLearningSessionSteps.Run(questions),
             User = user
         };
 

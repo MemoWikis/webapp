@@ -18,7 +18,7 @@ public class GetLearningSessionSteps
                 .ToList());
     }
 
-    public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10, int userId = -1)
+    public static IList<LearningSessionStep> Run(IList<Question> questions, int numberOfSteps = 10)
     {
         var auxParams = GetStepSelectionParams(questions);
         var steps = GetSteps(auxParams, numberOfSteps);
@@ -39,12 +39,11 @@ public class GetLearningSessionSteps
         return steps;
     }
 
-    private static StepSelectionParams GetStepSelectionParams(IList<Question> allQuestions, int userId = -1)
+    private static StepSelectionParams GetStepSelectionParams(IList<Question> allQuestions)
     {
         var auxParams = new StepSelectionParams {AllQuestions = allQuestions};
 
-        if(userId == -1)
-            userId = Sl.R<SessionUser>().User.Id;
+        var userId = Sl.R<SessionUser>().User.Id;
 
         var allQuestionsIds = allQuestions.Select(x => x.Id).ToList();
 

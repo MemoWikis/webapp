@@ -6,6 +6,8 @@
 
         $("#AnswerQuestion").ready(() => {
 
+            debugger;
+
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
                     e.preventDefault();
@@ -33,6 +35,7 @@
 
             } else if ($("#hddIsLearningSession").val() === "True") {
 
+                debugger;
                 if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1")
                     this.loadNewLearningSession();
 
@@ -82,11 +85,12 @@
     }
 
     public loadNewLearningSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hddCategoryId').val() + "&userId=" + $('#hddUserId').val();
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hddCategoryId').val();
         this.loadNewQuestion(url);
     }
 
     private loadNewQuestion(url: string) {
+        debugger;
         $.ajax({
             url: url,
             type: 'POST',

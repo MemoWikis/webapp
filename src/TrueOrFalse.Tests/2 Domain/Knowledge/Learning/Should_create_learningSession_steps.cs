@@ -51,7 +51,7 @@ public class Should_create_learningSession_steps : BaseTest
         Console.WriteLine(Environment.NewLine + "Shuffled:" + Environment.NewLine
             + context.All.Select(s => s.Text).Aggregate((current, next) => current + Environment.NewLine + next));
         
-        var steps = GetLearningSessionSteps.Run(context.All, numberOfSteps: numberOfSteps);
+        var steps = GetLearningSessionSteps.Run(context.All);
 
         Console.WriteLine(Environment.NewLine + "Selected steps:" + Environment.NewLine
             + steps.Select(s => s.Question.Text).Aggregate((current, next) => current + Environment.NewLine + next));
