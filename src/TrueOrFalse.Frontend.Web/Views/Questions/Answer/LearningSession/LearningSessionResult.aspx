@@ -194,7 +194,7 @@
 
                         <% }
                         else if (uniqueQuestion.All(a => a.AnswerState != StepAnswerState.Answered))
-                        { %>
+                        { %> 
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="QuestionLearned Unanswered">
@@ -215,7 +215,18 @@
                                             &nbsp;&nbsp;
                                         </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
                                         (Details)</a><br/>
-                        <% } %>
+                        <% }
+                        else { // fall-back-option, prevents layout bugs (missing opened divs) in case some answer-case isn't dealt with above  %>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="QuestionLearned">
+                                        <a href="#" data-action="showAnswerDetails">
+                                            <i class="fa fa-question-circle AnswerResultIcon show-tooltip" title="Status unbekannt (Fehler)">
+                                                &nbsp;&nbsp;
+                                            </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                            (Details)</a><br/>
+                             
+                        <% }%>
                                         <div class="answerDetails" data-questionId=<%= uniqueQuestion.First().QuestionId %>>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-2 answerDetailImage">
