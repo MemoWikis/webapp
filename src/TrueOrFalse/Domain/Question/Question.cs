@@ -172,6 +172,11 @@ public class Question : DomainEntity, ICreator
         switch (solutionType)
         {
             case SolutionType.MatchList:
+                
+                //Quick Fix: Prevent null reference exeption
+                if (answerText == "")
+                    return "";
+
                 var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
                 if (answerObject.Pairs.Count == 0)
                     return "(keine Auswahl)";
