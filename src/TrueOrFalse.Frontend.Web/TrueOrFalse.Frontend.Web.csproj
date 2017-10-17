@@ -751,6 +751,7 @@
     <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
@@ -973,9 +974,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\Category.js">
-      <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
@@ -1201,7 +1199,6 @@
     <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Categories\Js\CategoryNetworkNavigation.ts" />
@@ -2649,9 +2646,6 @@
     </Content>
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\Category.js.map">
-      <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
