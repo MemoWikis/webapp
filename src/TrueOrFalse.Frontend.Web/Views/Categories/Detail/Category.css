@@ -729,6 +729,90 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     margin-top: -21px;
   }
 }
+.setTestSessionAssessment {
+  margin: 20px -20px;
+  padding: 10px 30px;
+  border-top: 8px solid #F6F8FA;
+  border-bottom: 8px solid #F6F8FA;
+}
+.setTestSessionAssessment .highlightSet {
+  background-color: #ffda7f;
+}
+.setTestSessionAssessment img {
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #eeeeee;
+}
+.setTestSessionAssessment .setTitle {
+  font-size: 35px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.setTestSessionAssessment .setQuestionCount {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+  color: #999999;
+  font-size: 14px;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper {
+  display: inline-block;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .KnowledgeBarLegend {
+  color: #999999;
+  font-size: 12px;
+  line-height: 1.5em;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+@media (max-width: 767px) {
+  .setTestSessionAssessment .KnowledgeBarWrapper .KnowledgeBarLegend {
+    opacity: 1;
+  }
+}
+.setTestSessionAssessment .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+  opacity: 1;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar {
+  display: inline-block;
+  height: 10px;
+  width: 180px;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-learned {
+  background-color: silver;
+}
+.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}
+.setTestSessionAssessment .buttons {
+  margin-top: 20px;
+}
+.setTestSessionAssessment .buttons .btn {
+  margin-top: 10px;
+}
+.setTestSessionAssessment .buttons .btn-primary {
+  font-size: 18px;
+  min-width: 220px;
+}
+.setTestSessionAssessment .buttons .dropdown {
+  display: inline-block;
+}
 .setTestSessionNoStartScreen {
   margin-top: 20px;
   margin-bottom: 20px;

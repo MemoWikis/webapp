@@ -974,7 +974,7 @@
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Category.js">
+    <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
@@ -2650,7 +2650,7 @@
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Category.js.map">
+    <Content Include="Views\Categories\Detail\Js\Category.js.map">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
