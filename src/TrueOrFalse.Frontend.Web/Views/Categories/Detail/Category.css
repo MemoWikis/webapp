@@ -729,35 +729,36 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     margin-top: -21px;
   }
 }
-.setTestSessionAssessment {
-  margin: 20px -20px;
+.singleSetFullWidth {
+  margin: -8px -20px;
   padding: 10px 30px;
   border-top: 8px solid #F6F8FA;
   border-bottom: 8px solid #F6F8FA;
 }
-.setTestSessionAssessment .highlightSet {
+.singleSetFullWidth .highlightSet {
   background-color: #ffda7f;
 }
-.setTestSessionAssessment img {
+.singleSetFullWidth img {
   border-radius: 50%;
   box-shadow: 5px 5px 10px #eeeeee;
 }
-.setTestSessionAssessment .setTitle {
+.singleSetFullWidth .setTitle {
   font-size: 35px;
+  line-height: 40px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-.setTestSessionAssessment .setQuestionCount {
+.singleSetFullWidth .setQuestionCount {
   display: inline-block;
   vertical-align: top;
   margin-right: 15px;
   color: #999999;
   font-size: 14px;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper {
+.singleSetFullWidth .KnowledgeBarWrapper {
   display: inline-block;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .KnowledgeBarLegend {
+.singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
   font-size: 12px;
   line-height: 1.5em;
@@ -765,52 +766,52 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   transition: opacity 0.2s linear;
 }
 @media (max-width: 767px) {
-  .setTestSessionAssessment .KnowledgeBarWrapper .KnowledgeBarLegend {
+  .singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
     opacity: 1;
   }
 }
-.setTestSessionAssessment .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+.singleSetFullWidth .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
   opacity: 1;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar {
   display: inline-block;
   height: 10px;
   width: 180px;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-learning {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-learned {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned {
   background-color: silver;
 }
-.setTestSessionAssessment .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge {
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }
-.setTestSessionAssessment .buttons {
+.singleSetFullWidth .buttons {
   margin-top: 20px;
 }
-.setTestSessionAssessment .buttons .btn {
+.singleSetFullWidth .buttons .btn {
   margin-top: 10px;
 }
-.setTestSessionAssessment .buttons .btn-primary {
+.singleSetFullWidth .buttons .btn-primary {
   font-size: 18px;
   min-width: 220px;
 }
-.setTestSessionAssessment .buttons .dropdown {
+.singleSetFullWidth .buttons .dropdown {
   display: inline-block;
 }
 .setTestSessionNoStartScreen {

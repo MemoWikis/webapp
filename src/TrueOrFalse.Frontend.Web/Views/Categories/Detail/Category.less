@@ -749,8 +749,8 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 }
 
-.setTestSessionAssessment {
-    margin: 20px -20px;
+.singleSetFullWidth {
+    margin: -8px -20px; //negative top/bottom-margin to prevent thicker borders between two singleSetFullWidth elements
     padding: 10px 30px;
     border-top: 8px solid @color-background-global;
     border-bottom: 8px solid @color-background-global;
@@ -766,6 +766,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
     .setTitle {
         font-size: 35px;
+        line-height: 40px;
         font-weight: bold;
         margin-bottom: 10px;
     }
@@ -847,6 +848,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
             font-size: 18px;
             min-width: 220px;
         }
+
         .dropdown {
             display: inline-block;
         }

@@ -1,8 +1,8 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SetTestSessionAssessmentModel>" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<SingleSetFullWidthModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="setTestSessionAssessment">
+<div class="singleSetFullWidth">
     <div class="row">
         <div class="col-xs-3">
             <div class="ImageContainer">
@@ -13,6 +13,7 @@
             <div class="setTitle">
                 <%: Model.Title %>
             </div>
+
             <div>
                 <div class="setQuestionCount">
                     <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
@@ -27,11 +28,13 @@
                     <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                 </div>
             </div>
+
             <div class="setDescription">
                     <%= Model.Text %>
             </div>
+
             <div class="buttons">
-                <a href="#" class="btn btn-primary startSetAssessment" data-set-id="<%= Model.SetId %>">
+                <a href="<%= Links.TestSessionStartForSet(Model.Title, Model.SetId) %>" class="btn btn-primary">
                     <i class="fa fa-lg fa-play-circle">&nbsp;</i> Wissen testen
                 </a><br />
                 <a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">

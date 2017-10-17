@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class SetTestSessionAssessmentModel : BaseModel
+public class SingleSetFullWidthModel : BaseModel
 {
     public Set Set;
     public int SetId;
@@ -10,7 +10,7 @@ public class SetTestSessionAssessmentModel : BaseModel
     public ImageFrontendData ImageFrontendData;
     public bool IsInWishknowledge;
 
-    public SetTestSessionAssessmentModel(int setId, string title = null, string text = null)
+    public SingleSetFullWidthModel(int setId, string title = null, string text = null)
     {
         Set = Sl.SetRepo.GetById(setId);
         SetId = Set.Id;

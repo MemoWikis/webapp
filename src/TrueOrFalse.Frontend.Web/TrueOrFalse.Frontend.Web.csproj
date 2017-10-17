@@ -308,7 +308,7 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionAssessmentModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
@@ -378,7 +378,7 @@
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Partials\SetTestSessionAssessment.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
