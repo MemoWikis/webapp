@@ -84,7 +84,7 @@
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
 
-            <div class="row">
+            <div class="row" style="clear: both;">
                     <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
                         var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
                         <div class="col-sm-6 xxs-stack">
