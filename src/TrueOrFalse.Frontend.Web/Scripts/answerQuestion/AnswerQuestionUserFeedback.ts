@@ -199,7 +199,7 @@
                                 $('<div class="ReferenceText">' + ref.referenceText + '</div>').appendTo(div);
                         }
                         if (ref.additionalInfo) {
-                            $('<div class="AdditionalInfo">' + ref.additionalInfo + '</div>').appendTo(div);
+                            $('<div class="AdditionalInfo">').append(ref.additionalInfo).appendTo(div);
                         }
                     }
 

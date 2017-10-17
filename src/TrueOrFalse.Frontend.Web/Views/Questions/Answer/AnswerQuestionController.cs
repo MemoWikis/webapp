@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -364,6 +365,8 @@ public class AnswerQuestionController : BaseController
                     .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
                         millisecondsSinceQuestionView, roundId);
 
+        EscapeReferencesText(question.References);
+
         return new JsonResult
         {
             Data = new
@@ -381,6 +384,17 @@ public class AnswerQuestionController : BaseController
                 })
             }
         };
+    }
+
+    private static void EscapeReferencesText(IList<Reference> references)
+    {
+        foreach (var reference in references)
+        {
+            if(reference.ReferenceText != null)
+                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+            if(reference.AdditionalInfo != null)
+                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+        }
     }
 
     [HttpPost]
