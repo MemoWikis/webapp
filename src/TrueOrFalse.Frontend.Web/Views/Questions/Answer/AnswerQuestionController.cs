@@ -588,6 +588,8 @@ public class AnswerQuestionController : BaseController
 
         var questionViewGuid = Guid.NewGuid();
 
+        var question = Sl.QuestionRepo.GetById(learningSession.Steps[currentLearningStepIdx].Question.Id);
+
         Sl.SaveQuestionView.Run(
             questionViewGuid,
             learningSession.Steps[currentLearningStepIdx].Question,
