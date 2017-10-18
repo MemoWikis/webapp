@@ -40,17 +40,15 @@ var youtube = {
 }
 
 var optionsYoutubeTypeWatch = {
-    callback: (data)=> {
+    callback: (data) => {
+        var videoAvailable;
 
         var urlObject = youtube.transformYoutubeUrl(data);
 
-        var videoAvailable = youtube.videoAvailable(urlObject[2]);
 
-        try {
-            var videoAvailable = youtube.videoAvailable(urlObject[2]);
-        } catch (e) {
-            everythingElse.hideElements();
-        }
+       try{
+            videoAvailable = youtube.videoAvailable(urlObject[2]);
+        
 
         videoAvailable.done((d)=> {
             if (d.items.length < 1) {
@@ -66,7 +64,10 @@ var optionsYoutubeTypeWatch = {
             }
 
             $("#VideoUrl").valid();
-        });
+            });
+       } catch (e) {
+           everythingElse.hideElements();
+       }
     },
     wait: 750,
     highlight: true,
@@ -100,18 +101,21 @@ class YoutubeApiLoad {
             var urlObject = youtube.transformYoutubeUrl(url);
 
             // es  kann eine Url gespeichert sein ,diese muss sofort geprüft werden
-            var videoAvailable = youtube.videoAvailable(urlObject[2]);
-            videoAvailable.done(function (data) {
+            if (url !== "") {
+                var videoAvailable = youtube.videoAvailable(urlObject[2]);
 
-                if (data.items.length > 0) {
-                    youtube.videoAvailableSetDataVideoAvailableTrue();
-                    everythingElse.fadeInElements();
-                    youtube.loadPlayer(urlObject);
-                    player.stopVideo();
-                } else if (url !== "") {
-                    youtube.videoAvailableSetDataVideoAvailableFalse();
-                }
-            });
+                videoAvailable.done(function(data) {
+
+                    if (data.items.length > 0) {
+                        youtube.videoAvailableSetDataVideoAvailableTrue();
+                        everythingElse.fadeInElements();
+                        youtube.loadPlayer(urlObject);
+                        player.stopVideo();
+                    } else if (url !== "") {
+                        youtube.videoAvailableSetDataVideoAvailableFalse();
+                    }
+                });
+            }
         }
         initPlayer = () => {
             player = new YT.Player('player', {
