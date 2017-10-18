@@ -190,3 +190,138 @@
 #FutureDatesOverview .label {
   max-width: 100%;
 }
+/*------------------------------------------------------
+    Wishknowledge Categories and Sets
+-------------------------------------------------------*/
+#wishKnowledge {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  /*temporary stuff to imitate rowbase to get same layout for box like other elements on page without having to deal with the other stuff that comes with rowbase and e.g. disturbs layout of license information*/
+  background-color: white;
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  border-radius: 4px;
+  border: 1px solid #dddddd;
+  margin-left: 0;
+  margin-right: 0;
+  /*end of temporary stoff*/
+}
+#wishKnowledge .wishKnowledgeItems {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
+}
+#wishKnowledge img {
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #eeeeee;
+}
+#wishKnowledge a {
+  color: #203256;
+}
+#wishKnowledge a:hover,
+#wishKnowledge a:active,
+#wishKnowledge a:focus {
+  text-decoration: none;
+}
+#wishKnowledge .set-question-count {
+  color: #999999;
+}
+#wishKnowledge .topic .row {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+@media (max-width: 649px) {
+  #wishKnowledge .topic {
+    float: none;
+    width: 100%;
+    height: inherit;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+#wishKnowledge .topic .ImageContainer {
+  max-width: 80px;
+  min-width: 70px;
+}
+#wishKnowledge .topic .ImageContainer .LicenseInfo {
+  text-align: center;
+  color: #999999;
+}
+#wishKnowledge .topic .ImageContainer .LicenseInfo:after {
+  content: "Lizenz";
+}
+#wishKnowledge .topic .topic-name {
+  max-height: 65px;
+  overflow: hidden;
+}
+@media (max-width: 649px) {
+  #wishKnowledge .topic .topic-name {
+    max-height: none;
+  }
+}
+#wishKnowledge .topic .KnowledgeBarLegend {
+  color: #999999;
+  font-size: 12px;
+  line-height: 1.5em;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+@media (max-width: 767px) {
+  #wishKnowledge .topic .KnowledgeBarLegend {
+    opacity: 1;
+  }
+}
+#wishKnowledge .topic:hover .KnowledgeBarLegend {
+  opacity: 1;
+}
+#wishKnowledge .category-knowledge-bar,
+#wishKnowledge .set-knowledge-bar {
+  margin-top: 15px;
+  height: 10px;
+  width: 180px;
+}
+#wishKnowledge .category-knowledge-bar .solid-knowledge,
+#wishKnowledge .set-knowledge-bar .solid-knowledge,
+#wishKnowledge .category-knowledge-bar .needs-learning,
+#wishKnowledge .set-knowledge-bar .needs-learning,
+#wishKnowledge .category-knowledge-bar .needs-consolidation,
+#wishKnowledge .set-knowledge-bar .needs-consolidation,
+#wishKnowledge .category-knowledge-bar .not-learned,
+#wishKnowledge .set-knowledge-bar .not-learned,
+#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge,
+#wishKnowledge .set-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+#wishKnowledge .category-knowledge-bar .needs-learning,
+#wishKnowledge .set-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+#wishKnowledge .category-knowledge-bar .needs-consolidation,
+#wishKnowledge .set-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+#wishKnowledge .category-knowledge-bar .solid-knowledge,
+#wishKnowledge .set-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+#wishKnowledge .category-knowledge-bar .not-learned,
+#wishKnowledge .set-knowledge-bar .not-learned {
+  background-color: silver;
+}
+#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge,
+#wishKnowledge .set-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}
+#wishKnowledge #btnShowAllWishKnowledgeContent {
+  margin-top: 30px;
+  text-align: center;
+  display: block;
+}
+#wishKnowledge #btnShowLessWishKnowledgeContent {
+  margin-top: 30px;
+  text-align: center;
+  display: block;
+}

@@ -73,6 +73,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/Knowledge")
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
+                .Include("~/Views/Knowledge/Js/*.js"));
+
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
 

@@ -131,16 +131,19 @@ class YoutubeApiLoad {
 }
 
 
+
     $(function() {
         new YoutubeApiLoad();
-
+        
         $.validator.addMethod("UrlCheck",
-            (value, element)=> {
-                return $(element).attr('data-video-available') === "true";
-
+            (value, element) => {
+                if ($('#VideoUrl').val() === "") {
+                    return true;
+                } else {
+                    return $(element).attr('data-video-available') === "true";  
+                }
             },
             'Das Video ist nicht oder nicht mehr vorhanden');
-
 
         everythingElse.hideElements();
         $("#ulQuestions").on("click",

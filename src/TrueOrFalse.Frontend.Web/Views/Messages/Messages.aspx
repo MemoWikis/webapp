@@ -22,43 +22,17 @@
             <h1 style="margin-top: 0; margin-bottom: 20px;">
                 <span class="ColoredUnderline Message" style="padding-right: 3px;">Nachrichten</span>
             </h1>    
+            
+            <div id="messagesWrapper">
+                <% Html.RenderPartial("~/Views/Messages/Partials/MessagesRows.ascx", Model.Messages); %>
 
-            <% foreach(var msg in Model.Rows){ %>
-                <div class="row msgRow rowBase <%: msg.IsRead ? "isRead" : "" %>" data-messageId="<%: msg.MessageId %>">
-                    <div class="msg">
-                        <div class="col-xs-12 header">
-                            <h4><%: msg.Subject %></h4>
-                        </div>
-
-                        <div class="col-xs-12 body">
-                            <%= msg.Body %>
-                        </div>
-
-                        <div class="col-sm-5 footer">
-                            <span class="show-tooltip" title="<%: msg.WhenDatetime %>">vor <%: msg.When %></span>
-                        </div>
-                        <div class="col-sm-7  footer">
-                            <%if(msg.MessageId != 0){ %>
-                                <span class="pull-right" style="<%: msg.IsRead ? "display: none" : "" %>">
-                                    <a href="#" class="TextLinkWithIcon markAsRead">
-                                        <span class="TextSpan">als gelesen makieren</span> 
-                                        &nbsp; <i class="fa fa-square-o show-tooltip" style="color:sandybrown;" title="Die Frage ist ungelesen"></i>
-
-                                    </a>
-                                </span>
-                    
-                                <span class="pull-right" style="<%: msg.IsRead ? "" : "display: none" %>">
-                                    <a href="#" class="TextLinkWithIcon markAsUnRead">
-                                        <span class="TextSpan">als ungelesen makieren</span> 
-                                        &nbsp; <i class="fa fa-check-square-o show-tooltip" style="color:green" title="Die Frage ist gelesen"></i>
-                                    </a>
-                                </span>
-                            <% } %>
-                        </div>
-                    </div>
-                </div>
-
-            <% } %>        
+                <% if (Model.ReadMessagesCount > 0) { %>
+                    <p>
+                        Du hast <%= Model.ReadMessagesCount %> gelesene Nachricht<%= StringUtils.PluralSuffix(Model.ReadMessagesCount,"en") %>.
+                        <a href="#" class="" id="btnShowAllMessages">Alle anzeigen</a>.
+                    </p>
+                <% } %>
+            </div>
 
         </div>
         <div class="col-md-3"></div>

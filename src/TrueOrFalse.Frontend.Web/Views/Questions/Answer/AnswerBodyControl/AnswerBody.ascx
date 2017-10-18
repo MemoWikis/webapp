@@ -132,9 +132,9 @@
                                             <a href="#" id="btnRightAnswer" class="btn btn-warning" rel="nofollow">Wusste ich!</a>
                                             <a href="#" id="btnWrongAnswer" class="btn btn-warning" rel="nofollow">Wusste ich nicht!</a>
                                             <a href="#" id="flashCard-dontCountAnswer" class="selectorShowSolution SecAction btn btn-link">Nicht werten!</a>
-                                            </div><div>
-                                    <% } %>
-
+                                            </div>
+                                            <div>
+                                    <% } %><!-- ??????----->
                                     <% if (Model.IsLearningSession && Model.NextUrl != null) { %>
                                         <a id="aSkipStep" href="<%= Model.NextUrl(Url) %>" class="SecAction btn btn-link"><i class="fa fa-step-forward">&nbsp;</i>Frage überspringen</a>
                                     <% } %>
@@ -160,8 +160,11 @@
                                 <div id="buttons-answer-again" class="ButtonGroup" style="display: none">
                                     <a href="#" id="btnCheckAgain" class="btn btn-warning" rel="nofollow">Nochmal Antworten</a>
                                     <a href="#" class="selectorShowSolution SecAction btn btn-link">Lösung anzeigen</a>
+                                    
                                 </div>
                                 <% } %>
+                                          
+                                            <button id="continue"  class="btn btn-primary test" style="display: none">Weiter</button>
 
                                 <div style="clear: both"></div>
                             </div>
@@ -225,7 +228,7 @@
 
 <div id="LicenseQuestion" class="Clearfix">
     <% if (Model.LicenseQuestion.IsDefault()) { %>
-        <a class="TextLinkWithIcon" href="#" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
+        <a class="TextLinkWithIcon" rel="license" href="http://creativecommons.org/licenses/by/4.0/" data-toggle="popover" data-trigger="focus" title="Infos zur Lizenz <%= LicenseQuestionRepo.GetDefaultLicense().NameShort %>" data-placement="auto top"
             data-content="Autor: <a href='<%= Links.UserDetail(Model.Creator) %>' <%= Model.IsInWidget ? "target='_blank'" : "" %>><%= Model.Creator.Name %></a><%= Model.IsInWidget ? " (Nutzer auf <a href='/' target='_blank'>memucho.de</a>)" : " " %><br/><%= LicenseQuestionRepo.GetDefaultLicense().DisplayTextFull %>">
             <img src="/Images/Licenses/cc-by 88x31.png" width="60" style="margin-top: 4px; opacity: 0.6; padding-bottom: 2px;" />&nbsp;
             <span class="TextSpan"><%= LicenseQuestionRepo.GetDefaultLicense().NameShort %></span>
@@ -250,3 +253,4 @@
         </div>
     <% } %>
 </div>
+    </div>

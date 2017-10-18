@@ -108,7 +108,12 @@ var YoutubeApiLoad = (function () {
 $(function () {
     new YoutubeApiLoad();
     $.validator.addMethod("UrlCheck", function (value, element) {
-        return $(element).attr('data-video-available') === "true";
+        if ($('#VideoUrl').val() === "") {
+            return true;
+        }
+        else {
+            return $(element).attr('data-video-available') === "true";
+        }
     }, 'Das Video ist nicht oder nicht mehr vorhanden');
     everythingElse.hideElements();
     $("#ulQuestions").on("click", ".time-button", function () {

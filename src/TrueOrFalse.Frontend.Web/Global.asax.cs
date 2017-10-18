@@ -40,10 +40,17 @@ namespace TrueOrFalse.Frontend.Web
                 NHibernateProfiler.Initialize();
 #endif            
 
-            EntityCache.Init();
-
             if (!Settings.DisableAllJobs())
                 JobScheduler.Start();
+
+            if (Settings.InitEntityCacheViaJobScheduler())
+            {
+                JobScheduler.StartImmediately_RefreshEntityCache();//Is a lot faster (for unknown reasons) than direct init but bears the risk of EntityCache not being filled before first request
+            }
+            else
+            {
+                EntityCache.Init();
+            }
 
             Logg.r().Information("=== Application Start ===============================");
         }

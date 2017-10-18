@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using TrueOrFalse;
 using TrueOrFalse.Web;
@@ -18,6 +19,7 @@ public class UserSettingsModel : BaseModel
 
     public bool IsMember;
     public Membership Membership;
+    public IList<string> WidgetHosts;
 
     public bool AllowsSupportiveLogin { get; set; }
     public bool ShowWishKnowledge { get; set; }
@@ -38,6 +40,7 @@ public class UserSettingsModel : BaseModel
         Email = user.EmailAddress;
         IsMember = user.IsMember();
         Membership = user.CurrentMembership();
+        WidgetHosts = user.WidgetHosts();
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         ShowWishKnowledge = user.ShowWishKnowledge;
         KnowledgeReportInterval = user.KnowledgeReportInterval;

@@ -32,20 +32,18 @@ public class EntityCache
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> CategoryQuestionInSetList =>
         (ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>)HttpRuntime.Cache[_cacheKeyCategoryQuestionInSetList];
 
-    public static void Init(bool inUnitTest = false)
+    public static void Init(string customMessage = "")
     {
         var stopWatch = Stopwatch.StartNew();
 
-        var unitTestString = inUnitTest ? " (in unit test) " : "";
-
-        Logg.r().Information("EntityCache Start" + unitTestString + "{Elapsed}", stopWatch.Elapsed);
+        Logg.r().Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var questions = Sl.QuestionRepo.GetAll();
         var categories = Sl.CategoryRepo.GetAllEager();
         var sets = Sl.SetRepo.GetAllEager();
         var questionInSets = Sl.QuestionInSetRepo.GetAll();
 
-        Logg.r().Information("EntityCache LoadAllEntities" + unitTestString + "{Elapsed}", stopWatch.Elapsed);
+        Logg.r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(_cacheKeyQuestions, questions.ToConcurrentDictionary());
         IntoForeverCache(_cacheKeyCategories, categories.ToConcurrentDictionary());
@@ -55,7 +53,7 @@ public class EntityCache
         IntoForeverCache(_cacheKeyCategoryQuestionInSetList, GetCategoryQuestionInSetList(questionInSets));
 
 
-        Logg.r().Information("EntityCache PutIntoCache" + unitTestString + "{Elapsed}", stopWatch.Elapsed);
+        Logg.r().Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
     }
 
     private static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
@@ -366,8 +364,12 @@ public class EntityCache
         {
             if (Sets.TryGetValue(setId, out var set))
             {
-                set.Categories = set.Categories.Where(c => c.Id != category.Id).ToList();
-                set.Categories.Add(category);
+                var categoryToReplace = set.Categories.FirstOrDefault(c => c.Id == category.Id);
+
+                if(categoryToReplace == null) return;
+
+                var index = set.Categories.IndexOf(categoryToReplace);
+                set.Categories[index] = category;
             }
         }
     }
@@ -380,8 +382,12 @@ public class EntityCache
         {
             if (Questions.TryGetValue(questionId, out var question))
             {
-                question.Categories = question.Categories.Where(c => c.Id != category.Id).ToList();
-                question.Categories.Add(category);
+                var categoryToReplace = question.Categories.FirstOrDefault(c => c.Id == category.Id);
+
+                if(categoryToReplace == null) return;
+
+                var index = question.Categories.IndexOf(categoryToReplace);
+                question.Categories[index] = category;
             }
         }
     }

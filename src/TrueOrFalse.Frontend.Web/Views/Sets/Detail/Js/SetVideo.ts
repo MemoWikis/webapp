@@ -1,4 +1,4 @@
-﻿//var player: YT.Player;
+﻿///<reference path="SetVideoPlayer.ts"/>
 
 class SetVideo {
 
@@ -54,6 +54,8 @@ class SetVideo {
 
             self.HideYoutubeOverlay();
         });
+
+
 
         $("#youtubeAnswerQuestion").click(function(e) {
             e.preventDefault();
@@ -205,4 +207,5 @@ class SetVideo {
     GetTimecodeOffCurrentMenu() : number{
         return +$("#video-pager").find("a.current").first().attr("data-video-pause-at");
     }
+    
 }

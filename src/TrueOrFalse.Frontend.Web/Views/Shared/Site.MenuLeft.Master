@@ -42,9 +42,11 @@
                     
                     <%-- MAIN CONTENT--%>
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                    <% Html.RenderPartial("GlobalLicense"); %>
                 </section>
             </div>
         </section>
+        
     </section>
     <%-- FOOTER--%>
     <footer id="MasterFooter">
