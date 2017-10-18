@@ -10,10 +10,6 @@
             </div>
         </div>
         <div class="col-xs-9">
-            <div class="setTitle">
-                <%: Model.Title %>
-            </div>
-
             <div>
                 <div class="setQuestionCount">
                     <span class="Pin" data-set-id="<%= Model.SetId %>" style="">
@@ -28,6 +24,11 @@
                     <div class="KnowledgeBarLegend">Dein Wissensstand</div>
                 </div>
             </div>
+
+            <div class="setTitle">
+                <h3><%: Model.Title %></h3>
+            </div>
+
 
             <div class="setDescription">
                     <%= Model.Text %>
@@ -46,9 +47,9 @@
                         <i class="fa fa-ellipsis-v"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
-                        <li><a href="<%= Links.SetDetail(Model.Title, Model.SetId) %>"> Detailseite des Lernsets</a></li>
-                        <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"> Spiel starten</a></li>
-                        <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"> Prüfungstermin anlegen</a></li>
+                        <li><a href="<%= Links.SetDetail(Model.Title, Model.SetId) %>"><i class="fa fa-search-plus">&nbsp;</i> Detailseite des Lernsets</a></li>
+                        <li><a href="<%= Links.GameCreateFromSet(Model.SetId) %>"><i class="fa fa-gamepad">&nbsp;</i> Spiel starten</a></li>
+                        <li><a href="<%= Links.DateCreateForSet(Model.SetId) %>"><i class="fa fa-calendar">&nbsp;</i> Prüfungstermin anlegen</a></li>
                     </ul>
                 </div>
 

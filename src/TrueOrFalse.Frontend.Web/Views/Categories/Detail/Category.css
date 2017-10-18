@@ -730,10 +730,13 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   }
 }
 .singleSetFullWidth {
-  margin: -8px -20px;
+  margin: 0px -20px;
   padding: 10px 30px;
   border-top: 8px solid #F6F8FA;
   border-bottom: 8px solid #F6F8FA;
+}
+.singleSetFullWidth + .singleSetFullWidth {
+  border-top: 0;
 }
 .singleSetFullWidth .highlightSet {
   background-color: #ffda7f;
@@ -743,9 +746,17 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   box-shadow: 5px 5px 10px #eeeeee;
 }
 .singleSetFullWidth .setTitle {
-  font-size: 35px;
-  line-height: 40px;
-  font-weight: bold;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  border-bottom: 5px solid #FFD700;
+}
+@media (max-width: 767px) {
+  .singleSetFullWidth .setTitle {
+    margin-top: 0;
+  }
+}
+.singleSetFullWidth .setTitle h3 {
+  margin-top: 0px;
   margin-bottom: 10px;
 }
 .singleSetFullWidth .setQuestionCount {
@@ -760,6 +771,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
+  margin-top: -10px;
   font-size: 12px;
   line-height: 1.5em;
   opacity: 0;

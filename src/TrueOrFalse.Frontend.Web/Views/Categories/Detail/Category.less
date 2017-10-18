@@ -750,10 +750,14 @@ html.flexbox:not(.Explorer):not(.Safari) {
 }
 
 .singleSetFullWidth {
-    margin: -8px -20px; //negative top/bottom-margin to prevent thicker borders between two singleSetFullWidth elements
+    margin: 0px -20px;
     padding: 10px 30px;
     border-top: 8px solid @color-background-global;
     border-bottom: 8px solid @color-background-global;
+
+    & + & {
+        border-top: 0;
+    }
 
     .highlightSet {
         background-color: #ffda7f;
@@ -765,10 +769,20 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 
     .setTitle {
-        font-size: 35px;
-        line-height: 40px;
-        font-weight: bold;
-        margin-bottom: 10px;
+        margin-top: -10px;
+        margin-bottom: 20px;
+        border-bottom: 5px solid @color-set;
+
+        .media-below-sm ( {
+            margin-top: 0;
+        }
+
+        );
+
+        h3 {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
     }
 
     .setQuestionCount {
@@ -784,6 +798,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
         .KnowledgeBarLegend {
             .greyed;
+            margin-top: -10px;
             font-size: 12px;
             line-height: 1.5em;
             //text-transform: uppercase;
