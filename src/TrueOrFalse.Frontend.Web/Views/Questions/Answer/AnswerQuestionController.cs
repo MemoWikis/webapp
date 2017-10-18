@@ -557,9 +557,8 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
-    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
+    public string RenderAnswerBodyByLearningSession(LearningSession learningSession, int skipStepIdx = -1)
     {
-        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
         var learningSessionName = learningSession.UrlName;
 
         if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
@@ -570,7 +569,7 @@ public class AnswerQuestionController : BaseController
         if (learningSession.IsDateSession)
         {
             var trainingDateRepo = Sl.R<TrainingDateRepo>();
-            var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSessionId);
+            var trainingDate = trainingDateRepo.GetByLearningSessionId(learningSession.Id);
 
             if (trainingDate != null)
             {
@@ -592,14 +591,14 @@ public class AnswerQuestionController : BaseController
 
         Sl.SaveQuestionView.Run(
             questionViewGuid,
-            learningSession.Steps[currentLearningStepIdx].Question,
+            question,
             _sessionUser.User.Id,
             learningSession: learningSession,
             learningSessionStepGuid: learningSession.Steps[currentLearningStepIdx].Guid);
 
-        var model = new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId));
+        var model = new AnswerQuestionModel(questionViewGuid, Sl.Resolve<LearningSessionRepo>().GetById(learningSession.Id));
 
-        ControllerContext.RouteData.Values.Add("learningSessionId", learningSessionId);
+        ControllerContext.RouteData.Values.Add("learningSessionId", learningSession.Id);
         ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
         string currentSessionHeader = "Abfrage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
@@ -607,13 +606,20 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSessionId), isSession: true);
+        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id), isSession: true);
     }
+
+    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
+    {
+        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+        return RenderAnswerBodyByLearningSession(learningSession, skipStepIdx);
+    }
+
 
     public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId)
     {
         var learningSession = CreateLearningSession.ForCategory(categoryId);
-        return RenderAnswerBodyByLearningSession(learningSession.Id);
+        return RenderAnswerBodyByLearningSession(learningSession);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -676,7 +682,8 @@ public class AnswerQuestionController : BaseController
                 skipStepIdx = sessionData.SkipStepIdx,
                 isLastStep = sessionData.IsLastStep,
                 currentStepGuid = sessionData.CurrentStepGuid,
-                currentSessionHeader = sessionData.CurrentSessionHeader
+                currentSessionHeader = sessionData.CurrentSessionHeader,
+                learningSessionId = sessionData.LearningSessionId
             } : null,
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),

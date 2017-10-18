@@ -4,9 +4,7 @@
         if (Utils.IsInWidget())
             return;
 
-        $("#AnswerQuestion").ready(() => {
-
-            debugger;
+        $().ready(() => {
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -35,7 +33,6 @@
 
             } else if ($("#hddIsLearningSession").val() === "True") {
 
-                debugger;
                 if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1")
                     this.loadNewLearningSession();
 
@@ -90,7 +87,6 @@
     }
 
     private loadNewQuestion(url: string) {
-        debugger;
         $.ajax({
             url: url,
             type: 'POST',
@@ -106,9 +102,10 @@
                     .replaceWith(result.answerBodyAsHtml);
                 if ($("#hddIsLearningSession").val() === "True" || $("#hddIsTestSession").val() === "True") {
                     this.updateSessionHeader(result.sessionData);
-                    if (result.sessionData.LearningSessionId)
+
+                    if (result.sessionData.learningSessionId)
                         $("#hddIsLearningSession").attr("data-learning-session-id",
-                            result.sessionData.LearningSessionId);
+                            result.sessionData.learningSessionId);
 
                 }
                 else

@@ -411,6 +411,12 @@
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
@@ -734,7 +740,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
@@ -2687,7 +2692,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
     <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
