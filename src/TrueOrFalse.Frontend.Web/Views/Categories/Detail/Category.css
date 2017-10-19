@@ -414,7 +414,8 @@ p:empty {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
-.BreadcrumbsMobile .category-icon:hover {
+.BreadcrumbsMobile .category-icon:hover,
+.BreadcrumbsMobile .category-icon:focus {
   text-decoration: none;
 }
 .BreadcrumbsMobile i.fa {

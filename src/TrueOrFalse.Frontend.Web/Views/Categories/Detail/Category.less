@@ -402,8 +402,10 @@ p:empty {
 }
 
 .BreadcrumbsMobile {
-    .category-icon:hover {
-        text-decoration: none;
+    .category-icon {
+        &:hover, &:focus {
+            text-decoration: none;
+        }
     }
 
     i.fa {
