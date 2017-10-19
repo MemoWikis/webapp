@@ -78,7 +78,7 @@ class AnswerQuestion {
         this.ClickToContinue = function () {
             $('#continue').fadeIn();
             $(document).off('click').on('click',
-                '.test',
+                '.clickToContinue',
                 (e) => {
                     e.preventDefault();
                     setVideo.HideYoutubeOverlay();
@@ -384,8 +384,10 @@ class AnswerQuestion {
 
                 self.UpdateProgressBar(self.GetCurrentStep() - 1);
 
-                if (self._isLastLearningStep)
+                if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
+                    $('#btnNext').unbind();
+                }
             }
         });
     }

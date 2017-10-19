@@ -33,27 +33,27 @@ var youtube = {
 };
 var optionsYoutubeTypeWatch = {
     callback: function (data) {
+        var videoAvailable;
         var urlObject = youtube.transformYoutubeUrl(data);
-        var videoAvailable = youtube.videoAvailable(urlObject[2]);
         try {
-            var videoAvailable = youtube.videoAvailable(urlObject[2]);
+            videoAvailable = youtube.videoAvailable(urlObject[2]);
+            videoAvailable.done(function (d) {
+                if (d.items.length < 1) {
+                    youtube.videoAvailableSetDataVideoAvailableFalse();
+                    everythingElse.hideElements();
+                }
+                else {
+                    youtube.videoAvailableSetDataVideoAvailableTrue();
+                    youtube.loadPlayer(urlObject);
+                    everythingElse.fadeInElements();
+                    player.stopVideo();
+                }
+                $("#VideoUrl").valid();
+            });
         }
         catch (e) {
             everythingElse.hideElements();
         }
-        videoAvailable.done(function (d) {
-            if (d.items.length < 1) {
-                youtube.videoAvailableSetDataVideoAvailableFalse();
-                everythingElse.hideElements();
-            }
-            else {
-                youtube.videoAvailableSetDataVideoAvailableTrue();
-                youtube.loadPlayer(urlObject);
-                everythingElse.fadeInElements();
-                player.stopVideo();
-            }
-            $("#VideoUrl").valid();
-        });
     },
     wait: 750,
     highlight: true,
@@ -80,18 +80,20 @@ var YoutubeApiLoad = (function () {
             var url = $('#VideoUrl').val();
             var urlObject = youtube.transformYoutubeUrl(url);
             // es  kann eine Url gespeichert sein ,diese muss sofort geprüft werden
-            var videoAvailable = youtube.videoAvailable(urlObject[2]);
-            videoAvailable.done(function (data) {
-                if (data.items.length > 0) {
-                    youtube.videoAvailableSetDataVideoAvailableTrue();
-                    everythingElse.fadeInElements();
-                    youtube.loadPlayer(urlObject);
-                    player.stopVideo();
-                }
-                else if (url !== "") {
-                    youtube.videoAvailableSetDataVideoAvailableFalse();
-                }
-            });
+            if (url !== "") {
+                var videoAvailable = youtube.videoAvailable(urlObject[2]);
+                videoAvailable.done(function (data) {
+                    if (data.items.length > 0) {
+                        youtube.videoAvailableSetDataVideoAvailableTrue();
+                        everythingElse.fadeInElements();
+                        youtube.loadPlayer(urlObject);
+                        player.stopVideo();
+                    }
+                    else if (url !== "") {
+                        youtube.videoAvailableSetDataVideoAvailableFalse();
+                    }
+                });
+            }
         };
         initPlayer = function () {
             player = new YT.Player('player', {

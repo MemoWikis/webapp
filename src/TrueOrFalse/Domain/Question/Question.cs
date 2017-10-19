@@ -167,31 +167,31 @@ public class Question : DomainEntity, ICreator
         }
     }
 
-    public static string AnswersAsHTML(string answerText, SolutionType solutionType)
+    public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
-        if (solutionType == SolutionType.MatchList)
+        switch (solutionType)
         {
-            var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
-            if (answerObject.Pairs.Count == 0)
-                return "(keine Auswahl)";
-            string formattedMatchListAnswer = "</br><ul>";
-            foreach (var pair in answerObject.Pairs)
-            {
-                formattedMatchListAnswer += "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>";
-            }
-            formattedMatchListAnswer += "</ul>";
-            return formattedMatchListAnswer;
-        }
+            case SolutionType.MatchList:
+                
+                //Quick Fix: Prevent null reference exeption
+                if (answerText == "")
+                    return "";
 
-        if (solutionType == SolutionType.MultipleChoice)
-        {
-            if (answerText == "")
-                return "(keine Auswahl)";
-            var builder = new StringBuilder(answerText);
-                string formattedMultipleChoiceAnswer = "</br> <ul> <li>" +
-                            builder.Replace("%seperate&xyz%", "</li><li>").ToString() +
-                            "</li> </ul>";
-            return formattedMultipleChoiceAnswer;
+                var answerObject = QuestionSolutionMatchList.DeserializeMatchListAnswer(answerText);
+                if (answerObject.Pairs.Count == 0)
+                    return "(keine Auswahl)";
+                var formattedMatchListAnswer = answerObject.Pairs.Aggregate("</br><ul>", (current, pair) => current + "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text + "</li>");
+                formattedMatchListAnswer += "</ul>";
+                return formattedMatchListAnswer;
+
+            case SolutionType.MultipleChoice:
+                if (answerText == "")
+                    return "(keine Auswahl)";
+                var builder = new StringBuilder(answerText);
+                var formattedMultipleChoiceAnswer = "</br> <ul> <li>" +
+                                                       builder.Replace("%seperate&xyz%", "</li><li>") +
+                                                       "</li> </ul>";
+                return formattedMultipleChoiceAnswer;
         }
 
         return answerText;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -364,6 +365,8 @@ public class AnswerQuestionController : BaseController
                     .LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
                         millisecondsSinceQuestionView, roundId);
 
+        EscapeReferencesText(question.References);
+
         return new JsonResult
         {
             Data = new
@@ -381,6 +384,17 @@ public class AnswerQuestionController : BaseController
                 })
             }
         };
+    }
+
+    private static void EscapeReferencesText(IList<Reference> references)
+    {
+        foreach (var reference in references)
+        {
+            if(reference.ReferenceText != null)
+                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+            if(reference.AdditionalInfo != null)
+                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+        }
     }
 
     [HttpPost]
@@ -604,7 +618,7 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
         string currentSessionHeader = "Abfrage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
-        int currentStepIdx = model.LearningSessionStep.Idx;
+        int currentStepIdx = currentLearningStepIdx;
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);

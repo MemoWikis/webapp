@@ -7,7 +7,7 @@
         "Ein ausgeglichener Mensch ist einer, der denselben Fehler zweimal machen kann, ohne nervös zu werden." //Nur Zeigen, wenn der Fehler tatsächlich wiederholt wurde.
     ];
 
-    private _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well Done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
+    private _successMsgs = ["Yeah!", "Du bist auf einem guten Weg.", "Sauber!", "Well done!", "Toll!", "Weiter so!", "Genau.", "Absolut.",
                             "Richtiger wird's nicht.", "Fehlerlos!", "Korrrrrekt!", "Einwandfrei", "Mehr davon!", "Klasse.", "Schubidu!",
                             "Wer sagt's denn!", "Exakt.", "So ist es.", "Da kannste nicht meckern.", "Sieht gut aus.", "Oha!", "Rrrrrrichtig!"];
 
@@ -199,7 +199,7 @@
                                 $('<div class="ReferenceText">' + ref.referenceText + '</div>').appendTo(div);
                         }
                         if (ref.additionalInfo) {
-                            $('<div class="AdditionalInfo">' + ref.additionalInfo + '</div>').appendTo(div);
+                            $('<div class="AdditionalInfo">').append(ref.additionalInfo).appendTo(div);
                         }
                     }
 
