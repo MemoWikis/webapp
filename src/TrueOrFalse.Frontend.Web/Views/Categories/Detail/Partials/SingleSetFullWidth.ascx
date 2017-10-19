@@ -31,7 +31,7 @@
 
 
             <div class="setDescription">
-                    <%= Model.Text %>
+                <%= Model.Text %>
             </div>
 
             <div class="buttons">

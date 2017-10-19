@@ -436,7 +436,6 @@ html.flexbox:not(.Explorer):not(.Safari) {
         }
 
         .Card {
-
             display: flex;
             width: 100%;
 
@@ -445,7 +444,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
                 flex-grow: 0%; //sic!
                 flex-shrink: 0%; //sic!
                 flex-basis: 100px;
-                align-self: flex-start
+                align-self: flex-start;
             }
 
             .ContentContainer {
@@ -749,13 +748,14 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 }
 
-.singleSetFullWidth {
-    margin: 0px -20px;
+.singleSetFullWidth, .singleCatFullWidth {
+    margin: 30px -20px;
     padding: 10px 30px;
     border-top: 8px solid @color-background-global;
     border-bottom: 8px solid @color-background-global;
 
     & + & {
+        margin-top: -30px;
         border-top: 0;
     }
 
@@ -768,10 +768,9 @@ html.flexbox:not(.Explorer):not(.Safari) {
         box-shadow: 5px 5px 10px @gray-lighter;
     }
 
-    .setTitle {
+    .setTitle, .categoryTitle {
         margin-top: -10px;
         margin-bottom: 20px;
-        border-bottom: 5px solid @color-set;
 
         .media-below-sm ( {
             margin-top: 0;
@@ -785,7 +784,15 @@ html.flexbox:not(.Explorer):not(.Safari) {
         }
     }
 
-    .setQuestionCount {
+    .setTitle {
+        border-bottom: 5px solid @color-set;
+    }
+
+    .categoryTitle {
+        border-bottom: 5px solid @color-category;
+    }
+
+    .setQuestionCount, .categoryQuestionCount {
         display: inline-block;
         vertical-align: top;
         margin-right: 15px;
@@ -818,7 +825,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
             }
         }
 
-        .set-knowledge-bar {
+        .set-knowledge-bar, .category-knowledge-bar {
             display: inline-block;
             //margin-top: 15px;
             height: 10px;

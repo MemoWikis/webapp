@@ -55,6 +55,7 @@ public class TemplateParser
             case "videowidget":
             case "settestsessionnostartscreen":
             case "singlesetfullwidth":
+            case "singlecategoryfullwidth":
             case "categorynetwork":
             case "contentlists":
             case "singleset":
@@ -101,6 +102,8 @@ public class TemplateParser
                 return new SetTestSessionNoStartScreenModel(templateJson.SetId, templateJson.Title, templateJson.Text);
             case "singlesetfullwidth":
                 return new SingleSetFullWidthModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+            case "singlecategoryfullwidth":
+                return  new SingleCategoryFullWidthModel(templateJson.CategoryId, templateJson.Title, templateJson.Description);
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
