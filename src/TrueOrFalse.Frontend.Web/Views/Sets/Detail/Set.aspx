@@ -203,7 +203,7 @@
                        Html.RenderPartial("/Views/Sets/Detail/Video/SetVideo.ascx", new SetVideoModel(Model.Set));
                    } else { %>
                     <h3>Teste dein Wissen in diesem Lernset:</h3>
-                    <div class="testSetWidget">
+                    <div class="setTestSessionNoStartScreen">
                         <script src="https://memucho.de/views/widgets/w.js" data-t="templateset" data-id="<%= Model.Set.Id %>" data-width="100%" data-maxwidth="100%" data-logoon="false" data-questioncount="5"></script>
                     </div>
                 <% } %>

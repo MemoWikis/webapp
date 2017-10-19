@@ -42,8 +42,8 @@
                                 for (var i = 0; i < 2; i++)
                                 {
                                     if(Model.AggregatedSets[i] != null)
-                                        Html.RenderPartial("~/Views/Categories/Detail/Partials/TestSetWidget.ascx",
-                                            new TestSetWidgetModel(Model.AggregatedSets[i].Id));
+                                        Html.RenderPartial("~/Views/Categories/Detail/Partials/SetTestSessionNoStartScreen.ascx",
+                                            new SetTestSessionNoStartScreenModel(Model.AggregatedSets[i].Id));
                                 } %>--%>
 
                         <% if (Model.FeaturedSets.Count > 0){
