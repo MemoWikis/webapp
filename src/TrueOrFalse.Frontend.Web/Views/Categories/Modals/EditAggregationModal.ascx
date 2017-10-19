@@ -2,7 +2,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <h4>Eingeschlossene Inhalte (<%= Model.AggregatedCategories.Count %>)</h4>
-<div class="greyed">Die Inhalte dieser Themen werden für die übergeordnete Kategorie "<%= Model.Category.Name %>" mit angezeigt</div>
+<div class="greyed">Die Inhalte dieser Themen werden für das übergeordnete Thema "<%= Model.Category.Name %>" mit angezeigt</div>
 
 
 <% foreach (var category in Model.AggregatedCategories)
@@ -34,7 +34,7 @@ if (Model.NonAggregatedCategories.Count > 0)
         <label class="columnLabel control-label" for="CategoriesToExcludeIdsString">
             <span class="bold" style="color: red;">Themen ausschließen</span>
             <i class="fa fa-question-circle show-tooltip" 
-                title="Bitte Ids der Kategorien in der Form '1,2,3' angeben. Untergeordnete Themen werden mit ausgeschlossen und müssen ggf. explizit wieder eingeschlossen werden." 
+                title="Bitte Ids der Themen in der Form '1,2,3' angeben. Untergeordnete Themen werden mit ausgeschlossen und müssen ggf. explizit wieder eingeschlossen werden." 
                 data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
         </label>
         <div class="columnControlsFull">
@@ -45,7 +45,7 @@ if (Model.NonAggregatedCategories.Count > 0)
         <label class="columnLabel control-label" for="CategoriesToIncludeIdsString">
             <span class="bold" style="color: green;">Themen einschließen</span>
             <i class="fa fa-question-circle show-tooltip" 
-                title="Bitte Ids der Kategorien in der Form '1,2,3' angeben." 
+                title="Bitte Ids der Themen in der Form '1,2,3' angeben." 
                 data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
         </label>
         <div class="columnControlsFull">

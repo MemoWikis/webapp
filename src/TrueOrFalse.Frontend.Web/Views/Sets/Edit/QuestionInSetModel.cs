@@ -8,6 +8,8 @@
     public int TimeCode { get; }
     public int QuestionId { get; }
 
+    public bool IsCreator;
+
     public QuestionInSetModel(QuestionInSet questionInSet)
     {
         Text =  questionInSet.Question.Text;
@@ -17,6 +19,8 @@
         CorrectAnswer = questionInSet.Question.GetSolution().GetCorrectAnswerAsHtml();
         TimeCode = questionInSet.Timecode;
         QuestionId = questionInSet.Question.Id;
+
+        IsCreator = _sessionUser.IsLoggedInUserOrAdmin(questionInSet.Question.Creator.Id);
 
     }
 

@@ -6,7 +6,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <span style="display: block; margin-top: 15px; margin-bottom: 15px;">Die Kategorie <span id="SetName"></span> wurde aus deinem Wunschwissen entfernt.<br/></span>
+                        <span style="display: block; margin-top: 15px; margin-bottom: 15px;">Das Thema <span id="CategoryName"></span> wurde aus deinem Wunschwissen entfernt.<br/></span>
                         <b>Die enthaltenen Fragen werden ebenfalls aus deinem Wunschwissen gelöscht.</b>
                     </div>
                 </div>
