@@ -26,7 +26,7 @@
         
     <% }
     else { %>
-        Bisher gibt es keine Lernsets in dieser Kategorie.
+        Bisher gibt es keine Lernsets in diesem Thema.
     <% } %>
 
     <h5 class="ContentSubheading Question">

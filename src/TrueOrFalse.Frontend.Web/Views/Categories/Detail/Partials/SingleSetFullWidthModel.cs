@@ -15,7 +15,7 @@ public class SingleSetFullWidthModel : BaseModel
         Set = Sl.SetRepo.GetById(setId);
         SetId = Set.Id;
         if (Set == null)
-            throw new Exception("Die angegebene Fragesatz-ID verweist nicht auf einen existierenden Fragesatz");
+            throw new Exception("Die angegebene Lernset-ID verweist nicht auf ein existierendes Lernset.");
         Title = title ?? Set.Name;
         Text = text ?? Set.Text;
         QuestionCount = Set.QuestionsPublicCount();
