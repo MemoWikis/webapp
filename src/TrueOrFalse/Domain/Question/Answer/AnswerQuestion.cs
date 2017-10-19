@@ -131,15 +131,18 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId.Value);
             var learningSessionStep = learningSession.GetStep(new Guid(learningSessionStepGuid));
             learningSessionStep.AnswerState = StepAnswerState.Answered;
-            //learningSessionStep.Answer.AnswerredCorrectly = AnswerCorrectness.IsView;
 
             var duplicateStep = learningSession.Steps.Where(x => x.Question == learningSessionStep.Question &&
                                                                         x.Idx > learningSessionStep.Idx).ToList();
             if (duplicateStep.Count > 1)
                 throw new Exception(
-                    "There souln't be more than one extra unsanswered step of the same question in learning session");
-            learningSession.Steps.Remove(duplicateStep.First());
-            learningSession.ReindexSteps();
+                    "There shouldn't be more than one extra unsanswered step of the same question in learning session");
+
+            if (duplicateStep.Count > 0)
+            {
+                learningSession.Steps.Remove(duplicateStep.First());
+                learningSession.ReindexSteps();
+            }
 
             Sl.AnswerRepo.Update(learningSessionStep.Answer);
             Sl.LearningSessionRepo.Update(learningSession);
