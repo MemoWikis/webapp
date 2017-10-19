@@ -277,6 +277,8 @@
 /* Session bar/Progress bar
 ------------------------------------------------------*/
 .SessionBar {
+  font-size: 14px;
+  line-height: 1.42857143;
   border: solid 2px #AFD534;
   background-color: #AFD534;
   margin-bottom: 20px;
@@ -437,6 +439,10 @@
 }
 /* Answer Section
 ------------------------------------------------------*/
+#AnswerBody {
+  font-size: 14px;
+  line-height: 1.42857143;
+}
 .QuestionText {
   padding-bottom: 20px;
 }

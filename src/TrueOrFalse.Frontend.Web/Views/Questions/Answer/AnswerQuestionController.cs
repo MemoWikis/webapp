@@ -557,8 +557,10 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
-    public string RenderAnswerBodyByLearningSession(LearningSession learningSession, int skipStepIdx = -1)
+    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
     {
+        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+
         var learningSessionName = learningSession.UrlName;
 
         if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
@@ -609,17 +611,10 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id), isSession: true);
     }
 
-    public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
-    {
-        var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
-        return RenderAnswerBodyByLearningSession(learningSession, skipStepIdx);
-    }
-
-
     public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId)
     {
         var learningSession = CreateLearningSession.ForCategory(categoryId);
-        return RenderAnswerBodyByLearningSession(learningSession);
+        return RenderAnswerBodyByLearningSession(learningSession.Id);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)

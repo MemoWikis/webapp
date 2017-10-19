@@ -451,7 +451,7 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps : number = -1, answerResult : any = null) {
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null) {
 
         var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());
