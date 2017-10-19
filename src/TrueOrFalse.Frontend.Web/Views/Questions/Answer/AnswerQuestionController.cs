@@ -615,7 +615,7 @@ public class AnswerQuestionController : BaseController
         ControllerContext.RouteData.Values.Add("learningSessionName", learningSessionName);
 
         string currentSessionHeader = "Abfrage <span id = \"CurrentStepNumber\">" + (model.CurrentLearningStepIdx + 1) + "</span> von <span id=\"StepCount\">" + model.LearningSession.Steps.Count + "</span>";
-        int currentStepIdx = model.LearningSessionStep.Idx;
+        int currentStepIdx = currentLearningStepIdx;
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
