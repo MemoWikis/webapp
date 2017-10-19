@@ -22,7 +22,7 @@
                                     <% if (Model.GetTotalSetCount(category) < 1 && Model.GetTotalQuestionCount(category) < 1 && Model.IsInstallationAdmin) { %>
                                         <i class="fa fa-user-secret show-tooltip" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
                                     <% } %>
-                                    <%: category.Name %>
+                                    <%= category.Type.GetCategoryTypeGroupIconHtml() %><%: category.Name %>
                                 </div>
                             </a>
                             <div class="set-question-count">
