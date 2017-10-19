@@ -139,6 +139,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                 throw new Exception(
                     "There souln't be more than one extra unsanswered step of the same question in learning session");
             learningSession.Steps.Remove(duplicateStep.First());
+            learningSession.ReindexSteps();
 
             Sl.AnswerRepo.Update(learningSessionStep.Answer);
             Sl.LearningSessionRepo.Update(learningSession);
