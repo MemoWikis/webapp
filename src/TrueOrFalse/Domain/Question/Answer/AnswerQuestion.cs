@@ -136,7 +136,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
                                                                         x.Idx > learningSessionStep.Idx).ToList();
             if (duplicateStep.Count > 1)
                 throw new Exception(
-                    "There shouldn't be more than one extra unsanswered step of the same question in learning session");
+                    "There shouldn't be more than one extra unanswered step of the same question in learning session");
 
             if (duplicateStep.Count > 0)
             {
