@@ -1,10 +1,15 @@
 ﻿class AsyncLoading {
+
+    IsInLearningTab: boolean;
+
     constructor() {
 
         if (Utils.IsInWidget())
             return;
 
         $().ready(() => {
+
+
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -112,7 +117,7 @@
                     this.updateNavigationBar(result.navBarData);
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
-                this.updateUrl(result.url);
+                //this.updateUrl(result.url);
                 $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
                 $("div#comments").replaceWith(result.commentsAsHtml);
                 new PageInit();

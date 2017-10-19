@@ -157,6 +157,19 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
+    public AnswerQuestionModel(int dummyQuestionId) : this()
+    {
+        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
+
+        LearningSession = new LearningSession
+        {
+            Steps = GetLearningSessionSteps.Run(new List<Question> {dummyQuestion})
+        };
+
+        Populate(dummyQuestion);
+    }
+
+
     public static AnswerQuestionModel CreateExpiredTestSession()
     {
         var model = new AnswerQuestionModel()
