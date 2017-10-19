@@ -384,8 +384,10 @@ class AnswerQuestion {
 
                 self.UpdateProgressBar(self.GetCurrentStep() - 1);
 
-                if (self._isLastLearningStep)
+                if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
+                    $('#btnNext').unbind();
+                }
             }
         });
     }
