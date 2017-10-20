@@ -68,7 +68,8 @@
   }
 }
 .EduPartnerWrapper {
-  font-size: 80%;
+  font-size: 11px;
+  line-height: 1.42857143;
   font-weight: normal;
   -webkit-box-ordinal-group: 3;
   -webkit-order: 2;

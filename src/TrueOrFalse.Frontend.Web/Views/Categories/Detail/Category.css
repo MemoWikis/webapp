@@ -42,23 +42,23 @@ span.CategoryType {
   white-space: normal;
   max-width: 100%;
 }
-.Reference.DailyIssue .PublicationDate {
+.DescriptionSection .Reference.DailyIssue .PublicationDate {
   display: none;
 }
-.Reference div:not(.Name):not(.Author) {
+.DescriptionSection .Reference div:not(.Name):not(.Author) {
   display: inline;
 }
-.Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
+.DescriptionSection .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
 }
-.Reference {
+.DescriptionSection .Reference {
   margin-bottom: 20px;
 }
-.Reference .Icon,
-.Reference .Name {
+.DescriptionSection .Reference .Icon,
+.DescriptionSection .Reference .Name {
   display: none !important;
 }
-.Reference .Author {
+.DescriptionSection .Reference .Author {
   margin-top: -4px;
   margin-bottom: 5px;
 }
@@ -686,7 +686,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   margin-right: 10px !important;
   float: none !important;
 }
-#MasterMainColumn {
+#CategoryHeader,
+#TopicTabContent {
   line-height: 1.5;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 18px;
@@ -695,52 +696,66 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   color: #203256;
 }
 @media (max-width: 767px) {
-  #MasterMainColumn {
+  #CategoryHeader,
+  #TopicTabContent {
     font-size: 14px;
     line-height: 21px;
     font-weight: normal;
   }
 }
-#MasterMainColumn h1,
-#MasterMainColumn h2,
-#MasterMainColumn h3,
-#MasterMainColumn h4,
-#MasterMainColumn h5 {
+#CategoryHeader h1,
+#TopicTabContent h1,
+#CategoryHeader h2,
+#TopicTabContent h2,
+#CategoryHeader h3,
+#TopicTabContent h3,
+#CategoryHeader h4,
+#TopicTabContent h4,
+#CategoryHeader h5,
+#TopicTabContent h5 {
   font-family: Open Sans !important;
   line-height: 1.2;
 }
-#MasterMainColumn h1 {
+#CategoryHeader h1,
+#TopicTabContent h1 {
   font-size: 45px;
   font-style: normal;
   font-weight: 400;
   margin-top: 5px;
 }
 @media (max-width: 767px) {
-  #MasterMainColumn h1 {
+  #CategoryHeader h1,
+  #TopicTabContent h1 {
     font-size: 35px;
   }
 }
-#MasterMainColumn h2 {
+#CategoryHeader h2,
+#TopicTabContent h2 {
   font-size: 35px;
 }
 @media (max-width: 767px) {
-  #MasterMainColumn h2 {
+  #CategoryHeader h2,
+  #TopicTabContent h2 {
     font-size: 25px;
   }
 }
-#MasterMainColumn h3 {
+#CategoryHeader h3,
+#TopicTabContent h3 {
   font-size: 25px;
 }
 @media (max-width: 767px) {
-  #MasterMainColumn h3 {
+  #CategoryHeader h3,
+  #TopicTabContent h3 {
     font-size: 20px;
   }
 }
-#MasterMainColumn h4 {
+#CategoryHeader h4,
+#TopicTabContent h4 {
   font-size: 25px;
 }
 @media (max-width: 767px) {
-  #MasterMainColumn h4 {
+  #CategoryHeader h4,
+  #TopicTabContent h4 {
     font-size: 20px;
   }
 }
@@ -838,7 +853,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     CategoryHeader
 -------------------------------------------------------*/
 #CategoryHeader {
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 #CategoryHeader #HeadingSection {
   display: -webkit-box;
@@ -1147,4 +1162,19 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
+}
+/*------------------------------------------------------
+    TopicTab
+-------------------------------------------------------*/
+#TopicTabContent {
+  margin-top: 60px;
+}
+/*------------------------------------------------------
+    LearningTab
+-------------------------------------------------------*/
+#LearningTabContent .SessionTitle {
+  display: none;
+}
+#LearningTabContent .SessionHeading .EduPartnerWrapper {
+  width: auto;
 }

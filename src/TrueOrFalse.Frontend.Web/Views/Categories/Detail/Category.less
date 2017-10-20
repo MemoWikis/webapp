@@ -25,19 +25,21 @@ span.CategoryType {
     max-width: 100%;
 }
 
-.ReferenceAllInlineButAuthorStyle;
+.DescriptionSection {
+    .ReferenceAllInlineButAuthorStyle;
 
-.Reference {
-    margin-bottom: 20px;
+    .Reference {
+        margin-bottom: 20px;
 
-    .Icon,
-    .Name {
-        display: none !important;
-    }
+        .Icon,
+        .Name {
+            display: none !important;
+        }
 
-    .Author {
-        margin-top: -4px;
-        margin-bottom: 5px;
+        .Author {
+            margin-top: -4px;
+            margin-bottom: 5px;
+        }
     }
 }
 
@@ -659,7 +661,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
     }
 }
 
-#MasterMainColumn {
+#CategoryHeader, #TopicTabContent {
     line-height: 1.5;
 
     .new-font-style();
@@ -819,7 +821,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
     CategoryHeader
 -------------------------------------------------------*/
 #CategoryHeader {
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 
     #HeadingSection {
         display: flex;
@@ -1113,5 +1115,29 @@ html.flexbox:not(.Explorer):not(.Safari) {
         max-width: @paragraph-max-width;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+/*------------------------------------------------------
+    TopicTab
+-------------------------------------------------------*/
+
+#TopicTabContent {
+    margin-top: 60px;
+}
+
+
+/*------------------------------------------------------
+    LearningTab
+-------------------------------------------------------*/
+#LearningTabContent {
+    .SessionTitle {
+        display: none;
+    }
+
+    .SessionHeading {
+        .EduPartnerWrapper {
+            width: auto;
+        }
     }
 }

@@ -161,10 +161,12 @@ public class AnswerQuestionModel : BaseModel
     {
         var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
 
-        LearningSession = new LearningSession
+        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};
+
+        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)
         {
-            Steps = GetLearningSessionSteps.Run(new List<Question> {dummyQuestion})
-        };
+            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});
+        }
 
         Populate(dummyQuestion);
     }
