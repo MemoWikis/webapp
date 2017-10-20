@@ -248,7 +248,7 @@
                     
                             <div id="JS-References" class="columnControlsFull">
                                 <script type="text/javascript">
-                                    <%if(Model.References.Count != 0){%>
+                                    <%if(Model.References.Count != 0) {%>
                                         $(function () {
                                             $("#AddReference").trigger('click');
                                             var catIds = new Array();
@@ -267,7 +267,7 @@
 
                                                     case ReferenceType.FreeTextreference: %>
                                                         $(window).bind('referenceAdded' + '<%= Model.References[i].Id %>', function() {
-                                                            $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.ReferenceText').val('<%= Model.References[i].ReferenceText %>');
+                                                            $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.ReferenceText').val('<%= Model.EscapedReferences[i].ReferenceText %>');
                                                         });
                                                         catIds[<%= i%>] = -1;
                                                         <% break;
@@ -275,7 +275,7 @@
                                                     case ReferenceType.UrlReference: %>
                                                         $(window).bind('referenceAdded' + '<%= Model.References[i].Id %>', function() {
                                                             $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.ReferenceText').val('<%= Model.References[i].ReferenceText %>').trigger('blur');
-                                                            $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.AdditionalInfo').val('<%= Model.References[i].AdditionalInfo %>');
+                                                            $('.JS-ReferenceContainer[data-ref-id="' + '<%= Model.References[i].Id %>' + '"]').find('.AdditionalInfo').val('<%= Model.EscapedReferences[i].AdditionalInfo %>');
                                                         });
                                                         catIds[<%= i%>] = -1;
                                                         <% break;

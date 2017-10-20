@@ -8,7 +8,9 @@
         <% var breadCrumb = Model.BreadCrumb;
             if (breadCrumb.Count == 1 && Model.RootCategoriesList.Contains(breadCrumb.First()))
             { %>
-            <a href="/" class="category-icon"><i class="fa fa-home"></i></a>
+            <a href="/" class="category-icon">
+                <i class="fa fa-home show-tooltip" title="Startseite"></i>
+            </a>
             <span> <i class="fa fa-chevron-right"></i> </span>
             <a href="<%= Links.CategoryDetail(breadCrumb.First()) %>" class=""><%= breadCrumb.First().Name %></a>
         <% }
@@ -23,7 +25,7 @@
                             case 0:
                             %>
                             <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
-                                <i class="fa fa-child"></i>
+                                <i class="fa fa-child show-tooltip" title="Schule"></i>
                             </a>
                             <%
                             break;
@@ -31,7 +33,7 @@
                             case 1:
                             %> 
                             <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
-                                <i class="fa fa-graduation-cap"></i>
+                                <i class="fa fa-graduation-cap show-tooltip" title="Studium"></i>
                             </a>
                             <%
                             break;
@@ -39,7 +41,7 @@
                             case 2:
                             %>
                             <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
-                                <i class="fa fa-file-text"></i>
+                                <i class="fa fa-file-text show-tooltip" title="Zertifikate"></i>
                             </a>
                             <%
                             break;
@@ -47,7 +49,7 @@
                             case 3:
                             %>
                             <a href="<%= Links.CategoryDetail(rootCategory) %>" class="category-icon">
-                                <i class="fa fa-lightbulb-o"></i>
+                                <i class="fa fa-lightbulb-o show-tooltip" title="Allgemeinwissen"></i>
                             </a>
                             <%
                             break;

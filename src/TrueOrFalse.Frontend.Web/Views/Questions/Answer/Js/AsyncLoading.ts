@@ -70,7 +70,7 @@
             if (Modernizr.history) {
                 $(window).off("popstate");
                 window.onpopstate = (event) => {
-                    if (event.state.stateType === "BrowserNavigation")
+                    if ((event.state != null) && (event.state.stateType === "BrowserNavigation"))
                         location.reload();
                 };
             }

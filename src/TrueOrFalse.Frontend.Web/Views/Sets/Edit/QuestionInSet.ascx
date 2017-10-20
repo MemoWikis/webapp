@@ -5,10 +5,12 @@
 <li class="questionItem ui-state-default Clearfix" data-id="<%= Model.Id %>">
     <div class="QuestionTools">
         <i class="fa fa-trash-o icon DeleteButton JS-DeleteButton show-tooltip" title="Aus dem Lernset entfernen (die Frage wird nicht gelöscht)"></i><br/>
+        <% if (Model.IsCreator) { %>
             <a href="<%= Links.EditQuestion(Url, Model.Text, Model.QuestionId) %>" target="_blank">
                 <i class="fa fa-pencil"></i> 
             </a>
-    
+        <% } %>
+
     </div>
     <div class="draggable-panel" style="float: left;"><i class="fa fa-bars" aria-hidden="true"></i></div>
     <div class="QuestionText">

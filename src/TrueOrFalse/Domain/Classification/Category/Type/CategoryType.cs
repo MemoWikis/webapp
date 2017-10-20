@@ -113,6 +113,17 @@ public static class CategoryTypeExts
 
     }
 
+    public static string GetCategoryTypeGroupIconHtml(this CategoryType e)
+    {
+        if (e.GetCategoryTypeGroup() == CategoryTypeGroup.Media)
+            return "<i class=\"fa fa-book greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+
+        if (e.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
+            return "<i class=\"fa fa-graduation-cap greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+
+        return "";
+    }
+
     public static string GetShortName(this CategoryType e)
     {
         if (e == CategoryType.DailyArticle || e == CategoryType.MagazineArticle)

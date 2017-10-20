@@ -414,7 +414,8 @@ p:empty {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
-.BreadcrumbsMobile .category-icon:hover {
+.BreadcrumbsMobile .category-icon:hover,
+.BreadcrumbsMobile .category-icon:focus {
   text-decoration: none;
 }
 .BreadcrumbsMobile i.fa {
@@ -729,13 +730,177 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     margin-top: -21px;
   }
 }
-.testSetWidget {
+.singleSetFullWidth,
+.singleCatFullWidth {
+  margin: 30px -20px;
+  padding: 10px 30px;
+  border-top: 8px solid #F6F8FA;
+  border-bottom: 8px solid #F6F8FA;
+}
+.singleSetFullWidth + .singleSetFullWidth,
+.singleSetFullWidth + .singleCatFullWidth,
+.singleCatFullWidth + .singleSetFullWidth,
+.singleCatFullWidth + .singleCatFullWidth {
+  margin-top: -30px;
+  border-top: 0;
+}
+.singleSetFullWidth .highlightSet,
+.singleCatFullWidth .highlightSet {
+  background-color: #ffda7f;
+}
+.singleSetFullWidth img,
+.singleCatFullWidth img {
+  border-radius: 50%;
+  box-shadow: 5px 5px 10px #eeeeee;
+}
+.singleSetFullWidth .setTitle,
+.singleCatFullWidth .setTitle,
+.singleSetFullWidth .categoryTitle,
+.singleCatFullWidth .categoryTitle {
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+@media (max-width: 767px) {
+  .singleSetFullWidth .setTitle,
+  .singleCatFullWidth .setTitle,
+  .singleSetFullWidth .categoryTitle,
+  .singleCatFullWidth .categoryTitle {
+    margin-top: 0;
+  }
+}
+.singleSetFullWidth .setTitle h3,
+.singleCatFullWidth .setTitle h3,
+.singleSetFullWidth .categoryTitle h3,
+.singleCatFullWidth .categoryTitle h3 {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.singleSetFullWidth .setTitle,
+.singleCatFullWidth .setTitle {
+  border-bottom: 5px solid #FFD700;
+}
+.singleSetFullWidth .categoryTitle,
+.singleCatFullWidth .categoryTitle {
+  border-bottom: 5px solid #45aece;
+}
+.singleSetFullWidth .setQuestionCount,
+.singleCatFullWidth .setQuestionCount,
+.singleSetFullWidth .categoryQuestionCount,
+.singleCatFullWidth .categoryQuestionCount {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+  color: #999999;
+  font-size: 14px;
+}
+.singleSetFullWidth .KnowledgeBarWrapper,
+.singleCatFullWidth .KnowledgeBarWrapper {
+  display: inline-block;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend,
+.singleCatFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
+  color: #999999;
+  margin-top: -10px;
+  font-size: 12px;
+  line-height: 1.5em;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+@media (max-width: 767px) {
+  .singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend,
+  .singleCatFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
+    opacity: 1;
+  }
+}
+.singleSetFullWidth .KnowledgeBarWrapper:hover .KnowledgeBarLegend,
+.singleCatFullWidth .KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+  opacity: 1;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar {
+  display: inline-block;
+  height: 10px;
+  width: 180px;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-learned,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-learned,
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-learned,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-learned {
+  background-color: silver;
+}
+.singleSetFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.singleSetFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge,
+.singleCatFullWidth .KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}
+.singleSetFullWidth .buttons,
+.singleCatFullWidth .buttons {
+  margin-top: 20px;
+}
+.singleSetFullWidth .buttons .btn,
+.singleCatFullWidth .buttons .btn {
+  margin-top: 10px;
+}
+.singleSetFullWidth .buttons .btn-primary,
+.singleCatFullWidth .buttons .btn-primary {
+  font-size: 18px;
+  min-width: 220px;
+}
+.singleSetFullWidth .buttons .dropdown,
+.singleCatFullWidth .buttons .dropdown {
+  display: inline-block;
+}
+.setTestSessionNoStartScreen {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.testSetWidget h2 {
+.setTestSessionNoStartScreen h2 {
   margin-bottom: 10px;
 }
-.testSetWidget h5 {
+.setTestSessionNoStartScreen h5 {
   margin-bottom: 20px;
 }
