@@ -230,19 +230,12 @@
                                 <b>Dein Lernset enthält noch keine Fragen</b>
                             </p>
                             <p>
-                                Du kannst <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" target="_blank">eine neue Frage erstellen</a> für dieses Lernset.
-                                Oder du fügst vorhandene Fragen hinzu, indem du sie auf der 
-                                <%= Html.ActionLink("Fragen-Übersichtsseite", "Questions", "Questions", null, new {target = "_blank"}) %> auswählst und 
-                                auf "Zum Lernset hinzufügen" klickst.
+                                Bitte bearbeite dein Lernset, um vorhandene oder neue Fragen zu ergänzen. Den <i class="fa fa-pencil">&nbsp;</i>Bearbeiten-Link findest du auch oben.
                             </p>
                             <p style="margin-top: 15px;">
-                                <a href="<%= Links.CreateQuestion(setId: Model.Id) %>" class="btn btn-default" target="_blank">
-                                    <i class="fa fa-plus"></i>
-                                    Neue Frage hinzufügen
-                                </a>
-                                <a href="<%= Links.QuestionsAll() %>" class="btn btn-default" target="_blank">
-                                    <i class="fa fa-check"></i>
-                                    Zur Auswahl vorhandener Fragen
+                                <a href="<%= Links.QuestionSetEdit(Model.Name, Model.Id) %>" class="btn btn-default">
+                                    <i class="fa fa-pencil"></i>
+                                    Lernset bearbeiten
                                 </a>
                             </p>
 

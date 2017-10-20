@@ -42,7 +42,7 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
 
         TempData["createSetMsg"] = new SuccessMessage(
-            $"Das Lernset <i>'{set.Name.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst es nun weiter bearbeiten.");
+            $"Das Lernset <i>'{set.Name.TruncateAtWord(30)}'</i> wurde erstellt. Du kannst es nun weiter bearbeiten oder <a href='" + Links.SetDetail(set) + "'>zur Detailansicht wechseln</a>.");
 
         return Redirect(Links.QuestionSetEdit(set.Name, set.Id));
     }
@@ -82,7 +82,7 @@ public class EditSetController : BaseController
         model.SetToUpdateModel();
         setRepo.Update(set);
 
-        model.Message = new SuccessMessage("Das Lernset wurde gespeichert");
+        model.Message = new SuccessMessage("Das Lernset wurde gespeichert. Du kannst es nun weiter bearbeiten oder <a href='" + Links.SetDetail(set) + "'>zur Detailansicht wechseln</a>.");
         
         return View(_viewLocation, model);
     }

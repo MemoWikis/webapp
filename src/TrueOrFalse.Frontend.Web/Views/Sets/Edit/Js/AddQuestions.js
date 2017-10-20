@@ -8,25 +8,27 @@ $(function () {
 
     hiding();
     disableSubmitButtonSouldBePressedEnter();
-    $("#questionId").typeWatch(options);
+    $("#addQuestionSearchField").typeWatch(options);
 
 
     //Check in and Checkout
-    $("#questions").on("click",
+    $("#resultQuestions").on("click",
         ".row",
         function (e) {
             var checkbox = $(this).find("input");
             toggleCheckbox(e, checkbox);
         });
+
     // Button Click 
-    $("#learnSetSave").on("click",
+    $("#addMarkedQuestionsToSetAndSave").on("click",
         function (e) {
 
+            $("#addMarkedQuestionsToSetAndSave").prop("disabled", true);
             e.preventDefault();
             var selectedQuestionIds = [];
 
 
-            $("#questions input:checked").each(function () {
+            $("#resultQuestions input:checked").each(function () {
                 selectedQuestionIds.push($(this).attr("value"));
             });
 
@@ -38,7 +40,7 @@ $(function () {
                 success: function (data) {
                     if (data.Status === true) {
 
-                        $("#alertOutput").text("Fragen erfolgreich hinzugefügt und Lernset gespeichert.");
+                        $("#addQuestionsOutputInfo").text("Die Frage(n) wurden erfolgreich hinzugefügt und das Lernset gespeichert. Wenn du möchtest, kannst du weitere Fragen hinzufügen.");
                         //1: load row html
                         $.post("/EditSet/GetHtmlRows",
                             { setid: EditSet.GetSetId(), questionIds: selectedQuestionIds },
@@ -55,8 +57,8 @@ $(function () {
                         });
 
                     } else {
-                        $("#safeQuestions").removeClass("alert-success").addClass("alert-warning");
-                        $("#alertOutput").text("Speichern fehlgeschlagen");
+                        $("#addQuestionsOutputInfo").removeClass("alert-success").addClass("alert-warning");
+                        $("#addQuestionsOutputInfo").text("Speichern fehlgeschlagen");
                     }
                 },
                 dataType: 'json',
@@ -65,11 +67,12 @@ $(function () {
 
 
 
-            $("#safeQuestions").fadeIn();
-            $("#questions").empty();
-            $('#learnSetSave').hide();
-            $("#questionId").val("");
-            $("#resultHeading").hide();
+            $("#addQuestionsOutputInfo").fadeIn();
+            $("#resultQuestions").empty();
+            $('#addMarkedQuestionsToSetAndSave').hide();
+            $("#addMarkedQuestionsToSetAndSave").prop("disabled", false);
+            $("#addQuestionSearchField").val("");
+            $("#questionSearchResults").hide();
             $(".alert-info").hide();
 
         });
@@ -77,32 +80,33 @@ $(function () {
 
 var options = {
     callback: function () {
-        $("#questions").empty();
-        $("#safeQuestions").hide();
+        $("#resultQuestions").empty();
+        $("#addQuestionsOutputInfo").hide();
         $.post("/EditSet/Search",
-            { setId: EditSet.GetSetId(), term: $("#questionId").val() },
+            { setId: EditSet.GetSetId(), term: $("#addQuestionSearchField").val() },
             function(data) {
 
                 if (data.Questions.length > 0) {
-                    $("#resultHeading").fadeIn();
-                    $('#questions').fadeIn();
+                    $("#questionSearchResults").fadeIn();
+                    $('#resultQuestions').fadeIn();
                     for (var i = 0; i < data.Questions.length; i++) {
-                        $("#questions")
-                            .append($("<div class='questionRows row'>")
-                                .append($("<div class='col-xs-1'>").append()
-                                    .append($("<input type='checkbox'" + "value=" + data.Questions[i].Id + " />")))
-                                .append($("<div class='col-xs-2'>")
-                                    .append($("<image src=" +
-                                        data.Questions[i].ImageUrl +
-                                        " class='previewImage' >")))
-                                .append($("<div class='col-xs-9'>")
-                                    .append(data.Questions[i].question)
-                                    .append("<div class='greyed' style='font-size: smaller;'>Richtige Antwort: " + data.Questions[i].correctAnswer + "</div>")
-                                    .append($("<p class='linkQuestion'>")
-                                        .append($("<a target='_blank' href=" +
-                                            data.Questions[i].QuestionUrl +
-                                            ">zur Frage </a>"))))
-                            );
+                        var questionRowHtml =
+                            "<div class='questionRows row'> " +
+                                "<div class='col-xs-1 questionSearchResultCheckbox'> " +
+                                    "<input type='checkbox' value=" + data.Questions[i].Id + " />" +
+                                "</div>"+
+                                "<div class='col-xs-2 questionSearchResultImage'>" +
+                                    "<image src=" + data.Questions[i].ImageUrl + " class='previewImage' >" +
+                                "</div>" +
+                                "<div class='col-xs-9 xxs-stack questionSearchResultText'>" +
+                                    data.Questions[i].question +
+                                    "<div class='correctAnswer'>Richtige Antwort: " + data.Questions[i].correctAnswer + "</div>" +
+                                    "<p class='linkQuestion'>" +
+                                        "<a target='_blank' href=" + data.Questions[i].QuestionUrl + ">zur Frage <i class='fa fa-external-link'></i></a>" +
+                                    "</p>" +
+                                "</div>" +
+                            "</div>";
+                        $("#resultQuestions").append(questionRowHtml);
                     }
                 }
 
@@ -127,22 +131,22 @@ function toggleCheckbox(event, checkbox) {
     }
 
     if (checkbox.is(':checked')) {
-        $('#learnSetSave').fadeIn();
+        $('#addMarkedQuestionsToSetAndSave').fadeIn();
     } else {
 
-        var checkedCount = $("#questions input:checkbox")
+        var checkedCount = $("#resultQuestions input:checkbox")
             .filter(function (index, input) { return $(input).is(":checked") })
             .length;
 
         if (checkedCount === 0)
-            $('#learnSetSave').hide();
+            $('#addMarkedQuestionsToSetAndSave').hide();
     }
 
 }
 
 function disableSubmitButtonSouldBePressedEnter() {
     $('body').keypress(function (e) {
-        if (e.keyCode === 13 && $("#questionId").is(":focus")) {
+        if (e.keyCode === 13 && $("#addQuestionSearchField").is(":focus")) {
             event.preventDefault();
             return false;
         }
@@ -150,9 +154,9 @@ function disableSubmitButtonSouldBePressedEnter() {
 }
 
 function hiding() {
-    $("#safeQuestions").hide();
-    $("#resultHeading").hide();
-    $('#questions').hide();
-    $('#learnSetSave').hide();
+    $("#addQuestionsOutputInfo").hide();
+    $("#questionSearchResults").hide();
+    $('#resultQuestions').hide();
+    $('#addMarkedQuestionsToSetAndSave').hide();
 }
 
