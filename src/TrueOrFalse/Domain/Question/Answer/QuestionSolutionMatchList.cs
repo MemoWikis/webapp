@@ -27,7 +27,8 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightPairElement-")
-            select postData.Get(key)
+            select postData.Get(key).Replace(" ", " ")
+            //Das Replace ersetzt ein Non-Break-Space durch ein normales Space (Unterscheid kann man hier nicht sehen)
         )
         .ToList();
 
