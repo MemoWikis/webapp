@@ -46,6 +46,10 @@
         return removeButton;
     }
 
+    function htmlEncodeSpaces(value) {
+        return value.split(" ").join("&nbsp;");
+    }
+
     function checkForHint() {
         if (rightElementsExisting === true) {
             $(".matchlist-rightpairelement")
@@ -99,9 +103,9 @@
                             $(optionElement).remove();
                         }
                     });
-                    $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
+                    $(selectElement).append($('<option>').attr('name', rightElementId).html(htmlEncodeSpaces(rightElementValue)));
                     if (hasValueChangedElement)
-                        $(selectElement).val(rightElementValue);
+                        $(selectElement).val(htmlEncodeSpaces(rightElementValue));
                 });
                 rightElementRemoveButton.click(function () {
                     $(".matchlist-rightpairelement").each(function (index, selectElement) {
