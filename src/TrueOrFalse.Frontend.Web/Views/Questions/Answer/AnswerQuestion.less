@@ -808,9 +808,22 @@
         background-color: #ffda7f;
     }
 
-    img {
-        border-radius: 50%;
-        box-shadow: 5px 5px 10px @gray-lighter;
+    .ImageContainer {
+        text-align: center;
+
+        img {
+            border-radius: 50%;
+            box-shadow: 5px 5px 10px @gray-lighter;
+        }
+
+        .LicenseInfo {
+            text-align: center;
+            color: @gray-light;
+
+            &:after {
+                content: "Lizenz";
+            }
+        }
     }
 
     .setTitle, .categoryTitle {

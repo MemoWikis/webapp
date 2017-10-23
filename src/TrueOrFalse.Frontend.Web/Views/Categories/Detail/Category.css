@@ -753,10 +753,23 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .singleCatFullWidth .highlightSet {
   background-color: #ffda7f;
 }
-.singleSetFullWidth img,
-.singleCatFullWidth img {
+.singleSetFullWidth .ImageContainer,
+.singleCatFullWidth .ImageContainer {
+  text-align: center;
+}
+.singleSetFullWidth .ImageContainer img,
+.singleCatFullWidth .ImageContainer img {
   border-radius: 50%;
   box-shadow: 5px 5px 10px #eeeeee;
+}
+.singleSetFullWidth .ImageContainer .LicenseInfo,
+.singleCatFullWidth .ImageContainer .LicenseInfo {
+  text-align: center;
+  color: #999999;
+}
+.singleSetFullWidth .ImageContainer .LicenseInfo:after,
+.singleCatFullWidth .ImageContainer .LicenseInfo:after {
+  content: "Lizenz";
 }
 .singleSetFullWidth .setTitle,
 .singleCatFullWidth .setTitle,
