@@ -9,6 +9,12 @@
             tab.click(function(e) {
                 e.preventDefault();
                 if (tab.hasClass('active')) return;
+
+                if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
+                    NotLoggedIn.ShowErrorMsg(tabname);
+                    return;
+                }
+
                 if (!Tabbing.ContentIsPresent(tabname)) {
                     Tabbing.RenderTabContent(tabname);
                 }
