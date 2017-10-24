@@ -489,7 +489,7 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
-        //for normal questions
+        //For normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
 
@@ -571,9 +571,18 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currenUrl, new SessionData());
     }
 
+    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId)
+    {
+        var learningSession = CreateLearningSession.ForCategory(categoryId);
+        return RenderAnswerBodyByLearningSession(learningSession.Id);
+    }
+
     public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
+
+        if (learningSession.IsCompleted)
+            return RenderLearningSessionResult(learningSessionId);
 
         var learningSessionName = learningSession.UrlName;
 
@@ -623,12 +632,6 @@ public class AnswerQuestionController : BaseController
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
         return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id), isSession: true);
-    }
-
-    public string RenderAnswerBodyForNewCategoryLearningSession(int categoryId)
-    {
-        var learningSession = CreateLearningSession.ForCategory(categoryId);
-        return RenderAnswerBodyByLearningSession(learningSession.Id);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -722,6 +725,35 @@ public class AnswerQuestionController : BaseController
         public int LearningSessionId { get; private set; }
     }
 
+    //[SetThemeMenu(isLearningSessionPage: true)]
+    public string RenderLearningSessionResult(int learningSessionId)
+    {
+        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+
+        if (learningSession.User != _sessionUser.User)
+            throw new Exception("not logged in or not possessing user");
+
+        if (!learningSession.IsCompleted)
+        {
+            learningSession.CompleteSession();
+        }
+
+        if (learningSession.IsDateSession)
+        {
+            TrainingPlanUpdater.Run(learningSession.DateToLearn.TrainingPlan);
+        }
+
+        var serializer = new JavaScriptSerializer();
+        return serializer.Serialize(
+            new
+            {
+                LearningSessionResult =
+                ViewRenderer.RenderPartialView(
+                    "~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx",
+                    new LearningSessionResultModel(learningSession), ControllerContext)
+            }
+        );
+    }
 
     public EmptyResult ClearHistory()
     {
