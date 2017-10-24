@@ -137,7 +137,7 @@
         foreach (var rightElement in Model.RightElements)
         { %>
     var elementLeftId = $('[id*="pairElementRight-"]').filter(function () { return this.value == '<%= rightElement.Text %>' }).attr('id');
-            $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html('<%= rightElement.Text %>'));
+            $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html(htmlEncodeSpaces('<%= rightElement.Text %>')));
      <% }   
     } %>
         $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');

@@ -28,7 +28,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightPairElement-")
-            select postData.Get(key).Replace(" ", " ") //Replaces &nbsp; with normal space
+            select postData.Get(key).Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
         )
         .ToList();
 
@@ -150,7 +150,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         {
             pair.ElementLeft.Text = EscapeSolutionChars(pair.ElementLeft.Text);
             pair.ElementRight.Text = EscapeSolutionChars(pair.ElementRight.Text);
-            pair.ElementRight.Text = Regex.Replace(pair.ElementRight.Text, @"\s+", " ");
+            pair.ElementRight.Text = pair.ElementRight.Text.Replace(" ", " "); //Replace normal spaces with non-breaking-spaces
         }
     }
 
