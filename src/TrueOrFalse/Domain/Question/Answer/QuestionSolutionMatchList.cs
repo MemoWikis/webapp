@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
@@ -27,8 +28,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightPairElement-")
-            select postData.Get(key).Replace(" ", " ")
-            //Das Replace ersetzt ein Non-Break-Space durch ein normales Space (Unterscheid kann man hier nicht sehen)
+            select postData.Get(key).Replace(" ", " ") //Replaces &nbsp; with normal space
         )
         .ToList();
 
@@ -150,6 +150,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         {
             pair.ElementLeft.Text = EscapeSolutionChars(pair.ElementLeft.Text);
             pair.ElementRight.Text = EscapeSolutionChars(pair.ElementRight.Text);
+            pair.ElementRight.Text = Regex.Replace(pair.ElementRight.Text, @"\s+", " ");
         }
     }
 
