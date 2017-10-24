@@ -98,8 +98,8 @@
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
-                if (result.DateRedirectionLink) {
-                    window.location.href = result.DateRedirectionLink;
+                if (result.LearningSessionResult) {
+                    $("MasterMainWrapper").html(result.LearningSessionResult);
                     return;
                 }
                 $("div#LicenseQuestion").remove();

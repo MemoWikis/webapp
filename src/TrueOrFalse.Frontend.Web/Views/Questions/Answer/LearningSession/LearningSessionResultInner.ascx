@@ -36,7 +36,7 @@
                 0: { color: '#3e7700' },
                 1: { color: '#fdd648' },
                 2: { color: '#B13A48' },
-                3: { color: '#EFEFEF' },
+                3: { color: '#EFEFEF' }
             },
             pieStartAngle: 180
         };
