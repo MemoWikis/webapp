@@ -489,7 +489,7 @@ public class AnswerQuestionController : BaseController
                 ControllerContext
             );
         }
-        //for normal questions
+        //For normal questions
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);
         var questionViewGuid = Guid.NewGuid();
 
@@ -722,6 +722,26 @@ public class AnswerQuestionController : BaseController
         public int LearningSessionId { get; private set; }
     }
 
+    [SetThemeMenu(isLearningSessionPage: true)]
+    public string RenderLearningSessionResult(int learningSessionId, string learningSessionName)
+    {
+        var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
+
+        if (learningSession.User != _sessionUser.User)
+            throw new Exception("not logged in or not possessing user");
+
+        if (!learningSession.IsCompleted)
+        {
+            learningSession.CompleteSession();
+        }
+
+        if (learningSession.IsDateSession)
+        {
+            TrainingPlanUpdater.Run(learningSession.DateToLearn.TrainingPlan);
+        }
+
+        return ViewRenderer.RenderPartialView("~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx", new LearningSessionResultModel(learningSession), ControllerContext);
+    }
 
     public EmptyResult ClearHistory()
     {
