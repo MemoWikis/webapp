@@ -18,86 +18,27 @@
 
 
     
-<% if(Model.Category.CountQuestionsAggregated > 0)
-    {
-        var dummyQuestion = Sl.QuestionRepo.GetById(Model.Category.GetAggregatedQuestionIdsFromMemoryCache().FirstOrDefault());
-           
-        Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
+<% if (Model.Category.CountQuestionsAggregated > 0)
+   {
+       var dummyQuestion = Sl.QuestionRepo.GetById(Model.Category.GetAggregatedQuestionIdsFromMemoryCache().FirstOrDefault());
 
-    } %>
+       Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
 
-<%--<div class="SessionBar">
-    <div class="QuestionCount" style="float: right;">Abfrage <span id="CurrentStepNumber"></span> von <span id="StepCount"></span></div>
-    <div class="SessionType">
-        <span class="show-tooltip"
-              data-original-title="<%= @"<div style='text-align: left;'>In diesem Modus
-                <ul>
-                    <li>wiederholst du personalisiert die Fragen, die du am dringendsten lernen solltest</li>
-                    <li>kannst du dir die Lösung anzeigen lassen</li>
-                    <li>werden dir Fragen, die du nicht richtig beantworten konntest, nochmal vorgelegt</li>
-                </ul>
-            </div>"%>" data-html="true" style="float: left;">
-            Lernen
-            <span class="fa-stack fa-1x" style="font-size: 10px; top: -1px;">
-                <i class="fa fa-circle fa-stack-2x" style="color: #e1efb3;"></i>
-                <i class="fa fa-info fa-stack-1x" style=""></i>
-            </span>
-        </span>
-    </div>
-    <div class="ProgressBarContainer">
-        <div id="progressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: 0%;">
-            <div class="ProgressBarSegment ProgressBarLegend">
-                <span id="spanPercentageDone">0%</span>
-            </div>
+   }
+   else
+   { %>
+        <div class="NoQuestions" style="margin-top: 40px;">
+            Es sind leider noch keine Fragen zum Lernen in diesem Thema enthalten.
         </div>
-        <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
-    </div>
-</div>--%>
+      
+  <% } %>
+
 <div id="AnswerBody">
     <input type="hidden" id="hddSolutionTypeNum" value="1" />
 </div>
 
-<%--<% if (Model.IsLearningSession) { %>
-    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>
-<% }else if (Model.IsTestSession) { %>
-    <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model); %>
-<% }else { %>
-    <div class="AnswerQuestionHeader">
-        <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
-        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionPager.ascx", Model); %>
-    </div>
-<% } %>
 
 
-<% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-       new AnswerBodyModel(Model)); %>
-
-<div class="row">
-    <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
-           var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
-        <div class="col-sm-6 xxs-stack">
-            <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px; min-height: 175px;">
-                <h6 class="ItemInfo">
-                    <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
-                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                    </span>&nbsp;
-                    Lernset mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
-                </h6>
-                <h4 class="ItemTitle"><%: primarySet.Name %></h4>
-                <div class="ItemText"><%: primarySet.Text %></div>
-                <div style="margin-top: 8px; text-align: right;">
-                    <a href="<%= Links.TestSessionStartForSet(primarySet.Name, primarySet.Id) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
-                        <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
-                    </a>
-                </div>
-            </div>
-        </div>
-                
-    <% } %>
-    <div class="col-sm-6 xxs-stack">
-        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
-    </div>
-</div>--%>
 <% if (!Model.Category.DisableLearningFunctions) { %>
 
     <div class="row BoxButtonBar">

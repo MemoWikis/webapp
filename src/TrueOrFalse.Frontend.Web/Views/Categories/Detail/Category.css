@@ -1179,3 +1179,18 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #LearningTabContent .SessionHeading .EduPartnerWrapper {
   width: auto;
 }
+.NoQuestions {
+  margin-top: 40px;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 18px;
+  line-height: 30px;
+  font-weight: 400;
+  color: #203256;
+}
+@media (max-width: 767px) {
+  .NoQuestions {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: normal;
+  }
+}
