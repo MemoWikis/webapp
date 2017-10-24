@@ -929,6 +929,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader .Tabs .Tab {
   position: relative;
   top: 3px;
+  border-bottom: solid 6px transparent;
 }
 #CategoryHeader .Tabs .Tab a {
   display: block;
@@ -944,7 +945,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   color: #003264;
 }
 #CategoryHeader .Tabs .Tab.active {
-  border-bottom: solid 6px #003264;
+  border-bottom-color: #003264;
 }
 #CategoryHeader .Tabs .Tab.active a {
   color: #003264;
