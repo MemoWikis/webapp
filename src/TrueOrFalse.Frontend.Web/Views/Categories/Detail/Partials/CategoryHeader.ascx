@@ -69,7 +69,7 @@
         <div class="Tabs">
             <div id="TopicTab" class="Tab active">
                 <a href="#">
-                    Thema
+                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" :  "Übersicht"%>
                 </a>
             </div>
             <div id="LearningTab" class="Tab LoggedInOnly">
