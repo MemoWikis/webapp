@@ -411,6 +411,9 @@
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
+    <Content Include="Views\Maintenance\Js\ContentStats.js">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
@@ -2692,6 +2695,9 @@
     </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
+    <Content Include="Views\Maintenance\Js\ContentStats.js.map">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

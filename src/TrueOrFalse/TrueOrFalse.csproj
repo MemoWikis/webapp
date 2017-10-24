@@ -235,8 +235,8 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
-    <Compile Include="Domain\Category\Ops\GetPrimaryCategory.cs" />
-    <Compile Include="Domain\Category\Ops\OrderCategoriesByQuestionCountAndLevel.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\GetPrimaryCategory.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\OrderCategoriesByQuestionCountAndLevel.cs" />
     <Compile Include="Domain\Classification\Category\AggregatedContentFromJson.cs" />
     <Compile Include="Domain\Classification\Category\CategoryListExtensions.cs" />
     <Compile Include="Domain\Classification\Category\CategoryValuation\CategoryInKnowledge.cs" />
