@@ -8,7 +8,7 @@
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-    <script>
+    <%--<script>
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawKnowledgeCharts);
 
@@ -63,7 +63,7 @@
             });
         }
 
-    </script>
+    </script>--%>
 
     <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
 </asp:Content>
@@ -73,9 +73,9 @@
     
 <%--    <% if (Model.IsLoggedIn)
            Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User)); %>--%>
-    <% //Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionResult.ascx", Model); %>
+    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx", Model); %>
 
-    <h2 style="margin-bottom: 15px; margin-top: 0px;">
+    <%--<h2 style="margin-bottom: 15px; margin-top: 0px;">
         <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                         if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
                         if (Model.LearningSession.IsSetsSession) Response.Write("ColoredUnderline Set");
@@ -434,7 +434,7 @@
                 
             <% } %>
         </div>
-    </div>
+    </div>--%>
 
 
 </asp:Content>

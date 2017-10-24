@@ -17,12 +17,13 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+    <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
-
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 </asp:Content>
 

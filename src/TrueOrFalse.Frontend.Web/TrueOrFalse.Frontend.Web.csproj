@@ -417,6 +417,7 @@
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
       <DependentUpon>AsyncLoading.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
