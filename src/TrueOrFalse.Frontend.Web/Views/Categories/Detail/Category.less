@@ -879,6 +879,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
         .Tab {
             position: relative;
             top: 3px;
+            border-bottom: solid 6px transparent;
 
             a {
                 display: block;
@@ -906,7 +907,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
                     }
                 }
 
-                border-bottom: solid 6px @memo-blue;
+                border-bottom-color: @memo-blue;
             }
         }
     }
@@ -1044,13 +1045,13 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
     );
 
-    .media-below-sm({
-
+    .media-below-sm( {
         margin-bottom: 30px;
 
         .BreadcrumbsMobile {
             padding-bottom: 0;
         }
+
         #ManagementMobile {
             margin-bottom: 10px;
         }
@@ -1058,7 +1059,9 @@ html.flexbox:not(.Explorer):not(.Safari) {
         #HeadingSection {
             margin-bottom: 30px;
         }
-    });
+    }
+
+    );
 }
 
 .media-below-md( {
@@ -1140,4 +1143,9 @@ html.flexbox:not(.Explorer):not(.Safari) {
             width: auto;
         }
     }
+}
+
+.NoQuestions {
+    margin-top: 40px;
+    .new-font-style;
 }

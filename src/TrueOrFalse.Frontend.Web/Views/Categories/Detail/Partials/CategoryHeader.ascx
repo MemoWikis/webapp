@@ -72,12 +72,12 @@
                     Thema
                 </a>
             </div>
-            <div id="LearningTab" class="Tab">
+            <div id="LearningTab" class="Tab LoggedInOnly">
                 <a href="#">
                     Lernen
                 </a>
             </div>
-            <div id="AnalyticsTab" class="Tab">
+            <div id="AnalyticsTab" class="Tab LoggedInOnly">
                 <a href="#">
                     Analytics
                 </a>
