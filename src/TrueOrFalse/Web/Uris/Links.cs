@@ -261,6 +261,16 @@ namespace TrueOrFalse.Frontend.Web.Code
                 });
         }
 
+        public static string LearningSessionResult(LearningSession learningSession)
+        {
+            return GetUrlHelper().Action("LearningSessionResult", LearningSessionResultController,
+                new
+                {
+                    learningSessionId = learningSession.Id,
+                    learningSessionName = learningSession.UrlName
+                });
+        }
+
         public static string StartLearningSession(LearningSession learningSession)
         {
             if (learningSession.IsSetSession)
