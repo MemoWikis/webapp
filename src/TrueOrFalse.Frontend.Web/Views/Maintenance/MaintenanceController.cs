@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using NHibernate.Util;
 using TrueOrFalse;
+using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
@@ -44,7 +45,7 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public string CmsShowLooseCategories()
+    public string CmsRenderLooseCategories()
     {
         var looseCategories = GetAllCategoriesUnconnectedToRootCategories.Run().OrderByDescending(c => c.CountQuestionsAggregated);
         var result = looseCategories.Count() + " categories found (ordered by aggregated question count descending):<br/>";
@@ -56,13 +57,25 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
-    public string CmsShowCategoriesWithNonAggregatedChildren()
+    public string CmsRenderCategoriesWithNonAggregatedChildren()
     {
         var categories = EntityCache.GetAllCategories().Where(c => c.NonAggregatedCategories().Any()).ToList();
         var result = categories.Count() + " categories found:<br/>";
         foreach (var category in categories)
         {
             result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
+        }
+        return result;
+    }
+
+    [HttpPost]
+    public string CmsRenderOvercategorizedSets()
+    {
+        var sets = GetAllOvercategorizedSets.Run();
+        var result = sets.Count() + " sets were found:<br/>";
+        foreach (var set in sets)
+        {
+            result +="<a href=\"" + Links.SetDetail(Url, set) + "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" + set.Id + "-" + set.Name +"</span></a> \n";
         }
         return result;
     }

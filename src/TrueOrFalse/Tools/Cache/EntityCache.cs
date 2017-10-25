@@ -186,6 +186,8 @@ public class EntityCache
         return sets;
     }
 
+    public static IList<Set> GetAllSets() => Sets.Values.ToList();
+
     private static void AddQuestionInSetTo(
         ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionInSetList,
         QuestionInSet questionInSet)
