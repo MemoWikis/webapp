@@ -12,10 +12,14 @@ class Cms {
                 e.preventDefault();
                 self.RenderLooseCategories();
             });
+        $("#btnShowCategoriesWithNonAggregatedChildren").on("click",
+            e => {
+                e.preventDefault();
+                self.RenderCategoriesWithNonAggregatedChildren();
+            });
     }
 
     RenderLooseCategories() {
-        console.log("rendering...");
         $.ajax({
             type: 'POST',
             url: "/Maintenance/CmsShowLooseCategories",
@@ -26,6 +30,22 @@ class Cms {
             error: function (result) {
                 window.console.log(result);
                 $("#showLooseCategoriesResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
+            }
+        });
+
+    }
+
+    RenderCategoriesWithNonAggregatedChildren() {
+        $.ajax({
+            type: 'POST',
+            url: "/Maintenance/CmsShowCategoriesWithNonAggregatedChildren",
+            cache: false,
+            success: function (result) {
+                $("#showCategoriesWithNonAggregatedChildrenResult").html(result);
+            },
+            error: function (result) {
+                window.console.log(result);
+                $("#showCategoriesWithNonAggregatedChildrenResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
             }
         });
 

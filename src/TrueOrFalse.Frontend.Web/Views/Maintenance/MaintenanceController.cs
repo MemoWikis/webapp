@@ -55,6 +55,18 @@ public class MaintenanceController : BaseController
         return result;
     }
 
+    [HttpPost]
+    public string CmsShowCategoriesWithNonAggregatedChildren()
+    {
+        var categories = EntityCache.GetAllCategories().Where(c => c.NonAggregatedCategories().Any()).ToList();
+        var result = categories.Count() + " categories found:<br/>";
+        foreach (var category in categories)
+        {
+            result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
+        }
+        return result;
+    }
+
     [SetMenu(MenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {

@@ -59,13 +59,21 @@
     
     <hr/>
     <div>
-        <h3>Tools zur Content-Pflege</h3>
+        <h3 style="margin-top: 50px;">Tools zur Content-Pflege</h3>
         <div id="showLooseCategories">
-            <h4>Lose Themen</h4>
+            <h4 style="margin-top: 40px;">Lose Themen</h4>
             <p>
                 Themen anzeigen, die nicht in eines der vier Oberthemen eingehangen sind: <a href="#" id="btnShowLooseCategories" class="btn btn-default">Themen anzeigen</a>
             </p>
-            <div id="showLooseCategoriesResult" style="padding: 10px;"></div>
+            <div id="showLooseCategoriesResult" style="margin-left: 25px;"></div>
+        </div>
+
+        <div id="showCategoriesWithNonAggregatedChildren">
+            <h4 style="margin-top: 40px;">Themen mit unbearbeitetem Aggregierungsstatus</h4>
+            <p>
+                Themen anzeigen, die Unterthemen haben, über deren Aggregierungs-Status noch nicht entschieden ist: <a href="#" id="btnShowCategoriesWithNonAggregatedChildren" class="btn btn-default">Themen anzeigen</a>
+            </p>
+            <div id="showCategoriesWithNonAggregatedChildrenResult" style="padding: 10px;"></div>
         </div>
     </div>
 
