@@ -8,12 +8,6 @@ class PageInit {
 
         new AsyncLoading();
 
-        if (answerEntry.AnswerQuestion._isLastLearningStep) {
-            $("#aSkipStep").click(e => {
-                window.location.href = $("#aSkipStep").attr("href");
-            });
-        }
-
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content
 

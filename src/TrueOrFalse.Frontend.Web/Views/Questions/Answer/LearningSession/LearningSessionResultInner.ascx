@@ -1,8 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LearningSessionResultModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-    
-
 <script>
     google.load("visualization", "1", { packages: ["corechart"] });
     google.setOnLoadCallback(drawKnowledgeCharts);

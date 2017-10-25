@@ -581,15 +581,15 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
 
-        if (learningSession.CurrentLearningStepIdx() == -1)
-            return RenderLearningSessionResult(learningSessionId);
-
         var learningSessionName = learningSession.UrlName;
 
         if (skipStepIdx != -1 && learningSession.Steps.Any(s => s.Idx == skipStepIdx))
             learningSession.SkipStep(skipStepIdx);
 
         var currentLearningStepIdx = learningSession.CurrentLearningStepIdx();
+
+        if (learningSession.CurrentLearningStepIdx() == -1)
+            return RenderLearningSessionResult(learningSessionId);
 
         if (learningSession.IsDateSession)
         {
