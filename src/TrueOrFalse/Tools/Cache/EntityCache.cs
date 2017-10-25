@@ -474,6 +474,8 @@ public class EntityCache
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);
 
+    public static IEnumerable<Category> GetAllCategories() => Categories.Values.ToList();
+
     /// <summary>
     /// Helps do debug, e.g. filter CategoryQuestionInSetList for certain questions in certain categories and the belonging set ids
     /// </summary>

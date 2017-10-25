@@ -43,6 +43,18 @@ public class MaintenanceController : BaseController
         return View(cmsModel);
     }
 
+    [HttpPost]
+    public string CmsShowLooseCategories()
+    {
+        var looseCategories = GetAllCategoriesUnconnectedToRootCategories.Run().OrderByDescending(c => c.CountQuestionsAggregated);
+        var result = looseCategories.Count() + " categories found (ordered by aggregated question count descending):<br/>";
+        foreach (var category in looseCategories)
+        {
+            result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
+        }
+        return result;
+    }
+
     [SetMenu(MenuEntry.Maintenance)]
     public ActionResult ContentCreatedReport()
     {

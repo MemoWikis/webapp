@@ -1,5 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
+﻿<%@ Page Title="CMS" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
+    <%= Scripts.Render("~/bundles/js/MaintenanceCMS") %>
+    <meta id="blablabla"/>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -22,7 +28,7 @@
         
     <div class="row">
         <div class="col-md-10">
-            <h4 class="">CMS</h4>
+            <h2 class="">CMS</h2>
         </div>
     </div>
     <div>
@@ -49,6 +55,18 @@
             <input type="submit" value="Speichern" class="btn btn-primary" name="btnSave" />
 
         <% } %>
+    </div>
+    
+    <hr/>
+    <div>
+        <h3>Tools zur Content-Pflege</h3>
+        <div id="showLooseCategories">
+            <h4>Lose Themen</h4>
+            <p>
+                Themen anzeigen, die nicht in eines der vier Oberthemen eingehangen sind: <a href="#" id="btnShowLooseCategories" class="btn btn-default">Themen anzeigen</a>
+            </p>
+            <div id="showLooseCategoriesResult" style="padding: 10px;"></div>
+        </div>
     </div>
 
 </asp:Content>

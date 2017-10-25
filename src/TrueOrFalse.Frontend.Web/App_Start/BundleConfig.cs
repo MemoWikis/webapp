@@ -250,6 +250,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceCMS")
+                .Include("~/Views/Maintenance/Js/CMS.js"));
+
             bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
                 .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")
                 .Include("~/Views/Maintenance/ContentStats.css"));
