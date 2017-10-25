@@ -189,7 +189,7 @@
                     <span>Lernen</span>
                 </div>
                 <% if (Model.QuestionCount > 0) { %>
-                    <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
+                    <a class="btn" data-btn="startLearningSession" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSessionForSet(Model.Id) %>" rel="nofollow">
                     </a>
                 <% } %>
             </div>
