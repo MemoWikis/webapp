@@ -466,33 +466,6 @@ fieldset[disabled] .EduCategory.active {
 #memuchoInfoFooter div a.btn {
   margin-top: 10px;
 }
-/* CALL-TO-ACTION-BOX
---------------------------------------------------------- */
-.callToActionBox {
-  margin-top: 85px;
-  margin-bottom: 30px;
-}
-.callToActionBox .row {
-  /*display: flex;
-        flex-direction: row;
-        //flex-wrap: wrap;
-        align-items: center;*/
-}
-.callToActionBox h3 {
-  color: #203256;
-  margin-bottom: 20px;
-}
-.callToActionBox .img-logo {
-  text-align: center;
-  padding-top: 20px;
-}
-.callToActionBox .textExplanation {
-  padding: 20px;
-  /*img {
-            display: inline-block;
-            text-align: center;
-        }*/
-}
 /* TOPIC OF THE WEEK
 ------------------------------------------------------*/
 .topicOfWeekContainer {
