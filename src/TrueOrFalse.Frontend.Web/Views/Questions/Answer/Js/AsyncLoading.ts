@@ -99,7 +99,7 @@
             success: result => {
                 result = JSON.parse(result);
                 if (result.LearningSessionResult) {
-                    $("MasterMainWrapper").html(result.LearningSessionResult);
+                    $("#MasterMainWrapper").html(result.LearningSessionResult);
                     return;
                 }
                 $("div#LicenseQuestion").remove();

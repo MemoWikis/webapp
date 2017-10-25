@@ -15,7 +15,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 
     public virtual string StepsJson
     {
-        get { return JsonConvert.SerializeObject(Steps); }
+        get => JsonConvert.SerializeObject(Steps);
         set
         {
             if (value == null)

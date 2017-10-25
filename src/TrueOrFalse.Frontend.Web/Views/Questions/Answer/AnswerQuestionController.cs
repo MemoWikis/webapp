@@ -581,7 +581,7 @@ public class AnswerQuestionController : BaseController
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
 
-        if (learningSession.IsCompleted)
+        if (learningSession.CurrentLearningStepIdx() == -1)
             return RenderLearningSessionResult(learningSessionId);
 
         var learningSessionName = learningSession.UrlName;
