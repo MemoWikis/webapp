@@ -75,7 +75,19 @@ public class MaintenanceController : BaseController
         var result = sets.Count() + " sets were found:<br/>";
         foreach (var set in sets)
         {
-            result +="<a href=\"" + Links.SetDetail(Url, set) + "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" + set.Id + "-" + set.Name +"</span></a> \n";
+            result += "<a href=\"" + Links.SetDetail(Url, set) + "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" + set.Id + "-" + set.Name + "</span></a> \n";
+        }
+        return result;
+    }
+
+    [HttpPost]
+    public string CmsRenderSetsWithDifferentlyCategorizedQuestions()
+    {
+        var sets = GetAllSetsWithDifferentlyCategorizedQuestions.Run().OrderByDescending(s => s.DateCreated);
+        var result = sets.Count() + " sets were found:<br/>";
+        foreach (var set in sets)
+        {
+            result += "<a href=\"" + Links.SetDetail(Url, set) + "\"><span class=\"label label-set\" style=\"max-width: 200px; margin-top: 5px; margin-right: 10px;\">" + set.Id + "-" + set.Name + "</span></a> \n";
         }
         return result;
     }

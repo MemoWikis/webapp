@@ -24,6 +24,12 @@ class Cms {
                 e.preventDefault();
                 self.RenderOvercategorizedSets();
             });
+
+        $("#btnShowSetsWithDifferentlyCategorizedQuestions").on("click",
+            e => {
+                e.preventDefault();
+                self.RenderSetsWithDifferentlyCategorizedQuestions();
+            });
     }
 
     RenderLooseCategories() {
@@ -55,7 +61,6 @@ class Cms {
                 $("#showCategoriesWithNonAggregatedChildrenResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
             }
         });
-
     }
 
     RenderOvercategorizedSets() {
@@ -71,7 +76,21 @@ class Cms {
                 $("#showOvercategorizedSetsResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
             }
         });
+    }
 
+    RenderSetsWithDifferentlyCategorizedQuestions() {
+        $.ajax({
+            type: 'POST',
+            url: "/Maintenance/CmsRenderSetsWithDifferentlyCategorizedQuestions",
+            cache: false,
+            success: function (result) {
+                $("#showSetsWithDifferentlyCategorizedQuestionsResult").html(result);
+            },
+            error: function (result) {
+                window.console.log(result);
+                $("#showSetsWithDifferentlyCategorizedQuestionsResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
+            }
+        });
     }
 
 }
