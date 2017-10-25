@@ -25,6 +25,13 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    
+    <% if(Model.IsLearningSession) { %>
+        <%= Styles.Render("~/bundles/AnswerQuestion") %>
+        <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+        <%--<script type="text/javascript" src="https://www.google.com/jsapi"></script>--%>
+        <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
+    <% } %>
 
     <style type="text/css">
          .selectorShowSolution{/* marker class */}
