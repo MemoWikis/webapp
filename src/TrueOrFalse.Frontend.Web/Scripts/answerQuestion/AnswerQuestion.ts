@@ -243,7 +243,7 @@ class AnswerQuestion {
                             cache: false
                         });
 
-                        AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
+                        AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
                     }
 
                     if (result.correct) {
@@ -275,7 +275,6 @@ class AnswerQuestion {
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
-            $('#btnNext').unbind();
         }
 
         this._onCorrectAnswer();
@@ -286,7 +285,6 @@ class AnswerQuestion {
 
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
-            $('#btnNext').unbind();
         }
 
         if (this.IsGameMode) {
@@ -386,7 +384,6 @@ class AnswerQuestion {
 
                 if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
-                    $('#btnNext').unbind();
                 }
             }
         });

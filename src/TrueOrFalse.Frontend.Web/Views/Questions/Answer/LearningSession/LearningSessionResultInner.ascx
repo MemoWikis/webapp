@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<LearningSessionResultModel>" %>
-<%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
     
