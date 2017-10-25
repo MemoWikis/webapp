@@ -300,9 +300,14 @@ public class EntityCache
 
         foreach (var category in categories)
         {
-            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
+            try
+            {
+                categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
+                    (k, existingList) => existingList);
 
-            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
+                categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
+            }
+            catch { } 
         }
     }
 
