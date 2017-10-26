@@ -16,6 +16,7 @@ class PageInit {
 
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content
+        new Pin(PinType.Category); //only needed if category catd is presented (e.g. as primary category for unregistered users)
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
 

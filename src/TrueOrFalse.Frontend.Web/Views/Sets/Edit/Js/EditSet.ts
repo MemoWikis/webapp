@@ -32,7 +32,7 @@
     }
 
     static GetSetId() : number { 
-        return parseInt($("#questionSetContainer").attr("data-id"));
+        return parseInt($("#questionSetId").attr("data-id"));
     }
 }
 

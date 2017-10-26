@@ -80,6 +80,7 @@ public class AnswerQuestionModel : BaseModel
 
     public Set Set;
     public IList<Category> Categories;
+    public Category PrimaryCategory;
     public IList<SetMini> SetMinis;
     public int SetCount;
 
@@ -306,6 +307,12 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
+
+        //Find best suited primary category for question
+        if (!IsLoggedIn && !IsTestSession && !IsLearningSession)
+        {
+            PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
+        }
 
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
         DescriptionForFacebook = GetMetaDescriptionsFacebook();

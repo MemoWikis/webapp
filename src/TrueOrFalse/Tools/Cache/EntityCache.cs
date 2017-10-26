@@ -186,6 +186,8 @@ public class EntityCache
         return sets;
     }
 
+    public static IList<Set> GetAllSets() => Sets.Values.ToList();
+
     private static void AddQuestionInSetTo(
         ConcurrentDictionary<int, ConcurrentDictionary<int, ConcurrentDictionary<int, int>>> categoryQuestionInSetList,
         QuestionInSet questionInSet)
@@ -300,9 +302,14 @@ public class EntityCache
 
         foreach (var category in categories)
         {
-            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(), (k, existingList) => existingList);
+            try
+            {
+                categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
+                    (k, existingList) => existingList);
 
-            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
+                categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
+            }
+            catch { } 
         }
     }
 
@@ -473,6 +480,8 @@ public class EntityCache
 
     public static IEnumerable<Category> GetCategories(IEnumerable<int> getIds) => 
         getIds.Select(categoryId => Categories[categoryId]);
+
+    public static IEnumerable<Category> GetAllCategories() => Categories.Values.ToList();
 
     /// <summary>
     /// Helps do debug, e.g. filter CategoryQuestionInSetList for certain questions in certain categories and the belonging set ids

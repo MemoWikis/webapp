@@ -1,5 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
+﻿<%@ Page Title="CMS" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CMSModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+<%@ Import Namespace="System.Web.Optimization" %>
+
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">
+    <%= Scripts.Render("~/bundles/js/MaintenanceCMS") %>
+    <meta id="blablabla"/>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -20,12 +26,50 @@
     </nav>
     <% Html.Message(Model.Message); %>
         
-    <div class="row">
-        <div class="col-md-10">
-            <h4 class="">CMS</h4>
+
+    <div>
+        <h2>Tools zur Content-Pflege</h2>
+        <div id="showLooseCategories">
+            <h4 style="margin-top: 40px;">Lose Themen</h4>
+            <p>
+                Themen anzeigen, die nicht in eines der vier Oberthemen eingehangen sind: 
+                <a href="#" id="btnShowLooseCategories" class="btn btn-default">Themen anzeigen</a>
+            </p>
+            <div id="showLooseCategoriesResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
+        </div>
+
+        <div id="showCategoriesWithNonAggregatedChildren">
+            <h4 style="margin-top: 40px;">Themen mit unbearbeitetem Aggregierungsstatus</h4>
+            <p>
+                Themen anzeigen, die Unterthemen haben, über deren Aggregierungs-Status noch nicht entschieden ist: 
+                <a href="#" id="btnShowCategoriesWithNonAggregatedChildren" class="btn btn-default">Themen anzeigen</a>
+            </p>
+            <div id="showCategoriesWithNonAggregatedChildrenResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
+        </div>
+
+        <div id="showOvercategorizedSets">
+            <h4 style="margin-top: 40px;">Überkategorisierte Lernsets</h4>
+            <p>
+                Lernsets anzeigen, die mehrere Themen haben, wobei mind. eines ein (direktes oder indirektes) aggregiertes Unterthema von einem anderen ist: 
+                <a href="#" id="btnShowOvercategorizedSets" class="btn btn-default">Lernsets anzeigen</a>
+            </p>
+            <div id="showOvercategorizedSetsResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
+        </div>
+
+        <div id="showSetsWithDifferentlyCategorizedQuestions">
+            <h4 style="margin-top: 40px;">Inkongruente Kategorisierung von Fragen in Lernsets</h4>
+            <p>
+                Lernsets anzeigen, bei denen die Fragen andere Themen zugewiesen haben als die Lernsets, in denen sie sind. 
+                Für jedes Lernset wird geschaut, ob es darin mind. 1 Frage gibt, die andere Themen hat als die Lernsets zu denen sie gehört 
+                (sortiert nach Erstellungsdatum, Neueste zuerst): 
+                <a href="#" id="btnShowSetsWithDifferentlyCategorizedQuestions" class="btn btn-default">Lernsets anzeigen</a>
+            </p>
+            <div id="showSetsWithDifferentlyCategorizedQuestionsResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
         </div>
     </div>
+    
     <div>
+        <h2 style="margin-top: 50px;">Lernsets für Empfehlungen und Spiele</h2>
         <% using (Html.BeginForm("CMS", "Maintenance")){%>
         
             <%= Html.AntiForgeryToken() %>
@@ -50,5 +94,6 @@
 
         <% } %>
     </div>
+
 
 </asp:Content>

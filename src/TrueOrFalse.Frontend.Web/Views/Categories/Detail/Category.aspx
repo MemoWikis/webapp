@@ -32,44 +32,34 @@
             
                 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);
                 
-                        <%if (Model.CategoriesChildren.Count > 0)
-                                Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",
-                                                new TopicNavigationModel(Model.Category, "Unterthemen"));%>
+                        if (Model.CategoriesChildren.Count > 0)
+                                Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",new TopicNavigationModel(Model.Category, "Unterthemen"));
                 
-<%--                        <% if(Model.AggregatedSets.Any())
-                                for (var i = 0; i < 2; i++)
-                                {
-                                    if(Model.AggregatedSets[i] != null)
-                                        Html.RenderPartial("~/Views/Categories/Detail/Partials/SetTestSessionNoStartScreen.ascx",
-                                            new SetTestSessionNoStartScreenModel(Model.AggregatedSets[i].Id));
-                                } %>--%>
 
-                        <% if (Model.FeaturedSets.Count > 0){
+                        if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
 
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
-                                new SingleSetCollectionModel(Model.FeaturedSets));
+                            foreach (var set in Model.AggregatedSets)
+                            {
+                                Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
+                            }
+                            //Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
+                            //    new SingleSetCollectionModel(Model.AggregatedSets));
 
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-
-
-                        } else {//no featured sets
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
                         }
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
 
-                } else { 
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
+
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryNetwork.ascx", Model);
+
+                    } else {
+
+                        if(!Model.CustomPageHtml.Contains("MainItemInfo")) {
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);
                     
-                    if(!Model.CustomPageHtml.Contains("MainItemInfo")) { %>                  
-            
-                        <% Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
-                    
-                    <% } %>
+                    } %>
             
                     <div class="MarkdownContent">
                         <%= Model.CustomPageHtml %>

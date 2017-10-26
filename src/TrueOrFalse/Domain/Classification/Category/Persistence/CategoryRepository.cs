@@ -180,6 +180,33 @@ public class CategoryRepository : RepositoryDbBase<Category>
         return descendants;
     }
 
+    public IList<Category> GetAllParents(int categoryId)
+    {
+        var category = GetById(categoryId);
+        var currentGeneration = category.ParentCategories();
+        var previousGeneration = new List<Category>();
+        var parents = new List<Category>();
+
+        while (currentGeneration.Count > 0)
+        {
+            parents.AddRange(currentGeneration);
+
+            foreach (var currentCategory in currentGeneration)
+            {
+                var directParents = currentCategory.ParentCategories();
+                if (directParents.Count > 0)
+                {
+                    previousGeneration.AddRange(directParents);
+                }
+            }
+
+            currentGeneration = previousGeneration.Except(parents).Where(c => c.Id != categoryId).Distinct().ToList();
+            previousGeneration = new List<Category>();
+        }
+
+        return parents;
+    }
+
     public int CountAggregatedSets(int categoryId)
     {
         var count = 

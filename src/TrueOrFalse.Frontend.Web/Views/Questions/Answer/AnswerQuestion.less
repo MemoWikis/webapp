@@ -786,3 +786,144 @@
         margin-top: 19px;
     }
 }*/
+
+
+
+
+/* Primary Category Card */
+
+.singleSetFullWidth, .singleCatFullWidth {
+    background-color: #D3E0F2;
+    margin: 10px 0 30px;
+    padding: 30px 30px;
+    border-top: 8px solid @color-background-global;
+    border-bottom: 8px solid @color-background-global;
+
+    & + & {
+        margin-top: -30px;
+        border-top: 0;
+    }
+
+    .highlightSet {
+        background-color: #ffda7f;
+    }
+
+    .ImageContainer {
+        text-align: center;
+
+        img {
+            border-radius: 50%;
+            box-shadow: 5px 5px 10px @gray-lighter;
+        }
+
+        .LicenseInfo {
+            text-align: center;
+            color: @gray-light;
+
+            &:after {
+                content: "Lizenz";
+            }
+        }
+    }
+
+    .setTitle, .categoryTitle {
+        margin-bottom: 20px;
+
+        h3 {
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+    }
+
+    .setTitle {
+        border-bottom: 5px solid @color-set;
+    }
+
+    .categoryTitle {
+        border-bottom: 5px solid @color-category;
+    }
+
+    .setQuestionCount, .categoryQuestionCount {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 15px;
+        color: @gray-light;
+        font-size: 14px;
+    }
+
+    .KnowledgeBarWrapper {
+        display: inline-block;
+
+        .KnowledgeBarLegend {
+            .greyed;
+            margin-top: -10px;
+            font-size: 12px;
+            line-height: 1.5em;
+            //text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.2s linear;
+
+            .media-below-sm ( {
+                opacity: 1;
+            }
+
+            );
+        }
+
+        &:hover { //show on hover over navigation tile
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
+        }
+
+        .set-knowledge-bar, .category-knowledge-bar {
+            display: inline-block;
+            //margin-top: 15px;
+            height: 10px;
+            width: 180px;
+
+            .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+                height: inherit;
+                float: left;
+            }
+
+            .needs-learning {
+                background-color: @needs-learning-color;
+            }
+
+            .needs-consolidation {
+                background-color: @needs-consolidation-color;
+            }
+
+            .solid-knowledge {
+                background-color: @solid-knowledge-color;
+            }
+
+            .not-learned {
+                background-color: @not-learned-color;
+            }
+
+            .not-in-wish-knowledge {
+                background-color: @not-in-wish-knowledge-color;
+            }
+        }
+    }
+
+    .buttons {
+        margin-top: 20px;
+
+        .btn {
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            //text-transform: uppercase;
+            font-size: 18px;
+            min-width: 220px;
+        }
+
+        .dropdown {
+            display: inline-block;
+        }
+    }
+}

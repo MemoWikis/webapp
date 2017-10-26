@@ -12,7 +12,7 @@ var youtube = {
 
     },
     loadPlayer: urlObject => {
-        //fehleranzeige vermeiden versucht es sonst auch zu laden wenn Objekt null ist 
+        //Avoid Null Reference Exception when loading object
         if (urlObject === null)
             return;
         player.loadVideoById({
@@ -81,13 +81,15 @@ var everythingElse = {
     hideElements: ()=> {
         $("#player").hide();
         $('#ulQuestions').removeClass('showTimeInput');
-        $('.questionItem').find('input').hide();
+        $('.questionItem .time-input').hide();
+        $(".videoSetAnnotation").hide();
     },
 
     fadeInElements: ()=> {
         $('#ulQuestions').addClass('showTimeInput');
         $('#player').fadeIn();
-        $('.questionItem').find('input').fadeIn();
+        $('.questionItem .time-input').fadeIn();
+        $(".videoSetAnnotation").fadeIn();
     }
 }
 
@@ -159,7 +161,7 @@ class YoutubeApiLoad {
                 } else {
                     timecode = youtube.timeTransform();
                 }
-                var input = $(this).parent().find(".form-control");
+                var input = $(this).parent().find(".time-input");
                 input.val(timecode);
                 var questionInSetId = input.attr("data-in-set-id");
                 $.post("/SetVideo/SaveTimeCode/", { timeCode: timecode, questionInSetId: questionInSetId });

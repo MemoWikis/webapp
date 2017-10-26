@@ -46,6 +46,10 @@
         return removeButton;
     }
 
+    function htmlEncodeSpaces(value) {
+        return value.split(" ").join("&nbsp;");
+    }
+
     function checkForHint() {
         if (rightElementsExisting === true) {
             $(".matchlist-rightpairelement")
@@ -99,9 +103,9 @@
                             $(optionElement).remove();
                         }
                     });
-                    $(selectElement).append($('<option>').attr('name', rightElementId).html(rightElementValue));
+                    $(selectElement).append($('<option>').attr('name', rightElementId).html(htmlEncodeSpaces(rightElementValue)));
                     if (hasValueChangedElement)
-                        $(selectElement).val(rightElementValue);
+                        $(selectElement).val(htmlEncodeSpaces(rightElementValue));
                 });
                 rightElementRemoveButton.click(function () {
                     $(".matchlist-rightpairelement").each(function (index, selectElement) {
@@ -133,7 +137,7 @@
         foreach (var rightElement in Model.RightElements)
         { %>
     var elementLeftId = $('[id*="pairElementRight-"]').filter(function () { return this.value == '<%= rightElement.Text %>' }).attr('id');
-            $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html('<%= rightElement.Text %>'));
+            $(".matchlist-rightpairelement").last().append($('<option name ="' + elementLeftId + '">').html(htmlEncodeSpaces('<%= rightElement.Text %>')));
      <% }   
     } %>
         $(".matchlist-leftelement").last().val('<%= Model.Pairs[i].ElementLeft.Text %>');

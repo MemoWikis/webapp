@@ -411,6 +411,12 @@
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
+    <Content Include="Views\Maintenance\Js\CMS.js">
+      <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\ContentStats.js">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
@@ -756,6 +762,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
@@ -2692,6 +2699,12 @@
     </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
+    <Content Include="Views\Maintenance\Js\ContentStats.js.map">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\CMS.js.map">
+      <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
