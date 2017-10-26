@@ -26,5 +26,7 @@
             e.preventDefault();
             $(".dateSets").toggle(300);
         });
+
+        //new LearningSessionResultCharts();
     }
 }

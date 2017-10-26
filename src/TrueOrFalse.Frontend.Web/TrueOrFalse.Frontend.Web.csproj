@@ -766,6 +766,7 @@
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
     <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
@@ -2049,7 +2050,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />

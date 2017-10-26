@@ -4,6 +4,7 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    
     <% Title = Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
@@ -27,10 +28,9 @@
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
     
     <% if(Model.IsLearningSession) { %>
-        <%= Styles.Render("~/bundles/AnswerQuestion") %>
-        <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
-        <%--<script type="text/javascript" src="https://www.google.com/jsapi"></script>--%>
         <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
+        <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <% } %>
 
     <style type="text/css">
