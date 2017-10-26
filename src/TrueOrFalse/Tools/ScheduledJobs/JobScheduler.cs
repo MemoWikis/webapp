@@ -149,19 +149,19 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private static void Schedule_AddCategoryToWishKnowledge()
         {
-            _scheduler.ScheduleJob(JobBuilder.Create<AddCategoryToWishKnowledge>().Build(),
+            _scheduler.ScheduleJob(JobBuilder.Create<EditCategoryInWishKnowledge>().Build(),
                 TriggerBuilder.Create().
                     WithSimpleSchedule(x => x
-                        .WithIntervalInSeconds(AddCategoryToWishKnowledge.IntervalInSeconds)
+                        .WithIntervalInSeconds(EditCategoryInWishKnowledge.IntervalInSeconds)
                             .RepeatForever()).Build());
         }
 
         private static void Schedule_RemoveCategoryFromWishKnowledge()
         {
-            _scheduler.ScheduleJob(JobBuilder.Create<AddCategoryToWishKnowledge>().Build(),
+            _scheduler.ScheduleJob(JobBuilder.Create<EditCategoryInWishKnowledge>().Build(),
                 TriggerBuilder.Create().
                     WithSimpleSchedule(x => x
-                        .WithIntervalInSeconds(AddCategoryToWishKnowledge.IntervalInSeconds)
+                        .WithIntervalInSeconds(EditCategoryInWishKnowledge.IntervalInSeconds)
                             .RepeatForever()).Build());
         }
 

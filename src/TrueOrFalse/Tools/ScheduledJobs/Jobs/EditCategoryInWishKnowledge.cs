@@ -7,9 +7,9 @@ using RollbarSharp;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
-    public class AddCategoryToWishKnowledge : IJob
+    public class EditCategoryInWishKnowledge : IJob
     {
-        public const int IntervalInSeconds = 2;
+        public const int IntervalInSeconds = 15;
 
         public void Execute(IJobExecutionContext context)
         {
@@ -37,7 +37,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
                     catch (Exception e)
                     {
-                        Logg.r().Error(e, "Error in job AddCategoryToWishKnowledge.");
+                        Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
                         new RollbarClient().SendException(e);
                     }
                 }
@@ -46,7 +46,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (successfullJobIds.Count > 0)
                 {
                     scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
-                    Logg.r().Information("Job AddCategoryToWishKnowledge added for "+ successfullJobIds.Count + " jobs.");
+                    Logg.r().Information("Job EditCategoryInWishKnowledge added for "+ successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }
 
