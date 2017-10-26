@@ -27,6 +27,6 @@
             $(".dateSets").toggle(300);
         });
 
-        //new LearningSessionResultCharts();
+        new LearningSessionResultCharts();
     }
 }

@@ -1,7 +1,12 @@
 ﻿class LearningSessionResultCharts {
     constructor() {
-        google.load("visualization", "1", { packages: ["corechart"] });
-        google.setOnLoadCallback(drawKnowledgeCharts);
+        if(google)
+        google.load("visualization", "1",
+            {
+                packages: ["corechart"],
+                callback: drawKnowledgeCharts
+            });
+        //google.setOnLoadCallback(drawKnowledgeCharts);
 
         function drawKnowledgeChartDate(chartElementId, notLearned, needsLearning, needsConsolidation, solid) {
 
@@ -15,7 +20,7 @@
                 ['Sicheres Wissen', solid],
                 ['Solltest du festigen', needsConsolidation],
                 ['Solltest du lernen', needsLearning],
-                ['Noch nicht gelernt', notLearned],
+                ['Noch nicht gelernt', notLearned]
             ]);
 
             var options = {
