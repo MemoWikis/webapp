@@ -6,7 +6,6 @@
                 packages: ["corechart"],
                 callback: drawKnowledgeCharts
             });
-        //google.setOnLoadCallback(drawKnowledgeCharts);
 
         function drawKnowledgeChartDate(chartElementId, notLearned, needsLearning, needsConsolidation, solid) {
 

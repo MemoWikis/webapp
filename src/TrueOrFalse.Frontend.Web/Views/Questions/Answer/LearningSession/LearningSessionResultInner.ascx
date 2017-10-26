@@ -4,6 +4,8 @@
 <%--    <% if (Model.IsLoggedIn)
         Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User)); %>--%>
 
+<link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+
 <h2 style="margin-bottom: 15px; margin-top: 0px;">
     <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                     if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");

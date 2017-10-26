@@ -29,7 +29,6 @@
     
     <% if(Model.IsLearningSession) { %>
         <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
-        <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <% } %>
 
