@@ -725,7 +725,7 @@ public class AnswerQuestionController : BaseController
         public int LearningSessionId { get; private set; }
     }
 
-    //[SetThemeMenu(isLearningSessionPage: true)]
+    [SetThemeMenu(isLearningSessionPage: true)]
     public string RenderLearningSessionResult(int learningSessionId)
     {
         var learningSession = Sl.Resolve<LearningSessionRepo>().GetById(learningSessionId);
@@ -743,6 +743,8 @@ public class AnswerQuestionController : BaseController
             TrainingPlanUpdater.Run(learningSession.DateToLearn.TrainingPlan);
         }
 
+        var currentUrl = Links.LearningSessionResult(learningSession);
+
         var serializer = new JavaScriptSerializer();
         return serializer.Serialize(
             new
@@ -750,7 +752,9 @@ public class AnswerQuestionController : BaseController
                 LearningSessionResult =
                 ViewRenderer.RenderPartialView(
                     "~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx",
-                    new LearningSessionResultModel(learningSession), ControllerContext)
+                    new LearningSessionResultModel(learningSession), ControllerContext),
+                url = currentUrl,
+                offlineDevelopment = Settings.DevelopOffline()
             }
         );
     }

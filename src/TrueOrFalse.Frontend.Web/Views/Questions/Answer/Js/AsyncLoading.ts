@@ -98,8 +98,10 @@
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
+                this.updateUrl(result.url);
+                this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                 if (result.LearningSessionResult) {
-                    $("#MasterMainWrapper").html(result.LearningSessionResult);
+                    this.showLearningSessionResult(result);
                     return;
                 }
                 $("div#LicenseQuestion").remove();
@@ -117,7 +119,6 @@
                     this.updateNavigationBar(result.navBarData);
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
-                //this.updateUrl(result.url);
                 $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
                 $("div#comments").replaceWith(result.commentsAsHtml);
                 new PageInit();
@@ -131,8 +132,6 @@
                 InitClickLog("div#answerQuestionDetails");
                 InitClickLog("div#comments");
                 PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
-
-                this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
             }
         });
     }
@@ -159,6 +158,11 @@
         }
 
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
+    }
+
+    private showLearningSessionResult(result) {
+        $("#MasterMainWrapper").html(result.LearningSessionResult);
+        new LearningSessionResult();
     }
 
     private updateSessionHeader(sessionStepData) {
