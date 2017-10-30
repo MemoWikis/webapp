@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Script.Serialization;
 using FluentNHibernate.Conventions;
 using NHibernate;
-using TrueOrFalse;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class CategoryInKnowledge
@@ -18,28 +16,37 @@ public class CategoryInKnowledge
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var userQuestionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
+        var userCategoryAnswers = Sl.R<AnswerRepo>().GetByUserAndCategory(user.Id, categoryId);
         foreach (var question in questions)
         {
             if (user.Id == -1)
                 return;
 
             var questionValuation =
-                userQuestionValuation.First(x => x.Value.Question.Id == question.Id).Value ??
+                userQuestionValuation.FirstOrDefault(x => x.Value.Question.Id == question.Id).Value ??
                 new QuestionValuation
                 {
                     Question = question,
                     User = user
                 };
 
-            Stopwatch.StartNew();
-            //var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user);
-            //questionValuation.CorrectnessProbability = probabilityResult.Probability;
-            //questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
-            //questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+
+
+            //var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user); //Performance 
+            //probability calc start
+            ProbabilityCalcResult probabilityResult;
+            if (Sl.Session.Get<Question>(question.Id) == null || Sl.Session.Get<User>(user.Id) == null)
+                probabilityResult = new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned };
+            else
+                probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(userCategoryAnswers.Where(a => a.Question == question).ToList(), question, user);
+
+            questionValuation.CorrectnessProbability = probabilityResult.Probability;
+            questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+            questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+            //probability calc stop
+
             UserValuationCache.AddOrUpdate(questionValuation);
         }
-        //Create DB Entry for job
-
         ////PinQuestionsInCategory(categoryId, user);
         ////UpdateCategoryValuation(categoryId, user, 50);
     }

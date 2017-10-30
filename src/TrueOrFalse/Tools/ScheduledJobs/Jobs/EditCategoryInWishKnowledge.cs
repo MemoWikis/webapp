@@ -32,7 +32,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         CategoryInKnowledge.PinQuestionsInCategory(categoryUserPair.CategoryId, user);
                         CategoryInKnowledge.UpdateCategoryValuation(categoryUserPair.CategoryId, user);
 
-                        //scope.R<ReputationUpdate>().Run(scope.R<UserRepo>().GetById(Convert.ToInt32(userJobs.Key)));
                         successfullJobIds.AddRange(jobs.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)
