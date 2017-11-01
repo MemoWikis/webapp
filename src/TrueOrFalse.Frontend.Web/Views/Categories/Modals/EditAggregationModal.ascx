@@ -38,7 +38,7 @@ if (Model.NonAggregatedCategories.Count > 0)
                 data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
         </label>
         <div class="columnControlsFull">
-            <input id="CategoriesToExcludeIdsString" class="form-control" name="CategoriesToExcludeIdsString" type="text" value="<%= Model.CategoriesToExcludeIdsString %>">
+            <input id="CategoriesToExcludeIdsString" class="form-control" name="CategoriesToExcludeIdsString" type="text" placeholder="Ids kommasepariert: 1,2,34,567" value="<%= Model.CategoriesToExcludeIdsString %>">
         </div>
     </div>
     <div class="form-group">
@@ -49,7 +49,7 @@ if (Model.NonAggregatedCategories.Count > 0)
                 data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
         </label>
         <div class="columnControlsFull">
-            <input id="CategoriesToIncludeIdsString" class="form-control" name="CategoriesToIncludeIdsString" type="text" value="<%= Model.CategoriesToIncludeIdsString %>">
+            <input id="CategoriesToIncludeIdsString" class="form-control" name="CategoriesToIncludeIdsString" type="text" placeholder="Ids kommasepariert: 1,2,34,567" value="<%= Model.CategoriesToIncludeIdsString %>">
         </div>
     </div>
 </div>
