@@ -346,6 +346,7 @@
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-medium.png" />
