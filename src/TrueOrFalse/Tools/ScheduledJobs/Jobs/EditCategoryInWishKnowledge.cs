@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
+using Autofac;
 using Quartz;
 using RollbarSharp;
 
@@ -16,37 +17,71 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 var successfullJobIds = new List<int>();
-                var jobs = scope.R<JobQueueRepo>().GetAddCategoryToWishKnowledge();
-                var categoryUserPairs = new List<CategoryUserPair>();
-                foreach (var job in jobs)
-                {
-                    var serializer = new JavaScriptSerializer();
-                    var categoryUserIdPair = serializer.Deserialize<CategoryUserPair>(job.JobContent);
-                    categoryUserPairs.Add(categoryUserIdPair);
-                }
-                foreach (var categoryUserPair in categoryUserPairs)
-                {
-                    try
-                    {
-                        CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
-                        successfullJobIds.AddRange(jobs.Select(j => j.Id).ToList());
-                    }
-                    catch (Exception e)
-                    {
-                        Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
-                        new RollbarClient().SendException(e);
-                    }
-                }
+                AddCategoryToWishKnowledge(scope, successfullJobIds);
+                RemoveQuestionsInCategoryFromWishKnowledge(scope, successfullJobIds);
 
                 //Delete jobs that have been executed successfully
                 if (successfullJobIds.Count > 0)
                 {
                     scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
-                    Logg.r().Information("Job EditCategoryInWishKnowledge added for "+ successfullJobIds.Count + " jobs.");
+                    Logg.r().Information("Job EditCategoryInWishKnowledge Valuations for "+ successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }
 
             }, "RecalcReputation");
+        }
+
+        private void AddCategoryToWishKnowledge(ILifetimeScope scope, List<int> successfullJobIds)
+        {
+            var addToKnowledgeJobs = scope.R<JobQueueRepo>().GetAddCategoryToWishKnowledge();
+            var categoryUserPairs = GetCategoryUserPairs(addToKnowledgeJobs);
+
+            foreach (var categoryUserPair in categoryUserPairs)
+            {
+                try
+                {
+                    CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+
+                    successfullJobIds.AddRange(addToKnowledgeJobs.Select(j => j.Id).ToList());
+                }
+                catch (Exception e)
+                {
+                    Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
+                    new RollbarClient().SendException(e);
+                }
+            }
+        }
+
+        private void RemoveQuestionsInCategoryFromWishKnowledge(ILifetimeScope scope, List<int> successfullJobIds)
+        {
+            var removeFromKnowledgeJobs = scope.R<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge();
+            var categoryUserPairs = GetCategoryUserPairs(removeFromKnowledgeJobs);
+
+            foreach (var categoryUserPair in categoryUserPairs)
+            {
+                try
+                {
+                    CategoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+
+                    successfullJobIds.AddRange(removeFromKnowledgeJobs.Select(j => j.Id).ToList());
+                }
+                catch (Exception e)
+                {
+                    Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
+                    new RollbarClient().SendException(e);
+                }
+            }
+        }
+
+        private static List<CategoryUserPair> GetCategoryUserPairs(IList<JobQueue> jobQueueEntries)
+        {
+            var categoryUserPairs = new List<CategoryUserPair>();
+            foreach (var job in jobQueueEntries)
+            {
+                var serializer = new JavaScriptSerializer();
+                categoryUserPairs.Add(serializer.Deserialize<CategoryUserPair>(job.JobContent));
+            }
+            return categoryUserPairs;
         }
     }
 

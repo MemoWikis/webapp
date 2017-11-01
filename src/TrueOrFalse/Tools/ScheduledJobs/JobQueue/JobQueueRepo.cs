@@ -49,7 +49,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 .Where(j => j.JobQueueType == JobQueueType.AddCategoryToWishKnowledge).List();
     }
 
-    public IList<JobQueue> GetRemoveCategoryFromWishKnowledge()
+    public IList<JobQueue> GetRemoveQuestionsInCategoryFromWishKnowledge()
     {
         return
             _session.QueryOver<JobQueue>()
