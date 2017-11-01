@@ -133,8 +133,6 @@ public class KnowledgeSummaryLoader
 
         var queryResult = queryOver.List<object[]>();
 
-        var result = new KnowledgeSummary();
-
         int notLearned = 0;
         int needsLearning = 0;
         int needsConsolidation = 0;
@@ -157,7 +155,7 @@ public class KnowledgeSummaryLoader
 
         if (questionIds != null)
             notInWishknowledge = 
-                questionIds.Count - (result.NotLearned + result.NeedsLearning + result.NeedsConsolidation + result.Solid);
+                questionIds.Count - (notLearned + needsLearning + needsConsolidation + solid);
 
         return new KnowledgeSummary(
             notLearned: notLearned, 
