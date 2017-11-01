@@ -28,11 +28,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     try
                     {
-                        var user = Sl.UserRepo.GetById(categoryUserPair.UserId);
-                        CategoryInKnowledge.PinQuestionsInCategory(categoryUserPair.CategoryId, user);
-                        CategoryInKnowledge.UpdateCategoryValuation(categoryUserPair.CategoryId, user);
-
-                        successfullJobIds.AddRange(jobs.Select(j => j.Id).ToList<int>());
+                        CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+                        successfullJobIds.AddRange(jobs.Select(j => j.Id).ToList());
                     }
                     catch (Exception e)
                     {

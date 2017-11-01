@@ -44,16 +44,13 @@ public class CategoryInKnowledge
         UserValuationCache.AddOrUpdate(questionValuation);
     }
 
-    public static void PinQuestionsInCategory(int categoryId, User user)
-    {
-        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
-        QuestionInKnowledge.Pin(questions, user);
-    }
-
     public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
 
     public static void UnpinQuestionsInCategory(int categoryId, User user)
     {
+        CreateJob(JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge,
+            new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
+
         var questionsInCategory = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionIds = questionsInCategory.GetIds();
 
@@ -63,6 +60,8 @@ public class CategoryInKnowledge
         var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id));
 
+
+        //performance bottle neck
         foreach (var question in questionsToUnpin)
             QuestionInKnowledge.Unpin(question.Id, user);
     }
@@ -96,7 +95,25 @@ public class CategoryInKnowledge
         return questionsInOtherValuatedCategories;
     }
 
-    public static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
+    public static void PinCategoryInDatabase(int categoryId, int userId)
+    {
+        var user = Sl.UserRepo.GetById(userId);
+        PinQuestionsInCategory(categoryId, user);
+        UpdateCategoryValuation(categoryId, user);
+    }
+
+    public static void UnpinQuestionsInCategoryInDatabase()
+    {
+
+    }
+
+    private static void PinQuestionsInCategory(int categoryId, User user)
+    {
+        var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        QuestionInKnowledge.Pin(questions, user);
+    }
+
+    private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)
     {
         CreateOrUpdateCategoryValuation.Run(categoryId, user.Id, relevancePeronal: relevance);
 
