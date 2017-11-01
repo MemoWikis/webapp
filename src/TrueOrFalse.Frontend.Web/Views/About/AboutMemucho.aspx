@@ -29,8 +29,10 @@
                                 <div class="circleContent">
                                     <i class="fa fa-quote-left quoteIcon">&nbsp;</i>
                                     <div id="teamQuote">
-                                        Wir möchten, dass du optimiert lernen und dein Wissen organisieren kannst - und mehr Spaß hast!
-                                        Dabei fördern wir freie Bildungsmaterialien.
+                                        Wir möchten dich dabei unterstützen, <strong>selbstbestimmt zu lernen</strong> - 
+                                        interaktiv und mit personalisierten Lern- und Analyse-Werkzeugen.
+<%--                                        Wir möchten, dass du optimiert lernen und dein Wissen organisieren kannst - und mehr Spaß hast!
+                                        Dabei fördern wir freie Bildungsmaterialien.--%>
                                     </div>
                                     <div id="teamQuoteNames">Christof, Robert und Jule</div>
                                     <div id="teamQuoteNamesSub">Gründerteam memucho</div>
