@@ -2,6 +2,7 @@
     new Cms();
 });
 
+declare var resultVar: any;
 
 class Cms {
 
@@ -58,6 +59,8 @@ class Cms {
             },
             error: function (result) {
                 window.console.log(result);
+                resultVar = result;
+                window.console.log(resultVar.responseText);
                 $("#showCategoriesWithNonAggregatedChildrenResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
             }
         });

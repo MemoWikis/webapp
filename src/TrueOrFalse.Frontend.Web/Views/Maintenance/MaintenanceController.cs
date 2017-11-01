@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate;
+using NHibernate.Linq;
 using NHibernate.Util;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -59,7 +61,20 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public string CmsRenderCategoriesWithNonAggregatedChildren()
     {
-        var categories = EntityCache.GetAllCategories().Where(c => c.NonAggregatedCategories().Any()).ToList();
+        var categories = EntityCache.GetAllCategories().ToList();
+        categories = categories.Where(c => c.NonAggregatedCategories().Any()).ToList();
+        // works after application starts, but creates lazy load problem ("Category.NonAggregatedCategories()") after e.g. a category is added to a set.
+        // possible solution: https://stackoverflow.com/questions/7584315/nhibernate-lazy-loading-problem-initializing-could-not-initialize-proxy-n
+
+        //Alternative which doesn't work either.
+        //var categoriesSrc = EntityCache.GetAllCategories().ToList();
+        //var categories = new List<Category>();
+        //foreach (var categorySrc in categoriesSrc)
+        //{
+        //    if (categorySrc.NonAggregatedCategories().Any())
+        //        categories.Add(categorySrc);
+        //}
+
         var result = categories.Count() + " categories found:<br/>";
         foreach (var category in categories)
         {
