@@ -146,7 +146,8 @@
             </div>
         </div>
 
-
+        
+        <% if (Model.IsLoggedIn) { %>
         <div id="WelcomeDashboard">
             <div class="row">
                 <div class="col-sm-6" id="dashboardPoints">
@@ -181,7 +182,7 @@
 
                 <div class="col-sm-6" id="dashboardKnowledgeWheel">
                     <h2>Dein Wissensstand</h2>
-                    <% if(Model.KnowledgeSummary.Total == 0) { %>
+                    <% if (Model.KnowledgeSummary.Total == 0) { %>
                         <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                             <p>
                                 memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
@@ -201,7 +202,7 @@
                             
                             </p>
                         </div>
-                    <% }else { %>
+                    <% } else { %>
                         <div id="chartWishKnowledge" <%= !Model.IsLoggedIn ? "style='pointer-events:none;'" : "" %>></div>
                     <% } %>
                 </div>
@@ -211,36 +212,40 @@
             </div>
 
             <div id="dashboardFooter">
-                <% if(Model.IsLoggedIn) {
-                        if (Model.KnowledgeSummary.Total > 0) { %>
+                <% if (Model.KnowledgeSummary.Total > 0) { %>
                             <a href="<%= Links.StartWishLearningSession() %>" data-type="learn-wishknowledge" class="btn btn-lg btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
                                 <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
                             </a>
-                        <% } %>
-                    <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
-                <% } else { %>
-                    <div class="row" style="text-align: center;">
-                        <div class="col-sm-12 col-md-7 align-left-md-up">
-                            <p>
-                                <b>Registriere dich jetzt</b>, um personalisiert und interaktiv zu lernen. <br />
-                                Deinen Wissensstand hast du immer im Blick und mit deinen Lernpunkten erreichst du immer neue Level.
-                            </p>
-                        </div>
-                        <div class="col-sm-12 col-md-5 align-right-md-up">
-                            <div class="" style="text-align: center; display: inline-block;">
-                                <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
-                            </div>
-
-                        </div>
-                    </div>
                 <% } %>
+                <span class="float-right-sm-up"><a class="btn btn-lg btn-link" href="<%= Links.Knowledge() %>">Mehr auf deiner<span style="text-decoration:none;">&nbsp;&nbsp;</span><i class="fa fa-heart" style="color:#b13a48;">&nbsp;</i>Wissenszentrale</a></span>
+            </div>
+        </div>
+        <% } else { %>
+        <div id="WelcomeDashboard">
+            <img src="/Images/Illustrations/PreviewFullResponsiveScreens.jpg"/>
+            <div class="separator">
+            </div>
+            <div class="row" style="text-align: center;">
+                <div class="col-sm-12 col-md-7 align-left-md-up">
+                    <p>
+                        <b>Registriere dich jetzt</b>, um personalisiert und interaktiv zu lernen. <br />
+                        Deinen Wissensstand hast du immer im Blick und mit deinen Lernpunkten erreichst du immer neue Level.
+                    </p>
+                </div>
+                <div class="col-sm-12 col-md-5 align-right-md-up">
+                    <div class="" style="text-align: center; display: inline-block;">
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
+                    </div>
+
+                </div>
             </div>
         </div>
 
+        <% } %>
 
         <div id="memuchoInfo">
             <h2>
-                memucho ist dein Wissens-Assistent
+                memucho ist dein Lernassistent
             </h2>     
             <div class="row infoItemRow">
                 <div class="col-sm-4 infoItemColumn">
