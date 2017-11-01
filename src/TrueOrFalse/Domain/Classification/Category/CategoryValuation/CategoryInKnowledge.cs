@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
 using FluentNHibernate.Conventions;
@@ -9,46 +11,37 @@ public class CategoryInKnowledge
 {
     public static void Pin(int categoryId, User user)
     {
-        var serializer = new JavaScriptSerializer();
-        var categoryUserPairJsonString =
-            serializer.Serialize(new CategoryUserPair {CategoryId = categoryId, UserId = user.Id});
-        Sl.R<JobQueueRepo>().Add(JobQueueType.AddCategoryToWishKnowledge, categoryUserPairJsonString);
+        if(user.Id == -1) { throw new Exception("user not existent");}
+
+        CreateJob(JobQueueType.AddCategoryToWishKnowledge,
+            new CategoryUserPair {CategoryId = categoryId, UserId = user.Id});
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var userQuestionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
         var userCategoryAnswers = Sl.R<AnswerRepo>().GetByUserAndCategory(user.Id, categoryId);
         foreach (var question in questions)
         {
-            if (user.Id == -1)
-                return;
-
-            var questionValuation =
-                userQuestionValuation.FirstOrDefault(x => x.Value.Question.Id == question.Id).Value ??
-                new QuestionValuation
-                {
-                    Question = question,
-                    User = user
-                };
-
-
-
-            //var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user); //Performance 
-            //probability calc start
-            ProbabilityCalcResult probabilityResult;
-            if (Sl.Session.Get<Question>(question.Id) == null || Sl.Session.Get<User>(user.Id) == null)
-                probabilityResult = new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned };
-            else
-                probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(userCategoryAnswers.Where(a => a.Question == question).ToList(), question, user);
-
-            questionValuation.CorrectnessProbability = probabilityResult.Probability;
-            questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
-            questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
-            //probability calc stop
-
-            UserValuationCache.AddOrUpdate(questionValuation);
+            UpdateUserValuationCacheForQuestion(question, user, userCategoryAnswers, userQuestionValuation);
         }
-        ////PinQuestionsInCategory(categoryId, user);
-        ////UpdateCategoryValuation(categoryId, user, 50);
+    }
+
+    private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, ConcurrentDictionary<int, QuestionValuation> userQuestionValuation)
+    {
+        var questionValuation =
+            userQuestionValuation.FirstOrDefault(x => x.Value.Question.Id == question.Id).Value ??
+            new QuestionValuation
+            {
+                Question = question,
+                User = user
+            };
+
+        var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
+
+        questionValuation.CorrectnessProbability = probabilityResult.Probability;
+        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public static void PinQuestionsInCategory(int categoryId, User user)
@@ -72,6 +65,14 @@ public class CategoryInKnowledge
 
         foreach (var question in questionsToUnpin)
             QuestionInKnowledge.Unpin(question.Id, user);
+    }
+
+    private static void CreateJob(JobQueueType jobType, CategoryUserPair jobContent)
+    {
+        var serializer = new JavaScriptSerializer();
+        var categoryUserPairJsonString =
+            serializer.Serialize(jobContent);
+        Sl.R<JobQueueRepo>().Add(jobType, categoryUserPairJsonString);
     }
 
     private static IList<int> QuestionsInValuatedCategories(User user, IList<int> questionIds, int exeptCategoryId = -1)
