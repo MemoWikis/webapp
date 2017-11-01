@@ -17,31 +17,13 @@ public class CategoryInKnowledge
             new CategoryUserPair {CategoryId = categoryId, UserId = user.Id});
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
-        var userQuestionValuation = UserValuationCache.GetItem(user.Id).QuestionValuations;
+        var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
         var userCategoryAnswers = Sl.R<AnswerRepo>().GetByUserAndCategory(user.Id, categoryId);
         foreach (var question in questions)
         {
-            UpdateUserValuationCacheForQuestion(question, user, userCategoryAnswers, userQuestionValuation);
+            var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
+            UpdateUserValuationCacheForQuestion(question, user, userCategoryAnswers, questionValuation);
         }
-    }
-
-    private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, ConcurrentDictionary<int, QuestionValuation> userQuestionValuation)
-    {
-        var questionValuation =
-            userQuestionValuation.FirstOrDefault(x => x.Value.Question.Id == question.Id).Value ??
-            new QuestionValuation
-            {
-                Question = question,
-                User = user
-            };
-
-        var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
-
-        questionValuation.CorrectnessProbability = probabilityResult.Probability;
-        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
-        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
-
-        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
@@ -61,9 +43,30 @@ public class CategoryInKnowledge
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id));
 
 
-        //performance bottle neck
+        var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
         foreach (var question in questionsToUnpin)
-            QuestionInKnowledge.Unpin(question.Id, user);
+        {
+            var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
+
+            if (questionValuation == null)
+            {
+                UserValuationCache.AddOrUpdate(
+                    new QuestionValuation
+                    {
+                        Question = question,
+                        User = user,
+                        RelevancePersonal = -1,
+                        CorrectnessProbability = question.CorrectnessProbability
+                    });
+            }
+            else
+            {
+                questionValuation.RelevancePersonal = -1;
+                UserValuationCache.AddOrUpdate(questionValuation);
+            }
+        }
+
+        QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
     private static void CreateJob(JobQueueType jobType, CategoryUserPair jobContent)
@@ -72,6 +75,25 @@ public class CategoryInKnowledge
         var categoryUserPairJsonString =
             serializer.Serialize(jobContent);
         Sl.R<JobQueueRepo>().Add(jobType, categoryUserPairJsonString);
+    }
+
+    private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
+    {
+        var questionValuation =
+            userQuestionValuation ??
+            new QuestionValuation
+            {
+                Question = question,
+                User = user
+            };
+
+        var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
+
+        questionValuation.CorrectnessProbability = probabilityResult.Probability;
+        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     private static IList<int> QuestionsInValuatedCategories(User user, IList<int> questionIds, int exeptCategoryId = -1)
@@ -102,9 +124,20 @@ public class CategoryInKnowledge
         UpdateCategoryValuation(categoryId, user);
     }
 
-    public static void UnpinQuestionsInCategoryInDatabase()
+    public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
     {
+        var user = Sl.UserRepo.GetByIds(userId).First();
+        var questionsInCategory = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
+        var questionIds = questionsInCategory.GetIds();
 
+        var questionsInPinnedSets = SetInKnowledge.ValuatedQuestionsInSets(user, questionIds);
+        var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId: categoryId);
+
+        var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
+        var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id));
+
+        foreach (var question in questionsToUnpin)
+            QuestionInKnowledge.Unpin(question.Id, user);
     }
 
     private static void PinQuestionsInCategory(int categoryId, User user)

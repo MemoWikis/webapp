@@ -67,7 +67,7 @@ public static class QuestionInKnowledge
             ProbabilityUpdate_Valuation.Run(questionId, user.Id);
     }
 
-    private static void SetUserWishCountQuestions(User user)
+    public static void SetUserWishCountQuestions(User user)
     {
         var query =
             $@"
@@ -75,8 +75,7 @@ public static class QuestionInKnowledge
             SET WishCountQuestions =
                 (SELECT count(id)
                 FROM QuestionValuation
-                WHERE userId = {user
-                .Id}
+                WHERE userId = {user.Id}
                 AND RelevancePersonal > 0) 
             WHERE Id = {user.Id}";
         Sl.Resolve<ISession>().CreateSQLQuery(query).ExecuteUpdate();
