@@ -145,7 +145,6 @@ namespace TrueOrFalse
             routes.MapRoute("MemuchoBeta", "Beta-Phase", new { controller = "VariousPublic", action = "MemuchoBeta" });
             routes.MapRoute("Imprint", "Impressum", new { controller = "VariousPublic", action = "Imprint" });
             routes.MapRoute("TermsAndConditions", "AGB", new { controller = "VariousPublic", action = "TermsAndConditions" });
-            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
             routes.MapRoute("ApiExport", "Api/Export/{action}", new { controller = "Export", action = "Export" });
             routes.MapRoute("ApiCategory", "Api/Category/{action}", new { controller = "CategoryApi" });
             routes.MapRoute("ApiSets", "Api/Sets/{action}", new { controller = "SetsApi" });
@@ -164,6 +163,7 @@ namespace TrueOrFalse
             routes.MapRoute("500", "Fehler/500", new { controller = "Error", action = "_500" });
             routes.MapRoute("NotLoggedIn", "Fehler/NichtAngemeldet", new { controller = "Error", action = "_NotLoggedIn" });
 
+            routes.MapRoute("RedirectHorseCertificate1", "Pferde-Basispass", new { controller = "Redirect", action = "ToHorseCertificate" });
             routes.MapRoute("Redirect1", "umfrage/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
             routes.MapRoute("Redirect2", "redirect/to/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
             routes.MapRoute("Redirect3", "f/{googleCode}", new { controller = "redirect", action = "to", id = UrlParameter.Optional });
@@ -177,6 +177,7 @@ namespace TrueOrFalse
             routes.MapRoute("WidgetSetVideo", "widget/fragesatz-v/{setId}", new { controller = "Widget", action = "SetVideo" });
 
             routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Welcome", action = "Welcome", id = UrlParameter.Optional });
+            routes.MapRoute("Various", "{action}", new { controller = "VariousPublic" });
         }
     }
 }
