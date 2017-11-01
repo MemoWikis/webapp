@@ -26,7 +26,7 @@ namespace TrueOrFalse
             if (userId == -1)
                 return;
 
-            Run(Sl.QuestionRepo.GetById(questionId), Sl.UserRepo.GetById(userId));
+            Run(Sl.QuestionRepo.GetByIdFromMemoryCache(questionId), Sl.UserRepo.GetById(userId));
         }
 
         public static void Run(Question question, User user)
