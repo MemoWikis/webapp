@@ -10,7 +10,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class EditCategoryInWishKnowledge : IJob
     {
-        public const int IntervalInSeconds = 15;
+        public const int IntervalInSeconds = 2;
 
         public void Execute(IJobExecutionContext context)
         {
