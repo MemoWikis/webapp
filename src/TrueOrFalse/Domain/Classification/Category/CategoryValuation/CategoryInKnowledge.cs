@@ -23,12 +23,33 @@ public class CategoryInKnowledge
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
             UpdateUserValuationCacheForQuestion(question, user, userCategoryAnswers, questionValuation);
         }
-
         QuestionInKnowledge.SetUserWishCountQuestions(user);
+        UpdateCategoryValuation(categoryId, user);
     }
 
     private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
     {
+        //Create or update valuation
+        if (userQuestionValuation == null)
+        {
+            var newQuestionVal = new QuestionValuation
+            {
+                Question = question,
+                User = user,
+                RelevancePersonal = 50,
+                CorrectnessProbability = question.CorrectnessProbability
+            };
+
+            Sl.QuestionValuationRepo.CreateInCache(newQuestionVal);
+        }
+        else
+        {
+            userQuestionValuation.RelevancePersonal = 50;
+
+            Sl.QuestionValuationRepo.UpdateInCache(userQuestionValuation);
+        }
+
+        //Probability Update Valuation
         var questionValuation =
             userQuestionValuation ??
             new QuestionValuation
@@ -43,13 +64,15 @@ public class CategoryInKnowledge
         questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
         questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
 
-        UserValuationCache.AddOrUpdate(questionValuation);
+        Sl.QuestionValuationRepo.CreateOrUpdateInCache(questionValuation);
     }
 
     public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
 
     public static void UnpinQuestionsInCategory(int categoryId, User user)
     {
+        if (user.Id == -1) { throw new Exception("user not existent"); }
+
         CreateJob(JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge,
             new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
 
@@ -70,7 +93,7 @@ public class CategoryInKnowledge
 
             if (questionValuation == null)
             {
-                UserValuationCache.AddOrUpdate(
+                Sl.QuestionValuationRepo.CreateInCache(
                     new QuestionValuation
                     {
                         Question = question,
@@ -82,11 +105,41 @@ public class CategoryInKnowledge
             else
             {
                 questionValuation.RelevancePersonal = -1;
-                UserValuationCache.AddOrUpdate(questionValuation);
+                Sl.QuestionValuationRepo.UpdateInCache(questionValuation);
             }
         }
 
         QuestionInKnowledge.SetUserWishCountQuestions(user);
+    }
+
+    private void CreateOrUpdateValuations(
+        Question question,
+        QuestionValuation questionValuation,
+        User user,
+        int relevancePersonal = -2)
+    {
+        var questionValuationRepo = Sl.QuestionValuationRepo;
+
+        if (questionValuation == null)
+        {
+            var newQuestionVal = new QuestionValuation
+            {
+                Question = question,
+                User = user,
+                RelevancePersonal = relevancePersonal,
+                CorrectnessProbability = question.CorrectnessProbability
+            };
+
+            questionValuationRepo.Create(newQuestionVal);
+        }
+        else
+        {
+            if (relevancePersonal != -2)
+                questionValuation.RelevancePersonal = relevancePersonal;
+
+            questionValuationRepo.Update(questionValuation);
+        }
+        questionValuationRepo.Flush();
     }
 
     private static void CreateJob(JobQueueType jobType, CategoryUserPair jobContent)
@@ -122,7 +175,6 @@ public class CategoryInKnowledge
     {
         var user = Sl.UserRepo.GetById(userId);
         PinQuestionsInCategory(categoryId, user);
-        UpdateCategoryValuation(categoryId, user);
     }
 
     public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
