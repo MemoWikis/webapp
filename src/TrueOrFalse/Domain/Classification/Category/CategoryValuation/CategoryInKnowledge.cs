@@ -23,6 +23,27 @@ public class CategoryInKnowledge
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
             UpdateUserValuationCacheForQuestion(question, user, userCategoryAnswers, questionValuation);
         }
+
+        QuestionInKnowledge.SetUserWishCountQuestions(user);
+    }
+
+    private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
+    {
+        var questionValuation =
+            userQuestionValuation ??
+            new QuestionValuation
+            {
+                Question = question,
+                User = user
+            };
+
+        var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
+
+        questionValuation.CorrectnessProbability = probabilityResult.Probability;
+        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
+
+        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
@@ -74,25 +95,6 @@ public class CategoryInKnowledge
         var categoryUserPairJsonString =
             serializer.Serialize(jobContent);
         Sl.R<JobQueueRepo>().Add(jobType, categoryUserPairJsonString);
-    }
-
-    private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
-    {
-        var questionValuation =
-            userQuestionValuation ??
-            new QuestionValuation
-            {
-                Question = question,
-                User = user
-            };
-
-        var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
-
-        questionValuation.CorrectnessProbability = probabilityResult.Probability;
-        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
-        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
-
-        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     private static IList<int> QuestionsInValuatedCategories(User user, IList<int> questionIds, int exeptCategoryId = -1)
