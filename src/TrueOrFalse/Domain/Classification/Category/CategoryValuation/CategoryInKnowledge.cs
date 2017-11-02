@@ -21,35 +21,15 @@ public class CategoryInKnowledge
         foreach (var question in questions)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
-            UpdateUserValuationCacheForQuestion(question, user, userCategoryAnswers, questionValuation);
+            CreateOrUpdateQuestionValution(question, user, questionValuation, 50);
+            UpdateProbabilityForQuestionValuation(question, user, userCategoryAnswers, questionValuation);
         }
         QuestionInKnowledge.SetUserWishCountQuestions(user);
         UpdateCategoryValuation(categoryId, user);
     }
 
-    private static void UpdateUserValuationCacheForQuestion(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
+    private static void UpdateProbabilityForQuestionValuation(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
     {
-        //Create or update valuation
-        if (userQuestionValuation == null)
-        {
-            var newQuestionVal = new QuestionValuation
-            {
-                Question = question,
-                User = user,
-                RelevancePersonal = 50,
-                CorrectnessProbability = question.CorrectnessProbability
-            };
-
-            Sl.QuestionValuationRepo.CreateInCache(newQuestionVal);
-        }
-        else
-        {
-            userQuestionValuation.RelevancePersonal = 50;
-
-            Sl.QuestionValuationRepo.UpdateInCache(userQuestionValuation);
-        }
-
-        //Probability Update Valuation
         var questionValuation =
             userQuestionValuation ??
             new QuestionValuation
@@ -90,56 +70,30 @@ public class CategoryInKnowledge
         foreach (var question in questionsToUnpin)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
-
-            if (questionValuation == null)
-            {
-                Sl.QuestionValuationRepo.CreateInCache(
-                    new QuestionValuation
-                    {
-                        Question = question,
-                        User = user,
-                        RelevancePersonal = -1,
-                        CorrectnessProbability = question.CorrectnessProbability
-                    });
-            }
-            else
-            {
-                questionValuation.RelevancePersonal = -1;
-                Sl.QuestionValuationRepo.UpdateInCache(questionValuation);
-            }
+            CreateOrUpdateQuestionValution(question, user, questionValuation, -1);
         }
 
         QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
-    private void CreateOrUpdateValuations(
-        Question question,
-        QuestionValuation questionValuation,
-        User user,
-        int relevancePersonal = -2)
+    private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance)
     {
-        var questionValuationRepo = Sl.QuestionValuationRepo;
-
-        if (questionValuation == null)
+        if (userQuestionValuation == null)
         {
-            var newQuestionVal = new QuestionValuation
-            {
-                Question = question,
-                User = user,
-                RelevancePersonal = relevancePersonal,
-                CorrectnessProbability = question.CorrectnessProbability
-            };
-
-            questionValuationRepo.Create(newQuestionVal);
+            Sl.QuestionValuationRepo.CreateInCache(
+                new QuestionValuation
+                {
+                    Question = question,
+                    User = user,
+                    RelevancePersonal = relevance,
+                    CorrectnessProbability = question.CorrectnessProbability
+                });
         }
         else
         {
-            if (relevancePersonal != -2)
-                questionValuation.RelevancePersonal = relevancePersonal;
-
-            questionValuationRepo.Update(questionValuation);
+            userQuestionValuation.RelevancePersonal = relevance;
+            Sl.QuestionValuationRepo.UpdateInCache(userQuestionValuation);
         }
-        questionValuationRepo.Flush();
     }
 
     private static void CreateJob(JobQueueType jobType, CategoryUserPair jobContent)
