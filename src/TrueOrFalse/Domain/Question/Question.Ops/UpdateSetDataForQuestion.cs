@@ -21,18 +21,18 @@ public class UpdateSetDataForQuestion : IRegisterAsInstancePerLifetime
         Run(_questionRepo.GetAll());
     }
 
-    public void Run(ISet<QuestionInSet> questionsInSet)
+    public void Run(ISet<QuestionInSet> questionsInSet, bool skipUpdateQuestion = false)
     {
-        Run(questionsInSet.Select(c => c.Question));
+        Run(questionsInSet.Select(c => c.Question),skipUpdateQuestion);
     }
 
-    public void Run(IEnumerable<Question> questions)
+    public void Run(IEnumerable<Question> questions, bool skipUpdateQuestion = false)
     {
         foreach (var question in questions)
-            Run(question);
+            Run(question, skipUpdateQuestion);
     }
 
-    public void Run(Question question)
+    public void Run(Question question, bool skipUpdateQuestion = false)
     {
         var questionsInSet = _session.QueryOver<QuestionInSet>()
             .Where(s => s.Question.Id == question.Id)
@@ -45,6 +45,7 @@ public class UpdateSetDataForQuestion : IRegisterAsInstancePerLifetime
                 .Take(5)
                 .Select(x => new SetMini{Id = x.Set.Id, Name = x.Set.Name}));
 
-        _questionRepo.Update(question);
+        if (!skipUpdateQuestion)
+            _questionRepo.Update(question);
     }
 }

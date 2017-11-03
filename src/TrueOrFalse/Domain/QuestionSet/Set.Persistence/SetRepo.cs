@@ -35,7 +35,7 @@ public class SetRepo : RepositoryDbBase<Set>
         categoriesToUpdateIds = categoriesToUpdateIds.GroupBy(x => x).Select(x => x.First()).ToList();
         Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdateIds);
 
-        Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
+        Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet, skipUpdateQuestion: true); //as long as properties of question (particularly categories) cannot be changed here, skipUpdateQuestion can be set to true for performance reasons
 
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
