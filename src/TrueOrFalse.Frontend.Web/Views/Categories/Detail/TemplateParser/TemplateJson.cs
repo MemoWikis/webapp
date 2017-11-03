@@ -55,5 +55,9 @@ public class TemplateJson
 
     public int CategoryId;
 
+    public string QuestionIds;
+
+    public int MaxQuestions;
+
     public string CssClasses;
 }

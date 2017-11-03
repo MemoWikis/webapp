@@ -39,15 +39,16 @@
                 
 
                         if (Model.AggregatedSetCount > 0 && Model.AggregatedSetCount <= 5){
-
                             foreach (var set in Model.AggregatedSets)
                             {
                                 Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetFullWidth.ascx", new SingleSetFullWidthModel(set.Id));
                             }
-                            //Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
-                            //    new SingleSetCollectionModel(Model.AggregatedSets));
-
                         }
+                        else if (Model.AggregatedSetCount == 0 && Model.AggregatedQuestionCount > 0)
+                        {
+                            Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
+                        }
+
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);

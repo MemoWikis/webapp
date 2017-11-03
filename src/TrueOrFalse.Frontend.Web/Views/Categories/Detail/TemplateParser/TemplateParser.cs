@@ -61,6 +61,7 @@ public class TemplateParser
             case "singleset":
             case "setlistcard":
             case "singlecategory":
+            case "singlequestionsquiz":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
             {
@@ -122,6 +123,8 @@ public class TemplateParser
                 return new SingleCategoryModel(
                     templateJson.CategoryId,
                     templateJson.Description);
+            case "singlequestionsquiz":
+                return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

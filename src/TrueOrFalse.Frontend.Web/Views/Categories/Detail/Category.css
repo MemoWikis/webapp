@@ -922,3 +922,10 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .setTestSessionNoStartScreen h5 {
   margin-bottom: 20px;
 }
+.singleQuestionsQuiz h3 {
+  margin-top: 45px;
+  margin-bottom: 35px;
+}
+.singleQuestionsQuiz .SpacerDiv {
+  height: 45px;
+}
