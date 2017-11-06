@@ -21,8 +21,7 @@ public class CategoryInKnowledge
         foreach (var question in questions)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
-            CreateOrUpdateQuestionValution(question, user, questionValuation, 50);
-            UpdateProbabilityForQuestionValuation(question, user, userCategoryAnswers, questionValuation);
+            CreateOrUpdateQuestionValution(question, user, questionValuation, 50, userCategoryAnswers);
         }
         QuestionInKnowledge.SetUserWishCountQuestions(user);
         UpdateCategoryValuation(categoryId, user);
@@ -30,21 +29,11 @@ public class CategoryInKnowledge
 
     private static void UpdateProbabilityForQuestionValuation(Question question, User user, IList<Answer> answers, QuestionValuation userQuestionValuation)
     {
-        var questionValuation =
-            userQuestionValuation ??
-            new QuestionValuation
-            {
-                Question = question,
-                User = user
-            };
-
         var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(question, user, answers);
 
-        questionValuation.CorrectnessProbability = probabilityResult.Probability;
-        questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
-        questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
-
-        Sl.QuestionValuationRepo.CreateOrUpdateInCache(questionValuation);
+        userQuestionValuation.CorrectnessProbability = probabilityResult.Probability;
+        userQuestionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
+        userQuestionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;
     }
 
     public static void Unpin(int categoryId, User user) => UpdateCategoryValuation(categoryId, user, -1);
@@ -76,24 +65,27 @@ public class CategoryInKnowledge
         QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
-    private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance)
+    private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance, IList<Answer> answersForProbabilityUpdate = null)
     {
         if (userQuestionValuation == null)
         {
-            Sl.QuestionValuationRepo.CreateInCache(
-                new QuestionValuation
-                {
-                    Question = question,
-                    User = user,
-                    RelevancePersonal = relevance,
-                    CorrectnessProbability = question.CorrectnessProbability
-                });
+            userQuestionValuation = new QuestionValuation
+            {
+                Question = question,
+                User = user,
+                RelevancePersonal = relevance,
+                CorrectnessProbability = question.CorrectnessProbability
+            };
         }
         else
         {
             userQuestionValuation.RelevancePersonal = relevance;
-            Sl.QuestionValuationRepo.UpdateInCache(userQuestionValuation);
         }
+
+        if(relevance == 50 && answersForProbabilityUpdate != null)
+            UpdateProbabilityForQuestionValuation(question, user, answersForProbabilityUpdate, userQuestionValuation);
+
+        Sl.QuestionValuationRepo.CreateOrUpdateInCache(userQuestionValuation);
     }
 
     private static void CreateJob(JobQueueType jobType, CategoryUserPair jobContent)
