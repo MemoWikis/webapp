@@ -73,6 +73,18 @@ public class MaintenanceController : BaseController
     }
 
     [HttpPost]
+    public string CmsRenderCategoriesInSeveralRootCategories()
+    {
+        var doubleRootedCategories = GetAllCategoriesInSeveralRootCategories.Run().OrderByDescending(c => c.CountQuestionsAggregated);
+        var result = doubleRootedCategories.Count() + " categories found (ordered by aggregated question count descending):<br/>";
+        foreach (var category in doubleRootedCategories)
+        {
+            result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
+        }
+        return result;
+    }
+
+    [HttpPost]
     public string CmsRenderOvercategorizedSets()
     {
         var sets = GetAllOvercategorizedSets.Run();

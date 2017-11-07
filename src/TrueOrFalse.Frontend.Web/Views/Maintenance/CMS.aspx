@@ -47,6 +47,15 @@
             <div id="showCategoriesWithNonAggregatedChildrenResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
         </div>
 
+        <div id="showCategoriesInSeveralRootCategories">
+            <h4 style="margin-top: 40px;">Themen in verschiedenen Bäumen</h4>
+            <p>
+                Themen anzeigen, die in mind. 2 der Root-Kategorien eingehangen sind: 
+                <a href="#" id="btnShowCategoriesInSeveralRootCategories" class="btn btn-default">Themen anzeigen</a>
+            </p>
+            <div id="showCategoriesInSeveralRootCategoriesResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
+        </div>
+
         <div id="showOvercategorizedSets">
             <h4 style="margin-top: 40px;">Überkategorisierte Lernsets</h4>
             <p>
