@@ -235,6 +235,11 @@
                                 <input class="form-control" name="FeaturedSetIdsString" type="text" value="<%= Model.FeaturedSetIdsString %>">
                             </div>
                         </div>
+                    <% } else {%>
+                        <div class="alert alert-info">
+                            <strong>Info:</strong> Die Administratoren von memucho haben erweiterte Gestaltungsmöglichkeiten für die Themenseiten. 
+                            Bitte sag uns Bescheid, wenn du eine Themenseite gestalten möchtest.
+                        </div>
                     <% } %>
                 </div>
                 <div class="FormSection JS-ShowWithPartial" style="display: none;">
