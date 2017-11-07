@@ -737,8 +737,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .singleSetFullWidth,
 .singleCatFullWidth {
-  margin: 30px -20px;
-  padding: 10px 30px;
+  margin: 50px -20px 30px;
+  padding: 40px 30px;
   border-top: 8px solid #F6F8FA;
   border-bottom: 8px solid #F6F8FA;
 }
