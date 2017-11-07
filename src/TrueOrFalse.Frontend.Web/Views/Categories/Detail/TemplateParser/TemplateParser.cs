@@ -60,6 +60,7 @@ public class TemplateParser
             case "contentlists":
             case "singleset":
             case "setlistcard":
+            case "setcardminilist":
             case "singlecategory":
             case "singlequestionsquiz":
                 return GetPartialHtml(templateJson, category, controllerContext);
@@ -119,6 +120,8 @@ public class TemplateParser
                     templateJson.TitleRowCount,
                     templateJson.DescriptionRowCount,
                     templateJson.SetRowCount);
+            case "setcardminilist":
+                return new SetCardMiniListModel(templateJson.SetList);
             case "singlecategory":
                 return new SingleCategoryModel(
                     templateJson.CategoryId,

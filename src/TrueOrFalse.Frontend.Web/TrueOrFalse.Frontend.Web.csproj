@@ -308,6 +308,7 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetCardMiniListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuizModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
@@ -381,6 +382,7 @@
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth.ascx" />
