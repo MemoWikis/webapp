@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse;
 using TrueOrFalse.Search;
 
 public class QuestionValuationRepo : RepositoryDb<QuestionValuation> 
@@ -98,6 +100,12 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         UserValuationCache.AddOrUpdate(questionValuation);
     }
 
+    public void CreateInDatabase(QuestionValuation questionValuation)
+    {
+        base.Create(questionValuation);
+        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+    }
+
     public void CreateInCache(QuestionValuation questionValuation)
     {
         UserValuationCache.AddOrUpdate(questionValuation);
@@ -109,6 +117,12 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
 
         UserValuationCache.AddOrUpdate(questionValuation);
+    }
+
+    public void CreateOrUpdateInDatabase(QuestionValuation questionValuation)
+    {
+        base.CreateOrUpdate(questionValuation);
+        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 
     public void CreateOrUpdateInCache(QuestionValuation questionValuation)
@@ -124,8 +138,77 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         UserValuationCache.AddOrUpdate(questionValuation);
     }
 
+    public void UpdateInDatabase(QuestionValuation questionValuation)
+    {
+        base.Update(questionValuation);
+        _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
+    }
+
     public void UpdateInCache(QuestionValuation questionValuation)
     {
         UserValuationCache.AddOrUpdate(questionValuation);
+    }
+
+    public void CreateBySaveType(QuestionValuation questionValuation, SaveType saveType)
+    {
+        switch (saveType)
+        {
+            case SaveType.CacheAndDatabase:
+                Create(questionValuation);
+                break;
+
+            case SaveType.CacheOnly:
+                CreateOrUpdateInCache(questionValuation);
+                break;
+
+            case SaveType.DatabaseOnly:
+                CreateInDatabase(questionValuation);
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(saveType), saveType, null);
+        }
+    }
+
+    public void UpdateBySaveType(QuestionValuation questionValuation, SaveType saveType)
+    {
+        switch (saveType)
+        {
+            case SaveType.CacheAndDatabase:
+                Update(questionValuation);
+                break;
+
+            case SaveType.CacheOnly:
+                CreateOrUpdateInCache(questionValuation);
+                break;
+
+            case SaveType.DatabaseOnly:
+                UpdateInDatabase(questionValuation);
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(saveType), saveType, null);
+        }
+    }
+
+    public void CreateOrUpdateBySaveType(QuestionValuation questionValuation, SaveType saveType)
+    {
+        switch (saveType)
+        {
+            case SaveType.CacheAndDatabase:
+                CreateOrUpdate(questionValuation);
+                break;
+
+            case SaveType.CacheOnly:
+                CreateOrUpdateInCache(questionValuation);
+                break;
+
+            case SaveType.DatabaseOnly:
+                CreateOrUpdateInDatabase(questionValuation);
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(saveType), saveType, null);
+        }
     }
 }

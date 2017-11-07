@@ -13,7 +13,7 @@ public class CategoryInKnowledge
         if(user.Id == -1) { throw new Exception("user not existent");}
 
         CreateJob(JobQueueType.AddCategoryToWishKnowledge,
-            new CategoryUserPair {CategoryId = categoryId, UserId = user.Id});
+            new CategoryUserPair { CategoryId = categoryId, UserId = user.Id });
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
