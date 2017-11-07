@@ -46,6 +46,14 @@ public class MaintenanceController : BaseController
         return View(cmsModel);
     }
 
+    public string CmsRenderCategoryNetworkNavigation(int id)
+    {
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Categories/Navigation/CategoryNetworkNavigation.ascx",
+            new CategoryNetworkNavigationModel(id),
+            ControllerContext);
+    }
+
     [HttpPost]
     public string CmsRenderLooseCategories()
     {

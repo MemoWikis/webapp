@@ -251,7 +251,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceCMS")
-                .Include("~/Views/Maintenance/Js/CMS.js"));
+                .Include("~/Views/Maintenance/Js/CMS.js")
+                .Include("~/Views/Maintenance/Js/CmsCategoryNetworkNavigation.js"));
 
             bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
                 .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")

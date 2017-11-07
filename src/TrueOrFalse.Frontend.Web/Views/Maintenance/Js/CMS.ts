@@ -1,5 +1,6 @@
 ﻿$(() => {
     new Cms();
+    new CmsCategoryNetworkNavigation();
 });
 
 declare var resultVar: any;
