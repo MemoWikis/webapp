@@ -478,7 +478,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 /*------------------------------------------------------
     TopicNavigation
 -------------------------------------------------------*/
-#topicNavigation,
+.topicNavigation,
 .setCardMiniList {
   display: flex;
   flex-wrap: wrap;
@@ -486,38 +486,38 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   justify-content: space-between;
   margin-bottom: 20px;
 }
-#topicNavigation img,
+.topicNavigation img,
 .setCardMiniList img {
   border-radius: 50%;
   box-shadow: 5px 5px 10px #eeeeee;
 }
-#topicNavigation a,
+.topicNavigation a,
 .setCardMiniList a {
   color: #203256;
 }
-#topicNavigation a:hover,
+.topicNavigation a:hover,
 .setCardMiniList a:hover,
-#topicNavigation a:active,
+.topicNavigation a:active,
 .setCardMiniList a:active,
-#topicNavigation a:focus,
+.topicNavigation a:focus,
 .setCardMiniList a:focus {
   text-decoration: none;
 }
-#topicNavigation .set-question-count,
+.topicNavigation .set-question-count,
 .setCardMiniList .set-question-count {
   color: #999999;
 }
-#topicNavigation .topic .row,
+.topicNavigation .topic .row,
 .setCardMiniList .topic .row,
-#topicNavigation .setCardMini .row,
+.topicNavigation .setCardMini .row,
 .setCardMiniList .setCardMini .row {
   margin-top: 20px;
   margin-bottom: 25px;
 }
 @media (max-width: 649px) {
-  #topicNavigation .topic,
+  .topicNavigation .topic,
   .setCardMiniList .topic,
-  #topicNavigation .setCardMini,
+  .topicNavigation .setCardMini,
   .setCardMiniList .setCardMini {
     float: none;
     width: 100%;
@@ -527,44 +527,44 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     right: 0;
   }
 }
-#topicNavigation .topic .ImageContainer,
+.topicNavigation .topic .ImageContainer,
 .setCardMiniList .topic .ImageContainer,
-#topicNavigation .setCardMini .ImageContainer,
+.topicNavigation .setCardMini .ImageContainer,
 .setCardMiniList .setCardMini .ImageContainer {
   max-width: 80px;
   min-width: 70px;
 }
-#topicNavigation .topic .ImageContainer .LicenseInfo,
+.topicNavigation .topic .ImageContainer .LicenseInfo,
 .setCardMiniList .topic .ImageContainer .LicenseInfo,
-#topicNavigation .setCardMini .ImageContainer .LicenseInfo,
+.topicNavigation .setCardMini .ImageContainer .LicenseInfo,
 .setCardMiniList .setCardMini .ImageContainer .LicenseInfo {
   text-align: center;
   color: #999999;
 }
-#topicNavigation .topic .ImageContainer .LicenseInfo:after,
+.topicNavigation .topic .ImageContainer .LicenseInfo:after,
 .setCardMiniList .topic .ImageContainer .LicenseInfo:after,
-#topicNavigation .setCardMini .ImageContainer .LicenseInfo:after,
+.topicNavigation .setCardMini .ImageContainer .LicenseInfo:after,
 .setCardMiniList .setCardMini .ImageContainer .LicenseInfo:after {
   content: "Lizenz";
 }
-#topicNavigation .topic .topic-name,
+.topicNavigation .topic .topic-name,
 .setCardMiniList .topic .topic-name,
-#topicNavigation .setCardMini .topic-name,
+.topicNavigation .setCardMini .topic-name,
 .setCardMiniList .setCardMini .topic-name {
   max-height: 65px;
   overflow: hidden;
 }
 @media (max-width: 649px) {
-  #topicNavigation .topic .topic-name,
+  .topicNavigation .topic .topic-name,
   .setCardMiniList .topic .topic-name,
-  #topicNavigation .setCardMini .topic-name,
+  .topicNavigation .setCardMini .topic-name,
   .setCardMiniList .setCardMini .topic-name {
     max-height: none;
   }
 }
-#topicNavigation .topic .KnowledgeBarLegend,
+.topicNavigation .topic .KnowledgeBarLegend,
 .setCardMiniList .topic .KnowledgeBarLegend,
-#topicNavigation .setCardMini .KnowledgeBarLegend,
+.topicNavigation .setCardMini .KnowledgeBarLegend,
 .setCardMiniList .setCardMini .KnowledgeBarLegend {
   color: #999999;
   font-size: 12px;
@@ -573,77 +573,77 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   transition: opacity 0.2s linear;
 }
 @media (max-width: 767px) {
-  #topicNavigation .topic .KnowledgeBarLegend,
+  .topicNavigation .topic .KnowledgeBarLegend,
   .setCardMiniList .topic .KnowledgeBarLegend,
-  #topicNavigation .setCardMini .KnowledgeBarLegend,
+  .topicNavigation .setCardMini .KnowledgeBarLegend,
   .setCardMiniList .setCardMini .KnowledgeBarLegend {
     opacity: 1;
   }
 }
-#topicNavigation .topic:hover .KnowledgeBarLegend,
+.topicNavigation .topic:hover .KnowledgeBarLegend,
 .setCardMiniList .topic:hover .KnowledgeBarLegend,
-#topicNavigation .setCardMini:hover .KnowledgeBarLegend,
+.topicNavigation .setCardMini:hover .KnowledgeBarLegend,
 .setCardMiniList .setCardMini:hover .KnowledgeBarLegend {
   opacity: 1;
 }
-#topicNavigation .category-knowledge-bar,
+.topicNavigation .category-knowledge-bar,
 .setCardMiniList .category-knowledge-bar,
-#topicNavigation .set-knowledge-bar,
+.topicNavigation .set-knowledge-bar,
 .setCardMiniList .set-knowledge-bar {
   margin-top: 15px;
   height: 10px;
   width: 180px;
 }
-#topicNavigation .category-knowledge-bar .solid-knowledge,
+.topicNavigation .category-knowledge-bar .solid-knowledge,
 .setCardMiniList .category-knowledge-bar .solid-knowledge,
-#topicNavigation .set-knowledge-bar .solid-knowledge,
+.topicNavigation .set-knowledge-bar .solid-knowledge,
 .setCardMiniList .set-knowledge-bar .solid-knowledge,
-#topicNavigation .category-knowledge-bar .needs-learning,
+.topicNavigation .category-knowledge-bar .needs-learning,
 .setCardMiniList .category-knowledge-bar .needs-learning,
-#topicNavigation .set-knowledge-bar .needs-learning,
+.topicNavigation .set-knowledge-bar .needs-learning,
 .setCardMiniList .set-knowledge-bar .needs-learning,
-#topicNavigation .category-knowledge-bar .needs-consolidation,
+.topicNavigation .category-knowledge-bar .needs-consolidation,
 .setCardMiniList .category-knowledge-bar .needs-consolidation,
-#topicNavigation .set-knowledge-bar .needs-consolidation,
+.topicNavigation .set-knowledge-bar .needs-consolidation,
 .setCardMiniList .set-knowledge-bar .needs-consolidation,
-#topicNavigation .category-knowledge-bar .not-learned,
+.topicNavigation .category-knowledge-bar .not-learned,
 .setCardMiniList .category-knowledge-bar .not-learned,
-#topicNavigation .set-knowledge-bar .not-learned,
+.topicNavigation .set-knowledge-bar .not-learned,
 .setCardMiniList .set-knowledge-bar .not-learned,
-#topicNavigation .category-knowledge-bar .not-in-wish-knowledge,
+.topicNavigation .category-knowledge-bar .not-in-wish-knowledge,
 .setCardMiniList .category-knowledge-bar .not-in-wish-knowledge,
-#topicNavigation .set-knowledge-bar .not-in-wish-knowledge,
+.topicNavigation .set-knowledge-bar .not-in-wish-knowledge,
 .setCardMiniList .set-knowledge-bar .not-in-wish-knowledge {
   height: inherit;
   float: left;
 }
-#topicNavigation .category-knowledge-bar .needs-learning,
+.topicNavigation .category-knowledge-bar .needs-learning,
 .setCardMiniList .category-knowledge-bar .needs-learning,
-#topicNavigation .set-knowledge-bar .needs-learning,
+.topicNavigation .set-knowledge-bar .needs-learning,
 .setCardMiniList .set-knowledge-bar .needs-learning {
   background-color: lightsalmon;
 }
-#topicNavigation .category-knowledge-bar .needs-consolidation,
+.topicNavigation .category-knowledge-bar .needs-consolidation,
 .setCardMiniList .category-knowledge-bar .needs-consolidation,
-#topicNavigation .set-knowledge-bar .needs-consolidation,
+.topicNavigation .set-knowledge-bar .needs-consolidation,
 .setCardMiniList .set-knowledge-bar .needs-consolidation {
   background-color: #fdd648;
 }
-#topicNavigation .category-knowledge-bar .solid-knowledge,
+.topicNavigation .category-knowledge-bar .solid-knowledge,
 .setCardMiniList .category-knowledge-bar .solid-knowledge,
-#topicNavigation .set-knowledge-bar .solid-knowledge,
+.topicNavigation .set-knowledge-bar .solid-knowledge,
 .setCardMiniList .set-knowledge-bar .solid-knowledge {
   background-color: #afd534;
 }
-#topicNavigation .category-knowledge-bar .not-learned,
+.topicNavigation .category-knowledge-bar .not-learned,
 .setCardMiniList .category-knowledge-bar .not-learned,
-#topicNavigation .set-knowledge-bar .not-learned,
+.topicNavigation .set-knowledge-bar .not-learned,
 .setCardMiniList .set-knowledge-bar .not-learned {
   background-color: silver;
 }
-#topicNavigation .category-knowledge-bar .not-in-wish-knowledge,
+.topicNavigation .category-knowledge-bar .not-in-wish-knowledge,
 .setCardMiniList .category-knowledge-bar .not-in-wish-knowledge,
-#topicNavigation .set-knowledge-bar .not-in-wish-knowledge,
+.topicNavigation .set-knowledge-bar .not-in-wish-knowledge,
 .setCardMiniList .set-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
 }

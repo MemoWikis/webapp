@@ -4,7 +4,7 @@
 <h2><%: Model.Title %></h2>
 <p><%: Model.Text %></p>
 
-<div id="topicNavigation" class="row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %>>
+<div class="topicNavigation row" style= <%= Model.CategoryList.Count == 1 ? " \"justify-content: start;\" " : "" %>>
     <% foreach (var category in Model.CategoryList)
         { %>
             <% if(Model.GetTotalSetCount(category) > 0 || Model.GetTotalQuestionCount(category) > 0 || Model.IsInstallationAdmin)
