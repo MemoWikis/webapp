@@ -17,7 +17,7 @@
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    Lernset mit <%: Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
+                    Lernset von <a href="<%= Links.UserDetail(Model.Creator,Model.CreatorId) %>"><%=Model.Creator %></a> mit <%: Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                 </div>
                 <div class="KnowledgeBarWrapper">
                     <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(Model.Set)); %>

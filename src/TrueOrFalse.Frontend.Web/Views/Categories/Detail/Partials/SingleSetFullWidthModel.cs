@@ -4,6 +4,8 @@ public class SingleSetFullWidthModel : BaseModel
 {
     public Set Set;
     public int SetId;
+    public int CreatorId;
+    public string Creator;
     public string Title;
     public string Text;
     public int QuestionCount;
@@ -16,6 +18,9 @@ public class SingleSetFullWidthModel : BaseModel
         SetId = Set.Id;
         if (Set == null)
             throw new Exception("Die angegebene Lernset-ID verweist nicht auf ein existierendes Lernset.");
+
+        CreatorId = Set.Creator.Id;
+        Creator = Set.Creator.Name;
         Title = title ?? Set.Name;
         Text = text ?? Set.Text;
         QuestionCount = Set.QuestionsPublicCount();

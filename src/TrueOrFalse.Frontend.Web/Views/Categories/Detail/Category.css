@@ -811,6 +811,13 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   color: #999999;
   font-size: 14px;
 }
+.singleSetFullWidth .setQuestionCount a,
+.singleCatFullWidth .setQuestionCount a,
+.singleSetFullWidth .categoryQuestionCount a,
+.singleCatFullWidth .categoryQuestionCount a {
+  text-decoration: none;
+  color: inherit;
+}
 .singleSetFullWidth .KnowledgeBarWrapper,
 .singleCatFullWidth .KnowledgeBarWrapper {
   display: inline-block;
