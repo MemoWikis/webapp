@@ -24,7 +24,11 @@ public class EditCategoryModel : BaseModel
 
     public string CategoriesToExcludeIdsString { get; set; }
 
+    public IList<Category> CategoriesToExclude = new List<Category>();
+
     public string CategoriesToIncludeIdsString { get; set; }
+
+    public IList<Category> CategoriesToInclude = new List<Category>();
 
     public bool DisableLearningFunctions { get; set; }
 
@@ -87,7 +91,9 @@ public class EditCategoryModel : BaseModel
         ImageUrl = new CategoryImageSettings(category.Id).GetUrl_350px_square().Url;
         TopicMarkdown = category.TopicMarkdown;
         CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString;
+        CategoriesToInclude = category.CategoriesToInclude();
         CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString;
+        CategoriesToExclude = category.CategoriesToExclude();
         FeaturedSetIdsString = category.FeaturedSetsIdsString;
         DescendantCategories = Sl.R<CategoryRepository>().GetDescendants(category.Id).ToList();
     }
