@@ -17,8 +17,7 @@
             <div class="LabelItem LabelItem-Set">
                 <a href="<%= Links.SetDetail(Url, set) %>"><%= set.Name %></a>
                 <span style="font-size: 90%;">
-                    (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>,    
-                    <a href="<%= Links.TestSessionStartForSet(set.Name, set.Id) %>">)
+                    (<%= set.QuestionsInSet.Count %> Frage<%= StringUtils.PluralSuffix(set.QuestionsInSet.Count, "n") %>)
                 </span>                 
             </div>
         <% } %>
