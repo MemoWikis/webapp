@@ -161,6 +161,6 @@ public class CategoryInKnowledge
         return "UPDATE Category SET " + fieldToSet + "Entries = " +
                     "(SELECT COUNT(Id) FROM CategoryValuation " +
                     "WHERE CategoryId = " + categoryId + " AND " + fieldSource + " != -1) " +
-                "WHERE Id = " + categoryId + ";";
+                    "WHERE Id = " + categoryId + ";";
     }
 }

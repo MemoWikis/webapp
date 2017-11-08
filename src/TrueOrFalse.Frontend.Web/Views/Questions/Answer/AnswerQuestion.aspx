@@ -44,7 +44,7 @@
         var relevancePeronalAvg = "<%= Model.TotalRelevancePersonalAvg %>";
         var relevancePersonalEntries = "<%= Model.TotalRelevancePersonalEntries %>";
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
-        var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
+        var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
 
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
