@@ -43,6 +43,20 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();        
     }
 
+    public IList<QuestionValuation> GetByQuestionFromCache(Question question)
+    {
+        var questionValuations = UserValuationCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values).SelectMany(l => l);
+
+        return questionValuations.Where(v => v.Question.Id == question.Id).ToList();
+    }
+
+    public IList<QuestionValuation> GetByQuestionsFromCache(IList<Question> questions)
+    {
+        var questionValuations = UserValuationCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values).SelectMany(l => l);
+
+        return questionValuations.Where(v => questions.GetIds().Contains(v.Question.Id)).ToList();
+    }
+
     public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true) => 
         GetByUser(user.Id, onlyActiveKnowledge);
 

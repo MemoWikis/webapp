@@ -16,6 +16,18 @@ public class UserValuationCache
         return cacheItem ?? CreateItemFromDatabase(userId);
     }
 
+    public static List<UserValuationCacheItem> GetAllCacheItems()
+    {
+        var allUserIds = Sl.UserRepo.GetAll().Select(u => u.Id);
+        var allUserValuations = new List<UserValuationCacheItem>();
+        foreach (var userId in allUserIds)
+        {
+            allUserValuations.Add(GetItem(userId));
+        }
+
+        return allUserValuations;
+    }
+
     private static UserValuationCacheItem CreateItemFromDatabase(int userId)
     {
         var cacheItem = new UserValuationCacheItem
