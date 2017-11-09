@@ -39,11 +39,17 @@ public static class QuestionInKnowledge
         foreach (var question in questions)
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance, saveType);
-            Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+
+            if(saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
+                Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
+
             ProbabilityUpdate_Valuation.Run(question, user, saveType);
         }
-        
-        if(saveType != SaveType.DatabaseOnly)
+
+        if (saveType == SaveType.CacheOnly || saveType == SaveType.CacheAndDatabase)
+            UpdateToalRelevancePersonalInCache(questions);
+
+        if (saveType != SaveType.DatabaseOnly)
             SetUserWishCountQuestions(user);
 
         var creatorGroups = questions.Select(q => q.Creator).GroupBy(c => c.Id);
@@ -57,6 +63,7 @@ public static class QuestionInKnowledge
 
         SetUserWishCountQuestions(user);
 
+        UpdateToalRelevancePersonalInCache(Sl.QuestionRepo.GetById(questionId));
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
@@ -93,6 +100,24 @@ public static class QuestionInKnowledge
         return
             GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionId) + " " +
             GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
+    }
+
+    private static void UpdateToalRelevancePersonalInCache(Question question)
+    {
+        UpdateToalRelevancePersonalInCache(new List<Question>{ question });
+    }
+
+    private static void UpdateToalRelevancePersonalInCache(IList<Question> questions)
+    {
+        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsFromCache(questions);
+        foreach (var question in questions)
+        {
+            var totalRelevancePersonalEntriesCount = questionValuations.Count(v => v.Question.Id == question.Id && v.RelevancePersonal != -1);
+            question.TotalRelevancePersonalEntries = totalRelevancePersonalEntriesCount;
+
+            var totalRelevancePersonalAvg = questionValuations.Where(v => v.Question.Id == question.Id && v.RelevancePersonal != -1).Select(v => v.RelevancePersonal).Sum() / totalRelevancePersonalEntriesCount;
+            question.TotalRelevancePersonalAvg = totalRelevancePersonalAvg;
+        }
     }
 
     private static string GenerateRelevanceAllQuery(int questionId)
