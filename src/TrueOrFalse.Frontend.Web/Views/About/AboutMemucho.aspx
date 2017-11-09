@@ -307,55 +307,72 @@
             <div id="partner">
                 <h2>Partner</h2>
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="logo-box">
-                            <div class="img-logo">
-                                <a href="/Kategorien/Learning-Level-Up/722">
-                                    <img style="margin-top: 24px;" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
-                                </a>
-                            </div>
-                            <p>
-                                Learning Level Up bietet Animationen, Grafiken und Videos zum Lernen. Wir freuen uns über die Kooperation!
-                            </p>
-                            <p class="logo-box-link">
-                                <a href="/Kategorien/Learning-Level-Up/722">Zur Themenseite</a> 
-                            </p>
-                        </div>        
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="logo-box">
-                            <div class="img-logo">
-                                <a href="https://www.tutory.de/" target="_blank">
-                                    <img src="/Images/LogosPartners/Logo_tutory_250px.png" alt="tutory.de"/>
-                                </a>
-                            </div>
-                            <p>
-                                Mit tutory.de lassen sich im Handumdrehen tolle Arbeitsblätter direkt online erstellen
-                            </p>
-                            <p class="logo-box-link">
-                                <a href="https://www.tutory.de/" target="_blank">
-                                    <span style="white-space: nowrap">tutory.de <i class="fa fa-external-link"></i></span>
-                                </a>
-                            </p>
-                        </div>        
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="logo-box">
-                            <div class="img-logo">
-                                <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                                    <img style="margin-top: -35px;" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
-                                </a>
-                            </div>
-                            <p>
-                                Freie Bildungsmaterialien demokratisieren Bildung! Wir machen mit.
-                            </p>
-                            <p class="logo-box-link">
-                                <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
-                                    <span style="white-space: nowrap">Zur UNESCO-Seite <i class="fa fa-external-link"></i></span>
-                                </a>
-                            </p>
-                        </div>        
-                    </div>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div class="img-logo">
+                            <a href="http://lernox.de/" target="_blank">
+                                <img style="margin-top: -35px;" src="/Images/LogosPartners/Logo_lernox.png" alt="Logo lernox.de"/>
+                            </a>
+                        </div>
+                        <p>
+                            Ankommen durch Sprache. DaF-/DaZ-Material finden und sammeln.
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="http://lernox.de/" target="_blank">
+                                <span style="white-space: nowrap">lernox.de <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>        
+                </div>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div class="img-logo">
+                            <a href="/Kategorien/Learning-Level-Up/722">
+                                <img style="margin-top: 24px;" src="/Images/LogosPartners/Logo_LearningLevelUp.png" alt="Learning Level Up und memucho kooperieren!" />
+                            </a>
+                        </div>
+                        <p>
+                            Learning Level Up bietet Animationen, Grafiken und Videos zum Lernen. Wir freuen uns über die Kooperation!
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="/Kategorien/Learning-Level-Up/722">Zur Themenseite</a> 
+                        </p>
+                    </div>        
+                </div>
+                <div class="col-sm-4">
+                    <div class="logo-box">
+                        <div class="img-logo">
+                            <a href="https://www.tutory.de/" target="_blank">
+                                <img src="/Images/LogosPartners/Logo_tutory_250px.png" alt="tutory.de"/>
+                            </a>
+                        </div>
+                        <p>
+                            Mit tutory.de lassen sich im Handumdrehen tolle Arbeitsblätter direkt online erstellen.
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="https://www.tutory.de/" target="_blank">
+                                <span style="white-space: nowrap">tutory.de <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>        
+                </div>
+                <%--<div class="col-sm-4">
+                    <div class="logo-box">
+                        <div class="img-logo">
+                            <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
+                                <img style="margin-top: -35px;" src="/Images/LogosPartners/oer_logo_EN_2_w400.png" alt="Logo Open Educational Resources"/>
+                            </a>
+                        </div>
+                        <p>
+                            Freie Bildungsmaterialien demokratisieren Bildung! Wir machen mit.
+                        </p>
+                        <p class="logo-box-link">
+                            <a href="http://www.unesco.org/new/en/communication-and-information/access-to-knowledge/open-educational-resources/" target="_blank">
+                                <span style="white-space: nowrap">Zur UNESCO-Seite <i class="fa fa-external-link"></i></span>
+                            </a>
+                        </p>
+                    </div>        
+                </div>--%>
 
                 </div>
             </div>
