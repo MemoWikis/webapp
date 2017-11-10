@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using NHibernate;
@@ -45,9 +46,7 @@ public static class QuestionInKnowledge
 
             ProbabilityUpdate_Valuation.Run(question, user, saveType);
         }
-
-        if (saveType == SaveType.CacheOnly || saveType == SaveType.CacheAndDatabase)
-            UpdateTotalRelevancePersonalInCache(questions);
+        UpdateTotalRelevancePersonalInCache(questions);
 
         if (saveType != SaveType.DatabaseOnly)
             SetUserWishCountQuestions(user);

@@ -25,7 +25,6 @@ public class CategoryInKnowledge
             CreateOrUpdateQuestionValution(question, user, questionValuation, 50, userCategoryAnswers);
         }
         QuestionInKnowledge.SetUserWishCountQuestions(user);
-        QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questions);
         UpdateCategoryValuation(categoryId, user);
     }
 
@@ -65,7 +64,6 @@ public class CategoryInKnowledge
         }
 
         QuestionInKnowledge.SetUserWishCountQuestions(user);
-        QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
     }
 
     private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance, IList<Answer> answersForProbabilityUpdate = null)
@@ -136,10 +134,12 @@ public class CategoryInKnowledge
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId: categoryId);
 
         var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
-        var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id));
+        var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
         foreach (var question in questionsToUnpin)
             QuestionInKnowledge.Unpin(question.Id, user);
+
+        QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
     }
 
     private static void PinQuestionsInCategory(int categoryId, User user, SaveType saveType = SaveType.CacheAndDatabase)
