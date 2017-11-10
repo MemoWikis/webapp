@@ -100,7 +100,7 @@
             <div class="xxs-stack col-xs-8 col-sm-9">
                 
                 <% if (Model.Type != "Standard") { %>
-                    <div>                    
+                    <div class="categoryDetailMainInfoReference">                    
                         <% Html.RenderPartial("Reference", Model.Category); %>
                     </div>
                 <% } %>

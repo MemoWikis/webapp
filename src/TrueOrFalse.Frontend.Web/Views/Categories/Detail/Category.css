@@ -51,12 +51,12 @@ span.CategoryType {
 .Reference div:not(:last-child):not(.Name):not(.Author):not(.Icon):not(.NoSeperator):not(.tooltip):not(.tooltip-arrow):not(.tooltip-inner):after {
   content: ",\0000a0";
 }
+.categoryDetailMainInfoReference .Icon,
+.categoryDetailMainInfoReference .Name {
+  display: none !important;
+}
 .Reference {
   margin-bottom: 20px;
-}
-.Reference .Icon,
-.Reference .Name {
-  display: none !important;
 }
 .Reference .Author {
   font-size: 18px;
