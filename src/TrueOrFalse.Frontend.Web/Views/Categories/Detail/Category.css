@@ -119,12 +119,12 @@ span.CategoryType {
   padding-left: 20px;
 }
 .MarkdownContent h2 {
-  margin-top: 40px;
-  margin-bottom: 25px;
+  margin-top: 45px;
+  margin-bottom: 30px;
 }
 .MarkdownContent h3 {
-  margin-top: 35px;
-  margin-bottom: 20px;
+  margin-top: 45px;
+  margin-bottom: 30px;
 }
 .MarkdownContent h4 {
   margin-top: 30px;
@@ -140,6 +140,12 @@ span.CategoryType {
 }
 .MarkdownContent ul {
   margin-bottom: 20px;
+}
+.MarkdownContent .centerElements {
+  text-align: center;
+}
+.MarkdownContent .centerElements p {
+  text-align: center;
 }
 .MarkdownContent .Card h2 {
   font-family: inherit;
