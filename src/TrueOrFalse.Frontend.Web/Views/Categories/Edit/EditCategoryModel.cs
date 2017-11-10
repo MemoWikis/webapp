@@ -106,7 +106,7 @@ public class EditCategoryModel : BaseModel
         category.DisableLearningFunctions = DisableLearningFunctions;
         category.TopicMarkdown = TopicMarkdown;
         category.FeaturedSetsIdsString = FeaturedSetIdsString;
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
 
         var request = HttpContext.Current.Request;
         var categoryType = "standard";
@@ -137,7 +137,7 @@ public class EditCategoryModel : BaseModel
             category.FeaturedSetsIdsString = FeaturedSetIdsString;
         }
 
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf, CategoryType.Standard);
+        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(category, ParentCategories, CategoryRelationType.IsChildCategoryOf);
 
         FillFromRequest(category);
 }
