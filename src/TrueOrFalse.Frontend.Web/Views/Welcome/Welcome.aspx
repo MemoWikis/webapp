@@ -299,6 +299,30 @@
 
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
         
+        <div class="infoBox">
+            <div class="imageTop">
+                <img style="width: 300px;" src="/Images/LogosPartners/Logo_oerde17_award.png"/>
+            </div>
+            <div class="contentFullWidth">
+                <h2>memucho 2x nominiert für OER-Award 2017</h2>
+                <p>
+                    Bei den diesjährigen OER-Awards wurde memucho gleich zweimal nominiert:
+                    In der Kategorie OER-Infrastruktur 
+                    und speziell für unsere freien Lerninhalte für den 
+                    <a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.
+                    Darüber freuen wir uns sehr!
+                </p>
+                <p>
+                    Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a> 
+                    zeichnen jährlich die besten Angebote im Bereich freie Bildungsinhalte (OER) aus.
+                    Die Preis-Verleihung findet am 27. November in Berlin im Rahmen des 
+                    <a href="https://open-educational-resources.de/veranstaltungen/17/" target="_blank">
+                        OER-Festivals <i class="fa fa-external-link" style="font-size: smaller;"></i>
+                    </a> statt.
+                </p>
+            </div>
+        </div>
+        
 
 <%--        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
 
