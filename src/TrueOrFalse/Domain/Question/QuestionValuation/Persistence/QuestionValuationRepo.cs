@@ -120,11 +120,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
     }
 
-    public void CreateInCache(QuestionValuation questionValuation)
-    {
-        UserValuationCache.AddOrUpdate(questionValuation);
-    }
-
     public override void CreateOrUpdate(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
@@ -156,11 +151,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         base.Update(questionValuation);
         _searchIndexQuestion.Update(_questionRepo.GetById(questionValuation.Question.Id));
-    }
-
-    public void UpdateInCache(QuestionValuation questionValuation)
-    {
-        UserValuationCache.AddOrUpdate(questionValuation);
     }
 
     public void CreateBySaveType(QuestionValuation questionValuation, SaveType saveType)

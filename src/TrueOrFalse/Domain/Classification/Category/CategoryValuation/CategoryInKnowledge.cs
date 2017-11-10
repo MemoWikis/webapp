@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Script.Serialization;
 using FluentNHibernate.Conventions;
 using NHibernate;
+using TrueOrFalse;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class CategoryInKnowledge
@@ -24,6 +25,7 @@ public class CategoryInKnowledge
             CreateOrUpdateQuestionValution(question, user, questionValuation, 50, userCategoryAnswers);
         }
         QuestionInKnowledge.SetUserWishCountQuestions(user);
+        QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questions);
         UpdateCategoryValuation(categoryId, user);
     }
 
@@ -52,7 +54,7 @@ public class CategoryInKnowledge
         var questionsInPinnedCategories = QuestionsInValuatedCategories(user, questionIds, exeptCategoryId:categoryId);
 
         var questionInOtherPinnedEntitites = questionsInPinnedSets.Union(questionsInPinnedCategories);
-        var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id));
+        var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
 
         var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
@@ -63,6 +65,8 @@ public class CategoryInKnowledge
         }
 
         QuestionInKnowledge.SetUserWishCountQuestions(user);
+        QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
+        UpdateCategoryValuation(categoryId, user);
     }
 
     private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance, IList<Answer> answersForProbabilityUpdate = null)
@@ -120,7 +124,7 @@ public class CategoryInKnowledge
     public static void PinCategoryInDatabase(int categoryId, int userId)
     {
         var user = Sl.UserRepo.GetById(userId);
-        PinQuestionsInCategory(categoryId, user);
+        PinQuestionsInCategory(categoryId, user, SaveType.DatabaseOnly);
     }
 
     public static void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
@@ -139,10 +143,10 @@ public class CategoryInKnowledge
             QuestionInKnowledge.Unpin(question.Id, user);
     }
 
-    private static void PinQuestionsInCategory(int categoryId, User user)
+    private static void PinQuestionsInCategory(int categoryId, User user, SaveType saveType = SaveType.CacheAndDatabase)
     {
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
-        QuestionInKnowledge.Pin(questions, user);
+        QuestionInKnowledge.Pin(questions, user, saveType);
     }
 
     private static void UpdateCategoryValuation(int categoryId, User user, int relevance = 50)

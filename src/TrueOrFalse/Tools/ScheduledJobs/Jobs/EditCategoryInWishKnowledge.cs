@@ -31,7 +31,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }, "RecalcReputation");
         }
 
-        private void AddCategoryToWishKnowledge(ILifetimeScope scope, List<int> successfullJobIds)
+        private static void AddCategoryToWishKnowledge(ILifetimeScope scope, List<int> successfullJobIds)
         {
             var addToKnowledgeJobs = scope.R<JobQueueRepo>().GetAddCategoryToWishKnowledge();
             var categoryUserPairs = GetCategoryUserPairs(addToKnowledgeJobs);
@@ -52,7 +52,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
         }
 
-        private void RemoveQuestionsInCategoryFromWishKnowledge(ILifetimeScope scope, List<int> successfullJobIds)
+        private static void RemoveQuestionsInCategoryFromWishKnowledge(ILifetimeScope scope, List<int> successfullJobIds)
         {
             var removeFromKnowledgeJobs = scope.R<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge();
             var categoryUserPairs = GetCategoryUserPairs(removeFromKnowledgeJobs);

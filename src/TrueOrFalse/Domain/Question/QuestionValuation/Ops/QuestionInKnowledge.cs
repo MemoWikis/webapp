@@ -10,7 +10,7 @@ public static class QuestionInKnowledge
         => UpdateRelevancePersonal(questionId, user);
 
     public static void Pin(IEnumerable<Question> questions, User user, SaveType saveType = SaveType.CacheAndDatabase)
-        => UpdateRelevancePersonal(questions.ToList(), user);
+        => UpdateRelevancePersonal(questions.ToList(), user, 50, saveType);
 
     public static void Unpin(int questionId, User user) 
         => UpdateRelevancePersonal(questionId, user, -1);
@@ -40,14 +40,14 @@ public static class QuestionInKnowledge
         {
             CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user, relevance, saveType);
 
-            if(saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
+            if (saveType == SaveType.DatabaseOnly || saveType == SaveType.CacheAndDatabase)
                 Sl.Session.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
             ProbabilityUpdate_Valuation.Run(question, user, saveType);
         }
 
         if (saveType == SaveType.CacheOnly || saveType == SaveType.CacheAndDatabase)
-            UpdateToalRelevancePersonalInCache(questions);
+            UpdateTotalRelevancePersonalInCache(questions);
 
         if (saveType != SaveType.DatabaseOnly)
             SetUserWishCountQuestions(user);
@@ -59,11 +59,10 @@ public static class QuestionInKnowledge
 
     private static void UpdateRelevancePersonal(int questionId, User user, int relevance = 50)
     {
-        CreateOrUpdateValuation(questionId, user, relevancePersonal: relevance);
+        CreateOrUpdateValuation(questionId, user, relevance);
 
         SetUserWishCountQuestions(user);
 
-        UpdateToalRelevancePersonalInCache(Sl.QuestionRepo.GetById(questionId));
         var session = Sl.Resolve<ISession>();
         session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         session.Flush();
@@ -102,12 +101,12 @@ public static class QuestionInKnowledge
             GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
     }
 
-    private static void UpdateToalRelevancePersonalInCache(Question question)
+    private static void UpdateTotalRelevancePersonalInCache(Question question)
     {
-        UpdateToalRelevancePersonalInCache(new List<Question>{ question });
+        UpdateTotalRelevancePersonalInCache(new List<Question>{ question });
     }
 
-    private static void UpdateToalRelevancePersonalInCache(IList<Question> questions)
+    public static void UpdateTotalRelevancePersonalInCache(IList<Question> questions)
     {
         var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsFromCache(questions);
         foreach (var question in questions)
