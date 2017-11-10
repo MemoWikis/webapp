@@ -809,15 +809,12 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .singleCatFullWidth {
   margin: 50px -20px 30px;
   padding: 40px 30px;
-  border-top: 8px solid #F6F8FA;
-  border-bottom: 8px solid #F6F8FA;
-}
-.singleSetFullWidth + .singleSetFullWidth,
-.singleSetFullWidth + .singleCatFullWidth,
-.singleCatFullWidth + .singleSetFullWidth,
-.singleCatFullWidth + .singleCatFullWidth {
-  margin-top: -30px;
-  border-top: 0;
+  /*border-top: 8px solid @color-background-global;
+    border-bottom: 8px solid @color-background-global;
+    & + & {
+        margin-top: -30px;
+        border-top: 0;
+    }*/
 }
 .singleSetFullWidth .highlightSet,
 .singleCatFullWidth .highlightSet {
