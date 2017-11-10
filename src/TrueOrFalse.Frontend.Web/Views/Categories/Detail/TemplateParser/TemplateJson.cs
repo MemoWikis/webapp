@@ -59,5 +59,9 @@ public class TemplateJson
 
     public int MaxQuestions;
 
+    public int AmountSpaces;
+
+    public bool AddBorderTop;
+
     public string CssClasses;
 }

@@ -49,6 +49,8 @@
                             Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleQuestionsQuiz.ascx", new SingleQuestionsQuizModel(Model.Category,5));
                         }
 
+                        Html.RenderPartial("~/Views/Categories/Detail/Partials/Spacer.ascx", new SpacerModel(1, true));
+
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
 
                         Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);

@@ -333,6 +333,14 @@ p:empty {
 .SpacerDiv {
   height: 40px;
 }
+.SpacerDiv20 {
+  height: 20px;
+}
+.SpacerBorderTop {
+  border-top: 15px solid #F6F8FA;
+  margin-left: -20px;
+  margin-right: -20px;
+}
 /*.Box .Card {
     border: none;
     box-shadow: none;

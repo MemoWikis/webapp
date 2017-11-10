@@ -63,6 +63,7 @@ public class TemplateParser
             case "setcardminilist":
             case "singlecategory":
             case "singlequestionsquiz":
+            case "spacer":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
             {
@@ -128,6 +129,8 @@ public class TemplateParser
                     templateJson.Description);
             case "singlequestionsquiz":
                 return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
+            case "spacer":
+                return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }
