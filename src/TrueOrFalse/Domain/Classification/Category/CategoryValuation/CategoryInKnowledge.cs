@@ -66,7 +66,6 @@ public class CategoryInKnowledge
 
         QuestionInKnowledge.SetUserWishCountQuestions(user);
         QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
-        UpdateCategoryValuation(categoryId, user);
     }
 
     private static void CreateOrUpdateQuestionValution(Question question, User user, QuestionValuation userQuestionValuation, int relevance, IList<Answer> answersForProbabilityUpdate = null)
