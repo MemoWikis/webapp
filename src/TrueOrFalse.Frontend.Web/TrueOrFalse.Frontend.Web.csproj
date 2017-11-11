@@ -313,6 +313,7 @@
     <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuizModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
@@ -385,11 +386,13 @@
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MediaList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">

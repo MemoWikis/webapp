@@ -662,6 +662,66 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   background-color: #dddddd;
 }
 /*------------------------------------------------------
+    MEDIA LIST
+-------------------------------------------------------*/
+.mediaList {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.mediaList a {
+  color: #203256;
+}
+.mediaList a:hover,
+.mediaList a:active,
+.mediaList a:focus {
+  text-decoration: none;
+}
+.mediaList .mediaReference {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+@media (max-width: 649px) {
+  .mediaList .mediaReference {
+    float: none;
+    width: 100%;
+    height: inherit;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.mediaList .mediaReference .ReferenceTitle {
+  font-size: 18px;
+  line-height: 22px;
+}
+.mediaList .mediaReference .ReferenceTitle .Author {
+  display: inline;
+  font-style: italic;
+}
+.mediaList .mediaReference .ReferenceTitle .Title {
+  display: inline;
+}
+.mediaList .mediaReference .ReferenceTitle .Title .subtitle {
+  display: none;
+}
+.mediaList .mediaReference .ReferenceTitle .Publisher,
+.mediaList .mediaReference .ReferenceTitle .ParentIssue,
+.mediaList .mediaReference .ReferenceTitle .PublishedIn,
+.mediaList .mediaReference .ReferenceTitle .Editor,
+.mediaList .mediaReference .ReferenceTitle .TitleVolume {
+  display: inline;
+}
+.mediaList .mediaReference .set-question-count {
+  color: #999999;
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 22px;
+  padding-left: 20px;
+}
+/*------------------------------------------------------
     NEW STYLES
 -------------------------------------------------------*/
 .navLinks {

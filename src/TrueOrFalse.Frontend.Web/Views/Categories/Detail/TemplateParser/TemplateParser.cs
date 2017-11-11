@@ -52,6 +52,7 @@ public class TemplateParser
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
+            case "medialist":
             case "videowidget":
             case "settestsessionnostartscreen":
             case "singlesetfullwidth":
@@ -99,6 +100,8 @@ public class TemplateParser
         {
             case "topicnavigation":
                 return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+            case "medialist":
+                return new MediaListModel(category, templateJson.Title, templateJson.Text);
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
             case "settestsessionnostartscreen":

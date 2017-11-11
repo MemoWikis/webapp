@@ -611,7 +611,66 @@ html.flexbox:not(.Explorer):not(.Safari) {
         }
     }
 }
-    /*------------------------------------------------------
+
+
+/*------------------------------------------------------
+    MEDIA LIST
+-------------------------------------------------------*/
+
+.mediaList {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    a {
+        color: @global-text-color;
+
+        &:hover, &:active, &:focus {
+            text-decoration: none;
+        }
+    }
+
+    .mediaReference {
+        .stack-below(@extra-breakpoint-cards);
+
+        margin-top: 10px;
+        margin-bottom: 15px;
+
+        .ReferenceTitle {
+            font-size: 18px;
+            line-height: 22px;
+
+            .Author {
+                display: inline;
+                font-style: italic;
+            }
+
+            .Title {
+                display: inline;
+
+                .subtitle {
+                    display: none;
+                }
+            }
+
+            .Publisher, .ParentIssue, .PublishedIn, .Editor, .TitleVolume {
+                display: inline;
+            }
+        }
+
+        .set-question-count {
+            .topicNavigation.set-question-count;
+            margin-top: 8px;
+            font-size: 16px;
+            line-height: 22px;
+            padding-left: 20px;
+        }
+    }
+}
+
+/*------------------------------------------------------
     NEW STYLES
 -------------------------------------------------------*/
 .navLinks {
