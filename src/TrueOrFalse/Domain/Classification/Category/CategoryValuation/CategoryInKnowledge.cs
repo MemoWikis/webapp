@@ -137,9 +137,10 @@ public class CategoryInKnowledge
         var questionsToUnpin = questionsInCategory.Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id)).ToList();
 
         foreach (var question in questionsToUnpin)
-            QuestionInKnowledge.Unpin(question.Id, user);
+            QuestionInKnowledge.Unpin(question.Id, user, SaveType.DatabaseOnly);
 
         QuestionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
+        QuestionInKnowledge.SetUserWishCountQuestions(user);
     }
 
     private static void PinQuestionsInCategory(int categoryId, User user, SaveType saveType = SaveType.CacheAndDatabase)
