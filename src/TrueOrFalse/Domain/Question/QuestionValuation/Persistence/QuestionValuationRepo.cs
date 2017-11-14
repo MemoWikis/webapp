@@ -93,6 +93,16 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             .List<QuestionValuation>();
     }
 
+    public IList<QuestionValuation> GetActiveInWishknowledgeFromCache(IList<int> questionIds, int userId)
+    {
+        if(!questionIds.Any())
+            return new List<QuestionValuation>();
+
+        return UserValuationCache.GetItem(userId).QuestionValuations
+            .Where(v => questionIds.Contains(v.Value.Question.Id))
+            .Select(c => c.Value).ToList();
+    }
+
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE QuestionId = :questionId")
