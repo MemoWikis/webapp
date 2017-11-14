@@ -27,6 +27,10 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 q.Question.Id == questionId)
             .SingleOrDefault();
 
+    public QuestionValuation GetByFromCache(int questionId, int userId) => UserValuationCache.GetItem(userId).QuestionValuations
+                                                                            .Where(v => v.Value.Question.Id == questionId)
+                                                                            .Select(v => v.Value).FirstOrDefault();
+
     public IList<QuestionValuation> GetActiveInWishknowledge(int questionId) => 
         _session.QueryOver<QuestionValuation>()
             .Where(q => 
@@ -60,12 +64,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public IList<QuestionValuation> GetByUser(User user, bool onlyActiveKnowledge = true) => 
         GetByUser(user.Id, onlyActiveKnowledge);
 
-    public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
-    {
-        var cacheItem = UserValuationCache.GetItem(userId);
-        return cacheItem.QuestionValuations.Values.ToList();
-    }
-
     public IList<QuestionValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
         var query = _session
@@ -76,6 +74,12 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             query.And(q => q.RelevancePersonal > -1);
 
         return query.List<QuestionValuation>();
+    }
+
+    public IList<QuestionValuation> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
+    {
+        var cacheItem = UserValuationCache.GetItem(userId);
+        return cacheItem.QuestionValuations.Values.ToList();
     }
 
     public IList<QuestionValuation> GetActiveInWishknowledge(IList<int> questionIds, int userId)
