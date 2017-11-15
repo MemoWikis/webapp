@@ -9,7 +9,7 @@
 
         $().ready(() => {
 
-
+            this.IsInLearningTab = $('#LearningTab').length > 0;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -98,7 +98,9 @@
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
-                this.updateUrl(result.url);
+                if (!this.IsInLearningTab) {
+                    this.updateUrl(result.url);
+                }
                 this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                 if (result.LearningSessionResult) {
                     this.showLearningSessionResult(result);
@@ -161,7 +163,8 @@
     }
 
     private showLearningSessionResult(result) {
-        $("#MasterMainWrapper").html(result.LearningSessionResult);
+        var container = this.IsInLearningTab ? $('#LearningTabContent') : $("#MasterMainWrapper");
+        container.html(result.LearningSessionResult);
         new LearningSessionResult();
     }
 

@@ -16,7 +16,7 @@
     
 
 <div class="row">
-    <div class="col-sm-9 xxs-stack">
+    <div class="col-sm-9 xxs-stack" id="ResultMainColumn">
         <div class="stackedBarChartContainer">
             <% if (Model.NumberCorrectPercentage>0) {%>
                 <div class="stackedBarChart chartCorrectAnswer" style="width: <%=Model.NumberCorrectPercentage %>%;">
@@ -207,7 +207,7 @@
     </div>
 
 
-    <div class="col-sm-3 xxs-stack">
+    <div id="ResultSideColumn" class="col-sm-3 xxs-stack">
         <% if(Model.LearningSession.IsSetSession) { %>
             <div class="boxInfo">
                 <div class="boxInfoHeader">

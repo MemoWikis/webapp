@@ -36,7 +36,7 @@
     <div id="TopicTabContent" class="TabContent">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
     </div>
-    <div id="LearningTabContent" class="TabContent" display: none;>
+    <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>
     <div id="AnalyticsTabContent" class="TabContent"></div>
