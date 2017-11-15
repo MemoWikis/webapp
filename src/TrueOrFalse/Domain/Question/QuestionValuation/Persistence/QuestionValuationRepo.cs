@@ -27,16 +27,19 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 q.Question.Id == questionId)
             .SingleOrDefault();
 
-    public QuestionValuation GetByFromCache(int questionId, int userId) => UserValuationCache.GetItem(userId).QuestionValuations
-                                                                            .Where(v => v.Value.Question.Id == questionId)
-                                                                            .Select(v => v.Value).FirstOrDefault();
+    public QuestionValuation GetByFromCache(int questionId, int userId) => 
+        UserValuationCache.GetItem(userId).QuestionValuations
+            .Where(v => v.Value.Question.Id == questionId)
+            .Select(v => v.Value)
+        .FirstOrDefault();
 
-    public IList<QuestionValuation> GetActiveInWishknowledge(int questionId) => 
-        _session.QueryOver<QuestionValuation>()
-            .Where(q => 
-                q.Question.Id == questionId &&
-                q.RelevancePersonal > -1)
-            .List<QuestionValuation>();
+    public IList<QuestionValuation> GetActiveInWishknowledgeFromCache(int questionId) => 
+        UserValuationCache.GetAllCacheItems()
+            .Select(c => c.QuestionValuations.Values).SelectMany(v => v)
+            .Where(v => 
+                v.Question.Id == questionId && 
+                v.RelevancePersonal > -1)
+            .ToList();
 
     public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds, int userId)
     {
@@ -47,9 +50,14 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                     .List<QuestionValuation>();        
     }
 
+    public IList<QuestionValuation> GetByQuestionsAndUserFromCache(IEnumerable<int> questionIds, int userId) => 
+        UserValuationCache.GetItem(userId).QuestionValuations.Values
+            .Where(v => questionIds.Contains(v.Question.Id))
+        .ToList();
+
     public IList<QuestionValuation> GetByQuestionFromCache(Question question)
     {
-        var questionValuations = UserValuationCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values).SelectMany(l => l);
+        var questionValuations = UserValuationCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values).SelectMany(v => v);
 
         return questionValuations.Where(v => v.Question.Id == question.Id).ToList();
     }

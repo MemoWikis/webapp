@@ -34,7 +34,7 @@ public static class QuestionInKnowledge
 
     private static void UpdateRelevancePersonal(IList<Question> questions, User user, int relevance = 50, SaveType saveType = SaveType.CacheAndDatabase)
     {
-        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);
+        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsAndUserFromCache(questions.GetIds(), user.Id);
 
         foreach (var question in questions)
         {
