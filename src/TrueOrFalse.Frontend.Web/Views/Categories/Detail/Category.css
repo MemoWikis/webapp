@@ -945,6 +945,12 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
     padding-right: 12px;
   }
 }
+@media (max-width: 479px) {
+  #CategoryHeader .Tabs .Tab a {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 #CategoryHeader .Tabs .Tab a:hover,
 #CategoryHeader .Tabs .Tab a:focus {
   text-decoration: none;
