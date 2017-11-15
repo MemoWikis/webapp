@@ -525,6 +525,8 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
     .set-question-count {
         color: @gray-light;
+        margin-top: 8px;
+        line-height: 22px;
     }
 
     .topic, .setCardMini {
@@ -634,9 +636,8 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
     .mediaReference {
         .stack-below(@extra-breakpoint-cards);
-
         margin-top: 10px;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
 
         .ReferenceTitle {
             font-size: 18px;
@@ -644,7 +645,14 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
             .Author {
                 display: inline;
+                font-size: 16px;
+                line-height: 22px;
+                color: #333;
                 font-style: italic;
+
+                span {
+                    font-style: normal;
+                }
             }
 
             .Title {
@@ -662,10 +670,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
         .set-question-count {
             .topicNavigation.set-question-count;
-            margin-top: 8px;
             font-size: 16px;
-            line-height: 22px;
-            padding-left: 20px;
         }
     }
 }

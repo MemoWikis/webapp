@@ -20,7 +20,7 @@
                         <% if (Model.GetTotalSetCount(category) < 1 && questionCount < 1 && Model.IsInstallationAdmin) { %>
                             <i class="fa fa-user-secret show-tooltip" style="color: #afd534;" data-original-title="Thema ist leer und wird daher nur Admins angezeigt"></i>
                         <% } %>
-                        <%= category.Type.GetCategoryTypeGroupIconHtml() %><%= category.Type.GetShortName() %> mit 
+                        <%= category.Type.GetCategoryTypeIconHtml() %><%= category.Type.GetShortName() %> mit 
                         <%= questionCount %> Frage<%= StringUtils.PluralSuffix(questionCount,"n") %>
                     </div>
 <%--                    <div class="KnowledgeBarWrapper">

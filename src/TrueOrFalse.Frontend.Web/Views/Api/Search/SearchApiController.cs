@@ -77,7 +77,7 @@ public class SearchApiController : BaseController
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    IconHtml = category.Type.GetCategoryTypeGroupIconHtml(),
+                    IconHtml = category.Type.GetCategoryTypeIconHtml(),
                     ImageUrl = new CategoryImageSettings(category.Id).GetUrl_50px(asSquare:true).Url,
                     ItemUrl = Links.CategoryDetail(category.Name, category.Id)
                 }

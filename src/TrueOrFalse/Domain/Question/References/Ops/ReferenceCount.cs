@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate.Criterion;
+﻿using System.Linq;
 
 public class ReferenceCount
 {

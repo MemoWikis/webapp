@@ -23,7 +23,7 @@
                     <a href="<%= Model.DetailLink(Url) %>">
                         <% if (Model.HasMarkdownContent) { %>
                             <i class="fa fa-star show-tooltip" data-original-title="Themenseite mit zusätzlichen Inhalten">&nbsp;</i><% 
-                        } %><%= Model.Category.Type.GetCategoryTypeGroupIconHtml() %><%=Model.CategoryName.TruncateAtWord(55) %>
+                        } %><%= Model.Category.Type.GetCategoryTypeIconHtml() %><%=Model.CategoryName.TruncateAtWord(55) %>
                     </a> 
                 </div>
             

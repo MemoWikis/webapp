@@ -14,7 +14,7 @@
                     var htmlAuthors = book.Author
                         .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
-                    <div class="Author"><%= htmlAuthors %></div><%= String.IsNullOrEmpty(book.PublicationYear) ? "" : " ("+book.PublicationYear+")" %>:
+                    <div class="Author"><%= htmlAuthors %><span><%= String.IsNullOrEmpty(book.PublicationYear) ? "" : " ("+book.PublicationYear+")" %>:</span></div>
                 <% } %>
                 
                 <% if (!String.IsNullOrEmpty(book.Title)) { %>
@@ -142,7 +142,7 @@
                     var htmlAuthors = volumeChapter.Author
                         .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Aggregate((a, b) => (a + ";&nbsp" + b)); %>
-                    <div class="Author"><%= htmlAuthors %></div><%= String.IsNullOrEmpty(volumeChapter.PublicationYear) ? "" : " ("+volumeChapter.PublicationYear+")" %>:
+                    <div class="Author"><%= htmlAuthors %><span><%= String.IsNullOrEmpty(volumeChapter.PublicationYear) ? "" : " ("+volumeChapter.PublicationYear+")" %>:</span></div>
                 <% }
                 if (!String.IsNullOrEmpty(volumeChapter.Title))
                 {  %>
@@ -179,11 +179,12 @@
                     var htmlAuthors = websiteArticle.Author
                         .Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Aggregate((a, b) => (a + ";&nbsp" + b)); 
-                    %><div class="Author"><%= htmlAuthors %></div><%
-                    if (DateTime.TryParse(websiteArticle.PublicationDateYear + "-" + websiteArticle.PublicationDateMonth + "-" + websiteArticle.PublicationDateDay, out date)) { 
-                    %> (<%= date.ToString("dd.MM.yyyy")%>):
-                    <% }
-                }
+                    %><div class="Author"><%= htmlAuthors %><span><%
+                            if (DateTime.TryParse(websiteArticle.PublicationDateYear + "-" + websiteArticle.PublicationDateMonth + "-" + websiteArticle.PublicationDateDay, out date)) { 
+                            %> (<%= date.ToString("dd.MM.yyyy")%>):
+                            <% } %>
+                        </span></div>
+                <% }
                 if (!String.IsNullOrEmpty(websiteArticle.Title)) { %>
                     <div class="Title">
                         <%= websiteArticle.Title %><span class="subtitle"><%= String.IsNullOrEmpty(websiteArticle.Subtitle) ? "" : " - " + websiteArticle.Subtitle %></span>

@@ -75,7 +75,7 @@ var everythingElse = {
         $(".videoSetAnnotation").fadeIn();
     }
 };
-var YoutubeApiLoad = /** @class */ (function () {
+var YoutubeApiLoad = (function () {
     function YoutubeApiLoad() {
         var initPlayerSettings = function () {
             everythingElse.hideElements();

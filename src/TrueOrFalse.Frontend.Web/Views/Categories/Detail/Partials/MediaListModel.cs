@@ -11,7 +11,7 @@ public class MediaListModel : BaseModel
 
     public List<Category> MediaList;
 
-    public MediaListModel(Category category, string title, string text = null)
+    public MediaListModel(Category category, string title = null, string text = null)
     {
         Category = category;
         Title = title ?? "Medien";

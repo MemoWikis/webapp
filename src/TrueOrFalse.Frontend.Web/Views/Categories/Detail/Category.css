@@ -520,6 +520,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .topicNavigation .set-question-count,
 .setCardMiniList .set-question-count {
   color: #999999;
+  margin-top: 8px;
+  line-height: 22px;
 }
 .topicNavigation .topic .row,
 .setCardMiniList .topic .row,
@@ -681,7 +683,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .mediaList .mediaReference {
   margin-top: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 @media (max-width: 649px) {
   .mediaList .mediaReference {
@@ -699,7 +701,13 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .mediaList .mediaReference .ReferenceTitle .Author {
   display: inline;
+  font-size: 16px;
+  line-height: 22px;
+  color: #333;
   font-style: italic;
+}
+.mediaList .mediaReference .ReferenceTitle .Author span {
+  font-style: normal;
 }
 .mediaList .mediaReference .ReferenceTitle .Title {
   display: inline;
@@ -717,9 +725,8 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .mediaList .mediaReference .set-question-count {
   color: #999999;
   margin-top: 8px;
-  font-size: 16px;
   line-height: 22px;
-  padding-left: 20px;
+  font-size: 16px;
 }
 /*------------------------------------------------------
     NEW STYLES
