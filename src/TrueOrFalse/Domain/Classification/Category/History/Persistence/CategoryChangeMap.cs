@@ -6,6 +6,8 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
     {
         Id(x => x.Id);
 
+        References(x => x.Category);    
+
         Map(x => x.Data);
         Map(x => x.DataVersion);
 

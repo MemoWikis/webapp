@@ -9,6 +9,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     {
         var categoryChange = new CategoryChange
         {
+            Category = category,
             Data = JsonConvert.SerializeObject(new CategoryEditData_V1(category)),
             Author = author,
             DataVersion = 1
