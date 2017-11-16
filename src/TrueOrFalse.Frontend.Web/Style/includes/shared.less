@@ -603,21 +603,19 @@
 
 .MakeSingleItemCardLandscape() { //Apply to .CardColumn
     .Card.SingleItem {
-
         max-width: none;
 
         .ImageContainer {
             width: 100px;
             float: left;
             margin: 10px;
-
             margin-bottom: 5px;
             margin-right: 10px;
             border-bottom: none;
-
             .ImageLicenseOnImage;
             .FullLicenseLinkText;
-            .LicenseInfo{
+
+            .LicenseInfo {
                 right: 0;
             }
 
@@ -628,6 +626,7 @@
 
         .ContentContainer {
             margin-left: 110px;
+            min-width: 0; //Prevent overflowing of container in case of long links (flexbox behaviour)
         }
 
         .CardContent {

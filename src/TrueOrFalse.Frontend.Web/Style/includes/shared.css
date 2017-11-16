@@ -2900,6 +2900,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .CardsLandscape .CardColumn .Card.SingleItem .ContentContainer {
   margin-left: 110px;
+  min-width: 0;
 }
 .CardsLandscape .CardColumn .Card.SingleItem .CardContent {
   padding-bottom: 10px;
@@ -2982,6 +2983,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .ContentContainer {
   margin-left: 110px;
+  min-width: 0;
 }
 .CardsLandscapeNarrow .CardColumn .Card.SingleItem .CardContent {
   padding-bottom: 10px;
@@ -3097,6 +3099,7 @@ fieldset[disabled] .HeartToAddButton .iAddedNot.active {
   }
   .CardsPortrait .CardColumn .Card.SingleItem .ContentContainer {
     margin-left: 110px;
+    min-width: 0;
   }
   .CardsPortrait .CardColumn .Card.SingleItem .CardContent {
     padding-bottom: 10px;
