@@ -41,7 +41,9 @@
                     </div>
                     
                     <%-- MAIN CONTENT--%>
-                    <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                    <section id="MasterMainWrapper">
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                    </section>
                     <% Html.RenderPartial("GlobalLicense"); %>
                 </section>
             </div>

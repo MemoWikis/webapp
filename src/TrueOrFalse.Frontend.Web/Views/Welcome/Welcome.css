@@ -19,6 +19,9 @@
 @media (min-width: 650px) {
 }
 .CardsMiniPortrait .CardMiniColumn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 @media (max-width: 479px) {
@@ -35,10 +38,14 @@
   width: 100%;
 }
 .CardsMiniPortrait .CardMiniColumn .Card.SingleItem .ImageContainer img {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  -webkit-border-top-left-radius: 4px;
+          border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+          border-top-right-radius: 4px;
+  -webkit-border-bottom-left-radius: 0;
+          border-bottom-left-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+          border-bottom-right-radius: 0;
 }
 .CardsMiniPortrait .CardMiniColumn .CardContent {
   margin-left: 8px;
@@ -60,9 +67,17 @@
   content: "Bild- & Lizenzinfos";
 }
 html.flexbox:not(.Explorer) .CardsMiniPortrait {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
 }
 .SingleItem .CardContent {
   height: auto;
@@ -134,8 +149,9 @@ h4 {
 }
 #welcomeContainer {
   background-color: white;
-  padding-bottom: 100px;
+  padding: 0 20px 100px 20px;
   font-size: 18px;
+  overflow: auto;
 }
 @media (min-width: 992px) {
   #welcomeContainer {
@@ -203,7 +219,8 @@ h4 {
   }
 }
 .EduCategory {
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+  -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+          box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   border: 1px solid #e3e3e3;
   padding: 15px;
   display: inline-block;
@@ -218,7 +235,8 @@ h4 {
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
-  border-radius: 4px;
+  -webkit-border-radius: 4px;
+          border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -302,14 +320,16 @@ fieldset[disabled] .EduCategory.active {
 }
 .EduCategory.LookDisabled {
   color: darkgray;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 .EduCategory.LookDisabled:hover {
   background-color: white;
 }
 .EduCategory.LookNotClickable {
   color: darkgray;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   cursor: default;
 }
 .EduCategory.LookNotClickable:hover {
@@ -597,7 +617,8 @@ fieldset[disabled] .EduCategory.active {
   margin-right: 0;
 }
 #ContentAvailable .EduCategoryLinkCard .EduCategory {
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
   border: none;
   border-color: #fff;
   margin-bottom: 0;

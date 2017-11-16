@@ -11,6 +11,9 @@
     "inputFile": "Views/Welcome/Welcome.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -60,6 +63,9 @@
     "inputFile": "Style/components.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -74,6 +80,9 @@
     "inputFile": "Views/Questions/Answer/AnswerQuestion.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -102,6 +111,9 @@
     "inputFile": "Views/Categories/Detail/Category.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -151,6 +163,9 @@
     "inputFile": "Style/menu.less",
     "minify": {
       "enabled": false
+    },
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
     }
   },
   {
@@ -211,7 +226,10 @@
   },
   {
     "outputFile": "Views/About/AboutMemucho.css",
-    "inputFile": "Views/About/AboutMemucho.less"
+    "inputFile": "Views/About/AboutMemucho.less",
+    "options": {
+      "autoPrefix": "> 1%, last 2 versions, Firefox ESR, iOS <=7"
+    }
   },
   {
     "outputFile": "Views/Games/Games.css",
@@ -268,5 +286,9 @@
   {
     "outputFile": "Views/Users/Account/WidgetStats/WidgetStats.css",
     "inputFile": "Views/Users/Account/WidgetStats/WidgetStats.less"
+  },
+  {
+    "outputFile": "Views/Users/Account/Settings/UserSettings.css",
+    "inputFile": "Views/Users/Account/Settings/UserSettings.less"
   }
 ]

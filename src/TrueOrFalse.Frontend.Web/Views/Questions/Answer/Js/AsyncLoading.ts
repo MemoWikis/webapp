@@ -1,10 +1,15 @@
 ﻿class AsyncLoading {
+
+    IsInLearningTab: boolean;
+
     constructor() {
 
         if (Utils.IsInWidget())
             return;
 
-        $("#AnswerQuestion").ready(() => {
+        $().ready(() => {
+
+            this.IsInLearningTab = $('#LearningTab').length > 0;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -32,6 +37,10 @@
                 });
 
             } else if ($("#hddIsLearningSession").val() === "True") {
+
+                if ($("#hddIsLearningSession").attr("data-learning-session-id") == "-1")
+                    this.loadNewLearningSession();
+
                 $("#btnNext, #aSkipStep").click((e) => {
                     e.preventDefault();
                     var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
@@ -77,6 +86,11 @@
         });
     }
 
+    public loadNewLearningSession() {
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hddCategoryId').val();
+        this.loadNewQuestion(url);
+    }
+
     private loadNewQuestion(url: string) {
         $.ajax({
             url: url,
@@ -84,20 +98,29 @@
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
-                if (result.DateRedirectionLink) {
-                    window.location.href = result.DateRedirectionLink;
+                if (!this.IsInLearningTab) {
+                    this.updateUrl(result.url);
+                }
+                this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
+                if (result.LearningSessionResult) {
+                    this.showLearningSessionResult(result);
                     return;
                 }
                 $("div#LicenseQuestion").remove();
                 $("#AnswerBody")
                     .replaceWith(result.answerBodyAsHtml);
-                if ($("#hddIsLearningSession").val() === "True" || $("#hddIsTestSession").val() === "True")
+                if ($("#hddIsLearningSession").val() === "True" || $("#hddIsTestSession").val() === "True") {
                     this.updateSessionHeader(result.sessionData);
+
+                    if (result.sessionData.learningSessionId)
+                        $("#hddIsLearningSession").attr("data-learning-session-id",
+                            result.sessionData.learningSessionId);
+
+                }
                 else
                     this.updateNavigationBar(result.navBarData);
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
-                this.updateUrl(result.url);
                 $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
                 $("div#comments").replaceWith(result.commentsAsHtml);
                 new PageInit();
@@ -111,8 +134,6 @@
                 InitClickLog("div#answerQuestionDetails");
                 InitClickLog("div#comments");
                 PreventDropdonwnsFromBeingHorizontallyOffscreen("div#AnswerBody");
-
-                this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
             }
         });
     }
@@ -139,6 +160,12 @@
         }
 
         $("#NextQuestionLink, #PreviousQuestionLink").unbind();
+    }
+
+    private showLearningSessionResult(result) {
+        var container = this.IsInLearningTab ? $('#LearningTabContent') : $("#MasterMainWrapper");
+        container.html(result.LearningSessionResult);
+        new LearningSessionResult();
     }
 
     private updateSessionHeader(sessionStepData) {

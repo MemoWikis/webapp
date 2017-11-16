@@ -1,5 +1,7 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
+.no-white-background;
+
 #MasterMainContent {
 
     .media-below-md({
@@ -38,7 +40,9 @@
 }
 
 .EduPartnerWrapper {
-    font-size: 80%;
+
+    font-size: 11px;
+    line-height: @line-height-base;
     font-weight: normal;
     order: 2;
     .clearfix;
@@ -177,6 +181,8 @@
 ------------------------------------------------------*/
 
 .SessionBar {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
     border: solid 2px @memo-green;
     background-color: @memo-green;
     margin-bottom: 20px;
@@ -302,6 +308,11 @@
 
 /* Answer Section
 ------------------------------------------------------*/
+
+#AnswerBody {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+}
 
 .QuestionText {
     padding-bottom: 20px;

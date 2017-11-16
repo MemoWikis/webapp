@@ -18,9 +18,10 @@
         <input type="hidden" id="TestSessionProgessAfterAnswering" value="<%= Model.TestSessionProgessAfterAnswering %>" />
     <% } %>
     
-    <% if (Model.IsLearningSession) {%>
+    <% if (Model.IsLearningSession) { %>
         <input type="hidden" id="ajaxUrl_LearningSessionAmendAfterShowSolution" value="<%= Model.AjaxUrl_LearningSessionAmendAfterShowSolution(Url) %>" />
     <% } %>
+
     <input type="hidden" id="disableAddKnowledgeButton"  value="<%= Model.DisableAddKnowledgeButton %>"/>
     
     <input type="hidden" id="hddTimeRecords" />

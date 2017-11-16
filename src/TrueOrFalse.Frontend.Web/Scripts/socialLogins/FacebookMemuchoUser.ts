@@ -98,8 +98,6 @@
                 if (FacebookMemuchoUser.Exists(facebookId)) {
                     FacebookMemuchoUser.Login(facebookId, facebookAccessToken);
 
-                    debugger;
-
                     if (stayOnPage)
                         Site.ReloadPage_butNotTo_Logout();
                     else

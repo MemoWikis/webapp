@@ -155,9 +155,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Set")
-                .Include("~/Views/Sets/Detail/Set.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
+                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
+                .Include("~/Views/Sets/Detail/Set.css"));
+                
 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));

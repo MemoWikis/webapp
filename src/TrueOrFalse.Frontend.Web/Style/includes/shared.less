@@ -6,6 +6,7 @@
 
     Helper Classes
     General Styles
+    Page Styles
     Layout Elements
     NavLinks
     Buttons
@@ -83,7 +84,7 @@
     line-height: 30px;
     font-weight: 400;
     color: @global-text-color;
-    .media-below-xs({
+    .media-below-sm({
         font-size: 14px;
         line-height: 21px;
         font-weight: normal;
@@ -100,9 +101,9 @@
 
 .bold  {
     font-weight: bold;
+.fontSizeNormal {
 }
 
-.fontSizeNormal {
     font-size: @font-size-normal;
 }
 
@@ -112,6 +113,24 @@
 
 .greyed {
     color: @global-text-color-grey;
+}
+
+/*  Page Styles
+----------------------------------------------------------*/
+
+.no-white-background() {
+    #MasterMainWrapper {
+        background-color: transparent;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-sm-up( {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+        });
+    }
 }
 
 /*  Layout elements
@@ -584,21 +603,19 @@
 
 .MakeSingleItemCardLandscape() { //Apply to .CardColumn
     .Card.SingleItem {
-
         max-width: none;
 
         .ImageContainer {
             width: 100px;
             float: left;
             margin: 10px;
-
             margin-bottom: 5px;
             margin-right: 10px;
             border-bottom: none;
-
             .ImageLicenseOnImage;
             .FullLicenseLinkText;
-            .LicenseInfo{
+
+            .LicenseInfo {
                 right: 0;
             }
 
@@ -609,6 +626,7 @@
 
         .ContentContainer {
             margin-left: 110px;
+            min-width: 0; //Prevent overflowing of container in case of long links (flexbox behaviour)
         }
 
         .CardContent {
