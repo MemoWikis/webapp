@@ -40,7 +40,7 @@ namespace TrueOrFalse
         public static void Run(Question question, User user, SaveType saveType = SaveType.CacheAndDatabase)
         {
             var questionValuation =
-                Sl.QuestionValuationRepo.GetByFromCache(question.Id, user.Id) ??
+                Sl.QuestionValuationRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
                         Question = question, 

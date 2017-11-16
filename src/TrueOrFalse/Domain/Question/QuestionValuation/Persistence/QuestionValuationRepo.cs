@@ -41,6 +41,13 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
                 v.RelevancePersonal > -1)
             .ToList();
 
+    public IList<QuestionValuation> GetActiveInWishknowledge(int questionId) => 
+        _session.QueryOver<QuestionValuation>()
+            .Where(q => 
+                q.Question.Id == questionId &&
+                q.RelevancePersonal > -1)
+            .List<QuestionValuation>();
+
     public IList<QuestionValuation> GetByQuestionIds(IEnumerable<int> questionIds, int userId)
     {
         return
