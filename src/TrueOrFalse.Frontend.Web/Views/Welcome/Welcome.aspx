@@ -145,7 +145,7 @@
     </div>
 
         
-        <% if (Model.IsLoggedIn) { %>
+    <% if (Model.IsLoggedIn) { %>
     <div id="WelcomeDashboard">
         <div class="row">
             <div class="col-sm-6" id="dashboardPoints">
@@ -237,63 +237,62 @@
 
                 </div>
             </div>
-    </div>
+        </div>
 
         <% } %>
 
-    <div id="memuchoInfo">
-        <h2>
-            memucho ist dein Lernassistent
-        </h2>     
-        <div class="row infoItemRow">
-            <div class="col-sm-4 infoItemColumn">
-                <div class="infoIcon">
-                    <i class="fa fa-heart"></i>
+        <div id="memuchoInfo">
+            <h2>
+                memucho ist dein Lernassistent
+            </h2>     
+            <div class="row infoItemRow">
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-heart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Sammeln
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Entscheide, was du wissen möchtest.
+                    </div>
                 </div>
-                <div class="infoCatchWord">
-                    Sammeln
+
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-line-chart"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Lernen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.
+                    </div>
                 </div>
-                <div class="infoExplanationSnippet">
-                    Entscheide, was du wissen möchtest.
+
+                <div class="col-sm-4 infoItemColumn">
+                    <div class="infoIcon">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <div class="infoCatchWord">
+                        Nicht vergessen
+                    </div>
+                    <div class="infoExplanationSnippet">
+                        Wir erinnern dich, bevor du vergisst.
+                    </div>
                 </div>
             </div>
 
-            <div class="col-sm-4 infoItemColumn">
-                <div class="infoIcon">
-                    <i class="fa fa-line-chart"></i>
-                </div>
-                <div class="infoCatchWord">
-                    Lernen
-                </div>
-                <div class="infoExplanationSnippet">
-                    Algorithmen helfen dir, zum idealen Zeitpunkt zu lernen.
-                </div>
-            </div>
-
-            <div class="col-sm-4 infoItemColumn">
-                <div class="infoIcon">
-                    <i class="fa fa-lightbulb-o"></i>
-                </div>
-                <div class="infoCatchWord">
-                    Nicht vergessen
-                </div>
-                <div class="infoExplanationSnippet">
-                    Wir erinnern dich, bevor du vergisst.
-                </div>
+            <div class="separator"></div>
+            <div id="memuchoInfoFooter">
+    <%--                <% if (!Model.IsLoggedIn) { %>
+                    <div style="text-align: center; display: inline-block;">
+                        <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
+                    </div>
+                <% } %>--%>
+                <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
             </div>
         </div>
-
-        <div class="separator"></div>
-        <div id="memuchoInfoFooter">
-<%--                <% if (!Model.IsLoggedIn) { %>
-                <div style="text-align: center; display: inline-block;">
-                    <a href="<%= Url.Action(Links.RegisterAction, Links.RegisterController) %>" class="btn btn-lg btn-primary" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt kostenlos registrieren</a>
-                </div>
-            <% } %>--%>
-            <a href="<%= Links.AboutMemucho() %>" class="btn btn-lg btn-link">Erfahre mehr...</a>
-        </div>
-    </div>
-        
 
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
         
@@ -320,10 +319,8 @@
                 </p>
             </div>
         </div>
-        
 
-<%--        <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
-
+        <%-- <% Html.RenderPartial("Partials/TopicOfWeek", new TopicOfWeekModel(DateTime.Now)); %>--%>
 
     <div id="ContentAvailable">
         <h2>Interaktive Lerninhalte zu <%= Model.TotalCategoriesCountRound10 %>+ Themen</h2>
@@ -465,61 +462,59 @@
     <div id="awards">
         <h2>Auszeichnungen</h2>
         <div class="row">
-                    <div class="col-sm-4">
-                        <div class="logo-box">
-                            <div class="img-logo">
-                                <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
-                                    <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
-                                </a>
-                            </div>
-                            <%--                        <p>
-                                memucho ist ein Ausgezeichneter Ort im Land der Ideen 2017.
-                            </p>
-                            <p class="logo-box-link">
-                                <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
-                                    <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
-                                </a>
-                            </p>--%>
-                        </div>        
+            <div class="col-sm-4">
+                <div class="logo-box">
+                    <div class="img-logo">
+                        <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
+                            <img src="/Images/LogosPartners/landderideen_ausgezeichnet-2017_w190c.jpg" alt="memucho ist ein ausgezeichneter Ort im Land der Ideen 2017"/>
+                        </a>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="logo-box">
-                            <div class="img-logo">
-                                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
-                                    <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
-                                </a>
-                            </div>
-                            <%--                        <p>
-                                memucho wurde für den Innovationspreis Berlin Brandenburg nominiert.
-                            </p>
-                            <p class="logo-box-link">
-                                <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
-                                    <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
-                                </a>
-                            </p>--%>
-                        </div>    
+                    <%--                        <p>
+                        memucho ist ein Ausgezeichneter Ort im Land der Ideen 2017.
+                    </p>
+                    <p class="logo-box-link">
+                        <a href="https://www.land-der-ideen.de/ausgezeichnete-orte/preistraeger/memucho-online-plattform-zum-faktenlernen" target="_blank">
+                            <span style="white-space: nowrap">Zum Wettbewerb <i class="fa fa-external-link"></i></span>
+                        </a>
+                    </p>--%>
+                </div>        
+            </div>
+            <div class="col-sm-4">
+                <div class="logo-box">
+                    <div class="img-logo">
+                        <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                            <img src="/Images/LogosPartners/innovationspreis-nominiertButton2016.png" alt="Nominiert 2016 für den Innovationspreis Berlin Brandenburg" width="170" height="110"/>
+                        </a>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="logo-box">
-                            <div class="img-logo">
-                                <a href="https://www.netzsieger.de/p/memucho" target="_blank">
-                                    <img src="/Images/LogosPartners/Logo_netzsieger_170905-memucho-small.png" alt="" width="165" height="126"/>
-                                </a>
-                            </div>
-                            <%--                        <p>
-                                memucho erhält beim Einzeltest 4,7/5 Punkten.
-                            </p>
-                            <p class="logo-box-link">
-                                <a href="https://www.netzsieger.de/p/memucho" target="_blank">
-                                    <span style="white-space: nowrap">Zum Testbericht <i class="fa fa-external-link"></i></span>
-                                </a>
-                            </p>--%>
-                        </div>    
+                    <%--                        <p>
+                        memucho wurde für den Innovationspreis Berlin Brandenburg nominiert.
+                    </p>
+                    <p class="logo-box-link">
+                        <a href="http://www.innovationspreis.de/news/aktuelles/zehn-nominierungen-f%C3%BCr-den-innovationspreis-berlin-brandenburg-2016.html" target="_blank">
+                            <span style="white-space: nowrap">Zur Jury-Entscheidung <i class="fa fa-external-link"></i></span>
+                        </a>
+                    </p>--%>
+                </div>    
+            </div>
+            <div class="col-sm-4">
+                <div class="logo-box">
+                    <div class="img-logo">
+                        <a href="https://www.netzsieger.de/p/memucho" target="_blank">
+                            <img src="/Images/LogosPartners/Logo_netzsieger_170905-memucho-small.png" alt="" width="165" height="126"/>
+                        </a>
                     </div>
+                    <%--                        <p>
+                        memucho erhält beim Einzeltest 4,7/5 Punkten.
+                    </p>
+                    <p class="logo-box-link">
+                        <a href="https://www.netzsieger.de/p/memucho" target="_blank">
+                            <span style="white-space: nowrap">Zum Testbericht <i class="fa fa-external-link"></i></span>
+                        </a>
+                    </p>--%>
+                </div>    
+            </div>
         </div>
     </div>
-
-
 
     <div id="partner">
         <h2>Partner</h2>
