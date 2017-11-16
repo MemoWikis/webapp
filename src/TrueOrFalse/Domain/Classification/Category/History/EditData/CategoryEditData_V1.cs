@@ -5,6 +5,7 @@ public class CategoryEditData_V1
 {
     public string Name;
     public string Description;
+    public string TopicMardkown;
     public string WikipediaURL;
     public bool DisableLearningFunctions;
 
@@ -19,9 +20,9 @@ public class CategoryEditData_V1
     {
         Name = category.Name;
         Description = category.Description;
+        TopicMardkown = category.TopicMarkdown;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-
         CategoryRelations = category.CategoryRelations.Select(cr => new CategoryRelation_EditData_V1(cr)).ToList();
     }
 }

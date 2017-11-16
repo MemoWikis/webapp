@@ -119,6 +119,7 @@
                 .Add(UpdateToVs186.Run)
                 .Add(UpdateToVs187.Run)
                 .Add(UpdateToVs188.Run)
+                .Add(UpdateToVs189.Run)
                 .Run();
         }
     }
