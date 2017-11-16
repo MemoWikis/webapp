@@ -945,22 +945,16 @@
 /* Primary Category Card */
 .singleSetFullWidth,
 .singleCatFullWidth {
-  background-color: #D3E0F2;
-  margin: 10px 0 30px;
-  padding: 30px 30px;
-  border-top: 8px solid #F6F8FA;
-  border-bottom: 8px solid #F6F8FA;
-}
-.singleSetFullWidth + .singleSetFullWidth,
-.singleSetFullWidth + .singleCatFullWidth,
-.singleCatFullWidth + .singleSetFullWidth,
-.singleCatFullWidth + .singleCatFullWidth {
-  margin-top: -30px;
-  border-top: 0;
+  margin: 50px 0 30px;
+  padding: 40px 0;
 }
 .singleSetFullWidth .highlightSet,
 .singleCatFullWidth .highlightSet {
   background-color: #ffda7f;
+}
+.SingleCategoryAttention .singleSetFullWidth,
+.SingleCategoryAttention .singleCatFullWidth {
+  background-color: #D3E0F2;
 }
 .singleSetFullWidth .ImageContainer,
 .singleCatFullWidth .ImageContainer {
@@ -968,8 +962,10 @@
 }
 .singleSetFullWidth .ImageContainer img,
 .singleCatFullWidth .ImageContainer img {
-  border-radius: 50%;
-  box-shadow: 5px 5px 10px #eeeeee;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+  -webkit-box-shadow: 5px 5px 10px #eeeeee;
+          box-shadow: 5px 5px 10px #eeeeee;
 }
 .singleSetFullWidth .ImageContainer .LicenseInfo,
 .singleCatFullWidth .ImageContainer .LicenseInfo {
@@ -1022,6 +1018,7 @@
   font-size: 12px;
   line-height: 1.5em;
   opacity: 0;
+  -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 @media (max-width: 767px) {

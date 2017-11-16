@@ -978,18 +978,16 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .singleSetFullWidth,
 .singleCatFullWidth {
-  margin: 50px -20px 30px;
-  padding: 40px 30px;
-  /*border-top: 8px solid @color-background-global;
-    border-bottom: 8px solid @color-background-global;
-    & + & {
-        margin-top: -30px;
-        border-top: 0;
-    }*/
+  margin: 50px 0 30px;
+  padding: 40px 0;
 }
 .singleSetFullWidth .highlightSet,
 .singleCatFullWidth .highlightSet {
   background-color: #ffda7f;
+}
+.SingleCategoryAttention .singleSetFullWidth,
+.SingleCategoryAttention .singleCatFullWidth {
+  background-color: #D3E0F2;
 }
 .singleSetFullWidth .ImageContainer,
 .singleCatFullWidth .ImageContainer {
@@ -1015,16 +1013,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .singleCatFullWidth .setTitle,
 .singleSetFullWidth .categoryTitle,
 .singleCatFullWidth .categoryTitle {
-  margin-top: -10px;
   margin-bottom: 20px;
-}
-@media (max-width: 767px) {
-  .singleSetFullWidth .setTitle,
-  .singleCatFullWidth .setTitle,
-  .singleSetFullWidth .categoryTitle,
-  .singleCatFullWidth .categoryTitle {
-    margin-top: 0;
-  }
 }
 .singleSetFullWidth .setTitle h3,
 .singleCatFullWidth .setTitle h3,
@@ -1051,13 +1040,6 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   color: #999999;
   font-size: 14px;
 }
-.singleSetFullWidth .setQuestionCount a,
-.singleCatFullWidth .setQuestionCount a,
-.singleSetFullWidth .categoryQuestionCount a,
-.singleCatFullWidth .categoryQuestionCount a {
-  text-decoration: none;
-  color: inherit;
-}
 .singleSetFullWidth .KnowledgeBarWrapper,
 .singleCatFullWidth .KnowledgeBarWrapper {
   display: inline-block;
@@ -1065,7 +1047,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 .singleSetFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend,
 .singleCatFullWidth .KnowledgeBarWrapper .KnowledgeBarLegend {
   color: #999999;
-  margin-top: -7px;
+  margin-top: -10px;
   font-size: 12px;
   line-height: 1.5em;
   opacity: 0;

@@ -38,7 +38,7 @@
                 <a href="<%= Links.TestSessionStartForSet(Model.Title, Model.SetId) %>" class="btn btn-primary">
                     <i class="fa fa-lg fa-play-circle">&nbsp;</i> Wissen testen
                 </a><br />
-                <a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
+                <a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                     <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
                 </a>
                 <div class="dropdown">
