@@ -6,14 +6,14 @@
     <% if(Model.CategoryKnowledgeSummary.NeedsLearningPercentage > 0) { %>
         <div class="needs-learning show-tooltip"
             data-html="true"
-            title="Solltest du festige: <br/> <%= Model.CategoryKnowledgeSummary.NeedsLearning %> Fragen (<%= Model.CategoryKnowledgeSummary.NeedsLearningPercentage %>%)"
+            title="Solltest du lernen: <br/> <%= Model.CategoryKnowledgeSummary.NeedsLearning %> Fragen (<%= Model.CategoryKnowledgeSummary.NeedsLearningPercentage %>%)"
             style="width: <%= Model.CategoryKnowledgeSummary.NeedsLearningPercentage %>%;"></div>
     <% } %>
 
     <% if(Model.CategoryKnowledgeSummary.NeedsConsolidationPercentage > 0) { %>
         <div class="needs-consolidation show-tooltip"
             data-html="true"
-            title="Solltest du lernen: <br/> <%= Model.CategoryKnowledgeSummary.NeedsConsolidation %> Fragen (<%= Model.CategoryKnowledgeSummary.NeedsConsolidationPercentage %>%)"
+            title="Solltest du festigen: <br/> <%= Model.CategoryKnowledgeSummary.NeedsConsolidation %> Fragen (<%= Model.CategoryKnowledgeSummary.NeedsConsolidationPercentage %>%)"
             style="width: <%= Model.CategoryKnowledgeSummary.NeedsConsolidationPercentage %>%;"></div>
     <% } %>
     
