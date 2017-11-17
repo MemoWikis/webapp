@@ -77,7 +77,7 @@
                     Lernen
                 </a>
             </div>
-            <div id="AnalyticsTab" class="Tab LoggedInOnly">
+            <div id="AnalyticsTab" class="Tab">
                 <a href="#">
                     Analytics
                 </a>
