@@ -392,6 +392,7 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbMobile.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />

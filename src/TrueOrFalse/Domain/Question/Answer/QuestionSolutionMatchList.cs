@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
@@ -20,7 +19,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("LeftElement-")
-            select postData.Get(key)
+            select postData.Get(key.Trim())
         )
         .ToList();
 
@@ -28,7 +27,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightPairElement-")
-            select postData.Get(key).Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
+            select postData.Get(key.Trim()).Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
         )
         .ToList();
 
@@ -36,7 +35,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightElement-")
-            select postData.Get(key)
+            select postData.Get(key.Trim())
         )
         .ToList();
 
@@ -70,6 +69,9 @@ public class QuestionSolutionMatchList : QuestionSolution
         if (answer == "")
             return false;
         var answerObject = DeserializeMatchListAnswer(answer);
+        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
+
+        TrimElementTexts();
         var questionPairs = Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         for (int i = 0; i < questionPairs.Count; i++)
         {
@@ -79,8 +81,6 @@ public class QuestionSolutionMatchList : QuestionSolution
                 i--;
             }
         }
-        
-        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
 
         bool answerCorrect = true;
         if (questionPairs.Count != answerPairs.Count)
@@ -101,6 +101,7 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override string CorrectAnswer()
     {
+        TrimElementTexts();
         string CorrectAnswerMessage = PairSeperator;
         foreach (var pair in Pairs)
             CorrectAnswerMessage += pair.ElementLeft.Text + ElementSeperator + pair.ElementRight.Text + PairSeperator;

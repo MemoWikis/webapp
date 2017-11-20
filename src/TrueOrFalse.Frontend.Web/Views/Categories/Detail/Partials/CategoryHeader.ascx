@@ -5,14 +5,7 @@
 <div id="CategoryHeader">
     
     <div class="BreadcrumbsMobile">
-        <a href="/" class=""><i class="fa fa-home"></i></a>
-        <span> <i class="fa fa-chevron-right"></i> </span>
-        <% foreach (var item in Model.BreadCrumb){%>
-            <a href="<%= Links.CategoryDetail(item) %>" class=""><%= item.Name %></a>
-            <span> <i class="fa fa-chevron-right"></i> </span>
-        <%}%>
-        
-        <a href="#" class="current"><%= Model.Category.Name %></a>
+        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
     </div>
 
     <div id="ManagementMobile">

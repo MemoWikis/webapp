@@ -99,7 +99,7 @@
 				                    <div class="pricing-head">
 					                    <h3>Förderer<%-- <span>Für alle Pro-Nutzer inklusive</span>--%></h3>
 					                    <h4 class="show-tooltip" data-placement="bottom" title="Entsprechend deiner finanziellen Möglichkeiten kannst du den Preis selbst festlegen."> 
-					                        <i>ca. € </i>3
+					                        <i>ca. € </i>5
                                             <span>pro Monat *</span>
 					                    </h4>
 				                    </div>

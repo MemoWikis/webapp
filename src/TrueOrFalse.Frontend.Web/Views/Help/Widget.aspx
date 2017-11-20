@@ -263,7 +263,7 @@
                         <p>
                             <strong>Christof Mauersberger</strong><br/>
                             E-Mail: <span class="mailme">christof at memucho dot de</span><br/>
-                            Telefon: +49-1577-6825707<br/>
+                            Telefon: +49 - 1577 - 682 57 07<br/>
                         </p>
                         
                     </div>
