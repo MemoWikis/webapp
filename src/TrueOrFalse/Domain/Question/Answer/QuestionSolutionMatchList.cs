@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
@@ -70,6 +69,9 @@ public class QuestionSolutionMatchList : QuestionSolution
         if (answer == "")
             return false;
         var answerObject = DeserializeMatchListAnswer(answer);
+        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
+
+        TrimElementTexts();
         var questionPairs = Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
         for (int i = 0; i < questionPairs.Count; i++)
         {
@@ -79,8 +81,6 @@ public class QuestionSolutionMatchList : QuestionSolution
                 i--;
             }
         }
-        
-        var answerPairs = answerObject.Pairs.OrderBy(t => t.ElementLeft.Text).ToList();
 
         bool answerCorrect = true;
         if (questionPairs.Count != answerPairs.Count)
