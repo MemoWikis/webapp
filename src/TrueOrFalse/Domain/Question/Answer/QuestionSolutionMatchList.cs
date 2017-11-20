@@ -19,7 +19,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("LeftElement-")
-            select postData.Get(key)
+            select postData.Get(key.Trim())
         )
         .ToList();
 
@@ -27,7 +27,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightPairElement-")
-            select postData.Get(key).Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
+            select postData.Get(key.Trim()).Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
         )
         .ToList();
 
@@ -35,7 +35,7 @@ public class QuestionSolutionMatchList : QuestionSolution
         (
             from key in postData.AllKeys
             where key.StartsWith("RightElement-")
-            select postData.Get(key)
+            select postData.Get(key.Trim())
         )
         .ToList();
 
