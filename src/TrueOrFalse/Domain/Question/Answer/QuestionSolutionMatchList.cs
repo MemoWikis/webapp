@@ -101,6 +101,7 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public override string CorrectAnswer()
     {
+        TrimElementTexts();
         string CorrectAnswerMessage = PairSeperator;
         foreach (var pair in Pairs)
             CorrectAnswerMessage += pair.ElementLeft.Text + ElementSeperator + pair.ElementRight.Text + PairSeperator;
