@@ -33,6 +33,11 @@
             </span>
         </a>
     <% } %>
+        <p style="word-break: break-all;">
+            Als ID-Liste:<br/>
+            <% foreach (var category in Model.NonAggregatedCategories)
+               { %><%= category.Id %>,<% } %>
+        </p>
     </div>
 <% } %>
 
