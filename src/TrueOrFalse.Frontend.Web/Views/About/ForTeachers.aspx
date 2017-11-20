@@ -288,7 +288,7 @@
 
                 <div class="row">
                     <div class="col-xs-4 col-md-3 TeamPic">
-                        <img src="/Images/Team/team_lisa_sq_155.jpg"/>  
+                        <img src="/Images/Team/team_christof_20170404_P3312344_155.jpg" alt="Foto Christof"/>
                     </div>
                     <div class="col-xs-8 col-md-9">
                         <p>
@@ -296,9 +296,9 @@
                             Sprich uns einfach an, wir freuen uns über deine Nachricht! Dein Ansprechpartner ist:<br/>
                         </p>
                         <p>
-                            <strong>Lisa</strong><br/>
-                            E-Mail: <span class="mailme">lisa at memucho dot de</span><br/>
-                            Telefon: 0151 - 265 033 70<br/>
+                            <strong>Christof</strong><br/>
+                            E-Mail: <span class="mailme">christof at memucho dot de</span><br/>
+                            Telefon: +49 - 1577 - 682 57 07<br/>
                         </p>
                         
                     </div>
