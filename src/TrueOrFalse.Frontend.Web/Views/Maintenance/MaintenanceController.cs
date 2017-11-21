@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using NHibernate;
+using NHibernate.Linq;
 using NHibernate.Util;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
@@ -44,6 +46,14 @@ public class MaintenanceController : BaseController
         return View(cmsModel);
     }
 
+    public string CmsRenderCategoryNetworkNavigation(int id)
+    {
+        return ViewRenderer.RenderPartialView(
+            "~/Views/Categories/Navigation/CategoryNetworkNavigation.ascx",
+            new CategoryNetworkNavigationModel(id),
+            ControllerContext);
+    }
+
     [HttpPost]
     public string CmsRenderLooseCategories()
     {
@@ -59,9 +69,23 @@ public class MaintenanceController : BaseController
     [HttpPost]
     public string CmsRenderCategoriesWithNonAggregatedChildren()
     {
-        var categories = EntityCache.GetAllCategories().Where(c => c.NonAggregatedCategories().Any()).ToList();
+        var categories = Sl.CategoryRepo.GetAllEager();
+        categories = categories.Where(c => c.NonAggregatedCategories().Any()).ToList();
+
         var result = categories.Count() + " categories found:<br/>";
         foreach (var category in categories)
+        {
+            result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
+        }
+        return result;
+    }
+
+    [HttpPost]
+    public string CmsRenderCategoriesInSeveralRootCategories()
+    {
+        var doubleRootedCategories = GetAllCategoriesInSeveralRootCategories.Run().OrderByDescending(c => c.CountQuestionsAggregated);
+        var result = doubleRootedCategories.Count() + " categories found (ordered by aggregated question count descending):<br/>";
+        foreach (var category in doubleRootedCategories)
         {
             result += ViewRenderer.RenderPartialView("~/Views/Shared/CategoryLabel.ascx", category, ControllerContext);
         }

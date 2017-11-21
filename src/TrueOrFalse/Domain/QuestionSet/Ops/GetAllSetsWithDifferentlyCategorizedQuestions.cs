@@ -6,7 +6,7 @@ public class GetAllSetsWithDifferentlyCategorizedQuestions
     public static List<Set> Run()
     {
         var result = new List<Set>();
-        var sets = EntityCache.GetAllSets();
+        var sets = Sl.SetRepo.GetAllEager();
         foreach (var set in sets)
         {
             if (SetHasQuestionWithDifferentCategories(set))

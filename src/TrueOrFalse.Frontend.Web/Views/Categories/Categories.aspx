@@ -168,20 +168,6 @@
             
         <% } %>
         
-        <% if (Model.IsInstallationAdmin) { %>
-            <div id="categoryNetworkNavigationWrapper">
-                <h3><i class="fa fa-user-secret show-tooltip" data-original-title="Diese Box wird nur Admins angezeigt.">&nbsp;</i>Themen-Navigation</h3>
-                <a href="#" class="networkNavigationUpdate" data-category-id="682"><span class="label label-category">Schule</span></a>
-                <a href="#" class="networkNavigationUpdate" data-category-id="687"><span class="label label-category">Studium</span></a>
-                <a href="#" class="networkNavigationUpdate" data-category-id="689"><span class="label label-category">Zertifikate</span></a>
-                <a href="#" class="networkNavigationUpdate" data-category-id="709"><span class="label label-category">Allgemeinwissen</span></a>
-
-                <div id="categoryNetworkNavigation">
-                    <% Html.RenderPartial("Navigation/CategoryNetworkNavigation", new CategoryNetworkNavigationModel(709)); %>
-                </div>
-            </div>
-        <% } %>
-
     </div>
     
     <% Html.RenderPartial("Modals/ModalDeleteCategory"); %>

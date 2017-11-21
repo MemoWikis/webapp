@@ -17,7 +17,7 @@
                             <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
                         </a>
                     </span>&nbsp;
-                    Lernset mit <%: Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
+                    Lernset von <a href="<%= Links.UserDetail(Model.Creator,Model.CreatorId) %>"><%=Model.Creator %></a> mit <%: Model.QuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.QuestionCount, "n") %>
                 </div>
                 <div class="KnowledgeBarWrapper">
                     <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(Model.Set)); %>
@@ -38,7 +38,7 @@
                 <a href="<%= Links.TestSessionStartForSet(Model.Title, Model.SetId) %>" class="btn btn-primary">
                     <i class="fa fa-lg fa-play-circle">&nbsp;</i> Wissen testen
                 </a><br />
-                <a href="<%= Links.StartLearningSesssionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
+                <a href="<%= Links.StartLearningSessionForSet(Model.SetId) %>" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                     <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
                 </a>
                 <div class="dropdown">

@@ -22,6 +22,12 @@
 @color-correctAfterRepetitionAnswer: inherit;
 @color-wrongAnswer: inherit;
 @color-notAnswered: inherit;*/
+#LearningTabContent #ResultMainColumn {
+  width: 100%;
+}
+#LearningTabContent #ResultSideColumn {
+  display: none;
+}
 .claimsMemucho {
   font-weight: bold;
   color: #203256;

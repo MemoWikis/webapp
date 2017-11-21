@@ -29,6 +29,20 @@
 
     <div>
         <h2>Tools zur Content-Pflege</h2>
+        
+        <div id="categoryNetworkNavigationWrapper">
+            <h4>Themen-Navigation</h4>
+            <a href="#" class="networkNavigationUpdate" data-category-id="682"><span class="label label-category">Schule</span></a>
+            <a href="#" class="networkNavigationUpdate" data-category-id="687"><span class="label label-category">Studium</span></a>
+            <a href="#" class="networkNavigationUpdate" data-category-id="689"><span class="label label-category">Zertifikate</span></a>
+            <a href="#" class="networkNavigationUpdate" data-category-id="709"><span class="label label-category">Allgemeinwissen</span></a>
+
+            <div id="categoryNetworkNavigation">
+                <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNetworkNavigation.ascx", new CategoryNetworkNavigationModel(709)); %>
+            </div>
+        </div>
+        
+
         <div id="showLooseCategories">
             <h4 style="margin-top: 40px;">Lose Themen</h4>
             <p>
@@ -45,6 +59,15 @@
                 <a href="#" id="btnShowCategoriesWithNonAggregatedChildren" class="btn btn-default">Themen anzeigen</a>
             </p>
             <div id="showCategoriesWithNonAggregatedChildrenResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
+        </div>
+
+        <div id="showCategoriesInSeveralRootCategories">
+            <h4 style="margin-top: 40px;">Themen in verschiedenen Bäumen</h4>
+            <p>
+                Themen anzeigen, die in mind. 2 der Root-Kategorien eingehangen sind: 
+                <a href="#" id="btnShowCategoriesInSeveralRootCategories" class="btn btn-default">Themen anzeigen</a>
+            </p>
+            <div id="showCategoriesInSeveralRootCategoriesResult" style="margin-left: 25px; padding: 0 10px 10px;"></div>
         </div>
 
         <div id="showOvercategorizedSets">

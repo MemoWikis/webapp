@@ -54,6 +54,9 @@ public class TopicNavigationModel : BaseModel
                 break;
         }
 
+
+        CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
+
         Title = title;
         Text = text;
     }

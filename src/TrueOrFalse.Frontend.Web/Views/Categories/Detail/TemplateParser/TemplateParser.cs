@@ -52,6 +52,7 @@ public class TemplateParser
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
+            case "medialist":
             case "videowidget":
             case "settestsessionnostartscreen":
             case "singlesetfullwidth":
@@ -60,7 +61,10 @@ public class TemplateParser
             case "contentlists":
             case "singleset":
             case "setlistcard":
+            case "setcardminilist":
             case "singlecategory":
+            case "singlequestionsquiz":
+            case "spacer":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
             {
@@ -96,6 +100,8 @@ public class TemplateParser
         {
             case "topicnavigation":
                 return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+            case "medialist":
+                return new MediaListModel(category, templateJson.Title, templateJson.Text);
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
             case "settestsessionnostartscreen":
@@ -118,10 +124,16 @@ public class TemplateParser
                     templateJson.TitleRowCount,
                     templateJson.DescriptionRowCount,
                     templateJson.SetRowCount);
+            case "setcardminilist":
+                return new SetCardMiniListModel(templateJson.SetList);
             case "singlecategory":
                 return new SingleCategoryModel(
                     templateJson.CategoryId,
                     templateJson.Description);
+            case "singlequestionsquiz":
+                return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
+            case "spacer":
+                return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

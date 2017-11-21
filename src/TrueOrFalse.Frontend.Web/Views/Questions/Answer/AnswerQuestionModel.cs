@@ -141,6 +141,8 @@ public class AnswerQuestionModel : BaseModel
         CurrentLearningStepIdx = LearningSession.CurrentLearningStepIdx();
 
         LearningSessionStep = LearningSession.Steps[CurrentLearningStepIdx];
+        LearningSessionStep.Question = Sl.QuestionRepo.GetById(LearningSessionStep.Question.Id);//Prevents nhibernate lazy load exception
+
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
         CurrentLearningStepPercentage = CurrentLearningStepIdx == 0
@@ -155,6 +157,21 @@ public class AnswerQuestionModel : BaseModel
 
         Populate(LearningSessionStep.Question);
     }
+
+    public AnswerQuestionModel(int dummyQuestionId) : this()
+    {
+        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
+
+        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};
+
+        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)
+        {
+            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});
+        }
+
+        Populate(dummyQuestion);
+    }
+
 
     public static AnswerQuestionModel CreateExpiredTestSession()
     {

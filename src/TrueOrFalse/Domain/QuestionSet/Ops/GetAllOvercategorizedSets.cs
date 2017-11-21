@@ -6,7 +6,7 @@ public class GetAllOvercategorizedSets
     public static List<Set> Run()
     {
         var result = new List<Set>();
-        var sets = EntityCache.GetAllSets();
+        var sets = Sl.SetRepo.GetAllEager();
         foreach (var set in sets)
         {
             var categories = set.Categories;

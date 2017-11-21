@@ -261,10 +261,20 @@ namespace TrueOrFalse.Frontend.Web.Code
                 });
         }
 
+        public static string LearningSessionResult(LearningSession learningSession)
+        {
+            return GetUrlHelper().Action("LearningSessionResult", LearningSessionResultController,
+                new
+                {
+                    learningSessionId = learningSession.Id,
+                    learningSessionName = learningSession.UrlName
+                });
+        }
+
         public static string StartLearningSession(LearningSession learningSession)
         {
             if (learningSession.IsSetSession)
-                return StartLearningSesssionForSet(learningSession.SetToLearn.Id);
+                return StartLearningSessionForSet(learningSession.SetToLearn.Id);
 
             if (learningSession.IsSetsSession)
                 return StartLearningSessionForSets(learningSession.SetsToLearn().Select(s => s.Id).ToList(), learningSession.SetListTitle);
@@ -287,7 +297,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string StartCategoryLearningSession(int categoryId) =>
            GetUrlHelper().Action("StartLearningSession", CategoryController, new { categoryId = categoryId });
 
-        public static string StartLearningSesssionForSet(int setId)
+        public static string StartLearningSessionForSet(int setId)
         {
             return GetUrlHelper().Action("StartLearningSession", SetController, new { setId = setId });
         }

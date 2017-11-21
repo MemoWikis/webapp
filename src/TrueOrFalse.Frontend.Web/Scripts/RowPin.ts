@@ -13,7 +13,7 @@ class Pin {
 
     OnPinChanged: () => void;
 
-    constructor(pinRowType : PinType, onPinChanged : () => void = null) {
+    constructor(pinRowType: PinType, onPinChanged: () => void = null) {
 
         var self = this; 
         this._pinRowType = pinRowType;
@@ -44,6 +44,10 @@ class Pin {
                 id = parseInt(elemPin.attr("data-set-id"));
             else if (self.IsCategoryRow() || self.IsCategoryDetail())
                 id = parseInt(elemPin.attr("data-category-id"));
+
+            if (self.IsCategoryRow()) {
+                elemPin = $($.unique(elemPin.add($('[data-category-id=' + id + ']')).get()));//CategoryDetail page: toggle both desktop and mobile pin
+            }
 
             if (this._changeInProgress)
                 return;

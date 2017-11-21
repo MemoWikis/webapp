@@ -11,7 +11,7 @@ public class SponsorRepo{
         {
             new Sponsor {
                 Id = 1,
-                ImpressionSharePercentage = 0.5,
+                ImpressionSharePercentage = 0.1,
                 SponsorUrl = "http://www.tutory.de",
                 ImageUrl = "/Images/Sponsors/tutory.png",
                 LinkText = "tutory",
@@ -36,6 +36,16 @@ public class SponsorRepo{
                 LinkText = "Learning Level Up",
                 TextBeforeLink = "Für anpassbare digitale Lehr- und Lerninhalte als Animation, Grafik und Video empfehlen wir ",
                 ImageStyleOverwrite = "max-width: 70%"
+            },
+
+            new Sponsor {
+                Id = 4,
+                ImpressionSharePercentage = 0.4,
+                SponsorUrl = "http://lernox.de/",
+                ImageUrl = "/Images/LogosPartners/Logo_lernox.png",
+                LinkText = "lernox",
+                TextBeforeLink = "Ankommen durch Sprache: DaF-/DaZ-Material finden bei ",
+                ImageStyleOverwrite = "max-width: 60%"
             },
 
         };

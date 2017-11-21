@@ -113,7 +113,7 @@
         }
 
         $('#Buttons').css('visibility', 'hidden');
-        window.setTimeout(function () { $("#SolutionDetailsSpinner").show(); }, 500);
+        window.setTimeout(() => { $("#SolutionDetailsSpinner").show(); }, 500);
 
         AnswerQuestion.AjaxGetSolution(result => {
 
@@ -134,7 +134,7 @@
 
                 this._answerQuestion.UpdateProgressBar(this._answerQuestion.GetCurrentStep());
 
-                AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
+                AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
             }
 
             if (this._answerQuestion.IsLearningSession && this._answerQuestion.AnswersSoFar.length === 0) {
@@ -152,7 +152,6 @@
                     success(result) {
                         if (self._answerQuestion._isLastLearningStep && !result.newStepAdded) {
                             $('#btnNext').html('Zum Ergebnis');
-                            $('#btnNext').unbind();
                         }
                         self._answerQuestion.UpdateProgressBar(result.numberSteps);
                     }
@@ -231,7 +230,7 @@
         });
     }
 
-    static IfLastQuestion_Change_Btn_Text_ToResult() {
+    static IfLastTestQuestionChangeBtnNextToResult() {
         if (AnswerQuestion.IsLastTestSessionStep) {
             $('#btnNext').html('Zum Ergebnis');
             $("#btnNext").unbind();
@@ -303,7 +302,7 @@
     }
 
     ShowAnswerDetails() {
-        window.setTimeout(function () {
+        window.setTimeout(() => {
             $("#SolutionDetailsSpinner").remove();
             $("#SolutionDetails").show();
             $('#Buttons').css('visibility', 'visible');

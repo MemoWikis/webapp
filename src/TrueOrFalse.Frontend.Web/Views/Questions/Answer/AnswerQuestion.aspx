@@ -4,6 +4,7 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    
     <% Title = Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
@@ -25,6 +26,11 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    
+    <% if(Model.IsLearningSession) { %>
+        <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <% } %>
 
     <style type="text/css">
          .selectorShowSolution{/* marker class */}
@@ -84,9 +90,12 @@
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
 
-            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
-                   Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id));
-            } %>
+            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
+               <div class="SingleCategoryAttention">
+                    
+                   <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
+                </div>
+            <% } %>
             <div class="row">
                 <div class="col-sm-6 xxs-stack">
                     <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>

@@ -6,5 +6,5 @@ public class CategoryTypeEducationProvider : CategoryTypeBase<CategoryTypeEducat
 {
 
     [JsonIgnore]
-    public override CategoryType Type { get { return CategoryType.EducationProvider; } }
+    public override CategoryType Type => CategoryType.EducationProvider;
 }

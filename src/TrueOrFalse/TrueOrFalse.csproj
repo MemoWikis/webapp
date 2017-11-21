@@ -235,6 +235,7 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Classification\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetPrimaryCategory.cs" />
     <Compile Include="Domain\Classification\Category\Ops\OrderCategoriesByQuestionCountAndLevel.cs" />
@@ -251,11 +252,17 @@
     <Compile Include="Domain\Classification\Category\Graph\CategoryNode.cs" />
     <Compile Include="Domain\Classification\Category\Graph\GraphJsonDtos.cs" />
     <Compile Include="Domain\Classification\Category\Graph\Ops\GetCategoryGraph.cs" />
+    <Compile Include="Domain\Classification\Category\History\EditData\CategoryEditData_V1.cs" />
+    <Compile Include="Domain\Classification\Category\History\CategoryChange.cs" />
+    <Compile Include="Domain\Classification\Category\History\EditData\CategoryRelation_EditData_V1.cs" />
+    <Compile Include="Domain\Classification\Category\History\Persistence\CategoryChangeMap.cs" />
+    <Compile Include="Domain\Classification\Category\History\Persistence\CategoryChangeRepo.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeCourse.cs" />
     <Compile Include="Domain\Classification\Category\Type\Impl\CategoryTypeEducationProvider.cs" />
+    <Compile Include="Domain\Knowledge\Learning\LearningSession\Ops\CreateLearningSession.cs" />
     <Compile Include="Domain\QuestionSet\Ops\CopySet.cs" />
-    <Compile Include="Domain\QuestionSet\Ops\GetAllSetsWithDifferentlyCategorizedQuestions.cs" />
     <Compile Include="Domain\QuestionSet\Ops\GetAllOvercategorizedSets.cs" />
+    <Compile Include="Domain\QuestionSet\Ops\GetAllSetsWithDifferentlyCategorizedQuestions.cs" />
     <Compile Include="Domain\QuestionSet\Ops\SortSetsIntoListOfCategories.cs" />
     <Compile Include="Domain\SaveType.cs" />
     <Compile Include="Tools\Analytics\Widget\WidgetDetailViewsPerMonthAndTypeResult.cs" />
@@ -957,6 +964,11 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs190.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs189.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs188.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs187.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs186.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs185.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs184.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs183.cs" />

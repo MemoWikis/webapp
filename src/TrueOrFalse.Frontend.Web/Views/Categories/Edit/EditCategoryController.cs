@@ -67,17 +67,15 @@ public class EditCategoryController : BaseController
         model.FillReleatedCategoriesFromPostData(Request.Form);
         model.UpdateCategory(category);
         if (model.Name != category.Name && categoryAllowed.No(model, category.Type)){
-            model.Message = new ErrorMessage(string.Format("Es existiert bereits ein Thema mit dem Namen <strong>'{0}'</strong>.",
-                                                            categoryAllowed.ExistingCategories.First().Name));
+            model.Message = new ErrorMessage(
+                $"Es existiert bereits ein Thema mit dem Namen <strong>'{categoryAllowed.ExistingCategories.First().Name}'</strong>.");
         } else {
-            _categoryRepository.Update(category);
+            _categoryRepository.Update(category, _sessionUser.User);
 
             model.Message 
-                = new SuccessMessage(String.Format(
-                    "Das Thema wurde gespeichert. <br>" +
-                    "Du kannst es weiter bearbeiten oder" +
-                    " <a href=\"{0}\">zur Detailansicht wechseln</a>.",
-                    Links.CategoryDetail(category)));
+                = new SuccessMessage(
+                    "Das Thema wurde gespeichert. <br>" + "Du kannst es weiter bearbeiten oder" +
+                    $" <a href=\"{Links.CategoryDetail(category)}\">zur Detailansicht wechseln</a>.");
         }
         StoreImage(id);
         

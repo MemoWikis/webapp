@@ -23,6 +23,7 @@ public class Sl
     public static CategoryRelationRepo CategoryRelationRepo => R<CategoryRelationRepo>();
     public static CategoryValuationRepo CategoryValuationRepo => R<CategoryValuationRepo>();
     public static CategoryViewRepo CategoryViewRepo => R<CategoryViewRepo>();
+    public static CategoryChangeRepo CategoryChangeRepo => R<CategoryChangeRepo>();
 
     public static SetRepo SetRepo => R<SetRepo>();
     public static SetValuationRepo SetValuationRepo => R<SetValuationRepo>();

@@ -1,7 +1,9 @@
 ﻿$(() => {
     new Cms();
+    new CmsCategoryNetworkNavigation();
 });
 
+declare var resultVar: any;
 
 class Cms {
 
@@ -17,6 +19,12 @@ class Cms {
             e => {
                 e.preventDefault();
                 self.RenderCategoriesWithNonAggregatedChildren();
+            });
+
+        $("#btnShowCategoriesInSeveralRootCategories").on("click",
+            e => {
+                e.preventDefault();
+                self.RenderCategoriesInSeveralRootCategories();
             });
 
         $("#btnShowOvercategorizedSets").on("click",
@@ -58,7 +66,26 @@ class Cms {
             },
             error: function (result) {
                 window.console.log(result);
+                resultVar = result;
+                window.console.log(resultVar.responseText);
                 $("#showCategoriesWithNonAggregatedChildrenResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
+            }
+        });
+    }
+
+    RenderCategoriesInSeveralRootCategories() {
+        $.ajax({
+            type: 'POST',
+            url: "/Maintenance/CmsRenderCategoriesInSeveralRootCategories",
+            cache: false,
+            success: function (result) {
+                $("#showCategoriesInSeveralRootCategoriesResult").html(result);
+            },
+            error: function (result) {
+                window.console.log(result);
+                resultVar = result;
+                window.console.log(resultVar.responseText);
+                $("#showCategoriesInSeveralRootCategoriesResult").html("<div class='alert alert-danger'>Ein Fehler ist aufgetreten.<br>" + result + "</div>");
             }
         });
     }

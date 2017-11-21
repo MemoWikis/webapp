@@ -155,9 +155,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Set")
-                .Include("~/Views/Sets/Detail/Set.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
+                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
+                .Include("~/Views/Sets/Detail/Set.css"));
+                
 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
@@ -251,7 +252,8 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceCMS")
-                .Include("~/Views/Maintenance/Js/CMS.js"));
+                .Include("~/Views/Maintenance/Js/CMS.js")
+                .Include("~/Views/Maintenance/Js/CmsCategoryNetworkNavigation.js"));
 
             bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
                 .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")
