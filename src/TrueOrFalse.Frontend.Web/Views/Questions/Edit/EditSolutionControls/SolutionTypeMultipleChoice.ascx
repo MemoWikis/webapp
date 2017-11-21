@@ -61,7 +61,7 @@
                 $(".sequence-answertype").last().val('<%= choice.IsCorrect ? "Richtige Antwort" : "Falsche Antwort" %>');
             <% }
 
-            if (Model.isSolutionOrdered)
+            if (Model.IsSolutionOrdered)
             { %>
                 $('[name="isSolutionRandomlyOrdered"]').prop("checked", false);
             <% }
