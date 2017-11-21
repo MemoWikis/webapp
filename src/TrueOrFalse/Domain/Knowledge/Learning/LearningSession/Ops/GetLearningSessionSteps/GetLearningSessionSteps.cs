@@ -50,7 +50,7 @@ public class GetLearningSessionSteps
         var ids = allQuestions.GetIds();
 
         auxParams.AllTotals = Sl.Resolve<TotalsPersUserLoader>().Run(userId, ids);
-        auxParams.AllValuations = Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(allQuestionsIds, user.Id);
+        auxParams.AllValuations = Sl.QuestionValuationRepo.GetActiveInWishknowledgeFromCache(allQuestionsIds, userId);
         auxParams.AllAnswerHistories = Sl.Resolve<AnswerRepo>().GetByQuestion(allQuestionsIds, userId);
 
         auxParams.UnansweredQuestions = allQuestions
