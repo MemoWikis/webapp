@@ -23,16 +23,27 @@ class PageInit {
 
         $('[data-toggle=popover]').popover({ html: true }).click(e => { e.preventDefault(); });
 
-        //set focus to first possible answer element
         if (!Utils.IsInWidget()) {
 
+            this.ScrollToAnswerQuestionHeaderIfOutsideView();
+
+            //set focus to first possible answer element
             if (document.getElementsByName("answer").length > 0)
                 $("[name=answer]")[0].focus();
 
             $("#txtAnswer:visible").focus();
 
             $("#row-1:visible").focus();
-            window.scrollTo(0, 0);
+        }
+    }
+
+    ScrollToAnswerQuestionHeaderIfOutsideView() {
+        var answerQuestionHeader = $('.SessionHeading, .AnswerQuestionHeader');
+        var answerQuestionHeaderTop = answerQuestionHeader.offset().top;
+        var scrollY = window.scrollY;
+
+        if (answerQuestionHeader.length > 0 && scrollY > answerQuestionHeaderTop) {
+            window.scrollTo(0, answerQuestionHeaderTop);
         }
     }
 }
