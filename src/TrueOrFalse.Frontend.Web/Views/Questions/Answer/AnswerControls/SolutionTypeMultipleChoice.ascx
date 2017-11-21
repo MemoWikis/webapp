@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
 
-
 <% var localChoices = Model.Choices;
    if (!Model.IsSolutionOrdered)
    {
@@ -20,5 +19,3 @@
 <h6 class = "ItemInfo">
     Es können keine oder mehrere Antworten richtig sein!
 </h6>
-<script type="text/javascript">
-</script>
