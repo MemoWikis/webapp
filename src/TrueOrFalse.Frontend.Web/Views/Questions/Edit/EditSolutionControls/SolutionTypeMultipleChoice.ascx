@@ -1,21 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<QuestionSolutionMultipleChoice>" %>
 
-
-<%--Impelemtation of the bootstrap-toggle plugin
-<link href="/Style/vendor/bootstrap2-toggle.css" rel="stylesheet">
-<script type="text/javascript" src="/Scripts/vendor/bootstrap2-toggle.js"></script>
-<input id="toggle-one" checked type="checkbox">
-<script type="text/javascript">
-  $(function() {
-    $('#toggle-one').bootstrapToggle();
-  })
-</script>--%>
-
-
-
 <div id="choices">
 </div>
-
 
 <div class="form-group">
     <div class="noLabel columnControlsFull ButtonContainer">
