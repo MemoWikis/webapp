@@ -23,7 +23,7 @@
 }
 
 class KnowledgeBar {
-    static ReloadCategory() {
+    public static ReloadCategory() {
         KnowledgeBar.Reload("/Category/KnowledgeBar/?categoryId=" + $("#hhdCategoryId").val());
         KnowledgeBar.ReloadForTopicNavs();
     }
