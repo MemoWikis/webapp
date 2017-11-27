@@ -38,8 +38,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_RecalcReputationForAll();
             Schedule_TrainingReminderCheck();
             Schedule_TrainingPlanUpdateCheck();
-            Schedule_AddCategoryToWishKnowledge();
-            Schedule_RemoveCategoryFromWishKnowledge();
+            Schedule_EditCategoryInWishKnowledge();
             Schedule_KnowledgeReportCheck();
             Schedule_LOM_Export();
         }
@@ -147,16 +146,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
-        private static void Schedule_AddCategoryToWishKnowledge()
-        {
-            _scheduler.ScheduleJob(JobBuilder.Create<EditCategoryInWishKnowledge>().Build(),
-                TriggerBuilder.Create().
-                    WithSimpleSchedule(x => x
-                        .WithIntervalInSeconds(EditCategoryInWishKnowledge.IntervalInSeconds)
-                            .RepeatForever()).Build());
-        }
-
-        private static void Schedule_RemoveCategoryFromWishKnowledge()
+        private static void Schedule_EditCategoryInWishKnowledge()
         {
             _scheduler.ScheduleJob(JobBuilder.Create<EditCategoryInWishKnowledge>().Build(),
                 TriggerBuilder.Create().
