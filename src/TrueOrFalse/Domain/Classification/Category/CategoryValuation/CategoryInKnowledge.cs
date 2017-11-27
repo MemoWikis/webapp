@@ -18,7 +18,7 @@ public class CategoryInKnowledge
 
         var questions = Sl.CategoryRepo.GetById(categoryId).GetAggregatedQuestionsFromMemoryCache();
         var questionValuations = UserValuationCache.GetItem(user.Id).QuestionValuations;
-        var userCategoryAnswers = Sl.R<AnswerRepo>().GetByUserAndCategory(user.Id, categoryId);
+        var userCategoryAnswers = Sl.R<AnswerRepo>().GetByQuestion(questions.GetIds().ToList(), user.Id);
         foreach (var question in questions)
         {
             var questionValuation = questionValuations.FirstOrDefault(v => v.Value.Question.Id == question.Id).Value;
