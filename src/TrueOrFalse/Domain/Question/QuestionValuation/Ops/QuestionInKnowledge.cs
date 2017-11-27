@@ -116,7 +116,10 @@ public static class QuestionInKnowledge
             var totalRelevancePersonalEntriesCount = questionValuations.Count(v => v.Question.Id == question.Id && v.RelevancePersonal != -1);
             question.TotalRelevancePersonalEntries = totalRelevancePersonalEntriesCount;
 
-            var totalRelevancePersonalAvg = questionValuations.Where(v => v.Question.Id == question.Id && v.RelevancePersonal != -1).Select(v => v.RelevancePersonal).Sum() / totalRelevancePersonalEntriesCount;
+            var totalRelevancePersonalAvg = totalRelevancePersonalEntriesCount == 0
+                                            ? 0
+                                            : questionValuations.Where(v => v.Question.Id == question.Id && v.RelevancePersonal != -1)
+                                                  .Select(v => v.RelevancePersonal).Sum() / totalRelevancePersonalEntriesCount;
             question.TotalRelevancePersonalAvg = totalRelevancePersonalAvg;
         }
     }
