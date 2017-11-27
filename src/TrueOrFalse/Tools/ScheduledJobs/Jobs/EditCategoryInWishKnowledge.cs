@@ -34,7 +34,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             break;
                     }
                 }
-            }, "RecalcReputation");
+            }, "EditCategoryInWishKnowledge");
         }
 
         private static void AddCategoryToWishKnowledge(JobQueue job, ILifetimeScope scope)
