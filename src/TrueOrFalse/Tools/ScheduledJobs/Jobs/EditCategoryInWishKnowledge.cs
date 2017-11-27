@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Script.Serialization;
+using Autofac;
 using Quartz;
 using RollbarSharp;
 
@@ -15,8 +16,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                var successfullJobIds = new List<int>();
-
                 var allJobs = new List<JobQueue>();
                 allJobs.AddRange(scope.R<JobQueueRepo>().GetAddCategoryToWishKnowledge());
                 allJobs.AddRange(scope.R<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge());
@@ -27,56 +26,49 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     switch (job.JobQueueType)
                     {
                         case JobQueueType.AddCategoryToWishKnowledge:
-                            AddCategoryToWishKnowledge(job, successfullJobIds);
+                            AddCategoryToWishKnowledge(job, scope);
                             break;
 
                         case JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge:
-                            RemoveQuestionsInCategoryFromWishKnowledge(job, successfullJobIds);
+                            RemoveQuestionsInCategoryFromWishKnowledge(job, scope);
                             break;
                     }
                 }
-
-                //Delete jobs that have been executed successfully
-                if (successfullJobIds.Count > 0)
-                {
-                    scope.R<JobQueueRepo>().DeleteById(successfullJobIds);
-                    Logg.r().Information("Job EditCategoryInWishKnowledge edited Valuations for "+ successfullJobIds.Count + " jobs.");
-                    successfullJobIds.Clear();
-                }
-
             }, "RecalcReputation");
         }
 
-        private static void AddCategoryToWishKnowledge(JobQueue job, IList<int> successfullJobIds)
+        private static void AddCategoryToWishKnowledge(JobQueue job, ILifetimeScope scope)
         {
-                try
-                {
-                    var categoryUserPair = GetCategoryUserPair(job);
-                    CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+            try
+            {
+                var categoryUserPair = GetCategoryUserPair(job);
+                CategoryInKnowledge.PinCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
 
-                    successfullJobIds.Add(job.Id);
-                }
-                catch (Exception e)
-                {
-                    Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
-                    new RollbarClient().SendException(e);
-                }
+                scope.R<JobQueueRepo>().Delete(job.Id);
+                Logg.r().Information($"Job EditCategoryInWishKnowledge added QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
+            }
+            catch (Exception e)
+            {
+                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
+                new RollbarClient().SendException(e);
+            }
         }
 
-        private static void RemoveQuestionsInCategoryFromWishKnowledge(JobQueue job, List<int> successfullJobIds)
+        private static void RemoveQuestionsInCategoryFromWishKnowledge(JobQueue job, ILifetimeScope scope)
         {
-                try
-                {
-                    var categoryUserPair = GetCategoryUserPair(job);
-                    CategoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+            try
+            {
+                var categoryUserPair = GetCategoryUserPair(job);
+                CategoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
 
-                    successfullJobIds.Add(job.Id);
-                }
-                catch (Exception e)
-                {
-                    Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
-                    new RollbarClient().SendException(e);
-                }
+                scope.R<JobQueueRepo>().Delete(job.Id);
+                Logg.r().Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
+            }
+            catch (Exception e)
+            {
+                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge.");
+                new RollbarClient().SendException(e);
+            }
         }
 
         private static CategoryUserPair GetCategoryUserPair(JobQueue jobQueueEntry)
