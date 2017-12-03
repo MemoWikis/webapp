@@ -52,7 +52,10 @@
                     <% if(Model.IsInstallationAdmin) { %>
                         <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                             (<i class="fa fa-user-secret" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
-                        </span>    
+                        </span>
+                    
+                        <div id="last60DaysViews"></div>
+
                     <% } %>
                 </div>
             </div>
