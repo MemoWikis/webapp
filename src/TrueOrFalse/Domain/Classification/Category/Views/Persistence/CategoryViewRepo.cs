@@ -17,7 +17,7 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             .Value;
     }
 
-    public IList<ViewsPerDay> GetPerDay(int categoryId)
+    public IList<ViewsPerDay> GetPerDay(int categoryId, int lastXDays = 30)
     {
         return _session.CreateSQLQuery($@"
                 SELECT 
@@ -25,6 +25,9 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
                     DATE(DateCreated) Date 
                 FROM categoryview 
                 WHERE Category_id = {categoryId}
+                AND DateCreated 
+                    BETWEEN NOW() - INTERVAL {lastXDays} DAY 
+                    AND NOW()
                 GROUP BY Date")
             .SetResultTransformer(Transformers.AliasToBean(typeof(ViewsPerDay)))
             .List<ViewsPerDay>();
