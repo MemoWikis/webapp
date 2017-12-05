@@ -403,6 +403,9 @@
     <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
       <DependentUpon>CategoryHeader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Js\Tabbing.js">
+      <DependentUpon>Tabbing.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\BreadCrumbMobile.ascx" />
@@ -478,6 +481,9 @@
     </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
+    <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
+      <DependentUpon>Tabbing.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -810,6 +816,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
