@@ -15,5 +15,5 @@ $(() => {
     new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
     new Pin(PinType.Set, KnowledgeBar.ReloadCategory);
     new Tabbing(page);
-    new CategoryHeader();
+    new CategoryHeader(page);
 });

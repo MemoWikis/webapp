@@ -1,24 +1,46 @@
-﻿class CategoryHeader {
+﻿interface ViewsPerDay {
+    Date: Date;
+    Views: number;
+}
 
-    constructor() {
-        this.drawViewsByDayChart();
+class CategoryHeader {
+
+    private _page: CategoryPage ;
+
+    constructor(page: CategoryPage) {
+
+        this.getData(page.CategoryId)
+            .done((data) => {
+                this.drawViewsByDayChart(data)
+            });
     }
 
-    drawViewsByDayChart(){
+    private getData(categoryId: number) : JQueryXHR {
+        return $.get(`/Api/CategoryStatistics/ViewsByDayByName/?categoryId=${categoryId}&amountOfDays=20`);
+    }
 
-        var data = [
-            { date: "2013-01", value: 23 },
-            { date: "2013-02", value: 7 },
-            { date: "2013-03", value: 1 },
-            { date: "2013-04", value: 35 },
-            { date: "2013-05", value: 23 },
-            { date: "2013-06", value: 2 },
-            { date: "2013-07", value: 4 },
-            { date: "2013-08", value: 1 },
-            { date: "2013-09", value: 0 },
-            { date: "2013-10", value: 4 },
-            { date: "2013-11", value: 2 }
-        ];
+    drawViewsByDayChart(data_: ViewsPerDay[]){
+
+        //var data = [
+        //    { date: "2013-01", value: 23 },
+        //    { date: "2013-02", value: 7 },
+        //    { date: "2013-03", value: 1 },
+        //    { date: "2013-04", value: 35 },
+        //    { date: "2013-05", value: 23 },
+        //    { date: "2013-06", value: 2 },
+        //    { date: "2013-07", value: 4 },
+        //    { date: "2013-08", value: 1 },
+        //    { date: "2013-09", value: 0 },
+        //    { date: "2013-10", value: 4 },
+        //    { date: "2013-11", value: 2 }
+        //];
+
+        var data = data_.map((d) => {
+            return {
+                date: d.Date.toString(),
+                value: d.Views
+            };
+        });
 
         var margin = {top: 20, right: 20, bottom: 70, left: 40},
             width = 300 - margin.left - margin.right,
@@ -60,7 +82,7 @@
         .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", function(d) { return x(d.date); })
+            .attr("x", function(d) { return x(<any>d.date); })
             .attr("y", function(d) { return y(<any>d.value); })
             .attr("width", x.bandwidth())
             .attr("height", function(d) { return height - y(<any>d.value); });
