@@ -232,7 +232,7 @@ public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
     public static LearningSessionStep GetStep(int learningSessionId, Guid learningSessionStepGuid) => 
         Sl.LearningSessionRepo.GetById(learningSessionId).GetStep(learningSessionStepGuid);
 
-    public void FillAllAnswers()
+    public virtual void FillAllAnswers()
     {
         var stepGuids = this.Steps.Where(s => s.AnswerState != StepAnswerState.NotViewedOrAborted).Select(x => x.Guid).ToList();
         var answers = Sl.AnswerRepo.GetByLearningSessionStepGuids(stepGuids);

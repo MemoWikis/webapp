@@ -36,14 +36,16 @@ public class LearningSessionStep
     [JsonProperty]
     public int QuestionId;
 
-    //private Answer _answer;
-
     public Answer AnswerWithInput
     {
         get
         {
+            if (Answers == null)
+                return null;
+
             if (Answers.Any(a => !a.IsView()))
                 return Answers.OrderBy(a => a.InteractionNumber).Last(a => !a.IsView());
+
             return Answers.OrderBy(a => a.InteractionNumber).Last();
         }
     }
@@ -62,15 +64,7 @@ public class LearningSessionStep
         set => _answers = value;
     }
 
-    public AnswerCorrectness AnswerCorrectness
-    {
-        get
-        {
-            if (Answers.Any(a => !a.IsView()))
-                return Answers.OrderBy(a => a.InteractionNumber).Last(a => !a.IsView()).AnswerredCorrectly;
-            return Answers.OrderBy(a => a.InteractionNumber).Last().AnswerredCorrectly;
-        }
-    }
+    public AnswerCorrectness AnswerCorrectness => AnswerWithInput.AnswerredCorrectly;
 
     public bool AnsweredCorrectly =>
         AnswerCorrectness == AnswerCorrectness.True || AnswerCorrectness == AnswerCorrectness.MarkedAsTrue;
