@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Seedworks.Lib.Persistence;
 
@@ -34,18 +36,16 @@ public class LearningSessionStep
     [JsonProperty]
     public int QuestionId;
 
-    private Answer _answer;
+    //private Answer _answer;
 
-    public Answer Answer
+    public Answer AnswerWithInput
     {
         get
         {
-            if (_answer != null)
-                return _answer;
-
-            return Sl.AnswerRepo.GetLastByLearningSessionStepGuid(Guid);
+            if (Answers.Any(a => !a.IsView()))
+                return Answers.OrderBy(a => a.InteractionNumber).Last(a => !a.IsView());
+            return Answers.OrderBy(a => a.InteractionNumber).Last();
         }
-        set => _answer = value;
     }
 
     private IList<Answer> _answers;

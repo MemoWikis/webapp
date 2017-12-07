@@ -143,8 +143,8 @@ public class TrainingPlanCreator
     {
         var answersOfLastTrainingDone = date.LearningSessions.Any() ?
             date.LearningSessions.OrderBy(x => x.DateCreated)
-                .Last().Steps.Where(s => s.Answer != null)
-                .Select(s => s.Answer)
+                .Last().Steps.Where(s => s.AnswerWithInput != null)
+                .Select(s => s.AnswerWithInput)
                 .OrderBy(a => a.DateCreated).ToList() : new List<Answer>();
 
         if (!answersOfLastTrainingDone.Any())

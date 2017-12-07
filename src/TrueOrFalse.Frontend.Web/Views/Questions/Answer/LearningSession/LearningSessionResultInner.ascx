@@ -189,7 +189,7 @@
                                                     }
                                                     else
                                                     {
-                                                        %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHtml(step.Answer.AnswerText, step.Question.SolutionType) %></p><%
+                                                        %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHtml(step.AnswerWithInput.AnswerText, step.Question.SolutionType) %></p><%
                                                     }
                                                     counter++;
                                                 } %>
