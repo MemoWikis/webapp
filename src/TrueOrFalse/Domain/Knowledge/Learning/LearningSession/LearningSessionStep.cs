@@ -43,14 +43,43 @@ public class LearningSessionStep
             if (_answer != null)
                 return _answer;
 
-            return Sl.AnswerRepo.GetByLearningSessionStepGuid(Guid);
+            return Sl.AnswerRepo.GetLastByLearningSessionStepGuid(Guid);
         }
         set => _answer = value;
     }
+
+    private IList<Answer> _answers;
+
+    public IList<Answer> Answers
+    {
+        get
+        {
+            if (_answers != null)
+                return _answers;
+
+            return Sl.AnswerRepo.GetByLearningSessionStepGuid(Guid);
+        }
+        set => _answers = value;
+    }
+
+    public AnswerCorrectness AnswerCorrectness
+    {
+        get
+        {
+            if (Answers.Any(a => !a.IsView()))
+                return Answers.OrderBy(a => a.InteractionNumber).Last(a => !a.IsView()).AnswerredCorrectly;
+            return Answers.OrderBy(a => a.InteractionNumber).Last().AnswerredCorrectly;
+        }
+    }
+
+    public bool AnsweredCorrectly =>
+        AnswerCorrectness == AnswerCorrectness.True || AnswerCorrectness == AnswerCorrectness.MarkedAsTrue;
 
     [JsonProperty]
     public StepAnswerState AnswerState { get; set; }
 
     [JsonProperty]
     public bool IsRepetition { get; set; }
+
+
 }

@@ -168,7 +168,7 @@ public class AnswerRepo : RepositoryDb<Answer>
                     .SingleOrDefault();
     }
 
-    public Answer GetByLearningSessionStepGuid(Guid learningSessionStepGuid)
+    public Answer GetLastByLearningSessionStepGuid(Guid learningSessionStepGuid)
     {
         if (learningSessionStepGuid == default(Guid))
             return null;
@@ -183,6 +183,23 @@ public class AnswerRepo : RepositoryDb<Answer>
         return answerInteractions
             .OrderByDescending(a => a.Id)
             .Last();
+    }
+
+    public IList<Answer> GetByLearningSessionStepGuid(Guid learningSessionStepGuid)
+    {
+        if (learningSessionStepGuid == default(Guid))
+            return null;
+
+        var answerInteractions = _session.QueryOver<Answer>()
+            .Where(a => a.LearningSessionStepGuidString == learningSessionStepGuid.ToString())
+            .List();
+
+        if (!answerInteractions.Any())
+            return null;
+
+        return answerInteractions
+            .OrderByDescending(a => a.Id)
+            .ToList();
     }
 
     public IList<Answer> GetByLearningSessionStepGuids(IList<Guid> learningSessionStepGuids)
