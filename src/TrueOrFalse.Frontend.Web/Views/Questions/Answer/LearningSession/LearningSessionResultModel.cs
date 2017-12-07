@@ -77,20 +77,18 @@ public class LearningSessionResultModel : BaseModel
 
             LearningSession.FillAllAnswers();
 
-            //var stepGuids = LearningSession.Steps.Where(s => s.AnswerState != StepAnswerState.NotViewedOrAborted).Select(x => x.Guid).ToList();
-            //var answers = Sl.AnswerRepo.GetByLearningSessionStepGuids(stepGuids);
-            //var answersGrouped = answers.OrderBy(a => a.DateCreated).GroupBy(d => d.Question.Id);
-
             NumberUniqueQuestions = AnsweredStepsGrouped.Count();
 
-            //NumberCorrectAnswers = AnsweredStepsGrouped.Count(g => g.First().AnswerState == StepAnswerState.Answered && answers.Any(a => a.LearningSessionStepGuid == g.First().Guid && a.AnsweredCorrectly()));
-            //NumberCorrectAfterRepetitionAnswers = AnsweredStepsGrouped.Count(g => g.Count() > 1 && g.Last().AnswerState == StepAnswerState.Answered && answers.Any(a => a.LearningSessionStepGuid == g.Last().Guid && a.AnsweredCorrectly()));
-            //NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState != StepAnswerState.Answered));
-            //NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
+            NumberCorrectAnswers = AnsweredStepsGrouped.Count(
+                g => g.First().AnswerState == StepAnswerState.Answered 
+                && g.First().AnsweredCorrectly);
 
-            NumberCorrectAnswers = AnsweredStepsGrouped.Count(g => g.First().AnswerState == StepAnswerState.Answered && g.First().AnsweredCorrectly);
-            NumberCorrectAfterRepetitionAnswers = AnsweredStepsGrouped.Count(g => g.Last().AnswerState == StepAnswerState.Answered &&  g.Count() > 1 && g.Last().AnsweredCorrectly);
+            NumberCorrectAfterRepetitionAnswers = AnsweredStepsGrouped.Count(
+                g => g.Last().AnswerState == StepAnswerState.Answered 
+                && g.Count() > 1 && g.Last().AnsweredCorrectly);
+
             NumberNotAnswered = AnsweredStepsGrouped.Count(g => g.All(a => a.AnswerState != StepAnswerState.Answered));
+
             NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
             
             if (NumberWrongAnswers < 0)
@@ -106,13 +104,4 @@ public class LearningSessionResultModel : BaseModel
                 });
         }
     }
-
-    //public LearningStatusForQuestionResult GetLearningStatusForQuestionResult(IGrouping<int, LearningSessionStep> allStepsForOneQuestion)
-    //{
-    //    //more direct approach via learningSessionStep.Answer has performance problems (DB access for each call)
-
-    //    if ((allStepsForOneQuestion.First().AnswerState == StepAnswerState.Answered) && allStepsForOneQuestion.First().AnswerWithInput.AnsweredCorrectly())
-    //        return LearningStatusForQuestionResult.RightOnFirstTry;
-    //    return LearningStatusForQuestionResult.Wrong;
-    //}
 }
