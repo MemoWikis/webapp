@@ -17,66 +17,27 @@
 </asp:Content>
 
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
+    <link href="/Views/Questions/Answer/LearningSession/LearningSessionResult.css" rel="stylesheet" />
+    <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Styles.Render("~/bundles/Category") %>
     <%= Scripts.Render("~/bundles/js/Category") %>
+    <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
+    <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
 
-    <div class="row">
-            
-        <div class="col-xs-12">
-            
-            <div id="MainWrapper">
-            
-                <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
-
-                        Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
+    <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
                 
-                        <%if (Model.CategoriesChildren.Count > 0)
-                                Html.RenderPartial("~/Views/Categories/Detail/Partials/TopicNavigation.ascx",
-                                                new TopicNavigationModel(Model.Category, "Unterthemen"));%>
-                
-<%--                        <% if(Model.AggregatedSets.Any())
-                                for (var i = 0; i < 2; i++)
-                                {
-                                    if(Model.AggregatedSets[i] != null)
-                                        Html.RenderPartial("~/Views/Categories/Detail/Partials/TestSetWidget.ascx",
-                                            new TestSetWidgetModel(Model.AggregatedSets[i].Id));
-                                } %>--%>
-
-                        <% if (Model.FeaturedSets.Count > 0){
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleSetCollection.ascx",
-                                new SingleSetCollectionModel(Model.FeaturedSets));
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-
-
-                        } else {//no featured sets
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/ContentLists.ascx", Model);
-
-                            Html.RenderPartial("~/Views/Categories/Detail/Partials/RelatedContentLists.ascx", Model);
-                        }
-
-                } else { 
-                    
-                    if(!Model.CustomPageHtml.Contains("MainItemInfo")) { %>                  
-            
-                        <% Html.RenderPartial("~/Views/Categories/Detail/Partials/MainInfo.ascx", Model);%>
-                    
-                    <% } %>
-            
-                    <div class="MarkdownContent">
-                        <%= Model.CustomPageHtml %>
-                    </div>
-
-                <% } %>
-            </div>
-        </div>
+    <div id="TopicTabContent" class="TabContent">
+        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/TopicTab.ascx", Model); %>
     </div>
+    <div id="LearningTabContent" class="TabContent" style="display: none;">
+        <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
+    </div>
+    <div id="AnalyticsTabContent" class="TabContent"></div>
 </asp:Content>

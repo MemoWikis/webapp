@@ -47,7 +47,6 @@ public class WelcomeModel : BaseModel
             ActivityPointsPercentageOfNextLevel = ActivityPoints == 0 ? 0 : 100 * ActivityPoints / ActivityPointsAtNextLevel;
 
         }
-        else FillWithSampleData();
 
         TotalCategoriesCount = R<CategoryRepository>().TotalCategoryCount();
         TotalCategoriesCountRound10 = (int)Math.Floor(TotalCategoriesCount / 10.0) * 10;
@@ -59,23 +58,4 @@ public class WelcomeModel : BaseModel
 
        MemuchoBlogPosts = BlogMemuchoDeRepo.GetRecentPosts(3);
     }
-
-    private void FillWithSampleData()
-    {
-        KnowledgeSummary = new KnowledgeSummary
-        (
-            notLearned : 25,
-            needsLearning : 44,
-            needsConsolidation : 91,
-            solid : 128
-        );
-
-        ActivityPoints = 3210;
-        ActivityLevel = UserLevelCalculator.GetLevel(ActivityPoints);
-        ActivityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(ActivityLevel);
-        ActivityPointsTillNextLevel = ActivityPointsAtNextLevel - ActivityPoints;
-        ActivityPointsPercentageOfNextLevel = ActivityPoints == 0 ? 0 : 100 * ActivityPoints / ActivityPointsAtNextLevel;
-
-    }
-
 }

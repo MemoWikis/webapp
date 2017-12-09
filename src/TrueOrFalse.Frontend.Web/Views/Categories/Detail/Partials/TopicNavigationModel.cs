@@ -54,6 +54,9 @@ public class TopicNavigationModel : BaseModel
                 break;
         }
 
+
+        CategoryList = CategoryList.Where(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard).ToList();
+
         Title = title;
         Text = text;
     }
@@ -79,7 +82,6 @@ public class TopicNavigationModel : BaseModel
         var categoryList = new List<Category>();
         foreach (var categoryId in categoryIdList)
         {
-            //TODO:Julian FEHLER BEHANDELUNG BEI NULL REFERENCE CATEGORY ID
             var category = Sl.CategoryRepo.GetById(categoryId);
             categoryList.Add(category);
         }

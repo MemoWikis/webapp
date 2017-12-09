@@ -106,6 +106,10 @@ select.form-control {
 .input-group select.form-control {
   max-width: none;
 }
+#VideoUrl {
+  display: inline-block;
+  margin-right: 10px;
+}
 .separationBorderTop {
   border-top: 1px solid #d6d6d6;
   padding-top: 15px;
@@ -124,6 +128,10 @@ select.form-control {
 #ulQuestions.showTimeInput .time-button,
 #ulQuestions.showTimeInput .time-input {
   display: block;
+}
+.videoSetAnnotation {
+  display: none;
+  margin-bottom: 15px;
 }
 #ulQuestions li {
   margin: 0 5px 5px 5px;
@@ -189,97 +197,72 @@ textarea.form-control {
   max-width: none;
   height: 120px;
 }
-#editSet {
-  margin-top: 6.0em;
-}
-/*#question {
-    border: solid;
-   
-}*/
 .form-horizontal {
-  padding-bottom: 100px;
+  padding-bottom: 50px;
 }
 .form-horizontal .FormSection {
   box-shadow: none;
   margin-right: 13px;
 }
-.form-horizontal .FormSection #safeQuestions {
-  margin-left: 10px;
+#questionSearch #questionSearchAnnotation {
+  margin-top: 10px;
 }
-.form-horizontal .FormSection .nolabel {
-  background-color: blue;
-}
-.form-horizontal .FormSection .nolabel .btn {
-  margin-left: -220px;
-}
-.form-horizontal .FormSection #resultHeading {
-  padding-top: 15px;
-  font-size: 2em;
-  margin-left: -1px;
-}
-.form-horizontal .FormSection .questionRows {
+#questionSearch .questionRows {
   margin: 5px 0px 5px 7px;
-  font-size: 1.3em;
-  line-height: 1.5em;
-  background: none;
+  line-height: initial;
   background-color: white;
   border: 1px solid gainsboro;
   margin-left: -0.5px;
-  /*max-width: 650px;*/
-  padding: 10px;
+  padding: 8px 0;
 }
-.form-horizontal .FormSection .questionRows .previewImage {
-  height: 75px;
-  width: 75px;
+#questionSearch .questionRows .questionSearchResultCheckbox {
+  text-align: center;
 }
-.form-horizontal .FormSection .questionRows .col-xs-1 {
-  width: 8.33%;
-}
-.form-horizontal .FormSection .questionRows .col-xs-2 {
-  width: 16.66%;
+#questionSearch .questionRows .questionSearchResultImage {
   padding-top: 5px;
   padding-bottom: 5px;
   align-items: center;
 }
-.form-horizontal .FormSection .questionRows .col-xs-9 .linkQuestion {
-  width: 74.97%;
-  line-height: 0.5em;
-  padding-top: 5px;
-  padding-bottom: 7px;
-  margin: auto;
+#questionSearch .questionRows .questionSearchResultText {
+  font-size: 14px;
 }
-.form-horizontal .FormSection .questionRows .col-xs-9 .linkQuestion a {
-  font-size: 12px;
+#questionSearch .questionRows .questionSearchResultText .correctAnswer {
+  font-size: smaller;
+  color: #999999;
+}
+#questionSearch .questionRows .questionSearchResultText .correctAnswer ul {
+  margin-bottom: 0;
+}
+#questionSearch .questionRows .questionSearchResultText .linkQuestion {
   text-align: right;
-  margin-right: -48px;
-  float: right;
+  font-size: smaller;
+  margin-bottom: 0;
 }
-@media only screen and (max-width: 768px) {
-  .form-horizontal .FormSection .questionRows {
-    /* For mobile phones: */
-  }
-  .form-horizontal .FormSection .questionRows [class*="col-"] {
-    width: 100%;
-  }
-}
-.form-horizontal .FormSection #learnSetSave {
-  margin: 20px 0px 0px 4px;
-  margin-top: 50px;
-}
-.form-horizontal .FormSection #safeQuestions {
-  margin-top: 40px;
-}
-#btnSave {
+#questionSearch #addMarkedQuestionsToSetAndSave {
   margin-top: 20px;
-  margin-bottom: 50px;
-  margin-left: -19px;
+}
+#questionSearch #addQuestionsOutputInfo {
+  margin-top: 40px;
+  margin-left: 10px;
+}
+.buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.buttons .btn-primary {
+  min-width: 180px;
 }
 #questionSearch {
-  padding-left: 11px;
   margin-top: 15px;
 }
-#btnCreateNewQuestionInLearnSet {
-  margin-top: 25px;
+#questionSearch #questionSearchResults {
+  margin-top: 15px;
+}
+#createNewQuestionInSet {
+  margin-top: 45px;
+}
+#createNewQuestionInSet #btnCreateNewQuestionInSet {
+  margin-right: 15px;
 }
 #responseForm {
   border: 1px solid gainsboro;
@@ -293,7 +276,4 @@ textarea.form-control {
 #responseForm #response {
   line-height: 1,2em;
   padding-top: 7px;
-}
-#btn-save {
-  margin-left: -21px;
 }

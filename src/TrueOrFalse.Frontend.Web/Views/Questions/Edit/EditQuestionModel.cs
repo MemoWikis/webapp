@@ -60,6 +60,7 @@ public class EditQuestionModel : BaseModel
 
     public IList<Category> Categories = new List<Category>();
     public IList<Reference> References = new List<Reference>();
+    public IList<Reference> EscapedReferences => EscapeReferenceText(References);
 
     public string PageTitle;
 
@@ -153,5 +154,30 @@ public class EditQuestionModel : BaseModel
         QuestionText = "";
         Description = "";
         Categories = new List<Category>();
+    }
+
+    private IList<Reference> EscapeReferenceText(IList<Reference> questionReferences)
+    {
+        foreach (var reference in questionReferences)
+        {
+            switch (reference.ReferenceType)
+            {
+                    case ReferenceType.FreeTextreference:
+                        var newString = EscapeChars(reference.ReferenceText);
+                    reference.ReferenceText = EscapeChars(reference.ReferenceText);
+                        break;
+
+                    case ReferenceType.UrlReference:
+                        reference.AdditionalInfo = EscapeChars(reference.AdditionalInfo);
+                        break;
+            }
+        }
+        return questionReferences;
+    }
+
+    private string EscapeChars(string objectString)
+    {
+        return objectString.Replace(Environment.NewLine, "\\n").Replace("\r\n", "\\n").Replace("\n", "\\n").Replace("\r", "\\n")
+            .Replace("\'", @"\'").Replace("\"", "\\\"").Replace(@"\t", " ");
     }
 }

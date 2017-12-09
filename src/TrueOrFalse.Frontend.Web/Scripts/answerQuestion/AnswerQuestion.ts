@@ -78,7 +78,7 @@ class AnswerQuestion {
         this.ClickToContinue = function () {
             $('#continue').fadeIn();
             $(document).off('click').on('click',
-                '.test',
+                '.clickToContinue',
                 (e) => {
                     e.preventDefault();
                     setVideo.HideYoutubeOverlay();
@@ -243,7 +243,7 @@ class AnswerQuestion {
                             cache: false
                         });
 
-                        AnswerQuestionUserFeedback.IfLastQuestion_Change_Btn_Text_ToResult();
+                        AnswerQuestionUserFeedback.IfLastTestQuestionChangeBtnNextToResult();
                     }
 
                     if (result.correct) {
@@ -275,7 +275,6 @@ class AnswerQuestion {
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
-            $('#btnNext').unbind();
         }
 
         this._onCorrectAnswer();
@@ -286,7 +285,6 @@ class AnswerQuestion {
 
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
-            $('#btnNext').unbind();
         }
 
         if (this.IsGameMode) {
@@ -384,8 +382,9 @@ class AnswerQuestion {
 
                 self.UpdateProgressBar(self.GetCurrentStep() - 1);
 
-                if (self._isLastLearningStep)
+                if (self._isLastLearningStep) {
                     $('#btnNext').html('Zum Ergebnis');
+                }
             }
         });
     }
@@ -451,7 +450,7 @@ class AnswerQuestion {
         });
     }
 
-    UpdateProgressBar(numberSteps : number = -1, answerResult : any = null) {
+    UpdateProgressBar(numberSteps: number = -1, answerResult: any = null) {
 
         var raiseTo: number;
         var percentage: number = parseInt($("#spanPercentageDone").html());

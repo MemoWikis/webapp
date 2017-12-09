@@ -121,7 +121,7 @@ function InitPopoverForAllSets() {
             content = "<div style=''>" + content + "</div>";
 
             elem.popover({
-                title: 'weitere Frages&#228tze',
+                title: 'Weitere Lernsets:',
                 html: true,
                 content: content,
                 trigger: 'click'

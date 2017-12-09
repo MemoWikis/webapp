@@ -13,19 +13,11 @@ public class ModifyRelationsForCategory
     public static void UpdateCategoryRelationsOfType(
         Category category,
         IList<Category> relatedCategories, 
-        CategoryRelationType relationType,
-        CategoryType relatedCategoriesType = CategoryType.None)
+        CategoryRelationType relationType)
     {
         var existingRelationsOfType = category.CategoryRelations.Any()
             ? category.CategoryRelations?.Where(r => r.CategoryRelationType == relationType).ToList()
             : new List<CategoryRelation>();
-
-        if (existingRelationsOfType.Any() && relatedCategoriesType != CategoryType.None)
-        {
-            existingRelationsOfType = existingRelationsOfType
-                .Where(r => r.RelatedCategory.Type == relatedCategoriesType)
-                .ToList();
-        }
 
         var relationsToAdd = relatedCategories
             .Except(existingRelationsOfType.Select(r => r.RelatedCategory))

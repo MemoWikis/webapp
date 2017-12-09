@@ -215,6 +215,7 @@
     <Compile Include="1 View\RouteTests.cs" />
     <Compile Include="1 View\UserNavigationModelListTest.cs" />
     <Compile Include="2 Domain.Jobs\TrainingPlanUpdateCheckJobTest.cs" />
+    <Compile Include="2 Domain\Category\CategoryChange_tests.cs" />
     <Compile Include="2 Domain\Category\UserValuationCache_tests.cs" />
     <Compile Include="2 Domain\Comment\Comment_persistence.cs" />
     <Compile Include="2 Domain\Comment\Setup\ContextComment.cs" />

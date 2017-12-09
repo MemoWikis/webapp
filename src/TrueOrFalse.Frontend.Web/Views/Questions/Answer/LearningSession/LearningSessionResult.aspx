@@ -8,7 +8,7 @@
     
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-    <script>
+    <%--<script>
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawKnowledgeCharts);
 
@@ -63,7 +63,7 @@
             });
         }
 
-    </script>
+    </script>--%>
 
     <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
 </asp:Content>
@@ -73,8 +73,9 @@
     
 <%--    <% if (Model.IsLoggedIn)
            Html.RenderPartial("~/Views/Api/ActivityPoints/ActivityLevelProgress.aspx", new ActivityLevelProgressModel(Sl.SessionUser.User)); %>--%>
+    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionResultInner.ascx", Model); %>
 
-    <h2 style="margin-bottom: 15px; margin-top: 0px;">
+    <%--<h2 style="margin-bottom: 15px; margin-top: 0px;">
         <span class="<% if (Model.LearningSession.IsDateSession) Response.Write("ColoredUnderline Date");
                         if (Model.LearningSession.IsSetSession) Response.Write("ColoredUnderline Set");
                         if (Model.LearningSession.IsSetsSession) Response.Write("ColoredUnderline Set");
@@ -194,7 +195,7 @@
 
                         <% }
                         else if (uniqueQuestion.All(a => a.AnswerState != StepAnswerState.Answered))
-                        { %>
+                        { %> 
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="QuestionLearned Unanswered">
@@ -215,7 +216,18 @@
                                             &nbsp;&nbsp;
                                         </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
                                         (Details)</a><br/>
-                        <% } %>
+                        <% }
+                        else { // fall-back-option, prevents layout bugs (missing opened divs) in case some answer-case isn't dealt with above  %>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="QuestionLearned">
+                                        <a href="#" data-action="showAnswerDetails">
+                                            <i class="fa fa-question-circle AnswerResultIcon show-tooltip" title="Status unbekannt (Fehler)">
+                                                &nbsp;&nbsp;
+                                            </i><%= uniqueQuestion.First().Question.GetShortTitle(150) %> 
+                                            (Details)</a><br/>
+                             
+                        <% }%>
                                         <div class="answerDetails" data-questionId=<%= uniqueQuestion.First().QuestionId %>>
                                             <div class="row">
                                                 <div class="col-xs-3 col-sm-2 answerDetailImage">
@@ -246,7 +258,7 @@
                                                         }
                                                         else
                                                         {
-                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHTML(step.Answer.AnswerText, step.Question.SolutionType) %></p><%
+                                                            %> <p class="answerTry">Dein <%= counter %>. Versuch: <%= Question.AnswersAsHtml(step.Answer.AnswerText, step.Question.SolutionType) %></p><%
                                                         }
                                                         counter++;
                                                     } %>
@@ -422,7 +434,7 @@
                 
             <% } %>
         </div>
-    </div>
+    </div>--%>
 
 
 </asp:Content>

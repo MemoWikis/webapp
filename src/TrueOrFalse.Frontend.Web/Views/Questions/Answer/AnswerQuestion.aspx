@@ -4,6 +4,7 @@
 <%@ Import Namespace="TrueOrFalse" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
+    
     <% Title = Model.QuestionText; %>
     <% if (Model.IsLearningSession || Model.IsTestSession ) { %>
         <meta name="robots" content="noindex" />
@@ -25,6 +26,11 @@
     <%= Styles.Render("~/bundles/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <%= Scripts.Render("~/bundles/js/DeleteQuestion") %>
+    
+    <% if(Model.IsLearningSession) { %>
+        <%= Scripts.Render("~/bundles/js/LearningSessionResult") %>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <% } %>
 
     <style type="text/css">
          .selectorShowSolution{/* marker class */}
@@ -44,7 +50,7 @@
         var relevancePeronalAvg = "<%= Model.TotalRelevancePersonalAvg %>";
         var relevancePersonalEntries = "<%= Model.TotalRelevancePersonalEntries %>";
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
-        var relevanceForAlleEntries = "<%= Model.TotalRelevanceForAllEntries %>";
+        var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
 
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
@@ -84,33 +90,17 @@
             <% Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
                    new AnswerBodyModel(Model)); %>
 
-            <div class="row">
-                    <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) {
-                        var primarySet = Sl.R<SetRepo>().GetById(Model.SetMinis.First().Id); %>
-                        <div class="col-sm-6 xxs-stack">
-                            <div class="well CardContent" style="margin-left: 0; margin-right: 0; padding-top: 10px; min-height: 175px;">
-                                <h6 class="ItemInfo">
-                                    <span class="Pin" data-set-id="<%= primarySet.Id %>" style="">
-                                        <%= Html.Partial("AddToWishknowledge", new AddToWishknowledge(Model.IsInWishknowledge)) %>
-                                    </span>&nbsp;
-                                    Lernset mit <a href="<%= Links.SetDetail(Url,primarySet.Name,primarySet.Id) %>"><%= primarySet.Questions().Count %> Fragen</a>
-                                </h6>
-                                <h4 class="ItemTitle"><%: primarySet.Name %></h4>
-                                <div class="ItemText"><%: primarySet.Text %></div>
-                                <div style="margin-top: 8px; text-align: right;">
-                                    <a href="<%= Links.TestSessionStartForSet(primarySet.Name, primarySet.Id) %>" class="btn btn-primary btn-sm" role="button" rel="nofollow">
-                                        <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>WISSEN TESTEN
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                
-                    <% } %>
-                    <div class="col-sm-6 xxs-stack">
-                        <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
-                    </div>
+            <% if (!Model.IsLoggedIn && !Model.IsTestSession && !Model.IsLearningSession && Model.SetMinis.Any()) { %>
+               <div class="SingleCategoryAttention">
+                    
+                   <% Html.RenderPartial("~/Views/Categories/Detail/Partials/SingleCategoryFullWidth.ascx", new SingleCategoryFullWidthModel(Model.PrimaryCategory.Id)); %>
                 </div>
-            <%--</div>--%>
+            <% } %>
+            <div class="row">
+                <div class="col-sm-6 xxs-stack">
+                    <% Html.RenderPartial("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", Model); %>
+                </div>
+            </div>
             
             <% if (Model.ContentRecommendationResult != null) { %>
                 <h4 style="margin-top: 30px;">Das könnte dich auch interessieren:</h4>

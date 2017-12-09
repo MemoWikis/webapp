@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
@@ -46,11 +47,19 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(category);
     }
 
-    public override void Update(Category category)
+    public override void Update(Category category) => Update(category, null);
+
+    // ReSharper disable once MethodOverloadWithOptionalParameter
+    public void Update(Category category, User author = null)
     {
         _searchIndexCategory.Update(category);
         base.Update(category);
+
+        if(author != null)
+            Sl.CategoryChangeRepo.Create(category, author);
+
         Flush();
+
         Sl.R<UpdateQuestionCountForCategory>().Run(new List<Category>{category});
         EntityCache.AddOrUpdate(category);
     }
@@ -178,6 +187,33 @@ public class CategoryRepository : RepositoryDbBase<Category>
         } 
 
         return descendants;
+    }
+
+    public IList<Category> GetAllParents(int categoryId)
+    {
+        var category = GetById(categoryId);
+        var currentGeneration = category.ParentCategories();
+        var previousGeneration = new List<Category>();
+        var parents = new List<Category>();
+
+        while (currentGeneration.Count > 0)
+        {
+            parents.AddRange(currentGeneration);
+
+            foreach (var currentCategory in currentGeneration)
+            {
+                var directParents = currentCategory.ParentCategories();
+                if (directParents.Count > 0)
+                {
+                    previousGeneration.AddRange(directParents);
+                }
+            }
+
+            currentGeneration = previousGeneration.Except(parents).Where(c => c.Id != categoryId).Distinct().ToList();
+            previousGeneration = new List<Category>();
+        }
+
+        return parents;
     }
 
     public int CountAggregatedSets(int categoryId)

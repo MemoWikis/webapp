@@ -70,7 +70,7 @@
                 <a class="StatsRow" style="display: block" href="<%= Links.TestSessionStartForSet(Model.Name, Model.Id) %>" rel="nofollow">
                     <i class="fa fa-play-circle fa-fw">&nbsp;</i>Wissen testen
                 </a>
-                <a class="StatsRow" style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSesssionForSet(Model.Id) %>" rel="nofollow">
+                <a class="StatsRow" style="display: block" data-allowed="logged-in" data-allowed-type="learning-session" href="<%= Links.StartLearningSessionForSet(Model.Id) %>" rel="nofollow">
                     <i class="fa fa-line-chart fa-fw">&nbsp;</i>Jetzt lernen
                 </a>
                 <a class="StatsRow" style="display: block;" href="<%= Links.GameCreateFromSet(Model.Id) %>" class="show-tooltip" rel="nofollow" data-original-title="Spiel mit Fragen aus diesem Lernset starten." >

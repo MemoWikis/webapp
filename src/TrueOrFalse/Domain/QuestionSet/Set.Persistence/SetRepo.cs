@@ -35,7 +35,7 @@ public class SetRepo : RepositoryDbBase<Set>
         categoriesToUpdateIds = categoriesToUpdateIds.GroupBy(x => x).Select(x => x.First()).ToList();
         Sl.Resolve<UpdateSetCountForCategory>().Run(categoriesToUpdateIds);
 
-        Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet);
+        Sl.Resolve<UpdateSetDataForQuestion>().Run(set.QuestionsInSet, skipUpdateQuestion: true); //as long as properties of question (particularly categories) cannot be changed here, skipUpdateQuestion can be set to true for performance reasons
 
         var aggregatedCategoriesToUpdate =
             CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoriesToUpdateIds));
@@ -59,6 +59,34 @@ public class SetRepo : RepositoryDbBase<Set>
         ReputationUpdate.ForUser(set.Creator);
         _searchIndexSet.Update(set);
         EntityCache.AddOrUpdate(set);
+    }
+
+    public int Copy(Set sourceSet)
+    {
+        var questionsInSet = new HashSet<QuestionInSet>();
+        sourceSet.QuestionsInSet.ToList().ForEach(q => questionsInSet.Add(new QuestionInSet
+        {
+            Question = q.Question,
+            Set = q.Set,
+            Timecode = q.Timecode,
+            Sort = q.Sort
+        }));
+        var categories = new List<Category>();
+        categories.AddRange(sourceSet.Categories);
+        Set copiedSet = new Set
+        {
+            Creator = _userSession.User,
+            Name = sourceSet.Name + " (Kopie von " + _userSession.User.Name + ")",
+            Text = sourceSet.Text,
+            VideoUrl = sourceSet.VideoUrl,
+            QuestionsInSet = questionsInSet,
+            Categories = categories,
+            CopiedFrom = sourceSet
+        };
+
+        Create(copiedSet);
+
+        return copiedSet.Id;
     }
 
     public IList<Set> GetByIds(List<int> setIds)

@@ -63,6 +63,7 @@ class SearchBox
                             "<div class='SearchResultItem'>" +
                                 "<a href='" + item.ItemUrl + "'>" +
                                     "<img src=" + item.ImageUrl + "/>" +
+                                    item.IconHtml +
                                     item.Name +
                                 "</a>" +
                             "</div>";
@@ -79,6 +80,7 @@ class SearchBox
                             "<div class='SearchResultItem'>" +
                                 "<a href='" + item.ItemUrl + "'>" +
                                     "<img src=" + item.ImageUrl + "/>" +
+                                    item.IconHtml + 
                                     item.Name +
                                 "</a>" +
                             "</div>";

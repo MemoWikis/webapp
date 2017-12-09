@@ -97,6 +97,25 @@ public class AnswerRepo : RepositoryDb<Answer>
             .List<Answer>();
     }
 
+    public IList<Answer> GetByUserAndCategory(int userId, int categoryId, bool includingSolutionViews = false)
+    {
+        string query = @"
+            SELECT answer.Id FROM answer
+            LEFT JOIN question
+            ON question.Id = answer.QuestionId
+            LEFT JOIN categories_to_questions
+            ON categories_to_questions.Question_id = question.Id
+            WHERE categories_to_questions.Category_id = " + categoryId +
+            " AND answer.UserId = " + userId;
+
+        var ids = Session.CreateSQLQuery(query).List<int>();
+
+        if (includingSolutionViews)
+            return GetByIds(ids.ToArray());
+
+        return GetByIds(ids.ToArray()).Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView).ToList();
+    }
+
     /// <summary>
     /// returns last #amount of questions a user has interacted with (no matter if answered or only solution viewed), 
     /// without showing a question twice.
@@ -104,14 +123,6 @@ public class AnswerRepo : RepositoryDb<Answer>
     /// </summary>
     public IList<Answer> GetUniqueByUser(int userId, int amount)
     {
-        //Older version, does not sort out duplicate entrys:
-        //return Sl.R<ISession>()
-        //    .QueryOver<Answer>()
-        //    .Where(a => a.UserId == userId)
-        //    .OrderBy(a => a.DateCreated).Desc
-        //    .Take(amount)
-        //    .List<Answer>();
-
         string query = @"
             SELECT MAX(id) as id FROM answer
             WHERE UserId = " + userId + @"
@@ -121,19 +132,6 @@ public class AnswerRepo : RepositoryDb<Answer>
         var ids = Session.CreateSQLQuery(query).List<int>();
 
         return GetByIds(ids.ToArray()).OrderByDescending(a => a.DateCreated).ToList();
-
-        //in one query, but doesn't fit type <Answer>, even though fields match 1:1
-        //string query = @"
-        //    SELECT a2.* FROM answer a2
-        //    INNER JOIN (
-        //        SELECT MAX(id) as maxId FROM answer
-        //        WHERE UserId = " + userId + @"
-        //        GROUP BY QuestionId
-        //        ORDER BY MAX(DateCreated) DESC 
-        //        LIMIT " + amount + @"
-        //    ) a1
-        //    ON a1.maxId = a2.Id";
-        //return Session.CreateSQLQuery(query).List<Answer>();
     }
 
     public IList<Answer> GetByQuestionViewGuids(List<Guid> questionViewGuids, bool excludeSolutionViews)

@@ -58,13 +58,13 @@ public class SetModel : BaseModel
         MetaTitle = set.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(set.Text).Truncate(250, true);
 
-        FillPreviousCategoryData();
-
         Id = set.Id;
         Name = set.Name;
         Text = set.Text;
 
         Set = set;
+
+        FillPreviousCategoryData();
 
         KnowledgeSummary = KnowledgeSummaryLoader.Run(UserId, set);
 
@@ -84,8 +84,8 @@ public class SetModel : BaseModel
 
         //foo = R<ISession>().SessionFactory.Statistics.QueryExecutionCount;
 
-        var questionValutionsForCurrentUser = Resolve<QuestionValuationRepo>()
-            .GetActiveInWishknowledge(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
+        var questionValutionsForCurrentUser = Sl.QuestionValuationRepo
+            .GetActiveInWishknowledgeFromCache(set.QuestionsInSet.Select(x => x.Question.Id).ToList(), _sessionUser.UserId);
 
         var questions = set.QuestionsInSetPublic.Select(x => x.Question).ToList();
         var totalsPerUser = Resolve<TotalsPersUserLoader>().Run(_sessionUser.UserId, questions);
@@ -131,13 +131,30 @@ public class SetModel : BaseModel
             {
                 if (new SessionUiData().VisitedCategories.Any())
                 {
-                    var visitedCategory = new SessionUiData().VisitedCategories.First();
+                    var visitedCategory = GetLastVisitedCategoryOrDefault(Set);
 
                     PreviousCategoryUrl = Links.CategoryDetail(visitedCategory.Name, visitedCategory.Id);
                     PreviousCategoryName = visitedCategory.Name;
                 }
             }
         }
+    }
+
+    private Category GetLastVisitedCategoryOrDefault(Set currentSet)
+    {
+        foreach (var visitedCategoryItem in Sl.SessionUiData.VisitedCategories)
+        {
+            var visitedCategory = EntityCache.GetCategory(visitedCategoryItem.Id);
+            var visitedCategoryAggregatedSets = visitedCategory.GetAggregatedSetsFromMemoryCache();
+            if (visitedCategoryAggregatedSets.Contains(currentSet))
+            {
+                return visitedCategory;
+            }
+        }
+
+        return currentSet.Categories.Count > 0 
+                ? Set.Categories.First()
+                : Sl.CategoryRepo.Allgemeinwissen;
     }
 
     public string GetViews() => Sl.SetViewRepo.GetViewCount(Id).ToString();

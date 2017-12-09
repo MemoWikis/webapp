@@ -25,5 +25,4 @@ public class LearningSessionResultController : BaseController
 
         return View(_viewLocation, new LearningSessionResultModel(learningSession));
     }
-
 }

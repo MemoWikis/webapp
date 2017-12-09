@@ -10,25 +10,16 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-<div class="row">
-    <div class="col-xs-12">
-        <div id="MainWrapper">
-            <h1>Widget-Statistik</h1>
-            <p>
-                Hier siehst du die Zugriffe auf unsere Widgets von allen Hosts, die mit deinem Nutzer-Account verbunden sind.
-            </p>
-            <% foreach (var host in Model.Hosts) { %>
-                <div class="col-xs-12" style="margin-top: 20px;">
-                    <h2>Host: <%= host %></h2>
-                    <% Html.RenderPartial("~/Views/Users/Account/WidgetStats/Partials/WidgetStatsForHost.ascx", new WidgetStatsForHostModel(host)); %>
-                </div>
-                <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-            <% } %>
-
-
-
+    <h1>Widget-Statistik</h1>
+    <p>
+        Hier siehst du die Zugriffe auf unsere Widgets von allen Hosts, die mit deinem Nutzer-Account verbunden sind.
+    </p>
+    <% foreach (var host in Model.Hosts) { %>
+        <div class="col-xs-12" style="margin-top: 20px;">
+            <h2>Host: <%= host %></h2>
+            <% Html.RenderPartial("~/Views/Users/Account/WidgetStats/Partials/WidgetStatsForHost.ascx", new WidgetStatsForHostModel(host)); %>
         </div>
-    </div>
-</div>
+        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+    <% } %>
 
 </asp:Content>

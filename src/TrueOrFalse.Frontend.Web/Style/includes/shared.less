@@ -6,6 +6,7 @@
 
     Helper Classes
     General Styles
+    Page Styles
     Layout Elements
     NavLinks
     Buttons
@@ -83,7 +84,7 @@
     line-height: 30px;
     font-weight: 400;
     color: @global-text-color;
-    .media-below-xs({
+    .media-below-sm({
         font-size: 14px;
         line-height: 21px;
         font-weight: normal;
@@ -100,9 +101,9 @@
 
 .bold  {
     font-weight: bold;
+.fontSizeNormal {
 }
 
-.fontSizeNormal {
     font-size: @font-size-normal;
 }
 
@@ -112,6 +113,24 @@
 
 .greyed {
     color: @global-text-color-grey;
+}
+
+/*  Page Styles
+----------------------------------------------------------*/
+
+.no-white-background() {
+    #MasterMainWrapper {
+        background-color: transparent;
+        padding-top: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        .media-sm-up( {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+        });
+    }
 }
 
 /*  Layout elements
@@ -584,21 +603,19 @@
 
 .MakeSingleItemCardLandscape() { //Apply to .CardColumn
     .Card.SingleItem {
-
         max-width: none;
 
         .ImageContainer {
             width: 100px;
             float: left;
             margin: 10px;
-
             margin-bottom: 5px;
             margin-right: 10px;
             border-bottom: none;
-
             .ImageLicenseOnImage;
             .FullLicenseLinkText;
-            .LicenseInfo{
+
+            .LicenseInfo {
                 right: 0;
             }
 
@@ -609,6 +626,7 @@
 
         .ContentContainer {
             margin-left: 110px;
+            min-width: 0; //Prevent overflowing of container in case of long links (flexbox behaviour)
         }
 
         .CardContent {
@@ -692,7 +710,141 @@
     }
 }
 
+.SingleCardFullWidth() {
 
+    .singleSetFullWidth, .singleCatFullWidth {
+        margin: 50px 0 30px;
+        padding: 40px 0;
+
+
+        .highlightSet {
+            background-color: #ffda7f;
+        }
+
+        .SingleCategoryAttention & {
+            background-color: #D3E0F2;
+        }
+
+        .ImageContainer {
+            text-align: center;
+
+            img {
+                border-radius: 50%;
+                box-shadow: 5px 5px 10px @gray-lighter;
+            }
+
+            .LicenseInfo {
+                text-align: center;
+                color: @gray-light;
+
+                &:after {
+                    content: "Lizenz";
+                }
+            }
+        }
+
+        .setTitle, .categoryTitle {
+            margin-bottom: 20px;
+
+            h3 {
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .setTitle {
+            border-bottom: 5px solid @color-set;
+        }
+
+        .categoryTitle {
+            border-bottom: 5px solid @color-category;
+        }
+
+        .setQuestionCount, .categoryQuestionCount {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 15px;
+            color: @gray-light;
+            font-size: 14px;
+        }
+
+        .KnowledgeBarWrapper {
+            display: inline-block;
+
+            .KnowledgeBarLegend {
+                .greyed;
+                margin-top: -10px;
+                font-size: 12px;
+                line-height: 1.5em;
+                //text-transform: uppercase;
+                opacity: 0;
+                transition: opacity 0.2s linear;
+
+                .media-below-sm ( {
+                    opacity: 1;
+                }
+
+                );
+            }
+
+            &:hover { //show on hover over navigation tile
+                .KnowledgeBarLegend {
+                    opacity: 1;
+                }
+            }
+
+            .set-knowledge-bar, .category-knowledge-bar {
+                display: inline-block;
+                //margin-top: 15px;
+                height: 10px;
+                width: 180px;
+
+                .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+                    height: inherit;
+                    float: left;
+                }
+
+                .needs-learning {
+                    background-color: @needs-learning-color;
+                }
+
+                .needs-consolidation {
+                    background-color: @needs-consolidation-color;
+                }
+
+                .solid-knowledge {
+                    background-color: @solid-knowledge-color;
+                }
+
+                .not-learned {
+                    background-color: @not-learned-color;
+                }
+
+                .not-in-wish-knowledge {
+                    background-color: @not-in-wish-knowledge-color;
+                }
+            }
+        }
+
+        .buttons {
+            margin-top: 20px;
+
+            .btn {
+                margin-top: 10px;
+            }
+
+            .btn-primary {
+                //text-transform: uppercase;
+                font-size: 18px;
+                min-width: 220px;
+            }
+
+            .dropdown {
+                display: inline-block;
+            }
+        }
+    }
+}
 
 
 /*  Images

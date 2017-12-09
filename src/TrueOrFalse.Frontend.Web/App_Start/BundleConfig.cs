@@ -65,7 +65,7 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .IncludeDirectory("~/Views/Categories/Detail/", "*.js"));
+                .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
@@ -148,18 +148,17 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Set")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .Include("~/Views/Sets/Detail/Js/Set.js")
-                .Include("~/Views/Sets/Detail/Js/SetVideo.js")
                 .Include("~/Scripts/widgets/ShareDialog.js")
-                .Include("~/Views/Sets/Detail/Js/ShareSet.js")
+                .IncludeDirectory("~/Views/Sets/Detail/Js", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Set")
-                .Include("~/Views/Sets/Detail/Set.css")
                 .Include("~/Views/Questions/Answer/AnswerQuestion.css")
-                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css"));
+                .Include("~/Views/Questions/Answer/AnswerQuestionSolution.css")
+                .Include("~/Views/Sets/Detail/Set.css"));
+                
 
             bundles.Add(new ScriptBundle("~/bundles/js/Messages")
                 .IncludeDirectory("~/Views/Messages/Js/", "*.js"));
@@ -251,6 +250,10 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/MaintenanceTools")
                 .Include("~/Views/Maintenance/ToolsBrainWaveHub.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/MaintenanceCMS")
+                .Include("~/Views/Maintenance/Js/CMS.js")
+                .Include("~/Views/Maintenance/Js/CmsCategoryNetworkNavigation.js"));
 
             bundles.Add(new StyleBundle("~/bundles/MaintenanceContentStats")
                 .Include("~/Scripts/vendor.somewhere/dataTables.bootstrap.css")

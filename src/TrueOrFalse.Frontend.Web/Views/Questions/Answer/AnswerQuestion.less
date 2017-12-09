@@ -1,11 +1,6 @@
 ﻿@import (reference) '../../../Style/includes/imports.less';
 
-#MasterMainContent {
-
-    .media-below-md({
-        padding-top: 10px;
-    });
-}
+.no-white-background;
 
 .navLinks {
 
@@ -38,7 +33,9 @@
 }
 
 .EduPartnerWrapper {
-    font-size: 80%;
+
+    font-size: 11px;
+    line-height: @line-height-base;
     font-weight: normal;
     order: 2;
     .clearfix;
@@ -177,6 +174,8 @@
 ------------------------------------------------------*/
 
 .SessionBar {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
     border: solid 2px @memo-green;
     background-color: @memo-green;
     margin-bottom: 20px;
@@ -184,7 +183,7 @@
     .media-below-sm ({
         margin-bottom:  0;
 
-        & + .row #AnswerBody {
+        & + #AnswerBody, & + .row #AnswerBody {
             border-top: none;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
@@ -302,6 +301,11 @@
 
 /* Answer Section
 ------------------------------------------------------*/
+
+#AnswerBody {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+}
 
 .QuestionText {
     padding-bottom: 20px;
@@ -786,3 +790,11 @@
         margin-top: 19px;
     }
 }*/
+
+
+
+
+/* Primary Category Card */
+
+
+.SingleCardFullWidth;

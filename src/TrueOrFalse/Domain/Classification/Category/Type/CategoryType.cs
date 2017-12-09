@@ -113,6 +113,42 @@ public static class CategoryTypeExts
 
     }
 
+    public static string GetCategoryTypeIconHtml(this CategoryType e)
+    {
+
+        switch (e)
+        {
+            case CategoryType.Standard: return "";
+
+            case CategoryType.Book: 
+            case CategoryType.VolumeChapter: return "<i class=\"fa fa-book greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+            case CategoryType.Daily: 
+            case CategoryType.DailyIssue: 
+            case CategoryType.DailyArticle: return "<i class=\"fa fa-newspaper-o greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+            case CategoryType.Magazine: 
+            case CategoryType.MagazineIssue: 
+            case CategoryType.MagazineArticle: return "<i class=\"fa fa-newspaper-o greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+
+            case CategoryType.WebsiteOther: 
+            case CategoryType.Website: 
+            case CategoryType.WebsiteArticle: return "<i class=\"fa fa-globe greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+            case CategoryType.WebsiteVideo: return "<i class=\"fa fa-youtube-play greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+
+            //case CategoryType.Movie: return "";
+            //case CategoryType.TvShow: return "";
+            //case CategoryType.TvShowEpisode: return "";
+
+            case CategoryType.FieldOfStudy:
+            case CategoryType.FieldOfTraining: 
+            case CategoryType.SchoolSubject: 
+            case CategoryType.Course: 
+            case CategoryType.Certification: 
+            case CategoryType.EducationProvider: return "<i class=\"fa fa-university greyed show-tooltip\" data-original-title=\"" + e.GetName() + "\"> &nbsp;</i>";
+        }
+
+        return "";
+    }
+
     public static string GetShortName(this CategoryType e)
     {
         if (e == CategoryType.DailyArticle || e == CategoryType.MagazineArticle)

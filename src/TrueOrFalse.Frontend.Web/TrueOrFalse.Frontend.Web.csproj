@@ -308,12 +308,19 @@
     <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
     <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
     <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetCardMiniListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SpacerModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuizModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\EducationOfferListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\TestSetWidgetModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
@@ -344,14 +351,20 @@
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
+    <Content Include="Images\LogosPartners\Logo_lernox.png" />
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-medium.png" />
     <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
+    <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
     <Content Include="Images\Team\founderTeam_20161027.jpg" />
     <Content Include="Images\Team\founderTeam_20161027_e1.jpg" />
+    <Content Include="Images\Various\graphExampleTransp.png" />
+    <Content Include="Images\Various\tabAnalyticsMockup1.png" />
+    <Content Include="Images\Various\treemapChartPsychology.png" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -377,6 +390,19 @@
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbMobile.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MediaList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\EducationOfferList.ascx" />
     <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
     <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
     <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
@@ -403,10 +429,27 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
+    <Content Include="Views\Maintenance\Js\CMS.js">
+      <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\ContentStats.js">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
+    <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
     </Content>
@@ -417,6 +460,9 @@
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
+    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js.map">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -435,7 +481,7 @@
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
     <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
     <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
-    <Compile Include="Views\Sets\Detail\ShareSetModalModel.cs" />
+    <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
     <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
     <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
@@ -533,7 +579,7 @@
     </Content>
     <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
     <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\TestSetWidget.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen.ascx" />
     <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
     <Content Include="Views\Help\Js\WidgetPricing.js">
       <DependentUpon>WidgetPricing.ts</DependentUpon>
@@ -729,7 +775,6 @@
     </Content>
     <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
     <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js" />
     <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
     <Content Include="Views\Questions\Answer\Sponsor.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
@@ -745,13 +790,17 @@
     <Content Include="Views\Sets\Detail\Js\ShareSet.js">
       <DependentUpon>ShareSet.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Sets\Detail\ShareSetModal.ascx" />
+    <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
     <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
     <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
       <DependentUpon>YoutubePreview.ts</DependentUpon>
@@ -969,9 +1018,6 @@
     </Content>
     <Content Include="Views\Categories\Detail\Category.css">
       <DependentUpon>Category.less</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Category.js">
-      <DependentUpon>Category.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
@@ -1197,10 +1243,9 @@
     <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
     <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
     <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
     <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
-    <TypeScriptCompile Include="Views\Categories\Js\CategoryNetworkNavigation.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
     <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
     <TypeScriptCompile Include="Views\Dates\Js\DateRowCopy.ts" />
@@ -2034,7 +2079,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
@@ -2646,9 +2691,6 @@
     <Content Include="Views\Welcome\Login\Login.js.map">
       <DependentUpon>Login.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Category.js.map">
-      <DependentUpon>Category.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
       <DependentUpon>ShareQuestion.ts</DependentUpon>
     </Content>
@@ -2681,7 +2723,6 @@
     <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
       <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map" />
     <Content Include="Views\Welcome\Contact.less" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -2692,6 +2733,12 @@
     </Content>
     <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
     <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
+    <Content Include="Views\Maintenance\Js\ContentStats.js.map">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\CMS.js.map">
+      <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

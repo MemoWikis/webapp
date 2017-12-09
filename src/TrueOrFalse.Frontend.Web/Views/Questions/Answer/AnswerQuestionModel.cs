@@ -80,6 +80,7 @@ public class AnswerQuestionModel : BaseModel
 
     public Set Set;
     public IList<Category> Categories;
+    public Category PrimaryCategory;
     public IList<SetMini> SetMinis;
     public int SetCount;
 
@@ -140,6 +141,8 @@ public class AnswerQuestionModel : BaseModel
         CurrentLearningStepIdx = LearningSession.CurrentLearningStepIdx();
 
         LearningSessionStep = LearningSession.Steps[CurrentLearningStepIdx];
+        LearningSessionStep.Question = Sl.QuestionRepo.GetById(LearningSessionStep.Question.Id);//Prevents nhibernate lazy load exception
+
         IsLastLearningStep = CurrentLearningStepIdx + 1 == LearningSession.Steps.Count();
 
         CurrentLearningStepPercentage = CurrentLearningStepIdx == 0
@@ -154,6 +157,21 @@ public class AnswerQuestionModel : BaseModel
 
         Populate(LearningSessionStep.Question);
     }
+
+    public AnswerQuestionModel(int dummyQuestionId) : this()
+    {
+        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
+
+        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};
+
+        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)
+        {
+            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});
+        }
+
+        Populate(dummyQuestion);
+    }
+
 
     public static AnswerQuestionModel CreateExpiredTestSession()
     {
@@ -247,7 +265,7 @@ public class AnswerQuestionModel : BaseModel
             if(question.Creator.Id != _sessionUser.User.Id)
                 throw new Exception("Invalid access to questionId" + question.Id);
 
-        var questionValuationForUser = NotNull.Run(Resolve<QuestionValuationRepo>().GetBy(question.Id, UserId));
+        var questionValuationForUser = NotNull.Run(Sl.QuestionValuationRepo.GetByFromCache(question.Id, UserId));
         var valuationForUser = Resolve<TotalsPersUserLoader>().Run(UserId, question.Id);
 
         if(IsLoggedIn)
@@ -306,6 +324,12 @@ public class AnswerQuestionModel : BaseModel
         Categories = question.Categories;
         SetMinis = question.SetTop5Minis;
         SetCount = question.SetsAmount;
+
+        //Find best suited primary category for question
+        if (!IsLoggedIn && !IsTestSession && !IsLearningSession)
+        {
+            PrimaryCategory = GetPrimaryCategory.GetForQuestion(question);
+        }
 
         DescriptionForSearchEngines = GetMetaDescriptionSearchEngines();
         DescriptionForFacebook = GetMetaDescriptionsFacebook();

@@ -1,6 +1,7 @@
 ﻿interface SetItem {
     Id: number;
-    Name : string;
+    Name: string;
+    IconHtml: string;
     NumberOfQuestions : number;
     ImageUrl: string;
     ItemUrl: string;

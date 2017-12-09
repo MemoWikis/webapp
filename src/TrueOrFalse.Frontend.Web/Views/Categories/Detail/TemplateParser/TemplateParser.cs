@@ -52,20 +52,27 @@ public class TemplateParser
         switch (templateJson.TemplateName.ToLower())
         {
             case "topicnavigation":
+            case "medialist":
             case "videowidget":
-            case "testsetwidget":
+            case "settestsessionnostartscreen":
+            case "singlesetfullwidth":
+            case "singlecategoryfullwidth":
             case "categorynetwork":
             case "contentlists":
+            case "educationofferlist":
             case "singleset":
             case "setlistcard":
+            case "setcardminilist":
             case "singlecategory":
+            case "singlequestionsquiz":
+            case "spacer":
                 return GetPartialHtml(templateJson, category, controllerContext);
             default:
             {
                 var elementHtml = GetElementHtml(templateJson);
 
                 if (string.IsNullOrEmpty(elementHtml))
-                    throw new Exception($"Name des Templates '{elementHtml}' ist unbekannt.");
+                    throw new Exception($"Name des Templates '{templateJson.TemplateName}' ist unbekannt.");
 
                 return elementHtml;
             }
@@ -94,10 +101,18 @@ public class TemplateParser
         {
             case "topicnavigation":
                 return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+            case "medialist":
+                return new MediaListModel(category, templateJson.Title, templateJson.Text);
+            case "educationofferlist":
+                return new EducationOfferListModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "videowidget":
                 return new VideoWidgetModel(templateJson.SetId);
-            case "testsetwidget":
-                return new TestSetWidgetModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+            case "settestsessionnostartscreen":
+                return new SetTestSessionNoStartScreenModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+            case "singlesetfullwidth":
+                return new SingleSetFullWidthModel(templateJson.SetId, templateJson.Title, templateJson.Text);
+            case "singlecategoryfullwidth":
+                return  new SingleCategoryFullWidthModel(templateJson.CategoryId, templateJson.Title, templateJson.Description);
             case "categorynetwork":
             case "contentlists":
                 return new CategoryModel(category, loadKnowledgeSummary : false);
@@ -112,10 +127,16 @@ public class TemplateParser
                     templateJson.TitleRowCount,
                     templateJson.DescriptionRowCount,
                     templateJson.SetRowCount);
+            case "setcardminilist":
+                return new SetCardMiniListModel(templateJson.SetList);
             case "singlecategory":
                 return new SingleCategoryModel(
                     templateJson.CategoryId,
                     templateJson.Description);
+            case "singlequestionsquiz":
+                return new SingleQuestionsQuizModel(category, templateJson.MaxQuestions, templateJson.Title, templateJson.Text, templateJson.QuestionIds, templateJson.Order);
+            case "spacer":
+                return new SpacerModel(templateJson.AmountSpaces, templateJson.AddBorderTop);
             default:
                 throw new Exception("Kein Model für diese Template hinterlegt.");
         }

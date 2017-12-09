@@ -9,12 +9,13 @@ using TrueOrFalse.Web.Uris;
 
 public class LearningSession : DomainEntity, IRegisterAsInstancePerLifetime
 {
+    public const int DefaultNumberOfSteps = 10;
     public virtual User User { get; set; }
     public virtual IList<LearningSessionStep> Steps{ get; set; }
 
     public virtual string StepsJson
     {
-        get { return JsonConvert.SerializeObject(Steps); }
+        get => JsonConvert.SerializeObject(Steps);
         set
         {
             if (value == null)

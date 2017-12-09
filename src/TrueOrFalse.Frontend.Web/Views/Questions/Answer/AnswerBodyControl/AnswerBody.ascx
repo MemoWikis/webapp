@@ -18,9 +18,10 @@
         <input type="hidden" id="TestSessionProgessAfterAnswering" value="<%= Model.TestSessionProgessAfterAnswering %>" />
     <% } %>
     
-    <% if (Model.IsLearningSession) {%>
+    <% if (Model.IsLearningSession) { %>
         <input type="hidden" id="ajaxUrl_LearningSessionAmendAfterShowSolution" value="<%= Model.AjaxUrl_LearningSessionAmendAfterShowSolution(Url) %>" />
     <% } %>
+
     <input type="hidden" id="disableAddKnowledgeButton"  value="<%= Model.DisableAddKnowledgeButton %>"/>
     
     <input type="hidden" id="hddTimeRecords" />
@@ -143,7 +144,9 @@
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
                                         <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
-                                    <% } else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame) { %>
+                                    <% }else if(Model.NextUrl == null && Model.IsForVideo){ %> 
+                                        <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
+                                    <% }else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame) { %>
                                         <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
                                             <i class="fa fa-play-circle"></i>&nbsp;&nbsp;<b>Weitermachen</b><br/>
                                             <small>Wissen testen: <%= Model.PrimarySetMini.Name.TruncateAtWordWithEllipsisText(30,"...") %></small>
@@ -164,7 +167,7 @@
                                 </div>
                                 <% } %>
                                           
-                                            <button id="continue"  class="btn btn-primary test" style="display: none">Weiter</button>
+                                            
 
                                 <div style="clear: both"></div>
                             </div>
@@ -253,4 +256,3 @@
         </div>
     <% } %>
 </div>
-    </div>

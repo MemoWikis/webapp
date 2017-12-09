@@ -777,8 +777,16 @@ ul.AutocompleteHeader{
 #MasterMainContent {
     padding-top: 25px;
     padding-bottom: 20px;
+    
     //position: relative;
    // z-index: @z-Index-mainContainer;
+
+    .media-below-sm({
+        padding-top: 0;
+        padding-left: 0;
+        padding-right: 0;
+    });
+
 
     #MasterMainColumn {
         .make-lg-column(9);
@@ -795,6 +803,21 @@ ul.AutocompleteHeader{
 
     .media-lg ({
         width: 20%;
+    });
+}
+
+#MasterMainWrapper {
+    background-color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 25px;
+}
+
+#MobileSubHeader + #MasterMainContent {
+
+    .media-below-md({
+        padding-top: 0;
     });
 }
 
