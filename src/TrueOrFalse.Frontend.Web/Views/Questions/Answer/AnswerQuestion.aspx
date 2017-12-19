@@ -159,7 +159,7 @@
                         </div>
                     </div>                
                 </div>
-            <% } else { %>
+            <% } else { %> 
                 <div class="row" style="margin-bottom: 20px;">
                     <div class="col-xs-12" style="padding-top: 10px; color: darkgray">
                         Um zu kommentieren, musst du eingeloggt sein.
