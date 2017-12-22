@@ -14,7 +14,7 @@ public class BaseController : Controller
 
     /// <summary>The user fresh from the db</summary>
     public User User_() => R<UserRepo>().GetById(UserId);
-    public User MemuchoUser() => R<UserRepo>().GetById(Settings.MemuchoUserId);
+    public User MemuchoUser() => Sl.UserRepo.GetMemuchoUser();
 
     protected T Resolve<T>() => ServiceLocator.Resolve<T>();
 

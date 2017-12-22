@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NHibernate;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
@@ -16,5 +17,13 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         };
 
         base.Create(categoryChange);
+    }
+
+    public IList<CategoryChange> GetAllEager()
+    {
+        return _session
+            .QueryOver<CategoryChange>()
+            .Left.JoinQueryOver(q => q.Category)
+            .List();
     }
 }

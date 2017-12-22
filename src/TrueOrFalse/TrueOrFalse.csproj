@@ -235,6 +235,7 @@
   <ItemGroup>
     <Compile Include="Domain\Blog\BlogMemuchoDeRepo.cs" />
     <Compile Include="Domain\Blog\WordpressBlogPost.cs" />
+    <Compile Include="Domain\Classification\Category\History\Ops\InitializeCategoryChanges.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetAllCategoriesInSeveralRootCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetAllCategoriesUnconnectedToRootCategories.cs" />
     <Compile Include="Domain\Classification\Category\Ops\GetPrimaryCategory.cs" />
@@ -965,6 +966,7 @@
     <Compile Include="Tools\ScheduledJobs\RunningsJobs\RunningJobRepo.cs" />
     <Compile Include="Tools\Update\Scripts\SolrCoreReload.cs" />
     <Compile Include="Tools\Update\Scripts\PathTo.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs192.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs191.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs190.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs189.cs" />
