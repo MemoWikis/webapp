@@ -48,6 +48,7 @@ namespace TrueOrFalse.View
                 .Include("~/Style/guidedTour/bootstrap-tour.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/Welcome")
+                .Include("~/Views/About/Js/NumbersCountUp.js")
                 .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/RegistrationJs")
@@ -266,6 +267,9 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/AboutMemucho")
+                .Include("~/Views/About/Js/NumbersCountUp.js"));
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;
