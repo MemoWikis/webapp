@@ -275,7 +275,7 @@ class AnswerQuestion {
         this._inputFeedback.ShowSolution();
         if (this._isLastLearningStep) {
             $('#btnNext').html('Zum Ergebnis');
-            $('#btnNext').unbind();
+            //$('#btnNext').unbind();
         }
 
         this._onCorrectAnswer();
@@ -286,7 +286,7 @@ class AnswerQuestion {
 
         if (this._isLastLearningStep && !result.newStepAdded) {
             $('#btnNext').html('Zum Ergebnis');
-            $('#btnNext').unbind();
+            //$('#btnNext').unbind();
         }
 
         if (this.IsGameMode) {
