@@ -234,7 +234,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h4>Vorhandene Fragen finden und hinzufügen</h4>
-                            <input id="addQuestionSearchField" type="text" class="form-control" placeholder="Tippe um Fragen zu finden"/ style="display: inline-block; margin-right: 15px;">
+                            <input id="addQuestionSearchField" type="text" class="form-control" placeholder="Tippe um Fragen zu finden" style="display: inline-block; margin-right: 15px;">
                             <a class="greyed" style="display: inline-block; margin-top: 8px;" data-toggle="collapse" href="#questionSearchAnnotation" aria-expanded="false" aria-controls="questionSearchAnnotation">
                                 Hinweise ein-/ausblenden <i class="fa fa-caret-down"></i>
                             </a>
