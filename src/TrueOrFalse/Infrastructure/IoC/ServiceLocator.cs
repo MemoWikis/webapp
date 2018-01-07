@@ -79,8 +79,7 @@ public class ServiceLocator
 
     public static void RemoveScopeForCurrentThread()
     {
-        ILifetimeScope outLifetimeScope;
-        if(!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out outLifetimeScope))
+        if(!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out _))
             Logg.r().Error("Could not remove lifetime scope");
     }
 
