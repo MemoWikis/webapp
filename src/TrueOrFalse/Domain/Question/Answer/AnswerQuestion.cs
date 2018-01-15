@@ -154,8 +154,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             );
 
         if (countUnansweredAsCorrect)
-            return Run(questionId, "", userId, (question, answerQuestionResult) =>
-                _answerLog.CountUnansweredAsCorrect(question, userId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView), countUnansweredAsCorrect: true
+            return Run(learningSessionId,learningSessionStepGuid,questionId, "", userId, (question, answerQuestionResult) =>
+                _answerLog.CountUnansweredAsCorrect(question, userId, questionViewGuid, interactionNumber, millisecondsSinceQuestionView,new Guid(learningSessionStepGuid),learningSessionId), countUnansweredAsCorrect: true
             );
 
         throw new Exception("neither countLastAnswerAsCorrect nor countUnansweredAsCorrect true");
@@ -177,6 +177,43 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             IsCorrect = solution.IsCorrect(answer),
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer
+            
+        };
+
+        action(question, result);
+
+        ProbabilityUpdate_Question.Run(question);
+        if (countLastAnswerAsCorrect)
+            Sl.R<UpdateQuestionAnswerCount>().ChangeOneWrongAnswerToCorrect(questionId);
+        else
+            Sl.R<UpdateQuestionAnswerCount>().Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
+
+        ProbabilityUpdate_Valuation.Run(questionId, userId);
+
+        return result;
+    }
+
+
+    public AnswerQuestionResult Run(
+        int? learningSessionId,
+        string learningSessionStepGuide,
+        int questionId,
+        string answer,
+        int userId,
+        Action<Question, AnswerQuestionResult> action,
+        bool countLastAnswerAsCorrect = false,
+        bool countUnansweredAsCorrect = false)
+    {
+        var question = _questionRepo.GetById(questionId);
+        var solution = GetQuestionSolution.Run(question);
+
+        var result = new AnswerQuestionResult
+        {
+            IsCorrect = solution.IsCorrect(answer),
+            CorrectAnswer = solution.CorrectAnswer(),
+            AnswerGiven = answer,
+            LearningSessionId = learningSessionId,
+            LearningSessionStepGuide = learningSessionStepGuide,
         };
 
         action(question, result);
