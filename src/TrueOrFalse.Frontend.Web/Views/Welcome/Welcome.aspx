@@ -594,7 +594,14 @@
 
     <div id="blogposts">
         <h3>Neues von unserem Blog</h3>
-        <% Html.RenderPartial("Partials/BlogPostCarousel", Model.MemuchoBlogPosts); %>
+        
+        <% try
+           {
+               Html.RenderPartial("Partials/BlogPostCarousel", Model.MemuchoBlogPosts);
+           }
+           catch
+           { %> <h1 style="text-align: center">Blog momentan nicht erreichbar</h1> <% } %>
+        
     </div>
 
 
