@@ -588,25 +588,17 @@
 
         </div>
     </div>
-        
 
     <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
-    <div id="blogposts">
+    
+    <% if(Model.MemuchoBlogPosts.Any()){ %>
+        <div id="blogposts">
         <h3>Neues von unserem Blog</h3>
-        
-        <% try
-           {
-               Html.RenderPartial("Partials/BlogPostCarousel", Model.MemuchoBlogPosts);
-           }
-           catch
-           { %> <h1 style="text-align: center">Blog momentan nicht erreichbar</h1> <% } %>
-        
+        <% Html.RenderPartial("Partials/BlogPostCarousel", Model.MemuchoBlogPosts); %>
     </div>
-
+    <% } %>
 
     <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
 
     <div id="memuchoInfoExtended">
         <h2>Was ist memucho?</h2>

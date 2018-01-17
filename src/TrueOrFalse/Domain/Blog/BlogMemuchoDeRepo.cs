@@ -18,20 +18,16 @@ public class BlogMemuchoDeRepo
             var url = _baseBlogApiUrl;
             url = url + "&per_page=" + amount;
             
-
             var response = new MyWebClient()
                 .DownloadString(url);
 
             return JsonConvert.DeserializeObject<WordpressBlogPost[]>(response).ToList();
 
-
-
-
-
         }
         catch (Exception e)
         {
-            return null;
+            Logg.Error(e);
+            return new List<WordpressBlogPost>();
         }
     }
 }
