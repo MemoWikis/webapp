@@ -290,5 +290,9 @@
   {
     "outputFile": "Views/Users/Account/Settings/UserSettings.css",
     "inputFile": "Views/Users/Account/Settings/UserSettings.less"
+  },
+  {
+    "outputFile": "Views/Categories/Detail/Js/Category - Kopieren.es5.js",
+    "inputFile": "Views/Categories/Detail/Js/Category - Kopieren.js"
   }
 ]

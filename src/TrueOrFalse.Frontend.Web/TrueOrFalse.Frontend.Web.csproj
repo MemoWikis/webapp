@@ -404,6 +404,12 @@
     <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
       <DependentUpon>CategoryHeader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Js\QuestionKonwledgeAsABox.js">
+      <DependentUpon>QuestionKonwledgeAsABox.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\QuestionKonwledgeAsABox.js.map">
+      <DependentUpon>QuestionKonwledgeAsABox.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\Tabbing.js">
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
@@ -818,6 +824,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\QuestionKonwledgeAsABox.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
