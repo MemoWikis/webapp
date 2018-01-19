@@ -51,6 +51,7 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "dandorstesttemplate":
             case "topicnavigation":
             case "medialist":
             case "videowidget":
@@ -99,6 +100,8 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
+            case "dandorstesttemplate":
+                return new DandorsTestTemplateModel();
             case "topicnavigation":
                 return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "medialist":
