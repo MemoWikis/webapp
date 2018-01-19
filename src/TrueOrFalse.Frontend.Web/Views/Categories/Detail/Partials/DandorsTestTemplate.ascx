@@ -6,5 +6,11 @@
     <p><%: Model.Text %></p>
 <% } %>
 
-<div style ="height: 100px; width: 100px; background-color: green;border: black 2px solid "></div>
-<h1><span id ="daniel">Daniel</span></h1>
+
+<div class="container">
+    <div class="row">
+        <div id="knowledgeAsABox" class="col-sm"></div>
+        
+    </div>
+</div>
+
