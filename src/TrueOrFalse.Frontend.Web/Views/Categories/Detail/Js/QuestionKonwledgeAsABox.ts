@@ -8,12 +8,11 @@
 //momentane Probleme Klasse muss ja während dem Durchlauf durch die Schleife angepasst werden ,da die Fragen unterschiedliche Zustände haben (vielleicht kann man in der Schleife nach Zuständen filtern  if(muss noch lernen)?klasseGelb:klasse grün)
 
     
-    $(document).ready(function () {
+$(document).ready(function () {
+    var test: String = $('#test').val();
 
-        for (var i = 0; i < 1800; i++) {
-           
-            $('#knowledgeAsABox').append("<span style ='float:left; height: 20px; width: 20px; background-color: green; border: black 1px solid '></span>");
-        }
+
+       
         
         
     });

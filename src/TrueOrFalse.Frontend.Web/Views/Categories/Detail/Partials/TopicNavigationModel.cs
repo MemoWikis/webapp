@@ -8,6 +8,12 @@ public class TopicNavigationModel : BaseModel
 
     public string Title;
     public string Text;
+    public KnowledgeSummary SetKnowledgeSummary;
+   
+    
+   
+
+
 
     public List<Category> CategoryList;
 
@@ -15,6 +21,7 @@ public class TopicNavigationModel : BaseModel
 
     public TopicNavigationModel(Category category, string title, string text = null, string load = null, string order = null)
     {
+     
         Category = category;
 
         var isLoadList = false;
@@ -61,6 +68,21 @@ public class TopicNavigationModel : BaseModel
         Text = text;
     }
 
+ 
+
+    public IList<QuestionValuation> getQuestionKnowledge(int userId)
+    {
+
+        QuestionValuation q = new QuestionValuation();
+        IList<QuestionValuation> questionValuations = new List<QuestionValuation>();
+        questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(userId);
+        questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();
+        // if (questionIds != null)
+        // questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id)).ToList();
+        //SetKnowledgeSummary = KnowledgeSummaryLoader.Run(Sl.SessionUser.UserId, Sl.SetRepo.GetById(setId));
+        return questionValuations;
+    }
+
     public int GetTotalQuestionCount(Category category)
     {
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
@@ -100,3 +122,4 @@ public class TopicNavigationModel : BaseModel
         return firstCategories;
     }
 }
+
