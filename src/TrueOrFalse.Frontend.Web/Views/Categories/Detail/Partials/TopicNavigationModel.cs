@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using NHibernate.Criterion;
 
 public class TopicNavigationModel : BaseModel
 {
@@ -9,11 +12,6 @@ public class TopicNavigationModel : BaseModel
     public string Title;
     public string Text;
     public KnowledgeSummary SetKnowledgeSummary;
-   
-    
-   
-
-
 
     public List<Category> CategoryList;
 
@@ -68,19 +66,35 @@ public class TopicNavigationModel : BaseModel
         Text = text;
     }
 
- 
+     
 
-    public IList<QuestionValuation> getQuestionKnowledge(int userId)
+    public ObjectGetQuestionKnowledge  BuildObjectGetQuestionKnowledge()
     {
-
-        QuestionValuation q = new QuestionValuation();
+        // ----------------Eigenschaften -------------------
+        ObjectGetQuestionKnowledge og = new ObjectGetQuestionKnowledge();
         IList<QuestionValuation> questionValuations = new List<QuestionValuation>();
-        questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(userId);
+        List<Category> c = new List<Category>();
+        IList <int> QuestionIds = new List<int>();
+        
+
+        
+            // ---------- Auswertung ----------
+        questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);
         questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();
-        // if (questionIds != null)
-        // questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id)).ToList();
-        //SetKnowledgeSummary = KnowledgeSummaryLoader.Run(Sl.SessionUser.UserId, Sl.SetRepo.GetById(setId));
-        return questionValuations;
+       // questionValuations = questionValuations.Where(v => questionIds.Contains(v.Question.Id)).ToList();
+
+        foreach (var question in questionValuations)
+        {
+           QuestionIds.Add(question.Question.Id); 
+
+        }
+        Debug.WriteLine(QuestionIds.Count);
+        //------ Zuweisung--------
+        og.Userid = UserId;
+        og.NumberKnowledgeQuestions = questionValuations.Count;
+        og.CategoryList = CategoryList;
+        return og;
+
     }
 
     public int GetTotalQuestionCount(Category category)
@@ -122,4 +136,14 @@ public class TopicNavigationModel : BaseModel
         return firstCategories;
     }
 }
+
+public class ObjectGetQuestionKnowledge
+{
+    public int Userid { get; set; }
+    public int NumberKnowledgeQuestions;
+    public List<Category> CategoryList;
+
+
+
+} 
 
