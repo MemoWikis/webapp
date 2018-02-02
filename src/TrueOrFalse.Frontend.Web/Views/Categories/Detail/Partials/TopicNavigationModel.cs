@@ -101,6 +101,7 @@ public class TopicNavigationModel : BaseModel
         IList<QuestionValuation> questionValuations = new List<QuestionValuation>();
         List<Category> c = new List<Category>();
         List<Question> aggregateWishKnowledge = new List<Question>();
+        List<String> knowledgeStatus = new List<string>();
 
         // ---------- Auswertung ----------
         var aggregatedQuestions = new List<Question>();
@@ -127,16 +128,18 @@ public class TopicNavigationModel : BaseModel
                 if (questionValuations.ElementAt(i).Question.Id == aggregatedQuestions.ElementAt(j).Id)
                 {
                     aggregateWishKnowledge.Add(aggregatedQuestions.ElementAt(j));
+                    knowledgeStatus.Add(questionValuations.ElementAt(i).KnowledgeStatus.ToString());
                 }
             }
         }
 
-        var test = aggregateWishKnowledge;
+       
       
         //------ Zuweisung--------
-        og.Userid = UserId;
+       // og.Userid = UserId;
         og.NumberKnowledgeQuestions = aggregateWishKnowledge.Count;
-        og.CategoryList = CategoryList;
+        og.KnowledgeStatus = knowledgeStatus;
+        
         return og;
     }
 
@@ -178,15 +181,20 @@ public class TopicNavigationModel : BaseModel
         firstCategories.AddRange(CategoryList);
         return firstCategories;
     }
+
+    public static String returnKnowledgeStatus(List<String> list, int counter)
+    {  
+        return list.ElementAt(counter);
+    }
 }
+
 
 public class ObjectGetQuestionKnowledge
 {
     public int Userid { get; set; }
-    public int NumberKnowledgeQuestions;
-    public List<Category> CategoryList;
+    public int NumberKnowledgeQuestions { get; set; }
+    public List<String> KnowledgeStatus { get; set; }
+}
 
 
-
-} 
 

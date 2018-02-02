@@ -12,11 +12,14 @@
         <div id="knowledgeAsABox" class="col-sm"></div>
         
         <% var objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge();
-           var t = objectGetQuestionKnowledge;%>
-        <p> hallo <% objectGetQuestionKnowledge.NumberKnowledgeQuestions.ToString(); %></p>
-        <% for (var i = 0; i < objectGetQuestionKnowledge.NumberKnowledgeQuestions; i++)
+           
+           %>
+        
+        
+        <% for (var i = 0; i < objectGetQuestionKnowledge.KnowledgeStatus.Count; i++)
            {
-              %> <span style ='float:left; height: 20px; width: 20px; background-color: green; border: black 1px solid '></span> <%
+               var t = TopicNavigationModel.returnKnowledgeStatus(objectGetQuestionKnowledge.KnowledgeStatus, i);
+        %> <span class= "<% =t %> square-wish-knowledge" ></span> <%
 
            } %>
         
