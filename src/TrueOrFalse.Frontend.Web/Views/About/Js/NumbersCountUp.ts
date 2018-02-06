@@ -1,21 +1,51 @@
 ﻿
 
-class CountUp {
+class NumbersCountUp {
+    static countObjectProgress: number;
+    static countUpObject: number;
 
     i: number = 0;
     hasBeenViewed: boolean = true;
-    _class: string = "";
+    //_class: string = "";
+    elem: JQuery[] = new Array();
+    isNumber: boolean;
+    isProgressBar: boolean;
 
 
 
-    constructor(_class) {
-        this._class = _class;
+    constructor() {
+        
+        if ($('.CountUpProgress').length != 0) {
+            this.elem.push($(".CountUpProgress"));
+            this.eachCountUp();
+        }
+
+        if ($('.CountUp').length != 0) {
+            this.elem.push($('.CountUp'));
+            this.eachCountUp();
+        }
+       // this.myTestFunction();
+       // this.animateWhenVisible();
+
+        
+
+        //if ($('.CountUp').length != 0) {
+        //    debugger;
+        //    var countUp = new NumbersCountUp('.CountUp');
+        //    countUp.scrollToTheCountUp(countUp);
+        //}
 
 
     }
 
+    myTestFunction() {
+        console.log("bin bei testf");
+        console.log(this.i);
+        console.log(this.elem);
+
+    }
+
     addAttributes(vclass: string): string {
-        debugger;
         var countUp = $(vclass); // alle Attribute einlesen
         console.log(countUp.eq(this.i).attr('data-number'));
         return countUp.eq(this.i).attr('data-number');
@@ -35,8 +65,8 @@ class CountUp {
 
 
 
-    countUp(start: number, end: number, id: string, character, _class) {
-
+    countUp(start: number, end: number, character, _class) {
+        debugger;
         var loops = Math.ceil(1000 / 20);
         var intervalSlower;
         var loopCount = 0;
@@ -52,13 +82,13 @@ class CountUp {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-        function giveTheRightHtmlOutput(_class: string, value: number, character: string = "", id: string) {
+        //function giveTheRightHtmlOutput(_class: string, value: number, character: string = "") {
 
-            if (".CountUp" == _class)
-                $(id).html(numberWithCommas(value.toFixed(0)) + character);
-            if ('.CountUpProgress' == _class)
-                $(id).width(numberWithCommas(value.toFixed(0)) + "%");
-        }
+        //    if (".CountUp" == _class)
+        //        $(id).html(numberWithCommas(value.toFixed(0)) + character);
+        //    if ('.CountUpProgress' == _class)
+        //        $(id).width(numberWithCommas(value.toFixed(0)) + "%");
+        //}
 
         function updateTimer() {
 
@@ -67,7 +97,7 @@ class CountUp {
             value += increment;
             loopCount++;
 
-            giveTheRightHtmlOutput(_class, value, character, id);
+            //giveTheRightHtmlOutput(_class, value, character);
 
             if (value > timePointSlower && value <= end) {
                 clearInterval(interval);
@@ -84,68 +114,76 @@ class CountUp {
     }
 
     eachCountUp() {
-        var c = new CountUp(this._class);
-        $(c._class).each(function () {
-            var temp = c._class != ".CountUpProgress";
-            var temp1 = c._class != ".CountUp";
-            if (".CountUp" == c._class && temp)
-                c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
-            if ('.CountUpProgress' === c._class && temp1)
-                c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
+        //var c = new NumbersCountUp();
+        var self = this;
+        debugger;
+        console.log(self.elem.length);
+        for (let i = 0; i< self.elem.length;i++) {
+                //self.elem.each(function () {
+                //var temp = self.elem != ".CountUpProgress";
+                //var temp1 = self.elem != ".CountUp";
+                //      if (".CountUp" == c._class && temp)
+                self.countUp(0, parseInt(self.addAttributes(self.elem[i].selector)), self.addCharacter(self.elem[i].selector), self.elem[i].selector);
+                //if ('.CountUpProgress' === c._class && temp1)
+                //    c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
+        }
 
-        });
     }
+    //for(let htmlElement in self.elem) {
+    //if (self.elem.hasOwnProperty(htmlElement)) {
+    ////self.elem.each(function () {
+    ////var temp = self.elem != ".CountUpProgress";
+    ////var temp1 = self.elem != ".CountUp";
+    ////      if (".CountUp" == c._class && temp)
+    //console.log(htmlElement);
+    //self.countUp(0, parseInt(self.addAttributes(htmlElement)), self.addCharacter(htmlElement), htmlElement);
+    ////if ('.CountUpProgress' === c._class && temp1)
+    ////    c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
+//}
+}
 
 
-    scrollToTheCountUp(CountUp) {
-        var hT1 = $(CountUp._class).offset().top,
-            wH1 = $(window).height();
+    //animateWhenVisible() {
+    //    //var elem: any;
+    //    //if (this.isNumber)
+    //    //var elem = $('.CountUpProgress');
+    //    var self = this;
+
+    //    var hT1 = $(CountUp._class).offset().top;
+    //    var wH1 = $(window).height();
         
 
 
-            $(window).scroll(function() {
-            var hT = $(CountUp._class).offset().top,
-                hH = $(CountUp._class).outerHeight(),
-                wH = $(window).height(),
-                wS = $(window).scrollTop();
-                console.log(wS);
-                if ((wS) > (hT + hH - wH) && CountUp.hasBeenViewed === true) {
-                    CountUp.eachCountUp();
-                    CountUp.hasBeenViewed = false;
+    //        $(window).scroll(function() {
+    //        var hT = self.elem.offset().top,
+    //            hH = $(CountUp._class).outerHeight(),
+    //            wH = $(window).height(),
+    //            wS = $(window).scrollTop();
+    //            console.log(wS);
+    //            if ((wS) > (hT + hH - wH) && CountUp.hasBeenViewed === true) {
+    //                CountUp.eachCountUp();
+    //                CountUp.hasBeenViewed = false;
 
-                }
-            });
-         //Scrollfunktion funktioniert nur wenn die Seite nicht mit Pixel Null startet 
-         //wenn das Feld bei start der Webseite im Sichbereich ist startet es nur wenn gescrollt wird
-            if ((hT1 - wH1) < 0 && CountUp.hasBeenViewed === true) {
-            CountUp.eachCountUp();
-            CountUp.hasBeenViewed = false;
+    //            }
+    //        });
+    //     //Scrollfunktion funktioniert nur wenn die Seite nicht mit Pixel Null startet 
+    //     //wenn das Feld bei start der Webseite im Sichbereich ist startet es nur wenn gescrollt wird
+    //        if ((hT1 - wH1) < 0 && CountUp.hasBeenViewed === true) {
+    //        CountUp.eachCountUp();
+    //        CountUp.hasBeenViewed = false;
 
-        }
-
-
-    }
+    //    }
 
 
-}
+    //}
+
+
+//}
 
 $(document).ready(function () {
 
-    console.log($('.CountUp').length);
-    if ($('.CountUpProgress').length != 0) {
-        var oCountUp = new CountUp('.CountUpProgress');
-        oCountUp.scrollToTheCountUp(oCountUp);
-    }
-
-    if ($('.CountUp').length != 0) {
-        debugger;
-        var oCountUp1 = new CountUp('.CountUp');
-        oCountUp1.scrollToTheCountUp(oCountUp1);
-    }
-
-
-
-
+   
+    new NumbersCountUp();
 
 
 });

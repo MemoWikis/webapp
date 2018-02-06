@@ -17,8 +17,8 @@
     </div>
             
     <div id="teamImgQuote">
-        <img id="teamImg" src="/Images/Team/founderTeam_20161027_e1.jpg"/>
-                
+        <img id="teamImg" src="/Images/Team/founderTeam_20161027_e1.jpg" alt="Hier sollte ien Bild sein"/>
+
         <div id="teamQuoteCircle" class="">
             <div class="circle">
                 <div class="circleInner">
@@ -220,6 +220,74 @@
 
 
     <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+            
+<div id="keyNumbers">
+    <div class="row">
+        <div class="col-xs-4 keyNumberCol">
+            <div class="keyNumber">
+                <span class="CountUp" data-number="<%= Model.TotalActivityPoints %>" > 0 </span>
+            </div>
+            <div class="keyNumberExplanation">
+                Lernpunkte wurden bisher bei memucho errungen
+            </div>
+        </div>
+
+        <div class="col-xs-4 keyNumberCol">
+            <div class="keyNumber">
+                <span class="CountUp" data-number=" <%= Model.TotalQuestionCount %>" > 0 </span>
+                   
+            </div>
+            <div class="keyNumberExplanation">
+                interaktive Fragen gibt es zu beantworten
+            </div>
+        </div>
+
+        <div class="col-xs-4 keyNumberCol">
+            <div class="keyNumber">
+                <span class="CountUp" data-number=" <%= Model.PercentageQuestionsAnsweredMostlyWrong %>"> 0 </span>
+                %
+            </div>
+            <div class="keyNumberExplanation">
+                der Fragen werden öfter falsch als richtig beantwortet
+            </div>
+        </div>
+    </div>
+</div>
+            
+            
+    <div id="keyNumbers2">
+        <div class="row">
+            <div class="col-xs-4 keyNumberCol">
+                <div class="keyNumber">
+                    <span class="CountUp" data-number="<%= Model.TotalActivityPoints %>" > 0 </span>
+                </div>
+                <div class="keyNumberExplanation">
+                    Lernpunkte wurden bisher bei memucho errungen
+                </div>
+            </div>
+
+            <div class="col-xs-4 keyNumberCol">
+                <div class="keyNumber">
+                    <span class="CountUp" data-number=" <%= Model.TotalQuestionCount %>" > 0 </span>
+                   
+                </div>
+                <div class="keyNumberExplanation">
+                    interaktive Fragen gibt es zu beantworten
+                </div>
+            </div>
+
+            <div class="col-xs-4 keyNumberCol">
+                <div class="keyNumber">
+                    <span class="CountUp" data-number=" <%= Model.PercentageQuestionsAnsweredMostlyWrong %>"> 0 </span>
+                    %
+                </div>
+                <div class="keyNumberExplanation">
+                    der Fragen werden öfter falsch als richtig beantwortet
+                </div>
+            </div>
+        </div>
+    </div>
+            
             
             
             
