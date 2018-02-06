@@ -366,6 +366,15 @@
     <Content Include="Images\Various\graphExampleTransp.png" />
     <Content Include="Images\Various\tabAnalyticsMockup1.png" />
     <Content Include="Images\Various\treemapChartPsychology.png" />
+    <Content Include="Scripts\header\ActivityPointsPopup.js">
+      <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\SearchBox.js">
+      <DependentUpon>SearchBox.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHubEvents.js">
+      <DependentUpon>GameHubEvents.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -483,6 +492,18 @@
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
       <DependentUpon>Tabbing.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\ActivityPointsPopup.js.map">
+      <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\SearchBox.js.map">
+      <DependentUpon>SearchBox.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHub.js.map">
+      <DependentUpon>GameHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHubEvents.js.map">
+      <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />

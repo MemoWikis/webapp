@@ -56,6 +56,8 @@ $(function () {
                             $("#modalRevertAction").modal();
                         });
 
+
+
                     } else {
                         $("#addQuestionsOutputInfo").removeClass("alert-success").addClass("alert-warning");
                         $("#addQuestionsOutputInfo").text("Speichern fehlgeschlagen");
@@ -73,7 +75,6 @@ $(function () {
             $("#addMarkedQuestionsToSetAndSave").prop("disabled", false);
             $("#addQuestionSearchField").val("");
             $("#questionSearchResults").hide();
-            $(".alert-info").hide();
 
         });
 });
