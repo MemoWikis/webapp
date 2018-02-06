@@ -75,8 +75,6 @@ $(function () {
             $("#addMarkedQuestionsToSetAndSave").prop("disabled", false);
             $("#addQuestionSearchField").val("");
             $("#questionSearchResults").hide();
-            $("#questionSearchAnnotation").removeClass("in");
-
 
         });
 });
