@@ -15,5 +15,5 @@
 
     public int? LearningSessionId;
 
-    public string LearningSessionStepGuide;
+    public string LearningSessionStepGuid;
 }

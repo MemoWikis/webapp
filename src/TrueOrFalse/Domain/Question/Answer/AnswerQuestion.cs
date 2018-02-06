@@ -196,7 +196,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
 
     public AnswerQuestionResult Run(
         int? learningSessionId,
-        string learningSessionStepGuide,
+        string learningSessionStepGuid,
         int questionId,
         string answer,
         int userId,
@@ -213,7 +213,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             CorrectAnswer = solution.CorrectAnswer(),
             AnswerGiven = answer,
             LearningSessionId = learningSessionId,
-            LearningSessionStepGuide = learningSessionStepGuide,
+            LearningSessionStepGuid = learningSessionStepGuid,
         };
 
         action(question, result);
