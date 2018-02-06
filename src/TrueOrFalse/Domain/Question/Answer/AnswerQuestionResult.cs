@@ -12,4 +12,8 @@
     public bool NewStepAdded;
 
     public int NumberSteps;
+
+    public int? LearningSessionId;
+
+    public string LearningSessionStepGuid;
 }
