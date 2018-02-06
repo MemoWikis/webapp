@@ -11,20 +11,19 @@
     <div class="row">
         <div id="knowledgeAsABox" class="col-sm"></div>
         
-        <% var objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge();
-           
-           %>
-        
-        
+        <% var objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge(); %>
+
         <% for (var i = 0; i < objectGetQuestionKnowledge.KnowledgeStatus.Count; i++)
            {
-               var t = TopicNavigationModel.returnKnowledgeStatus(objectGetQuestionKnowledge.KnowledgeStatus, i);
-        %> <span class= "<% =t %> square-wish-knowledge" ></span> <%
-
-           } %>
-        
-   
-        
+               var knowledgeStatus = TopicNavigationModel.ReturnKnowledgeStatus(objectGetQuestionKnowledge.KnowledgeStatus, i);
+               var questionText = objectGetQuestionKnowledge.AggregatedWishKnowledge[i].Text;
+               var id = i;
+        %> 
+            <span class="<%=knowledgeStatus %> square-wish-knowledge" id="question<% =id %>"></span>
+            <p data-question-id="<%=id %>"style="display: none; width: 300px; position: relative; z-index: 20; border: 1px black solid; "><% =questionText %></p>
+        <% } %>
+       
     </div>
+    <div id="test"></div>
 </div>
 

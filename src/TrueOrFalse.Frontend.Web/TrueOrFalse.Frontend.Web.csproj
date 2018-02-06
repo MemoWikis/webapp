@@ -404,11 +404,8 @@
     <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
       <DependentUpon>CategoryHeader.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Js\QuestionKonwledgeAsABox.js">
-      <DependentUpon>QuestionKonwledgeAsABox.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Categories\Detail\Js\QuestionKonwledgeAsABox.js.map">
-      <DependentUpon>QuestionKonwledgeAsABox.ts</DependentUpon>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Detail\Js\Tabbing.js">
       <DependentUpon>Tabbing.ts</DependentUpon>
@@ -491,6 +488,9 @@
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
       <DependentUpon>Tabbing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -824,7 +824,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\QuestionKonwledgeAsABox.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
@@ -2771,6 +2771,7 @@
     <Content Include="Views\Maintenance\Js\CMS.js.map">
       <DependentUpon>CMS.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

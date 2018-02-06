@@ -71,7 +71,6 @@ public class TopicNavigationModel : BaseModel
 
     public List<Question> test2(int UserId, Category category )
     {
-
         var aggregatedQuestions = new List<Question>();
 
         var aggregatedCategories = category.AggregatedCategories(includingSelf: true);
@@ -95,15 +94,12 @@ public class TopicNavigationModel : BaseModel
 
     public ObjectGetQuestionKnowledge  BuildObjectGetQuestionKnowledge()
     {
+        // ---------------- Properties -------------------
+        var getQuestionKnowledge = new ObjectGetQuestionKnowledge();
+        var aggregateWishKnowledge = new List<Question>();
+        var knowledgeStatus = new List<string>();
 
-        // ----------------Eigenschaften -------------------
-        ObjectGetQuestionKnowledge og = new ObjectGetQuestionKnowledge();
-        IList<QuestionValuation> questionValuations = new List<QuestionValuation>();
-        List<Category> c = new List<Category>();
-        List<Question> aggregateWishKnowledge = new List<Question>();
-        List<String> knowledgeStatus = new List<string>();
-
-        // ---------- Auswertung ----------
+        // ---------- Evaluation ----------
         var aggregatedQuestions = new List<Question>();
         foreach (var category in CategoryList)
         {
@@ -117,7 +113,7 @@ public class TopicNavigationModel : BaseModel
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);
+        var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);
         questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();
 
         for (var i = 0; i < questionValuations.Count; i++)
@@ -132,15 +128,14 @@ public class TopicNavigationModel : BaseModel
                 }
             }
         }
-
-       
       
         //------ Zuweisung--------
-       // og.Userid = UserId;
-        og.NumberKnowledgeQuestions = aggregateWishKnowledge.Count;
-        og.KnowledgeStatus = knowledgeStatus;
-        
-        return og;
+        // og.Userid = UserId;
+        getQuestionKnowledge.NumberKnowledgeQuestions = aggregateWishKnowledge.Count;
+        getQuestionKnowledge.KnowledgeStatus = knowledgeStatus;
+        getQuestionKnowledge.AggregatedWishKnowledge = aggregateWishKnowledge;
+
+        return getQuestionKnowledge;
     }
 
     public int GetTotalQuestionCount(Category category)
@@ -182,7 +177,7 @@ public class TopicNavigationModel : BaseModel
         return firstCategories;
     }
 
-    public static String returnKnowledgeStatus(List<String> list, int counter)
+    public static string ReturnKnowledgeStatus(List<string> list, int counter)
     {  
         return list.ElementAt(counter);
     }
@@ -193,7 +188,8 @@ public class ObjectGetQuestionKnowledge
 {
     public int Userid { get; set; }
     public int NumberKnowledgeQuestions { get; set; }
-    public List<String> KnowledgeStatus { get; set; }
+    public List<string> KnowledgeStatus { get; set; }
+    public List<Question> AggregatedWishKnowledge { get; set; }
 }
 
 
