@@ -16,21 +16,21 @@ class NumbersCountUp {
     constructor() {
         
         if ($('.CountUpProgress').length != 0) {
+            
             this.elem.push($(".CountUpProgress"));
-            this.eachCountUp();
-        }
+      }
 
         if ($('.CountUp').length != 0) {
             this.elem.push($('.CountUp'));
-            this.eachCountUp();
         }
+        this.eachCountUp();
        // this.myTestFunction();
        // this.animateWhenVisible();
 
         
 
         //if ($('.CountUp').length != 0) {
-        //    debugger;
+  
         //    var countUp = new NumbersCountUp('.CountUp');
         //    countUp.scrollToTheCountUp(countUp);
         //}
@@ -38,36 +38,40 @@ class NumbersCountUp {
 
     }
 
-    myTestFunction() {
-        console.log("bin bei testf");
-        console.log(this.i);
-        console.log(this.elem);
+    deliverHtmlClass(arrayHtmlClasses) {
+        let wichHtmlClassBool: boolean = true;
+        let htmlClass = ".CountUp";
+        //for (let a of arrayHtmlClasses) {
+           
+        //        if (a == "CountUp" || a == "CountUpProgress")
+        //            return a;
+
+        //    }
+
+        wichHtmlClassBool = arrayHtmlClasses.contains("CountUp");
+        if (wichHtmlClassBool == false) {
+            return ".CountUpProgress";
+        }
+
+        return ".CountUp";
+        
+        
+
 
     }
-
-    addAttributes(vclass: string): string {
-        var countUp = $(vclass); // alle Attribute einlesen
-        console.log(countUp.eq(this.i).attr('data-number'));
-        return countUp.eq(this.i).attr('data-number');
-    }
-
-    addCharacter(vclass: string): string {
-        var countUp = $(vclass); // alle Attribute einlesen
-
-
-        var character = countUp.eq(this.i).attr('data-character');
-        if (character != undefined) {
-            return character;
+    deliverFinalNumber(arrayFinalNumber) {
+        for (let a of arrayFinalNumber) {
+            if (a == "data-number") {
+                var test12 = a.value;
+                return test12;
+            }
         }
         return "";
     }
 
-
-
-
-    countUp(start: number, end: number, character, _class) {
-        debugger;
-        var loops = Math.ceil(1000 / 20);
+    countUp(start: number, end: number, character, htmlClass, index) {
+    
+        var loops = 50;
         var intervalSlower;
         var loopCount = 0;
         var value = start;
@@ -82,22 +86,21 @@ class NumbersCountUp {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-        //function giveTheRightHtmlOutput(_class: string, value: number, character: string = "") {
-
-        //    if (".CountUp" == _class)
-        //        $(id).html(numberWithCommas(value.toFixed(0)) + character);
-        //    if ('.CountUpProgress' == _class)
-        //        $(id).width(numberWithCommas(value.toFixed(0)) + "%");
-        //}
+      
 
         function updateTimer() {
-
-
 
             value += increment;
             loopCount++;
 
-            //giveTheRightHtmlOutput(_class, value, character);
+            if (htmlClass == ".CountUpProgress") {
+                var  test = "";
+                test += htmlClass;
+                test += ":eq(" + index + ")";
+                $(htmlClass + `:eq(${index})`).width(value.toFixed(0) + character);
+            } else {
+                $(htmlClass + `:eq(${index})`).html(value.toFixed(0) + character);
+            }
 
             if (value > timePointSlower && value <= end) {
                 clearInterval(interval);
@@ -108,22 +111,70 @@ class NumbersCountUp {
                 clearTimeout(intervalSlower);
                 clearInterval(interval);
             }
-
-
         }
     }
 
     eachCountUp() {
         //var c = new NumbersCountUp();
         var self = this;
-        debugger;
-        console.log(self.elem.length);
-        for (let i = 0; i< self.elem.length;i++) {
+        var e = 0;
+        var character = "";
+
+        for (var element of self.elem) {
+       // self.elem.forEach(function (value, index, array) {
+            for (var i = 0; i < element.length; i++) {
+                console.log(e++);
+                //console.log(arrayOuter);
+                console.log(element);
+                console.log(element[i].className);
+                console.log(element[i].attributes.getNamedItem("data-number").value);
+                try {
+                    character = element[i].attributes.getNamedItem("data-character").value;
+                    console.log(element[i].attributes.getNamedItem("data-character").value);
+                } catch (e) {
+                    console.log("is Null");
+                    
+                } 
+                     
+                   
+                    
+               // console.log(element[i].attributes.getNamedItem("data-character").value);
+                let htmlClass = self.deliverHtmlClass(element[i].classList);
+                let finalnumber = parseInt(element[i].attributes.getNamedItem("data-number").value);
+                let startNumber = 0;
+
+                switch (htmlClass) {
+                case ".CountUp":
+                    self.countUp(startNumber, finalnumber, character, htmlClass, i);
+                    break;
+
+                case ".CountUpProgress":
+                    self.countUp(startNumber, finalnumber, character, htmlClass, i);
+                    break;
+
+                default:
+                    console.log("No matching class specified");
+                    break;
+                }
+            }
+        }
+        //for(let HtmlClassElements of this.elem) {
+        //    for (let i = 0; i < HtmlClassElements.length; i++) {
+                
+        //        self.countUp(0, parseInt(self.addAttributes(HtmlClassElements[i].className)), self.addCharacter(HtmlClassElements[i].className), HtmlClassElements[i].className);
+        //        console.log(parseInt(self.addAttributes(HtmlClassElements[i].className)));
+        //        console.log(self.addCharacter(HtmlClassElements[i].className));
+        //        console.log(HtmlClassElements[i].className);
+        //        console.log();
+        //    }
                 //self.elem.each(function () {
                 //var temp = self.elem != ".CountUpProgress";
                 //var temp1 = self.elem != ".CountUp";
                 //      if (".CountUp" == c._class && temp)
-                self.countUp(0, parseInt(self.addAttributes(self.elem[i].selector)), self.addCharacter(self.elem[i].selector), self.elem[i].selector);
+           
+            
+
+              //  self.countUp(0, parseInt(self.addAttributes(c.)), self.addCharacter(self.elem[i].selector), self.elem[i].selector);
                 //if ('.CountUpProgress' === c._class && temp1)
                 //    c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
         }
@@ -140,7 +191,7 @@ class NumbersCountUp {
     ////if ('.CountUpProgress' === c._class && temp1)
     ////    c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
 //}
-}
+//}
 
 
     //animateWhenVisible() {
