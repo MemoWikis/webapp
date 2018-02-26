@@ -23,7 +23,8 @@ class NumbersCountUp {
         if ($('.CountUp').length != 0) {
             this.elem.push($('.CountUp'));
         }
-        this.eachCountUp();
+        this.animateWhenVisible();
+        //this.eachCountUp();
        // this.myTestFunction();
        // this.animateWhenVisible();
 
@@ -38,27 +39,20 @@ class NumbersCountUp {
 
     }
 
+    //liefert die Klasse aus dem Array Classes
     deliverHtmlClass(arrayHtmlClasses) {
         let wichHtmlClassBool: boolean = true;
         let htmlClass = ".CountUp";
-        //for (let a of arrayHtmlClasses) {
-           
-        //        if (a == "CountUp" || a == "CountUpProgress")
-        //            return a;
-
-        //    }
-
         wichHtmlClassBool = arrayHtmlClasses.contains("CountUp");
+
         if (wichHtmlClassBool == false) {
             return ".CountUpProgress";
         }
 
         return ".CountUp";
-        
-        
-
-
     }
+
+
     deliverFinalNumber(arrayFinalNumber) {
         for (let a of arrayFinalNumber) {
             if (a == "data-number") {
@@ -97,9 +91,9 @@ class NumbersCountUp {
                 var  test = "";
                 test += htmlClass;
                 test += ":eq(" + index + ")";
-                $(htmlClass + `:eq(${index})`).width(value.toFixed(0) + character);
+                $(htmlClass + `:eq(${index})`).width(value.toFixed(0) + character);   // richtig verstehen 
             } else {
-                $(htmlClass + `:eq(${index})`).html(value.toFixed(0) + character);
+                $(htmlClass + `:eq(${index})`).html(66666 + character);
             }
 
             if (value > timePointSlower && value <= end) {
@@ -123,6 +117,7 @@ class NumbersCountUp {
         for (var element of self.elem) {
        // self.elem.forEach(function (value, index, array) {
             for (var i = 0; i < element.length; i++) {
+                
                 console.log(e++);
                 //console.log(arrayOuter);
                 console.log(element);
@@ -179,7 +174,7 @@ class NumbersCountUp {
                 //    c.countUp(0, parseInt(c.addAttributes(this)), this, c.addCharacter(this), c._class);
         }
 
-    }
+    
     //for(let htmlElement in self.elem) {
     //if (self.elem.hasOwnProperty(htmlElement)) {
     ////self.elem.each(function () {
@@ -194,42 +189,70 @@ class NumbersCountUp {
 //}
 
 
-    //animateWhenVisible() {
-    //    //var elem: any;
-    //    //if (this.isNumber)
-    //    //var elem = $('.CountUpProgress');
-    //    var self = this;
+    animateWhenVisible() {
+       // var elem: JQuery;
+       //// if (this.isNumber)
+       // var elem = $('.CountUpProgress');
+        var self = this;
+        console.log(self.elem);
+        //var hasBeenViewed = [];
+     
 
-    //    var hT1 = $(CountUp._class).offset().top;
-    //    var wH1 = $(window).height();
+        for (var element of self.elem) {
+            for (let i = 0; i < element.length; i++) {
+               // hasBeenViewed.push(true);
+              
+                //let v = $(".CountUp" + `:eq(${i})`).html(i.toString());
+                let htmlClass = self.deliverHtmlClass(element[i].classList);
+                console.log(htmlClass);
+       
+
+
+        
+        
         
 
 
-    //        $(window).scroll(function() {
-    //        var hT = self.elem.offset().top,
-    //            hH = $(CountUp._class).outerHeight(),
-    //            wH = $(window).height(),
-    //            wS = $(window).scrollTop();
-    //            console.log(wS);
-    //            if ((wS) > (hT + hH - wH) && CountUp.hasBeenViewed === true) {
-    //                CountUp.eachCountUp();
-    //                CountUp.hasBeenViewed = false;
-
-    //            }
-    //        });
-    //     //Scrollfunktion funktioniert nur wenn die Seite nicht mit Pixel Null startet 
-    //     //wenn das Feld bei start der Webseite im Sichbereich ist startet es nur wenn gescrollt wird
-    //        if ((hT1 - wH1) < 0 && CountUp.hasBeenViewed === true) {
-    //        CountUp.eachCountUp();
-    //        CountUp.hasBeenViewed = false;
-
-    //    }
+        var hT1 = $(element[i]).offset().top;
+        var wH1 = $(window).height();
+        
 
 
-    //}
+            $(window).scroll(function() {
+            var hT = $(element[i]).offset().top,
+                hH = $(element[i]).outerHeight(),
+                wH = $(window).innerHeight(),
+                wS = $(window).scrollTop();
+                console.log(hT);
+                console.log(hH);
+                console.log(wH);
+                console.log(wS);
+                if ((wS) > (hT + hH - wH)) {
+                    //&& hasBeenViewed[i] === false
+                    setTimeout(function () { let v = $(".CountUp" + `:eq(${i})`).html(i.toString()); },3000);
+                    
+
+                   
+                    //CountUp.eachCountUp();
+                  //hasBeenViewed[i] = true;
+
+                }
+            });
+         //Scrollfunktion funktioniert nur wenn die Seite nicht mit Pixel Null startet 
+         //wenn das Feld bei start der Webseite im Sichbereich ist startet es nur wenn gescrollt wird
+        //    if ((hT1 - wH1) < 0 && CountUp.hasBeenViewed === true) {
+        //    CountUp.eachCountUp();
+        //    CountUp.hasBeenViewed = false;
+
+        //}
+
+            }
+
+        }
+    }
 
 
-//}
+}
 
 $(document).ready(function () {
 
