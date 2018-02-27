@@ -168,7 +168,7 @@
                     <div class="ProgressBarContainer">
                         <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone CountUpProgress" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%" style="width: 95px;">
                             <div class="ProgressBarSegment ProgressBarLegend">
-                                <span id="NextLevelProgressSpanPercentageDone" class="CountUp" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>">0</span>
+                                <span id="NextLevelProgressSpanPercentageDone" class="CountUp" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character ="%">0</span>
                             </div>
                         </div>
                         <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
