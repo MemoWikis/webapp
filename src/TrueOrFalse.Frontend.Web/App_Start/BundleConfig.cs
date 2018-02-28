@@ -269,7 +269,7 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/various/mailto.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/AboutMemucho")
-                .Include("~/Views/About/Js/NumbersCountUp.js"));
+                .Include("~/Views/About/Js/Page.js"));
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;

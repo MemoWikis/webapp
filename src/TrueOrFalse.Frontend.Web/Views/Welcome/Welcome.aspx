@@ -10,6 +10,7 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
     
     <script type="text/javascript" >
