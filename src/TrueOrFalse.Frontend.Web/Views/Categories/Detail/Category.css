@@ -735,16 +735,16 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
   width: 20px;
   border: black 1px solid;
 }
-.square-wish-knowledge .not-learned {
+.NotLearned {
   background-color: silver;
 }
-.square-wish-knowledge .NeedsConsolidation {
+.NeedsConsolidation {
   background-color: #fdd648;
 }
-.square-wish-knowledge .NeedsLearning {
+.NeedsLearning {
   background-color: lightsalmon;
 }
-.square-wish-knowledge .Solid {
+.Solid {
   background-color: #afd534;
 }
 /*------------------------------------------------------

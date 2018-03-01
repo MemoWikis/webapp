@@ -19,8 +19,9 @@
                var questionText = objectGetQuestionKnowledge.AggregatedWishKnowledge[i].Text;
                var id = i;
         %> 
-            <span class="<%=knowledgeStatus %> square-wish-knowledge" id="question<% =id %>"></span>
-            <p data-question-id="<%=id %>"style="display: none; width: 300px; position: relative; z-index: 20; border: 1px black solid; "><% =questionText %></p>
+            <span class="<% =knowledgeStatus %> square-wish-knowledge" id="question<% =id %>" data-toggle="tooltip" data-placement="top" title="<% =questionText %>" ></span>
+            <p style="display: none; width: 300px; position: relative; z-index: 20; border: 1px black solid;" ></p>
+        
         <% } %>
        
     </div>
