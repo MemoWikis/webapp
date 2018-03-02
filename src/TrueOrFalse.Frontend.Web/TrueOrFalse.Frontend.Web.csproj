@@ -450,15 +450,15 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
-    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
     <Content Include="Views\Maintenance\Js\CMS.js">
       <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
       <DependentUpon>AsyncLoading.ts</DependentUpon>
@@ -481,9 +481,6 @@
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
-    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js.map">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
-    </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
@@ -492,6 +489,7 @@
     <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
       <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -2772,6 +2770,9 @@
       <DependentUpon>CMS.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

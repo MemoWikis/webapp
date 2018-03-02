@@ -7,24 +7,20 @@
 <% } %>
 
 
-<div class="container">
-    <div class="row">
-        <div id="knowledgeAsABox" class="col-sm"></div>
+<div class="row">
+    <div id="knowledgeAsABox" class="col-sm"></div>
         
-        <% var objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge(); %>
+    <% var objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge(); %>
 
-        <% for (var i = 0; i < objectGetQuestionKnowledge.KnowledgeStatus.Count; i++)
-           {
-               var knowledgeStatus = TopicNavigationModel.ReturnKnowledgeStatus(objectGetQuestionKnowledge.KnowledgeStatus, i);
-               var questionText = objectGetQuestionKnowledge.AggregatedWishKnowledge[i].Text;
-               var id = i;
-        %> 
-            <span class="<% =knowledgeStatus %> square-wish-knowledge" id="question<% =id %>" data-toggle="tooltip" data-placement="top" title="<% =questionText %>" ></span>
-            <p style="display: none; width: 300px; position: relative; z-index: 20; border: 1px black solid;" ></p>
+    <% for (var i = 0; i < objectGetQuestionKnowledge.KnowledgeStatus.Count; i++)
+        {
+            var knowledgeStatus = TopicNavigationModel.ReturnKnowledgeStatus(objectGetQuestionKnowledge.KnowledgeStatus, i);
+            var questionText = objectGetQuestionKnowledge.AggregatedWishKnowledge[i].Text;
+            var id = i;
+    %> 
+        <span class="<% =knowledgeStatus %> square-wish-knowledge" id="question<% =id %>" data-toggle="tooltip" data-placement="top" title="<% =questionText %>" ></span>
+        <p style="display: none; width: 300px; position: relative; z-index: 20; border: 1px black solid;" ></p>
         
-        <% } %>
+    <% } %>
        
-    </div>
-    <div id="test"></div>
 </div>
-
