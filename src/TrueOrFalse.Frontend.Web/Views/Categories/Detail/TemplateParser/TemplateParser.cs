@@ -51,7 +51,7 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
-            case "dandorstesttemplate":
+            case "wishknowledgeinthebox":
             case "topicnavigation":
             case "medialist":
             case "videowidget":
@@ -100,8 +100,8 @@ public class TemplateParser
     {
         switch (templateJson.TemplateName.ToLower())
         {
-            case "dandorstesttemplate":
-                return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
+            case "wishknowledgeinthebox":
+                return new WishKnowledgeInTheBoxModel();
             case "topicnavigation":
                 return new TopicNavigationModel(category, templateJson.Title, templateJson.Text, templateJson.Load, templateJson.Order);
             case "medialist":

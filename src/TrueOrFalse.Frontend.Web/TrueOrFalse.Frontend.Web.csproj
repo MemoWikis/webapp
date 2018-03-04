@@ -316,7 +316,7 @@
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\EducationOfferListModel.cs" />
-    <Compile Include="Views\Categories\Detail\Partials\DandorsTestTemplateModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
@@ -416,7 +416,7 @@
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\DandorsTestTemplate.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />

@@ -184,13 +184,13 @@ public class TopicNavigationModel : BaseModel
 }
 
 
-public class ObjectGetQuestionKnowledge
-{
-    public int Userid { get; set; }
-    public int NumberKnowledgeQuestions { get; set; }
-    public List<string> KnowledgeStatus { get; set; }
-    public List<Question> AggregatedWishKnowledge { get; set; }
-}
+//public class ObjectGetQuestionKnowledge
+//{
+//    public int Userid { get; set; }
+//    public int NumberKnowledgeQuestions { get; set; }
+//    public List<string> KnowledgeStatus { get; set; }
+//    public List<Question> AggregatedWishKnowledge { get; set; }
+//}
 
 
 
