@@ -53,7 +53,7 @@ public class WishKnowledgeInTheBoxModel : BaseModel
 
         var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);                       // Get Question without Questiontext and with WUWI is false
         questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();             // without WUWi is false
-
+        questionValuations = questionValuations.OrderByDescending(o => o.KnowledgeStatus).ToList();
         for (var i = 0; i < questionValuations.Count; i++)
         {
 
@@ -67,14 +67,14 @@ public class WishKnowledgeInTheBoxModel : BaseModel
             }
         }
 
-        
+      
         //    //------ Zuweisung--------
         // og.Userid = UserId;
         getQuestionKnowledge.NumberKnowledgeQuestions = aggregateWishKnowledge.Count;
         getQuestionKnowledge.KnowledgeStatus = knowledgeStatus;
         getQuestionKnowledge.AggregatedWishKnowledge = aggregateWishKnowledge;
 
-
+        
 
         //    return getQuestionKnowledge;
         //}
