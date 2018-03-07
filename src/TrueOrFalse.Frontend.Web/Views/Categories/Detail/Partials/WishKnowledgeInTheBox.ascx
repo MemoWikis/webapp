@@ -4,9 +4,9 @@
 
 
 <div class="row">
-  <%--  <div id="knowledgeAsABox" class="col-sm"></div>
+   <div id="knowledgeAsABox" class="col-sm"></div>
         
-    <% var objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge(); %>
+   <% ObjectGetQuestionKnowledge objectGetQuestionKnowledge = Model.BuildObjectGetQuestionKnowledge(); %>
 
     <% for (var i = 0; i < objectGetQuestionKnowledge.KnowledgeStatus.Count; i++)
         {
@@ -17,6 +17,10 @@
         <span class="<% =knowledgeStatus %> square-wish-knowledge" id="question<% =id %>" data-toggle="tooltip" data-placement="top" title="<% =questionText %>" ></span>
         <p style="display: none; width: 300px; position: relative; z-index: 20; border: 1px black solid;" ></p>
         
-    <% } %>--%>
-       <h1> Hallo </h1>
+    <% } %>
+
+     
+                            
+
+
 </div>

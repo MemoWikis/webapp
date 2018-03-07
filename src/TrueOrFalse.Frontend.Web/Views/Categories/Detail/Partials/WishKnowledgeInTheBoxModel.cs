@@ -1,42 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Helpers;
 using System.Web.Mvc;
 
 public class WishKnowledgeInTheBoxModel : BaseModel
 {
-    private ReturnToJson returnToJson;
-   
+    public Category CategoryList;
+    public bool HasUsedOrderListWithLoadList;
 
-    public WishKnowledgeInTheBoxModel()
+
+    public WishKnowledgeInTheBoxModel(Category category)
     {
-       returnToJson = new ReturnToJson();
-     
+        CategoryList = category;
+        
     }
-
-
-    public JsonResult GetObjectQuestionKnowledge()
-    {
-        return returnToJson.BuildObjectGetQuestionKnowledge();
-    }
-
-
-}
-
-
-public class ReturnToJson : BaseController
-{
-
-    public Category Category;
-
     public string Title;
     public string Text;
 
-    public List<Category> CategoryList;
 
-    public bool HasUsedOrderListWithLoadList;
-    public List<Question> test2(int UserId, Category category)
+    public List<Question> GetQuestionToCategories(int UserId, Category category)
     {
         var aggregatedQuestions = new List<Question>();
 
@@ -57,44 +41,34 @@ public class ReturnToJson : BaseController
         return aggregatedQuestions;
     }
 
-    public JsonResult BuildObjectGetQuestionKnowledge()
+    public ObjectGetQuestionKnowledge BuildObjectGetQuestionKnowledge()
     {
-        // ---------------- Properties -------------------
-        var getQuestionKnowledge = new ObjectGetQuestionKnowledge();
         var aggregateWishKnowledge = new List<Question>();
         var knowledgeStatus = new List<string>();
+        var getQuestionKnowledge = new ObjectGetQuestionKnowledge();
 
-        // ---------- Evaluation ----------
-        var aggregatedQuestions = new List<Question>();
-        foreach (var category in CategoryList)
-        {
-            var temp1 = test2(UserId, category);
 
-            foreach (var f in temp1)
-            {
-                aggregatedQuestions.Add(f);
-            }
+        var allQuestionsInAllCategoriesToTheSite = GetQuestionToCategories(UserId, CategoryList);
+        allQuestionsInAllCategoriesToTheSite = allQuestionsInAllCategoriesToTheSite.Distinct().ToList();    // remove Duplicate Questions
 
-        }
-
-        aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);
-        questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();
+        var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);                       // Get Question without Questiontext and with WUWI is false
+        questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();             // without WUWi is false
 
         for (var i = 0; i < questionValuations.Count; i++)
         {
 
-            for (var j = 0; j < aggregatedQuestions.Count; j++)
+            for (var j = 0; j < allQuestionsInAllCategoriesToTheSite.Count; j++)
             {
-                if (questionValuations.ElementAt(i).Question.Id == aggregatedQuestions.ElementAt(j).Id)
+                if (questionValuations.ElementAt(i).Question.Id == allQuestionsInAllCategoriesToTheSite.ElementAt(j).Id)
                 {
-                    aggregateWishKnowledge.Add(aggregatedQuestions.ElementAt(j));
+                    aggregateWishKnowledge.Add(allQuestionsInAllCategoriesToTheSite.ElementAt(j));
                     knowledgeStatus.Add(questionValuations.ElementAt(i).KnowledgeStatus.ToString());
                 }
             }
         }
 
-        //------ Zuweisung--------
+        
+        //    //------ Zuweisung--------
         // og.Userid = UserId;
         getQuestionKnowledge.NumberKnowledgeQuestions = aggregateWishKnowledge.Count;
         getQuestionKnowledge.KnowledgeStatus = knowledgeStatus;
@@ -102,10 +76,65 @@ public class ReturnToJson : BaseController
 
 
 
-        return Json(getQuestionKnowledge, JsonRequestBehavior.AllowGet);
+        //    return getQuestionKnowledge;
+        //}
+        return getQuestionKnowledge;
     }
+    //    // ---------------- Properties -------------------
+    //    var getQuestionKnowledge = new ObjectGetQuestionKnowledge();
+    //    var aggregateWishKnowledge = new List<Question>();
+    //    var knowledgeStatus = new List<string>();
+
+    //    // ---------- Evaluation ----------
+    //    var aggregatedQuestions = new List<Question>();
+    //    foreach (Category category in CategoryList)
+    //    {
+    //        var temp1 = GetQuestionToCategories(UserId, category);
+
+    //        foreach (var f in temp1)
+    //        {
+    //            aggregatedQuestions.Add(f);
+    //        }
+
+    //    }
+
+    //    aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
+    //    var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(UserId);
+    //    questionValuations = questionValuations.Where(v => v.RelevancePersonal != -1).ToList();
+
+    //    for (var i = 0; i < questionValuations.Count; i++)
+    //    {
+
+    //        for (var j = 0; j < aggregatedQuestions.Count; j++)
+    //        {
+    //            if (questionValuations.ElementAt(i).Question.Id == aggregatedQuestions.ElementAt(j).Id)
+    //            {
+    //                aggregateWishKnowledge.Add(aggregatedQuestions.ElementAt(j));
+    //                knowledgeStatus.Add(questionValuations.ElementAt(i).KnowledgeStatus.ToString());
+    //            }
+    //        }
+    //    }
+
+    //    //------ Zuweisung--------
+    //    // og.Userid = UserId;
+    //    getQuestionKnowledge.NumberKnowledgeQuestions = aggregateWishKnowledge.Count;
+    //    getQuestionKnowledge.KnowledgeStatus = knowledgeStatus;
+    //    getQuestionKnowledge.AggregatedWishKnowledge = aggregateWishKnowledge;
+
+
+
+    //    return getQuestionKnowledge;
+    //}
+
+
+
+
+
+
 
 }
+
+
 
 
 public class ObjectGetQuestionKnowledge
@@ -114,4 +143,4 @@ public class ObjectGetQuestionKnowledge
     public int NumberKnowledgeQuestions { get; set; }
     public List<string> KnowledgeStatus { get; set; }
     public List<Question> AggregatedWishKnowledge { get; set; }
-} 
+}
