@@ -3,14 +3,14 @@
 class NumbersCountUp {
 
     elem: JQuery[] = new Array();
-    isNumber: boolean;
-    isProgressBar: boolean;
-    hasBeenViewed: Array<boolean>[] = new Array();
-
+    isNumber: boolean; //todo: löschen
+    isProgressBar: boolean; //todo: löschen
+    hasBeenViewed: Array<boolean>[] = new Array(); //speichere hasbeenviewed-info als attribut direkt im element
+   // this.elem[0].attr("hasBeenViewed", "false");
 
 
     constructor() {
-
+        
         if ($('.CountUpProgress').length != 0) {
             this.elem.push($(".CountUpProgress"));
         }
@@ -19,13 +19,13 @@ class NumbersCountUp {
             this.elem.push($('.CountUp'));
         }
 
-
         for (var i = 0; i < this.elem.length; i++) {
             this.hasBeenViewed[i] = new Array();
             for (var j = 0; j < this.elem[i].length; j++) {
                 this.hasBeenViewed[i][j] = false;
             }
         }
+
 
         this.animateWhenVisible();
     }
@@ -35,7 +35,7 @@ class NumbersCountUp {
     // ein JqueryElement kann mehrere Klassen besitzen diese werden innerhalb des Jquery Objektes als Array gespeichert
     //, entsprechend muss man das Array durchsuchen
     // keine Prüfung notwendig ob Class vorhanden da im Constructor nur die beiden Klassen CountUp und CountUpProgress zum Array hinzugefügt werden 
-    deliverHtmlClass(arrayHtmlClasses) {
+    deliverHtmlClass(arrayHtmlClasses) { //todo: löschen
         let wichHtmlClassBool: boolean = true;
 
         wichHtmlClassBool = arrayHtmlClasses.contains("CountUp");
@@ -49,15 +49,16 @@ class NumbersCountUp {
     }
 
 
-    deliverAttribut(element, attribut: string) {
-        try {
-            return element.attributes.getNamedItem(attribut).value;
+    deliverAttribut(element, attribut: string) { //diese prüfung ob null direkt unten in der funktion machen; dann wird deliverAttribut obsolet und kann weg.
 
-        } catch (e) {
-            return null;
+        return element.attributes.getNamedItem(attribut) != null ? 
+            element.attributes.getNamedItem(attribut).value : null;
 
-        }
-
+        //try {
+        //    return element.attributes.getNamedItem(attribut).value;
+        //} catch (e) {
+        //    return null;
+        //}
     }
 
     countUp(start: number, end: number, character, htmlClass, index) {
@@ -133,6 +134,7 @@ class NumbersCountUp {
 
     checkIfVisible(self) {
         self.elem.forEach((element, index) => {
+            //var classes = element.className.contains("");
            
             for (let i = 0; i < element.length; i++) {
 

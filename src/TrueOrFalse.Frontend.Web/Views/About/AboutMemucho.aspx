@@ -135,8 +135,7 @@
 
             <div class="col-xs-4 keyNumberCol">
                 <div class="keyNumber">
-                    <span class="CountUp" data-number=" <%= Model.TotalQuestionCount %>" > 0 </span>
-                   
+                    <span class="CountUp" data-number="<%= Model.TotalQuestionCount %>"> 0 </span>
                 </div>
                 <div class="keyNumberExplanation">
                     interaktive Fragen gibt es zu beantworten
@@ -145,8 +144,7 @@
 
             <div class="col-xs-4 keyNumberCol">
                 <div class="keyNumber">
-                    <span class="CountUp" data-number=" <%= Model.PercentageQuestionsAnsweredMostlyWrong %>"> 0 </span>
-                    %
+                    <span class="CountUp" data-number="<%= Model.PercentageQuestionsAnsweredMostlyWrong %>"> 0 </span> %
                 </div>
                 <div class="keyNumberExplanation">
                     der Fragen werden öfter falsch als richtig beantwortet
