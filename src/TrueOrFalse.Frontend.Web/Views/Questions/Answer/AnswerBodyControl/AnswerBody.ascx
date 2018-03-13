@@ -77,9 +77,9 @@
                             {
                                 if (Request.Browser.IsMobileDevice)
                                     userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
-                                if (Model.isMobileRequest == true)
+                                if (Model.IsMobileRequest == true)
                                     userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
-                                if (Model.isMobileRequest == false)
+                                if (Model.IsMobileRequest == false)
                                     userControl = "SolutionTypeMatchList.ascx";
                             }
 
