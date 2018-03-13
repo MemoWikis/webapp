@@ -41,6 +41,7 @@
         </div>
     </div>
     <div id="HeadingSection">
+       
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
         </div>

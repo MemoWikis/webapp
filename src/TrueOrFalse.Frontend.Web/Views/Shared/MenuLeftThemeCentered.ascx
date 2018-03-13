@@ -3,20 +3,24 @@
 <% var isLongMenu = true; %>
 
 <div class="mainMenuContainer">
-    <nav id="mainMenuThemeCentered" style="display: none;">
-        <div class="list-group">
+      <nav id="mainMenuThemeCentered">
+        <div class="list-group">           
             <div class="menu-section">
-                <a id="mainMenuBtnKnowledge" class="list-group-item menu-section primary-point <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
-                    <i id="mainMenuKnowledgeHeart" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
-                    <span class="primary-point-text">
-                        Wissenszentrale
-                    </span>
-                </a>
-            </div>
-            
-            <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
-            
-            <% if (isLongMenu) { %>
+                <ul class="menu-container">
+                    <li class="menu-item" style="height: 22px;">
+                        <a id="mainMenuBtnKnowledge" style="padding-right: 12px" class="list-group-item menu-section primary-point <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
+                            <i id="mainMenuKnowledgeHeart" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
+                            <span class="primary-point-text">Wissenszentrale</span>
+                        </a>
+                    </li>
+                    <li class="menu-item" style="height: 22px; width: 0%;"><a id="MenuButton"><i class="fa fa-bars"></i></a></li>
+                </ul>
+            </div> 
+                  
+            <div id="MasterRightColumn" class="LongMenu">           
+                <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
+            <% if (isLongMenu)
+                { %>
                 <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section">
                     <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>">
                         <i class="fa fa-search" aria-hidden="true"></i> Themen                
@@ -57,13 +61,15 @@
                         <span id="badgeNewMessages" class="badge show-tooltip" title="Ungelesene Nachrichten" style="display: inline-block; position: relative; top: 1px;"><%= Model.UnreadMessageCount %></span>
                     </a>
 
-                    <% if (Model.IsInstallationAdmin) { %>
+                    <% if (Model.IsInstallationAdmin)
+                        { %>
                         <a class="list-group-item cat <%= Model.Active(MenuEntry.Maintenance) %>" href="<%= Url.Action("Maintenance", "Maintenance") %>">
                             Administrativ
                         </a>
                     <% } %>
                 </div>
             <% } %>
+             </div>  
         </div>
-    </nav>
+  </nav>
 </div>

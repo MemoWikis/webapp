@@ -26,7 +26,19 @@
                            Model.TopicMenu.IsActive
                            ? UserControls.MenuLeftThemeCentered
                            : UserControls.MenuLeft, Model.MenuLeftModel); %>
-
+                    <div class="Autor-box">
+                        <div id="AutorImage" class="ImageContainer" style="top: 19.64px; width: 80px;">
+                            <img class="ItemImage JS-InitImage" alt="" src="/Images/no-category-picture-128.png" style="border-radius: 50px;" data-append-image-link-to="ImageContainer" />
+                            <div style="margin-top: 6px">
+                                <span>Themen Autorin</span>
+                            </div>
+                        </div>
+                        <div id="AutorName" class="Autor-box-name">Charlotte L</div>
+                        <div id="AutorText" class="Autor-box-text">
+                            Charlotte L arbeitet für das Department of Neurology in der RWTH Aachen University. Davor hat sie ihren Master in Psychologie an der HU in Berlin und davor den Bachelor an der FU in Berlin abgeschlossen. Für Memucho arbeitet Charlotte nicht nur als Gestalterin der Themenseite Psychologie (Studium) sondern ist auch maßgeblich an Nutztests beteiligt.
+                        </div>
+                    </div>
+               
                     <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
                        { %>
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
@@ -74,3 +86,4 @@
     <div id="modalContainer"></div>
 </body>
 </html>
+ 
