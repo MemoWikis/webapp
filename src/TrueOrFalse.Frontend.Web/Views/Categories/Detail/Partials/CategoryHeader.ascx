@@ -70,7 +70,7 @@
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" :  "Übersicht"%>
                 </a>
             </div>
-            <div id="LearningTab" class="Tab LoggedInOnly">
+            <div id="LearningTab" class="Tab">
                 <a href="#">
                     Lernen
                 </a>
