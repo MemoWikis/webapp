@@ -29,7 +29,7 @@ public LicenseQuestion LicenseQuestion;
     public int SolutionTypeInt;
     public QuestionSolution SolutionModel;
 
-    public bool? isMobileRequest;
+    public bool? IsMobileRequest;
 
     public bool IsInWidget;
     public bool IsForVideo;
@@ -90,7 +90,7 @@ public LicenseQuestion LicenseQuestion;
 
         IsInWishknowledge = answerQuestionModel.IsInWishknowledge;
 
-        isMobileRequest = answerQuestionModel.isMobileDevice;
+        IsMobileRequest = answerQuestionModel.IsMobileDevice;
 
         IsInWidget = answerQuestionModel.IsInWidget;
         IsLearningSession = answerQuestionModel.IsLearningSession;
