@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Seedworks.Web.State;
 
 public class UserValuationCache
 {
-    public const int ExpirationSpanInMinutes = 60;
+    public const int ExpirationSpanInMinutes = 600;
 
     public static string GetCacheKey(int userId) => "UserValuationCacheItem_" + userId;
 
@@ -18,9 +19,9 @@ public class UserValuationCache
 
     public static List<UserValuationCacheItem> GetAllCacheItems()
     {
-        var allUserIds = Sl.UserRepo.GetAll().Select(u => u.Id);
+        var allUserIds = Sl.UserRepo.GetAllIds();
         var allUserValuations = new List<UserValuationCacheItem>();
-        foreach (var userId in allUserIds)
+        foreach (var userId in allUserIds)                                  
         {
             allUserValuations.Add(GetItem(userId));
         }
