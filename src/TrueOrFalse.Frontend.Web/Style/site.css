@@ -188,6 +188,19 @@ h1 *.ColoredUnderline {
 img {
   max-width: 100%;
 }
+.PathMenuImg {
+    height: 21px;
+    width: 21px !important;
+  
+}
+.PathMenuHomeImg {
+    height: 21px;
+    border-radius: 50%;
+   background-color: #0B335E;
+   color:white;
+   padding-top:1px;
+   margin-left:0px
+}
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
@@ -689,10 +702,6 @@ fieldset[disabled] #MenuButton:hover {
     font-size: 25px;
   }
 }
-
-
-
-
 ul.AutocompleteHeader {
   max-width: 550px;
 }
@@ -1373,6 +1382,7 @@ div.box-main .box-content {
     color: #203A54;
     margin-top:63.36px;
 }
+
 
 /*ROWS
 ---------------------------------------------------------*/

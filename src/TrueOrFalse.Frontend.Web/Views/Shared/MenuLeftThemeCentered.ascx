@@ -7,13 +7,13 @@
         <div class="list-group">           
             <div class="menu-section">
                 <ul class="menu-container">
-                    <li class="menu-item" style="height: 22px;">
+                    <li class="menu-item" style="height: 21px;">
                         <a id="mainMenuBtnKnowledge" style="padding-right: 12px" class="list-group-item menu-section primary-point <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
                             <i id="mainMenuKnowledgeHeart" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
                             <span class="primary-point-text">Wissenszentrale</span>
                         </a>
                     </li>
-                    <li class="menu-item" style="height: 22px; width: 0%;"><a id="MenuButton"><i class="fa fa-bars"></i></a></li>
+                    <li class="menu-item" style="height: 21px; width: 0%;"><a id="MenuButton"><i class="fa fa-bars"></i></a></li>
                 </ul>
             </div> 
                   

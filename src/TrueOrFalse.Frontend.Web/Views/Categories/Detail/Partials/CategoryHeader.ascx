@@ -4,7 +4,7 @@
 
 <div id="CategoryHeader">
     
-    <div class="BreadcrumbsMobile">
+    <div class="BreadcrumbsMobile" >
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
     </div>
 
@@ -40,8 +40,7 @@
             </div>
         </div>
     </div>
-    <div id="HeadingSection">
-       
+    <div id="HeadingSection">    
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
         </div>
