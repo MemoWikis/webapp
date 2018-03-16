@@ -42,6 +42,7 @@
                     this.loadNewLearningSession();
 
                 $("#btnNext, #aSkipStep").click((e) => {
+                    
                     e.preventDefault();
                     var learningSessionId = $("#hddIsLearningSession").attr("data-learning-session-id");
                     var skipStepIdx = $("#hddIsLearningSession").attr("data-skip-step-index");
@@ -53,6 +54,7 @@
                 });
 
             } else if ($("#hddIsTestSession").val() === "True") {
+                debugger;
                 $("#btnNext").click((e) => {
                     e.preventDefault();
                     var testSessionId = $("#hddIsTestSession").attr("data-test-session-id");
