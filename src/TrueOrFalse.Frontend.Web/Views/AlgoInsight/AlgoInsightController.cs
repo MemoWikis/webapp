@@ -20,6 +20,8 @@ public class AlgoInsightController : BaseController
     [HttpPost]
     public JsonResult ForgettingCurvesJson(CurvesJsonCmd curvesJsonCmd)
     {
+        return Json("");
+
         return Json(ForgettingCurveJson.Load(curvesJsonCmd));
     }
 
