@@ -29,7 +29,7 @@
                     <div class="Autor-box">
                         <div id="AutorImage" class="ImageContainer" style="top: 19.64px; width: 80px;">
                             <img class="ItemImage JS-InitImage" alt="" src="/Images/no-category-picture-128.png" style="border-radius: 50px;" data-append-image-link-to="ImageContainer" />
-                            <div style="margin-top: 6px">
+                            <div style="margin-top: 6px; height:29px">
                                 <span>Themen Autorin</span>
                             </div>
                         </div>

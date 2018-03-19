@@ -3,17 +3,25 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% var breadCrumb = Model.BreadCrumb; %>   
-<a href="/" class="category-icon">
-    <i class="PathMenuHomeImg fa fa-home show-tooltip" title="Startseite"></i>
-    <span style="margin-left: 10px">Home</span>
-</a>                
-       <%  for (var i = 1; i < breadCrumb.Count; i++)
-        { %>
-            <span> <i class="fa fa-chevron-right"></i> </span>                                                       
-           
-                <i class="PathMenuHomeImg fa fa-home show-tooltip" title="Startseite"></i> 
-            <a href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
 
-        <%= Model.ImageFrontendData.RenderHtmlImageBasis(21, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumb[i]), additionalCssClasses:"PathMenuImg") %>
+  <div style="display:flex; height:37px">   
+      <div>
+          <a href="/" class="category-icon">
+              <i class="PathMenuHomeImg fa fa-home show-tooltip" title="Startseite"></i>
+              <span style="margin-left: 10px">Home</span>
+               </a>
+              <span><i class="fa fa-chevron-right"></i></span>       
+      </div>
+
+       <%  for (var i = 1; i < breadCrumb.Count -1; i++)
+        { %>                                                                  
+    
+          
+          <div class="ImageContainer" style="width: 21px; height: 21px; float: none; margin-right: 10px; margin-left:12px; top:-22px">
+                <%= Model.ImageFrontendData.RenderHtmlImageBasis(21, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumb[i]), additionalCssClasses: "PathMenuImg") %>
+          </div>
+          <a href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
+          <span><i class="fa fa-chevron-right"></i></span>
+    
     <% } %>
-
+</div> 

@@ -2,12 +2,10 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="CategoryHeader">
-    
+<div id="CategoryHeader">   
     <div class="BreadcrumbsMobile" >
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
     </div>
-
     <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
