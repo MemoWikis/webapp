@@ -7,25 +7,33 @@
     data-current-step-idx=""
     data-is-last-step=""
     data-skip-step-index="" />
+ 
 
+<%--<input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
+       data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
+       data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
+       data-is-last-step="<%= Model.TestSessionIsLastStep %>"/--%>>
 
-<input type="hidden" id="hddIsTestSession" value="True"
-       data-test-session-id="-1"
-       data-current-step-guid=""
-       data-current-step-idx=""
-       data-is-last-step=""
-       data-skip-step-index="" />
 
 <input type="hidden" id="hddQuestionId" value="1" />
 <input type="hidden" id="hddCategoryId" value="<%= Model.Category.Id %>" />
 <input type="hidden" id="hddLearningSessionStarted" value="False" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 
+<input type="hidden" id="hddIsTestSession" value="True"
+       data-test-session-id="1"
+       data-current-step-guid=""
+       data-current-step-idx=""
+       data-is-last-step="4"
+/>
+ 
+<%--<input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
+       data-learning-session-id="<%= Model.IsLearningSession ? Model.LearningSession.Id : -1 %>"
+       data-current-step-guid="<%= Model.IsLearningSession ? Model.LearningSessionStep.Guid.ToString() : "" %>"
+       data-current-step-idx="<%= Model.IsLearningSession ? Model.LearningSessionStep.Idx : -1 %>"
+       data-is-last-step="<%= Model.IsLastLearningStep %>"
+       data-skip-step-index = "-1" />--%>
 
-<%--<input type="hidden" id="hddIsTestSession" value="<%= AnswerQuestionModel.IsTestSession %>" 
-       data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
-       data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
-       data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>--%>
 
 <% 
     if (Model.Category.CountQuestionsAggregated > 0)
@@ -45,11 +53,10 @@
         else
         {
             var set = Sl.SetRepo.GetById(3);
-            var testSession = new TestSession(set);
-
+            TestSession testSession = new TestSession(set);
+            SessionUser sessionUser = new SessionUser();
+            sessionUser.AddTestSession(testSession);
             var answerQuestionModel = new AnswerQuestionModel(testSession, Guid.NewGuid(), dummyQuestion, false);
-
-
             Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", answerQuestionModel);
             Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(answerQuestionModel));
         }
