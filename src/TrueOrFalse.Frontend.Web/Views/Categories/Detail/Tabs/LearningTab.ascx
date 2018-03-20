@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
-<input type="hidden" id="hddIsLearningSession" value="False"
+
     data-learning-session-id="-1"
     data-current-step-guid=""
     data-current-step-idx=""
@@ -20,8 +20,6 @@
 <input type="hidden" id="hddLearningSessionStarted" value="False" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 
-<input type="hidden" id="hddIsTestSession" value="True"
-       data-test-session-id="1"
        data-current-step-guid=""
        data-current-step-idx=""
        data-is-last-step="4"
@@ -52,13 +50,9 @@
         }
         else
         {
-            var set = Sl.SetRepo.GetById(3);
-            TestSession testSession = new TestSession(set);
-            SessionUser sessionUser = new SessionUser();
-            sessionUser.AddTestSession(testSession);
-            var answerQuestionModel = new AnswerQuestionModel(testSession, Guid.NewGuid(), dummyQuestion, false);
-            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", answerQuestionModel);
-            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(answerQuestionModel));
+            var learningTabModel = new LearningTabModel();
+            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx",learningTabModel.answerQuestionModel);
+            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(learningTabModel.answerQuestionModel));
         }
     }
     else
