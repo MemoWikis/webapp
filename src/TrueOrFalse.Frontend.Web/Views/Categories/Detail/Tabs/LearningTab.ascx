@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 
-
+<input type="hidden" id="hddIsLearningSession" value="False"
     data-learning-session-id="-1"
     data-current-step-guid=""
     data-current-step-idx=""
@@ -12,7 +12,7 @@
 <%--<input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
        data-test-session-id="<%= Model.IsTestSession ? Model.TestSessionId : -1 %>"
        data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
-       data-is-last-step="<%= Model.TestSessionIsLastStep %>"/--%>>
+       data-is-last-step="<%= Model.TestSessionIsLastStep %>"/--%>
 
 
 <input type="hidden" id="hddQuestionId" value="1" />
@@ -20,9 +20,11 @@
 <input type="hidden" id="hddLearningSessionStarted" value="False" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 
-       data-current-step-guid=""
-       data-current-step-idx=""
-       data-is-last-step="4"
+<input type="hidden" id="hddIsTestSession" value="True"
+    data-test-session-id="1"
+    data-current-step-guid=""
+    data-current-step-idx=""
+    data-is-last-step="4"
 />
  
 <%--<input type="hidden" id="hddIsLearningSession" value="<%= Model.IsLearningSession %>" 
@@ -50,9 +52,9 @@
         }
         else
         {
-            var learningTabModel = new LearningTabModel();
-            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx",learningTabModel.answerQuestionModel);
-            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(learningTabModel.answerQuestionModel));
+            var learningTabModel = new LearningTabModel(Model.Category);
+            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx",learningTabModel.AnswerQuestionModel);
+            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(learningTabModel.AnswerQuestionModel));
         }
     }
     else
