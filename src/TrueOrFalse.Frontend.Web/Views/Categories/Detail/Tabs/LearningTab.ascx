@@ -14,7 +14,7 @@
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 
 <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>"
-    data-test-session-id="1"
+    data-test-session-id="<%=Model.LearningTabModel.TestSession.Id %>"
     data-current-step-guid=""
     data-current-step-idx=""
     data-is-last-step="4"
@@ -38,9 +38,8 @@
         }
         else
         {
-            var learningTabModel = new LearningTabModel(Model.Category);
-            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx",learningTabModel.AnswerQuestionModel);
-            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(learningTabModel.AnswerQuestionModel));
+            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx",Model.LearningTabModel.AnswerQuestionModel);
+            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model.LearningTabModel.AnswerQuestionModel));
         }
     }
     else

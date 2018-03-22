@@ -8,7 +8,6 @@
             return;
 
         $().ready(() => {
-
             this.IsInLearningTab = $('#LearningTab').length > 0;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
