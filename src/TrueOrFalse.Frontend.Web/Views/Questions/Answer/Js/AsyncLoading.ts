@@ -54,7 +54,6 @@
                 });
 
             } else if ($("#hddIsTestSession").val() === "True") {
-                debugger;
                 $("#btnNext").click((e) => {
                     e.preventDefault();
                     var testSessionId = $("#hddIsTestSession").attr("data-test-session-id");

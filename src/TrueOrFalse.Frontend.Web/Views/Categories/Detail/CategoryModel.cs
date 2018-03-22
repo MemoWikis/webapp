@@ -50,6 +50,8 @@ public class CategoryModel : BaseModel
     public string UrlLinkText;
 
     public bool IsOwnerOrAdmin;
+    public bool IsTestSession => !IsLoggedIn;
+    public bool IsLearningSession => IsLoggedIn;
 
     public int CountAggregatedQuestions;
     public int CountReferences;
