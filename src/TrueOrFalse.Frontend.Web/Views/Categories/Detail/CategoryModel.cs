@@ -13,6 +13,7 @@ public class CategoryModel : BaseModel
     public string Description;
     public string Type;
 
+    
     public KnowledgeSummary KnowledgeSummary;
 
     public List<Category> RootCategoriesList;
@@ -50,6 +51,8 @@ public class CategoryModel : BaseModel
     public string UrlLinkText;
 
     public bool IsOwnerOrAdmin;
+    public bool IsTestSession => !IsLoggedIn;
+    public bool IsLearningSession => IsLoggedIn;
 
     public int CountAggregatedQuestions;
     public int CountReferences;
@@ -66,6 +69,7 @@ public class CategoryModel : BaseModel
 
     public bool IsInWishknowledge;
 
+    public LearningTabModel LearningTabModel; 
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
     {
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
@@ -122,6 +126,9 @@ public class CategoryModel : BaseModel
 
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
+
+        if(!IsLoggedIn)
+            LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
 

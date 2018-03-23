@@ -9,7 +9,10 @@
         <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
 
         <div class="SessionTitle">
-            <% if(Model.TestSession.IsSetSession) { %>
+            <%
+                var testsession = Model.TestSession.IsSetSession; 
+
+                if (Model.TestSession.IsSetSession) { %>
                 <div class="CollectionType">
                     Lernset
                 </div>
