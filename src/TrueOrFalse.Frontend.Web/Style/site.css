@@ -188,6 +188,19 @@ h1 *.ColoredUnderline {
 img {
   max-width: 100%;
 }
+.PathMenuImg {
+    height: 21px;
+    width: 21px !important;
+  
+}
+.PathMenuHomeImg {
+    height: 21px;
+    border-radius: 50%;
+   background-color: #0B335E;
+   color:white;
+   padding-top:1px;
+   margin-left:0px
+}
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
@@ -549,36 +562,37 @@ img {
   font-size: 25px;
 }
 #MenuButton {
-  margin-bottom: 0;
-  font-weight: normal;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  display: inline-block;
-  float: left;
-  margin-top: 4px;
-  margin-left: -7px;
-  padding: 3px 3px 3px 7px;
-  margin-right: 10px;
-  font-size: 18px;
-  color: #e7ecf6;
-  background-color: transparent;
-  background-image: none;
-  border-color: transparent;
-  box-shadow: none;
-  -webkit-text-shadow: none;
-  text-shadow: none;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: inline-block;
+    float: right;
+    margin-top: 4px;
+    margin-left: -7px;
+    padding: 3px 3px 3px 7px;
+    margin-right: 10px;
+    font-size: 18px;
+    color: #003264;
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    -webkit-text-shadow: none;
+    text-shadow: none;
 }
+
 #MenuButton:focus,
 #MenuButton:active:focus,
 #MenuButton.active:focus {
@@ -588,7 +602,6 @@ img {
 }
 #MenuButton:hover,
 #MenuButton:focus {
-  color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
@@ -621,8 +634,8 @@ fieldset[disabled] #MenuButton {
     font-size: 25px;
     margin-top: 0;
     position: relative;
-    top: -3px;
-    left: -3px;
+    top: 3px;
+   right: -30px;
   }
   #MenuButton .caret {
     margin-left: 5px;
@@ -687,11 +700,6 @@ fieldset[disabled] #MenuButton:hover {
     border-radius: 6px;
     padding: 5px 7px 5px 9px;
     font-size: 25px;
-  }
-}
-@media (min-width: 1200px) {
-  #MenuButton {
-    display: none;
   }
 }
 ul.AutocompleteHeader {
@@ -828,33 +836,35 @@ ul.AutocompleteHeader {
 }
 @media (min-width: 1200px) {
   #MasterMainContent #MasterMainColumn {
-    width: 80%;
+    width: 71%;
   }
 }
 #MasterLeftColumn {
   position: relative;
   min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-right: 20px;
   position: static;
 }
 @media (min-width: 1200px) {
-  #MasterLeftColumn {
-    float: left;
-    width: 25%;
-  }
+    #MasterLeftColumn {
+        float: right;
+        width: 21.73%;
+    }
 }
-@media (min-width: 1200px) {
-  #MasterLeftColumn {
-    width: 20%;
-  }
-}
+
+
+    #MasterRightColumn {
+       display:none;
+    }
+
+
 #MasterMainWrapper {
   background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
   padding-top: 25px;
+
 }
 @media (max-width: 991px) {
   #MobileSubHeader + #MasterMainContent {
@@ -1345,6 +1355,35 @@ div.box-main .box-content {
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   background-color: white;
 }
+.Autor-box {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width: 100%;
+    font-size: 10px;
+    margin-top: 19.64px;
+    color: #9F9F9F;
+}
+.Autor-box-name {
+    font-size: 18px;
+    border-top: solid 1px #d6d6d6;
+    border-bottom: solid 1px #d6d6d6;
+    margin-top: 43.5px;
+    color: #0560AB;
+    align-items: center;
+    height: 45px;
+    width:100%;
+    text-align:center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.Autor-box-text {
+    font-size: 18px;
+    color: #203A54;
+    margin-top:63.36px;
+}
+
+
 /*ROWS
 ---------------------------------------------------------*/
 .rowBase:after {

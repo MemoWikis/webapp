@@ -433,17 +433,17 @@ p:empty {
   border-left: 10px solid #adadad;
 }
 .BreadcrumbsMobile {
-  font-size: 14px;
-  background-color: white;
-  line-height: 1.5em;
-  margin-bottom: 10px;
-  color: #999999;
+    font-size: 14px;
+    background-color: white;
+    line-height: 1.5em;
+    margin-bottom: 10px;
+    height: 37px;
+    width: 100%;
+    font-family: sans;
+    color: #1B3651;
+    font:bold
 }
-@media (min-width: 1200px) {
-  .BreadcrumbsMobile {
-    display: none;
-  }
-}
+
 .BreadcrumbsMobile i.fa-home {
   font-size: 120%;
 }
@@ -463,20 +463,25 @@ p:empty {
   width: 1.25em;
 }
 .BreadcrumbsMobile i.fa-home {
-  width: auto;
+  width: 21px;  
 }
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
   width: auto;
+  margin-left:13px
 }
 .BreadcrumbsMobile a {
-  color: #999999;
-  text-decoration: none;
-}
+   color: #1B3651;
+   text-decoration: none;
+   font-family: "Open Sans";
+   font-size: 14px;
+   font-weight:bold;
+   margin-left:10px
+    }
 .BreadcrumbsMobile a:not(.current):hover,
 .BreadcrumbsMobile a:not(.current):focus,
 .BreadcrumbsMobile a:not(.current):active {
-  color: #003264;
+  color: #1B3651;
 }
 .BreadcrumbsMobile a.current {
   cursor: default;

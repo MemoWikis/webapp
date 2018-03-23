@@ -2,12 +2,10 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="CategoryHeader">
-    
-    <div class="BreadcrumbsMobile">
+<div id="CategoryHeader">   
+    <div class="BreadcrumbsMobile" >
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
     </div>
-
     <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
@@ -40,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div id="HeadingSection">
+    <div id="HeadingSection">    
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>
         </div>
