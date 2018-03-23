@@ -38,7 +38,7 @@
         }
         else
         {
-            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx",Model.LearningTabModel.AnswerQuestionModel);
+            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model.LearningTabModel.AnswerQuestionModel);
             Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model.LearningTabModel.AnswerQuestionModel));
         }
     }
