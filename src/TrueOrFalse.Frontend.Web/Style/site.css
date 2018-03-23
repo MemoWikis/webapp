@@ -1110,12 +1110,29 @@ a.button span.ui-icon {
   background-color: #FDF8DC;
   border-color: #FFD700;
 }
+.PathMenuLicense {
+    width: 120px;
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    float: left;
+    text-align: center;
+    margin-right: 20px;
+    position: relative;
+    -ms-word-break: break-word;
+    word-break: break-word;    
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 400;
+    color: #203256;
+}
 /*  LABEL LIST
 ----------------------------------------------------------*/
 .LabelList {
-  margin: 0.75em 0;
-  padding: 0 1em;
-  list-style: none;
+    margin: 0.75em 0;
+    padding: 0 1em;
+    list-style: none;
 }
 .LabelList .LabelItem {
   display: list-item;
@@ -1355,7 +1372,7 @@ div.box-main .box-content {
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   background-color: white;
 }
-.Autor-box {
+.Autor-Box {
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -1364,25 +1381,31 @@ div.box-main .box-content {
     margin-top: 19.64px;
     color: #9F9F9F;
 }
-.Autor-box-name {
+.Autor-Box-Name {
     font-size: 18px;
     border-top: solid 1px #d6d6d6;
     border-bottom: solid 1px #d6d6d6;
-    margin-top: 43.5px;
+    margin-top: 50.5px;
     color: #0560AB;
     align-items: center;
     height: 45px;
-    width:100%;
-    text-align:center;
+    width: 100%;
+    text-align: center;
     padding-top: 7px;
     padding-bottom: 7px;
 }
-.Autor-box-text {
+.Autor-Box-Text {
     font-size: 18px;
     color: #203A54;
-    margin-top:63.36px;
+    margin-top: 63.36px;
 }
 
+.Id-Card {
+    background-color:#fff;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-top:-9px;
+}
 
 /*ROWS
 ---------------------------------------------------------*/
