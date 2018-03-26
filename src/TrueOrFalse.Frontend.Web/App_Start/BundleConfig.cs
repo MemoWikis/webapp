@@ -48,7 +48,6 @@ namespace TrueOrFalse.View
                 .Include("~/Style/guidedTour/bootstrap-tour.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/Welcome")
-                .Include("~/Views/About/Js/NumbersCountUp.js")
                 .IncludeDirectory("~/Views/Welcome/Js", "*.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/RegistrationJs")
