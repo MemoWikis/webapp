@@ -2,67 +2,27 @@
 
 class NumbersCountUp {
 
-    elem: JQuery[] = new Array();
-    isNumber: boolean; //todo: löschen
-    isProgressBar: boolean; //todo: löschen
-    hasBeenViewed: Array<boolean>[] = new Array(); //speichere hasbeenviewed-info als attribut direkt im element
-   // this.elem[0].attr("hasBeenViewed", "false");
-
+    JQuery: JQuery[] = new Array();
 
     constructor() {
         
         if ($('.CountUpProgress').length != 0) {
-            this.elem.push($(".CountUpProgress"));
+            this.JQuery.push($(".CountUpProgress"));
         }
 
         if ($('.CountUp').length != 0) {
-            this.elem.push($('.CountUp'));
+            this.JQuery.push($('.CountUp'));
         }
 
-        for (var i = 0; i < this.elem.length; i++) {
-            this.hasBeenViewed[i] = new Array();
-            for (var j = 0; j < this.elem[i].length; j++) {
-                this.hasBeenViewed[i][j] = false;
-            }
+        for (var i = 0; i < this.JQuery.length; i++) {
+            this.JQuery[i].attr("hasBeenViewed", "false");
         }
-
 
         this.animateWhenVisible();
     }
 
-
-    //liefert die Klasse aus dem Array Classes innerhalb des Objektes 
-    // ein JqueryElement kann mehrere Klassen besitzen diese werden innerhalb des Jquery Objektes als Array gespeichert
-    //, entsprechend muss man das Array durchsuchen
-    // keine Prüfung notwendig ob Class vorhanden da im Constructor nur die beiden Klassen CountUp und CountUpProgress zum Array hinzugefügt werden 
-    deliverHtmlClass(arrayHtmlClasses) { //todo: löschen
-        let wichHtmlClassBool: boolean = true;
-
-        wichHtmlClassBool = arrayHtmlClasses.contains("CountUp");
-
-        if (wichHtmlClassBool == false) {
-
-            return ".CountUpProgress";
-        }
-
-        return ".CountUp";
-    }
-
-
-    deliverAttribut(element, attribut: string) { //diese prüfung ob null direkt unten in der funktion machen; dann wird deliverAttribut obsolet und kann weg.
-
-        return element.attributes.getNamedItem(attribut) != null ? 
-            element.attributes.getNamedItem(attribut).value : null;
-
-        //try {
-        //    return element.attributes.getNamedItem(attribut).value;
-        //} catch (e) {
-        //    return null;
-        //}
-    }
-
-    countUp(start: number, end: number, character, htmlClass, index) {
-
+    countUp(start: number, end: number, character: string, htmlClass: string, element: HTMLElement) {
+            
         var loops = 50;
         var intervalSlower;
         var loopCount = 0;
@@ -70,6 +30,7 @@ class NumbersCountUp {
         var timePointSlower = (end * 0.9);
         var increment = (end - start) / loops;
         var interval = setInterval(updateTimer, 10);
+        
         function slower() {
             intervalSlower = setTimeout(updateTimer, 100);
         }
@@ -78,18 +39,15 @@ class NumbersCountUp {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
-
-
         function updateTimer() {
 
             value += increment;
             loopCount++;
 
-            if (htmlClass == ".CountUpProgress") {
-              
-                $(htmlClass + `:eq(${index})`).width(value.toFixed(0) + character);
+            if (htmlClass === "CountUpProgress") {
+                $(element).width(value.toFixed(0) + character);
             } else {
-                $(htmlClass + `:eq(${index})`).html(value.toFixed(0) + character);
+                $(element).html(numberWith1000Separator(value.toFixed(0)) + character);
             }
 
             if (value > timePointSlower && value <= end) {
@@ -104,69 +62,41 @@ class NumbersCountUp {
         }
     }
 
-    eachCountUp(element, index) {
-
-        var self = this;
-        let finalnumber = 0;
-
-        // da mit unterschiedlichen Propertys gearbeitet wird, muss die Funktion null zurückgeben und wird deshalb auf null geprüft und je nach Property unterschiedlich behandelt
-        let character = self.deliverAttribut(element, "data-character") != null ? self.deliverAttribut(element, "data-character") : "";
-        let htmlClass = self.deliverHtmlClass(element.classList);
-        parseInt(self.deliverAttribut(element, "data-number")) != null ? finalnumber = parseInt(self.deliverAttribut(element, "data-number")) : console.log("Please add Attribut data-number in your Numbers Count Up ");
-        let startNumber = self.deliverAttribut(element, "data-startNumber") != null ? parseInt(self.deliverAttribut(element, "data-startNumber")) : 0;
-
-        switch (htmlClass) {
-            case ".CountUp":
-                self.countUp(startNumber, finalnumber, character, htmlClass, index);
-                break;
-
-            case ".CountUpProgress":
-                self.countUp(startNumber, finalnumber, character, htmlClass, index);
-                break;
-
-            default:
-                console.log("No matching class specified");
-                break;
-        }
-
-    }
-
-
-    checkIfVisible(self) {
-        self.elem.forEach((element, index) => {
-            //var classes = element.className.contains("");
-           
-            for (let i = 0; i < element.length; i++) {
-
-                var htmlClass = self.deliverHtmlClass(element[i].classList);
-
+    checkIfVisible(numbersCountUp: NumbersCountUp) {
+        numbersCountUp.JQuery.forEach((element) => { // a Objekt with this Struktur Count{ 0,1,2} ,CountUp{0,1,2}
+        
+           for (let i = 0; i < element.length; i++) {
+          
                 var hT = $(element[i]).offset().top,
                     hH = $(element[i]).outerHeight(),
                     wH = $(window).innerHeight(),
                     wS = $(window).scrollTop();
+               
+                if ((wS) > (hT + hH - wH) && element[i].getAttribute("hasbeenviewed") === "false") {
 
-                if ((wS) > (hT + hH - wH) && self.hasBeenViewed[index][i] == false) {
+                    let character = element[i].getAttribute("data-character") != null ? element[i].getAttribute("data-character") : "";
+                    let htmlClass = element[i].getAttribute("class") === "CountUp" ?  "CountUp" : "CountUpProgress";
+                    let finalNumber = element[i].getAttribute("data-number") != null ? parseInt(element[i].getAttribute("data-number")) : -1;
+                    let startNumber = element[i].getAttribute("data-startNumber") !== null ? parseInt(element[i].getAttribute("data-startNumber")) : 0;
 
-                    self.eachCountUp(element[i], i);
-                    self.hasBeenViewed[index][i] = true;
+                    if (finalNumber === -1)
+                        console.log("Please add attribuet data-number in your Numbers Count Up ");
+
+                    numbersCountUp.countUp(startNumber, finalNumber, character, htmlClass, element[i]); 
+                    element[i].setAttribute("hasbeenviewed", "true");
                 }
             }
         });
         return;
     }
 
-
-
     animateWhenVisible() {
         var self = this;
-
+        
         self.checkIfVisible(self);
-        $(document).scroll(function () {
-
+        $(document).scroll(() => {
             self.checkIfVisible(self);
-
         });
-
     }
 
 }
