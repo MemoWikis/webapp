@@ -15,13 +15,12 @@
                     </li>
                     <li class="menu-item" style="height: 21px; width: 0%;"><a id="MenuButton"><i class="fa fa-bars"></i></a></li>
                 </ul>
-            </div> 
-                  
+            </div>                  
             <div id="MasterRightColumn" class="LongMenu">           
                 <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
             <% if (isLongMenu)
                 { %>
-                <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section">
+                <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section" style="width:100%">
                     <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>">
                         <i class="fa fa-search" aria-hidden="true"></i> Themen                
                         <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" 
@@ -44,7 +43,7 @@
                     </a>
                 </div>
 
-                <div id="mainMenuGamesUsersMessages" class="menu-section secondary-section">
+                <div id="mainMenuGamesUsersMessages" class="menu-section secondary-section" style="width:100%">
                     <a id="mainMenuBtnGames" class="<%= Model.Active(MenuEntry.Play) %> list-group-item play" href="<%= Links.Games(Url) %>">
                         Spielen
                         <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new"

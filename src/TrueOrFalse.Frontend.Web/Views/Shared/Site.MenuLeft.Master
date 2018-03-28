@@ -13,12 +13,9 @@
 
 <body>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
-    <section id="MasterSection">
-        
+    <section id="MasterSection">     
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
-
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
-
         <section id="MasterMainContent" class="container">
             <div class="row">
                 <section id="MasterLeftColumn" class="">
@@ -26,23 +23,19 @@
                            Model.TopicMenu.IsActive
                            ? UserControls.MenuLeftThemeCentered
                            : UserControls.MenuLeft, Model.MenuLeftModel); %>
-                    <div class="Autor-Box">
-                        <div id="AutorImage" class="ImageContainer" style="top: 19.64px; width: 80px;">
-                            <img class="ItemImage JS-InitImage" alt="" src="/Images/no-category-picture-128.png" style="border-radius: 50px;" data-append-image-link-to="ImageContainer" />
-                            <div style="margin-top: 6px; height:29px">
-                                <span>Themen Autorin</span>
+                   <div class="Sidebar-Autor-Box">
+                    <div class="Autor-Box">                            
+                            <div style="height:29px; width:100%; font-size:18px; text-transform:uppercase; margin-top:44px;">
+                                <span>Themen-Autorin</span>
                             </div>
-                        </div>
-                      
+                          <div id="AutorImage" class="ImageContainer" style="margin-top: 20.64px; width: 100%; text-align:center">        
+                             <img class="ItemImage JS-InitImage" alt="" src="/Images/no-category-picture-128.png" style="width:80px; height:80px; border-radius: 50px;" data-append-image-link-to="ImageContainer" />
+                        </div>                     
                         <div id="AutorName" class="Autor-Box-Name">
                             Charlotte L                    
-                        </div>                        
-                        <span class="Id-Card"><i style="font-size: 18px; color: #305FB1" class="fa fa-id-card"></i></span>                                              
-                        <div id="AutorText" class="Autor-Box-Text" >
-                            Charlotte L arbeitet für das Department of Neurology in der RWTH Aachen University. Davor hat sie ihren Master in Psychologie an der HU in Berlin und davor den Bachelor an der FU in Berlin abgeschlossen. Für Memucho arbeitet Charlotte nicht nur als Gestalterin der Themenseite Psychologie (Studium) sondern ist auch maßgeblich an Nutztests beteiligt.
-                        </div>
+                        </div>                                                                                                             
                     </div>
-               
+                  </div>
                     <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
                        { %>
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>

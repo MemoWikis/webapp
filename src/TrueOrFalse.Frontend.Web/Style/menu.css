@@ -253,6 +253,7 @@
 }
 #mainMenuThemeCentered .menu-section {
   margin-bottom: 3px;
+  float:right;
 }
 #mainMenuThemeCentered .secondary-section .list-group-item {
   padding: 7px 7px 7px 46px;
@@ -261,10 +262,6 @@
   min-width: 200px;
   text-align: left;
 }
-
-
-
-
 .menu-container {
     padding: 0;
     margin: 0;
@@ -281,15 +278,17 @@
     align-items:flex-end;
 
 }
-
 .menu-item {     
     float:right;
    align-items:flex-end;
   
     
 }
-
-
+@media (min-width: 1199px) {
+    .mobile-menu-container {
+        display:none;
+    }
+}
   #mainMenuThemeCentered .list-group {
     margin-bottom: 0;
   }

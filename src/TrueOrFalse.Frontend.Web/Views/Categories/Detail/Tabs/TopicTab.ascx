@@ -35,7 +35,19 @@
         <% } %>
     </div>
 </div>
-
+<div class="Mobile-Autor-Box">
+    <div class="Autor-Box">
+        <div style="height: 29px; width: 100%; font-size: 18px; text-transform: uppercase;">
+            <span>Themen-Autorin</span>
+        </div>
+        <div id="AutorImage" class="ImageContainer" style="margin-top: 20.64px; width: 100%; text-align: center">
+            <img class="ItemImage JS-InitImage" alt="" src="/Images/no-category-picture-128.png" style="width: 80px; height: 80px; border-radius: 50px;" data-append-image-link-to="ImageContainer" />
+        </div>
+        <div id="AutorName" class="Autor-Box-Name">
+            Charlotte L                    
+        </div>
+    </div>
+</div>
 <% if (string.IsNullOrEmpty(Model.CustomPageHtml)) {
 
        if (Model.CategoriesChildren.Any(c => c.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Standard))
