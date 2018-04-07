@@ -17,7 +17,7 @@
     data-test-session-id="<%= Model.LearningTabModel.TestSessionId %>"                                                                    <%----%>
     data-current-step-guid=""
     data-current-step-idx=""
-    data-is-last-step="4"
+    data-is-last-step=""
 />
 
 

@@ -65,7 +65,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
+                .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));

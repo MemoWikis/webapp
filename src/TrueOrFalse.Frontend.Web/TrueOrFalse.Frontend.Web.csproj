@@ -455,6 +455,9 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
+      <DependentUpon>GetResultTestSession.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
@@ -505,6 +508,9 @@
     </Content>
     <Content Include="Scripts\hubs\GameHubEvents.js.map">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
+      <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -839,6 +845,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
+    <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
