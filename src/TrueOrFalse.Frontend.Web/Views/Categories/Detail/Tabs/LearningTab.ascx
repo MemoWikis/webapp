@@ -14,7 +14,7 @@
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
 
 <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>"
-    data-test-session-id="<%=Model.LearningTabModel.TestSession.Id %>"
+    data-test-session-id="<%= Model.LearningTabModel.TestSessionId %>"                                                                    <%----%>
     data-current-step-guid=""
     data-current-step-idx=""
     data-is-last-step="4"
