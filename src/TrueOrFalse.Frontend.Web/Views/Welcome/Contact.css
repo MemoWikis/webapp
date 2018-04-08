@@ -28,3 +28,6 @@ body .postalAddress1 {
   margin-bottom: 40px;
   line-height: 150%;
 }
+body hr {
+  margin-top: 7rem;
+}
