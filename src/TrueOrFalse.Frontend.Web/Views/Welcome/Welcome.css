@@ -536,8 +536,8 @@ fieldset[disabled] .EduCategory.active {
         }
     }*/
 }
-.infoBox .row > .col-xs-2,
-.infoBox .row > .col-xs-10 {
+.infoBox .row > .col-xs-3,
+.infoBox .row > .col-xs-9 {
   display: table-cell;
   float: none;
 }

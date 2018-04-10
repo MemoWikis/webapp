@@ -302,10 +302,10 @@
 
         <div class="infoBox container-fluid">
             <div class="imageTop row">
-                <div class="col-xs-2 vertical-center">
+                <div class="col-xs-3 vertical-center">
                     <img style="width: 100%" src="/Images/OerAward.png" />
                 </div>
-                <div class="col-xs-10 ">
+                <div class="col-xs-9 ">
                 <h3>memucho 2x nominiert für OER-Award 2017</h3>
                   
                 <p>
@@ -314,14 +314,14 @@
                     <ul class="ul">
                         <li>In der Kategorie OER-Infrastruktur und</li>
                         <li>speziell für unsere freien Lerninhalte für den<a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.
-                            Darüber freuen wir uns sehr!</li>
+                            </li>
                     </ul>
                 </p>
                 <p>Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>
                     zeichnen jährlich die besten Angebote im Bereich freie Bildungsinhalte (OER) aus.
-                    Die Preis-Verleihung findet am 27. November in Berlin im Rahmen des 
+                    Die Preis-Verleihung fand am 27. November 2017 in Berlin im Rahmen des 
                     <a href="https://open-educational-resources.de/veranstaltungen/17/" target="_blank">OER-Festivals <i class="fa fa-external-link" style="font-size: smaller;"></i>
-                    </a>statt.
+                    </a>statt. Darüber freuen wir uns sehr!
                 </p>
                 </div>
             </div>
