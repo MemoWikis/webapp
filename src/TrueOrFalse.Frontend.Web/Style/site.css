@@ -188,19 +188,6 @@ h1 *.ColoredUnderline {
 img {
   max-width: 100%;
 }
-.PathMenuImg {
-    height: 21px;
-    width: 21px !important;
-  
-}
-.PathMenuHomeImg {
-    height: 21px;
-    border-radius: 50%;
-   background-color: #0B335E;
-   color:white;
-   padding-top:1px;
-   margin-left:0px
-}
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
@@ -561,59 +548,71 @@ img {
   padding: 5px 7px 5px 9px;
   font-size: 25px;
 }
-#MenuButton {
-    margin-bottom: 0;
-    font-weight: normal;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    border-radius: 4px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: inline-block;
-    float: right;
-    margin-top: 4px;
-    margin-left: -7px;
-    padding: 3px 3px 3px 7px;
-    margin-right: 10px;
-    font-size: 18px;
-    color: #003264;
-    background-color: transparent;
-    background-image: none;
-    border-color: transparent;
-    box-shadow: none;
-    -webkit-text-shadow: none;
-    text-shadow: none;
+#MenuButton,
+#MobileMenuButton {
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  float: left;
+  margin-top: 6px;
+  font-size: 25px !important;
+  margin-left: -7px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 10px;
+  font-size: 18px;
+  color: #003264;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-text-shadow: none;
+  text-shadow: none;
 }
-
 #MenuButton:focus,
+#MobileMenuButton:focus,
 #MenuButton:active:focus,
-#MenuButton.active:focus {
+#MobileMenuButton:active:focus,
+#MenuButton.active:focus,
+#MobileMenuButton.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover,
-#MenuButton:focus {
+#MobileMenuButton:hover,
+#MenuButton:focus,
+#MobileMenuButton:focus {
+  color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
-#MenuButton.active {
+#MobileMenuButton:active,
+#MenuButton.active,
+#MobileMenuButton.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton.disabled,
+#MobileMenuButton.disabled,
 #MenuButton[disabled],
-fieldset[disabled] #MenuButton {
+#MobileMenuButton[disabled],
+fieldset[disabled] #MenuButton,
+fieldset[disabled] #MobileMenuButton {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -621,27 +620,31 @@ fieldset[disabled] #MenuButton {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-#MenuButton .caret {
+#MenuButton .caret,
+#MobileMenuButton .caret {
   margin-left: 3px;
 }
 @media (min-width: 768px) {
-  #MenuButton {
+  #MenuButton,
+  #MobileMenuButton {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
     padding: 5px 7px 5px 9px;
     font-size: 25px;
-    margin-top: 0;
+    margin-top: 6px;
     position: relative;
-    top: 3px;
-   right: -30px;
+    top: -3px;
+    left: -3px;
   }
-  #MenuButton .caret {
+  #MenuButton .caret,
+  #MobileMenuButton .caret {
     margin-left: 5px;
   }
 }
-#MenuButton:hover {
+#MenuButton:hover,
+#MobileMenuButton:hover {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -659,32 +662,43 @@ fieldset[disabled] #MenuButton {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  color: #003264;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
 }
 #MenuButton:hover:focus,
+#MobileMenuButton:hover:focus,
 #MenuButton:hover:active:focus,
-#MenuButton:hover.active:focus {
+#MobileMenuButton:hover:active:focus,
+#MenuButton:hover.active:focus,
+#MobileMenuButton:hover.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover:hover,
-#MenuButton:hover:focus {
+#MobileMenuButton:hover:hover,
+#MenuButton:hover:focus,
+#MobileMenuButton:hover:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:hover:active,
-#MenuButton:hover.active {
+#MobileMenuButton:hover:active,
+#MenuButton:hover.active,
+#MobileMenuButton:hover.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton:hover.disabled,
+#MobileMenuButton:hover.disabled,
 #MenuButton:hover[disabled],
-fieldset[disabled] #MenuButton:hover {
+#MobileMenuButton:hover[disabled],
+fieldset[disabled] #MenuButton:hover,
+fieldset[disabled] #MobileMenuButton:hover {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -693,13 +707,49 @@ fieldset[disabled] #MenuButton:hover {
   box-shadow: none;
 }
 @media (min-width: 768px) {
-  #MenuButton:hover {
+  #MenuButton:hover,
+  #MobileMenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
     padding: 5px 7px 5px 9px;
     font-size: 25px;
+  }
+}
+#MobileMenuButton {
+  font-size: 18px;
+  display: none;
+  color: #e7ecf6;
+  font-size: 18px !important;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  float: left;
+  margin-top: 4px;
+  margin-left: -7px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 10px;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-text-shadow: none;
+  text-shadow: none;
+}
+@media (max-width: 767px) {
+  #MobileMenuButton {
+    display: block;
   }
 }
 ul.AutocompleteHeader {
@@ -734,6 +784,20 @@ ul.AutocompleteHeader {
   font-weight: bolder;
   font-size: 1.3em;
   text-anchor: middle;
+}
+.Autor-Box {
+  width: 100%;
+  font-size: 18px;
+  margin-top: 70px;
+  text-align: center;
+}
+@media (max-width: 1199px) {
+  .Autor-Box {
+    display: none;
+  }
+}
+.Autor-Box-Name {
+  margin-top: 15px;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
@@ -836,35 +900,40 @@ ul.AutocompleteHeader {
 }
 @media (min-width: 1200px) {
   #MasterMainContent #MasterMainColumn {
-    width: 71%;
+    width: 80%;
   }
 }
-#MasterLeftColumn {
+#MasterSidebarColumn {
   position: relative;
   min-height: 1px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   position: static;
 }
 @media (min-width: 1200px) {
-    #MasterLeftColumn {
-        float: right;
-        width: 21.73%;
-    }
+  #MasterSidebarColumn {
+    float: left;
+    width: 25%;
+  }
 }
-
-
-    #MasterRightColumn {
-       display:none;
-    }
-
-
+@media (min-width: 1200px) {
+  #MasterSidebarColumn {
+    width: 232px;
+    float: right;
+    margin-top: 6px;
+  }
+}
+@media (max-width: 1199px) {
+  #MasterSidebarColumn {
+    min-height: 43px;
+  }
+}
 #MasterMainWrapper {
   background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
   padding-top: 25px;
-
 }
 @media (max-width: 991px) {
   #MobileSubHeader + #MasterMainContent {
@@ -1110,29 +1179,12 @@ a.button span.ui-icon {
   background-color: #FDF8DC;
   border-color: #FFD700;
 }
-.PathMenuLicense {
-    width: 120px;
-    -webkit-box-flex: 0;
-    flex-grow: 0;
-    flex-shrink: 0;
-    float: left;
-    text-align: center;
-    margin-right: 20px;
-    position: relative;
-    -ms-word-break: break-word;
-    word-break: break-word;    
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 18px;
-    line-height: 30px;
-    font-weight: 400;
-    color: #203256;
-}
 /*  LABEL LIST
 ----------------------------------------------------------*/
 .LabelList {
-    margin: 0.75em 0;
-    padding: 0 1em;
-    list-style: none;
+  margin: 0.75em 0;
+  padding: 0 1em;
+  list-style: none;
 }
 .LabelList .LabelItem {
   display: list-item;
@@ -1372,36 +1424,6 @@ div.box-main .box-content {
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   background-color: white;
 }
-@media (max-width:1199px) {
-    .Sidebar-Autor-Box {
-        display:none
-    }
-}
-.Autor-Box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    font-size: 10px;
-    color: #9F9F9F;
-    text-align:center
-}
-@media (min-width:1199px) {
-    .Mobile-Autor-Box {
-        display:none;
-    }
-}
-.Autor-Box-Name {
-    font-size: 18px;
-    margin-top: 20px;
-    color: #0560AB;
-    align-items: center;
-    height: 24px;
-    width: 100%;
-   
-}
-
-
 /*ROWS
 ---------------------------------------------------------*/
 .rowBase:after {

@@ -433,21 +433,42 @@ p:empty {
   border-left: 10px solid #adadad;
 }
 .BreadcrumbsMobile {
-    font-size: 14px;
-    background-color: white;
-    line-height: 1.5em;
-    margin-bottom: 10px;
-    width: 100%;
-    font-family: sans;
-    color: #1B3651;
-    font:bold
+  font-size: 14px;
+  background-color: white;
+  line-height: 1.5em;
+  margin-bottom: 10px;
+  width: 100%;
+  font-family: sans;
+  color: #1B3651;
+  font: bold );
+  color: #999999;
 }
-
+.BreadcrumbsMobile .PathMenuImage {
+  min-width: 21px;
+  min-height: 21px;
+  width: 21px;
+  height: 21px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  float: none;
+  margin-right: 0px;
+  top: -37px;
+}
 .BreadcrumbsMobile i.fa-home {
-  font-size: 120%;
+  width: 21px !important;
+  height: 21px;
+  -webkit-border-radius: 50px;
+          border-radius: 50px;
+  background-color: #0B335E;
+  color: white;
+  padding-top: 1px;
 }
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
+  color: #1B3651;
+  margin-right: 10px;
 }
 .BreadcrumbsMobile .category-icon:hover,
 .BreadcrumbsMobile .category-icon:focus {
@@ -462,21 +483,20 @@ p:empty {
   width: 1.25em;
 }
 .BreadcrumbsMobile i.fa-home {
-  width: 21px;  
+  width: auto;
 }
 .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
   width: auto;
-  margin-left:13px
+  margin-left: 13px;
 }
 .BreadcrumbsMobile a {
-   color: #1B3651;
-   text-decoration: none;
-   font-family: "Open Sans";
-   font-size: 14px;
-   font-weight:bold;
-   margin-left:10px
-    }
+  color: #1B3651;
+  text-decoration: none;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: bold;
+}
 .BreadcrumbsMobile a:not(.current):hover,
 .BreadcrumbsMobile a:not(.current):focus,
 .BreadcrumbsMobile a:not(.current):active {
@@ -903,6 +923,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #MasterMainWrapper {
   background-color: white;
   padding: 20px;
+  width: 100%;
 }
 #MasterMainWrapper .Box {
   padding: 0;

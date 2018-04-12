@@ -277,26 +277,21 @@
         float: right;
     }
 
-    .media-below-sm( {
-        display: none;
-    }
 
-    );
 
-    .menu-container, #MobileMenuContainer {
+    .menu-container {
         padding: 0;
         margin: 0;
         display: flex;
         align-items: flex-end;
-    }
 
-    #MobileMenuContainer {
-        .media-lg( {
-            display: none
+        .media-below-sm( {
+            display: none;
         }
 
         );
     }
+}
 
 
     .menu-item {
@@ -371,7 +366,7 @@
     .list-group {
         margin-bottom: 0;
     }
-}
+
 
     @media (max-width: @screen-xs-max) {
         border-bottom-left-radius: 0;
