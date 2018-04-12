@@ -432,20 +432,37 @@ p:empty {
     background-color: white;
     line-height: 1.5em;
     margin-bottom: 10px;
-
-    .media-lg( {
-        display: none;
-    }
-
-    );
+    width: 100%;
+    font-family: sans;
+    color: #1B3651;
+    font: bold );
     .greyed;
 
-    i.fa-home {
-        font-size: 120%;
+    .PathMenuImage {
+        min-width: 21px;
+        min-height: 21px;
+        width: 21px;
+        height: 21px;
+        display: flex;
+        float: none;
+        margin-right: 0px;
+        top: -37px
     }
+
+    i.fa-home {
+        width: 21px !important;
+        height: 21px;
+        border-radius: 50px;
+        background-color: #0B335E;
+        color: white;
+        padding-top: 1px;
+    }
+
 
     i.fa-chevron-right {
         font-size: 80%;
+        color: #1B3651;
+        margin-right:10px;
     }
 
     .category-icon {
@@ -471,15 +488,20 @@ p:empty {
     i.fa-chevron-right {
         font-size: 80%;
         width: auto;
+        margin-left: 13px;
     }
 
     a {
-        .greyed;
+        color: #1B3651;
         text-decoration: none;
+        font-family: "Open Sans";
+        font-size: 14px;
+        font-weight: bold;
+
 
         &:not(.current) {
             &:hover, &:focus, &:active {
-                color: @memo-blue;
+                color: #1B3651;
             }
         }
 
@@ -801,6 +823,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
 #MasterMainWrapper {
     background-color: white;
     padding: 20px;
+    width:100%;
 
     .Box {
         padding: 0;

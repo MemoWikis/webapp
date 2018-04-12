@@ -14,13 +14,13 @@
        <%  for (var i = 1; i < breadCrumb.Count -1; i++)
         { %>                                                                  
             <div style="display:flex; height:auto; margin-bottom:5px">               
-            <div class="PathMenuLicense" style="width: 21px; height: 21px; float: none; margin-right: 0px; margin-left: 12px; top: -37px">
+            <div class="PathMenuImage">
              <%= Model.GetCategoryImage(breadCrumb[i]).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumb[i])) %>
             </div>
             <span>
-            <a href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>            
+            <a style="margin-left:10px;  -webkit-box-decoration-break: clone; box-decoration-break: clone;" href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>              
             <span><i class="fa fa-chevron-right"></i></span>
             </span>          
            </div>
     <% } %>
-  </div> 
+        </div> 

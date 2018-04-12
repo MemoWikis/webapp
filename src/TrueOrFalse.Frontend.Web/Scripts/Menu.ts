@@ -17,27 +17,49 @@ class MenuMobile {
     private _isOpen: boolean = false;
     private _isInProgress: boolean = false;
 
-    constructor() {
 
+    constructor() {
+        
         $("#MenuButton").click(() => {
             if (this._isOpen) {
-                this.closeMenu();
+                this.closeMenu(); 
+               
             } else {
                 this.openMenu();
+                
             }
         });
 
+        $("#MobileMenuButton").click(() => {
+            if (this._isOpen) {
+                this.closeMenu();
+
+            } else {
+                this.openMenu();
+
+            }
+        });
+      
+
         //close on click outside the menu
-        $(document).mouseup((e) =>  {
-            if (!this._isOpen && !this._isInProgress){
+        $(document).mouseup((e) => {
+            if (!this._isOpen && !this._isInProgress) {
                 return;
             }
 
-            if ($("#mainMenu, #MasterRightColumn").has(e.target).length === 0 &&
+            if ($("#mainMenu, #LongMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
             }
+
+            if ($("#mainMenu, #LongMenu").has(e.target).length === 0 &&
+                $("#MobileMenuButton").has(e.target).length === 0) {
+                this.closeMenu();
+            }
+           
+            
         });
+
 
         //close on ESC
         $(document).keyup((e: any) => {
@@ -58,7 +80,7 @@ class MenuMobile {
         }
             
         this._isInProgress = true;
-        $("#mainMenu, #MasterRightColumn").slideDown(400, () => {
+        $("#mainMenu, #LongMenu").slideDown(400, () => {
             this._isOpen = true;
             this._isInProgress = false;
         });
@@ -72,13 +94,14 @@ class MenuMobile {
         }
 
         this._isInProgress = true;
-        $("#mainMenu, #MasterRightColumn").slideUp(400, () => {
+        $("#mainMenu, #LongMenu").slideUp(400, () => {
             this._isOpen = false;
             this._isInProgress = false;    
         });
         
     }
 
+    
 }
 
 $(function() {

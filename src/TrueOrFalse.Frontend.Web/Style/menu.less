@@ -274,8 +274,88 @@
 #mainMenuThemeCentered {
     .menu-section {
         margin-bottom: 3px;
+        float: right;
     }
 
+    .media-below-sm( {
+        display: none;
+    }
+
+    );
+
+    .menu-container, #MobileMenuContainer {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    #MobileMenuContainer {
+        .media-lg( {
+            display: none
+        }
+
+        );
+    }
+
+
+    .menu-item {
+        float: right;
+        align-items: flex-end;
+    }
+
+    .LongMenu {
+
+        .media-lg( {
+            right: 166px;
+            top: 88px;
+        }
+
+        );
+
+        .media-below-lg( {
+            right: 40px;
+            top: 88px;
+        }
+
+        );
+
+        .media-md( {
+            top: 81px;
+            right: 67px;
+        }
+
+        );
+
+        .media-below-md( {
+            top: 78px;
+            right: 0px;
+        }
+
+        );
+
+        .media-below-xs( {
+            top: 54px;
+            right: 0px;
+        }
+
+        );
+        padding: 15px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        position: absolute;
+        background-color: #F6F8FA;
+        width: 90%;
+        max-width: 270px;
+        opacity: 1;
+        top: 130px;
+        z-index: 100;
+        -webkit-box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+        box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
+        float: right;
+        display: none;
+        right: 0px
+    }
 
     .secondary-section {
         .list-group-item {
@@ -288,26 +368,12 @@
         text-align: left;
     }
     /*$ToDo: enable with js functions*/
-    @media (max-width: (@show-menu-from-width - 1px)) {
-        padding: 15px;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 4px;
-        position: absolute;
-        top: 0;
-        background-color: @color-background-global;
-        width: 90%;
-        max-width: 270px;
-        opacity: 1;
-        z-index: @z-Index-Menu;
-        box-shadow: 0 8px 10px @gray, 5px 5px 15px @gray;
-
-        .list-group {
-            margin-bottom: 0;
-        }
+    .list-group {
+        margin-bottom: 0;
     }
+}
 
     @media (max-width: @screen-xs-max) {
-        left: 0;
         border-bottom-left-radius: 0;
     }
 
@@ -328,7 +394,7 @@
     }
 
     .list-group-item {
-        color: @global-text-color;
+        color: @global-text-color !important;
         background-color: white;
         border: none;
         font-size: 14px;
@@ -339,12 +405,12 @@
         border-radius: unset;
 
         &.active, &.active:focus {
-            background-color: @menu-light-blue;
+            background-color: @menu-light-blue !important;
         }
 
         &:hover {
-            color: @global-text-color;
-            background-color: @menu-darker-blue;
+            color: @global-text-color !important;
+            background-color: @menu-darker-blue !important;
         }
 
         .add-new {
@@ -362,7 +428,7 @@
 
         &.actual-category {
             &.active {
-                background-color: @menu-darker-blue;
+                background-color: @menu-darker-blue !important;
             }
 
             &:hover {
@@ -403,11 +469,14 @@
             padding-left: 3px;
         }
     }
-}
+
+
+
 
 #mainMenuThemeCentered #mainMenuQuestionsSetsCategories {
     margin-top: 15px;
 
+   
     .fa-search {
         color: grey;
         padding-right: 7px;

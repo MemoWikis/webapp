@@ -2,28 +2,13 @@
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="CategoryHeader">   
-    <div class="BreadcrumbsMobile" >
-        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
-    </div>
-    <div class="mobile-menu-container">
-        <nav id="mainMenuThemeCentered">
-            <div class="list-group">
-                <div class="menu-section">
-                    <ul class="menu-container">
-                        <li class="menu-item" style="height: 21px;">
-                            <a id="mainMenuBtnKnowledge" style="padding-right: 12px" class="list-group-item menu-section primary-point <%: Model.MenuLeftModel.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
-                                <i id="mainMenuKnowledgeHeart" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
-                                <span class="primary-point-text">Wissenszentrale</span>
-                            </a>
-                        </li>
-                        <li class="menu-item" style="height: 21px; width: 0%;"><a id="MenuButton"><i class="fa fa-bars"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div id="ManagementMobile">
+<div id="CategoryHeader">
+    <div style="display: flex;">
+        <div class="BreadcrumbsMobile">
+            <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", Model); %>
+        </div>
+        </div>
+      <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
         </div>
@@ -54,7 +39,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div>    
     <div id="HeadingSection">    
         <div class="ImageContainer">
             <%= Model.ImageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(Model.Category)) %>

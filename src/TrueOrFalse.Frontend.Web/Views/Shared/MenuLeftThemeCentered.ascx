@@ -6,18 +6,18 @@
       <nav id="mainMenuThemeCentered">
         <div class="list-group">           
             <div class="menu-section">
-                <ul class="menu-container">
-                    <li class="menu-item" style="height: 21px;">
-                        <a id="mainMenuBtnKnowledge" style="padding-right: 12px" class="list-group-item menu-section primary-point <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
+                <div class="menu-container">
+                    <div class="menu-item" style="height: 21px; ">
+                        <a id="mainMenuBtnKnowledge" style="margin-right:3px;padding-right: 12px; border-radius:0px" class="list-group-item menu-section primary-point <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
                             <i id="mainMenuKnowledgeHeart" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
                             <span class="primary-point-text">Wissenszentrale</span>
                         </a>
-                    </li>
-                    <li class="menu-item" style="height: 21px; width: 0%;"><a id="MenuButton"><i class="fa fa-bars"></i></a></li>
-                </ul>
-            </div>                  
-            <div id="MasterRightColumn" class="LongMenu">           
-                <% Html.RenderPartial("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
+                    </div>
+                    <div class="menu-item" style="height: 21px;"><a id="MenuButton"><i class="fa fa-bars"></i></a></div>
+                </div>
+            </div>                      
+            <div id="LongMenu" class="LongMenu">           
+                <% Html.RenderPartial("/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
             <% if (isLongMenu)
                 { %>
                 <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section" style="width:100%">
