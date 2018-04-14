@@ -4,7 +4,7 @@ using System.Web.Mvc;
 public class TestSessionResultController : BaseController
 {
     public const string _viewLocation = "~/Views/Questions/Answer/TestSession/TestSessionResult.aspx";
-    public const string _viewlocationAsync = "~/Views/Questions/Answer/TestSession/TestSessionResult.ascx";
+    public const string _viewlocationAsync = "~/Views/Questions/Answer/TestSession/TestSessionResultDetails.ascx";
 
     [SetThemeMenu(isTestSessionPage: true)]
     public ActionResult TestSessionResult(string name, int testSessionId) => 
@@ -15,8 +15,9 @@ public class TestSessionResultController : BaseController
     {
         var testSessionId = Int32.Parse(testSessionIdString);
         var testSession = GetTestSession.Get(testSessionId);
+        var model = new TestSessionResultModel(testSession);
+        var test = PartialView(_viewlocationAsync, model);
+        return test;
 
-        return PartialView(_viewlocationAsync);
-        
     }
 }

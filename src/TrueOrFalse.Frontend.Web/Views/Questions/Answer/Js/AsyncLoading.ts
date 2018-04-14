@@ -53,6 +53,9 @@
                 });
 
             } else if ($("#hddIsTestSession").val() === "True") {
+                if ($("#hddIsTestSession").attr("data-test-session-id") == "-1")
+                    this.loadNewTestSession();
+
                 $("#btnNext").click((e) => {
                     e.preventDefault();
                     var testSessionId = $("#hddIsTestSession").attr("data-test-session-id");
@@ -91,6 +94,11 @@
         this.loadNewQuestion(url);
     }
 
+    public loadNewTestSession() {
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hddCategoryId').val();
+        this.loadNewQuestion(url);
+    }
+
     private loadNewQuestion(url: string) {
         $.ajax({
             url: url,
@@ -98,6 +106,7 @@
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
+                console.log(result);
                 if (!this.IsInLearningTab) {
                     this.updateUrl(result.url);
                 }
@@ -107,18 +116,21 @@
                     return;
                 }
                 $("div#LicenseQuestion").remove();
-                $("#AnswerBody")
-                    .replaceWith(result.answerBodyAsHtml);
+                $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
+
                 if ($("#hddIsLearningSession").val() === "True" || $("#hddIsTestSession").val() === "True") {
                     this.updateSessionHeader(result.sessionData);
 
-                    if (result.sessionData.learningSessionId)
-                        $("#hddIsLearningSession").attr("data-learning-session-id",
-                            result.sessionData.learningSessionId);
+                    if (result.sessionData.learningSessionId > -1)
+                        $("#hddIsLearningSession").attr("data-test-session-id", result.sessionData.learningSessionId);
+                    console.log(result.sessionData.testSessionId);
 
+                    if (result.sessionData.testSessionId > -1)
+                        $("#hddIsTestSession").attr("data-test-session-id", result.sessionData.testSessionId);
                 }
-                else
+                else 
                     this.updateNavigationBar(result.navBarData);
+
                 this.updateMenu(result.menuHtml);
                 document.title = $(".QuestionText").html();
                 $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);

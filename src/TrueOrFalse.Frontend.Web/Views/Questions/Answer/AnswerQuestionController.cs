@@ -1,9 +1,9 @@
-﻿using System;
+﻿using StackExchange.Profiling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using StackExchange.Profiling;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Search;
@@ -577,6 +577,16 @@ public class AnswerQuestionController : BaseController
         return RenderAnswerBodyByLearningSession(learningSession.Id);
     }
 
+    public string RenderAnswerBodyForNewCategoryTestSession(int categoryId)
+    {   var category =  Sl.CategoryRepo.GetByIdEager(categoryId);
+        var testSession = new TestSession(category);
+        var sessionuser = new SessionUser();
+        sessionuser.AddTestSession(testSession);
+     
+        return RenderAnswerBodyByTestSession(testSession.Id);
+    }
+
+    
     public string RenderAnswerBodyByLearningSession(int learningSessionId, int skipStepIdx = -1)
     {
         var learningSession = Sl.LearningSessionRepo.GetById(learningSessionId);
@@ -631,7 +641,10 @@ public class AnswerQuestionController : BaseController
         bool isLastStep = model.IsLastLearningStep;
         Guid currentStepGuid = model.LearningSessionStep.Guid;
         string currentUrl = Links.LearningSession(learningSession);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id), isSession: true);
+
+        var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep, skipStepIdx, currentStepGuid, learningSession.Id);
+
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true);
     }
 
     public string RenderAnswerBodyByTestSession(int testSessionId)
@@ -652,14 +665,24 @@ public class AnswerQuestionController : BaseController
         int currentStepIdx = model.TestSessionCurrentStep;
         bool isLastStep = model.TestSessionIsLastStep;
         string currentUrl = Links.TestSession(testSession.UriName, testSessionId);
-        return GetQuestionPageData(model, currentUrl, new SessionData(currentSessionHeader, currentStepIdx, isLastStep), isSession: true);
+
+        var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep);
+
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId);
     }
 
-    private string GetQuestionPageData(AnswerQuestionModel model, string currentUrl, SessionData sessionData, bool isSession = false)
+    private string GetQuestionPageData(
+        AnswerQuestionModel model, 
+        string currentUrl, 
+        SessionData sessionData, 
+        bool isSession = false,
+        int testSesssionId = -1)
     {
         string nextPageLink = "", previousPageLink = "";
+
         if (model.HasNextPage)
             nextPageLink = model.NextUrl(Url);
+
         if (model.HasPreviousPage)
             previousPageLink = model.PreviousUrl(Url);
 
@@ -671,6 +694,7 @@ public class AnswerQuestionController : BaseController
         }
 
         var serializer = new JavaScriptSerializer();
+
         return serializer.Serialize(new
         {
             answerBodyAsHtml = ViewRenderer.RenderPartialView(
@@ -695,7 +719,8 @@ public class AnswerQuestionController : BaseController
                 isLastStep = sessionData.IsLastStep,
                 currentStepGuid = sessionData.CurrentStepGuid,
                 currentSessionHeader = sessionData.CurrentSessionHeader,
-                learningSessionId = sessionData.LearningSessionId
+                learningSessionId = sessionData.LearningSessionId,
+                testSessionId = testSesssionId
             } : null,
             url = currentUrl,
             questionDetailsAsHtml = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/AnswerQuestionDetails.ascx", model, ControllerContext),

@@ -128,7 +128,7 @@ public class CategoryModel : BaseModel
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
        
-            LearningTabModel = new LearningTabModel(Category);
+          //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
 

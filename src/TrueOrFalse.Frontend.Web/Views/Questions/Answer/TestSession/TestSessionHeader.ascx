@@ -10,8 +10,6 @@
 
         <div class="SessionTitle">
             <%
-                var testsession = Model.TestSession.IsSetSession; 
-
                 if (Model.TestSession.IsSetSession) { %>
                 <div class="CollectionType">
                     Lernset

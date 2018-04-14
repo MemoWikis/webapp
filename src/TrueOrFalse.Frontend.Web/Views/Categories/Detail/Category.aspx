@@ -30,12 +30,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
-    <input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>"
-           data-test-session-id="<%= Model.LearningTabModel.TestSessionId %>"                                                                    <%----%>
-           data-current-step-guid=""
-           data-current-step-idx=""
-           data-is-last-step=""
-    />
+    
+
 
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
                 
