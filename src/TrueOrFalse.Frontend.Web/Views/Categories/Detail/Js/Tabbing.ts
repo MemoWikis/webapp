@@ -23,6 +23,10 @@
                     this.RenderTabContent(tabname);
                 }
                 if (tabname == "LearningTab" && $('#hddLearningSessionStarted').val() == "False") {
+
+                    if ($("#hddIsTestSession").attr("data-test-session-id") == "-1")
+                        this.loadNewTestSession();
+
                     new PageInit();
                     $('#hddLearningSessionStarted').val("True");
                 }

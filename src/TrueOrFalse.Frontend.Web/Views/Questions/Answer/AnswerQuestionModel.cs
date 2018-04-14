@@ -159,7 +159,7 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(int dummyQuestionId) : this()
+    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false) : this()
     {
         var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);  
 
@@ -171,6 +171,7 @@ public class AnswerQuestionModel : BaseModel
         }
 
         Populate(dummyQuestion);
+
     }
 
 

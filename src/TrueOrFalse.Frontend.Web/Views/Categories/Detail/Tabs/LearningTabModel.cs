@@ -26,5 +26,9 @@ public class LearningTabModel : BaseModel
             TestSessionId = -1;
         }
 
+
+        //TestSession = Sl.SessionUser.TestSessions.Find(t => t.Id == testSessionId);
+        //var step = TestSession.Steps.ToList().First();
+        //AnswerQuestionModel = new AnswerQuestionModel(TestSession, Guid.NewGuid(), Sl.QuestionRepo.GetById(step.QuestionId), false);
     }
 }
