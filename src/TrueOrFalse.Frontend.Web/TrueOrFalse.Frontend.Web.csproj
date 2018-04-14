@@ -468,13 +468,10 @@
     <Content Include="Views\Maintenance\Js\CMS.js">
       <DependentUpon>CMS.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
-      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
+    <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
@@ -2267,9 +2264,6 @@
     <Content Include="Views\Questions\Answer\Js\Comments.js">
       <DependentUpon>Comments.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\answerQuestion\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
@@ -2317,7 +2311,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBody.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
@@ -2438,9 +2432,6 @@
     </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestion.js.map">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowDelete.js.map">
       <DependentUpon>QuestionRowDelete.ts</DependentUpon>
@@ -2792,6 +2783,9 @@
     </Content>
     <Content Include="Views\Maintenance\Js\CMS.js.map">
       <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />

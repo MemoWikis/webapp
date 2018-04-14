@@ -27,7 +27,7 @@
                     if ($("#hddIsTestSession").attr("data-test-session-id") == "-1")
                         this.loadNewTestSession();
 
-                    new PageInit();
+                    new AnswerBody();
                     $('#hddLearningSessionStarted').val("True");
                 }
                 this.ShowTab(tabname);

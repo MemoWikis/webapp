@@ -133,7 +133,7 @@
                 $("div#answerQuestionDetails").replaceWith(result.questionDetailsAsHtml);
                 $("div#comments").replaceWith(result.commentsAsHtml);
 
-                new PageInit();
+                new AnswerBody();
                 FillSparklineTotals();
                 InitTooltips();
                 Images.Init();
