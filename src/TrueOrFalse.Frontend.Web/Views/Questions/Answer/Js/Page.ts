@@ -6,7 +6,7 @@ class PageInit {
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
 
-        new AsyncLoading();
+        new AnswerBodyLoader();
 
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content

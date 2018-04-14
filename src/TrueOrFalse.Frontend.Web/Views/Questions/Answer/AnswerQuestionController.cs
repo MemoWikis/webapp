@@ -504,7 +504,7 @@ public class AnswerQuestionController : BaseController
         );
     }
 
-    //AsyncLoading: AnswerBody + NavBar + PageUrl
+    //AnswerBodyLoader: AnswerBody + NavBar + PageUrl
     public string RenderAnswerBodyByNextQuestion(string pager)
     {
         var activeSearchSpec = Resolve<QuestionSearchSpecSession>().ByKey(pager);

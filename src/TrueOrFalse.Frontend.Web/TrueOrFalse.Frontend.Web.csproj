@@ -469,13 +469,13 @@
       <DependentUpon>CMS.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
-      <DependentUpon>AsyncLoading.ts</DependentUpon>
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
-      <DependentUpon>AsyncLoading.ts</DependentUpon>
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
     <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.ascx" />
@@ -845,6 +845,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\LearningTab.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
@@ -2130,7 +2131,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBodyLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
