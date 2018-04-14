@@ -13,13 +13,15 @@
                 type: "POST",
                 url: link,
                 cache: false,
-                data: {testSessionIdString: this.testSessionId },
-                dataType:"html",
-                success: function(data) {
-                    $(".TestSessionResult").html(data);
+                data: { testSessionIdString: this.testSessionId },
+                dataType: "html",
+                success: function (data) {
+                    debugger;
+                    $("#AnswerBody").html(data);
+                   
                 }
 
-        })
+            });
         });
     }
 }
