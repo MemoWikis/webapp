@@ -19,6 +19,8 @@ class MenuMobile {
 
 
     constructor() {
+
+      
         
         $("#MenuButton").click(() => {
             if (this._isOpen) {
@@ -27,6 +29,16 @@ class MenuMobile {
             } else {
                 this.openMenu();
                 
+            }
+        });
+
+        $("#SidebarMenuButton").click(() => {
+            if (this._isOpen) {
+                this.closeMenu();
+
+            } else {
+                this.openMenu();
+
             }
         });
 

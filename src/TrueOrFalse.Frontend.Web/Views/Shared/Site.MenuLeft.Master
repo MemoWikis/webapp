@@ -10,7 +10,6 @@
     <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
 </head>
-
 <body>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>    
     <section id="MasterSection">     
@@ -39,8 +38,7 @@
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
                     <% } %>
                 </section>
-                <section id="MasterMainColumn" class="">
-                    
+                <section id="MasterMainColumn" class="">                
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>

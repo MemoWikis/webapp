@@ -1,10 +1,9 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<MenuLeftModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-
 <% int index; %>
 
-<div class="mainMenuContainer">
-    <nav id="mainMenu" style="display: none;">
+<div class="mainMenuContainer" style="display:none;">
+    <nav id="mainMenu">
         <div class="list-group">
             <a id="mainMenuBtnKnowledge" class="list-group-item know <%: Model.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
                 <i class="fa fa-caret-right"></i> 

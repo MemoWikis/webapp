@@ -248,25 +248,48 @@
   left: 14px;
   top: 2px;
 }
-#mainMenuThemeCentered .menu-section {
+#mainMenuThemeCentered .menu-section,
+#mainMenuThemeCenteredMobile .menu-section {
   margin-bottom: 3px;
   float: right;
 }
-#mainMenuThemeCentered .menu-container {
+#mainMenuThemeCentered .menu-section-mobile,
+#mainMenuThemeCenteredMobile .menu-section-mobile {
+  display: none;
+}
+@media (max-width: 767px) {
+  #mainMenuThemeCentered .menu-section-mobile,
+  #mainMenuThemeCenteredMobile .menu-section-mobile {
+    display: block;
+  }
+}
+#mainMenuThemeCentered .menu-container,
+#mainMenuThemeCenteredMobile .menu-container,
+#mainMenuThemeCentered .sidebar-menu-container,
+#mainMenuThemeCenteredMobile .sidebar-menu-container {
   padding: 0;
   margin: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
   -webkit-box-align: end;
   -webkit-align-items: flex-end;
       -ms-flex-align: end;
           align-items: flex-end;
 }
 @media (max-width: 767px) {
-  #mainMenuThemeCentered .menu-container {
-    display: none;
+  #mainMenuThemeCentered .menu-container,
+  #mainMenuThemeCenteredMobile .menu-container,
+  #mainMenuThemeCentered .sidebar-menu-container,
+  #mainMenuThemeCenteredMobile .sidebar-menu-container {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  #mainMenuThemeCentered .menu-container,
+  #mainMenuThemeCenteredMobile .menu-container {
+    display: none !important;
   }
 }
 .menu-item {
@@ -297,8 +320,8 @@
 }
 @media (min-width: 1200px) {
   .LongMenu {
-    right: 166px;
-    top: 88px;
+    right: -225px;
+    top: 62px;
   }
 }
 @media (max-width: 1199px) {
@@ -425,15 +448,18 @@
   padding-right: 3px;
   padding-left: 3px;
 }
-#mainMenuThemeCentered #mainMenuQuestionsSetsCategories {
+#mainMenuThemeCentered #mainMenuQuestionsSetsCategories,
+#mainMenuThemeCenteredMobile {
   margin-top: 15px;
 }
-#mainMenuThemeCentered #mainMenuQuestionsSetsCategories .fa-search {
+#mainMenuThemeCentered #mainMenuQuestionsSetsCategories .fa-search,
+#mainMenuThemeCenteredMobile .fa-search {
   color: grey;
   padding-right: 7px;
   font-size: 12px;
 }
-#mainMenuThemeCentered #mainMenuGamesUsersMessages {
+#mainMenuThemeCentered #mainMenuGamesUsersMessages,
+#mainMenuThemeCenteredMobile {
   margin-top: 15px;
 }
 div.box-menu {

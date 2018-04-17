@@ -3,7 +3,7 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <% var breadCrumb = Model.BreadCrumb; %>   
 
-  <div style="display:flex; flex-wrap:wrap; width:100%">   
+  <div style="display:flex; flex-wrap:wrap; width:100%; height:37px">   
       <div style="height:auto; margin-bottom:5px">
           <a href="/" class="category-icon">
               <i class="PathMenuHomeImg fa fa-home show-tooltip" title="Startseite"></i>
@@ -18,8 +18,8 @@
              <%= Model.GetCategoryImage(breadCrumb[i]).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumb[i])) %>
             </div>
             
-            <span><a style="margin-left:10px;  -webkit-box-decoration-break: clone; box-decoration-break: clone;" href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>              
-            <span><i class="fa fa-chevron-right"></i></span>
+            <span style="display:inline-table;"><a style="margin-left:10px;  -webkit-box-decoration-break: clone; box-decoration-break: clone;" href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
+            <i style="display:inline;" class="fa fa-chevron-right"></i>                
             </span>          
            </div>
     <% } %>
