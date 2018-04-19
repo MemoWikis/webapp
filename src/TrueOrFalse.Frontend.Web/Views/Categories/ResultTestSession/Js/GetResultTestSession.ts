@@ -18,7 +18,8 @@
                 success: function (data) {
                     $("#AnswerBody").html(data);
                     $("#QuestionCountCompletSideBar").hide();
-                   
+                    new TestSessionResult();
+
                 }
 
             });

@@ -471,6 +471,9 @@
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBody.js">
+      <DependentUpon>AnswerBody.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
@@ -2785,6 +2788,9 @@
     </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
+      <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
