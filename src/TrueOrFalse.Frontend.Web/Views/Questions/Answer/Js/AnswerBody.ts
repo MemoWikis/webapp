@@ -1,12 +1,19 @@
 ﻿/// <reference path="../../../../scripts/typescript.defs/lib.d.ts" />
 class AnswerBody {
+
+    public Loader : AnswerBodyLoader;
+
+    IsTestSession() {
+        return $("#hddIsTestSession").val() === "True";
+    }
+
     constructor() {
         var questionId = $("#hddQuestionId").val();
 
         var answerEntry = new AnswerEntry();
         answerEntry.Init();
 
-        new AnswerBodyLoader();
+        this.Loader = new AnswerBodyLoader(this);
 
         new Pin(PinType.Question);
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content

@@ -16,8 +16,8 @@
                 data: { testSessionIdString: this.testSessionId },
                 dataType: "html",
                 success: function (data) {
-                    debugger;
                     $("#AnswerBody").html(data);
+                    $("#QuestionCountCompletSideBar").hide();
                    
                 }
 

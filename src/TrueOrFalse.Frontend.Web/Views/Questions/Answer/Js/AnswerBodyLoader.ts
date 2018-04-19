@@ -1,18 +1,17 @@
 ﻿class AnswerBodyLoader {
 
-    IsInLearningTab: boolean;
+    private _answerBody: AnswerBody;
+    private _isInLearningTab: boolean;
 
-    static IsTestSession() {
-        return $("#hddIsTestSession").val() === "True";
-    }
+    constructor(answerBody: AnswerBody) {
 
-    constructor() {
+        this._answerBody = answerBody;
 
         if (Utils.IsInWidget())
             return;
 
         $().ready(() => {
-            this.IsInLearningTab = $('#LearningTab').length > 0;
+            this._isInLearningTab = $('#LearningTab').length > 0;
 
             if (window.location.pathname.split("/")[4] === "im-Fragesatz") {
                 $("#NextQuestionLink, #btnNext").click((e) => {
@@ -56,7 +55,7 @@
                     this.loadNewQuestion(url);
                 });
 
-            } else if (AnswerBodyLoader.IsTestSession()) {
+            } else if (this._answerBody.IsTestSession()) {
 
                 $("#btnNext").click((e) => {
                     e.preventDefault();
@@ -91,12 +90,17 @@
         });
     }
 
+    public loadNewTestSession() {
+        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hddCategoryId').val();
+        this.loadNewQuestion(url);
+    }
+
     public loadNewLearningSession() {
         var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryLearningSession/?categoryId=" + $('#hddCategoryId').val();
         this.loadNewQuestion(url);
     }
 
-    private loadNewQuestion(url: string) {
+    public loadNewQuestion(url: string) {
         $.ajax({
             url: url,
             type: 'POST',
@@ -104,18 +108,19 @@
             success: result => {
                 result = JSON.parse(result);
                 console.log(result);
-                if (!this.IsInLearningTab) {
+                if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
                 this.sendGoogleAnalyticsPageView(result.offlineDevelopment);
                 if (result.LearningSessionResult) {
                     this.showLearningSessionResult(result);
+                    $(".ProgressBarSegment .ProgressBarLegend").hide();
                     return;
                 }
                 $("div#LicenseQuestion").remove();
                 $("#AnswerBody").replaceWith(result.answerBodyAsHtml);
 
-                if ($("#hddIsLearningSession").val() === "True" || AnswerBodyLoader.IsTestSession()) {
+                if ($("#hddIsLearningSession").val() === "True" || this._answerBody.IsTestSession()) {
                     this.updateSessionHeader(result.sessionData);
 
                     if (result.sessionData.learningSessionId > -1)
@@ -172,7 +177,7 @@
     }
 
     private showLearningSessionResult(result) {
-        var container = this.IsInLearningTab ? $('#LearningTabContent') : $("#MasterMainWrapper");
+        var container = this._isInLearningTab ? $('#LearningTabContent') : $("#MasterMainWrapper");
         container.html(result.LearningSessionResult);
         new LearningSessionResult();
     }

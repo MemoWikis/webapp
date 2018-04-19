@@ -583,7 +583,7 @@ public class AnswerQuestionController : BaseController
         var sessionuser = new SessionUser();
         sessionuser.AddTestSession(testSession);
      
-        return RenderAnswerBodyByTestSession(testSession.Id);
+        return RenderAnswerBodyByTestSession(testSession.Id, includeTestSessionHeader:true);
     }
 
     
@@ -647,7 +647,7 @@ public class AnswerQuestionController : BaseController
         return GetQuestionPageData(model, currentUrl, sessionData, isSession: true);
     }
 
-    public string RenderAnswerBodyByTestSession(int testSessionId)
+    public string RenderAnswerBodyByTestSession(int testSessionId, bool includeTestSessionHeader = false)
     {
         var sessionUser = Sl.SessionUser;
         var testSession = sessionUser.TestSessions.Find(s => s.Id == testSessionId);
@@ -668,7 +668,7 @@ public class AnswerQuestionController : BaseController
 
         var sessionData = new SessionData(currentSessionHeader, currentStepIdx, isLastStep);
 
-        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId);
+        return GetQuestionPageData(model, currentUrl, sessionData, isSession: true, testSesssionId: testSessionId, includeTestSessionHeader: includeTestSessionHeader);
     }
 
     private string GetQuestionPageData(
@@ -676,7 +676,8 @@ public class AnswerQuestionController : BaseController
         string currentUrl, 
         SessionData sessionData, 
         bool isSession = false,
-        int testSesssionId = -1)
+        int testSesssionId = -1,
+        bool includeTestSessionHeader = false)
     {
         string nextPageLink = "", previousPageLink = "";
 
@@ -693,15 +694,20 @@ public class AnswerQuestionController : BaseController
             menuHtml = ViewRenderer.RenderPartialView("~/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel(), ControllerContext);
         }
 
+        var testSessionHeader = "";
+        if (includeTestSessionHeader)
+            testSessionHeader = ViewRenderer.RenderPartialView("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", model, ControllerContext);
+
+        var answerBody = ViewRenderer.RenderPartialView(
+            "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
+            new AnswerBodyModel(model),
+            ControllerContext);
+
         var serializer = new JavaScriptSerializer();
 
         return serializer.Serialize(new
         {
-            answerBodyAsHtml = ViewRenderer.RenderPartialView(
-                "~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx",
-                new AnswerBodyModel(model),
-                ControllerContext
-            ),
+            answerBodyAsHtml = testSessionHeader + answerBody,
             navBarData = new
             {
                 nextUrl = nextPageLink,

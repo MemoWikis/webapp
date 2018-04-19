@@ -842,7 +842,6 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\LearningTab.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />

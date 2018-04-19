@@ -39,7 +39,7 @@
     </div>
 <% } %>
 
-<div class="SessionBar">
+<div  id="QuestionCountCompletSideBar"class="SessionBar">
     <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
     <div class="SessionType">
         <% if (Model.IsInWidget) { %>
