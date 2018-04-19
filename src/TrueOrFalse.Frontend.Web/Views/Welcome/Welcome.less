@@ -76,6 +76,7 @@ html.flexbox:not(.Explorer) {
 
     );
 }
+
 .float-right-lg-up {
     .media-lg( {
         float: right;
@@ -83,6 +84,7 @@ html.flexbox:not(.Explorer) {
 
     );
 }
+
 .align-left-md-up {
     .media-md-up( {
         text-align: left;
@@ -90,6 +92,7 @@ html.flexbox:not(.Explorer) {
 
     )
 }
+
 .align-right-md-up {
     .media-md-up( {
         text-align: right;
@@ -158,7 +161,7 @@ h4 {
     background-color: white;
     padding: 0 20px 100px 20px;
     font-size: 18px;
-    overflow: auto;//Prevent overflowing of margin-top of h1
+    overflow: auto; //Prevent overflowing of margin-top of h1
     overflow-x: hidden;
 
     .media-md-up( {
@@ -229,12 +232,16 @@ h4 {
         margin-bottom: 70px;
         padding-left: 50px;
         padding-right: 50px;
-    });
+    }
+
+    );
 
     .media-lg( {
         padding-left: 150px;
         padding-right: 150px;
-    });
+    }
+
+    );
 }
 
 .EduCategory {
@@ -283,34 +290,41 @@ h4 {
         margin-bottom: 40px;
     }
 
-    #dashboardPoints , #dashboardKnowledgeWheel {
+    #dashboardPoints, #dashboardKnowledgeWheel {
         margin-top: 20px;
         margin-bottom: 20px;
         padding-left: 10px;
         padding-right: 10px;
 
-        .media-below-sm({
+        .media-below-sm( {
             padding-left: 40px;
             padding-right: 40px;
-        });
-        
-        .media-md-up({
+        }
+
+        );
+
+        .media-md-up( {
             padding-left: 20px;
             padding-right: 20px;
-        });
+        }
 
-        .media-lg({
+        );
+
+        .media-lg( {
             padding-left: 40px;
             padding-right: 40px;
-        });
+        }
+
+        );
     }
 
     #dashboardPoints {
 
-        .media-below-sm({
+        .media-below-sm( {
             margin-bottom: 50px;
-        });
+        }
 
+        );
     }
 
     #chartWishKnowledge {
@@ -324,7 +338,9 @@ h4 {
 
         .media-below-sm ( {
             text-align: center;
-        });
+        }
+
+        );
 
         a.btn {
             margin-top: 10px;
@@ -381,23 +397,22 @@ h4 {
 
     .media-below-xs( {
         text-align: center;
-    });
+    }
+
+    );
 }
 
-#memuchoInfoFooter {    // is mixed-in in other footers (see below)
+#memuchoInfoFooter { // is mixed-in in other footers (see below)
     text-align: right;
     padding-top: 0;
     background-color: white;
     margin-bottom: 30px;
-
     /*.media-below-sm( {
         text-align: center;
     });*/
-
     div a.btn {
         margin-top: 10px;
     }
-
     /*span .btn {
         margin-top: 10px;
         display: inline-block;
@@ -409,23 +424,24 @@ h4 {
 
 
 .infoBox {
+    background-color: lighten(@memo-green,20);
 
-    .row > .col-xs-3, .row > .col-xs-9 {
-        display: table-cell;
-        float: none;
+    .row {
+        .col-md-3 {
+            text-align: center;
+        } 
     }
 
     .vertical-center {
         vertical-align: middle;
     }
 
-    background-color: lighten(@memo-green,20);
-
     h3 {
-        text-align: left;
+        text-align: center;
         color: #003564;
         padding-bottom: 15px;
     }
+}
     /*margin-top: 144px;
     margin-bottom: 40px;
     .makeFullWidth;
@@ -455,7 +471,7 @@ h4 {
             )
         }
     }*/
-}
+    //}
     /* TOPIC OF THE WEEK
 ------------------------------------------------------*/
     .topicOfWeekContainer {

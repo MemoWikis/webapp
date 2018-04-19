@@ -301,20 +301,17 @@
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
         <div class="infoBox container-fluid">
-            <div class="imageTop row">
-                <div class="col-xs-3 vertical-center">
-                    <img style="width: 100%" src="/Images/OerAward.png" />
+            <div class="row">
+                <div class="col-md-3 vertical-center">
+                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/OerAward.png" />
                 </div>
-                <div class="col-xs-9 ">
+                <div class="col-md-9">
                 <h3>memucho 2x nominiert für OER-Award 2017</h3>
-                  
                 <p>
                     Bei den diesjährigen OER-Awards wurde memucho gleich zweimal nominiert:
-                    
                     <ul class="ul">
                         <li>In der Kategorie OER-Infrastruktur und</li>
-                        <li>speziell für unsere freien Lerninhalte für den<a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.
-                            </li>
+                        <li>speziell für unsere freien Lerninhalte für den<a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.</li>
                     </ul>
                 </p>
                 <p>Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>

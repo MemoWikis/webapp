@@ -506,7 +506,19 @@ fieldset[disabled] .EduCategory.active {
 /* INFO BOX */
 .infoBox {
   background-color: #d0e689;
-  /*margin-top: 144px;
+}
+.infoBox .row .col-md-3 {
+  text-align: center;
+}
+.infoBox .vertical-center {
+  vertical-align: middle;
+}
+.infoBox h3 {
+  text-align: center;
+  color: #003564;
+  padding-bottom: 15px;
+}
+/*margin-top: 144px;
     margin-bottom: 40px;
     .makeFullWidth;
     padding: 20px;
@@ -535,20 +547,6 @@ fieldset[disabled] .EduCategory.active {
             )
         }
     }*/
-}
-.infoBox .row > .col-xs-3,
-.infoBox .row > .col-xs-9 {
-  display: table-cell;
-  float: none;
-}
-.infoBox .vertical-center {
-  vertical-align: middle;
-}
-.infoBox h3 {
-  text-align: left;
-  color: #003564;
-  padding-bottom: 15px;
-}
 /* TOPIC OF THE WEEK
 ------------------------------------------------------*/
 .topicOfWeekContainer {
