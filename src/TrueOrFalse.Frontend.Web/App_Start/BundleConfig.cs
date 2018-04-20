@@ -134,7 +134,9 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
-                .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js"));
+                .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js")
+                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
+                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));
