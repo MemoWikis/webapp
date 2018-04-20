@@ -124,7 +124,7 @@
                     this.updateSessionHeader(result.sessionData);
 
                     if (result.sessionData.learningSessionId > -1)
-                        $("#hddIsLearningSession").attr("data-test-session-id", result.sessionData.learningSessionId);
+                        $("#hddIsLearningSession").attr("data-learning-session-id", result.sessionData.learningSessionId);
                     console.log(result.sessionData.testSessionId);
 
                     if (result.sessionData.testSessionId > -1)
