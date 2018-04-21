@@ -135,6 +135,7 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
                 .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
                 .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js")
+                .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
                 .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js"));
 

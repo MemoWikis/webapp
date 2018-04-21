@@ -19,7 +19,7 @@ class AnswerBody {
         new Pin(PinType.Set); //only needed if Set-Cards are presented as content
         new Pin(PinType.Category); //only needed if category catd is presented (e.g. as primary category for unregistered users)
 
-        if ($("#hddIsLearningSessionOnCategoryPage").val() != "true")
+        if ($("#hddIsLearningSessionOnCategoryPage").val() == "false")
             new Pin(PinType.Category, KnowledgeBar.ReloadCategory);
 
         $('#hddTimeRecords').attr('data-time-on-load', $.now());
