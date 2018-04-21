@@ -1,7 +1,12 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<% var isLongMenu = true; %>
+<% 
+
+    var isLongMenu = true;
+    var categoryNavigationModel = new CategoryNavigationModel();
+
+%>
 
 <div id="CategoryHeader">   
     <div style="display:flex">
@@ -28,7 +33,7 @@
                         </span>
                     </a>
                 </div>
-                <% Html.RenderPartial("/Views/Categories/Navigation/CategoryNavigation.ascx", new CategoryNavigationModel()); %>
+                <% Html.RenderPartial("/Views/Categories/Navigation/CategoryNavigation.ascx", categoryNavigationModel); %>
                 <% if (isLongMenu)
                     { %>
                 <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section" style="width: 100%">
