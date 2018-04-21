@@ -440,14 +440,10 @@ p:empty {
   width: 100%;
   font-family: sans;
   color: #1B3651;
-  font: bold );
+  font: bold;
   color: #999999;
 }
-.BreadcrumbsMobile .PathMenuImage {
-  min-width: 21px;
-  min-height: 21px;
-  width: 21px;
-  height: 21px;
+.BreadcrumbsMobile .NavBarImage {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -455,6 +451,12 @@ p:empty {
   float: none;
   margin-right: 0px;
   top: -37px;
+}
+.BreadcrumbsMobile img {
+  min-width: 21px;
+  min-height: 21px;
+  width: 21px !important;
+  height: 21px !important;
 }
 .BreadcrumbsMobile i.fa-home {
   width: 21px !important;
@@ -501,6 +503,8 @@ p:empty {
 .BreadcrumbsMobile a:not(.current):focus,
 .BreadcrumbsMobile a:not(.current):active {
   color: #1B3651;
+  text-decoration: underline;
+  text-underline-position: alphabetic;
 }
 .BreadcrumbsMobile a.current {
   cursor: default;

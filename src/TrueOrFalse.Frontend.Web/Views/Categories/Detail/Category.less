@@ -435,18 +435,21 @@ p:empty {
     width: 100%;
     font-family: sans;
     color: #1B3651;
-    font: bold );
+    font: bold;
     .greyed;
 
-    .PathMenuImage {
-        min-width: 21px;
-        min-height: 21px;
-        width: 21px;
-        height: 21px;
+    .NavBarImage {
         display: flex;
         float: none;
         margin-right: 0px;
         top: -37px
+    }
+
+    img {
+        min-width: 21px;
+        min-height: 21px;
+        width: 21px !important;
+        height: 21px !important;
     }
 
     i.fa-home {
@@ -462,7 +465,7 @@ p:empty {
     i.fa-chevron-right {
         font-size: 80%;
         color: #1B3651;
-        margin-right:10px;
+        margin-right: 10px;
     }
 
     .category-icon {
@@ -497,11 +500,13 @@ p:empty {
         font-family: "Open Sans";
         font-size: 14px;
         font-weight: bold;
-
+        
 
         &:not(.current) {
             &:hover, &:focus, &:active {
                 color: #1B3651;
+                text-decoration:underline;
+                text-underline-position:alphabetic;
             }
         }
 
