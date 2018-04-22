@@ -264,8 +264,7 @@ public class AnswerQuestionController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SendAnswer(int id, string answer, Guid questionViewGuid, int interactionNumber,
-        int millisecondsSinceQuestionView = 5000)
+    public JsonResult SendAnswer(int id, string answer, Guid questionViewGuid, int interactionNumber, int millisecondsSinceQuestionView)
     {
         var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, interactionNumber,
             millisecondsSinceQuestionView);
