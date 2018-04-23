@@ -551,29 +551,28 @@ img {
     .btn;
     display: inline-block;
     float: left;
-    margin-top: 6px;
-    font-size: 25px !important;
-
+    font-size: 22px !important;
+     margin-top:6px;
+    
+   
+    
     .caret {
         margin-left: 3px;
     }
 
-
-
-
-
     @media (min-width: @screen-sm-min) {
         .btn-lg;
         .MenuButtonSM;
-        margin-top: 6px;
+       
         position: relative;
-        top: -3px;
-        left: -3px;
 
 
         .caret {
             margin-left: 5px;
         }
+
+     
+
     }
 
    
@@ -598,6 +597,11 @@ img {
         //.buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
         .MenuButtonXS;
     }
+}
+
+#MenuButton {
+  
+    margin-top: 9px !important; 
 }
 
 #MobileMenuButton {
@@ -851,26 +855,23 @@ img {
         }
     }
 
-    #MasterSidebarColumn {
-        .make-lg-column(3);
-        position: static;
+#MasterSidebarColumn {
+    .make-lg-column(3);
+    position: static;
 
 
-        .media-lg ( {
-            width: 232px;
-            float: right;
-            margin-top: 6px;
-        }
-
-        );
-
-        .media-below-lg( {
-          display:none;
-
-        }
-
-        );
+    .media-lg ( {
+        width: 232px;
+        float: right;
+        margin-top: 6px;
     }
+
+    );
+
+    @media(max-width: 1199.9px) {
+        display: none;
+    }
+}
 
     #MasterMainWrapper {
         background-color: white;
@@ -1439,7 +1440,6 @@ img {
         //.hidden-sm;
         //font-size: 20px; implement hiding/toggle
     }
-
 
     .tooltip-inner {
         max-width: 400px;
