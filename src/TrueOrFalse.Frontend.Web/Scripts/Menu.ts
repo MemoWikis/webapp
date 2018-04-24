@@ -19,8 +19,6 @@ class MenuMobile {
 
 
     constructor() {
-
-      
         
         $("#MenuButton").click(() => {
             if (this._isOpen) {
@@ -45,10 +43,9 @@ class MenuMobile {
         $("#MobileMenuButton").click(() => {
             if (this._isOpen) {
                 this.closeMenu();
-
+                           
             } else {
                 this.openMenu();
-
             }
         });
       
@@ -96,7 +93,8 @@ class MenuMobile {
             this._isOpen = true;
             this._isInProgress = false;
         });
-        
+
+        document.getElementById("MobileMenuButton").style.color = "black";
     }
 
     closeMenu() {
@@ -110,7 +108,8 @@ class MenuMobile {
             this._isOpen = false;
             this._isInProgress = false;    
         });
-        
+
+        document.getElementById("MobileMenuButton").style.color = "white";
     }
 
     

@@ -17,7 +17,7 @@
         <div class="PathMenuImage">
             <%= Model.GetCategoryImage(breadCrumb[i]).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumb[i])) %>
         </div>
-        <span style="display: inline-table;"><a style="margin-left: 10px;" href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
+        <span style="display: inline-table; margin-left:10px;"><a href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
             <i style="display: inline;" class="fa fa-chevron-right"></i>
         </span>
     </div>

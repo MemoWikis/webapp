@@ -339,9 +339,17 @@
     top: 78px;
   }
 }
+@media (min-width: 480px) and (max-width: 767px) {
+  .LongMenu {
+    width: 98%;
+    max-width: none;
+  }
+}
 @media (max-width: 479px) {
   .LongMenu {
     top: 54px;
+    width: 98%;
+    max-width: none;
   }
 }
 .secondary-section .list-group-item {
@@ -445,7 +453,7 @@
   padding-left: 3px;
 }
 #mainMenuThemeCenteredMobile {
-  margin-top: 0px !important;
+  margin-top: -14px !important;
 }
 #mainMenuThemeCentered #mainMenuQuestionsSetsCategories,
 #mainMenuThemeCenteredMobile {
