@@ -17,7 +17,7 @@
                 dataType: "html",
                 success: function (data) {
                     $("#AnswerBody").html(data);
-                    $("#QuestionCountCompletSideBar").hide();
+                    $("#QuestionCountCompletSideBar").remove();
                     new TestSessionResult();
 
                 }

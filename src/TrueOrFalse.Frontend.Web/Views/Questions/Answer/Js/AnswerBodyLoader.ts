@@ -107,7 +107,6 @@
             headers: { "cache-control": "no-cache" },
             success: result => {
                 result = JSON.parse(result);
-                console.log(result);
                 if (!this._isInLearningTab) {
                     this.updateUrl(result.url);
                 }
@@ -125,8 +124,6 @@
 
                     if (result.sessionData.learningSessionId > -1)
                         $("#hddIsLearningSession").attr("data-learning-session-id", result.sessionData.learningSessionId);
-                    console.log(result.sessionData.testSessionId);
-
                     if (result.sessionData.testSessionId > -1)
                         $("#hddIsTestSession").attr("data-test-session-id", result.sessionData.testSessionId);
                 }
