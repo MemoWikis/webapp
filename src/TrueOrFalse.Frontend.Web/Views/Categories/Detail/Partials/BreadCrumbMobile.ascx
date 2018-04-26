@@ -7,7 +7,7 @@
     <div style="height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Startseite">
         <i class="PathMenuHomeImg fa fa-home"></i>
         <a href="/" class="category-icon">
-            <span style="margin-left: 10px">Home</span>
+            <span style="margin-left: 7px">Home</span>
         </a>
         <span><i class="fa fa-chevron-right"></i></span>
     </div>

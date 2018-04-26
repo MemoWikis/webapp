@@ -310,7 +310,7 @@
   width: 90%;
   max-width: 270px;
   opacity: 1;
-  top: 130px;
+  top: 62px;
   z-index: 100;
   -webkit-box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
   box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
@@ -320,36 +320,23 @@
 }
 @media (min-width: 1200px) {
   .LongMenu {
-    right: -225px !important;
-    top: 62px;
-  }
-}
-@media (max-width: 1199px) {
-  .LongMenu {
-    top: 88px;
-  }
-}
-@media (min-width: 992px) and (max-width: 1199px) {
-  .LongMenu {
-    top: 81px;
-  }
-}
-@media (max-width: 991px) {
-  .LongMenu {
-    top: 78px;
+    right: -232px;
   }
 }
 @media (min-width: 480px) and (max-width: 767px) {
   .LongMenu {
-    width: 98%;
+    top: 0px;
+    width: 101%;
     max-width: none;
+    padding-right: 0px;
   }
 }
 @media (max-width: 479px) {
   .LongMenu {
-    top: 54px;
-    width: 98%;
+    top: 0px;
+    width: 101%;
     max-width: none;
+    padding-right: 0px;
   }
 }
 .secondary-section .list-group-item {
@@ -453,7 +440,7 @@
   padding-left: 3px;
 }
 #mainMenuThemeCenteredMobile {
-  margin-top: -14px !important;
+  margin-top: -10px !important;
 }
 #mainMenuThemeCentered #mainMenuQuestionsSetsCategories,
 #mainMenuThemeCenteredMobile {
