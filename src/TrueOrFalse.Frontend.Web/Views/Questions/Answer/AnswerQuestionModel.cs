@@ -159,19 +159,19 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(int dummyQuestionId) : this()
+    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false) : this()
     {
-        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);   // wofür ist die Dummy Question
+        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);  
 
-        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};       // warum ist learning Session nach 10 durchläufen 13 lang
+        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};      
 
-        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)             // Warum wird hier 10 mal die gleiche Frage reingemacht
-
+        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)           
         {
-            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});      //füllt man hier nur die Learningsession um was zu haben ??   
+            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});      
         }
 
         Populate(dummyQuestion);
+
     }
 
 

@@ -7,18 +7,16 @@
     data-current-step-idx=""
     data-is-last-step=""
     data-skip-step-index="" />
- 
-<input type="hidden" id="hddQuestionId" value="1" />
+
+<input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>" 
+       data-test-session-id="-1"
+       data-current-step-idx=""
+       data-is-last-step=""/>
+
+<input type="hidden" id="hddQuestionId" value=""/>
 <input type="hidden" id="hddCategoryId" value="<%= Model.Category.Id %>" />
 <input type="hidden" id="hddLearningSessionStarted" value="False" />
 <input type="hidden" id="hddIsLearningSessionOnCategoryPage" value="true" />
-
-<input type="hidden" id="hddIsTestSession" value="<%= Model.IsTestSession %>"
-    data-test-session-id="<%=Model.LearningTabModel.TestSession.Id %>"
-    data-current-step-guid=""
-    data-current-step-idx=""
-    data-is-last-step="4"
-/>
 
 
 <% 
@@ -37,9 +35,10 @@
             Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
         }
         else
-        {
-            Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", Model.LearningTabModel.AnswerQuestionModel);
-            Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(Model.LearningTabModel.AnswerQuestionModel));
+        {  
+           
+         // Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
+           //B Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(model));
         }
     }
     else

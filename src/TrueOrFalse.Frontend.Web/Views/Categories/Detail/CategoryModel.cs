@@ -127,8 +127,8 @@ public class CategoryModel : BaseModel
         if (category.Type == CategoryType.Standard)
             TopQuestionsInSubCats = GetTopQuestionsInSubCats();
 
-        if(!IsLoggedIn)
-            LearningTabModel = new LearningTabModel(Category);
+       
+          //  LearningTabModel = new LearningTabModel(Category);
 
         TopWishQuestions = wishQuestions.Items;
 

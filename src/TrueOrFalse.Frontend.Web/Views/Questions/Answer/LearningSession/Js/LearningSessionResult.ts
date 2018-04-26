@@ -1,7 +1,6 @@
 ﻿class LearningSessionResult {
     
     constructor() {
-        var self = this;
 
         $("[data-action=showAllDetails]").click((e) => {
             e.preventDefault();
