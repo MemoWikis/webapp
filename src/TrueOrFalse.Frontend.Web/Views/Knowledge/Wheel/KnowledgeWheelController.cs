@@ -16,6 +16,8 @@ public class KnowledgeWheelController : BaseController
         return RenderPartialView(knowledgeSummary);
     }
 
+   
+
     public string GetForAddedCategoryTemp(int categoryId)
     {
         var questions = Sl.QuestionRepo.GetForCategoryAggregated(categoryId, UserId);
