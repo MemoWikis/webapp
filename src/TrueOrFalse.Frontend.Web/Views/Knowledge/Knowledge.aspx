@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
+
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
@@ -10,14 +11,17 @@
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-    <script>
+
+
+
+    <%--  <script>
         $(function () {
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
             $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
             $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
         });
-    </script>
-    <script>
+    </script>--%>
+    <%-- <script>
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2) });
@@ -140,9 +144,9 @@
             <% } %>
 
         }
-    </script>
-    
-    <style>
+    </script>--%>
+
+    <%-- <style>
         #totalKnowledgeOverTime{font-size: 18px; line-height:27px ;color: rgb(170, 170, 170);padding-top: 5px;display: inline-block;}
         #totalKnowledgeOverTimeSpark{ display: inline-block;}
         div.answerHistoryRow div{ display: inline-block; height: 22px;}
@@ -152,23 +156,28 @@
 
         div.percentage{display: inline-block; width: 40px; background-color:beige; height: 22px;vertical-align: top;}
         div.percentage span{ font-size: 22px; color: green; position: relative; top: 2px; left: 4px;}
-    </style>
+    </style>--%>
 
     <%= Styles.Render("~/bundles/Knowledge") %>
     <%= Scripts.Render("~/bundles/js/Knowledge") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
-    <% if(Model.Message != null) { %>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col col-sm-6"><% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary = KnowledgeSummaryLoader.Run(Model.UserId, null, true, "withoutLegend")); %></div>
+        <div class="col col-sm-6 " style="border: 1px black solid;"><h1>Wissenszentrale - Überblick & Dashboard </h1></div>
+    </div>
+</div>
+    <%--    <% if(Model.Message != null) { %>
         <div class="row">
             <div class="col-xs-12 xxs-stack">
                 <% Html.Message(Model.Message); %>
             </div>
         </div>        
-    <% } %>
+    <% } %>--%>
 
-    <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
+    <%-- <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
 
     <% if(!Model.IsLoggedIn){ %>
 
@@ -189,9 +198,9 @@
         </div>
     <% } %>
 
-    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">
-        
-        <div class="row">
+    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">--%>
+
+    <%-- <div class="row">
             <div class="col-sm-6" id="learningPoints">
                 <div class="rowBase" style="padding: 10px;">
                     <h3>Deine Lernpunkte</h3>
@@ -242,10 +251,10 @@
                     </p>                    
                 </div>
             </div>
-        </div>
+        </div>--%>
 
 
-        <div class="row">
+    <%-- <div class="row">
                             
             <div class="col-xs-12 col-md-6">
                 <div class="rowBase" style="padding: 10px">
@@ -256,7 +265,7 @@
                         In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Lernset<%= StringUtils.Plural(Model.SetCount,"s") %>. 
                         <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Lernset klickst."></i>
                     </p>--%>
-                    <div class="row" style="line-height: 30px; margin-bottom: 20px;">
+    <%-- %>   <div class="row" style="line-height: 30px; margin-bottom: 20px;">
                         <div class="col-md-6">
                             <div class="number-box-questions" style="text-align: center;">
                                 <a href="<%= Links.QuestionsWish() %>">
@@ -277,9 +286,9 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
 
-                    <% if(Model.KnowledgeSummary.Total == 0) { %>
+    <%--                    <% if(Model.KnowledgeSummary.Total == 0) { %>
                         <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                             <p>
                                 memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
@@ -309,9 +318,9 @@
                         </div>
                     <% } %>
                 </div>
-            </div>
+            </div>--%>
 
-            <div class="col-xs-12 col-md-6">
+    <%--<div class="col-xs-12 col-md-6">
                 <div class="rowBase" style="padding: 10px; height: 384px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
                     <p class="greyed" style="font-size: 12px;">In den letzten 30 Tagen</p>
@@ -354,9 +363,9 @@
                 </div>
             </div>
         </div>
-        
-        
-        <div id="wishKnowledge" class="row">
+    --%>
+
+    <%-- <div id="wishKnowledge" class="row">
             <div class="col-xs-12">
                 <h3>Themen und Lernsets in deinem Wunschwissen</h3>
                 
@@ -464,8 +473,8 @@
                             
                     </p>
                 </div>
-                
-                <div class="rowBase" style="padding: 10px;">
+    --%>
+    <%--<div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                     <% foreach(var answer in Model.AnswerRecent){ 
                         var question = answer.Question;
@@ -553,6 +562,5 @@
             </div>
         </div>
 
-    </div>
-
+    </div>--%>
 </asp:Content>

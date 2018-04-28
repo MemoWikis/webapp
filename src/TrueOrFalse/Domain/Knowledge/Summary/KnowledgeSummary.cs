@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Web.Mvc.Ajax;
 using Newtonsoft.Json;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class KnowledgeSummary
 {
+    public string Options= "standard";
+
     [JsonProperty("NotLearned")]
     public readonly int NotLearned = 0;
     public int NotLearnedPercentage { get; private set; }
@@ -26,13 +29,15 @@ public class KnowledgeSummary
     /// <summary>Sum of questions in wish knowledge</summary>
     public int Total => NotLearned + NeedsLearning + NeedsConsolidation + Solid + NotInWishknowledge;
 
-    public KnowledgeSummary(int notInWishKnowledge = 0, int notLearned = 0, int needsLearning = 0, int needsConsolidation = 0, int solid = 0)
+    public KnowledgeSummary(int notInWishKnowledge = 0, int notLearned = 0, int needsLearning = 0, int needsConsolidation = 0, int solid = 0, string options="standard")
     {
         NotInWishknowledge = notInWishKnowledge;
         NotLearned = notLearned;
         NeedsLearning = needsLearning;
         NeedsConsolidation = needsConsolidation;
         Solid = solid;
+        Options = options; 
+        
 
         PercentageShares.FromAbsoluteShares(new List<ValueWithResultAction>
         {
