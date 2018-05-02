@@ -316,6 +316,7 @@
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\EducationOfferListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
@@ -413,6 +414,9 @@
     <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
       <DependentUpon>CategoryHeader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\Tabbing.js">
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
@@ -422,6 +426,7 @@
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
@@ -458,15 +463,15 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
     <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
     <Content Include="Views\Maintenance\Js\CMS.js">
       <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
@@ -490,9 +495,6 @@
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
-    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js.map">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
-    </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
@@ -500,8 +502,11 @@
     </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js.map">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\header\SearchBox.js.map">
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\hubs\GameHub.js.map">
@@ -845,6 +850,7 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
@@ -2789,6 +2795,9 @@
     <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
       <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
       <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>

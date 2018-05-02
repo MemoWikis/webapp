@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Microsoft.Ajax.Utilities;
+using NHibernate.Criterion;
+
 
 public class TopicNavigationModel : BaseModel
 {
@@ -8,6 +13,7 @@ public class TopicNavigationModel : BaseModel
 
     public string Title;
     public string Text;
+    public KnowledgeSummary SetKnowledgeSummary;
 
     public List<Category> CategoryList;
 
@@ -15,6 +21,7 @@ public class TopicNavigationModel : BaseModel
 
     public TopicNavigationModel(Category category, string title, string text = null, string load = null, string order = null)
     {
+     
         Category = category;
 
         var isLoadList = false;
@@ -61,6 +68,7 @@ public class TopicNavigationModel : BaseModel
         Text = text;
     }
 
+
     public int GetTotalQuestionCount(Category category)
     {
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
@@ -99,4 +107,15 @@ public class TopicNavigationModel : BaseModel
         firstCategories.AddRange(CategoryList);
         return firstCategories;
     }
+
+    public static string ReturnKnowledgeStatus(List<string> list, int counter)
+    {  
+        return list.ElementAt(counter);
+    }
 }
+
+
+
+
+
+
