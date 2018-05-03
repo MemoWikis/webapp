@@ -77,9 +77,9 @@
                             {
                                 if (Request.Browser.IsMobileDevice)
                                     userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
-                                if (Model.isMobileRequest == true)
+                                if (Model.IsMobileRequest == true)
                                     userControl = "SolutionTypeMatchList_LayoutMobile.ascx";
-                                if (Model.isMobileRequest == false)
+                                if (Model.IsMobileRequest == false)
                                     userControl = "SolutionTypeMatchList.ascx";
                             }
 
@@ -143,7 +143,7 @@
 
                                 <div id="buttons-next-question" class="ButtonGroup" style="display: none;">
                                     <% if (Model.NextUrl != null && !Model.IsLastQuestion) { %>
-                                        <a href="<%= Model.NextUrl(Url) %>" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
+                                        <a href="#" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% }else if(Model.NextUrl == null && Model.IsForVideo){ %> 
                                         <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
                                     <% }else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame) { %>

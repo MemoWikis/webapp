@@ -61,11 +61,13 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Help/Js", "*.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Category")
-                .Include("~/Views/Categories/Detail/Category.css"));
+                .Include("~/Views/Categories/Detail/Category.css")
+                .Include("~/Views/Categories/Detail/Js/SquareWishKnowledge.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Category")
                 .Include("~/Views/Knowledge/Wheel/KnowledgeWheel.js")
-                .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js"));
+                .IncludeDirectory("~/Views/Categories/Detail/Js/", "*.js")
+                .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Login")
                 .Include("~/Views/Welcome/Registration/SocialButtons.css"));
@@ -132,7 +134,11 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Scripts/answerQuestion/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/AnswerControls/", "*.js")
                 .IncludeDirectory("~/Views/Questions/Answer/Js/", "*.js")
-                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js"));
+                .IncludeDirectory("~/Views/Questions/ActivityPoints", "*.js")
+                .Include("~/Views/Questions/Answer/TestSession/Js/TestSessionResult.js")
+                .Include("~/Views/Categories/ResultTestSession/Js/GetResultTestSession.js")
+                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResult.js")
+                .Include("~/Views/Questions/Answer/LearningSession/Js/LearningSessionResultCharts.js"));
 
             bundles.Add(new StyleBundle("~/bundles/AnswerQuestion")
                 .Include("~/Views/Questions/Answer/*.css"));

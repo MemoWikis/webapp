@@ -40,7 +40,7 @@ public class AnswerQuestionModel : BaseModel
     public SolutionMetadata SolutionMetadata;
     public string SolutionMetaDataJson;
 
-    public bool? isMobileDevice;
+    public bool? IsMobileDevice;
 
     public string ImageUrl_500px;
     public string SoundUrl;
@@ -118,12 +118,13 @@ public class AnswerQuestionModel : BaseModel
     {
     }
 
+
     public AnswerQuestionModel(Question question, bool? isMobileDevice = null): this()
     {
         if(this.QuestionViewGuid == Guid.Empty)
             QuestionViewGuid = Guid.NewGuid();
 
-        this.isMobileDevice = isMobileDevice;
+        this.IsMobileDevice = isMobileDevice;
         HasNextPage = HasPreviousPage = false;
         SourceIsTabAll = true;
         ContentRecommendationResult = ContentRecommendation.GetForQuestion(question, 6);
@@ -133,7 +134,7 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Guid questionViewGuid, LearningSession learningSession, bool? isMobileDevice = null) : this()
     {
-        this.isMobileDevice = isMobileDevice;
+        this.IsMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         LearningSession = learningSession;
@@ -158,18 +159,19 @@ public class AnswerQuestionModel : BaseModel
         Populate(LearningSessionStep.Question);
     }
 
-    public AnswerQuestionModel(int dummyQuestionId) : this()
+    public AnswerQuestionModel(int dummyQuestionId, bool testSession = false) : this()
     {
-        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);
+        var dummyQuestion = Sl.QuestionRepo.GetById(dummyQuestionId);  
 
-        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};
+        LearningSession = new LearningSession{Steps = new List<LearningSessionStep>()};      
 
-        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)
+        for (var i = 0; i < LearningSession.DefaultNumberOfSteps; i++)           
         {
-            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});
+            LearningSession.Steps.Add(new LearningSessionStep{Idx = i, Question = dummyQuestion});      
         }
 
         Populate(dummyQuestion);
+
     }
 
 
@@ -185,7 +187,7 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(TestSession testSession, Guid questionViewGuid, Question question, bool? isMobileDevice = null) : this()
     {
-        this.isMobileDevice = isMobileDevice;
+        this.IsMobileDevice = isMobileDevice;
 
         QuestionViewGuid = questionViewGuid;
         TestSession = testSession;
@@ -205,7 +207,7 @@ public class AnswerQuestionModel : BaseModel
 
     public AnswerQuestionModel(Guid questionViewGuid, Question question, QuestionSearchSpec searchSpec, bool? isMobileDevice = null) : this()
     {
-        this.isMobileDevice = isMobileDevice;
+        this.IsMobileDevice = isMobileDevice;
         QuestionViewGuid = questionViewGuid;
 
         PageCurrent = searchSpec.CurrentPage.ToString();

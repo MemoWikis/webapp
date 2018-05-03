@@ -123,6 +123,7 @@
                 .Add(UpdateToVs190.Run)
                 .Add(UpdateToVs191.Run)
                 .Add(UpdateToVs192.Run)
+                .Add(UpdateToVs193.Run)
                 .Run();
         }
     }

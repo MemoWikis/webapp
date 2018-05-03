@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryController : BaseController
+
+
 {
     private const string _viewLocation = "~/Views/Categories/Detail/Category.aspx";
 
@@ -112,4 +114,14 @@ public class CategoryController : BaseController
             new CategoryKnowledgeBarModel(Sl.CategoryRepo.GetById(categoryId)), 
             ControllerContext
         );
+
+  
+    public string WishKnowledgeInTheBox(int categoryId) =>
+        ViewRenderer.RenderPartialView( 
+            "/Views/Categories/Detail/Partials/WishKnowledgeInTheBox.ascx",
+            new WishKnowledgeInTheBoxModel(Sl.CategoryRepo.GetById(categoryId)),
+            ControllerContext
+        );
+
+   
 }

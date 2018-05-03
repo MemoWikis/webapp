@@ -49,3 +49,26 @@ public class KnowledgeSummary
         return JsonConvert.SerializeObject(this);
     }
 }
+
+
+
+[JsonObject(MemberSerialization.OptIn)]
+public class Test1
+{
+    [JsonProperty("NotLearned")] public readonly int NotLearned = 0;
+    public object NotLearnedPercentage { get; private set; }
+
+    [JsonProperty("NeedsLearning")] public readonly int NeedsLearning = 0;
+    public int NeedsLearningPercentage { get; private set; }
+
+    [JsonProperty("NeedsConsolidation")] public readonly int NeedsConsolidation = 0;
+    public int NeedsConsolidationPercentage { get; private set; }
+
+    [JsonProperty("Solid")] public readonly int Solid = 0;
+    public int SolidPercentage { get; private set; }
+
+    public readonly int NotInWishknowledge = 0;
+    public int NotInWishknowledgePercentage { get; private set; }
+}
+
+   

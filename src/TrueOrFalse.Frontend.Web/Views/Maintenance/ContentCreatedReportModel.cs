@@ -16,6 +16,7 @@ public class ContentCreatedReportModel : BaseModel
     public IList<Question> RecentQuestionsAddedMemucho;
     public IList<Question> RecentQuestionsAddedNotMemucho;
     public IList<Category> CategoriesAdded;
+    public IEnumerable<IGrouping<Category, CategoryChange>> CategoriesChanged;
     public IList<Set> SetsAdded;
 
     public ContentCreatedReportModel()
@@ -41,6 +42,13 @@ public class ContentCreatedReportModel : BaseModel
             .OrderBy(c => c.DateCreated).Desc
             .Where(c => c.DateCreated > Since)
             .List();
+
+        CategoriesChanged = _session
+            .QueryOver<CategoryChange>()
+            .OrderBy(c => c.DateCreated).Desc
+            .Where(c => c.DateCreated > Since)
+            .List()
+            .GroupBy(c => c.Category);
 
         SetsAdded = _session
             .QueryOver<Set>()

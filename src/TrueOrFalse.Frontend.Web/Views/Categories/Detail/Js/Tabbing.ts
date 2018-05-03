@@ -22,8 +22,14 @@
                 if (!this.ContentIsPresent(tabname)) {
                     this.RenderTabContent(tabname);
                 }
-                if (tabname == "LearningTab" && $('#hddLearningSessionStarted').val() == "False") {
-                    new PageInit();
+                if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False") {
+
+                    var answerBody = new AnswerBody();
+
+                    if (answerBody.IsTestSession()) {
+                        answerBody.Loader.loadNewTestSession();
+                    }
+
                     $('#hddLearningSessionStarted').val("True");
                 }
                 this.ShowTab(tabname);

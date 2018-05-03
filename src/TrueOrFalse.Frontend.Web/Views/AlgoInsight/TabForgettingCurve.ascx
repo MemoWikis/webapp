@@ -3,6 +3,12 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="/Views/AlgoInsight/TabForgettingCurve_.js"></script>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-danger" style="margin-top: 10px;">Achtung: Aus Performance gründen deaktiviert</div>
+    </div>
+</div>
+
 <div class="row" >
     <div class="col-md-12" style="margin-top:3px; margin-bottom:7px;">
         <h3>Vergleich Vergessenskurven</h3>

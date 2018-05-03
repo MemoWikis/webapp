@@ -1,5 +1,5 @@
 ﻿class TestSessionResult {
-    
+
     constructor() {
         var self = this;
 
@@ -25,6 +25,16 @@
         $("[data-action=toggleDateSets]").click((e) => {
             e.preventDefault();
             $(".dateSets").toggle(300);
+        });
+
+        $(".nextLearningTestSession").click((e) => {
+            e.preventDefault();
+            $("#QuestionCountCompletSideBar").fadeIn();
+            $(".ProgressBarSegment .ProgressBarLeft").width("0%");
+            var answerBody = new AnswerBody();
+            answerBody.Loader.loadNewTestSession();
+            
+
         });
     }
 
