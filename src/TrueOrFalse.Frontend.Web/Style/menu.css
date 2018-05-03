@@ -446,8 +446,7 @@
 #mainMenuThemeCenteredMobile {
   margin-top: 15px;
 }
-#mainMenuThemeCentered #mainMenuQuestionsSetsCategories .fa-search,
-#mainMenuThemeCenteredMobile .fa-search {
+.fa-search {
   color: grey;
   padding-right: 7px;
   font-size: 12px;

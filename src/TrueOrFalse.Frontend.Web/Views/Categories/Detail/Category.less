@@ -434,15 +434,13 @@ p:empty {
     margin-bottom: 10px;
     width: 100%;
     font-family: sans;
-    color: #1B3651;
+    color: #1B3651 !important;
     font: bold;
     .greyed;
 
-    .NavBarImage {
-        display: flex;
-        float: none;
-        margin-right: 0px;
-        top: -37px
+    div {
+        font-family: 'Open Sans';
+        font-weight: bold;
     }
 
     img {
@@ -450,6 +448,7 @@ p:empty {
         min-height: 21px;
         width: 21px !important;
         height: 21px !important;
+        border-radius:50%;
     }
 
     i.fa-home {
@@ -500,13 +499,13 @@ p:empty {
         font-family: "Open Sans";
         font-size: 14px;
         font-weight: bold;
-        
+
 
         &:not(.current) {
             &:hover, &:focus, &:active {
                 color: #1B3651;
-                text-decoration:underline;
-                text-underline-position:alphabetic;
+                text-decoration: underline;
+                text-underline-position: alphabetic;
             }
         }
 
@@ -780,6 +779,7 @@ html.flexbox:not(.Explorer):not(.Safari) {
 
 #CategoryHeader, #TopicTabContent {
     line-height: 1.5;
+    margin-top:10px;
 
     .new-font-style();
     color: @global-text-color;

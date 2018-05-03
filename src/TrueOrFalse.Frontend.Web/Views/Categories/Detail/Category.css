@@ -439,24 +439,21 @@ p:empty {
   margin-bottom: 10px;
   width: 100%;
   font-family: sans;
-  color: #1B3651;
+  color: #1B3651 !important;
   font: bold;
   color: #999999;
 }
-.BreadcrumbsMobile .NavBarImage {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  float: none;
-  margin-right: 0px;
-  top: -37px;
+.BreadcrumbsMobile div {
+  font-family: 'Open Sans';
+  font-weight: bold;
 }
 .BreadcrumbsMobile img {
   min-width: 21px;
   min-height: 21px;
   width: 21px !important;
   height: 21px !important;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
 }
 .BreadcrumbsMobile i.fa-home {
   width: 21px !important;
@@ -854,6 +851,7 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 #CategoryHeader,
 #TopicTabContent {
   line-height: 1.5;
+  margin-top: 10px;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 18px;
   line-height: 30px;

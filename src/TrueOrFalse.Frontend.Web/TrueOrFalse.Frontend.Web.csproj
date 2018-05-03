@@ -7434,7 +7434,6 @@
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Categories\Detail\Js\BreadCrumbMobile.js" />
     <Content Include="Views\Categories\Detail\Js\Category.js">
       <DependentUpon>Category.ts</DependentUpon>
     </Content>

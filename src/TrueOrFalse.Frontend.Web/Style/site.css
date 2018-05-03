@@ -741,7 +741,7 @@ fieldset[disabled] #SidebarMenuButton:hover {
   }
 }
 #MenuButton {
-  margin-top: 5px !important;
+  margin-top: 2px !important;
 }
 #MobileMenuButton {
   font-size: 18px;
@@ -960,6 +960,7 @@ ul.AutocompleteHeader {
   padding-right: 20px;
   padding-bottom: 20px;
   padding-top: 25px;
+  width: 100% !important;
 }
 @media (max-width: 991px) {
   #MobileSubHeader + #MasterMainContent {
