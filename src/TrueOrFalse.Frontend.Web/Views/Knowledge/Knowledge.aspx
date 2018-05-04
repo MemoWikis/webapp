@@ -3,38 +3,224 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
+<%@ Register Src="~/Views/Knowledge/Partials/_Dashboard.ascx" TagPrefix="uc1" TagName="_Dashboard" %>
+
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>">
 </asp:Content>
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
 
 
 
-    <%--  <script>
-        $(function () {
-            $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
-            $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
-            $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
-        });
+     <%-- <script>
+          $(function () {
+              $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
+              $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
+              $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
+          });
+    </script>
+     <script>
+         google.load("visualization", "1", { packages: ["corechart"] });
+         google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
+         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2) });
+         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3) });
+         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12) });
+         google.setOnLoadCallback(drawActivityChart);
+
+         //chartKnowledgeDate
+         function drawKnowledgeChart(chartElementId) {
+
+             if ($("#" + chartElementId).length === 0) {
+                 return;
+             }
+
+             var data = google.visualization.arrayToDataTable([
+                 ['Wissenslevel', 'link', 'Anteil in %'],
+                 ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+             ]);
+
+             var options = {
+                 pieHole: 0.6,
+                 tooltip: { isHtml: true },
+                 legend: { position: 'labeled' },
+                 pieSliceText: 'none',
+                 chartArea: { 'width': '100%', height: '100%', top: 10 },
+                 slices: {
+                     0: { color: '#afd534' },
+                     1: { color: '#fdd648' },
+                     2: { color: 'lightsalmon' },
+                     3: { color: 'silver' }
+                 },
+                 pieStartAngle: 0
+             };
+
+             var view = new google.visualization.DataView(data);
+             view.setColumns([0, 2]);
+
+             var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
+             chart.draw(view, options);
+
+             google.visualization.events.addListener(chart, 'select', selectHandler);
+
+             function selectHandler(e) {
+                 var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                 location.href = urlPart;
+             }
+         }
+
+         function drawKnowledgeChartDate(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
+
+             var chartElement = $("#" + chartElementId);
+
+             var data = google.visualization.arrayToDataTable([
+                 ['Wissenslevel', 'Anteil in %'],
+                 ['Sicheres Wissen', amountSolid],
+                 ['Solltest du festigen', amountToConsolidate],
+                 ['Solltest du lernen', amountToLearn],
+                 ['Noch nicht gelernt', amountNotLearned],
+             ]);
+
+             var options = {
+                 pieHole: 0.5,
+                 legend: { position: 'none' },
+                 pieSliceText: 'none',
+                 height: 80,
+                 chartArea: { width: '90%', height: '90%', top: 0 },
+                 slices: {
+                     0: { color: '#afd534' },
+                     1: { color: '#fdd648' },
+                     2: { color: 'lightsalmon' },
+                     3: { color: 'silver' }
+                 },
+                 pieStartAngle: 0
+             };
+
+             var chart = new google.visualization.PieChart(chartElement.get()[0]);
+             chart.draw(data, options);
+         }
+
+         function drawActivityChart() {
+             var data = google.visualization.arrayToDataTable([
+                 [
+                     'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
+                 ],
+                    <% foreach (var stats in Model.Last30Days)
+         { %>
+                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
+                    <% } %>
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 1,
+                {
+                    calc: "stringify",
+                    sourceColumn: 1,
+                    type: "string",
+                    role: "annotation"
+                },
+                2]);
+
+            var options = {
+                legend: { position: 'top', maxLines: 30 },
+                tooltip: { isHtml: true },
+                bar: { groupWidth: '89%' },
+                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
+                colors: ['#afd534', 'lightsalmon'],
+                isStacked: true,
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+            chart.draw(view, options);
+            <% if (!Model.HasLearnedInLast30Days)
+         { %>
+            var infoDivNotLearned = document.createElement('div');
+            infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
+            infoDivNotLearned.setAttribute('class', 'alert alert-info');
+            infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
+            document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
+            <% } %>
+
+         }
     </script>--%>
-    <%-- <script>
+
+     <style>
+         #totalKnowledgeOverTime {
+             font-size: 18px;
+             line-height: 27px;
+             color: rgb(170, 170, 170);
+             padding-top: 5px;
+             display: inline-block;
+         }
+
+         #totalKnowledgeOverTimeSpark {
+             display: inline-block;
+         }
+
+         div.answerHistoryRow div {
+             display: inline-block;
+             height: 22px;
+         }
+
+         div.answerHistoryRow .answerAmount {
+             color: blue;
+             font-weight: bolder;
+         }
+
+         div.column {
+             width: 260px;
+             float: left;
+         }
+
+         div.percentage {
+             display: inline-block;
+             width: 40px;
+             background-color: beige;
+             height: 22px;
+             vertical-align: top;
+         }
+
+             div.percentage span {
+                 font-size: 22px;
+                 color: green;
+                 position: relative;
+                 top: 2px;
+                 left: 4px;
+             }
+     </style>
+
+    <%--<script>
         google.load("visualization", "1", { packages: ["corechart"] });
-        google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
-        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2) });
-        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3) });
-        google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12) });
-        google.setOnLoadCallback(drawActivityChart);
 
-        //chartKnowledgeDate
-        function drawKnowledgeChart(chartElementId) {
+        // Heading h1 Knowledgewheel 
+        google.setOnLoadCallback(chartKnowledgeH1);
 
-            if ($("#" + chartElementId).length === 0) {
-                return;
+        function chartKnowledgeH1() {
+
+            var options = {
+                pieHole: 0.6,
+                tooltip: { isHtml: false },
+                legend: { position: "none" },
+                pieSliceText: 'none',
+                chartArea: { 'width': '100%', height: '100%', top: 10 },
+                slices: {
+                    0: { color: '#afd534' },
+                    1: { color: '#fdd648' },
+                    2: { color: 'lightsalmon' },
+                    3: { color: 'silver' },
+                    4: { color: '#dddddd' }
+                },
+                pieStartAngle: 0
             }
+
+
 
             var data = google.visualization.arrayToDataTable([
                 ['Wissenslevel', 'link', 'Anteil in %'],
@@ -42,27 +228,13 @@
                 ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
                 ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
                 ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
             ]);
-
-            var options = {
-                pieHole: 0.6,
-                tooltip: { isHtml: true },
-                legend: { position: 'labeled' },
-                pieSliceText: 'none',
-                chartArea: { 'width': '100%', height: '100%', top: 10},
-                slices: {
-                    0: { color: '#afd534' },
-                    1: { color: '#fdd648' },
-                    2: { color: 'lightsalmon' },
-                    3: { color: 'silver'}
-                },
-                pieStartAngle: 0
-            };
 
             var view = new google.visualization.DataView(data);
             view.setColumns([0, 2]);
 
-            var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
+            var chart = new google.visualization.PieChart(document.getElementById('chartKnowledgeH1'));
             chart.draw(view, options);
 
             google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -73,113 +245,338 @@
             }
         }
 
-        function drawKnowledgeChartDate(chartElementId, amountSolid, amountToConsolidate, amountToLearn, amountNotLearned) {
+        // chartKnowledge
 
-            var chartElement = $("#" + chartElementId);
+        google.setOnLoadCallback(chartKnowledgeP);
 
-            var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'Anteil in %'],
-                ['Sicheres Wissen', amountSolid],
-                ['Solltest du festigen', amountToConsolidate],
-                ['Solltest du lernen', amountToLearn],
-                ['Noch nicht gelernt', amountNotLearned],
-            ]);
+        function chartKnowledgeP() {
 
             var options = {
-                pieHole: 0.5,
-                legend: { position: 'none' },
+                pieHole: 0.6,
+                tooltip: { isHtml: true },
+                legend: { position: "labeled" },
                 pieSliceText: 'none',
-                height: 80,
-                chartArea: { width: '90%', height: '90%', top: 0 },
+                chartArea: { 'width': '80%', height: '80%', top: 10 },
                 slices: {
                     0: { color: '#afd534' },
                     1: { color: '#fdd648' },
                     2: { color: 'lightsalmon' },
-                    3: { color: 'silver' }
+                    3: { color: 'silver' },
+                    4: { color: '#dddddd' }
                 },
                 pieStartAngle: 0
-            };
+            }
+            if ($("#chartKnowledgeP").length === 0) {
+                return;
+            }
 
-            var chart = new google.visualization.PieChart(chartElement.get()[0]);
-            chart.draw(data, options);
-        }
-
-        function drawActivityChart() {
             var data = google.visualization.arrayToDataTable([
-                [
-                    'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
-                ],
-                    <% foreach (var stats in Model.Last30Days){ %>
-                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
-                    <% } %>
+                ['Wissenslevel', 'link', 'Anteil in %'],
+                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
             ]);
 
             var view = new google.visualization.DataView(data);
-            view.setColumns([0, 1,
-                             {
-                                 calc: "stringify",
-                                 sourceColumn: 1,
-                                 type: "string",
-                                 role: "annotation"
-                             },
-                             2]);
+            view.setColumns([0, 2]);
 
-            var options = {
-                legend: { position: 'top', maxLines: 30 },
-                tooltip: { isHtml: true },
-                bar: { groupWidth: '89%' },
-                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom:-10 },
-                colors: ['#afd534', 'lightsalmon'],
-                isStacked: true,
-            };
-
-            var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+            var chart = new google.visualization.PieChart(document.getElementById("chartKnowledgeP"));
             chart.draw(view, options);
-            <% if (!Model.HasLearnedInLast30Days) { %>
-                var infoDivNotLearned = document.createElement('div');
-                infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
-                infoDivNotLearned.setAttribute('class', 'alert alert-info');
-                infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
-                document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
-            <% } %>
 
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                location.href = urlPart;
+            }
         }
+
     </script>--%>
-
-    <%-- <style>
-        #totalKnowledgeOverTime{font-size: 18px; line-height:27px ;color: rgb(170, 170, 170);padding-top: 5px;display: inline-block;}
-        #totalKnowledgeOverTimeSpark{ display: inline-block;}
-        div.answerHistoryRow div{ display: inline-block; height: 22px;}
-        div.answerHistoryRow .answerAmount{ color:blue; font-weight: bolder;}
-        
-        div.column  { width: 260px; float: left;}
-
-        div.percentage{display: inline-block; width: 40px; background-color:beige; height: 22px;vertical-align: top;}
-        div.percentage span{ font-size: 22px; color: green; position: relative; top: 2px; left: 4px;}
-    </style>--%>
-
     <%= Styles.Render("~/bundles/Knowledge") %>
     <%= Scripts.Render("~/bundles/js/Knowledge") %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-<div class="container-fluid">
-    <div class="row">
-        <div class="col col-sm-6"><% Html.RenderPartial("/Views/Knowledge/Wheel/KnowledgeWheel.ascx", Model.KnowledgeSummary = KnowledgeSummaryLoader.Run(Model.UserId, null, true, "withoutLegend")); %></div>
-        <div class="col col-sm-6 " style="border: 1px black solid;"><h1>Wissenszentrale - Überblick & Dashboard </h1></div>
+ <%--   <div class="container-fluid">
+       <div class="row  heading-chart-knowledge">
+            <div class="col-md-2 col-sm-3 col" id="chartKnowledgeH1">
+            </div>
+            <div class="col-md-10 col-sm-9 col">
+                <h1>Wissenszentrale - Überblick & Dashboard </h1>
+            </div>
+        </div>
+
+        <div class="row  link-set">
+            <div class="col-md-3">DashBoard</div>
+            <div class="col-md-3">Themen</div>
+            <div class="col-md-3">Fragen</div>
+            <div class="col-md-3 learn-session-start">Lernsitzung starten</div>
+        </div>
+
+        <div class="row knowledge-stood-h3 ">
+            <div class="col-md-12">
+                <h3>Dein Wissenstand</h3>
+            </div>
+        </div>
+
+        <div class="row  knowledge-stood-p">
+            <div class="col-md-12">
+                <p>Berücksichtigt nur dein Wunschwissen</p>
+            </div>
+        </div>
+    </div>--%>
+
+<%--    <div class="row">
+        <div id="chartKnowledgeP" class="col-md-5" style="height: 200px;"></div>
+        <div class="col-md-5"> <p>Hallo Kurt,Das Dashboard zeigt kompakte und übersichtliche Informationen. Mit seinen Grafiken und Anzeigen kommt es dem englischen Wort für "Armaturenbrett" ziemlich nah. In deinem Wunschwissen befinden sich aktuell Fragen, verteilt auf Lernsets. Wenn du jeden Tag einen Fragensatz durchgehst, steigt dein Sicheres Wissen in vorraussichtlich Lernsitzungen auf 100%! </p></div>
     </div>
-</div>
-    <%--    <% if(Model.Message != null) { %>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Deine Lernpunkte</h3>
+            <div style="text-align: center; margin-bottom: 28px; margin-top: 15px;">
+                <span class="level-display" style="float: left; margin-top: -4px;">
+                    <span style="display: inline-block; white-space: nowrap;">
+                        <svg class="">
+                            <circle cx="50%" cy="50%" r="50%" />
+                            <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                        </svg>
+                    </span>
+                </span>
+                <p class="textPointsAndLevel">
+                    Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <span style="white-space: nowrap"><b>Level <%= Model.ActivityLevel %></b>.</span>
+                </p>
+            </div>
+        </div>
+    </div>--%>
+
+<%--    <div class="row">
+        <div class="NextLevelContainer">
+            <div class="ProgressBarContainer">
+                 <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                                <div class="ProgressBarSegment ProgressBarLegend">
+                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                                </div>
+                </div>
+                 <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div> 
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class ="col-md-2">
+            <h4>Deine Termine</h4>
+        </div>
+    </div>--%>
+  <%--  <div class="row">
+        <div class ="col-md-12">
+             <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
+                <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
+                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
+                <% if (Model.Dates.Count == 0)
+                    { %>
+                    <p>
+                        Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
+                    </p>
+                    <p>
+                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm">
+                            <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
+                        </a>
+                    </p>
+                    <hr style="margin: 5px 0px;"/>
+                <% }
+                    else
+                    { %>
+                    <%
+                        var index = 0;
+                        foreach (var date in Model.Dates.Take(3))
+                        {
+                            index++;
+                        %>
+                        <div class="row" style="margin-bottom: 3px;">
+                            <div class="col-xs-9">
+                                <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
+                                <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
+                                <% foreach (var set in date.Sets)
+                                    { %>
+                                    <a href="<%= Links.SetDetail(Url, set) %>">
+                                        <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
+                                    </a>                            
+                                <% } %>
+                            </div>
+                            <div class="col-xs-3" style="opacity: .4;">
+                                <div id="chartKnowledgeDate<%=index %>"></div>
+                            </div>
+                        </div>  
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
+                                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                    Spiel starten
+                                </a>
+                                &nbsp;
+                                <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
+                                    <i class="fa fa-line-chart"></i> 
+                                    Jetzt lernen
+                                </a>
+                            </div>                                
+                        </div>
+                        <hr style="margin: 8px 0;"/>  
+                    <% } %>
+                    <% if (Model.Dates.Count > 3)
+                        { %>
+                        <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.PluralSuffix(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                        <hr style="margin: 8px 0px;"/>
+                    <% } %>
+                <% } %>
+                <p>
+                    <% if (Model.DatesInNetwork.Count > 0)
+                        { %>
+                        <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.PluralSuffix(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                        &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                    <% }
+                        else
+                        {  %>
+                        Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
+                        Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                    <% } %>          
+                </p>
+            </div>
+        </div>
+    </div>--%>
+
+
+    <%-- Training --%> 
+<%--<div class="row">
+    <div class ="col-md-12">
+        <div class="rowBase" style="padding: 10px; height: 384px;">
+            <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
+            <p class="greyed" style="font-size: 12px;">In den letzten 30 Tagen</p>
+                
+            <div id="chartActivityLastDays" style="height: 245px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
+                
+            <div class="row" style="font-size: 12px">
+                <div class="col-md-12">
+                    <% var streak = Model.StreakDays; %>
+                    <!-- -->
+                    <span style="display: inline-block; width: 40%">Lerntage gesamt: 
+                        <b><%= streak.TotalLearningDays %></b></span> <span class="greyed" style="font-weight: bold;">
+                        seit <%= Model.User.DateCreated.ToString("dd.MM.yyyy") %>
+                    </span><br />
+                        
+                    <!-- LongestStreak -->
+                    <span style="display: inline-block; width: 40%">
+                        Längste Folge: <b><%= streak.LongestLength %></b>
+                    </span>
+                    <% if (streak.LongestLength == 0)
+                        { %>
+                        <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
+                    <% }
+                        else
+                        { %>
+                        <span class="greyed" style="font-weight: bold;">
+                            <%= streak.LongestStart.ToString("dd.MM.") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
+                        </span><br />
+                    <% } %>
+                        
+                    <!-- CurrentStreak -->
+                    <span style="display: inline-block; width: 40%">
+                        Aktuelle Folge: <b><%= streak.LastLength %></b>
+                    </span>
+                    <span style="width: 40%; margin-top: 5rem;">
+                        <h3>Deine Reputation</h3>
+                
+                        <p>
+                            Reputation: <b><%= Model.ReputationTotal %> Punkte</b>
+                            <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>
+                            <br/>
+                            Position: <%= Model.ReputationRank %><br/>
+                            Erstellte Fragen: <%= Model.QuestionsCreatedCount %><br/>
+                            Erstellte Lernsets: <%= Model.SetsCreatedCount %>
+                        </p>
+
+                        <p class="moreInfoLink">
+                            <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
+                        </p>
+                    </span>
+                    <% if (streak.LastLength == 0)
+                        { %>
+                        <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
+                    <% }
+                        else
+                        { %>
+                        <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
+                    <% } %>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>--%>
+
+<%--<div class="row">
+    <div class="col-md-3" style="margin-top: 5rem; margin-bottom: 10rem;">
+            <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
+                    <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+
+                    <% if (Model.NetworkActivities.Count == 0)
+                        { %>
+                            Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
+                            Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                    <% }
+                        else
+                        { %>
+                        <% foreach (var activity in Model.NetworkActivities)
+                            { %>
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-xs-3">
+                                    <a href="<%= Links.UserDetail(activity.UserCauser) %>">
+                                    <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
+                                    </a>
+                                </div>
+                                <div class="col-xs-9" style="">
+                                    <div class="greyed" style="font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                    <div style="clear: left;">
+                                        <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
+                                        <%= UserActivityTools.GetActionObject(activity) %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                        <div class="row" style="opacity: 0.4;">
+                            <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
+                        </div>
+                    <% } %>
+   
+    </div>
+</div>--%>
+
+
+
+
+
+
+
+<script>
+
+
+</script>
+
+        <% if (Model.Message != null)
+            { %>
         <div class="row">
             <div class="col-xs-12 xxs-stack">
                 <% Html.Message(Model.Message); %>
             </div>
         </div>        
-    <% } %>--%>
+    <% } %>
 
-    <%-- <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
+     <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
 
-    <% if(!Model.IsLoggedIn){ %>
+    <% if (!Model.IsLoggedIn)
+        { %>
 
         <div class="bs-callout bs-callout-danger">
             <h4>Einloggen oder registrieren</h4>
@@ -198,44 +595,44 @@
         </div>
     <% } %>
 
-    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">--%>
+    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">
 
-    <%-- <div class="row">
+     <div class="row">
             <div class="col-sm-6" id="learningPoints">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3>Deine Lernpunkte</h3>
+                <%--    <h3>Deine Lernpunkte</h3>
                     <div style="text-align: center; margin-bottom: 28px; margin-top: 15px;">
                         <span class="level-display" style="float: left; margin-top: -4px;">
                             <span style="display: inline-block; white-space: nowrap;">
                                 <svg class="">
                                     <circle cx="50%" cy="50%" r="50%" />
-                                    <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                                        <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
                                 </svg>
                             </span>
                         </span>
                         <p class="textPointsAndLevel">
                             Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <span style="white-space: nowrap"><b>Level <%= Model.ActivityLevel %></b>.</span>
                         </p>
-                    </div>
+                    </div>--%>
 
-                    <div class="NextLevelContainer">
+                <%--    <div class="NextLevelContainer">
                         <div class="ProgressBarContainer">
-                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                           <%-- <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
                                 <div class="ProgressBarSegment ProgressBarLegend">
                                     <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
-                                </div>
+                                </div>--%>
                             </div>
                             <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
             
-                        </div>
+                        </div>--%>
                     </div>     
                     <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel.ToString("N0") %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
                 </div>
-            </div>
+          <%--  </div>--%>
 
             <div class="col-sm-6" id="reputationPoints">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3>Deine Reputation</h3>
+                   <%-- <h3>Deine Reputation</h3>
                 
                     <p>
                         Reputation: <b><%= Model.ReputationTotal %> Punkte</b>
@@ -248,24 +645,24 @@
 
                     <p class="moreInfoLink">
                         <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
-                    </p>                    
+                    </p>   --%>                 
                 </div>
             </div>
-        </div>--%>
+        
 
 
-    <%-- <div class="row">
+     <div class="row">
                             
             <div class="col-xs-12 col-md-6">
                 <div class="rowBase" style="padding: 10px">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
                     <p class="greyed" style="font-size: 12px;">Berücksichtigt nur dein Wunschwissen</p>
                     <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
-                    <%--<p>
+                 <%--  <p>
                         In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Lernset<%= StringUtils.Plural(Model.SetCount,"s") %>. 
                         <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Lernset klickst."></i>
                     </p>--%>
-    <%-- %>   <div class="row" style="line-height: 30px; margin-bottom: 20px;">
+     %>   <div class="row" style="line-height: 30px; margin-bottom: 20px;">
                         <div class="col-md-6">
                             <div class="number-box-questions" style="text-align: center;">
                                 <a href="<%= Links.QuestionsWish() %>">
@@ -286,9 +683,10 @@
                                 </a>
                             </div>
                         </div>
-                    </div>--%>
+                    </div>
 
-    <%--                    <% if(Model.KnowledgeSummary.Total == 0) { %>
+                        <% if (Model.KnowledgeSummary.Total == 0)
+                            { %>
                         <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                             <p>
                                 memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
@@ -309,7 +707,9 @@
                             
                             </p>
                         </div>
-                    <% }else { %>
+                    <% }
+                        else
+                        { %>
                         <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
                         <div style="text-align: center; margin-top: 20px;">
                             <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
@@ -318,10 +718,10 @@
                         </div>
                     <% } %>
                 </div>
-            </div>--%>
+            </div>
 
-    <%--<div class="col-xs-12 col-md-6">
-                <div class="rowBase" style="padding: 10px; height: 384px;">
+    <div class="col-xs-12 col-md-6">
+              <%--  <div class="rowBase" style="padding: 10px; height: 384px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
                     <p class="greyed" style="font-size: 12px;">In den letzten 30 Tagen</p>
                 
@@ -340,9 +740,12 @@
                             <span style="display: inline-block; width: 40%">
                                 Längste Folge: <b><%= streak.LongestLength %></b>
                             </span>
-                            <% if (streak.LongestLength == 0){ %>
+                            <% if (streak.LongestLength == 0)
+                                { %>
                                 <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
-                            <% } else { %>
+                            <% }
+                                else
+                                { %>
                                 <span class="greyed" style="font-weight: bold;">
                                     <%= streak.LongestStart.ToString("dd.MM.") %> - <%= streak.LongestEnd.ToString("dd.MM.yyyy") %>
                                 </span><br />
@@ -352,24 +755,28 @@
                             <span style="display: inline-block; width: 40%">
                                 Aktuelle Folge: <b><%= streak.LastLength %></b>
                             </span>
-                            <% if (streak.LastLength == 0){ %>
+                            <% if (streak.LastLength == 0)
+                                { %>
                                 <span class="greyed" style="font-weight: bold;">zuletzt nicht gelernt</span>
-                            <% } else { %>
+                            <% }
+                                else
+                                { %>
                                 <%= streak.LastStart.ToString("dd.MM") %> - <%= streak.LastEnd.ToString("dd.MM.yyyy") %>
                             <% } %>
                         </div>
                     </div>
 
-                </div>
+                </div>--%>
             </div>
         </div>
-    --%>
+    
 
-    <%-- <div id="wishKnowledge" class="row">
+     <div id="wishKnowledge" class="row">
             <div class="col-xs-12">
                 <h3>Themen und Lernsets in deinem Wunschwissen</h3>
                 
-                <% if (!Model.CatsAndSetsWish.Any()) { %>
+                <% if (!Model.CatsAndSetsWish.Any())
+                    { %>
                     <div class="alert alert-info" style="max-width: 600px; margin: 30px auto 10px auto;">
                         <p>
                             Du hast keine Themen oder Lernsets in deinem Wunschwissen. Finde interessante Themen aus den Bereichen 
@@ -382,21 +789,27 @@
                     </div>
                 <% } %>
                 <div class="row wishKnowledgeItems">
-                    <% foreach (var catOrSet in Model.CatsAndSetsWish) {
-                            if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8) { %>
+                    <% foreach (var catOrSet in Model.CatsAndSetsWish)
+                        {
+                            if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8)
+                            { %>
                                 </div>
                                 <div id="wishKnowledgeMore" class="row wishKnowledgeItems" style="display: none;">
                             <% } %>
                             <div class="col-xs-6 topic">
-                                <% if (catOrSet is Category) { %>
+                                <% if (catOrSet is Category)
+                                    { %>
                                        <% Html.RenderPartial("Partials/KnowledgeCardMiniCategory", new KnowledgeCardMiniCategoryModel((Category)catOrSet)); %>
-                                <% } else if (catOrSet is Set) { %>
+                                <% }
+                                    else if (catOrSet is Set)
+                                    { %>
                                     <% Html.RenderPartial("Partials/KnowledgeCardMiniSet", new KnowledgeCardMiniSetModel((Set)catOrSet)); %>
                                 <% } %>
                             </div>
                     <% } %>
                 </div>
-                <% if (Model.CatsAndSetsWish.Count > 8) { %>
+                <% if (Model.CatsAndSetsWish.Count > 8)
+                    { %>
                     <div>
                         <a href="#" id="btnShowAllWishKnowledgeContent" class="btn btn-link btn-lg">Alle anzeigen (<%= Model.CatsAndSetsWish.Count-6 %> weitere) <i class="fa fa-caret-down"></i></a> 
                         <a href="#" id="btnShowLessWishKnowledgeContent" class="btn btn-link btn-lg" style="display: none;"> <i class="fa fa-caret-up"></i> Weniger anzeigen</a>
@@ -409,10 +822,11 @@
     
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
-                <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
+               <%-- <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
                     <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
-                    <% if (Model.Dates.Count ==0) { %>
+                    <% if (Model.Dates.Count == 0)
+                        { %>
                         <p>
                             Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
                         </p>
@@ -422,17 +836,21 @@
                             </a>
                         </p>
                         <hr style="margin: 5px 0px;"/>
-                    <% }else { %>
+                    <% }
+                        else
+                        { %>
                         <%
-                        var index = 0;    
-                        foreach(var date in Model.Dates.Take(3)){
-                            index++;
+                            var index = 0;
+                            foreach (var date in Model.Dates.Take(3))
+                            {
+                                index++;
                             %>
                             <div class="row" style="margin-bottom: 3px;">
                                 <div class="col-xs-9">
                                     <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
                                     <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
-                                    <% foreach(var set in date.Sets){ %>
+                                    <% foreach (var set in date.Sets)
+                                        { %>
                                         <a href="<%= Links.SetDetail(Url, set) %>">
                                             <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
                                         </a>                            
@@ -457,27 +875,32 @@
                             </div>
                             <hr style="margin: 8px 0;"/>  
                         <% } %>
-                        <% if (Model.Dates.Count > 3) { %>
+                        <% if (Model.Dates.Count > 3)
+                            { %>
                             <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.PluralSuffix(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
                             <hr style="margin: 8px 0px;"/>
                         <% } %>
                     <% } %>
                     <p>
-                        <% if (Model.DatesInNetwork.Count > 0) { %>
+                        <% if (Model.DatesInNetwork.Count > 0)
+                            { %>
                             <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.PluralSuffix(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
                             &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
-                        <% } else {  %>
+                        <% }
+                            else
+                            {  %>
                             Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
                             Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
                         <% } %>
                             
                     </p>
-                </div>
-    --%>
-    <%--<div class="rowBase" style="padding: 10px;">
+                </div>--%>
+    
+    <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
-                    <% foreach(var answer in Model.AnswerRecent){ 
-                        var question = answer.Question;
+                    <% foreach (var answer in Model.AnswerRecent)
+                        {
+                            var question = answer.Question;
                     %>
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-3">
@@ -500,13 +923,16 @@
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
-                    <% if (Model.TrainingDates.Count ==0) { %>
+                    <% if (Model.TrainingDates.Count == 0)
+                        { %>
                         <div class="row" style="margin-bottom: 7px;">
                             <div class="col-md-12">
                                 Du hast in den nächsten <b>7 Tagen</b> keine geplanten Lernsitzungen.
                             </div>
                         </div>
-                    <% } else { %>
+                    <% }
+                        else
+                        { %>
                         <div class="row" style="margin-bottom: 7px;">
                             <div class="col-md-12">
                                 in den nächsten <b>7 Tagen</b>
@@ -516,7 +942,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <% foreach(var trainingDate in Model.TrainingDates) { %>
+                        <% foreach (var trainingDate in Model.TrainingDates)
+                            { %>
                             <% Html.RenderPartial("TrainingDate", trainingDate); %>
                         <% } %>
                     <% } %>
@@ -525,14 +952,18 @@
                            
             <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
                 <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
+                <%--    <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
                     <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
 
-                    <% if (Model.NetworkActivities.Count == 0) { %>
+                    <% if (Model.NetworkActivities.Count == 0)
+                        { %>
                             Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
                             Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
-                    <% } else { %>
-                        <% foreach(var activity in Model.NetworkActivities){ %>
+                    <% }
+                        else
+                        { %>
+                        <% foreach (var activity in Model.NetworkActivities)
+                            { %>
                             <div class="row" style="margin-bottom: 10px;">
                                 <div class="col-xs-3">
                                     <a href="<%= Links.UserDetail(activity.UserCauser) %>">
@@ -551,7 +982,7 @@
                         <div class="row" style="opacity: 0.4;">
                             <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
                         </div>
-                    <% } %>
+                    <% } %>--%>
                 </div>
             </div>
         </div>
@@ -562,5 +993,10 @@
             </div>
         </div>
 
-    </div>--%>
+
+<div style="margin-top: 20rem">
+    <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
+</div>
+
+    
 </asp:Content>

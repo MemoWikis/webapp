@@ -1,16 +1,31 @@
 ﻿class GoogleChartsLoad {
     private Tabledata: any;
+    Google:any;
 
 
-    constructor(options) {
-        new google.visualization.DataTable();
-        google.setOnLoadCallback(function() { this.drawKnowledgeChart("chartKnowledge1",options) });
+    constructor() {
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(function() { drawKnowledgeChart("test") });
 
 
     }
 
-    private drawKnowledgeChart(chartElementId, options) {
-        
+    public drawKnowledgeChart(chartElementId) {
+      var options = {
+            pieHole: 0.6,
+            tooltip: { isHtml: true },
+            legend: { position: "labeled" },
+            pieSliceText: 'none',
+            chartArea: { 'width': '100%', height: '100%', top: 10 },
+            slices: {
+                0: { color: '#afd534' },
+                1: { color: '#fdd648' },
+                2: { color: 'lightsalmon' },
+                3: { color: 'silver' },
+                4: { color: '#dddddd' }
+            },
+            pieStartAngle: 0
+        }
 
 
         if ($("#" + chartElementId).length === 0) {
@@ -34,7 +49,7 @@
         var chart = new google.visualization.PieChart(document.getElementById(chartElementId));
         chart.draw(view, options);
 
-        google.visualization.events.addListener(chart, 'select', selectHandler);
+        this.Google.visualization.events.addListener(chart, 'select', selectHandler);
 
         function selectHandler(e) {
             var urlPart = data.getValue(chart.getSelection()[0].row, 1);

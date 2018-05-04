@@ -18,6 +18,28 @@
 }
 @media (min-width: 650px) {
 }
+.heading-chart-knowledge #chartKnowledgeH1 {
+  height: 7rem;
+  align-content: center;
+}
+.heading-chart-knowledge h1 {
+  align-content: left;
+  margin-left: -3rem;
+}
+.link-set {
+  margin-top: 7rem;
+}
+.link-set .learn-session-start {
+  text-align: right;
+}
+.knowledge-stood-h3 {
+  margin-top: 6rem;
+  padding-bottom: 0px;
+}
+.knowledge-stood-p p {
+  margin-top: -15px;
+  font-size: 1rem;
+}
 /* Progress bar Next Level 
 ------------------------------------------------------*/
 #learningPoints,

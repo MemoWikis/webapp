@@ -1,0 +1,2925 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TrueOrFalse.View.Web</RootNamespace>
+    <AssemblyName>TrueOrFalse.View.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PublishDatabases>false</PublishDatabases>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.Mvc5.3.3.4\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Owin">
+      <HintPath>..\packages\Autofac.Owin.3.1.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.SignalR">
+      <HintPath>..\packages\Autofac.SignalR.3.0.2\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="AutofacContrib.SolrNet">
+      <HintPath>..\libs\AutofacContrib.SolrNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EasyNetQ, Version=0.49.1.388, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EasyNetQ.0.49.1.388\lib\net40\EasyNetQ.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
+    <Reference Include="HttpWebAdapters">
+      <HintPath>..\libs\HttpWebAdapters.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\libs\MarkdownSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.3.1.1.140\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MySql.Data.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MySql.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.4.0.0.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.2.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.2.3.2\lib\net40\Quartz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=3.5.2.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RabbitMQ.Client.3.5.2\lib\net40\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="RollbarSharp, Version=0.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RollbarSharp.0.3.3.0\lib\net40\RollbarSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.2.1\lib\net46\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Formatting.Compact, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Formatting.Compact.1.0.0\lib\net45\Serilog.Formatting.Compact.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.3.0.1\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.PeriodicBatching, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.PeriodicBatching.2.0.0\lib\net45\Serilog.Sinks.PeriodicBatching.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.RollingFile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.RollingFile.3.0.1\lib\net45\Serilog.Sinks.RollingFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Seq, Version=3.0.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Seq.3.0.1\lib\net45\Serilog.Sinks.Seq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SolrNet, Version=0.4.0.2002, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\SolrNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Code\AssemblyLinker.cs" />
+    <Compile Include="Code\BaseController.cs" />
+    <Compile Include="Code\BaseModel.cs" />
+    <Compile Include="Code\BaseResolve.cs" />
+    <Compile Include="Code\BaseUtil.cs" />
+    <Compile Include="Code\HtmlExtensions.cs" />
+    <Compile Include="Code\Hubs\BaseHub.cs" />
+    <Compile Include="Code\Hubs\BrainWavesHub.cs" />
+    <Compile Include="Code\Hubs\GameHub.cs" />
+    <Compile Include="Code\Resources\UserControls.cs" />
+    <Compile Include="Code\SignalRUser.cs" />
+    <Compile Include="Views\About\AboutController.cs" />
+    <Compile Include="Views\About\AboutMemuchoModel.cs" />
+    <Compile Include="Views\About\ForTeachersModel.cs" />
+    <Compile Include="Views\AlgoInsight\AlgoInsightController.cs" />
+    <Compile Include="Views\AlgoInsight\AlgoInsightModel.cs" />
+    <Compile Include="Views\AlgoInsight\ComparisonTableModel.cs" />
+    <Compile Include="Views\AlgoInsight\FeatureModel.cs" />
+    <Compile Include="Views\AlgoInsight\TabVariousModel.cs" />
+    <Compile Include="Views\AlgoInsight\TabRepetitionModel.cs" />
+    <Compile Include="Views\AlgoInsight\TabForecastModel .cs" />
+    <Compile Include="Views\AlgoInsight\TabForgettingCurveModel.cs" />
+    <Compile Include="Views\Api\ActivityPointsApiController.cs" />
+    <Compile Include="Views\Api\ActivityPoints\ActivityLevelProgressModel.cs" />
+    <Compile Include="Views\Api\ActivityPoints\LevelPopupModel.cs" />
+    <Compile Include="Views\Api\AppController.cs" />
+    <Compile Include="Views\Api\CategoryStatisticsApiController.cs" />
+    <Compile Include="Views\Api\MetaData\LomApiConroller.cs" />
+    <Compile Include="Views\Api\Search\SearchApiController.cs" />
+    <Compile Include="Views\Api\Search\PrepareSearch.cs" />
+    <Compile Include="Views\Api\TrainingPlanApiController.cs" />
+    <Compile Include="Views\Api\User\FacebookUsersApiController.cs" />
+    <Compile Include="Views\Api\User\GoogleUsersApiController.cs" />
+    <Compile Include="Views\Beta\BetaController.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetCardMiniListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SpacerModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleQuestionsQuizModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\EducationOfferListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
+    <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetCollectionModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetListCardModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreenModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
+    <Compile Include="Views\Categories\Detail\Tabs\LearningTabModel.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
+    <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
+    <Compile Include="Views\Categories\Edit\GraphDisplay\CategoryGraphModel.cs" />
+    <Compile Include="Views\Categories\Navigation\CategoryNetworkNavigationModel.cs" />
+    <Compile Include="Views\Categories\Navigation\CategoryNavigationModel.cs" />
+    <Compile Include="Views\Dates\DateRowModel.cs" />
+    <Compile Include="Views\Dates\Edit\EditDateController.cs" />
+    <Compile Include="Views\Dates\Edit\EditDateModel.cs" />
+    <Compile Include="Views\Dates\Modals\TrainingSettingsDatesModel.cs" />
+    <Compile Include="Views\Dates\Modals\TrainingSettingsModel.cs" />
+    <Compile Include="Views\Games\Edit\GameModel.cs" />
+    <Compile Include="Views\Games\Edit\GameController.cs" />
+    <Compile Include="Views\Games\GameRowModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameNeverStartedModel.cs" />
+    <Compile Include="Views\Games\Play\PlayModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameCompletedModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressPlayerModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameInProgressWatchModel.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\GameReadyModel.cs" />
+    <Compile Include="Views\Games\Play\PlayController.cs" />
+    <Compile Include="Views\Games\Play\BodyControls\PlayBaseModel.cs" />
+    <Compile Include="Views\Help\FAQAccordeonItem.cs" />
+    <Compile Include="Views\Help\WidgetMenuModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
+    <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
+    <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
+    <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
+    <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
+    <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
+    <Content Include="Images\LogosPartners\Logo_lernox.png" />
+    <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-medium.png" />
+    <Content Include="Images\LogosPartners\Logo_netzsieger_170905-memucho-small.png" />
+    <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
+    <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
+    <Content Include="Images\Logo\LogoWordmark_w300.png" />
+    <Content Include="Images\Team\founderTeam_20161027.jpg" />
+    <Content Include="Images\Team\founderTeam_20161027_e1.jpg" />
+    <Content Include="Images\Various\graphExampleTransp.png" />
+    <Content Include="Images\Various\tabAnalyticsMockup1.png" />
+    <Content Include="Images\Various\treemapChartPsychology.png" />
+    <Content Include="Scripts\header\ActivityPointsPopup.js">
+      <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\SearchBox.js">
+      <DependentUpon>SearchBox.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHubEvents.js">
+      <DependentUpon>GameHubEvents.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor.somewhere\d3.js" />
+    <Content Include="Images\memucho_MEMO_happy_blau.svg" />
+    <Content Include="Scripts\vendor.somewhere\d3v3.js" />
+    <Content Include="Scripts\vendor\modernizr-config.json" />
+    <Content Include="Images\Error\memo-404_german_600.png" />
+    <Content Include="Images\Error\memo-500_german.png" />
+    <Content Include="Images\Error\memo-500_german_600.png" />
+    <Content Include="Images\LogosPartners\Logo_LearningLevelUp.png" />
+    <Content Include="Images\no-category-picture-533.png" />
+    <Content Include="Images\no-profile-picture-533.png" />
+    <Content Include="Images\no-question-50.png" />
+    <Content Include="Images\no-question-533.png" />
+    <Content Include="Images\no-set-350.png" />
+    <Content Include="Images\no-set-533.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_button-html.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_button-more.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f01_add.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f02_edit-element.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f02_edit-element_short.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
+    <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Scripts\YoutubeApi.js">
+      <DependentUpon>YoutubeApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\Category.js">
+      <DependentUpon>Category.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\Category.js.map">
+      <DependentUpon>Category.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\CategoryHeader.js">
+      <DependentUpon>CategoryHeader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
+      <DependentUpon>CategoryHeader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Js\Tabbing.js">
+      <DependentUpon>Tabbing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbMobile.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
+    <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleCategoryFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetFullWidth.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MediaList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\EducationOfferList.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\TopicNavigation.ascx" />
+    <Content Include="Views\Categories\Edit\GraphDisplay\CategoryGraph.ascx" />
+    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js">
+      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\ChangeTypeControls.js.map">
+      <DependentUpon>ChangeTypeControls.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\EditAggregation.js">
+      <DependentUpon>EditAggregation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.css" />
+    <Content Include="Scripts\vendor.somewhere\dataTables.bootstrap.js" />
+    <Content Include="Scripts\vendor.somewhere\jquery.dataTables.js" />
+    <Content Include="Views\Api\ActivityPoints\ActivityLevelProgress.aspx" />
+    <Content Include="Views\Api\ActivityPoints\LevelPopup.aspx" />
+    <Content Include="Views\Categories\Edit\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\EditAggregation.js.map">
+      <DependentUpon>EditAggregation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
+<<<<<<< HEAD
+    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
+      <DependentUpon>GetResultTestSession.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
+=======
+>>>>>>> origin/origin/feature/_QuestionKonwledgeAsABox
+    <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
+    <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
+    <Content Include="Views\Categories\Detail\CategoryKnowledgeBar.ascx" />
+    <Content Include="Views\Categories\Navigation\CategoryNetworkNavigation.ascx" />
+    <Content Include="Views\Maintenance\Js\CMS.js">
+      <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+<<<<<<< HEAD
+=======
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
+      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    </Content>
+>>>>>>> origin/origin/feature/_QuestionKonwledgeAsABox
+    <Content Include="Views\Maintenance\Js\ContentStats.js">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBody.js">
+      <DependentUpon>AnswerBody.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js">
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.ascx" />
+    <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
+    <Content Include="Views\Error\Error.css">
+      <DependentUpon>Error.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Error\Error.less" />
+    <Content Include="Scripts\YoutubeApi.js.map">
+      <DependentUpon>YoutubeApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
+    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
+    <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
+    <Content Include="package.json" />
+    <Content Include="tsconfig.json" />
+    <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
+      <DependentUpon>Tabbing.ts</DependentUpon>
+    </Content>
+<<<<<<< HEAD
+    <Content Include="Scripts\header\ActivityPointsPopup.js.map">
+      <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\header\SearchBox.js.map">
+      <DependentUpon>SearchBox.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHub.js.map">
+      <DependentUpon>GameHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHubEvents.js.map">
+      <DependentUpon>GameHubEvents.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
+      <DependentUpon>GetResultTestSession.ts</DependentUpon>
+    </Content>
+=======
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+>>>>>>> origin/origin/feature/_QuestionKonwledgeAsABox
+    <None Include="Views\Maintenance\ContentStats.less" />
+    <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
+    <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
+    <Compile Include="Views\Maintenance\StatisticsModel.cs" />
+    <Compile Include="Views\Maintenance\ContentCreatedReportModel.cs" />
+    <Compile Include="Views\Maintenance\CMSModel.cs" />
+    <Compile Include="Views\Maintenance\ToolsModel.cs" />
+    <Compile Include="Views\Games\GamesController.cs" />
+    <Compile Include="Views\Games\GamesModel.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerBodyControl\AnswerBodyModel.cs" />
+    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionModel.cs" />
+    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultController.cs" />
+    <Compile Include="Views\Questions\Answer\ShareQuestionModalModel.cs" />
+    <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultController.cs" />
+    <Compile Include="Views\Questions\Answer\LearningSession\LearningSessionResultModel.cs" />
+    <Compile Include="Views\Questions\Answer\TestSession\TestSessionResultModel.cs" />
+    <Compile Include="Views\Questions\Answer\TestSession\TestSessionController.cs" />
+    <Compile Include="Views\Sets\Detail\SetKnowledgeBarModel.cs" />
+    <Compile Include="Views\Sets\Detail\Modals\ShareSetModalModel.cs" />
+    <Compile Include="Views\Sets\Detail\Video\SetVideoController.cs" />
+    <Compile Include="Views\Sets\Detail\Video\SetVideoModel.cs" />
+    <Compile Include="Views\Sets\Edit\QuestionInSetModel.cs" />
+    <Compile Include="Views\Shared\Cards\CardSingleCategoryModel.cs" />
+    <Compile Include="Views\Shared\AddToWishknowledge.cs" />
+    <Compile Include="Views\Shared\SharedController.cs" />
+    <Compile Include="Views\Shared\SponsorModel.cs" />
+    <Compile Include="Views\Topics\TopicModel.cs" />
+    <Compile Include="Views\Topics\TopicsController.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViewsModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHostModel.cs" />
+    <Compile Include="Views\Users\Account\WidgetStats\WidgetStatsModel.cs" />
+    <Compile Include="Views\Users\UserSearchResultModel.cs" />
+    <Compile Include="Views\Users\Account\MembershipModel.cs" />
+    <Compile Include="Views\Api\CategoryApiController.cs" />
+    <Compile Include="Views\Api\QuestionsApiController.cs" />
+    <Compile Include="Views\Api\SetsApiController.cs" />
+    <Compile Include="Views\Categories\Edit\CssJs.cs" />
+    <Compile Include="Views\Categories\Edit\TypeControls\EditCategoryTypeModel.cs" />
+    <Compile Include="Views\Categories\CategoriesSearchResultModel.cs" />
+    <Compile Include="Views\Dates\DatesController.cs" />
+    <Compile Include="Views\Dates\DatesModel.cs" />
+    <Compile Include="Views\Error\ErrorController.cs" />
+    <Compile Include="Views\Help\HelpController.cs" />
+    <Compile Include="Views\Users\Detail\TabBadgesModel.cs" />
+    <Compile Include="Views\Users\Detail\TabKnowledgeModel.cs" />
+    <Compile Include="Views\VariousPublic\RedirectController.cs" />
+    <Compile Include="Views\Welcome\Login\LoginController.cs" />
+    <Compile Include="Views\Welcome\Partials\TopicOfWeekModel.cs" />
+    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniSetModel.cs" />
+    <Compile Include="Views\Welcome\Partials\WelcomeCardMiniCategoryModel.cs" />
+    <Compile Include="Views\Welcome\Registration\RegisterController.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxCategoryImgQModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxCategoryTxtQModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSingleSetModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSingleQuestionModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxTopQuestionsModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxTopSetsModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSetImgQModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeBoxSetTxtQModel.cs" />
+    <Compile Include="Views\Widgets\WidgetBaseModel.cs" />
+    <Compile Include="Views\Widgets\WidgetController.cs" />
+    <Compile Include="Views\Widgets\WidgetSetModel.cs" />
+    <Compile Include="Views\Widgets\WidgetQuestionModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetResultModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetStartModel.cs" />
+    <Compile Include="Views\Widgets\WidgetSetVideoModel.cs" />
+    <Content Include="Images\LogosPartners\innovationspreis-nominiertButton2016.png" />
+    <Content Include="Images\LogosPartners\OERCamp-Logo-Text_unten.jpg" />
+    <Content Include="Images\Logo\LogoSmallBlue.png" />
+    <Content Include="Images\Screenshots\QuestionEmbedLink.png" />
+    <Content Include="Images\Screenshots\QuestionEmbedModal.png" />
+    <Content Include="Images\Screenshots\SetVideoEmbedLink.png" />
+    <Content Include="Images\Screenshots\SetVideoEmbedModal.png" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\Autofac.dll" />
+    <Content Include="bin\Autofac.Integration.Mvc.dll" />
+    <Content Include="bin\Autofac.Integration.Mvc.xml" />
+    <Content Include="bin\Autofac.Integration.Owin.dll" />
+    <Content Include="bin\Autofac.Integration.Owin.xml" />
+    <Content Include="bin\Autofac.Integration.SignalR.dll" />
+    <Content Include="bin\Autofac.Integration.SignalR.xml" />
+    <Content Include="bin\Autofac.xml" />
+    <Content Include="bin\AutofacContrib.SolrNet.dll" />
+    <Content Include="bin\Common.Logging.Core.dll" />
+    <Content Include="bin\Common.Logging.Core.pdb" />
+    <Content Include="Images\Screenshots\widget-moodle_f01_add.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f02_addTextField.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f03_texfield_options.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f04_textfield-with-embedcode.png" />
+    <Content Include="Images\Screenshots\widget-moodle_f05_doneview.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-01.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-02.png" />
+    <Content Include="Images\Sponsors\greensoeasy.png" />
+    <Content Include="Images\Sponsors\tutory.png" />
+    <Content Include="Images\Screenshots\SetEmbedLink.png" />
+    <Content Include="Images\Screenshots\SetEmbedModal.png" />
+    <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
+    <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
+    <Content Include="Images\Team\team_julian20170404_P3312327_155.jpg" />
+    <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
+    <Content Include="Images\Team\team_lisa_sq_155.jpg" />
+    <Content Include="Images\Team\team_lisa_sq_600.jpg" />
+    <Content Include="Scripts\vendor.somewhere\readme.txt" />
+    <Content Include="Scripts\vendor.somewhere\simplemde.css" />
+    <Content Include="Scripts\vendor.somewhere\simplemde.js" />
+    <Content Include="Scripts\vendor\hammer.js" />
+    <Content Include="Scripts\vendor\jquery.flip.js" />
+    <Content Include="Scripts\various\mailto.js" />
+    <Content Include="Scripts\vendor\jquery.ui.touch-punch.js" />
+    <Content Include="Scripts\vendor\modernizr-custom.js" />
+    <Content Include="Scripts\widgets\ShareDialog.js">
+      <DependentUpon>ShareDialog.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Partials\SingleCategory.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\VideoWidget.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreen.ascx" />
+    <Content Include="Views\Categories\Modals\EditAggregationModal.ascx" />
+    <Content Include="Views\Help\Js\WidgetPricing.js">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\Js\WidgetPricing.js.map">
+      <DependentUpon>WidgetPricing.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Help\WidgetMenu.ascx" />
+    <Content Include="Views\Help\WidgetInMoodle.aspx" />
+    <Content Include="Views\Help\WidgetInBlackboard.aspx" />
+    <Content Include="Views\Help\WidgetInWordpress.aspx" />
+    <Content Include="Views\Help\WidgetExamples.aspx" />
+    <Content Include="Views\Help\WidgetPricing.aspx" />
+    <Content Include="bin\Common.Logging.Core.xml" />
+    <Content Include="bin\Common.Logging.dll" />
+    <Content Include="bin\Common.Logging.pdb" />
+    <Content Include="bin\Common.Logging.xml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\HtmlMessage.html" />
+    <Content Include="bin\Domain\Message\HtmlMessage\HtmlMessageStylesInlined.html" />
+    <Content Include="bin\EasyNetQ.dll" />
+    <Content Include="bin\EasyNetQ.Management.Client.dll" />
+    <Content Include="bin\EasyNetQ.xml" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\FluentNHibernate.dll" />
+    <Content Include="bin\FluentNHibernate.pdb" />
+    <Content Include="bin\FluentNHibernate.xml" />
+    <Content Include="bin\HibernatingRhinos.Profiler.Appender.dll" />
+    <Content Include="bin\HttpWebAdapters.dll" />
+    <Content Include="bin\Iesi.Collections.dll" />
+    <Content Include="bin\Iesi.Collections.xml" />
+    <Content Include="bin\Images\Categories\include-folder.txt" />
+    <Content Include="bin\Images\Questions\include-folder.txt" />
+    <Content Include="bin\Images\Users\include-folder.txt" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaCategory.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaQuestion.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaSet.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\schemaUser.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solr.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigCategory.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigQuestion.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigSet.xml" />
+    <Content Include="bin\Infrastructure\SolrSchemas\solrconfigUser.xml" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\log4net.xml" />
+    <Content Include="bin\Markdig.dll" />
+    <Content Include="bin\Markdig.xml" />
+    <Content Include="bin\MarkdownSharp.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Client.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Client.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.VisualStudio.DebuggerVisualizers.dll" />
+    <Content Include="bin\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MiniProfiler.dll" />
+    <Content Include="bin\MiniProfiler.pdb" />
+    <Content Include="bin\MiniProfiler.xml" />
+    <Content Include="bin\MySql.Data.dll" />
+    <Content Include="bin\MySql.Data.Entity.dll" />
+    <Content Include="bin\MySql.Web.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NHibernate.dll" />
+    <Content Include="bin\NHibernate.xml" />
+    <Content Include="bin\ObjectDumper.dll" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\Quartz.dll" />
+    <Content Include="bin\Quartz.pdb" />
+    <Content Include="bin\Quartz.xml" />
+    <Content Include="bin\RabbitMQ.Client.dll" />
+    <Content Include="bin\RabbitMQ.Client.xml" />
+    <Content Include="bin\RazorEngine.dll" />
+    <Content Include="bin\RazorEngine.xml" />
+    <Content Include="bin\RollbarSharp.dll" />
+    <Content Include="bin\Seedworks.Lib.dll" />
+    <Content Include="bin\Seedworks.Lib.pdb" />
+    <Content Include="bin\Seedworks.Lib.Persistence.dll" />
+    <Content Include="bin\Seedworks.Lib.Persistence.pdb" />
+    <Content Include="bin\Seedworks.Web.Lib.Persistence.dll" />
+    <Content Include="bin\Seedworks.Web.Lib.Persistence.pdb" />
+    <Content Include="bin\Serilog.dll" />
+    <Content Include="bin\Serilog.Formatting.Compact.dll" />
+    <Content Include="bin\Serilog.Formatting.Compact.xml" />
+    <Content Include="bin\Serilog.Sinks.File.dll" />
+    <Content Include="bin\Serilog.Sinks.File.xml" />
+    <Content Include="bin\Serilog.Sinks.PeriodicBatching.dll" />
+    <Content Include="bin\Serilog.Sinks.PeriodicBatching.xml" />
+    <Content Include="bin\Serilog.Sinks.RollingFile.dll" />
+    <Content Include="bin\Serilog.Sinks.RollingFile.xml" />
+    <Content Include="bin\Serilog.Sinks.Seq.dll" />
+    <Content Include="bin\Serilog.xml" />
+    <Content Include="bin\SolrNet.dll" />
+    <Content Include="bin\System.Collections.Concurrent.dll" />
+    <Content Include="bin\System.Collections.dll" />
+    <Content Include="bin\System.ComponentModel.Annotations.dll" />
+    <Content Include="bin\System.ComponentModel.EventBasedAsync.dll" />
+    <Content Include="bin\System.Diagnostics.Debug.dll" />
+    <Content Include="bin\System.Diagnostics.Tracing.dll" />
+    <Content Include="bin\System.Dynamic.Runtime.dll" />
+    <Content Include="bin\System.Globalization.dll" />
+    <Content Include="bin\System.IO.dll" />
+    <Content Include="bin\System.Linq.Expressions.dll" />
+    <Content Include="bin\System.Net.NetworkInformation.dll" />
+    <Content Include="bin\System.Net.Primitives.dll" />
+    <Content Include="bin\System.Net.Requests.dll" />
+    <Content Include="bin\System.ObjectModel.dll" />
+    <Content Include="bin\System.Reflection.dll" />
+    <Content Include="bin\System.Runtime.dll" />
+    <Content Include="bin\System.Runtime.Extensions.dll" />
+    <Content Include="bin\System.Runtime.InteropServices.dll" />
+    <Content Include="bin\System.Runtime.Serialization.Primitives.dll" />
+    <Content Include="bin\System.Runtime.Serialization.Xml.dll" />
+    <Content Include="bin\System.ServiceModel.Http.dll" />
+    <Content Include="bin\System.Text.Encoding.dll" />
+    <Content Include="bin\System.Text.Encoding.Extensions.dll" />
+    <Content Include="bin\System.Text.RegularExpressions.dll" />
+    <Content Include="bin\System.Threading.dll" />
+    <Content Include="bin\System.Threading.Tasks.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\System.Xml.ReaderWriter.dll" />
+    <Content Include="bin\System.Xml.XDocument.dll" />
+    <Content Include="bin\System.Xml.XmlSerializer.dll" />
+    <Content Include="bin\Tools\Update\Scripts\012-new-tbl-passwordRecoveryToken.sql" />
+    <Content Include="bin\Tools\Update\Scripts\015-new-tbl-questionSet.sql" />
+    <Content Include="bin\Tools\Update\Scripts\017-new-tbl-imageMetaData.sql" />
+    <Content Include="bin\Tools\Update\Scripts\025-new-tbl-categories_to_sets.sql" />
+    <Content Include="bin\Tools\Update\Scripts\027-new-tbl-setValuations.sql" />
+    <Content Include="bin\TrueOrFalse.dll" />
+    <Content Include="bin\TrueOrFalse.pdb" />
+    <Content Include="bin\TrueOrFalse.View.Web.dll" />
+    <Content Include="bin\TrueOrFalse.View.Web.pdb" />
+    <Content Include="bin\WebActivator.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="Views\Help\Widget.aspx" />
+    <Content Include="Views\About\Master.aspx" />
+    <Content Include="Views\Drafts\Widget-Debug.html" />
+    <Content Include="Views\Drafts\WidgetSet.html" />
+    <Content Include="Views\Drafts\WidgetVideo.html" />
+    <Content Include="Views\Help\Widget.css">
+      <DependentUpon>Widget.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Images\ImageDetailYoutubeModal.ascx" />
+    <Content Include="Views\Maintenance\ContentStats.aspx" />
+    <Content Include="Views\Maintenance\ContentStats.css">
+      <DependentUpon>ContentStats.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js">
+      <DependentUpon>ActivityPoints.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\ActivityPoints\ActivityPoints.js.map">
+      <DependentUpon>ActivityPoints.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js">
+      <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.js.map">
+      <DependentUpon>SolutionTypeMatchList.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js">
+      <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.css">
+      <DependentUpon>AnswerQuestion.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionDetails.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentsSection.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionPager.ascx" />
+    <Content Include="Views\Questions\Answer\Sponsor.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultDetails.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResultHead.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\SetKnowledgeBar.ascx" />
+    <Content Include="Views\Sets\Detail\Js\ShareSet.js">
+      <DependentUpon>ShareSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
+    <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
+    <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
+    <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
+    <TypeScriptCompile Include="Views\Messages\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Messages\Js\ShowAllMessages.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetCopy.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\YoutubePreview.ts" />
+    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js">
+      <DependentUpon>YoutubePreview.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\CategoryLabel.ascx" />
+    <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
+    <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
+    <Content Include="Views\Shared\LinkToTop.ascx" />
+    <Content Include="Views\Shared\GlobalLicense.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsDetailViews.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\Partials\WidgetStatsForHost.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.aspx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.css">
+      <DependentUpon>WidgetStats.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Contact.aspx" />
+    <Content Include="Views\Welcome\Contact.css">
+      <DependentUpon>Contact.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
+    <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
+    <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
+    <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
+    <Content Include="Views\Widgets\WidgetSetStart.aspx" />
+    <Content Include="Views\Widgets\WidgetSetResult.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.aspx" />
+    <Content Include="android-chrome-144x144.png" />
+    <Content Include="android-chrome-192x192.png" />
+    <Content Include="android-chrome-36x36.png" />
+    <Content Include="android-chrome-48x48.png" />
+    <Content Include="android-chrome-72x72.png" />
+    <Content Include="android-chrome-96x96.png" />
+    <Content Include="apple-touch-icon-114x114.png" />
+    <Content Include="apple-touch-icon-120x120.png" />
+    <Content Include="apple-touch-icon-144x144.png" />
+    <Content Include="apple-touch-icon-152x152.png" />
+    <Content Include="apple-touch-icon-180x180.png" />
+    <Content Include="apple-touch-icon-57x57.png" />
+    <Content Include="apple-touch-icon-60x60.png" />
+    <Content Include="apple-touch-icon-72x72.png" />
+    <Content Include="apple-touch-icon-76x76.png" />
+    <Content Include="apple-touch-icon-precomposed.png" />
+    <Content Include="apple-touch-icon.png" />
+    <Content Include="BingSiteAuth.xml" />
+    <Content Include="browserconfig.xml" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.css" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.jpg" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.seeking.gif" />
+    <Content Include="Content\blue.monday\jplayer.blue.monday.video.play.png" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\animated-overlay.gif" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="favicon-16x16.png" />
+    <Content Include="favicon-194x194.png" />
+    <Content Include="favicon-32x32.png" />
+    <Content Include="favicon-96x96.png" />
+    <Content Include="favicon.ico" />
+    <Content Include="favicon_oldMemo.ico" />
+    <Content Include="Fonts\font-awesome-4.4.0\css\font-awesome.css" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fonts\OpenSans\OpenSans.css" />
+    <Content Include="Images\404.jpg" />
+    <Content Include="Images\500.jpg" />
+    <Content Include="Images\Categories\include-folder.txt">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Licenses\cc-by 88x31.png" />
+    <Content Include="Images\Licenses\cc-by-sa 88x31.png" />
+    <Content Include="Images\LogosPartners\BMWi-Logo-t.png" />
+    <Content Include="Images\LogosPartners\Claim-ESF-cmyk-eps.png" />
+    <Content Include="Images\LogosPartners\innovationspreis-Logo-quer-positiv-web-HGw.png" />
+    <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
+    <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
+    <Content Include="Images\LogosPartners\Logo-EXIST-eps.png" />
+    <Content Include="Images\LogosPartners\Logo_Geschichtsinfos_de_w200.jpg" />
+    <Content Include="Images\LogosPartners\Logo_tutory_250px.png" />
+    <Content Include="Images\LogosPartners\profund-innovation-logo-t.png" />
+    <Content Include="Images\Logo\LogoComplete_M.png" />
+    <Content Include="Images\Logo\LogoComplete_S.png" />
+    <Content Include="Images\Logo\LogoPictogram.png" />
+    <Content Include="Images\Logo\LogoSmall.png" />
+    <Content Include="Images\Logo\LogoWordmarkWithTagline.png" />
+    <Content Include="Images\Logo\LogoXSmall.png" />
+    <Content Include="Images\Logo\memucho_MEMO_angry_blau_w100.png" />
+    <Content Include="Images\Logo\memucho_MEMO_angry_blau_w220.png" />
+    <Content Include="Images\Logo\memucho_MEMO_angry_blau_w70.png" />
+    <Content Include="Images\Logo\memucho_MEMO_happy_blau_mit Schild_DANKE.png" />
+    <Content Include="Images\no-profile-picture-250.png" />
+    <Content Include="Images\no-profile-picture-30.png" />
+    <Content Include="Images\no-profile-picture-350.png" />
+    <Content Include="Images\Screenshots\fragen-zu-fragesatz.png" />
+    <Content Include="Images\Screenshots\fragen-zusammenstellen.png" />
+    <Content Include="Images\Screenshots\widget-moodle-1-mehrFelder-small.png" />
+    <Content Include="Images\Screenshots\widget-moodle-2-HTMLmode-small.png" />
+    <Content Include="Images\Screenshots\widget-wordpress-textmode-small.png" />
+    <Content Include="Images\Sponsors\schwanger-in-meiner-stadt-logo.png" />
+    <Content Include="Images\Team\team_christof-rund_160.png" />
+    <Content Include="Images\Team\team_christof201509_155.jpg" />
+    <Content Include="Images\Team\team_christof201509_600.jpg" />
+    <Content Include="Images\Team\team_jule-rund_160.png" />
+    <Content Include="Images\Team\team_jule201509-1_155.jpg" />
+    <Content Include="Images\Team\team_jule201509-1_600.jpg" />
+    <Content Include="Images\Team\team_jule201509-2_155.jpg" />
+    <Content Include="Images\Team\team_jule201509-2_600.jpg" />
+    <Content Include="Images\Team\team_robert-rund_160.png" />
+    <Content Include="Images\Team\team_robert201509_155.jpg" />
+    <Content Include="Images\Team\team_robert201509_600.jpg" />
+    <Content Include="Scripts\Pollyfills.js">
+      <DependentUpon>Pollyfills.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\Facebook.js">
+      <DependentUpon>Facebook.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js">
+      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\Google.js">
+      <DependentUpon>Google.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\Google.js.map">
+      <DependentUpon>Google.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js">
+      <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\userreport\userreport-plugin.js" />
+    <Content Include="Style\bootstrap\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Style\cards.css">
+      <DependentUpon>cards.less</DependentUpon>
+    </Content>
+    <Content Include="Style\cards.min.css">
+      <DependentUpon>cards.css</DependentUpon>
+    </Content>
+    <Content Include="Style\Images.min.css">
+      <DependentUpon>Images.css</DependentUpon>
+    </Content>
+    <Content Include="Style\temp.min.css">
+      <DependentUpon>temp.css</DependentUpon>
+    </Content>
+    <Content Include="Style\vendor\bootstrap2-toggle.css" />
+    <Content Include="Views\About\ForTeachers.css">
+      <DependentUpon>ForTeachers.less</DependentUpon>
+    </Content>
+    <Content Include="Views\About\Jobs.css">
+      <DependentUpon>Jobs.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.css">
+      <DependentUpon>Category.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Partials\CategoryNetwork.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\MainInfo.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\RelatedContentLists.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\ContentLists.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SetListCard.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSetCollection.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\SingleSet.ascx" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Drafts\CategoryPartials.aspx" />
+    <Content Include="Views\Error\_NotLoggedIn.aspx" />
+    <Content Include="Views\Help\FAQ.css">
+      <DependentUpon>FAQ.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Statistics.aspx" />
+    <Content Include="Views\Maintenance\ContentCreatedReport.aspx" />
+    <Content Include="Views\Maintenance\ContentCreatedReport.css">
+      <DependentUpon>ContentCreatedReport.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList_LayoutMobile.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js">
+      <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js">
+      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice_SingleSolution.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js">
+      <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\ShareQuestionModal.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.js">
+      <DependentUpon>TestSessionResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.aspx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionHeader.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMatchList.ascx" />
+    <Content Include="Views\Sets\Detail\Js\SetVideo.js">
+      <DependentUpon>SetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js">
+      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Wheel\KnowledgeWheel.ascx" />
+    <Content Include="Views\Sets\Detail\Video\VideoPager.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice.ascx" />
+    <Content Include="Views\Sets\Detail\Video\SetVideo.ascx" />
+    <Content Include="Views\Sets\Edit\Js\EditSet.js">
+      <DependentUpon>EditSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\AddToWishknowledgeButton.ascx" />
+    <Content Include="Views\Sets\Edit\Js\EditSet.js.map">
+      <DependentUpon>EditSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Cards\CardSingleCategory.ascx" />
+    <Content Include="Views\Shared\AddToWishknowledge.ascx" />
+    <Content Include="Views\Shared\SponsorLeft.ascx" />
+    <Content Include="Views\Shared\UnpinCategoryModal.ascx" />
+    <Content Include="Views\Shared\WuWiMessage.ascx" />
+    <Content Include="Views\About\AboutMemucho.css">
+      <DependentUpon>AboutMemucho.less</DependentUpon>
+    </Content>
+    <Content Include="Views\About\Jobs.aspx" />
+    <Content Include="Views\About\AboutMemucho.aspx" />
+    <Content Include="Views\VariousPublic\MemuchoBeta.aspx" />
+    <Content Include="Views\Welcome\Js\SendRequestNewsletter.js">
+      <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\Login.ascx" />
+    <Content Include="Views\Welcome\Login\Login.js">
+      <DependentUpon>Login.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js">
+      <DependentUpon>FacebookRegistration.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Registration\SocialButtons.css">
+      <DependentUpon>SocialButtons.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\AwesomeIframe.js" />
+    <Content Include="mstile-144x144.png" />
+    <Content Include="mstile-150x150.png" />
+    <Content Include="mstile-310x150.png" />
+    <Content Include="mstile-310x310.png" />
+    <Content Include="mstile-70x70.png" />
+    <Content Include="safari-pinned-tab.svg" />
+    <Content Include="Scripts\guidedTour\bootstrap-tour.js" />
+    <Content Include="Scripts\guidedTour\tourWelcome.js">
+      <DependentUpon>tourWelcome.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\TrainingPlan.js">
+      <DependentUpon>TrainingPlan.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\guidedTour\bootstrap-tour.css" />
+    <Content Include="Views\AlgoInsight\AlgoInsight.aspx" />
+    <Content Include="Views\AlgoInsight\ComparisonTable.ascx" />
+    <Content Include="Views\AlgoInsight\TabForgettingCurve_.js">
+      <DependentUpon>TabForgettingCurve_.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\AlgoInsight\TabVarious.ascx" />
+    <Content Include="Views\AlgoInsight\TabRepetition.ascx" />
+    <Content Include="Views\AlgoInsight\TabForgettingCurve.ascx" />
+    <Content Include="Views\AlgoInsight\TabForecast.ascx" />
+    <Content Include="Views\Beta\Video1.aspx" />
+    <Content Include="Views\Dates\Js\DateRowCopy.js">
+      <DependentUpon>DateRowCopy.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\TrainingSettings.js">
+      <DependentUpon>TrainingSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\TrainingSettings.js.map">
+      <DependentUpon>TrainingSettings.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Modals\CopyDate.ascx" />
+    <Content Include="Views\Dates\Modals\TrainingSettingsDates.ascx" />
+    <Content Include="Views\Dates\Modals\TrainingSettings.ascx" />
+    <Content Include="Views\Drafts\Widget.html" />
+    <Content Include="Views\Knowledge\TrainingDate.ascx" />
+    <Content Include="Views\Maintenance\AntiForgeryToken.ascx" />
+    <Content Include="Views\Maintenance\CMS.aspx" />
+    <Content Include="Views\Sets\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\SetQuestionRowResult.ascx" />
+    <Content Include="Views\Shared\UnpinSetModal.ascx" />
+    <Content Include="Views\Users\Detail\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\UserSearchResult.ascx" />
+    <Content Include="Views\Sets\Edit\EditSet.css">
+      <DependentUpon>EditSet.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\TabBadges.ascx" />
+    <Content Include="Views\Users\Detail\User.css">
+      <DependentUpon>User.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\TabKnowledge.ascx" />
+    <Content Include="Views\VariousPublic\TermsAndConditions.aspx" />
+    <Content Include="Views\Welcome\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\TourInit.js">
+      <DependentUpon>TourInit.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\TourInit.js.map">
+      <DependentUpon>TourInit.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\ValidationPasswordRecovery.js">
+      <DependentUpon>ValidationPasswordRecovery.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\ValidationPasswordRecovery.js.map">
+      <DependentUpon>ValidationPasswordRecovery.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\ValidationPasswordReset.js">
+      <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Welcome.css">
+      <DependentUpon>Welcome.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Welcome.min.css">
+      <DependentUpon>Welcome.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\WelcomeBoxCategoryImgQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxCategoryTxtQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSingleSet.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxTopQuestions.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxTopSets.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxTopCategories.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSingleQuestion.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSetImgQ.ascx" />
+    <Content Include="Views\Welcome\WelcomeBoxSetTxtQ.ascx" />
+    <Content Include="Views\Widgets\w.js" />
+    <Content Include="Views\Widgets\WidgetQuestion.js">
+      <DependentUpon>WidgetQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\WidgetSet.aspx" />
+    <Content Include="Views\Widgets\WidgetQuestion.aspx" />
+    <Content Include="Views\Widgets\WidgetSetVideo.js">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\WidgetSetVideo.js.map">
+      <DependentUpon>WidgetSetVideo.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerEntry.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\IAnswerEntry.ts" />
+    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteSets.ts" />
+    <TypeScriptCompile Include="Scripts\header\ActivityPointsPopup.ts" />
+    <TypeScriptCompile Include="Scripts\header\SearchBox.ts" />
+    <TypeScriptCompile Include="Scripts\Pollyfills.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\Facebook.ts" />
+    <TypeScriptCompile Include="Scripts\guidedTour\tourWelcome.ts" />
+    <TypeScriptCompile Include="Scripts\CategoryApi.ts" />
+    <TypeScriptCompile Include="Scripts\hubs\GameHub.ts" />
+    <TypeScriptCompile Include="Scripts\hubs\GameHubEvents.ts" />
+    <TypeScriptCompile Include="Scripts\NotLoggedIn.ts" />
+    <TypeScriptCompile Include="Scripts\SiteMessages.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\FacebookMemuchoUser.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\Google.ts" />
+    <TypeScriptCompile Include="Scripts\socialLogins\GoogleMemuchoUser.ts" />
+    <TypeScriptCompile Include="Scripts\TrainingPlan.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\fbsdk.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\gapi-auth2.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\gapi.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\google.visualization.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\google.youtube.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\modernizr.d.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\simplemde.d.ts" />
+    <TypeScriptCompile Include="Scripts\widgets\ShareDialog.ts" />
+    <TypeScriptCompile Include="Views\AlgoInsight\TabForgettingCurve_.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\EditAggregation.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\CmsCategoryNetworkNavigation.ts" />
+    <TypeScriptCompile Include="Views\Dates\Edit\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\DateRow.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\DateRowCopy.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\DateRowDelete.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\PreviousDates.ts" />
+    <TypeScriptCompile Include="Views\Dates\Js\TrainingSettings.ts" />
+    <TypeScriptCompile Include="Views\Games\Edit\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Games\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\GameRow.ts" />
+    <TypeScriptCompile Include="Views\Games\Js\Games.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\GameInProgressPlayer.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\Play.ts" />
+    <TypeScriptCompile Include="Views\Games\Play\Js\GameReady.ts" />
+    <TypeScriptCompile Include="Views\Help\Js\WidgetPricing.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Wheel\KnowledgeWheel.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Js\ContentStats.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\ToolsBrainWaveHub.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\BrainWavesHub.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\signalr.d.ts" />
+    <TypeScriptCompile Include="Scripts\Validations.ts" />
+    <TypeScriptCompile Include="Scripts\FormValidation.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\BetaLogin.ts" />
+    <TypeScriptCompile Include="Views\Beta\Js\BetaRequest.ts" />
+    <TypeScriptCompile Include="Views\Images\Images.ts" />
+    <TypeScriptCompile Include="Scripts\Log.ts" />
+    <TypeScriptCompile Include="Scripts\Menu.ts" />
+    <TypeScriptCompile Include="Scripts\SetsApi.ts" />
+    <TypeScriptCompile Include="Scripts\QuestionsApi.ts" />
+    <TypeScriptCompile Include="Scripts\Site.ts" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\jquery.validation.d.ts" />
+    <TypeScriptCompile Include="Scripts\Utils.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\ChangeTypeControls.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\ImageUpload.ts" />
+    <TypeScriptCompile Include="Views\Categories\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Categories\Js\CategoryDelete.ts" />
+    <Content Include="Images\Licenses\cc-by-sa.png" />
+    <Content Include="Images\Licenses\cc-by.png" />
+    <Content Include="Images\Licenses\publicdomain.png" />
+    <Content Include="Images\Memo.png" />
+    <Content Include="Images\memo_liegend_bearbeitet4.png" />
+    <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
+    <Content Include="Images\no-category-picture-206.png" />
+    <Content Include="Images\no-category-picture-350.png" />
+    <Content Include="Images\no-question-128.png" />
+    <Content Include="Images\no-set-128.png" />
+    <Content Include="Images\no-set-206.png" />
+    <Content Include="Images\no-set-50.png" />
+    <Content Include="Images\Team\team_christof2014.jpg" />
+    <Content Include="Images\Team\team_christof2014_128.jpg" />
+    <Content Include="Images\wiki-16.png" />
+    <Content Include="Images\wiki-24.png" />
+    <Content Include="Images\wiki-32.png" />
+    <Content Include="img\dimension.png" />
+    <Content Include="img\wmd-buttons.png" />
+    <Content Include="Scripts\answerQuestion\AnswerEntry.js">
+      <DependentUpon>AnswerEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js">
+      <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\IAnswerEntry.js">
+      <DependentUpon>IAnswerEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteSets.js">
+      <DependentUpon>AutocompleteSets.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\BootstrapCustomUtils.js" />
+    <Content Include="Scripts\CategoryApi.js">
+      <DependentUpon>CategoryApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\DateParser.js">
+      <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\FormValidation.js">
+      <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\hubs\GameHub.js">
+      <DependentUpon>GameHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\NotLoggedIn.js">
+      <DependentUpon>NotLoggedIn.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SiteMessages.js">
+      <DependentUpon>SiteMessages.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor\jquery.countdown.js" />
+    <Content Include="Scripts\vendor\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\SearchInTabs.js">
+      <DependentUpon>SearchInTabs.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SearchInTabsResult.js">
+      <DependentUpon>SearchInTabsResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Validations.js">
+      <DependentUpon>Validations.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor\jquery-watch.js" />
+    <Content Include="Scripts\vendor\jquery.typewatch.js" />
+    <Content Include="Style\animate.css">
+      <DependentUpon>animate.less</DependentUpon>
+    </Content>
+    <Content Include="Style\pages.css">
+      <DependentUpon>pages.less</DependentUpon>
+    </Content>
+    <Content Include="Images\beta_clouds_over_the_Atlantic_Ocean.jpg" />
+    <Content Include="Views\Beta\Beta.css">
+      <DependentUpon>Beta.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaLogin.js">
+      <DependentUpon>BetaLogin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaRequest.js">
+      <DependentUpon>BetaRequest.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\CategoriesSearchResult.ascx" />
+    <Content Include="Views\Dates\Js\DateRow.js">
+      <DependentUpon>DateRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\PreviousDates.js">
+      <DependentUpon>PreviousDates.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\PreviousDates.ascx" />
+    <Content Include="Views\Dates\Dates.css">
+      <DependentUpon>Dates.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Edit\bootstrap-datepicker3.css" />
+    <Content Include="Views\Dates\Edit\clockpicker.css" />
+    <Content Include="Views\Dates\Edit\EditDate.aspx" />
+    <Content Include="Views\Dates\Edit\EditDate.css">
+      <DependentUpon>EditDate.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.z.de.js" />
+    <Content Include="Views\Dates\Edit\Js\bootstrap-datepicker.js" />
+    <Content Include="Views\Dates\Edit\Js\clockpicker.js" />
+    <Content Include="Views\Dates\DateRow.ascx" />
+    <Content Include="Views\Dates\Edit\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRowDelete.js">
+      <DependentUpon>DateRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Modals\DeleteDate.ascx" />
+    <Content Include="Views\Drafts\FontAwesome.aspx" />
+    <Content Include="Views\Games\Edit\Game.aspx" />
+    <Content Include="Views\Games\Edit\Game.css">
+      <DependentUpon>Game.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\GameRow.ascx" />
+    <Content Include="Views\Games\Games.css">
+      <DependentUpon>Games.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\GameRow.js">
+      <DependentUpon>GameRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\Games.js">
+      <DependentUpon>Games.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\BodyControls\GameCompleted.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameInProgressWatch.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameInProgressPlayer.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameNeverStarted.ascx" />
+    <Content Include="Views\Games\Play\BodyControls\GameReady.ascx" />
+    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js">
+      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameReady.js">
+      <DependentUpon>GameReady.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.css">
+      <DependentUpon>Play.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\Play.js">
+      <DependentUpon>Play.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.aspx" />
+    <Content Include="Views\Knowledge\Knowledge.css">
+      <DependentUpon>Knowledge.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js">
+      <DependentUpon>AnswerEntryBase.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images\Images.css">
+      <DependentUpon>Images.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionHeader.ascx" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css">
+      <DependentUpon>LearningSessionResult.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js">
+      <DependentUpon>MarkdownDescription.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Js\SetDelete.js">
+      <DependentUpon>SetDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\CategoriesOfQuestion.ascx" />
+    <Content Include="Views\Shared\MessageGame.ascx" />
+    <Content Include="Views\Shared\NotLoggedIn\Modal_LoggedIn.ascx" />
+    <Content Include="Views\Users\Account\Js\Membership.js">
+      <DependentUpon>Membership.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js">
+      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Games.aspx" />
+    <Content Include="Scripts\answerQuestion\BrainWavesHub.js">
+      <DependentUpon>BrainWavesHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerBodyControl\AnswerBody.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js">
+      <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css">
+      <DependentUpon>AnswerQuestionSolution.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Membership.aspx" />
+    <Content Include="Views\Images\Images.js">
+      <DependentUpon>Images.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Log.js">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Menu.js">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\QuestionsApi.js">
+      <DependentUpon>QuestionsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SetsApi.js">
+      <DependentUpon>SetsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Site.js">
+      <DependentUpon>Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utils.js">
+      <DependentUpon>Utils.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\vendor\bootstrap.js" />
+    <TypeScriptCompile Include="Scripts\SolutionMetaData.ts" />
+    <TypeScriptCompile Include="Scripts\DateParser.ts" />
+    <Content Include="Scripts\SolutionMetaData.js">
+      <DependentUpon>SolutionMetaData.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\typescript.defs\jquery.d.ts" />
+    <Content Include="Scripts\typescript.defs\qunit.d.ts" />
+    <Content Include="Scripts\typescript.defs\underscore.d.ts" />
+    <Content Include="Scripts\vendor\jquery-ui-1.11.1.js" />
+    <Content Include="Scripts\vendor\jquery.validate.zz.additional-methods.js" />
+    <Content Include="Scripts\vendor\jquery.validate.MEM.custom.js" />
+    <Content Include="Style\bootstrap\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\alerts.css">
+      <DependentUpon>alerts.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\badges.css">
+      <DependentUpon>badges.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.css">
+      <DependentUpon>breadcrumbs.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\button-groups.css">
+      <DependentUpon>button-groups.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\buttons.css">
+      <DependentUpon>buttons.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\carousel.css">
+      <DependentUpon>carousel.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\mixins.css">
+      <DependentUpon>mixins.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\pager.css">
+      <DependentUpon>pager.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Style\bootstrap\memucho_overrides.css">
+      <DependentUpon>memucho_overrides.less</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\variables_custom.css">
+      <DependentUpon>variables_custom.less</DependentUpon>
+    </Content>
+    <Content Include="Style\drafts.css">
+      <DependentUpon>drafts.less</DependentUpon>
+    </Content>
+    <Content Include="Style\grid.css">
+      <DependentUpon>grid.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\extends.css">
+      <DependentUpon>extends.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\imports.css">
+      <DependentUpon>imports.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="Style\components.css">
+      <DependentUpon>components.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\colors.css">
+      <DependentUpon>colors.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\colors.less" />
+    <Content Include="Style\includes\shared.css">
+      <DependentUpon>shared.less</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\shared.less" />
+    <Content Include="Style\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Style\jquery-ui\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_454545_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_888888_256x240.png" />
+    <Content Include="Style\jquery-ui\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Style\jquery-ui\jquery-ui.structure.css" />
+    <Content Include="Style\jquery-ui\jquery-ui.theme.css" />
+    <Content Include="Style\logo.css">
+      <DependentUpon>logo.less</DependentUpon>
+    </Content>
+    <Content Include="Style\temp.css">
+      <DependentUpon>temp.less</DependentUpon>
+    </Content>
+    <Content Include="Style\utils.css">
+      <DependentUpon>utils.less</DependentUpon>
+    </Content>
+    <Content Include="Style\z_buttons_2.3.2.css">
+      <DependentUpon>z_buttons_2.3.2.less</DependentUpon>
+    </Content>
+    <Content Include="Style\z_buttons_2.3.2.less" />
+    <Content Include="Style\utils.less" />
+    <Content Include="Style\includes\variables.less" />
+    <Content Include="Scripts\app.config" />
+    <Content Include="Style\grid.less" />
+    <Content Include="Scripts\SolutionMetaData.js.map">
+      <DependentUpon>SolutionMetaData.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\site.css.map">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
+    <Content Include="Style\grid.css.map">
+      <DependentUpon>grid.css</DependentUpon>
+    </Content>
+    <Content Include="Style\components.css.map">
+      <DependentUpon>components.css</DependentUpon>
+    </Content>
+    <Content Include="Style\form.css.map">
+      <DependentUpon>form.css</DependentUpon>
+    </Content>
+    <Content Include="Style\menu.css.map">
+      <DependentUpon>menu.css</DependentUpon>
+    </Content>
+    <Content Include="Style\site-debug.css.map">
+      <DependentUpon>site-debug.css</DependentUpon>
+    </Content>
+    <Content Include="Style\utils.css.map">
+      <DependentUpon>utils.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\colors.css.map">
+      <DependentUpon>colors.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\shared.css.map">
+      <DependentUpon>shared.css</DependentUpon>
+    </Content>
+    <Content Include="Style\z_buttons_2.3.2.css.map">
+      <DependentUpon>z_buttons_2.3.2.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\alerts.css.map">
+      <DependentUpon>alerts.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\alerts.less" />
+    <Content Include="Style\bootstrap\bootstrap\badges.css.map">
+      <DependentUpon>badges.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\badges.less" />
+    <Content Include="Style\bootstrap\bootstrap\bootstrap.less" />
+    <Content Include="Style\bootstrap\bootstrap\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.css.map">
+      <DependentUpon>breadcrumbs.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\breadcrumbs.less" />
+    <Content Include="Style\bootstrap\bootstrap\button-groups.css.map">
+      <DependentUpon>button-groups.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\button-groups.less" />
+    <Content Include="Style\bootstrap\bootstrap\buttons.css.map">
+      <DependentUpon>buttons.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\buttons.less" />
+    <Content Include="Style\bootstrap\bootstrap\carousel.css.map">
+      <DependentUpon>carousel.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\carousel.less" />
+    <Content Include="Style\bootstrap\bootstrap\close.less" />
+    <Content Include="Style\bootstrap\bootstrap\code.less" />
+    <Content Include="Style\bootstrap\bootstrap\component-animations.less" />
+    <Content Include="Style\bootstrap\bootstrap\dropdowns.less" />
+    <Content Include="Style\bootstrap\bootstrap\forms.less" />
+    <Content Include="Style\bootstrap\bootstrap\glyphicons.less" />
+    <Content Include="Style\bootstrap\bootstrap\grid.less" />
+    <Content Include="Style\bootstrap\bootstrap\input-groups.less" />
+    <Content Include="Style\bootstrap\bootstrap\jumbotron.less" />
+    <Content Include="Style\bootstrap\bootstrap\labels.less" />
+    <Content Include="Style\bootstrap\bootstrap\list-group.less" />
+    <Content Include="Style\bootstrap\bootstrap\media.less" />
+    <Content Include="Style\bootstrap\bootstrap\mixins.less" />
+    <Content Include="Style\bootstrap\bootstrap\modals.less" />
+    <Content Include="Style\bootstrap\bootstrap\navbar.less" />
+    <Content Include="Style\bootstrap\bootstrap\navs.less" />
+    <Content Include="Style\bootstrap\bootstrap\normalize.less" />
+    <Content Include="Style\bootstrap\bootstrap\pager.css.map">
+      <DependentUpon>pager.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\pager.less" />
+    <Content Include="Style\bootstrap\bootstrap\pagination.less" />
+    <Content Include="Style\bootstrap\bootstrap\panels.less" />
+    <Content Include="Style\bootstrap\bootstrap\popovers.less" />
+    <Content Include="Style\bootstrap\bootstrap\print.less" />
+    <Content Include="Style\bootstrap\bootstrap\progress-bars.less" />
+    <Content Include="Style\bootstrap\bootstrap\responsive-utilities.less" />
+    <Content Include="Style\bootstrap\bootstrap\scaffolding.less" />
+    <Content Include="Style\bootstrap\bootstrap\tables.less" />
+    <Content Include="Style\bootstrap\bootstrap\theme.less" />
+    <Content Include="Style\bootstrap\bootstrap\thumbnails.less" />
+    <Content Include="Style\bootstrap\bootstrap\tooltip.less" />
+    <Content Include="Style\bootstrap\bootstrap\type.less" />
+    <Content Include="Style\bootstrap\bootstrap\utilities.less" />
+    <Content Include="Style\bootstrap\bootstrap\variables.less" />
+    <Content Include="Style\bootstrap\bootstrap\wells.less" />
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Style\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Style\bootstrap\bootstrap.less" />
+    <Content Include="Style\bootstrap\bootstrap.css.map">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\variables_custom.less" />
+    <Content Include="Style\bootstrap\variables_custom.css.map">
+      <DependentUpon>variables_custom.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\temp.less" />
+    <Content Include="Style\temp.css.map">
+      <DependentUpon>temp.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\memucho_overrides.less" />
+    <Content Include="Style\bootstrap\memucho_overrides.css.map">
+      <DependentUpon>memucho_overrides.css</DependentUpon>
+    </Content>
+    <Content Include="Style\drafts.less" />
+    <Content Include="Style\z_mixins_2.3.2.css.map">
+      <DependentUpon>z_mixins_2.3.2.css</DependentUpon>
+    </Content>
+    <Content Include="Style\drafts.css.map">
+      <DependentUpon>drafts.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\DateParser.js.map">
+      <DependentUpon>DateParser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Log.js.map">
+      <DependentUpon>Log.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\QuestionsApi.js.map">
+      <DependentUpon>QuestionsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Site.js.map">
+      <DependentUpon>Site.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Utils.js.map">
+      <DependentUpon>Utils.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\FormValidation.js.map">
+      <DependentUpon>FormValidation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Menu.js.map">
+      <DependentUpon>Menu.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SetsApi.js.map">
+      <DependentUpon>SetsApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\CategoryApi.js.map">
+      <DependentUpon>CategoryApi.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\imports.less" />
+    <Content Include="Style\z_mixins_for_buttons_2.3.2.css">
+      <DependentUpon>z_mixins_for_buttons_2.3.2.less</DependentUpon>
+    </Content>
+    <Content Include="Style\z_mixins_for_buttons_2.3.2.less" />
+    <Content Include="Style\logo.less" />
+    <Content Include="Style\logo.css.map">
+      <DependentUpon>logo.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\extends.less" />
+    <Content Include="Style\includes\imports.css.map">
+      <DependentUpon>imports.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Images\Images.js.map">
+      <DependentUpon>Images.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\pages.less" />
+    <Content Include="Style\pages.css.map">
+      <DependentUpon>pages.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SearchInTabs.js.map">
+      <DependentUpon>SearchInTabs.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SearchInTabsResult.js.map">
+      <DependentUpon>SearchInTabsResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Validations.js.map">
+      <DependentUpon>Validations.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\SiteMessages.js.map">
+      <DependentUpon>SiteMessages.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\AnswerQuestionUserFeedback.js.map">
+      <DependentUpon>AnswerQuestionUserFeedback.ts</DependentUpon>
+    </Content>
+    <Content Include="Style\animate.less" />
+    <Content Include="Style\animate.css.map">
+      <DependentUpon>animate.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteSets.js.map">
+      <DependentUpon>AutocompleteSets.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\NotLoggedIn.js.map">
+      <DependentUpon>NotLoggedIn.ts</DependentUpon>
+    </Content>
+    <Content Include="Fonts\OpenSans\DXI1ORHCpsQm3Vp6mXoaTS3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\EInbV5DfGHOiMmvb1Xr-hi3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\IgZJs4-7SA1XX_edsoXWog.ttf" />
+    <Content Include="Fonts\OpenSans\k3k702ZOKiLJc3WVjuplzC3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\MTP_ySUJH_bn48VBG8sNSi3USBnSvpkopQaUR-2r7iU.ttf" />
+    <Content Include="Fonts\OpenSans\O4NhV7_qs9r9seTo7fnsVKCWcynf_cDxXwCLxiixG1c.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxg89PwPrYLaRFJ-HNCU9NbA.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxi9-WlPSxbfiI49GsXo3q0g.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxne1Pd76Vl7zRpE7NLJQ7XU.ttf" />
+    <Content Include="Fonts\OpenSans\PRmiXeptR36kaC0GEAetxpZ7xm-Bj30Bj2KNdXDzSZg.ttf" />
+    <Content Include="Scripts\answerQuestion\AnswerEntry.js.map">
+      <DependentUpon>AnswerEntry.ts</DependentUpon>
+    </Content>
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Fonts\font-awesome-4.4.0\fonts\FontAwesome.otf" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\animated.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\bordered-pulled.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\core.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\fixed-width.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\font-awesome.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\icons.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\larger.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\list.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\mixins.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\path.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\rotated-flipped.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\stacked.less" />
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.less" />
+    <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsg.cshtml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\KnowledgeReportMsgStylesInlined.cshtml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\TrainingReminderForDateMsg.cshtml" />
+    <Content Include="bin\Domain\Message\HtmlMessage\TrainingReminderForDateMsgStylesInlined.cshtml" />
+    <Content Include="bin\Domain\User\Membership\Invoice\InvoiceTemplate.cshtml" />
+    <Content Include="bin\nh.cfg" />
+    <None Include="bin\TrueOrFalse.View.Web.dll.config" />
+    <Content Include="bin\Web\Crawlers\list-of-crawlers.json" />
+    <None Include="compilerconfig.json" />
+    <Content Include="Scripts\answerQuestion\IAnswerEntry.js.map">
+      <DependentUpon>IAnswerEntry.ts</DependentUpon>
+    </Content>
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Fonts\font-awesome-4.4.0\less\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\mixins.css.map">
+      <DependentUpon>mixins.css</DependentUpon>
+    </Content>
+    <Content Include="Style\bootstrap\bootstrap\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="Style\includes\extends.css.map">
+      <DependentUpon>extends.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\TrainingPlan.js.map">
+      <DependentUpon>TrainingPlan.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\guidedTour\tourWelcome.js.map">
+      <DependentUpon>tourWelcome.ts</DependentUpon>
+    </Content>
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="manifest.json" />
+    <Content Include="Style\cards.less" />
+    <Content Include="Scripts\socialLogins\Facebook.js.map">
+      <DependentUpon>Facebook.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\FacebookMemuchoUser.js.map">
+      <DependentUpon>FacebookMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\socialLogins\GoogleMemuchoUser.js.map">
+      <DependentUpon>GoogleMemuchoUser.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Pollyfills.js.map">
+      <DependentUpon>Pollyfills.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\widgets\ShareDialog.js.map">
+      <DependentUpon>ShareDialog.ts</DependentUpon>
+    </Content>
+    <None Include="Style\z_mixins_2.3.2.less" />
+    <None Include="Style\site.less" />
+    <Content Include="Style\menu.css">
+      <DependentUpon>menu.less</DependentUpon>
+    </Content>
+    <Content Include="Style\site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="Style\z_mixins_2.3.2.css">
+      <DependentUpon>z_mixins_2.3.2.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\EditCategory.css">
+      <DependentUpon>EditCategory.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\ImageUpload.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteCategories.js">
+      <DependentUpon>AutocompleteCategories.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\TypeControls\VolumeChapter.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\BookChapter.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Book.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Certification.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Course.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\FieldOfTraining.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\SchoolSubject.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Magazine.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\MagazineArticle.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\DailyArticle.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\MagazineIssue.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\DailyIssue.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\FieldOfStudy.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\TvShowEpisode.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\TvShow.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Movie.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Standard.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Daily.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\Website.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\WebsiteVideo.ascx" />
+    <Content Include="Views\Categories\Edit\TypeControls\WebsiteArticle.ascx" />
+    <Content Include="Views\Categories\Modals\ModalDeleteCategory.ascx" />
+    <Content Include="Views\Dates\Dates.aspx" />
+    <Content Include="Views\Drafts\Icons.aspx" />
+    <Content Include="Views\Drafts\bootstrap.aspx" />
+    <Content Include="Views\Drafts\Forms.aspx" />
+    <Content Include="Views\Drafts\Reference.aspx" />
+    <Content Include="Views\Drafts\Templates.aspx" />
+    <Content Include="Views\Drafts\temp.aspx" />
+    <Content Include="Views\Error\Test.aspx" />
+    <Content Include="Views\Help\FAQ.aspx" />
+    <Content Include="Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
+    <None Include="Properties\PublishProfiles\toFileSytem.pubxml" />
+    <Content Include="Images\no-profile-picture-85.png" />
+    <Content Include="Images\no-category-picture-128.png" />
+    <Content Include="Images\no-category-picture-50.png" />
+    <Content Include="Images\no-category-picture-85.png" />
+    <Content Include="Images\no-profile-picture-50.png" />
+    <Content Include="Images\QuestionSets\include-folder.txt" />
+    <Content Include="img\wmd-buttons-white.png" />
+    <Content Include="Scripts\vendor.file-uploader\button.js" />
+    <Content Include="Scripts\vendor.file-uploader\dnd.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.base.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.form.js" />
+    <Content Include="Scripts\vendor.file-uploader\handler.xhr.js" />
+    <Content Include="Scripts\vendor.file-uploader\header.js" />
+    <Content Include="Scripts\vendor.file-uploader\jquery-plugin.js" />
+    <Content Include="Scripts\vendor.file-uploader\uploader.basic.js" />
+    <Content Include="Scripts\vendor.file-uploader\uploader.js" />
+    <Content Include="Scripts\vendor.file-uploader\util.js" />
+    <Content Include="Scripts\vendor\html5shiv.js" />
+    <Content Include="Scripts\vendor\jquery-2.0.3.js" />
+    <Content Include="Scripts\vendor\jquery.scrollTo-1.4.3.1.js" />
+    <Content Include="Scripts\vendor\jquery.validate.js" />
+    <Content Include="Scripts\vendor\json2.js" />
+    <Content Include="Scripts\vendor\Markdown.Converter.js" />
+    <Content Include="Scripts\vendor\Markdown.Editor.js" />
+    <Content Include="Scripts\vendor\Markdown.Sanitizer.js" />
+    <Content Include="Scripts\typescript.defs\markdown.d.ts" />
+    <Content Include="Scripts\typescript.defs\jquery.scrollTo.d.ts" />
+    <Content Include="Scripts\typescript.defs\lib.d.ts" />
+    <Content Include="Scripts\typescript.defs\fineUploader.d.ts" />
+    <Content Include="Scripts\typescript.defs\jqueryui.d.ts" />
+    <Content Include="Scripts\vendor\underscore-1.4.3.js" />
+    <Compile Include="Views\Categories\Detail\CategoryController.cs" />
+    <Compile Include="Views\Categories\Detail\CategoryModel.cs" />
+    <Compile Include="Views\Categories\CategoriesControllerSearch.cs" />
+    <Compile Include="Views\Drafts\DraftsController.cs" />
+    <Compile Include="Views\Help\HelpModel.cs" />
+    <Compile Include="Views\Images\ImagesController.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceController.cs" />
+    <Compile Include="Views\Users\Account\AccountController.cs" />
+    <Compile Include="Views\Api\ExportController.cs" />
+    <Compile Include="Views\Administrative\PersonaController.cs" />
+    <Compile Include="Views\Api\ExportModel.cs" />
+    <Compile Include="Views\Categories\CategoriesController.cs" />
+    <Compile Include="Views\Categories\CategoriesModel.cs" />
+    <Compile Include="Views\Categories\CategoryRowModel.cs" />
+    <Compile Include="Views\Maintenance\MessagesModel.cs" />
+    <Compile Include="Views\Maintenance\MaintenanceModel.cs" />
+    <Compile Include="Views\Maintenance\Images\ImagesModel.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\AnswerCommentsController.cs" />
+    <Compile Include="Views\Questions\Answer\Comments\CommentAnswerAddModel.cs">
+      <DependentUpon>CommentAnswerAdd.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Questions\Answer\Comments\CommentModel.cs">
+      <DependentUpon>Comment.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Questions\Edit\ReferenceJson.cs" />
+    <Compile Include="Views\Questions\QuestionsSearchResultModel.cs" />
+    <Compile Include="Views\Sets\Detail\SetQuestionRowModel.cs" />
+    <Compile Include="Views\Sets\SetsSearchResultModel.cs" />
+    <Compile Include="Views\Shared\HistoryAndProbabilityModel.cs" />
+    <Compile Include="Views\Sets\Detail\SetController.cs" />
+    <Compile Include="Views\Sets\Detail\SetModel.cs" />
+    <Compile Include="Views\Sets\Edit\EditSetController.cs" />
+    <Compile Include="Views\Sets\Edit\EditSetModel.cs" />
+    <Compile Include="Views\Sets\SetsControllerSearch.cs" />
+    <Compile Include="Views\Sets\SetRowModel.cs" />
+    <Compile Include="Views\Sets\SetsController.cs" />
+    <Compile Include="Views\Sets\SetsModel.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerQuestionControllerSearch.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryController.cs" />
+    <Compile Include="Views\Categories\Edit\EditCategoryModel.cs" />
+    <Compile Include="Views\Messages\MessagesController.cs" />
+    <Compile Include="Views\Messages\MessageModel.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerQuestionController.cs" />
+    <Compile Include="Views\Questions\Answer\AnswerQuestionModel.cs" />
+    <Compile Include="Views\Categories\Edit\CategoryNameAllowed.cs" />
+    <Compile Include="Views\Questions\Edit\EditQuestionModel_to_Question.cs" />
+    <Compile Include="Views\Questions\QuestionRowModel.cs" />
+    <Compile Include="Views\Questions\QuestionsController.cs" />
+    <Compile Include="Views\Questions\QuestionsControllerSearch.cs" />
+    <Compile Include="Views\Questions\QuestionsModel.cs" />
+    <Compile Include="Views\Questions\Edit\EditQuestionController.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeController.cs" />
+    <Compile Include="Views\Knowledge\KnowledgeModel.cs" />
+    <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
+    <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
+    <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
+    <Compile Include="Views\Shared\MenuLeftModel.cs" />
+    <Compile Include="Views\Shared\PagerModel.cs" />
+    <Compile Include="Views\Users\Detail\UserController.cs" />
+    <Compile Include="Views\Users\Detail\UserModel.cs" />
+    <Compile Include="Views\Users\Account\Settings\UserSettingsController.cs" />
+    <Compile Include="Views\Users\Account\Settings\UserSettingsModel.cs" />
+    <Compile Include="Views\Users\HeaderModel.cs" />
+    <Compile Include="Views\Users\NetworkModel.cs" />
+    <Compile Include="Views\Users\UserRowModel.cs" />
+    <Compile Include="Views\Users\UsersController.cs" />
+    <Compile Include="Views\Users\UsersControllerSearch.cs" />
+    <Compile Include="Views\Users\UsersModel.cs" />
+    <Compile Include="Views\VariousPublic\VariousPublicController.cs" />
+    <Compile Include="Views\Questions\Edit\EditQuestionModel.cs" />
+    <Compile Include="Views\Shared\ShowLeftMenu.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Welcome\LoginModel.cs" />
+    <Compile Include="Views\Welcome\PasswordRecoveryModel.cs" />
+    <Compile Include="Views\Welcome\PasswordResetModel.cs" />
+    <Compile Include="Views\Welcome\Registration\RegisterModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Welcome\Registration\RegisterModelToUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Welcome\Registration\RegisterSuccessModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Welcome\WelcomeBoxTopCategoriesModel.cs" />
+    <Compile Include="Views\Welcome\WelcomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Welcome\WelcomeModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <TypeScriptCompile Include="Views\Questions\ActivityPoints\ActivityPoints.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMatchList.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBodyLoader.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeFlashCard.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownDescription.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\ShareSet.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideo.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\SetVideoPlayer.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\EditSet.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Sets\Js\SetDelete.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\Js\Membership.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\WidgetStats\Js\WidgetStats.ts" />
+    <TypeScriptCompile Include="Views\Users\Account\Settings\Validation.ts" />
+    <TypeScriptCompile Include="Scripts\SearchInTabs.ts" />
+    <TypeScriptCompile Include="Scripts\SearchInTabsResult.ts" />
+    <TypeScriptCompile Include="Views\Users\Detail\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\SendRequestNewsletter.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\TourInit.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Login\Login.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Registration\Js\FacebookRegistration.ts" />
+    <TypeScriptCompile Include="Views\Widgets\WidgetQuestion.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordRecovery.ts" />
+    <TypeScriptCompile Include="Views\Welcome\Js\ValidationPasswordReset.ts" />
+    <TypeScriptCompile Include="Views\Widgets\WidgetSetVideo.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="Images\background.jpg" />
+    <Content Include="Images\background.png" />
+    <Content Include="Images\Buttons\add.png" />
+    <Content Include="Images\Buttons\cross.png" />
+    <Content Include="Images\Buttons\key.png" />
+    <Content Include="Images\Buttons\tick.png" />
+    <Content Include="Images\date-16.png" />
+    <Content Include="Images\date-32.png" />
+    <Content Include="Images\delete.png" />
+    <Content Include="Images\delete.png.licence.txt" />
+    <Content Include="Images\edit.png" />
+    <Content Include="Images\edit.png.licence.txt" />
+    <Content Include="Images\group_40x40.png" />
+    <Content Include="Images\menu-icon-person.png" />
+    <Content Include="Images\menu-icon-person.png.licence.txt" />
+    <Content Include="Images\no-profile-picture-128.png" />
+    <Content Include="Images\numeric_stepper-16.png" />
+    <Content Include="Images\numeric_stepper-32.png" />
+    <Content Include="Images\Questions\include-folder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\RowHeaderBackground.png" />
+    <Content Include="Images\star.png" />
+    <Content Include="Images\textfield-16.png" />
+    <Content Include="Images\textfield-32.png" />
+    <Content Include="Images\toflogo.png" />
+    <Content Include="Images\Users\include-folder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\github-16px.png" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="img\grid-18px-masked.png" />
+    <Content Include="img\icon-css3.png" />
+    <Content Include="img\icon-github.png" />
+    <Content Include="img\icon-html5.png" />
+    <Content Include="img\icon-twitter.png" />
+    <TypeScriptCompile Include="Scripts\typescript.defs\bootstrap.d.ts" />
+    <Content Include="Scripts\vendor\jquery.sparkline.js" />
+    <Content Include="Sounds\Questions\include-folder.txt" />
+    <Content Include="Style\fonts\OFL.txt" />
+    <Content Include="Style\form.css">
+      <DependentUpon>form.less</DependentUpon>
+    </Content>
+    <Content Include="Style\markdown-editor.css" />
+    <Content Include="Style\site-debug.css">
+      <DependentUpon>site-debug.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Categories.css">
+      <DependentUpon>Categories.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Detail\Category.aspx" />
+    <TypeScriptCompile Include="Views\Categories\Js\Categories.ts" />
+    <Content Include="Views\Categories\Js\Categories.js">
+      <DependentUpon>Categories.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Drafts\Boxes.aspx" />
+    <Content Include="Views\Drafts\Boxes.css" />
+    <Content Include="Views\Drafts\ContentUnits.aspx" />
+    <Content Include="Views\Drafts\ContentUnits.css" />
+    <Content Include="Views\Drafts\RangeSlider.aspx" />
+    <Content Include="Views\Drafts\Grid.aspx" />
+    <Content Include="Views\Drafts\RangeSlider.css" />
+    <Content Include="Views\Images\ImageDetail.js">
+      <DependentUpon>ImageDetail.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images\ImageMaintenance.js">
+      <DependentUpon>ImageMaintenance.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Images\ImageDetailModal.ascx" />
+    <Content Include="Views\Maintenance\Images\ImageMaintenanceRow.ascx" />
+    <Content Include="Views\Maintenance\Images\ImageMaintenanceModal.ascx" />
+    <Content Include="Style\Images.css">
+      <DependentUpon>Images.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images\Markup.ascx" />
+    <Content Include="Views\Maintenance\Tools.aspx" />
+    <Content Include="Views\Maintenance\Messages.aspx" />
+    <Content Include="Views\Maintenance\Images\Images.aspx" />
+    <Content Include="Views\Messages\Js\Message.js">
+      <DependentUpon>Message.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Message.css">
+      <DependentUpon>Message.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js">
+      <DependentUpon>SolutionTypeDate.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js">
+      <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswerAdd.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\CommentAnswer.ascx" />
+    <Content Include="Views\Questions\Answer\Comments\Comment.ascx" />
+    <Content Include="Scripts\answerQuestion\AnswerQuestion.js">
+      <DependentUpon>AnswerQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\Comments.js">
+      <DependentUpon>Comments.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\PinQuestion.js">
+      <DependentUpon>PinQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\RowPin.js">
+      <DependentUpon>RowPin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionsSearch.js">
+      <DependentUpon>QuestionsSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Questions.css">
+      <DependentUpon>Questions.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Error\_404.aspx" />
+    <Content Include="Views\Sets\SetsSearchResult.ascx" />
+    <Content Include="Views\Shared\HistoryAndProbability.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js">
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\References.js">
+      <DependentUpon>References.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\ToQuestionSet.js">
+      <DependentUpon>ToQuestionSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\Set.js">
+      <DependentUpon>Set.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Set.aspx" />
+    <Content Include="Views\Sets\Detail\Set.css">
+      <DependentUpon>Set.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\EditSet.aspx" />
+    <TypeScriptCompile Include="Views\Images\ImageDetail.ts" />
+    <TypeScriptCompile Include="Views\Maintenance\Images\ImageMaintenance.ts" />
+    <TypeScriptCompile Include="Views\Messages\Js\Message.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBody.ts" />
+    <TypeScriptCompile Include="Scripts\answerQuestion\PinQuestion.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
+    <TypeScriptCompile Include="Scripts\RowPin.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\Validation.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionsSearch.ts" />
+    <TypeScriptCompile Include="Views\Sets\Detail\Js\Set.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\ImageUpload.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\SetSortable.ts" />
+    <TypeScriptCompile Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.ts" />
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js">
+      <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\SetSortable.js">
+      <DependentUpon>SetSortable.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Views\Sets\Js\Sets.ts" />
+    <Content Include="Views\Sets\Js\Sets.js">
+      <DependentUpon>Sets.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Modals\DeleteSet.ascx" />
+    <Content Include="Views\Sets\SetRow.ascx" />
+    <Content Include="Views\Sets\Sets.aspx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ascx" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.ascx" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\EditQuestion.ts" />
+    <Content Include="Views\Questions\Edit\EditQuestion.css">
+      <DependentUpon>EditQuestion.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\EditQuestion.js">
+      <DependentUpon>EditQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeSequence.ascx" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowDelete.ts" />
+    <TypeScriptCompile Include="Views\Questions\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ts" />
+    <TypeScriptCompile Include="Views\Questions\Edit\Js\MarkdownQuestionExt.ts" />
+    <Content Include="Views\Questions\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowDelete.js">
+      <DependentUpon>QuestionRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowSelection.js">
+      <DependentUpon>QuestionRowSelection.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="Views\Questions\Js\ToQuestionSet.ts" />
+    <Content Include="Views\Questions\Modals\ModalDeleteQuestion.ascx" />
+    <Content Include="Views\Questions\Modals\ToQuestionSet.ascx" />
+    <Content Include="Views\Questions\Js\Questions.js" />
+    <TypeScriptCompile Include="Views\Questions\Js\QuestionRowSelection.ts" />
+    <Content Include="Views\Maintenance\Maintenance.aspx" />
+    <Content Include="Views\Sets\Sets.css">
+      <DependentUpon>Sets.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\AnswerHistory.ascx" />
+    <Content Include="Views\Shared\AudioPlayer.ascx" />
+    <Content Include="Views\Shared\CorrectnessProbability.ascx" />
+    <Content Include="Views\Images\ImageUpload\ImageUpload.ascx" />
+    <TypeScriptCompile Include="Views\Images\ImageUpload\ImageUpload.ts" />
+    <Content Include="Views\Images\ImageUpload\ImageUpload.js">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Reference.ascx" />
+    <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Sets.ascx" />
+    <Content Include="Views\Shared\NotLoggedIn\RegisterOrLogin_Questions.ascx" />
+    <Content Include="Views\Users\Account\Membership.css">
+      <DependentUpon>Membership.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Header.ascx" />
+    <Content Include="Views\Users\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRow.js">
+      <DependentUpon>UserRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRowFollow.js">
+      <DependentUpon>UserRowFollow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\Users.js">
+      <DependentUpon>Users.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Settings\UserSettings.css">
+      <DependentUpon>UserSettings.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Settings\Validation.js">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Network.aspx" />
+    <Content Include="Views\Users\HeaderMobile.ascx" />
+    <Content Include="Views\Users\Users.css">
+      <DependentUpon>Users.less</DependentUpon>
+    </Content>
+    <Content Include="Views\VariousPublic\QUnit.aspx" />
+    <Content Include="Views\Shared\Site.Partial.MasterHeader.ascx" />
+    <Content Include="Views\Shared\Site.Partial.Head.ascx" />
+    <Content Include="Views\Shared\Site.MenuNo.Master" />
+    <None Include="Content\blue.monday\jPlayer_blue.monday_extd.psd" />
+    <None Include="Content\blue.monday\spirites_blue.monday_2011.psd" />
+    <Content Include="Views\Questions\Edit\EditQuestion.less" />
+    <Content Include="Style\form.less" />
+    <Content Include="Views\Categories\Categories.less" />
+    <Content Include="Views\Categories\Detail\Category.less" />
+    <Content Include="Style\components.less" />
+    <Content Include="Style\menu.less" />
+    <None Include="Style\site-debug.less" />
+    <Content Include="Style\z_variables_2.3.2.less" />
+    <Content Include="Views\Questions\Questions.less" />
+    <Content Include="Views\Sets\Sets.less" />
+    <Content Include="Views\Users\Users.less" />
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeDate.js.map">
+      <DependentUpon>SolutionTypeDate.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\AnswerQuestion.js.map">
+      <DependentUpon>AnswerQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowDelete.js.map">
+      <DependentUpon>QuestionRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\QuestionRowSelection.js.map">
+      <DependentUpon>QuestionRowSelection.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Js\ToQuestionSet.js.map">
+      <DependentUpon>ToQuestionSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Js\Sets.js.map">
+      <DependentUpon>Sets.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\ImageUpload.js.map">
+      <DependentUpon>ImageUpload.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\RemoveQuestionFromSet.js.map">
+      <DependentUpon>RemoveQuestionFromSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\SetSortable.js.map">
+      <DependentUpon>SetSortable.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\users.js.map">
+      <DependentUpon>Users.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\EditQuestion.js.map">
+      <DependentUpon>EditQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownQuestionExt.js.map">
+      <DependentUpon>MarkdownQuestionExt.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Js\Categories.js.map">
+      <DependentUpon>Categories.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.js.map">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.js.map">
+      <DependentUpon>SolutionTypeText.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\ImageUpload.js.map">
+      <DependentUpon>ImageUpload.js</DependentUpon>
+    </Content>
+    <Content Include="Views\Images\ImageUpload\ImageUpload.js.map">
+      <DependentUpon>ImageUpload.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Set.less" />
+    <Content Include="Views\Sets\Detail\Js\Set.js.map">
+      <DependentUpon>Set.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Categories.css.map">
+      <DependentUpon>Categories.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\EditQuestion.css.map">
+      <DependentUpon>EditQuestion.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Set.css.map">
+      <DependentUpon>Set.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Users.css.map">
+      <DependentUpon>Users.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Sets.css.map">
+      <DependentUpon>Sets.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Message.less" />
+    <Content Include="Views\Messages\Js\Message.js.map">
+      <DependentUpon>Message.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Messages\Message.css.map">
+      <DependentUpon>Message.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeSequence.js.map">
+      <DependentUpon>SolutionTypeSequence.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\References.js.map">
+      <DependentUpon>References.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\PinQuestion.js.map">
+      <DependentUpon>PinQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\Comments.js.map">
+      <DependentUpon>Comments.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\EditCategory.less" />
+    <Content Include="Views\Categories\Edit\EditCategory.css.map">
+      <DependentUpon>EditCategory.css</DependentUpon>
+    </Content>
+    <Content Include="Scripts\autocompletes\AutocompleteCategories.js.map">
+      <DependentUpon>AutocompleteCategories.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Questions.css.map">
+      <DependentUpon>Questions.less</DependentUpon>
+    </Content>
+    <Content Include="Scripts\RowPin.js.map">
+      <DependentUpon>RowPin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Beta.aspx" />
+    <Content Include="Style\z_mixins_for_buttons_2.3.2.css.map">
+      <DependentUpon>z_mixins_for_buttons_2.3.2.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\QuestionsSearchResult.ascx" />
+    <Content Include="Views\Questions\Js\QuestionsSearch.js.map">
+      <DependentUpon>QuestionsSearch.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestion.less" />
+    <Content Include="Style\Images.less" />
+    <Content Include="Style\Images.css.map">
+      <DependentUpon>Images.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images\ImageMaintenance.js.map">
+      <DependentUpon>ImageMaintenance.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Images\ImageDetail.js.map">
+      <DependentUpon>ImageDetail.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Settings\UserSettings.less" />
+    <Content Include="Views\Users\Account\Settings\UserSettings.css.map">
+      <DependentUpon>UserSettings.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Settings\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Membership.less" />
+    <Content Include="Views\Users\Account\Membership.css.map">
+      <DependentUpon>Membership.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Account\Js\Membership.js.map">
+      <DependentUpon>Membership.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Site.Beta.Master" />
+    <Content Include="Views\Beta\Js\BetaLogin.js.map">
+      <DependentUpon>BetaLogin.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\BetaRequest.js.map">
+      <DependentUpon>BetaRequest.ts</DependentUpon>
+    </Content>
+    <Content Include="Scripts\answerQuestion\BrainWavesHub.js.map">
+      <DependentUpon>BrainWavesHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\ToolsBrainWaveHub.js.map">
+      <DependentUpon>ToolsBrainWaveHub.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Game.less" />
+    <Content Include="Views\Games\Edit\Game.css.map">
+      <DependentUpon>Game.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Games.less" />
+    <Content Include="Views\Games\Games.css.map">
+      <DependentUpon>Games.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Play.less" />
+    <Content Include="Views\Games\Play\Play.css.map">
+      <DependentUpon>Play.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\Games.js.map">
+      <DependentUpon>Games.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Js\GameRow.js.map">
+      <DependentUpon>GameRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\Play.js.map">
+      <DependentUpon>Play.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameInProgressPlayer.js.map">
+      <DependentUpon>GameInProgressPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Play\Js\GameReady.js.map">
+      <DependentUpon>GameReady.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.js.map">
+      <DependentUpon>SolutionTypeNumeric.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.less" />
+    <Content Include="Views\Questions\Answer\AnswerQuestionSolution.css.map">
+      <DependentUpon>AnswerQuestionSolution.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Beta.less" />
+    <Content Include="Views\Beta\Beta.css.map">
+      <DependentUpon>Beta.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Beta\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Knowledge.less" />
+    <Content Include="Views\Knowledge\Knowledge.css.map">
+      <DependentUpon>Knowledge.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Edit\EditDate.less" />
+    <Content Include="Views\Dates\Edit\EditDate.css.map">
+      <DependentUpon>EditDate.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Dates.less" />
+    <Content Include="Views\Dates\Dates.css.map">
+      <DependentUpon>Dates.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Edit\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRowDelete.js.map">
+      <DependentUpon>DateRowDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRow.js.map">
+      <DependentUpon>DateRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\PreviousDates.js.map">
+      <DependentUpon>PreviousDates.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRow.js.map">
+      <DependentUpon>UserRow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Js\UserRowFollow.js.map">
+      <DependentUpon>UserRowFollow.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Games\Edit\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Js\SetDelete.js.map">
+      <DependentUpon>SetDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Edit\Js\MarkdownDescription.js.map">
+      <DependentUpon>MarkdownDescription.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\AnswerEntryBase.js.map">
+      <DependentUpon>AnswerEntryBase.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Images\Images.less" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.aspx" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.less" />
+    <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResult.css.map">
+      <DependentUpon>LearningSessionResult.css</DependentUpon>
+    </Content>
+    <Content Include="Views\AlgoInsight\AlgoInsight.less" />
+    <Content Include="Views\Welcome\Welcome.less" />
+    <Content Include="Views\Welcome\Welcome.css.map">
+      <DependentUpon>Welcome.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\User.less" />
+    <Content Include="Views\Sets\Edit\EditSet.less" />
+    <Content Include="Views\Sets\Edit\EditSet.css.map">
+      <DependentUpon>EditSet.css</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\User.css.map">
+      <DependentUpon>User.css</DependentUpon>
+    </Content>
+    <Content Include="Views\AlgoInsight\TabForgettingCurve_.js.map">
+      <DependentUpon>TabForgettingCurve_.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Edit\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Dates\Js\DateRowCopy.js.map">
+      <DependentUpon>DateRowCopy.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\FeatureNotImplementedModal.ascx" />
+    <Content Include="Views\Topics\Topic.aspx" />
+    <Content Include="Views\Topics\Docs\Unicode.md" />
+    <Content Include="Views\Shared\Site.Widget.Master" />
+    <Content Include="Views\Welcome\Js\Validation.js.map">
+      <DependentUpon>Validation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Users\Detail\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\TestSession\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\TestSession\Js\TestSessionResult.js.map">
+      <DependentUpon>TestSessionResult.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Js\SendRequestNewsletter.js.map">
+      <DependentUpon>SendRequestNewsletter.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Registration\SocialButtons.less" />
+    <Content Include="Views\Welcome\Js\ValidationPasswordReset.js.map">
+      <DependentUpon>ValidationPasswordReset.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\About\AboutMemucho.less" />
+    <Content Include="Views\Help\FAQ.less" />
+    <Content Include="Views\Maintenance\ContentCreatedReport.less" />
+    <Content Include="Views\Welcome\Registration\Js\FacebookRegistration.js.map">
+      <DependentUpon>FacebookRegistration.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Login\Login.js.map">
+      <DependentUpon>Login.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\ShareQuestion.js.map">
+      <DependentUpon>ShareQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideoPlayer.js.map">
+      <DependentUpon>SetVideoPlayer.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Sets\Detail\Js\SetVideo.js.map">
+      <DependentUpon>SetVideo.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\About\ForTeachers.aspx" />
+    <Content Include="Views\Categories\Js\CategoryDelete.js.map">
+      <DependentUpon>CategoryDelete.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\About\ForTeachers.less" />
+    <Content Include="Views\About\Jobs.less" />
+    <Content Include="Views\Widgets\WidgetQuestion.js.map">
+      <DependentUpon>WidgetQuestion.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.js.map">
+      <DependentUpon>SolutionTypeMultipleChoice.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Widgets\app.config" />
+    <Content Include="Views\Help\Widget.less" />
+    <Content Include="Views\Sets\Detail\Js\ShareSet.js.map">
+      <DependentUpon>ShareSet.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice - Copy.js.map">
+      <DependentUpon>SolutionTypeFlashCard.ascx</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Contact.less" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Questions\Modals\QuestionInSet.cshtml" />
+    <Content Include="Views\Shared\ActivityPopupContent.ascx" />
+    <Content Include="Views\Sets\Edit\Js\YoutubePreview.js.map">
+      <DependentUpon>YoutubePreview.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Partials\BlogPostCarousel.ascx" />
+    <Content Include="Views\Users\Account\WidgetStats\WidgetStats.less" />
+    <Content Include="Views\Maintenance\Js\ContentStats.js.map">
+      <DependentUpon>ContentStats.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Maintenance\Js\CMS.js.map">
+      <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+<<<<<<< HEAD
+    <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
+      <DependentUpon>AnswerBody.ts</DependentUpon>
+=======
+    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+>>>>>>> origin/origin/feature/_QuestionKonwledgeAsABox
+    </Content>
+    <None Include="Web.overwritten.config" />
+    <None Include="Web.overwritten.config.sample" />
+    <Content Include="Views\Welcome\Logout.aspx" />
+    <Content Include="Views\Api\Export.aspx" />
+    <Content Include="Views\Categories\Categories.aspx" />
+    <Content Include="Views\Categories\CategoryRow.ascx" />
+    <Content Include="Views\Categories\Edit\EditCategory.aspx" />
+    <TypeScriptCompile Include="Scripts\autocompletes\AutocompleteCategories.ts" />
+    <Content Include="Views\Messages\Messages.aspx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeText.ascx" />
+    <Content Include="Views\Questions\Edit\EditSolutionControls\SolutionTypeMultipleChoice_SingleSolution.ascx" />
+    <Content Include="Views\Questions\QuestionRow.ascx" />
+    <Content Include="Views\Questions\Questions.aspx" />
+    <Content Include="Scripts\JQueryExtensions.js" />
+    <Content Include="Views\Shared\Message.ascx" />
+    <Content Include="Views\Knowledge\Knowledge.aspx" />
+    <Content Include="Views\Shared\Pager.ascx" />
+    <Content Include="Views\Users\Detail\User.aspx" />
+    <TypeScriptCompile Include="Views\Users\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\UserRow.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\UserRowFollow.ts" />
+    <TypeScriptCompile Include="Views\Users\Js\Users.ts" />
+    <Content Include="Views\Users\Account\Settings\UserSettings.aspx" />
+    <Content Include="Views\Users\UserRow.ascx" />
+    <Content Include="Views\Users\Users.aspx" />
+    <Content Include="Views\VariousPublic\Imprint.aspx" />
+    <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
+    <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
+    <Content Include="Views\Shared\TopUsers.ascx" />
+    <Content Include="Views\About\WelfareCompany.aspx" />
+    <Content Include="Views\Welcome\PasswordReset.aspx" />
+    <Content Include="Views\Welcome\PasswordRecovery.aspx" />
+    <Content Include="Views\Welcome\Registration\Register.aspx" />
+    <Content Include="Views\Welcome\Registration\RegisterSuccess.aspx" />
+    <Content Include="Views\Welcome\Welcome.aspx" />
+    <Content Include="Views\Shared\Site.Partial.MasterFooter.ascx" />
+    <None Include="Web.config">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
+    <Content Include="Views\Error\_500.aspx" />
+    <Content Include="Views\Shared\LogOn.ascx" />
+    <Content Include="Views\Shared\Site.MenuLeft.Master" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Style\fonts\Candal.ttf" />
+    <None Include="Style\fonts\OvertheRainbow.ttf" />
+    <None Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj">
+      <Project>{0aa2472f-e001-45c0-ad00-2e49b1566739}</Project>
+      <Name>TrueOrFalse</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Domain\Message\Types\" />
+    <Folder Include="bin\Utilities\Update\Scripts\" />
+    <Folder Include="bin\Utilities\Update\SolrSchemas\" />
+    <Folder Include="Views\Dates\Details\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />
+  <!--<Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' == ''" />-->
+  <PropertyGroup>
+    <SsdtUnitTestVersion>2.0</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Import Project="..\packages\OctoPack.3.6.1\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OctoPack.3.6.1\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.1\build\OctoPack.targets'))" />
+  </Target>
+</Project>

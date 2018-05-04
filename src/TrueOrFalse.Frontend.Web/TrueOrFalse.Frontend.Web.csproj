@@ -458,6 +458,15 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Js\GoogleChartsLoad.js">
+      <DependentUpon>GoogleChartsLoad.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Js\Page.js">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
+      <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
@@ -513,6 +522,16 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Js\GoogleChartsLoad.js.map">
+      <DependentUpon>GoogleChartsLoad.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Js\Page.js.map">
+      <DependentUpon>Page.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js.map">
+      <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Knowledge\Partials\_Dashboard.ascx" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -847,6 +866,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
+    <TypeScriptCompile Include="Views\Knowledge\Js\GoogleChartsLoad.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
