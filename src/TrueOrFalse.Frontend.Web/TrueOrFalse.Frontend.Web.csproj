@@ -7537,11 +7537,12 @@
     </Content>
     <Content Include="Scripts\header\ActivityPointsPopup.js.map">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
       <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
     </Content>
-    <Content Include="Scripts\header\SearchBox.js.map">
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Scripts\header\SearchBox.js.map">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
     <Content Include="Scripts\hubs\GameHub.js.map">
@@ -9833,6 +9834,7 @@
     <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
     <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
       <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
