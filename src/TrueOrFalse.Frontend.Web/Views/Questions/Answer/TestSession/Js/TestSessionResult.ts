@@ -2,9 +2,7 @@
 
     constructor() {
         var self = this;
-        if (Utils.IsInWidget()) {
-            $(".nextLearningTestSession").fadeOut();
-        }
+      
 
         $("[data-action=showAllDetails]").click((e) => {
             e.preventDefault();

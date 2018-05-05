@@ -73,7 +73,7 @@
             
                 <% Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionResultDetails.ascx", Model);  %>
                      
-                <div class="buttonRow">
+            <%--    <div class="buttonRow">
                     <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-link" style="padding-right: 10px">
                         Zur Wissenszentrale
                     </a>
@@ -84,7 +84,7 @@
                         " rel="nofollow">
                         <i class="fa fa-play-circle AnswerResultIcon">&nbsp;&nbsp;</i>Weitermachen!
                     </a>
-                </div>
+                </div>--%>
 
                 <% if (Model.ContentRecommendationResult != null) { %>
                     <div style="margin-top: 80px;">
