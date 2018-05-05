@@ -146,7 +146,7 @@
                                         <a href="#" id="btnNext" class="btn btn-primary" rel="nofollow">Nächste Frage</a>
                                     <% }else if(Model.NextUrl == null && Model.IsForVideo){ %> 
                                         <button id="continue"  class="btn btn-primary clickToContinue" style="display: none">Weiter</button>
-                                    <% }else if (Model.PrimarySetMini != null && Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame  ) {
+                                    <% }else if (Model.PrimarySetMini != null && !Model.IsInWidget && !Model.IsForVideo && !Model.IsInGame  ) {
                                               Console.WriteLine(Model.PrimarySetMini);%>
                                         <a href="<%= Links.TestSessionStartForSet(Model.PrimarySetMini.Name, Model.PrimarySetMini.Id) %>" id="btnStartTestSession" class="btn btn-primary show-tooltip" rel="nofollow" data-original-title="Teste dein Wissen mit <%= Settings.TestSessionQuestionCount  %> zufällig ausgewählten Fragen aus dem Lernset '<%= Model.PrimarySetMini.Name %>'">
                                             <i class="fa fa-play-circle"></i>&nbsp;&nbsp;<b>Weitermachen</b><br/>
