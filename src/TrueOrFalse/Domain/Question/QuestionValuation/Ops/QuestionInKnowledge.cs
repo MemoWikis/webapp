@@ -17,7 +17,7 @@ public static class QuestionInKnowledge
 
     public static void Create(QuestionValuation questionValuation)
     {
-        Sl.Resolve<QuestionValuationRepo>().CreateOrUpdate(questionValuation);
+        Sl.QuestionValuationRepo.CreateOrUpdate(questionValuation);
 
         var sb = new StringBuilder();
 
