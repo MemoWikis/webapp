@@ -873,14 +873,229 @@ img {
     }
 }
 
-    #MasterMainWrapper {
-        background-color: white;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom: 20px;
-        padding-top: 25px;
-        width:100% !important;
+#MasterMainWrapper {
+    background-color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-top: 25px;
+    width: 100% !important;
+
+
+    /*******************************************************************/
+    /*  Breadcrumbs
+----------------------------------------------------------*/
+    /** Default button **/
+    .btn-breadcrumb {
+        a {
+            text-decoration: underline;
+        }
+
+        a.current {
+            text-decoration: none;
+        }
+        /** Breadcrumb **/
+        .btn:not(:last-child):after {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-bottom: 17px solid transparent;
+            border-left: 10px solid white;
+            position: absolute;
+            top: 50%;
+            margin-top: -17px;
+            left: 100%;
+            z-index: 3;
+        }
+
+        .btn:not(:last-child):before {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-bottom: 17px solid transparent;
+            border-left: 10px solid rgb(173, 173, 173);
+            position: absolute;
+            top: 50%;
+            margin-top: -17px;
+            margin-left: 1px;
+            left: 100%;
+            z-index: 3;
+        }
+        /** The Spacing **/
+        .btn {
+            padding: 6px 12px 6px 24px;
+        }
+
+        .btn:first-child {
+            padding: 6px 6px 6px 10px;
+        }
+
+        .btn:last-child {
+            padding: 6px 18px 6px 24px;
+        }
+
+        .btn.btn-default:not(:last-child):after {
+            border-left: 10px solid #fff;
+        }
+
+        .btn.btn-default:not(:last-child):before {
+            border-left: 10px solid #ccc;
+        }
+
+        .btn.btn-default:hover:not(:last-child):after {
+            border-left: 10px solid #ebebeb;
+        }
+
+        .btn.btn-default:hover:not(:last-child):before {
+            border-left: 10px solid #adadad;
+        }
     }
+
+    .BreadcrumbsMobile {
+        font-size: 14px;
+        background-color: white;
+        line-height: 1.5em;
+        margin-bottom: 10px;
+        width: 100%;
+        font-family: sans;
+        color: #1B3651 !important;
+        font: bold;
+        .greyed;
+
+        div {
+            font-family: 'Open Sans';
+            font-weight: bold;
+        }
+
+        img {
+            min-width: 21px;
+            min-height: 21px;
+            width: 21px !important;
+            height: 21px !important;
+            border-radius: 50%;
+        }
+
+        i.fa-home {
+            width: 21px !important;
+            height: 21px;
+            border-radius: 50px;
+            background-color: #0B335E;
+            color: white;
+            padding-top: 1px;
+        }
+
+
+        i.fa-chevron-right {
+            font-size: 80%;
+            color: #1B3651;
+            margin-right: 10px;
+        }
+
+        .category-icon {
+            &:hover, &:focus {
+                text-decoration: none;
+            }
+        }
+
+        i.fa {
+            font-size: 120%;
+            width: 0.9em;
+            text-align: center;
+        }
+
+        i.fa-graduation-cap {
+            width: 1.25em;
+        }
+
+        i.fa-home {
+            width: auto;
+        }
+
+        i.fa-chevron-right {
+            font-size: 80%;
+            width: auto;
+            margin-left: 13px;
+        }
+
+        a {
+            color: #1B3651;
+            text-decoration: none;
+            font-family: "Open Sans";
+            font-size: 14px;
+            font-weight: bold;
+
+
+            &:not(.current) {
+                &:hover, &:focus, &:active {
+                    color: #1B3651;
+                    text-decoration: underline;
+                    text-underline-position: alphabetic;
+                }
+            }
+
+            &.current {
+                cursor: default;
+            }
+        }
+
+        .media-below-lg( {
+            padding-bottom: 20px;
+        }
+
+        );
+    }
+
+
+    html.flexbox:not(.Explorer):not(.Safari) {
+        .CardsLandscape {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+
+            .CardColumn {
+                display: flex;
+            }
+
+            .Card {
+                display: flex;
+                width: 100%;
+
+                .ImageContainer {
+                    flex: 0 0 100px;
+                    flex-grow: 0%; //sic!
+                    flex-shrink: 0%; //sic!
+                    flex-basis: 100px;
+                    align-self: flex-start;
+                }
+
+                .ContentContainer {
+                    margin-left: 0 !important;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    flex: auto;
+                }
+
+                .CardContent {
+                    margin-left: 0;
+                    height: auto;
+                    max-height: 243px;
+                    border-bottom: none !important;
+                }
+
+                .BottomBar {
+                    border-top: 1px solid @ruler-grey;
+                    margin-left: 0 !important;
+                    margin-right: 15px !important;
+                }
+            }
+        }
+    }
+}
 
     #MobileSubHeader + #MasterMainContent {
 

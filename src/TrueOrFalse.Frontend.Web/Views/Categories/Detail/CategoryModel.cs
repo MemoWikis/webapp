@@ -16,8 +16,6 @@ public class CategoryModel : BaseModel
     
     public KnowledgeSummary KnowledgeSummary;
 
-    public List<Category> RootCategoriesList;
-    public IList<Category> BreadCrumb => Sl.SessionUiData.TopicMenu.CategoryPath;
 
     public string CustomPageHtml;//Is set in controller because controller context is needed
     public IList<Set> FeaturedSets;
@@ -71,8 +69,7 @@ public class CategoryModel : BaseModel
 
     public LearningTabModel LearningTabModel; 
     public CategoryModel(Category category, bool loadKnowledgeSummary = true)
-    {
-        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
+    {      
         MetaTitle = category.Name;
         MetaDescription = SeoUtils.ReplaceDoubleQuotes(category.Description).Truncate(250, true);
 
@@ -153,11 +150,6 @@ public class CategoryModel : BaseModel
         return topQuestions
             .Distinct(ProjectionEqualityComparer<Question>.Create(x => x.Id))
             .ToList();
-    }
-    public ImageFrontendData GetCategoryImage(Category category)
-    {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
-        return new ImageFrontendData(imageMetaData);
     }
     private void GetTopQuestionsFromChildrenOfChildren(List<Question> topQuestions)
     {

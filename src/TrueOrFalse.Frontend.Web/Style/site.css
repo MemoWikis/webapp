@@ -961,6 +961,184 @@ ul.AutocompleteHeader {
   padding-bottom: 20px;
   padding-top: 25px;
   width: 100% !important;
+  /*******************************************************************/
+  /*  Breadcrumbs
+----------------------------------------------------------*/
+  /** Default button **/
+}
+#MasterMainWrapper .btn-breadcrumb {
+  /** Breadcrumb **/
+  /** The Spacing **/
+}
+#MasterMainWrapper .btn-breadcrumb a {
+  text-decoration: underline;
+}
+#MasterMainWrapper .btn-breadcrumb a.current {
+  text-decoration: none;
+}
+#MasterMainWrapper .btn-breadcrumb .btn:not(:last-child):after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  left: 100%;
+  z-index: 3;
+}
+#MasterMainWrapper .btn-breadcrumb .btn:not(:last-child):before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid #adadad;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 3;
+}
+#MasterMainWrapper .btn-breadcrumb .btn {
+  padding: 6px 12px 6px 24px;
+}
+#MasterMainWrapper .btn-breadcrumb .btn:first-child {
+  padding: 6px 6px 6px 10px;
+}
+#MasterMainWrapper .btn-breadcrumb .btn:last-child {
+  padding: 6px 18px 6px 24px;
+}
+#MasterMainWrapper .btn-breadcrumb .btn.btn-default:not(:last-child):after {
+  border-left: 10px solid #fff;
+}
+#MasterMainWrapper .btn-breadcrumb .btn.btn-default:not(:last-child):before {
+  border-left: 10px solid #ccc;
+}
+#MasterMainWrapper .btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
+  border-left: 10px solid #ebebeb;
+}
+#MasterMainWrapper .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
+  border-left: 10px solid #adadad;
+}
+#MasterMainWrapper .BreadcrumbsMobile {
+  font-size: 14px;
+  background-color: white;
+  line-height: 1.5em;
+  margin-bottom: 10px;
+  width: 100%;
+  font-family: sans;
+  color: #1B3651 !important;
+  font: bold;
+  color: #999999;
+}
+#MasterMainWrapper .BreadcrumbsMobile div {
+  font-family: 'Open Sans';
+  font-weight: bold;
+}
+#MasterMainWrapper .BreadcrumbsMobile img {
+  min-width: 21px;
+  min-height: 21px;
+  width: 21px !important;
+  height: 21px !important;
+  border-radius: 50%;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa-home {
+  width: 21px !important;
+  height: 21px;
+  border-radius: 50px;
+  background-color: #0B335E;
+  color: white;
+  padding-top: 1px;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
+  font-size: 80%;
+  color: #1B3651;
+  margin-right: 10px;
+}
+#MasterMainWrapper .BreadcrumbsMobile .category-icon:hover,
+#MasterMainWrapper .BreadcrumbsMobile .category-icon:focus {
+  text-decoration: none;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa {
+  font-size: 120%;
+  width: 0.9em;
+  text-align: center;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa-graduation-cap {
+  width: 1.25em;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa-home {
+  width: auto;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
+  font-size: 80%;
+  width: auto;
+  margin-left: 13px;
+}
+#MasterMainWrapper .BreadcrumbsMobile a {
+  color: #1B3651;
+  text-decoration: none;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: bold;
+}
+#MasterMainWrapper .BreadcrumbsMobile a:not(.current):hover,
+#MasterMainWrapper .BreadcrumbsMobile a:not(.current):focus,
+#MasterMainWrapper .BreadcrumbsMobile a:not(.current):active {
+  color: #1B3651;
+  text-decoration: underline;
+  text-underline-position: alphabetic;
+}
+#MasterMainWrapper .BreadcrumbsMobile a.current {
+  cursor: default;
+}
+@media (max-width: 1199px) {
+  #MasterMainWrapper .BreadcrumbsMobile {
+    padding-bottom: 20px;
+  }
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .CardColumn {
+  display: flex;
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card {
+  display: flex;
+  width: 100%;
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ImageContainer {
+  flex: 0 0 100px;
+  flex-grow: 0%;
+  flex-shrink: 0%;
+  flex-basis: 100px;
+  align-self: flex-start;
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ContentContainer {
+  margin-left: 0 !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: auto;
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .CardContent {
+  margin-left: 0;
+  height: auto;
+  max-height: 243px;
+  border-bottom: none !important;
+}
+#MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
+  border-top: 1px solid #dfdfdf;
+  margin-left: 0 !important;
+  margin-right: 15px !important;
 }
 @media (max-width: 991px) {
   #MobileSubHeader + #MasterMainContent {

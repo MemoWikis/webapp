@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" 
-    Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
+    Inherits="System.Web.Mvc.ViewUserControl<TopNavMenu>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <% var breadCrumb = Model.BreadCrumb; %>   
 
@@ -12,8 +12,7 @@
         <span><i class="fa fa-chevron-right"></i></span>
     </div>        
 
- <% 
-     if (breadCrumb.Count > 1 && breadCrumb.Count < 3 ) { 
+ <%     if (breadCrumb.Count > 1 && breadCrumb.Count < 3 ) { 
          foreach (var rootCategory in Model.RootCategoriesList)
          {
              if (breadCrumb.First() == rootCategory)
@@ -77,6 +76,7 @@
             <%= Model.GetCategoryImage(breadCrumb[i]).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumb[i])) %>
         <span style="display: inline-table; margin-left:10px;"><a href="<%= Links.CategoryDetail(breadCrumb[i]) %>" class=""><%= breadCrumb[i].Name %></a>
             <i style="display: inline;" class="fa fa-chevron-right"></i>
+           
         </span>
     </div>
     <% } %>
