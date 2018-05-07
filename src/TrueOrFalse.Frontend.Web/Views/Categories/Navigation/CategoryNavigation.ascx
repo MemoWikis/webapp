@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<CategoryNavigationModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
-<div id="mainMenuThemeNavigation" class="menu-section">
+<div id="mainMenuThemeNavigation" class="menu-section" style="width:100%">
 <% var defaultCategories = Model.RootCategoriesList;
    for (int i = 0; i < defaultCategories.Count; i++)
    { %>

@@ -22,7 +22,7 @@
             <div class="col-md-12">
                 <div class="row HeaderMainRow" style="background-color:#003264">
                     <div class="col-xs-6 col-Logo">
-                       
+                      <a id="MobileMenuButton"><i class="fa fa-bars"></i><span class="caret"></span></a>
                         <a id="LogoLink" href="/">
                             <div id="Pictogram">
                                 <img src="/Images/Logo/LogoPictogram.png">

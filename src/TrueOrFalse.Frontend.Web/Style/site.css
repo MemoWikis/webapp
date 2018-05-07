@@ -188,19 +188,6 @@ h1 *.ColoredUnderline {
 img {
   max-width: 100%;
 }
-.PathMenuImg {
-    height: 21px;
-    width: 21px !important;
-  
-}
-.PathMenuHomeImg {
-    height: 21px;
-    border-radius: 50%;
-   background-color: #0B335E;
-   color:white;
-   padding-top:1px;
-   margin-left:0px
-}
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
@@ -561,59 +548,82 @@ img {
   padding: 5px 7px 5px 9px;
   font-size: 25px;
 }
-#MenuButton {
-    margin-bottom: 0;
-    font-weight: normal;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    border-radius: 4px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: inline-block;
-    float: right;
-    margin-top: 4px;
-    margin-left: -7px;
-    padding: 3px 3px 3px 7px;
-    margin-right: 10px;
-    font-size: 18px;
-    color: #003264;
-    background-color: transparent;
-    background-image: none;
-    border-color: transparent;
-    box-shadow: none;
-    -webkit-text-shadow: none;
-    text-shadow: none;
+#MenuButton,
+#MobileMenuButton,
+#SidebarMenuButton {
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: inline-block;
+  float: left;
+  font-size: 22px !important;
+  margin-top: 6px;
+  margin-left: -7px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 10px;
+  font-size: 18px;
+  color: #003264;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-text-shadow: none;
+  text-shadow: none;
 }
-
 #MenuButton:focus,
+#MobileMenuButton:focus,
+#SidebarMenuButton:focus,
 #MenuButton:active:focus,
-#MenuButton.active:focus {
+#MobileMenuButton:active:focus,
+#SidebarMenuButton:active:focus,
+#MenuButton.active:focus,
+#MobileMenuButton.active:focus,
+#SidebarMenuButton.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover,
-#MenuButton:focus {
+#MobileMenuButton:hover,
+#SidebarMenuButton:hover,
+#MenuButton:focus,
+#MobileMenuButton:focus,
+#SidebarMenuButton:focus {
+  color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
-#MenuButton.active {
+#MobileMenuButton:active,
+#SidebarMenuButton:active,
+#MenuButton.active,
+#MobileMenuButton.active,
+#SidebarMenuButton.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton.disabled,
+#MobileMenuButton.disabled,
+#SidebarMenuButton.disabled,
 #MenuButton[disabled],
-fieldset[disabled] #MenuButton {
+#MobileMenuButton[disabled],
+#SidebarMenuButton[disabled],
+fieldset[disabled] #MenuButton,
+fieldset[disabled] #MobileMenuButton,
+fieldset[disabled] #SidebarMenuButton {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -621,27 +631,32 @@ fieldset[disabled] #MenuButton {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-#MenuButton .caret {
+#MenuButton .caret,
+#MobileMenuButton .caret,
+#SidebarMenuButton .caret {
   margin-left: 3px;
 }
 @media (min-width: 768px) {
-  #MenuButton {
+  #MenuButton,
+  #MobileMenuButton,
+  #SidebarMenuButton {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
     padding: 5px 7px 5px 9px;
     font-size: 25px;
-    margin-top: 0;
     position: relative;
-    top: 3px;
-   right: -30px;
   }
-  #MenuButton .caret {
+  #MenuButton .caret,
+  #MobileMenuButton .caret,
+  #SidebarMenuButton .caret {
     margin-left: 5px;
   }
 }
-#MenuButton:hover {
+#MenuButton:hover,
+#MobileMenuButton:hover,
+#SidebarMenuButton:hover {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -659,32 +674,53 @@ fieldset[disabled] #MenuButton {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  color: #003264;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
 }
 #MenuButton:hover:focus,
+#MobileMenuButton:hover:focus,
+#SidebarMenuButton:hover:focus,
 #MenuButton:hover:active:focus,
-#MenuButton:hover.active:focus {
+#MobileMenuButton:hover:active:focus,
+#SidebarMenuButton:hover:active:focus,
+#MenuButton:hover.active:focus,
+#MobileMenuButton:hover.active:focus,
+#SidebarMenuButton:hover.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover:hover,
-#MenuButton:hover:focus {
+#MobileMenuButton:hover:hover,
+#SidebarMenuButton:hover:hover,
+#MenuButton:hover:focus,
+#MobileMenuButton:hover:focus,
+#SidebarMenuButton:hover:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:hover:active,
-#MenuButton:hover.active {
+#MobileMenuButton:hover:active,
+#SidebarMenuButton:hover:active,
+#MenuButton:hover.active,
+#MobileMenuButton:hover.active,
+#SidebarMenuButton:hover.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton:hover.disabled,
+#MobileMenuButton:hover.disabled,
+#SidebarMenuButton:hover.disabled,
 #MenuButton:hover[disabled],
-fieldset[disabled] #MenuButton:hover {
+#MobileMenuButton:hover[disabled],
+#SidebarMenuButton:hover[disabled],
+fieldset[disabled] #MenuButton:hover,
+fieldset[disabled] #MobileMenuButton:hover,
+fieldset[disabled] #SidebarMenuButton:hover {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -693,13 +729,53 @@ fieldset[disabled] #MenuButton:hover {
   box-shadow: none;
 }
 @media (min-width: 768px) {
-  #MenuButton:hover {
+  #MenuButton:hover,
+  #MobileMenuButton:hover,
+  #SidebarMenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
     padding: 5px 7px 5px 9px;
     font-size: 25px;
+  }
+}
+#MenuButton {
+  margin-top: 2px !important;
+}
+#MobileMenuButton {
+  font-size: 18px;
+  display: none;
+  color: #e7ecf6;
+  font-size: 18px !important;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  float: left;
+  margin-top: 4px;
+  margin-left: -7px;
+  padding: 3px 3px 3px 7px;
+  margin-right: 10px;
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-text-shadow: none;
+  text-shadow: none;
+}
+@media (max-width: 767px) {
+  #MobileMenuButton {
+    display: block;
   }
 }
 ul.AutocompleteHeader {
@@ -734,6 +810,20 @@ ul.AutocompleteHeader {
   font-weight: bolder;
   font-size: 1.3em;
   text-anchor: middle;
+}
+.Autor-Box {
+  width: 100%;
+  font-size: 18px;
+  margin-top: 70px;
+  text-align: center;
+}
+@media (max-width: 1199px) {
+  .Autor-Box {
+    display: none;
+  }
+}
+.Autor-Box-Name {
+  margin-top: 15px;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
@@ -836,35 +926,41 @@ ul.AutocompleteHeader {
 }
 @media (min-width: 1200px) {
   #MasterMainContent #MasterMainColumn {
-    width: 71%;
+    width: 80%;
   }
 }
-#MasterLeftColumn {
+#MasterSidebarColumn {
   position: relative;
   min-height: 1px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   position: static;
 }
 @media (min-width: 1200px) {
-    #MasterLeftColumn {
-        float: right;
-        width: 21.73%;
-    }
+  #MasterSidebarColumn {
+    float: left;
+    width: 25%;
+  }
 }
-
-
-    #MasterRightColumn {
-       display:none;
-    }
-
-
+@media (min-width: 1200px) {
+  #MasterSidebarColumn {
+    width: 232px;
+    float: right;
+    margin-top: 6px;
+  }
+}
+@media (max-width: 1199.9px) {
+  #MasterSidebarColumn {
+    display: none;
+  }
+}
 #MasterMainWrapper {
   background-color: white;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 20px;
   padding-top: 25px;
-
+  width: 100% !important;
 }
 @media (max-width: 991px) {
   #MobileSubHeader + #MasterMainContent {
@@ -1355,35 +1451,6 @@ div.box-main .box-content {
   box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
   background-color: white;
 }
-.Autor-box {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    width: 100%;
-    font-size: 10px;
-    margin-top: 19.64px;
-    color: #9F9F9F;
-}
-.Autor-box-name {
-    font-size: 18px;
-    border-top: solid 1px #d6d6d6;
-    border-bottom: solid 1px #d6d6d6;
-    margin-top: 43.5px;
-    color: #0560AB;
-    align-items: center;
-    height: 45px;
-    width:100%;
-    text-align:center;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-.Autor-box-text {
-    font-size: 18px;
-    color: #203A54;
-    margin-top:63.36px;
-}
-
-
 /*ROWS
 ---------------------------------------------------------*/
 .rowBase:after {
