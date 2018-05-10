@@ -20,20 +20,22 @@
             </div>
             <div class="Button dropdown">
                 <% var buttonId = Guid.NewGuid(); %>
-                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <a href="#" id="<%= buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-ellipsis-v"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%= buttonId %>">
                     <% if (Model.AggregatedSetCount > 0)
                        { %>
                         <li><a href="<%= Links.DateCreateForCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                     <% }
-                    if(Model.IsOwnerOrAdmin){ %>
+                       if (Model.IsOwnerOrAdmin)
+                       { %>
                         <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
                     <% }
-                    if (Model.IsInstallationAdmin){ %>
+                       if (Model.IsInstallationAdmin)
+                       { %>
                         <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                     <% } %>
                 </ul>
@@ -49,7 +51,8 @@
             <div>
                 <div class="greyed">
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" : Model.Type %> mit <%= Model.AggregatedSetCount %> Lernset<%= StringUtils.PluralSuffix(Model.AggregatedSetCount, "s") %> und <%= Model.AggregatedQuestionCount %> Frage<%= StringUtils.PluralSuffix(Model.AggregatedQuestionCount, "n") %>
-                    <% if(Model.IsInstallationAdmin) { %>
+                    <% if (Model.IsInstallationAdmin)
+                       { %>
                         <a href="#" id="jsAdminStatistics">
                             <span style="margin-left: 10px; font-size: smaller;" class="show-tooltip" data-placement="right" data-original-title="Nur von admin sichtbar">
                                 (<i class="fa fa-user-secret" data-details="<%= Model.GetViewsPerDay() %>">&nbsp;</i><%= Model.GetViews() %> views)
@@ -67,7 +70,7 @@
         <div class="Tabs">
             <div id="TopicTab" class="Tab active">
                 <a href="#">
-                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" :  "Übersicht"%>
+                    <%= Model.Category.Type == CategoryType.Standard ? "Thema" : "Übersicht" %>
                 </a>
             </div>
             <div id="LearningTab" class="Tab">
@@ -114,7 +117,13 @@
                            if (Model.IsInstallationAdmin)
                            { %>
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                        <% } %>
+                        <% }
+                           if(Model.AggregatedSetCount == 0 && !Model.IsLoggedIn) { %>
+                        <li><a href="#" data-btn-login=true ><i class="fa fa-plus-circle"></i>&nbsp;Du musst dich einloggen oder registrieren um das Set zu bearbeiten</a></li> 
+                         
+                        <% 
+                           }
+                        %>
                     </ul>
                 </div>
             </div>
