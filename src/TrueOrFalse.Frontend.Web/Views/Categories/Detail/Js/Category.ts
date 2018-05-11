@@ -16,4 +16,5 @@ $(() => {
     new Pin(PinType.Set, KnowledgeBar.ReloadCategory);
     new Tabbing(page);
     new CategoryHeader(page);
+    new SquareWishKnowledge(page);
 });

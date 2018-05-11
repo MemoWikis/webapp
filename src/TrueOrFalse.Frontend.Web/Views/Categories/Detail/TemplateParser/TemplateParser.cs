@@ -150,6 +150,8 @@ public class TemplateParser
                 return "<div class='" + templateJson.CssClasses + "'>";
             case "divend":
                 return "</div>";
+            case "wishknowledgeinthebox":
+                return "<div class = 'wishKnowledgeTemplate'></div>";
             default:
                 return null;
         }

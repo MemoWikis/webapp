@@ -316,6 +316,7 @@
     <Compile Include="Views\Categories\Detail\Partials\SingleSetFullWidthModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\MediaListModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\EducationOfferListModel.cs" />
+    <Compile Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBoxModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\TopicNavigationModel.cs" />
     <Compile Include="Views\Categories\Detail\MarkdownToHtml.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleCategoryModel.cs" />
@@ -324,6 +325,7 @@
     <Compile Include="Views\Categories\Detail\Partials\SetTestSessionNoStartScreenModel.cs" />
     <Compile Include="Views\Categories\Detail\Partials\VideoWidgetModel.cs" />
     <Compile Include="Views\Categories\Detail\CategoryKnowledgeBarModel.cs" />
+    <Compile Include="Views\Categories\Detail\Tabs\LearningTabModel.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateJson.cs" />
     <Compile Include="Views\Categories\Detail\TemplateParser\TemplateParser.cs" />
     <Compile Include="Views\Categories\Detail\Partials\SingleSetModel.cs" />
@@ -7394,6 +7396,7 @@
     <Content Include="Images\LogosPartners\Logo_oerde17_award.png" />
     <Content Include="Images\LogosPartners\oer_logo_EN_2_w400.png" />
     <Content Include="Images\Logo\LogoWordmark_w300.png" />
+    <Content Include="Images\OerAward.png" />
     <Content Include="Images\Team\founderTeam_20161027.jpg" />
     <Content Include="Images\Team\founderTeam_20161027_e1.jpg" />
     <Content Include="Images\Various\graphExampleTransp.png" />
@@ -7446,6 +7449,9 @@
     <Content Include="Views\Categories\Detail\Js\CategoryHeader.js.map">
       <DependentUpon>CategoryHeader.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
+    </Content>
     <Content Include="Views\Categories\Detail\Js\Tabbing.js">
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
@@ -7455,6 +7461,7 @@
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\WishKnowledgeInTheBox.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\LearningTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\AnalyticsTab.ascx" />
     <Content Include="Views\Categories\Detail\Tabs\TopicTab.ascx" />
@@ -7488,8 +7495,8 @@
       <DependentUpon>EditAggregation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Edit\TypeControls\EducationProvider.ascx" />
-    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
+      <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <Content Include="Views\Categories\Navigation\CategoryNetworkNavigationCatLabel.ascx" />
     <Content Include="Views\Categories\Navigation\CategoryNavigation.ascx" />
@@ -7498,16 +7505,20 @@
     <Content Include="Views\Maintenance\Js\CMS.js">
       <DependentUpon>CMS.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js">
-      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>
     <Content Include="Views\Maintenance\Js\ContentStats.js">
       <DependentUpon>ContentStats.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\AsyncLoading.js.map">
-      <DependentUpon>AsyncLoading.ts</DependentUpon>
+    <Content Include="Views\Questions\Answer\Js\AnswerBody.js">
+      <DependentUpon>AnswerBody.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js">
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Answer\LearningSession\LearningSessionResultInner.ascx" />
+    <Content Include="Views\Questions\Answer\TestSession\TestSessionResult.ascx" />
     <Content Include="Views\Sets\Detail\Modals\CopySetModal.ascx" />
     <Content Include="Views\Error\Error.css">
       <DependentUpon>Error.less</DependentUpon>
@@ -7519,9 +7530,6 @@
     <Content Include="Views\Messages\Partials\MessagesRows.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniSet.ascx" />
     <Content Include="Views\Knowledge\Partials\KnowledgeCardMiniCategory.ascx" />
-    <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js.map">
-      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
-    </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <Content Include="Views\Categories\Detail\Js\Tabbing.js.map">
@@ -7530,6 +7538,10 @@
     <Content Include="Scripts\header\ActivityPointsPopup.js.map">
       <DependentUpon>ActivityPointsPopup.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Js\SquareWishKnowledge.js.map">
+      <DependentUpon>SquareWishKnowledge.ts</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\header\SearchBox.js.map">
       <DependentUpon>SearchBox.ts</DependentUpon>
     </Content>
@@ -7538,6 +7550,9 @@
     </Content>
     <Content Include="Scripts\hubs\GameHubEvents.js.map">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
+      <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
@@ -7871,7 +7886,9 @@
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
+    <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
@@ -9155,7 +9172,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeFlashCard.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeMultipleChoice.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeNumeric.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\AsyncLoading.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBodyLoader.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\ShareQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\LearningSessionResultCharts.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\LearningSession\Js\Page.ts" />
@@ -9291,9 +9308,6 @@
     <Content Include="Views\Questions\Answer\Js\Comments.js">
       <DependentUpon>Comments.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Questions\Answer\Js\Page.js">
-      <DependentUpon>Page.ts</DependentUpon>
-    </Content>
     <Content Include="Scripts\answerQuestion\PinQuestion.js">
       <DependentUpon>PinQuestion.ts</DependentUpon>
     </Content>
@@ -9341,7 +9355,7 @@
     <TypeScriptCompile Include="Views\Questions\Answer\AnswerControls\SolutionTypeText.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\AnswerQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Answer\Js\Comments.ts" />
-    <TypeScriptCompile Include="Views\Questions\Answer\Js\Page.ts" />
+    <TypeScriptCompile Include="Views\Questions\Answer\Js\AnswerBody.ts" />
     <TypeScriptCompile Include="Scripts\answerQuestion\PinQuestion.ts" />
     <TypeScriptCompile Include="Views\Questions\Edit\Js\References.ts" />
     <TypeScriptCompile Include="Scripts\RowPin.ts" />
@@ -9462,9 +9476,6 @@
     </Content>
     <Content Include="Scripts\answerQuestion\AnswerQuestion.js.map">
       <DependentUpon>AnswerQuestion.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Questions\Answer\Js\Page.js.map">
-      <DependentUpon>Page.ts</DependentUpon>
     </Content>
     <Content Include="Views\Questions\Js\QuestionRowDelete.js.map">
       <DependentUpon>QuestionRowDelete.ts</DependentUpon>
@@ -9816,6 +9827,16 @@
     </Content>
     <Content Include="Views\Maintenance\Js\CMS.js.map">
       <DependentUpon>CMS.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBodyLoader.js.map">
+      <DependentUpon>AnswerBodyLoader.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\SquareWishPartialHtml.aspx" />
+    <Content Include="Views\Maintenance\Js\CMSCategoryNetworkNavigation.js.map">
+      <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
+    </Content>
+    <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
+      <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />

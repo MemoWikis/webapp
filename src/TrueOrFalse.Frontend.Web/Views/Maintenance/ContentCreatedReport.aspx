@@ -28,10 +28,11 @@
         
     <div class="row">
         <div class="col-xs-12">
-            <h1 class="" style="margin-top: 0;">Erstellte Inhalte</h1>
+            <h1 class="" style="margin-top: 0;">Erstellte/Bearbeitete Inhalte</h1>
             <ul>
-                <li><a href="#CategoriesAdded">Themen</a></li>
-                <li><a href="#SetsAdded">Lernsets</a></li>
+                <li><a href="#CategoriesAdded">Themen erstellt</a></li>
+                <li><a href="#CategoriesEdited">Themen bearbeitet</a></li>
+                <li><a href="#SetsAdded">Lernsets erstellt</a></li>
                 <li><a href="#RecentQuestionsAddedNotMemucho">Fragen erstellt ohne memucho</a></li>
                 <li><a href="#RecentQuestionsAddedMemucho">Fragen erstellt memucho</a></li>
             </ul>
@@ -48,6 +49,23 @@
                     <span class="greyed" style="font-size: 10px;"><%= category.DateCreated %></span> 
                     <a href="<%= Links.UserDetail(category.Creator) %>" class="linkUser"><%= category.Creator.Name %></a>: 
                     <a href="<%= Links.CategoryDetail(category) %>"><%: category.Name %></a> 
+                </div>
+            <%} %>
+        </div>
+
+        <div class="col-xs-12">
+            <h4 id="CategoriesEdited">Themen, die seit <%= Model.Since %> bearbeitet wurden</h4>
+            <span class="greyed" style="font-size: 10px;"><a href="#Top">(nach oben)</a></span>
+
+            <% foreach (var categoryChangeGroup in Model.CategoriesChanged) {%>
+                <div style="margin-bottom: 10px;">
+                    <a href="<%= Links.CategoryDetail(categoryChangeGroup.Key) %>"><%: categoryChangeGroup.Key.Name %></a> 
+                    <% foreach (var categoryChange in categoryChangeGroup) { %>
+                        <div style="margin-left: 20px;">
+                            <a href="<%= Links.UserDetail(categoryChange.Author) %>" class="linkUser"><%= categoryChange.Author.Name %></a>  
+                            <span class="greyed" style="font-size: 10px;">am <%= categoryChange.DateCreated %></span> (Datenlänge neu: <%= categoryChange.Data.Length %>)
+                        </div>
+                    <% } %>
                 </div>
             <%} %>
         </div>

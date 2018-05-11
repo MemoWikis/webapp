@@ -234,6 +234,8 @@
         if (AnswerQuestion.IsLastTestSessionStep) {
             $('#btnNext').html('Zum Ergebnis');
             $("#btnNext").unbind();
+            new GetResultTestSession();
+           
         }
     }
 

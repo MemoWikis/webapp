@@ -36,6 +36,8 @@
 
     public TopicMenu TopicMenu;
 
+    public TopNavMenu TopNavMenu;
+
     public bool ShowUserReportWidget = true;
 
     public BaseModel()

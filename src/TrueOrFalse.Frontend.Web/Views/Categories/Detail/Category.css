@@ -368,225 +368,6 @@ p:empty {
 }
 
 */
-/*******************************************************************/
-/*  Breadcrumbs
-----------------------------------------------------------*/
-/** Default button **/
-.btn-breadcrumb {
-  /** Breadcrumb **/
-  /** The Spacing **/
-}
-.btn-breadcrumb a {
-  text-decoration: underline;
-}
-.btn-breadcrumb a.current {
-  text-decoration: none;
-}
-.btn-breadcrumb .btn:not(:last-child):after {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid white;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  left: 100%;
-  z-index: 3;
-}
-.btn-breadcrumb .btn:not(:last-child):before {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid #adadad;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  margin-left: 1px;
-  left: 100%;
-  z-index: 3;
-}
-.btn-breadcrumb .btn {
-  padding: 6px 12px 6px 24px;
-}
-.btn-breadcrumb .btn:first-child {
-  padding: 6px 6px 6px 10px;
-}
-.btn-breadcrumb .btn:last-child {
-  padding: 6px 18px 6px 24px;
-}
-.btn-breadcrumb .btn.btn-default:not(:last-child):after {
-  border-left: 10px solid #fff;
-}
-.btn-breadcrumb .btn.btn-default:not(:last-child):before {
-  border-left: 10px solid #ccc;
-}
-.btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
-  border-left: 10px solid #ebebeb;
-}
-.btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
-  border-left: 10px solid #adadad;
-}
-.BreadcrumbsMobile {
-  font-size: 14px;
-  background-color: white;
-  line-height: 1.5em;
-  margin-bottom: 10px;
-  width: 100%;
-  font-family: sans;
-  color: #1B3651 !important;
-  font: bold;
-  color: #999999;
-}
-.BreadcrumbsMobile div {
-  font-family: 'Open Sans';
-  font-weight: bold;
-}
-.BreadcrumbsMobile img {
-  min-width: 21px;
-  min-height: 21px;
-  width: 21px !important;
-  height: 21px !important;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
-}
-.BreadcrumbsMobile i.fa-home {
-  width: 21px !important;
-  height: 21px;
-  -webkit-border-radius: 50px;
-          border-radius: 50px;
-  background-color: #0B335E;
-  color: white;
-  padding-top: 1px;
-}
-.BreadcrumbsMobile i.fa-chevron-right {
-  font-size: 80%;
-  color: #1B3651;
-  margin-right: 10px;
-}
-.BreadcrumbsMobile .category-icon:hover,
-.BreadcrumbsMobile .category-icon:focus {
-  text-decoration: none;
-}
-.BreadcrumbsMobile i.fa {
-  font-size: 120%;
-  width: 0.9em;
-  text-align: center;
-}
-.BreadcrumbsMobile i.fa-graduation-cap {
-  width: 1.25em;
-}
-.BreadcrumbsMobile i.fa-home {
-  width: auto;
-}
-.BreadcrumbsMobile i.fa-chevron-right {
-  font-size: 80%;
-  width: auto;
-  margin-left: 13px;
-}
-.BreadcrumbsMobile a {
-  color: #1B3651;
-  text-decoration: none;
-  font-family: "Open Sans";
-  font-size: 14px;
-  font-weight: bold;
-}
-.BreadcrumbsMobile a:not(.current):hover,
-.BreadcrumbsMobile a:not(.current):focus,
-.BreadcrumbsMobile a:not(.current):active {
-  color: #1B3651;
-  text-decoration: underline;
-  text-underline-position: alphabetic;
-}
-.BreadcrumbsMobile a.current {
-  cursor: default;
-}
-@media (max-width: 1199px) {
-  .BreadcrumbsMobile {
-    padding-bottom: 20px;
-  }
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  -webkit-box-align: stretch;
-  -webkit-align-items: stretch;
-      -ms-flex-align: stretch;
-          align-items: stretch;
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .CardColumn {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ImageContainer {
-  -webkit-box-flex: 0;
-  -webkit-flex: 0 0 100px;
-      -ms-flex: 0 0 100px;
-          flex: 0 0 100px;
-  -webkit-box-flex: 0%;
-  -webkit-flex-grow: 0%;
-      -ms-flex-positive: 0%;
-          flex-grow: 0%;
-  -webkit-flex-shrink: 0%;
-      -ms-flex-negative: 0%;
-          flex-shrink: 0%;
-  -webkit-flex-basis: 100px;
-      -ms-flex-preferred-size: 100px;
-          flex-basis: 100px;
-  -webkit-align-self: flex-start;
-      -ms-flex-item-align: start;
-          align-self: flex-start;
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .ContentContainer {
-  margin-left: 0 !important;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-flex: 1;
-  -webkit-flex: auto;
-      -ms-flex: auto;
-          flex: auto;
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .CardContent {
-  margin-left: 0;
-  height: auto;
-  max-height: 243px;
-  border-bottom: none !important;
-}
-html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
-  border-top: 1px solid #dfdfdf;
-  margin-left: 0 !important;
-  margin-right: 15px !important;
-}
 /*------------------------------------------------------
     TopicNavigation
 -------------------------------------------------------*/
@@ -750,6 +531,27 @@ html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape .Card .BottomBar {
 }
 .category-knowledge-bar .not-in-wish-knowledge {
   background-color: #dddddd;
+}
+/*------------------------------------------------------
+    Knowledge Square
+---------------------------------------------------------*/
+.square-wish-knowledge {
+  float: left;
+  height: 20px;
+  width: 20px;
+  border: black 1px solid;
+}
+.NotLearned {
+  background-color: silver;
+}
+.NeedsConsolidation {
+  background-color: #fdd648;
+}
+.NeedsLearning {
+  background-color: lightsalmon;
+}
+.Solid {
+  background-color: #afd534;
 }
 /*------------------------------------------------------
     MEDIA LIST

@@ -9,7 +9,8 @@
         <% Html.RenderPartial("~/Views/Questions/Answer/Sponsor.ascx", Model); %>
 
         <div class="SessionTitle">
-            <% if(Model.TestSession.IsSetSession) { %>
+            <%
+                if (Model.TestSession.IsSetSession) { %>
                 <div class="CollectionType">
                     Lernset
                 </div>
@@ -38,7 +39,7 @@
     </div>
 <% } %>
 
-<div class="SessionBar">
+<div  id="QuestionCountCompletSideBar"class="SessionBar">
     <div class="QuestionCount" style="float: right;">Abfrage <%= Model.TestSessionCurrentStep %> von <%= Model.TestSessionNumberOfSteps %></div>
     <div class="SessionType">
         <% if (Model.IsInWidget) { %>

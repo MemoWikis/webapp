@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" 
     Inherits="System.Web.Mvc.ViewUserControl<CategoryModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<div id="CategoryHeader">              
+<div id="CategoryHeader">    
           <div id="ManagementMobile">
         <div class="KnowledgeBarWrapper">
             <% Html.RenderPartial("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(Model.Category)); %>
@@ -64,7 +64,7 @@
                     <%= Model.Category.Type == CategoryType.Standard ? "Thema" :  "Übersicht"%>
                 </a>
             </div>
-            <div id="LearningTab" class="Tab LoggedInOnly">
+            <div id="LearningTab" class="Tab">
                 <a href="#">
                     Lernen
                 </a>
