@@ -276,6 +276,12 @@ namespace TrueOrFalse.View
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
+            SetIgnorePatterns(bundles.IgnoreList);
+        }
+
+        public static void SetIgnorePatterns(IgnoreList ignoreList)
+        {
+            ignoreList.Ignore("*SetVideoPlayer.js");
         }
     }
 }

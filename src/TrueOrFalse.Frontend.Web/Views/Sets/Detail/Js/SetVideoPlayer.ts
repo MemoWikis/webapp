@@ -1,7 +1,8 @@
 ﻿
 var setVideo: SetVideo;                                               
 
-declare var initPlayer: () => void;                                   
+declare var initPlayer: () => void;
+declare var player;
 
 class StopVideoAt {                                                     
 
@@ -29,8 +30,7 @@ class SetVideoPlayer
             player = new YT.Player('player', {               
                 playerVars: { rel: 0 },
                 events: {
-                    'onReady':
-                        setVideoPlayer.OnPlayerReady,                   
+                    'onReady': setVideoPlayer.OnPlayerReady,                   
                     'onStateChange': function (e) { setVideoPlayer.OnStateChange(e, setVideoPlayer) }       
                 }                                                                                           
             });

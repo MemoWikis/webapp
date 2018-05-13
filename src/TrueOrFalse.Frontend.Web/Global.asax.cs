@@ -28,7 +28,7 @@ namespace TrueOrFalse.Frontend.Web
 
             AreaRegistration.RegisterAllAreas();
 
-            BundleConfig.RegisterBundles(BundleTable.Bundles); 
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             ViewEngines.Engines.Clear();
