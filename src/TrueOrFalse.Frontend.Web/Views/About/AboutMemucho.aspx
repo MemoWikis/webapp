@@ -4,8 +4,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/AboutMemucho.css" rel="stylesheet" />
-</asp:Content>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Über memucho", Url = "/Ueber-memucho"}); %>
 
+</asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 

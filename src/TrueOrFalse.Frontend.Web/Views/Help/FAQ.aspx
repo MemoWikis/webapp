@@ -8,6 +8,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "", Url = "/FAQ.aspx", ImageClass = "fa-question-circle" }); %>
 <script type="text/javascript" >
 
     /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */

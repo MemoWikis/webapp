@@ -5,6 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Js/Membership.js") %>
     <%= Styles.Render("~/Views/Users/Account/Membership.css") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Unterstützer werden", Url = "/Membership.aspx", ImageClass = "fa-thumbs-up" }); %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

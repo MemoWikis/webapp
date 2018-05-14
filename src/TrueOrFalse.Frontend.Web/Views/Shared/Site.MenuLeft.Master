@@ -24,7 +24,7 @@
                            Model.TopicMenu.IsActive
                            ? UserControls.MenuLeftThemeCentered
                            : UserControls.MenuLeft, Model.MenuLeftModel); %>                   
-                        <div class="Autor-Box">
+                        <div class="Autor-Box" style="display: none;">
                             <div style="height: 29px;text-transform: uppercase; color: #9F9F9F">
                                 <span>Themen-Autorin</span>
                             </div>
@@ -51,7 +51,7 @@
                     <section id="MasterMainWrapper">
                         <div style="display: flex;">
                             <div class="BreadcrumbsMobile">
-                               <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumbMobile.ascx", new TopNavMenu()); %>
+                               <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model.TopNavMenu); %>
                             </div>
                             <div id="mainMenuThemeCenteredMobile">
                                 <div class="menu-section">

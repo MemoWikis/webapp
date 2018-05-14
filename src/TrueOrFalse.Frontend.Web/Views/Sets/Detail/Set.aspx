@@ -18,7 +18,7 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Set") %>
     <%= Scripts.Render("~/bundles/js/Set") %>
-    
+  
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </asp:Content>
 

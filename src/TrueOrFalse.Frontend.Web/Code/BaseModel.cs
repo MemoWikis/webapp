@@ -36,7 +36,7 @@
 
     public TopicMenu TopicMenu;
 
-    public TopNavMenu TopNavMenu;
+    public TopNavMenu TopNavMenu = new TopNavMenu();
 
     public bool ShowUserReportWidget = true;
 
