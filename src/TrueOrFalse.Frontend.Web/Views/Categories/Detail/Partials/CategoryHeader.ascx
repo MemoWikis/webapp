@@ -117,13 +117,7 @@
                            if (Model.IsInstallationAdmin)
                            { %>
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
-                        <% }
-                           if(Model.AggregatedSetCount == 0 && !Model.IsLoggedIn) { %>
-                        <li><a href="#" data-btn-login=true ><i class="fa fa-plus-circle"></i>&nbsp;Du musst dich einloggen oder registrieren um das Set zu bearbeiten</a></li> 
-                         
-                        <% 
-                           }
-                        %>
+                        <% } %>
                     </ul>
                 </div>
             </div>
