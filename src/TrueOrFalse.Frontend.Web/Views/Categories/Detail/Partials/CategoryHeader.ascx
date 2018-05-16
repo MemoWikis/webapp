@@ -30,11 +30,11 @@
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                     <% }
-                       if (Model.IsOwnerOrAdmin)
+                    if(Model.IsARegisteredUser){ %>
                        { %>
                         <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
                     <% }
-                       if (Model.IsInstallationAdmin)
+                    if (Model.IsARegisteredUser){ %>
                        { %>
                         <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                     <% } %>
@@ -110,11 +110,11 @@
                         
                         <li><a href="<%= Links.GameCreateFromCategory(Model.Id) %>" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
                         <% }
-                           if (Model.IsOwnerOrAdmin)
+                           if (Model.IsARegisteredUser)
                            { %>
                         <li><a href="<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>
                         <% }
-                           if (Model.IsInstallationAdmin)
+                           if (Model.IsARegisteredUser)
                            { %>
                             <li><a href="<%= Links.CreateQuestion(categoryId: Model.Id) %>"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>
                         <% }
