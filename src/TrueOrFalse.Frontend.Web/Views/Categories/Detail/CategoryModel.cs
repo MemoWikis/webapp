@@ -101,7 +101,8 @@ public class CategoryModel : BaseModel
         FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
-        IsARegisteredUser = Sl.UserRepo.GetById(UserId).IsEmailConfirmed;
+        if(IsLoggedIn)
+           IsARegisteredUser = Sl.UserRepo.GetById(UserId).IsEmailConfirmed;
 
         CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
