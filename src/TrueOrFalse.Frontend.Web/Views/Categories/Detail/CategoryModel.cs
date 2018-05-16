@@ -50,7 +50,6 @@ public class CategoryModel : BaseModel
     public string Url;
     public string UrlLinkText;
 
-    public bool IsARegisteredUser;
     public bool IsOwnerOrAdmin;
     public bool IsTestSession => !IsLoggedIn;
     public bool IsLearningSession => IsLoggedIn;
@@ -101,8 +100,6 @@ public class CategoryModel : BaseModel
         FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);
-        if(IsLoggedIn)
-           IsARegisteredUser = Sl.UserRepo.GetById(UserId).IsEmailConfirmed;
 
         CategoriesParent = category.ParentCategories();
         CategoriesChildren = _categoryRepo.GetChildren(category.Id);
