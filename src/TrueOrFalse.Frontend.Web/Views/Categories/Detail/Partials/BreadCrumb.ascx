@@ -13,9 +13,9 @@
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model) %>
     <% }else{ 
         foreach (var breadCrumbItem in Model.BreadCrumb) { %>
-        <i style="display: inline;" class="fa <%= breadCrumbItem.ImageClass %>"></i>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Themenseite">
-            <span style="display: inline-table; margin-left: 10px;"><a href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+        <i style="display: inline;" class="fa <%= breadCrumbItem.ImageUrl %>"></i>
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Seite">
+            <span style="display: inline-table; margin-left: 10px;"><a class="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                 <i style="display: inline;" class="fa fa-chevron-right"></i>
             </span>          
         </div>

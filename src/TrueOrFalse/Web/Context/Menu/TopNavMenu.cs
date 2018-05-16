@@ -7,8 +7,9 @@ public class TopNavMenuItem
 {
     public string Text;
     public string Url;
-    public string ImageClass;
-  
+    public string ImageUrl;
+    public string TextStyles;
+
 }
 
 public class TopNavMenu
@@ -19,11 +20,13 @@ public class TopNavMenu
     public virtual IList<Category> Categories { get; set; }
     public Set Set;
 
-    public bool IsCategoryBreadCrumb => BreadCrumbCategories.Count > 0;
+    public bool IsCategoryBreadCrumb = true;
+    public bool IsSetBreadCrumb = false;
 
     public TopNavMenu()
     {
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
+        
     }
 
     public ImageFrontendData GetCategoryImage(Category category)

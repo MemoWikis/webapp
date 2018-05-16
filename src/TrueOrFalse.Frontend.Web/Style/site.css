@@ -1048,18 +1048,16 @@ ul.AutocompleteHeader {
   height: 21px !important;
   border-radius: 50%;
 }
-#MasterMainWrapper .BreadcrumbsMobile i.fa-home {
-  width: 21px !important;
-  height: 21px;
-  border-radius: 50px;
-  background-color: #0B335E;
-  color: white;
-  padding-top: 1px;
+#MasterMainWrapper .BreadcrumbsMobile .topnav-text-gold {
+  color: #FFD603;
 }
 #MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
   color: #1B3651;
   margin-right: 10px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
 }
 #MasterMainWrapper .BreadcrumbsMobile .category-icon:hover,
 #MasterMainWrapper .BreadcrumbsMobile .category-icon:focus {
@@ -1069,6 +1067,12 @@ ul.AutocompleteHeader {
   font-size: 120%;
   width: 0.9em;
   text-align: center;
+  width: 21px !important;
+  height: 21px;
+  border-radius: 50px;
+  background-color: #0B335E;
+  color: white;
+  padding-top: 1px;
 }
 #MasterMainWrapper .BreadcrumbsMobile i.fa-graduation-cap {
   width: 1.25em;
@@ -1076,10 +1080,23 @@ ul.AutocompleteHeader {
 #MasterMainWrapper .BreadcrumbsMobile i.fa-home {
   width: auto;
 }
+#MasterMainWrapper .BreadcrumbsMobile i.fa-search {
+  padding: 2px;
+  padding-top: 2.5px;
+  font-size: 103%;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.thumbs-up-gold {
+  color: #FFD603;
+}
 #MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
-  font-size: 80%;
   width: auto;
   margin-left: 13px;
+  font-size: 80%;
+  color: #1B3651;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
 }
 #MasterMainWrapper .BreadcrumbsMobile a {
   color: #1B3651;

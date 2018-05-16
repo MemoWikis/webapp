@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TopNavMenu>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
-<% var breadCrumbCategories = Model.BreadCrumbCategories; %>   
+<% var breadCrumbCategories = Model.BreadCrumbCategories;
+   var breadCrumbCategoriesCount = breadCrumbCategories.Count;%>   
 
  <% if (breadCrumbCategories.Count > 1 && breadCrumbCategories.Count < 3 ) { 
          foreach (var rootCategory in Model.RootCategoriesList)
@@ -61,7 +62,11 @@
         }
     }
 
-    for (var i = 1; i < breadCrumbCategories.Count -1; i++)
+    if (!(Model.IsSetBreadCrumb)) {  
+    breadCrumbCategoriesCount = breadCrumbCategoriesCount - 1; 
+    }
+   
+    for (var i = 1; i < breadCrumbCategoriesCount ; i++)
     { %>
         <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Themenseite">       
             <%= Model.GetCategoryImage(breadCrumbCategories[i]).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumbCategories[i])) %>
