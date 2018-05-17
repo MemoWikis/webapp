@@ -1048,9 +1048,6 @@ ul.AutocompleteHeader {
   height: 21px !important;
   border-radius: 50%;
 }
-#MasterMainWrapper .BreadcrumbsMobile .topnav-text-gold {
-  color: #FFD603;
-}
 #MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
   font-size: 80%;
   color: #1B3651;
@@ -1076,9 +1073,15 @@ ul.AutocompleteHeader {
 }
 #MasterMainWrapper .BreadcrumbsMobile i.fa-graduation-cap {
   width: 1.25em;
+  padding-top: 4px;
+  font-size: 100%;
 }
 #MasterMainWrapper .BreadcrumbsMobile i.fa-home {
   width: auto;
+}
+#MasterMainWrapper .BreadcrumbsMobile i.fa-file-text {
+  padding-top: 3.5px;
+  font-size: 100%;
 }
 #MasterMainWrapper .BreadcrumbsMobile i.fa-search {
   padding: 2px;

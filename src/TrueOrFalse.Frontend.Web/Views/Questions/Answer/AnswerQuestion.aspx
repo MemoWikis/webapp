@@ -52,6 +52,16 @@
         var relevanceForAllAvg = "<%= Model.TotalRelevanceForAllAvg %>";
         var relevanceForAllEntries = "<%= Model.TotalRelevanceForAllEntries %>";
     </script>
+    
+
+    <% if (Model.IsTestSession)
+       {
+           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
+           Model.TopNavMenu.IsAnswerQuestionBreadCrumb = true;
+           Model.TopNavMenu.IsCategoryBreadCrumb = false;
+         
+       } %>
+      
 
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
 </asp:Content>
@@ -70,6 +80,7 @@
         data-current-step-idx="<%= Model.IsTestSession ? Model.TestSessionCurrentStep : -1 %>"
         data-is-last-step="<%= Model.TestSessionIsLastStep %>"/>
     <input type="hidden" id="hddQuestionId" value="<%= Model.QuestionId %>"/>
+
 
             <% if (Model.IsLearningSession) { %>
                    <% Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", Model); %>

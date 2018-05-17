@@ -22,12 +22,14 @@ public class TopNavMenu
 
     public bool IsCategoryBreadCrumb = true;
     public bool IsSetBreadCrumb = false;
+    public bool IsAnswerQuestionBreadCrumb = false;
+
 
     public TopNavMenu()
     {
-        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();
-        
+        RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
     }
+
 
     public ImageFrontendData GetCategoryImage(Category category)
     {
