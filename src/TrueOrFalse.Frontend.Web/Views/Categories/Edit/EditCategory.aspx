@@ -209,8 +209,8 @@
                             <i class="fa fa-question-circle show-tooltip" 
                                 title="Erfordert Markdown-Syntax. Zum Vergrößern des Eingabefelds bitte unten rechts größer ziehen." 
                                 data-placement="<%= CssJs.TooltipPlacementLabel %>" data-trigger="hover click"></i>
-                            <a href="https://docs.google.com/document/d/1Wc3TZlE7gmw04i5WhzNcyaxDa05KEJPlXinGsT-a1AU/edit?usp=sharing" target="_blank">
-                                Doku für Templates
+                            <a href="<%= Links.CategoryDetail("Themenseiten bearbeiten", 965) %>" target="_blank">
+                                Hilfe zu den Templates
                                 <i class="fa fa-external-link"></i>
                             </a>
                                 

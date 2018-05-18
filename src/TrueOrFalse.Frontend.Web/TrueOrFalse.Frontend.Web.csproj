@@ -359,9 +359,8 @@
     <Content Include="Images\DocumentationHelp\SingleCategoryFullWidth.png" />
     <Content Include="Images\DocumentationHelp\SingleQuestionsQuiz.png" />
     <Content Include="Images\DocumentationHelp\SingleSetFullWidth.png" />
-    <Content Include="Images\DocumentationHelp\VideoWidget.jpg" />
+    <Content Include="Images\DocumentationHelp\TopicNavigation.png" />
     <Content Include="Images\DocumentationHelp\VideoWidget.png" />
-    <Content Include="Images\DocumentationHelp\VideoWidget2.png" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
