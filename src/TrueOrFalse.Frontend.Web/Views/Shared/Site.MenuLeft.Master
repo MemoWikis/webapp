@@ -40,13 +40,13 @@
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
                     <% } %>
                 </section>
-                <section id="MasterMainColumn" class="">                
+                <section id="MasterMainColumn" class="">        
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
                             <% Html.RenderPartial("MessageGame", Model); %>
                         <% } %>
                     </div>
-                    
+                   
                     <%-- MAIN CONTENT--%>
                     <section id="MasterMainWrapper">
                         <div style="display: flex;">

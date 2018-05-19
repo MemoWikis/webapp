@@ -1,7 +1,12 @@
-﻿<%@ Page Title="memucho Gemeinwohlökonomie" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="memucho Gemeinwohlökonomie" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    
+<asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Gemeinwohlökonomie", Url = "/Gemeinwohlökonomie", ImageUrl = "fa-question-circle"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <div class="row" style="padding-top:30px;">
     <div class="BackToHome col-md-3">
             <a href="/"><i class="fa fa-chevron-left">&nbsp;</i>Zur Startseite</a>

@@ -18,12 +18,12 @@ public class TopNavMenu
     public IList<Category> BreadCrumbCategories => Sl.SessionUiData.TopicMenu.CategoryPath;
     public IList<TopNavMenuItem> BreadCrumb = new List<TopNavMenuItem>();
     public virtual IList<Category> Categories { get; set; }
-    public Set Set;
 
     public bool IsCategoryBreadCrumb = true;
     public bool IsSetBreadCrumb = false;
     public bool IsAnswerQuestionBreadCrumb = false;
 
+    public ImageFrontendData ImageFrontendData;
 
     public TopNavMenu()
     {

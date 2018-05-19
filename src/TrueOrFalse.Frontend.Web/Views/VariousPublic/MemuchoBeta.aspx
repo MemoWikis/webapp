@@ -1,4 +1,4 @@
-﻿<%@ Page Title="memucho Beta-Phase" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="memucho Beta-Phase" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 
@@ -14,6 +14,8 @@
         $(spt).remove();
     });
 </script>    
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "[beta]", Url = "/Beta-Phase", ImageUrl = "fa-question-circle"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 
