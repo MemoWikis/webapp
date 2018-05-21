@@ -467,6 +467,7 @@
     <Content Include="Views\Knowledge\Js\WishKnowledgeContent.js">
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Partials\NotLoggedIn.ascx" />
     <Content Include="Views\Maintenance\Js\CategoryNetworkNavigation.js">
       <DependentUpon>CmsCategoryNetworkNavigation.ts</DependentUpon>
     </Content>

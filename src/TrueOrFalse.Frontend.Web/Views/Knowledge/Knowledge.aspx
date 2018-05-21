@@ -993,10 +993,15 @@
             </div>
         </div>
 
-
+<% if (Model.IsLoggedIn)
+   { %>
 <div style="margin-top: 20rem">
     <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
 </div>
-
+    <% }
+   else
+   {
+       Html.RenderPartial("~/Views/Knowledge/Partials/NotLoggedIn.ascx");
+   } %>
     
 </asp:Content>

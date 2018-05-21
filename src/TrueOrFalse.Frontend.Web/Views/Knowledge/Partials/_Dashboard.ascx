@@ -314,8 +314,8 @@
     <div class="row">
         <div class ="col-md-12">
              <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
-                <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
-                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
+               <%-- <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
+                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>--%>
                 <% if (Model.Dates.Count == 0)
                     { %>
                     <p>
