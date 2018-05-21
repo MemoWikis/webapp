@@ -1,16 +1,11 @@
 ﻿class CategoryDelete {
 
-
     constructor() {
         var categoryIdToDelete;
         var self = this;
 
-       
-
         $(document).on("click", 'a[href*=#modalDeleteCategory]', function (e) {
-           
             categoryIdToDelete = $(this).attr("data-categoryId");
-            self.PopulateDeleteCategory(categoryIdToDelete);
         });
 
         $('#btnCloseDelete').click(function (e) {
@@ -19,27 +14,11 @@
         });
 
         $('#confirmDelete').click(function (e) {
-            self.SafeDeleteCategory(435,443);
             self.DeleteCategory(categoryIdToDelete);
             $('#modalDeleteCategory').modal('hide');
             e.preventDefault();
 
         });
-    }
-
-    PopulateDeleteCategory(catId) {
-        //$.ajax({
-        //    type: 'POST',
-        //    url: "/Categories/DeleteDetails/" + catId,
-        //    cache: false,
-        //    success: function (result) {
-        //        $("#spanCategoryTitle").html(result.categoryTitle.toString());
-        //    },
-        //    error: function (result) {
-        //        window.console.log(result);
-        //        window.alert("Ein Fehler ist aufgetreten");
-        //    }
-        //});
     }
 
     DeleteCategory(catId) {
@@ -68,15 +47,5 @@
             }
 
         });
-
-
     }
-
-    SafeDeleteCategory(catId,userID) {
-       
-        console.log("Hallo Daniel");
-           
-      
-    }
-    
 }
