@@ -179,37 +179,4 @@ public class CategoriesController : BaseController
             searchSpec.SearchTerm = model.SearchTerm = searchTerm;
         }
     }
-    
-    public void SetDeleteMarker(int Id)
-    {
-        
-        var catId = Id;
-        IList<CategoryChange> filteredCategoryObjects = new List<CategoryChange>();
-
-
-    var categoryObjects = Sl.CategoryChangeRepo.GetAll();
-
-        foreach (var categoryObject in categoryObjects)
-        {
-            if (categoryObject.Category.Id == catId)
-             filteredCategoryObjects.Add(categoryObject);
-
-        }
-
-        var lastCategoryChangeObject = filteredCategoryObjects[0];
-
-        for (int i = 1; i < filteredCategoryObjects.Count; i++)
-        {
-            if (lastCategoryChangeObject.Id < filteredCategoryObjects[i].Id)
-                lastCategoryChangeObject = filteredCategoryObjects[i];
-        }
-
-        //change JsonObject
-        dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(lastCategoryChangeObject.Data);
-        jsonObj["Delete"] = "true";
-        lastCategoryChangeObject.Data = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
-        // DB update
-        Sl.CategoryChangeRepo.Update(lastCategoryChangeObject);
-        Console.WriteLine(lastCategoryChangeObject);        
-    }
 }

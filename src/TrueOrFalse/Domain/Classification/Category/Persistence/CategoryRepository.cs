@@ -56,7 +56,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         base.Update(category);
 
         if(author != null)
-            Sl.CategoryChangeRepo.Create(category, author);
+            Sl.CategoryChangeRepo.AddUpdateEntry(category, author);
 
         Flush();
 
