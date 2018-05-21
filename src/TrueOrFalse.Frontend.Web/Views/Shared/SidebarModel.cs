@@ -1,12 +1,18 @@
-﻿public class MenuLeftModel : BaseResolve
+﻿public class SidebarModel : BaseResolve 
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
     public Menu Menu;
 
+    protected SessionUser _sessionUser => Resolve<SessionUser>();
+    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
+
+    public bool HasKnowledgeBtnText = false;
+    public string KnowldegeBtnText;
+
     public int UnreadMessageCount = 0;
 
-    public MenuLeftModel()
+    public SidebarModel()
     {
         var userSession = Resolve<SessionUser>();
         var sessionUiData= Resolve<SessionUiData>();

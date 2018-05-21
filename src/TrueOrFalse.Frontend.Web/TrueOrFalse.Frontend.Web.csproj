@@ -7902,7 +7902,7 @@
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
-    <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
+    <Content Include="Views\Shared\SidebarThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
@@ -9129,7 +9129,7 @@
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
-    <Compile Include="Views\Shared\MenuLeftModel.cs" />
+    <Compile Include="Views\Shared\SidebarModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Users\Detail\UserController.cs" />
     <Compile Include="Views\Users\Detail\UserModel.cs" />
@@ -9866,7 +9866,7 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Shared\Sidebar.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\About\WelfareCompany.aspx" />
@@ -9882,7 +9882,7 @@
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Error\_500.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
-    <Content Include="Views\Shared\Site.MenuLeft.Master" />
+    <Content Include="Views\Shared\Site.Sidebar.Master" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="memucho Nutzungsbedingungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="System.Web.Mvc.ViewPage" %>
+﻿<%@ Page Title="memucho Nutzungsbedingungen" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
@@ -15,6 +15,13 @@
         $(spt).remove();
     });
 </script>    
+    
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "", Url = "/AGB", ImageUrl = "fa-question-circle"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;
+       Model.TopNavMenu.HasKnowledgeBtnText = true;
+       Model.TopNavMenu.KnowldegeBtnText = "jetzt kostenlos registrieren!"; 
+       Model.SidebarModel.HasKnowledgeBtnText = true;
+       Model.SidebarModel.KnowldegeBtnText = "jetzt kostenlos registrieren!"; %>
 </asp:Content>
 
 

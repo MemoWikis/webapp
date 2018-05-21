@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+    MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="System.Web.Mvc.ViewPage<MaintenanceModel>"
     ValidateRequest="false"
     EnableSessionState="ReadOnly" %>

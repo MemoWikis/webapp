@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+﻿<%@ Page Title="Einstellungen" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master"
     Inherits="System.Web.Mvc.ViewPage<UserSettingsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>

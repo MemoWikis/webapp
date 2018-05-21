@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<MembershipModel>" %> 
+﻿<%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<MembershipModel>" %> 
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="System.Web.Mvc.ViewPage<AboutMemuchoModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="memucho Beta-Phase" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
+﻿<%@ Page Title="memucho Beta-Phase" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<BaseModel>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
 

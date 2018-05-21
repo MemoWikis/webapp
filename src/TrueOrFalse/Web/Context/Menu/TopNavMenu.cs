@@ -22,6 +22,8 @@ public class TopNavMenu
     public bool IsCategoryBreadCrumb = true;
     public bool IsSetBreadCrumb = false;
     public bool IsAnswerQuestionBreadCrumb = false;
+    public bool HasKnowledgeBtnText = false;
+    public string KnowldegeBtnText;
 
     public ImageFrontendData ImageFrontendData;
 
@@ -30,6 +32,12 @@ public class TopNavMenu
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
     }
 
+    public ImageFrontendData GetSetImage(Set set)
+    {
+         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
+         return new ImageFrontendData(imageMetaData);
+    }
+  
 
     public ImageFrontendData GetCategoryImage(Category category)
     {

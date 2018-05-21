@@ -32,7 +32,7 @@
 
     public bool IsCreatorOfGame;
 
-    public MenuLeftModel MenuLeftModel = new MenuLeftModel();
+    public SidebarModel SidebarModel = new SidebarModel();
 
     public TopicMenu TopicMenu;
 

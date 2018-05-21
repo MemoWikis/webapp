@@ -1,10 +1,12 @@
-﻿<%@ Page Title="memucho für Lehrende" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<ForTeachersModel>" %>
+﻿<%@ Page Title="memucho für Lehrende" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<ForTeachersModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/ForTeachers.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "", Url = "/Fuer-Lehrer", ImageUrl = "fa-question-circle"});
+    Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
