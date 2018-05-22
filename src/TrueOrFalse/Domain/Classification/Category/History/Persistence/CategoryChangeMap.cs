@@ -10,6 +10,7 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
 
         Map(x => x.Data);
         Map(x => x.DataVersion);
+        Map(x => x.Type);
 
         References(x => x.Author);
 
