@@ -19,13 +19,16 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public void AddUpdateEntry(Category category, User author)
+    public void AddCreateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(Category category, User author) => AddUpdateOrCreateEntry(category, author, CategoryChangeType.Update);
+
+    private void AddUpdateOrCreateEntry(Category category, User author, CategoryChangeType categoryChangeType)
     {
         var categoryChange = new CategoryChange
         {
             Category = category,
             Data = JsonConvert.SerializeObject(new CategoryEditData_V1(category)),
-            Type = CategoryChangeType.Update,
+            Type = categoryChangeType,
             Author = author,
             DataVersion = 1
         };
