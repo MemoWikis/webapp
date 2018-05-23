@@ -22,8 +22,6 @@ public class TopNavMenu
     public bool IsCategoryBreadCrumb = true;
     public bool IsSetBreadCrumb = false;
     public bool IsAnswerQuestionBreadCrumb = false;
-    public bool HasKnowledgeBtnText = false;
-    public string KnowldegeBtnText;
 
     public ImageFrontendData ImageFrontendData;
 

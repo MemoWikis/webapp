@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Js/Membership.js") %>
     <%= Styles.Render("~/Views/Users/Account/Membership.css") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Werde Unterstützer!", Url = "/Membership.aspx", ImageUrl = "fa-thumbs-up thumbs-up-gold", TextStyles = "color:#FFD603;"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Werde Unterstützer!", Url = "/Nutzer/Mitgliedschaft", ImageUrl = "fa-thumbs-up thumbs-up-gold", TextStyles = "color:#FFD603;"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

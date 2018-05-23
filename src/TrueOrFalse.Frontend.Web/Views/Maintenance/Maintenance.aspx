@@ -4,6 +4,10 @@
     ValidateRequest="false"
     EnableSessionState="ReadOnly" %>
 
+<asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Administrativ", Url = "/Maintenance", ImageUrl = "fa-crosshairs"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
+</asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     

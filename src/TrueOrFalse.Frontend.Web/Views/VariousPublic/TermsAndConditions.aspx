@@ -18,8 +18,6 @@
     
     <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "", Url = "/AGB", ImageUrl = "fa-question-circle"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false;
-       Model.TopNavMenu.HasKnowledgeBtnText = true;
-       Model.TopNavMenu.KnowldegeBtnText = "jetzt kostenlos registrieren!"; 
        Model.SidebarModel.HasKnowledgeBtnText = true;
        Model.SidebarModel.KnowldegeBtnText = "jetzt kostenlos registrieren!"; %>
 </asp:Content>

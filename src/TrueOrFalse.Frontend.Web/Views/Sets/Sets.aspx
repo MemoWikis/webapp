@@ -14,6 +14,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Sets/Sets.css") %>
     <%= Scripts.Render("~/bundles/Sets") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernsets", Url = "/Fragesaetze", ImageUrl = "fa-search"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="SubHeader" runat="server">
