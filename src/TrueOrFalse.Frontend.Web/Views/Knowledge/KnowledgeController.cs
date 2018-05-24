@@ -60,14 +60,4 @@ public class KnowledgeController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
-
-    public string RandomThemes()
-    {
-        var themes = Sl.CategoryRepo.GetAllEager();
-       
-        Random rnd = new Random();
-        var random = rnd.Next(0, themes.Count);
-
-        return "/Kategorien/" + themes[random].CategoryRelations[0] + "/" + themes[random].Id;
-    }
 }
