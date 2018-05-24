@@ -240,6 +240,9 @@
                             <p class="form-control-static"><span class="RequiredField"></span> Pflichtfeld</p>
                         </div>
                     </div>
+                    <div id="deleteAlert" class="alert alert-danger" role="alert" style="display: none ">
+                        <strong>Bite habe etwas Geduld, das Löschen dauert einen Augenblick</strong> 
+                    </div>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
                             <% if (Model.IsEditing){ %>
