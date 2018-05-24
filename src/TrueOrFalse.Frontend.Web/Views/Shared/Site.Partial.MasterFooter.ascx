@@ -67,7 +67,7 @@
             <br />
             <b>Rechtliches</b><br />
             <a href="<%=Links.TermsAndConditions %>">Nutzungsbedingungen (AGBs)</a><br/>
-            <a href="<%=Links.Imprint %>">Impressum & Datenschutz</a><br/>
+            <a href="<%=Links.Imprint %>">Impressum & Datenschutzerklärung</a><br/>
         </div>
         <div class="visible-xs visible-sm" style="clear: both"></div>
         

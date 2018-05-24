@@ -202,7 +202,7 @@
             <p>
                 Wir nutzen deine Daten, damit du besser lernen kannst und um memucho besser zu machen. 
                 Aber wir werden deine Daten niemals verkaufen. 
-                (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum <i class="fa fa-lock">&nbsp;</i>Datenschutz</a>)
+                (<a class="helpLink" href="<%= Links.FAQItem("DataPrivacy") %>">Mehr zum <i class="fa fa-lock">&nbsp;</i>Datenschutzerklärung</a>)
             </p>
             <p>
                 Damit du überprüfen kannst, was wir versprechen und weil wir Open Source eine tolle Idee finden, 
