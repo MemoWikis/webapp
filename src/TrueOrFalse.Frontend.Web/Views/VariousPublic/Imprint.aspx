@@ -87,11 +87,25 @@
             Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. 
             Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte 
             im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, 
-            vor.</p><p> </p>
-            <p>Quelle: <i><a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer</a> von eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/" target="_blank">Rechtsanwalt</a> Sören Siebert.</i>
+            vor.
+        </p>
+    
+        <p><strong>Nutzer unter 16 Jahren</strong><a name="under16">&nbsp;</a></p>
+        <p>
+            Wenn Du unter 16 Jahren alt bist, darfst Du dich bei memucho nur mit Zustimmung Deiner Eltern registieren.
+        </p>
+        <p>
+            Die Zustimmung durch Deine Eltern kann per Email oder Telefon erfolgen. 
+            Hier können Deine Eltern mit uns in Kontakt treten: <a href="/Kontakt">Kontakt</a>
+        </p>
+        <p>
+            Du kannst Die Seite natürlich anonym Nutzen, also ohne Registrierung nutzen.
+        </p>
+
+        <p></p>
+            <p>(Eine) Quelle: <i><a href="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank">Disclaimer</a> von eRecht24, dem Portal zum Internetrecht von <a href="http://www.e-recht24.de/" target="_blank">Rechtsanwalt</a> Sören Siebert.</i>
         </p>
         
-        <h3>Datenschutz</h3>
         
         <p><strong>Erfassung von Daten</strong></p>
         <p>
