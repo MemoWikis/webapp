@@ -6,6 +6,7 @@
 
         $(document).on("click", 'a[href*=#modalDeleteCategory]', function (e) {
             categoryIdToDelete = $(this).attr("data-categoryId");
+         
         });
 
         $('#btnCloseDelete').click(function (e) {
@@ -16,6 +17,8 @@
         $('#confirmDelete').click(function (e) {
             self.DeleteCategory(categoryIdToDelete);
             $('#modalDeleteCategory').modal('hide');
+            $(".btn").attr("disabled", "disabled");
+            $('#deleteAlert').fadeIn();
             e.preventDefault();
 
         });
