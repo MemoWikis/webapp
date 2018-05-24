@@ -17,7 +17,7 @@
 
 
 
-     <%-- <script>
+    <%-- <script>
           $(function () {
               $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
               $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
@@ -151,7 +151,7 @@
          }
     </script>--%>
 
-     <style>
+    <%--     <style>
          #totalKnowledgeOverTime {
              font-size: 18px;
              line-height: 27px;
@@ -194,7 +194,7 @@
                  top: 2px;
                  left: 4px;
              }
-     </style>
+     </style>--%>
 
     <%--<script>
         google.load("visualization", "1", { packages: ["corechart"] });
@@ -299,7 +299,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
- <%--   <div class="container-fluid">
+    <%--   <div class="container-fluid">
        <div class="row  heading-chart-knowledge">
             <div class="col-md-2 col-sm-3 col" id="chartKnowledgeH1">
             </div>
@@ -328,7 +328,7 @@
         </div>
     </div>--%>
 
-<%--    <div class="row">
+    <%--    <div class="row">
         <div id="chartKnowledgeP" class="col-md-5" style="height: 200px;"></div>
         <div class="col-md-5"> <p>Hallo Kurt,Das Dashboard zeigt kompakte und übersichtliche Informationen. Mit seinen Grafiken und Anzeigen kommt es dem englischen Wort für "Armaturenbrett" ziemlich nah. In deinem Wunschwissen befinden sich aktuell Fragen, verteilt auf Lernsets. Wenn du jeden Tag einen Fragensatz durchgehst, steigt dein Sicheres Wissen in vorraussichtlich Lernsitzungen auf 100%! </p></div>
     </div>
@@ -352,7 +352,7 @@
         </div>
     </div>--%>
 
-<%--    <div class="row">
+    <%--    <div class="row">
         <div class="NextLevelContainer">
             <div class="ProgressBarContainer">
                  <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
@@ -370,7 +370,7 @@
             <h4>Deine Termine</h4>
         </div>
     </div>--%>
-  <%--  <div class="row">
+    <%--  <div class="row">
         <div class ="col-md-12">
              <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                 <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
@@ -448,8 +448,8 @@
     </div>--%>
 
 
-    <%-- Training --%> 
-<%--<div class="row">
+    <%-- Training --%>
+    <%--<div class="row">
     <div class ="col-md-12">
         <div class="rowBase" style="padding: 10px; height: 384px;">
             <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
@@ -516,7 +516,7 @@
     </div>
 </div>--%>
 
-<%--<div class="row">
+    <%--<div class="row">
     <div class="col-md-3" style="margin-top: 5rem; margin-bottom: 10rem;">
             <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
                     <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
@@ -559,48 +559,49 @@
 
 
 
-<script>
+    <script>
 
 
 </script>
 
-        <% if (Model.Message != null)
-            { %>
-        <div class="row">
-            <div class="col-xs-12 xxs-stack">
-                <% Html.Message(Model.Message); %>
-            </div>
-        </div>        
+    <% if (Model.Message != null)
+        { %>
+    <div class="row">
+        <div class="col-xs-12 xxs-stack">
+            <% Html.Message(Model.Message); %>
+        </div>
+    </div>
     <% } %>
 
-     <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
+    <h1 style="margin-bottom: 5px; margin-top: 0px;"><span class="ColoredUnderline Knowledge">Hallo <%= Model.UserName %>!</span></h1>
 
     <% if (!Model.IsLoggedIn)
         { %>
 
-        <div class="bs-callout bs-callout-danger">
-            <h4>Einloggen oder registrieren</h4>
-            <p>
-                Um einen Überblick über deine Lernerfolge, deine anstehenden Lernsitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
+    <div class="bs-callout bs-callout-danger">
+        <h4>Einloggen oder registrieren</h4>
+        <p>
+            Um einen Überblick über deine Lernerfolge, deine anstehenden Lernsitzungen und die Lernaktivitäten deiner Freunde zu sehen, 
                 musst du dich <a href="#" data-btn-login="true">einloggen</a> oder <a href="<%= Links.Register() %>">registrieren</a>.
-            </p>
-            <p>
-                <b>Registriere dich und probiere es gleich aus!</b>
-            </p>
-            <p>                        
-                <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
-                <a href="#" data-btn-login="true">Ich bin schon Nutzer!</a>
-                <br/><span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
-            </p>
-        </div>
+        </p>
+        <p>
+            <b>Registriere dich und probiere es gleich aus!</b>
+        </p>
+        <p>
+            <a href="<%= Links.Register() %>" class="btn btn-success" style="margin-top: 0; margin-right: 10px;" role="button"><i class="fa fa-chevron-circle-right">&nbsp;</i> Jetzt Registrieren</a>
+            <a href="#" data-btn-login="true">Ich bin schon Nutzer!</a>
+            <br />
+            <span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
+        </p>
+    </div>
     <% } %>
 
-    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "" : "pointer-events: none; opacity: 0.3;" %>">
+    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "": "pointer-events: none; opacity: 0.3;" %>">
 
-     <div class="row">
+        <div class="row">
             <div class="col-sm-6" id="learningPoints">
                 <div class="rowBase" style="padding: 10px;">
-                <%--    <h3>Deine Lernpunkte</h3>
+                    <%--    <h3>Deine Lernpunkte</h3>
                     <div style="text-align: center; margin-bottom: 28px; margin-top: 15px;">
                         <span class="level-display" style="float: left; margin-top: -4px;">
                             <span style="display: inline-block; white-space: nowrap;">
@@ -615,24 +616,25 @@
                         </p>
                     </div>--%>
 
-                <%--    <div class="NextLevelContainer">
+                    <%--    <div class="NextLevelContainer">
                         <div class="ProgressBarContainer">
                            <%-- <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
                                 <div class="ProgressBarSegment ProgressBarLegend">
                                     <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
                                 </div>--%>
-                            </div>
-                            <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
-            
-                        </div>--%>
-                    </div>     
-                    <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel.ToString("N0") %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
                 </div>
-          <%--  </div>--%>
+                <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
 
-            <div class="col-sm-6" id="reputationPoints">
-                <div class="rowBase" style="padding: 10px;">
-                   <%-- <h3>Deine Reputation</h3>
+            </div>
+            --%>
+        </div>
+        <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel.ToString("N0") %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
+    </div>
+    <%--  </div>--%>
+
+    <div class="col-sm-6" id="reputationPoints">
+        <div class="rowBase" style="padding: 10px;">
+            <%-- <h3>Deine Reputation</h3>
                 
                     <p>
                         Reputation: <b><%= Model.ReputationTotal %> Punkte</b>
@@ -645,83 +647,84 @@
 
                     <p class="moreInfoLink">
                         <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
-                    </p>   --%>                 
-                </div>
-            </div>
-        
+                    </p>   --%>
+        </div>
+    </div>
 
 
-     <div class="row">
-                            
-            <div class="col-xs-12 col-md-6">
-                <div class="rowBase" style="padding: 10px">
-                    <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
-                    <p class="greyed" style="font-size: 12px;">Berücksichtigt nur dein Wunschwissen</p>
-                    <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
-                 <%--  <p>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-md-6">
+            <div class="rowBase" style="padding: 10px">
+                <h3 style="margin-bottom: 0px; margin-top: 0;">Dein Wissensstand</h3>
+                <p class="greyed" style="font-size: 12px;">Berücksichtigt nur dein Wunschwissen</p>
+                <p style="margin-bottom: 0px;">In deinem Wunschwissen sind:</p>
+                <%--  <p>
                         In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Lernset<%= StringUtils.Plural(Model.SetCount,"s") %>. 
                         <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Lernset klickst."></i>
                     </p>--%>
-     %>   <div class="row" style="line-height: 30px; margin-bottom: 20px;">
-                        <div class="col-md-6">
-                            <div class="number-box-questions" style="text-align: center;">
-                                <a href="<%= Links.QuestionsWish() %>">
-                                    <div>
-                                        <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
-                                        <span style="font-size: 14px">Frage<%= StringUtils.PluralSuffix(Model.QuestionsCount,"n") %></span>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="number-box-sets" style="text-align: center;">
-                                <a href="<%= Links.SetsWish() %>">
-                                    <div>
-                                        <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
-                                        &nbsp;<span style="font-size: 14px">Lernset<%= StringUtils.PluralSuffix(Model.SetsCount,"s") %></span>
-                                    </div>
-                                </a>
-                            </div>
+     %>  
+                <div class="row" style="line-height: 30px; margin-bottom: 20px;">
+                    <div class="col-md-6">
+                        <div class="number-box-questions" style="text-align: center;">
+                            <a href="<%= Links.QuestionsWish() %>">
+                                <div>
+                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.QuestionsCount %></span>
+                                    <span style="font-size: 14px">Frage<%= StringUtils.PluralSuffix(Model.QuestionsCount,"n") %></span>
+                                </div>
+                            </a>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="number-box-sets" style="text-align: center;">
+                            <a href="<%= Links.SetsWish() %>">
+                                <div>
+                                    <span style="font-weight: 900; font-size: 20px;"><%= Model.SetsCount %></span>
+                                    &nbsp;<span style="font-size: 14px">Lernset<%= StringUtils.PluralSuffix(Model.SetsCount,"s") %></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-                        <% if (Model.KnowledgeSummary.Total == 0)
-                            { %>
-                        <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
-                            <p>
-                                memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
-                            </p>
-                            <p>
-                                Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>  
-                                oder <a href="<%= Links.SetsAll() %>">Lernsets</a> aus und klicke dort auf das Herzsymbol:
+                <% if (Model.KnowledgeSummary.Total == 0)
+                    { %>
+                <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
+                    <p>
+                        memucho kann deinen Wissensstand nicht zeigen, da du noch kein Wunschwissen hast.
+                    </p>
+                    <p>
+                        Um dein Wunschwissen zu erweitern, suche dir interessante <a href="<%= Links.QuestionsAll() %>">Fragen</a>
+                        oder <a href="<%= Links.SetsAll() %>">Lernsets</a> aus und klicke dort auf das Herzsymbol:
                                 <ul style="list-style-type: none">
                                     <li>
-                                        <i class="fa fa-heart show-tooltip" style="color:#b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
+                                        <i class="fa fa-heart show-tooltip" style="color: #b13a48;" title="" data-original-title="In deinem Wunschwissen"></i>
                                         In deinem Wunschwissen
-                                    </li>                                
+                                    </li>
                                     <li>
-                                        <i class="fa fa-heart-o show-tooltip" style="color:#b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
+                                        <i class="fa fa-heart-o show-tooltip" style="color: #b13a48;" title="" data-original-title="Nicht Teil deines Wunschwissens."></i>
                                         <i>Nicht</i> in deinem Wunschwissen.
                                     </li>
                                 </ul>
-                            
-                            </p>
-                        </div>
-                    <% }
-                        else
-                        { %>
-                        <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
-                        <div style="text-align: center; margin-top: 20px;">
-                            <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
-                                <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
-                            </a>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
 
-    <div class="col-xs-12 col-md-6">
-              <%--  <div class="rowBase" style="padding: 10px; height: 384px;">
+                    </p>
+                </div>
+                <% }
+                    else
+                    { %>
+                <div id="chartKnowledge" style="height: 180px; margin-left: 20px; margin-right: 20px; text-align: left;"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="<%= Links.StartWishLearningSession() %>" class="btn btn-primary show-tooltip" title="Startet eine persönliche Lernsitzung. Du wiederholst die Fragen aus deinem Wunschwissen, die am dringendsten zu lernen sind.">
+                        <i class="fa fa-line-chart">&nbsp;</i>Jetzt Wunschwissen lernen
+                    </a>
+                </div>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-md-6">
+            <%--  <div class="rowBase" style="padding: 10px; height: 384px;">
                     <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
                     <p class="greyed" style="font-size: 12px;">In den letzten 30 Tagen</p>
                 
@@ -767,11 +770,11 @@
                     </div>
 
                 </div>--%>
-            </div>
         </div>
-    
+    </div>
 
-     <div id="wishKnowledge" class="row">
+
+    <%--     <div id="wishKnowledge" class="row">
             <div class="col-xs-12">
                 <h3>Themen und Lernsets in deinem Wunschwissen</h3>
                 
@@ -816,13 +819,13 @@
                     </div>
                 <% } %>
             </div>
-        </div>
+        </div>--%>
 
-            
-    
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
-               <%-- <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
+
+
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
+            <%-- <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
                     <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
                     <% if (Model.Dates.Count == 0)
@@ -895,63 +898,63 @@
                             
                     </p>
                 </div>--%>
-    
-    <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
-                    <% foreach (var answer in Model.AnswerRecent)
-                        {
-                            var question = answer.Question;
-                    %>
-                        <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-xs-3">
-                                <div class="ImageContainer ShortLicenseLinkText">
-                                    <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(question)) %>
-                                </div>
-                            </div>
-                            <div class="col-xs-9" style="">
-                                <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
-                            </div>
+
+            <div class="rowBase" style="padding: 10px;">
+                <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
+                <% foreach (var answer in Model.AnswerRecent)
+                    {
+                        var question = answer.Question;
+                %>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-xs-3">
+                        <div class="ImageContainer ShortLicenseLinkText">
+                            <%= ImageFrontendData.Create(question).RenderHtmlImageBasis(128, true, ImageType.Question, linkToItem: Links.AnswerQuestion(question)) %>
                         </div>
-                    <% } %>
-                
-                    <div class="row" style="opacity: 0.4;">
-                        <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
+                    </div>
+                    <div class="col-xs-9" style="">
+                        <a href="<%= Links.AnswerQuestion(question) %>"><%= question.Text %></a>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
-                <div class="rowBase" style="padding: 10px;">
-                    <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
-                    <% if (Model.TrainingDates.Count == 0)
-                        { %>
-                        <div class="row" style="margin-bottom: 7px;">
-                            <div class="col-md-12">
-                                Du hast in den nächsten <b>7 Tagen</b> keine geplanten Lernsitzungen.
-                            </div>
-                        </div>
-                    <% }
-                        else
-                        { %>
-                        <div class="row" style="margin-bottom: 7px;">
-                            <div class="col-md-12">
-                                in den nächsten <b>7 Tagen</b>
-                                <ul>
-                                    <li>ca. <%= Model.TrainingDates.Count %> Lernsitzungen</li>
-                                    <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <% foreach (var trainingDate in Model.TrainingDates)
-                            { %>
-                            <% Html.RenderPartial("TrainingDate", trainingDate); %>
-                        <% } %>
-                    <% } %>
+                <% } %>
+
+                <div class="row" style="opacity: 0.4;">
+                    <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
                 </div>
             </div>
-                           
-            <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
-                <div class="rowBase" style="padding: 10px;">
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
+            <div class="rowBase" style="padding: 10px;">
+                <h3 style="margin-top: 0; margin-bottom: 3px;">Lernsitzungen</h3>
+                <% if (Model.TrainingDates.Count == 0)
+                    { %>
+                <div class="row" style="margin-bottom: 7px;">
+                    <div class="col-md-12">
+                        Du hast in den nächsten <b>7 Tagen</b> keine geplanten Lernsitzungen.
+                    </div>
+                </div>
+                <% }
+                    else
+                    { %>
+                <div class="row" style="margin-bottom: 7px;">
+                    <div class="col-md-12">
+                        in den nächsten <b>7 Tagen</b>
+                        <ul>
+                            <li>ca. <%= Model.TrainingDates.Count %> Lernsitzungen</li>
+                            <li>ca. <%= new TimeSpan(0, Model.TrainingDates.Sum(x => x.LearningTimeInMin), 0).ToString(@"hh\:mm") %>h Lernzeit</li>
+                        </ul>
+                    </div>
+                </div>
+                <% foreach (var trainingDate in Model.TrainingDates)
+                    { %>
+                <% Html.RenderPartial("TrainingDate", trainingDate); %>
+                <% } %>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
+            <div class="rowBase" style="padding: 10px;">
                 <%--    <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
                     <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
 
@@ -983,21 +986,21 @@
                             <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
                         </div>
                     <% } %>--%>
-                </div>
             </div>
         </div>
-    
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-xs-12 col-md-4" style="padding: 5px;">
-                
-            </div>
-        </div>
+    </div>
 
-<% if (Model.IsLoggedIn)
-   { %>
-<div style="margin-top: 20rem">
-    <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
-</div>
-    <% } %>
-  
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-12 col-md-4" style="padding: 5px;">
+        </div>
+    </div>
+    <div class="container-fluid">
+        <% if (Model.IsLoggedIn)
+            { %>
+        <div style="margin-top: 20rem">
+            <%--<% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>--%>
+            <%Html.RenderPartial("~/Views/Knowledge/Partials/KnowledgeTopics.ascx"); %>
+        </div>
+        <% } %>
+    </div>
 </asp:Content>
