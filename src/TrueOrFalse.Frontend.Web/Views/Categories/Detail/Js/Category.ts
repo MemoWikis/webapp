@@ -16,4 +16,8 @@ $(() => {
     new Pin(PinType.Set, KnowledgeBar.ReloadCategory);
     new Tabbing(page);
     new CategoryHeader(page);
+
+    var queryParams = Utils.GetQueryString();
+    if (queryParams.openTab === "learningTab")
+        $("#LearningTab").click();
 });
