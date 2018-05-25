@@ -34,12 +34,6 @@
         {
             Html.RenderPartial("~/Views/Questions/Answer/LearningSession/LearningSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
         }
-        else
-        {  
-           
-         // Html.RenderPartial("~/Views/Questions/Answer/TestSession/TestSessionHeader.ascx", new AnswerQuestionModel(dummyQuestion.Id));
-           //B Html.RenderPartial("~/Views/Questions/Answer/AnswerBodyControl/AnswerBody.ascx", new AnswerBodyModel(model));
-        }
     }
     else
     { %>

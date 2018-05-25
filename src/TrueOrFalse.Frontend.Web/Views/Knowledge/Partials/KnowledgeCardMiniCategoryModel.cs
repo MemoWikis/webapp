@@ -22,4 +22,10 @@ public class KnowledgeCardMiniCategoryModel
     {
         return category.GetAggregatedSetsFromMemoryCache().Count;
     }
+
+    public string getLinktoLearn()
+    {
+        
+        return "Fragesatz/Lernen/"; // + category.AggregatedCategories()[0].Id;
+    }
 }

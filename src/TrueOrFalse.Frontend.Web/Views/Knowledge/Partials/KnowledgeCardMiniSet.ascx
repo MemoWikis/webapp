@@ -7,7 +7,7 @@
             <%= Model.GetSetImage(Model.Set).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.SetDetail(Model.Set)) %>
         </div>
     </div>
-    <div class="col-xs-4">            
+    <div class="col-xs-4">
         <a class="topic-name" href="<%= Links.GetUrl(Model.Set) %>">
             <div class="topic-name">
                 <%: Model.Set.Name %>
@@ -21,9 +21,7 @@
             <% Html.RenderPartial("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(Model.Set)); %>
             <div class="KnowledgeBarLegend">Dein Wissensstand</div>
         </div>
-                                        
     </div>
-    
     <div class="col-xs-2">
         <span class="fa fa-heart-o"></span>
 
@@ -34,7 +32,7 @@
             <a href="#" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                 <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
             </a>
-        </div>   
+        </div>
         <div class="dropdown">
             <% var buttonId = Guid.NewGuid(); %>
             <a href="#" id="<%=buttonId %>" class="dropdown-toggle btn btn-link ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
