@@ -23,14 +23,7 @@
                     this.RenderTabContent(tabname);
                 }
                 if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False") {
-
-                    var answerBody = new AnswerBody();
-
-                    if (answerBody.IsTestSession()) {
-                        answerBody.Loader.loadNewTestSession();
-                    }
-
-                    $('#hddLearningSessionStarted').val("True");
+                    this.InitializeLearningTab();
                 }
                 this.ShowTab(tabname);
             });
@@ -48,6 +41,16 @@
 
             $("#TabContent .show-tooltip").tooltip();
         });
+    }
+
+    private InitializeLearningTab(): void{
+        var answerBody = new AnswerBody();
+
+        if (answerBody.IsTestSession()) {
+        answerBody.Loader.loadNewTestSession();
+    }
+
+    $('#hddLearningSessionStarted').val("True");
     }
 
     private ContentIsPresent(tabName: string): boolean {
