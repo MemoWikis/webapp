@@ -10,9 +10,13 @@
 
             var tab = $(item);
             var tabname = tab.attr('id');
+
             tab.click((e) =>  {
+
                 e.preventDefault();
-                if (tab.hasClass('active')) return;
+
+                if (tab.hasClass('active'))
+                    return;
 
                 if (tab.hasClass('LoggedInOnly') && NotLoggedIn.Yes()) {
                     NotLoggedIn.ShowErrorMsg(tabname);
@@ -22,10 +26,13 @@
                 if (!this.ContentIsPresent(tabname)) {
                     this.RenderTabContent(tabname);
                 }
+
                 if (tabname === "LearningTab" && $('#hddLearningSessionStarted').val() === "False") {
                     this.InitializeLearningTab();
                 }
+
                 this.ShowTab(tabname);
+
             });
         });
     }
@@ -54,7 +61,6 @@
     }
 
     private ContentIsPresent(tabName: string): boolean {
-
         return !($.trim($('#' + tabName + 'Content').html())=='');
     }
 
