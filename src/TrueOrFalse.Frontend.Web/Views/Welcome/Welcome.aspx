@@ -303,7 +303,7 @@
         <div class="infoBox container-fluid">
             <div class="row">
                 <div class="col-md-3 vertical-center">
-                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/OerAward.png" />
+                    <img alt="Hier sollte der Oer Award sein" style="width: 300px" src="/Images/LogosPartners/badge_nominiert_2017_250real.png"/>
                 </div>
                 <div class="col-md-9">
                 <h3>memucho 2x nominiert für OER-Award 2017</h3>
