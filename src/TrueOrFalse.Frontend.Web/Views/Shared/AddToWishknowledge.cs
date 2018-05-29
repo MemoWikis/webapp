@@ -1,9 +1,6 @@
 ﻿public class AddToWishknowledge
 {
-    public AddToWishknowledge()
-    {
-    }
-
+ 
     public AddToWishknowledge(bool addToWishknowledge, bool isShortVersion = false)
     {
         IsWishknowledge = addToWishknowledge;

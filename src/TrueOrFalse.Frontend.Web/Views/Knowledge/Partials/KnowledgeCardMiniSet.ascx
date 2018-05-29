@@ -23,9 +23,7 @@
         </div>
     </div>
     <div class="col-xs-2">
-        <span class="fa fa-heart-o"></span>
-
-        <div class="tooltip">Zu deinem Wunschwissen hinzufügen</div>
+       <% Html.RenderPartial("~/Views/Shared/AddToWishknowledge.ascx",new AddToWishknowledge(Model.isInWishKnowldge)); %>
     </div>
     <div class="col-xs-4" style="">
         <a href="#" class="btn btn-link link-to-learnset" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow" data-setid="<%=Model.Set.Id%>">
