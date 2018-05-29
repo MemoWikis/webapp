@@ -28,11 +28,9 @@
         <div class="tooltip">Zu deinem Wunschwissen hinzufügen</div>
     </div>
     <div class="col-xs-4" style="">
-        <div style="float: left">
-            <a href="#" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
-                <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
-            </a>
-        </div>
+        <a href="#" class="btn btn-link link-to-learnset" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow" data-setid="<%=Model.Set.Id%>">
+            <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen
+        </a>
         <div class="dropdown">
             <% var buttonId = Guid.NewGuid(); %>
             <a href="#" id="<%=buttonId %>" class="dropdown-toggle btn btn-link ButtonOnHover ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

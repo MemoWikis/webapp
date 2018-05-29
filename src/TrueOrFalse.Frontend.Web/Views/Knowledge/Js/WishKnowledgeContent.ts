@@ -9,7 +9,7 @@
             $("#btnShowLessWishKnowledgeContent").show();
         });
 
-        $("#btnShowLessWishKnowledgeContent").click(function(e) {
+        $("#btnShowLessWishKnowledgeContent").click(function (e) {
             e.preventDefault();
             $("#wishKnowledgeMore").hide();
             $("#btnShowAllWishKnowledgeContent").show();
@@ -20,9 +20,12 @@
             function (e) {
                 e.preventDefault();
                 window.location.replace("/Kategorien/Schule/" + $(this).attr("data-category") + "?openTab=learningTab");
-                console.log($(this).attr("data-category"));
-                debugger;
+            });
 
+        $(".link-to-learnset").on("click",
+            function (e) {
+                e.preventDefault();
+                window.location.replace("/Fragesatz/Lernen/" + $(this).attr("data-setId"));
             });
     }
 }
