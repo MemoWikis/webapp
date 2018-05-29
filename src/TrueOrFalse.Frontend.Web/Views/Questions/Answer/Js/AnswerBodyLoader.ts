@@ -7,8 +7,8 @@
 
         this._answerBody = answerBody;
 
-        if (Utils.IsInWidget())
-            return;
+        //if (Utils.IsInWidget())
+        //    return;
 
         $().ready(() => {
             this._isInLearningTab = $('#LearningTab').length > 0;
