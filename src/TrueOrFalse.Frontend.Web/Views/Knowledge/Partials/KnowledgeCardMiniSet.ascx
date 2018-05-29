@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="col-xs-2">
-       <% Html.RenderPartial("~/Views/Shared/AddToWishknowledge.ascx",new AddToWishknowledge(Model.isInWishKnowldge)); %>
+       <% Html.RenderPartial("~/Views/Shared/AddToWishknowledge.ascx",new AddToWishknowledge(Model.isInWishKnowledge)); %>
     </div>
     <div class="col-xs-4" style="">
         <a href="#" class="btn btn-link link-to-learnset" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow" data-setid="<%=Model.Set.Id%>">

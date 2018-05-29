@@ -23,9 +23,7 @@
         </div>
     </div>
 
-    <span class="fa fa-heart-o" style="float: left"></span>
-
-    <div class="tooltip">Zu deinem Wunschwissen hinzufügen</div>
+    <% Html.RenderPartial("~/Views/Shared/AddToWishknowledge.ascx",new AddToWishknowledge(Model.isInWishKnowledge)); %>
 
     <div class="buttons" style="float: left">
         <a href="#" class="btn btn-primary link-to-topic" data-allowed="logged-in" data-allowed-type="learning-session" data-category="<%=Model.Category.Id %>" rel="nofollow">

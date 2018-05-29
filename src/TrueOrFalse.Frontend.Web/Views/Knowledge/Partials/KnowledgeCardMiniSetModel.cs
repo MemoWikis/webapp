@@ -4,12 +4,12 @@ using NHibernate.Criterion;
 public class KnowledgeCardMiniSetModel:BaseModel
 {
     public Set Set;
-    public bool isInWishKnowldge;
+    public bool isInWishKnowledge;
 
     public KnowledgeCardMiniSetModel(Set set)
     {
         Set = set;
-        isInWishKnowldge = Sl.SetValuationRepo.IsInWishKnowledge(Set.Id, UserId );
+        isInWishKnowledge = Sl.SetValuationRepo.IsInWishKnowledge(Set.Id, UserId );
     }
 
     public ImageFrontendData GetSetImage(Set set)
