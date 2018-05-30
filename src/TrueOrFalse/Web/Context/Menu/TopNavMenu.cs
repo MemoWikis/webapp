@@ -29,12 +29,6 @@ public class TopNavMenu
     {
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
     }
-
-    public ImageFrontendData GetSetImage(Set set)
-    {
-         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
-         return new ImageFrontendData(imageMetaData);
-    }
   
 
     public ImageFrontendData GetCategoryImage(Category category)

@@ -55,12 +55,18 @@
     
 
     <% if (Model.IsTestSession)
+        {
+            Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
+            Model.TopNavMenu.IsAnswerQuestionBreadCrumb = true;
+            Model.TopNavMenu.IsCategoryBreadCrumb = false;
+        }
+       else
        {
-           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.TestSession.SetName, Url = Model.TestSession.SetLink});
+           Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
            Model.TopNavMenu.IsAnswerQuestionBreadCrumb = true;
            Model.TopNavMenu.IsCategoryBreadCrumb = false;
-         
-       } %>
+       }
+    %>
       
 
     <link type="text/css" href="/Content/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
