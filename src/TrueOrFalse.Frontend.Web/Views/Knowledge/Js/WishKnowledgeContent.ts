@@ -16,6 +16,18 @@
             $("#btnShowLessWishKnowledgeContent").hide();
         });
 
+        $(".fa-heart").on("click",
+            function (e) {
+                e.preventDefault(); 
+
+                if ($(this).attr("data-set") != null) {
+                    SetsApi.Unpin($(this).attr("data-id"));
+                    return;
+                }
+
+                CategoryApi.Unpin($(this).attr("data-id"));
+            });
+
         $(".link-to-topic").on("click",
             function (e) {
                 e.preventDefault();

@@ -22,9 +22,7 @@
             <div class="KnowledgeBarLegend">Dein Wissensstand</div>
         </div>
     </div>
-
-    <% Html.RenderPartial("~/Views/Shared/AddToWishknowledge.ascx",new AddToWishknowledge(Model.isInWishKnowledge)); %>
-
+    <i class="fa fa-heart fa-heart-set show-tooltip" style="color: #b13a48;" title="Aus deinem Wunschwissen entfernen" data-id="<%=Model.Category.Id %>" ></i>
     <div class="buttons" style="float: left">
         <a href="#" class="btn btn-primary link-to-topic" data-allowed="logged-in" data-allowed-type="learning-session" data-category="<%=Model.Category.Id %>" rel="nofollow">
             <i class="fa fa-lg fa-line-chart">&nbsp;</i> Gleich richtig lernen

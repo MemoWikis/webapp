@@ -133,7 +133,7 @@ public class CategoryApiController : BaseController
     {
         if (_sessionUser.User == null)
             return;
-
+        
         CategoryInKnowledge.Unpin(Convert.ToInt32(categoryId), _sessionUser.User);
     }
 

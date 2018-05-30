@@ -17,6 +17,7 @@ public class KnowledgeCardMiniCategoryModel:BaseModel
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
         return new ImageFrontendData(imageMetaData);
     }
+
     public int GetTotalQuestionCount(Category category)
     {
         return category.GetAggregatedQuestionsFromMemoryCache().Count;
