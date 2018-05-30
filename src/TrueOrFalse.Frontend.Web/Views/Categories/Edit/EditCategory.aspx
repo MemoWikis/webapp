@@ -241,7 +241,7 @@
                         </div>
                     </div>
                     <div id="deleteAlert" class="alert alert-danger" role="alert" style="display: none ">
-                        <strong>Bite habe etwas Geduld, das Löschen dauert einen Augenblick</strong> 
+                        <strong>Bitte habe etwas Geduld, das Löschen dauert einen Augenblick</strong> 
                     </div>
                     <div class="form-group">
                         <div class="noLabel columnControlsFull">
