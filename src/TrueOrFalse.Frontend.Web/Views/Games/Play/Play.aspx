@@ -8,6 +8,9 @@
     <link href="/Views/Games/Edit/Game.css" rel="stylesheet" />    
     <%= Scripts.Render("~/bundles/js/GamePlay") %>
     <%= Styles.Render("~/bundles/GamePlay") %>
+    <%= Scripts.Render("~/bundles/js/Game") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Quiz", Url = Model.Game.Id.ToString(), ImageUrl = "fa-gamepad", ToolTipText = "Quiz"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

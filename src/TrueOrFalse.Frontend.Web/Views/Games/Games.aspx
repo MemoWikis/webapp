@@ -11,7 +11,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/bundles/js/Games") %>
     <%= Styles.Render("~/bundles/Games") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Spielen", Url = "/Spielen", ImageUrl = "fa-gamepad"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Spielen", Url = "/Spielen", ImageUrl = "fa-gamepad", ToolTipText = "Spielen"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

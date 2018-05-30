@@ -65,7 +65,6 @@
     if (!(Model.IsSetBreadCrumb || Model.IsAnswerQuestionBreadCrumb)) {  
     breadCrumbCategoriesCount = breadCrumbCategoriesCount - 1; 
     }
-
     for (var i = 1; i < breadCrumbCategoriesCount ; i++)
     { %>
         <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Themenseite">       

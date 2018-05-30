@@ -9,6 +9,7 @@ public class TopNavMenuItem
     public string Url;
     public string ImageUrl;
     public string TextStyles;
+    public string ToolTipText;
 
 }
 

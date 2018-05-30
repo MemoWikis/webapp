@@ -17,7 +17,7 @@
             <%}
        foreach (var breadCrumbItem in Model.BreadCrumb) { %>
         <i style="display: inline;" class="fa <%= breadCrumbItem.ImageUrl%>"></i>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Seite">
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" <% if (Model.IsAnswerQuestionBreadCrumb){%>title="zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
             <span style="display: inline-table; margin-left: 10px;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                 <i style="display: inline;" class="fa fa-chevron-right"></i>
             </span>          

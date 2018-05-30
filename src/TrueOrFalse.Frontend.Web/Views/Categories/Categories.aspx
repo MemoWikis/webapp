@@ -14,7 +14,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/Views/Categories/Categories.css") %>
     <%= Scripts.Render("~/bundles/Categories") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien", ImageUrl = "fa-search"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien", ImageUrl = "fa-search", ToolTipText = "Themen"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

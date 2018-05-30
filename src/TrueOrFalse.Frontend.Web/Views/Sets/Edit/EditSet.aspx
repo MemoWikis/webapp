@@ -11,7 +11,7 @@
            Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">
-        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernset", Url = "/Fragesaetze/Erstelle", ImageUrl = "fa-search"});
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernset", Url = "/Fragesaetze/Erstelle", ImageUrl = "fa-search", ToolTipText = "Lernset erstellen"});
            Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>
