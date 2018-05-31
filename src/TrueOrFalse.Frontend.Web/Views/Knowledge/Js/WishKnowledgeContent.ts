@@ -18,14 +18,16 @@
 
         $(".fa-heart").on("click",
             function (e) {
-                e.preventDefault(); 
+                e.preventDefault();
 
                 if ($(this).attr("data-set") != null) {
                     SetsApi.Unpin($(this).attr("data-id"));
+                    $(this).closest(".row").remove();
                     return;
                 }
 
                 CategoryApi.Unpin($(this).attr("data-id"));
+                $(this).closest(".row").remove();
             });
 
         $(".link-to-topic").on("click",
@@ -35,7 +37,7 @@
             });
 
         $(".link-to-learnset").on("click",
-            function (e) {
+            function(e) {
                 e.preventDefault();
                 window.location.replace("/Fragesatz/Lernen/" + $(this).attr("data-setId"));
             });

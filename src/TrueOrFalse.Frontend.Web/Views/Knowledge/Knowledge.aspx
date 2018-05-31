@@ -1000,7 +1000,7 @@
         <div style="margin-top: 20rem">
             <%--<% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>--%>
             <%Html.RenderPartial("~/Views/Knowledge/Partials/KnowledgeTopics.ascx"); %>
-        </div>
+            </div>
         <% } %>
     </div>
 </asp:Content>
