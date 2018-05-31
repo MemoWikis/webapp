@@ -59,9 +59,8 @@
             <div class="col-lg-12">
                 <h3>Themen und Lernsets in deinem Wunschwissen</h3>
                 
-                <% if (!Model.CatsAndSetsWish.Any())
-                    { %>
-                    <div class="alert alert-info" style="max-width: 600px; margin: 30px auto 10px auto;">
+                
+                    <div class="alert alert-info" id="noWishKnowledge" style="max-width: 600px; margin: 30px auto 10px auto; display:none ">
                         <p>
                             Du hast keine Themen oder Lernsets in deinem Wunschwissen. Finde interessante Themen aus den Bereichen 
                             <a href="<%= Links.CategoryDetail("Schule", 682) %>">Schule</a>,
@@ -71,7 +70,7 @@
                             und füge sie deinem Wunschwissen hinzu. Dann hast du deinen Wissensstand hier immer im Blick.
                         </p>
                     </div>
-                <% } %>
+                
                 <div class="row wishKnowledgeItems">
                     <% foreach (var catOrSet in Model.CatsAndSetsWish)
                         {
