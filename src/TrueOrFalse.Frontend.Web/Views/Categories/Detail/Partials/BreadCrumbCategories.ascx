@@ -67,7 +67,7 @@
     }
     for (var i = 1; i < breadCrumbCategoriesCount ; i++)
     { %>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="zur Themenseite">       
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" title="Zur Themenseite">       
             <%= Model.GetCategoryImage(breadCrumbCategories[i]).RenderHtmlImageBasis(128, true, ImageType.Category, linkToItem: Links.CategoryDetail(breadCrumbCategories[i])) %>
             <span style="display: inline-table; margin-left:10px;"><a href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
                 <i style="display: inline;" class="fa fa-chevron-right"></i>

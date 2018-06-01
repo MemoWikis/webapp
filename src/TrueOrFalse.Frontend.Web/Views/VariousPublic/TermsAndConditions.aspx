@@ -16,7 +16,7 @@
     });
 </script>    
     
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzungsbedingungen", Url = "/AGB", ImageUrl = "fa-question-circle", ToolTipText = "Nutzungsbedingungen"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzungsbedingungen", Url = "/AGB", ImageClass = "fa-question-circle", ToolTipText = "Nutzungsbedingungen"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false;
        Model.SidebarModel.HasKnowledgeBtnText = true;
        Model.SidebarModel.KnowldegeBtnText = "jetzt kostenlos registrieren!"; %>

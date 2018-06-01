@@ -1056,6 +1056,9 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
+#MasterMainWrapper .BreadcrumbsMobile i.fa-question-circle {
+  padding-top: 2px !important;
+}
 #MasterMainWrapper .BreadcrumbsMobile .category-icon:hover,
 #MasterMainWrapper .BreadcrumbsMobile .category-icon:focus {
   text-decoration: none;

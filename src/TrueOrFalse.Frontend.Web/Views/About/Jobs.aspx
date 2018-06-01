@@ -6,7 +6,7 @@
     <link href="/Views/About/Jobs.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
 
-<% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Jobs", Url = "/Jobs", ImageUrl = "fa-question-circle", ToolTipText = "Jobs"});
+<% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Jobs", Url = "/Jobs", ImageClass = "fa-question-circle", ToolTipText = "Jobs"});
    Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

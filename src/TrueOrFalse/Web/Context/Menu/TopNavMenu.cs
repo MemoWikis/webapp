@@ -7,7 +7,7 @@ public class TopNavMenuItem
 {
     public string Text;
     public string Url;
-    public string ImageUrl;
+    public string ImageClass;
     public string TextStyles;
     public string ToolTipText;
 
