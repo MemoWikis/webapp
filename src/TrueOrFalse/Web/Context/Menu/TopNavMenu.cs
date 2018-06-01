@@ -24,8 +24,6 @@ public class TopNavMenu
     public bool IsSetBreadCrumb = false;
     public bool IsAnswerQuestionBreadCrumb = false;
 
-    public ImageFrontendData ImageFrontendData;
-
     public TopNavMenu()
     {
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      

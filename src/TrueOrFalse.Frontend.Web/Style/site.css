@@ -1094,6 +1094,9 @@ ul.AutocompleteHeader {
 #MasterMainWrapper .BreadcrumbsMobile i.thumbs-up-gold {
   color: #FFD603;
 }
+#MasterMainWrapper .BreadcrumbsMobile i.fa-trophy {
+  padding-top: 2px;
+}
 #MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
   width: auto;
   margin-left: 13px;
