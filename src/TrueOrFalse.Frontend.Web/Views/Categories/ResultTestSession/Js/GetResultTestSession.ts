@@ -6,7 +6,11 @@
        
       
         var link = "/TestSessionResult/TestSessionResultAsync";
-        $("#btnNext").on("click", function(e){
+        $("#btnNext").on("click", function (e) {
+            if (Utils.IsInWidget()) {
+                window.location.href = $('#btnNext:visible').attr('href');
+                return;
+            }
             e.preventDefault();
             this.testSessionId = $("#hddIsTestSession").attr("data-test-session-id").valueOf();
             $.ajax({

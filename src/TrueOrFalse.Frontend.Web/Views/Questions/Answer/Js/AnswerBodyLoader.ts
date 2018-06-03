@@ -7,8 +7,8 @@
 
         this._answerBody = answerBody;
 
-        //if (Utils.IsInWidget())
-        //    return;
+        if (Utils.IsInWidget())
+            return;
 
         $().ready(() => {
             this._isInLearningTab = $('#LearningTab').length > 0;
@@ -91,7 +91,13 @@
     }
 
     public loadNewTestSession() {
-        var url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hddCategoryId').val();
+        var url 
+        if (Utils.IsInWidget()) {
+            url = "/widget/fragesatz/22?hideAddToKnowledge=True&host=localhost&questionCount=-1&widgetKey=";
+            this.loadNewQuestion(url);
+            return;
+        }
+         url = "/AnswerQuestion/RenderAnswerBodyForNewCategoryTestSession/?categoryId=" + $('#hddCategoryId').val();
         this.loadNewQuestion(url);
     }
 
