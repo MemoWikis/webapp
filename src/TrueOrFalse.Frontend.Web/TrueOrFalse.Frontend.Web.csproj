@@ -461,9 +461,6 @@
     <Content Include="Views\Knowledge\Js\GoogleChartsLoad.js">
       <DependentUpon>GoogleChartsLoad.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Js\KnowledgeTopics.js">
-      <DependentUpon>KnowledgeTopics.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Knowledge\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -536,9 +533,6 @@
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Partials\_Dashboard.ascx" />
-    <Content Include="Views\Knowledge\Js\KnowledgeTopics.js.map">
-      <DependentUpon>KnowledgeTopics.ts</DependentUpon>
-    </Content>
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />
@@ -874,7 +868,6 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\GoogleChartsLoad.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Js\KnowledgeTopics.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />

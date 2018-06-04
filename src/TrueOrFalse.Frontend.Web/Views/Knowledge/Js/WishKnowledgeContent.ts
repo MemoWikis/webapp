@@ -44,6 +44,34 @@
                 e.preventDefault();
                 window.location.replace("/Fragesatz/Lernen/" + $(this).attr("data-setId"));
             });
+
+        $("#dashboard").click(function (e) {
+            e.preventDefault();
+            $.post("/Knowledge/GetKnowledgeContent",
+                {content: "dashboard"},
+                function (data) {
+                    $(".test").html(data);
+                });
+        });
+
+        $("#topics").click(function (e) {
+            e.preventDefault();
+            $.post("/Knowledge/GetKnowledgeContent",
+                { content: "topics" },
+                function (data) {
+                    $(".test").html(data);
+                });
+        });
+
+        $("#questions").click(function (e) {
+            e.preventDefault();
+            $.post("/Knowledge/GetKnowledgeContent",
+                { content: "questions" },
+                function (data) {
+                    $(".test").html(data);
+                });
+        });
+
     }
 
     private static alertFadeInWhenNoWhisKnowledge(element: string, show: string) {
@@ -52,4 +80,5 @@
         } 
         
     }
+
 }

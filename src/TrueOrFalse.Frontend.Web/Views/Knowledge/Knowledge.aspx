@@ -990,17 +990,78 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 20px;">
-        <div class="col-xs-12 col-md-4" style="padding: 5px;">
-        </div>
-    </div>
+
+
+
+    <script>
+        google.load("visualization", "1", { packages: ["corechart"] });
+        // Heading h1 Knowledgewheel 
+        google.setOnLoadCallback(chartKnowledgeH1);
+
+        function chartKnowledgeH1() {
+
+            var options = {
+                pieHole: 0.6,
+                tooltip: { isHtml: false },
+                legend: { position: "none" },
+                pieSliceText: 'none',
+                chartArea: { 'width': '100%', height: '100%', top: 10 },
+                slices: {
+                    0: { color: '#afd534' },
+                    1: { color: '#fdd648' },
+                    2: { color: 'lightsalmon' },
+                    3: { color: 'silver' },
+                    4: { color: '#dddddd' }
+                },
+                pieStartAngle: 0
+            }
+
+
+
+            var data = google.visualization.arrayToDataTable([
+                ['Wissenslevel', 'link', 'Anteil in %'],
+                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
+            ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+            ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+            ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+            ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
+            ]);
+
+            var view = new google.visualization.DataView(data);
+            view.setColumns([0, 2]);
+
+            var chart = new google.visualization.PieChart(document.getElementById('chartKnowledgeH1'));
+            chart.draw(view, options);
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+
+            function selectHandler(e) {
+                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
+                location.href = urlPart;
+            }
+        }
+    </script>
+
     <div class="container-fluid">
+        <div class="row heading-chart-knowledge">
+            <div class="col-md-2 col-sm-3 col" id="chartKnowledgeH1">
+            </div>
+            <div class="col-md-10 col-sm-9 col">
+                <h1>Wissenszentrale - Überblick & Dashboard </h1>
+            </div>
+        </div>
+        <div class="row  link-set">
+            <div class="col-md-2"><a href="#" id="dashboard">Dashboard</a></div>
+            <div class="col-md-2"><a href="#" id="topics">Themen</a></div>
+            <div class="col-md-2"><a href="#" id="questions">Fragen</a></div>
+            <div class="col-md-6 learn-session-start">Lernsitzung starten</div>
+        </div>
         <% if (Model.IsLoggedIn)
             { %>
-        <div style="margin-top: 20rem">
-            <%--<% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>--%>
-            <%Html.RenderPartial("~/Views/Knowledge/Partials/KnowledgeTopics.ascx"); %>
-            </div>
+        <div class="test" style="margin-top: 2rem">
+           <%-- <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
+            <%//Html.RenderPartial("~/Views/Knowledge/Partials/KnowledgeTopics.ascx"); %>--%>
+        </div>
         <% } %>
     </div>
 </asp:Content>

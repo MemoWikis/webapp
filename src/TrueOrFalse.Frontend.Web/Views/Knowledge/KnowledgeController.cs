@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
@@ -60,4 +61,16 @@ public class KnowledgeController : BaseController
 
         return Redirect(Links.LearningSession(learningSession));
     }
+
+    public String GetKnowledgeContent(string content)
+    {
+        switch (content)
+        {
+            case "dashboard" : return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
+            case "topics" : return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx", new KnowledgeModel(), ControllerContext);
+            case "questions" : return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
+            default: throw    new ArgumentException("Argument false or null");
+        }
+    }
+
 }
