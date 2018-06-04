@@ -3,12 +3,9 @@
     testSessionId: string ; 
     constructor() {
 
-       
-      
         var link = "/TestSessionResult/TestSessionResultAsync";
         $("#btnNext").on("click", function (e) {
             if (Utils.IsInWidget()) {
-                window.location.href = $('#btnNext:visible').attr('href');
                 return;
             }
             e.preventDefault();
