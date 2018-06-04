@@ -811,19 +811,35 @@ ul.AutocompleteHeader {
   font-size: 1.3em;
   text-anchor: middle;
 }
-.Autor-Box {
+#SidebarCards {
   width: 100%;
   font-size: 18px;
-  margin-top: 70px;
   text-align: center;
 }
-@media (max-width: 1199px) {
-  .Autor-Box {
-    display: none;
-  }
+#SidebarCards .card-headline {
+  height: 29px;
+  text-transform: uppercase;
+  color: #9F9F9F;
 }
-.Autor-Box-Name {
+#SidebarCards .card-footer-text {
   margin-top: 15px;
+  color: #0560AB;
+}
+#AutorCard {
+  margin-top: 70px;
+}
+#AutorCard .autor-card-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+}
+#MultipleAutorCard {
+  margin-top: 70px;
+}
+#MultipleAutorCard .multiple-autor-card-image {
+  width: 41.82px;
+  height: 41.82px;
+  border-radius: 50px;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/

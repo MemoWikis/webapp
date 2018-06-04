@@ -9,7 +9,10 @@
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ImageClass = "address-book", ToolTipText = "Nutzer"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = "/Nutzer", ImageClass = "", ToolTipText = "Profilseite"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Wissenszentrale", Url = "/Wissenszentrale", ImageClass = "fa-heart", ToolTipText = "Wissenszentrale"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <script>
         $(function () {
             $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });

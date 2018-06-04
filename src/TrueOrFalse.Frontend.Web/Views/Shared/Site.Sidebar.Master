@@ -23,18 +23,38 @@
                     <% Html.RenderPartial(
                            Model.TopicMenu.IsActive
                            ? UserControls.SidebarThemeCentered
-                           : UserControls.Sidebar, Model.SidebarModel); %>                   
-                        <div class="Autor-Box" style="display: none;">
-                            <div style="height: 29px;text-transform: uppercase; color: #9F9F9F">
+                           : UserControls.Sidebar, Model.SidebarModel); %>   
+                    <div id="SidebarCards" style="display: none;">
+                        <div id="AutorCard">
+                            <div class="card-headline">
                                 <span>Themen-Autorin</span>
                             </div>
-                            <div id="AutorImage" class="ImageContainer" style="margin-top: 12.64px; width: 100%; ">
-                                <img class="ItemImage JS-InitImage" alt="" src="/Images/no-category-picture-128.png" style="width: 80px; height: 80px; border-radius: 50px;" data-append-image-link-to="ImageContainer" />
+                            <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">
+                                <img class="autor-card-image" class="ItemImage JS-InitImage" alt="" src="/Images/no-profile-picture-85.png" data-append-image-link-to="ImageContainer" />                                                              
                             </div>
-                            <div id="AutorName" class="Autor-Box-Name">
-                                Charlotte L                    
+                            <div class="card-footer-text">
+                              Charlotte L                 
                             </div>
-                        </div>              
+                        </div>  
+                    <div id="MultipleAutorCard">
+                        <div class="card-headline">
+                            <span>Beitragende</span>
+                        </div>
+                        <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">                 
+                            <div style="display: flex; justify-content:center;">
+                                <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="/Images/no-profile-picture-85.png" data-append-image-link-to="ImageContainer" />
+                                <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="/Images/no-profile-picture-85.png" data-append-image-link-to="ImageContainer" />
+                            </div>
+                            <div style="display: flex; justify-content:center;">
+                                <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="/Images/no-profile-picture-85.png" data-append-image-link-to="ImageContainer" />
+                                <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="/Images/no-profile-picture-85.png" data-append-image-link-to="ImageContainer" />
+                            </div>
+                        </div>
+                        <div class="card-footer-text">
+                            Anzeigen                  
+                        </div>
+                    </div>      
+                </div>
                     <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
                        { %>
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
