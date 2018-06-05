@@ -94,6 +94,9 @@ public class CategoryModel : BaseModel
        
         Type = category.Type.GetShortName();
 
+        Creator = category.Creator;
+        CreatorName = category.Creator.Name;
+
         FeaturedSets = category.FeaturedSets();
 
         IsOwnerOrAdmin = _sessionUser.IsLoggedInUserOrAdmin(category.Creator.Id);

@@ -7902,6 +7902,7 @@
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
+    <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Shared\SidebarThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />

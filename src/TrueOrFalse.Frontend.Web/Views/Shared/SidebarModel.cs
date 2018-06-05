@@ -12,6 +12,8 @@
 
     public int UnreadMessageCount = 0;
 
+    public string CardFooterText;
+
     public SidebarModel()
     {
         var userSession = Resolve<SessionUser>();
