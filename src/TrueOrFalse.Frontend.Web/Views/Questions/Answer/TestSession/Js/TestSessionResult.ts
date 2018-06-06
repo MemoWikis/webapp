@@ -30,6 +30,7 @@
 
         $(".nextLearningTestSession").click((e) => {
             e.preventDefault();
+            $(".EduPartnerWrapper").remove();
             $("#QuestionCountCompletSideBar").fadeIn();
             $(".ProgressBarSegment .ProgressBarLeft").width("0%");
             var answerBody = new AnswerBody();

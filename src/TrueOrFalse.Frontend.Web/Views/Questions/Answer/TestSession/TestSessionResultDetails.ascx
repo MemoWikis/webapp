@@ -123,7 +123,7 @@
                         <a href="<%= Url.Action(Links.KnowledgeAction, Links.KnowledgeController) %>" class="btn btn-link" style="padding-right: 10px">
                             Zur Wissenszentrale
                         </a>
-                        <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip test-session-result" style="padding-right: 10px"
+                        <a href="<%= Model.LinkForRepeatTest %>" class="btn btn-primary show-tooltip  nextLearningTestSession" style="padding-right: 10px"
                            title="Neue Fragen <% if (Model.TestSession.IsSetSession) Response.Write("aus demselben Lernset");
                                                  else if (Model.TestSession.IsSetsSession) Response.Write("aus denselben Lernsets");
                                                  else if (Model.TestSession.IsCategorySession) Response.Write("zum selben Thema"); %>
