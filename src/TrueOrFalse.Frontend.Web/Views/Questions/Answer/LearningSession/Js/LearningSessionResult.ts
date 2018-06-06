@@ -26,6 +26,15 @@
             $(".dateSets").toggle(300);
         });
 
+        $(".nextLearningTestSession").click((e) => {
+            e.preventDefault();
+            debugger;
+            $(".EduPartnerWrapper").remove();
+            $("#QuestionCountCompletSideBar").fadeIn(); 
+            var answerBody = new AnswerBody();
+            answerBody.Loader.loadNewLearningSession();
+        });
+
         new LearningSessionResultCharts();
     }
 }
