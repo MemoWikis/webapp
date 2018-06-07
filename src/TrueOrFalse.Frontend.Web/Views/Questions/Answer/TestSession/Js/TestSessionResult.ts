@@ -28,6 +28,8 @@
             $(".dateSets").toggle(300);
         });
 
+        if ($("#isSetSession").val() !== "True") {
+
         $(".nextLearningTestSession").click((e) => {
             e.preventDefault();
             $(".EduPartnerWrapper").remove();
@@ -35,9 +37,8 @@
             $(".ProgressBarSegment .ProgressBarLeft").width("0%");
             var answerBody = new AnswerBody();
             answerBody.Loader.loadNewTestSession();
-            
-
-        });
+            });
+        }
     }
 
     public PositionIndicatorAverageText() {
