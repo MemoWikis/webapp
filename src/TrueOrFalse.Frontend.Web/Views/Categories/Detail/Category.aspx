@@ -6,8 +6,6 @@
     <% Title = Model.MetaTitle; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
     <meta name="description" content="<%= Model.MetaDescription %>"/>
-    
-
     <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" />
     <meta property="og:type" content="article" />
@@ -25,7 +23,8 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
-    <% Model.SidebarModel.CardFooterText = Model.CreatorName; %>
+    <% Model.SidebarModel.CardFooterText = Model.CreatorName;
+       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

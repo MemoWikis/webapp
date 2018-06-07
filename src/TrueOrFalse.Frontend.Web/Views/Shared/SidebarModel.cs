@@ -13,6 +13,7 @@
     public int UnreadMessageCount = 0;
 
     public string CardFooterText;
+    public string AutorImageUrl;
 
     public SidebarModel()
     {

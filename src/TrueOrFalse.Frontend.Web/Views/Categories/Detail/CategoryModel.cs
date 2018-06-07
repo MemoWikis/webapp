@@ -40,6 +40,8 @@ public class CategoryModel : BaseModel
     public string CreationDate;
     public string CreationDateNiceText;
 
+    public string ImageUrl_250;
+
     public Category Category;
 
     public ImageFrontendData ImageFrontendData;
@@ -96,6 +98,9 @@ public class CategoryModel : BaseModel
 
         Creator = category.Creator;
         CreatorName = category.Creator.Name;
+
+        var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
+        ImageUrl_250 = imageResult.Url;
 
         FeaturedSets = category.FeaturedSets();
 

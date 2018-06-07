@@ -2,17 +2,19 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <div id="SidebarCards" style="display: block;">
+   <%if(Model.CardFooterText != null){ %>
     <div id="AutorCard">
         <div class="card-headline">
-            <span>Themen-Autorin</span>
+            <span>Themen-Autor</span>
         </div>
         <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">
-            <img class="autor-card-imageItemImage JS-InitImage" alt="" src="/Images/no-profile-picture-85.png" data-append-image-link-to="ImageContainer" />
+            <img class="autor-card-image ItemImage JS-InitImage" alt="" src="<%= Model.AutorImageUrl%>"  data-append-image-link-to="ImageContainer" />
         </div>
         <div class="card-footer-text">
-           <%=Model.CardFooterText %>
+       <%= Model.CardFooterText%> 
         </div>
     </div>
+   <%} %>
     <div id="MultipleAutorCard">
         <div class="card-headline">
             <span>Beitragende</span>
