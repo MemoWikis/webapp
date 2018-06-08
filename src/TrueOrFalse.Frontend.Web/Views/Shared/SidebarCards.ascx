@@ -33,4 +33,15 @@
             Anzeigen                  
         </div>
     </div>
+    <div id="CategoryCard">
+        <div class="card-headline">
+            <span>Themen-Vorschlag</span>
+        </div>
+        <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">
+          
+        </div>
+        <div class="card-footer-text">
+           <i class="fa fa-hand-point-right"></i> Zum Thema                  
+        </div>
+    </div>
 </div>

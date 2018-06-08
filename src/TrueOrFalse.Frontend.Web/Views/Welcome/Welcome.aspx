@@ -311,7 +311,7 @@
                     Bei den OER-Awards 2017 wurde memucho gleich zweimal nominiert:
                     <ul class="ul">
                         <li>In der Kategorie OER-Infrastruktur und</li>
-                        <li>speziell für unsere freien Lerninhalte für den<a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.</li>
+                        <li>speziell für unsere freien Lerninhalte für den <a href="<%= Links.CategoryDetail("Basispass Pferdekunde",343) %>">Basispass Pferdekunde</a>.</li>
                     </ul>
                 </p>
                 <p>Darüber freuen wir uns sehr! Die <a href="https://open-educational-resources.de/veranstaltungen/17/award/" target="_blank">OER-Awards <i class="fa fa-external-link" style="font-size: smaller;"></i></a>
