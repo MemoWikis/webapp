@@ -841,6 +841,22 @@ ul.AutocompleteHeader {
   height: 41.82px;
   border-radius: 50px;
 }
+#CreateCategoryCard {
+  margin-top: 70px;
+}
+#CreateCategoryCard i.fa-plus-square {
+  color: white;
+  position: absolute;
+  margin-top: -19px;
+  font-size: 14px;
+}
+#CreateCategoryCard i.fa-circle {
+  color: #DDDDDD;
+  position: absolute;
+  margin-top: -23.5px;
+  margin-left: -4px;
+  font-size: 23px;
+}
 /* MASTER SECTION
 ----------------------------------------------------------*/
 #MasterSection {

@@ -5,7 +5,7 @@
    <%if(Model.CardFooterText != null){ %>
     <div id="AutorCard">
         <div class="card-headline">
-            <span>Themen-Autor</span>
+            <span>Themen-Autoren</span>
         </div>
         <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">
             <img class="autor-card-image ItemImage JS-InitImage" alt="" src="<%= Model.AutorImageUrl%>"  data-append-image-link-to="ImageContainer" />
@@ -33,15 +33,15 @@
             Anzeigen                  
         </div>
     </div>
-    <div id="CategoryCard">
+    <div id="CreateCategoryCard">
         <div class="card-headline">
-            <span>Themen-Vorschlag</span>
+            <span>Thema erstellen</span>
         </div>
-        <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">
-          
-        </div>
+        <p style="margin-top: 21px; border-bottom:solid 1px #d6d6d6; padding-bottom: 23px;">Lass memucho wachsen, durch eine neue Themenseite.</p>
+        <i class="fa fa-circle"></i>
+        <i class="fa fa-plus-square"></i>
         <div class="card-footer-text">
-           <i class="fa fa-hand-point-right"></i> Zum Thema                  
+           <a href="<%= Url.Action("Create", "EditCategory") %>">Zum Erstell-Tool</a>                 
         </div>
     </div>
 </div>
