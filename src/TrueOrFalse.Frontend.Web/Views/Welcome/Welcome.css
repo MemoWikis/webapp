@@ -504,9 +504,6 @@ fieldset[disabled] .EduCategory.active {
   margin-top: 10px;
 }
 /* INFO BOX */
-.infoBox {
-  background-color: #d0e689;
-}
 .infoBox .row .col-md-3 {
   text-align: center;
 }
