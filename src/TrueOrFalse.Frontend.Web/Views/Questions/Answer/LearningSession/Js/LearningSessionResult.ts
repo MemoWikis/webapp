@@ -1,8 +1,14 @@
 ﻿class LearningSessionResult {
     
     constructor() {
-        $(".SessionBar").hide();
-        $(".SessionHeading").hide();
+        
+       
+         
+        if ($("#LearningTab").hasClass("active")) {
+            $(".SessionBar").hide();
+            $(".SessionHeading").hide();
+        }
+
         $("[data-action=showAllDetails]").click((e) => {
             e.preventDefault();
             $(".answerDetails").show(300);
@@ -42,4 +48,4 @@
 
         new LearningSessionResultCharts();
     }
-}
+} 
