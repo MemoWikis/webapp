@@ -4,7 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/AboutMemucho.css" rel="stylesheet" />
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Über memucho", Url = "/Ueber-memucho", ToolTipText = "Über memucho", ImageClass = "fa-question-circle"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Über memucho", Url = "/Ueber-memucho", ToolTipText = "Über memucho"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 
 </asp:Content>

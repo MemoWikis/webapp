@@ -11,7 +11,7 @@
             Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CreateQuestion() %>">
-        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Fragen", Url = "/Fragen/Erstelle", ImageClass = "fa-search", ToolTipText = "Frage erstellen"});
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Fragen", Url = "/Fragen/Erstelle",  ToolTipText = "Frage erstellen"});
            Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>

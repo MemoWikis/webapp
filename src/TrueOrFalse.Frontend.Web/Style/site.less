@@ -178,11 +178,12 @@ img {
 ----------------------------------------------------------*/
 
 #MasterHeader {
-    position: relative;
+    position: fixed;
     margin: 0;
     width: 100%;
-    max-height: 50px;
+    height:80px;
     background-color: @memo-blue;
+    z-index:1;
 
     .HeaderMainRow {
         height: @masterHeaderMainRowHeight-xs;
@@ -293,9 +294,11 @@ img {
 #Pictogram {
     float: left;
     height: 62px;
-    margin-right: 10px;
+    margin-right: 19.43px;
     overflow-y: visible;
     margin-left: -7px;
+    margin-top:9px;
+    height:57.33px;
 
     .media-below-md ({
         display: none;
@@ -895,6 +898,178 @@ img {
         }
     }
 
+/*******************************************************************/
+/*  Breadcrumbs
+----------------------------------------------------------*/
+/** Default button **/
+.btn-breadcrumb {
+    a {
+        text-decoration: underline;
+    }
+
+    a.current {
+        text-decoration: none;
+    }
+    /** Breadcrumb **/
+    .btn:not(:last-child):after {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 17px solid transparent;
+        border-bottom: 17px solid transparent;
+        border-left: 10px solid white;
+        position: absolute;
+        top: 50%;
+        margin-top: -17px;
+        left: 100%;
+        z-index: 3;
+    }
+
+    .btn:not(:last-child):before {
+        content: " ";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 17px solid transparent;
+        border-bottom: 17px solid transparent;
+        border-left: 10px solid rgb(173, 173, 173);
+        position: absolute;
+        top: 50%;
+        margin-top: -17px;
+        margin-left: 1px;
+        left: 100%;
+        z-index: 3;
+    }
+    /** The Spacing **/
+    .btn {
+        padding: 6px 12px 6px 24px;
+    }
+
+    .btn:first-child {
+        padding: 6px 6px 6px 10px;
+    }
+
+    .btn:last-child {
+        padding: 6px 18px 6px 24px;
+    }
+
+    .btn.btn-default:not(:last-child):after {
+        border-left: 10px solid #fff;
+    }
+
+    .btn.btn-default:not(:last-child):before {
+        border-left: 10px solid #ccc;
+    }
+
+    .btn.btn-default:hover:not(:last-child):after {
+        border-left: 10px solid #ebebeb;
+    }
+
+    .btn.btn-default:hover:not(:last-child):before {
+        border-left: 10px solid #adadad;
+    }
+}
+
+.Breadcrumb {
+    font-size: 14px;
+    background-color: white;
+    line-height: 1.5em;
+    height:55px;
+    width: 100%;
+    font-family: sans;
+    padding-top:19px;
+    padding-bottom:17px;
+    color: #000000 !important;
+    font: bold;
+    position: fixed;
+    z-index: 1;
+    top: 80px;
+    .greyed;
+
+    div {
+        font-family: 'Open Sans';
+        font-weight: bold;
+    }
+
+    img {
+        min-width: 21px;
+        min-height: 21px;
+        width: 21px !important;
+        height: 21px !important;
+        border-radius: 50%;
+    }
+
+    i.fa-chevron-right {
+        font-size: 80%;
+        color: #1B3651;
+        margin-right: 10px;
+        background-color: white;
+        border-radius: 0px;
+        padding: 0px;
+    }
+
+    i.fa-question-circle {
+        padding-top: 2px !important;
+    }
+
+    .category-icon {
+        &:hover, &:focus {
+            text-decoration: none;
+        }
+    }
+
+    i.fa {
+        font-size: 120%;
+        width: 0.9em;
+        text-align: center;
+        width: 21px !important;
+        height: 21px;
+        border-radius: 50px;
+        background-color: #0B335E;
+        color: white;
+        padding-top: 1px;
+    }
+
+    i.fa-chevron-right {
+        font-size: 11.2px;
+        width: auto;
+        margin-left: 13px;
+        color: #1B3651;
+        margin-right: 10px;
+        background-color: white;
+        border-radius: 0px;
+        padding: 0px;
+    }
+
+    a {
+        color: #1B3651;
+        text-decoration: none;
+        font-family: "Open Sans";
+        font-size: 14px;
+        font-weight: bold;
+
+
+        &:not(.current) {
+            &:hover, &:focus, &:active {
+                color: #1B3651;
+                text-decoration: underline;
+                text-underline-position: alphabetic;
+            }
+        }
+
+        &.current {
+            cursor: default;
+        }
+    }
+
+    .media-below-lg( {
+        padding-bottom: 20px;
+    }
+
+    );
+}
+
 #MasterSidebarColumn {
     .make-lg-column(3);
     position: static;
@@ -913,6 +1088,7 @@ img {
     }
 }
 
+
 #MasterMainWrapper {
     background-color: white;
     padding-left: 20px;
@@ -920,203 +1096,6 @@ img {
     padding-bottom: 20px;
     padding-top: 25px;
     width: 100% !important;
-    /*******************************************************************/
-    /*  Breadcrumbs
-----------------------------------------------------------*/
-    /** Default button **/
-    .btn-breadcrumb {
-        a {
-            text-decoration: underline;
-        }
-
-        a.current {
-            text-decoration: none;
-        }
-        /** Breadcrumb **/
-        .btn:not(:last-child):after {
-            content: " ";
-            display: block;
-            width: 0;
-            height: 0;
-            border-top: 17px solid transparent;
-            border-bottom: 17px solid transparent;
-            border-left: 10px solid white;
-            position: absolute;
-            top: 50%;
-            margin-top: -17px;
-            left: 100%;
-            z-index: 3;
-        }
-
-        .btn:not(:last-child):before {
-            content: " ";
-            display: block;
-            width: 0;
-            height: 0;
-            border-top: 17px solid transparent;
-            border-bottom: 17px solid transparent;
-            border-left: 10px solid rgb(173, 173, 173);
-            position: absolute;
-            top: 50%;
-            margin-top: -17px;
-            margin-left: 1px;
-            left: 100%;
-            z-index: 3;
-        }
-        /** The Spacing **/
-        .btn {
-            padding: 6px 12px 6px 24px;
-        }
-
-        .btn:first-child {
-            padding: 6px 6px 6px 10px;
-        }
-
-        .btn:last-child {
-            padding: 6px 18px 6px 24px;
-        }
-
-        .btn.btn-default:not(:last-child):after {
-            border-left: 10px solid #fff;
-        }
-
-        .btn.btn-default:not(:last-child):before {
-            border-left: 10px solid #ccc;
-        }
-
-        .btn.btn-default:hover:not(:last-child):after {
-            border-left: 10px solid #ebebeb;
-        }
-
-        .btn.btn-default:hover:not(:last-child):before {
-            border-left: 10px solid #adadad;
-        }
-    }
-
-    .BreadcrumbsMobile {
-        font-size: 14px;
-        background-color: white;
-        line-height: 1.5em;
-        margin-bottom: 10px;
-        width: 100%;
-        font-family: sans;
-        color: #1B3651 !important;
-        font: bold;
-        .greyed;
-
-        div {
-            font-family: 'Open Sans';
-            font-weight: bold;
-        }
-
-        img {
-            min-width: 21px;
-            min-height: 21px;
-            width: 21px !important;
-            height: 21px !important;
-            border-radius: 50%;
-        }
-
-        i.fa-chevron-right {
-            font-size: 80%;
-            color: #1B3651;
-            margin-right: 10px;
-            background-color: white;
-            border-radius: 0px;
-            padding: 0px;
-        }
-
-        i.fa-question-circle {
-            padding-top: 2px !important;
-        }
-
-        .category-icon {
-            &:hover, &:focus {
-                text-decoration: none;
-            }
-        }
-
-        i.fa {
-            font-size: 120%;
-            width: 0.9em;
-            text-align: center;
-            width: 21px !important;
-            height: 21px;
-            border-radius: 50px;
-            background-color: #0B335E;
-            color: white;
-            padding-top: 1px;
-        }
-
-        i.fa-graduation-cap {
-            width: 1.25em;
-            padding-top: 4px;
-            font-size: 100%;
-        }
-
-        i.fa-home {
-            width: auto;
-        }
-
-        i.fa-file-text {
-            padding-top: 3.5px;
-            font-size: 100%;
-        }
-
-        i.fa-search {
-            padding: 2px;
-            padding-top: 2.5px;
-            font-size: 103%;
-        }
-
-        i.thumbs-up-gold {
-            color: #FFD603;
-        }
-
-        i.fa-trophy {
-            padding-top: 2px;
-        }
-
-        i.fa-chevron-right {
-            font-size: 80%;
-            width: auto;
-            margin-left: 13px;
-            font-size: 80%;
-            color: #1B3651;
-            margin-right: 10px;
-            background-color: white;
-            border-radius: 0px;
-            padding: 0px;
-        }
-
-        a {
-            color: #1B3651;
-            text-decoration: none;
-            font-family: "Open Sans";
-            font-size: 14px;
-            font-weight: bold;
-
-
-            &:not(.current) {
-                &:hover, &:focus, &:active {
-                    color: #1B3651;
-                    text-decoration: underline;
-                    text-underline-position: alphabetic;
-                }
-            }
-
-            &.current {
-                cursor: default;
-            }
-        }
-
-        .media-below-lg( {
-            padding-bottom: 20px;
-        }
-
-        );
-    }
-
 
     html.flexbox:not(.Explorer):not(.Safari) {
         .CardsLandscape {

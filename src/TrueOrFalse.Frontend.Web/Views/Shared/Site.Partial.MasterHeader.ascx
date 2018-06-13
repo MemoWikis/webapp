@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl"  %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<BaseModel>"  %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <% if(Request.Url.Host == "memucho.local" || Request.Url.Host == "memucho"){ %>
@@ -50,7 +50,7 @@
             	        <div id="loginAndHelp" >
                             <% Html.RenderPartial(UserControls.Logon); %>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

@@ -1,8 +1,7 @@
 ﻿<%@ Control Language="C#"  Inherits="System.Web.Mvc.ViewUserControl<TopNavMenu>" %>
 
-<div  style="display: flex; flex-wrap: wrap; width: 100%;">                      
+<div class="container" style="display: flex; flex-wrap: wrap;">                      
     <div style="height: auto; margin-bottom: 5px;" class="show-tooltip"  title="Zur Startseite">
-        <i class="fa fa-home"></i>
         <a href="/" class="category-icon">
             <span style="margin-left: 7px">Home</span>
         </a>
@@ -14,13 +13,19 @@
     <% }else{
            if (Model.IsAnswerQuestionBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model) %>
+
             <%}
+
+        var last = Model.BreadCrumb.Last();
        foreach (var breadCrumbItem in Model.BreadCrumb) { %>
-        <i style="display: inline;" class="fa <%= breadCrumbItem.ImageClass%>"></i>
         <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" <% if (Model.IsAnswerQuestionBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
-            <span style="display: inline-table; margin-left: 10px;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+           <%if (breadCrumbItem.Equals(last)){%>
+              <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></span>
+            <%} else {%>
+               <span style="display: inline-table; margin-left: 10px;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                 <i style="display: inline;" class="fa fa-chevron-right"></i>
-            </span>          
+               </span>  
+            <%} %>
         </div>
     <% } %>        
     <%}%>

@@ -191,11 +191,12 @@ img {
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
-  position: relative;
+  position: fixed;
   margin: 0;
   width: 100%;
-  max-height: 50px;
+  height: 80px;
   background-color: #003264;
+  z-index: 1;
 }
 #MasterHeader .HeaderMainRow {
   height: 34px;
@@ -306,9 +307,11 @@ img {
 #Pictogram {
   float: left;
   height: 62px;
-  margin-right: 10px;
+  margin-right: 19.43px;
   overflow-y: visible;
   margin-left: -7px;
+  margin-top: 9px;
+  height: 57.33px;
 }
 @media (max-width: 991px) {
   #Pictogram {
@@ -961,6 +964,155 @@ ul.AutocompleteHeader {
     width: 80%;
   }
 }
+/*******************************************************************/
+/*  Breadcrumbs
+----------------------------------------------------------*/
+/** Default button **/
+.btn-breadcrumb {
+  /** Breadcrumb **/
+  /** The Spacing **/
+}
+.btn-breadcrumb a {
+  text-decoration: underline;
+}
+.btn-breadcrumb a.current {
+  text-decoration: none;
+}
+.btn-breadcrumb .btn:not(:last-child):after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  left: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn:not(:last-child):before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid #adadad;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn {
+  padding: 6px 12px 6px 24px;
+}
+.btn-breadcrumb .btn:first-child {
+  padding: 6px 6px 6px 10px;
+}
+.btn-breadcrumb .btn:last-child {
+  padding: 6px 18px 6px 24px;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):after {
+  border-left: 10px solid #fff;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):before {
+  border-left: 10px solid #ccc;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
+  border-left: 10px solid #ebebeb;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
+  border-left: 10px solid #adadad;
+}
+.Breadcrumb {
+  font-size: 14px;
+  background-color: white;
+  line-height: 1.5em;
+  height: 55px;
+  width: 100%;
+  font-family: sans;
+  padding-top: 19px;
+  padding-bottom: 17px;
+  color: #000000 !important;
+  font: bold;
+  position: fixed;
+  z-index: 1;
+  top: 80px;
+  color: #999999;
+}
+.Breadcrumb div {
+  font-family: 'Open Sans';
+  font-weight: bold;
+}
+.Breadcrumb img {
+  min-width: 21px;
+  min-height: 21px;
+  width: 21px !important;
+  height: 21px !important;
+  border-radius: 50%;
+}
+.Breadcrumb i.fa-chevron-right {
+  font-size: 80%;
+  color: #1B3651;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
+}
+.Breadcrumb i.fa-question-circle {
+  padding-top: 2px !important;
+}
+.Breadcrumb .category-icon:hover,
+.Breadcrumb .category-icon:focus {
+  text-decoration: none;
+}
+.Breadcrumb i.fa {
+  font-size: 120%;
+  width: 0.9em;
+  text-align: center;
+  width: 21px !important;
+  height: 21px;
+  border-radius: 50px;
+  background-color: #0B335E;
+  color: white;
+  padding-top: 1px;
+}
+.Breadcrumb i.fa-chevron-right {
+  font-size: 11.2px;
+  width: auto;
+  margin-left: 13px;
+  color: #1B3651;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
+}
+.Breadcrumb a {
+  color: #1B3651;
+  text-decoration: none;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: bold;
+}
+.Breadcrumb a:not(.current):hover,
+.Breadcrumb a:not(.current):focus,
+.Breadcrumb a:not(.current):active {
+  color: #1B3651;
+  text-decoration: underline;
+  text-underline-position: alphabetic;
+}
+.Breadcrumb a.current {
+  cursor: default;
+}
+@media (max-width: 1199px) {
+  .Breadcrumb {
+    padding-bottom: 20px;
+  }
+}
 #MasterSidebarColumn {
   position: relative;
   min-height: 1px;
@@ -993,173 +1145,6 @@ ul.AutocompleteHeader {
   padding-bottom: 20px;
   padding-top: 25px;
   width: 100% !important;
-  /*******************************************************************/
-  /*  Breadcrumbs
-----------------------------------------------------------*/
-  /** Default button **/
-}
-#MasterMainWrapper .btn-breadcrumb {
-  /** Breadcrumb **/
-  /** The Spacing **/
-}
-#MasterMainWrapper .btn-breadcrumb a {
-  text-decoration: underline;
-}
-#MasterMainWrapper .btn-breadcrumb a.current {
-  text-decoration: none;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:not(:last-child):after {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid white;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  left: 100%;
-  z-index: 3;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:not(:last-child):before {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid #adadad;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  margin-left: 1px;
-  left: 100%;
-  z-index: 3;
-}
-#MasterMainWrapper .btn-breadcrumb .btn {
-  padding: 6px 12px 6px 24px;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:first-child {
-  padding: 6px 6px 6px 10px;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:last-child {
-  padding: 6px 18px 6px 24px;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:not(:last-child):after {
-  border-left: 10px solid #fff;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:not(:last-child):before {
-  border-left: 10px solid #ccc;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
-  border-left: 10px solid #ebebeb;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
-  border-left: 10px solid #adadad;
-}
-#MasterMainWrapper .BreadcrumbsMobile {
-  font-size: 14px;
-  background-color: white;
-  line-height: 1.5em;
-  margin-bottom: 10px;
-  width: 100%;
-  font-family: sans;
-  color: #1B3651 !important;
-  font: bold;
-  color: #999999;
-}
-#MasterMainWrapper .BreadcrumbsMobile div {
-  font-family: 'Open Sans';
-  font-weight: bold;
-}
-#MasterMainWrapper .BreadcrumbsMobile img {
-  min-width: 21px;
-  min-height: 21px;
-  width: 21px !important;
-  height: 21px !important;
-  border-radius: 50%;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
-  font-size: 80%;
-  color: #1B3651;
-  margin-right: 10px;
-  background-color: white;
-  border-radius: 0px;
-  padding: 0px;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-question-circle {
-  padding-top: 2px !important;
-}
-#MasterMainWrapper .BreadcrumbsMobile .category-icon:hover,
-#MasterMainWrapper .BreadcrumbsMobile .category-icon:focus {
-  text-decoration: none;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa {
-  font-size: 120%;
-  width: 0.9em;
-  text-align: center;
-  width: 21px !important;
-  height: 21px;
-  border-radius: 50px;
-  background-color: #0B335E;
-  color: white;
-  padding-top: 1px;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-graduation-cap {
-  width: 1.25em;
-  padding-top: 4px;
-  font-size: 100%;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-home {
-  width: auto;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-file-text {
-  padding-top: 3.5px;
-  font-size: 100%;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-search {
-  padding: 2px;
-  padding-top: 2.5px;
-  font-size: 103%;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.thumbs-up-gold {
-  color: #FFD603;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-trophy {
-  padding-top: 2px;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
-  width: auto;
-  margin-left: 13px;
-  font-size: 80%;
-  color: #1B3651;
-  margin-right: 10px;
-  background-color: white;
-  border-radius: 0px;
-  padding: 0px;
-}
-#MasterMainWrapper .BreadcrumbsMobile a {
-  color: #1B3651;
-  text-decoration: none;
-  font-family: "Open Sans";
-  font-size: 14px;
-  font-weight: bold;
-}
-#MasterMainWrapper .BreadcrumbsMobile a:not(.current):hover,
-#MasterMainWrapper .BreadcrumbsMobile a:not(.current):focus,
-#MasterMainWrapper .BreadcrumbsMobile a:not(.current):active {
-  color: #1B3651;
-  text-decoration: underline;
-  text-underline-position: alphabetic;
-}
-#MasterMainWrapper .BreadcrumbsMobile a.current {
-  cursor: default;
-}
-@media (max-width: 1199px) {
-  #MasterMainWrapper .BreadcrumbsMobile {
-    padding-bottom: 20px;
-  }
 }
 #MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
   display: flex;

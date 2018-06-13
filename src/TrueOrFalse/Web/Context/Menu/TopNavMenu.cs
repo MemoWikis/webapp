@@ -7,7 +7,6 @@ public class TopNavMenuItem
 {
     public string Text;
     public string Url;
-    public string ImageClass;
     public string TextStyles;
     public string ToolTipText;
 
@@ -27,13 +26,6 @@ public class TopNavMenu
     public TopNavMenu()
     {
         RootCategoriesList = Sl.CategoryRepo.GetRootCategoriesList();      
-    }
-  
-
-    public ImageFrontendData GetCategoryImage(Category category)
-    {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(category.Id, ImageType.Category);
-        return new ImageFrontendData(imageMetaData);
     }
 }
 

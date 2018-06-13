@@ -24,7 +24,14 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
     <% Model.SidebarModel.CardFooterText = Model.CreatorName;
-       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
+        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
+        foreach(var child in Model.CategoriesChildren)
+        {
+            var imageResult = new UserImageSettings(child.Id).GetUrl_250px(child.Creator);
+            var ImageUrl = imageResult.Url;
+             Model.SidebarModel.MultipleImageUrl.Add(ImageUrl);
+            Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
+        }%>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

@@ -1,4 +1,6 @@
-﻿public class SidebarModel : BaseResolve 
+﻿using System.Collections.Generic;
+
+public class SidebarModel : BaseResolve 
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
@@ -14,6 +16,10 @@
 
     public string CardFooterText;
     public string AutorImageUrl;
+    public string CreatorName;
+
+    public List<string> MultipleCreatorName = new List<string>();
+    public List<string> MultipleImageUrl = new List<string>();
 
     public SidebarModel()
     {

@@ -13,12 +13,16 @@
 <body>
     <% Html.RenderPartial("Site.Partial.MasterHeader");
           var isLongMenu = true;
-         var categoryNavigationModel = new CategoryNavigationModel();%>    
+         var categoryNavigationModel = new CategoryNavigationModel();%>   
+    <div class="Breadcrumb">
+        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model.TopNavMenu); %>
+    </div>  
     <section id="MasterSection">     
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
         <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
         <section id="MasterMainContent" class="container">
             <div class="row">
+                <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %>
                 <section id="MasterSidebarColumn" >
                     <% Html.RenderPartial(
                            Model.TopicMenu.IsActive
@@ -30,6 +34,7 @@
                         <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
                     <% } %>
                 </section>
+                <%} %>
                 <section id="MasterMainColumn" class="">        
                     <div id="IsInGameMessage">
                         <% if(Model.IsInGame){ %>
@@ -39,10 +44,7 @@
                    
                     <%-- MAIN CONTENT--%>
                     <section id="MasterMainWrapper">
-                        <div style="display: flex;">
-                            <div class="BreadcrumbsMobile">
-                               <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model.TopNavMenu); %>
-                            </div>
+                        <div style="display: flex;">                           
                             <div id="mainMenuThemeCenteredMobile">
                                 <div class="menu-section">
                                     <div class="menu-container">

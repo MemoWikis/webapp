@@ -9,9 +9,9 @@
 
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ImageClass = "address-book", ToolTipText = "Nutzer"});
-       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = "/Nutzer", ImageClass = "", ToolTipText = "Profilseite"});
-       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Wissenszentrale", Url = "/Wissenszentrale", ImageClass = "fa-heart", ToolTipText = "Wissenszentrale"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Nutzer", Url = "/Nutzer", ToolTipText = "Nutzer"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Profilseite", Url = "/Nutzer", ToolTipText = "Profilseite"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Wissenszentrale", Url = "/Wissenszentrale", ToolTipText = "Wissenszentrale"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <script>
         $(function () {

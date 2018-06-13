@@ -5,7 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/ForTeachers.css" rel="stylesheet" />
     <%= Scripts.Render("~/bundles/mailto") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "für Lehrer", Url = "/Fuer-Lehrer", ImageClass = "fa-question-circle", ToolTipText = "für Lehrer"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "für Lehrer", Url = "/Fuer-Lehrer", ToolTipText = "für Lehrer"});
     Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

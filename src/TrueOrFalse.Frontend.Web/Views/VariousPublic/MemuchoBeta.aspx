@@ -14,7 +14,7 @@
         $(spt).remove();
     });
 </script>    
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "[beta]", Url = "/Beta-Phase", ImageClass = "fa-question-circle"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "[beta]", Url = "/Beta-Phase"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 

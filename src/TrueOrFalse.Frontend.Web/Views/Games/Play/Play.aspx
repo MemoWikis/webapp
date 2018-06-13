@@ -9,8 +9,8 @@
     <%= Scripts.Render("~/bundles/js/GamePlay") %>
     <%= Styles.Render("~/bundles/GamePlay") %>
     <%= Scripts.Render("~/bundles/js/Game") %>
-    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Spielen", Url = "/Spiel/Erstellen", ImageClass = "fa-gamepad", ToolTipText = "Spiel erstellen"});
-       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Quiz", Url = Model.Game.Id.ToString(), ImageClass = "fa-trophy", ToolTipText = "Quiz"});
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Spielen", Url = "/Spiel/Erstellen", ToolTipText = "Spiel erstellen"});
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Quiz", Url = Model.Game.Id.ToString(), ToolTipText = "Quiz"});
        Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
