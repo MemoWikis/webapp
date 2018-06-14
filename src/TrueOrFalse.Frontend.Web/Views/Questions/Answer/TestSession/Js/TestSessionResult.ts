@@ -28,7 +28,7 @@
             $(".dateSets").toggle(300);
         });
 
-        if ($("#isSetSession").val() !== "True") {
+        if ($("#isSetSession").val() !== "True" && $("#LearningTab").hasClass("active")) {
 
         $(".nextLearningTestSession").click((e) => {
             e.preventDefault();

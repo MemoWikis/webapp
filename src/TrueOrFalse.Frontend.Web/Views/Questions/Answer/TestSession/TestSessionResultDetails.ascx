@@ -4,6 +4,7 @@
 
 <input type="hidden" id="hddSolutionTypeNum" value="1" />
 <input type="hidden" id="isSetSession" value="<%=Model.TestSession.IsSetSession %>"/>
+<input type="hidden" id="isCategorySession" value="<%=Model.TestSession.IsCategorySession %>"/>
 <div class="stackedBarChartContainer" style="margin-bottom: 0;">
     <% if (Model.NumberCorrectPercentage > 0)
         { %>
