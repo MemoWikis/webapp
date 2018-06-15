@@ -14,7 +14,7 @@
     <% Html.RenderPartial("Site.Partial.MasterHeader");
           var isLongMenu = true;
          var categoryNavigationModel = new CategoryNavigationModel();%>   
-    <div class="Breadcrumb">
+    <div id="Breadcrumb">
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model.TopNavMenu); %>
     </div>  
     <section id="MasterSection">     

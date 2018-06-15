@@ -41,7 +41,7 @@
                         <div class="input-group" id="HeaderSearchBoxDiv">
                             <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
                             <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                <button class="btn btn-default" style="border-radius:0; border-left:none;" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                             </div>
                         </div>
 
@@ -56,3 +56,5 @@
         </div>
     </div>
 </header>
+<script src="\Views\Categories\Detail\Js\StickyHeader.ts">
+</script>

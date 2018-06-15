@@ -191,12 +191,11 @@ img {
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
-  position: fixed;
+  position: sticky;
   margin: 0;
   width: 100%;
   height: 80px;
   background-color: #003264;
-  z-index: 1;
 }
 #MasterHeader .HeaderMainRow {
   height: 34px;
@@ -217,14 +216,14 @@ img {
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-  margin-left: 4px;
+  margin-left: 115px;
   margin-top: 2px;
-  width: 320px;
-  padding-left: 10px;
+  width: 262.41px;
+  border: 1px #979797 solid;
 }
 @media (max-width: 1199px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 200px;
+    width: 262.41px;
   }
 }
 @media (max-width: 767px) {
@@ -251,6 +250,10 @@ img {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
     width: 120px;
   }
+}
+#MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
+  border-right: none !important;
+  border-radius: 0;
 }
 #MasterHeader .col-Logo {
   height: 100%;
@@ -367,6 +370,12 @@ img {
     margin-top: 1px;
   }
 }
+#loginAndHelp .header-item {
+  display: flex;
+  flex-direction: column;
+  margin-right: 25px;
+  text-align: center;
+}
 #loginAndHelp .dropdown {
   height: 100%;
   line-height: 34px;
@@ -385,6 +394,9 @@ img {
 #loginAndHelp span {
   vertical-align: middle;
 }
+#loginAndHelp .KnowledgeLink {
+  color: #AED71B !important;
+}
 #loginAndHelp a.TextLinkWithIcon {
   color: #E7ECF6;
 }
@@ -397,24 +409,6 @@ img {
 #loginAndHelp a.TextLinkWithIcon:active *,
 #loginAndHelp a.TextLinkWithIcon:focus * {
   text-decoration: none;
-}
-#loginAndHelp #SupportUs {
-  color: #FFD700;
-}
-@media (max-width: 420px) {
-  #loginAndHelp #SupportUs {
-    display: none;
-  }
-}
-#loginAndHelp #SupportUs:hover,
-#loginAndHelp #SupportUs:active,
-#loginAndHelp #SupportUs:focus {
-  color: #AFD534;
-}
-@media (max-width: 1200px) {
-  #loginAndHelp #SupportUs .TextSpan {
-    display: none;
-  }
 }
 @media (min-width: 480px) {
   #loginAndHelp a.helpLink {
@@ -450,9 +444,13 @@ img {
   width: 31px;
   margin-left: 0;
 }
+#loginAndHelp i {
+  font-size: 32px;
+}
 #loginAndHelp .TextSpan,
 #loginAndHelp span:not(.level-display) {
   display: inline-block;
+  font-size: 14px;
 }
 @media (max-width: 991px) {
   #loginAndHelp .TextSpan,
@@ -548,7 +546,7 @@ img {
   font-size: 18px;
 }
 .MenuButtonSM {
-  padding: 5px 7px 5px 9px;
+  padding: 0px;
   font-size: 25px;
 }
 #MenuButton,
@@ -571,9 +569,7 @@ img {
   user-select: none;
   display: inline-block;
   float: left;
-  font-size: 22px !important;
-  margin-top: 6px;
-  margin-left: -7px;
+  font-size: 32px !important;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
@@ -647,7 +643,7 @@ fieldset[disabled] #SidebarMenuButton {
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
-    padding: 5px 7px 5px 9px;
+    padding: 0px;
     font-size: 25px;
     position: relative;
   }
@@ -739,12 +735,9 @@ fieldset[disabled] #SidebarMenuButton:hover {
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
-    padding: 5px 7px 5px 9px;
+    padding: 0px;
     font-size: 25px;
   }
-}
-#MenuButton {
-  margin-top: 2px !important;
 }
 #MobileMenuButton {
   font-size: 18px;
@@ -787,31 +780,18 @@ ul.AutocompleteHeader {
 .level-display {
   margin-left: 3px;
 }
-.level-display svg {
-  width: 32px;
-  height: 32px;
-}
-.level-display svg.large {
-  width: 90px;
-  height: 90px;
-}
-.level-display svg.large text {
-  font-size: 60px;
-}
-@media (max-width: 767px) {
-  .level-display svg {
-    margin-top: 4px;
-    width: 25px;
-    height: 25px;
-  }
-}
-.level-display circle {
-  fill: #AFD534;
+.level-display .half-circle {
+  width: 31px;
+  height: 31px !important;
+  background-color: #AFD534;
+  border-bottom-right-radius: 110px;
+  border-top-right-radius: 110px;
+  border-bottom: 0;
 }
 .level-display .level-count {
-  fill: #003264;
-  font-weight: bolder;
-  font-size: 1.3em;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
   text-anchor: middle;
 }
 #SidebarCards {
@@ -1028,34 +1008,33 @@ ul.AutocompleteHeader {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
-.Breadcrumb {
+#Breadcrumb {
   font-size: 14px;
   background-color: white;
   line-height: 1.5em;
-  height: 55px;
   width: 100%;
   font-family: sans;
   padding-top: 19px;
-  padding-bottom: 17px;
+  padding-bottom: 4px !important;
   color: #000000 !important;
-  font: bold;
-  position: fixed;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  position: unset;
   z-index: 1;
   top: 80px;
   color: #999999;
 }
-.Breadcrumb div {
+#Breadcrumb div {
   font-family: 'Open Sans';
   font-weight: bold;
 }
-.Breadcrumb img {
+#Breadcrumb img {
   min-width: 21px;
   min-height: 21px;
   width: 21px !important;
   height: 21px !important;
   border-radius: 50%;
 }
-.Breadcrumb i.fa-chevron-right {
+#Breadcrumb i.fa-chevron-right {
   font-size: 80%;
   color: #1B3651;
   margin-right: 10px;
@@ -1063,14 +1042,14 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
-.Breadcrumb i.fa-question-circle {
+#Breadcrumb i.fa-question-circle {
   padding-top: 2px !important;
 }
-.Breadcrumb .category-icon:hover,
-.Breadcrumb .category-icon:focus {
+#Breadcrumb .category-icon:hover,
+#Breadcrumb .category-icon:focus {
   text-decoration: none;
 }
-.Breadcrumb i.fa {
+#Breadcrumb i.fa {
   font-size: 120%;
   width: 0.9em;
   text-align: center;
@@ -1081,7 +1060,7 @@ ul.AutocompleteHeader {
   color: white;
   padding-top: 1px;
 }
-.Breadcrumb i.fa-chevron-right {
+#Breadcrumb i.fa-chevron-right {
   font-size: 11.2px;
   width: auto;
   margin-left: 13px;
@@ -1091,27 +1070,30 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
-.Breadcrumb a {
+#Breadcrumb a {
   color: #1B3651;
   text-decoration: none;
   font-family: "Open Sans";
   font-size: 14px;
   font-weight: bold;
 }
-.Breadcrumb a:not(.current):hover,
-.Breadcrumb a:not(.current):focus,
-.Breadcrumb a:not(.current):active {
+#Breadcrumb a:not(.current):hover,
+#Breadcrumb a:not(.current):focus,
+#Breadcrumb a:not(.current):active {
   color: #1B3651;
   text-decoration: underline;
   text-underline-position: alphabetic;
 }
-.Breadcrumb a.current {
+#Breadcrumb a.current {
   cursor: default;
 }
 @media (max-width: 1199px) {
-  .Breadcrumb {
+  #Breadcrumb {
     padding-bottom: 20px;
   }
+}
+#Breadcrumb .sticky-header-container {
+  float: right;
 }
 #MasterSidebarColumn {
   position: relative;
@@ -1699,6 +1681,10 @@ div.box-main .box-content {
 /*Font-awesome icons*/
 i:hover {
   text-decoration: none;
+}
+.TextLinkWithIcon {
+  display: flex !important;
+  flex-direction: column;
 }
 .TextLinkWithIcon .fa-check-square-o,
 .TextLinkWithIcon .fa-square-o {

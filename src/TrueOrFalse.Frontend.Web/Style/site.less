@@ -178,12 +178,11 @@ img {
 ----------------------------------------------------------*/
 
 #MasterHeader {
-    position: fixed;
+    position: sticky;
     margin: 0;
     width: 100%;
-    height:80px;
+    height: 80px;
     background-color: @memo-blue;
-    z-index:1;
 
     .HeaderMainRow {
         height: @masterHeaderMainRowHeight-xs;
@@ -202,13 +201,13 @@ img {
         }
 
         #HeaderSearchBoxDiv {
-            margin-left: 4px;
+            margin-left: 115px;
             margin-top: 2px;
-            width: 320px;
-            padding-left: 10px;
+            width: 262.41px;
+            border: 1px #979797 solid;
 
             @media (max-width: @screen-md-max) {
-                width: 200px;
+                width: 262.41px;
             }
 
             @media (max-width: @screen-xs-max) {
@@ -229,6 +228,11 @@ img {
 
             @media (max-width: 320px) {
                 width: 120px;
+            }
+
+            #headerSearchBox {
+                border-right: none !important;
+                border-radius: 0;
             }
         }
     }
@@ -359,6 +363,13 @@ img {
         margin-top: 1px;
     }
 
+    .header-item {
+        display: flex;
+        flex-direction: column;
+        margin-right: 25px;
+        text-align: center;
+    }
+
     .dropdown {
         height: 100%;
         line-height: @masterHeaderMainRowHeight-xs;
@@ -380,6 +391,10 @@ img {
         vertical-align: middle;
     }
 
+        .KnowledgeLink {
+            color: #AED71B !important;
+        }
+
     a.TextLinkWithIcon {
         color: @light-blue;
 
@@ -388,24 +403,6 @@ img {
 
             * {
                 text-decoration: none;
-            }
-        }
-    }
-
-    #SupportUs {
-        color: @middle-yellow;
-
-        @media (max-width: 420px) {
-            display: none;
-        }
-
-        &:hover, &:active, &:focus {
-            color: @memo-green;
-        }
-
-        .TextSpan {
-            @media (max-width: 1200px) {
-                display: none;
             }
         }
     }
@@ -449,8 +446,13 @@ img {
         }
     }
 
+    i {
+        font-size: 32px;
+    }
+
     .TextSpan, span:not(.level-display) {
         display: inline-block;
+        font-size: 14px;
 
         @media (max-width:(@screen-md-min - 1px)) {
             display: none;
@@ -464,7 +466,6 @@ img {
     i#tabInfoMyKnowledge {
         margin-right: 1px;
     }
-
 }
 
 
@@ -546,7 +547,7 @@ img {
 }
 
 .MenuButtonSM { //to override bootstrap styles several times
-    padding: 5px 7px 5px 9px;
+    padding: 0px;
     font-size: 25px;
 }
 
@@ -554,11 +555,8 @@ img {
     .btn;
     display: inline-block;
     float: left;
-    font-size: 22px !important;
-     margin-top:6px;
-    
-   
-    
+    font-size: 32px !important;
+        
     .caret {
         margin-left: 3px;
     }
@@ -573,13 +571,9 @@ img {
         .caret {
             margin-left: 5px;
         }
-
-     
-
     }
 
    
-    margin-left: -7px;
     .MenuButtonXS;
     color: @dark-blue;
     background-color: transparent;
@@ -600,11 +594,6 @@ img {
         //.buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
         .MenuButtonXS;
     }
-}
-
-#MenuButton {
-  
-    margin-top: 2px !important; 
 }
 
 #MobileMenuButton {
@@ -650,44 +639,26 @@ img {
         max-width: 550px;
     }
 
-    .level-display {
-        margin-left: 3px;
 
-        svg {
-            width: 32px;
-            height: 32px;
-        }
+.level-display {
+    margin-left: 3px;
 
-        svg.large {
-            width: 90px;
-            height: 90px;
-
-            text {
-                font-size: 60px;
-            }
-        }
-
-
-        @media (max-width: 767px) {
-
-            svg {
-                margin-top: 4px;
-                width: 25px;
-                height: 25px;
-            }
-        }
-
-        circle {
-            fill: @memo-green;
-        }
-
-        .level-count {
-            fill: @memo-blue;
-            font-weight: bolder;
-            font-size: 1.3em;
-            text-anchor: middle;
-        }
+    .half-circle {
+        width: 31px;
+        height: 31px !important;
+        background-color: #AFD534;
+        border-bottom-right-radius: 110px; 
+        border-top-right-radius: 110px; 
+        border-bottom: 0;
     }
+
+    .level-count {
+        color:white;
+        font-weight: bold;
+        font-size: 16px;
+        text-anchor: middle;
+    }
+}
 
 #SidebarCards {
     width: 100%;
@@ -971,19 +942,18 @@ img {
     }
 }
 
-.Breadcrumb {
+#Breadcrumb {
     font-size: 14px;
     background-color: white;
     line-height: 1.5em;
-    height:55px;
     width: 100%;
     font-family: sans;
-    padding-top:19px;
-    padding-bottom:17px;
+    padding-top: 19px;
+    padding-bottom: 4px !important;
     color: #000000 !important;
-    font: bold;
-    position: fixed;
-    z-index: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    position: unset;
+    z-index:1;
     top: 80px;
     .greyed;
 
@@ -1068,6 +1038,10 @@ img {
     }
 
     );
+
+    .sticky-header-container{
+        float:right;
+    }
 }
 
 #MasterSidebarColumn {
@@ -1684,6 +1658,9 @@ img {
 
 
     .TextLinkWithIcon {
+        display:flex !important;
+        flex-direction:column;
+
         .fa-check-square-o, .fa-square-o {
             margin-top: 1px;
         }

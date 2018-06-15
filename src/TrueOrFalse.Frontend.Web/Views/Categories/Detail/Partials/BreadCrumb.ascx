@@ -1,13 +1,15 @@
 ﻿<%@ Control Language="C#"  Inherits="System.Web.Mvc.ViewUserControl<TopNavMenu>" %>
 
 <div class="container" style="display: flex; flex-wrap: wrap;">                      
-    <div style="height: auto; margin-bottom: 5px;" class="show-tooltip"  title="Zur Startseite">
+    <div id="BreadcrumbLogoSmall" style="display:none;">
+        <img src="/Images/Logo/LogoSmallBlue.png">
+    </div>
+    <div style="height: auto;" class="show-tooltip"  title="Zur Startseite">
         <a href="/" class="category-icon">
-            <span style="margin-left: 7px">Home</span>
+            <span style="margin-left: 10px">Home</span>
         </a>
         <span><i class="fa fa-chevron-right"></i></span>
-    </div>        
-    
+    </div>            
     <%if(Model.IsCategoryBreadCrumb){ %>
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model) %>
     <% }else{
@@ -29,4 +31,9 @@
         </div>
     <% } %>        
     <%}%>
+    <div class="sticky-header-container">
+        <i class="fa fa-search"></i>
+        <i class="fa fa-dot-circle"></i>
+        <div class="menu-item" style="height: 21px;"><a id="MenuButton"><i class="fa fa-bars"></i></a></div>
+    </div>
 </div> 
