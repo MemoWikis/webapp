@@ -2,10 +2,16 @@
     constructor() {
         var self = this;
 
-        $("div.QuestionText a[data-action=open-details]").click(function (e) { self.ExpandSetRow(e, $(this)) });
-        $("div.QuestionText a[data-action=close-details]").click(function (e) { self.CollapseSetRow(e, $(this)) });
+        $("div.QuestionText a[data-action=open-details]").click(function(e) {
+            self.ExpandSetRow(e, $(this));
+        });
+        $("div.QuestionText a[data-action=close-details]").click(function(e) {
+            self.CollapseSetRow(e, $(this));
+        });
 
-        $("#ulQuestions input[data-input=video-timecode]").change(function () { self.SaveTimeCode($(this)) });
+        $("#ulQuestions input[data-input=video-timecode]").change(function() {
+            self.SaveTimeCode($(this));
+        });
     }
 
     ExpandSetRow(e : JQueryEventObject, elem : JQuery) {
