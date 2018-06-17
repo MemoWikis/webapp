@@ -3,31 +3,28 @@
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 
-<div class="col-xs-12">
-    <div class="row">
+
+    <div class="row Promoter">
         <div class="col-xs-12">
-            <div class="partnersAndSponsors">
+            <div class="partnersAndSponsors ">
                 <div class="row">
-                    <div class=" col-md-2 "></div>
-                   
-                    <div class=" col-md-2">
+                    <div class=" col-xs-2 "></div>
+                    <div class=" col-xs-2">
                         <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png" width="125" height="77" style="margin-top: 23px; "/>
                     </div>
-                    <div class=" col-md-2">
+                    <div class=" col-xs-2">
                         <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png" width="160" height="68" style="margin-top: 30px;"/> 
                     </div>
-                    <%--<div class="clearfix visible-xs visible-sm"></div>--%>
-                    <div class=" col-md-2">
-                        <img class="partnerImage" src="/Images/LogosPartners/efre.png" width="140px" style="margin-top: 30px;"/>
+                    <div class=" col-xs-2">
+                        <img class="partnerImage" id="efre" src="/Images/LogosPartners/efre.png"/>
                     </div>
-                    <%--<div class=" col-md-2"></div>--%>
-                    <div class=" col-md-2" style="align-content: left" >
-                        <div style="margin-top: 40px;"><a href="<%=Links.Promoter() %>">mehr Info</a> </div> 
+                    <div class=" col-xs-2" id="infoLink"  >
+                        <a  href="<%=Links.Promoter() %>">mehr Info</a>  
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+  
     
     <div class="row">
         

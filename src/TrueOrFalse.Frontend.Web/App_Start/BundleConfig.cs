@@ -273,6 +273,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
 
+            bundles.Add(new StyleBundle("~/bundles/Promoter")
+                .Include("~/Views/Welcome/Promoter.css"));
+
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
