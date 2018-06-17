@@ -362,6 +362,7 @@
     <Content Include="Images\DocumentationHelp\TopicNavigation.png" />
     <Content Include="Images\DocumentationHelp\VideoWidget.png" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
+    <Content Include="Images\LogosPartners\efre.png" />
     <Content Include="Images\LogosPartners\landderideen_ausgezeichnet-2017_w190c.jpg" />
     <Content Include="Images\LogosPartners\Logo_DEP_rgb_300x98.jpg" />
     <Content Include="Images\LogosPartners\Logo_lernox.png" />
@@ -891,6 +892,9 @@
     <Content Include="Views\Welcome\Partials\TopicOfWeek.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniSet.ascx" />
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
+    <Content Include="Views\Welcome\Promoter.css">
+      <DependentUpon>Promoter.less</DependentUpon>
+    </Content>
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
     <Content Include="Views\Widgets\WidgetSetResult.aspx" />
@@ -1004,8 +1008,6 @@
     </Content>
     <Content Include="Images\Licenses\cc-by 88x31.png" />
     <Content Include="Images\Licenses\cc-by-sa 88x31.png" />
-    <Content Include="Images\LogosPartners\BMWi-Logo-t.png" />
-    <Content Include="Images\LogosPartners\Claim-ESF-cmyk-eps.png" />
     <Content Include="Images\LogosPartners\innovationspreis-Logo-quer-positiv-web-HGw.png" />
     <Content Include="Images\LogosPartners\Logo-ESF-rgb-gif.png" />
     <Content Include="Images\LogosPartners\Logo-EU-cmyk-eps.png" />
@@ -2811,6 +2813,8 @@
     <Content Include="Views\Questions\Answer\Js\AnswerBody.js.map">
       <DependentUpon>AnswerBody.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Welcome\Promoter.aspx" />
+    <Content Include="Views\Welcome\Promoter.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />
