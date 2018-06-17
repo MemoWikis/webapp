@@ -559,12 +559,12 @@
 
 
 
-    <script>
+<%--    <script>
 
 
-</script>
+</script>--%>
 
-    <% if (Model.Message != null)
+   <%-- <% if (Model.Message != null)
         { %>
     <div class="row">
         <div class="col-xs-12 xxs-stack">
@@ -594,13 +594,13 @@
             <span style="margin-top: 3px; font-style: italic">memucho ist kostenlos.</span>
         </p>
     </div>
-    <% } %>
+    <% } %>--%>
 
-    <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "": "pointer-events: none; opacity: 0.3;" %>">
+ <%--   <div id="dashboardContent" style="<%= Model.IsLoggedIn ? "": "pointer-events: none; opacity: 0.3;" %>">
 
         <div class="row">
             <div class="col-sm-6" id="learningPoints">
-                <div class="rowBase" style="padding: 10px;">
+                <div class="rowBase" style="padding: 10px;">--%>
                     <%--    <h3>Deine Lernpunkte</h3>
                     <div style="text-align: center; margin-bottom: 28px; margin-top: 15px;">
                         <span class="level-display" style="float: left; margin-top: -4px;">
@@ -622,18 +622,18 @@
                                 <div class="ProgressBarSegment ProgressBarLegend">
                                     <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
                                 </div>--%>
-                </div>
+               <%-- </div>
                 <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>
 
             </div>
             --%>
-        </div>
+        <%-- </div>
         <div class="greyed" style="text-align: center; margin-bottom: 15px;">Noch <%= Model.ActivityPointsTillNextLevel.ToString("N0") %> Punkte bis Level <%= Model.ActivityLevel + 1 %></div>
-    </div>
+    </div>--%>
     <%--  </div>--%>
 
-    <div class="col-sm-6" id="reputationPoints">
-        <div class="rowBase" style="padding: 10px;">
+<%--    <div class="col-sm-6" id="reputationPoints">
+        <div class="rowBase" style="padding: 10px;">--%>
             <%-- <h3>Deine Reputation</h3>
                 
                     <p>
@@ -648,12 +648,12 @@
                     <p class="moreInfoLink">
                         <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
                     </p>   --%>
-        </div>
-    </div>
+   <%--     </div>
+    </div>--%>
 
 
 
-    <div class="row">
+ <%--   <div class="row">
 
         <div class="col-xs-12 col-md-6">
             <div class="rowBase" style="padding: 10px">
@@ -664,8 +664,8 @@
                         In deinem Wunschwissen sind <%= Model.QuestionsCount %> Frage<%= StringUtils.Plural(Model.QuestionsCount,"n","","n") %> und <%= Model.SetCount %> Lernset<%= StringUtils.Plural(Model.SetCount,"s") %>. 
                         <i class="fa fa-info-circle show-tooltip" title="Erweitere dein Wunschwissen, indem du auf das Herz-Symbol neben einer Frage oder einem Lernset klickst."></i>
                     </p>--%>
-     %>  
-                <div class="row" style="line-height: 30px; margin-bottom: 20px;">
+   
+                <%-- <div class="row" style="line-height: 30px; margin-bottom: 20px;">
                     <div class="col-md-6">
                         <div class="number-box-questions" style="text-align: center;">
                             <a href="<%= Links.QuestionsWish() %>">
@@ -686,9 +686,9 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
-                <% if (Model.KnowledgeSummary.Total == 0)
+                <%-- if (Model.KnowledgeSummary.Total == 0)
                     { %>
                 <div class="alert alert-info" style="min-height: 180px; margin-bottom: 54px;">
                     <p>
@@ -770,8 +770,8 @@
                     </div>
 
                 </div>--%>
-        </div>
-    </div>
+  <%--      </div>
+    </div>--%>
 
 
     <%--     <div id="wishKnowledge" class="row">
@@ -823,7 +823,7 @@
 
 
 
-    <div class="row" style="margin-top: 20px;">
+   <%--  <div class="row" style="margin-top: 20px;">
         <div class="col-xs-12 col-sm-6 col-md-4" style="padding: 5px;">
             <%-- <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                     <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
@@ -899,7 +899,7 @@
                     </p>
                 </div>--%>
 
-            <div class="rowBase" style="padding: 10px;">
+          <%--  <div class="rowBase" style="padding: 10px;">
                 <h3 style="margin-top: 0;">Zuletzt gelernt</h3>
                 <% foreach (var answer in Model.AnswerRecent)
                     {
@@ -986,15 +986,28 @@
                             <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
                         </div>
                     <% } %>--%>
-            </div>
+  <%--          </div>
         </div>
-    </div>
+    </div>--%>
 
 
 
 
     <script>
+     
+
         google.load("visualization", "1", { packages: ["corechart"] });
+
+        
+        var isGoogleApiInitialized = false;
+        google.setOnLoadCallback(isApiInitialized);
+
+
+        function isApiInitialized() {
+            isGoogleApiInitialized = true;
+        }
+       
+
         // Heading h1 Knowledgewheel 
         google.setOnLoadCallback(chartKnowledgeH1);
 
@@ -1021,10 +1034,10 @@
             var data = google.visualization.arrayToDataTable([
                 ['Wissenslevel', 'link', 'Anteil in %'],
                 ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
-            ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-            ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
-            ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
-            ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
+                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -1044,23 +1057,23 @@
 
     <div class="container-fluid">
         <div class="row heading-chart-knowledge">
-            <div class="col-md-2 col-sm-3 col" id="chartKnowledgeH1">
+            <div class="col-xs-2 col-sm-3 col" id="chartKnowledgeH1">
             </div>
-            <div class="col-md-10 col-sm-9 col">
-                <h1>Wissenszentrale - Überblick & Dashboard </h1>
+            <div class="col-xs-10">
+                <h1>Wissenszentrale - Überblick und Zahlen </h1>
             </div>
         </div>
         <div class="row  link-set">
-            <div class="col-md-2"><a href="#" id="dashboard">Dashboard</a></div>
-            <div class="col-md-2"><a href="#" id="topics">Themen</a></div>
-            <div class="col-md-2"><a href="#" id="questions">Fragen</a></div>
-            <div class="col-md-6 learn-session-start">Lernsitzung starten</div>
+            <div class="col-xs-2"><a href="#" id="dashboard">Dashboard</a></div>
+            <div class="col-xs-2"><a href="#" id="topics">Themen</a></div>
+            <div class="col-xs-2"><a href="#" id="questions">Fragen</a></div>
+            <div class="col-xs-3 col-sm-offset-3 "><a href="#" id="LinkIsDirectedToPartialView">Lernsitzung starten</a></div>
         </div>
         <% if (Model.IsLoggedIn)
             { %>
-        <div class="test" style="margin-top: 2rem">
-           <%-- <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
-            <%//Html.RenderPartial("~/Views/Knowledge/Partials/KnowledgeTopics.ascx"); %>--%>
+        <div class="content" style="margin-top: 2rem">
+           <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
+           
         </div>
         <% } %>
     </div>

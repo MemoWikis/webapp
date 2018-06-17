@@ -50,7 +50,8 @@
             $.post("/Knowledge/GetKnowledgeContent",
                 {content: "dashboard"},
                 function (data) {
-                    $(".test").html(data);
+                    $(".content").html(data);
+                    $("#LinkIsDirectedToPartialView").text("Lernsitzung starten");
                 });
         });
 
@@ -59,7 +60,8 @@
             $.post("/Knowledge/GetKnowledgeContent",
                 { content: "topics" },
                 function (data) {
-                    $(".test").html(data);
+                    $(".content").html(data);
+                    $("#LinkIsDirectedToPartialView").text("Thema erstellen");
                 });
         });
 
@@ -68,7 +70,8 @@
             $.post("/Knowledge/GetKnowledgeContent",
                 { content: "questions" },
                 function (data) {
-                    $(".test").html(data);
+                    $(".content").html(data);
+                    $("#LinkIsDirectedToPartialView").text("Frage erstellen");
                 });
         });
 

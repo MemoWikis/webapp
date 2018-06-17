@@ -4,19 +4,30 @@
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <script>
-          $(function () {
-              $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
-              $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
-              $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
-          });
-    </script>
+    $(function () {
+        $("#inCategoeryOverTime-1").sparkline([1, 4, 4, 2, 1, 8, 7, 9], { type: 'line', sliceColors: ['#3e7700', '#B13A48'] });
+        $("#question-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
+        $("#inCategory-1").sparkline([5, 5], { type: 'pie', sliceColors: ['#90EE90', '#FFA07A'] });
+    });
+</script>
      <script>
+         if (isGoogleApiInitialized)
+             Initialize();
+         else
+             google.setOnLoadCallback(Initialize);
+
+         function Initialize() {
+             drawKnowledgeChart("chartKnowledgeP");
+             drawActivityChart();
+            
+        }
+        
+             
+             //drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2);
+             //drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
+             //drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);
+             
          
-         google.setOnLoadCallback(function () { drawKnowledgeChart("chartKnowledge") });
-         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2) });
-         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3) });
-         google.setOnLoadCallback(function () { drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12) });
-         google.setOnLoadCallback(drawActivityChart);
 
          //chartKnowledgeDate
          function drawKnowledgeChart(chartElementId) {
@@ -27,9 +38,9 @@
              var data = google.visualization.arrayToDataTable([
                  ['Wissenslevel', 'link', 'Anteil in %'],
                  ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
-                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
-                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
+                 ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
+                 ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
+                 ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
              ]);
 
              var options = {
@@ -97,44 +108,44 @@
                  [
                      'Datum', 'Richtig beantwortet', 'Falsch beantwortet', { role: 'annotation' }
                  ],
-                    <% foreach (var stats in Model.Last30Days)
+                 <% foreach (var stats in Model.Last30Days)
          { %>
-                        <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
-                    <% } %>
-            ]);
+                 <%= "['" + stats.DateTime.ToString("dd.MM") + "', " + stats.TotalTrueAnswers + ", "+ stats.TotalFalseAnswers +", '']," %> 
+                 <% } %>
+             ]);
 
-            var view = new google.visualization.DataView(data);
-            view.setColumns([0, 1,
-                {
-                    calc: "stringify",
-                    sourceColumn: 1,
-                    type: "string",
-                    role: "annotation"
-                },
-                2]);
+             var view = new google.visualization.DataView(data);
+             view.setColumns([0, 1,
+                 {
+                     calc: "stringify",
+                     sourceColumn: 1,
+                     type: "string",
+                     role: "annotation"
+                 },
+                 2]);
 
-            var options = {
-                legend: { position: 'top', maxLines: 30 },
-                tooltip: { isHtml: true },
-                bar: { groupWidth: '89%' },
-                chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
-                colors: ['#afd534', 'lightsalmon'],
-                isStacked: true,
-            };
+             var options = {
+                 legend: { position: 'top', maxLines: 30 },
+                 tooltip: { isHtml: true },
+                 bar: { groupWidth: '89%' },
+                 chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
+                 colors: ['#afd534', 'lightsalmon'],
+                 isStacked: true,
+             };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
-            chart.draw(view, options);
-            <% if (!Model.HasLearnedInLast30Days)
+             var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+             chart.draw(view, options);
+             <% if (!Model.HasLearnedInLast30Days)
          { %>
-            var infoDivNotLearned = document.createElement('div');
-            infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
-            infoDivNotLearned.setAttribute('class', 'alert alert-info');
-            infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
-            document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
-            <% } %>
+             var infoDivNotLearned = document.createElement('div');
+             infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
+             infoDivNotLearned.setAttribute('class', 'alert alert-info');
+             infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
+             document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
+             <% } %>
 
          }
-    </script>
+     </script>
     <script>
         google.load("visualization", "1", { packages: ["corechart"] });
 

@@ -18,332 +18,379 @@
 }
 @media (min-width: 650px) {
 }
-.heading-chart-knowledge #chartKnowledgeH1 {
-  height: 7rem;
-  align-content: center;
+/*.heading-chart-knowledge {
+    #chartKnowledgeH1 {
+        height: 7rem;
+        align-content: center
+    }
+
+    h1 {
+        align-content: left;
+        margin-left: -3rem;
+    }
 }
-.heading-chart-knowledge h1 {
-  align-content: left;
-  margin-left: -3rem;
-}
+
 .link-set {
-  margin-top: 7rem;
+    margin-top: 7rem;
+    .learn-session-start {
+        text-align: right;
+    }
 }
-.link-set .learn-session-start {
-  text-align: right;
+
+// Content 
+
+.knowledge-stood-h3{
+    margin-top: 6rem; 
+    padding-bottom:0px;
 }
-.knowledge-stood-h3 {
-  margin-top: 6rem;
-  padding-bottom: 0px;
+
+.knowledge-stood-p {
+
+    p {
+        margin-top: -15px;
+        font-size: 1rem;
+    }
 }
-.knowledge-stood-p p {
-  margin-top: -15px;
-  font-size: 1rem;
-}
+
 /* Progress bar Next Level 
 ------------------------------------------------------*/
-#learningPoints,
-#reputationPoints {
-  font-size: 18px;
-  margin: 20px 0;
+/* #learningPoints, #reputationPoints {
+    font-size: 18px;
+    margin: 20px 0;
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
 }
-#learningPoints h3,
-#reputationPoints h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
+
+#learningPoints {
+
+    p.textPointsAndLevel {
+        margin-left: 50px;
+        text-align: left;
+    }
 }
-#learningPoints p.textPointsAndLevel {
-  margin-left: 50px;
-  text-align: left;
+
+.ProgressBarContainer, .ProgressBarSegment {
+    height: 30px;
 }
-.ProgressBarContainer,
-.ProgressBarSegment {
-  height: 30px;
-}
+
 .ProgressBarContainer {
-  display: table;
-  width: 100%;
-  border: solid 2px #AFD534;
-  background-color: #AFD534;
-  margin-bottom: 5px;
+    display: table;
+    width: 100%;
+    border: solid 2px @memo-green;
+    background-color: @memo-green;
+    margin-bottom: 5px;
+    .clearfix;
 }
-.ProgressBarContainer:before,
-.ProgressBarContainer:after {
-  content: " ";
-  display: table;
-}
-.ProgressBarContainer:after {
-  clear: both;
-}
-.ProgressBarContainer:before,
-.ProgressBarContainer:after {
-  content: " ";
-  display: table;
-}
-.ProgressBarContainer:after {
-  clear: both;
-}
+
 .ProgressBarSegment {
-  display: table-cell;
-  overflow: hidden;
-  text-align: center;
-  vertical-align: top;
+    display: table-cell;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: top; //Fix Firefox height bug
 }
+
 .ProgressBarLegend {
-  position: absolute;
-  left: 0px;
-  top: 4px;
-  width: 100%;
-  min-width: 30px;
-  font-weight: bold;
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 100%;
+    min-width: 30px;
+    font-weight: bold;
 }
+
 .ProgressBarDone {
-  background-color: #AFD534;
-  position: relative;
-  overflow: visible;
+    background-color: @memo-green;
+    position: relative;
+    overflow: visible;
 }
+
 .ProgressBarLeft {
-  background-color: #e1efb3;
+    background-color: lighten(@memo-green, 30);
 }
-/*----------*/
-#reputationPoints p.moreInfoLink {
-  margin-bottom: 0;
-  margin-top: 10px;
-  font-size: smaller;
-  text-align: right;
+
+----------*/
+/*
+#reputationPoints {
+    p.moreInfoLink {
+        margin-bottom: 0;
+        margin-top: 10px;
+        font-size: smaller;
+        text-align: right;
+    }
 }
+
+
 /* STATISTIC CHARTS
 -------------------------------------------*/
+/*
 #chartKnowledge text {
-  font-size: 13px;
-  cursor: pointer;
+    font-size: 13px;
+    cursor: pointer;
+
+    :hover {
+        font-weight: bold;
+        color: green;
+    }
 }
-#chartKnowledge text :hover {
-  font-weight: bold;
-  color: green;
-}
+
 .number-box-questions2 {
-  background-color: #afd534;
-  color: white;
+
+    a {
+        color: white
+    }
+
+    a:hover, a:active {
+        color: white;
+        text-decoration: none
+    }
+
+    :hover {
+        background-color: #c5f03a;
+    }
+
+    background-color: #afd534;
+    color: white;
 }
-.number-box-questions2 a {
-  color: white;
-}
-.number-box-questions2 a:hover,
-.number-box-questions2 a:active {
-  color: white;
-  text-decoration: none;
-}
-.number-box-questions2 :hover {
-  background-color: #c5f03a;
-}
+
 .number-box-sets2 {
-  background-color: #ffd700;
-  color: white;
+
+    a {
+        color: white
+    }
+
+    a:hover, a:active {
+        color: white;
+        text-decoration: none
+    }
+
+    :hover {
+        background-color: #ffe243;
+    }
+
+    background-color: #ffd700;
+    color: white;
 }
-.number-box-sets2 a {
-  color: white;
-}
-.number-box-sets2 a:hover,
-.number-box-sets2 a:active {
-  color: white;
-  text-decoration: none;
-}
-.number-box-sets2 :hover {
-  background-color: #ffe243;
-}
+
 .number-box-questions {
-  background-color: #afd534;
-  color: white;
-  border-radius: 15px;
-  border: 1px solid #e2f899;
-  margin-top: 3px;
+
+    a {
+        color: white
+    }
+
+    a:hover, a:active {
+        color: white;
+        text-decoration: none
+    }
+
+    :hover {
+        border-radius: 15px;
+        background-color: #c5f03a;
+    }
+
+    background-color: #afd534;
+    color: white;
+    border-radius: 15px;
+    border: 1px solid #e2f899;
+    margin-top: 3px;
 }
-.number-box-questions a {
-  color: white;
-}
-.number-box-questions a:hover,
-.number-box-questions a:active {
-  color: white;
-  text-decoration: none;
-}
-.number-box-questions :hover {
-  border-radius: 15px;
-  background-color: #c5f03a;
-}
+
 .number-box-sets {
-  background-color: #ffd700;
-  color: white;
-  border-radius: 15px;
-  border: 1px solid #fff09d;
-  margin-top: 3px;
+
+    a {
+        color: white
+    }
+
+    a:hover, a:active {
+        color: white;
+        text-decoration: none
+    }
+
+    :hover {
+        border-radius: 15px;
+        background-color: #ffe243;
+    }
+
+    background-color: #ffd700;
+    color: white;
+    border-radius: 15px;
+    border: 1px solid #fff09d;
+    margin-top: 3px;
 }
-.number-box-sets a {
-  color: white;
-}
-.number-box-sets a:hover,
-.number-box-sets a:active {
-  color: white;
-  text-decoration: none;
-}
-.number-box-sets :hover {
-  border-radius: 15px;
-  background-color: #ffe243;
-}
+
 .number-box-reputation {
-  font-size: 17px;
-  background-color: #7ca2e1;
-  border-radius: 15px;
-  color: white;
-  margin-top: 3px;
+
+    a {
+        color: white
+    }
+
+    a:hover, a:active {
+        color: white;
+        text-decoration: none
+    }
+
+    :hover {
+        border-radius: 15px;
+        background-color: #a4bde7;
+    }
+
+    font-size: 17px;
+    background-color: #7ca2e1;
+    border-radius: 15px;
+    color: white;
+    margin-top: 3px;
 }
-.number-box-reputation a {
-  color: white;
-}
-.number-box-reputation a:hover,
-.number-box-reputation a:active {
-  color: white;
-  text-decoration: none;
-}
-.number-box-reputation :hover {
-  border-radius: 15px;
-  background-color: #a4bde7;
-}
+
 #FutureDatesOverview .label {
-  max-width: 100%;
+    max-width: 100%;
 }
+
+
+
 /*------------------------------------------------------
     Wishknowledge Categories and Sets
 -------------------------------------------------------*/
+/*
 #wishKnowledge {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  /*temporary stuff to imitate rowbase to get same layout for box like other elements on page without having to deal with the other stuff that comes with rowbase and e.g. disturbs layout of license information*/
-  background-color: white;
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
-  border-radius: 4px;
-  border: 1px solid #dddddd;
-  margin-left: 0;
-  margin-right: 0;
-  /*end of temporary stoff*/
-}
-#wishKnowledge .wishKnowledgeItems {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  justify-content: space-between;
-}
-#wishKnowledge img {
-  border-radius: 50%;
-  box-shadow: 5px 5px 10px #eeeeee;
-}
-#wishKnowledge a {
-  color: #203256;
-}
-#wishKnowledge a:hover,
-#wishKnowledge a:active,
-#wishKnowledge a:focus {
-  text-decoration: none;
-}
-#wishKnowledge .set-question-count {
-  color: #999999;
-}
-#wishKnowledge .topic .row {
-  margin-top: 20px;
-  padding-left: 20px;
-}
-@media (max-width: 649px) {
-  #wishKnowledge .topic {
-    float: none;
-    width: 100%;
-    height: inherit;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    /*temporary stuff to imitate rowbase to get same layout for box like other elements on page without having to deal with the other stuff that comes with rowbase and e.g. disturbs layout of license information*/
+/*   
+background-color: white;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    border: 1px solid #dddddd;
     margin-left: 0;
-    left: 0;
-    right: 0;
+    margin-right: 0;
+    /*end of temporary stoff*/
+/*
+    .wishKnowledgeItems {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+        justify-content: space-between;
+    }
+
+    img {
+        border-radius: 50%;
+        box-shadow: 5px 5px 10px @gray-lighter;
+    }
+
+    a {
+        color: @global-text-color;
+
+        &:hover, &:active, &:focus {
+            text-decoration: none;
+        }
+    }
+
+    .set-question-count {
+        color: @gray-light;
+    }
+
+    .topic {
+        .row {
+            margin-top: 20px;
+            //margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .stack-below(@extra-breakpoint-cards);
+
+        .ImageContainer {
+            max-width: 80px;
+            min-width: 70px;
+
+            .LicenseInfo {
+                text-align: center;
+                color: @gray-light;
+
+                &:after {
+                    content: "Lizenz";
+                }
+            }
+        }
+
+        .topic-name {
+            max-height: 65px;
+            overflow: hidden;
+
+            @media (max-width: (@extra-breakpoint-cards - 1px)) {
+                max-height: none;
+            }
+        }
+
+        .KnowledgeBarLegend {
+            .greyed;
+            font-size: 12px;
+            line-height: 1.5em;
+            //text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.2s linear;
+
+            .media-below-sm ( {
+                opacity: 1;
+            }
+
+            );
+        }
+
+        &:hover { //show on hover over navigation tile
+            .KnowledgeBarLegend {
+                opacity: 1;
+            }
+        }
+    }
+
+  /*  .category-knowledge-bar, .set-knowledge-bar {
+        margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: @needs-learning-color;
+        }
+
+        .needs-consolidation {
+            background-color: @needs-consolidation-color;
+        }
+
+        .solid-knowledge {
+            background-color: @solid-knowledge-color;
+        }
+
+        .not-learned {
+            background-color: @not-learned-color;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: @not-in-wish-knowledge-color;
+        }
+    }
+
+    #btnShowAllWishKnowledgeContent {
+        margin-top: 30px;
+        text-align: center;
+        display: block;
+    }
+
+    #btnShowLessWishKnowledgeContent {
+        margin-top: 30px;
+        text-align: center;
+        display: block;
+    }
+} */
+@media only screen and (max-width: 750px) {
+  .link-set [class*="col-"] {
+    width: 100%;
+    text-align: center;
   }
-}
-#wishKnowledge .topic .ImageContainer {
-  max-width: 80px;
-  min-width: 70px;
-}
-#wishKnowledge .topic .ImageContainer .LicenseInfo {
-  text-align: center;
-  color: #999999;
-}
-#wishKnowledge .topic .ImageContainer .LicenseInfo:after {
-  content: "Lizenz";
-}
-#wishKnowledge .topic .topic-name {
-  max-height: 65px;
-  overflow: hidden;
-}
-@media (max-width: 649px) {
-  #wishKnowledge .topic .topic-name {
-    max-height: none;
-  }
-}
-#wishKnowledge .topic .KnowledgeBarLegend {
-  color: #999999;
-  font-size: 12px;
-  line-height: 1.5em;
-  opacity: 0;
-  transition: opacity 0.2s linear;
-}
-@media (max-width: 767px) {
-  #wishKnowledge .topic .KnowledgeBarLegend {
-    opacity: 1;
-  }
-}
-#wishKnowledge .topic:hover .KnowledgeBarLegend {
-  opacity: 1;
-}
-#wishKnowledge .category-knowledge-bar,
-#wishKnowledge .set-knowledge-bar {
-  margin-top: 15px;
-  height: 10px;
-  width: 180px;
-}
-#wishKnowledge .category-knowledge-bar .solid-knowledge,
-#wishKnowledge .set-knowledge-bar .solid-knowledge,
-#wishKnowledge .category-knowledge-bar .needs-learning,
-#wishKnowledge .set-knowledge-bar .needs-learning,
-#wishKnowledge .category-knowledge-bar .needs-consolidation,
-#wishKnowledge .set-knowledge-bar .needs-consolidation,
-#wishKnowledge .category-knowledge-bar .not-learned,
-#wishKnowledge .set-knowledge-bar .not-learned,
-#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge,
-#wishKnowledge .set-knowledge-bar .not-in-wish-knowledge {
-  height: inherit;
-  float: left;
-}
-#wishKnowledge .category-knowledge-bar .needs-learning,
-#wishKnowledge .set-knowledge-bar .needs-learning {
-  background-color: lightsalmon;
-}
-#wishKnowledge .category-knowledge-bar .needs-consolidation,
-#wishKnowledge .set-knowledge-bar .needs-consolidation {
-  background-color: #fdd648;
-}
-#wishKnowledge .category-knowledge-bar .solid-knowledge,
-#wishKnowledge .set-knowledge-bar .solid-knowledge {
-  background-color: #afd534;
-}
-#wishKnowledge .category-knowledge-bar .not-learned,
-#wishKnowledge .set-knowledge-bar .not-learned {
-  background-color: silver;
-}
-#wishKnowledge .category-knowledge-bar .not-in-wish-knowledge,
-#wishKnowledge .set-knowledge-bar .not-in-wish-knowledge {
-  background-color: #dddddd;
-}
-#wishKnowledge #btnShowAllWishKnowledgeContent {
-  margin-top: 30px;
-  text-align: center;
-  display: block;
-}
-#wishKnowledge #btnShowLessWishKnowledgeContent {
-  margin-top: 30px;
-  text-align: center;
-  display: block;
 }

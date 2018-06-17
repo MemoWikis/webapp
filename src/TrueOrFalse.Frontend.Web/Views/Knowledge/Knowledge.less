@@ -1,6 +1,6 @@
 ﻿@import (reference) '../../Style/includes/imports.less';
 // heading-chartKnowledge
-.heading-chart-knowledge {
+/*.heading-chart-knowledge {
     #chartKnowledgeH1 {
         height: 7rem;
         align-content: center
@@ -37,7 +37,7 @@
 /* Progress bar Next Level 
 ------------------------------------------------------*/
 
-#learningPoints, #reputationPoints {
+/* #learningPoints, #reputationPoints {
     font-size: 18px;
     margin: 20px 0;
 
@@ -94,8 +94,8 @@
     background-color: lighten(@memo-green, 30);
 }
 
-/*----------*/
-
+----------*/
+/*
 #reputationPoints {
     p.moreInfoLink {
         margin-bottom: 0;
@@ -108,7 +108,7 @@
 
 /* STATISTIC CHARTS
 -------------------------------------------*/
-
+/*
 #chartKnowledge text {
     font-size: 13px;
     cursor: pointer;
@@ -235,19 +235,21 @@
 /*------------------------------------------------------
     Wishknowledge Categories and Sets
 -------------------------------------------------------*/
-
+/*
 #wishKnowledge {
     margin-top: 20px;
     margin-bottom: 20px;
     padding-bottom: 20px;
     /*temporary stuff to imitate rowbase to get same layout for box like other elements on page without having to deal with the other stuff that comes with rowbase and e.g. disturbs layout of license information*/
-    background-color: white;
+/*   
+background-color: white;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.16), 0 1px 0px rgba(0, 0, 0, 0.23);
     border-radius: 4px;
     border: 1px solid #dddddd;
     margin-left: 0;
     margin-right: 0;
     /*end of temporary stoff*/
+/*
     .wishKnowledgeItems {
         display: flex;
         flex-wrap: wrap;
@@ -326,7 +328,7 @@
         }
     }
 
-    .category-knowledge-bar, .set-knowledge-bar {
+  /*  .category-knowledge-bar, .set-knowledge-bar {
         margin-top: 15px;
         height: 10px;
         width: 180px;
@@ -367,5 +369,14 @@
         margin-top: 30px;
         text-align: center;
         display: block;
+    }
+} */
+
+.link-set {
+    @media only screen and (max-width: 750px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: center;
+        }
     }
 }
