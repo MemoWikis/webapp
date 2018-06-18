@@ -195,6 +195,7 @@ img {
   margin: 0;
   width: 100%;
   height: 80px;
+  z-index: 100;
   background-color: #003264;
 }
 #MasterHeader .HeaderMainRow {
@@ -358,6 +359,11 @@ img {
 #LogoSmall img {
   width: auto;
   height: 100%;
+}
+@media (max-width: 991px) {
+  #Login {
+    display: none !important;
+  }
 }
 #loginAndHelp {
   color: #E7ECF6;
@@ -788,6 +794,14 @@ ul.AutocompleteHeader {
   border-top-right-radius: 110px;
   border-bottom: 0;
 }
+.level-display svg {
+  margin-top: 4px;
+  width: 25px;
+  height: 25px;
+}
+.level-display circle {
+  fill: #AFD534;
+}
 .level-display .level-count {
   color: white;
   font-weight: bold;
@@ -807,9 +821,6 @@ ul.AutocompleteHeader {
 #SidebarCards .card-footer-text {
   margin-top: 15px;
   color: #0560AB;
-}
-#AutorCard {
-  margin-top: 70px;
 }
 #AutorCard .autor-card-image {
   width: 80px;
@@ -1014,8 +1025,8 @@ ul.AutocompleteHeader {
   line-height: 1.5em;
   width: 100%;
   font-family: sans;
-  padding-top: 19px;
-  padding-bottom: 4px !important;
+  padding-top: 17px;
+  padding-bottom: 14px !important;
   color: #000000 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   position: unset;
@@ -1042,23 +1053,9 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
-#Breadcrumb i.fa-question-circle {
-  padding-top: 2px !important;
-}
 #Breadcrumb .category-icon:hover,
 #Breadcrumb .category-icon:focus {
   text-decoration: none;
-}
-#Breadcrumb i.fa {
-  font-size: 120%;
-  width: 0.9em;
-  text-align: center;
-  width: 21px !important;
-  height: 21px;
-  border-radius: 50px;
-  background-color: #0B335E;
-  color: white;
-  padding-top: 1px;
 }
 #Breadcrumb i.fa-chevron-right {
   font-size: 11.2px;
@@ -1093,7 +1090,13 @@ ul.AutocompleteHeader {
   }
 }
 #Breadcrumb .sticky-header-container {
-  float: right;
+  margin-left: auto;
+  display: flex;
+  margin-top: -19px;
+}
+#Breadcrumb .sticky-header-container .fa {
+  margin-right: 25px;
+  padding-top: 12px;
 }
 #MasterSidebarColumn {
   position: relative;

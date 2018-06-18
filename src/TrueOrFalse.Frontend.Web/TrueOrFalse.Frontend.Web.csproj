@@ -7411,7 +7411,6 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\Menu-Right.ts" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -7904,7 +7903,6 @@
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
     <Content Include="Views\Shared\SidebarCards.ascx" />
-    <Content Include="Views\Shared\SidebarThemeCentered.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />

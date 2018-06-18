@@ -23,11 +23,7 @@
         <section id="MasterMainContent" class="container">
             <div class="row">
                 <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %>
-                <section id="MasterSidebarColumn" >
-                    <% Html.RenderPartial(
-                           Model.TopicMenu.IsActive
-                           ? UserControls.SidebarThemeCentered
-                           : UserControls.Sidebar, Model.SidebarModel); %>                      
+                <section id="MasterSidebarColumn" >                  
                     <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
                     <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
                        { %>
@@ -46,29 +42,7 @@
                     <section id="MasterMainWrapper">
                         <div style="display: flex;">                           
                             <div id="mainMenuThemeCenteredMobile">
-                                <div class="menu-section">
-                                    <div class="menu-container">
-                                        <div class="menu-item" style="height: 21px;">
-                                            <a id="mainMenuBtnKnowledge" style="margin-right: 3px; padding-top: 11px; padding-bottom: 11px; border-radius: 0px;" class="list-group-item menu-section primary-point <%: Model.SidebarModel.Active(MenuEntry.Knowledge)%>" href="<%= Links.Knowledge() %>">
-                                                <i id="mainMenuKnowledgeHeart" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
-                                                <%if(Model.SidebarModel.HasKnowledgeBtnText && !Model.IsLoggedIn){%>
-                                                    <span class="primary-point-text" style="text-transform: none; white-space: nowrap;"><%= Model.SidebarModel.KnowldegeBtnText%></span>   
-                                                <%}else{%>    
-                                                    <span class="primary-point-text">Wissenszentrale</span>                                        
-                                                <%}%>                                              
-                                            </a>
-                                        </div>
-                                        <div class="menu-item" style="height: 21px;"><a id="MenuButton"><i class="fa fa-bars"></i></a></div>
-                                    </div>
-                                </div>
                                 <div id="LongMenu" class="LongMenu">
-                                    <div class="menu-section-mobile" style="width: 100%">
-                                        <a id="mainMenuBtnKnowledgeMobile" class="list-group-item menu-section primary-point " href="/Wissenszentrale" style="width: 100%">
-                                            <i id="mainMenuKnowledgeHeartMobile" class="fa fa-heart fa-2x" style="color: #b13a48;"></i>
-                                            <span class="primary-point-text">Wissenszentrale
-                                            </span>
-                                        </a>
-                                    </div>
                                     <% Html.RenderPartial("/Views/Categories/Navigation/CategoryNavigation.ascx", categoryNavigationModel); %>
                                     <% if (isLongMenu)
                                         { %>

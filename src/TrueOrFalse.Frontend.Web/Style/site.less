@@ -182,6 +182,7 @@ img {
     margin: 0;
     width: 100%;
     height: 80px;
+    z-index: 100;
     background-color: @memo-blue;
 
     .HeaderMainRow {
@@ -350,6 +351,12 @@ img {
     img {
         width: auto;
         height: 100%;
+    }
+}
+
+#Login {
+    @media (max-width:(@screen-md-min - 1px)) {
+        display: none !important;
     }
 }
 
@@ -647,9 +654,20 @@ img {
         width: 31px;
         height: 31px !important;
         background-color: #AFD534;
-        border-bottom-right-radius: 110px; 
-        border-top-right-radius: 110px; 
+        border-bottom-right-radius: 110px;
+        border-top-right-radius: 110px;
         border-bottom: 0;
+    }
+
+    svg {
+        margin-top: 4px;
+        width: 25px;
+        height: 25px;
+    }
+
+
+    circle {
+    fill: @memo-green;
     }
 
     .level-count {
@@ -677,8 +695,6 @@ img {
 }
 
 #AutorCard {
-    margin-top: 70px;
-
     .autor-card-image {
         width: 80px;
         height: 80px;
@@ -948,12 +964,12 @@ img {
     line-height: 1.5em;
     width: 100%;
     font-family: sans;
-    padding-top: 19px;
-    padding-bottom: 4px !important;
+    padding-top: 17px;
+    padding-bottom: 14px !important;
     color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     position: unset;
-    z-index:1;
+    z-index: 1;
     top: 80px;
     .greyed;
 
@@ -979,10 +995,6 @@ img {
         padding: 0px;
     }
 
-    i.fa-question-circle {
-        padding-top: 2px !important;
-    }
-
     .category-icon {
         &:hover, &:focus {
             text-decoration: none;
@@ -990,15 +1002,6 @@ img {
     }
 
     i.fa {
-        font-size: 120%;
-        width: 0.9em;
-        text-align: center;
-        width: 21px !important;
-        height: 21px;
-        border-radius: 50px;
-        background-color: #0B335E;
-        color: white;
-        padding-top: 1px;
     }
 
     i.fa-chevron-right {
@@ -1010,6 +1013,10 @@ img {
         background-color: white;
         border-radius: 0px;
         padding: 0px;
+    }
+
+    .fa-dot-circle {
+        color #AED71B;
     }
 
     a {
@@ -1039,8 +1046,15 @@ img {
 
     );
 
-    .sticky-header-container{
-        float:right;
+    .sticky-header-container {
+        margin-left: auto;
+        display: flex;
+        margin-top: -19px;
+
+        .fa {
+            margin-right: 25px;
+            padding-top: 12px;
+        }
     }
 }
 
