@@ -394,7 +394,6 @@ img {
 }
 #loginAndHelp a,
 #loginAndHelp span {
-  height: 34px;
   line-height: 34px;
 }
 #loginAndHelp span {
@@ -466,6 +465,10 @@ img {
 }
 #loginAndHelp .dropdown-menu {
   text-align: left;
+  border-radius: 0px;
+  border: 1px solid #707070;
+  width: 197px;
+  font-size: 12px;
 }
 #loginAndHelp i#tabInfoMyKnowledge {
   margin-right: 1px;
@@ -474,7 +477,7 @@ img {
   max-width: 600px !important;
 }
 #activity-popover-title {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   padding: 6px 0;
   text-align: center;
@@ -484,7 +487,7 @@ img {
   padding-top: 10px;
   line-height: normal;
   color: #333333;
-  font-size: 18px;
+  font-size: 12px;
   text-align: center;
 }
 #activity-popover-content-inner span {
@@ -1067,6 +1070,9 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
+#Breadcrumb .fa-dot-circle {
+  color: #AED71B;
+}
 #Breadcrumb a {
   color: #1B3651;
   text-decoration: none;
@@ -1089,12 +1095,13 @@ ul.AutocompleteHeader {
     padding-bottom: 20px;
   }
 }
-#Breadcrumb .sticky-header-container {
+#Breadcrumb #StickyHeaderContainer {
   margin-left: auto;
   display: flex;
   margin-top: -19px;
+  display: none;
 }
-#Breadcrumb .sticky-header-container .fa {
+#Breadcrumb #StickyHeaderContainer .fa {
   margin-right: 25px;
   padding-top: 12px;
 }

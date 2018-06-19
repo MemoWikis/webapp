@@ -30,16 +30,6 @@ class MenuMobile {
             }
         });
 
-        $("#SidebarMenuButton").click(() => {
-            if (this._isOpen) {
-                this.closeMenu();
-
-            } else {
-                this.openMenu();
-
-            }
-        });
-
         $("#MobileMenuButton").click(() => {
             if (this._isOpen) {
                 this.closeMenu();

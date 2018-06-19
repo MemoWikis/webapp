@@ -31,9 +31,9 @@
         </div>
     <% } %>        
     <%}%>
-    <div class="sticky-header-container">
+    <div id="StickyHeaderContainer">
         <i class="fa fa-search" style="font-size:29px;"></i>
         <i class="fa fa-dot-circle"></i>
-       <a id="MenuButton" style="margin-right:0px;"><i class="fa fa-bars"></i></a>
+        <a id="MenuButton" style="margin-top:0px;"><i class="fa fa-bars"></i>
     </div>
 </div> 

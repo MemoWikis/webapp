@@ -32,8 +32,23 @@
         <div class="dropdown" style="display: inline-block;">
             <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
                 <span class="userName TextSpan">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
-            </a>              
+            </a>    
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+                <li>
+                   <a style="white-space:unset;" href="/Knowledge/Knowledge.aspx">
+                       <div id="activity-popover-title">Dein erreichtes Level</div>
+                        <% Html.RenderPartial("/Views/Shared/ActivityPopupContent.ascx"); %>
+                   </a>
+                </li>
+                <li>
+                    <a style="padding:0px;" href="<%= Links.Messages(Url)%>">
+                        <div style="white-space:normal; border: solid #707070 1px;">
+                            <i class="far fa-bell"></i>
+                            <span  class="badge show-tooltip" title="Ungelesene Nachrichten" style="height:19px; padding:0px; padding-top:1px; line-height:13px; top:-7px !important; font-size:10px; left:14px; border:#003264 solid 2px; min-width:19px; display: inline-block; position: relative;"><%= Model.SidebarModel.UnreadMessageCount %></span>
+                            <span>Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
+                        </div>
+                    </a>
+                </li>
                 <li><a href="<%=Url.Action(Links.UserAction, Links.UserController, new {name = userSession.User.Name, id = userSession.User.Id}) %>"><i class="fa fa-user"></i> Deine Profilseite</a></li>
                 <li><a href="<%= Url.Action(Links.UserSettingsAction, Links.UserSettingsController) %>"><i class="fa fa-wrench" title="Einstellungen"></i> Konto-Einstellungen</a></li>
                 <li class="divider"></li>                 

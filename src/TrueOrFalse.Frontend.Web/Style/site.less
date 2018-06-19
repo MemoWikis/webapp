@@ -390,7 +390,6 @@ img {
     }
 
     a, span {
-        height: @masterHeaderMainRowHeight-xs;
         line-height: @masterHeaderMainRowHeight-xs;
     }
 
@@ -398,9 +397,9 @@ img {
         vertical-align: middle;
     }
 
-        .KnowledgeLink {
-            color: #AED71B !important;
-        }
+    .KnowledgeLink {
+        color: #AED71B !important;
+    }
 
     a.TextLinkWithIcon {
         color: @light-blue;
@@ -468,6 +467,10 @@ img {
 
     .dropdown-menu {
         text-align: left;
+        border-radius: 0px;
+        border: 1px solid #707070;
+        width:197px;
+        font-size:12px;
     }
 
     i#tabInfoMyKnowledge {
@@ -481,7 +484,7 @@ img {
 }
 
 #activity-popover-title {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     padding: 6px 0;
     text-align: center;
@@ -492,7 +495,7 @@ img {
     padding-top: 10px;
     line-height: normal;
     color: @text-color;
-    font-size: 18px;
+    font-size: 12px;
     text-align: center;
 
     span {
@@ -1016,7 +1019,7 @@ img {
     }
 
     .fa-dot-circle {
-        color #AED71B;
+        color: #AED71B;
     }
 
     a {
@@ -1046,10 +1049,11 @@ img {
 
     );
 
-    .sticky-header-container {
+      #StickyHeaderContainer {
         margin-left: auto;
         display: flex;
         margin-top: -19px;
+        display:none;
 
         .fa {
             margin-right: 25px;
