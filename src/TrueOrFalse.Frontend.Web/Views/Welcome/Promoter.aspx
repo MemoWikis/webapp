@@ -32,7 +32,8 @@
             <div class=" col-xs-8 col-xs-offset-2">
                 <p>
                     memucho wird seit Juni 2018 im Rahmen des Programms „Gründung innovativ“ des Europäischen Fonds für regionale Entwicklung (EFRE) von der Investitionsbank
-              des Landes Brandenburg gefördert. Der EFRE wird zur Schaffung nachhaltiger und selbsttragender Wirtschaftsstrukturen genutzt. www.efre.brandenburg.de
+                    des Landes Brandenburg gefördert. Der EFRE wird zur Schaffung nachhaltiger und selbsttragender Wirtschaftsstrukturen genutzt.<br/>
+                    <a href="http://www.efre.brandenburg.de" target="_blank">www.efre.brandenburg.de</a>
                 </p>
             </div>
         </div>
@@ -46,7 +47,8 @@
             <div class=" col-xs-8 col-xs-offset-2">
                 <p>
                     memucho wurde von Oktober 2016 bis September 2017 mit einem EXIST-Gründerstipendium gefördert. 
-              EXIST ist ein Förderprogramm des Bundesministeriums für Wirtschaft und Energie (BMWi). www.exist.de
+                    EXIST ist ein Förderprogramm des Bundesministeriums für Wirtschaft und Energie (BMWi).<br/>
+                    <a href="http://www.exist.de" target="_blank">www.exist.de</a> 
                 </p>
             </div>
         </div>
@@ -59,7 +61,8 @@
             <div class=" col-xs-8 col-xs-offset-2 footer">
                 <p>
                     Profund Innovation ist die Service-Einrichtung für die Förderung von Unternehmensgründungen
-                und Innovationen in der Abteilung Forschung der Freien Universität. www.fu-berlin.de/sites/profund
+                    und Innovationen in der Abteilung Forschung der Freien Universität.<br/>
+                    <a href="http://www.fu-berlin.de/sites/profund" target="_blank">www.fu-berlin.de/sites/profund</a>
                 </p>
             </div>
         </div>

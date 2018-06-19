@@ -1,5 +1,5 @@
 ﻿.promoter-overview p {
-  color: #4975BC;
+  color: #003264;
 }
 .promoter-overview .col-xs-5 {
   margin-bottom: 10px;
@@ -27,7 +27,6 @@
     margin-left: -75px;
   }
 }
-.FooterCol,
 .Promoter,
 #GlobalLicense {
   display: none;
