@@ -1008,58 +1008,12 @@
         }
        
 
-        // Heading h1 Knowledgewheel 
-        google.setOnLoadCallback(chartKnowledgeH1);
-
-        function chartKnowledgeH1() {
-
-            var options = {
-                pieHole: 0.6,
-                tooltip: { isHtml: false },
-                legend: { position: "none" },
-                pieSliceText: 'none',
-                chartArea: { 'width': '100%', height: '100%', top: 10 },
-                slices: {
-                    0: { color: '#afd534' },
-                    1: { color: '#fdd648' },
-                    2: { color: 'lightsalmon' },
-                    3: { color: 'silver' },
-                    4: { color: '#dddddd' }
-                },
-                pieStartAngle: 0
-            }
-
-
-
-            var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'link', 'Anteil in %'],
-                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
-                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
-                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
-                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
-            ]);
-
-            var view = new google.visualization.DataView(data);
-            view.setColumns([0, 2]);
-
-            var chart = new google.visualization.PieChart(document.getElementById('chartKnowledgeH1'));
-            chart.draw(view, options);
-
-            google.visualization.events.addListener(chart, 'select', selectHandler);
-
-            function selectHandler(e) {
-                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
-                location.href = urlPart;
-            }
-        }
+        
     </script>
 
     <div class="container-fluid">
-        <div class="row heading-chart-knowledge">
-            <div class="col-xs-2 col-sm-3 col" id="chartKnowledgeH1">
-            </div>
-            <div class="col-xs-10">
+        <div class="row h1Head"> 
+            <div class="col-xs-10 col-xs-offset-2">
                 <h1>Wissenszentrale - Überblick und Zahlen </h1>
             </div>
         </div>

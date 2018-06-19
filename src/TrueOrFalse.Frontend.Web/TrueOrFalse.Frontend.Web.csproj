@@ -458,9 +458,6 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
-    <Content Include="Views\Knowledge\Js\GoogleChartsLoad.js">
-      <DependentUpon>GoogleChartsLoad.ts</DependentUpon>
-    </Content>
     <Content Include="Views\Knowledge\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -522,9 +519,6 @@
     </Content>
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js.map">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
-    </Content>
-    <Content Include="Views\Knowledge\Js\GoogleChartsLoad.js.map">
-      <DependentUpon>GoogleChartsLoad.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Js\Page.js.map">
       <DependentUpon>Page.ts</DependentUpon>
@@ -867,7 +861,6 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
-    <TypeScriptCompile Include="Views\Knowledge\Js\GoogleChartsLoad.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\WishKnowledgeContent.ts" />
     <TypeScriptCompile Include="Views\Maintenance\Js\CMS.ts" />
@@ -1359,9 +1352,6 @@
     <Content Include="Images\Licenses\cc-by-sa.png" />
     <Content Include="Images\Licenses\cc-by.png" />
     <Content Include="Images\Licenses\publicdomain.png" />
-    <Content Include="Images\Memo.png" />
-    <Content Include="Images\memo_liegend_bearbeitet4.png" />
-    <Content Include="Images\memo_mit_laptop_ohne_koerper.png" />
     <Content Include="Images\no-category-picture-206.png" />
     <Content Include="Images\no-category-picture-350.png" />
     <Content Include="Images\no-question-128.png" />

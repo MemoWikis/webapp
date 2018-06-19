@@ -23,6 +23,7 @@ public class KnowledgeModel : BaseModel
     public int QuestionsCreatedCount;
     public int SetsCount;
     public int SetsCreatedCount;
+    public int TopicCount;
 
     public KnowledgeSummary KnowledgeSummary = new KnowledgeSummary();
     public GetStreaksDaysResult StreakDays = new GetStreaksDaysResult();
@@ -61,6 +62,8 @@ public class KnowledgeModel : BaseModel
         User = R<UserRepo>().GetById(UserId);
         QuestionsCount = R<GetWishQuestionCountCached>().Run(UserId);
         SetsCount = R<GetWishSetCount>().Run(UserId);
+        TopicCount = R<GetWishTopicCount>().Run(UserId);
+        
 
         ActivityPoints = User.ActivityPoints;
         ActivityLevel = User.ActivityLevel;

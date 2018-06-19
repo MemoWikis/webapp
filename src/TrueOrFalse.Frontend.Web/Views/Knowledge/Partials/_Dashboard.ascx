@@ -19,15 +19,15 @@
          function Initialize() {
              drawKnowledgeChart("chartKnowledgeP");
              drawActivityChart();
-            
-        }
-        
-             
-             //drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2);
-             //drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
-             //drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);
-             
-         
+
+         }
+
+
+         //drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2);
+         //drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
+         //drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);
+
+
 
          //chartKnowledgeDate
          function drawKnowledgeChart(chartElementId) {
@@ -46,7 +46,7 @@
              var options = {
                  pieHole: 0.6,
                  tooltip: { isHtml: true },
-                 legend: { position: 'labeled' },
+                 legend: { position: 'none' },
                  pieSliceText: 'none',
                  chartArea: { 'width': '100%', height: '100%', top: 10 },
                  slices: {
@@ -153,8 +153,6 @@
 
         // chartKnowledge
 
-        google.setOnLoadCallback(chartKnowledgeP);
-
         function chartKnowledgeP() {
 
             var options = {
@@ -202,36 +200,31 @@
     </script>
 
 
-    <div class="container-fluid">
-        <div class="row  heading-chart-knowledge">
-          
+<div class="container-fluid">
+    <div class="row first-row">
+        <div class="col-xs-3">
+            <h3>Dein Wissenstand</h3>
+            <div id="chartKnowledgeP"></div>
         </div>
-
-        
-
-        <div class="row knowledge-stood-h3 ">
-            <div class="col-md-12">
-                <h3>Dein Wissenstand</h3>
-            </div>
+        <!-- Dein Training -->
+        <div class ="col-xs-5">
+            <h3> Dein Training</h3>
+            <div id="chartActivityLastDays" style="height: 245px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
         </div>
-
-        <div class="row  knowledge-stood-p">
-            <div class="col-md-12">
-                <p>Berücksichtigt nur dein Wunschwissen</p>
-            </div>
+        <div class="col-xs-4">
+            <h3> Dein Wunschwissen</h3>
+            <div><i class="bold"><%=Model.TopicCount %></i> Themen <i class="bold"><%=Model.User.WishCountSets %></i> Lernsets <i class="bold"><%=Model.User.WishCountQuestions %></i> Fragen</div> 
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div id="chartKnowledgeP" class="col-md-5" style="height: 200px;"></div>
-        <div class="col-md-5"> <p>Hallo Kurt,Das Dashboard zeigt kompakte und übersichtliche Informationen. Mit seinen Grafiken und Anzeigen kommt es dem englischen Wort für "Armaturenbrett" ziemlich nah. In deinem Wunschwissen befinden sich aktuell Fragen, verteilt auf Lernsets. Wenn du jeden Tag einen Fragensatz durchgehst, steigt dein Sicheres Wissen in vorraussichtlich Lernsitzungen auf 100%! </p></div>
-    </div>
+  
 
     <div class="row">
         <div class="col-md-6">
             <h3>Deine Lernpunkte</h3>
-            <div style="text-align: center; margin-bottom: 28px; margin-top: 15px;">
-                <span class="level-display" style="float: left; margin-top: -4px;">
+            <div style="text-align: center;">
+                <span class="level-display">
                     <span style="display: inline-block; white-space: nowrap;">
                         <svg class="">
                             <circle cx="50%" cy="50%" r="50%" />
@@ -343,7 +336,7 @@
 
 
     <%-- Training --%> 
-<div class="row">
+<%--<div class="row">
     <div class ="col-md-12">
         <div class="rowBase" style="padding: 10px; height: 384px;">
             <h3 style="margin-bottom: 0px; margin-top: 0;">Training</h3>
@@ -408,7 +401,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>--%>
 
 <div class="row">
     <div class="col-md-3" style="margin-top: 5rem; margin-bottom: 10rem;">
