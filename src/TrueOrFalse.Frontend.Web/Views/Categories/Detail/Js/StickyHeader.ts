@@ -3,7 +3,7 @@
 
     if (position > 80) {
         $('#BreadcrumbLogoSmall').show();
-        $('#StickyHeaderContainer').show();
+        $('#StickyHeaderContainer').css('display', 'flex');
         $('#Breadcrumb').css('top', '0px');
         $('#Breadcrumb').css('position', 'sticky');
     } else {

@@ -221,6 +221,7 @@ img {
   margin-top: 2px;
   width: 262.41px;
   border: 1px #979797 solid;
+  left: 30px;
 }
 @media (max-width: 1199px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
@@ -450,7 +451,7 @@ img {
   margin-left: 0;
 }
 #loginAndHelp i {
-  font-size: 32px;
+  font-size: 15px;
 }
 #loginAndHelp .TextSpan,
 #loginAndHelp span:not(.level-display) {
@@ -468,7 +469,11 @@ img {
   border-radius: 0px;
   border: 1px solid #707070;
   width: 197px;
+  padding-top: 0px;
+}
+#loginAndHelp .dropdown-menu span {
   font-size: 12px;
+  line-height: normal;
 }
 #loginAndHelp i#tabInfoMyKnowledge {
   margin-right: 1px;
@@ -482,6 +487,7 @@ img {
   padding: 6px 0;
   text-align: center;
   color: #203256;
+  background-color: #EFEFEF;
 }
 #activity-popover-content-inner {
   padding-top: 10px;
@@ -560,7 +566,7 @@ img {
 }
 #MenuButton,
 #MobileMenuButton,
-#SidebarMenuButton {
+#StickyMenuButton {
   margin-bottom: 0;
   font-weight: normal;
   text-align: center;
@@ -592,32 +598,32 @@ img {
 }
 #MenuButton:focus,
 #MobileMenuButton:focus,
-#SidebarMenuButton:focus,
+#StickyMenuButton:focus,
 #MenuButton:active:focus,
 #MobileMenuButton:active:focus,
-#SidebarMenuButton:active:focus,
+#StickyMenuButton:active:focus,
 #MenuButton.active:focus,
 #MobileMenuButton.active:focus,
-#SidebarMenuButton.active:focus {
+#StickyMenuButton.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover,
 #MobileMenuButton:hover,
-#SidebarMenuButton:hover,
+#StickyMenuButton:hover,
 #MenuButton:focus,
 #MobileMenuButton:focus,
-#SidebarMenuButton:focus {
+#StickyMenuButton:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
 #MobileMenuButton:active,
-#SidebarMenuButton:active,
+#StickyMenuButton:active,
 #MenuButton.active,
 #MobileMenuButton.active,
-#SidebarMenuButton.active {
+#StickyMenuButton.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -625,13 +631,13 @@ img {
 }
 #MenuButton.disabled,
 #MobileMenuButton.disabled,
-#SidebarMenuButton.disabled,
+#StickyMenuButton.disabled,
 #MenuButton[disabled],
 #MobileMenuButton[disabled],
-#SidebarMenuButton[disabled],
+#StickyMenuButton[disabled],
 fieldset[disabled] #MenuButton,
 fieldset[disabled] #MobileMenuButton,
-fieldset[disabled] #SidebarMenuButton {
+fieldset[disabled] #StickyMenuButton {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -641,13 +647,13 @@ fieldset[disabled] #SidebarMenuButton {
 }
 #MenuButton .caret,
 #MobileMenuButton .caret,
-#SidebarMenuButton .caret {
+#StickyMenuButton .caret {
   margin-left: 3px;
 }
 @media (min-width: 768px) {
   #MenuButton,
   #MobileMenuButton,
-  #SidebarMenuButton {
+  #StickyMenuButton {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
@@ -658,13 +664,13 @@ fieldset[disabled] #SidebarMenuButton {
   }
   #MenuButton .caret,
   #MobileMenuButton .caret,
-  #SidebarMenuButton .caret {
+  #StickyMenuButton .caret {
     margin-left: 5px;
   }
 }
 #MenuButton:hover,
 #MobileMenuButton:hover,
-#SidebarMenuButton:hover {
+#StickyMenuButton:hover {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -689,32 +695,32 @@ fieldset[disabled] #SidebarMenuButton {
 }
 #MenuButton:hover:focus,
 #MobileMenuButton:hover:focus,
-#SidebarMenuButton:hover:focus,
+#StickyMenuButton:hover:focus,
 #MenuButton:hover:active:focus,
 #MobileMenuButton:hover:active:focus,
-#SidebarMenuButton:hover:active:focus,
+#StickyMenuButton:hover:active:focus,
 #MenuButton:hover.active:focus,
 #MobileMenuButton:hover.active:focus,
-#SidebarMenuButton:hover.active:focus {
+#StickyMenuButton:hover.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover:hover,
 #MobileMenuButton:hover:hover,
-#SidebarMenuButton:hover:hover,
+#StickyMenuButton:hover:hover,
 #MenuButton:hover:focus,
 #MobileMenuButton:hover:focus,
-#SidebarMenuButton:hover:focus {
+#StickyMenuButton:hover:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:hover:active,
 #MobileMenuButton:hover:active,
-#SidebarMenuButton:hover:active,
+#StickyMenuButton:hover:active,
 #MenuButton:hover.active,
 #MobileMenuButton:hover.active,
-#SidebarMenuButton:hover.active {
+#StickyMenuButton:hover.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -722,13 +728,13 @@ fieldset[disabled] #SidebarMenuButton {
 }
 #MenuButton:hover.disabled,
 #MobileMenuButton:hover.disabled,
-#SidebarMenuButton:hover.disabled,
+#StickyMenuButton:hover.disabled,
 #MenuButton:hover[disabled],
 #MobileMenuButton:hover[disabled],
-#SidebarMenuButton:hover[disabled],
+#StickyMenuButton:hover[disabled],
 fieldset[disabled] #MenuButton:hover,
 fieldset[disabled] #MobileMenuButton:hover,
-fieldset[disabled] #SidebarMenuButton:hover {
+fieldset[disabled] #StickyMenuButton:hover {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -739,7 +745,7 @@ fieldset[disabled] #SidebarMenuButton:hover {
 @media (min-width: 768px) {
   #MenuButton:hover,
   #MobileMenuButton:hover,
-  #SidebarMenuButton:hover {
+  #StickyMenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
@@ -1034,6 +1040,7 @@ ul.AutocompleteHeader {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   position: unset;
   z-index: 1;
+  height: 50px;
   top: 80px;
   color: #999999;
 }
@@ -1042,11 +1049,10 @@ ul.AutocompleteHeader {
   font-weight: bold;
 }
 #Breadcrumb img {
-  min-width: 21px;
-  min-height: 21px;
-  width: 21px !important;
-  height: 21px !important;
+  width: 29.57px !important;
+  height: 33.08px !important;
   border-radius: 50%;
+  margin-top: -8px;
 }
 #Breadcrumb i.fa-chevron-right {
   font-size: 80%;
@@ -1097,9 +1103,8 @@ ul.AutocompleteHeader {
 }
 #Breadcrumb #StickyHeaderContainer {
   margin-left: auto;
-  display: flex;
-  margin-top: -19px;
   display: none;
+  margin-top: -19px;
 }
 #Breadcrumb #StickyHeaderContainer .fa {
   margin-right: 25px;

@@ -2,7 +2,7 @@
 
 <div class="container" style="display: flex; flex-wrap: wrap;">                      
     <div id="BreadcrumbLogoSmall" style="display:none;">
-        <img src="/Images/Logo/LogoSmallBlue.png">
+        <img src="/Images/Logo/LogoSmall.png">
     </div>
     <div style="height: auto;" class="show-tooltip"  title="Zur Startseite">
         <a href="/" class="category-icon">
@@ -34,6 +34,6 @@
     <div id="StickyHeaderContainer">
         <i class="fa fa-search" style="font-size:29px;"></i>
         <i class="fa fa-dot-circle"></i>
-        <a id="MenuButton" style="margin-top:0px;"><i class="fa fa-bars"></i>
+        <a id="StickyMenuButton" style="margin-top:0px;"><i class="fa fa-bars"></i></a>
     </div>
 </div> 
