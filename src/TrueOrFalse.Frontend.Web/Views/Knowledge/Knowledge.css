@@ -1,24 +1,4 @@
-﻿@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 768px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 767px) {
-}
-@media (max-width: 649px) {
-}
-@media (min-width: 650px) {
-}
-/*.heading-chart-knowledge {
+﻿/*.heading-chart-knowledge {
     #chartKnowledgeH1 {
         height: 7rem;
         align-content: center
@@ -410,6 +390,9 @@ background-color: white;
 }
 .first-row .bold {
   font-weight: bold;
+}
+.first-row #chartKnowledgeP {
+  height: 101px;
 }
 .first-row .col-xs-4 {
   max-height: 98px;

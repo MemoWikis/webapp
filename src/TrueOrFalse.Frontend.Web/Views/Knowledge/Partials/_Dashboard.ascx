@@ -46,7 +46,7 @@
              var options = {
                  pieHole: 0.6,
                  tooltip: { isHtml: true },
-                 legend: { position: 'none' },
+                 legend: { position: 'labeled' },
                  pieSliceText: 'none',
                  chartArea: { 'width': '100%', height: '100%', top: 10 },
                  slices: {
@@ -89,7 +89,7 @@
                  legend: { position: 'none' },
                  pieSliceText: 'none',
                  height: 80,
-                 chartArea: { width: '90%', height: '90%', top: 0 },
+                 chartArea: { width: '75px', height: '75px', top: 10 },
                  slices: {
                      0: { color: '#afd534' },
                      1: { color: '#fdd648' },
@@ -130,7 +130,7 @@
                  bar: { groupWidth: '89%' },
                  chartArea: { 'width': '98%', 'height': '60%', top: 30, bottom: -10 },
                  colors: ['#afd534', 'lightsalmon'],
-                 isStacked: true,
+                 isStacked: true
              };
 
              var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
@@ -146,74 +146,42 @@
 
          }
      </script>
-    <script>
-        google.load("visualization", "1", { packages: ["corechart"] });
-
-
-
-        // chartKnowledge
-
-        function chartKnowledgeP() {
-
-            var options = {
-                pieHole: 0.6,
-                tooltip: { isHtml: true },
-                legend: { position: "labeled" },
-                pieSliceText: 'none',
-                chartArea: { 'width': '80%', height: '80%', top: 10 },
-                slices: {
-                    0: { color: '#afd534' },
-                    1: { color: '#fdd648' },
-                    2: { color: 'lightsalmon' },
-                    3: { color: 'silver' },
-                    4: { color: '#dddddd' }
-                },
-                pieStartAngle: 0
-            }
-            if ($("#chartKnowledgeP").length === 0) {
-                return;
-            }
-
-            var data = google.visualization.arrayToDataTable([
-                ['Wissenslevel', 'link', 'Anteil in %'],
-                ['Sicheres Wissen', '/Fragen/Wunschwissen/?filter=solid', <%= Model.KnowledgeSummary.Solid %>],
-                ['Solltest du festigen', '/Fragen/Wunschwissen/?filter=consolidate', <%= Model.KnowledgeSummary.NeedsConsolidation %>],
-                ['Solltest du lernen', '/Fragen/Wunschwissen/?filter=learn', <%= Model.KnowledgeSummary.NeedsLearning %>],
-                ['Noch nicht gelernt', '/Fragen/Wunschwissen/?filter=notLearned', <%= Model.KnowledgeSummary.NotLearned %>],
-                ['Nicht im Wunschwissen', '', <%= Model.KnowledgeSummary.NotInWishknowledge %>]
-            ]);
-
-            var view = new google.visualization.DataView(data);
-            view.setColumns([0, 2]);
-
-            var chart = new google.visualization.PieChart(document.getElementById("chartKnowledgeP"));
-            chart.draw(view, options);
-
-            google.visualization.events.addListener(chart, 'select', selectHandler);
-
-            function selectHandler(e) {
-                var urlPart = data.getValue(chart.getSelection()[0].row, 1);
-                location.href = urlPart;
-            }
-        }
-
-    </script>
 
 
 <div class="container-fluid">
     <div class="row first-row">
-        <div class="col-xs-3">
+        <div class="col-xs-3 " >
             <h3>Dein Wissenstand</h3>
-            <div id="chartKnowledgeP"></div>
+            <div id="chartKnowledgeP" ></div>
         </div>
         <!-- Dein Training -->
         <div class ="col-xs-5">
             <h3> Dein Training</h3>
-            <div id="chartActivityLastDays" style="height: 245px; margin-left: -3px; margin-right: 0px; margin-bottom: 10px; text-align: left;"></div>
+            <div id="chartActivityLastDays"></div>
         </div>
         <div class="col-xs-4">
             <h3> Dein Wunschwissen</h3>
             <div><i class="bold"><%=Model.TopicCount %></i> Themen <i class="bold"><%=Model.User.WishCountSets %></i> Lernsets <i class="bold"><%=Model.User.WishCountQuestions %></i> Fragen</div> 
+        </div>
+    </div>
+    <div class="row second-row">
+        <div class="col-xs-3">
+            <span style="width: 40%; margin-top: 5rem;">
+                <h3>Deine Reputation</h3>
+                
+                <p>
+                    Reputation: <b><%= Model.ReputationTotal %> Punkte</b>
+                    <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>
+                    <br/>
+                    Position: <%= Model.ReputationRank %><br/>
+                    Erstellte Fragen: <%= Model.QuestionsCreatedCount %><br/>
+                    Erstellte Lernsets: <%= Model.SetsCreatedCount %>
+                </p>
+
+                <p class="moreInfoLink">
+                    <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
+                </p>
+            </span>
         </div>
     </div>
 </div>
