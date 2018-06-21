@@ -19,13 +19,13 @@
          function Initialize() {
              drawKnowledgeChart("chartKnowledgeP");
              drawActivityChart();
-
+             drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2);
+             drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
+             drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);    
          }
 
 
-         //drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2);
-         //drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
-         //drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);
+        
 
 
 
@@ -86,7 +86,7 @@
 
              var options = {
                  pieHole: 0.5,
-                 legend: { position: 'none' },
+                 legend: { position: '' },
                  pieSliceText: 'none',
                  height: 80,
                  chartArea: { width: '75px', height: '75px', top: 10 },
@@ -166,7 +166,7 @@
     </div>
     <div class="row second-row">
         <div class="col-xs-3">
-            <span style="width: 40%; margin-top: 5rem;">
+            <span>
                 <h3>Deine Reputation</h3>
                 
                 <p>
@@ -183,12 +183,173 @@
                 </p>
             </span>
         </div>
+        
+        <div class="col-xs-5">
+            <h3>Deine Lernpunkte</h3>
+            <div style="text-align: center;">
+                <span class="level-display">
+                    <span style="display: inline-block; white-space: nowrap;">
+                        <svg class="">
+                            <circle cx="50%" cy="50%" r="50%" />
+                            <text class="level-count" x="50%" y="50%" dy = ".34em" ><%= Model.ActivityLevel %></text>
+                        </svg>
+                    </span>
+                </span>
+                <p class="textPointsAndLevel">
+                    Mit <b><%= Model.ActivityPoints.ToString("N0") %> Lernpunkten</b> bist du in <span style="white-space: nowrap"><b>Level <%= Model.ActivityLevel %></b>.</span>
+                </p>
+            </div>
+            <div class="row">
+                <div class="NextLevelContainer">
+                    <div class="ProgressBarContainer">
+                         <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                            <div class="ProgressBarSegment ProgressBarLegend">
+                                <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                            </div>
+                        </div>
+                        <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="col-xs-4">
+       
+                <h3>Im Netzwerk</h3>
+                        <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
+       
+       
+                        <% if (Model.NetworkActivities.Count == 0)
+                            { %>
+                                Keine Aktivitäten in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>. 
+                                Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                        <% }
+                            else
+                            { %>
+                            <% foreach (var activity in Model.NetworkActivities)
+                                { %>
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-xs-3">
+                                        <a href="<%= Links.UserDetail(activity.UserCauser) %>">
+                                        <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-9" id="textNetzwerk" >
+                                        <div class="greyed" style="font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                        <div  style="clear: left;" >
+                                            <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
+                                            <%= UserActivityTools.GetActionObject(activity) %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <div class="row" style="opacity: 0.4;">
+                                <div class="col-xs-12"><a class="featureNotImplemented">mehr...</a></div>
+                            </div>
+                        <% } %>
+        </div>
     </div>
-</div>
+    
+    <div class="row third-row">
+        <div class ="col-xs-8">
+             <div class="rowBase" id="FutureDatesOverview">
+                <h3 >Termine</h3>
+                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
+                <% if (Model.Dates.Count == 0)
+                    { %>
+                    <p>
+                        Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
+                    </p>
+                    <p>
+                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm">
+                            <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
+                        </a>
+                    </p>
+                    <hr style="margin: 5px 0px;"/>
+                <% }
+                    else
+                    { %>
+                    <%
+                        var index = 0;
+                        foreach (var date in Model.Dates.Take(3))
+                        {
+                            index++;
+                        %>
+                        <div class="row" style="margin-bottom: 3px;">
+                            <div class="col-xs-3">
+                                <div id="chartKnowledgeDate<%=index %>"></div>
+                            </div>
+                            <div class="col-xs-3">
+                                <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
+                                <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
+                                <% foreach (var set in date.Sets)
+                                    { %>
+
+                                    <a href="<%= Links.SetDetail(Url, set) %>">
+                                        <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
+                                    </a>                            
+                                <% } %>
+                            </div>
+                            <div class="col-xs-3">
+                                <div>ca. <span class="TPTrainingDateCount"><%= Model.Dates[0].TrainingPlan.OpenDates.Count %></span> Lernsitzungen</div>
+                                <div>ca. <span class="TPRemainingTrainingTime"><%= Model.Dates[0].TrainingPlan.TimeRemaining %></span> Lernzeit</div>
+                                <div>
+                                    <% if(Model.Dates[0].HasOpenDates) {
+                                           var timeSpanLabel = new TimeSpanLabel(Model.Dates[0].TrainingPlan.TimeToNextDate, showTimeUnit: true);
+                                           if (timeSpanLabel.TimeSpanIsNegative) { %>
+                                            <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>">Jetzt lernen!</a>
+                                        <% } else { %>
+                                            nächste Lernsitzung <br/>
+                                            in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
+                                        <% } %>
+                                        (<span class="TPQuestionsInNextTrainingDate"><%=Model.Dates[0].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
+                                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                    Spiel starten
+                                </a>
+                                &nbsp;
+                                <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
+                                    <i class="fa fa-line-chart"></i> 
+                                    Jetzt lernen
+                                </a>
+                            </div>  
+                        </div>  
+                        <div class="row">
+                                                         
+                        </div>
+                        <hr style="margin: 8px 0;"/>  
+                    <% } %>
+                    <% if (Model.Dates.Count > 3)
+                        { %>
+                        <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.PluralSuffix(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
+                        <hr style="margin: 8px 0px;"/>
+                    <% } %>
+                <% } %>
+                <p>
+                    <% if (Model.DatesInNetwork.Count > 0)
+                        { %>
+                        <a href="<%= Links.Dates() %>"><%= Model.DatesInNetwork.Count %> Termin<%= StringUtils.PluralSuffix(Model.DatesInNetwork.Count,"e") %> in deinem Netzwerk</a>
+                        &nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>
+                    <% }
+                        else
+                        {  %>
+                        Kein Termin in deinem <a href="<%= Url.Action("Network", "Users") %>">Netzwerk</a>&nbsp;<i class="fa fa-info-circle show-tooltip" title="Termine aus deinem Netzwerk kannst du einfach übernehmen. So kannst du leicht mit Freunden lernen."></i>.
+                        Erweitere dein Netzwerk, indem du anderen <a href="<%= Url.Action("Users", "Users") %>">Nutzern folgst</a>.
+                    <% } %>          
+                </p>
+            </div>
+        </div>
+    </div>
+ </div>
+
 
   
 
-    <div class="row">
+  <%--  <div class="row">
         <div class="col-md-6">
             <h3>Deine Lernpunkte</h3>
             <div style="text-align: center;">
@@ -224,12 +385,12 @@
         <div class ="col-md-2">
             <h4>Deine Termine</h4>
         </div>
-    </div>
-    <div class="row">
+    </div>--%>
+    <%--<div class="row">
         <div class ="col-md-12">
              <div class="rowBase" id="FutureDatesOverview" style="padding: 10px;">
                <%-- <h3 style="margin-top: 0; margin-bottom: 0;">Termine</h3>
-                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>--%>
+                <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
                 <% if (Model.Dates.Count == 0)
                     { %>
                     <p>
@@ -300,7 +461,7 @@
                 </p>
             </div>
         </div>
-    </div>
+    </div>--%>
 
 
     <%-- Training --%> 
@@ -371,9 +532,9 @@
     </div>
 </div>--%>
 
-<div class="row">
-    <div class="col-md-3" style="margin-top: 5rem; margin-bottom: 10rem;">
-            <h3 style="margin-top: 0; margin-bottom: 0;">Im Netzwerk</h3>
+<%--<div class="row">
+    <div class="col-md-3">
+            <h3>Im Netzwerk</h3>
                     <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
 
                     <% if (Model.NetworkActivities.Count == 0)
@@ -385,14 +546,14 @@
                         { %>
                         <% foreach (var activity in Model.NetworkActivities)
                             { %>
-                            <div class="row" style="margin-bottom: 10px;">
+                            <div class="row">
                                 <div class="col-xs-3">
                                     <a href="<%= Links.UserDetail(activity.UserCauser) %>">
                                     <img class="ItemImage" src="<%= new UserImageSettings(activity.UserCauser.Id).GetUrl_128px_square(activity.UserCauser).Url %>" />
                                     </a>
                                 </div>
                                 <div class="col-xs-9" style="">
-                                    <div class="greyed" style="font-size: 10px; margin: -4px 0;">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
+                                    <div class="greyed">vor <%= DateTimeUtils.TimeElapsedAsText(activity.At) %></div>
                                     <div style="clear: left;">
                                         <a href="<%= Links.UserDetail(activity.UserCauser) %>"><%= activity.UserCauser.Name %></a> <%= UserActivityTools.GetActionDescription(activity) %>
                                         <%= UserActivityTools.GetActionObject(activity) %>
@@ -406,5 +567,5 @@
                     <% } %>
    
     </div>
-</div>
+</div>--%>
 
