@@ -19,7 +19,7 @@
          function Initialize() {
              drawKnowledgeChart("chartKnowledgeP");
              drawActivityChart();
-             drawKnowledgeChartDate("chartKnowledgeDate1", 9, 2, 1, 2);
+             drawKnowledgeChartDate("chartKnowledgeDate1",<%= %>, 2, 1, 2);
              drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
              drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);    
          }
@@ -92,8 +92,8 @@
                  chartArea: { width: '75px', height: '75px', top: 10 },
                  slices: {
                      0: { color: '#afd534' },
-                     1: { color: '#fdd648' },
-                     2: { color: 'lightsalmon' },
+                     1: { color: '#FFD603' },
+                     2: { color: '#FF001F' },
                      3: { color: 'silver' }
                  },
                  pieStartAngle: 0
@@ -252,7 +252,7 @@
     
     <div class="row third-row">
         <div class ="col-xs-8">
-             <div class="rowBase" id="FutureDatesOverview">
+             <div>
                 <h3 >Termine</h3>
                 <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
                 <% if (Model.Dates.Count == 0)
@@ -280,16 +280,31 @@
                                 <div id="chartKnowledgeDate<%=index %>"></div>
                             </div>
                             <div class="col-xs-3 first-cell">
-                                <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
-                                <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
-                                <% foreach (var set in date.Sets)
-                                    { %>
+                               
+                                    
+                                            <%
+                                                if(Model.Dates[index-1].Remaining().TotalSeconds < 0 ){
+                                                    
+                                                    Response.Write("Vorbei seit ");
+                                                }else { 
+                                                    Response.Write("Noch ");
+                                                }
+                                            %>                
 
-                                    <a href="<%= Links.SetDetail(Url, set) %>">
-                                        <span class="label label-set"><%= set.Name %></span>
-                                    </a>                            
-                                <% } %>
-                            </div>
+                                            <%= Model.Dates[index-1].RemainingLabel().Value %> 
+                                            <% Response.Write(Model.Dates[index-1].RemainingLabel().Label); %><br/>
+                                   
+                                   
+                                            <% if(Model.Dates[index-1].Remaining().TotalSeconds < 0 ){ %>
+                                                <span style="font-size: 11px">Termin war am <br/></span> 
+                                            <% }else{ %>
+                                                <span style="font-size: 11px">bis Termin am <br/></span> 
+                                            <% } %>
+                                            <span style="font-size: 11px;">
+                                                <%= date.DateTime.ToString("dd.MM.yyy HH:mm") %>
+                                            </span>
+                                  
+                                </div>
                             <div class="col-xs-4">
                                 <div>ca. <span class="TPTrainingDateCount"><%= Model.Dates[index-1].TrainingPlan.OpenDates.Count %></span> Lernsitzungen</div>
                                 <div>ca. <span class="TPRemainingTrainingTime"><%= Model.Dates[index-1].TrainingPlan.TimeRemaining %></span> Lernzeit</div>
@@ -307,12 +322,12 @@
                                 </div>
                             </div>
                             <div class="col-xs-3">
-                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="margin-top: 17px; display: inline-block;">
-                                    <i class="fa fa-gamepad" style="font-size: 18px;"></i>
+                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block;">
+                                    <i class="fa fa-gamepad " style="font-size: 18px;"></i>
                                     Spiel starten
                                 </a>
                                 &nbsp;
-                                <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" style="margin-top: 17px; display: inline-block;">
+                                <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" class="btn btn-primary btn-sm" style="margin-top: 17px; display: inline-block;">
                                     <i class="fa fa-line-chart"></i> 
                                     Jetzt lernen
                                 </a>

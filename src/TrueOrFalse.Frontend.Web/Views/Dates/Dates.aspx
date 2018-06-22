@@ -26,7 +26,7 @@
                 ['Sicheres Wissen', solid],
                 ['Solltest du festigen', needsConsolidation],
                 ['Solltest du lernen', needsLearning],
-                ['Noch nicht gelernt', notLearned],
+                ['Noch nicht gelernt', notLearned]
             ]);
 
             var options = {
@@ -43,7 +43,7 @@
                     0: { color: '#3e7700' },
                     1: { color: '#fdd648' },
                     2: { color: '#B13A48' },
-                    3: { color: '#EFEFEF' },
+                    3: { color: '#EFEFEF' }
                 },
                 pieStartAngle: 180
             };
