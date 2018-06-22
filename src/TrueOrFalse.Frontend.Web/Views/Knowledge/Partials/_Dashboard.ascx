@@ -86,7 +86,7 @@
 
              var options = {
                  pieHole: 0.5,
-                 legend: { position: '' },
+                 legend: { position: 'none' },
                  pieSliceText: 'none',
                  height: 80,
                  chartArea: { width: '75px', height: '75px', top: 10 },
@@ -276,33 +276,33 @@
                             index++;
                         %>
                         <div class="row" style="margin-bottom: 3px;">
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <div id="chartKnowledgeDate<%=index %>"></div>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-3 first-cell">
                                 <div style="font-weight: bold; margin-bottom: 3px;"><%= date.GetTitle(true) %></div>
                                 <span style="font-size: 12px;">Noch <%= (date.DateTime - DateTime.Now).Days %> Tage für <%= date.CountQuestions() %> Fragen aus:</span><br />
                                 <% foreach (var set in date.Sets)
                                     { %>
 
                                     <a href="<%= Links.SetDetail(Url, set) %>">
-                                        <span class="label label-set" style="font-size: 70%;"><%= set.Name %></span>
+                                        <span class="label label-set"><%= set.Name %></span>
                                     </a>                            
                                 <% } %>
                             </div>
-                            <div class="col-xs-3">
-                                <div>ca. <span class="TPTrainingDateCount"><%= Model.Dates[0].TrainingPlan.OpenDates.Count %></span> Lernsitzungen</div>
-                                <div>ca. <span class="TPRemainingTrainingTime"><%= Model.Dates[0].TrainingPlan.TimeRemaining %></span> Lernzeit</div>
+                            <div class="col-xs-4">
+                                <div>ca. <span class="TPTrainingDateCount"><%= Model.Dates[index-1].TrainingPlan.OpenDates.Count %></span> Lernsitzungen</div>
+                                <div>ca. <span class="TPRemainingTrainingTime"><%= Model.Dates[index-1].TrainingPlan.TimeRemaining %></span> Lernzeit</div>
                                 <div>
                                     <% if(Model.Dates[0].HasOpenDates) {
-                                           var timeSpanLabel = new TimeSpanLabel(Model.Dates[0].TrainingPlan.TimeToNextDate, showTimeUnit: true);
+                                           var timeSpanLabel = new TimeSpanLabel(Model.Dates[index-1].TrainingPlan.TimeToNextDate, showTimeUnit: true);
                                            if (timeSpanLabel.TimeSpanIsNegative) { %>
                                             <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>">Jetzt lernen!</a>
                                         <% } else { %>
                                             nächste Lernsitzung <br/>
                                             in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
                                         <% } %>
-                                        (<span class="TPQuestionsInNextTrainingDate"><%=Model.Dates[0].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
+                                        (<span class="TPQuestionsInNextTrainingDate"><%=Model.Dates[index-1].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
                                     <% } %>
                                 </div>
                             </div>

@@ -197,3 +197,7 @@
 .third-row .col-xs-8 {
   margin-top: -390px;
 }
+.third-row .col-xs-8 .first-cell .label-set {
+  font-size: 70%;
+  width: 110px;
+}
