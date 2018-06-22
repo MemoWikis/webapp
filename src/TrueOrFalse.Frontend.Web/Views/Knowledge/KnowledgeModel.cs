@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using TrueOrFalse.Web;
 
@@ -42,7 +43,9 @@ public class KnowledgeModel : BaseModel
     public UIMessage Message;
 
     public IList<UserActivity> NetworkActivities;
-    public IList<string> NetworkActivitiesActionString;
+    public IList<string> NetworkActivitiesActionString; 
+    
+    public IList<DateRowModel> DateRowModelList = new List<DateRowModel>();
 
     public KnowledgeModel(string emailKey = null)
     {
@@ -117,6 +120,11 @@ public class KnowledgeModel : BaseModel
         foreach (var tdTrainingDate in tdTrainingDates)
         {
             TrainingDates.Add(new TrainingDateModel(tdTrainingDate));
+        }
+
+        foreach (var date in Dates)
+        {
+            DateRowModelList.Add(new DateRowModel(date));
         }
     }
 
@@ -230,5 +238,4 @@ public class KnowledgeModel : BaseModel
             })
         };
     }
-
 }

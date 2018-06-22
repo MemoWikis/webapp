@@ -11,6 +11,7 @@
     });
 </script>
      <script>
+       
          if (isGoogleApiInitialized)
              Initialize();
          else
@@ -19,9 +20,15 @@
          function Initialize() {
              drawKnowledgeChart("chartKnowledgeP");
              drawActivityChart();
-             drawKnowledgeChartDate("chartKnowledgeDate1",<%= %>, 2, 1, 2);
-             drawKnowledgeChartDate("chartKnowledgeDate2", 4, 3, 2, 3);
-             drawKnowledgeChartDate("chartKnowledgeDate3", 1, 12, 4, 12);    
+             <% for (var i = 0; i < Model.Dates.Count; i++){ %>
+  
+             console.log("chartKnowledgeDate" + <%= (i+1) %>);
+             drawKnowledgeChartDate("chartKnowledgeDate" + <%= (i+1) %>,
+                 <%= Model.DateRowModelList[i].KnowledgeSolid %>,
+                 <%= Model.DateRowModelList[i].KnowledgeNeedsConsolidation %>,
+                 <%= Model.DateRowModelList[i].KnowledgeNeedsLearning %>,
+                 <%= Model.DateRowModelList[i].KnowledgeNotLearned %>);
+         <%}%>
          }
 
 
@@ -89,7 +96,7 @@
                  legend: { position: 'none' },
                  pieSliceText: 'none',
                  height: 80,
-                 chartArea: { width: '75px', height: '75px', top: 10 },
+                 chartArea: { width: '100%', height: '100%', top: 10 },
                  slices: {
                      0: { color: '#afd534' },
                      1: { color: '#FFD603' },
