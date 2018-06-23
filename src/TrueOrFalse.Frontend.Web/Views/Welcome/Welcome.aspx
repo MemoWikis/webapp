@@ -11,6 +11,7 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    
     <link href="/Views/Welcome/Welcome.css" rel="stylesheet" />
 
     <script type="text/javascript">
@@ -164,9 +165,9 @@
 
                     <div class="NextLevelContainer">
                         <div class="ProgressBarContainer">
-                            <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone" style="width: <%= Model.ActivityPointsPercentageOfNextLevel %>%;">
+                        <div id="NextLevelProgressPercentageDone" class="ProgressBarSegment ProgressBarDone CountUpProgress" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character="%" style="width: 95px;">
                                 <div class="ProgressBarSegment ProgressBarLegend">
-                                    <span id="NextLevelProgressSpanPercentageDone"><%= Model.ActivityPointsPercentageOfNextLevel %> %</span>
+                                <span id="NextLevelProgressSpanPercentageDone" class="CountUp" data-number="<%= Model.ActivityPointsPercentageOfNextLevel %>" data-character ="%">0</span>
                                 </div>
                             </div>
                             <div class="ProgressBarSegment ProgressBarLeft" style="width: 100%;"></div>

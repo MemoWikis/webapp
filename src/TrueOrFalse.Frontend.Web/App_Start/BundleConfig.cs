@@ -275,6 +275,8 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/Promoter")
                 .Include("~/Views/Welcome/Promoter.css"));
+            bundles.Add(new ScriptBundle("~/bundles/AboutMemucho")
+                .Include("~/Views/About/Js/Page.js"));
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;
