@@ -17,11 +17,13 @@
 
 <body>
     <%--HEADER--%>
+    <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
     <section id="MasterSection">
 
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
-        
+        <% Model.SidebarModel.IsOnWelcomePage = true;
+            Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
         <section id="MasterMainContent" class="container">
             <div class="row">
                 <section id="MasterMainColumn">

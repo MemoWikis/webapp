@@ -4,7 +4,7 @@
     <div id="BreadcrumbLogoSmall" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </div>
-    <div style="height: auto;" class="show-tooltip"  title="Zur Startseite">
+    <div style="height: auto;" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
         <a href="/" class="category-icon">
             <span style="margin-left: 10px">Home</span>
         </a>
@@ -20,7 +20,7 @@
 
         var last = Model.BreadCrumb.Last();
        foreach (var breadCrumbItem in Model.BreadCrumb) { %>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" <% if (Model.IsAnswerQuestionBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.IsAnswerQuestionBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
            <%if (breadCrumbItem.Equals(last)){%>
               <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></span>
             <%} else {%>

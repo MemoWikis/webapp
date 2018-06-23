@@ -18,6 +18,10 @@ public class SidebarModel : BaseResolve
     public string AutorImageUrl;
     public string CreatorName;
 
+    public bool IsOnWelcomePage = false;
+
+    public CategoryNavigationModel categoryNavigationModel;
+
     public List<string> MultipleCreatorName = new List<string>();
     public List<string> MultipleImageUrl = new List<string>();
 
