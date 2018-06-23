@@ -6,7 +6,7 @@
            
             self.ExpandSetRow(e, $(this));
         });
-        $().on("click", "div.QuestionText a[data-action=close-details]",function(e) {
+        $(document).on("click", "div.QuestionText a[data-action=close-details]",function(e) {
             self.CollapseSetRow(e, $(this));
         });
 
