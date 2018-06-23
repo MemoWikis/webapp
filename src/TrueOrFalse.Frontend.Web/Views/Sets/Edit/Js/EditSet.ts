@@ -2,14 +2,15 @@
     constructor() {
         var self = this;
 
-        $("div.QuestionText a[data-action=open-details]").click(function(e) {
+        $(document).on("click", "div.QuestionText a[data-action=open-details]", function (e) {
+           
             self.ExpandSetRow(e, $(this));
         });
-        $("div.QuestionText a[data-action=close-details]").click(function(e) {
+        $().on("click", "div.QuestionText a[data-action=close-details]",function(e) {
             self.CollapseSetRow(e, $(this));
         });
 
-        $("#ulQuestions input[data-input=video-timecode]").change(function() {
+        $("#ulQuestions input[data-input=video-timecode]").on("click",function() {
             self.SaveTimeCode($(this));
         });
     }
