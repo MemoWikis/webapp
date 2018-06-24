@@ -272,6 +272,8 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/mailto")
                 .Include("~/Scripts/various/mailto.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
+                .Include("~/Views/Dates/Js/*.js"));
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
