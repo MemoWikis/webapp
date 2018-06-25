@@ -4,7 +4,7 @@
 
 <div style="display: flex;">
     <div id="mainMenuThemeCenteredMobile">
-        <div id="LongMenu" <%if (Model.IsOnWelcomePage){%>style="right:190px;" <% } %> class="LongMenu">
+        <div id="LongMenu" class="LongMenu">
             <% Html.RenderPartial("/Views/Categories/Navigation/CategoryNavigation.ascx", Model.categoryNavigationModel); %>
             <% if (isLongMenu)
                 { %>

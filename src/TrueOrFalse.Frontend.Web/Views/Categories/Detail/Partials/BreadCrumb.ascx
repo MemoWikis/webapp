@@ -5,32 +5,40 @@
         <img src="/Images/Logo/LogoSmall.png">
     </div>
     <div style="height: auto;" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
+     <%if(!(Model.IsWelcomePage)){ %> 
         <a href="/" class="category-icon">
             <span style="margin-left: 10px">Home</span>
         </a>
         <span><i class="fa fa-chevron-right"></i></span>
-    </div>            
+     <%}else{ %>
+        <a href="/" class="category-icon">
+            <span style="margin-left: 10px; color:#000000; opacity:0.50;">Home</span>
+        </a>
+     <%}%>
+    </div>
+
+<%if(!(Model.IsWelcomePage)){ %>  
     <%if(Model.IsCategoryBreadCrumb){ %>
         <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model) %>
     <% }else{
-           if (Model.IsAnswerQuestionBreadCrumb) { %>
+            if (Model.IsAnswerQuestionOrSetBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model) %>
-
-            <%}
-
+          <%}
+              
         var last = Model.BreadCrumb.Last();
        foreach (var breadCrumbItem in Model.BreadCrumb) { %>
-        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.IsAnswerQuestionBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
+        <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
            <%if (breadCrumbItem.Equals(last)){%>
-              <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></span>
+              <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a></span>
             <%} else {%>
-               <span style="display: inline-table; margin-left: 10px;"><a style="<%= breadCrumbItem.TextStyles%>" href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
+               <span style="display: inline-table; margin-left: 10px;"><a href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
                 <i style="display: inline;" class="fa fa-chevron-right"></i>
                </span>  
             <%} %>
         </div>
     <% } %>        
     <%}%>
+<%} %>
     <div id="StickyHeaderContainer">
         <i class="fa fa-search" style="font-size:29px;"></i>
         <i class="fa fa-dot-circle"></i>

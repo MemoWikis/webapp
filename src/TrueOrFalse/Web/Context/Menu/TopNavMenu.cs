@@ -7,7 +7,6 @@ public class TopNavMenuItem
 {
     public string Text;
     public string Url;
-    public string TextStyles;
     public string ToolTipText;
 
 }
@@ -20,8 +19,9 @@ public class TopNavMenu
     public virtual IList<Category> Categories { get; set; }
 
     public bool IsCategoryBreadCrumb = true;
-    public bool IsSetBreadCrumb = false;
-    public bool IsAnswerQuestionBreadCrumb = false;
+    public bool IsAnswerQuestionOrSetBreadCrumb = false;
+
+    public bool IsWelcomePage;
 
     public TopNavMenu()
     {

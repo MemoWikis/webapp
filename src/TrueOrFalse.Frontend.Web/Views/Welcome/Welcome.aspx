@@ -78,6 +78,7 @@
     <%= Scripts.Render("~/bundles/guidedTourScript") %>
     <%= Styles.Render("~/bundles/guidedTourStyle") %>
     <%= Scripts.Render("~/bundles/Welcome") %>
+    <% Model.TopNavMenu.IsWelcomePage = true;%>
 </asp:Content>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">

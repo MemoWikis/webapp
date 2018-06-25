@@ -18,7 +18,9 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Set") %>
     <%= Scripts.Render("~/bundles/js/Set") %>
-    <% Model.TopNavMenu.IsSetBreadCrumb = true; %>
+    <% Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true; 
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.Name});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <% Model.SidebarModel.CardFooterText = Model.CreatorName; 
        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    

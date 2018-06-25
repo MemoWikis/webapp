@@ -64,7 +64,7 @@
             Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.LearningSession.SetToLearn.Name, Url = Links.SetDetail(Url, Model.LearningSession.SetToLearn)});
         }
 
-        Model.TopNavMenu.IsAnswerQuestionBreadCrumb = true;
+        Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true;
         Model.TopNavMenu.IsCategoryBreadCrumb = false;
     %>
       
