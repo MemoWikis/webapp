@@ -290,5 +290,9 @@
   {
     "outputFile": "Views/Users/Account/Settings/UserSettings.css",
     "inputFile": "Views/Users/Account/Settings/UserSettings.less"
+  },
+  {
+    "outputFile": "Views/Knowledge/Css/_dashBoard.css",
+    "inputFile": "Views/Knowledge/Css/_dashBoard.less"
   }
 ]

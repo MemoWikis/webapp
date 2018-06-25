@@ -458,6 +458,9 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Css\_dashBoard.css">
+      <DependentUpon>_dashBoard.less</DependentUpon>
+    </Content>
     <Content Include="Views\Knowledge\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -527,6 +530,7 @@
       <DependentUpon>WishKnowledgeContent.ts</DependentUpon>
     </Content>
     <Content Include="Views\Knowledge\Partials\_Dashboard.ascx" />
+    <Content Include="Views\Knowledge\Css\_dashBoard.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

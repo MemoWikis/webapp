@@ -2,6 +2,7 @@
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%= Styles.Render("~/bundles/_dashboard") %>
 
 <script>
     $(function () {
@@ -313,9 +314,14 @@
                                         <% } else { %>
                                             <i class="fa fa-bell"> </i> nächste Lernsitzung <br/>
                                             in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
-                                        <% } %>
-                                        (<span class="TPQuestionsInNextTrainingDate"><%=Model.Dates[index-1].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
-                                    <% } %>
+                                        <% }
+                                           if (!timeSpanLabel.TimeSpanIsNegative)
+                                           {
+                                        %>
+                                        
+                                        (<span class="TPQuestionsInNextTrainingDate"><%= Model.Dates[index - 1].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
+                                        <% }
+                                       } %>
                                 </div>
                             </div>
                             <div class="col-xs-3">
@@ -329,8 +335,8 @@
                                     Jetzt lernen
                                 </a>
                                 <!-- traning.ts is missing -->
-                                <a href="#modalTraining" class="btn btn-default btn-sm" style="margin: 5px 0;" data-dateId="<%=  Model.DateRowModelList[index -1 ].Date.Id %>">   
-                                    <i class="fa fa-pencil"></i> Details &amp; bearbeiten
+                                <a href="#modalTraining" class="btn btn-default btn-sm" data-dateId="<%=  Model.DateRowModelList[index -1 ].Date.Id %>">   
+                                    <i class="fa fa-pencil" style="font-size: 0.7em" > Details &amp; bearbeiten</i>
                                 </a>
                             </div>  
                         </div>  

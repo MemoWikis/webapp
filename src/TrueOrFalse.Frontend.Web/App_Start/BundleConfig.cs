@@ -274,6 +274,10 @@ namespace TrueOrFalse.View
 
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
                 .Include("~/Views/Dates/Js/*.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/_dashboard")
+                .Include("~/Views/Knowledge/Css/_dashBoard.css"));
+
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
