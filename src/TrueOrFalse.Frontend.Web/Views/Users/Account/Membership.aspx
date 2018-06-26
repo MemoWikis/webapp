@@ -1,10 +1,12 @@
-﻿<%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<MembershipModel>" %> 
+﻿<%@ Page Title="Mitgliedschaft" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<MembershipModel>" %> 
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
     <%= Scripts.Render("~/Views/Users/Account/Js/Membership.js") %>
     <%= Styles.Render("~/Views/Users/Account/Membership.css") %>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Werde Unterstützer!", Url = "/Nutzer/Mitgliedschaft", TextStyles = "color:#FFD603;", ToolTipText = "Werde Unterstützer!"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">

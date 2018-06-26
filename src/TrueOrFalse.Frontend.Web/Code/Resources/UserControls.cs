@@ -4,8 +4,8 @@
     {
         public const string TopUsers = "TopUsers";
         public const string MasterFooter = "../Shared/Site.Partial.MasterFooter";
-        public const string MenuLeft = "MenuLeft";
-        public const string MenuLeftThemeCentered = "MenuLeftThemeCentered";
+        public const string Sidebar = "Sidebar";
+        public const string SidebarThemeCentered = "SidebarThemeCentered";
         public const string Logon = "Logon";
 
         public const string Message = "Message";

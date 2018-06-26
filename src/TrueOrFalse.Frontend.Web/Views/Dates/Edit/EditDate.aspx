@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Termin erstellen" Language="C#" 
-    MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+    MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="ViewPage<EditDateModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>

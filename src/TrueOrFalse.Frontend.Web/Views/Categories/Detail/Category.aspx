@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<CategoryModel>"%>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
@@ -6,8 +6,6 @@
     <% Title = Model.MetaTitle; %>
     <link rel="canonical" href="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>">
     <meta name="description" content="<%= Model.MetaDescription %>"/>
-    
-
     <meta property="og:title" content="<%: Model.Name %>" />
     <meta property="og:url" content="<%= Settings.CanonicalHost + Links.CategoryDetail(Model.Name, Model.Id) %>" />
     <meta property="og:type" content="article" />
@@ -25,13 +23,22 @@
     <%= Scripts.Render("~/bundles/js/AnswerQuestion") %>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script src="http://d3js.org/d3.v4.min.js"></script>
+    <% Model.SidebarModel.CardFooterText = Model.CreatorName;
+        Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250;
+        foreach(var child in Model.CategoriesChildren)
+        {
+            var imageResult = new UserImageSettings(child.Id).GetUrl_250px(child.Creator);
+            var ImageUrl = imageResult.Url;
+             Model.SidebarModel.MultipleImageUrl.Add(ImageUrl);
+            Model.SidebarModel.MultipleCreatorName.Add(child.Creator.Name);
+        }%>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <input type="hidden" id="hhdCategoryId" value="<%= Model.Category.Id %>"/>
     <input type="hidden" id="hddUserId" value="<%= Model.UserId %>"/>
     <input type="hidden" id="hddQuestionCount" value="<%=Model.AggregatedQuestionCount %>"/>
-    
+   
 
 
     <% Html.RenderPartial("~/Views/Categories/Detail/Partials/CategoryHeader.ascx", Model);%>
@@ -42,5 +49,5 @@
     <div id="LearningTabContent" class="TabContent" style="display: none;">
         <% Html.RenderPartial("~/Views/Categories/Detail/Tabs/LearningTab.ascx", Model); %>
     </div>
-    <div id="AnalyticsTabContent" class="TabContent"></div>
+    <div id="AnalyticsTabContent" class="TabContent"></div>  
 </asp:Content>

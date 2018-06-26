@@ -191,10 +191,11 @@ img {
 /* MASTER HEADER  
 ----------------------------------------------------------*/
 #MasterHeader {
-  position: relative;
+  position: sticky;
   margin: 0;
   width: 100%;
-  max-height: 50px;
+  height: 84px;
+  z-index: 100;
   background-color: #003264;
 }
 #MasterHeader .HeaderMainRow {
@@ -216,14 +217,13 @@ img {
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-  margin-left: 4px;
+  margin-left: 115px;
   margin-top: 2px;
-  width: 320px;
-  padding-left: 10px;
+  left: 30px;
 }
 @media (max-width: 1199px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 200px;
+    width: 262.41px;
   }
 }
 @media (max-width: 767px) {
@@ -251,6 +251,10 @@ img {
     width: 120px;
   }
 }
+#MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
+  border-right: none !important;
+  border: 1px #979797 solid;
+}
 #MasterHeader .col-Logo {
   height: 100%;
   width: auto;
@@ -264,6 +268,7 @@ img {
 #MasterHeader .col-LoginAndHelp {
   width: auto;
   float: right;
+  margin-top: 12px;
   height: 34px;
 }
 @media (max-width: 479px) {
@@ -283,7 +288,7 @@ img {
   height: 100%;
   float: left;
   color: #FFD700;
-  font-size: 18px;
+  font-size: 14px;
   margin-top: -5px;
   margin-left: 7px;
   z-index: 1;
@@ -306,9 +311,11 @@ img {
 #Pictogram {
   float: left;
   height: 62px;
-  margin-right: 10px;
+  margin-right: 19.43px;
   overflow-y: visible;
   margin-left: -7px;
+  margin-top: 9px;
+  height: 57.33px;
 }
 @media (max-width: 991px) {
   #Pictogram {
@@ -353,16 +360,26 @@ img {
   width: auto;
   height: 100%;
 }
+@media (max-width: 991px) {
+  #Login {
+    display: none !important;
+  }
+}
 #loginAndHelp {
   color: #E7ECF6;
   float: right;
   height: 100%;
-  margin-top: -1px;
 }
 @media (min-width: 768px) {
   #loginAndHelp {
     margin-top: 1px;
   }
+}
+#loginAndHelp .header-item {
+  display: flex;
+  flex-direction: column;
+  margin-right: 25px;
+  text-align: center;
 }
 #loginAndHelp .dropdown {
   height: 100%;
@@ -376,11 +393,13 @@ img {
 }
 #loginAndHelp a,
 #loginAndHelp span {
-  height: 34px;
   line-height: 34px;
 }
 #loginAndHelp span {
   vertical-align: middle;
+}
+#loginAndHelp .KnowledgeLink {
+  color: #AED71B !important;
 }
 #loginAndHelp a.TextLinkWithIcon {
   color: #E7ECF6;
@@ -394,24 +413,6 @@ img {
 #loginAndHelp a.TextLinkWithIcon:active *,
 #loginAndHelp a.TextLinkWithIcon:focus * {
   text-decoration: none;
-}
-#loginAndHelp #SupportUs {
-  color: #FFD700;
-}
-@media (max-width: 420px) {
-  #loginAndHelp #SupportUs {
-    display: none;
-  }
-}
-#loginAndHelp #SupportUs:hover,
-#loginAndHelp #SupportUs:active,
-#loginAndHelp #SupportUs:focus {
-  color: #AFD534;
-}
-@media (max-width: 1200px) {
-  #loginAndHelp #SupportUs .TextSpan {
-    display: none;
-  }
 }
 @media (min-width: 480px) {
   #loginAndHelp a.helpLink {
@@ -447,9 +448,13 @@ img {
   width: 31px;
   margin-left: 0;
 }
+#loginAndHelp i {
+  font-size: 15px;
+}
 #loginAndHelp .TextSpan,
 #loginAndHelp span:not(.level-display) {
   display: inline-block;
+  font-size: 14px;
 }
 @media (max-width: 991px) {
   #loginAndHelp .TextSpan,
@@ -459,6 +464,14 @@ img {
 }
 #loginAndHelp .dropdown-menu {
   text-align: left;
+  border-radius: 0px;
+  border: 1px solid #707070;
+  width: 197px;
+  padding-top: 0px;
+}
+#loginAndHelp .dropdown-menu span {
+  font-size: 12px;
+  line-height: normal;
 }
 #loginAndHelp i#tabInfoMyKnowledge {
   margin-right: 1px;
@@ -467,17 +480,18 @@ img {
   max-width: 600px !important;
 }
 #activity-popover-title {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
   padding: 6px 0;
   text-align: center;
   color: #203256;
+  background-color: #EFEFEF;
 }
 #activity-popover-content-inner {
   padding-top: 10px;
   line-height: normal;
   color: #333333;
-  font-size: 18px;
+  font-size: 12px;
   text-align: center;
 }
 #activity-popover-content-inner span {
@@ -545,12 +559,12 @@ img {
   font-size: 18px;
 }
 .MenuButtonSM {
-  padding: 5px 7px 5px 9px;
+  padding: 0px;
   font-size: 25px;
 }
 #MenuButton,
 #MobileMenuButton,
-#SidebarMenuButton {
+#StickyMenuButton {
   margin-bottom: 0;
   font-weight: normal;
   text-align: center;
@@ -568,9 +582,7 @@ img {
   user-select: none;
   display: inline-block;
   float: left;
-  font-size: 22px !important;
-  margin-top: 6px;
-  margin-left: -7px;
+  font-size: 32px !important;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
@@ -584,32 +596,32 @@ img {
 }
 #MenuButton:focus,
 #MobileMenuButton:focus,
-#SidebarMenuButton:focus,
+#StickyMenuButton:focus,
 #MenuButton:active:focus,
 #MobileMenuButton:active:focus,
-#SidebarMenuButton:active:focus,
+#StickyMenuButton:active:focus,
 #MenuButton.active:focus,
 #MobileMenuButton.active:focus,
-#SidebarMenuButton.active:focus {
+#StickyMenuButton.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover,
 #MobileMenuButton:hover,
-#SidebarMenuButton:hover,
+#StickyMenuButton:hover,
 #MenuButton:focus,
 #MobileMenuButton:focus,
-#SidebarMenuButton:focus {
+#StickyMenuButton:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
 #MobileMenuButton:active,
-#SidebarMenuButton:active,
+#StickyMenuButton:active,
 #MenuButton.active,
 #MobileMenuButton.active,
-#SidebarMenuButton.active {
+#StickyMenuButton.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -617,13 +629,13 @@ img {
 }
 #MenuButton.disabled,
 #MobileMenuButton.disabled,
-#SidebarMenuButton.disabled,
+#StickyMenuButton.disabled,
 #MenuButton[disabled],
 #MobileMenuButton[disabled],
-#SidebarMenuButton[disabled],
+#StickyMenuButton[disabled],
 fieldset[disabled] #MenuButton,
 fieldset[disabled] #MobileMenuButton,
-fieldset[disabled] #SidebarMenuButton {
+fieldset[disabled] #StickyMenuButton {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -633,30 +645,30 @@ fieldset[disabled] #SidebarMenuButton {
 }
 #MenuButton .caret,
 #MobileMenuButton .caret,
-#SidebarMenuButton .caret {
+#StickyMenuButton .caret {
   margin-left: 3px;
 }
 @media (min-width: 768px) {
   #MenuButton,
   #MobileMenuButton,
-  #SidebarMenuButton {
+  #StickyMenuButton {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
-    padding: 5px 7px 5px 9px;
+    padding: 0px;
     font-size: 25px;
     position: relative;
   }
   #MenuButton .caret,
   #MobileMenuButton .caret,
-  #SidebarMenuButton .caret {
+  #StickyMenuButton .caret {
     margin-left: 5px;
   }
 }
 #MenuButton:hover,
 #MobileMenuButton:hover,
-#SidebarMenuButton:hover {
+#StickyMenuButton:hover {
   display: inline-block;
   margin-bottom: 0;
   font-weight: normal;
@@ -681,32 +693,32 @@ fieldset[disabled] #SidebarMenuButton {
 }
 #MenuButton:hover:focus,
 #MobileMenuButton:hover:focus,
-#SidebarMenuButton:hover:focus,
+#StickyMenuButton:hover:focus,
 #MenuButton:hover:active:focus,
 #MobileMenuButton:hover:active:focus,
-#SidebarMenuButton:hover:active:focus,
+#StickyMenuButton:hover:active:focus,
 #MenuButton:hover.active:focus,
 #MobileMenuButton:hover.active:focus,
-#SidebarMenuButton:hover.active:focus {
+#StickyMenuButton:hover.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover:hover,
 #MobileMenuButton:hover:hover,
-#SidebarMenuButton:hover:hover,
+#StickyMenuButton:hover:hover,
 #MenuButton:hover:focus,
 #MobileMenuButton:hover:focus,
-#SidebarMenuButton:hover:focus {
+#StickyMenuButton:hover:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:hover:active,
 #MobileMenuButton:hover:active,
-#SidebarMenuButton:hover:active,
+#StickyMenuButton:hover:active,
 #MenuButton:hover.active,
 #MobileMenuButton:hover.active,
-#SidebarMenuButton:hover.active {
+#StickyMenuButton:hover.active {
   outline: 0;
   background-image: none;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -714,13 +726,13 @@ fieldset[disabled] #SidebarMenuButton {
 }
 #MenuButton:hover.disabled,
 #MobileMenuButton:hover.disabled,
-#SidebarMenuButton:hover.disabled,
+#StickyMenuButton:hover.disabled,
 #MenuButton:hover[disabled],
 #MobileMenuButton:hover[disabled],
-#SidebarMenuButton:hover[disabled],
+#StickyMenuButton:hover[disabled],
 fieldset[disabled] #MenuButton:hover,
 fieldset[disabled] #MobileMenuButton:hover,
-fieldset[disabled] #SidebarMenuButton:hover {
+fieldset[disabled] #StickyMenuButton:hover {
   cursor: not-allowed;
   pointer-events: none;
   opacity: 0.65;
@@ -731,17 +743,14 @@ fieldset[disabled] #SidebarMenuButton:hover {
 @media (min-width: 768px) {
   #MenuButton:hover,
   #MobileMenuButton:hover,
-  #SidebarMenuButton:hover {
+  #StickyMenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
     line-height: 1.33;
     border-radius: 6px;
-    padding: 5px 7px 5px 9px;
+    padding: 0px;
     font-size: 25px;
   }
-}
-#MenuButton {
-  margin-top: 2px !important;
 }
 #MobileMenuButton {
   font-size: 18px;
@@ -784,46 +793,70 @@ ul.AutocompleteHeader {
 .level-display {
   margin-left: 3px;
 }
+.level-display .half-circle {
+  width: 31px;
+  height: 31px !important;
+  background-color: #AFD534;
+  border-bottom-right-radius: 110px;
+  border-top-right-radius: 110px;
+  border-bottom: 0;
+}
 .level-display svg {
-  width: 32px;
-  height: 32px;
-}
-.level-display svg.large {
-  width: 90px;
-  height: 90px;
-}
-.level-display svg.large text {
-  font-size: 60px;
-}
-@media (max-width: 767px) {
-  .level-display svg {
-    margin-top: 4px;
-    width: 25px;
-    height: 25px;
-  }
+  margin-top: 4px;
+  width: 25px;
+  height: 25px;
 }
 .level-display circle {
   fill: #AFD534;
 }
 .level-display .level-count {
-  fill: #003264;
-  font-weight: bolder;
-  font-size: 1.3em;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
   text-anchor: middle;
 }
-.Autor-Box {
+#SidebarCards {
   width: 100%;
   font-size: 18px;
-  margin-top: 70px;
   text-align: center;
 }
-@media (max-width: 1199px) {
-  .Autor-Box {
-    display: none;
-  }
+#SidebarCards .card-headline {
+  height: 29px;
+  text-transform: uppercase;
+  color: #9F9F9F;
 }
-.Autor-Box-Name {
+#SidebarCards .card-footer-text {
   margin-top: 15px;
+  color: #0560AB;
+}
+#AutorCard .autor-card-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+}
+#MultipleAutorCard {
+  margin-top: 70px;
+}
+#MultipleAutorCard .multiple-autor-card-image {
+  width: 41.82px;
+  height: 41.82px;
+  border-radius: 50px;
+}
+#CreateCategoryCard {
+  margin-top: 70px;
+}
+#CreateCategoryCard i.fa-plus-square {
+  color: white;
+  position: absolute;
+  margin-top: -19px;
+  font-size: 14px;
+}
+#CreateCategoryCard i.fa-circle {
+  color: #DDDDDD;
+  position: absolute;
+  margin-top: -23.5px;
+  margin-left: -4px;
+  font-size: 23px;
 }
 /* MASTER SECTION
 ----------------------------------------------------------*/
@@ -929,6 +962,152 @@ ul.AutocompleteHeader {
     width: 80%;
   }
 }
+/*******************************************************************/
+/*  Breadcrumbs
+----------------------------------------------------------*/
+/** Default button **/
+.btn-breadcrumb {
+  /** Breadcrumb **/
+  /** The Spacing **/
+}
+.btn-breadcrumb a {
+  text-decoration: underline;
+}
+.btn-breadcrumb a.current {
+  text-decoration: none;
+}
+.btn-breadcrumb .btn:not(:last-child):after {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid white;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  left: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn:not(:last-child):before {
+  content: " ";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 17px solid transparent;
+  border-bottom: 17px solid transparent;
+  border-left: 10px solid #adadad;
+  position: absolute;
+  top: 50%;
+  margin-top: -17px;
+  margin-left: 1px;
+  left: 100%;
+  z-index: 3;
+}
+.btn-breadcrumb .btn {
+  padding: 6px 12px 6px 24px;
+}
+.btn-breadcrumb .btn:first-child {
+  padding: 6px 6px 6px 10px;
+}
+.btn-breadcrumb .btn:last-child {
+  padding: 6px 18px 6px 24px;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):after {
+  border-left: 10px solid #fff;
+}
+.btn-breadcrumb .btn.btn-default:not(:last-child):before {
+  border-left: 10px solid #ccc;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
+  border-left: 10px solid #ebebeb;
+}
+.btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
+  border-left: 10px solid #adadad;
+}
+#Breadcrumb {
+  font-size: 14px;
+  background-color: white;
+  line-height: 1.5em;
+  width: 100%;
+  font-family: sans;
+  padding-top: 17px;
+  padding-bottom: 14px !important;
+  color: #000000 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+  position: unset;
+  z-index: 1;
+  height: 55px;
+  top: 80px;
+  color: #999999;
+}
+#Breadcrumb div {
+  font-family: 'Open Sans';
+  font-weight: bold;
+}
+#Breadcrumb img {
+  width: 29.57px !important;
+  height: 33.08px !important;
+  border-radius: 50%;
+  margin-top: -8px;
+}
+#Breadcrumb i.fa-chevron-right {
+  font-size: 80%;
+  color: #1B3651;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
+}
+#Breadcrumb .category-icon:hover,
+#Breadcrumb .category-icon:focus {
+  text-decoration: none;
+}
+#Breadcrumb i.fa-chevron-right {
+  font-size: 11.2px;
+  width: auto;
+  margin-left: 13px;
+  color: #1B3651;
+  margin-right: 10px;
+  background-color: white;
+  border-radius: 0px;
+  padding: 0px;
+}
+#Breadcrumb .fa-dot-circle {
+  color: #AED71B;
+}
+#Breadcrumb a {
+  color: #1B3651;
+  text-decoration: none;
+  font-family: "Open Sans";
+  font-size: 14px;
+  font-weight: bold;
+}
+#Breadcrumb a:not(.current):hover,
+#Breadcrumb a:not(.current):focus,
+#Breadcrumb a:not(.current):active {
+  color: #1B3651;
+  text-decoration: underline;
+  text-underline-position: alphabetic;
+}
+#Breadcrumb a.current {
+  cursor: default;
+}
+@media (max-width: 1199px) {
+  #Breadcrumb {
+    padding-bottom: 20px;
+  }
+}
+#Breadcrumb #StickyHeaderContainer {
+  margin-left: auto;
+  display: none;
+  margin-top: -19px;
+}
+#Breadcrumb #StickyHeaderContainer .fa {
+  margin-right: 25px;
+  padding-top: 12px;
+}
 #MasterSidebarColumn {
   position: relative;
   min-height: 1px;
@@ -961,147 +1140,6 @@ ul.AutocompleteHeader {
   padding-bottom: 20px;
   padding-top: 25px;
   width: 100% !important;
-  /*******************************************************************/
-  /*  Breadcrumbs
-----------------------------------------------------------*/
-  /** Default button **/
-}
-#MasterMainWrapper .btn-breadcrumb {
-  /** Breadcrumb **/
-  /** The Spacing **/
-}
-#MasterMainWrapper .btn-breadcrumb a {
-  text-decoration: underline;
-}
-#MasterMainWrapper .btn-breadcrumb a.current {
-  text-decoration: none;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:not(:last-child):after {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid white;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  left: 100%;
-  z-index: 3;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:not(:last-child):before {
-  content: " ";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 17px solid transparent;
-  border-bottom: 17px solid transparent;
-  border-left: 10px solid #adadad;
-  position: absolute;
-  top: 50%;
-  margin-top: -17px;
-  margin-left: 1px;
-  left: 100%;
-  z-index: 3;
-}
-#MasterMainWrapper .btn-breadcrumb .btn {
-  padding: 6px 12px 6px 24px;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:first-child {
-  padding: 6px 6px 6px 10px;
-}
-#MasterMainWrapper .btn-breadcrumb .btn:last-child {
-  padding: 6px 18px 6px 24px;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:not(:last-child):after {
-  border-left: 10px solid #fff;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:not(:last-child):before {
-  border-left: 10px solid #ccc;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
-  border-left: 10px solid #ebebeb;
-}
-#MasterMainWrapper .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
-  border-left: 10px solid #adadad;
-}
-#MasterMainWrapper .BreadcrumbsMobile {
-  font-size: 14px;
-  background-color: white;
-  line-height: 1.5em;
-  margin-bottom: 10px;
-  width: 100%;
-  font-family: sans;
-  color: #1B3651 !important;
-  font: bold;
-  color: #999999;
-}
-#MasterMainWrapper .BreadcrumbsMobile div {
-  font-family: 'Open Sans';
-  font-weight: bold;
-}
-#MasterMainWrapper .BreadcrumbsMobile img {
-  min-width: 21px;
-  min-height: 21px;
-  width: 21px !important;
-  height: 21px !important;
-  border-radius: 50%;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-home {
-  width: 21px !important;
-  height: 21px;
-  border-radius: 50px;
-  background-color: #0B335E;
-  color: white;
-  padding-top: 1px;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
-  font-size: 80%;
-  color: #1B3651;
-  margin-right: 10px;
-}
-#MasterMainWrapper .BreadcrumbsMobile .category-icon:hover,
-#MasterMainWrapper .BreadcrumbsMobile .category-icon:focus {
-  text-decoration: none;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa {
-  font-size: 120%;
-  width: 0.9em;
-  text-align: center;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-graduation-cap {
-  width: 1.25em;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-home {
-  width: auto;
-}
-#MasterMainWrapper .BreadcrumbsMobile i.fa-chevron-right {
-  font-size: 80%;
-  width: auto;
-  margin-left: 13px;
-}
-#MasterMainWrapper .BreadcrumbsMobile a {
-  color: #1B3651;
-  text-decoration: none;
-  font-family: "Open Sans";
-  font-size: 14px;
-  font-weight: bold;
-}
-#MasterMainWrapper .BreadcrumbsMobile a:not(.current):hover,
-#MasterMainWrapper .BreadcrumbsMobile a:not(.current):focus,
-#MasterMainWrapper .BreadcrumbsMobile a:not(.current):active {
-  color: #1B3651;
-  text-decoration: underline;
-  text-underline-position: alphabetic;
-}
-#MasterMainWrapper .BreadcrumbsMobile a.current {
-  cursor: default;
-}
-@media (max-width: 1199px) {
-  #MasterMainWrapper .BreadcrumbsMobile {
-    padding-bottom: 20px;
-  }
 }
 #MasterMainWrapper html.flexbox:not(.Explorer):not(.Safari) .CardsLandscape {
   display: flex;
@@ -1656,6 +1694,10 @@ div.box-main .box-content {
 /*Font-awesome icons*/
 i:hover {
   text-decoration: none;
+}
+.TextLinkWithIcon {
+  display: flex !important;
+  flex-direction: column;
 }
 .TextLinkWithIcon .fa-check-square-o,
 .TextLinkWithIcon .fa-square-o {

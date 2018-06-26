@@ -1,12 +1,16 @@
-﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<EditCategoryModel>" %>
+﻿<%@ Page Title="Thema bearbeiten" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<EditCategoryModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryEdit(Url, Model.Name, Model.Category.Id) %>">
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien.aspx"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.CategoryCreate() %>">
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Themen", Url = "/Kategorien/Erstelle", ToolTipText = "Thema erstellen"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Maintenance: ContentCreatedReport" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ContentCreatedReportModel>" %>
+﻿<%@ Page Title="Maintenance: ContentCreatedReport" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<ContentCreatedReportModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 

@@ -1,0 +1,75 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<BaseModel>" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <%--<title><%= Page.Title %></title>--%>
+    <asp:ContentPlaceHolder ID="HeadSEO" runat="server" />
+    <% Html.RenderPartial("Site.Partial.Head", Model); %>
+    <script src='<%: ResolveClientUrl("~/signalr/hubs") %>'></script>
+    <asp:ContentPlaceHolder ID="Head" runat="server" />
+</head>
+<body>
+    <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
+    <% Html.RenderPartial("Site.Partial.MasterHeader");%>   
+    <div id="Breadcrumb">
+        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model.TopNavMenu); %>
+    </div>  
+    <section id="MasterSection">     
+        <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
+        <asp:ContentPlaceHolder ID="SubHeader" runat="server" />
+        <section id="MasterMainContent" class="container">
+            <div class="row">
+                <%if(Model.TopNavMenu.IsCategoryBreadCrumb){ %>
+                <section id="MasterSidebarColumn" >                  
+                    <% Html.RenderPartial("SidebarCards", Model.SidebarModel); %>                                        
+                    <% if (Model.SponsorModel != null && !Model.SponsorModel.IsAdFree)
+                       { %>
+                        <% Html.RenderPartial("SponsorLeft", Model.SponsorModel); %>
+                    <% } %>
+                </section>
+                <%} %>
+                <section id="MasterMainColumn" class="">        
+                    <div id="IsInGameMessage">
+                        <% if(Model.IsInGame){ %>
+                            <% Html.RenderPartial("MessageGame", Model); %>
+                        <% } %>
+                    </div>
+                   
+                    <%-- MAIN CONTENT--%>
+                    <section id="MasterMainWrapper">
+                        <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
+                        <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
+                    </section>
+                    <% Html.RenderPartial("GlobalLicense"); %>
+                </section>
+            </div>
+        </section>
+        
+    </section>
+    <%-- FOOTER--%>
+    <footer id="MasterFooter">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <%// ReSharper disable Asp.NotResolved
+                        Html.RenderPartial(UserControls.MasterFooter); 
+                        // ReSharper restore Asp.NotResolved%>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <% if(Request.IsLocal){ %>
+        <%--<%= MiniProfiler.RenderIncludes() %> --%>
+    <% } %>
+    
+    <% if (!Model.IsLoggedIn) { Html.RenderPartial("Modal_LoggedIn"); } %>
+    <% Html.RenderPartial("UnpinSetModal"); %>
+    <% Html.RenderPartial("UnpinCategoryModal"); %>
+    <% Html.RenderPartial("FeatureNotImplementedModal"); %>
+    <div id="modalLoginContainer"></div>
+    <div id="modalContainer"></div>
+</body>
+</html>
+ 

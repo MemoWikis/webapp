@@ -30,7 +30,7 @@ class MenuMobile {
             }
         });
 
-        $("#SidebarMenuButton").click(() => {
+        $("#StickyMenuButton").click(() => {
             if (this._isOpen) {
                 this.closeMenu();
 

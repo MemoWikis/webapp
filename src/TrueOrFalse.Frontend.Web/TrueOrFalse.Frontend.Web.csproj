@@ -7411,7 +7411,6 @@
     <Content Include="Scripts\hubs\GameHubEvents.js">
       <DependentUpon>GameHubEvents.ts</DependentUpon>
     </Content>
-    <TypeScriptCompile Include="Scripts\Menu-Right.ts" />
     <Content Include="Scripts\vendor.somewhere\d3.js" />
     <Content Include="Images\memucho_MEMO_happy_blau.svg" />
     <Content Include="Scripts\vendor.somewhere\d3v3.js" />
@@ -7455,9 +7454,10 @@
     <Content Include="Views\Categories\Detail\Js\Tabbing.js">
       <DependentUpon>Tabbing.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumbCategories.ascx" />
     <Content Include="Views\Categories\Detail\Partials\MediaListReferenceTitle.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SetCardMiniList.ascx" />
-    <Content Include="Views\Categories\Detail\Partials\BreadCrumbMobile.ascx" />
+    <Content Include="Views\Categories\Detail\Partials\BreadCrumb.ascx" />
     <Content Include="Views\Categories\Detail\Partials\Spacer.ascx" />
     <Content Include="Views\Categories\Detail\Partials\SingleQuestionsQuiz.ascx" />
     <Content Include="Views\Categories\Detail\Partials\CategoryHeader.ascx" />
@@ -7887,6 +7887,7 @@
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
+    <TypeScriptCompile Include="Views\Categories\Detail\Js\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />
@@ -7901,7 +7902,8 @@
       <DependentUpon>YoutubePreview.ts</DependentUpon>
     </Content>
     <Content Include="Views\Shared\CategoryLabel.ascx" />
-    <Content Include="Views\Shared\MenuLeftThemeCentered.ascx" />
+    <Content Include="Views\Shared\MainMenuThemeCentered.ascx" />
+    <Content Include="Views\Shared\SidebarCards.ascx" />
     <Content Include="Views\Sets\Edit\QuestionInSet.ascx" />
     <Content Include="Views\Shared\LinkToTop.ascx" />
     <Content Include="Views\Shared\GlobalLicense.ascx" />
@@ -9128,7 +9130,7 @@
     <Compile Include="Views\Shared\AnswerHistoryModel.cs" />
     <Compile Include="Views\Shared\CorrectnessProbabilityModel.cs" />
     <Compile Include="Views\Images\ImageUpload\ImageUploadController.cs" />
-    <Compile Include="Views\Shared\MenuLeftModel.cs" />
+    <Compile Include="Views\Shared\SidebarModel.cs" />
     <Compile Include="Views\Shared\PagerModel.cs" />
     <Compile Include="Views\Users\Detail\UserController.cs" />
     <Compile Include="Views\Users\Detail\UserModel.cs" />
@@ -9865,7 +9867,7 @@
     <Content Include="Views\Users\Users.aspx" />
     <Content Include="Views\VariousPublic\Imprint.aspx" />
     <Content Include="Views\Questions\Answer\AnswerQuestion.aspx" />
-    <Content Include="Views\Shared\MenuLeft.ascx" />
+    <Content Include="Views\Shared\Sidebar.ascx" />
     <Content Include="Views\VariousPublic\NotDoneYet.aspx" />
     <Content Include="Views\Shared\TopUsers.ascx" />
     <Content Include="Views\About\WelfareCompany.aspx" />
@@ -9881,7 +9883,7 @@
     <Content Include="Views\Questions\Edit\EditQuestion.aspx" />
     <Content Include="Views\Error\_500.aspx" />
     <Content Include="Views\Shared\LogOn.ascx" />
-    <Content Include="Views\Shared\Site.MenuLeft.Master" />
+    <Content Include="Views\Shared\Site.Sidebar.Master" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -9901,6 +9903,7 @@
     <Folder Include="bin\Domain\Message\Types\" />
     <Folder Include="bin\Utilities\Update\Scripts\" />
     <Folder Include="bin\Utilities\Update\SolrSchemas\" />
+    <Folder Include="Views\Categories\Detail\Partials\BreadCrumb\" />
     <Folder Include="Views\Dates\Details\" />
   </ItemGroup>
   <PropertyGroup>

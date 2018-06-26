@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Widget-Statistik" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<WidgetStatsModel>" %>
+﻿<%@ Page Title="Widget-Statistik" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<WidgetStatsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">

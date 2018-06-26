@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<EditSetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
@@ -7,8 +7,12 @@
     <% Title = Model.PageTitle; %>
     <% if (Model.IsEditing) { %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.QuestionSetEdit(Model.Set.Name, Model.Set.Id) %>">
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernset", Url = "/Fragesaetze"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } else {  %>
         <link rel="canonical" href="<%= Settings.CanonicalHost + Links.SetCreate() %>">
+        <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Lernset", Url = "/Fragesaetze/Erstelle", ToolTipText = "Lernset erstellen"});
+           Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
     <% } %>
 </asp:Content>
 

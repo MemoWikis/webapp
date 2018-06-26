@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Thema" Language="C#"
-    MasterPageFile="~/Views/Shared/Site.MenuLeft.Master"
+    MasterPageFile="~/Views/Shared/Site.Sidebar.Master"
     Inherits="ViewPage<TopicModel>" %>
     <%@ Import Namespace="System.Web.Optimization" %>
     <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Hilfe & FAQ" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<HelpModel>" %>
+﻿<%@ Page Title="Hilfe & FAQ" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<HelpModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
@@ -8,12 +8,14 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="Head" runat="server">
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "", Url = "/FAQ.aspx"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 <script type="text/javascript" >
 
     /* Source http://www.html-advisor.com/javascript/hide-email-with-javascript-jquery/ */
     $(function () {
         var spt = $('span.mailme');
-        var at = / at /;
+        var at = / at /;>
         var dot = / dot /g;
         var addr = $(spt).text().replace(at, "@").replace(dot, ".");
         $(spt).after('<a href="mailto:' + addr + '" title="Send an email">' + addr + '</a>').hover(function () { window.status = "Send a letter!"; }, function () { window.status = ""; });

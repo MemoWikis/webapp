@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<SetModel>" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="ViewPage<SetModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
@@ -18,12 +18,15 @@
 <asp:Content ID="head" ContentPlaceHolderID="Head" runat="server">
     <%= Styles.Render("~/bundles/Set") %>
     <%= Scripts.Render("~/bundles/js/Set") %>
-    
+    <% Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb = true; 
+       Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem {Text = Model.Name});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false;%>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <% Model.SidebarModel.CardFooterText = Model.CreatorName; 
+       Model.SidebarModel.AutorImageUrl = Model.ImageUrl_250; %>    
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">   
     <input type="hidden" id="hhdSetId" value="<%= Model.Set.Id %>"/>
     <input type="hidden" id="hhdHasVideo" value="<%= Model.Set.HasVideo %>"/>
 

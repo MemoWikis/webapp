@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Maintenance: ContentStats" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="System.Web.Mvc.ViewPage<ContentStatsModel>" %>
+﻿<%@ Page Title="Maintenance: ContentStats" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" Inherits="System.Web.Mvc.ViewPage<ContentStatsModel>" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <asp:Content ID="Content2" runat="server" ContentPlaceHolderID="Head">

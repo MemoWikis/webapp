@@ -1,11 +1,13 @@
-﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" 
+﻿<%@ Page Title="Über memucho" Language="C#" MasterPageFile="~/Views/Shared/Site.Sidebar.Master" 
     Inherits="System.Web.Mvc.ViewPage<AboutMemuchoModel>" %>
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="Head" runat="server">
     <link href="/Views/About/AboutMemucho.css" rel="stylesheet" />
-</asp:Content>
+    <% Model.TopNavMenu.BreadCrumb.Add(new TopNavMenuItem{Text = "Über memucho", Url = "/Ueber-memucho", ToolTipText = "Über memucho"});
+       Model.TopNavMenu.IsCategoryBreadCrumb = false; %>
 
+</asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 

@@ -26,6 +26,7 @@ public class SetModel : BaseModel
     public string CreatorName;
     public string CreationDate;
     public string CreationDateNiceText;
+    public string ImageUrl_250;
 
     public ImageFrontendData ImageFrontendData;
 
@@ -78,6 +79,9 @@ public class SetModel : BaseModel
         CreatorName = set.Creator.Name;
         CreationDate = set.DateCreated.ToString("dd.MM.yyyy HH:mm:ss");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(set.DateCreated);
+
+        var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
+        ImageUrl_250 = imageResult.Url;
 
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(set.Id, ImageType.QuestionSet);
         ImageFrontendData = new ImageFrontendData(imageMetaData);

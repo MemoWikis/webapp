@@ -23,6 +23,8 @@ public class AnswerQuestionModel : BaseModel
     public string CreatorId { get; private set; }
     public string CreatorName { get; private set; }
 
+    public string ImageUrl_250;
+
     public string PageCurrent;
     public string PagesTotal;
     public string PagerKey;
@@ -289,6 +291,9 @@ public class AnswerQuestionModel : BaseModel
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(question.DateCreated);
 
         IsOwner = _sessionUser.IsLoggedInUserOrAdmin(question.Creator.Id);
+
+        var imageResult = new UserImageSettings(Creator.Id).GetUrl_250px(Creator);
+        ImageUrl_250 = imageResult.Url;
 
         QuestionId = question.Id;
         QuestionText = question.Text;

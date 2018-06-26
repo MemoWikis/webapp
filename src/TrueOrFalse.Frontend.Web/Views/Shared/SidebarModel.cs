@@ -1,12 +1,29 @@
-﻿public class MenuLeftModel : BaseResolve
+﻿using System.Collections.Generic;
+
+public class SidebarModel : BaseResolve 
 {
     public int WishKnowledgeCount;
     public bool IsInstallationAdmin;
     public Menu Menu;
 
+    protected SessionUser _sessionUser => Resolve<SessionUser>();
+    public bool IsLoggedIn => _sessionUser.IsLoggedIn;
+
+    public bool HasKnowledgeBtnText = false;
+    public string KnowldegeBtnText;
+
     public int UnreadMessageCount = 0;
 
-    public MenuLeftModel()
+    public string CardFooterText;
+    public string AutorImageUrl;
+    public string CreatorName;
+
+    public CategoryNavigationModel categoryNavigationModel;
+
+    public List<string> MultipleCreatorName = new List<string>();
+    public List<string> MultipleImageUrl = new List<string>();
+
+    public SidebarModel()
     {
         var userSession = Resolve<SessionUser>();
         var sessionUiData= Resolve<SessionUiData>();
