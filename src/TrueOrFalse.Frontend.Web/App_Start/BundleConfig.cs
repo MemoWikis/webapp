@@ -273,7 +273,10 @@ namespace TrueOrFalse.View
                 .Include("~/Scripts/various/mailto.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/_dashboard")
-                .Include("~/Views/Dates/Js/*.js"));
+                .Include("~/Views/Dates/Js/DateRow.js")
+                .Include("~/Views/Dates/Js/DateRowDelete.js")
+                .Include("~/Views/Dates/Js/TrainingSettings.js")
+                .Include("~/Views/Dates/Js/DateRowCopy.js"));
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
                 .Include("~/Views/Knowledge/Css/_dashBoard.css"));

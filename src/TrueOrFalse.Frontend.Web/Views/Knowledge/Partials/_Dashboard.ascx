@@ -277,7 +277,7 @@
                         {
                             index++;
                         %>
-                        <div class="row" style="margin-bottom: 3px;">
+                        <div class="row" style="margin-bottom: 3px;" data-date-id="<%= Model.DateRowModelList[index -1 ].Date.Id%>">
                             <div class="col-xs-2">
                                 <div id="chartKnowledgeDate<%=index %>"></div>
                             </div>
@@ -337,6 +337,9 @@
                                 <!-- traning.ts is missing -->
                                 <a href="#modalTraining" class="btn btn-default btn-sm" data-dateId="<%=  Model.DateRowModelList[index -1 ].Date.Id %>">   
                                     <i class="fa fa-pencil" style="font-size: 0.7em" > Details &amp; bearbeiten</i>
+                                </a>
+                                <a data-toggle="modal" data-dateId="<%= date.Id %>" href="#modalDelete">
+                                    <i class="fa fa-trash-o"></i>
                                 </a>
                             </div>  
                         </div>  
