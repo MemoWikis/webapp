@@ -30,8 +30,6 @@
         }
     }
 
-
-
     @media only screen and (max-width: 970px) {
         [class*="col-"] {
             width: 100%;
@@ -123,9 +121,11 @@
 
     .col-xs-4 {
         margin-top: -117px;
+        height: 797px;
 
         @media only screen and (max-width: 970px) {
             margin-top: 40px;
+            height: auto;
         }
 
         .col-xs-3 {
@@ -145,24 +145,33 @@
                 height: 40px;
                 width: 40px;
             }
-
-            #textNetzwerk {
-            }
         }
     }
 }
 
-//third-row
+
 
 .third-row {
+    @media only screen and (max-width: 970px) {
+        [class*="col-"] {
+            width: 100%;
+            text-align: center;
+            align-content: center;
+            text-align: center;
+        }
+    }
+
     .col-xs-8 {
         margin-top: -390px;
+        @media only screen and (max-width: 970px) {
+            margin-top:30px;
+        }
 
-        .first-cell {
-            .label-set {
-                font-size: 70%;
-                width: 110px;
+            .first-cell {
+                .label-set {
+                    font-size: 70%;
+                    width: 110px;
+                }
             }
         }
     }
-}

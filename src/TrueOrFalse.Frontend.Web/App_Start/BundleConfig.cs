@@ -276,6 +276,7 @@ namespace TrueOrFalse.View
                 .Include("~/Views/Dates/Js/DateRow.js")
                 .Include("~/Views/Dates/Js/DateRowDelete.js")
                 .Include("~/Views/Dates/Js/TrainingSettings.js")
+                .Include("~/Views/Dates/Js/PreviousDates.js")
                 .Include("~/Views/Dates/Js/DateRowCopy.js"));
 
             bundles.Add(new StyleBundle("~/bundles/_dashboard")

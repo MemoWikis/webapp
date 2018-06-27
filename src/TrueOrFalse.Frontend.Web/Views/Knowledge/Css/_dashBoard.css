@@ -98,10 +98,12 @@
 }
 .second-row .col-xs-4 {
   margin-top: -117px;
+  height: 797px;
 }
 @media only screen and (max-width: 970px) {
   .second-row .col-xs-4 {
     margin-top: 40px;
+    height: auto;
   }
 }
 .second-row .col-xs-4 .col-xs-3 {
@@ -119,8 +121,20 @@
     width: 40px;
   }
 }
+@media only screen and (max-width: 970px) {
+  .third-row [class*="col-"] {
+    width: 100%;
+    align-content: center;
+    text-align: center;
+  }
+}
 .third-row .col-xs-8 {
   margin-top: -390px;
+}
+@media only screen and (max-width: 970px) {
+  .third-row .col-xs-8 {
+    margin-top: 30px;
+  }
 }
 .third-row .col-xs-8 .first-cell .label-set {
   font-size: 70%;
