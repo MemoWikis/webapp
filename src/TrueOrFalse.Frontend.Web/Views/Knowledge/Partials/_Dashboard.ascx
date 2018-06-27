@@ -150,6 +150,8 @@
      </script>
 
 <input type="hidden" id="hddCountDates" value="<%=Model.Dates.Count %>"/>
+<input type="hidden" id="hddUserId" value="<%=Model.UserId %>"/>
+
 <div class="container-fluid">
     <div class="row first-row">
         <div class="col-xs-3 " >
@@ -214,12 +216,9 @@
                 </div>
             </div>
         </div>
-      
         <div class="col-xs-4">
-       
                 <h3>Im Netzwerk</h3>
                         <p class="greyed" style="font-size: 12px;"><a href="<%= Url.Action("Network", "Users") %>">Zu deinem Netzwerk</a></p>
-       
        
                         <% if (Model.NetworkActivities.Count == 0)
                             { %>
@@ -257,73 +256,68 @@
              <div>
                 <h3 >Termine</h3>
                 <p class="greyed" style="font-size: 12px;"><a href="<%= Links.Dates() %>">Zur Terminübersicht</a></p>
-                <% if (Model.Dates.Count == 0)
-                    { %>
-                    <p>
-                        Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
-                    </p>
-                    <p>
-                        <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm">
-                            <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
-                        </a>
-                    </p>
-                    <hr style="margin: 5px 0px;"/>
-                <% }
-                    else
-                    { %>
-                    <%
-                        var index = 0;
-                        foreach (var date in Model.Dates.Take(3))
-                        {
-                            index++;
-                        %>
-                        <div class="row" style="margin-bottom: 3px;" data-date-id="<%= Model.DateRowModelList[index -1 ].Date.Id%>">
-                            <div class="col-xs-2">
-                                <div id="chartKnowledgeDate<%=index %>"></div>
-                            </div>
-                            <div class="col-xs-3 first-cell">
+                <p id="noOpenDates">
+                    Du hast momentan keine offenen Termine. Termine helfen dir dabei, dich optimal auf eine Prüfung vorzubereiten.
+                </p>
+                <p>
+                    <a href="<%= Url.Action("Create", "EditDate") %>" class="btn btn-sm">
+                        <i class="fa fa-plus-circle"></i>&nbsp;Termin erstellen
+                    </a>
+                </p>
+                <hr style="margin: 5px 0px;"/>
+                
+                <% var index = 0;
+                    foreach (var date in Model.Dates.Take(3))
+                    {
+                        index++;
+                    %>
+                    <div class="row" style="margin-bottom: 3px;" data-date-id="<%= Model.DateRowModelList[index -1 ].Date.Id%>">
+                        <div class="col-xs-2">
+                            <div id="chartKnowledgeDate<%=index %>"></div>
+                        </div>
+                        <div class="col-xs-3 first-cell">
                                
-                                <% if(Model.Dates[index-1].Remaining().TotalSeconds < 0 ){
+                            <% if(Model.Dates[index-1].Remaining().TotalSeconds < 0 ){
                                                     
-                                       Response.Write("Vorbei seit ");
-                                   }else { 
-                                       Response.Write("Noch ");
-                                   }  %>
+                                    Response.Write("Vorbei seit ");
+                                }else { 
+                                    Response.Write("Noch ");
+                                }  %>
                                              
-                                <%= Model.Dates[index-1].RemainingLabel().Value %> 
-                                <% Response.Write(Model.Dates[index-1].RemainingLabel().Label); %><br/>
+                            <%= Model.Dates[index-1].RemainingLabel().Value %> 
+                            <% Response.Write(Model.Dates[index-1].RemainingLabel().Label); %><br/>
                                    
-                                <% if(Model.Dates[index-1].Remaining().TotalSeconds < 0 ){ %>
-                                    <span style="font-size: 11px">Termin war am <br/></span> 
-                                <% }else{ %>
-                                    <span style="font-size: 11px">bis Termin am <br/></span> 
-                                <% } %>
-                                <span style="font-size: 11px;">
-                                    <%= date.DateTime.ToString("dd.MM.yyy HH:mm") %>
-                                </span>
-                            </div>
-                            <div class="col-xs-4">
-                                <div>ca. <span class="TPTrainingDateCount"><%= Model.Dates[index-1].TrainingPlan.OpenDates.Count %></span> Lernsitzungen</div>
-                                <div>ca. <span class="TPRemainingTrainingTime"><%= Model.Dates[index-1].TrainingPlan.TimeRemaining %></span> Lernzeit</div>
-                                <div>
-                                    <% if(Model.Dates[0].HasOpenDates) {
-                                           var timeSpanLabel = new TimeSpanLabel(Model.Dates[index-1].TrainingPlan.TimeToNextDate, showTimeUnit: true);
-                                           if (timeSpanLabel.TimeSpanIsNegative) { %>
+                            <% if(Model.Dates[index-1].Remaining().TotalSeconds < 0 ){ %>
+                                <span style="font-size: 11px">Termin war am <br/></span> 
+                            <% }else{ %>
+                                <span style="font-size: 11px">bis Termin am <br/></span> 
+                            <% } %>
+                            <span style="font-size: 11px;">
+                                <%= date.DateTime.ToString("dd.MM.yyy HH:mm") %>
+                            </span>
+                        </div>
+                        <div class="col-xs-4">
+                            <div>ca. <span class="TPTrainingDateCount"><%= Model.Dates[index-1].TrainingPlan.OpenDates.Count %></span> Lernsitzungen</div>
+                            <div>ca. <span class="TPRemainingTrainingTime"><%= Model.Dates[index-1].TrainingPlan.TimeRemaining %></span> Lernzeit</div>
+                            <div>
+                                <% if(Model.Dates[0].HasOpenDates) {
+                                        var timeSpanLabel = new TimeSpanLabel(Model.Dates[index-1].TrainingPlan.TimeToNextDate, showTimeUnit: true);
+                                        if (timeSpanLabel.TimeSpanIsNegative) { %>
                                
-                                             <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>"><i class="fa fa-bell"> </i>&nbsp;Jetzt lernen!</a><br/>
-                                        <% } else { %>
-                                            <i class="fa fa-bell"> </i> nächste Lernsitzung <br/>
-                                            in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
-                                        <% }
-                                           if (!timeSpanLabel.TimeSpanIsNegative)
-                                           {
-                                        %>
+                                            <a style="display: inline-block;" data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>"><i class="fa fa-bell"> </i>&nbsp;Jetzt lernen!</a><br/>
+                                    <% } else { %>
+                                        <i class="fa fa-bell"> </i> nächste Lernsitzung <br/>
+                                        in <span class="TPTimeToNextTrainingDate"><%= timeSpanLabel.Full %></span> 
+                                    <% }
+                                        if (!timeSpanLabel.TimeSpanIsNegative)
+                                        {
+                                    %>
                                         
-                                        (<span class="TPQuestionsInNextTrainingDate"><%= Model.Dates[index - 1].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
-                                        <% }
-                                       } %>
-                                </div>
+                                    (<span class="TPQuestionsInNextTrainingDate"><%= Model.Dates[index - 1].TrainingPlan.QuestionCountInNextDate %></span> Fragen)
+                                    <% }
+                                    } %>
                             </div>
+                        </div>
                             <div class="col-xs-3 third-cell">
                                 <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" class="btn btn-primary btn-sm" style=" display: inline-block;">
                                     <i class="fa fa-line-chart"></i> 
@@ -342,9 +336,6 @@
                                 </a>
                             </div>  
                         </div>  
-                        <div class="row">
-                                                         
-                        </div>
                         <hr style="margin: 8px 0;"/>  
                     <% } %>
                     <% if (Model.Dates.Count > 3)
@@ -352,7 +343,6 @@
                         <a href="<%= Links.Dates() %>">Du hast <%= (Model.Dates.Count - 3) %> <%= StringUtils.PluralSuffix(Model.Dates.Count - 3,"weitere Termine","weiteren Termin") %></a>
                         <hr style="margin: 8px 0px;"/>
                     <% } %>
-                <% } %>
                  <p>
                     <% if (Model.DatesInNetwork.Count > 0)
                         { %>

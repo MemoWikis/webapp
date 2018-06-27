@@ -155,3 +155,6 @@
     margin-left: 5px;
   }
 }
+.third-row .col-xs-8 #noOpenDates {
+  display: none;
+}

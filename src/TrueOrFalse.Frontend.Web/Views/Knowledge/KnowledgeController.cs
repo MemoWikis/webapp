@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class KnowledgeController : BaseController
@@ -73,10 +74,10 @@ public class KnowledgeController : BaseController
         }
     }
 
-    public int GetDatesCount(int userId)
+    public int GetDatesCount(string userId)
     {
-        var Dates = R<DateRepo>().GetBy(UserId, true);
-        return Dates.Count;
+        var Dates = R<DateRepo>().GetBy(Int32.Parse(userId), true);
+        return Dates.Count -1; // if last date is deleted counter is still 1  
+        //after deleting, however, there is no longer an appointment
     }
-
 }
