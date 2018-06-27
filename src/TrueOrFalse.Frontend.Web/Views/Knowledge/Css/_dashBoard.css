@@ -144,6 +144,7 @@
 @media only screen and (max-width: 970px) {
   .third-row .col-xs-8 .third-cell #detailsToEdit {
     margin-left: 5px;
+    margin-top: 0px;
   }
 }
 .third-row .col-xs-8 .third-cell #startGame {

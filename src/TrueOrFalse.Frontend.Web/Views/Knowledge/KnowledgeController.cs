@@ -73,4 +73,10 @@ public class KnowledgeController : BaseController
         }
     }
 
+    public int GetDatesCount(int userId)
+    {
+        var Dates = R<DateRepo>().GetBy(UserId, true);
+        return Dates.Count;
+    }
+
 }

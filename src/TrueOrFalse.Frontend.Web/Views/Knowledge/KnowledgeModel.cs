@@ -122,6 +122,7 @@ public class KnowledgeModel : BaseModel
             TrainingDates.Add(new TrainingDateModel(tdTrainingDate));
         }
 
+        //Add DateRowModel to List
         foreach (var date in Dates)
         {
             DateRowModelList.Add(new DateRowModel(date));
