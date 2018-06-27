@@ -217,38 +217,18 @@ img {
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-  margin-left: 115px;
-  margin-top: 2px;
-  left: 30px;
+  left: 115px;
+  margin-top: 17px;
+  width: 262.41px;
 }
 @media (max-width: 1199px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
     width: 262.41px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 992px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    margin-top: 0px;
-  }
-}
-@media (max-width: 690px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 180px;
-  }
-}
-@media (max-width: 390px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 160px;
-  }
-}
-@media (max-width: 370px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 120px;
-  }
-}
-@media (max-width: 320px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 120px;
+    display: none;
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
@@ -289,8 +269,8 @@ img {
   float: left;
   color: #FFD700;
   font-size: 14px;
-  margin-top: -5px;
-  margin-left: 7px;
+  margin-top: 12px;
+  margin-left: 7.74px;
   z-index: 1;
 }
 #BetaLogo:hover,
@@ -317,9 +297,9 @@ img {
   margin-top: 9px;
   height: 57.33px;
 }
-@media (max-width: 991px) {
+@media (max-width: 991.5px) {
   #Pictogram {
-    display: none;
+    display: none !important;
   }
 }
 #Pictogram img {
@@ -330,8 +310,9 @@ img {
   top: -2px;
 }
 #Wordmark {
-  height: 100%;
+  height: 49.02px;
   float: left;
+  margin-top: 14.26px;
   /*.media-below-xs ({
         display: none;
     });*/
@@ -360,7 +341,7 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 991px) {
+@media (max-width: 992px) {
   #Login {
     display: none !important;
   }
@@ -374,6 +355,25 @@ img {
   #loginAndHelp {
     margin-top: 1px;
   }
+}
+#loginAndHelp .badge {
+  height: 19px;
+  padding: 0px;
+  padding-top: 1px;
+  line-height: 14px;
+  font-size: 10px !important;
+  left: 10px;
+  min-width: 19px;
+  display: inline-block;
+  position: relative;
+  border: 1.5px solid #003264;
+  margin-top: -9px;
+}
+#loginAndHelp .dropdown-badge {
+  line-height: 16px !important;
+  left: -9px;
+  margin-top: -2px;
+  border: 1px solid #FFFFFF;
 }
 #loginAndHelp .header-item {
   display: flex;
@@ -456,7 +456,7 @@ img {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 991px) {
+@media (max-width: 992px) {
   #loginAndHelp .TextSpan,
   #loginAndHelp span:not(.level-display) {
     display: none;
@@ -563,7 +563,6 @@ img {
   font-size: 25px;
 }
 #MenuButton,
-#MobileMenuButton,
 #StickyMenuButton {
   margin-bottom: 0;
   font-weight: normal;
@@ -595,32 +594,25 @@ img {
   text-shadow: none;
 }
 #MenuButton:focus,
-#MobileMenuButton:focus,
 #StickyMenuButton:focus,
 #MenuButton:active:focus,
-#MobileMenuButton:active:focus,
 #StickyMenuButton:active:focus,
 #MenuButton.active:focus,
-#MobileMenuButton.active:focus,
 #StickyMenuButton.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover,
-#MobileMenuButton:hover,
 #StickyMenuButton:hover,
 #MenuButton:focus,
-#MobileMenuButton:focus,
 #StickyMenuButton:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
-#MobileMenuButton:active,
 #StickyMenuButton:active,
 #MenuButton.active,
-#MobileMenuButton.active,
 #StickyMenuButton.active {
   outline: 0;
   background-image: none;
@@ -628,13 +620,10 @@ img {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton.disabled,
-#MobileMenuButton.disabled,
 #StickyMenuButton.disabled,
 #MenuButton[disabled],
-#MobileMenuButton[disabled],
 #StickyMenuButton[disabled],
 fieldset[disabled] #MenuButton,
-fieldset[disabled] #MobileMenuButton,
 fieldset[disabled] #StickyMenuButton {
   cursor: not-allowed;
   pointer-events: none;
@@ -644,13 +633,11 @@ fieldset[disabled] #StickyMenuButton {
   box-shadow: none;
 }
 #MenuButton .caret,
-#MobileMenuButton .caret,
 #StickyMenuButton .caret {
   margin-left: 3px;
 }
 @media (min-width: 768px) {
   #MenuButton,
-  #MobileMenuButton,
   #StickyMenuButton {
     padding: 10px 16px;
     font-size: 18px;
@@ -661,13 +648,11 @@ fieldset[disabled] #StickyMenuButton {
     position: relative;
   }
   #MenuButton .caret,
-  #MobileMenuButton .caret,
   #StickyMenuButton .caret {
     margin-left: 5px;
   }
 }
 #MenuButton:hover,
-#MobileMenuButton:hover,
 #StickyMenuButton:hover {
   display: inline-block;
   margin-bottom: 0;
@@ -692,32 +677,25 @@ fieldset[disabled] #StickyMenuButton {
   font-size: 18px;
 }
 #MenuButton:hover:focus,
-#MobileMenuButton:hover:focus,
 #StickyMenuButton:hover:focus,
 #MenuButton:hover:active:focus,
-#MobileMenuButton:hover:active:focus,
 #StickyMenuButton:hover:active:focus,
 #MenuButton:hover.active:focus,
-#MobileMenuButton:hover.active:focus,
 #StickyMenuButton:hover.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover:hover,
-#MobileMenuButton:hover:hover,
 #StickyMenuButton:hover:hover,
 #MenuButton:hover:focus,
-#MobileMenuButton:hover:focus,
 #StickyMenuButton:hover:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:hover:active,
-#MobileMenuButton:hover:active,
 #StickyMenuButton:hover:active,
 #MenuButton:hover.active,
-#MobileMenuButton:hover.active,
 #StickyMenuButton:hover.active {
   outline: 0;
   background-image: none;
@@ -725,13 +703,10 @@ fieldset[disabled] #StickyMenuButton {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton:hover.disabled,
-#MobileMenuButton:hover.disabled,
 #StickyMenuButton:hover.disabled,
 #MenuButton:hover[disabled],
-#MobileMenuButton:hover[disabled],
 #StickyMenuButton:hover[disabled],
 fieldset[disabled] #MenuButton:hover,
-fieldset[disabled] #MobileMenuButton:hover,
 fieldset[disabled] #StickyMenuButton:hover {
   cursor: not-allowed;
   pointer-events: none;
@@ -742,7 +717,6 @@ fieldset[disabled] #StickyMenuButton:hover {
 }
 @media (min-width: 768px) {
   #MenuButton:hover,
-  #MobileMenuButton:hover,
   #StickyMenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
@@ -750,41 +724,6 @@ fieldset[disabled] #StickyMenuButton:hover {
     border-radius: 6px;
     padding: 0px;
     font-size: 25px;
-  }
-}
-#MobileMenuButton {
-  font-size: 18px;
-  display: none;
-  color: #e7ecf6;
-  font-size: 18px !important;
-  margin-bottom: 0;
-  font-weight: normal;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  float: left;
-  margin-top: 4px;
-  margin-left: -7px;
-  padding: 3px 3px 3px 7px;
-  margin-right: 10px;
-  background-color: transparent;
-  background-image: none;
-  border-color: transparent;
-  box-shadow: none;
-  -webkit-text-shadow: none;
-  text-shadow: none;
-}
-@media (max-width: 767px) {
-  #MobileMenuButton {
-    display: block;
   }
 }
 ul.AutocompleteHeader {
@@ -1039,6 +978,7 @@ ul.AutocompleteHeader {
   position: unset;
   z-index: 1;
   height: 55px;
+  white-space: nowrap;
   top: 80px;
   color: #999999;
 }
