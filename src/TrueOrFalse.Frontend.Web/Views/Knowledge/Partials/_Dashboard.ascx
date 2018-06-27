@@ -149,7 +149,7 @@
          }
      </script>
 
-
+<input type="hidden" id="hddCountDates" value="<%=Model.Dates.Count %>"/>
 <div class="container-fluid">
     <div class="row first-row">
         <div class="col-xs-3 " >
@@ -324,22 +324,21 @@
                                        } %>
                                 </div>
                             </div>
-                            <div class="col-xs-3">
-                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." style="display: inline-block;">
-                                    <i class="fa fa-gamepad " style="font-size: 18px;"></i>
-                                    Spiel starten
-                                </a>
-                                &nbsp;
-                                <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" class="btn btn-primary btn-sm" style="margin-top: 17px; display: inline-block;">
+                            <div class="col-xs-3 third-cell">
+                                <a data-btn="startLearningSession" href="/Termin/Lernen/<%=date.Id %>" class="btn btn-primary btn-sm" style=" display: inline-block;">
                                     <i class="fa fa-line-chart"></i> 
                                     Jetzt lernen
                                 </a>
                                 <!-- traning.ts is missing -->
-                                <a href="#modalTraining" class="btn btn-default btn-sm" data-dateId="<%=  Model.DateRowModelList[index -1 ].Date.Id %>">   
+                                <a href="#modalTraining" class="btn btn-default btn-sm" data-dateId="<%=  Model.DateRowModelList[index -1 ].Date.Id %>" id="detailsToEdit">   
                                     <i class="fa fa-pencil" style="font-size: 0.7em" > Details &amp; bearbeiten</i>
                                 </a>
+                                <a href="<%= Links.GameCreateFromDate(date.Id) %>" class="btn btn-link btn-sm show-tooltip" data-original-title="Spiel mit Fragen aus diesem Termin starten." id="startGame" >
+                                    <i class="fa fa-gamepad " style="font-size: 18px;"></i>
+                                    Spiel starten
+                                </a>
                                 <a data-toggle="modal" data-dateId="<%= date.Id %>" href="#modalDelete">
-                                    <i class="fa fa-trash-o"></i>
+                                    <i class="fa fa-trash-o"> Termin löschen</i> 
                                 </a>
                             </div>  
                         </div>  
