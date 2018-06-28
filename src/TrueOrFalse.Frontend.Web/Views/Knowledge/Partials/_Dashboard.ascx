@@ -152,7 +152,7 @@
 
          }
      </script>
-
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
 <input type="hidden" id="hddCountDates" value="<%=Model.Dates.Count %>"/>
 <input type="hidden" id="hddUserId" value="<%=Model.UserId %>"/>
 
@@ -177,25 +177,25 @@
         <div class="col-xs-3">
             <span>
                 <h3>Deine Reputation</h3>
-                
                 <p>
-                    Reputation: <b><%= Model.ReputationTotal %> Punkte</b>
-                    <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>
-                    <br/>
-                    Position: <%= Model.ReputationRank %><br/>
-                    Erstellte Fragen: <%= Model.QuestionsCreatedCount %><br/>
-                    Erstellte Lernsets: <%= Model.SetsCreatedCount %>
-                </p>
-
-                <p class="moreInfoLink">
                     <a href="<%= Links.UserDetail(Model.User) %>">Details auf deiner Profilseite</a>
                 </p>
+                <p>
+                    <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span>erstellte Themen</span><br/>
+                    <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span>erstellte Lernsets</span><br/>
+                    <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span>erstellte Fragen</span> <br/>
+                    <b>(<%= Model.ReputationTotal %> ReputationsPunkte)</b>
+                    </p>
+             <%--   <p>
+                    <i class="fa fa-question-circle show-tooltip" data-original-title="Reputationspunkte erhältst du, wenn du gute Lerninhalte erstellst und andere damit lernen."></i>
+                    <br/>
+                </p>--%>
             </span>
         </div>
         
         <div class="col-xs-5">
-            <h3>Deine Lernpunkte</h3>
-            <div style="text-align: center;">
+            <h3 >Dein erreichtes Level</h3>
+            <div  class="learn-points">
                 <span class="level-display">
                     <span style="display: inline-block; white-space: nowrap;">
                         <svg class="">

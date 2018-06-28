@@ -22,6 +22,8 @@ public class KnowledgeModel : BaseModel
 
     public int QuestionsCount;
     public int QuestionsCreatedCount;
+    public int TopicCreatedCount;
+
     public int SetsCount;
     public int SetsCreatedCount;
     public int TopicCount;
@@ -37,7 +39,6 @@ public class KnowledgeModel : BaseModel
     public User User = new User();
     public int ReputationRank;
     public int ReputationTotal;
-
     public IList<object> CatsAndSetsWish;
 
     public UIMessage Message;
@@ -76,10 +77,12 @@ public class KnowledgeModel : BaseModel
 
         QuestionsCreatedCount = Resolve<UserSummary>().AmountCreatedQuestions(UserId);
         SetsCreatedCount = Resolve<UserSummary>().AmountCreatedSets(UserId);
+        TopicCreatedCount = Resolve<UserSummary>().AmountCreatedCategories(User.Id);
 
         var reputation = Resolve<ReputationCalc>().Run(User);
         ReputationRank = User.ReputationPos;
         ReputationTotal = reputation.TotalReputation;
+        
 
         var msg = new RecalcProbabilitiesMsg {UserId = UserId};
         //Bus.Get().Publish(msg);

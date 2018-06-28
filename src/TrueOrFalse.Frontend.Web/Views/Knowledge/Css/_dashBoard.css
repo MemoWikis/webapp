@@ -1,4 +1,7 @@
-﻿.first-row h3 {
+﻿h3 {
+  color: #003264;
+}
+.first-row h3 {
   margin-top: 0px;
 }
 .first-row .bold {
@@ -42,6 +45,13 @@
   .second-row .col-xs-3 {
     margin-top: 30px;
   }
+}
+.second-row .col-xs-3 .reputation-number {
+  font-size: 2em;
+  margin-right: 0.3em;
+}
+.second-row .col-xs-3 span {
+  font-size: 1.1em;
 }
 .second-row .col-xs-5 {
   margin-top: 50px;
@@ -95,6 +105,9 @@
 .second-row .col-xs-5 .ProgressBarContainer,
 .second-row .col-xs-5 .ProgressBarSegment {
   height: 30px;
+}
+.second-row .col-xs-5 .learn-points {
+  text-align: center;
 }
 .second-row .col-xs-4 {
   margin-top: -117px;

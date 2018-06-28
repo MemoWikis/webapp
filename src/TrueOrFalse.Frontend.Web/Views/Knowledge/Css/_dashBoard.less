@@ -1,5 +1,11 @@
-﻿//Dashboard.ascx
-//first-row
+﻿// variables
+@bluefont: #003264;
+
+
+h3 {
+    color: @bluefont;
+}
+
 .first-row {
     h3 {
         margin-top: 0px;
@@ -52,6 +58,15 @@
 
         @media only screen and (max-width: 970px) {
             margin-top: 30px;
+        }
+
+        .reputation-number {
+            font-size: 2em;
+            margin-right: 0.3em;
+        }
+
+        span {
+            font-size: 1.1em;
         }
     }
 
@@ -116,6 +131,10 @@
 
         .ProgressBarContainer, .ProgressBarSegment {
             height: 30px;
+        }
+
+        .learn-points {
+            text-align: center;
         }
     }
 
@@ -190,7 +209,7 @@
         }
 
         #noOpenDates {
-            display:none;
+            display: none;
         }
     }
 }
