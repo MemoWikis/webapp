@@ -184,6 +184,7 @@
                     <b class="reputation-number"><%= Model.TopicCreatedCount %></b><span>erstellte Themen</span><br/>
                     <b class="reputation-number"><%= Model.SetsCreatedCount %></b><span>erstellte Lernsets</span><br/>
                     <b class="reputation-number"><%= Model.QuestionsCreatedCount %></b><span>erstellte Fragen</span> <br/>
+                    <h3 id="rang">Rang <%=Model.ReputationRank %></h3>
                     <b>(<%= Model.ReputationTotal %> ReputationsPunkte)</b>
                     </p>
              <%--   <p>
