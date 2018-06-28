@@ -135,22 +135,27 @@
                  isStacked: true
              };
 
-             var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
-             chart.draw(view, options);
+             
              <% if (!Model.HasLearnedInLast30Days)
          { %>
              var infoDivNotLearned = document.createElement('div');
-             infoDivNotLearned.setAttribute('style', 'position: absolute; top: 165px; left: 20px; right: 20px;');
+             infoDivNotLearned.setAttribute('style', ' margin-top: 50px; left: 20px; right: 20px; height: 150px; padding-top: 40px');
              infoDivNotLearned.setAttribute('class', 'alert alert-info');
              infoDivNotLearned.innerHTML = '<p>Du hast in den letzten 30 Tagen keine Fragen beantwortet, daher kann hier keine Übersicht angezeigt werden.</p>';
              document.getElementById("chartActivityLastDays").appendChild(infoDivNotLearned);
-             <% } %>
+             <% }
+                else
+                {%>
+                    var chart = new google.visualization.ColumnChart(document.getElementById("chartActivityLastDays"));
+                    chart.draw(view, options);
+               <% } %>
 
          }
      </script>
 
 <input type="hidden" id="hddCountDates" value="<%=Model.Dates.Count %>"/>
 <input type="hidden" id="hddUserId" value="<%=Model.UserId %>"/>
+
 
 <div class="container-fluid">
     <div class="row first-row">
