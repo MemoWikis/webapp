@@ -1,10 +1,7 @@
-﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuLeft.Master" Inherits="ViewPage<KnowledgeModel>" %>
+﻿<%@ Page Title="Wissenszentrale" Language="C#" MasterPageFile="~/Views/Shared/Site.MenuNo.Master" Inherits="ViewPage<KnowledgeModel>" %>
 
 <%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Register Src="~/Views/Knowledge/TrainingDate.ascx" TagPrefix="uc1" TagName="TrainingDate" %>
-<%@ Register Src="~/Views/Knowledge/Partials/_Dashboard.ascx" TagPrefix="uc1" TagName="_Dashboard" %>
-
 
 <asp:Content ID="ContentHeadSEO" ContentPlaceHolderID="HeadSEO" runat="server">
     <link rel="canonical" href="<%= Settings.CanonicalHost %><%= Links.Knowledge() %>">
@@ -13,9 +10,6 @@
 <asp:Content runat="server" ID="header" ContentPlaceHolderID="Head">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-
-
 
     <%-- <script>
           $(function () {
@@ -299,6 +293,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<div class="body">
     <%--   <div class="container-fluid">
        <div class="row  heading-chart-knowledge">
             <div class="col-md-2 col-sm-3 col" id="chartKnowledgeH1">
@@ -993,7 +988,7 @@
 
 
 
-    <script>
+    <script type="text/javascript">
      
 
         google.load("visualization", "1", { packages: ["corechart"] });
@@ -1011,7 +1006,7 @@
         
     </script>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row h1Head"> 
             <div class="col-xs-10 col-xs-offset-2">
                 <h1>Wissenszentrale - Überblick und Zahlen </h1>
@@ -1031,4 +1026,5 @@
         </div>
         <% } %>
     </div>
+</div>
 </asp:Content>

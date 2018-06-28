@@ -1,4 +1,18 @@
-﻿h3 {
+﻿.body {
+  width: 1144px;
+  background-color: white;
+}
+@media only screen and (max-width: 1160px) {
+  .body {
+    width: 830px;
+  }
+}
+@media only screen and (max-width: 970px) {
+  .body {
+    width: 630px;
+  }
+}
+h3 {
   color: #003264;
 }
 .first-row h3 {
@@ -8,11 +22,10 @@
   font-weight: bold;
 }
 .first-row .col-xs-3 {
-  height: 223px;
   margin-bottom: 0px;
 }
-.first-row .col-xs-3 #chartKnowledgeP {
-  height: 101px;
+.first-row .col-xs-5 {
+  padding-right: 30px;
 }
 .first-row .col-xs-4 {
   height: 98px;
@@ -38,7 +51,6 @@
   padding-top: 0px;
 }
 .second-row .col-xs-3 {
-  margin-top: -50px;
   padding-top: 0px;
 }
 @media only screen and (max-width: 970px) {
@@ -58,6 +70,7 @@
 }
 .second-row .col-xs-5 {
   margin-top: 50px;
+  padding-right: 40px;
 }
 .second-row .col-xs-5 .ProgressBarContainer,
 .second-row .col-xs-5 .ProgressBarSegment {

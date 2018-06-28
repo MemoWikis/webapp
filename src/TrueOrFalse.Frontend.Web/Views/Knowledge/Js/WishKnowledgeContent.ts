@@ -51,7 +51,7 @@
                 {content: "dashboard"},
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Lernsitzung starten");
+                    $("#LinkIsDirectedToPartialView").text("Lernsitzung starten is doesn´t work");
                 });
         });
 
@@ -61,7 +61,7 @@
                 { content: "topics" },
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Thema erstellen");
+                    $("#LinkIsDirectedToPartialView").text("Thema erstellen is doesn´t work");
                 });
         });
 
@@ -71,7 +71,7 @@
                 { content: "questions" },
                 function (data) {
                     $(".content").html(data);
-                    $("#LinkIsDirectedToPartialView").text("Frage erstellen");
+                    $("#LinkIsDirectedToPartialView").text("Frage erstellen is doesn´t work");
                 });
         });
 
