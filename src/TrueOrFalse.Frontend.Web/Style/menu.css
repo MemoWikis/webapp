@@ -329,6 +329,7 @@
     width: 101%;
     max-width: none;
     padding-right: 0px;
+    right: 0px !important;
   }
 }
 @media (max-width: 479px) {
@@ -337,6 +338,7 @@
     width: 101%;
     max-width: none;
     padding-right: 0px;
+    right: 0px !important;
   }
 }
 .secondary-section .list-group-item {

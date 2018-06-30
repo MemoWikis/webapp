@@ -206,11 +206,16 @@ img {
             margin-top: 17px;
             width: 262.41px;
 
-            @media (max-width: @screen-md-max) {
+            @media (max-width: @screen-lg) {
                 width: 262.41px;
             }
 
-            @media (max-width:(@screen-md-min)) {
+            @media (max-width: @screen-md-max) {
+                width: 230.41px;
+                left:30px;
+            }
+
+            @media (max-width:(@screen-md-min - 0.5)) {
                 display: none;
             }
 
@@ -340,7 +345,7 @@ img {
 }
 
 #Login {
-    @media (max-width:(@screen-md-min)) {
+    @media (max-width:(@screen-md-min - 0.5)) {
         display: none !important;
     }
 }
@@ -376,11 +381,23 @@ img {
         border: 1px solid #FFFFFF;
     }
 
+   
     .header-item {
         display: flex;
         flex-direction: column;
         margin-right: 25px;
         text-align: center;
+
+      
+        .btn-default {
+            display: none;
+            background-color:transparent;
+            border:none;
+
+            @media (max-width:(@screen-md-min - 0.5)) {
+                display: block;
+            }
+        }
     }
 
     .dropdown {
@@ -466,7 +483,7 @@ img {
         display: inline-block;
         font-size: 14px;
 
-        @media (max-width:(@screen-md-min)) {
+        @media (max-width:(@screen-md-min - 0.5)) {
             display: none;
         }
     }
@@ -947,7 +964,7 @@ img {
     position: unset;
     z-index: 1;
     height: 55px;
-    white-space:nowrap;
+    white-space: nowrap;
     top: 80px;
     .greyed;
 
@@ -960,7 +977,7 @@ img {
         width: 29.57px !important;
         height: 33.08px !important;
         border-radius: 50%;
-        margin-top: -8px; 
+        margin-top: -8px;
     }
 
     i.fa-chevron-right {
@@ -1027,6 +1044,28 @@ img {
         margin-left: auto;
         display: none;
         margin-top: -19px;
+
+        #StickyHeaderSearchBoxDiv {
+            margin-top: 12px;
+            width: 262.41px;
+
+            @media (max-width: @screen-lg) {
+                width: 262.41px;
+            }
+
+            @media (max-width: @screen-md-max) {
+                width: 230.41px;
+            }
+
+            @media (max-width:(@screen-md-min - 0.5)) {
+                display: none;
+            }
+
+            #StickyHeaderSearchBox {
+                border-right: none !important;
+                border: 1px #979797 solid;
+            }
+        }
 
         .fa {
             margin-right: 25px;

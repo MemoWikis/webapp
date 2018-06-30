@@ -7,7 +7,7 @@
         $('#Breadcrumb').css('top', '0px');
         $('#Breadcrumb').css('position', 'sticky');
         $('#LongMenu').css('position', 'fixed');
-        $('#LongMenu').css('right', '0px');
+        $('#LongMenu').css('right', '10%');
   
     } else {
         $('#BreadcrumbLogoSmall').hide();

@@ -221,12 +221,18 @@ img {
   margin-top: 17px;
   width: 262.41px;
 }
-@media (max-width: 1199px) {
+@media (max-width: 1200px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
     width: 262.41px;
   }
 }
-@media (max-width: 992px) {
+@media (max-width: 1199px) {
+  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
+    width: 230.41px;
+    left: 30px;
+  }
+}
+@media (max-width: 991.5px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
     display: none;
   }
@@ -341,7 +347,7 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 992px) {
+@media (max-width: 991.5px) {
   #Login {
     display: none !important;
   }
@@ -380,6 +386,16 @@ img {
   flex-direction: column;
   margin-right: 25px;
   text-align: center;
+}
+#loginAndHelp .header-item .btn-default {
+  display: none;
+  background-color: transparent;
+  border: none;
+}
+@media (max-width: 991.5px) {
+  #loginAndHelp .header-item .btn-default {
+    display: block;
+  }
 }
 #loginAndHelp .dropdown {
   height: 100%;
@@ -456,7 +472,7 @@ img {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 992px) {
+@media (max-width: 991.5px) {
   #loginAndHelp .TextSpan,
   #loginAndHelp span:not(.level-display) {
     display: none;
@@ -1043,6 +1059,29 @@ ul.AutocompleteHeader {
   margin-left: auto;
   display: none;
   margin-top: -19px;
+}
+#Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+  margin-top: 12px;
+  width: 262.41px;
+}
+@media (max-width: 1200px) {
+  #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+    width: 262.41px;
+  }
+}
+@media (max-width: 1199px) {
+  #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+    width: 230.41px;
+  }
+}
+@media (max-width: 991.5px) {
+  #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+    display: none;
+  }
+}
+#Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv #StickyHeaderSearchBox {
+  border-right: none !important;
+  border: 1px #979797 solid;
 }
 #Breadcrumb #StickyHeaderContainer .fa {
   margin-right: 25px;

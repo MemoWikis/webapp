@@ -8,9 +8,8 @@
     <% Html.RenderPartial("Site.Partial.Head"); %>
     <asp:ContentPlaceHolder ID="Head" runat="server" />
     <style type="text/css">
-        #MenuButton
-        {
-            display:none;
+         #MenuButton {
+            display: none;
         }
     </style>
 </head>

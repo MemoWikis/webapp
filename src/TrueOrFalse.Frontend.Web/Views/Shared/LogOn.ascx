@@ -7,6 +7,9 @@
 %>
 <div style="display: flex;">
     <div class="header-item">
+       <button class="btn btn-default" id="SearchButton"  type="submit"><i class="fa fa-search" style="font-size:32px; color:white;" aria-hidden="true"></i></button>
+    </div>
+    <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle"></i>
             <span class="primary-point-text">Wissenszentrale</span>
         </a>
