@@ -185,6 +185,10 @@ img {
     z-index: 100;
     background-color: @memo-blue;
 
+    @media(max-width:580px){
+        height:47px;
+    }
+
     .HeaderMainRow {
         height: @masterHeaderMainRowHeight-xs;
         margin-top: 3px;
@@ -279,8 +283,8 @@ img {
         height: 100%;
     }
 
-    @media (max-width: 630px) {
-        display: none;
+    @media (max-width: 580px) {
+       margin-top:0px;
     }
 
 }
@@ -334,7 +338,7 @@ img {
         display: none;
     });*/
 
-    @media (min-width: 580px) {
+    @media (min-width: 581px) {
         display: none;
     }
 
@@ -962,7 +966,7 @@ img {
     color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     position: unset;
-    z-index: 1;
+    z-index: 3;
     height: 55px;
     white-space: nowrap;
     top: 80px;
@@ -1047,23 +1051,14 @@ img {
 
         #StickyHeaderSearchBoxDiv {
             margin-top: 12px;
-            width: 262.41px;
-
-            @media (max-width: @screen-lg) {
-                width: 262.41px;
-            }
-
-            @media (max-width: @screen-md-max) {
-                width: 230.41px;
-            }
-
-            @media (max-width:(@screen-md-min - 0.5)) {
-                display: none;
+            width: 48px;
+            -webkit-transition: width 0.3s;
             }
 
             #StickyHeaderSearchBox {
                 border-right: none !important;
                 border: 1px #979797 solid;
+                padding:0px;
             }
         }
 
@@ -1072,7 +1067,6 @@ img {
             padding-top: 12px;
         }
     }
-}
 
 #MasterSidebarColumn {
     .make-lg-column(3);
