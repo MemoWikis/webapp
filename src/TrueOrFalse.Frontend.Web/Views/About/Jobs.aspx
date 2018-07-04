@@ -21,7 +21,7 @@
             Bei memucho gibt es aktuell folgende Job-Angebote:    
         </p>
         <ul>
-            <li><a href="#productmanager">Content-Manager (m/w)</a></li>
+            <li><a href="#productmanager">Produktmanager (m/w)</a></li>
             <li><a href="#jobInhalte">Inhalte erstellen, pflegen und koordinieren (Nebenjob)</a></li>
         </ul>
     </div>
