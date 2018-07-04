@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <h1 class="PageHeader" style="margin-bottom: 25px; margin-top: 0px;"><span class="ColoredUnderline GeneralMemucho">Jobs &amp; Praktika bei memucho</span></h1>
+        <h1 class="PageHeader" style="margin-bottom: 25px; margin-top: 0px;">Jobs &amp; Praktika bei memucho</h1>
     </div>
 </div>
     

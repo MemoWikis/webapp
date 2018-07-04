@@ -15,21 +15,21 @@
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="row" id="PromoterH2">
-        <div>
-            <h2 ><p>Förderer</p></h2>
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="PageHeader" style="margin-bottom: 25px; margin-top: 0px;">Förderer</h1>
         </div>
     </div>
 
     <div class="promoter-overview">
         <div class="row">
-            <div class=" col-xs-5 col-xs-offset-5">
-                <img id="efri" class="partnerImage" src="/Images/LogosPartners/efre.png" />
+            <div class="col-xs-12 imgLogoDiv">
+                <img class="partnerImage" style="padding-left: 40px;" src="/Images/LogosPartners/efre.png" />
             </div>
         </div>
 
         <div class="row">
-            <div class=" col-xs-8 col-xs-offset-2">
+            <div class="col-xs-12">
                 <p>
                     memucho wird seit Juni 2018 im Rahmen des Programms „Gründung innovativ“ des Europäischen Fonds für regionale Entwicklung (EFRE) von der Investitionsbank
                     des Landes Brandenburg gefördert. Der EFRE wird zur Schaffung nachhaltiger und selbsttragender Wirtschaftsstrukturen genutzt.<br/>
@@ -39,12 +39,12 @@
         </div>
 
         <div class="row">
-            <div class=" col-xs-5 col-xs-offset-5">
-                <img id="exist" class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png" />
+            <div class="col-xs-12 imgLogoDiv">
+                <img class="partnerImage" src="/Images/LogosPartners/Logo-EXIST-eps.png" />
             </div>
         </div>
         <div class="row">
-            <div class=" col-xs-8 col-xs-offset-2">
+            <div class="col-xs-12">
                 <p>
                     memucho wurde von Oktober 2016 bis September 2017 mit einem EXIST-Gründerstipendium gefördert. 
                     EXIST ist ein Förderprogramm des Bundesministeriums für Wirtschaft und Energie (BMWi).<br/>
@@ -53,12 +53,12 @@
             </div>
         </div>
         <div class="row">
-            <div class=" col-xs-5 col-xs-offset-5">
-                <img id="profund" class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png" />
+            <div class="col-xs-12 imgLogoDiv">
+                <img class="partnerImage" src="/Images/LogosPartners/profund-innovation-logo-t.png" />
             </div>
         </div>
         <div class="row">
-            <div class=" col-xs-8 col-xs-offset-2 footer">
+            <div class="col-xs-12 lastParagraph">
                 <p>
                     Profund Innovation ist die Service-Einrichtung für die Förderung von Unternehmensgründungen
                     und Innovationen in der Abteilung Forschung der Freien Universität.<br/>

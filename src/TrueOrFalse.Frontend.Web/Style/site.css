@@ -941,7 +941,7 @@ ul.AutocompleteHeader {
   padding-top: 20px;
 }
 .Promoter #infoLink {
-  text-align: right;
+  text-align: left;
   padding-top: 60px;
 }
 @media only screen and (max-width: 768px) {
