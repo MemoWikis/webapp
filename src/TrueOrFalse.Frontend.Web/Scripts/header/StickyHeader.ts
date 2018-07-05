@@ -6,6 +6,7 @@
         $('#StickyHeaderContainer').css('display', 'flex');
         $('#Breadcrumb').css('top', '0px');
         $('#Breadcrumb').css('position', 'sticky');
+        $('#Breadcrumb').css('display', 'block');
         $('#LongMenu').css('position', 'fixed');
         $('#LongMenu').css('right', '10%');
   

@@ -185,8 +185,8 @@ img {
     z-index: 100;
     background-color: @memo-blue;
 
-    @media(max-width:580px){
-        height:47px;
+    @media(max-width:580px) {
+        height: 47px;
     }
 
     .HeaderMainRow {
@@ -215,8 +215,8 @@ img {
             }
 
             @media (max-width: @screen-md-max) {
-                width: 230.41px;
-                left:30px;
+                width: 227.41px;
+                left: 30px;
             }
 
             @media (max-width:(@screen-md-min - 0.5)) {
@@ -253,6 +253,11 @@ img {
         }
 
         );
+
+        @media(max-width: 580px) {
+            margin-top: 0px;
+        }
+
         height: @masterHeaderMainRowHeight-xs;
     }
 }
@@ -385,18 +390,34 @@ img {
         border: 1px solid #FFFFFF;
     }
 
-   
+    #SmallHeaderSearchBoxDiv {
+        width: 48px;
+        -webkit-transition: width 0.3s;
+        display: none;
+
+        @media(max-width:(@screen-md-min - 0.5)) {
+            display: table;
+        }
+
+        #SmallHeaderSearchBox {
+            border: none;
+            padding: 0px;
+            font-weight: 400;
+            height: 44px;
+        }
+    }
+
     .header-item {
         display: flex;
         flex-direction: column;
         margin-right: 25px;
         text-align: center;
 
-      
+
         .btn-default {
             display: none;
-            background-color:transparent;
-            border:none;
+            background-color: transparent;
+            border: none;
 
             @media (max-width:(@screen-md-min - 0.5)) {
                 display: block;
@@ -486,6 +507,7 @@ img {
     .TextSpan, span:not(.level-display) {
         display: inline-block;
         font-size: 14px;
+        font-weight: bold;
 
         @media (max-width:(@screen-md-min - 0.5)) {
             display: none;
@@ -637,6 +659,10 @@ img {
         //.buttonBackground (#2C5FB2, #2E487B, #e7ecf6);
         .MenuButtonXS;
     }
+}
+
+#StickyMenuButton{
+    opacity:0.5;
 }
 
     ul.AutocompleteHeader {
@@ -966,7 +992,7 @@ img {
     color: #000000 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     position: unset;
-    z-index: 3;
+    z-index: 100;
     height: 55px;
     white-space: nowrap;
     top: 80px;
@@ -1044,10 +1070,12 @@ img {
 
     );
 
-    #StickyHeaderContainer {
+    #StickyHeaderContainer{
         margin-left: auto;
         display: none;
+        justify-content:space-between;
         margin-top: -19px;
+
 
         #StickyHeaderSearchBoxDiv {
             margin-top: 12px;
@@ -1055,11 +1083,13 @@ img {
             -webkit-transition: width 0.3s;
             }
 
-            #StickyHeaderSearchBox {
+            #StickyHeaderSearchBox{
                 border-right: none !important;
                 border: 1px #979797 solid;
                 padding:0px;
+                font-weight:400;
             }
+
         }
 
         .fa {

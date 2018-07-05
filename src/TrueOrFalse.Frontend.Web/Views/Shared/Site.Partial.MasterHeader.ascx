@@ -40,7 +40,7 @@
                         <div class="input-group" id="HeaderSearchBoxDiv">
                             <input type="text" class="form-control" placeholder="Suche" id="headerSearchBox">
                             <div class="input-group-btn">
-                                <button class="btn btn-default"  style="border: 1px #979797 solid; border-left:none;" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                <button class="btn btn-default"  style="border: 1px #979797 solid; border-left:none;" type="submit"><i class="fa fa-search" style="font-size:18px" aria-hidden="true"></i></button>
                             </div>
                         </div>
                     </div>

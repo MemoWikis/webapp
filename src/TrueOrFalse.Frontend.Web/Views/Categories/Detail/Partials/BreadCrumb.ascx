@@ -43,10 +43,10 @@
         <div class="input-group" id="StickyHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
             <div class="input-group-btn">
-                <button class="btn btn-default" id="SearchButton" onclick="SearchButtonClick()" style="border: 1px #979797 solid; height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
+                <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="border: 1px #979797 solid; height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-        <i class="fa fa-dot-circle"></i>
-        <a id="StickyMenuButton" style="margin-top:0px;"><i class="fa fa-bars"></i></a>
+        <div> <i class="fa fa-dot-circle"></i></div>
+        <div><a id="StickyMenuButton" style="margin-top:0px;"><i class="fa fa-bars"></i></a></div>
     </div>
 </div> 

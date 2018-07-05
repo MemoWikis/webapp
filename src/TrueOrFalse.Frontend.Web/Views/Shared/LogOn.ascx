@@ -6,8 +6,13 @@
     var user = userSession.User;
 %>
 <div style="display: flex;">
-    <div class="header-item">
-       <button class="btn btn-default" id="SearchButton"  type="submit"><i class="fa fa-search" style="font-size:32px; color:white;" aria-hidden="true"></i></button>
+    <div class="header-item" style="margin-top:-2px;">
+        <div class="input-group" id="SmallHeaderSearchBoxDiv">
+            <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
+            <div class="input-group-btn" style="height:34px;">
+              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="font-size: 32px; color: white;" aria-hidden="true"></i></button>
+            </div>
+        </div>
     </div>
     <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle"></i>
@@ -32,7 +37,7 @@
                       </span>
                   </span>
               </div>
-              <span class="userName TextSpan">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
+              <span class="userName TextSpan" style="font-weight:normal;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
           </a> 
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
                 <li>
