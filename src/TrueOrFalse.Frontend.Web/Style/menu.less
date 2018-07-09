@@ -317,7 +317,7 @@
         align-items: flex-end;
     }
 
-.LongMenu {
+.MainMenu {
 
     .media-lg( {
         right: -232px;
@@ -346,8 +346,6 @@
 
     );
     padding: 0px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
     position: absolute;
     background-color: #F6F8FA;
     width: 90%;
@@ -359,12 +357,13 @@
     box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
     float: right;
     display: none;
+    border: solid #707070 0.5px;
     right: 0px;
 }
 
     .secondary-section {
         .list-group-item {
-            padding: 7px 7px 7px 46px;
+            padding: 7px 7px 7px 40px;
         }
     }
 
@@ -389,17 +388,17 @@
     .primary-point {
         display: flex;
         align-items: center;
-        text-transform: uppercase;
-        font-weight: bold;
+        color: #707070;
+        font-size:16px;
+        font-weight:normal;
 
         .primary-point-text {
             display: inline-block;
-            margin-left: 8px;
         }
     }
 
 .list-group-item {
-    color: @global-text-color !important;
+    color: #203256 !important;
     background-color: white;
     border: none;
     font-size: 14px;
@@ -410,11 +409,13 @@
     border-radius: unset;
 
     &.active, &.active:focus {
-        background-color: @menu-light-blue !important;
+        background-color: white !important;
+        color: #203256 !important;
+        font-weight: bold;
     }
 
     &:hover {
-        color: @global-text-color !important;
+        color: #203256 !important;
         background-color: @menu-darker-blue !important;
     }
 
@@ -432,10 +433,6 @@
     }
 
     &.actual-category {
-        &.active {
-            background-color: @menu-darker-blue !important;
-        }
-
         &:hover {
             background-color: @menu-darker-blue;
         }
@@ -446,9 +443,10 @@
         -ms-text-overflow: ellipsis;
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
-        font-weight: 600;
+        font-weight: normal;
         white-space: nowrap;
         padding-top: 6px;
+        color: @global-text-color !important;
         padding-left: 40px;
         padding-bottom: 7px;
         font-size: 14px;
@@ -475,9 +473,18 @@
     }
 }
 
+#mainMenuThemeNavigation, #mainMenuQuestionsSetsCategories, #mainMenuGamesUsersMessages {
+    border: solid #707070 0.5px;
+    border-bottom-width: 1px;
+    border-top: none;
+}
+
+#mainMenuGamesUsersMessages{
+border-bottom:none;
+}
 
 #mainMenuThemeCenteredMobile {
-    margin-top:-10px !important;
+    margin-top: -10px !important;
 }
 
 #mainMenuThemeCentered #mainMenuQuestionsSetsCategories, #mainMenuThemeCenteredMobile {

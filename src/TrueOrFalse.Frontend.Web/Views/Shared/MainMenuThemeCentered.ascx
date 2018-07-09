@@ -4,21 +4,30 @@
 
 <div style="display: flex;">
     <div id="mainMenuThemeCenteredMobile">
-        <div id="LongMenu" class="LongMenu">
+        <div id="MainMenu" class="MainMenu">
+            <div id="KnowledgeBtn" class="menu-section">
+               <a style="width:100%; padding: 20px 0px 19px 15px;" class="list-group-item cat <%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Links.Knowledge() %>">
+                <%if(Model.IsLoggedIn){ %>
+                  <i style="color:#AED71B; font-size:21px;" class="fa fa-dot-circle"></i>                 
+                  <span style="margin-left:17px;">Deine Wissenszentrale</span> 
+                <%}else{ %>
+                   <i style="font-size:21px;" class="fa fa-dot-circle"></i>                 
+                   <span style="margin-left:17px;">Wissenszentrale</span> 
+                <%} %>
+                  </a>
+            </div>
             <% Html.RenderPartial("/Views/Categories/Navigation/CategoryNavigation.ascx", Model.categoryNavigationModel); %>
             <% if (isLongMenu)
                 { %>
             <div id="mainMenuQuestionsSetsCategories" class="menu-section secondary-section" style="width: 100%">
                 <a id="mainMenuBtnCategories" class="list-group-item cat <%= Model.Active(MenuEntry.Categories) %>" href="<%= Url.Action(Links.CategoriesAction, Links.CategoriesController) %>">
-                    <i class="fa fa-search" aria-hidden="true"></i>Themen                
-                                            <i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; " title="Neues Thema erstellen"></i>
+                        Themen<i class="fa fa-plus-circle show-tooltip show-on-hover hide2 cat-color add-new" onclick="window.location = '<%= Url.Action("Create", "EditCategory") %>'; return false; " title="Neues Thema erstellen"></i>
                 </a>
                 <a id="mainMenuBtnSets" class="list-group-item set <%= Model.Active(MenuEntry.QuestionSet) %>" href="<%= Links.SetsAll() %>">
-                    <i class="fa fa-search" aria-hidden="true"></i>Lernsets<i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; " title="Neues Lernset erstellen"></i>
+                    Lernsets<i class="fa fa-plus-circle show-tooltip show-on-hover hide2 set-color add-new" onclick="window.location = '<%= Url.Action("Create", "EditSet") %>'; return false; " title="Neues Lernset erstellen"></i>
                 </a>
                 <a id="mainMenuBtnQuestions" class="list-group-item quest <%= Model.Active(MenuEntry.Questions) %>" href="<%= Url.Action("Questions", "Questions") %>">
-                    <i class="fa fa-search" aria-hidden="true"></i>Fragen
-                                            <i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" onclick="window.location = '<%= Links.CreateQuestion() %>'; return false; " title="Frage erstellen"></i>
+                    Fragen<i id="mainMenuBtnQuestionCreate" class="fa fa-plus-circle show-tooltip show-on-hover hide2 quest-color add-new" onclick="window.location = '<%= Links.CreateQuestion() %>'; return false; " title="Frage erstellen"></i>
                 </a>
             </div>
             <div id="mainMenuGamesUsersMessages" class="menu-section secondary-section" style="width: 100%">

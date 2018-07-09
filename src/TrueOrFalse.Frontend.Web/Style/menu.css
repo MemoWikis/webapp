@@ -299,12 +299,8 @@
       -ms-flex-align: end;
           align-items: flex-end;
 }
-.LongMenu {
+.MainMenu {
   padding: 0px;
-  -webkit-border-bottom-left-radius: 4px;
-          border-bottom-left-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-          border-bottom-right-radius: 4px;
   position: absolute;
   background-color: #F6F8FA;
   width: 90%;
@@ -316,15 +312,16 @@
   box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
   float: right;
   display: none;
+  border: solid #707070 0.5px;
   right: 0px;
 }
 @media (min-width: 1200px) {
-  .LongMenu {
+  .MainMenu {
     right: -232px;
   }
 }
 @media (min-width: 480px) and (max-width: 767px) {
-  .LongMenu {
+  .MainMenu {
     top: 0px;
     width: 101%;
     max-width: none;
@@ -333,7 +330,7 @@
   }
 }
 @media (max-width: 479px) {
-  .LongMenu {
+  .MainMenu {
     top: 0px;
     width: 101%;
     max-width: none;
@@ -342,7 +339,7 @@
   }
 }
 .secondary-section .list-group-item {
-  padding: 7px 7px 7px 46px;
+  padding: 7px 7px 7px 40px;
 }
 .tooltip > .tooltip-inner {
   min-width: 200px;
@@ -368,12 +365,12 @@
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  text-transform: uppercase;
-  font-weight: bold;
+  color: #707070;
+  font-size: 16px;
+  font-weight: normal;
 }
 .primary-point .primary-point-text {
   display: inline-block;
-  margin-left: 8px;
 }
 .list-group-item {
   color: #203256 !important;
@@ -389,7 +386,9 @@
 }
 .list-group-item.active,
 .list-group-item.active:focus {
-  background-color: rgba(210, 236, 243, 0.8) !important;
+  background-color: white !important;
+  color: #203256 !important;
+  font-weight: bold;
 }
 .list-group-item:hover {
   color: #203256 !important;
@@ -406,9 +405,6 @@
 .list-group-item .fa-stack .default-category-icon {
   color: #003264;
 }
-.list-group-item.actual-category.active {
-  background-color: rgba(165, 209, 221, 0.8) !important;
-}
 .list-group-item.actual-category:hover {
   background-color: rgba(165, 209, 221, 0.8);
 }
@@ -416,9 +412,10 @@
   overflow: hidden;
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;
-  font-weight: 600;
+  font-weight: normal;
   white-space: nowrap;
   padding-top: 6px;
+  color: #203256 !important;
   padding-left: 40px;
   padding-bottom: 7px;
   font-size: 14px;
@@ -440,6 +437,16 @@
   font-size: 24px;
   padding-right: 3px;
   padding-left: 3px;
+}
+#mainMenuThemeNavigation,
+#mainMenuQuestionsSetsCategories,
+#mainMenuGamesUsersMessages {
+  border: solid #707070 0.5px;
+  border-bottom-width: 1px;
+  border-top: none;
+}
+#mainMenuGamesUsersMessages {
+  border-bottom: none;
 }
 #mainMenuThemeCenteredMobile {
   margin-top: -10px !important;

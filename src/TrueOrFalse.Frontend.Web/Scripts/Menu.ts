@@ -46,7 +46,7 @@ class MenuMobile {
                 return;
             }
 
-            if ($("#mainMenu, #LongMenu").has(e.target).length === 0 &&
+            if ($("#mainMenu, #MainMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
             }           
@@ -73,7 +73,7 @@ class MenuMobile {
         }
 
         this._isInProgress = true;
-        $("#mainMenu, #LongMenu").slideDown(400, () => {
+        $("#mainMenu, #MainMenu").slideDown(400, () => {
             this._isOpen = true;
             this._isInProgress = false;
         });     
@@ -87,7 +87,7 @@ class MenuMobile {
         }
 
         this._isInProgress = true;
-        $("#mainMenu, #LongMenu").slideUp(400, () => {
+        $("#mainMenu, #MainMenu").slideUp(400, () => {
             this._isOpen = false;
             this._isInProgress = false;    
         });
