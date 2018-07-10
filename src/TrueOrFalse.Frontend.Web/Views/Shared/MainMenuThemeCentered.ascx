@@ -4,7 +4,7 @@
 
 <div style="display: flex;">
     <div id="mainMenuThemeCenteredMobile">
-        <div id="MainMenu" class="MainMenu">
+        <div id="MainMenu" class="MainMenu" <%if(Model.IsWelcomePage){ %> style="top:18px; right:12% !important;" <%}else{%> style="top:18px; right:-232px;" <%} %>>
             <div id="KnowledgeBtn" class="menu-section">
                <a style="width:100%; padding: 20px 0px 19px 15px;" class="list-group-item cat <%= Model.Active(MenuEntry.Knowledge) %>" href="<%= Links.Knowledge() %>">
                 <%if(Model.IsLoggedIn){ %>

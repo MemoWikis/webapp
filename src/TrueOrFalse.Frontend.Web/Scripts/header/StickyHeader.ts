@@ -8,14 +8,17 @@
         $('#Breadcrumb').css('position', 'sticky');
         $('#Breadcrumb').css('display', 'block');
         $('#MainMenu').css('position', 'fixed');
-        $('#MainMenu').css('right', '10%');
-  
+        $('#MainMenu').css('top', '75px');
+        $('#MainMenu').addClass('StickyMainMenu');
+
     } else {
         $('#BreadcrumbLogoSmall').hide();
         $('#StickyHeaderContainer').hide();
         $('#Breadcrumb').css('top', '80px');
         $('#Breadcrumb').css('position', 'unset');
         $('#MainMenu').css('position', 'absolute');
-        $('#MainMenu').css('right', '');
+        $('#MainMenu').css('top', '18px');
+        $('#MainMenu').removeClass('StickyMainMenu');
+
     }
 });

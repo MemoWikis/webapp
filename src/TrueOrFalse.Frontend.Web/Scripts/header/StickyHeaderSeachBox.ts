@@ -13,33 +13,46 @@ function SearchButtonClick() {
 
 
     if (isOpen == false) {
-        inputBox.style.padding = '6px 12px';
         searchBox.style.width = '262.41px';
+        inputBox.style.padding = '6px 12px';
         isOpen = true;
     } else {
-        inputBox.style.padding = '0px';
         searchBox.style.width = '48px';
+        inputBox.style.padding = '0px';
         isOpen = false;
     }
 
     if (isSmallHeaderSearchBoxOpen == false) {
-         SmallHeaderInputBox.style.padding = '6px 12px';
          SmallHeaderSearchBox.style.width = '262.41px';
+         SmallHeaderInputBox.style.padding = '6px 12px';
         isSmallHeaderSearchBoxOpen = true;
     } else {
-         SmallHeaderInputBox.style.padding = '0px';
          SmallHeaderSearchBox.style.width = '48px';
+        SmallHeaderInputBox.style.padding = '0px';
         isSmallHeaderSearchBoxOpen = false;
     }
 
-$(document).mouseup(function () {
-    if (isOpen == true) {
-        SearchButton.click();
-    }
-    if (isSmallHeaderSearchBoxOpen == true) {
-        SmallHeaderSearchButton.click();
-    }
-});
+    $(document).mouseup((e) => {
+        if ($("#StickyHeaderSearchBox, #StickyHeaderSearchBoxDiv").has(e.target).length === 0 &&
+            $("#StickyHeaderSearchButton").has(e.target).length === 0) {
+            if (isOpen == true) {
+                searchBox.style.width = '48px';
+                inputBox.style.padding = '0px';
+                isOpen = false;
+            }
+        }
+        if ($("#SmallHeaderSearchBox, #SmallHeaderSearchBoxDiv").has(e.target).length === 0 &&
+            $("#SmallHeaderSearchButton").has(e.target).length === 0) {
+
+            if (isOpen == true) {
+                if (isSmallHeaderSearchBoxOpen == true) {
+                    SmallHeaderSearchBox.style.width = '48px';
+                    SmallHeaderInputBox.style.padding = '0px';
+                    isSmallHeaderSearchBoxOpen = false;
+                }
+            }
+        }
+    });
 
 }
 
