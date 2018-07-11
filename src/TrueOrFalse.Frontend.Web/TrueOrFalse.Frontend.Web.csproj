@@ -351,6 +351,7 @@
     <Compile Include="Views\Help\WidgetMenuModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniSetModel.cs" />
     <Compile Include="Views\Knowledge\Partials\KnowledgeCardMiniCategoryModel.cs" />
+    <Compile Include="Views\Knowledge\Partials\KnowledgeTopicsModel.cs" />
     <Compile Include="Views\Knowledge\TrainingDateModel.cs" />
     <Compile Include="Views\Knowledge\Wheel\KnowledgeWheelController.cs" />
     <Content Include="Images\Illustrations\PreviewFullResponsiveScreens.jpg" />
@@ -398,6 +399,7 @@
     <Content Include="Images\Screenshots\widget-blackboard_f03_edit-html.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done.png" />
     <Content Include="Images\Screenshots\widget-blackboard_f04_done_short.png" />
+    <Content Include="Scripts\vendor\vue.js" />
     <Content Include="Scripts\YoutubeApi.js">
       <DependentUpon>YoutubeApi.ts</DependentUpon>
     </Content>
@@ -458,9 +460,13 @@
     <Content Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.js">
       <DependentUpon>GetResultTestSession.ts</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Css\KnowledgeTopics.css">
+      <DependentUpon>KnowledgeTopics.less</DependentUpon>
+    </Content>
     <Content Include="Views\Knowledge\Css\_dashBoard.css">
       <DependentUpon>_dashBoard.less</DependentUpon>
     </Content>
+    <Content Include="Views\Knowledge\Js\KnowledgeTopics.js" />
     <Content Include="Views\Knowledge\Js\Page.js">
       <DependentUpon>Page.ts</DependentUpon>
     </Content>
@@ -531,6 +537,7 @@
     </Content>
     <Content Include="Views\Knowledge\Partials\_Dashboard.ascx" />
     <Content Include="Views\Knowledge\Css\_dashBoard.less" />
+    <Content Include="Views\Knowledge\Css\KnowledgeTopics.less" />
     <None Include="Views\Maintenance\ContentStats.less" />
     <Compile Include="Views\Maintenance\ContentStatsModel.cs" />
     <Compile Include="Views\Maintenance\Images\MaintenanceImagesController.cs" />

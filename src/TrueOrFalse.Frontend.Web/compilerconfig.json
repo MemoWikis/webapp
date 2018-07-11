@@ -294,5 +294,9 @@
   {
     "outputFile": "Views/Knowledge/Css/_dashBoard.css",
     "inputFile": "Views/Knowledge/Css/_dashBoard.less"
+  },
+  {
+    "outputFile": "Views/Knowledge/Css/KnowledgeTopics.css",
+    "inputFile": "Views/Knowledge/Css/KnowledgeTopics.less"
   }
 ]

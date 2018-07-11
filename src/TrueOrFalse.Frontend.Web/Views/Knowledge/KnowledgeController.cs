@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using TrueOrFalse.Frontend.Web.Code;
+using TrueOrFalse.View.Web.Views.Knowledge.Partials;
+using System.Web.Script.Serialization;
+using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 
 public class KnowledgeController : BaseController
 {
+
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult Knowledge()
     {
@@ -16,8 +20,9 @@ public class KnowledgeController : BaseController
     [SetMenu(MenuEntry.Knowledge)]
     public ActionResult EmailConfirmation(string emailKey)
     {
-        return View("Knowledge", new KnowledgeModel(emailKey:emailKey));
+        return View("Knowledge", new KnowledgeModel(emailKey: emailKey));
     }
+
 
     public int GetNumberOfWishknowledgeQuestions()
     {
@@ -46,7 +51,7 @@ public class KnowledgeController : BaseController
 
         if (openWishSession != null)
         {
-            if (DateTime.Now - openWishSession.DateModified < new TimeSpan(0,5,0))
+            if (DateTime.Now - openWishSession.DateModified < new TimeSpan(0, 5, 0))
                 return Redirect(Links.LearningSession(openWishSession));
             openWishSession.CompleteSession();
         }
@@ -65,19 +70,79 @@ public class KnowledgeController : BaseController
 
     public String GetKnowledgeContent(string content)
     {
+        
+
         switch (content)
         {
-            case "dashboard" : return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
-            case "topics" : return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx", new KnowledgeModel(), ControllerContext);
-            case "questions" : return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
-            default: throw    new ArgumentException("Argument false or null");
+            case "dashboard": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
+            case "topics": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx", new KnowledgeTopicsModel(), ControllerContext);
+            case "questions": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
+            default: throw new ArgumentException("Argument false or null");
         }
     }
 
     public int GetDatesCount(string userId)
     {
         var Dates = R<DateRepo>().GetBy(Int32.Parse(userId), true);
-        return Dates.Count -1; // if last date is deleted counter is still 1  
+        return Dates.Count - 1; // if last date is deleted counter is still 1  
         //after deleting, however, there is no longer an appointment
     }
+
+
+    // get CategoryDates 
+    // begin
+    public JsonResult getCatsAndSetsWish()
+    {
+        var filteredCategoryWishKnowledges = filteredCategoryWishKnowledge();
+        return new JsonResult {Data = filteredCategoryWishKnowledges};
+    }
+
+    public List<CategoryWishKnowledge> filteredCategoryWishKnowledge()
+    {
+        List<CategoryWishKnowledge> filteredCategoryWishKnowledges = new List<CategoryWishKnowledge>();
+      
+        var categoryValuationIds = UserValuationCache.GetCategoryValuations(UserId)
+            .Where(v => v.IsInWishKnowledge())
+            .Select(v => v.CategoryId)
+            .ToList();
+        
+        var categoriesWishPool = R<CategoryRepository>().GetByIds(categoryValuationIds);
+        var categoriesWish = OrderCategoriesByQuestionCountAndLevel.Run(categoriesWishPool);
+
+        foreach (var categoryWish in categoriesWish)
+        { 
+            var categoryWishKnowledge = new CategoryWishKnowledge();
+            categoryWishKnowledge.CategoryDescription = categoryWish.Description;
+            categoryWishKnowledge.CategoryTitel = categoryWish.Name;
+            categoryWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
+            categoryWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish);
+
+            filteredCategoryWishKnowledges.Add(categoryWishKnowledge);
+        }
+
+        return filteredCategoryWishKnowledges;
+    }
+
+    public ImageFrontendData GetCategoryImage(int CategoryId)
+    {
+        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
+        return new ImageFrontendData(imageMetaData);
+    }
+
+    public string KnowledgeWishPartial(Category category)
+    {
+        var KnowledgeBarPartial =ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category),ControllerContext);
+        
+        return KnowledgeBarPartial;
+        
+    }
+    public class CategoryWishKnowledge
+    {
+        public string CategoryDescription;
+        public string CategoryTitel;
+        public ImageFrontendData ImageFrontendData;
+        public string KnowlegdeWishPartial;
+
+    }
+  // end
 }

@@ -1,0 +1,60 @@
+﻿
+;
+
+
+.KnowledgeBarWrapper {
+    display: inline-block;
+
+    .KnowledgeBarLegend {
+        color: #999999;
+        margin-top: -10px;
+        font-size: 12px;
+        line-height: 1.5em;
+        //text-transform: uppercase;
+        opacity: 0;
+        transition: opacity 0.2s linear;
+
+        /*.media-below-sm ({
+            opacity: 1;
+        });*/
+        
+    }
+
+    &:hover { //show on hover over navigation tile
+        .KnowledgeBarLegend {
+            opacity: 1;
+        }
+    }
+
+    .set-knowledge-bar, .category-knowledge-bar {
+        display: inline-block;
+        //margin-top: 15px;
+        height: 10px;
+        width: 180px;
+
+        .solid-knowledge, .needs-learning, .needs-consolidation, .not-learned, .not-in-wish-knowledge {
+            height: inherit;
+            float: left;
+        }
+
+        .needs-learning {
+            background-color: lightsalmon;
+        }
+
+        .needs-consolidation {
+            background-color: #fdd648;
+        }
+
+        .solid-knowledge {
+            background-color: #afd534;
+        }
+
+        .not-learned {
+            background-color: silver;
+        }
+
+        .not-in-wish-knowledge {
+            background-color: #dddddd;
+        }
+    }
+}

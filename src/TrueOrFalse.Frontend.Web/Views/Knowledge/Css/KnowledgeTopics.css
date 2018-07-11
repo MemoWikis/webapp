@@ -1,0 +1,56 @@
+﻿.KnowledgeBarWrapper {
+  display: inline-block;
+}
+.KnowledgeBarWrapper .KnowledgeBarLegend {
+  color: #999999;
+  margin-top: -10px;
+  font-size: 12px;
+  line-height: 1.5em;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+  /*.media-below-sm ({
+            opacity: 1;
+        });*/
+}
+.KnowledgeBarWrapper:hover .KnowledgeBarLegend {
+  opacity: 1;
+}
+.KnowledgeBarWrapper .set-knowledge-bar,
+.KnowledgeBarWrapper .category-knowledge-bar {
+  display: inline-block;
+  height: 10px;
+  width: 180px;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge,
+.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-learning,
+.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation,
+.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.KnowledgeBarWrapper .category-knowledge-bar .not-learned,
+.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+  height: inherit;
+  float: left;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .needs-learning,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-learning {
+  background-color: lightsalmon;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .needs-consolidation,
+.KnowledgeBarWrapper .category-knowledge-bar .needs-consolidation {
+  background-color: #fdd648;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .solid-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .solid-knowledge {
+  background-color: #afd534;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .not-learned,
+.KnowledgeBarWrapper .category-knowledge-bar .not-learned {
+  background-color: silver;
+}
+.KnowledgeBarWrapper .set-knowledge-bar .not-in-wish-knowledge,
+.KnowledgeBarWrapper .category-knowledge-bar .not-in-wish-knowledge {
+  background-color: #dddddd;
+}

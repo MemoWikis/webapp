@@ -282,6 +282,9 @@ namespace TrueOrFalse.View
             bundles.Add(new StyleBundle("~/bundles/_dashboard")
                 .Include("~/Views/Knowledge/Css/_dashBoard.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/KnowledgeTopics")
+                .Include("~/Views/Knowledge/Css/KnowledgeTopics.css"));
+
 #if RELEASE
             BundleTable.EnableOptimizations = true;
 #endif
