@@ -27,12 +27,13 @@
 
                    </i> 
                </a>
+               <!-- Dropdownmenu -->
                <div class="Button dropdown" style="transform: rotate(90deg);">
                    <% var buttonId = Guid.NewGuid(); %>
                    <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                        <i class="fa fa-ellipsis-v"></i>
                    </a>
-                   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
+                   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>" style="transform: rotate(270deg)">
                        <% if (true)
                           { %>
                            <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>         <%-- <%= Links.DateCreateForCategory(Model.Id) %>--%>
@@ -48,10 +49,7 @@
                    </ul>
                </div>
            </td>
-         
        </tr>
-        
-
     </table>
 </div>
 
@@ -70,8 +68,6 @@
                     this.messages.splice(key, 1);
                 });
             }
-
-
         },
         mounted: function() {
             var self = this;
