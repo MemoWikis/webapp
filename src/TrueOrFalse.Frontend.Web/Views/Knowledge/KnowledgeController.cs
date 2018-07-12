@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.View.Web.Views.Knowledge.Partials;
-using System.Web.Script.Serialization;
-using Microsoft.Ajax.Utilities;
-using Newtonsoft.Json;
 
 public class KnowledgeController : BaseController
 {
@@ -75,7 +71,7 @@ public class KnowledgeController : BaseController
         switch (content)
         {
             case "dashboard": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
-            case "topics": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx", new KnowledgeTopicsModel(), ControllerContext);
+            case "topics": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/KnowledgeTopics.ascx", new KnowledgeModel(), ControllerContext);
             case "questions": return ViewRenderer.RenderPartialView("~/Views/Knowledge/Partials/_Dashboard.ascx", new KnowledgeModel(), ControllerContext);
             default: throw new ArgumentException("Argument false or null");
         }
@@ -116,7 +112,7 @@ public class KnowledgeController : BaseController
             categoryWishKnowledge.CategoryTitel = categoryWish.Name;
             categoryWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
             categoryWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish);
-
+            categoryWishKnowledge.CategoryId = categoryWish.Id;
             filteredCategoryWishKnowledges.Add(categoryWishKnowledge);
         }
 
@@ -138,6 +134,7 @@ public class KnowledgeController : BaseController
     }
     public class CategoryWishKnowledge
     {
+        public int CategoryId;
         public string CategoryDescription;
         public string CategoryTitel;
         public ImageFrontendData ImageFrontendData;

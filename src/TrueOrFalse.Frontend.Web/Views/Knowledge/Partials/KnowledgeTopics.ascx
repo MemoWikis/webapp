@@ -1,65 +1,14 @@
-﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<TrueOrFalse.View.Web.Views.Knowledge.Partials.KnowledgeTopicsModel>"%>
+﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
-<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.3.4/vue-resource.common.js"></script>
-
-<script type="text/javascript" src="http://cdn.jsdelivr.net/vue.table/1.5.3/vue-table.min.js"></script
-
+<script type="text/javascript" src="http://cdn.jsdelivr.net/vue.table/1.5.3/vue-table.min.js"></script>
 
 
-    <div class="row">
-        <div id="chartKnowledgeH1" class="col-md-6 heading-chart-knowledge"></div>
-       <div class="col-md-6"><h1>Deine Wissenszentrale</h1></div>
-  </div>
 
-  <div id="wishKnowledge" class="row">
-            <div class="col-lg-12">
-                <h3>Themen und Lernsets in deinem Wunschwissen</h3>
-                
-                
-                    <div class="alert alert-info" id="noWishKnowledge" style="max-width: 600px; margin: 30px auto 10px auto; display:none ">
-                        <p>
-                            Du hast keine Themen oder Lernsets in deinem Wunschwissen. Finde interessante Themen aus den Bereichen 
-                            <a href="<%= Links.CategoryDetail("Schule", 682) %>">Schule</a>,
-                            <a href="<%= Links.CategoryDetail("Studium", 687) %>">Studium</a>,
-                            <a href="<%= Links.CategoryDetail("Zertifikate", 689) %>">Zertifikate</a> und 
-                            <a href="<%= Links.CategoryDetail("Allgemeinwissen", 709) %>">Allgemeinwissen</a>
-                            und füge sie deinem Wunschwissen hinzu. Dann hast du deinen Wissensstand hier immer im Blick.
-                        </p>
-                    </div>
-                
-                <div class="row wishKnowledgeItems">
-                    <% foreach (var catOrSet in Model.CatsAndSetsWish)
-                        {
-                            if (Model.CatsAndSetsWish.IndexOf(catOrSet) == 6 && Model.CatsAndSetsWish.Count > 8)
-                            { %>
-                                </div>
-                                <div id="wishKnowledgeMore" class="row wishKnowledgeItems" style="display: none;">
-                            <% } %>
-                            <div class="col-xs-12 topic">
-                                <% if (catOrSet is Category)
-                                    { %>
-                                       <% Html.RenderPartial("Partials/KnowledgeCardMiniCategory", new KnowledgeCardMiniCategoryModel((Category)catOrSet)); %>
-                                <% }
-                                    else if (catOrSet is Set)
-                                    { %>
-                                    <% Html.RenderPartial("Partials/KnowledgeCardMiniSet", new KnowledgeCardMiniSetModel((Set)catOrSet)); %>
-                                <% } %>
-                            </div>
-                    <% } %>
-                </div>
-                <% if (Model.CatsAndSetsWish.Count > 8)
-                    { %>
-                    <div>
-                        <a href="#" id="btnShowAllWishKnowledgeContent" class="btn btn-link btn-lg">Alle anzeigen (<%= Model.CatsAndSetsWish.Count-6 %> weitere) <i class="fa fa-caret-down"></i></a> 
-                        <a href="#" id="btnShowLessWishKnowledgeContent" class="btn btn-link btn-lg" style="display: none;"> <i class="fa fa-caret-up"></i> Weniger anzeigen</a>
-                    </div>
-                <% } %>
-            </div>
-        </div>
+
 
 
 
@@ -69,10 +18,37 @@
         <tr>
             <th>Titel</th>
         </tr>
-       <tr  v-for="message in messages">
+       <tr  v-for="(message, key) in messages">
            <td><image v-bind:src="message.ImageFrontendData.ImageMetaData.SourceUrl" style="width: 30px;"></image></td>
            <td>{{message.CategoryTitel}}</td>
            <td><div class="KnowledgeBarWrapper" v-html="message.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div></td>
+           <td><a data-toggle="modal" v-bind:data-dateid="message.CategoryId" href="#" v-on:click="unpinCategory(message.CategoryId,key)">
+                   <i class="fa fa-trash-o show-tooltip" title="" data-placement="top" data-original-title="Löschen">
+
+                   </i> 
+               </a>
+               <div class="Button dropdown" style="transform: rotate(90deg);">
+                   <% var buttonId = Guid.NewGuid(); %>
+                   <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                       <i class="fa fa-ellipsis-v"></i>
+                   </a>
+                   <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>">
+                       <% if (true)
+                          { %>
+                           <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>         <%-- <%= Links.DateCreateForCategory(Model.Id) %>--%>
+                        
+                           <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>           <%-- <%= Links.GameCreateFromCategory(Model.Id) %>--%>
+                       <% }
+                          if(true){ %>
+                           <li><a href="#"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
+                       <% }
+                      if (Model.IsInstallationAdmin){ %>
+                           <li><a href="#"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>      <%--<%= Links.CreateQuestion(categoryId: Model.Id) %>--%>
+                       <% } %>
+                   </ul>
+               </div>
+           </td>
+         
        </tr>
         
 
@@ -87,7 +63,15 @@
         },methods: {
             mouseOver(){
                 $('.show-tooltip').tooltip();   
+            },
+            unpinCategory(categoryId,key) {                
+                console.log(key);
+                $.post("/Api/Category/Unpin/", { categoryId: categoryId }, () => {
+                    this.messages.splice(key, 1);
+                });
             }
+
+
         },
         mounted: function() {
             var self = this;
@@ -99,19 +83,16 @@
                 success: function(Data) {
                     self.messages = Data;
                     for (var i = 0; i < Data.length;i++){
-                        console.log(Data[i].KnowlegdeWishPartial);
+                        console.log(Data[i].CategoryId);
                     }
-                  
-                    
                 },
                 error: function(error) {
                     console.log(error);
                 }
             });
         }
-    
-    
-
     });
     
 </script>
+
+
