@@ -84,62 +84,11 @@ public class KnowledgeController : BaseController
         //after deleting, however, there is no longer an appointment
     }
 
-
-    // get CategoryDates 
-    // begin
     public JsonResult getCatsAndSetsWish()
-    {
-        var filteredCategoryWishKnowledges = filteredCategoryWishKnowledge();
-        return new JsonResult {Data = filteredCategoryWishKnowledges};
-    }
-
-    public List<CategoryWishKnowledge> filteredCategoryWishKnowledge()
-    {
-        List<CategoryWishKnowledge> filteredCategoryWishKnowledges = new List<CategoryWishKnowledge>();
-      
-        var categoryValuationIds = UserValuationCache.GetCategoryValuations(UserId)
-            .Where(v => v.IsInWishKnowledge())
-            .Select(v => v.CategoryId)
-            .ToList();
+    {  
+        CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+        var filteredCategoryWishKnowledges = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
         
-        var categoriesWishPool = R<CategoryRepository>().GetByIds(categoryValuationIds);
-        var categoriesWish = OrderCategoriesByQuestionCountAndLevel.Run(categoriesWishPool);
-
-        foreach (var categoryWish in categoriesWish)
-        { 
-            var categoryWishKnowledge = new CategoryWishKnowledge();
-            categoryWishKnowledge.CategoryDescription = categoryWish.Description;
-            categoryWishKnowledge.CategoryTitel = categoryWish.Name;
-            categoryWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
-            categoryWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish);
-            categoryWishKnowledge.CategoryId = categoryWish.Id;
-            filteredCategoryWishKnowledges.Add(categoryWishKnowledge);
-        }
-
-        return filteredCategoryWishKnowledges;
+        return new JsonResult {Data = filteredCategoryWishKnowledges};  
     }
-
-    public ImageFrontendData GetCategoryImage(int CategoryId)
-    {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
-        return new ImageFrontendData(imageMetaData);
-    }
-
-    public string KnowledgeWishPartial(Category category)
-    {
-        var KnowledgeBarPartial =ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category),ControllerContext);
-        
-        return KnowledgeBarPartial;
-        
-    }
-    public class CategoryWishKnowledge
-    {
-        public int CategoryId;
-        public string CategoryDescription;
-        public string CategoryTitel;
-        public ImageFrontendData ImageFrontendData;
-        public string KnowlegdeWishPartial;
-
-    }
-  // end
 }
