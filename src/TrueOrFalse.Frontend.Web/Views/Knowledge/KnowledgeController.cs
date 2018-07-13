@@ -84,7 +84,7 @@ public class KnowledgeController : BaseController
         //after deleting, however, there is no longer an appointment
     }
 
-    public JsonResult getCatsAndSetsWish()
+    public JsonResult GetCatsAndSetsWish()
     {  
         CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
         var filteredCategoryWishKnowledges = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);

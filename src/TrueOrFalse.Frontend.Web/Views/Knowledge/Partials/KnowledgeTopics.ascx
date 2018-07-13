@@ -73,7 +73,7 @@
             var self = this;
 
             $.ajax({
-                url: '/Knowledge/getCatsAndSetsWish',
+                url: '/Knowledge/GetCatsAndSetsWish',
                 method: 'POST',
                 datatype: "jsonp",
                 success: function(Data) {
