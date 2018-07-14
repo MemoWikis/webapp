@@ -65,7 +65,7 @@
         <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" title="Zur Themenseite"> 
             <% if (!(Model.IsAnswerQuestionOrSetBreadCrumb)) {
                     if (i == breadCrumbCategoriesCount) { %> 
-                     <span style="display: inline-table; margin-left:10px; color:#000000; opacity:0.50;"><a href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
+                     <span id="Breadcrumblast" style="display: inline-table; margin-left:10px; color:#000000; opacity:0.50;"><a href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a></span>              
                   <%} else { %>
                      <span style="display: inline-table; margin-left:10px;"><a href="<%= Links.CategoryDetail(breadCrumbCategories[i]) %>" class=""><%= breadCrumbCategories[i].Name %></a>
                        <i style="display: inline;" class="fa fa-chevron-right"></i>

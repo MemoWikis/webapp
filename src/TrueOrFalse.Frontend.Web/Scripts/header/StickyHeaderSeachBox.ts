@@ -3,7 +3,7 @@ var isSmallHeaderSearchBoxOpen = false;
 
 function SearchButtonClick() {
 
-    var SearchButton = document.getElementById('StickyHeaderSearchButton');
+    var SearchButton = document.getElementById('StickySearchButton');
     var inputBox = document.getElementById('StickyHeaderSearchBox');
     var searchBox = document.getElementById('StickyHeaderSearchBoxDiv');
 
@@ -13,13 +13,19 @@ function SearchButtonClick() {
 
 
     if (isOpen == false) {
+        inputBox.style.display = 'block';
         searchBox.style.width = '262.41px';
         inputBox.style.padding = '6px 12px';
+        SearchButton.style.border = '#979797 1px solid';
+        SearchButton.style.background = '#ebebeb';
         isOpen = true;
     } else {
         searchBox.style.width = '48px';
         inputBox.style.padding = '0px';
+        SearchButton.style.border = 'none';
+        SearchButton.style.background = 'none';
         isOpen = false;
+        inputBox.style.display = '';
     }
 
     if (isSmallHeaderSearchBoxOpen == false) {

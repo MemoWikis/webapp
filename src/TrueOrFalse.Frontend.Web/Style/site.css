@@ -357,22 +357,20 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 991.5px) {
-  #Login {
-    display: none !important;
-  }
-}
-#loginAndHelp {
+#loginAndHelp,
+#StickyHeaderContainer {
   color: #E7ECF6;
   float: right;
   height: 100%;
 }
 @media (min-width: 768px) {
-  #loginAndHelp {
+  #loginAndHelp,
+  #StickyHeaderContainer {
     margin-top: 1px;
   }
 }
-#loginAndHelp .badge {
+#loginAndHelp .badge,
+#StickyHeaderContainer .badge {
   height: 19px;
   padding: 0px;
   padding-top: 1px;
@@ -385,98 +383,123 @@ img {
   border: 1.5px solid #003264;
   margin-top: -9px;
 }
-#loginAndHelp .dropdown-badge {
+#loginAndHelp .dropdown-badge,
+#StickyHeaderContainer .dropdown-badge {
   line-height: 16px !important;
   left: -9px;
   margin-top: -2px;
   border: 1px solid #FFFFFF;
 }
-#loginAndHelp #SmallHeaderSearchBoxDiv {
+#loginAndHelp #SmallHeaderSearchBoxDiv,
+#StickyHeaderContainer #SmallHeaderSearchBoxDiv {
   width: 48px;
   -webkit-transition: width 0.3s;
   display: none;
 }
 @media (max-width: 991.5px) {
-  #loginAndHelp #SmallHeaderSearchBoxDiv {
+  #loginAndHelp #SmallHeaderSearchBoxDiv,
+  #StickyHeaderContainer #SmallHeaderSearchBoxDiv {
     display: table;
   }
 }
-#loginAndHelp #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox {
+#loginAndHelp #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox,
+#StickyHeaderContainer #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox {
   border: none;
   padding: 0px;
   font-weight: 400;
   height: 44px;
 }
-#loginAndHelp .header-item {
+#loginAndHelp .header-item,
+#StickyHeaderContainer .header-item {
   display: flex;
   flex-direction: column;
   margin-right: 25px;
   text-align: center;
 }
-#loginAndHelp .header-item .btn-default {
+#loginAndHelp .header-item .btn-default,
+#StickyHeaderContainer .header-item .btn-default {
   display: none;
   background-color: transparent;
   border: none;
 }
 @media (max-width: 991.5px) {
-  #loginAndHelp .header-item .btn-default {
+  #loginAndHelp .header-item .btn-default,
+  #StickyHeaderContainer .header-item .btn-default {
     display: block;
   }
 }
-#loginAndHelp .dropdown {
+#loginAndHelp .dropdown,
+#StickyHeaderContainer .dropdown {
   height: 100%;
   line-height: 34px;
 }
-#loginAndHelp .dropdown .userName {
+#loginAndHelp .dropdown .userName,
+#StickyHeaderContainer .dropdown .userName {
   max-width: 145px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 #loginAndHelp a,
-#loginAndHelp span {
+#StickyHeaderContainer a,
+#loginAndHelp span,
+#StickyHeaderContainer span {
   line-height: 34px;
 }
-#loginAndHelp span {
+#loginAndHelp span,
+#StickyHeaderContainer span {
   vertical-align: middle;
 }
-#loginAndHelp .KnowledgeLink {
+#loginAndHelp .KnowledgeLink,
+#StickyHeaderContainer .KnowledgeLink {
   color: #AED71B !important;
 }
-#loginAndHelp a.TextLinkWithIcon {
+#loginAndHelp a.TextLinkWithIcon,
+#StickyHeaderContainer a.TextLinkWithIcon {
   color: #E7ECF6;
 }
 #loginAndHelp a.TextLinkWithIcon:hover,
+#StickyHeaderContainer a.TextLinkWithIcon:hover,
 #loginAndHelp a.TextLinkWithIcon:active,
-#loginAndHelp a.TextLinkWithIcon:focus {
+#StickyHeaderContainer a.TextLinkWithIcon:active,
+#loginAndHelp a.TextLinkWithIcon:focus,
+#StickyHeaderContainer a.TextLinkWithIcon:focus {
   color: #AFD534;
 }
 #loginAndHelp a.TextLinkWithIcon:hover *,
+#StickyHeaderContainer a.TextLinkWithIcon:hover *,
 #loginAndHelp a.TextLinkWithIcon:active *,
-#loginAndHelp a.TextLinkWithIcon:focus * {
+#StickyHeaderContainer a.TextLinkWithIcon:active *,
+#loginAndHelp a.TextLinkWithIcon:focus *,
+#StickyHeaderContainer a.TextLinkWithIcon:focus * {
   text-decoration: none;
 }
 @media (min-width: 480px) {
-  #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink,
+  #StickyHeaderContainer a.helpLink {
     margin-right: 5px;
   }
 }
 @media (min-width: 768px) {
-  #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink,
+  #StickyHeaderContainer a.helpLink {
     margin-right: 10px;
   }
 }
 @media (max-width: 370px) {
-  #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink,
+  #StickyHeaderContainer a.helpLink {
     display: none;
   }
 }
 @media (max-width: 700px) {
-  #loginAndHelp a.helpLink.helpLinkFaq {
+  #loginAndHelp a.helpLink.helpLinkFaq,
+  #StickyHeaderContainer a.helpLink.helpLinkFaq {
     display: none;
   }
 }
-#loginAndHelp .userImage {
+#loginAndHelp .userImage,
+#StickyHeaderContainer .userImage {
   height: 30px;
   width: 30px;
   margin-left: 1px;
@@ -484,39 +507,42 @@ img {
   border-radius: 4px;
 }
 #loginAndHelp a:hover .userImage,
+#StickyHeaderContainer a:hover .userImage,
 #loginAndHelp a:active .userImage,
-#loginAndHelp a:focus .userImage {
+#StickyHeaderContainer a:active .userImage,
+#loginAndHelp a:focus .userImage,
+#StickyHeaderContainer a:focus .userImage {
   height: 31px;
   width: 31px;
   margin-left: 0;
 }
-#loginAndHelp i {
+#loginAndHelp i,
+#StickyHeaderContainer i {
   font-size: 15px;
 }
 #loginAndHelp .TextSpan,
-#loginAndHelp span:not(.level-display) {
+#StickyHeaderContainer .TextSpan,
+#loginAndHelp span:not(.level-display),
+#StickyHeaderContainer span:not(.level-display) {
   display: inline-block;
   font-size: 14px;
   font-weight: bold;
 }
-@media (max-width: 991.5px) {
-  #loginAndHelp .TextSpan,
-  #loginAndHelp span:not(.level-display) {
-    display: none;
-  }
-}
-#loginAndHelp .dropdown-menu {
+#loginAndHelp .dropdown-menu,
+#StickyHeaderContainer .dropdown-menu {
   text-align: left;
   border-radius: 0px;
   border: 1px solid #707070;
   width: 197px;
   padding-top: 0px;
 }
-#loginAndHelp .dropdown-menu span {
+#loginAndHelp .dropdown-menu span,
+#StickyHeaderContainer .dropdown-menu span {
   font-size: 12px;
   line-height: normal;
 }
-#loginAndHelp i#tabInfoMyKnowledge {
+#loginAndHelp i#tabInfoMyKnowledge,
+#StickyHeaderContainer i#tabInfoMyKnowledge {
   margin-right: 1px;
 }
 #MasterHeader .popover {
@@ -1091,16 +1117,23 @@ ul.AutocompleteHeader {
   justify-content: space-between;
   margin-top: -19px;
 }
+#Breadcrumb #StickyHeaderContainer #StickySearchButton {
+  border: none;
+}
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
   margin-top: 12px;
   width: 48px;
   -webkit-transition: width 0.3s;
+}
+#Breadcrumb #StickyHeaderContainer div {
+  margin-right: 25px;
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBox {
   border-right: none !important;
   border: 1px #979797 solid;
   padding: 0px;
   font-weight: 400;
+  display: none;
 }
 #Breadcrumb .fa {
   margin-right: 25px;

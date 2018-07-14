@@ -353,13 +353,7 @@ img {
     }
 }
 
-#Login {
-    @media (max-width:(@screen-md-min - 0.5)) {
-        display: none !important;
-    }
-}
-
-#loginAndHelp {
+#loginAndHelp, #StickyHeaderContainer {
     color: @light-blue;
     float: right;
     height: 100%;
@@ -508,10 +502,6 @@ img {
         display: inline-block;
         font-size: 14px;
         font-weight: bold;
-
-        @media (max-width:(@screen-md-min - 0.5)) {
-            display: none;
-        }
     }
 
     .dropdown-menu {
@@ -1076,6 +1066,9 @@ img {
         justify-content:space-between;
         margin-top: -19px;
 
+         #StickySearchButton{
+            border:none;
+         }
 
         #StickyHeaderSearchBoxDiv {
             margin-top: 12px;
@@ -1083,11 +1076,17 @@ img {
             -webkit-transition: width 0.3s;
             }
 
+        div{
+            margin-right:25px;
+        }
             #StickyHeaderSearchBox{
                 border-right: none !important;
                 border: 1px #979797 solid;
                 padding:0px;
                 font-weight:400;
+                display:none;
+
+              
             }
 
         }

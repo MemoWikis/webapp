@@ -299,7 +299,7 @@
       -ms-flex-align: end;
           align-items: flex-end;
 }
-.MainMenu {
+.RightMainMenu {
   padding: 0px;
   position: absolute;
   background-color: #F6F8FA;
@@ -316,12 +316,12 @@
   right: 0px;
 }
 @media (min-width: 1200px) {
-  .MainMenu {
+  .RightMainMenu {
     right: -232px;
   }
 }
 @media (min-width: 480px) and (max-width: 767px) {
-  .MainMenu {
+  .RightMainMenu {
     width: 101%;
     max-width: none;
     padding-right: 0px;
@@ -329,7 +329,7 @@
   }
 }
 @media (max-width: 479px) {
-  .MainMenu {
+  .RightMainMenu {
     width: 101%;
     max-width: none;
     padding-right: 0px;

@@ -7,18 +7,18 @@
         $('#Breadcrumb').css('top', '0px');
         $('#Breadcrumb').css('position', 'sticky');
         $('#Breadcrumb').css('display', 'block');
-        $('#MainMenu').css('position', 'fixed');
-        $('#MainMenu').css('top', '75px');
-        $('#MainMenu').addClass('StickyMainMenu');
+        $('#RightMainMenu').css('position', 'fixed');
+        $('#RightMainMenu').css('top', '75px');
+        $('#RightMainMenu').addClass('StickyMainMenu');
 
     } else {
         $('#BreadcrumbLogoSmall').hide();
         $('#StickyHeaderContainer').hide();
         $('#Breadcrumb').css('top', '80px');
         $('#Breadcrumb').css('position', 'unset');
-        $('#MainMenu').css('position', 'absolute');
-        $('#MainMenu').css('top', '18px');
-        $('#MainMenu').removeClass('StickyMainMenu');
+        $('#RightMainMenu').css('position', 'absolute');
+        $('#RightMainMenu').css('top', '18px');
+        $('#RightMainMenu').removeClass('StickyMainMenu');
 
     }
 });
