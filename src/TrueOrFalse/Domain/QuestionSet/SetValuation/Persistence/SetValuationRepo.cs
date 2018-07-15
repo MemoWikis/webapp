@@ -63,24 +63,31 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
     {
         base.Create(setValuations);
         _searchIndexSet.Update(_setRepo.GetByIds(setValuations.SetIds().ToArray()));
+        foreach (var setValuation in setValuations)
+        {
+            UserValuationCache.AddOrUpdate(setValuation);
+        }
     }
 
     public override void Create(SetValuation setValuation)
     {
         base.Create(setValuation);
         _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
+        UserValuationCache.AddOrUpdate(setValuation);
     }
 
     public override void CreateOrUpdate(SetValuation setValuation)
     {
         base.CreateOrUpdate(setValuation);
         _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
+        UserValuationCache.AddOrUpdate(setValuation);
     }
 
     public override void Update(SetValuation setValuation)
     {
         base.Update(setValuation);
         _searchIndexSet.Update(_setRepo.GetById(setValuation.SetId));
+        UserValuationCache.AddOrUpdate(setValuation);
     }
 
     public void DeleteWhereSetIdIs(int setId)
