@@ -18,13 +18,12 @@
     <%--HEADER--%>
     <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader"); %>
-      <div id="Breadcrumb" <%if(Model.TopNavMenu.IsWelcomePage){%> style="display:none" <%} %>>
+      <div id="Breadcrumb" <%if(Model.TopNavMenu.IsWelcomePage){%> style="display:none;" <%} %>>
         <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model);%>
     </div>  
     <section id="MasterSection">
 
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
-        <% Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
         <section id="MasterMainContent" class="container">
             <div class="row">
                 <section id="MasterMainColumn">

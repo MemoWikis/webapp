@@ -313,12 +313,9 @@
   float: right;
   display: none;
   border: solid #707070 0.5px;
-  right: 0px;
-}
-@media (min-width: 1200px) {
-  .RightMainMenu {
-    right: -232px;
-  }
+  text-align: left;
+  top: 41px;
+  right: 4px;
 }
 @media (min-width: 480px) and (max-width: 767px) {
   .RightMainMenu {
@@ -326,6 +323,7 @@
     max-width: none;
     padding-right: 0px;
     right: 0px !important;
+    position: fixed;
   }
 }
 @media (max-width: 479px) {
@@ -334,10 +332,11 @@
     max-width: none;
     padding-right: 0px;
     right: 0px !important;
+    position: fixed;
   }
 }
-.StickyMainMenu {
-  right: 12% !important;
+.RightMainMenu a {
+  line-height: normal !important;
 }
 .secondary-section .list-group-item {
   padding: 7px 7px 7px 40px;

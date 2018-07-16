@@ -501,7 +501,6 @@ img {
     .TextSpan, span:not(.level-display) {
         display: inline-block;
         font-size: 14px;
-        font-weight: bold;
     }
 
     .dropdown-menu {
@@ -514,6 +513,15 @@ img {
         span {
             font-size: 12px;
             line-height: normal;
+             font-weight:normal;
+        }
+
+        a {
+            font-weight:normal;
+        }
+
+        i {
+            margin:0px;
         }
     }
 
@@ -542,6 +550,7 @@ img {
     color: @text-color;
     font-size: 12px;
     text-align: center;
+    white-space:normal;
 
     span {
         vertical-align: baseline !important;
@@ -592,6 +601,7 @@ img {
     .ProgressInfoText {
         text-align: center;
         color: @global-text-color-grey;
+        font-weight:normal !important;
     }
 }
 
@@ -976,6 +986,7 @@ img {
     background-color: white;
     line-height: 1.5em;
     width: 100%;
+    display:block;
     font-family: sans;
     padding-top: 17px;
     padding-bottom: 14px !important;
@@ -990,7 +1001,6 @@ img {
 
     div {
         font-family: 'Open Sans';
-        font-weight: bold;
     }
 
     img {
@@ -1072,20 +1082,16 @@ img {
 
         #StickyHeaderSearchBoxDiv {
             margin-top: 12px;
-            width: 48px;
+            width: 47px;
             -webkit-transition: width 0.3s;
             }
 
-        div{
-            margin-right:25px;
-        }
+
             #StickyHeaderSearchBox{
                 border-right: none !important;
-                border: 1px #979797 solid;
+                border: none;
                 padding:0px;
                 font-weight:400;
-                display:none;
-
               
             }
 
@@ -1096,6 +1102,10 @@ img {
             padding-top: 12px;
         }
     }
+
+.ShowBreadcrumb{
+    display:block !important;
+}
 
 #MasterSidebarColumn {
     .make-lg-column(3);

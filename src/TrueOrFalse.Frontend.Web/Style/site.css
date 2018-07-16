@@ -526,7 +526,6 @@ img {
 #StickyHeaderContainer span:not(.level-display) {
   display: inline-block;
   font-size: 14px;
-  font-weight: bold;
 }
 #loginAndHelp .dropdown-menu,
 #StickyHeaderContainer .dropdown-menu {
@@ -540,6 +539,15 @@ img {
 #StickyHeaderContainer .dropdown-menu span {
   font-size: 12px;
   line-height: normal;
+  font-weight: normal;
+}
+#loginAndHelp .dropdown-menu a,
+#StickyHeaderContainer .dropdown-menu a {
+  font-weight: normal;
+}
+#loginAndHelp .dropdown-menu i,
+#StickyHeaderContainer .dropdown-menu i {
+  margin: 0px;
 }
 #loginAndHelp i#tabInfoMyKnowledge,
 #StickyHeaderContainer i#tabInfoMyKnowledge {
@@ -562,6 +570,7 @@ img {
   color: #333333;
   font-size: 12px;
   text-align: center;
+  white-space: normal;
 }
 #activity-popover-content-inner span {
   vertical-align: baseline !important;
@@ -621,6 +630,7 @@ img {
 #activity-popover-content-inner .ProgressInfoText {
   text-align: center;
   color: #999999;
+  font-weight: normal !important;
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
@@ -1042,6 +1052,7 @@ ul.AutocompleteHeader {
   background-color: white;
   line-height: 1.5em;
   width: 100%;
+  display: block;
   font-family: sans;
   padding-top: 17px;
   padding-bottom: 14px !important;
@@ -1056,7 +1067,6 @@ ul.AutocompleteHeader {
 }
 #Breadcrumb div {
   font-family: 'Open Sans';
-  font-weight: bold;
 }
 #Breadcrumb img {
   width: 29.57px !important;
@@ -1122,22 +1132,21 @@ ul.AutocompleteHeader {
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
   margin-top: 12px;
-  width: 48px;
+  width: 47px;
   -webkit-transition: width 0.3s;
-}
-#Breadcrumb #StickyHeaderContainer div {
-  margin-right: 25px;
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBox {
   border-right: none !important;
-  border: 1px #979797 solid;
+  border: none;
   padding: 0px;
   font-weight: 400;
-  display: none;
 }
 #Breadcrumb .fa {
   margin-right: 25px;
   padding-top: 12px;
+}
+.ShowBreadcrumb {
+  display: block !important;
 }
 #MasterSidebarColumn {
   position: relative;

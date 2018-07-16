@@ -80,5 +80,6 @@
     <div class="header-item" style="margin-right:0px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i style="font-size:32px;" class="fa fa-bars"></i>
         <span class="TextSpan">Menü</span></a>
+        <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
   </div>
