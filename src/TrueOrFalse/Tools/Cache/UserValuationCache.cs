@@ -41,7 +41,7 @@ public class UserValuationCache
                 Sl.QuestionValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, QuestionValuation>(v.Question.Id, v))),
             SetValuations = new ConcurrentDictionary<int, SetValuation>(
-                Sl.SetValuationRepo.GetByUser(userId)
+                Sl.SetValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, SetValuation>(v.SetId, v)))
         };
         Add_valuationCacheItem_to_cache(cacheItem, userId);
@@ -60,6 +60,7 @@ public class UserValuationCache
 
     public static void AddOrUpdate(QuestionValuation questionValuation)
     {
+        
         var cacheItem = GetItem(questionValuation.User.Id);
 
         lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")

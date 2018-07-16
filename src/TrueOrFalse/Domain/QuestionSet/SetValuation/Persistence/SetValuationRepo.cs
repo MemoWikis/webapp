@@ -30,12 +30,15 @@ public class SetValuationRepo : RepositoryDb<SetValuation>
                 .Where(q => q.UserId == userId && q.SetId == setId)
                 .SingleOrDefault();
 
-    public IList<SetValuation> GetByUser(int userId) => 
-        _session.QueryOver<SetValuation>()
-                .Where(q =>
-                    q.UserId == userId &&
-                    q.RelevancePersonal >= 0)
-                .List<SetValuation>();
+    public IList<SetValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
+    {
+       var query =  _session.QueryOver<SetValuation>()
+            .Where(q => q.UserId == userId);
+
+        if(onlyActiveKnowledge)
+        query.Where(q=> q.RelevancePersonal >= -1);
+           return  query.List<SetValuation>();
+    }
 
     public bool IsInWishKnowledge(int setId, int userId) => 
         Sl.SetValuationRepo.GetBy(setId, userId)?.IsInWishKnowledge() ?? false;
