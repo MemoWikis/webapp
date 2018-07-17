@@ -3,17 +3,7 @@
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.3.4/vue-resource.common.js"></script>
-<script type="text/javascript" src="http://cdn.jsdelivr.net/vue.table/1.5.3/vue-table.min.js"></script>
-
-
-
-
-
-
-
-
-<div id="app">
+<%-- %><div id="app">
     <table class="table">
         <tr>
             <th>Titel</th>
@@ -38,14 +28,14 @@
                           { %>
                            <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>         <%-- <%= Links.DateCreateForCategory(Model.Id) %>--%>
                         
-                           <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>           <%-- <%= Links.GameCreateFromCategory(Model.Id) %>--%>
-                       <% }
+                          <%-- %> <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>           <%-- <%= Links.GameCreateFromCategory(Model.Id) %>--%>
+                    <%--   <% }
                           if(true){ %>
                            <li><a href="#"><i class="fa fa-pencil"></i>&nbsp;bearbeiten</a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
-                       <% }
+                   <%--     <% }
                       if (Model.IsInstallationAdmin){ %>
                            <li><a href="#"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>      <%--<%= Links.CreateQuestion(categoryId: Model.Id) %>--%>
-                       <% } %>
+                  <%--    <% } %>
                    </ul>
                </div>
            </td>
@@ -79,7 +69,7 @@
                 success: function(Data) {
                     self.messages = Data;
                     for (var i = 0; i < Data.length;i++){
-                        console.log(Data[i].CategoryId);
+                        console.log(Data);
                     }
                 },
                 error: function(error) {
@@ -90,5 +80,142 @@
     });
     
 </script>
+--%>
+
+
+
+
+
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+
+<style class="cp-pen-styles">#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+.orange.glyphicon {
+  color: orange;
+}
+
+th.sortable {
+  color: #ec971f;
+}
+</style><body>
+<div id="app">
+ <div id="table-wrapper" class="ui container">
+   <h2><strong>&lt;Vuetable-2&gt;</strong> with Bootstrap 3</h2>
+  <vuetable ref="vuetable"
+    api-url="https://vuetable.ratiw.net/api/users"
+    :fields="fields"
+    :sort-order="sortOrder"
+    :css="css.table"
+    pagination-path=""
+    :per-page="3"
+    @vuetable:pagination-data="onPaginationData"
+    @vuetable:loading="onLoading"
+    @vuetable:loaded="onLoaded"
+  >
+    <template slot="actions" scope="props">
+      <div class="table-button-container">
+          <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
+            <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
+          <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData)">
+            <span class="glyphicon glyphicon-trash"></span> Delete</button>&nbsp;&nbsp;
+      </div>
+      </template>
+    </vuetable>
+    <vuetable-pagination ref="pagination"
+      :css="css.pagination"
+      @vuetable-pagination:change-page="onChangePage"
+    ></vuetable-pagination>
+  </div>
+</div>
+
+<script>
+    Vue.use(Vuetable);
+
+    new Vue({
+        el: '#app',
+        components: {
+            'vuetable-pagination': Vuetable.VuetablePagination
+        },
+        data: {
+            fields: [
+                {
+                    name: 'name',
+                    title: '<span class="orange glyphicon glyphicon-user"></span> Full Name',
+                    sortField: 'name'
+                },
+                {
+                    name: 'email',
+                    title: 'Email',
+                    sortField: 'email'
+                },
+                'birthdate','nickname',
+                {
+                    name: 'gender',
+                    title: 'Gender',
+                    sortField: 'gender'
+                },
+                '__slot:actions'
+            ],
+            sortOrder: [
+                { field: 'name', direction: 'asc' }
+            ],
+            css: {
+                table: {
+                    tableClass: 'table table-striped table-bordered table-hovered',
+                    loadingClass: 'loading',
+                    ascendingIcon: 'glyphicon glyphicon-chevron-up',
+                    descendingIcon: 'glyphicon glyphicon-chevron-down',
+                    handleIcon: 'glyphicon glyphicon-menu-hamburger',
+                },
+                pagination: {
+                    infoClass: 'pull-left',
+                    wrapperClass: 'vuetable-pagination pull-right',
+                    activeClass: 'btn-primary',
+                    disabledClass: 'disabled',
+                    pageClass: 'btn btn-border',
+                    linkClass: 'btn btn-border',
+                    icons: {
+                        first: '',
+                        prev: '',
+                        next: '',
+                        last: '',
+                    },
+                }
+            }
+        },
+        computed:{
+            /*httpOptions(){
+              return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
+            },*/
+        },
+        methods: {
+            onPaginationData (paginationData) {
+                this.$refs.pagination.setPaginationData(paginationData)
+            },
+            onChangePage (page) {
+                this.$refs.vuetable.changePage(page)
+            },
+            editRow(rowData){
+                alert("You clicked edit on"+ JSON.stringify(rowData))
+            },
+            deleteRow(rowData){
+                alert("You clicked delete on"+ JSON.stringify(rowData))
+            },
+            onLoading() {
+                console.log('loading... show your spinner here')
+            },
+            onLoaded() {
+                console.log('loaded! .. hide your spinner here')
+            }
+        }
+    })
+//# sourceURL=pen.js
+</script>
+</body>
 
 

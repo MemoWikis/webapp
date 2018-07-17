@@ -75,7 +75,10 @@ namespace TrueOrFalse.View
                 .IncludeDirectory("~/Views/Knowledge/", "*.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/Knowledge")
-                .Include("~/Views/Knowledge/Js/*.js"));
+                .Include("~/Views/Knowledge/Js/*.js")
+            );
+               
+                //.Include("~/Scripts/vendor/vue.min.js")
 
             bundles.Add(new StyleBundle("~/bundles/AlgoInsight")
                 .IncludeDirectory("~/Views/AlgoInsight/", "*.css"));
@@ -284,6 +287,11 @@ namespace TrueOrFalse.View
 
             bundles.Add(new StyleBundle("~/bundles/KnowledgeTopics")
                 .Include("~/Views/Knowledge/Css/KnowledgeTopics.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeTopics")
+                .Include("~/Scripts/vendor/vuetable-2.js")
+                .Include("~/Scripts/vendor/vue.min.js")
+            );
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;
