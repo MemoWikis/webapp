@@ -19,11 +19,10 @@
 @media (min-width: 650px) {
 }
 #MasterMainWrapper {
-    background-color: transparent;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 109.01%;
+  background-color: transparent;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 @media (min-width: 768px) {
   #MasterMainWrapper {

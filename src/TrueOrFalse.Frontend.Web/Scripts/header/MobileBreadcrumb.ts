@@ -1,6 +1,6 @@
 ﻿$(window).on("load", function () {
-var offset = $('#Breadcrumblast').offset();
-var rightspace = ($(window).width() - ($('#Breadcrumblast').offset().left + $('#Breadcrumblast').outerWidth()));
+var offset = $('#LastBreadcrumb').offset();
+var rightspace = ($(window).width() - ($('#LastBreadcrumb').offset().left + $('#LastBreadcrumb').outerWidth()));
     var index = 0;
 if (rightspace < 0) {
     while (rightspace < 0) {

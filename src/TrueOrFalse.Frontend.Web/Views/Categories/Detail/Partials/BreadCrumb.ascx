@@ -8,7 +8,7 @@
     <div id="BreadcrumbLogoSmall" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </div>
-      <div style="height: auto;" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
+    <div style="height: auto;" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
      <%if(!(Model.TopNavMenu.IsWelcomePage)){ %> 
         <a href="/" class="category-icon">
             <span style="margin-left: 10px">Home</span>
@@ -40,6 +40,14 @@
     <%}%>
 <%} %>
     <div id="StickyHeaderContainer">    
+       
+        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:25px">
+            <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
+            <div class="input-group-btn">
+                <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div style="margin-right:25px"><i class="fa fa-dot-circle"></i></div>
         <div style="margin-right:25px">
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
             <img class="userImage" style="margin-top:13px; border:none;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
@@ -72,13 +80,6 @@
                 <% } %>
             </ul>
         </div>
-        <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:25px">
-            <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
-            <div class="input-group-btn">
-                <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
-            </div>
-        </div>
-        <div style="margin-right:25px"><i class="fa fa-dot-circle"></i></div>
         <div><a id="StickyMenuButton" style="margin-top:0px;"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
     </div>
 

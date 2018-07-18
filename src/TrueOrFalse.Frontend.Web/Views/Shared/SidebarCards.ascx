@@ -20,8 +20,8 @@
             <span>Beitragende</span>
         </div>
         <div class="ImageContainer" style="margin-top: 12.64px; width: 100%;">
-            <div style="display: flex; justify-content: center;">
-               <!-- <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%//= Model.MultipleImageUrl[0] %>" data-append-image-link-to="ImageContainer" />
+            <!--<div style="display: flex; justify-content: center;">
+                <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%//= Model.MultipleImageUrl[0] %>" data-append-image-link-to="ImageContainer" />
                 <img class="multiple-autor-card-image ItemImage JS-InitImage" alt="" src="<%//= Model.MultipleImageUrl[1] %>" data-append-image-link-to="ImageContainer" />
            <%//= Model.MultipleCreatorName[0] %>
                 </div>

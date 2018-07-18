@@ -323,8 +323,11 @@
     max-width: none;
     padding-right: 0px;
     right: 0px !important;
-    position: fixed;
+    position: fixed !important;
   }
+}
+.RightMainMenu span {
+  display: block !important;
 }
 @media (max-width: 479px) {
   .RightMainMenu {
@@ -332,7 +335,7 @@
     max-width: none;
     padding-right: 0px;
     right: 0px !important;
-    position: fixed;
+    position: fixed !important;
   }
 }
 .RightMainMenu a {

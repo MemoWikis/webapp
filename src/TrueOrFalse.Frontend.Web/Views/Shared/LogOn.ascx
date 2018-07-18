@@ -10,13 +10,13 @@
         <div class="input-group" id="SmallHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
             <div class="input-group-btn" style="height:34px;">
-              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="font-size: 32px; color: white;" aria-hidden="true"></i></button>
+              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>
     <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle"></i>
-            <span class="primary-point-text">Wissenszentrale</span>
+            <span class="primary-point-text TextSpan">Wissenszentrale</span>
         </a>
     </div>
     <div class="header-item" id="Login">
@@ -78,7 +78,7 @@
 %>    
     </div>
     <div class="header-item" style="margin-right:0px;">
-        <a id="MenuButton" class="TextLinkWithIcon"><i style="font-size:32px;" class="fa fa-bars"></i>
+        <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
         <span class="TextSpan">Menü</span></a>
         <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
