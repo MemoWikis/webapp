@@ -84,11 +84,20 @@ public class KnowledgeController : BaseController
         //after deleting, however, there is no longer an appointment
     }
 
-    public JsonResult GetCatsAndSetsWish()
-    {  
-        CategoryAndSetDataWishKnowledge categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
-        var filteredCategoryWishKnowledges = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        
-        return new JsonResult {Data = filteredCategoryWishKnowledges};  
+    [HttpGet]
+    public JsonResult GetCatsAndSetsWish( int page,int per_page, string sort = "")
+    {  IList<object> userValuationCaches = new List<object>();
+        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+        var data= categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext); 
+        var helper = new Helper();
+        return Json (new {data}, JsonRequestBehavior.AllowGet );  
     }
+    public class Helper
+    {
+        public int total = 200;
+        public int per_page = 3;
+        public int current_page = 1;
+        public int last_page = 67;
+    }
+
 }

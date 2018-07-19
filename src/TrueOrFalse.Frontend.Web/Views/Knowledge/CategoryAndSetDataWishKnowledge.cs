@@ -7,24 +7,36 @@ using System.Web.Mvc;
 
 public class CategoryAndSetDataWishKnowledge: BaseController
 {
-    public List<CategoryWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
+    public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
     {
-        List<CategoryWishKnowledge> filteredCategoryWishKnowledges = new List<CategoryWishKnowledge>();
+        List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
 
-        var categoriesWish = GetCategoryData();
-
-        foreach (var categoryWish in categoriesWish)
+        var CategorieWishes = GetCategoryData();
+        var setWishes = GetSetData();
+        foreach (var categoryWish in CategorieWishes)
         {
-            var categoryWishKnowledge = new CategoryWishKnowledge();
-            categoryWishKnowledge.CategoryDescription = categoryWish.Description;
-            categoryWishKnowledge.CategoryTitel = categoryWish.Name;
-            categoryWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
-            categoryWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
-            categoryWishKnowledge.CategoryId = categoryWish.Id;
-            filteredCategoryWishKnowledges.Add(categoryWishKnowledge);
+            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            categoryAndSetWishKnowledge.Description = categoryWish.Description;
+            categoryAndSetWishKnowledge.Titel = categoryWish.Name;
+            categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
+            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
+            categoryAndSetWishKnowledge.Id = categoryWish.Id;
+            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
-        return filteredCategoryWishKnowledges;
+        foreach (var setWish in setWishes)
+        {
+            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            categoryAndSetWishKnowledge.Description = setWish.Text;
+            categoryAndSetWishKnowledge.Titel = setWish.Name;
+            categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
+            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
+            categoryAndSetWishKnowledge.Id = setWish.Id;
+            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
+
+        }
+
+        return filteredCategoryAndSetWishKnowledges;
     }
 
     public ImageFrontendData GetCategoryImage(int CategoryId)
@@ -40,6 +52,13 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return KnowledgeBarPartial;
 
     }
+    public string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
+    {
+        var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set), controllerContext);
+
+        return KnowledgeBarPartial;
+
+    }
 
     public IList<Category> GetCategoryData()
     {
@@ -51,13 +70,26 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return R<CategoryRepository>().GetByIds(categoryValuationIds);
 
     }
-    public class CategoryWishKnowledge
+
+    public IList<Set> GetSetData()
     {
-        public int CategoryId;
-        public string CategoryDescription;
-        public string CategoryTitel;
+        var setValuationIds = UserValuationCache.GetSetValuations(UserId)
+            .Where(v => v.IsInWishKnowledge())
+            .Select(v => v.SetId)
+            .ToList();
+        return R<SetRepo>().GetByIds(setValuationIds);
+
+    }
+    public class CategoryAndSetWishKnowledge
+    {
+        
+        public int Id;
+        public string Description;
+        public string Titel;
         public ImageFrontendData ImageFrontendData;
         public string KnowlegdeWishPartial;
 
     }
+
+  
 }
