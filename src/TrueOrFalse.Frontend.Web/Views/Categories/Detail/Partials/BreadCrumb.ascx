@@ -4,7 +4,7 @@
     var user = userSession.User;
     var imageSetttings = new UserImageSettings(userSession.User.Id); %>
 
-<div class="container" style="display:flex; flex-wrap: nowrap;">                      
+<div id="BreadcrumbContainer" class="container" style="display:flex; flex-wrap: nowrap;">                      
     <div id="BreadcrumbLogoSmall" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </div>

@@ -358,9 +358,11 @@ img {
     float: right;
     height: 100%;
 
-    @media (min-width: @screen-sm-min) {
+    .media-below-sm( {
         margin-top: 1px;
     }
+
+    );
 
 
     .badge {
@@ -398,7 +400,7 @@ img {
             padding: 0px;
             font-weight: 400;
             height: 44px;
-            text-overflow:ellipsis;
+            text-overflow: ellipsis;
         }
     }
 
@@ -408,8 +410,12 @@ img {
         margin-right: 25px;
         text-align: center;
 
+        @media(max-width:@screen-md) {
+            margin-right: 5px;
+        }
+
         @media(max-width:518px) {
-            margin-right:0px;
+            margin-right: 0px;
         }
 
         .btn-default {
@@ -491,7 +497,7 @@ img {
         border: 1px solid @memo-blue;
         border-radius: 4px;
 
-        @media(max-width: 581px) {
+        @media(max-width:581px) {
             width: 22px;
             height: 22px;
         }
@@ -507,7 +513,7 @@ img {
         }
     }
 
-    i:not(.fa-bars) {
+    i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
         font-size: 32px;
 
         @media(max-width: 581px) {
@@ -516,7 +522,7 @@ img {
     }
 
     .fa-bars {
-        @media(max-width:518px) {
+        @media(max-width:581px) {
             font-size: 25px;
         }
     }
@@ -525,7 +531,7 @@ img {
         display: inline-block;
         font-size: 14px;
 
-        @media(max-width: 581px) {
+        @media(max-width: @screen-md) {
             display: none;
         }
     }
@@ -1766,6 +1772,11 @@ img {
     }
     /*ROWS
 ---------------------------------------------------------*/
+    
+    .row{
+        background-color:#fff;
+    }
+    
     .rowBase:after {
         clear: both;
     }

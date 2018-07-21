@@ -363,7 +363,7 @@ img {
   float: right;
   height: 100%;
 }
-@media (min-width: 768px) {
+@media (max-width: 767px) {
   #loginAndHelp,
   #StickyHeaderContainer {
     margin-top: 1px;
@@ -416,6 +416,12 @@ img {
   flex-direction: column;
   margin-right: 25px;
   text-align: center;
+}
+@media (max-width: 992px) {
+  #loginAndHelp .header-item,
+  #StickyHeaderContainer .header-item {
+    margin-right: 5px;
+  }
 }
 @media (max-width: 518px) {
   #loginAndHelp .header-item,
@@ -536,17 +542,17 @@ img {
   width: 31px;
   margin-left: 0;
 }
-#loginAndHelp i:not(.fa-bars),
-#StickyHeaderContainer i:not(.fa-bars) {
+#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
+#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
   font-size: 32px;
 }
 @media (max-width: 581px) {
-  #loginAndHelp i:not(.fa-bars),
-  #StickyHeaderContainer i:not(.fa-bars) {
+  #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
+  #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
     font-size: 18px;
   }
 }
-@media (max-width: 518px) {
+@media (max-width: 581px) {
   #loginAndHelp .fa-bars,
   #StickyHeaderContainer .fa-bars {
     font-size: 25px;
@@ -559,7 +565,7 @@ img {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 581px) {
+@media (max-width: 992px) {
   #loginAndHelp .TextSpan,
   #StickyHeaderContainer .TextSpan,
   #loginAndHelp span:not(.level-display),
@@ -1801,6 +1807,9 @@ div.box-main .box-content {
 }
 /*ROWS
 ---------------------------------------------------------*/
+.row {
+  background-color: #fff;
+}
 .rowBase:after {
   clear: both;
 }

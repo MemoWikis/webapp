@@ -30,16 +30,16 @@ function SearchButtonClick() {
 
     if (isSmallHeaderSearchBoxOpen == false) {
         SmallHeaderSearchBox.classList.add("SearchBoxDivMaxWidth");
-         SmallHeaderInputBox.style.padding = '6px 12px';
-         SmallHeaderSearchButton.style.border = '#979797 1px solid';
-         SmallHeaderSearchButton.style.background = '#ebebeb';
-         SmallHeaderInputBox.style.border = '1px #979797 solid';
-         isSmallHeaderSearchBoxOpen = true;
+        SmallHeaderInputBox.style.padding = '6px 12px';
+        SmallHeaderInputBox.style.border = '1px #979797 solid';
+        isSmallHeaderSearchBoxOpen = true;
+        SmallHeaderSearchButton.style.background = '#ebebeb';     
+        SmallHeaderSearchButton.style.border = '#979797 1px solid';
 
     } else {
-         SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
-         SmallHeaderInputBox.style.padding = '0px';
-         isSmallHeaderSearchBoxOpen = false;
+        SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
+        SmallHeaderInputBox.style.padding = '0px';
+        isSmallHeaderSearchBoxOpen = false;
     }
 
     $(document).mouseup((e) => {
