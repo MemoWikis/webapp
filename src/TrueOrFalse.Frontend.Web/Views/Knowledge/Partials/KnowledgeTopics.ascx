@@ -127,15 +127,15 @@ th.sortable {
           <div class="table-button-container">
               <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
                 <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
-              <button class="btn btn-danger btn-sm" @click="deleteRow(0)">
+              <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData.Id, props.rowData.isCategory, props.rowIndex)">
                 <span class="glyphicon glyphicon-trash"></span> Delete</button>&nbsp;&nbsp;
           </div>
           </template>
         </vuetable>
         <vuetable-pagination ref="pagination"
           :css="css.pagination"
-          @vuetable-pagination:change-page="onChangePage"
-        ></vuetable-pagination>
+          @vuetable-pagination:change-page="onChangePage">
+        </vuetable-pagination>
       </div>
    
 
@@ -146,7 +146,6 @@ th.sortable {
         el: '#app',
         components: {
             'vuetable-pagination': Vuetable.VuetablePagination
-            
         },
         data: {
             fields: [
@@ -200,7 +199,6 @@ th.sortable {
             /*httpOptions(){
               return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
             },*/
-        
         },
         methods: {
             mouseOver(){
@@ -214,12 +212,45 @@ th.sortable {
             },
             editRow(rowData) {
                 alert("You clicked edit on" + JSON.stringify(rowData));
+                $.post("/Api/Category/Unpin/",
+                    { categoryId: 231 },
+                    function () {
+                      
+                    });
+
+                $.post("/Api/Category/Pin/",
+                    { categoryId: 683 },
+                    function () {
+                      
+                    });
+                $.post("/Api/Category/Pin/",
+                    { categoryId: 686 },
+                    function () {
+                      
+                    });
+                $.post("/Api/Category/Pin/",
+                    { categoryId: 744 },
+                    function () {
+                      
+                    });
             },
-            deleteRow: function(rowId) {
-               // Vue.delete(this.$parent, rowId);
-                console.log(this.$parent);
-
-
+            deleteRow: function (id, isCategory, index) {
+                var self = this;
+            // Controller is /Api/CategoryApi/Unpin 
+                if (isCategory) {
+                    $.post("/Api/Category/Unpin/",
+                        { categoryId: id },
+                        function() {
+                            Vue.delete(self.$refs.vuetable.tableData, index);
+                        });
+                } else {
+                    // Controller is /Api/SetsApi/Unpin
+                    $.post("/Api/Sets/Unpin/",
+                        { setId: id },
+                        function() {
+                            Vue.delete(self.$refs.vuetable.tableData, index);
+                        });
+                }
             },
             onLoading() {
                 console.log('loading... show your spinner here');
@@ -229,7 +260,6 @@ th.sortable {
             }
         }
     });
-//# sourceURL=pen.js
 </script>
 </body>
 
