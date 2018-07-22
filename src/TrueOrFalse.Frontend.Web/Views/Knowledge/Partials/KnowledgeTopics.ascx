@@ -1,5 +1,6 @@
 ﻿<%@ Language="C#" Inherits="System.Web.Mvc.ViewUserControl<KnowledgeModel>"%>
 <%@ Import Namespace="System.Web.Optimization" %>
+<%@ Import Namespace="TrueOrFalse.Frontend.Web.Code" %>
 <%= Styles.Render("~/bundles/KnowledgeTopics") %>
 
 
@@ -127,8 +128,11 @@ th.sortable {
           <div class="table-button-container">
               <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
                 <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
-              <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData.Id, props.rowData.isCategory, props.rowIndex)">
+              <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)">
                 <span class="glyphicon glyphicon-trash"></span> Delete</button>&nbsp;&nbsp;
+              <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
+                  <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
+              </a>
           </div>
           </template>
         </vuetable>
@@ -177,7 +181,7 @@ th.sortable {
                     loadingClass: 'loading',
                     ascendingIcon: 'glyphicon glyphicon-chevron-up',
                     descendingIcon: 'glyphicon glyphicon-chevron-down',
-                    handleIcon: 'glyphicon glyphicon-menu-hamburger',
+                    handleIcon: 'glyphicon glyphicon-menu-hamburger'
                 },
                 pagination: {
                     infoClass: 'pull-left',
@@ -233,11 +237,26 @@ th.sortable {
                     function () {
                       
                     });
+                $.post("/Api/Sets/Pin/",
+                    { setId: 279 },
+                    function () {
+                      
+                    });
+                $.post("/Api/Sets/Pin/",
+                    { setId: 409 },
+                    function () {
+                      
+                    });
+                $.post("/Api/Sets/Pin/",
+                    { setId: 414 },
+                    function () {
+                      
+                    });
             },
-            deleteRow: function (id, isCategory, index) {
+            deleteRow: function (id, IsCategory, index) {
                 var self = this;
             // Controller is /Api/CategoryApi/Unpin 
-                if (isCategory) {
+                if (IsCategory) {
                     $.post("/Api/Category/Unpin/",
                         { categoryId: id },
                         function() {
@@ -260,6 +279,8 @@ th.sortable {
             }
         }
     });
+
+    // TODO FunktonsIFs für Set und Category auslagern, sind zu oft vorhanden.
 </script>
 </body>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TrueOrFalse.Frontend.Web.Code;
 
 
 public class CategoryAndSetDataWishKnowledge: BaseController
@@ -21,7 +22,8 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
             categoryAndSetWishKnowledge.Id = categoryWish.Id;
-            categoryAndSetWishKnowledge.isCategory = true;
+            categoryAndSetWishKnowledge.IsCategory = true;
+            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
             
         }
@@ -34,7 +36,8 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
             categoryAndSetWishKnowledge.Id = setWish.Id;
-            categoryAndSetWishKnowledge.isCategory = false;
+            categoryAndSetWishKnowledge.IsCategory = false;
+            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartLearningSessionForSet(setWish.Id);
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
 
         }
@@ -91,7 +94,8 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string Titel;
         public ImageFrontendData ImageFrontendData;
         public string KnowlegdeWishPartial;
-        public bool isCategory; 
+        public bool IsCategory;
+        public string LinkStartLearningSession;
 
     }
 
