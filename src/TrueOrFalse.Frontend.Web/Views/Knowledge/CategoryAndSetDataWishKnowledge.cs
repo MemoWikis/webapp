@@ -21,7 +21,9 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
             categoryAndSetWishKnowledge.Id = categoryWish.Id;
+            categoryAndSetWishKnowledge.isCategory = true;
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
+            
         }
 
         foreach (var setWish in setWishes)
@@ -32,6 +34,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
             categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
             categoryAndSetWishKnowledge.Id = setWish.Id;
+            categoryAndSetWishKnowledge.isCategory = false;
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
 
         }
@@ -88,6 +91,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string Titel;
         public ImageFrontendData ImageFrontendData;
         public string KnowlegdeWishPartial;
+        public bool isCategory; 
 
     }
 
