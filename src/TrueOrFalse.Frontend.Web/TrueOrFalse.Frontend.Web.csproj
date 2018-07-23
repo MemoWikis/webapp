@@ -7883,11 +7883,13 @@
     </Content>
     <Content Include="Views\Sets\Detail\Modals\ShareSetModal.ascx" />
     <Content Include="Views\Sets\Edit\Js\AddQuestions.js" />
+    <TypeScriptCompile Include="Scripts\header\MobileBreadcrumb.ts" />
+    <TypeScriptCompile Include="Scripts\header\StickyHeaderSeachBox.ts" />
     <TypeScriptCompile Include="Scripts\YoutubeApi.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Category.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\CategoryHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\SquareWishKnowledge.ts" />
-    <TypeScriptCompile Include="Views\Categories\Detail\Js\StickyHeader.ts" />
+    <TypeScriptCompile Include="Scripts\header\StickyHeader.ts" />
     <TypeScriptCompile Include="Views\Categories\Detail\Js\Tabbing.ts" />
     <TypeScriptCompile Include="Views\Categories\ResultTestSession\Js\GetResultTestSession.ts" />
     <TypeScriptCompile Include="Views\Knowledge\Js\Page.ts" />

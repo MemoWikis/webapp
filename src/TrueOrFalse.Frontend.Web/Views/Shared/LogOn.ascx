@@ -6,9 +6,17 @@
     var user = userSession.User;
 %>
 <div style="display: flex;">
+    <div class="header-item" style="margin-top:-5px;">
+        <div class="input-group" id="SmallHeaderSearchBoxDiv">
+            <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
+            <div class="input-group-btn" style="height:34px;">
+              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </div>
     <div class="header-item">
         <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle"></i>
-            <span class="primary-point-text">Wissenszentrale</span>
+            <span class="primary-point-text TextSpan">Wissenszentrale</span>
         </a>
     </div>
     <div class="header-item" id="Login">
@@ -17,19 +25,20 @@
         var imageSetttings = new UserImageSettings(userSession.User.Id);
 %>
       <div style="display:flex; flex-direction:column;">
-        <div style="display:flex;"> 
-        <span id="badgeNewMessages" class="badge show-tooltip" title="Ungelesene Nachrichten" style="height:19px; padding:0px; padding-top:1px; line-height:13px; top:-7px !important; font-size:10px; left:14px; border:#003264 solid 2px; min-width:19px; display: inline-block; position: relative;"><%= Model.SidebarModel.UnreadMessageCount %></span>
-         <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" /> 
-         <span id="header-level-display" class="level-display">
-             <span style="display: inline-block; white-space: nowrap; margin-top:-8px;" class="" data-placement="bottom">
-                 <span class="half-circle"><span style="margin-top:-5px;" class="level-count"><%= userSession.User.ActivityLevel %></span></span>
-             </span>
-        </span>
-        </div>
         <div class="dropdown" style="display: inline-block;">
-            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <span class="userName TextSpan">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
-            </a>    
+
+          <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
+              <div style="display: flex;">
+                  <span id="badgeNewMessages" class="badge show-tooltip"  data-placement="bottom" title="<%= Model.SidebarModel.UnreadMessageCount%> Ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){ %>style="background-color:#FF001F"<%}%>> <%= Model.SidebarModel.UnreadMessageCount %></span>
+                  <img class="userImage" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
+                  <span id="header-level-display" class="level-display">
+                      <span style="display: inline-block; white-space: nowrap; margin-top: -8px;" class="" data-placement="bottom">
+                          <span class="half-circle"><span style="margin-top: -5px;" class="level-count"><%= userSession.User.ActivityLevel %></span></span>
+                      </span>
+                  </span>
+              </div>
+              <span class="userName TextSpan" style="font-weight:normal;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
+          </a> 
             <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
                 <li>
                    <a style="white-space:unset; padding:0px;" href="<%= Links.Knowledge()%>">
@@ -43,8 +52,8 @@
                     <a style="padding:0px;" href="<%= Links.Messages(Url)%>">
                         <div style="white-space:normal; display:flex; padding:22px 0px 24px 22px;">
                             <i class="far fa-bell"></i>
-                            <span  class="badge show-tooltip" title="Ungelesene Nachrichten" style="height:19px; padding:0px; padding-top:1px; line-height:13px; font-size:10px; left:-13px; border:#003264 solid 2px; min-width:19px; display: inline-block; position: relative;"><%= Model.SidebarModel.UnreadMessageCount %></span>
-                            <span>Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
+                            <span style="display:block;" class="badge dropdown-badge show-tooltip" title="<%= Model.SidebarModel.UnreadMessageCount%> ungelesene Nachrichten" <%if(Model.SidebarModel.UnreadMessageCount != 0){%> style="background-color:#FF001F;" <%}%>><%= Model.SidebarModel.UnreadMessageCount %></span>
+                            <span style="display:block;">Du hast <%if(Model.SidebarModel.UnreadMessageCount != 0){ %> <b><%= Model.SidebarModel.UnreadMessageCount %> neue Nachrichten.</b><%}else{ %>keine neuen Benachrichtigungen<%} %></span>
                         </div>
                     </a>
                 </li>
@@ -69,7 +78,8 @@
 %>    
     </div>
     <div class="header-item" style="margin-right:0px;">
-        <a id="MenuButton" class="TextLinkWithIcon"><i style="font-size:32px;" class="fa fa-bars"></i>
+        <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
         <span class="TextSpan">Menü</span></a>
+        <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
     </div>
   </div>

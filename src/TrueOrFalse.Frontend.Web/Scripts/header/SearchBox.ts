@@ -10,11 +10,13 @@
 class SearchBox
 {
     _elemInput: JQuery;
-
-    constructor() {
+     
+    constructor(element) {
 
         var self = this;
-        this._elemInput = $("#headerSearchBox");
+
+        this._elemInput = $(element);; 
+
         if (this._elemInput.length == 0)
             return;
 
@@ -129,6 +131,10 @@ class SearchBox
     }
 }
 
+
 $(() => {
-    new SearchBox();
+    new SearchBox("#headerSearchBox");
+    new SearchBox("#StickyHeaderSearchBox");
+    new SearchBox("#SmallHeaderSearchBox");
+
 });

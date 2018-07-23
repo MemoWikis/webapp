@@ -317,52 +317,46 @@
         align-items: flex-end;
     }
 
-.LongMenu {
+.RightMainMenu {
 
-    .media-lg( {
-    right:-232px;
-
+    span{
+        display:block !important;
     }
-    );
-   
-
-    .media-xs( {
-        top: 0px;
-        width: 101%;
-        max-width: none;
-        padding-right:0px;
-    }
-
-    );
 
     .media-below-xs( {
-        top: 0px;
         width: 101%;
         max-width: none;
-        padding-right:0px;
+        padding-right: 0px;
+        right: 0px !important;
+        position:fixed !important;
     }
 
     );
     padding: 0px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
     position: absolute;
     background-color: #F6F8FA;
-    width: 90%;
+    width: 232px;
     max-width: 270px;
     opacity: 1;
-    top: 62px;
+    top: 0px;
     z-index: 100;
     -webkit-box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
     box-shadow: 0 8px 10px #555555, 5px 5px 15px #555555;
     float: right;
     display: none;
-    right: 0px;
+    border: solid #707070 0.5px;
+    text-align: left;
+    top: 41px;
+    right: 4px;
+
+    a {
+        line-height: normal !important;
+    }
 }
 
     .secondary-section {
         .list-group-item {
-            padding: 7px 7px 7px 46px;
+            padding: 7px 7px 7px 40px;
         }
     }
 
@@ -387,17 +381,17 @@
     .primary-point {
         display: flex;
         align-items: center;
-        text-transform: uppercase;
-        font-weight: bold;
+        color: #707070;
+        font-size:16px;
+        font-weight:normal;
 
         .primary-point-text {
             display: inline-block;
-            margin-left: 8px;
         }
     }
 
 .list-group-item {
-    color: @global-text-color !important;
+    color: #203256 !important;
     background-color: white;
     border: none;
     font-size: 14px;
@@ -408,11 +402,13 @@
     border-radius: unset;
 
     &.active, &.active:focus {
-        background-color: @menu-light-blue !important;
+        background-color: white !important;
+        color: #203256 !important;
+        font-weight: bold;
     }
 
     &:hover {
-        color: @global-text-color !important;
+        color: #203256 !important;
         background-color: @menu-darker-blue !important;
     }
 
@@ -430,10 +426,6 @@
     }
 
     &.actual-category {
-        &.active {
-            background-color: @menu-darker-blue !important;
-        }
-
         &:hover {
             background-color: @menu-darker-blue;
         }
@@ -444,9 +436,10 @@
         -ms-text-overflow: ellipsis;
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
-        font-weight: 600;
+        font-weight: normal;
         white-space: nowrap;
         padding-top: 6px;
+        color: @global-text-color !important;
         padding-left: 40px;
         padding-bottom: 7px;
         font-size: 14px;
@@ -473,9 +466,18 @@
     }
 }
 
+#mainMenuThemeNavigation, #mainMenuQuestionsSetsCategories, #mainMenuGamesUsersMessages {
+    border: solid #707070 0.5px;
+    border-bottom-width: 1px;
+    border-top: none;
+}
+
+#mainMenuGamesUsersMessages{
+border-bottom:none;
+}
 
 #mainMenuThemeCenteredMobile {
-    margin-top:-10px !important;
+    margin-top: -10px !important;
 }
 
 #mainMenuThemeCentered #mainMenuQuestionsSetsCategories, #mainMenuThemeCenteredMobile {

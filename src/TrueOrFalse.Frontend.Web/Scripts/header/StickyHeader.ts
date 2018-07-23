@@ -6,15 +6,19 @@
         $('#StickyHeaderContainer').css('display', 'flex');
         $('#Breadcrumb').css('top', '0px');
         $('#Breadcrumb').css('position', 'sticky');
-        $('#LongMenu').css('position', 'fixed');
-        $('#LongMenu').css('right', '0px');
-  
+        $('#Breadcrumb').addClass('ShowBreadcrumb');
+        $('#RightMainMenu').css('position', 'fixed');
+        $('#RightMainMenu').css('right', '100px');
+
     } else {
         $('#BreadcrumbLogoSmall').hide();
         $('#StickyHeaderContainer').hide();
         $('#Breadcrumb').css('top', '80px');
         $('#Breadcrumb').css('position', 'unset');
-        $('#LongMenu').css('position', 'absolute');
-        $('#LongMenu').css('right', '');
+        $('#Breadcrumb').removeClass('ShowBreadcrumb');
+        $('#RightMainMenu').css('position', 'absolute');
+        $('#RightMainMenu').css('right', '');
+
+
     }
 });

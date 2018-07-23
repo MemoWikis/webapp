@@ -14,7 +14,7 @@
     <% Model.SidebarModel.categoryNavigationModel = new CategoryNavigationModel(); %>
     <% Html.RenderPartial("Site.Partial.MasterHeader");%>   
     <div id="Breadcrumb">
-        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model.TopNavMenu); %>
+        <% Html.RenderPartial("/Views/Categories/Detail/Partials/BreadCrumb.ascx", Model); %>
     </div>  
     <section id="MasterSection">     
         <input type="hidden" id="IsLoggedIn" value="<%= Model.IsLoggedIn %>" />
@@ -39,7 +39,6 @@
                    
                     <%-- MAIN CONTENT--%>
                     <section id="MasterMainWrapper">
-                        <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>
                         <asp:ContentPlaceHolder ID="MainContent" runat="server"  />
                     </section>
                     <% Html.RenderPartial("GlobalLicense"); %>

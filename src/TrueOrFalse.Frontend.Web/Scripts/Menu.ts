@@ -40,32 +40,16 @@ class MenuMobile {
             }
         });
 
-        $("#MobileMenuButton").click(() => {
-            if (this._isOpen) {
-                this.closeMenu();
-                           
-            } else {
-                this.openMenu();
-            }
-        });
-      
-
         //close on click outside the menu
         $(document).mouseup((e) => {
             if (!this._isOpen && !this._isInProgress) {
                 return;
             }
 
-            if ($("#mainMenu, #LongMenu").has(e.target).length === 0 &&
+            if ($("#mainMenu, #RightMainMenu").has(e.target).length === 0 &&
                 $("#MenuButton").has(e.target).length === 0) {
                 this.closeMenu();
-            }
-
-            if ($("#mainMenu, #LongMenu").has(e.target).length === 0 &&
-                $("#MobileMenuButton").has(e.target).length === 0) {
-                this.closeMenu();
-            }
-           
+            }           
             
         });
 
@@ -87,11 +71,9 @@ class MenuMobile {
         if (this._isInProgress) {
             return;
         }
-        document.getElementById("MobileMenuButton").style.color = "black";
 
         this._isInProgress = true;
-        $("#mainMenu, #LongMenu").slideDown(400, () => {
-            document.getElementById("MobileMenuButton").style.color = "white";
+        $("#mainMenu, #RightMainMenu").slideDown(400, () => {
             this._isOpen = true;
             this._isInProgress = false;
         });     
@@ -103,11 +85,9 @@ class MenuMobile {
         if (this._isInProgress) {
             return;
         }
-        document.getElementById("MobileMenuButton").style.color = "black";
 
         this._isInProgress = true;
-        $("#mainMenu, #LongMenu").slideUp(400, () => {
-            document.getElementById("MobileMenuButton").style.color = "white";
+        $("#mainMenu, #RightMainMenu").slideUp(400, () => {
             this._isOpen = false;
             this._isInProgress = false;    
         });

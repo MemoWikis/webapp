@@ -198,6 +198,11 @@ img {
   z-index: 100;
   background-color: #003264;
 }
+@media (max-width: 580px) {
+  #MasterHeader {
+    height: 47px;
+  }
+}
 #MasterHeader .HeaderMainRow {
   height: 34px;
   margin-top: 3px;
@@ -217,38 +222,24 @@ img {
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-  margin-left: 115px;
-  margin-top: 2px;
-  left: 30px;
+  left: 115px;
+  margin-top: 17px;
+  width: 262.41px;
 }
-@media (max-width: 1199px) {
+@media (max-width: 1200px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
     width: 262.41px;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 1199px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    margin-top: 0px;
+    width: 227.41px;
+    left: 30px;
   }
 }
-@media (max-width: 690px) {
+@media (max-width: 991.5px) {
   #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 180px;
-  }
-}
-@media (max-width: 390px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 160px;
-  }
-}
-@media (max-width: 370px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 120px;
-  }
-}
-@media (max-width: 320px) {
-  #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv {
-    width: 120px;
+    display: none;
   }
 }
 #MasterHeader .HeaderMainRow #HeaderSearchBoxDiv #headerSearchBox {
@@ -277,6 +268,11 @@ img {
     float: right;
   }
 }
+@media (max-width: 580px) {
+  #MasterHeader .col-LoginAndHelp {
+    margin-top: 0px;
+  }
+}
 #LogoLink {
   display: block;
   height: 100%;
@@ -289,8 +285,8 @@ img {
   float: left;
   color: #FFD700;
   font-size: 14px;
-  margin-top: -5px;
-  margin-left: 7px;
+  margin-top: 12px;
+  margin-left: 7.74px;
   z-index: 1;
 }
 #BetaLogo:hover,
@@ -303,9 +299,9 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 630px) {
+@media (max-width: 580px) {
   #BetaLogo {
-    display: none;
+    margin-top: 0px;
   }
 }
 #Pictogram {
@@ -317,9 +313,9 @@ img {
   margin-top: 9px;
   height: 57.33px;
 }
-@media (max-width: 991px) {
+@media (max-width: 991.5px) {
   #Pictogram {
-    display: none;
+    display: none !important;
   }
 }
 #Pictogram img {
@@ -330,8 +326,9 @@ img {
   top: -2px;
 }
 #Wordmark {
-  height: 100%;
+  height: 49.02px;
   float: left;
+  margin-top: 14.26px;
   /*.media-below-xs ({
         display: none;
     });*/
@@ -351,7 +348,7 @@ img {
         display: none;
     });*/
 }
-@media (min-width: 580px) {
+@media (min-width: 581px) {
   #LogoSmall {
     display: none;
   }
@@ -360,120 +357,246 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 991px) {
-  #Login {
-    display: none !important;
-  }
-}
-#loginAndHelp {
+#loginAndHelp,
+#StickyHeaderContainer {
   color: #E7ECF6;
   float: right;
   height: 100%;
 }
-@media (min-width: 768px) {
-  #loginAndHelp {
+@media (max-width: 767px) {
+  #loginAndHelp,
+  #StickyHeaderContainer {
     margin-top: 1px;
   }
 }
-#loginAndHelp .header-item {
+#loginAndHelp .badge,
+#StickyHeaderContainer .badge {
+  height: 19px;
+  padding: 0px;
+  padding-top: 1px;
+  line-height: 14px;
+  font-size: 10px !important;
+  left: 10px;
+  min-width: 19px;
+  display: inline-block;
+  position: relative;
+  border: 1.5px solid #003264;
+  margin-top: -9px;
+}
+#loginAndHelp .dropdown-badge,
+#StickyHeaderContainer .dropdown-badge {
+  line-height: 16px !important;
+  left: -9px;
+  margin-top: -2px;
+  border: 1px solid #FFFFFF;
+}
+#loginAndHelp #SmallHeaderSearchBoxDiv,
+#StickyHeaderContainer #SmallHeaderSearchBoxDiv {
+  width: 48px;
+  -webkit-transition: width 0.3s;
+  display: none;
+}
+@media (max-width: 991.5px) {
+  #loginAndHelp #SmallHeaderSearchBoxDiv,
+  #StickyHeaderContainer #SmallHeaderSearchBoxDiv {
+    display: table;
+  }
+}
+#loginAndHelp #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox,
+#StickyHeaderContainer #SmallHeaderSearchBoxDiv #SmallHeaderSearchBox {
+  border: none;
+  padding: 0px;
+  font-weight: 400;
+  height: 44px;
+  text-overflow: ellipsis;
+}
+#loginAndHelp .header-item,
+#StickyHeaderContainer .header-item {
   display: flex;
   flex-direction: column;
   margin-right: 25px;
   text-align: center;
 }
-#loginAndHelp .dropdown {
+@media (max-width: 992px) {
+  #loginAndHelp .header-item,
+  #StickyHeaderContainer .header-item {
+    margin-right: 5px;
+  }
+}
+@media (max-width: 518px) {
+  #loginAndHelp .header-item,
+  #StickyHeaderContainer .header-item {
+    margin-right: 0px;
+  }
+}
+#loginAndHelp .header-item .btn-default,
+#StickyHeaderContainer .header-item .btn-default {
+  display: none;
+  background-color: transparent;
+  border: none;
+}
+@media (max-width: 991.5px) {
+  #loginAndHelp .header-item .btn-default,
+  #StickyHeaderContainer .header-item .btn-default {
+    display: block;
+  }
+}
+#loginAndHelp .dropdown,
+#StickyHeaderContainer .dropdown {
   height: 100%;
   line-height: 34px;
 }
-#loginAndHelp .dropdown .userName {
+@media (max-width: 580px) {
+  #loginAndHelp .dropdown,
+  #StickyHeaderContainer .dropdown {
+    padding-top: 5px;
+  }
+}
+#loginAndHelp .dropdown .userName,
+#StickyHeaderContainer .dropdown .userName {
   max-width: 145px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 #loginAndHelp a,
-#loginAndHelp span {
+#StickyHeaderContainer a,
+#loginAndHelp span,
+#StickyHeaderContainer span {
   line-height: 34px;
 }
-#loginAndHelp span {
+#loginAndHelp span,
+#StickyHeaderContainer span {
   vertical-align: middle;
 }
-#loginAndHelp .KnowledgeLink {
+#loginAndHelp .KnowledgeLink,
+#StickyHeaderContainer .KnowledgeLink {
   color: #AED71B !important;
 }
-#loginAndHelp a.TextLinkWithIcon {
+#loginAndHelp a.TextLinkWithIcon,
+#StickyHeaderContainer a.TextLinkWithIcon {
   color: #E7ECF6;
 }
 #loginAndHelp a.TextLinkWithIcon:hover,
+#StickyHeaderContainer a.TextLinkWithIcon:hover,
 #loginAndHelp a.TextLinkWithIcon:active,
-#loginAndHelp a.TextLinkWithIcon:focus {
+#StickyHeaderContainer a.TextLinkWithIcon:active,
+#loginAndHelp a.TextLinkWithIcon:focus,
+#StickyHeaderContainer a.TextLinkWithIcon:focus {
   color: #AFD534;
 }
 #loginAndHelp a.TextLinkWithIcon:hover *,
+#StickyHeaderContainer a.TextLinkWithIcon:hover *,
 #loginAndHelp a.TextLinkWithIcon:active *,
-#loginAndHelp a.TextLinkWithIcon:focus * {
+#StickyHeaderContainer a.TextLinkWithIcon:active *,
+#loginAndHelp a.TextLinkWithIcon:focus *,
+#StickyHeaderContainer a.TextLinkWithIcon:focus * {
   text-decoration: none;
 }
 @media (min-width: 480px) {
-  #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink,
+  #StickyHeaderContainer a.helpLink {
     margin-right: 5px;
   }
 }
 @media (min-width: 768px) {
-  #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink,
+  #StickyHeaderContainer a.helpLink {
     margin-right: 10px;
   }
 }
 @media (max-width: 370px) {
-  #loginAndHelp a.helpLink {
+  #loginAndHelp a.helpLink,
+  #StickyHeaderContainer a.helpLink {
     display: none;
   }
 }
 @media (max-width: 700px) {
-  #loginAndHelp a.helpLink.helpLinkFaq {
+  #loginAndHelp a.helpLink.helpLinkFaq,
+  #StickyHeaderContainer a.helpLink.helpLinkFaq {
     display: none;
   }
 }
-#loginAndHelp .userImage {
+#loginAndHelp .userImage,
+#StickyHeaderContainer .userImage {
   height: 30px;
   width: 30px;
   margin-left: 1px;
   border: 1px solid #003264;
   border-radius: 4px;
 }
+@media (max-width: 581px) {
+  #loginAndHelp .userImage,
+  #StickyHeaderContainer .userImage {
+    width: 22px;
+    height: 22px;
+  }
+}
 #loginAndHelp a:hover .userImage,
+#StickyHeaderContainer a:hover .userImage,
 #loginAndHelp a:active .userImage,
-#loginAndHelp a:focus .userImage {
+#StickyHeaderContainer a:active .userImage,
+#loginAndHelp a:focus .userImage,
+#StickyHeaderContainer a:focus .userImage {
   height: 31px;
   width: 31px;
   margin-left: 0;
 }
-#loginAndHelp i {
-  font-size: 15px;
+#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
+#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+  font-size: 32px;
+}
+@media (max-width: 581px) {
+  #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
+  #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+    font-size: 18px;
+  }
+}
+@media (max-width: 581px) {
+  #loginAndHelp .fa-bars,
+  #StickyHeaderContainer .fa-bars {
+    font-size: 25px;
+  }
 }
 #loginAndHelp .TextSpan,
-#loginAndHelp span:not(.level-display) {
+#StickyHeaderContainer .TextSpan,
+#loginAndHelp span:not(.level-display),
+#StickyHeaderContainer span:not(.level-display) {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 991px) {
+@media (max-width: 992px) {
   #loginAndHelp .TextSpan,
-  #loginAndHelp span:not(.level-display) {
+  #StickyHeaderContainer .TextSpan,
+  #loginAndHelp span:not(.level-display),
+  #StickyHeaderContainer span:not(.level-display) {
     display: none;
   }
 }
-#loginAndHelp .dropdown-menu {
+#loginAndHelp .dropdown-menu,
+#StickyHeaderContainer .dropdown-menu {
   text-align: left;
   border-radius: 0px;
   border: 1px solid #707070;
   width: 197px;
   padding-top: 0px;
 }
-#loginAndHelp .dropdown-menu span {
+#loginAndHelp .dropdown-menu span,
+#StickyHeaderContainer .dropdown-menu span {
   font-size: 12px;
   line-height: normal;
+  font-weight: normal;
 }
-#loginAndHelp i#tabInfoMyKnowledge {
+#loginAndHelp .dropdown-menu a,
+#StickyHeaderContainer .dropdown-menu a {
+  font-weight: normal;
+}
+#loginAndHelp .dropdown-menu i,
+#StickyHeaderContainer .dropdown-menu i {
+  margin: 0px;
+}
+#loginAndHelp i#tabInfoMyKnowledge,
+#StickyHeaderContainer i#tabInfoMyKnowledge {
   margin-right: 1px;
 }
 #MasterHeader .popover {
@@ -493,6 +616,7 @@ img {
   color: #333333;
   font-size: 12px;
   text-align: center;
+  white-space: normal;
 }
 #activity-popover-content-inner span {
   vertical-align: baseline !important;
@@ -552,6 +676,7 @@ img {
 #activity-popover-content-inner .ProgressInfoText {
   text-align: center;
   color: #999999;
+  font-weight: normal !important;
 }
 .MenuButtonXS {
   padding: 3px 3px 3px 7px;
@@ -563,7 +688,6 @@ img {
   font-size: 25px;
 }
 #MenuButton,
-#MobileMenuButton,
 #StickyMenuButton {
   margin-bottom: 0;
   font-weight: normal;
@@ -595,32 +719,25 @@ img {
   text-shadow: none;
 }
 #MenuButton:focus,
-#MobileMenuButton:focus,
 #StickyMenuButton:focus,
 #MenuButton:active:focus,
-#MobileMenuButton:active:focus,
 #StickyMenuButton:active:focus,
 #MenuButton.active:focus,
-#MobileMenuButton.active:focus,
 #StickyMenuButton.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover,
-#MobileMenuButton:hover,
 #StickyMenuButton:hover,
 #MenuButton:focus,
-#MobileMenuButton:focus,
 #StickyMenuButton:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:active,
-#MobileMenuButton:active,
 #StickyMenuButton:active,
 #MenuButton.active,
-#MobileMenuButton.active,
 #StickyMenuButton.active {
   outline: 0;
   background-image: none;
@@ -628,13 +745,10 @@ img {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton.disabled,
-#MobileMenuButton.disabled,
 #StickyMenuButton.disabled,
 #MenuButton[disabled],
-#MobileMenuButton[disabled],
 #StickyMenuButton[disabled],
 fieldset[disabled] #MenuButton,
-fieldset[disabled] #MobileMenuButton,
 fieldset[disabled] #StickyMenuButton {
   cursor: not-allowed;
   pointer-events: none;
@@ -644,13 +758,11 @@ fieldset[disabled] #StickyMenuButton {
   box-shadow: none;
 }
 #MenuButton .caret,
-#MobileMenuButton .caret,
 #StickyMenuButton .caret {
   margin-left: 3px;
 }
 @media (min-width: 768px) {
   #MenuButton,
-  #MobileMenuButton,
   #StickyMenuButton {
     padding: 10px 16px;
     font-size: 18px;
@@ -661,13 +773,11 @@ fieldset[disabled] #StickyMenuButton {
     position: relative;
   }
   #MenuButton .caret,
-  #MobileMenuButton .caret,
   #StickyMenuButton .caret {
     margin-left: 5px;
   }
 }
 #MenuButton:hover,
-#MobileMenuButton:hover,
 #StickyMenuButton:hover {
   display: inline-block;
   margin-bottom: 0;
@@ -692,32 +802,25 @@ fieldset[disabled] #StickyMenuButton {
   font-size: 18px;
 }
 #MenuButton:hover:focus,
-#MobileMenuButton:hover:focus,
 #StickyMenuButton:hover:focus,
 #MenuButton:hover:active:focus,
-#MobileMenuButton:hover:active:focus,
 #StickyMenuButton:hover:active:focus,
 #MenuButton:hover.active:focus,
-#MobileMenuButton:hover.active:focus,
 #StickyMenuButton:hover.active:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 #MenuButton:hover:hover,
-#MobileMenuButton:hover:hover,
 #StickyMenuButton:hover:hover,
 #MenuButton:hover:focus,
-#MobileMenuButton:hover:focus,
 #StickyMenuButton:hover:focus {
   color: #333;
   text-decoration: none;
 }
 #MenuButton:hover:active,
-#MobileMenuButton:hover:active,
 #StickyMenuButton:hover:active,
 #MenuButton:hover.active,
-#MobileMenuButton:hover.active,
 #StickyMenuButton:hover.active {
   outline: 0;
   background-image: none;
@@ -725,13 +828,10 @@ fieldset[disabled] #StickyMenuButton {
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 #MenuButton:hover.disabled,
-#MobileMenuButton:hover.disabled,
 #StickyMenuButton:hover.disabled,
 #MenuButton:hover[disabled],
-#MobileMenuButton:hover[disabled],
 #StickyMenuButton:hover[disabled],
 fieldset[disabled] #MenuButton:hover,
-fieldset[disabled] #MobileMenuButton:hover,
 fieldset[disabled] #StickyMenuButton:hover {
   cursor: not-allowed;
   pointer-events: none;
@@ -742,7 +842,6 @@ fieldset[disabled] #StickyMenuButton:hover {
 }
 @media (min-width: 768px) {
   #MenuButton:hover,
-  #MobileMenuButton:hover,
   #StickyMenuButton:hover {
     padding: 10px 16px;
     font-size: 18px;
@@ -752,40 +851,8 @@ fieldset[disabled] #StickyMenuButton:hover {
     font-size: 25px;
   }
 }
-#MobileMenuButton {
-  font-size: 18px;
-  display: none;
-  color: #e7ecf6;
-  font-size: 18px !important;
-  margin-bottom: 0;
-  font-weight: normal;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  line-height: 1.42857143;
-  border-radius: 4px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  float: left;
-  margin-top: 4px;
-  margin-left: -7px;
-  padding: 3px 3px 3px 7px;
-  margin-right: 10px;
-  background-color: transparent;
-  background-image: none;
-  border-color: transparent;
-  box-shadow: none;
-  -webkit-text-shadow: none;
-  text-shadow: none;
-}
-@media (max-width: 767px) {
-  #MobileMenuButton {
-    display: block;
-  }
+#StickyMenuButton {
+  opacity: 0.5;
 }
 ul.AutocompleteHeader {
   max-width: 550px;
@@ -1026,25 +1093,45 @@ ul.AutocompleteHeader {
 .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
   border-left: 10px solid #adadad;
 }
+.SearchBoxDivMaxWidth {
+  width: 262.41px !important;
+}
+@media (max-width: 992px) {
+  .SearchBoxDivMaxWidth {
+    width: 150px !important;
+  }
+}
+@media (max-width: 480px) {
+  .SearchBoxDivMaxWidth {
+    width: 120px !important;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 298px) {
+  .SearchBoxDivMaxWidth {
+    width: 102px !important;
+  }
+}
 #Breadcrumb {
   font-size: 14px;
   background-color: white;
   line-height: 1.5em;
   width: 100%;
+  display: block;
   font-family: sans;
   padding-top: 17px;
   padding-bottom: 14px !important;
   color: #000000 !important;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
   position: unset;
-  z-index: 1;
+  z-index: 100;
   height: 55px;
+  white-space: nowrap;
   top: 80px;
   color: #999999;
 }
 #Breadcrumb div {
   font-family: 'Open Sans';
-  font-weight: bold;
 }
 #Breadcrumb img {
   width: 29.57px !important;
@@ -1102,11 +1189,54 @@ ul.AutocompleteHeader {
 #Breadcrumb #StickyHeaderContainer {
   margin-left: auto;
   display: none;
+  justify-content: space-between;
   margin-top: -19px;
 }
-#Breadcrumb #StickyHeaderContainer .fa {
+@media (max-width: 518px) {
+  #Breadcrumb #StickyHeaderContainer div {
+    margin-right: 0px !important;
+  }
+}
+@media (max-width: 518px) {
+  #Breadcrumb #StickyHeaderContainer i:not(.fa-bars) {
+    font-size: 18px !important;
+  }
+}
+@media (max-width: 518px) {
+  #Breadcrumb #StickyHeaderContainer .fa-bars {
+    font-size: 25px !important;
+  }
+}
+#Breadcrumb #StickyHeaderContainer .userImage {
+  width: 22px !important;
+  height: 22px !important;
+}
+#Breadcrumb #StickyHeaderContainer #StickySearchButton {
+  border: none;
+}
+#Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+  margin-top: 12px;
+  width: 40px;
+  -webkit-transition: width 0.3s;
+}
+@media (max-width: 518px) {
+  #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
+    margin-right: 0px !important;
+  }
+}
+#Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBox {
+  border-right: none !important;
+  border: none;
+  padding: 0px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+}
+#Breadcrumb .fa {
   margin-right: 25px;
   padding-top: 12px;
+}
+.ShowBreadcrumb {
+  display: block !important;
 }
 #MasterSidebarColumn {
   position: relative;
@@ -1367,6 +1497,14 @@ a.button span.ui-icon {
     right: 0;
     top: 5px;
   }
+}
+#KnowledgeBtn {
+  width: 100%;
+  display: flex;
+  border: solid #707070 0.5px;
+  border-bottom-width: 1px;
+  border-right: none;
+  border-radius: 0px;
 }
 /*  MODALS
 ----------------------------------------------------------*/
@@ -1669,6 +1807,9 @@ div.box-main .box-content {
 }
 /*ROWS
 ---------------------------------------------------------*/
+.row {
+  background-color: #fff;
+}
 .rowBase:after {
   clear: both;
 }
