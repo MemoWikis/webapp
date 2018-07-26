@@ -88,12 +88,13 @@ public class KnowledgeController : BaseController
     public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "")
     {
         var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
-        var data= categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
-        data = categoryAndSetDataWishKnowledge.SortList(data, sort);
-
+        var unsort = categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
+        var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort);
+        var data = sortList.Skip((page-1) * per_page).Take(page*per_page);
+      
         //var helper = new Helper();
-        var total = data.Count;
-        var last_page = (data.Count/ per_page) + (data.Count % per_page);
+        var total = data.Count();
+        var last_page = (sortList.Count/ (per_page) + (sortList.Count % per_page));
 
         return Json (new {total,per_page,current_page = page ,last_page, data }, JsonRequestBehavior.AllowGet );  
     }
