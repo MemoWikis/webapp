@@ -8,10 +8,10 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryAndSetDataWishKnowledge: BaseController
 {
-    public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext)
+    public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext) 
     {
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
-
+       
         var CategorieWishes = GetCategoryData();
         var setWishes = GetSetData();
         foreach (var categoryWish in CategorieWishes)
@@ -25,7 +25,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.IsCategory = true;
             categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-            
         }
 
         foreach (var setWish in setWishes)
@@ -41,7 +40,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
 
         }
-
         return filteredCategoryAndSetWishKnowledges;
     }
 
@@ -56,14 +54,13 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Categories/Detail/CategoryKnowledgeBar.ascx", new CategoryKnowledgeBarModel(category), controllerContext);
 
         return KnowledgeBarPartial;
-
     }
+
     public string KnowledgeWishPartial(Set set, ControllerContext controllerContext)
     {
         var KnowledgeBarPartial = ViewRenderer.RenderPartialView("~/Views/Sets/Detail/SetKnowledgeBar.ascx", new SetKnowledgeBarModel(set), controllerContext);
 
         return KnowledgeBarPartial;
-
     }
 
     public IList<Category> GetCategoryData()
@@ -74,7 +71,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             .ToList();
 
         return R<CategoryRepository>().GetByIds(categoryValuationIds);
-
     }
 
     public IList<Set> GetSetData()
@@ -84,11 +80,26 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             .Select(v => v.SetId)
             .ToList();
         return R<SetRepo>().GetByIds(setValuationIds);
-
     }
+
+    public IList<CategoryAndSetWishKnowledge> SortList(List<CategoryAndSetWishKnowledge> unSortList, string sortCondition)
+    {
+        if (sortCondition.Equals("name|asc"))
+        {
+            unSortList.Sort((x, y) => String.CompareOrdinal(x.Titel, y.Titel));
+        }
+        else
+        {
+        unSortList.Sort((x, y) => String.CompareOrdinal(y.Titel, x.Titel));
+        }
+
+        var sortList = unSortList;
+
+        return sortList;
+    }
+
     public class CategoryAndSetWishKnowledge
     {
-        
         public int Id;
         public string Description;
         public string Titel;
@@ -96,8 +107,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string KnowlegdeWishPartial;
         public bool IsCategory;
         public string LinkStartLearningSession;
-
     }
 
-  
+
 }

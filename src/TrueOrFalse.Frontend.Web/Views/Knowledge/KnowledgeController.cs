@@ -85,19 +85,16 @@ public class KnowledgeController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetCatsAndSetsWish( int page,int per_page, string sort = "")
-    {  IList<object> userValuationCaches = new List<object>();
-        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
-        var data= categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext); 
-        var helper = new Helper();
-        return Json (new {data}, JsonRequestBehavior.AllowGet );  
-    }
-    public class Helper
+    public JsonResult GetCatsAndSetsWish(int page, int per_page, string sort = "")
     {
-        public int total = 200;
-        public int per_page = 3;
-        public int current_page = 1;
-        public int last_page = 67;
-    }
+        var categoryAndSetDataWishKnowledge = new CategoryAndSetDataWishKnowledge();
+        var data= categoryAndSetDataWishKnowledge.filteredCategoryWishKnowledge(ControllerContext);
+        data = categoryAndSetDataWishKnowledge.SortList(data, sort);
 
+        //var helper = new Helper();
+        var total = data.Count;
+        var last_page = (data.Count/ per_page) + (data.Count % per_page);
+
+        return Json (new {total,per_page,current_page = page ,last_page, data }, JsonRequestBehavior.AllowGet );  
+    }
 }

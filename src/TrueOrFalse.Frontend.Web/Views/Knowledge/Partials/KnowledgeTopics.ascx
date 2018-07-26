@@ -112,10 +112,10 @@ th.sortable {
       <vuetable ref="vuetable"
         api-url="/Knowledge/GetCatsAndSetsWish"
         :fields="fields"
-      <%--  :sort-order="sortOrder"--%>
+        :sort-order="sortOrder"
         :css="css.table"
-       <%-- pagination-path=""--%>
-       <%-- :per-page="3"--%>
+        pagination-path=""
+        :per-page="3"
         @vuetable:pagination-data="onPaginationData"
         @vuetable:loading="onLoading"
         @vuetable:loaded="onLoaded"
@@ -172,9 +172,9 @@ th.sortable {
                 //}
                '__slot:actions'
             ],
-            //sortOrder: [
-            //    { field: 'name', direction: 'asc' }
-            //],
+            sortOrder: [
+                { field: 'name', direction: 'asc' }
+            ],
             css: {
                 table: {
                     tableClass: 'table table-striped table-bordered table-hovered',
@@ -200,9 +200,9 @@ th.sortable {
             }
         },
         computed: {
-            /*httpOptions(){
+            httpOptions(){
               return {headers: {'Authorization': "my-token"}} //table props -> :http-options="httpOptions"
-            },*/
+            }
         },
         methods: {
             mouseOver(){
