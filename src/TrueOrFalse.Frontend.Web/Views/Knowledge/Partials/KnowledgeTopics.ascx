@@ -107,7 +107,7 @@ th.sortable {
 
 <body>
     <div id="app">
-     <td id="table-wrapper" class="ui container">
+     <div id="table-wrapper" class="ui container">
        <h2><strong>&lt;Vuetable-2&gt;</strong> with Bootstrap 3</h2>
       <vuetable ref="vuetable"
         api-url="/Knowledge/GetCatsAndSetsWish"
@@ -118,8 +118,8 @@ th.sortable {
         :per-page="3"
         @vuetable:pagination-data="onPaginationData"
         @vuetable:loading="onLoading"
-        @vuetable:loaded="onLoaded"
-      >
+        @vuetable:loaded="onLoaded">
+
           <template slot="wishKnowledge" scope="props">
               <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
           </template>
@@ -128,12 +128,31 @@ th.sortable {
           <div class="table-button-container">
               <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
                 <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
-              <button class="btn btn-danger btn-sm" @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)">
-                <span class="glyphicon glyphicon-trash"></span> Delete</button>&nbsp;&nbsp;
               <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                   <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
               </a>
           </div>
+        <!-- Dropdownmenu -->
+            <div class="Button dropdown">
+                <% var buttonId = Guid.NewGuid(); %>
+                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>" >
+                <% if (true)
+                    { %>
+                    <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>         <%-- <%= Links.DateCreateForCategory(Model.Id) %>--%>
+                        
+                    <%--<li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>           <%-- <%= Links.GameCreateFromCategory(Model.Id) %>--%>--%>
+                <% }
+                    if(true){ %>
+                    <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
+                    <% }
+                    if (Model.IsInstallationAdmin){ %>
+                        <li><a href="#"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>      <%--<%= Links.CreateQuestion(categoryId: Model.Id) %>--%>
+                    <% } %>
+                </ul>
+            </div>
           </template>
         </vuetable>
         <vuetable-pagination ref="pagination"
@@ -141,8 +160,8 @@ th.sortable {
           @vuetable-pagination:change-page="onChangePage">
         </vuetable-pagination>
       </div>
-   
-
+</div>
+</body>
 <script>
     Vue.use(Vuetable);
 

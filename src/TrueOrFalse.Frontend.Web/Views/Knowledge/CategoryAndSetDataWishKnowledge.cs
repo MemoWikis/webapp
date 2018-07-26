@@ -24,6 +24,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.Id = categoryWish.Id;
             categoryAndSetWishKnowledge.IsCategory = true;
             categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
+            categoryAndSetWishKnowledge.DateToLearningTopicLink = Links.DateCreateForCategory(categoryWish.Id).ToString();
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
@@ -107,6 +108,8 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string KnowlegdeWishPartial;
         public bool IsCategory;
         public string LinkStartLearningSession;
+        public string DateToLearningTopicLink { get; set; }
+
     }
 
 
