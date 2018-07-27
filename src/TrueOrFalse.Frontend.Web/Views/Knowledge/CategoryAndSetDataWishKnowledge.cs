@@ -10,37 +10,12 @@ public class CategoryAndSetDataWishKnowledge: BaseController
 {
     public List<CategoryAndSetWishKnowledge> filteredCategoryWishKnowledge(ControllerContext controllerContext) 
     {
-        List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
+       
        
         var CategorieWishes = GetCategoryData();
         var setWishes = GetSetData();
-        foreach (var categoryWish in CategorieWishes)
-        {
-            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
-            categoryAndSetWishKnowledge.Description = categoryWish.Description;
-            categoryAndSetWishKnowledge.Titel = categoryWish.Name;
-            categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
-            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
-            categoryAndSetWishKnowledge.Id = categoryWish.Id;
-            categoryAndSetWishKnowledge.IsCategory = true;
-            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
-            categoryAndSetWishKnowledge.DateToLearningTopicLink = Links.DateCreateForCategory(categoryWish.Id).ToString();
-            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-        }
-
-        foreach (var setWish in setWishes)
-        {
-            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
-            categoryAndSetWishKnowledge.Description = setWish.Text;
-            categoryAndSetWishKnowledge.Titel = setWish.Name;
-            categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
-            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
-            categoryAndSetWishKnowledge.Id = setWish.Id;
-            categoryAndSetWishKnowledge.IsCategory = false;
-            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartLearningSessionForSet(setWish.Id);
-            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
-
-        }
+        var filteredCategoryAndSetWishKnowledges = GetObjectCategoryAndSetWishKnowledges(CategorieWishes, setWishes,controllerContext);
+     
         return filteredCategoryAndSetWishKnowledges;
     }
 
@@ -99,6 +74,55 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return sortList;
     }
 
+    public List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
+    {
+        List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
+
+        foreach (var categoryWish in CategorieWishes)
+        {
+            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            categoryAndSetWishKnowledge.Description = categoryWish.Description;
+            categoryAndSetWishKnowledge.Titel = categoryWish.Name;
+            categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
+            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(categoryWish, controllerContext);
+            categoryAndSetWishKnowledge.Id = categoryWish.Id;
+            categoryAndSetWishKnowledge.IsCategory = true;
+            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartCategoryLearningSession(categoryWish.Id);
+            categoryAndSetWishKnowledge.DateToLearningTopicLink = Links.DateCreateForCategory(categoryWish.Id).ToString();
+            categoryAndSetWishKnowledge.CreateQuestionLink = Links.CreateQuestion(categoryId: categoryWish.Id);
+            categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
+            categoryAndSetWishKnowledge.LearnSetsCount = Sl.CategoryRepo.CountAggregatedSets(categoryWish.Id);
+            categoryAndSetWishKnowledge.QuestionsCount = Sl.CategoryRepo.CountAggregatedQuestions(categoryWish.Id);
+            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
+        }
+
+        foreach (var setWish in setWishes)
+        {
+            var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            categoryAndSetWishKnowledge.Description = setWish.Text;
+            categoryAndSetWishKnowledge.Titel = setWish.Name;
+            categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
+            categoryAndSetWishKnowledge.KnowlegdeWishPartial = KnowledgeWishPartial(setWish, controllerContext);
+            categoryAndSetWishKnowledge.Id = setWish.Id;
+            categoryAndSetWishKnowledge.IsCategory = false;
+            categoryAndSetWishKnowledge.LinkStartLearningSession = Links.StartLearningSessionForSet(setWish.Id);
+            categoryAndSetWishKnowledge.DateToLearningTopicLink = Links.DateCreateForSet(setWish.Id).ToString();
+            categoryAndSetWishKnowledge.CreateQuestionLink = Links.CreateQuestion(setId: setWish.Id);
+            categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromSet(setWish.Id);
+            categoryAndSetWishKnowledge.LearnSetsCount = 1;
+            categoryAndSetWishKnowledge.QuestionsCount = Sl.SetRepo.GetByIdEager(setWish.Id).QuestionsInSetPublic.Count ;
+            filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
+        }
+
+        return filteredCategoryAndSetWishKnowledges;
+    }
+
+    public int getQuestionCount(Set set)
+    {
+
+        return 0;
+    }
+
     public class CategoryAndSetWishKnowledge
     {
         public int Id;
@@ -109,7 +133,10 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public bool IsCategory;
         public string LinkStartLearningSession;
         public string DateToLearningTopicLink { get; set; }
-
+        public string CreateQuestionLink { get; set; }
+        public string StartGameLink { get; set; }
+        public int LearnSetsCount = 0;
+        public int QuestionsCount = 0;
     }
 
 

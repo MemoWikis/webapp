@@ -123,45 +123,51 @@ th.sortable {
           <template slot="wishKnowledge" scope="props">
               <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
           </template>
-
+          <template slot="topicCount" scope="props">
+              <div>Du hast {{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen </div>
+          </template>
         <template slot="actions" scope="props">
-          <div class="table-button-container">
-              <button class="btn btn-warning btn-sm" @click="editRow(props.rowData)">
-                <span class="glyphicon glyphicon-pencil"></span> Edit</button>&nbsp;&nbsp;
+           
+          <div style="float: left;">
               <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                   <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
               </a>
-          </div>
+          </div> 
+
         <!-- Dropdownmenu -->
-            <div class="Button dropdown">
-                <% var buttonId = Guid.NewGuid(); %>
-                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-ellipsis-v"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>" >
-                <% if (true)
-                    { %>
-                    <li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li>         <%-- <%= Links.DateCreateForCategory(Model.Id) %>--%>
-                        
-                    <%--<li><a href="#" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>           <%-- <%= Links.GameCreateFromCategory(Model.Id) %>--%>--%>
-                <% }
-                    if(true){ %>
+         <div class="Button dropdown">
+            <% var buttonId = Guid.NewGuid(); %>
+            <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-ellipsis-v"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>" >
+            <% if (true)
+                { %>
+                    <li><a v-bind:href="props.rowData.DateToLearningTopicLink" rel="nofollow" data-allowed="logged-in"><i class="fa fa-calendar"></i>&nbsp;Wissen testen</a></li> 
+                    <li><a v-bind:href="props.rowData.CreateQuestionLink" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>     
+                    <li><a v-bind:href="props.rowData.StartGameLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>           <%-- <%= Links.GameCreateFromCategory(Model.Id) %> --%>
+                    <li><a v-bind:href="props.rowData.DateToLearningTopicLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Thema zum Termin lernen</a></li> 
                     <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
-                    <% }
-                    if (Model.IsInstallationAdmin){ %>
-                        <li><a href="#"><i class="fa fa-plus-circle"></i>&nbsp;Frage hinzufügen</a></li>      <%--<%= Links.CreateQuestion(categoryId: Model.Id) %>--%>
-                    <% } %>
-                </ul>
-            </div>
+            <% }   
+                if(true){ %>
+                
+                <% }
+                if (Model.IsInstallationAdmin){ %>
+                    
+                <% } %>
+            </ul>
+        </div>
+            
           </template>
         </vuetable>
         <vuetable-pagination ref="pagination"
           :css="css.pagination"
           @vuetable-pagination:change-page="onChangePage">
         </vuetable-pagination>
-      </div>
+    </div>
 </div>
 </body>
+
 <script>
     Vue.use(Vuetable);
 
@@ -184,6 +190,7 @@ th.sortable {
                 //},
                 //'birthdate', 'nickname',
                 '__slot:wishKnowledge',
+                '__slot:topicCount',
                 //{
                 //    name: '',
                 //    title: ''
@@ -196,11 +203,11 @@ th.sortable {
             ],
             css: {
                 table: {
-                    tableClass: 'table table-striped table-bordered table-hovered',
-                    loadingClass: 'loading',
+                    tableClass: 'table table-striped table-hovered',
+                    //loadingClass: 'loading',
                     ascendingIcon: 'glyphicon glyphicon-chevron-up',
                     descendingIcon: 'glyphicon glyphicon-chevron-down',
-                    handleIcon: 'glyphicon glyphicon-menu-hamburger'
+                    //handleIcon: 'glyphicon glyphicon-menu-hamburger'
                 },
                 pagination: {
                     infoClass: 'pull-left',
@@ -301,6 +308,6 @@ th.sortable {
 
     // TODO FunktonsIFs für Set und Category auslagern, sind zu oft vorhanden.
 </script>
-</body>
+
 
 
