@@ -92,9 +92,13 @@ public class KnowledgeController : BaseController
         var sortList = categoryAndSetDataWishKnowledge.SortList(unsort, sort);
         var data = sortList.Skip((page-1) * per_page).Take(page*per_page);
       
-        //var helper = new Helper();
+       
         var total = data.Count();
         var last_page = (sortList.Count/ (per_page) + (sortList.Count % per_page));
+
+        if(last_page >= sortList.Count)
+            last_page = 1;
+
 
         return Json (new {total,per_page,current_page = page ,last_page, data }, JsonRequestBehavior.AllowGet );  
     }

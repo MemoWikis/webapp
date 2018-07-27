@@ -115,7 +115,7 @@ th.sortable {
         :sort-order="sortOrder"
         :css="css.table"
         pagination-path=""
-        :per-page="3"
+        :per-page="50"
         @vuetable:pagination-data="onPaginationData"
         @vuetable:loading="onLoading"
         @vuetable:loaded="onLoaded">

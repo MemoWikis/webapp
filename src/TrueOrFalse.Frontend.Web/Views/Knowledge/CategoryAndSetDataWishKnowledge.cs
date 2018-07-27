@@ -117,12 +117,6 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         return filteredCategoryAndSetWishKnowledges;
     }
 
-    public int getQuestionCount(Set set)
-    {
-
-        return 0;
-    }
-
     public class CategoryAndSetWishKnowledge
     {
         public int Id;
