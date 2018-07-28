@@ -347,6 +347,8 @@ namespace TrueOrFalse.Frontend.Web.Code
         public static string SetsWish() { return GetUrlHelper().Action(SetsWishAction, SetsController); }
         public static string SetsMine() { return GetUrlHelper().Action(SetsMineAction, SetsController); }
         public static string SetCreate() { return GetUrlHelper().Action(SetCreateAction, SetEditController); }
+        public static string SetEdit(Set set) => SetEdit(GetUrlHelper(), set.Name, set.Id);
+        public static string SetEdit(UrlHelper url, string name, int id) => url.Action("Edit", "EditSet", new { text = UriSanitizer.Run(name), id = id });
         public const string SetController = "Set";
         public const string SetCreateAction = "Create";
         public const string SetEditController = "EditSet";

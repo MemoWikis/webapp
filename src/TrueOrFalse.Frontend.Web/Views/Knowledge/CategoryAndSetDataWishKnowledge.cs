@@ -93,6 +93,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
             categoryAndSetWishKnowledge.LearnSetsCount = Sl.CategoryRepo.CountAggregatedSets(categoryWish.Id);
             categoryAndSetWishKnowledge.QuestionsCount = Sl.CategoryRepo.CountAggregatedQuestions(categoryWish.Id);
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(Sl.CategoryRepo.GetByIdEager(categoryWish.Id));
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
@@ -111,6 +112,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromSet(setWish.Id);
             categoryAndSetWishKnowledge.LearnSetsCount = 1;
             categoryAndSetWishKnowledge.QuestionsCount = Sl.SetRepo.GetByIdEager(setWish.Id).QuestionsInSetPublic.Count ;
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(Sl.SetRepo.GetByIdEager(setWish.Id));
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
@@ -131,6 +133,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public string StartGameLink { get; set; }
         public int LearnSetsCount = 0;
         public int QuestionsCount = 0;
+        public string EditCategoryOrSetLink { get; set; }
     }
 
 
