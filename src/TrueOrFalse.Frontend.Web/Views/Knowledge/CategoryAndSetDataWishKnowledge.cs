@@ -77,10 +77,12 @@ public class CategoryAndSetDataWishKnowledge: BaseController
     public List<CategoryAndSetWishKnowledge> GetObjectCategoryAndSetWishKnowledges(IList<Category> CategorieWishes, IList<Set> setWishes, ControllerContext controllerContext)
     {
         List<CategoryAndSetWishKnowledge> filteredCategoryAndSetWishKnowledges = new List<CategoryAndSetWishKnowledge>();
-
+      
         foreach (var categoryWish in CategorieWishes)
         {
+            var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F"+ changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+
             categoryAndSetWishKnowledge.Description = categoryWish.Description;
             categoryAndSetWishKnowledge.Titel = categoryWish.Name;
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(categoryWish.Id);
@@ -94,12 +96,15 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.LearnSetsCount = Sl.CategoryRepo.CountAggregatedSets(categoryWish.Id);
             categoryAndSetWishKnowledge.QuestionsCount = Sl.CategoryRepo.CountAggregatedQuestions(categoryWish.Id);
             categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(Sl.CategoryRepo.GetByIdEager(categoryWish.Id));
+            categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
         foreach (var setWish in setWishes)
         {
+            var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+
             categoryAndSetWishKnowledge.Description = setWish.Text;
             categoryAndSetWishKnowledge.Titel = setWish.Name;
             categoryAndSetWishKnowledge.ImageFrontendData = GetCategoryImage(setWish.Id);
@@ -113,6 +118,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.LearnSetsCount = 1;
             categoryAndSetWishKnowledge.QuestionsCount = Sl.SetRepo.GetByIdEager(setWish.Id).QuestionsInSetPublic.Count ;
             categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(Sl.SetRepo.GetByIdEager(setWish.Id));
+            categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
@@ -134,7 +140,13 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public int LearnSetsCount = 0;
         public int QuestionsCount = 0;
         public string EditCategoryOrSetLink { get; set; }
+        public string ShareFacebookLink { get; set; }
     }
 
+
+    public string  changeUrlToFacebookCompatible(string url)
+    {
+       return url.Replace("https://", "www.");
+    }
 
 }
