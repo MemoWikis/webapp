@@ -103,6 +103,9 @@
 th.sortable {
   color: #ec971f;
 }
+ td {
+     height: 30px;
+ }
 </style>
 
 
@@ -126,25 +129,26 @@ th.sortable {
           <template slot="wishKnowledge" scope="props">
               <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
           </template>
-          <template slot="topicCount" scope="props">
-              <div>Du hast {{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen </div>
-          </template>
-        <template slot="actions" scope="props">
-           
-          <div style="float: left;">
-              <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
-                  <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
-              </a>
-          </div> 
 
+        <template slot="actions" scope="props" >
+
+            <div class="Button " style="float: left">
+                <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
+                    <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
+                </a>
+            </div> 
+        
         <!-- Dropdownmenu -->
-         <div class="Button dropdown">
+            <input type="hidden" id="hhdSetId" value="props.rowData.Id"/>
+            <input type="hidden" id="hhdHasVideo" value="props.rowData.HasVideo"/>
+
+         <div class="Button dropdown" >
             <% var buttonId = Guid.NewGuid(); %>
-            <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="transform: rotate(90deg)">
                 <i class="fa fa-ellipsis-v"></i>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>" >
-            <% if (true)
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>"  >
+            <% if (Model.IsLoggedIn)
                 { %>
                     <li><a v-bind:href="props.rowData.DateToLearningTopicLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Prüfungstermin festlegen</a></li>
                     <li><a v-bind:href="props.rowData.StartGameLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
@@ -154,20 +158,10 @@ th.sortable {
                     <li><a v-bind:href="props.rowData.CreateQuestionLink" data-allowed="logged-in"><i class="fa fa-plus-circle"></i>&nbsp;Lernset kopieren</a></li>
                      
                   
-                    <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-pencil"></i>&nbsp; Lernset auf Facebook teilen </a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
-                    <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Link zum Lernset kopieren </a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
-                    <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Lernset einbetten </a></li>     <%--<%= Links.CategoryEdit(Url, Model.Name, Model.Id) %>--%>
-                    
-                    <li style="margin-top: 2rem;" @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li> 
-            <% }   
+                    <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-pencil"></i>&nbsp; Lernset auf Facebook teilen </a></li>     
 
-
-                if(true){ %>
-                
-                <% }
-                if (Model.IsInstallationAdmin){ %>
-                    
-                <% } %>
+                    <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li> 
+            <% }  %>
             </ul>
         </div>
             

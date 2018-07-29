@@ -82,6 +82,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         {
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F"+ changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.CategoryDetail(categoryWish.Name, categoryWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            var category = Sl.CategoryRepo.GetByIdEager(categoryWish.Id);
 
             categoryAndSetWishKnowledge.Description = categoryWish.Description;
             categoryAndSetWishKnowledge.Titel = categoryWish.Name;
@@ -95,8 +96,9 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromCategory(categoryWish.Id);
             categoryAndSetWishKnowledge.LearnSetsCount = Sl.CategoryRepo.CountAggregatedSets(categoryWish.Id);
             categoryAndSetWishKnowledge.QuestionsCount = Sl.CategoryRepo.CountAggregatedQuestions(categoryWish.Id);
-            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(Sl.CategoryRepo.GetByIdEager(categoryWish.Id));
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.CategoryEdit(category);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
+            categoryAndSetWishKnowledge.HasVideo = false;
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
         }
 
@@ -104,6 +106,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         {
             var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2F" + changeUrlToFacebookCompatible(Settings.CanonicalHost + Links.SetDetail(setWish.Name, setWish.Id)) + "%2F&amp;src=sdkpreparse";
             var categoryAndSetWishKnowledge = new CategoryAndSetWishKnowledge();
+            var set = Sl.SetRepo.GetByIdEager(setWish.Id);
 
             categoryAndSetWishKnowledge.Description = setWish.Text;
             categoryAndSetWishKnowledge.Titel = setWish.Name;
@@ -117,9 +120,12 @@ public class CategoryAndSetDataWishKnowledge: BaseController
             categoryAndSetWishKnowledge.StartGameLink = Links.GameCreateFromSet(setWish.Id);
             categoryAndSetWishKnowledge.LearnSetsCount = 1;
             categoryAndSetWishKnowledge.QuestionsCount = Sl.SetRepo.GetByIdEager(setWish.Id).QuestionsInSetPublic.Count ;
-            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(Sl.SetRepo.GetByIdEager(setWish.Id));
+            categoryAndSetWishKnowledge.EditCategoryOrSetLink = Links.SetEdit(set);
             categoryAndSetWishKnowledge.ShareFacebookLink = facebookLink;
+            categoryAndSetWishKnowledge.HasVideo = set.HasVideo;
+
             filteredCategoryAndSetWishKnowledges.Add(categoryAndSetWishKnowledge);
+            
         }
 
         return filteredCategoryAndSetWishKnowledges;
@@ -141,6 +147,7 @@ public class CategoryAndSetDataWishKnowledge: BaseController
         public int QuestionsCount = 0;
         public string EditCategoryOrSetLink { get; set; }
         public string ShareFacebookLink { get; set; }
+        public bool HasVideo { get; set; }
     }
 
 
