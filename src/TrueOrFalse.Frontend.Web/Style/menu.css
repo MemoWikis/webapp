@@ -435,9 +435,8 @@
 #mainMenuThemeNavigation,
 #mainMenuQuestionsSetsCategories,
 #mainMenuGamesUsersMessages {
-  border: solid #707070 0.5px;
-  border-bottom-width: 1px;
-  border-top: none;
+  border: none;
+  border-bottom: solid #707070 1px;
 }
 #mainMenuGamesUsersMessages {
   border-bottom: none;
@@ -452,7 +451,7 @@
 .fa-search {
   color: grey;
   padding-right: 7px;
-  font-size: 12px;
+  font-size: 18px;
 }
 #mainMenuThemeCentered #mainMenuGamesUsersMessages,
 #mainMenuThemeCenteredMobile {

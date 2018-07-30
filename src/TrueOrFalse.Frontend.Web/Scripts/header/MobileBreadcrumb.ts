@@ -16,106 +16,27 @@ function ShortenBreadcrumb(index) {
     var BreadCrumbCount = getCount(document.getElementById("BreadcrumbContainer")) - 3;
     switch (index) {
         case 1:
-            if (BreadCrumbCount < 4) {
-                var element = document.getElementById("LastBreadcrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
-            } else {
-              var element = document.getElementById(BreadCrumbCount - 2 + "BreadCrumb");
-              var lenght = element.textContent.length;
-              if (lenght > 15) {
-               var text = element.textContent.substring(0, 15);
-               element.innerHTML = text + "..";
-              }
-            }
-            break;
+         var i;
+         var width = ((document.getElementById("BreadcrumbContainer").offsetWidth) - document.getElementById("LastBreadcrumb").offsetWidth - document.getElementById("BreadcrumbHome").offsetWidth - document.getElementById((BreadCrumbCount - 1) + "BreadCrumb").offsetWidth) / (BreadCrumbCount -2);
+         for (i = 1; i < BreadCrumbCount - 1; i++) {
+             document.getElementById(i + "BreadCrumb").style.width = (width - 41) + "px";
+             document.getElementById(i + "BreadCrumbContainer").style.width = width + "px";
+
+         }
+         break;
         case 2:
-            if (BreadCrumbCount < 4) {
-                var element = document.getElementById(BreadCrumbCount - 1 + "BreadCrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
+            var i;
+            var width = ((document.getElementById("BreadcrumbContainer").offsetWidth)- document.getElementById("BreadcrumbHome").offsetWidth) / BreadCrumbCount;
+            for (i = 1; i < BreadCrumbCount; i++) {
+                document.getElementById(i + "BreadCrumb").style.width = (width - 41) + "px";
+                document.getElementById(i + "BreadCrumbContainer").style.width = width + "px";
             }
-            else {
-                var element = document.getElementById(BreadCrumbCount - 3 + "BreadCrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
-
-            }
+            document.getElementById("LastBreadcrumb").style.width = (width -41) + "px";
             break;
-        case 3:
-
-          
-            if (BreadCrumbCount < 4) {
-                var element = document.getElementById(BreadCrumbCount - 2 + "BreadCrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
-            } else {
-                var element = document.getElementById("LastBreadcrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
-            }
-            break;
-        case 4:
-            if (BreadCrumbCount < 4) {
-                var element = document.getElementById(BreadCrumbCount - 3 + "BreadCrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
-            }
-            else {
-                var element = document.getElementById(BreadCrumbCount - 1 + "BreadCrumb");
-                var lenght = element.textContent.length;
-                if (lenght > 15) {
-                    var text = element.textContent.substring(0, 15);
-                    element.innerHTML = text + "..";
-                }
-            }
-            break;
-        case 5:
-            for (let i = 1; i++; i < (BreadCrumbCount - 3) ) {
-                let element = document.getElementById(i + "BreadCrumb");
-                let text = element.textContent.substring(0, 15);
-                let lenght = element.textContent.length;
-                if (lenght > 15) {
-                    element.innerHTML = text + "..";
-                }
-            }
-            break;
-        case 6:
-            if (BreadCrumbCount > 4) {
-                document.getElementById(4 + "BreadCrumb").innerHTML = "..";
-            }
-            break;
-        case 7:
-            if (BreadCrumbCount > 5) {
-                for (var i = 5; i++; i < (BreadCrumbCount - 3)) {
-                 document.getElementById(i + "BreadCrumb").innerHTML = "..";
-                }
-            }
-            break;
-        case 8:
-            if (BreadCrumbCount > 3) {
-                document.getElementById(BreadCrumbCount - 3 + "BreadCrumb").innerHTML = "..";
-            }
-            break;
+       
     }
+   
+    
 }
 
 function getCount(parent) {

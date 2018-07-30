@@ -4,11 +4,12 @@
     var user = userSession.User;
     var imageSetttings = new UserImageSettings(userSession.User.Id); %>
 
-<div id="BreadcrumbContainer" class="container" style="display:flex; flex-wrap: nowrap;">                      
+<div  class="container">
+  <div id="BreadcrumbContainer" style="display:flex; width:100%; flex-wrap: nowrap;">
     <div id="BreadcrumbLogoSmall" style="display:none;">
         <img src="/Images/Logo/LogoSmall.png">
     </div>
-    <div style="height: auto;" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
+    <div style="height: auto;" id="BreadcrumbHome" class="show-tooltip" data-placement="bottom"  title="Zur Startseite">
      <%if(!(Model.TopNavMenu.IsWelcomePage)){ %> 
         <a href="/" class="category-icon">
             <span style="margin-left: 10px">Home</span>
@@ -24,11 +25,10 @@
             if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb) { %>
              <%= Html.Partial("/Views/Categories/Detail/Partials/BreadCrumbCategories.ascx", Model.TopNavMenu) %>
           <%}
-              
-        var last = Model.TopNavMenu.BreadCrumb.Last();
-       foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) { %>
+             
+              foreach (var breadCrumbItem in Model.TopNavMenu.BreadCrumb) { %>
         <div style="display: flex; height: auto; margin-bottom: 5px" class="show-tooltip" data-placement="bottom" <% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>title="Zum Lernset" <% }else{ %> title="<%= breadCrumbItem.ToolTipText%>" <%}%> >                                                                                          
-           <%if (breadCrumbItem.Equals(last)){%>
+           <%if (breadCrumbItem.Equals(Model.TopNavMenu.BreadCrumb.Last())){%>
               <span style="display: inline-table; margin-left: 10px; color:#000000; opacity:0.50;"><a href="<%= breadCrumbItem.Url %>"><% if (Model.TopNavMenu.IsAnswerQuestionOrSetBreadCrumb){%>Lernset: <%} %><%= breadCrumbItem.Text %></a></span>
             <%} else {%>
                <span style="display: inline-table; margin-left: 10px;"><a href="<%= breadCrumbItem.Url %>"><%= breadCrumbItem.Text %></a>
@@ -40,17 +40,16 @@
     <%}%>
 <%} %>
     <div id="StickyHeaderContainer">    
-       
         <div class="input-group" id="StickyHeaderSearchBoxDiv" style="margin-right:25px">
             <input type="text" class="form-control" placeholder="Suche" id="StickyHeaderSearchBox">
             <div class="input-group-btn">
                 <button class="btn btn-default" id="StickySearchButton" onclick="SearchButtonClick()" style="height:34px;" type="submit"><i class="fa fa-search" style="font-size:25px; padding:0px;margin:0px; margin-top:-3px" aria-hidden="true"></i></button>
             </div>
         </div>
-        <div style="margin-right:25px"><i class="fa fa-dot-circle"></i></div>
+        <div style="margin-right:0px;"><i style="margin-top:6px; font-size:31px;" class="fa fa-dot-circle-o"></i></div>
         <div style="margin-right:25px">
            <a class="TextLinkWithIcon dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#">
-            <img class="userImage" style="margin-top:13px; border:none;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
+            <img class="userImage" style="margin-top:21px; border:none;" src="<%= imageSetttings.GetUrl_30px_square(userSession.User).Url %>" />
            </a>   
            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:auto;">
                 <li>
@@ -82,5 +81,5 @@
         </div>
         <div><a id="StickyMenuButton" style="margin-top:0px;"><i class="fa fa-bars" style="font-size:inherit; margin-right:0px;"></i></a></div>
     </div>
-
+ </div>
 </div> 

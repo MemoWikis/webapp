@@ -198,7 +198,7 @@ img {
   z-index: 100;
   background-color: #003264;
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #MasterHeader {
     height: 47px;
   }
@@ -268,7 +268,7 @@ img {
     float: right;
   }
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #MasterHeader .col-LoginAndHelp {
     margin-top: 0px;
   }
@@ -299,7 +299,7 @@ img {
   width: auto;
   height: 100%;
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #BetaLogo {
     margin-top: 0px;
   }
@@ -333,7 +333,7 @@ img {
         display: none;
     });*/
 }
-@media (max-width: 580px) {
+@media (max-width: 767px) {
   #Wordmark {
     display: none;
   }
@@ -348,7 +348,7 @@ img {
         display: none;
     });*/
 }
-@media (min-width: 581px) {
+@media (min-width: 767px) {
   #LogoSmall {
     display: none;
   }
@@ -392,7 +392,7 @@ img {
 }
 #loginAndHelp #SmallHeaderSearchBoxDiv,
 #StickyHeaderContainer #SmallHeaderSearchBoxDiv {
-  width: 48px;
+  width: 43px;
   -webkit-transition: width 0.3s;
   display: none;
 }
@@ -407,7 +407,6 @@ img {
   border: none;
   padding: 0px;
   font-weight: 400;
-  height: 44px;
   text-overflow: ellipsis;
 }
 #loginAndHelp .header-item,
@@ -519,8 +518,8 @@ img {
 }
 #loginAndHelp .userImage,
 #StickyHeaderContainer .userImage {
-  height: 30px;
-  width: 30px;
+  height: 29px;
+  width: 29px;
   margin-left: 1px;
   border: 1px solid #003264;
   border-radius: 4px;
@@ -542,13 +541,13 @@ img {
   width: 31px;
   margin-left: 0;
 }
-#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
-#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+#loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
+#StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
   font-size: 32px;
 }
 @media (max-width: 581px) {
-  #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle),
-  #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle) {
+  #loginAndHelp i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o),
+  #StickyHeaderContainer i:not(.fa-bars, .fa-plus-circle, .fa-dot-circle-o) {
     font-size: 18px;
   }
 }
@@ -706,7 +705,9 @@ img {
   user-select: none;
   display: inline-block;
   float: left;
-  font-size: 32px !important;
+  font-size: 36px !important;
+  padding-left: 0px !important;
+  margin-top: -5px;
   padding: 3px 3px 3px 7px;
   margin-right: 10px;
   font-size: 18px;
@@ -760,6 +761,18 @@ fieldset[disabled] #StickyMenuButton {
 #MenuButton .caret,
 #StickyMenuButton .caret {
   margin-left: 3px;
+}
+@media (max-width: 991px) {
+  #MenuButton,
+  #StickyMenuButton {
+    margin-top: -8px;
+  }
+}
+@media (max-width: 767px) {
+  #MenuButton,
+  #StickyMenuButton {
+    margin-top: 0px;
+  }
 }
 @media (min-width: 768px) {
   #MenuButton,
@@ -1096,20 +1109,30 @@ ul.AutocompleteHeader {
 .SearchBoxDivMaxWidth {
   width: 262.41px !important;
 }
-@media (max-width: 992px) {
-  .SearchBoxDivMaxWidth {
-    width: 150px !important;
-  }
-}
 @media (max-width: 480px) {
   .SearchBoxDivMaxWidth {
-    width: 120px !important;
+    width: 220px !important;
     margin-left: 10px;
   }
 }
-@media (max-width: 298px) {
+@media (max-width: 432px) {
   .SearchBoxDivMaxWidth {
-    width: 102px !important;
+    width: 170px !important;
+  }
+}
+@media (max-width: 400px) {
+  .SearchBoxDivMaxWidth {
+    width: 110px !important;
+  }
+}
+@media (max-width: 340px) {
+  .SearchBoxDivMaxWidth {
+    width: 96px !important;
+  }
+}
+@media (max-width: 300px) {
+  .SearchBoxDivMaxWidth {
+    width: 76px !important;
   }
 }
 #Breadcrumb {
@@ -1161,7 +1184,7 @@ ul.AutocompleteHeader {
   border-radius: 0px;
   padding: 0px;
 }
-#Breadcrumb .fa-dot-circle {
+#Breadcrumb .fa-dot-circle-o {
   color: #AED71B;
 }
 #Breadcrumb a {
@@ -1208,14 +1231,14 @@ ul.AutocompleteHeader {
   }
 }
 #Breadcrumb #StickyHeaderContainer .userImage {
-  width: 22px !important;
-  height: 22px !important;
+  width: 28px !important;
+  height: 28px !important;
 }
 #Breadcrumb #StickyHeaderContainer #StickySearchButton {
   border: none;
 }
 #Breadcrumb #StickyHeaderContainer #StickyHeaderSearchBoxDiv {
-  margin-top: 12px;
+  margin-top: 16px;
   width: 40px;
   -webkit-transition: width 0.3s;
 }

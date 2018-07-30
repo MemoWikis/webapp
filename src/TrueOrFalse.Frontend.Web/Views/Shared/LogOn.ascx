@@ -6,16 +6,16 @@
     var user = userSession.User;
 %>
 <div style="display: flex;">
-    <div class="header-item" style="margin-top:-5px;">
+    <div class="header-item">
         <div class="input-group" id="SmallHeaderSearchBoxDiv">
             <input type="text" class="form-control" placeholder="Suche" id="SmallHeaderSearchBox">
             <div class="input-group-btn" style="height:34px;">
-              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
+              <button class="btn btn-default" id="SearchButton" style="padding-top:0px; font-size:29px; align-content: center; display: flex; height: 34px;" onclick="SearchButtonClick()" type="submit"><i class="fa fa-search" style="color: white;" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>
     <div class="header-item">
-        <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle"></i>
+        <a href="/Wissenszentrale" class="TextLinkWithIcon KnowledgeLink"><i style="font-size:32px;" class="fa fa-dot-circle-o"></i>
             <span class="primary-point-text TextSpan">Wissenszentrale</span>
         </a>
     </div>
@@ -39,7 +39,7 @@
               </div>
               <span class="userName TextSpan" style="font-weight:normal;">Hallo <b><%= userSession.User.Name%></b><b class="caret"></b></span>
           </a> 
-            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel">
+            <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dLabel" style="right:0px;">
                 <li>
                    <a style="white-space:unset; padding:0px;" href="<%= Links.Knowledge()%>">
                        <div id="activity-popover-title">Dein erreichtes Level</div>
@@ -77,7 +77,7 @@
     }
 %>    
     </div>
-    <div class="header-item" style="margin-right:0px;">
+    <div class="header-item" style="margin-right:0px; margin-top:2px;">
         <a id="MenuButton" class="TextLinkWithIcon"><i class="fa fa-bars"></i>
         <span class="TextSpan">Menü</span></a>
         <%Html.RenderPartial("/Views/Shared/MainMenuThemeCentered.ascx", Model.SidebarModel); %>

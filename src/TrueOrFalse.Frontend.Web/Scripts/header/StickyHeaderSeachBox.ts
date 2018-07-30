@@ -32,6 +32,7 @@ function SearchButtonClick() {
         SmallHeaderSearchBox.classList.add("SearchBoxDivMaxWidth");
         SmallHeaderInputBox.style.padding = '6px 12px';
         SmallHeaderInputBox.style.border = '1px #979797 solid';
+        SmallHeaderInputBox.style.display = 'block';
         isSmallHeaderSearchBoxOpen = true;
         SmallHeaderSearchButton.style.background = '#ebebeb';     
         SmallHeaderSearchButton.style.border = '#979797 1px solid';
@@ -40,6 +41,13 @@ function SearchButtonClick() {
         SmallHeaderSearchBox.classList.remove("SearchBoxDivMaxWidth");
         SmallHeaderInputBox.style.padding = '0px';
         isSmallHeaderSearchBoxOpen = false;
+        SmallHeaderInputBox.style.display = 'none';
+    }
+
+    if (SmallHeaderSearchBox.offsetWidth == 43) {
+        SmallHeaderInputBox.style.display = 'none';
+    } else {
+        SmallHeaderInputBox.style.display = 'block';
     }
 
     $(document).mouseup((e) => {
