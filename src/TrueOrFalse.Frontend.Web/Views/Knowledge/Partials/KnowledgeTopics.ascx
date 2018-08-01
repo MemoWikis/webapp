@@ -125,6 +125,10 @@ th.sortable {
         @vuetable:pagination-data="onPaginationData"
         @vuetable:loading="onLoading"
         @vuetable:loaded="onLoaded">
+          
+          <template slot="image" scope="props">
+              <image v-bind:src="props.rowData.ImageFrontendData.ImageMetaData.SourceUrl" style="width: 30px;"></image>
+          </template>
 
           <template slot="wishKnowledge" scope="props">
               <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
@@ -133,30 +137,24 @@ th.sortable {
           <template slot="topicCount" scope="props">
               <div v-if="props.rowData.IsCategory"><span>{{props.rowData.LearnSetsCount}} Lernsets mit {{props.rowData.QuestionsCount}} Fragen</span></div>
               <div v-if="!props.rowData.IsCategory"><span>{{props.rowData.QuestionsCount}} Fragen</span></div>
-              
-
           </template>
 
+          <!-- Buttons-->
         <template slot="actions" scope="props" >
-
             <div class="Button " style="float: left">
                 <a v-bind:href="props.rowData.LinkStartLearningSession" class="btn btn-link" data-allowed="logged-in" data-allowed-type="learning-session" rel="nofollow">
                     <i class="fa fa-lg fa-line-chart">&nbsp;</i>lernen
                 </a>
             </div> 
-        
-        <!-- Dropdownmenu -->
-            <input type="hidden" id="hhdSetId" value="props.rowData.Id"/>
-            <input type="hidden" id="hhdHasVideo" value="props.rowData.HasVideo"/>
-
-         <div class="Button dropdown" >
-            <% var buttonId = Guid.NewGuid(); %>
-            <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="transform: rotate(90deg)">
-                <i class="fa fa-ellipsis-v"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>"  >
-            <% if (Model.IsLoggedIn)
-                { %>
+            <!-- Dropdownmenu -->
+            <div class="Button dropdown" >
+                <% var buttonId = Guid.NewGuid(); %>
+                <a href="#" id="<%=buttonId %>" class="dropdown-toggle  btn btn-link btn-sm ButtonEllipsis" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="transform: rotate(90deg)">
+                    <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="<%=buttonId %>"  >
+                <% if (Model.IsLoggedIn)
+                   { %>
                     <li><a v-bind:href="props.rowData.DateToLearningTopicLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="date-create"><i class="fa fa-calendar"></i>&nbsp;Prüfungstermin festlegen</a></li>
                     <li><a v-bind:href="props.rowData.StartGameLink" rel="nofollow" data-allowed="logged-in" data-allowed-type="game"><i class="fa fa-gamepad"></i>&nbsp;Spiel starten</a></li>
 
@@ -166,10 +164,9 @@ th.sortable {
                     <li style="margin-top: 2rem;"><a target="_blank" v-bind:href="props.rowData.ShareFacebookLink"><i class="fa fa-pencil"></i>&nbsp; Lernset auf Facebook teilen </a></li>     
 
                     <li @click="deleteRow(props.rowData.Id, props.rowData.IsCategory, props.rowIndex)"><a href="#"><i class="fa fa-pencil"></i>&nbsp; Thema aus Wunschwissen entfernen </a></li> 
-            <% }  %>
+                <% }  %>
             </ul>
         </div>
-            
           </template>
         </vuetable>
         <vuetable-pagination ref="pagination"
@@ -190,6 +187,7 @@ th.sortable {
         },
         data: {
             fields: [
+                    '__slot:image',
                 {
                     name: 'Titel',
                     title: 'Titel',
