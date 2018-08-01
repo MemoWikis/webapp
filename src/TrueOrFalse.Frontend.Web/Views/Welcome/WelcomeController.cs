@@ -12,6 +12,11 @@ public class WelcomeController : BaseController
         return View(new WelcomeModel());
     }
 
+    public ActionResult Team()
+    {
+        return View(new BaseModel());
+    }
+
     public ActionResult Contact()
     {
         return View(new BaseModel());
