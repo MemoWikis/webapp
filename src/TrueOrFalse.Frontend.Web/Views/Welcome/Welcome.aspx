@@ -753,7 +753,7 @@
 
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
 
-
+        <input id="hdd-team"type="hidden" value="<%=Links.Team() %>"/>
         <div id="team">
             <h2>Team</h2>
             <div class="row infoItemRow">
@@ -854,63 +854,7 @@
                 </div>
             </div>
         </div>
-
-        <%--<div class="row">
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Lernsets</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopSets", WelcomeBoxTopSetsModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Themen:</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateMostRecent(5)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Neueste Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopQuestions", WelcomeBoxTopQuestionsModel.CreateMostRecent(8)); %>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <h4>Top-Themen nach Anzahl Fragen</h4>
-            <div class="LabelList">
-                <% Html.RenderPartial("WelcomeBoxTopCategories", WelcomeBoxTopCategoriesModel.CreateTopCategories(5)); %>
-            </div>
-        </div>
-    </div>--%>
-
         <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-
-        <%--    <div class="col-md-12">
-        <% if (!Model.IsLoggedIn)
-           { %>
-            <div class="well" id="newsletterSignUp" style="padding: 20px; ">
-                <h4>Newsletter</h4>
-                <p>Du möchtest bei wichtigen Neuigkeiten benachrichtigt werden? Melde dich hier an:</p>
-                <div class="alert alert-danger" role="alert" id="msgInvalidEmail" style="display:none">
-                    Keine gültige E-Mail-Adresse.
-                </div>
-            
-                <div class="alert alert-success" role="alert" id="msgEmailSend" style="display:none">
-                    Deine Adresse wurde für den Newsletter angemeldet.
-                </div>
-
-                <form class="form-inline" style="color: white;">
-                    <div class="">
-                        <input type="email" class="form-control" id="txtNewsletterRequesterEmail" placeholder="deine@email.de" style="width: 100%;">
-                    </div>
-                    <div class="" style="text-align: center; margin-top: 10px;">
-                        <a class="btn btn-primary" href="#" id="btnNewsletterRequest" style="">
-                            <i class="fa fa-envelope-o">&nbsp;</i>Anmelden
-                        </a>
-                    </div>
-                </form> 
-            </div>
-        <% } %>        
-    </div>--%>
     </div>
 
 </asp:Content>
