@@ -106,6 +106,12 @@ th.sortable {
  td {
      height: 30px;
  }
+ .imageTable {
+     border-radius: 100%;  
+     width: 30px;
+     height: 30px;
+ }
+
 </style>
 
 
@@ -126,8 +132,14 @@ th.sortable {
         @vuetable:loading="onLoading"
         @vuetable:loaded="onLoaded">
           
+          <template slot="wishKnowledge" scope="props">
+              <div class="KnowledgeBarWrapper" v-html="props.rowData.KnowlegdeWishPartial" v-on:mouseover="mouseOver"></div>
+          </template>
+
           <template slot="image" scope="props">
-              <image v-bind:src="props.rowData.ImageFrontendData.ImageMetaData.SourceUrl" style="width: 30px;"></image>
+              <div class="bo boimg-1">
+                <image class="imageTable"v-bind:src="props.rowData.ImageFrontendData.ImageMetaData.SourceUrl" ></image>
+              </div>
           </template>
 
           <template slot="wishKnowledge" scope="props">
@@ -183,7 +195,7 @@ th.sortable {
     new Vue({
         el: '#app',
         components: {
-            'vuetable-pagination': Vuetable.VuetablePagination
+            'vuetable-pagination': Vuetable.VuetablePagination,
         },
         data: {
             fields: [

@@ -45,7 +45,7 @@
         <% if (Model.IsLoggedIn)
             { %>
         <div class="content" style="margin-top: 2rem">
-           <% Html.RenderPartial("~/Views/Knowledge/Partials/_DashBoard.ascx"); %>
+           <% Html.RenderPartial("~/Views/Knowledge/Partials/KnowledgeTopics.ascx"); %>
            
         </div>
         <% } %>
