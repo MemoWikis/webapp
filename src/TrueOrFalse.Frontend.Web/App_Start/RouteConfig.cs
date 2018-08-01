@@ -17,6 +17,7 @@ namespace TrueOrFalse
             routes.MapRoute("CheckEmailForAvailability", "Registrieren/IsEmailAvailable", new { controller = "Login", action = "IsEmailAvailable" });
             routes.MapRoute("PasswordRecovery", "Login/PasswortZuruecksetzen", new { controller = "Welcome", action = "PasswordRecovery" });
             routes.MapRoute("Contact", "Kontakt", new { controller = "Welcome", action = "Contact" });
+            routes.MapRoute("Team", "Team", new {controller = "Welcome", action = "Team"});
 
             routes.MapRoute("Register", "Registrieren", new { controller = "Register", action = "Register" });
             routes.MapRoute("Login", "Login/{action}", new { controller = "Login" });

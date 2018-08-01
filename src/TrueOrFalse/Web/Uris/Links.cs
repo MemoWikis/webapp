@@ -49,6 +49,7 @@ namespace TrueOrFalse.Frontend.Web.Code
         /* About */
         public const string AboutController = "About";
 
+        public static string Team() => GetUrlHelper().Action("Team", WelcomeController);
         public static string AboutMemucho() => GetUrlHelper().Action("AboutMemucho", AboutController);
         public static string WelfareCompany() => GetUrlHelper().Action("WelfareCompany", AboutController);
         public static string Jobs() => GetUrlHelper().Action("Jobs", AboutController);

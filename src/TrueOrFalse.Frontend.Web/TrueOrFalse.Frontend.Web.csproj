@@ -640,8 +640,6 @@
     <Content Include="Images\Screenshots\SetEmbedModal.png" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_155.jpg" />
     <Content Include="Images\Team\team_christof_20170404_P3312344_600.jpg" />
-    <Content Include="Images\Team\team_julian20170404_P3312327_155.jpg" />
-    <Content Include="Images\Team\team_julian20170404_P3312327_600.jpg" />
     <Content Include="Images\Team\team_lisa_sq_155.jpg" />
     <Content Include="Images\Team\team_lisa_sq_600.jpg" />
     <Content Include="Scripts\vendor.somewhere\readme.txt" />
@@ -909,6 +907,9 @@
     <Content Include="Views\Welcome\Partials\WelcomeCardMiniCategory.ascx" />
     <Content Include="Views\Welcome\Promoter.css">
       <DependentUpon>Promoter.less</DependentUpon>
+    </Content>
+    <Content Include="Views\Welcome\Team.css">
+      <DependentUpon>Team.less</DependentUpon>
     </Content>
     <Content Include="Views\Widgets\CustomCss\besser.memucho.de.css" />
     <Content Include="Views\Widgets\WidgetSetStart.aspx" />
@@ -2830,6 +2831,8 @@
     </Content>
     <Content Include="Views\Welcome\Promoter.aspx" />
     <Content Include="Views\Welcome\Promoter.less" />
+    <Content Include="Views\Welcome\Team.aspx" />
+    <Content Include="Views\Welcome\Team.less" />
     <None Include="Web.overwritten.config" />
     <None Include="Web.overwritten.config.sample" />
     <Content Include="Views\Welcome\Logout.aspx" />

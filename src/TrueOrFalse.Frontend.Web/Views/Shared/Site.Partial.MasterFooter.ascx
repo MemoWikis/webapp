@@ -31,6 +31,7 @@
     <div class="FooterCol xxs-stack col-xs-6 col-md-4">
         <b>memucho</b><br />
         <a href="<%=Links.AboutMemucho() %>">Über memucho</a><br />
+        <a href="<%=Links.Team() %>">Team</a><br />
         <a href="<%=Links.ForTeachers() %>">memucho für Lehrer/Dozenten</a><br />
         <a href="<%= Links.WidgetExamples() %>">Widgets: Beispiele & Übersicht</a><br />
         <%--<a href="<%= Links.WidgetPricing() %>">Angebote und Preise für Widgets</a><br/>--%>
