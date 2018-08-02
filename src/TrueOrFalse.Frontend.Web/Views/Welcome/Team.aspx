@@ -114,7 +114,7 @@
                 programmieren wir gemeinsam und laden dich ein, es auch auszuprobieren.
             </p>
             <p class="ShortParagraph" id="link-share">
-                <a href="https://memucho.de/Kategorien/memucho-Tutorials/945">Teile dein Wissen und mache es anderen zugänglich! </a>
+                <a class="btn btn-primary" href="https://memucho.de/Kategorien/memucho-Tutorials/945"><i class="fa fa-lg fa-play-circle">&nbsp;</i>Teile dein Wissen und mache es anderen zugänglich! </a>
             </p>
             <p class="ShortParagraph">
                 Wenn du Fragen oder Anregungen hast, schreibe uns eine Email an <a href="mailto:team@memucho.de">team@memucho.de</a>   oder<br />
