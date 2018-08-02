@@ -792,7 +792,8 @@
                         (Gründer)
                     </div>
                 </div>
-                
+            </div>    
+            <div class="row infoItemRow">
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
                         <img src="https://ucarecdn.com/6158355b-fff8-4f22-9a04-6a6fc2b6dd61/-/scale_crop/155x155/" />
@@ -828,7 +829,8 @@
                         (Designerin)
                     </div>
                 </div>
-
+            </div>
+            <div class="row infoItemRow">
                 <div class="col-xs-4 infoItemColumn">
                     <div class="TeamPic">
                         <img src="https://ucarecdn.com/3b330292-fff7-4f7c-8ee8-5d8050a8d1f4/-/scale_crop/155x155/" />
@@ -852,19 +854,12 @@
                         (Developer)
                     </div>
                 </div>
-                
-
-                
-             
-                
-
-                
-                <div class="col-xs-4 infoItemColumn" style="padding-top: 70px">
-                       <a href="<%=Links.Team() %>">Zur Teamseite</a>
-                </div>
             </div>
-        </div>
-        <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
-    </div>
-
+          </div>        
+     </div>    
+ 
+<a class="right"href="<%=Links.Team() %>">Erfahre mehr...</a>
+    <% Html.RenderPartial("~/Views/Shared/LinkToTop.ascx");  %>
+    
+    
 </asp:Content>
