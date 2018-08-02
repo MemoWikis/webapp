@@ -291,7 +291,9 @@ namespace TrueOrFalse.View
             bundles.Add(new ScriptBundle("~/bundles/js/KnowledgeTopics")
                 .Include("~/Scripts/vendor/vuetable-2.js")
                 .Include("~/Scripts/vendor/vue.min.js")
+                .Include("~/Views/Knowledge/Js/KnowledgeTopics.js")
             );
+         
 
 #if RELEASE
             BundleTable.EnableOptimizations = true;
