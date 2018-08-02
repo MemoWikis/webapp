@@ -12,7 +12,7 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <%= Styles.Render("~/bundles/Knowledge") %>
 <%= Scripts.Render("~/bundles/js/Knowledge") %>  
-<%= Scripts.Render("~/bundles/js/KnowledgeTopics") %>  
+ 
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
