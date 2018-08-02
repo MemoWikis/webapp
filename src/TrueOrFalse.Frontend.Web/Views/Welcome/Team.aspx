@@ -121,7 +121,6 @@
                 rufe uns an: +49 - 1577 - 6825707
             </p>
         </div>
-
     </div>
     <%= Styles.Render("~/bundles/Team") %>
 </asp:Content>
