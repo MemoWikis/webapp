@@ -18,6 +18,9 @@
 }
 @media (min-width: 650px) {
 }
+.right {
+  float: right;
+}
 .CardsMiniPortrait .CardMiniColumn {
   display: -webkit-box;
   display: -webkit-flex;
